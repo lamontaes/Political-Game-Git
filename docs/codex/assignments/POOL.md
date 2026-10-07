@@ -48,7 +48,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b04-p4 | What you have left, in your words                                                                                                                                                                                                                 | b04-*.md part 4      | open (stale claim: S31)                      | S31                      |
 | b04-p5 | Nothing else resets or is added                                                                                                                                                                                                                   | b04-*.md part 5      | open (stale claim: S31)                      | S31                      |
 | b05-p1 | Which items matter                                                                                                                                                                                                                                | b05-*.md part 1      | done                                         | S51                      |
-| b05-p2 | Agenda before the meeting                                                                                                                                                                                                                         | b05-*.md part 2      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
+| b05-p2 | Agenda before the meeting                                                                                                                                                                                                                         | b05-*.md part 2      | blocked (RULES)                              | S50 (+S8 paycheck parts) |
 | b05-p3 | Play only those items                                                                                                                                                                                                                             | b05-*.md part 3      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p4 | Quiet items follow the office's voting mode                                                                                                                                                                                                       | b05-*.md part 4      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
 | b05-p5 | Summary in words                                                                                                                                                                                                                                  | b05-*.md part 5      | open (stale claim: S50 (+S8 paycheck parts)) | S50 (+S8 paycheck parts) |
@@ -159,7 +159,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b15-p6 | Opposition research | b15-_.md part 6 | open (stale claim: S43) | S43 |
 | b15-p7 | Hearings as scenes | b15-_.md part 7 | open (stale claim: S43) | S43 |
 | b22-p1 | One office-scope reader | b22-_.md part 1 | claimed | S48 |
-| b22-p2 | Visibility table, data not code | b22-_.md part 2 | claimed | S48 |
+| b22-p2 | Visibility table, data not code | b22-_.md part 2 | done (#2385) | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
 | b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
 | b22-p5 | News screens show what reaches you | b22-_.md part 5 | claimed | S48 |
@@ -235,7 +235,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | LW-11 | Budget and taxes: laws with effect runs, no landing on people | law-batches.md LW-11 | claimed | S20 |
 | LW-12 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-12 | open (stale claim: S43) | S43 |
 | LW-13 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-13 | open (stale claim: S44) | S44 |
-| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | open (stale claim: S51) | S51 |
+| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | done (#2596; verified on main) | S27 |
 | LW-15 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-15 | open (stale claim: S52) | S52 |
 | LW-16 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-16 | open (stale claim: S24) | S24 |
 | LW-17 | Justice and public safety: laws with effect runs, no landing on people | law-batches.md LW-17 | open (stale claim: S31) | S31 |
@@ -362,9 +362,9 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-nationwide-world-1 | Replace about 15 placeholders in simulation / nationwide / world / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-press | Replace about 29 placeholders in simulation / press with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | done #2810 | Session 37 |
 | PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | done #2623 | Session 37 |
 | PH-simulation-root-1 | Replace about 20 placeholders in simulation / root / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-2 | Replace about 20 placeholders in simulation / root / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-3 | Replace about 20 placeholders in simulation / root / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -488,87 +488,87 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 
 Engine and speed work.
 
-| item  | what it is                                                                                                                                                                                                                                                                                                                                             | doc and part        | status  | claimer |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- | ------- | ------- |
-| SP-01 | State legislature turnover moves from the daily loop onto dated calendar events (#2297); it is 44% of CPU (office-continuity.ts:1921); note: sole owner of the state-legislature daily-dispatch hunk; S1 keeps the other #2308 clock hunks; proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop | pool-speed.md SP-01 | claimed | S5      |
-| SP-02 | Payday moves from the daily loop onto its dated schedule (18% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                                      | pool-speed.md SP-02 | open    |         |
-| SP-03 | Routine outcome moves from the daily loop onto its dated schedule (9% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                              | pool-speed.md SP-03 | open    |         |
-| SP-04 | Seed people traits once per person at creation; never re-seed on load (seedPeopleTraits ~29% of new-game time, Session 6 profile from #2454); proof: new-game time before/after in docs/codex/progress/session-N-profile.md; zero dice; one path for all places                                                                                        | pool-speed.md SP-04 | claimed | S6      |
-| SP-05 | Family cohort index built once and updated incrementally; never rebuilt per tick (familyCohortIndex ~27% of new-game time); proof: new-game time before/after in docs/codex/progress/session-N-profile.md; zero dice; one path for all places                                                                                                          | pool-speed.md SP-05 | open    |         |
+| item  | what it is                                                                                                                                                                                                                                                                                                                                             | doc and part        | status    | claimer |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- | --------- | ------- |
+| SP-01 | State legislature turnover moves from the daily loop onto dated calendar events (#2297); it is 44% of CPU (office-continuity.ts:1921); note: sole owner of the state-legislature daily-dispatch hunk; S1 keeps the other #2308 clock hunks; proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop | pool-speed.md SP-01 | claimed   | S5      |
+| SP-02 | Payday moves from the daily loop onto its dated schedule (18% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                                      | pool-speed.md SP-02 | done #866 | #866    |
+| SP-03 | Routine outcome moves from the daily loop onto its dated schedule (9% of CPU); proof: a one-year calendar-only run finishes and the month profile shows the step gone from the daily loop                                                                                                                                                              | pool-speed.md SP-03 | open      |         |
+| SP-04 | Seed people traits once per person at creation; never re-seed on load (seedPeopleTraits ~29% of new-game time, Session 6 profile from #2454); proof: new-game time before/after in docs/codex/progress/session-N-profile.md; zero dice; one path for all places                                                                                        | pool-speed.md SP-04 | claimed   | S6      |
+| SP-05 | Family cohort index built once and updated incrementally; never rebuilt per tick (familyCohortIndex ~27% of new-game time); proof: new-game time before/after in docs/codex/progress/session-N-profile.md; zero dice; one path for all places                                                                                                          | pool-speed.md SP-05 | open      |         |
 
 ## Bugs and polish
 
 Take these after the order above, or any time a session is free. Every row is one PR.
 
-| item  | what                                                                                                                    | doc           | status                 | claimer      |
-| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ---------------------- | ------------ |
-| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194             |              |
-| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open                   |              |
-| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567             |              |
-| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done                   | PR #2864     |
-| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186; ready #2675 |              |
-| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | ready #3263            |              |
-| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open                   |              |
-| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done                   | #2961        |
-| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open                   |              |
-| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done                   | merged #2875 |
-| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878             |              |
-| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done                   | merged #2861 |
-| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874             |              |
-| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done                   | merged #2634 |
-| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open                   |              |
-| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | open                   |              |
-| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done                   | #2872        |
-| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done                   | #844         |
+| item  | what                                                                                                                    | doc           | status            | claimer      |
+| ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------- | ------------ |
+| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194        |              |
+| BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | done #2270, #2859 |              |
+| BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567        |              |
+| BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done              | PR #2864     |
+| BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #2675        |              |
+| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | done #3263        |              |
+| BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | done #2860        |              |
+| BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done              | #2961        |
+| BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open              |              |
+| BG-10 | 'You haven't spoken' on everyone, including in Observing and family in the same home                                    | BUGS.md BG-10 | done              | merged #2875 |
+| BG-11 | 'Nobody is being played' sentence prints twice on the card and the record                                               | BUGS.md BG-11 | done #2878        |              |
+| BG-12 | After running a day the status card still names the old workplace and the room is empty, with a blank morning note area | BUGS.md BG-12 | done              | merged #2861 |
+| BG-13 | Date shows twice (status card and Observing bar)                                                                        | BUGS.md BG-13 | done #2874        |              |
+| BG-14 | Deaths run about 15 times too high: 4 in one day in a 10,555-person town                                                | BUGS.md BG-14 | done              | merged #2634 |
+| BG-15 | Every Texas district gets exactly 2 candidates (a formula, not emergence)                                               | BUGS.md BG-15 | open              |              |
+| BG-16 | '1 people entered the race' (plural not matched to count)                                                               | BUGS.md BG-16 | done #2761        |              |
+| BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done              | #2872        |
+| BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done              | #844         |
 
 | BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
-| BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | open | |
+| BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | done #2949 | |
 | BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
-| BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | open | |
+| BG-23 | Creator: only 6 faces for a man | BUGS.md BG-23 | done #841 | |
 | BG-24 | Creator 'Who are you?' questions are terrible (club-trip registration and similar) | BUGS.md BG-24 | done #87 | |
-| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | ready #3397 | Session 34 |
+| BG-25 | Opening cards ('In the year 2026', 1 of 8) are a non-approved UI; card text hard to read over the Capitol; '2 No party' should read '2 independents'; ghost figure under card 4; hidden newspaper masthead | BUGS.md BG-25 | done #3397 | Session 34 |
 | BG-26 | Life story has a 38-year hole, every event is 'In December', no parents/siblings/spouse/children, unexplained school transfer | BUGS.md BG-26 | done #818, #3095 | |
-| BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | open | |
+| BG-27 | Journal 2026 chapter is a status line ('my work schedule has no shift at this hour') | BUGS.md BG-27 | done #2993 | |
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | open | |
-| BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | open | |
+| BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
 | BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
-| BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | open | |
+| BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
-| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | open | |
-| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | open | |
-| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | open | |
+| BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #1853, #7eec528 | |
+| BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | ready #3395 (unsupported: generic agenda has no order; 23 reference series across 15 governments lack an order field or current authority for all 56) | Session 34 |
+| BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
 | BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | open | |
 | BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
-| BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | open | |
-| BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | open | |
+| BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | |
+| BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | done #2940 | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
 | BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
-| BG-45 | Newspaper test red | BUGS.md BG-45 | open | |
+| BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
-| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | open | |
+| BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
-| BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | open | |
+| BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | open | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
-| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | open | |
+| BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
-| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | open | |
+| BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
-| BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
+| BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
-| BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | open | Session 11 |
+| BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
-| BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | open | |
+| BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
 
@@ -772,7 +772,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
 | RS-2511 | b22-p3: connect press coverage to player travel and office | PR #2511 (session48/b22-p3-press-coverage-hooks) | open: sent back: failed its own changed checks: tests; draft: finish it or close it as superseded | |
 | RS-2512 | b22-p4: tag government and court news scale | PR #2512 (session48/b22-p4-news-scale) | open: sent back: failed its own changed checks: prettier tests; draft: finish it or close it as superseded | |
 | RS-2513 | b27-p2: One shared household price table | PR #2513 (codex/session7-b27-p2) | open: draft: finish it or close it as superseded | |
@@ -823,7 +823,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2602 | Add LW-08 development incentive award records | PR #2602 (session-26/lw08-development-incentive-cap) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2603 | b04-p1: keep leftover campaign funds under state rules | PR #2603 (session31/b04-p1-leftover-funds) | open: draft: finish it or close it as superseded | |
 | RS-2604 | LW-15: Record ranked household SNAP participation | PR #2604 (session52/lw15-health-human-services) | open: rebase on main (conflicts) | |
-| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | open: draft: finish it or close it as superseded | |
+| RS-2605 | Source Federal Direct student loan interest rate | PR #2605 (session-51-b27-p4) | done #2605 | |
 | RS-2606 | docs: publish English batch 08:42 evidence | PR #2606 (codex/session49-english-batch-0842) | open: draft: finish it or close it as superseded | |
 | RS-2607 | Placeholders: PH-data-misc (2 chunks) | PR #2607 (cloud/placeholders-data-misc) | open: rebase on main (conflicts) | |
 | RS-2608 | Placeholders: PH-data-research (12 chunks) | PR #2608 (cloud/placeholders-data-research) | open: rebase on main (conflicts) | |
@@ -995,17 +995,17 @@ open: rebase on main (conflicts) | |
 
 ## County (owner order Oct 6: essential; waits behind nothing)
 
-| item | what it is                                                                                   | doc and part                                                         | status     | claimer                   |
-| ---- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ---------- | ------------------------- |
-| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2                        |
-| CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | done #3003 | H3                        |
-| CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2 then H3                |
-| CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3000 | done       | H1 after rescue or anyone |
-| CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done       | M1 after rescue or anyone |
-| CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | L2 after CO-1 or anyone   |
-| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done       | H2 with ART-1             |
-| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #2915 | done       | anyone                    |
-| CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open       | anyone after CO-5         |
+| item | what it is                                                                                   | doc and part                                                         | status      | claimer                   |
+| ---- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------- | ------------------------- |
+| CO-1 | County election calendar for every county. Owner L2.                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open        | L2                        |
+| CO-2 | Row officers as electable offices. Owner H3.                                                 | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | done #3003  | H3                        |
+| CO-3 | County structure type and executive. Owner L2 (data) then H3 (office).                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open        | L2 then H3                |
+| CO-4 | Sheriff and district attorney do recorded work. Owner H1 after its rescue list, else anyone. | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3000 | done        | H1 after rescue or anyone |
+| CO-5 | County budget and tax hearings. Owner M1 after its rescue list, else anyone.                 | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #3033 | done        | M1 after rescue or anyone |
+| CO-6 | County powers cells. Owner L2 after CO-1, else anyone.                                       | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | open        | L2 after CO-1 or anyone   |
+| CO-7 | County places routed. Owner H2 with ART-1.                                                   | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #1829 | done        | H2 with ART-1             |
+| CO-8 | County court. Anyone (same as SC-2).                                                         | scratchpad county-audit; brief on #2424 (6:33 p.m.); merged PR #2915 | done        | anyone                    |
+| CO-9 | The fair, roads and the health department as county services. Anyone, after CO-5.            | scratchpad county-audit; brief on #2424 (6:33 p.m.)                  | ready #3066 | anyone after CO-5         |
 
 ## Owner playthrough Oct 6, 6:35 p.m. (owner: 'JUST PUT IT IN THE POOL'; open to every session, no order; screenshots cto-notes/owner-shots/oct6-1835/1-11.webp on the Opus Mac, copies posted on #2424)
 

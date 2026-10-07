@@ -135,4 +135,30 @@ describe("people anchors on every place picture", () => {
       }
     }
   });
+  it("anchors visible U.S. chamber desks and balcony seats", () => {
+    const rooms = [
+      ["us-house-floor", 79, 46, 30],
+      ["us-senate-floor", 73, 40, 30],
+    ] as const;
+    for (const [
+      place,
+      expectedSeats,
+      expectedMembers,
+      expectedGallery,
+    ] of rooms) {
+      const spots = STAGES[place]!.spots;
+      const seats = spots.filter((spot) => spot.pose === "sit");
+      expect(seats).toHaveLength(expectedSeats);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(expectedSeats);
+      expect(seats.filter((spot) => spot.group === "members")).toHaveLength(
+        expectedMembers,
+      );
+      expect(seats.filter((spot) => spot.group === "gallery")).toHaveLength(
+        expectedGallery,
+      );
+      expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(
+        expectedMembers + expectedGallery,
+      );
+    }
+  });
 });

@@ -132,8 +132,8 @@ One row per place. Counts include visually estimated rear-facing positions retai
 | `tv-studio`                            | 7 / 2 / 0            | Two armchairs face inward and match cushions; stage and crew floor scales retained.                                                                                                                             |
 | `union-hall`                           | 9 / 3 / 0            | Clipped podium and three head-table seats use stage floor; pew backs require rear artwork.                                                                                                                      |
 | `us-capitol-exterior`                  | 7 / 0 / 0            | Current people remain on paved ground; main 0.62 retained; no painted chair/bench requires seating.                                                                                                             |
-| `us-house-floor`                       | 11 / 5 / 2           | Speaker and clerk seats match separate floors; visually estimated member seats face away and await rear artwork.                                                                                                |
-| `us-senate-floor`                      | 10 / 5 / 2           | Presiding and clerk seats match separate floors; visually estimated member seats face away and await rear artwork.                                                                                              |
+| `us-house-floor`                      | 85 / 79 / 76         | Added 44 visually estimated member desk anchors and 30 balcony audience seats; existing two member seats and rostrum positions retained. Balcony floor set to 0.94 at the high rear tier.                                      |
+| `us-senate-floor`                     | 78 / 73 / 70         | Added 38 visually estimated member desk anchors and 30 balcony audience seats; existing two member seats and rostrum positions retained. Balcony floor set to 1.39 at the high rear tier.                                     |
 
 ## What happens next
 
