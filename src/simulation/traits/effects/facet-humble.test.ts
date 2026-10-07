@@ -170,8 +170,7 @@ describe("facet-humble's public-life reader", () => {
     ).toMatchObject([
       {
         optionKey: "withhold",
-        explanation:
-          "They want to hear others' contributions before treating their own judgment as final.",
+        explanation: expect.stringContaining("So they "),
       },
     ]);
     // Humility alone supplies neither a missing policy position nor a nay vote.

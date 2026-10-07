@@ -13,8 +13,6 @@ export const facetCuriousEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-curious",
         pole: "high",
-        explanation:
-          "They are curious about what the other person is asking and say yes.",
       },
     ],
   },

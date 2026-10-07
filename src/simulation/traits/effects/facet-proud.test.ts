@@ -158,8 +158,7 @@ describe("facet-proud's public-life reader", () => {
     ).toMatchObject([
       {
         optionKey: "vote-yea",
-        explanation:
-          "They attach dignity to standing behind their recorded position.",
+        explanation: expect.stringContaining("So they "),
       },
     ]);
     // Pride alone supplies neither a missing policy position nor a nay vote.

@@ -187,7 +187,13 @@ export interface TraitLeanRow {
    * both call something "reliability" and mean different things. */
   readonly trait: string;
   readonly pole: "low" | "high";
-  readonly explanation: string;
+  /**
+   * A reason a pack supplies in its own words (an installed or modded pack).
+   * The built-in readers leave it out: the shown reason is composed from the
+   * reason key (trait, decision, option, pole) and the person's recorded
+   * tendency by `composeTraitReason`, so no sentence lives in a reader file.
+   */
+  readonly explanation?: string;
   /**
    * Whose trait this is: the person deciding, or the person they are deciding
    * about. Defaults to the decider.
@@ -540,11 +546,12 @@ export function loadTraitPacks(
           });
           continue;
         }
-        if (!lean.explanation.trim()) {
+        if (lean.explanation !== undefined && !lean.explanation.trim()) {
           rejections.push({
             pack: pack.pack,
             where,
-            reason: "a lean must say why, because it is shown as a reason",
+            reason:
+              "a lean's own explanation may not be blank; leave it out to have the reason composed from its key",
           });
           continue;
         }

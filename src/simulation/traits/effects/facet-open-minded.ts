@@ -15,7 +15,6 @@ export const facetOpenMindedEffects: readonly TraitEffectDeclaration[] = [
         option: "acquit",
         trait: "personality-v1:facet-open-minded",
         pole: "high",
-        explanation: "They are willing to hear out the defense's account.",
       },
     ],
   },

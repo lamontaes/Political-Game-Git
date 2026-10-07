@@ -14,8 +14,6 @@ const thrillSeekingEffects = [
         option: "seek",
         trait: "personality-v1:facet-thrill-seeking",
         pole: "high",
-        explanation:
-          "The uncertainty and intensity of another contest appeal to them.",
       },
     ],
   },

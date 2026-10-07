@@ -13,15 +13,11 @@ export const actionDespiteFearEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:action-despite-fear",
         pole: "high",
-        explanation:
-          "They run again even though they know the race will be hard and personal.",
       },
       {
         option: "step-down",
         trait: "personality-v1:action-despite-fear",
         pole: "low",
-        explanation:
-          "They are deterred by the personal cost of another campaign and step aside.",
       },
     ],
   },
