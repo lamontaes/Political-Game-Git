@@ -89,6 +89,7 @@ export {
   askToHelp,
   campaignHasHelper,
   campaignHelperCandidates,
+  helperAskConsiderations,
 } from "./campaign-helpers";
 export type {
   AddCampaignHelperInput,

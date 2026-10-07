@@ -91,7 +91,7 @@ import type {
  */
 
 const PROVENANCE_NOTE =
-  "Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts; pay is read from the employer's own pay for the role.";
+  "Opening, answer and start timing are drawn from the estimated profile in job-market.ts; pay is read from the employer's own pay for the role.";
 
 /**
  * Owner-approved ranges (9/22 13:18 UTC, "number three, correct"): an
@@ -900,7 +900,7 @@ export function openWeeklyListings(world: World, personId: EntityId): World {
         kind: "authored",
         note:
           role.source === "public-body-profile"
-            ? `Opening, answer and start timing are drawn from the placeholder calibration in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PROFILE.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
+            ? `Opening, answer and start timing are drawn from the estimated profile in job-market.ts. The role remains the public-body profile (research: ${PUBLIC_BODY_ROLE_PROFILE.researchQuestionId}). ESTIMATE FROM SOURCE: its vacant-role offer uses the BLS May 2025 OEWS occupation median for the recorded workplace's state or territory, with the source reader's national fallback where that cell is withheld (https://www.bls.gov/oes/); occupation ${role.occupationClassification}, workplace ${role.jurisdictionId}, annual base ${role.annualMinor} USD cents at the stated hours. Recorded employer pay replaces this estimate when read; this is not an observed employer pay scale.`
             : PROVENANCE_NOTE,
       },
     });
@@ -962,23 +962,19 @@ function openingBlocked(
   openingId: EntityId,
 ): string | null {
   const opening = jobOpening(world, openingId);
-  if (!opening || !openingTakesApplications(world, opening))
-    return "This opening is no longer taking applications.";
-  const played = isPlayed(world, personId);
+  if (!opening || !openingTakesApplications(world, opening)) return "Closed";
   if (
     applicationsFor(world, personId).some(
       (application) => application.openingId === openingId,
     )
   )
-    return played
-      ? "You have already applied for this job."
-      : "They have already applied for this job.";
+    return "Already applied";
   if (
     activeWorkRelationshipsAt(world, personId).some(
       (entry) => entry.relationship.organizationId === opening.organizationId,
     )
   )
-    return played ? "You already work here." : "They already work here.";
+    return "Works here";
   return null;
 }
 
