@@ -211,9 +211,8 @@ export function ExecutiveBudgetRequestComparison({
   return (
     <section data-testid="executive-budget-comparison">
       <h4>Requested and appropriated</h4>
-      <p>
-        Budget request for {proseDate(request.startsOn)} through{" "}
-        {proseDate(request.endsOn)}.
+      <p data-testid="executive-budget-period">
+        {proseDate(request.startsOn)}–{proseDate(request.endsOn)}
       </p>
       <table>
         <thead>
@@ -255,7 +254,7 @@ export function ExecutiveBudgetRequestComparison({
                       ))}
                     </ul>
                   ) : (
-                    "No enacted authorization recorded for this family in the requested period."
+                    <span data-problem="no-enacted-authorization" />
                   )}
                 </td>
               </tr>
@@ -263,10 +262,6 @@ export function ExecutiveBudgetRequestComparison({
           })}
         </tbody>
       </table>
-      <p className="game-note">
-        Each authorization shows its own dates. Amounts cover that
-        authorization's period.
-      </p>
     </section>
   );
 }
