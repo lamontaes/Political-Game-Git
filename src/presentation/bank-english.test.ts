@@ -3,6 +3,7 @@ import {
   composeFromBank,
   readMeetingBank,
   readMinutesBank,
+  readNewsBank,
   readNoticesBank,
   type EnglishBank,
 } from "./bank-english";
@@ -64,6 +65,57 @@ describe("composeFromBank", () => {
     expect(composeFromBank(bank, "m", facts, "k1")).toEqual(
       composeFromBank(bank, "m", facts, "k1"),
     );
+  });
+});
+
+describe("published news ledes", () => {
+  it("composes a published vote from linked record fields and a mined lede", () => {
+    const world = {
+      currentDate: "2026-10-07",
+      jurisdictions: { "jurisdiction:county": { name: "Alpine County" } },
+      history: {
+        publications: [
+          {
+            sourceEventId: "event:vote",
+            publishedAt: "2026-10-07",
+            recordedAt: "2026-10-07",
+            headline: "Raw headline must not be reused",
+            body: "Raw publication copy must not be reused",
+          },
+        ],
+        legislativeActions: [
+          {
+            id: "action:vote",
+            eventId: "event:vote",
+            measureId: "measure:transit",
+            actorLabel: "The county board",
+            kind: "floor-stage-passed",
+          },
+        ],
+        legislativeMeasures: [
+          {
+            id: "measure:transit",
+            jurisdictionId: "jurisdiction:county",
+            shortTitle: "Transit Access Act",
+            designation: "Ordinance 14",
+            policyAlternativeIds: ["alternative:bus"],
+          },
+        ],
+        policyAlternatives: [
+          { id: "alternative:bus", title: "bus service funding" },
+        ],
+      },
+    } as unknown as World;
+
+    const reading = readNewsBank(world);
+    expect(Array.isArray(reading)).toBe(true);
+    if (typeof reading === "string") throw new Error(reading);
+    expect(reading).toHaveLength(1);
+    expect(reading[0]!.text).toBe(
+      "The county board approved Transit Access Act to address bus service funding in Alpine County.",
+    );
+    expect(reading[0]!.partKey).toBe("newspaper-ledes.vote-and-public-purpose");
+    expect(reading[0]!.text).not.toContain("Raw publication copy");
   });
 });
 

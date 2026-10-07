@@ -17,6 +17,7 @@ import {
   readLegislationBank,
   readMeetingBank,
   readMinutesBank,
+  readNewsBank,
   readNoticesBank,
   readWinningLosingBank,
   type BankReading,
@@ -51,12 +52,6 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     if (found.length === 0) absent.push({ kind, reason: why });
     else texts.push(...found.slice(0, PER_KIND));
   };
-
-  add(
-    "news",
-    [],
-    "no output, because the mined newspaper-lede bank has no record-field composer yet",
-  );
 
   // A journal item is a chapter of the life, told by the character from the
   // record (CTO 9:03 p.m. Oct 6): the section's entries in the first person.
@@ -120,6 +115,13 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       })),
     );
   };
+  addBank(
+    "news",
+    [],
+    readNewsBank(world),
+    "readNewsBank in bank-english.ts",
+    "no published legislative vote or veto can be composed from linked record fields",
+  );
   addBank(
     "legislation",
     bills,

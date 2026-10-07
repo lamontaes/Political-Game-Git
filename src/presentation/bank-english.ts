@@ -9,6 +9,7 @@ import legislationBank from "../../data/english/parts/legislation.json" with { t
 import meetingBank from "../../data/english/parts/meeting.json" with { type: "json" };
 import minutesBank from "../../data/english/parts/minutes.json" with { type: "json" };
 import noticesBank from "../../data/english/parts/notices.json" with { type: "json" };
+import newspaperLedesBank from "../../data/english/parts/newspaper-ledes.json" with { type: "json" };
 import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
 import type { EntityId, World } from "../simulation";
 import { personName, spokenDate } from "../simulation";
@@ -350,6 +351,75 @@ export function readLegislationBank(world: World): BankReading {
     });
   }
   return out.length ? out : "no filed measure with a short title exists";
+}
+
+/**
+ * A published legislative action can lead the paper from its recorded actor,
+ * measure, policy alternative, and jurisdiction. Publication copy is not read
+ * back as a headline or summary; the mined lede supplies the structure.
+ */
+export function readNewsBank(world: World): BankReading {
+  const publishedEvents = new Set(
+    (world.history.publications ?? [])
+      .filter(
+        (publication) =>
+          publication.publishedAt <= world.currentDate &&
+          publication.recordedAt <= world.currentDate,
+      )
+      .map((publication) => publication.sourceEventId),
+  );
+  const measures = new Map(
+    (world.history.legislativeMeasures ?? []).map((measure) => [
+      measure.id,
+      measure,
+    ]),
+  );
+  const alternatives = new Map(
+    world.history.policyAlternatives.map((alternative) => [
+      alternative.id,
+      alternative,
+    ]),
+  );
+  const out: BankLine[] = [];
+  for (const action of world.history.legislativeActions ?? []) {
+    if (out.length >= PER_KIND || !publishedEvents.has(action.eventId))
+      continue;
+    const measure = measures.get(action.measureId);
+    const place = measure
+      ? world.jurisdictions[measure.jurisdictionId]?.name
+      : null;
+    const issue = measure?.policyAlternativeIds
+      .map((id) => alternatives.get(id)?.title?.trim() ?? "")
+      .find(Boolean);
+    if (!measure?.shortTitle.trim() || !place || !issue) continue;
+    const move =
+      action.kind === "vetoed"
+        ? "denial-consequence"
+        : action.kind === "floor-stage-passed" || action.kind === "concurred"
+          ? "vote-purpose"
+          : null;
+    if (!move) continue;
+    const made = composeFromBank(
+      newspaperLedesBank as EnglishBank,
+      move,
+      {
+        actor: action.actorLabel,
+        record: measure.shortTitle,
+        issue,
+        place,
+      },
+      action.id,
+    );
+    if (!made) continue;
+    out.push({
+      kind: "news",
+      situation: `A published ${action.kind === "vetoed" ? "veto" : "vote"} on ${measure.designation} in ${place}.`,
+      ...made,
+    });
+  }
+  return out.length
+    ? out
+    : "no published vote or veto has a linked short-title measure, policy issue, and jurisdiction to compose a lede from";
 }
 
 /**
