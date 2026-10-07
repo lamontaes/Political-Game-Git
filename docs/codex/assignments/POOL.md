@@ -610,7 +610,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1229 | Add canonical conversation action audit with explicit coverage limits | PR #1229 (codex/team-8-conversation-audit) | done #1229 | |
 | RS-1231 | Preserve rejected confidants index candidate and timing evidence | PR #1231 (codex/team-4-confidants-interaction-index) | done (superseded by M10; rejected candidate, no retained production change) | |
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
-| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | ready #1238 | S50 |
+| RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | done #1238 | S50 |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
 | RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
 | RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
@@ -641,7 +641,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
 | RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | open: draft: finish it or close it as superseded | |
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | open: draft: finish it or close it as superseded | |
-| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
+| RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | done #2147 | S50 |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
 | RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: finish it or close it as superseded | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
@@ -650,7 +650,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: finish it or close it as superseded | |
 | RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | open: draft: finish it or close it as superseded | |
+| RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | done #2194 | S50 |
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2201 | Teacher salary-floor raises use the shared pay consequence kind | PR #2201 (codex/session21-pay-kind) | open: draft: finish it or close it as superseded | |
@@ -686,7 +686,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
 | RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | ready #2307 | S50 |
+| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | done #2307 | S50 |
 | RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2316 | P1 b05 step 2: project council agenda notice | PR #2316 (codex/session8-b05-agenda-notice) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2318 | docs: preserve rejected player-card clock and eleven-destination attempt | PR #2318 (codex/session3-card-redo-main) | open: draft: finish it or close it as superseded | |
