@@ -25,15 +25,15 @@
   "absent": [
     {
       "kind": "winning-and-losing",
-      "reason": "Panaca, Nevada: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Vaitogi, American Samoa: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Waimanalo, Hawaii: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Bethany, Missouri: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to"
+      "reason": "no output, because no composer words a race or vote result yet without a recorded vote or decided contest (readWinningLosingBank needs one). In these worlds: Panaca, Nevada: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Vaitogi, American Samoa: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Waimanalo, Hawaii: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Bethany, Missouri: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to"
     },
     {
       "kind": "minutes",
-      "reason": "Panaca, Nevada: no minutes producer writes in the game yet; no output, because County of Lincoln has no recorded meeting or vote to take minutes of; Vaitogi, American Samoa: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Waimanalo, Hawaii: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Bethany, Missouri: no minutes producer writes in the game yet; no output, because City of Bethany has no recorded meeting or vote to take minutes of"
+      "reason": "no output, because no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one). In these worlds: Panaca, Nevada: no minutes producer writes in the game yet; County of Lincoln has no recorded meeting or vote to take minutes of; Vaitogi, American Samoa: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Waimanalo, Hawaii: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Bethany, Missouri: no minutes producer writes in the game yet; City of Bethany has no recorded meeting or vote to take minutes of"
     },
     {
       "kind": "notices-and-screens",
-      "reason": "Panaca, Nevada: no output, because no notices bank or composer exists yet; Vaitogi, American Samoa: no output, because no notices bank or composer exists yet; Waimanalo, Hawaii: no output, because no notices bank or composer exists yet; Bethany, Missouri: no output, because no notices bank or composer exists yet"
+      "reason": "no output, because no notices composer or bank exists yet. In these worlds: Panaca, Nevada: no notices bank or composer exists yet; Vaitogi, American Samoa: no notices bank or composer exists yet; Waimanalo, Hawaii: no notices bank or composer exists yet; Bethany, Missouri: no notices bank or composer exists yet"
     }
   ],
   "items": [
