@@ -41,6 +41,7 @@ import {
   enactmentOperative,
   enactmentsAnswering,
   judicialRulingKey,
+  stateJurisdictionOf,
 } from "../governing/law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -438,8 +439,8 @@ function reviewOne(
       `challenge:${input.challenge.id}`,
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
-      ...(next.jurisdictions[input.measure.jurisdictionId]?.kind === "state" &&
-      /supreme/.test(court.courtId)
+      ...(stateJurisdictionOf(input.measure.jurisdictionId) ===
+        input.measure.jurisdictionId && court.level === "local-highest"
         ? ["importance:major"]
         : []),
       struck ? "outcome:struck" : "outcome:upheld",

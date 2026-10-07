@@ -402,6 +402,7 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       world.history.legislativeMeasures!.at(-1)!.jurisdictionId,
     )!;
     expect(ruling.tags).toContain(`court:${court.courtId}`);
+    expect(ruling.tags).toContain("importance:major");
     expect(ruling.participants.length).toBeGreaterThan(0);
     for (const participant of ruling.participants) {
       const [option, reason] = participant.detail!.split("|");
