@@ -523,7 +523,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done              | #2872        |
 | BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done              | #844         |
 
-| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | open | |
+| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | ready #3202 | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | done #2949 | |
 | BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
