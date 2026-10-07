@@ -2,6 +2,7 @@ import { addSimulationMinutes } from "./dates";
 import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld } from "./demo";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { requireLifePlace } from "./life-places";
 import {
   lawReading,
@@ -19,6 +20,8 @@ import {
   attendMunicipalPublicMeeting,
   appointMunicipalManager,
   introduceMunicipalOrdinance,
+  introduceMunicipalProposal,
+  proposeMunicipalOrdinance,
   municipalActionAuthority,
   municipalGovernmentJurisdictionId,
   municipalMeetings,
@@ -30,6 +33,7 @@ import {
 } from "./municipal-public-work";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { rulePackById } from "./legislature-rule-packs";
+import { projectMunicipalOrdinancePaper } from "../presentation/municipal-ordinance-paper";
 import type { EntityId, LegislativeVoteDisposition, World } from "./types";
 
 /**
@@ -40,7 +44,10 @@ import type { EntityId, LegislativeVoteDisposition, World } from "./types";
  * declared, and nothing in the middle guesses. If either side moved, this
  * helper stops finding a government rather than finding the wrong one.
  */
-function cityWorld(placeKey: string): {
+function cityWorld(
+  placeKey: string,
+  seed?: string,
+): {
   world: World;
   governmentKey: string;
   jurisdictionId: EntityId;
@@ -56,7 +63,7 @@ function cityWorld(placeKey: string): {
   if (!government) {
     throw new Error(`No municipal government is compiled for ${placeKey}.`);
   }
-  let world = createScenarioWorld(`muni-${placeKey}`, place.context, {
+  let world = createScenarioWorld(seed ?? `muni-${placeKey}`, place.context, {
     peopleCount: 12,
   });
   world = {
@@ -635,5 +642,100 @@ describe("the strongest compiled local governing route", () => {
     const measure = (ordinance.world.history.legislativeMeasures ?? []).at(-1)!;
     expect(measure.rulePackId).toBe("us-va-charlottesville-council-v1");
     expect(measure.sponsorPersonId).toBe(member);
+  }, 60000);
+
+  it("saves a member's proposed ordinance separately from introduced bills in a random-place new game", () => {
+    const seed = "session9-propose-ordinance-random-place";
+    const place = drawRandomPlace(seed, (candidate) => {
+      const government = municipalGovernmentForLifePlace(candidate);
+      return Boolean(government && municipalRulePackFor(government).ok);
+    });
+    const opening = cityWorld(place.key, seed);
+    const seated = seatWholeBody(
+      opening.world,
+      opening.governmentKey,
+      opening.people,
+    );
+    const member = opening.people[1]!;
+    const memberWorld: World = {
+      ...seated,
+      control: { kind: "person", personId: member },
+    };
+    const beforeDate = memberWorld.currentDate;
+    const beforeMeasureCount =
+      memberWorld.history.legislativeMeasures?.length ?? 0;
+    const proposed = proposeMunicipalOrdinance(memberWorld, {
+      governmentKey: opening.governmentKey,
+      title: "A safer crosswalk at the library",
+      operativeText:
+        "The city shall maintain a marked pedestrian crossing beside the public library.",
+    });
+
+    expect(proposed.ok).toBe(true);
+    if (!proposed.ok) throw new Error(proposed.reason);
+    expect(proposed.world.currentDate).toBe(beforeDate);
+    expect(proposed.world.history.legislativeMeasures?.length ?? 0).toBe(
+      beforeMeasureCount,
+    );
+    const proposal = proposed.world.history.legislativeProposals?.at(-1);
+    expect(proposal).toMatchObject({
+      governmentKey: opening.governmentKey,
+      jurisdictionId: opening.jurisdictionId,
+      sponsorPersonId: member,
+      title: "A safer crosswalk at the library",
+      operativeText:
+        "The city shall maintain a marked pedestrian crossing beside the public library.",
+      proposedAt: beforeDate,
+    });
+    expect(proposal).toBeDefined();
+    const paper = projectMunicipalOrdinancePaper(proposed.world, proposal!.id);
+    expect(paper).toMatchObject({
+      governmentName: municipalGovernmentByKey(opening.governmentKey)!
+        .displayName,
+      title: "A safer crosswalk at the library",
+      operativeText: proposal!.operativeText,
+      stamp: "PROPOSAL · NOT INTRODUCED · NOT LAW",
+    });
+
+    const reloaded = deserializeWorld(serializeWorld(proposed.world));
+    expect(reloaded.history.legislativeProposals).toEqual(
+      proposed.world.history.legislativeProposals,
+    );
+    const introduced = introduceMunicipalProposal(proposed.world, {
+      governmentKey: opening.governmentKey,
+      proposalId: proposal!.id,
+      designation: "Ord. 1",
+    });
+    expect(introduced.ok).toBe(true);
+    if (!introduced.ok) throw new Error(introduced.reason);
+    const measure = introduced.world.history.legislativeMeasures?.find(
+      (record) => record.sourceDocumentKey === proposal!.id,
+    );
+    expect(measure).toBeDefined();
+    expect(introduced.world.history.legislativeProvisions?.at(-1)?.text).toBe(
+      proposal!.operativeText,
+    );
+    const introducedPaper = projectMunicipalOrdinancePaper(
+      introduced.world,
+      proposal!.id,
+    );
+    expect(introducedPaper?.designation).toBe("Ord. 1");
+    expect(introducedPaper?.stamp).toBe("INTRODUCED · SEE COUNCIL DOCKET");
+    expect(
+      deserializeWorld(
+        serializeWorld(introduced.world),
+      ).history.legislativeProvisions?.at(-1)?.text,
+    ).toBe(proposal!.operativeText);
+    console.info("Session 9 ordinance proposal proof", {
+      seed,
+      place: place.displayName,
+      jurisdiction: place.context.jurisdiction.name,
+      placeKey: place.key,
+      worldId: proposed.world.id,
+      date: proposed.world.currentDate,
+      proposalId: proposal!.id,
+      introducedMeasureCount:
+        proposed.world.history.legislativeMeasures?.length ?? 0,
+    });
   }, 60000);
 });

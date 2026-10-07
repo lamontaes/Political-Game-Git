@@ -1,0 +1,13 @@
+[
+  {
+    "artifactId": "id-article-iii-1",
+    "requestedUrl": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect1/",
+    "retrievedAt": "2026-10-02T10:58:53.462880+00:00",
+    "url": "https://legislature.idaho.gov/statutesrules/idconst/artiii/sect1/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 91402,
+    "sha256": "9550813e96d149f0f518524b5eec7529433f10cc835ebc0eb185f0e534ab1333",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/id-article-iii-1.html"
+  }
+]

@@ -1,5 +1,4 @@
 import {
-  SeededRng,
   activeChildAuthoritiesAt,
   activeEducationEnrollmentsAt,
   activeWorkRelationshipsAt,
@@ -250,7 +249,7 @@ export function formativeEligibilityProvider(
         if (!inHousehold) {
           return blocked(
             "context:no-household",
-            "This happens at home, and this character's household is not recorded.",
+            "This happens at home, and this character has no household membership.",
           );
         }
       }
@@ -318,7 +317,11 @@ export function formativeEligibilityProvider(
   };
 }
 
-/** PLACEHOLDER, pacing only: how long a baby is still "a new child". */
+/**
+ * ESTIMATED FROM SIMILAR HOUSEHOLDS: two years. The basis is the game's birth
+ * records across all represented places and the recorded premise that the
+ * household is still adjusting to a recent birth.
+ */
 const NEW_CHILD_YEARS = 2;
 
 const UNRECORDED_FORMATIVE_PREMISES: Partial<Record<LifeSituationKey, string>> =
@@ -386,7 +389,7 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
  */
 export function formativeStepDays(
   world: World,
-  personId: EntityId,
+  _personId: EntityId,
   interval: {
     readonly band: string;
     readonly beginsAt: IsoDate;
@@ -394,11 +397,10 @@ export function formativeStepDays(
     readonly anchorBudget: readonly [number, number];
   },
 ): number {
-  const rng = new SeededRng(world.seed).fork(
-    `formative-pacing-v2:${personId}:${interval.band}`,
-  );
   const [minimum, maximum] = interval.anchorBudget;
-  const anchors = Math.max(1, rng.integer(minimum, maximum + 1));
+  // Expected count of the former uniform draw, from the accepted budget.
+  // Whole anchors keep the existing band marks without an invented cadence.
+  const anchors = Math.max(1, Math.round((minimum + maximum) / 2));
   const bandDays = Math.max(1, daysBetween(interval.beginsAt, interval.endsAt));
 
   // The band's anchors are marks laid evenly across the band, and a step is the
@@ -416,7 +418,9 @@ export function formativeStepDays(
     Math.max(daysBetween(interval.beginsAt, world.currentDate), 0),
     bandDays,
   );
-  const nextMark = Math.floor((elapsed * anchors) / bandDays) + 1;
+  // A mark rounds to a day after elapsed only once its unrounded position
+  // reaches elapsed + half a day. Skip marks already rounded to today.
+  const nextMark = Math.ceil(((elapsed + 0.5) * anchors) / bandDays);
   const nextAt = Math.min(
     Math.round((nextMark * bandDays) / anchors),
     bandDays,

@@ -23,6 +23,7 @@ export const PRETRIAL_RELEASED_EVENT = "justice.released-before-trial";
 export const REFERRAL_TAG = "justice.referral:";
 export const SENTENCE_KIND_TAG = "justice.sentence:";
 export const SENTENCE_MONTHS_TAG = "justice.sentence-months:";
+export const SENTENCE_LIFE_TAG = "justice.sentence-life";
 
 /**
  * A grant of clemency, written by `clemency.ts`. It lives here, beside the
@@ -55,8 +56,9 @@ export interface Sentence {
   readonly kind: SentenceKind;
   readonly from: IsoDate;
   /** When it ends: as handed down, or the day clemency ended it early. */
-  readonly until: IsoDate;
-  readonly months: number;
+  readonly until: IsoDate | null;
+  readonly months: number | null;
+  readonly life: boolean;
   /** The grant that ended it early, or null. */
   readonly clemency: {
     readonly eventId: EntityId;
@@ -109,19 +111,25 @@ export function sentencesOf(
     const kind = event.tags
       .find((tag) => tag.startsWith(SENTENCE_KIND_TAG))
       ?.slice(SENTENCE_KIND_TAG.length) as SentenceKind | undefined;
-    const months = Number(
-      event.tags
-        .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
-        ?.slice(SENTENCE_MONTHS_TAG.length) ?? "0",
-    );
+    const life = event.tags.includes(SENTENCE_LIFE_TAG);
+    const months = life
+      ? null
+      : Number(
+          event.tags
+            .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
+            ?.slice(SENTENCE_MONTHS_TAG.length) ?? "0",
+        );
     if (!kind) return [];
-    const handedDown = addCalendarMonths(event.occurredAt, months);
+    const handedDown =
+      months === null ? null : addCalendarMonths(event.occurredAt, months);
     const grant = grants.get(event.id);
     const clemencyKind = grant?.tags
       .find((tag) => tag.startsWith(CLEMENCY_KIND_TAG))
       ?.slice(CLEMENCY_KIND_TAG.length) as ClemencyKind | undefined;
     const endedEarly =
-      grant && clemencyKind && grant.occurredAt < handedDown
+      grant &&
+      clemencyKind &&
+      (handedDown === null || grant.occurredAt < handedDown)
         ? grant.occurredAt
         : null;
     return [
@@ -131,6 +139,7 @@ export function sentencesOf(
         from: event.occurredAt,
         until: endedEarly ?? handedDown,
         months,
+        life,
         clemency:
           grant && clemencyKind
             ? { eventId: grant.id, kind: clemencyKind, on: grant.occurredAt }
@@ -151,7 +160,7 @@ export function jailTermOn(
       (sentence) =>
         sentence.kind === "jail" &&
         sentence.from <= date &&
-        date < sentence.until,
+        (sentence.until === null || date < sentence.until),
     ) ?? null
   );
 }

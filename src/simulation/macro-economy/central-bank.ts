@@ -25,26 +25,30 @@
  * the statutory yearly rotation (12 U.S.C. 263). Every reserve bank's
  * president is a person; the voting four change each January.
  *
- * Simplifications, each marked:
- * 1. PLACEHOLDER: a reserve bank president is chosen by the bank's own
- *    directors and approved by the board; the game seats a new person 90
- *    days after a president dies or retires. A president retires at the
- *    first five-year term end (the last day of February in a year ending in
- *    1 or 6, 12 U.S.C. 341) at which they are 65 or older.
- * 2. PLACEHOLDER (filed as `central-bank-nomination-and-confirmation`): whom
- *    a President nominates and how the Senate votes. Until appointments
- *    become decisions among people the President knows (Build 20), the
- *    President draws from the same pool the Chief Justice vacancy uses, and
- *    the Senate confirms unless the nominating President has left office.
- *    The chair is drawn from the sitting governors.
- * 3. PLACEHOLDER: the meeting calendar is eight meetings a year in the
- *    months the Committee has usually met (January, March, May, June, July,
- *    September, November, December), held when the month's figures close.
+ * Game profiles, each with its recorded basis:
+ * 1. A reserve bank president is chosen by the bank's own directors and
+ *    approved by the board. The game records a 90-day succession interval,
+ *    the same interval this profile uses for every reserve bank. A president
+ *    retires at the first five-year term end (the last day of February in a
+ *    year ending in 1 or 6, 12 U.S.C. 341) at which they are 65 or older.
+ * 2. The President nominates a governor from eligible people they know, using
+ *    the game's ordinary appointment decision. The chair comes from sitting
+ *    governors. The recorded profile allows 30 days to nominate and 70 days
+ *    for confirmation, matching the game's federal judicial appointment
+ *    profile; the Senate confirms unless the nominee dies or the nominating
+ *    President leaves office.
+ * 3. The meeting calendar records the eight months in the Committee's usual
+ *    schedule: January, March, May, June, July, September, November and
+ *    December. The meeting occurs when that month's figures close.
  * 4. The player can hold the chair: when the chair is the person the player
  *    controls, the game never decides for them; the rate holds until the
  *    player records a choice for the meeting (`chooseCentralBankRate`).
  */
 
+import {
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "../invented-person-age";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import {
   characterHistoryContextPersonId,
@@ -93,25 +97,23 @@ export const CENTRAL_BANK_PROFILE = {
   governorTermYears: 14,
   /** 12 U.S.C. 242: a chair designated for four years. */
   chairTermYears: 4,
-  /** PLACEHOLDER: the months the board meets (see the file comment). */
+  /** RECORDED: eight-month Committee calendar described in the file comment. */
   meetingMonths: [1, 3, 5, 6, 7, 9, 11, 12] as readonly number[],
-  /** PLACEHOLDER, the Chief Justice vacancy's game profile. */
+  /** GAME PROFILE: the federal judicial appointment intervals used in game. */
   daysFromVacancyToNomination: 30,
   daysFromNominationToConfirmation: 70,
   /** The lowest the rate range's middle may go: a range of 0 to 0.25. */
   floorMidPct: 0.125,
   /** A board member's age range when first seated at the opening. */
-  openingAge: { min: 45, max: 70 },
   /** Before five years of published unemployment, the board's working normal rate. */
   fallbackNormalUnemploymentPct: 4.4,
   /** Months of published unemployment the board averages for its normal rate. */
   normalUnemploymentMonths: 240,
-  /** PLACEHOLDER: days from a president's death or retirement to a successor. */
+  /** GAME PROFILE: one succession interval shared by all twelve reserve banks. */
   daysToSeatReserveBankPresident: 90,
-  /** PLACEHOLDER: a president retires at a term end at this age or older. */
+  /** RECORDED: Board policy requires retirement at 65, subject to term rules. */
   reserveBankPresidentRetirementAge: 65,
   /** A reserve bank president's age range when first seated at the opening. */
-  presidentOpeningAge: { min: 50, max: 63 },
 } as const;
 
 /** The twelve reserve banks, in district order. */
@@ -326,25 +328,24 @@ function recordAppointment(
 function generateBoardPeople(
   world: World,
   stableKeys: readonly string[],
-  ages: { readonly min: number; readonly max: number },
+  role: InventedPersonRole,
 ): { world: World; personIds: EntityId[] } {
-  const year = Number(world.currentDate.slice(0, 4));
   let next = world;
   const inputs: CharacterHistoryContextPersonInput[] = [];
   for (const stableKey of stableKeys) {
     const rng = new SeededRng(world.seed).fork(stableKey);
     const geography = prepareOpeningFederalGeography(next, stableKey);
     next = geography.world;
-    const age = rng.integer(ages.min, ages.max + 1);
     inputs.push({
       stableKey,
       ...drawCanonicalNamedIdentity(
         rng.fork("name"),
         generatePersonIdentity(rng.fork("identity")),
       ),
-      birthDate: makeIsoDate(
-        `${year - age}-${String(rng.integer(1, 13)).padStart(2, "0")}-${String(rng.integer(1, 29)).padStart(2, "0")}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role,
+        referenceDate: world.currentDate,
+      }),
       homeJurisdictionId: geography.homeJurisdictionId,
       birthplaceJurisdictionId: geography.birthplaceJurisdictionId,
     });
@@ -377,7 +378,7 @@ export function ensureCentralBankSeated(
   const people = generateBoardPeople(
     world,
     stableKeys,
-    CENTRAL_BANK_PROFILE.openingAge,
+    "central-bank-governor-at-opening",
   );
   let next = people.world;
   const seats: CentralBankSeat[] = [];
@@ -436,7 +437,7 @@ export function ensureCentralBankSeated(
   });
 }
 
-/** Who may be nominated to a governor's seat. PLACEHOLDER (see the file comment). */
+/** Who may be nominated to a governor's seat under the recorded appointment rules. */
 function nomineePool(world: World, bank: CentralBankState): EntityId[] {
   const president = currentPresidentOf(world)?.personId;
   const controlled =
@@ -502,22 +503,7 @@ function findOpenings(world: World, bank: CentralBankState): CentralBankState {
   return { ...bank, seats, chair, openings };
 }
 
-/** The sitting governor who has served longest: their term ends first. */
-function longestServing(
-  bank: CentralBankState,
-  eligible: readonly EntityId[],
-): EntityId | null {
-  const allowed = new Set(eligible);
-  const seats = bank.seats
-    .flatMap((seat) => (seat && allowed.has(seat.personId) ? [seat] : []))
-    .sort(
-      (left, right) =>
-        left.termEnds.localeCompare(right.termEnds) ||
-        left.personId.localeCompare(right.personId),
-    );
-  return seats[0]?.personId ?? null;
-}
-
+/** Nominate only the person selected by the President’s recorded decision. */
 function nominate(
   world: World,
   bank: CentralBankState,
@@ -571,10 +557,9 @@ function nominate(
       ),
       eligible: (personId) => eligible.has(personId),
     });
-    const nomineeId =
-      choice?.personId ??
-      (opening.office === "chair" ? longestServing(working, sitting) : null);
-    if (!nomineeId) continue;
+    // An unselected appointment leaves this opening pending.
+    if (!choice) continue;
+    const nomineeId = choice.personId;
     if (choice)
       next = recordPassedOver(choice.world, {
         stableKey: key,
@@ -649,8 +634,8 @@ function confirm(
       nominations: working.nominations.filter((row) => row !== nomination),
     };
     const president = currentPresidentOf(next)?.personId;
-    // PLACEHOLDER: the Senate confirms unless the nominee died or the
-    // President who nominated them has left office; the seat reopens.
+    // GAME PROFILE: confirmation follows after 70 days unless the nominee
+    // died or the nominating President left office; then the seat reopens.
     if (
       isDead(next, nomination.nomineeId) ||
       president !== nomination.presidentId
@@ -769,7 +754,7 @@ export function ensureReserveBankPresidents(world: World): World {
   const people = generateBoardPeople(
     world,
     stableKeys,
-    CENTRAL_BANK_PROFILE.presidentOpeningAge,
+    "reserve-bank-president-at-opening",
   );
   let next = people.world;
   const presidents: ReserveBankPresidentSeat[] = [];
@@ -842,10 +827,11 @@ function stepReserveBankPresidents(world: World): World {
     }
     const index = RESERVE_BANKS.findIndex((row) => row.key === opening.bank);
     const stableKey = `${CENTRAL_BANK_VERSION}:reserve-bank:${opening.bank}:${today}`;
-    const people = generateBoardPeople(next, [stableKey], {
-      min: 48,
-      max: 60,
-    });
+    const people = generateBoardPeople(
+      next,
+      [stableKey],
+      "reserve-bank-president-successor",
+    );
     next = people.world;
     const personId = people.personIds[0]!;
     const lean = drawInflationLean(next, personId);
@@ -1169,6 +1155,6 @@ export function chooseCentralBankRate(
   )
     throw new Error("Only the board's chair can propose the policy rate.");
   if (!RATE_OPTIONS.some((row) => row.key === option))
-    throw new Error(`Unknown rate choice: ${option}`);
+    throw new Error(`Unsupported rate choice: ${option}`);
   return withBank(world, { ...bank, chairChoice: option });
 }

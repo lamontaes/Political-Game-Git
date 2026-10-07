@@ -1,0 +1,31 @@
+
+> political-life-rpg@0.4.0 spelling
+> node --import tsx scripts/prose-eval/spelling.ts
+
+docs/audits/2026-09-30/bedrock.md:101 "labelled" → "labeled"
+docs/audits/2026-09-30/bedrock.md:104 "behaviour" → "behavior"
+docs/audits/2026-09-30/dice.md:99 "favourite" → "favorite"
+docs/audits/2026-09-30/dice.md:99 "favourite" → "favorite"
+docs/audits/2026-09-30/dice.md:170 "catalogue" → "catalog"
+docs/audits/2026-09-30/dice.md:480 "Honourable" → "Honorable"
+docs/audits/2026-09-30/engines.md:184 "behaviour" → "behavior"
+docs/audits/2026-09-30/golden-rule.md:148 "behaviour" → "behavior"
+docs/codex/audit-verified-2026-10-01.json:872 "labelled" → "labeled"
+docs/codex/audit-verified-2026-10-01.md:269 "labelled" → "labeled"
+docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:9 "Honourable" → "Honorable"
+docs/codex/effect-batches/team-6/a28-proof/spelling-baseline.json:28 "Cancelled" → "Canceled"
+docs/codex/effect-batches/team-9/a10-composer-proof.json:96 "cancelled" → "canceled"
+docs/codex/effect-batches/team-9/michigan-cpl-source.json:92 "analogue" → "analog"
+docs/release/changes/plain-american-wording.md:8 "favour" → "favor"
+docs/release/changes/plain-american-wording.md:8 "neighbour" → "neighbor"
+docs/release/changes/plain-american-wording.md:8 "whilst" → "while"
+docs/release/changes/plain-american-wording.md:8 "programme" → "program"
+docs/release/changes/team2-governing-reports-require-recorded-actions.md:9 "Cancelled" → "Canceled"
+src/presentation/mayor-executive-decision.test.ts:104 "cancelled" → "canceled"
+src/presentation/president-player-desk.test.ts:295 "cancelled" → "canceled"
+src/presentation/president-player-desk.test.ts:341 "cancelled" → "canceled"
+src/simulation/governing/recorded-governing-action.test.ts:287 "cancelled" → "canceled"
+src/simulation/governing/state-governing.ts:981 "cancelled" → "canceled"
+src/simulation/justice/clemency-request-activities.test.ts:44 "cancelled" → "canceled"
+src/simulation/justice/prosecution-composer.test.ts:38 "cancelled" → "canceled"
+26 to fix; run npm run spelling -- --write.

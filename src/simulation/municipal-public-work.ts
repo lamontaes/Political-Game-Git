@@ -60,7 +60,7 @@ import type {
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
-import { majorityOf, resolveRequiredVotes } from "./legislature-rules";
+import { resolveRequiredVotes } from "./legislature-rules";
 import { tallyDispositions } from "./legislation";
 import {
   createScheduledActivity,
@@ -72,6 +72,7 @@ import {
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
 import { addSimulationMinutes } from "./dates";
 import { introduceMeasure } from "./legislation";
+import { recordFiledProvision } from "./legislative-politics";
 import type {
   EntityId,
   IsoDate,
@@ -452,12 +453,12 @@ export function municipalActionAuthority(
     case "inspect-government":
       return grant(
         input.action,
-        `${reading.displayName} is compiled from ${
+        `${reading.displayName} is compiled${
           reading.evidence === "enacted-text"
-            ? "enacted text this repository retrieved"
+            ? " from enacted text this repository retrieved"
             : reading.evidence === "game-profile"
-              ? "a disclosed local government game profile"
-              : "a research transcription of official municipal pages"
+              ? ""
+              : " from a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 
@@ -734,20 +735,17 @@ export function installMunicipalGovernment(
     participants: [],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["municipal", `government:${input.governmentKey}`],
-    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, ${
-      reading.evidence === "enacted-text"
-        ? `read from its own enacted law as of ${reading.asOf}`
-        : reading.evidence === "game-profile"
-          ? "under a disclosed fictional game profile; the Census catalog identifies the unit but does not establish its procedure"
-          : `read from a research transcription of official municipal pages as of ${reading.asOf}`
-    }.${
-      selectedProcedure.ok &&
-      selectedProcedure.evidence === "game-profile" &&
-      reading.evidence !== "game-profile"
-        ? ` Its ordinance procedure uses the separate ${selectedProcedure.pack.packId} game profile.`
-        : ""
-    }`,
+    // The summary is read aloud (press questions, news), so it says only who
+    // governs. Where the reading came from is kept in the tags, never spoken.
+    tags: [
+      "municipal",
+      `government:${input.governmentKey}`,
+      `evidence:${reading.evidence}`,
+      ...(selectedProcedure.ok
+        ? [`procedure-evidence:${selectedProcedure.evidence}`]
+        : []),
+    ],
+    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "its local government"}.`,
     context: {
       location: {
         jurisdictionId,
@@ -1545,24 +1543,13 @@ export type MunicipalManagerElection =
  * Virginia Code § 15.2-1420; appointment authority and quorum are not its source.
  * Other missing thresholds remain unresolved.
  */
-const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
-  Record<string, ReturnType<typeof majorityOf>>
-> = {
-  "us-va-charlottesville": majorityOf(
-    "members-voting",
-    "Majority of members voting on the question",
-    {
-      authority: "statute",
-      citation: "Va. Code § 15.2-1420",
-      sourceTitle: "Code of Virginia — How questions determined; tie breaker",
-      sourceUrl:
-        "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/",
-      retrievedAt: "2026-09-14",
-      verification: "verified",
-      note: "Applied only to the supported Charlottesville manager election under Charter § 5(e). Does not authorize appropriations, tax or borrowing decisions under § 15.2-1428.",
-    },
-  ),
-};
+function managerElectionDecisionRule(governmentKey: string) {
+  const government = municipalGovernmentByKey(governmentKey);
+  const compiled = government ? municipalRulePackFor(government) : null;
+  return compiled?.ok
+    ? (compiled.pack.councilActions?.managerElectionThreshold ?? null)
+    : null;
+}
 
 /**
  * The source of the manager-election decision rule for one government, where
@@ -1570,7 +1557,7 @@ const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
  * city.
  */
 export function municipalManagerDecisionRuleSource(governmentKey: string) {
-  const rule = MUNICIPAL_MANAGER_DECISION_RULES[governmentKey] ?? null;
+  const rule = managerElectionDecisionRule(governmentKey);
   return rule ? { label: rule.label, source: rule.source } : null;
 }
 
@@ -1672,7 +1659,7 @@ export function evaluateMunicipalManagerElection(
         appointment.conditions.join(" ") || `Election of the ${title}.`,
         municipalRuleSourceRef(reading, appointment.target ?? title),
       )
-    : (MUNICIPAL_MANAGER_DECISION_RULES[input.governmentKey] ?? null);
+    : managerElectionDecisionRule(input.governmentKey);
   if (!electionRule) {
     return {
       ok: false,
@@ -1722,6 +1709,7 @@ export function introduceMunicipalOrdinance(
     readonly numberingSession?: LegislativeMeasureNumberingSession;
     readonly shortTitle: string;
     readonly summary: string;
+    readonly sourceDocumentKey?: string;
   },
 ): MunicipalVisitResult {
   const no = (reason: string): MunicipalVisitResult => ({
@@ -1775,12 +1763,175 @@ export function introduceMunicipalOrdinance(
         : {}),
       shortTitle: input.shortTitle,
       summary: input.summary,
+      ...(input.sourceDocumentKey
+        ? { sourceDocumentKey: input.sourceDocumentKey }
+        : {}),
       origin: "member-introduction",
       subjectClass: "general-policy",
       originChamberKey: "council",
       sponsorPersonId: personId,
     }),
   };
+}
+
+/** Introduce one saved proposal and file its exact authored language. */
+export function introduceMunicipalProposal(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly proposalId: EntityId;
+    readonly designation: string;
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
+  },
+): MunicipalVisitResult {
+  const proposal = world.history.legislativeProposals?.find(
+    (record) => record.id === input.proposalId,
+  );
+  if (!proposal) {
+    return {
+      ok: false,
+      world,
+      reason: "That ordinance proposal is not in this save.",
+    };
+  }
+  if (proposal.governmentKey !== input.governmentKey) {
+    return {
+      ok: false,
+      world,
+      reason: "That proposal was written for a different government.",
+    };
+  }
+  if (world.control.kind !== "person") {
+    return { ok: false, world, reason: "Person control is required." };
+  }
+  if (proposal.sponsorPersonId !== world.control.personId) {
+    return {
+      ok: false,
+      world,
+      reason: "Only the member who wrote this proposal can introduce it.",
+    };
+  }
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.sourceDocumentKey === proposal.id,
+    )
+  ) {
+    return {
+      ok: false,
+      world,
+      reason: "This proposal has already been introduced.",
+    };
+  }
+  const introduced = introduceMunicipalOrdinance(world, {
+    governmentKey: input.governmentKey,
+    designation: input.designation,
+    ...(input.numberingSession
+      ? { numberingSession: input.numberingSession }
+      : {}),
+    shortTitle: proposal.title,
+    summary: `A member introduced a measure drafted as “${proposal.title}.”`,
+    sourceDocumentKey: proposal.id,
+  });
+  if (!introduced.ok) return introduced;
+  const measure = introduced.world.history.legislativeMeasures?.find(
+    (record) => record.sourceDocumentKey === proposal.id,
+  );
+  if (!measure) {
+    throw new Error("The introduced proposal has no canonical measure record.");
+  }
+  const withText = recordFiledProvision(introduced.world, {
+    stableKey: `${measure.stableKey}:proposal-language`,
+    measureId: measure.id,
+    provisionKey: "proposal-language",
+    sectionNumber: 1,
+    heading: "WHAT IT WOULD DO",
+    text: proposal.operativeText,
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: `People and places in ${world.jurisdictions[proposal.jurisdictionId]!.name}`,
+    },
+    applicationScope: {
+      jurisdictionId: proposal.jurisdictionId,
+      segmentKey: null,
+    },
+  });
+  return { ok: true, world: withText };
+}
+
+/**
+ * Save a member-authored ordinance draft without introducing a legislative
+ * measure. Introduction remains a later act with its own chamber authority.
+ */
+export function proposeMunicipalOrdinance(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly title: string;
+    readonly operativeText: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId,
+    residentPlaceGeoid: null,
+    action: "introduce-ordinance",
+  });
+  if (!authority.ok) return no(authority.reason);
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) {
+    return no(
+      `${primaryReading(government).displayName} cannot carry an ordinance here yet: ${rules.missing
+        .map((entry) => `${entry.field} — ${entry.reason}`)
+        .join(" ")}`,
+    );
+  }
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    input.governmentKey,
+  );
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
+    return no("This government has no canonical jurisdiction for a measure.");
+  }
+  const title = input.title.trim();
+  const operativeText = input.operativeText.trim();
+  if (!title) return no("An ordinance proposal needs a title.");
+  if (!operativeText) return no("Write what the ordinance would do.");
+
+  const sequence = world.history.nextSequence;
+  const stableKey = `municipal-ordinance-proposal:${input.governmentKey}:${personId}:${sequence}`;
+  const proposal = {
+    id: createStableId("legislative-proposal", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence,
+    governmentKey: input.governmentKey,
+    jurisdictionId,
+    sponsorPersonId: personId,
+    title,
+    operativeText,
+    proposedAt: world.currentDate,
+  } as const;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      legislativeProposals: [
+        ...(world.history.legislativeProposals ?? []),
+        proposal,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return { ok: true, world: next };
 }
 
 // ---------------------------------------------------------------------------
@@ -1853,8 +2004,10 @@ export function municipalMeasures(world: World, governmentKey: string) {
   const packId = rules.ok
     ? rules.pack.packId
     : municipalRulePackId(primaryReading(government));
-  return (world.history.legislativeMeasures ?? []).filter(
-    (measure) => measure.rulePackId === packId,
+  return recordsByStringField(
+    world.history.legislativeMeasures ?? [],
+    "rulePackId",
+    packId,
   );
 }
 

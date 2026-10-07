@@ -1,0 +1,1881 @@
+{
+  "families": [
+    {
+      "familyKey": "education-facilities",
+      "familyVersion": "v2",
+      "title": "Education facilities",
+      "mechanism": "Separates permission to support school repairs from the duty to disclose facility condition.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory L06 (education) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.education-facilities",
+        "baselineSeriesKey": "services:education-facilities",
+        "statement": "The condition and accessibility of public education facilities after any authorized work.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "No facility-condition baseline, project completion record or defensible effect estimate is available for these proposed clauses."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "school-repair-authorization",
+          "label": "School repair authorization",
+          "synopsis": "Authorizes a repair program for public education facilities, with a choice of project priority and a separate appropriation still required.",
+          "instrument": "programme-authorization",
+          "shortTitle": "School repair authorization",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": true,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "safe-access"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            },
+            "programme-ceiling": {
+              "kind": "money",
+              "minorUnits": 600000000,
+              "currency": "USD"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "Which eligible repairs take priority",
+              "options": [
+                {
+                  "value": "safe-access",
+                  "label": "Safe access and accessibility",
+                  "clausePhrase": "When ranking eligible applications, the administering body shall give priority to repairs needed for safe entry, exit and physical accessibility, and shall publish its reasons for each ranking."
+                },
+                {
+                  "value": "prevent-closure",
+                  "label": "Preventing loss of use",
+                  "clausePhrase": "When ranking eligible applications, the administering body shall give priority to repairs needed to keep teaching spaces usable, and shall publish its reasons for each ranking."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The school repair authorization alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            },
+            {
+              "key": "programme-ceiling",
+              "dimension": "funding-cap",
+              "kind": "money",
+              "label": "Total program authorization",
+              "minMinorUnits": 100000000,
+              "maxMinorUnits": 5000000000,
+              "currency": "USD",
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "An adjustable fictional whole-program authorization ceiling. These bounds and the default are design choices, not cost estimates or annual amounts."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "school-repair-authorization-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "A school repair assistance program is established. A public body operating a public education facility in this state may apply for assistance with repair of that facility; new construction is ineligible. Eligibility establishes no right to an award.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-repair-authorization-operative-duty",
+              "dimension": "oversight",
+              "heading": "Which eligible repairs take priority",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-repair-authorization-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "An application shall identify the proposed repair and the evidence supporting its priority. A priority finding under this Act is not a finding that a building complies with any other law. Assistance may not be used for operating salaries.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-repair-authorization-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-repair-authorization-programme-ceiling",
+              "dimension": "funding-cap",
+              "heading": "Total authorization",
+              "parameterKey": "programme-ceiling",
+              "rendering": {
+                "text": "There is authorized not more than {{money:programme-ceiling}} in total for the program established by this Act. This is a single ceiling for the whole program, not a recurring authorization. No money is appropriated by this Act. No award may be paid without a separate appropriation and designation under applicable law of a public body to administer the program.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": "{{money:programme-ceiling}} total program authorization"
+              },
+              "moneyParameter": {
+                "key": "programme-ceiling",
+                "message": "A service authorization requires a typed money ceiling."
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "school-repair-authorization-amendment",
+            "sectionNumber": 6,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies operating public education facilities",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "An opportunity to correct an application could preserve access without promising an award.",
+            "segmentKey": "services.school-repair-authorization",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "An applicant shall be allowed to correct an incomplete repair application before a final refusal is issued."
+          },
+          "declaredLimits": [
+            "The text creates neither a facility inventory nor proof that any particular school needs repairs.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "The amount is a whole-program permission ceiling, not an appropriation, cost estimate or promised award."
+          ]
+        },
+        {
+          "variantKey": "school-condition-inventory",
+          "label": "School condition inventory",
+          "synopsis": "Requires public education operators to distinguish assessed conditions from unassessed facilities in a public inventory.",
+          "instrument": "oversight-reporting",
+          "shortTitle": "School condition inventory",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "assessments"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What the inventory must disclose",
+              "options": [
+                {
+                  "value": "assessments",
+                  "label": "Assessment date and findings",
+                  "clausePhrase": "The body shall publish annually the date and findings of each facility condition assessment it holds. A facility without an assessment shall be listed as unassessed, not sound."
+                },
+                {
+                  "value": "repair-plan",
+                  "label": "Findings and intended repairs",
+                  "clausePhrase": "The body shall publish annually the date and findings of each facility condition assessment it holds, together with any proposed repair and whether funding has been authorized and appropriated. Unassessed facilities and unfunded proposals shall be identified explicitly."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The school condition inventory alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "school-condition-inventory-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies to every public body operating a public education facility in this state. It requires an inventory of facilities that body operates and authorizes no construction or repair.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-condition-inventory-operative-duty",
+              "dimension": "oversight",
+              "heading": "What the inventory must disclose",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-condition-inventory-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "The inventory shall omit personal information and details whose disclosure is restricted by applicable law. Omission shall be explained without disclosing protected material. Publication does not certify structural safety.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "school-condition-inventory-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating public education facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "school-condition-inventory-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies operating public education facilities",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "A dated correction record would let readers distinguish a new assessment from a correction to the old inventory.",
+            "segmentKey": "services.school-condition-inventory",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The inventory shall identify which entries were corrected after publication and retain the date of each correction."
+          },
+          "declaredLimits": [
+            "No school record, assessment result or enrollment count is supplied by this configuration.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "health-service-capacity",
+      "familyVersion": "v2",
+      "title": "Health service capacity",
+      "mechanism": "Makes publicly operated service availability inspectable and requires continuity planning when a service is withdrawn.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D03 (health) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.health-service-capacity",
+        "baselineSeriesKey": "services:health-service-capacity",
+        "statement": "The availability of public health services and continuity of access during service changes.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "Service schedules, referral completion, capacity observations and an effect model are absent; no access improvement can be estimated."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "service-availability-publication",
+          "label": "Public service availability notice",
+          "synopsis": "Requires public health facility operators to publish offered services and explicitly identify information they cannot verify.",
+          "instrument": "oversight-reporting",
+          "shortTitle": "Public service availability notice",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "services"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What must be published",
+              "options": [
+                {
+                  "value": "services",
+                  "label": "Services and contact route",
+                  "clausePhrase": "The body shall review and publish annually the services it offers, their scheduled availability and a contact route for confirming access. Unverified availability shall be marked unverified."
+                },
+                {
+                  "value": "services-and-interruptions",
+                  "label": "Services and interruptions",
+                  "clausePhrase": "The body shall review and publish annually the services it offers, their scheduled availability and a contact route for confirming access, and shall update the notice when it knows of a service interruption. Unverified availability shall be marked unverified."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The public service availability notice alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "service-availability-publication-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies to a public body operating a health facility in this state and only to services that body offers. It creates no treatment entitlement and sets no clinical standard.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating health facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-availability-publication-operative-duty",
+              "dimension": "oversight",
+              "heading": "What must be published",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating health facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-availability-publication-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "No notice under this Act shall disclose patient information or promise a particular appointment, treatment outcome or waiting time.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating health facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-availability-publication-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating health facilities"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "service-availability-publication-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies operating health facilities",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "A public notice should remain accessible to a person who cannot use the online version.",
+            "segmentKey": "services.service-availability-publication",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The body shall make the same service notice available on request without requiring internet access."
+          },
+          "declaredLimits": [
+            "The draft supplies no clinic, patient, waiting-time or staffing records.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        },
+        {
+          "variantKey": "service-change-referral-plan",
+          "label": "Service change referral plan",
+          "synopsis": "Requires a public operator planning a service withdrawal to explain referral arrangements and their unknowns before the change.",
+          "instrument": "regulatory-requirement",
+          "shortTitle": "Service change referral plan",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "contact-verification"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What the plan must establish",
+              "options": [
+                {
+                  "value": "contact-verification",
+                  "label": "Verify referral contacts",
+                  "clausePhrase": "The plan shall identify the proposed referral contacts, the date on which each contact was checked, and any unconfirmed acceptance conditions. It shall be made public before the planned withdrawal."
+                },
+                {
+                  "value": "access-review",
+                  "label": "Contacts and access barriers",
+                  "clausePhrase": "The plan shall identify checked referral contacts, unconfirmed acceptance conditions, and known transport or communication barriers, and shall describe proposed steps to address those barriers. It shall be made public before the planned withdrawal."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The service change referral plan alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "service-change-referral-plan-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "A public body planning to withdraw a health service it operates in this state shall prepare a referral plan before the withdrawal. This Act does not require another provider to accept a referral.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies planning withdrawal of a health service"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-change-referral-plan-operative-duty",
+              "dimension": "oversight",
+              "heading": "What the plan must establish",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies planning withdrawal of a health service"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-change-referral-plan-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Where an immediate safety need prevents advance publication, the body shall publish the plan and its reason for delayed notice as soon as that need permits. No patient record shall be published under this Act.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies planning withdrawal of a health service"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "service-change-referral-plan-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies planning withdrawal of a health service"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "service-change-referral-plan-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies planning withdrawal of a health service",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "A correction route would expose a referral that exists on paper but cannot be contacted.",
+            "segmentKey": "services.service-change-referral-plan",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The plan shall name a contact through which a person may report that a listed referral route does not accept inquiries."
+          },
+          "declaredLimits": [
+            "A referral plan proves neither available treatment nor completion of any referral.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "environmental-monitoring",
+      "familyVersion": "v2",
+      "title": "Environmental monitoring",
+      "mechanism": "Preserves the difference between a recorded measurement, a monitoring gap and a proposed corrective response.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D04 (environment) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.environmental-monitoring",
+        "baselineSeriesKey": "services:environmental-monitoring",
+        "statement": "The completeness of environmental monitoring and follow-through on disclosed corrective plans.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "No applicable monitoring baseline, facility observations or causal compliance estimate is registered for these clauses."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "monitoring-record-disclosure",
+          "label": "Environmental monitoring disclosure",
+          "synopsis": "Requires public operators to publish monitoring records they hold with methods, dates and missing observations.",
+          "instrument": "oversight-reporting",
+          "shortTitle": "Environmental monitoring disclosure",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "observations"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "How monitoring is disclosed",
+              "options": [
+                {
+                  "value": "observations",
+                  "label": "Observations and missingness",
+                  "clausePhrase": "The body shall publish annually the monitoring observations it holds, with dates, units and methods, and identify required observations it does not hold. Missing observations shall not be reported as zero."
+                },
+                {
+                  "value": "quality-flags",
+                  "label": "Observations and quality flags",
+                  "clausePhrase": "The body shall publish annually the monitoring observations it holds, with dates, units, methods and recorded quality flags, and identify required observations it does not hold. Estimates shall be distinguished from measurements, and missing observations shall not be reported as zero."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The environmental monitoring disclosure alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "monitoring-record-disclosure-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies to a public body operating a facility in this state for which monitoring is required under otherwise applicable environmental law. It changes no discharge limit, permit or monitoring standard.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating facilities subject to environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-record-disclosure-operative-duty",
+              "dimension": "oversight",
+              "heading": "How monitoring is disclosed",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating facilities subject to environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-record-disclosure-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Material protected from publication by applicable law shall be omitted with an explanation of the applicable restriction. Publication under this Act is not a determination of compliance or permission to discharge.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating facilities subject to environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-record-disclosure-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies operating facilities subject to environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "monitoring-record-disclosure-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies operating facilities subject to environmental monitoring",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "A correction should not erase the reader's ability to see why the record changed.",
+            "segmentKey": "services.monitoring-record-disclosure",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "A corrected observation shall retain the original publication date and identify the reason for correction."
+          },
+          "declaredLimits": [
+            "No environmental limit or measurement is invented, and no compliance decision is made.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        },
+        {
+          "variantKey": "monitoring-gap-response",
+          "label": "Monitoring gap response plan",
+          "synopsis": "Requires a public operator to disclose how it proposes to address a recorded monitoring gap without treating the plan as a completed repair.",
+          "instrument": "regulatory-requirement",
+          "shortTitle": "Monitoring gap response plan",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "steps"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What a response plan must contain",
+              "options": [
+                {
+                  "value": "steps",
+                  "label": "Proposed steps and responsible role",
+                  "clausePhrase": "The body shall publish a description of the gap, its proposed steps to restore monitoring, and the role responsible for each step. Proposed work shall be identified as proposed until completion is recorded."
+                },
+                {
+                  "value": "verification",
+                  "label": "Steps and completion evidence",
+                  "clausePhrase": "The body shall publish the gap, proposed steps, responsible roles and the evidence it intends to use to verify completion. It shall identify completed steps separately from those still proposed."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The monitoring gap response plan alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "monitoring-gap-response-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Where a public body operating a facility in this state records a gap in monitoring required by otherwise applicable environmental law, it shall prepare a response plan. This Act creates no finding that such a gap exists.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies with a recorded gap in required environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-gap-response-operative-duty",
+              "dimension": "oversight",
+              "heading": "What a response plan must contain",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies with a recorded gap in required environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-gap-response-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "A response plan neither suspends an existing monitoring duty nor excuses an otherwise applicable penalty. No proposed step shall be reported as a measured environmental improvement.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies with a recorded gap in required environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "monitoring-gap-response-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies with a recorded gap in required environmental monitoring"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "monitoring-gap-response-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies with a recorded gap in required environmental monitoring",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "Revision history would distinguish a changed plan from evidence that work was finished.",
+            "segmentKey": "services.monitoring-gap-response",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "If the body revises its plan, it shall publish the revision date and reason while retaining the earlier plan."
+          },
+          "declaredLimits": [
+            "This configuration supplies no incident, gap, enforcement action or completion record.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "procurement-disclosure",
+      "familyVersion": "v2",
+      "title": "Procurement disclosure",
+      "mechanism": "Makes prospective award decisions and exceptions reviewable without creating fictional contracts or inferring misconduct.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D05 (procurement) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.procurement-disclosure",
+        "baselineSeriesKey": "services:procurement-disclosure",
+        "statement": "The completeness and timeliness of public procurement explanations and exception reviews.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "Contract awards, exception records, publication baselines and an effect estimate are absent."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "award-reasons-publication",
+          "label": "Contract award reasons",
+          "synopsis": "Requires a public body awarding a contract to explain its choice using recorded selection criteria.",
+          "instrument": "oversight-reporting",
+          "shortTitle": "Contract award reasons",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "criteria"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What the award notice must explain",
+              "options": [
+                {
+                  "value": "criteria",
+                  "label": "Criteria and reasons",
+                  "clausePhrase": "After an award and before the first payment, the body shall publish the selected contractor, contract amount, selection criteria and recorded reasons for the selection."
+                },
+                {
+                  "value": "criteria-and-changes",
+                  "label": "Reasons and later changes",
+                  "clausePhrase": "After an award and before the first payment, the body shall publish the selected contractor, contract amount, selection criteria and recorded reasons for the selection. Before payment under a later contract change, it shall publish the change and the recorded reason for it."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The contract award reasons alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "award-reasons-publication-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies to a contract awarded by a public body of this state after this Act takes effect. It changes no existing award and creates no preference for a bidder.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies awarding contracts"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "award-reasons-publication-operative-duty",
+              "dimension": "oversight",
+              "heading": "What the award notice must explain",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies awarding contracts"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "award-reasons-publication-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Information protected by applicable law shall be redacted with an explanation of the restriction. An award notice shall not state that a rejected bidder engaged in misconduct without a separate supported finding.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies awarding contracts"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "award-reasons-publication-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies awarding contracts"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "award-reasons-publication-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies awarding contracts",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "Corrections should remain visible so readers can distinguish an amended notice from a different award.",
+            "segmentKey": "services.award-reasons-publication",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "A corrected award notice shall identify what changed and retain the original publication date."
+          },
+          "declaredLimits": [
+            "No award, bidder, contract price or influence allegation is supplied by this text.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        },
+        {
+          "variantKey": "emergency-procurement-review",
+          "label": "Emergency procurement review",
+          "synopsis": "Requires a recorded explanation and independent review when a public body uses an emergency procurement exception available under other law.",
+          "instrument": "oversight-reporting",
+          "shortTitle": "Emergency procurement review",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "annual-review"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "How the exception is reviewed",
+              "options": [
+                {
+                  "value": "annual-review",
+                  "label": "Annual independent review",
+                  "clausePhrase": "The body shall arrange an annual review of its recorded uses of the exception by a person who did not approve those uses, and shall publish the review findings."
+                },
+                {
+                  "value": "annual-and-response",
+                  "label": "Review and written response",
+                  "clausePhrase": "The body shall arrange an annual review of its recorded uses of the exception by a person who did not approve those uses, publish the findings, and publish a written response describing which recommendations it accepts and why."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The emergency procurement review alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "emergency-procurement-review-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Where a public body of this state invokes an emergency exception to a procurement requirement under otherwise applicable law after this Act takes effect, the body shall record the authority and circumstances it relies on. This Act creates no new exception.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies invoking an emergency procurement exception"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "emergency-procurement-review-operative-duty",
+              "dimension": "oversight",
+              "heading": "How the exception is reviewed",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies invoking an emergency procurement exception"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "emergency-procurement-review-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "A review under this Act does not itself invalidate a contract, establish misconduct or extend the emergency exception. Protected information shall be omitted with an explanation under applicable law.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies invoking an emergency procurement exception"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "emergency-procurement-review-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies invoking an emergency procurement exception"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "emergency-procurement-review-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies invoking an emergency procurement exception",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "An incomplete record should appear as a limitation of the review, not a clean finding.",
+            "segmentKey": "services.emergency-procurement-review",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The review shall identify any use for which supporting records were unavailable, without treating absent records as proof that no exception was used."
+          },
+          "declaredLimits": [
+            "The proposed review does not establish that an emergency or any exception use has occurred.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "social-service-access",
+      "familyVersion": "v2",
+      "title": "Social-service application access",
+      "mechanism": "Changes the handling of an application while preserving the underlying eligibility and benefit decision.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D06 (social services) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.social-service-access",
+        "baselineSeriesKey": "services:social-service-access",
+        "statement": "Whether applicants can submit complete applications and understand decisions without new benefit entitlements.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "Application completion, refusal reasons and service-access baselines have not been recorded or modeled."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "application-access-duty",
+          "label": "Accessible assistance applications",
+          "synopsis": "Requires public assistance administrators to provide usable submission routes and explain incomplete applications.",
+          "instrument": "regulatory-requirement",
+          "shortTitle": "Accessible assistance applications",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "non-digital"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What an applicant must be offered",
+              "options": [
+                {
+                  "value": "non-digital",
+                  "label": "A route without internet access",
+                  "clausePhrase": "The body shall offer a method of applying that does not require internet access, and shall explain which required information is missing before refusing an application as incomplete."
+                },
+                {
+                  "value": "correction-opportunity",
+                  "label": "A submission route and correction opportunity",
+                  "clausePhrase": "The body shall offer a method of applying that does not require internet access, explain missing required information, and allow a reasonable opportunity to correct it before refusing an application as incomplete, subject to deadlines imposed by otherwise applicable law."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The accessible assistance applications alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "application-access-duty-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies where a public body of this state receives an application for public assistance under otherwise applicable law. It changes no eligibility threshold, benefit amount or authority to award assistance.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies receiving applications for public assistance"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "application-access-duty-operative-duty",
+              "dimension": "oversight",
+              "heading": "What an applicant must be offered",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies receiving applications for public assistance"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "application-access-duty-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "An explanation or correction opportunity does not establish eligibility, guarantee an award or extend a deadline fixed by other law. The body shall protect personal application information.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies receiving applications for public assistance"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "application-access-duty-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies receiving applications for public assistance"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "application-access-duty-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies receiving applications for public assistance",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "Acknowledgment would make submission distinguishable from approval and identify the next step.",
+            "segmentKey": "services.application-access-duty",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The body shall provide an applicant with an acknowledgment of receipt stating whether further information is requested."
+          },
+          "declaredLimits": [
+            "The draft asserts no applicant, denial, caseworker or existing assistance program in this world.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "agricultural-conservation",
+      "familyVersion": "v2",
+      "title": "Agricultural conservation assistance",
+      "mechanism": "Conditions a new conservation assistance authorization on a documented practice and a choice of completion evidence.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D06 (agriculture) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.agricultural-conservation",
+        "baselineSeriesKey": "services:agricultural-conservation",
+        "statement": "Completion of supported conservation practices and any measured soil or water effects.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "No farm-practice baseline, project completion observations or soil and water effect model is available."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "conservation-practice-authorization",
+          "label": "Conservation practice assistance",
+          "synopsis": "Authorizes support for proposed soil-retention and water-conservation work without predicting yields or environmental gains.",
+          "instrument": "programme-authorization",
+          "shortTitle": "Conservation practice assistance",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": true,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "operator-record"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            },
+            "programme-ceiling": {
+              "kind": "money",
+              "minorUnits": 600000000,
+              "currency": "USD"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "How completion must be documented",
+              "options": [
+                {
+                  "value": "operator-record",
+                  "label": "Operator completion record",
+                  "clausePhrase": "An assistance agreement shall require a dated description and supporting records of completed work from the operator before final payment. The record shall distinguish completion of the practice from any estimate of its environmental effect."
+                },
+                {
+                  "value": "independent-check",
+                  "label": "Independent completion check",
+                  "clausePhrase": "An assistance agreement shall require a dated completion check by a person who did not perform the work before final payment. The check shall distinguish work observed from work reported by the operator and shall not certify an unmeasured environmental effect."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The conservation practice assistance alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            },
+            {
+              "key": "programme-ceiling",
+              "dimension": "funding-cap",
+              "kind": "money",
+              "label": "Total program authorization",
+              "minMinorUnits": 100000000,
+              "maxMinorUnits": 5000000000,
+              "currency": "USD",
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "An adjustable fictional whole-program authorization ceiling. These bounds and the default are design choices, not cost estimates or annual amounts."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "conservation-practice-authorization-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "A conservation practice assistance program is established. An operator of agricultural land in this state may apply for assistance for proposed work intended to retain soil or conserve water on that land. The application shall establish the operator's permission to undertake the work. Eligibility creates no entitlement to an award.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "operators of agricultural land proposing conservation work"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "conservation-practice-authorization-operative-duty",
+              "dimension": "oversight",
+              "heading": "How completion must be documented",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "operators of agricultural land proposing conservation work"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "conservation-practice-authorization-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "Assistance under this Act is for the described conservation work, not compensation for a claimed yield loss. No applicant shall be promised a particular harvest, water saving or improvement in soil condition.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "operators of agricultural land proposing conservation work"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "conservation-practice-authorization-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "operators of agricultural land proposing conservation work"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "conservation-practice-authorization-programme-ceiling",
+              "dimension": "funding-cap",
+              "heading": "Total authorization",
+              "parameterKey": "programme-ceiling",
+              "rendering": {
+                "text": "There is authorized not more than {{money:programme-ceiling}} in total for the program established by this Act. This is a single ceiling for the whole program, not a recurring authorization. No money is appropriated by this Act. No award may be paid without a separate appropriation and designation under applicable law of a public body to administer the program.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "operators of agricultural land proposing conservation work"
+                },
+                "fiscalExposureLabel": "{{money:programme-ceiling}} total program authorization"
+              },
+              "moneyParameter": {
+                "key": "programme-ceiling",
+                "message": "A service authorization requires a typed money ceiling."
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "conservation-practice-authorization-amendment",
+            "sectionNumber": 6,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "operators of agricultural land proposing conservation work",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "Stating the partial-completion rule in advance could make an interrupted project easier to assess without inventing a result.",
+            "segmentKey": "services.conservation-practice-authorization",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "An agreement shall identify what evidence would support a partial completion finding and how any corresponding payment would be determined before work begins."
+          },
+          "declaredLimits": [
+            "No farm, acreage, yield, conservation measurement or award is asserted.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "The amount is a whole-program permission ceiling, not an appropriation, cost estimate or promised award."
+          ]
+        }
+      ]
+    },
+    {
+      "familyKey": "veteran-transition-referrals",
+      "familyVersion": "v2",
+      "title": "Veteran transition referrals",
+      "mechanism": "Requires consent-based referral information while leaving veteran status and benefit eligibility to the authority responsible for them.",
+      "acceptedDimensions": [
+        "eligibility-scope",
+        "oversight",
+        "timing",
+        "funding-cap"
+      ],
+      "structuralProvenance": [
+        {
+          "kind": "authored-parameter",
+          "note": "Research-utilization inventory D06 (veterans) is cited only as the mapping of this subject to a researched domain. It supplies no enacted clause, current law or empirical value here. These prospective mechanisms and every operative choice are authored fiction using existing legislative instruments."
+        }
+      ],
+      "intendedOutcome": {
+        "metricStableKey": "services.veteran-transition-referrals",
+        "baselineSeriesKey": "services:veteran-transition-referrals",
+        "statement": "Whether requested transition referrals reach a verified contact without being misrepresented as benefit approval.",
+        "evidence": {
+          "kind": "forecast-claim",
+          "note": "An intended outcome is not a prediction; drafting this Act records no change to the world.",
+          "unavailableReason": "No referral requests, completion observations or access-effect baseline is available."
+        }
+      },
+      "variants": [
+        {
+          "variantKey": "transition-referral-duty",
+          "label": "Veteran transition referral duty",
+          "synopsis": "Requires a public body offering transition assistance to explain and verify referral routes without deciding eligibility for another program.",
+          "instrument": "regulatory-requirement",
+          "shortTitle": "Veteran transition referral duty",
+          "subjectClass": "general-policy",
+          "authorizesAppropriation": false,
+          "defaults": {
+            "operative-choice": {
+              "kind": "enumerated",
+              "value": "verified-contact"
+            },
+            "commencement": {
+              "kind": "enumerated",
+              "value": "upon-enactment"
+            }
+          },
+          "parameters": [
+            {
+              "key": "operative-choice",
+              "dimension": "oversight",
+              "kind": "enumerated",
+              "label": "What a requested referral includes",
+              "options": [
+                {
+                  "value": "verified-contact",
+                  "label": "Verified contact information",
+                  "clausePhrase": "At the person's request, the body shall provide contact information it has checked for a relevant employment, education or benefit inquiry, together with the date checked and any eligibility question the receiving body must decide."
+                },
+                {
+                  "value": "consented-handoff",
+                  "label": "A handoff with explicit consent",
+                  "clausePhrase": "At the person's request, the body shall provide checked contact information for a relevant employment, education or benefit inquiry and offer to transmit the inquiry with the person's explicit consent. It shall explain which eligibility questions remain for the receiving body and record transmission separately from acceptance."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "The veteran transition referral duty alternatives are proposed fictional policy choices, not sourced requirements or measured conditions."
+              }
+            },
+            {
+              "key": "commencement",
+              "dimension": "timing",
+              "kind": "enumerated",
+              "label": "When the duty or authorization begins",
+              "options": [
+                {
+                  "value": "upon-enactment",
+                  "label": "Upon enactment",
+                  "clausePhrase": "This Act takes effect upon enactment."
+                },
+                {
+                  "value": "next-calendar-year",
+                  "label": "The following calendar year",
+                  "clausePhrase": "This Act takes effect on January 1 of the calendar year following its enactment."
+                }
+              ],
+              "evidence": {
+                "kind": "authored-parameter",
+                "note": "Authored prospective commencement alternatives; neither choice asserts that enactment has occurred."
+              }
+            }
+          ],
+          "clauses": [
+            {
+              "provisionKey": "transition-referral-duty-scope",
+              "dimension": "eligibility-scope",
+              "heading": "Application",
+              "parameterKey": null,
+              "rendering": {
+                "text": "This Act applies where a public body of this state offers civilian transition assistance to a person who requests it as a former service member. A request under this Act does not establish veteran status or eligibility for any benefit under other law.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies offering civilian transition assistance to former service members"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "transition-referral-duty-operative-duty",
+              "dimension": "oversight",
+              "heading": "What a requested referral includes",
+              "parameterKey": "operative-choice",
+              "rendering": {
+                "text": "{{choice:operative-choice}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies offering civilian transition assistance to former service members"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "transition-referral-duty-safeguard",
+              "dimension": "oversight",
+              "heading": "Limits and safeguards",
+              "parameterKey": null,
+              "rendering": {
+                "text": "No referral shall be described as acceptance, benefit approval or a determination of service status. Personal information may be transmitted only within the person's consent and otherwise applicable law.",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies offering civilian transition assistance to former service members"
+                },
+                "fiscalExposureLabel": null
+              }
+            },
+            {
+              "provisionKey": "transition-referral-duty-commencement",
+              "dimension": "timing",
+              "heading": "Commencement",
+              "parameterKey": "commencement",
+              "rendering": {
+                "text": "{{choice:commencement}}",
+                "beneficiary": {
+                  "kind": "general-application",
+                  "appliesToLabel": "public bodies offering civilian transition assistance to former service members"
+                },
+                "fiscalExposureLabel": null
+              }
+            }
+          ],
+          "amendmentInvitation": {
+            "provisionKey": "transition-referral-duty-amendment",
+            "sectionNumber": 5,
+            "heading": "Additional safeguard",
+            "beneficiaryLabel": "public bodies offering civilian transition assistance to former service members",
+            "placeLabel": "the places reached by the proposed Act",
+            "statedGround": "A referral should remain the person's choice until the requested information is sent.",
+            "segmentKey": "services.transition-referral-duty",
+            "requestedMinorUnits": 0,
+            "cappedMinorUnits": 0,
+            "evidence": {
+              "kind": "authored-parameter",
+              "note": "An authored prospective amendment invitation. It asserts no observed hardship, recipient, award, adoption or expenditure."
+            },
+            "text": "The person may withdraw consent to any transmission that has not yet occurred, and shall be told how to do so."
+          },
+          "declaredLimits": [
+            "No service history, veteran classification, federal benefit rule or completed referral is invented.",
+            "These clauses take effect only after enactment. Filing does not start the proposed duty or authorization, and no enactment date has been set.",
+            "These are fictional proposals. Filing does not enact them or establish that any service has been delivered.",
+            "This configuration states no amount and appropriates nothing. Compliance may have costs that have not been estimated."
+          ]
+        }
+      ]
+    }
+  ]
+}

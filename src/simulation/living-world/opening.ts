@@ -1,4 +1,8 @@
 import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../invented-person-age";
+import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -145,14 +149,11 @@ type SeatPlan =
       readonly window: SeatTermWindow;
       readonly memberKey: string;
       readonly party: MajorPartyKey | null;
+      readonly declaredIndependent: boolean;
       readonly caucus: MajorPartyKey | null;
       readonly serviceSince: IsoDate;
       readonly birthDate: IsoDate;
     };
-
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
 
 /**
  * Additive replay policy; absent means the original unrestricted name draw.
@@ -282,7 +283,11 @@ export function ensureLivingWorldOpening(
       }
       const minimumAge = MINIMUM_AGE[seat.chamberKey];
       const termStartYear = Number(window.startsAt.slice(0, 4));
-      const ageAtTermStart = seatRng.integer(minimumAge + 7, 81);
+      const ageAtTermStart = inventedPersonAge(
+        seatRng,
+        "sitting-legislator-at-opening",
+        { legalMinimumAge: minimumAge },
+      );
       let priorTerms = seatRng.integer(
         0,
         PROFILE.priorTermsMax[seat.chamberKey] + 1,
@@ -292,15 +297,19 @@ export function ensureLivingWorldOpening(
         ageAtTermStart - priorTerms * window.years < minimumAge + 1
       )
         priorTerms -= 1;
-      const birthDate = makeIsoDate(
-        `${termStartYear - ageAtTermStart - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      );
+      const birthDate = inventedPersonBirthDate(seatRng, {
+        role: "sitting-legislator-at-opening",
+        referenceDate: window.startsAt,
+        legalMinimumAge: minimumAge,
+        age: ageAtTermStart,
+      });
       plans.push({
         kind: "member",
         seat,
         window,
         memberKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${window.startsAt}:member`,
         party,
+        declaredIndependent: generated?.affiliation === "independent",
         caucus,
         serviceSince: makeIsoDate(
           `${termStartYear - priorTerms * window.years}${window.startsAt.slice(4)}`,
@@ -522,7 +531,7 @@ export function ensureLivingWorldOpening(
       tags: [
         ...seatTags,
         `service-since:${plan.serviceSince}`,
-        `${SEAT_PARTY_TAG}${plan.party ?? "none"}`,
+        `${SEAT_PARTY_TAG}${plan.declaredIndependent ? "independent" : (plan.party ?? "none")}`,
         `${SEAT_CAUCUS_TAG}${plan.caucus ?? "none"}`,
         "provenance:fictional-initial-tenure",
       ],

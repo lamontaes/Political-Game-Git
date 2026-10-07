@@ -1,0 +1,459 @@
+    <!-- #region Login -->
+    <!-- #endregion -->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+	<head id="Head1">
+		    <title>Constitution of Virginia - Article X. Taxation and Finance</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<link rel="apple-touch-icon" href="./images/favicon-law16.png" sizes="16x16" />
+		<link rel="apple-touch-icon" href="./images/favicon-law32.png" sizes="32x32" />
+        <script src="/Scripts/session.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="/Content/base.css" type="text/css" media="all" />
+		<!--[if lt IE 9 ]><link rel="stylesheet" href="./Content/720_grid.css" type="text/css" /><![endif]-->
+		<link rel="stylesheet" href="/Content/720_grid.css" type="text/css" media="screen and (min-width: 720px)" />
+		<link rel="stylesheet" href="/Content/986_grid.css" type="text/css" media="screen and (min-width: 986px)" />
+		<link rel="stylesheet" href="/Content/1236_grid.css" media="screen and (min-width: 1236px)" />
+		<link rel="stylesheet" href="/Content/font-awesome.min.css" />
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700' rel='stylesheet' type='text/css' />
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT Serif:r,i,400,700" />
+		
+		<link href='https://fonts.googleapis.com/css?family=Lato:400,700,300,300italic,400italic,700italic' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" href="/Content/jquery.fancybox.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="/Content/jquery.qtip.min.css" type="text/css" media="all" />
+		
+    <meta name='article' content='Article X. Taxation and Finance' />
+
+		<style type="text/css">.fancybox-margin {margin-right: 0px;}</style>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-F6YYKCXH17"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-F6YYKCXH17');
+        </script>
+        <script src="/Scripts/jquery.min.js" type="text/javascript"></script>
+        <script src="/Scripts/jquery-ui.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $('document').ready(function () {
+                $('#print').attr("aria-label", "Print Button");
+                $('#txtsearch-in').attr("aria-label", "Search within the current selection");
+                
+                $("#mobile-menu-toggle").click(function () {
+                    $("#section-menu").toggleClass("open");
+                    $(".mobile-overlay").toggleClass("open");
+                });
+
+                $(".mobile-overlay").click(function () {
+                    $("#section-menu").removeClass("open");
+                    $(".mobile-overlay").removeClass("open");
+                });
+            });
+        </script>
+        <script>
+            $(function () {
+                var searchList = document.getElementById("searchList");
+                if (!searchList.length) {
+                    return;
+                }
+
+                var path = (window.location.pathname || "").toLowerCase();
+                var selectedValue = "all";
+                document.getElementById("searchList").value = "LAW";
+
+                if (path.includes("/admincode")) {
+                    selectedValue = "admin";
+                    document.getElementById("searchBtn").value = "Administrative_Code";
+                } else if (path.includes("/constitution")) {
+                    selectedValue = "constitution";
+                    document.getElementById("searchBtn").value = "Constitution";
+                } else if (path.includes("/vacode")) {
+                    selectedValue = "code";
+                    document.getElementById("searchBtn").value = "Code_of_Virginia";
+                } else if (path.includes("/charters")) {
+                    selectedValue = "charters";
+                    document.getElementById("searchBtn").value = "Charters";
+                } else if (path.includes("/authorities")) {
+                    selectedValue = "authorities";
+                    document.getElementById("searchBtn").value = "Authorities";
+                } else if (path.includes("/compacts")) {
+                    selectedValue = "compacts";
+                    document.getElementById("searchBtn").value = "Compacts";
+                } else if (path.includes("/uncodifiedacts")) {
+                    selectedValue = "uncodified";
+                    document.getElementById("searchBtn").value = "Uncodified_Acts";
+                }
+
+                searchList.querySelectorAll("option").forEach(function(option) {
+                    option.selected = false;
+                });
+                var selectedOption = searchList.querySelector('option[value="' + selectedValue + '"]');
+                if (selectedOption) {
+                    selectedOption.selected = true;
+                }
+            });
+        </script>
+	</head>
+
+<body>
+    <input aria-hidden="true" type="text" style="width:0;height:0;visibility:hidden;position:absolute;left:0;top:0" /> 
+    <input aria-hidden="true" type="password" style="width:0;height:0;visibility:hidden;position:absolute;left:0;top:0" />
+    <input aria-hidden="true" type="hidden" id="hidSignIn" value="0" />
+    
+    
+    <div class="mobile-overlay"></div>
+    <div class="top-bar"></div>
+    <header>
+        <nav>
+            <div class="lis-links-content full">
+                <ul>
+                    <li><a href="https://virginiageneralassembly.gov/">Virginia General Assembly</a> /</li>
+                    <li><a href="https://help.lis.virginia.gov">LIS Learning Center</a> /</li>
+                    <li><a href="https://lis.virginia.gov/privacy">Privacy Policy</a> /</li>
+                    <li><a href="https://lis.virginia.gov">LIS home</a> /</li>
+                    <li><a href="https://lis.virginia.gov/register-account">Register Account</a> /</li>
+                    <li><a href="https://lis.virginia.gov/login">Login</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="grid-wrapper one-and-three halves">
+        
+			<a href="https://lis.virginia.gov" id="logo-link">
+				<img alt="LIS Logo" src="/images/lis_logo.png" /> 
+			</a>
+		
+        <div class="portal-links">
+            <ul>
+                <li>
+                    <a class="txt-blue" href="https://lis.virginia.gov">Session Information</a>
+                </li>
+                <li>
+                    <a class="txt-dark-blue" href="https://lis.virginia.gov/bill-search">Bills & Resolutions</a>
+                </li>
+                <li>
+                    <a class="txt-green" href="https://budget.lis.virginia.gov/default/2025/1">State Budget</a>
+                </li>
+                <li>
+                    <a class="txt-light-green" href="https://law.lis.virginia.gov/">Virginia Law</a>
+                </li>
+                <li>
+                    <a class="txt-orange" href="https://rga.lis.virginia.gov/">Reports to the General Assembly</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mobile-menu">
+            <i id="mobile-menu-toggle" class="fa fa-bars"></i>
+        </div>
+    </div>
+        
+        
+        <div class="va-law">
+            <div class="grid">
+                <div class="row">
+                    <div class="slot-0-1-2">
+                        <h1><a href="https://law.lis.virginia.gov">Virginia Law</a></h1>
+                    </div>
+                    <div class="slot-3-4-5">
+                        <div class="input-group .search-comp ">
+                            <div class="input-group-btn">
+                                <label for="searchList" class="sr-only">Select Search Type</label>
+                                <select id="searchList" name="searchTypeSelect" class="btn input-sm btn-default dropdown-toggle" aria-label="Select Search Type">
+                                    <option value="all">All</option>
+                                    <option value="code">Code of Virginia</option>
+                                    <option value="admin">Administrative Code</option>
+                                    <option value="constitution">Constitution</option>
+                                    <option value="charters">Charters</option>
+                                    <option value="authorities">Authorities</option>
+                                    <option value="compacts">Compacts</option>
+                                    <option value="uncodified">Uncodified Acts</option>
+                                </select>
+                            </div>
+                            <input aria-label="search input" type="text" id="txtSearch" class="form-control input-sm" placeholder="Search" />
+                            <span class="input-group-btn">
+                                <button aria-label="search button" class="btn btn-sm btn-default" id="searchBtn" type="submit" value="LAW">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="grid">
+            	<!-- #region Variables -->
+	<!-- #endregion -->
+	<!-- #region Highlights -->
+	<!-- #endregion -->
+	<!-- #region Build Pages -->
+	<!-- #endregion -->
+
+<body class="flipcol ">
+    <input type="hidden" id="hidST" />
+    <input type="hidden" id="hidToC" value="1" />
+    <input type="hidden" id="hidID" value="edit117" />
+    <input type="hidden" id="hidBiP" value="false" />
+    <input type="hidden" id="hidReport" value="0" />
+    <input type="hidden" id="hidSegments" value="10" />
+    <input type="hidden" id="hidPage" value="vaconstitutionexpand" />
+    <div class="grid">
+        <div class="row">
+            <div class="slot-6-7-8">
+                <section id="pageTitle"><h2 class='pg-title'>Constitution of Virginia</h2></section>
+                <section class="breadcrumbs" id="breadcrumbs"><p><a href='/constitution'>Table of Contents</a> &raquo; Article X. Taxation and Finance</p></section>
+                <section class="content-header-menu" id="menucontainer">
+                    <nav class="content-header-menu-left"><ul><li><a title='Article IX. Corporations' href='/constitutionexpand/article9/''><i class='fa fa-long-arrow-left'></i></a> Article <a title='Article XI. Conservation' href='/constitutionexpand/article11/''><i class='fa fa-long-arrow-right'></i></a></li></ul></nav>
+                    <div class="scroll_top" aria-hidden="true"><i href="#" class="fa fa-arrow-up"></i></div>
+                    <nav class="content-header-menu-middle"><li><a id='A1' onclick='PrintPreview();' title='Print page' href='#'><i class='fa fa-print'></i> Print</a></li><li><a id='A3' data-section='constitution/10//' title='Download PDF' href='#'><i class='fa fa-file-text'></i> PDF</a></li><a class='fancybox fancybox.iframe' href='/emailForm'><i class='fa fa-envelope'></i> email</a></li></ul></nav>
+                    <nav class="content-header-menu-right"><ul><li><a href='/constitutionfull''>Read Full Constitution</a></li></ul></nav>
+                </section>
+                <article id="constitution" class="content">
+                    <div id="printStuff"><div id='printHeader'>Constitution of Virginia</div><div id='printDate'>10/2/2026</div></div>
+                    <!--googleon: index-->
+                    <span id='va_constitution'><h2>Article X. Taxation and Finance</h2><section class='body editable' id='edit117' data-table='ConstitutionSection' data-field='sectionText'><h5>Section 1. Taxable property; uniformity; classification and segregation.</h5><p class="section-text">All property, except as hereinafter provided, shall be taxed. All taxes shall be levied and collected under general laws and shall be uniform upon the same class of subjects within the territorial limits of the authority levying the tax, except that the General Assembly may provide for differences in the rate of taxation to be imposed upon real estate by a city or town within all or parts of areas added to its territorial limits, or by a new unit of general government, within its area, created by or encompassing two or more, or parts of two or more, existing units of general government. Such differences in the rate of taxation shall bear a reasonable relationship to differences between nonrevenue-producing governmental services giving land urban character which are furnished in one or several areas in contrast to the services furnished in other areas of such unit of government.</p>
+      <p class="section-text">The General Assembly may by general law and within such restrictions and upon such conditions as may be prescribed authorize the governing body of any county, city, town or regional government to provide for differences in the rate of taxation imposed upon tangible personal property owned by persons not less than sixty-five years of age or persons permanently and totally disabled as established by general law who are deemed by the General Assembly to be bearing an extraordinary tax burden on said tangible personal property in relation to their income and financial worth.</p>
+      <p class="section-text">The General Assembly may define and classify taxable subjects. Except as to classes of property herein expressly segregated for either State or local taxation, the General Assembly may segregate the several classes of property so as to specify and determine upon what subjects State taxes, and upon what subjects local taxes, may be levied.</p>
+      <p class="amendment">The amendment ratified November 6, 1990 and effective January 1, 1991—Added a new paragraph after paragraph one.</p><h5>Section 2. Assessments.</h5><p class="section-text">All assessments of real estate and tangible personal property shall be at their fair market value, to be ascertained as prescribed by law. The General Assembly may define and classify real estate devoted to agricultural, horticultural, forest, or open space uses, and may by general law authorize any county, city, town, or regional government to allow deferral of, or relief from, portions of taxes otherwise payable on such real estate if it were not so classified, provided the General Assembly shall first determine that classification of such real estate for such purpose is in the public interest for the preservation or conservation of real estate for such uses. In the event the General Assembly defines and classifies real estate for such purposes, it shall prescribe the limits, conditions, and extent of such deferral or relief. No such deferral or relief shall be granted within the territorial limits of any county, city, town, or regional government except by ordinance adopted by the governing body thereof.</p>
+      <p class="section-text">So long as the Commonwealth shall levy upon any public service corporation a State franchise, license, or other similar tax based upon or measured by its gross receipts or gross earnings, or any part thereof, its real estate and tangible personal property shall be assessed by a central State agency, as prescribed by law.</p><h5>Section 3. Taxes or assessments upon abutting property owners.</h5><p class="section-text">The General Assembly by general law may authorize any county, city, town, or regional government to impose taxes or assessments upon abutting property owners for such local public improvements as may be designated by the General Assembly; however, such taxes or assessments shall not be in excess of the peculiar benefits resulting from the improvements to such abutting property owners.</p><h5>Section 4. Property segregated for local taxation; exceptions.</h5><p class="section-text">Real estate, coal and other mineral lands, and tangible personal property, except the rolling stock of public service corporations, are hereby segregated for, and made subject to, local taxation only, and shall be assessed for local taxation in such manner and at such times as the General Assembly may prescribe by general law.</p><h5>Section 5. Franchise taxes; taxation of corporate stock.</h5><p class="section-text">The General Assembly, in imposing a franchise tax upon corporations, may in its discretion make the same in lieu of taxes upon other property, in whole or in part, of such corporations. Whenever a franchise tax shall be imposed upon a corporation doing business in this Commonwealth, or whenever all the capital, however invested, of a corporation chartered under the laws of this Commonwealth shall be taxed, the shares of stock issued by any such corporation shall not be further taxed.</p><h5>Section 6. Exempt property.</h5><ul class="section-outline"><li>(a) Except as otherwise provided in this Constitution, the following property and no other shall be exempt from taxation, State and local, including inheritance taxes:</li><ul class="section-outline-child"><li>(1) Property owned directly or indirectly by the Commonwealth or any political subdivision thereof, and obligations of the Commonwealth or any political subdivision thereof exempt by law.</li><li>(2) Real estate and personal property owned and exclusively occupied or used by churches or religious bodies for religious worship or for the residences of their ministers.</li><li>(3) Private or public burying grounds or cemeteries, provided the same are not operated for profit.</li><li>(4) Property owned by public libraries or by institutions of learning not conducted for profit, so long as such property is primarily used for literary, scientific, or educational purposes or purposes incidental thereto. This provision may also apply to leasehold interests in such property as may be provided by general law.</li><li>(5) Intangible personal property, or any class or classes thereof, as may be exempted in whole or in part by general law.</li><li>(6) Property used by its owner for religious, charitable, patriotic, historical, benevolent, cultural, or public park and playground purposes, as may be provided by classification or designation by an ordinance adopted by the local governing body and subject to such restrictions and conditions as provided by general law.</li><li>(7) Land subject to a perpetual easement permitting inundation by water as may be exempted in whole or in part by general law.</li><li>(8) One motor vehicle owned and used primarily by or for a veteran of the armed forces of the United States or the Virginia National Guard who has been rated by the United States Department of Veterans Affairs or its successor agency pursuant to federal law with a one hundred percent service-connected, permanent, and total disability. For purposes of this subdivision, the term "motor vehicle" shall include only automobiles and pickup trucks. Any such motor vehicle owned by a married person may qualify if either spouse is a veteran who is one hundred percent disabled pursuant to this subdivision. This exemption shall be applicable on the date the motor vehicle is acquired or the effective date of this subdivision, whichever is later, but shall not be applicable for any period of time prior to the effective date.</li></ul><li>(b) The General Assembly may by general law authorize the governing body of any county, city, town, or regional government to provide for the exemption from local property taxation, or a portion thereof, within such restrictions and upon such conditions as may be prescribed, of real estate and personal property designed for continuous habitation owned by, and occupied as the sole dwelling of, persons not less than sixty-five years of age or persons permanently and totally disabled as established by general law. A local governing body may be authorized to establish either income or financial worth limitations, or both, in order to qualify for such relief.</li><li>(c) Except as to property of the Commonwealth, the General Assembly by general law may restrict or condition, in whole or in part, but not extend, any or all of the above exemptions.</li><li>(d) The General Assembly may define as a separate subject of taxation any property, including real or personal property, equipment, facilities, or devices, used primarily for the purpose of abating or preventing pollution of the atmosphere or waters of the Commonwealth or for the purpose of transferring or storing solar energy, and by general law may allow the governing body of any county, city, town, or regional government to exempt or partially exempt such property from taxation, or by general law may directly exempt or partially exempt such property from taxation.</li><li>(e) The General Assembly may define as a separate subject of taxation household goods, personal effects and tangible farm property and products, and by general law may allow the governing body of any county, city, town, or regional government to exempt or partially exempt such property from taxation, or by general law may directly exempt or partially exempt such property from taxation.</li><li>(f) Exemptions of property from taxation as established or authorized hereby shall be strictly construed; provided, however, that all property exempt from taxation on the effective date of this section shall continue to be exempt until otherwise provided by the General Assembly as herein set forth.</li><li>(g) The General Assembly may by general law authorize any county, city, town, or regional government to impose a service charge upon the owners of a class or classes of exempt property for services provided by such governments.</li><li>(h) The General Assembly may by general law authorize the governing body of any county, city, town, or regional government to provide for a partial exemption from local real property taxation, within such restrictions and upon such conditions as may be prescribed, (i) of real estate whose improvements, by virtue of age and use, have undergone substantial renovation, rehabilitation or replacement or (ii) of real estate with new structures and improvements in conservation, redevelopment, or rehabilitation areas.</li><li>(i) The General Assembly may by general law allow the governing body of any county, city, or town to exempt or partially exempt from taxation any generating equipment installed after December thirty-one, nineteen hundred seventy-four, for the purpose of converting from oil or natural gas to coal or to wood, wood bark, wood residue, or to any other alternate energy source for manufacturing, and any co-generation equipment installed since such date for use in manufacturing.</li><li>(j) The General Assembly may by general law allow the governing body of any county, city, or town to have the option to exempt or partially exempt from taxation any business, occupational or professional license or any merchants' capital, or both.</li><li>(k) The General Assembly may by general law authorize the governing body of any county, city, or town to provide for a partial exemption from local real property taxation, within such restrictions and upon such conditions as may be prescribed, of improved real estate subject to recurrent flooding upon which flooding abatement, mitigation, or resiliency efforts have been undertaken.</li></li></ul><p class="amendment"> The amendment ratified November 2, 1976 and effective January 1, 1977—After (a)(6), added subdivision "(7) Land subject to a perpetual easement . . .". In subsection (b), after "sixty-five years of age", added the language "or persons permanently and totally disabled as established by general law". In subsection (d), after "Commonwealth", added the language "or for the purpose of transferring or storing solar energy". In subsection (e), after "personal effects", added the language "and tangible farm property and products".</p><p class="amendment"> The amendment ratified November 7, 1978 and effective January 1, 1979—Added a new subsection (h).</p><p class="amendment"> The amendment ratified November 4, 1980 and effective January 1, 1981—In subsection (b), substituted "exemption from local property taxation" for "exemption from local real property taxation". After "of real estate", added "and personal property designed for continuous habitation". Substituted "property" for "real estate" near the end of subsection (b).</p><p class="amendment"> The amendment ratified November 4, 1980 and effective January 1, 1981—Added a new subsection (i).</p><p class="amendment"> The amendment ratified November 3, 1998 and effective January 1, 1999—Added a new subsection (j).</p><p class="amendment"> The amendment ratified November 5, 2002 and effective January 1, 2003—In paragraph (6), after "designation by", deleted "a three-fourths vote of the members elected to each house of the General Assembly" and added "an ordinance adopted by the local governing body". After "conditions as" deleted "may be prescribed" and added "provided by general law".</p><p class="amendment"> The amendment ratified November 7, 2006, and effective January 1, 2007—In subsection (h), added "(i)" after "prescribed" and "or (ii) of real estate with new structures and improvements in conservation, redevelopment, or rehabilitation areas" after "replacement" at the end of the paragraph.</p><p class="amendment"> The amendment ratified November 2, 2010, and effective January 1, 2011-In subsection (b), after "established by general law", deleted "who are deemed by the General Assembly to be bearing an extraordinary tax burden on said property in relation to their income and financial worth" and added "A local governing body may be authorized to establish either income or financial worth limitations, or both, in order to qualify for such relief." at the end of the paragraph.</p><p class="amendment"> The amendment ratified November 6, 2018, and effective January 1, 2019—Added a new subsection (k).</p><p class="amendment"> The amendment ratified November 3, 2020, and effective January 1, 2021—After (a)(7), added subdivision "(8) One motor vehicle owned and used . . .".</p><h5>Section 6-A. Property tax exemption; certain veterans and their surviving spouses; surviving spouses of soldiers who died in the line of duty.</h5><p class="section-text">(a) Notwithstanding the provisions of Section 6, the General Assembly by general law, and within the restrictions and conditions prescribed therein, shall exempt from taxation the real property, including the joint real property of husband and wife, of any veteran who has been determined by the United States Department of Veterans Affairs or its successor agency pursuant to federal law to have a one hundred percent service-connected, permanent, and total disability, and who occupies the real property as his or her principal place of residence. The General Assembly shall also provide this exemption from taxation for real property owned by the surviving spouse of a veteran who was eligible for the exemption provided in this subdivision, so long as the surviving spouse does not remarry. This exemption applies to the surviving spouse's principal place of residence without any restriction on the spouse's moving to a different principal place of residence.</p><p class="section-text">(b) Notwithstanding the provisions of Section 6, the General Assembly by general law, and within the restrictions and conditions prescribed therein, may exempt from taxation the real property of the surviving spouse of any member of the armed forces of the United States who died in the line of duty with a Line of Duty determination from the United States Department of Defense, who occupies the real property as his or her principal place of residence. The exemption under this subdivision shall cease if the surviving spouse remarries and shall not be claimed thereafter. This exemption applies regardless of whether the spouse was determined to have died in the line of duty prior to the effective date of this subdivision, but the exemption shall not be applicable for any period of time prior to the effective date. This exemption applies to the surviving spouse's principal place of residence without any restriction on the spouse's moving to a different principal place of residence and without any requirement that the spouse reside in the Commonwealth at the time of death of the member of the armed forces.</p><p class="amendment">The amendment ratified November 2, 2010, and effective January 1, 2011-Added a new section (6-A).</p><p class="amendment">The amendment ratified November 4, 2014, and effective January 1, 2015-In the heading of the section added "and surviving spouses of soldiers killed in action"; inserted the designation "(a)" at the beginning, and substituted "in this subdivision" for "in this section" in the last sentence of the paragraph; and added a new paragraph (b).</p><p class="amendment">The amendment ratified November 6, 2018, and effective January 1, 2019—In the heading of the section added "and their surviving spouses" after "veterans"; deleted "and continues to occupy the real property as his or her principal place of residence" and added "This exemption applies to the surviving spouse's principal place of residence without any restriction on the spouse's moving to a different principal place of residence" at the end of subsection (a).</p><p class="amendment">The amendment ratified November 5, 2024, and effective January 1, 2025—In subsection (b), changed "was killed in action as determined by" to "died in the line of duty with a Line of Duty determination from" in the first sentence and changed "killed in action" to "determined to have died in the line of duty" in the third sentence.</p><h5>Section 6-B. Property tax exemptions for spouses of certain emergency services providers.</h5><p class="section-text">Notwithstanding the provisions of Section 6, the General Assembly by general law, and within the restrictions and conditions prescribed therein, may provide for a local option to exempt from taxation the real property of the surviving spouse of any law-enforcement officer, firefighter, search and rescue personnel, or emergency medical services personnel who was killed in the line of duty, who occupies the real property as his or her principal place of residence. The exemption under this section shall cease if the surviving spouse remarries and shall not be claimed thereafter. This exemption applies regardless of whether the spouse was killed in the line of duty prior to the effective date of this section, but the exemption shall not be applicable for any period of time prior to the effective date. This exemption applies to the surviving spouse's principal place of residence without any restriction on the spouse's moving to a different principal place of residence and without any requirement that the spouse reside in the Commonwealth at the time of death of the law-enforcement officer, firefighter, search and rescue personnel, or emergency medical services personnel.</p><p class='amendment'>The amendment ratified November 8, 2016, and effective January 1, 2017—Added a new section (6-B). </p><h5>Section 7. Collection and disposition of State revenues.</h5><p class="section-text">All taxes, licenses, and other revenues of the Commonwealth shall be collected by its proper officers and paid into the State treasury. No money shall be paid out of the State treasury except in pursuance of appropriations made by law; and no such appropriation shall be made which is payable more than two years and six months after the end of the session of the General Assembly at which the law is enacted authorizing the same.</p>
+      <p class="section-text">Other than as may be provided for in the debt provisions of this Constitution, the Governor, subject to such criteria as may be established by the General Assembly, shall ensure that no expenses of the Commonwealth be incurred which exceed total revenues on hand and anticipated during a period not to exceed the two years and six months period established by this section of the Constitution.</p>
+      <p class="amendment">The amendment ratified November 6, 1984 and effective July 1, 1986—Added the second paragraph.</p><h5>Section 7-A. Lottery Proceeds Fund; distribution of lottery revenues.</h5><p class="section-text">The General Assembly shall establish the Lottery Proceeds Fund. The Fund shall consist of the net revenues of any lottery conducted by the Commonwealth. Lottery proceeds shall be appropriated from the Fund to the Commonwealth's counties, cities and towns, and the school divisions thereof, to be expended for the purposes of public education.</p>
+      <p class="section-text">Any county, city, or town which accepts a distribution from the Fund shall provide its portion of the cost of maintaining an educational program meeting the standards of quality prescribed pursuant to Section 2 of Article VIII of this Constitution without the use of distributions from the Fund.</p>
+      <p class="section-text">The General Assembly shall enact such laws as may be necessary to implement the Fund and the provisions of this section.</p>
+      <p class="section-text">The General Assembly may appropriate amounts from the Fund for other purposes only by a vote of four-fifths of the members voting in each house, the name of each member voting and how he voted to be recorded in the journal of the house.</p>
+      <p class="amendment">The amendment ratified November 7, 2000 and effective July 1, 2001—Added a new section (7-A).</p><h5>Section 8. Limit of tax or revenue; Revenue Stabilization Fund.</h5><p class="section-text">No other or greater amount of tax or revenues shall, at any time, be levied than may be required for the necessary expenses of the government, or to pay the indebtedness of the Commonwealth.</p>
+      <p class="section-text">The General Assembly shall establish the Revenue Stabilization Fund. The Fund shall consist of an amount not to exceed fifteen percent of the Commonwealth's average annual tax revenues derived from taxes on income and retail sales as certified by the Auditor of Public Accounts for the three fiscal years immediately preceding. The Auditor of Public Accounts shall compute the fifteen percent limitation of such fund annually and report to the General Assembly not later than the first day of December. "Certified tax revenues" means the Commonwealth's annual tax revenues derived from taxes on income and retail sales as certified by the Auditor of Public Accounts.</p>
+      <p class="section-text">The General Assembly shall make deposits to the Fund to equal at least fifty percent of the product of the certified tax revenues collected in the most recently ended fiscal year times the difference between the annual percentage increase in the certified tax revenues collected for the most recently ended fiscal year and the average annual percentage increase in the certified tax revenues collected in the six fiscal years immediately preceding the most recently ended fiscal year. However, growth in certified tax revenues, which is the result of either increases in tax rates on income or retail sales or the repeal of exemptions therefrom, may be excluded, in whole or in part, from the computation immediately preceding for a period of time not to exceed six calendar years from the calendar year in which such tax rate increase or exemption repeal was effective. Additional appropriations may be made at any time so long as the fifteen percent limitation established herein is not exceeded. All interest earned on the Fund shall be part thereof; however, if the Fund's balance exceeds the limitation, the amount in excess of the limitation shall be paid into the general fund after appropriation by the General Assembly.</p>
+      <p class="section-text">The General Assembly may appropriate an amount for transfer from the Fund to compensate for no more than one-half of the difference between the total general fund revenues appropriated and a revised general fund revenue forecast presented to the General Assembly prior to or during a subsequent regular or special legislative session. However, no transfer shall be made unless the general fund revenues appropriated exceed such revised general fund revenue forecast by more than two percent of certified tax revenues collected in the most recently ended fiscal year. Furthermore, no appropriation or transfer from such fund in any fiscal year shall exceed more than one-half of the balance of the Revenue Stabilization Fund. The General Assembly may enact such laws as may be necessary and appropriate to implement the Fund.</p>
+      <p class="amendment">The amendment ratified November 3, 1992 and effective January 1, 1993—Added the second, third, and fourth paragraphs.</p>
+      <p class="amendment">The amendment ratified November 2, 2010, and effective January 1, 2011-In the heading of the section, after "revenue", added "; Revenue Stabilization Fund". In paragraph two, deleted "ten" and added "fifteen" after "exceed" and after "compute the". In paragraph three, after "as the", deleted "ten" and added "fifteen" in the third sentence.</p><h5>Section 9. State debt.</h5><p class="section-text">No debt shall be contracted by or in behalf of the Commonwealth except as provided herein.</p><p class="section-text">(a) Debts to meet emergencies and redeem previous debt obligations. </p> <p class="section-text">The General Assembly may (1) contract debts to suppress insurrection, repel invasion, or defend the Commonwealth in time of war; (2) contract debts, or may authorize the Governor to contract debts, to meet casual deficits in the revenue or in anticipation of the collection of revenues of the Commonwealth for the then current fiscal year within the amount of authorized appropriations, provided that the total of such indebtedness shall not exceed thirty per centum of an amount equal to 1.15 times the average annual tax revenues of the Commonwealth derived from taxes on income and retail sales, as certified by the Auditor of Public Accounts, for the preceding fiscal year and that each such debt shall mature within twelve months from the date such debt is incurred; and (3) contract debts to redeem a previous debt obligation of the Commonwealth.</p> <p class="section-text">The full faith and credit of the Commonwealth shall be pledged to any debt created under this subsection. The amount of such debt shall not be included in the limitations on debt hereinafter established, except that the amount of debt incurred pursuant to clause (3) above shall be included in determining the limitation on the aggregate amount of general obligation debt for capital projects permitted elsewhere in this article unless the debt so incurred pursuant to clause (3) above is secured by a pledge of net revenues from capital projects of institutions or agencies administered solely by the executive department of the Commonwealth or of institutions of higher learning of the Commonwealth, which net revenues the Governor shall certify are anticipated to be sufficient to pay the principal of and interest on such debt and to provide such reserves as the law authorizing the same may require, in which event the amount thereof shall be included in determining the limitation on the aggregate amount of debt contained in the provision of this article which authorizes general obligation debt for certain revenue-producing capital projects.</p> <p class="section-text">(b) General obligation debt for capital projects and sinking fund.</p> <p class="section-text">The General Assembly may, upon the affirmative vote of a majority of the members elected to each house, authorize the creation of debt to which the full faith and credit of the Commonwealth is pledged, for capital projects to be distinctly specified in the law authorizing the same; provided that any such law shall specify capital projects constituting a single purpose and shall not take effect until it shall have been submitted to the people at an election and a majority of those voting on the question shall have approved such debt. No such debt shall be authorized by the General Assembly if the amount thereof when added to amounts approved by the people or authorized by the General Assembly and not yet submitted to the people for approval, under this subsection during the three fiscal years immediately preceding the authorization by the General Assembly of such debt and the fiscal year in which such debt is authorized shall exceed twenty-five per centum of an amount equal to 1.15 times the average annual tax revenues of the Commonwealth derived from taxes on income and retail sales, as certified by the Auditor of Public Accounts, for the three fiscal years immediately preceding the authorization of such debt by the General Assembly.</p> <p class="section-text">No debt shall be incurred under this subsection if the amount thereof when added to the aggregate amount of all outstanding debt to which the full faith and credit of the Commonwealth is pledged other than that excluded from this limitation by the provisions of this article authorizing the contracting of debts to redeem a previous debt obligation of the Commonwealth and for certain revenue-producing capital projects, less any amounts set aside in sinking funds for the repayment of such outstanding debt, shall exceed an amount equal to 1.15 times the average annual tax revenues of the Commonwealth derived from taxes on income and retail sales, as certified by the Auditor of Public Accounts, for the three fiscal years immediately preceding the incurring of such debt.</p> <p class="section-text">All debt incurred under this subsection shall mature within a period not to exceed the estimated useful life of the projects as stated in the authorizing law, which statement shall be conclusive, or a period of thirty years, whichever is shorter; and all debt incurred to redeem a previous debt obligation of the Commonwealth, except that which is secured by net revenues anticipated to be sufficient to pay the same and provide reserves therefor, shall mature within a period not to exceed thirty years. Such debt shall be amortized, by payment into a sinking fund or otherwise, in annual installments of principal to begin not later than one-tenth of the term of the bonds, and any such sinking fund shall not be appropriated for any other purpose; if such debt be for public road purposes, such payment shall be first made from revenues segregated by law for the construction and maintenance of State highways. No such installment shall exceed the smallest previous installment by more than one hundred per centum. If sufficient funds are not appropriated in the budget for any fiscal year for the timely payment of the interest upon and installments of principal of such debt, there shall be set apart by direction of the Governor, from the first general fund revenues received during such fiscal year and thereafter, a sum sufficient to pay such interest and installments of principal.</p> <p class="section-text">(c) Debt for certain revenue-producing capital projects.</p> <ul class="section-outline"> <li>The General Assembly may authorize the creation of debt secured by a pledge of net revenues derived from rates, fees, or other charges and the full faith and credit of the Commonwealth, and such debt shall not be included in determining the limitation on general obligation debt for capital projects as permitted elsewhere in this article, provided that</li> <ul class="section-outline-child"> <li>(1) the creation of such debt is authorized by the affirmative vote of two-thirds of the members elected to each house of the General Assembly; and</li> <li>(2) such debt is created for specific revenue-producing capital projects (including the enlargement or improvement thereof), which shall be distinctly specified in the law authorizing the same, of institutions and agencies administered solely by the executive department of the Commonwealth or of institutions of higher learning of the Commonwealth.</li> </ul> </ul> <p class="section-text">Before any such debt shall be authorized by the General Assembly, and again before it shall be incurred, the Governor shall certify in writing, filed with the Auditor of Public Accounts, his opinion, based upon responsible engineering and economic estimates, that the anticipated net revenues to be pledged to the payment of principal of and interest on such debt will be sufficient to meet such payments as the same become due and to provide such reserves as the law authorizing such debt may require, and that the projects otherwise comply with the requirements of this subsection, which certifications shall be conclusive.</p> <p class="section-text">No debt shall be incurred under this subsection if the amount thereof when added to the aggregate amount of all outstanding debt authorized by this subsection and the amount of all outstanding debt incurred to redeem a previous debt obligation of the Commonwealth which is to be included in the limitation of this subsection by virtue of the provisions of this article authorizing the contracting of debts to redeem a previous debt obligation of the Commonwealth, less any amounts set aside in sinking funds for the payment of such debt, shall exceed an amount equal to 1.15 times the average annual tax revenues of the Commonwealth derived from taxes on income and retail sales, as certified by the Auditor of Public Accounts, for the three fiscal years immediately preceding the incurring of such debt.</p> <p class="section-text">This subsection shall not be construed to pledge the full faith and credit of the Commonwealth to the payment of any obligation of the Commonwealth, or any institution, agency, or authority thereof, or to any refinancing or reissuance of such obligation which was incurred prior to the effective date of this subsection.</p> <p class="section-text">(d) Obligations to which section not applicable. The restrictions of this section shall not apply to any obligation incurred by the Commonwealth or any institution, agency, or authority thereof if the full faith and credit of the Commonwealth is not pledged or committed to the payment of such obligation. </p><h5>Section 10. Lending of credit, stock subscriptions, and works of internal improvement.</h5><p class="section-text">Neither the credit of the Commonwealth nor of any county, city, town, or regional government shall be directly or indirectly, under any device or pretense whatsoever, granted to or in aid of any person, association, or corporation; nor shall the Commonwealth or any such unit of government subscribe to or become interested in the stock or obligations of any company, association, or corporation for the purpose of aiding in the construction or maintenance of its work; nor shall the Commonwealth become a party to or become interested in any work of internal improvement, except public roads and public parks, or engage in carrying on any such work; nor shall the Commonwealth assume any indebtedness of any county, city, town, or regional government, nor lend its credit to the same. This section shall not be construed to prohibit the General Assembly from establishing an authority with power to insure and guarantee loans to finance industrial development and industrial expansion and from making appropriations to such authority.</p><h5>Section 11. Governmental employees retirement system.</h5><p class="section-text">The General Assembly shall maintain a retirement system for state employees and employees of participating political subdivisions and school divisions. The funds of the retirement system shall be deemed separate and independent trust funds, shall be segregated from all other funds of the Commonwealth, and shall be invested and administered solely in the interests of the members and beneficiaries thereof. Neither the General Assembly nor any public officer, employee, or agency shall use or authorize the use of such trust funds for any purpose other than as provided in law for benefits, refunds, and administrative expenses, including but not limited to legislative oversight of the retirement system. Such trust funds shall be invested as authorized by law. Retirement system benefits shall be funded using methods which are consistent with generally accepted actuarial principles. The retirement system shall be subject to restrictions, terms, and conditions as may be prescribed by the General Assembly.</p>
+      <p class="amendment">The amendment ratified November 5, 1996 and effective January 1, 1997—In the heading of the section, substituted "employees" for "employee" and deleted "fund" after "retirement system".
+        In the text, substituted "retirement system for state employees and employees of participating political subdivisions and school divisions" for "state employees retirement system to be administered in the best interest of the beneficiaries thereof and subject to such restrictions or conditions as may be prescribed by the General Assembly" and added the remainder of the paragraph.</p></section></span>
+                    <!--googleoff: index-->
+                </article>
+                <nav class="content-footer-menu"><ul><li><a title='Article IX. Corporations' href='/constitutionexpand/article9/''><i class='fa fa-long-arrow-left'></i></a> Article <a title='Article XI. Conservation' href='/constitutionexpand/article11/''><i class='fa fa-long-arrow-right'></i></a></li></ul></nav>
+            </div>
+            <div class="slot-9">
+                <nav id="section-menu">
+                    <ul class="section-header-menu">
+                        <li>
+                            <h3><a href="/vacode">Code of Virginia</a></h3>
+                        </li>
+                        <li>
+                            <h3><a href="/admincode">Administrative Code</a></h3>
+                        </li>
+                        <li class="selected" aria-label="Currently selected page">
+                            <h3><a href="/constitution">Constitution of Virginia</a></h3>
+                        </li>
+                        <li>
+                            <h3><a href="/charters">Charters</a></h3>
+                        </li>
+                        <li>
+                            <h3><a href="/authorities">Authorities</a></h3>
+                        </li>
+                        <li>
+                            <h3><a href="/compacts">Compacts</a></h3>
+                        </li>
+                        <li>
+                            <h3><a href="/uncodifiedacts">Uncodified Acts</a></h3>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- / .grid -->
+    <script src="/Scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="/Scripts/responsive.js" type="text/javascript"></script>
+    <script src="/Scripts/modernizer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/jquery.fancybox.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/fancybox/jquery.easing-1.3.pack.js" type="text/javascript"></script>
+    <script src="/Scripts/fancybox/jquery.mousewheel-3.0.4.pack.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.floatThead.min.js" type="text/javascript"></script>
+    <script src="/Scripts/printThis.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/Scripts/search.js" type="text/javascript"></script>
+    <script src="/Scripts/isFontFaceSupported.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery.qtip.js" type="text/javascript"></script>
+    
+    <script src="/Scripts/feedback.js" type="text/javascript"></script>
+    <!--[if lt IE 10 ]><script src="~/Scripts/placeHolder.js" type="text/javascript"></script><![endif]-->
+    
+    <link rel="stylesheet" href="/Content/msgBoxLight.css" />
+    <script src="/Scripts/jquery.msgBox.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/tinymce/tinymce.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/Scripts/edit.js" type="text/javascript"></script>
+    <script src="/Scripts/constitutionInit.js" type="text/javascript"></script>
+    
+    <script src="/Scripts/pdf.js" type="text/javascript"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="~/Scripts/html5shiv.js"></script>
+    <script src="~/Scripts/respond.js"></script>
+    <![endif]-->
+
+
+    <script type="text/javascript">
+		    $('document').ready(function () {
+		        $('#print').click(function () {
+		            $(".content").printThis();
+		            return (false);
+		        });
+
+		        var val = parseInt($.browser.version);
+		        if ($.browser.msie || (val > 7 && val <= 11)) {
+		            //stuff here (like adding an IE10 class to the body or html tag
+		            $(".input-sm").css("margin-top", "1px");
+		        }
+
+		        $('a.fancybox').fancybox({
+		            type: "iframe",
+		            'width': 650,
+		            'height': 520
+		        });
+
+		        $("a.single_image").fancybox({
+		            type: "iframe",
+		            'width': 650,
+		            'height': 720
+		        });
+
+		        $('.fancybox').attr('href', "/emailForm?parent=constitutionexpand/" + $('#hidSegments').val());
+
+		        $('.bip a').fancybox({
+		            type: "iframe",
+		            'width': 650,
+		            'height': 701,
+		            'autoDimensions': false,
+		            'autoSize': false,
+		            afterClose: function (e, ui) {
+		                //parent.document.getElementById("hidBiP").value = "false";
+		                parent.$("#hidBiP").val("false");
+		            }
+		        });
+
+		        var _hidVal = $('#hidBiP').val();
+		        if (_hidVal == 'true') {
+		            $('.bip a').click();
+		        }
+
+		        if (isFontFaceSupported() == false) {
+		            $('.fa').iconfontFallback();
+		        }
+
+		        $('p.bip a').qtip({
+		            content: 'Bills currently before the General Assembly',
+		            style: {
+		                textAlign: 'center',
+		                tip: true,
+		                classes: 'qtip-rounded qtip-shadow',
+		            },
+		            position: {
+		                my: 'top center',
+		                at: 'bottom center'
+		            }
+		        });
+		    });
+
+		    function PrintPreview() {
+		        printWindow = window.open("", "", "location=1,status=1,scrollbars=1,width=650,height=600");
+		        printWindow.document.write('<!DOCTYPE html><html><head>');
+		        printWindow.document.write('<style type="text/css">@media print{.no-print, .no-print *{display: none !important;}h6{display:none !important;}#printPages{display:none !important;}}#printDate {display:none !important;}</style>');
+		        printWindow.document.write('<style type="text/css">#printHeader{display:block;font-size:1em;line-height:1.3em;text-align:left;margin-bottom:.8em;}</style>');
+
+		        printWindow.document.write('<style type="text/css">body{color:#444;font-family:"PT Serif",Georgia,serif;line-height:1.3em;font-size: .95em;}h2{margin:0 0 .1em 0;font-weight:normal;line-height:1.2em;font-size:1.4em;letter-spacing:.01em;padding:0 .35em 0 0.25em;}');
+		        printWindow.document.write('.hdr-read-text,.read-text,.rptCheckbox{display:none;}ul .outline{margin-bottom:1em;}ul{list-style:none;}.outline ul{margin-left:1em;}a, a:link{color:#1a73ae;text-decoration:none;}');
+		        printWindow.document.write('b{margin:0;padding:0;border:0;font-size:100%;vertical-align:baseline;}.number-descrip-list{line-height:1.55em;margin-bottom:1em;height:auto;}');
+		        printWindow.document.write('.number-descrip-list dt {clear: left;float: left;display: table-cell;font-weight: bold;width: 6.75em;}.number-descrip-list dd {padding-bottom: .125em;display: table-cell;}');
+		        printWindow.document.write('.number-descrip-list-outline{margin-left:1em;line-height:1.55em;}.number-descrip-list-outline dt{width:7em;font-weight:bold;}');
+		        printWindow.document.write('.number-descrip-list-outline dd{display:table-cell;padding-bottom:0;}</style>');
+
+		        printWindow.document.write('<style type="text/css">h6 {font-family: "Lato", Helvetica, Arial, sans-serif;font-size: 14px;border-bottom: 1px solid #ddd;padding-bottom: 15px;}');
+		        printWindow.document.write('table{border-collapse: collapse;border-spacing: 0;margin-bottom: 15px;}.printButtons {width: 100%;text-align: right;position: absolute;right: 10px;top: 28px;}</style>');
+		        printWindow.document.write('<style>#printPages{position:absolute;left: 120px;top: 30px;}.hiddenTable {display: none !important;}</style>');
+
+		        printWindow.document.write('</head><body>');
+		        printWindow.document.write('<h6>Print Preview</h6><span id="printPages"></span>')
+		        printWindow.document.write('<div class="printButtons">');
+
+		        //Print and cancel button
+		        printWindow.document.write('<input type="button" id="btnPrint" value="Print" class="no-print" onclick="window.print();window.onfocus=function(){window.close();}" />');
+		        printWindow.document.write('<input type="button" id="btnCancel" value="Cancel" class="no-print" onclick="window.close()" />');
+
+		        printWindow.document.write('</div>');
+
+		        //You can include any data this way.
+		        var _page = '<div id="va_constitution" class="va_code">' + $('#printStuff').html() + $('#va_constitution').html() + '</div>';
+		        printWindow.document.write(_page);
+		        printWindow.document.write('<scr' + 'ipt type="text/javascript">var divHeight;var obj = document.getElementById("va_code");if(obj.offsetHeight){divHeight=obj.offsetHeight;}else if(obj.style.pixelHeight){divHeight=obj.style.pixelHeight;}document.getElementById("printPages").innerHTML="Approximate Number of Pages: " + Math.ceil(divHeight / 850);</sc' + 'ript>');
+		        printWindow.document.write('</body></html>');
+		        printWindow.document.close();
+		        printWindow.focus();
+		    }
+    </script>
+</body>
+        </div>
+        
+        
+        <div class="footer">
+            <nav class="footer-links" style="line-height: 1.4;">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div aria-hidden="true" id='generic_login_div' style="display:none;z-index:9999;padding:10px;" class="corners dropshadow">
+                            <h3>Sign In</h3>
+                            <div class='form-row'>
+                                <label id='lblusername' for='username'>Username:&nbsp; </label>
+                                <input type='text' class="user" name='username' placeholder="Username" id='username' />
+                                <label id="userError"></label>
+                            </div>
+                            <div class='form-row'>
+                                <label id='lblpassword' for='password'>Password:&nbsp; </label>
+                                <input type='password' class="pass" name='password' placeholder="Password" id='password' />
+                                <label id="passError"></label>
+                            </div>
+                            <div class='submit-row'>
+                                <input type='button' id="btnLogin" class="button" value='Login' />
+                                <a onclick='hideLogin()' class="hover">Cancel</a>
+                            </div>
+                        </div>
+                        <div id="dialog-modal" style="display:none;"></div>
+                        <span class="col-xs-12 text-center">
+                            <ul>
+                                <li><a href="https://lis.virginia.gov">LIS Home</a></li>
+                                <li><a id="aLIAB" href="https://lis.virginia.gov/register-account">Lobbyist-in-a-Box</a></li>
+                                <li><a href="https://lis.virginia.gov/privacy">Privacy Policy</a></li>
+                                
+                            </ul>
+                            <p>
+                                © Copyright Commonwealth of Virginia,
+                                <script>document.write(new Date().getFullYear())</script>. All rights reserved. Site developed by the <a href="http://dlas.virginia.gov">Division of Legislative Automated Systems (DLAS)</a>.
+                                <a aria-hidden="true" href="" id="signin" onclick="showLogin();return false;">Sign In</a>
+                                
+                            </p>
+                        </span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+</body>
+</html>
+
+<!--[if lt IE 10 ]><script async src="<%: FriendlyUrl.Href("~/Scripts/placeHolder.js" type="text/javascript"></script><![endif]-->
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+<script src="~/Scripts/html5shiv.js"></script>
+<script src="~/Scripts/respond.js"></script>
+<![endif]-->
+
+<script src="/Scripts/SwitchMode.js" type="text/javascript"></script>

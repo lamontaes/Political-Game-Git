@@ -1,3 +1,7 @@
+import {
+  scheduleFutureDueItem,
+  createFutureTransitionHandlerRegistry,
+} from "../future-transitions";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import {
   introduceMeasure,
@@ -50,13 +54,15 @@ import {
   enterLifePath,
   scheduleLifePathSession,
   performLifePathSession,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
 } from "../life-paths2";
 import { FEDERAL_INCOME_TAX_KEY } from "../statutory-tax";
 import { FEDERAL_EMPLOYMENT_RULES } from "../statutory-tax-rules";
 import { describe, expect, it, vi } from "vitest";
 import * as federalTreasury from "./federal-treasury";
 import { makeIsoDate } from "../dates";
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { createWorld, advanceWorld } from "../world";
 import { stateJurisdictionForKey } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
@@ -71,11 +77,19 @@ import {
 import { publicOrganizationKey } from "../tax-policy";
 import { resourcePositionAt } from "../resource-queries";
 import { serializeWorld, deserializeWorld } from "../serialization";
-import { withOpenedBudgets, settlePublicBudgets } from "./index";
+import {
+  withOpenedBudgets,
+  ensurePublicBudgets,
+  settlePublicBudgets,
+  publicBudgetsHandler,
+  PUBLIC_BUDGETS_TRANSITION_KEY,
+} from "./index";
 import { readMonthFlows, settleGovernmentMonth } from "./month";
 import {
   FEDERAL_RECEIPTS,
   FEDERAL_OUTLAYS,
+  FEDERAL_INTEREST_RATE,
+  FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
   openFederalTreasury,
   settleFederalTreasuryMonth,
 } from "./federal-treasury";
@@ -110,6 +124,136 @@ function account(world: World, stableKey: string, openingMinor = 10000) {
 }
 
 describe("M5 federal government uses the same saved-payment settler", () => {
+  it("opens no federal forecast books and exactly 56 estimated state, district and territory cash accounts", () => {
+    const world = createWorld({
+      seed: "a47:single-federal-opening",
+      currentDate: date,
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION],
+      people: [],
+    });
+    const empty: PublicBudgetStore = {
+      version: PUBLIC_BUDGETS_VERSION,
+      cursor: { flows: 0, outcomes: 0 },
+      governments: [],
+      adjustments: [],
+      unknown: [],
+    };
+    const before = serializeWorld(world);
+    const opened = withOpenedBudgets(world, empty, date);
+    const currentOpening = ensurePublicBudgets(
+      ensureWorldStartingConditions(world, {
+        openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      }),
+    );
+    expect(currentOpening.publicBudgets).toBeDefined();
+    expect(currentOpening.publicBudgets).not.toHaveProperty("federal");
+    expect(currentOpening.publicBudgets!.federalGovernment).toEqual(
+      opened.federalGovernment,
+    );
+    const governments = currentOpening.publicBudgets!.governments.filter(
+      (government) => government.level === "state",
+    );
+    expect(governments).toHaveLength(56);
+    const accountIds = governments.map((government) => {
+      const saved = publicTaxAccountForJurisdiction(
+        currentOpening,
+        government.jurisdictionId,
+      );
+      expect(saved, government.key).not.toBeNull();
+      const positions = currentOpening.history.resourcePositions.filter(
+        (position) =>
+          position.owner.kind === "organization" &&
+          position.owner.organizationId === saved!.organizationId &&
+          position.openingBalance.currency === "USD",
+      );
+      expect(positions, government.key).toHaveLength(1);
+      expect(positions[0]!.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining("ESTIMATED"),
+      });
+      return saved!.organizationId;
+    });
+    expect(new Set(accountIds).size).toBe(56);
+    expect(currentOpening.history.resourcePositions).toHaveLength(57);
+    const federalAccount = publicTaxAccountForJurisdiction(
+      currentOpening,
+      NATIONAL_ELECTION_JURISDICTION.id,
+    );
+    expect(federalAccount).not.toBeNull();
+    expect(
+      currentOpening.history.resourcePositions.filter(
+        (position) =>
+          position.owner.kind === "organization" &&
+          position.owner.organizationId === federalAccount!.organizationId,
+      ),
+    ).toHaveLength(1);
+    expect(currentOpening.history.resourceTransferOutcomes).toEqual(
+      world.history.resourceTransferOutcomes,
+    );
+    expect(opened).not.toHaveProperty("federal");
+    expect(opened.federalGovernment).toMatchObject({
+      balance: null,
+      debt: FEDERAL_OPENING_DEBT_HELD_BY_PUBLIC,
+      interestRate: FEDERAL_INTEREST_RATE,
+      months: [],
+    });
+    expect(serializeWorld(world)).toBe(before);
+    const saved = deserializeWorld(
+      serializeWorld({ ...world, publicBudgets: opened }),
+    );
+    expect(withOpenedBudgets(saved, saved.publicBudgets!, date)).toEqual(
+      opened,
+    );
+    const settled = settlePublicBudgets(saved, month);
+    expect(settled.publicBudgets).not.toHaveProperty("federal");
+    expect(settled.publicBudgets!.federalGovernment).toEqual(
+      opened.federalGovernment,
+    );
+    expect(settled.history.resourcePositions).toEqual(
+      saved.history.resourcePositions,
+    );
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      saved.history.resourceTransferOutcomes,
+    );
+  });
+  it("keeps legacy forecast bytes frozen when no federal cash account exists", () => {
+    const world = createWorld({
+      seed: "a47:missing-federal-cash",
+      currentDate: date,
+      jurisdictions: [NATIONAL_ELECTION_JURISDICTION],
+      people: [],
+    });
+    const store = withOpenedBudgets(
+      world,
+      {
+        version: PUBLIC_BUDGETS_VERSION,
+        cursor: { flows: 0, outcomes: 0 },
+        governments: [],
+        adjustments: [],
+        unknown: [],
+        federal: openFederalTreasury(date),
+      },
+      month,
+    );
+    const source = { ...world, publicBudgets: store };
+    const before = serializeWorld(source);
+    const settled = settlePublicBudgets(source, month);
+    expect(settled.publicBudgets!.federal).toEqual(store.federal);
+    expect(settled.publicBudgets!.federalGovernment!.months).toEqual([]);
+    expect(settled.publicBudgets!.federalGovernment!.balance).toBeNull();
+    expect(settled.history.resourceTransferOutcomes).toEqual(
+      source.history.resourceTransferOutcomes,
+    );
+    expect(settled.history.resourcePositions).toEqual(
+      source.history.resourcePositions,
+    );
+    expect(serializeWorld(source)).toBe(before);
+    const loaded = deserializeWorld(serializeWorld(settled));
+    const repeated = settlePublicBudgets(loaded, month);
+    expect(repeated.publicBudgets).toEqual(settled.publicBudgets);
+    expect(serializeWorld(repeated)).toBe(serializeWorld(loaded));
+  });
+
   it("retains an actual partial outlay when its mapped category is unregistered", () => {
     const nation = NATIONAL_ELECTION_JURISDICTION;
     let world = createWorld({
@@ -512,7 +656,7 @@ describe("M5 federal government uses the same saved-payment settler", () => {
       scheduled.world.history.scheduledActivities.at(-1)!.id,
     );
     expect(performed.ok, performed.message).toBe(true);
-    const world = advanceWorld(performed.world, 1, LIFE_PATHS2_HANDLERS);
+    const world = advanceWorld(performed.world, 1, lifePaths2Handlers());
     const month = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
     const store = withOpenedBudgets(
       world,
@@ -666,6 +810,24 @@ describe("M5 federal government uses the same saved-payment settler", () => {
         note: "Explicit partial cash fixture.",
         provenance: { kind: "authored", note: "Saved actual payment." },
       });
+      const clockStart = scheduleFutureDueItem(
+        { ...world, publicBudgets: store },
+        {
+          stableKey: "a47:budget-due",
+          dueAt: makeIsoDate("2026-03-01"),
+          transitionKey: PUBLIC_BUDGETS_TRANSITION_KEY,
+          entityIds: [world.id],
+          jurisdictionId: null,
+          provenance: {
+            kind: "authored",
+            note: "Explicit monthly budget fixture.",
+          },
+        },
+      );
+      const budgetHandlers = createFutureTransitionHandlerRegistry([
+        [PUBLIC_BUDGETS_TRANSITION_KEY, publicBudgetsHandler],
+      ]);
+      const clock = advanceWorld(clockStart, 1, budgetHandlers);
       world = advanceWorld(world, 1);
       const transfer = world.history.resourceTransferOutcomes.at(-1)!;
       const flow = world.history.resourceFlows.at(-1)!;
@@ -715,20 +877,31 @@ describe("M5 federal government uses the same saved-payment settler", () => {
           money(0, "USD").currency,
         )!.liquidBalance.minorUnits,
       ).toBe(9675);
-      // Integration preserves the old forecast unchanged while the cash path is compared.
-      const expectedLegacy = settleFederalTreasuryMonth(
-        world,
-        store.federal!,
-        month,
-      );
+      // The sole live settler preserves archived forecast bytes without advancing them.
+      const expectedLegacy = store.federal;
       const integrated = settlePublicBudgets(
         { ...world, publicBudgets: store },
         month,
       );
       expect(integrated.publicBudgets!.federal).toEqual(expectedLegacy);
       expect(integrated.publicBudgets!.federalGovernment).toEqual(result);
+      // The clock's saved budget activity uses the same cash result in all 56 places.
+      expect(clock.publicBudgets).toEqual(integrated.publicBudgets);
+      expect(clock.history.resourceTransferOutcomes).toEqual(
+        world.history.resourceTransferOutcomes,
+      );
+      expect(clock.history.futureDueItemStates.at(-1)!.status).toBe("resolved");
+      const continuedClock = advanceWorld(
+        deserializeWorld(serializeWorld(clock)),
+        1,
+        budgetHandlers,
+      );
+      expect(continuedClock.publicBudgets).toEqual(clock.publicBudgets);
+      expect(continuedClock.history.resourceTransferOutcomes).toEqual(
+        clock.history.resourceTransferOutcomes,
+      );
       const repeated = settlePublicBudgets(integrated, month);
-      expect(repeated.publicBudgets!.federal!.months).toHaveLength(1);
+      expect(repeated.publicBudgets!.federal!.months).toHaveLength(0);
       expect(repeated.publicBudgets!.federalGovernment!.months).toHaveLength(1);
       expect(repeated.publicBudgets).toEqual(integrated.publicBudgets);
       // An old save still reads the federal payment before advancing its cursor.

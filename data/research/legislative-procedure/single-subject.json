@@ -53,7 +53,7 @@
     "evidence": "primary-text-read",
     "scope": "appropriation bills only",
     "initiativeRule": null,
-    "note": "Ballotpedia page reproducing the full article text verbatim (official arkleg.state.ar.us PDF link returned a placeholder image). No general one-subject or title rule for ordinary bills in Article 5; sec. 23 bars revival or amendment by reference to title only. Agrees with old summary."
+    "note": "Ballotpedia reproduces the full Article 5 text. Sections 1–42 establish no general one-subject or title rule for ordinary bills; section 23 bars revival or amendment by reference to title only, and section 30 supplies the recorded appropriations-only rule. Agrees with the prior summary."
   },
   {
     "place": "California",
@@ -193,7 +193,7 @@
     "evidence": "primary-text-read",
     "scope": "all acts except codification/revision acts",
     "initiativeRule": null,
-    "note": "Ballotpedia page reproducing the full article text verbatim (iga.in.gov renders by JavaScript). As amended 1960 and 1974, sec. 19 has no title-expression requirement, and no other section of Article 4 requires the subject in the title (sec. 18 requires reading by title only). Old row's quote (from a law journal) matched; its 'title unknown' is now 'no'."
+    "note": "Ballotpedia reproduces the full Article 4 text. As amended in 1960 and 1974, section 19 has no title-expression requirement, and no other section of Article 4 requires the subject in the title (section 18 requires reading by title only). The prior row's law-journal quotation matched; the recorded title-requirement value is now no."
   },
   {
     "place": "Iowa",
@@ -669,7 +669,7 @@
     "evidence": "primary-text-read",
     "scope": "all acts",
     "initiativeRule": null,
-    "note": "Read on the West Virginia Legislature's constitution page (the earlier pass was refused). Text says 'one object'. Old row was 'unknown'; the text resolves it to yes."
+    "note": "Read on the West Virginia Legislature's constitution page. The text says 'one object,' resolving the prior row to the recorded value yes."
   },
   {
     "place": "Wisconsin",
@@ -711,7 +711,7 @@
     "evidence": "primary-text-read",
     "scope": "n/a",
     "initiativeRule": null,
-    "note": "Read all of Part A (The Council) of the District Charter on the D.C. Council's official code site; sec. 412 (1-204.12) governs acts ('Each proposed act shall be read twice ... with at least 13 days intervening') and has no one-subject or title requirement, nor do the other Part A sections. Council rules and the budget-act sections (1-204.46) not searched. Old row was 'unknown'; at the Home Rule Act level the answer is no."
+    "note": "Read all of Part A (The Council) of the District Charter on the D.C. Council's official code site; section 412 (1-204.12) governs acts ('Each proposed act shall be read twice ... with at least 13 days intervening') and has no one-subject or title requirement, nor do the other Part A sections. The recorded no answer is limited to the Home Rule Act level."
   },
   {
     "place": "Puerto Rico",
@@ -739,7 +739,7 @@
     "evidence": "primary-text-read",
     "scope": "n/a",
     "initiativeRule": null,
-    "note": "Read every legislative-branch section of the Organic Act on Cornell LII: 48 U.S.C. 1423 (legislature), 1423a (power: 'all rightful subjects of legislation'), 1423b-1423h, 1423i (approval of bills), 1423j, 1423k. None requires one subject or a title. Guam has no constitution; Guam Code and legislative standing rules were not read for a statutory or rules-based limit. Old row was 'unknown'; at the organic-act level the answer is no."
+    "note": "Read every legislative-branch section of the Organic Act on Cornell LII: 48 U.S.C. 1423 (legislature), 1423a (power: 'all rightful subjects of legislation'), 1423b–1423h, 1423i (approval of bills), 1423j, and 1423k. None requires one subject or a title. Guam has no constitution, so the recorded no answer is limited to the Organic Act level."
   },
   {
     "place": "U.S. Virgin Islands",
@@ -753,7 +753,7 @@
     "evidence": "primary-text-read",
     "scope": "n/a",
     "initiativeRule": null,
-    "note": "Read every legislative-branch section of the Revised Organic Act on Cornell LII: 48 U.S.C. 1571 (legislature), 1572, 1573, 1574 (powers: 'all rightful subjects of legislation'), 1574a, 1574b, 1575 (legislative procedure), 1576. None requires one subject or a title. The Virgin Islands Code and legislative rules were not read. Old row was 'unknown'; at the organic-act level the answer is no."
+    "note": "Read every legislative-branch section of the Revised Organic Act on Cornell LII: 48 U.S.C. 1571 (legislature), 1572, 1573, 1574 (powers: 'all rightful subjects of legislation'), 1574a, 1574b, 1575 (legislative procedure), and 1576. None requires one subject or a title, so the recorded no answer is limited to the Revised Organic Act level."
   },
   {
     "place": "American Samoa",
@@ -767,7 +767,7 @@
     "evidence": "primary-text-read",
     "scope": "all legislative acts",
     "initiativeRule": null,
-    "note": "Ballotpedia page reproducing all 25 sections of Article II (The Legislature) verbatim, with the annotated edition's case notes; asbar.org returned 403. Old row was 'unknown'; the text resolves it to yes."
+    "note": "Ballotpedia reproduces all 25 sections of Article II (The Legislature), including the annotated edition's case notes. Section 16 supplies the recorded yes value and title requirement."
   },
   {
     "place": "Northern Mariana Islands",

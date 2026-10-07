@@ -1,3 +1,13 @@
+import {
+  federalStateProgramProviderClasses,
+  recordedStateProgramProviders,
+} from "../federal-state-program-payments";
+import { finalTermProvisions } from "./final-law-term-query";
+import { measureAnswersAt } from "../vote-bundle";
+import {
+  PASSENGER_RAIL_PROGRAM_KEY,
+  EXPAND_PASSENGER_RAIL_QUESTION,
+} from "../federal-passenger-rail";
 import { addDays } from "../dates";
 import {
   draftLineageComponents,
@@ -6,6 +16,7 @@ import {
 } from "../legislation-draft-lineage";
 import { addYears } from "../legislation-drafting";
 import { currentMeasureProvisions } from "../legislative-politics";
+import { programHasEnded } from "../enacted-program-terms";
 import { operativeDateInWorld } from "./law-in-force";
 import {
   lifePlaceByJurisdictionId,
@@ -13,7 +24,11 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { organizationProfileAt } from "../life-queries";
-import { standingServiceProgram } from "../law-consequences/service-delivered-data";
+import {
+  isCountyServiceProgram,
+  standingServiceProgram,
+} from "../law-consequences/service-delivered-data";
+import { organizationServesCounty } from "../county-service-authority";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import {
   STATE_TRANSIT_VARIANT_KEY,
@@ -24,7 +39,7 @@ import {
   LEGACY_TRANSIT_COMPILED_STATE,
 } from "../legislation-transit-families";
 import { stateTransitServiceProfileForMeasure } from "../state-transit-service-profile";
-import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
+import { isCongressRulePack } from "../congress-rule-pack";
 import { packMayEnactVariant } from "../legislation-drafting";
 import { rulePackById } from "../legislature-rule-packs";
 import type { LegislativeRulePack } from "../legislature-rules";
@@ -36,7 +51,9 @@ import { stableHash } from "../ids";
 import { programFamilyTitle } from "./program-families";
 import {
   programVariant,
+  legalInstrumentRule,
   standingAuthority,
+  npcEligibleProgramConfigurationsFor,
   type ProgramVariant,
 } from "../legislation-program-families";
 import {
@@ -258,6 +275,68 @@ export function appropriationFromEnactedMeasure(
   const existingComponents = draftLineageComponents(world, measureId).filter(
     (lineage) => lineage.componentKey !== undefined,
   );
+  // A catalog bill can carry final numeric terms without a drafted-family
+  // lineage. Admit that exact annual rail amount into the same appropriation
+  // writer; a spending decision still needs a real recipient and cash.
+  if (
+    governmentScope.kind === "federal" &&
+    !draftLineageForMeasure(world, measureId)
+  ) {
+    const terms = finalTermProvisions(world, measureId, enactment.sequence)
+      .filter(
+        (provision) =>
+          provision.applicationScope.jurisdictionId ===
+            measure.jurisdictionId &&
+          provision.applicationScope.segmentKey === null,
+      )
+      .flatMap((provision) =>
+        (provision.lawTerms ?? []).filter(
+          (term) =>
+            term.questionKey === EXPAND_PASSENGER_RAIL_QUESTION &&
+            term.key === "appropriation",
+        ),
+      );
+    const term = terms.length === 1 ? terms[0] : null;
+    const operativeAt = operativeDateInWorld(world, enactment)?.date;
+    const answersYes = measureAnswersAt(
+      world,
+      measureId,
+      enactment.sequence,
+    ).some(
+      (answer) =>
+        answer.answer === "yes" &&
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+          EXPAND_PASSENGER_RAIL_QUESTION,
+    );
+    const configurations = npcEligibleProgramConfigurationsFor(
+      EXPAND_PASSENGER_RAIL_QUESTION,
+      "yes",
+      "federal",
+    );
+    if (
+      answersYes &&
+      operativeAt &&
+      term?.unit === "dollars/year" &&
+      Number.isFinite(term.value) &&
+      term.value > 0 &&
+      configurations.length === 1
+    ) {
+      const configuration = configurations[0]!;
+      const written = recordAdoptedAppropriation(world, {
+        familyKey: configuration.familyKey,
+        programKey: PASSENGER_RAIL_PROGRAM_KEY,
+        jurisdictionId: measure.jurisdictionId,
+        publicGovernmentIdentity: governmentScope.identity,
+        amountMinorUnits: term.value * 100,
+        adoptedOn: operativeAt,
+        availableThrough: addDays(addYears(operativeAt, 1), -1),
+        edition: `final-annual-term-${measure.id}`,
+        basisNote: `${PROGRAM_GOVERNING_VERSION}: final adopted annual rail appropriation from ${measure.designation}; authority is not cash or delivered service.`,
+        sourceMeasureId: measureId,
+      });
+      return written?.world ?? world;
+    }
+  }
   if (
     governmentScope.kind === "federal" &&
     (existingComponents.length > 0 ||
@@ -276,6 +355,15 @@ export function appropriationFromEnactedMeasure(
       ? enactment.effectiveAt
       : world.currentDate;
   const editionBase = `measure-${measure.designation.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`;
+
+  const compiledAvailabilityOpensOn = (
+    lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
+  ): IsoDate | null | undefined =>
+    lineage.familyKey === "appropriations" &&
+    (lineage.variantKey === "single-programme" ||
+      lineage.variantKey === "supplemental")
+      ? (operativeDateInWorld(world, enactment)?.date ?? null)
+      : undefined;
 
   const statedAvailability = (
     lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
@@ -307,11 +395,12 @@ export function appropriationFromEnactedMeasure(
       term.years <= 0
     )
       return null;
-    // The term runs from the day the appropriation opens (the law's effective
-    // date, or today when it is already in force), the same as one that states
-    // no term, and not from the day the bill was filed.
-    const through = addDays(addYears(adoptedOn, term.years), -1);
-    return through >= adoptedOn ? through : null;
+    // The compiler wrote an absolute, inclusive last day from the filed
+    // date. Enactment must not rewrite that unchanged final clause. Only the
+    // opening date follows the law's actual operative date.
+    const opensOn = compiledAvailabilityOpensOn(lineage);
+    const through = addYears(lineage.compiledAt, term.years);
+    return opensOn && through >= opensOn ? through : null;
   };
 
   // A measure that carries parts is applied part by part. Each component's
@@ -360,7 +449,7 @@ export function appropriationFromEnactedMeasure(
       const programKey =
         serviceProfile?.programKey ??
         transitProfile?.programKey ??
-        programKeyForEnactedAppropriation(lineage, governmentScope);
+        programKeyForEnactedAppropriation(next, lineage, governmentScope);
       if (!programKey) continue;
       const written = recordAdoptedAppropriation(next, {
         familyKey: lineage.familyKey,
@@ -371,7 +460,7 @@ export function appropriationFromEnactedMeasure(
         amountMinorUnits: amount,
         adoptedOn: transitProfile
           ? operativeDateInWorld(world, enactment)!.date
-          : adoptedOn,
+          : (compiledAvailabilityOpensOn(lineage) ?? adoptedOn),
         ...(availableThrough !== undefined
           ? { availableThrough }
           : transitProfile
@@ -466,7 +555,7 @@ export function appropriationFromEnactedMeasure(
     serviceProfile?.programKey ??
     transitProfile?.programKey ??
     (lineage
-      ? programKeyForEnactedAppropriation(lineage, governmentScope)
+      ? programKeyForEnactedAppropriation(world, lineage, governmentScope)
       : programKeyForGovernment(familyKey, governmentScope));
   if (!programKey) return world;
   const written = recordAdoptedAppropriation(world, {
@@ -478,7 +567,9 @@ export function appropriationFromEnactedMeasure(
     amountMinorUnits: amount,
     adoptedOn: transitProfile
       ? operativeDateInWorld(world, enactment)!.date
-      : (pinnedOperativeDate ?? adoptedOn),
+      : ((lineage && compiledAvailabilityOpensOn(lineage)) ??
+        pinnedOperativeDate ??
+        adoptedOn),
     ...(availableThrough !== undefined
       ? { availableThrough }
       : transitProfile
@@ -803,7 +894,7 @@ function npcProgramServiceCapacityProfileForEnactment(input: {
   } else {
     if (
       measure.jurisdictionId !== NATIONAL_ELECTION_JURISDICTION.id ||
-      measure.rulePackId !== US_CONGRESS_PACK_ID
+      !isCongressRulePack(measure.rulePackId)
     )
       return null;
     governmentLevel = governmentScope.kind;
@@ -943,7 +1034,7 @@ function publicProgramGovernmentScope(
     readonly rulePackId: string;
   },
 ): PublicProgramGovernmentScope | null {
-  if (measure.rulePackId === US_CONGRESS_PACK_ID)
+  if (isCongressRulePack(measure.rulePackId))
     return measure.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
       ? {
           kind: "federal",
@@ -1011,15 +1102,86 @@ function programKeyForGovernment(
 /**
  * A spending authority belongs to one program, not to every appropriation in
  * its state. A standing key names one authored program, so later bills against
- * that same key keep its identity. A docket measure may contain several
- * programs; its bill ID and aggregate ceiling are not a target program.
+ * that same key keep its identity. A saved docket target must identify one
+ * enacted program with a final authorization in the same government; a
+ * bundled bill's aggregate ceiling does not identify such a program.
  */
 function programKeyForEnactedAppropriation(
+  world: World,
   lineage: NonNullable<ReturnType<typeof draftLineageForMeasure>>,
   scope: PublicProgramGovernmentScope,
 ): string | null {
-  if (lineage.authorityMeasureId !== undefined || !lineage.authorityKey)
-    return null;
+  if (lineage.authorityMeasureId !== undefined) {
+    const targetId = lineage.authorityMeasureId;
+    const target = (world.history.legislativeMeasures ?? []).find(
+      (row) => row.id === targetId,
+    );
+    const targetEnactment = (world.history.legislativeEnactments ?? []).find(
+      (row) => row.measureId === targetId && row.outcome === "enacted",
+    );
+    const receivingEnactment = (world.history.legislativeEnactments ?? []).find(
+      (row) => row.measureId === lineage.measureId && row.outcome === "enacted",
+    );
+    const targetLineage = draftLineageForMeasure(world, targetId);
+    if (!target || !targetEnactment || !receivingEnactment || !targetLineage)
+      return null;
+    const targetScope = publicProgramGovernmentScope(world, target);
+    if (
+      !targetScope ||
+      !samePublicGovernmentIdentity(targetScope.identity, scope.identity) ||
+      targetEnactment.sequence >= receivingEnactment.sequence ||
+      !measureMayEnact(target.rulePackId, targetLineage)
+    )
+      return null;
+    const opensOn = operativeDateInWorld(world, receivingEnactment)?.date;
+    const targetOpensOn = operativeDateInWorld(world, targetEnactment)?.date;
+    if (
+      !opensOn ||
+      !targetOpensOn ||
+      targetOpensOn > opensOn ||
+      programHasEnded(
+        { ...world, currentDate: opensOn },
+        { measureId: targetId },
+      )
+    )
+      return null;
+    let variant: ProgramVariant;
+    try {
+      const configuration = programVariant(
+        targetLineage.familyKey,
+        targetLineage.variantKey,
+      );
+      if (configuration.family.familyVersion !== targetLineage.familyVersion)
+        return null;
+      variant = configuration.variant;
+    } catch {
+      return null;
+    }
+    const rule = legalInstrumentRule(variant.instrument);
+    if (
+      !variant.authorizesAppropriation ||
+      !rule.mayAuthorizeAppropriation ||
+      rule.requiresPredicateAuthority
+    )
+      return null;
+    const finalProvisions = currentMeasureProvisions(world, targetId);
+    const ceilings = finalProvisions.filter(
+      (row) => (row.fiscalExposureMinorUnits ?? 0) > 0,
+    );
+    if (ceilings.length !== 1) return null;
+    const ceiling = ceilings[0]!;
+    if (
+      ceiling.fiscalPeriod === "annual" ||
+      !variant.clauses.some(
+        (clause) =>
+          clause.provisionKey === ceiling.provisionKey &&
+          clause.dimension === "funding-cap",
+      )
+    )
+      return null;
+    return programKeyForGovernment(targetLineage.familyKey, targetScope);
+  }
+  if (!lineage.authorityKey) return null;
   const authority = standingAuthority(lineage.authorityKey);
   if (authority?.kind !== "standing-statute" || !authority.authorizesSpending)
     return null;
@@ -1047,6 +1209,23 @@ export function programOperatorOrganization(
   if (identity && identity.jurisdictionId !== jurisdictionId)
     throw new Error("A program operator must match the program jurisdiction.");
   if (identity) assertPublicGovernmentIdentity(world, identity);
+  const providerClasses = federalStateProgramProviderClasses(
+    world,
+    programKey,
+    jurisdictionId,
+  );
+  if (providerClasses.length) {
+    const provider = recordedStateProgramProviders(
+      world,
+      jurisdictionId,
+      providerClasses,
+    )[0];
+    if (!provider)
+      throw new Error(
+        "No admitted recorded provider is available for this state program.",
+      );
+    return { world, organizationId: provider };
+  }
   const operatorScope =
     identity?.kind === "local-government"
       ? `local:${encodeURIComponent(identity.governmentKey)}:`
@@ -1157,7 +1336,20 @@ export function eligibleStandingOperator(
     const rank = profile
       ? program.operatorClassifications.indexOf(profile.classification)
       : -1;
-    if (rank < 0 || !inPlace(profile!.locationJurisdictionId)) continue;
+    if (rank < 0) continue;
+    // A county's own service is run by an organization in that county; the
+    // same-state reach below is for a state's programs.
+    if (isCountyServiceProgram(programKey)) {
+      if (
+        !organizationServesCounty(
+          world,
+          organization.id,
+          programKey,
+          jurisdictionId,
+        )
+      )
+        continue;
+    } else if (!inPlace(profile!.locationJurisdictionId)) continue;
     const candidate = {
       rank,
       formedAt: organization.formedAt,

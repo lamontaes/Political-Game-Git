@@ -1,6 +1,6 @@
 import { componentUrls as urls } from "./bundled-art";
-import catalog from "../../art/manifest/character_catalog.json";
-import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json";
+import catalog from "../../art/manifest/character_catalog.json" with { type: "json" };
+import garmentFitProfiles from "../../art/manifest/garment_fit_profiles.json" with { type: "json" };
 import {
   KIT41_REGISTRY as kit,
   MODULAR41_HEADS_REGISTRY as headRepair,

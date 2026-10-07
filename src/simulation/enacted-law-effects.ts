@@ -2,12 +2,18 @@ import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
 } from "./law-consequence-registry";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
+import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
+import { createStableId } from "./ids";
+import { recordById } from "./history-index";
+import { recordWorldEvent } from "./world";
 import type {
   LawConsequenceContext,
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import { appropriationFromEnactedMeasure } from "./governing/program-governing";
+import { openProgramMattersForAllOffices } from "./governing/state-governing";
 import {
   applyEnactedDuties,
   clauseOrigins,
@@ -27,10 +33,7 @@ import {
 } from "./enacted-eligibility";
 import { programLastDay, programTermChangeOf } from "./enacted-program-terms";
 import { enactedRuleChanges } from "./enacted-rule-changes";
-import {
-  draftLineageComponents,
-  draftLineageForMeasure,
-} from "./legislation-draft-lineage";
+import { draftLineageComponents } from "./legislation-draft-lineage";
 import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
@@ -39,13 +42,6 @@ import { stateKeyForJurisdictionSlug } from "./life-places";
 import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
 import { taxActivationReadiness } from "./tax-policy-activation";
-import {
-  TRANSIT_FAMILY_KEY,
-  TRANSIT_PROGRAM_KEY,
-  STATE_TRANSIT_VARIANT_KEY,
-  TRANSIT_VARIANT_KEY,
-} from "./legislation-transit-families";
-import { resolveTransitFunding } from "./transit-funding";
 import type {
   EntityId,
   IsoDate,
@@ -119,13 +115,6 @@ export type LawEffectLine =
       readonly unitsRestored: number;
       /** Exact delivery facts from new, labeled outturn records. */
       readonly deliveredServices: readonly DeliveredServiceFact[];
-    }
-  | {
-      /** The pinned transit program, which reads its own enacted clause. */
-      readonly kind: "transit";
-      readonly status: "available" | "unavailable";
-      readonly reason: string | null;
-      readonly amountMinorUnits: number | null;
     }
   | {
       /** A rule the game reads (seats, terms, qualifications) that the law changed. */
@@ -267,14 +256,28 @@ export function applyEnactedLawEffects(
   // enactment back or silently install the old tax effect.
   if (proposal && taxActivationReadiness(next, proposal.id).kind === "ready")
     next = adoptEnactedTaxPolicy(next, proposal.id);
-  // Every enacted amount has one saved program authority. The pinned transit
-  // request consumes that same record and shares its committed balance.
+  // Every enacted amount has one saved program authority, transit included.
+  const previousAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter((record) => record.kind === "appropriation")
+      .map((record) => record.id),
+  );
   next = appropriationFromEnactedMeasure(next, measureId);
   // A family's own appropriating section, e.g. "There is appropriated to a
-  // service line replacement fund a sum not to exceed ...". The pinned transit
-  // clause already wrote its one authority above.
-  if (!isPinnedTransitMeasure(next, measureId))
-    next = applyFamilyAppropriations(next, measureId);
+  // service line replacement fund a sum not to exceed ...". A generic
+  // "amount provided" clause is not one, so nothing is written twice.
+  next = applyFamilyAppropriations(next, measureId);
+  const newAppropriations = new Set(
+    (next.history.publicProgramRecords ?? [])
+      .filter(
+        (record) =>
+          record.kind === "appropriation" &&
+          !previousAppropriations.has(record.id),
+      )
+      .map((record) => record.id),
+  );
+  if (newAppropriations.size > 0)
+    next = openProgramMattersForAllOffices(next, newAppropriations);
   // A section that places a duty on a class of body.
   next = applyEnactedDuties(next, measureId);
   // A section that says who qualifies for, or is subject to, the Act.
@@ -303,20 +306,6 @@ export function applyNewlyEnactedLawEffects(
     next = applyEnactedLawEffects(next, enactment.measureId);
   }
   return next;
-}
-
-function isPinnedTransitMeasure(world: World, measureId: EntityId): boolean {
-  // The same test `resolveTransitFunding` applies: a single-family measure
-  // only. A bundle's transit part gets generic authority like its other
-  // parts, as it always has, and skipping it would drop them all.
-  const lineage = draftLineageForMeasure(world, measureId);
-  return (
-    lineage?.familyKey === TRANSIT_FAMILY_KEY &&
-    (lineage.variantKey === TRANSIT_VARIANT_KEY ||
-      lineage.variantKey === STATE_TRANSIT_VARIANT_KEY) &&
-    lineage.authorityKey === TRANSIT_PROGRAM_KEY &&
-    !lineage.authorityMeasureId
-  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -366,27 +355,8 @@ export function enactedLawEffects(
     lines.push(taxLine(world, proposal.id, proposal.terms.baseLabel));
   }
 
-  // Transit (pinned program), or generic spending authority.
-  if (isPinnedTransitMeasure(world, measureId)) {
-    const resolution = resolveTransitFunding(world, measureId);
-    for (const provision of provisions)
-      if (isMoneyClause(provision)) consumed.add(provision.id);
-    lines.push(
-      resolution.kind === "available"
-        ? {
-            kind: "transit",
-            status: "available",
-            reason: null,
-            amountMinorUnits: resolution.mandate.amount.minorUnits,
-          }
-        : {
-            kind: "transit",
-            status: "unavailable",
-            reason: resolution.reason,
-            amountMinorUnits: null,
-          },
-    );
-  } else {
+  // Spending authority, the same for every program.
+  {
     const appropriations = (world.history.publicProgramRecords ?? []).filter(
       (row): row is PublicProgramAppropriationRecord =>
         row.kind === "appropriation" && row.sourceMeasureId === measureId,
@@ -618,23 +588,6 @@ function operativeEffectOutcomes(
       ];
     }
 
-    if (isPinnedTransitMeasure(world, measureId)) {
-      const resolution = resolveTransitFunding(world, measureId);
-      return [
-        {
-          provisionId: provision.id,
-          provisionKey: provision.provisionKey,
-          effectKind: effect.kind,
-          status:
-            resolution.kind === "available"
-              ? ("applied" as const)
-              : ("refused" as const),
-          refusalReason:
-            resolution.kind === "available" ? null : resolution.reason,
-        },
-      ];
-    }
-
     const appropriation = appropriations.find(
       (record) =>
         !matchedAppropriationIds.has(record.id) &&
@@ -846,7 +799,12 @@ export function applyLawConsequences(
   context: LawConsequenceContext,
   registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
-  const registry = createLawConsequenceRegistry(registrations);
+  const registry = createLawConsequenceRegistry([
+    ...LAW_CONSEQUENCE_REGISTRATIONS,
+    ...registrations.filter(
+      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
+    ),
+  ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
@@ -856,11 +814,12 @@ export function applyLawConsequences(
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
       continue;
-    const rows = proposition.consequences ?? [];
+    const rows = (proposition.consequences ?? []).filter(
+      (row) => row.when === context.activity,
+    );
     const errors = validateLawConsequences(rows, registry.capabilities);
     if (errors.length) throw new Error(errors.join("; "));
     for (const row of rows) {
-      if (row.when !== context.activity) continue;
       if (row.onward?.length)
         throw new Error(
           `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
@@ -870,10 +829,53 @@ export function applyLawConsequences(
         throw new Error(
           `Consequence ${row.id}: missing kind capability '${row.kind}'`,
         );
-      const resolved = registration.resolve(next, row, {
-        ...context,
-        questionKey: proposition.stableKey,
-      });
+      let resolved;
+      try {
+        resolved = registration.resolve(next, row, {
+          ...context,
+          questionKey: proposition.stableKey,
+        });
+      } catch (error) {
+        if (!(error instanceof MissingLawConsequenceTerm)) throw error;
+        const stableKey = `law-term-gap:${error.law.measureId}:${row.id}:${error.personId}:${error.termKey}:${context.activityId}:${context.onDate}`;
+        if (
+          !recordById(
+            next.history.events,
+            createStableId("event", `${next.id}:${stableKey}`),
+          )
+        ) {
+          next = recordWorldEvent(next, {
+            stableKey,
+            type: "law.consequence-integrity-gap",
+            occurredAt: context.onDate,
+            recordedAt: next.currentDate,
+            jurisdictionId: error.jurisdictionId,
+            involvedEntityIds: [error.personId],
+            participants: [],
+            personFactConstraints: [],
+            visibility: "private",
+            tags: [
+              "law:missing-final-term",
+              error.questionKey,
+              error.law.measureId,
+              error.rowId,
+              `term:${error.termKey}`,
+              `unit:${error.unit}`,
+            ],
+            summary:
+              "The pay adjustment could not be calculated because its saved law has no matching numeric term.",
+            context: {
+              location: null,
+              socialContext: null,
+              pressure: null,
+              choice: null,
+              motivation: null,
+              immediateReaction: null,
+            },
+          });
+        }
+        continue;
+      }
       for (const input of resolved) {
         if (
           input.row.id !== row.id ||
@@ -897,11 +899,7 @@ export function applyLawConsequences(
       }
     }
   }
-  if (
-    !context.questionKey &&
-    !context.governingLawId &&
-    context.origin !== "enacted"
-  ) {
+  if (!context.questionKey) {
     for (const registration of registry.handlers.values()) {
       if (!registration.resolveSavedRules) continue;
       for (const input of registration.resolveSavedRules(next, context)) {
@@ -929,6 +927,36 @@ export function applyLawConsequences(
             `Consequence ${row.id}: unsupported saved authority unit`,
           );
         if (input.effectiveAt > context.onDate) continue;
+        if (authority.kind === "enacted-typed-tax-policy") {
+          if (
+            row.kind !== "tax" ||
+            context.activity !== "assessment" ||
+            context.origin === "in-force-at-start" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          // The tax registration re-resolves the saved policy/base/enactment and compares the entire result before the common assessment writer runs.
+          next = registration.apply(next, input);
+          continue;
+        }
+        if (
+          authority.kind === "enacted-hourly-pay-rule" ||
+          authority.kind === "enacted-annual-office-pay-rule"
+        ) {
+          if (
+            row.kind !== "pay" ||
+            context.activity !== "payroll" ||
+            context.standingAppropriationId ||
+            (context.governingLawId &&
+              authority.measureId !== context.governingLawId)
+          )
+            continue;
+          next = registration.apply(next, input);
+          continue;
+        }
+        if (context.governingLawId || context.origin === "enacted") continue;
         if (
           context.standingAppropriationId &&
           context.standingAppropriationId !== authority.appropriationId
@@ -942,8 +970,12 @@ export function applyLawConsequences(
           row.kind !== "service-delivered" ||
           context.activity !== "service" ||
           saved?.kind !== "appropriation" ||
-          saved.sourceMeasureId != null ||
-          saved.basis.kind !== "sourced" ||
+          // A county's service line carries its board's measure, and the
+          // board's vote is its basis; a standing program has a sourced one.
+          (isCountyServiceProgram(saved.programKey)
+            ? saved.sourceMeasureId == null
+            : saved.sourceMeasureId != null ||
+              saved.basis.kind !== "sourced") ||
           !saved.basis.note.trim() ||
           saved.recordedAt > context.onDate ||
           authority.programKey !== saved.programKey ||

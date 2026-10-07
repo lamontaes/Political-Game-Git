@@ -1,0 +1,10 @@
+TEAM6 #1341 bounded tax-power batch07
+Parent9a9e9e6587e847898e7e8c73748a65eb44714bfd (#1943), inherited receivingmain6ad1064aa; pinnedlatestmain d5b8a32c98a0ec676079d87afadc07e8702f132a static-only, not composed.
+Four new KY/SD/WY/WA foundations;13 scopes;34 states total inclAK;16 still unsupported.
+Initial complete changed src/fiscal-authority/tax-powers.test.ts:2PASS1FAIL24.68s. Measured literal KY§47 mismatch (Wyoming wording used) caught by unchanged source assertion; corrected actual Kentucky text and unrelated-amendment prohibition.
+Renewed complete changedfile:3/3PASS20.65s,8.68s bodies; native67634 exit0. Stocklimits/cloudoverride, nofullsuite.
+Scopedtypes1changedroot1061importedfiles0diagnostics (before literal quote-only correction); unchanged TS contracts/roots. Changed ESLint/format/whitespace pass; declaration renewed at committed range.
+Branch A13 audit5/6; retained pinnedmain d5b8a32c audit5/6; noflips. Sharedpay-kind rule staysfalse.
+Helperreadonly KYindex/LAfolder review found actual KY links and identified LAwrong CivilCode folder; no helperedits/fetch/tests/gates. CorrectLA article source remains gap, 2019PDF unadmitted.
+CTO source approval, full applicable-condition enforcement and officialClaudegate pending. No rate/base/collection/account/spending writer. Capturedate is observedbaseline, not full historicalinterval.
+NoLOAD/browser/fullsuite/whole-app types. HTTPerrors/shells/index-only/oldversion sources remain unadmitted.

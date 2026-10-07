@@ -1,5 +1,12 @@
+export {
+  createFutureTransitionHandlerRegistry,
+  EMPTY_FUTURE_TRANSITION_HANDLERS,
+  composeFutureTransitionHandlerRegistries,
+} from "./future-transition-registry";
+import { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
+import { SPEECH_RETELLING_HANDLERS } from "./speech-retelling";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
@@ -14,11 +21,7 @@ import {
   nationalEntityAvailableAt,
 } from "./national-elections";
 import { taxEntityAvailableAt, taxEntityExists } from "./tax-policy";
-import {
-  compareSimulationMoments,
-  makeIsoDate,
-  simulationMomentAtLocalTime,
-} from "./dates";
+import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import { createStableId } from "./ids";
 import {
   incidentEntityAvailableAt,
@@ -39,14 +42,11 @@ import type {
   FutureTransitionHandler,
   FutureTransitionHandlerRegistry,
   FutureTransitionKey,
-  RoutineTimeHook,
-  RoutineWindow,
   HistoricalCutoff,
   IsoDate,
   World,
 } from "./types";
 import {
-  assertSemanticTransitionKey,
   worldMetricEntityAvailableAt,
   worldMetricEntityExists,
 } from "./world-metrics";
@@ -113,125 +113,6 @@ function assertTerminalFutureDueItemStatus(
       `Invalid terminal future due-item status: ${String(value)}`,
     );
   }
-}
-
-export function createFutureTransitionHandlerRegistry(
-  entries: readonly (readonly [FutureTransitionKey, FutureTransitionHandler])[],
-  routine?: RoutineTimeHook,
-): FutureTransitionHandlerRegistry {
-  const handlers = new Map<FutureTransitionKey, FutureTransitionHandler>();
-  for (const [key, handler] of entries) {
-    assertSemanticTransitionKey(key, "Future transition key");
-    if (handlers.has(key)) {
-      throw new Error(`Duplicate future-transition handler: ${key}`);
-    }
-    handlers.set(key, handler);
-  }
-  return {
-    get: (transitionKey) => handlers.get(transitionKey),
-    ...(routine ? { routine } : {}),
-  };
-}
-
-export const EMPTY_FUTURE_TRANSITION_HANDLERS =
-  createFutureTransitionHandlerRegistry([]);
-
-/**
- * Layers registries into one, earlier registries winning a shared key.
- *
- * A campaigning life is still a life: the day its election falls due is the
- * same day a promised conversation can come due on, and time refuses to step
- * over a due item it has no handler for. Composing lets a surface carry both
- * the campaign's own handlers and the ordinary life handlers without either
- * knowing about the other, so neither consequence is lost.
- */
-/**
- * Several routines on one clock: the day job's hours and the campaign's
- * standing hours. A window from a later routine that overlaps one from an
- * earlier routine is dropped, so the earlier one (the job) keeps its hours
- * and the later one loses that session.
- */
-const COMBINED_ROUTINE_MEMBERS = new WeakMap<
-  RoutineTimeHook,
-  readonly RoutineTimeHook[]
->();
-
-function combineRoutineHooks(
-  supplied: readonly RoutineTimeHook[],
-): RoutineTimeHook | undefined {
-  // A registry composed twice, or composed again with one it already holds,
-  // carries the same routine once: a job's hours are not kept twice.
-  const hooks = [
-    ...new Set(
-      supplied.flatMap((hook) => COMBINED_ROUTINE_MEMBERS.get(hook) ?? [hook]),
-    ),
-  ];
-  if (hooks.length <= 1) return hooks[0];
-  const combined: RoutineTimeHook = {
-    isAutoResolvableActivity: (world, activityId) =>
-      hooks.some((hook) => hook.isAutoResolvableActivity(world, activityId)),
-    projectWindows(world, target) {
-      const kept: RoutineWindow[] = [];
-      for (const hook of hooks) {
-        const earlier = [...kept];
-        for (const window of hook.projectWindows(world, target)) {
-          const overlaps = earlier.some(
-            (other) =>
-              compareSimulationMoments(window.start, other.end) < 0 &&
-              compareSimulationMoments(other.start, window.end) < 0,
-          );
-          if (!overlaps) kept.push(window);
-        }
-      }
-      return kept.sort(
-        (left, right) =>
-          compareSimulationMoments(left.end, right.end) ||
-          left.relationshipId.localeCompare(right.relationshipId),
-      );
-    },
-    ensureScheduled(world, slot) {
-      let current = world;
-      for (const hook of hooks) {
-        current = hook.ensureScheduled(current, slot);
-        if (current !== world) return current;
-      }
-      return current;
-    },
-    afterActivityCompleted(world, activityId) {
-      return hooks.reduce(
-        (current, hook) => hook.afterActivityCompleted(current, activityId),
-        world,
-      );
-    },
-  };
-  COMBINED_ROUTINE_MEMBERS.set(combined, hooks);
-  return combined;
-}
-
-export function composeFutureTransitionHandlerRegistries(
-  ...registries: readonly FutureTransitionHandlerRegistry[]
-): FutureTransitionHandlerRegistry {
-  const routine = combineRoutineHooks(
-    registries.flatMap((registry) =>
-      registry.routine ? [registry.routine] : [],
-    ),
-  );
-  const stopAtNewTentativeHold = registries.find(
-    (registry) => registry.stopAtNewTentativeHold,
-  )?.stopAtNewTentativeHold;
-  return {
-    get: (transitionKey) => {
-      for (const registry of registries) {
-        const handler = registry.get(transitionKey);
-        if (handler !== undefined) {
-          return handler;
-        }
-      }
-      return undefined;
-    },
-    ...(routine ? { routine } : {}),
-    ...(stopAtNewTentativeHold ? { stopAtNewTentativeHold } : {}),
-  };
 }
 
 export function scheduleFutureDueItem(
@@ -478,7 +359,8 @@ function handlerFor(
     crisisAmbientHandler(transitionKey) ??
     // The weekly look at people's private goals is on every played life's
     // clock, so it resolves on every path that passes time, like CRISIS.
-    PEOPLE_GOAL_HANDLERS.get(transitionKey)
+    PEOPLE_GOAL_HANDLERS.get(transitionKey) ??
+    SPEECH_RETELLING_HANDLERS().find(([key]) => key === transitionKey)?.[1]
   );
 }
 
@@ -506,11 +388,38 @@ export function setDeepTransitionInputGuard(enabled: boolean): void {
 /** Every object this guard has frozen, with everything beneath it. */
 const deeplyFrozen = new WeakSet<object>();
 
+/**
+ * A long history list is a copy of the one before it with records added, and
+ * every record the old list held was frozen with it. Following the list the
+ * way the read indexes do visits only the added records, where walking the
+ * copy visited all of them for every due item.
+ */
+const FREEZE_ENTRIES: GrowingIndexKind<object> = {
+  create: () => ({}),
+  add: (_index, entry) => freezeDeeply(entry),
+};
+const LONG_LIST = 64;
+
 function freezeDeeply(value: unknown): void {
   if (typeof value !== "object" || value === null) return;
   if (deeplyFrozen.has(value)) return;
   deeplyFrozen.add(value);
-  for (const child of Object.values(value)) freezeDeeply(child);
+  if (Array.isArray(value) && value.length >= LONG_LIST)
+    growingIndex(FREEZE_ENTRIES, value);
+  else {
+    // A plain walk: this runs over every person for each due item, so it
+    // skips the copy of the values and the call for what is already frozen.
+    const fields = value as Record<string, unknown>;
+    for (const key in fields) {
+      const child = fields[key];
+      if (
+        typeof child === "object" &&
+        child !== null &&
+        !deeplyFrozen.has(child)
+      )
+        freezeDeeply(child);
+    }
+  }
   Object.freeze(value);
 }
 

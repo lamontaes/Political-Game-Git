@@ -1,0 +1,166 @@
+{
+  "sourceCommit": "03e41cb488c99b84023e0491d35f513b5f7682e1",
+  "executedComposition": "e636e7b1b7735147d91cbe0b94d7ca67d5c04fc0",
+  "mode": "Native test with the owned fixture overlay; source commit contains exact tested bytes.",
+  "main": "8c44a3d24f9808962a839bc035bbcfdb009d1aa9",
+  "sourceFile": "src/simulation/governing/automatic-legislation-terms.test.ts",
+  "sourceSha256": "77fdf3fa65f6a537c8fca6eb0a8fdc6e4d3b4e5dfb9ec92d6ddba9d5b7e41ead",
+  "baseline": {
+    "setupFailed": 1,
+    "notRun": 61,
+    "seconds": 20.27
+  },
+  "preservedIntermediate": {
+    "passed": 57,
+    "failed": 6,
+    "seconds": 21.15,
+    "source": "4b929eed084cd42fd6f4f33330c35100f29fb987",
+    "main": "7910ea6b0724d695f49c8c9e073a2244bf8e178b",
+    "reason": "Restoring control invalidated player-required work assignment; preserved failure is historical."
+  },
+  "after": {
+    "passed": 63,
+    "failed": 0,
+    "seconds": 25.65,
+    "originalAssertionsPreserved": 61,
+    "executiveRegressionsAdded": 2
+  },
+  "types": {
+    "roots": 1,
+    "scoped": 0,
+    "imported": 0
+  },
+  "lint": "PASS",
+  "format": "PASS",
+  "report": "PASS0errors0warnings; self-review under owner no-helper rule",
+  "dice": "0 new / 5 stale entries",
+  "spelling": "Final execution: 24 inherited findings, zero owned-path findings. Earlier child-git EPERM log retained; final native child-process run completed.",
+  "release": "After declaration commit c3611ddf8bfbc572b7921d4cb7c998fdfd0af4aa, only inherited CI declaration prose fails; exact-main head/base reproduces same failure.",
+  "limits": [
+    "One controlled Kentucky enactment; jurisdiction observer queries are not actual nationwide enactments",
+    "No production changes",
+    "No natural NPC choice claim",
+    "No local year advance/browser/speed/whole-suite run"
+  ],
+  "logs": {
+    "current-before.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-current-before.log",
+      "originalSha256": "09b65600062df93d4a0fda93261151a5c84c9e3e32c9483da02f5eafb428b423",
+      "publishedSha256": "35e3c65d87b522530b4c9284bbbbd3fe7c2319b62161b22a5f78afe65b8fd4a9",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "current-before-source.json": {
+      "originalPath": "/tmp/team1-final-terms-fixture-current-before-source.json",
+      "originalSha256": "a889c18401478884a75a51da6a328de7e8a5d3ec868d7045db3f725a455a23fe",
+      "publishedSha256": "a889c18401478884a75a51da6a328de7e8a5d3ec868d7045db3f725a455a23fe",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "after.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-fixed.log",
+      "originalSha256": "9fb91199a32d918eaa22b08f9961b7181b0487a1d1d70a8e894d26b52fa88a63",
+      "publishedSha256": "ffde7d0916ccf6f9b4c55a02409064e511ecf2b89ecca087f2d8a5f3dda88ce6",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "preserved-control-failure.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-after.log",
+      "originalSha256": "202b55dee155cf9a1c5bccaecb5845db78b7f6d2c44dba8d003a74e4b4c43b9b",
+      "publishedSha256": "583f118fecf37a9007a18f8104130c344f612abe305836284ea6ed016ae7c421",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "types.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-fixed-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "typecheck.mjs": {
+      "originalPath": "/tmp/team1-final-terms-fixture-types.mjs",
+      "originalSha256": "e62ceeb4dded83954657637a598575c94b49a0519d605b813d868e134be1af53",
+      "publishedSha256": "e62ceeb4dded83954657637a598575c94b49a0519d605b813d868e134be1af53",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "lint.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-fixed-lint.log",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "format.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-fixed-format.log",
+      "originalSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "publishedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "report.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-report.log",
+      "originalSha256": "3ff19d4a077fccf9a520be8febcc586f9111f9c9069ad99d389086e8755b2744",
+      "publishedSha256": "3ff19d4a077fccf9a520be8febcc586f9111f9c9069ad99d389086e8755b2744",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "dice.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-dice.log",
+      "originalSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "publishedSha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "intermediate-release.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-release.log",
+      "originalSha256": "4139011776361de76588dae42796358649dfc4a6a9748f5b485eca04a022d20c",
+      "publishedSha256": "4139011776361de76588dae42796358649dfc4a6a9748f5b485eca04a022d20c",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "spelling-spawn-failure.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-spelling.log",
+      "originalSha256": "2664f84d878f7d404e0ceecd4814f131a0ee9065b5225ab8c86be1e698e44158",
+      "publishedSha256": "2664f84d878f7d404e0ceecd4814f131a0ee9065b5225ab8c86be1e698e44158",
+      "normalization": "Trailing blank lines only in nonempty log copies."
+    },
+    "spelling.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-spelling-final.log",
+      "originalSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "publishedSha256": "a121a3eea652e99585af0daaa9c169ea69071955f0126f4baaf89ab72328c8c1",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "release-final.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-release-final.log",
+      "originalSha256": "f333b85b526719e7fe2388adb691b6df537f9eaf721e1b7dbe257222348f8955",
+      "publishedSha256": "f333b85b526719e7fe2388adb691b6df537f9eaf721e1b7dbe257222348f8955",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "release-main.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-release-main.log",
+      "originalSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
+      "publishedSha256": "e0e6b8318b98e382d322d37bb282cebea38b010eb007a1d9f5ee8b8ca2bc9649",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-after.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-main.log",
+      "originalSha256": "48cee07b82449eb90683b9d7bc8fb3b450272e447d5c2f93b9e239be5349815d",
+      "publishedSha256": "3114427171efe7a40d916699b4c7b9ca878d320e28b495bc517398ebfb71e4d0",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-types.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-types.log",
+      "originalSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "publishedSha256": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd",
+      "normalization": "Trailing blank lines only in log copies."
+    },
+    "current-main-release.log": {
+      "originalPath": "/tmp/team1-final-terms-fixture-820-release.log",
+      "originalSha256": "6170a0a43cef91d55abcd27b954b1539186a3670842481f3c8fbbfd2f5fda545",
+      "publishedSha256": "6170a0a43cef91d55abcd27b954b1539186a3670842481f3c8fbbfd2f5fda545",
+      "normalization": "Trailing blank lines only in log copies."
+    }
+  },
+  "renewal": {
+    "executedHead": "ed413b86734a58be5a2375ed0ab5baac3ce3e42d",
+    "main": "820fb93fdd35522dca20df9b2178fa926f73e92e",
+    "passed": 63,
+    "failed": 0,
+    "seconds": 22.99,
+    "strictRoots": 1,
+    "scopedDiagnostics": 0,
+    "importedDiagnostics": 0,
+    "runtimeChange": "None; additive main A97 duty fix received."
+  }
+}

@@ -4,7 +4,11 @@ import {
   availableLifeSituations,
   formativeIntervalAt,
 } from "../simulation/character-history";
-import { evaluateDecision, isSelectedDecision } from "../simulation/decisions";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../simulation/decisions";
 import { activeChildAuthoritiesAt } from "../simulation/life-queries";
 import {
   ensurePeopleTraits,
@@ -14,6 +18,12 @@ import type { PeopleTrait } from "../simulation/people-trait-definitions";
 import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import type { DecisionConsideration } from "../simulation/types";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
+import { goalConsiderations } from "../simulation/people-goal-pursuit";
+import {
+  CONNECTION_GOAL_KEY,
+  LEARNING_GOAL_KEY,
+  PRIVACY_GOAL_KEY,
+} from "../simulation/people-goal-pursuit-content";
 import type { FormativeScene, FormativeYears } from "./formative-play";
 
 /**
@@ -116,6 +126,8 @@ export function playChildhoodMoment(
   input: {
     readonly personId: EntityId;
     readonly optionKey?: string;
+    /** A faith choice only when the player made faith part of this scene. */
+    readonly faithChoice?: EntityId | null;
   },
 ): World {
   const moment = projectChildhoodMoment(world, input.personId);
@@ -123,6 +135,33 @@ export function playChildhoodMoment(
     throw new Error("There is nothing to play in these years right now.");
   }
   const scene = moment.scene;
+  if (world.preStartLife?.personId === input.personId && !input.optionKey) {
+    const decided = childhoodChoice(
+      world,
+      input.personId,
+      moment.agency === "caregiver-led"
+        ? moment
+        : { ...moment, caregiverPersonId: input.personId },
+      scene,
+      true,
+    );
+    if (!decided.optionKey) return decided.world;
+    const chosen = chooseFormativeOption(decided.world, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: decided.optionKey,
+      withPersonId: scene.withPersonId,
+    });
+    return recordFormativePlayerTraitChoice(world, chosen, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: decided.optionKey,
+      choiceLabel:
+        scene.options.find((option) => option.key === decided.optionKey)
+          ?.label ?? decided.optionKey,
+      faithChoice: input.faithChoice,
+    });
+  }
   if (moment.action === "choose") {
     if (!input.optionKey) {
       throw new Error("This age chooses for themselves; name the choice.");
@@ -140,6 +179,7 @@ export function playChildhoodMoment(
       choiceLabel:
         scene.options.find((option) => option.key === input.optionKey)?.label ??
         input.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (input.optionKey) {
@@ -270,6 +310,16 @@ export function caregiverChoice(
   moment: ChildhoodMoment,
   scene: FormativeScene,
 ): string | null {
+  return childhoodChoice(world, personId, moment, scene, false).optionKey;
+}
+
+function childhoodChoice(
+  world: World,
+  personId: EntityId,
+  moment: ChildhoodMoment,
+  scene: FormativeScene,
+  durable: boolean,
+): { readonly world: World; readonly optionKey: string | null } {
   const caregiverId = moment.caregiverPersonId;
   const options = scene.options.map((option) => ({
     key: option.key,
@@ -277,21 +327,67 @@ export function caregiverChoice(
     description: option.description,
   }));
   if (options.length === 0) throw new Error("That situation offers nothing.");
-  if (!caregiverId || options.length === 1) return options[0]!.key;
+  if (!caregiverId || options.length === 1)
+    return { world, optionKey: options[0]!.key };
   const withTraits = ensurePeopleTraits(world, [caregiverId]);
-  const considerations: readonly DecisionConsideration[] = traitConsiderations(
-    withTraits,
-    caregiverId,
-    `childhood:${personId}:${scene.situationKey}`,
-    options.flatMap((option) =>
-      (OPTION_LEANS[option.key] ?? []).map((lean) => ({
-        optionKey: option.key,
-        trait: lean.trait,
-        pole: lean.pole,
-        explanation: lean.explanation,
-      })),
+  const considerations: readonly DecisionConsideration[] = [
+    ...traitConsiderations(
+      withTraits,
+      caregiverId,
+      `childhood:${personId}:${scene.situationKey}`,
+      options.flatMap((option) =>
+        (OPTION_LEANS[option.key] ?? []).map((lean) => ({
+          optionKey: option.key,
+          trait: lean.trait,
+          pole: lean.pole,
+          explanation: lean.explanation,
+        })),
+      ),
     ),
-  );
+    ...goalConsiderations(
+      withTraits,
+      caregiverId,
+      `childhood:${personId}:${scene.situationKey}`,
+      options.flatMap((option) =>
+        (OPTION_LEANS[option.key] ?? []).flatMap((lean) => {
+          const goalKey =
+            lean.trait === "sociability"
+              ? lean.pole === "high"
+                ? CONNECTION_GOAL_KEY
+                : PRIVACY_GOAL_KEY
+              : lean.trait === "reliability" && lean.pole === "high"
+                ? LEARNING_GOAL_KEY
+                : null;
+          return goalKey
+            ? [
+                {
+                  optionKey: option.key,
+                  goalKey,
+                  direction: "supports" as const,
+                  explanation: lean.explanation,
+                },
+              ]
+            : [];
+        }),
+      ),
+    ),
+    ...goalConsiderations(
+      withTraits,
+      caregiverId,
+      `childhood:${personId}:${scene.situationKey}:school`,
+      scene.situationKey === "formative.school-entry"
+        ? options
+            .filter((option) => option.key === "join-in")
+            .map((option) => ({
+              optionKey: option.key,
+              goalKey: LEARNING_GOAL_KEY,
+              direction: "supports" as const,
+              explanation:
+                "Taking part in school serves their recorded aim to learn.",
+            }))
+        : [],
+    ),
+  ];
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `childhood:${personId}:${scene.situationKey}:${withTraits.currentDate}`,
     decisionType: "people.caregiver-choice",
@@ -309,10 +405,17 @@ export function caregiverChoice(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
-    retention: "ephemeral",
+    randomness: "none",
+    retention: durable ? "durable" : "ephemeral",
   });
-  return isSelectedDecision(evaluation) ? evaluation.selectedOptionKey : null;
+  return {
+    world: durable
+      ? recordDurableDecisionTrace(withTraits, evaluation)
+      : withTraits,
+    optionKey: isSelectedDecision(evaluation)
+      ? evaluation.selectedOptionKey
+      : null,
+  };
 }
 
 /** Whether this person is young enough that the years are still forming. */

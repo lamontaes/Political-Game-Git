@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
 import type { LawInForce } from "./governing/law-in-force";
 import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
+import type { LawEffectContext } from "./law-effect-stamp";
 import type { EntityId } from "./types";
 
 const law: LawInForce = {
@@ -12,8 +13,8 @@ const law: LawInForce = {
   operativeAt: makeIsoDate("2026-08-01"),
   operativeBasis: "enacted-date",
 };
-const context = {
-  effectKind: "education.enrollment-charge",
+const context: LawEffectContext = {
+  effectKind: "price-cost",
   questionKey:
     "us-policy-positions:education.public-funds-for-private-schooling",
   jurisdictionId: "jurisdiction_subject" as EntityId,
@@ -45,6 +46,69 @@ describe("saved law-effect attribution", () => {
       starting.measureId,
     );
     expect(lawEffectStamp(starting, context)?.source).toBe("in-force-at-start");
+  });
+  it("persists source versus modeled term evidence and clones donor references", () => {
+    const sourced = {
+      kind: "source" as const,
+      termKey: "housing-land-use.inclusionary-requirement",
+      value: 0.2,
+      unit: "ratio" as const,
+      requestedAt: makeIsoDate("2026-09-01"),
+      lawMeasureId: "measure_nj" as EntityId,
+      sourceRecordIds: ["provision_nj" as EntityId, "source_nj" as EntityId],
+    };
+    expect(
+      isLawEffectStamp(
+        lawEffectStamp(law, { ...context, termResolution: sourced }),
+      ),
+    ).toBe(true);
+    const modeled = {
+      kind: "modeled" as const,
+      termKey: "housing-land-use.inclusionary-requirement",
+      value: 0.09,
+      unit: "ratio" as const,
+      requestedAt: makeIsoDate("2026-09-01"),
+      applicability: {
+        kind: "census-regions" as const,
+        regions: ["south" as const],
+      },
+      estimate: {
+        methodKey: "comparable-place-world-spread",
+        mean: 0.1,
+        spread: 0.02,
+        selectedDonorValue: 0.08,
+        selectionKey: "seeded-place-selection:fixture",
+        worldSeed: "fixture-world-seed",
+        donors: [
+          {
+            placeKey: "US-DC",
+            lawMeasureId: "measure_dc" as EntityId,
+            sourceRecordIds: ["record_dc" as EntityId],
+            value: 0.08,
+            unit: "ratio" as const,
+            region: "south" as const,
+          },
+        ],
+        donorReferences: [],
+      },
+    };
+    const stamp = lawEffectStamp(law, { ...context, termResolution: modeled })!;
+    expect(stamp.termResolution).toEqual(modeled);
+    expect(stamp.termResolution).not.toBe(modeled);
+    expect(isLawEffectStamp(JSON.parse(JSON.stringify(stamp)))).toBe(true);
+    expect(
+      isLawEffectStamp({
+        ...stamp,
+        termResolution: {
+          kind: "modeled",
+          termKey: "term",
+          value: 1,
+          unit: "ratio",
+          requestedAt: "2026-09-01",
+          estimate: { ...modeled.estimate, donors: [], donorReferences: [] },
+        },
+      }),
+    ).toBe(false);
   });
   it("refuses unknown or future law and malformed saved dates/source identities", () => {
     expect(lawEffectStamp(null, context)).toBeNull();
@@ -87,7 +151,7 @@ describe("standing service authority attribution", () => {
       note: "Explicit source-reference shape fixture; no delivery asserted.",
     },
   };
-  const service = {
+  const service: LawEffectContext = {
     ...context,
     effectKind: "service-delivered",
     questionKey: null,

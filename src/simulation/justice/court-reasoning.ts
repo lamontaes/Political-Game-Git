@@ -1,22 +1,19 @@
+import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
 import {
   ensureOfficeholderPrinciples,
   principledLeaning,
 } from "../governing/officeholder-principles";
-import {
-  courtsForJurisdiction,
-  seatHolderAt,
-  seatsForCourt,
-} from "../judiciary/courts";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
+import { courtFor } from "../judiciary/court-for";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
-import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { ensurePeopleTraits } from "../people-traits";
 import { deriveRelationshipSummary } from "../queries";
 import { SeededRng } from "../rng";
@@ -32,6 +29,7 @@ import { isPersonAliveAt } from "../vitality";
 import { JURY_VOTE_DECISION, PLEA_DECISION } from "./court-decisions";
 import { sentencesOf } from "./jail-terms";
 import { custodyFloorAt } from "../law-consequences/legal-outcome";
+import type { SentencingApplicability } from "./sentencing-applicability";
 
 /**
  * How the people in a criminal case decide, through the shared decision
@@ -63,10 +61,21 @@ export const PRETRIAL_HOLD = "court:hold-before-trial" as const;
 /** Offenses with violence against a person. */
 const VIOLENT_OFFENSES = new Set(["crime:assault", "crime:robbery"]);
 /** Offenses that abuse a public office or a campaign's trust. */
-const PUBLIC_TRUST_OFFENSES = new Set(["campaign-funds-personal-use"]);
+const PUBLIC_TRUST_OFFENSES = new Set([
+  "campaign-funds-personal-use",
+  "honest-services-contract-steering",
+  "public-bribery",
+  "public-kickback",
+  "protected-job-patronage",
+  "public-funds-embezzlement",
+  "theft-of-public-money",
+  "extortion-under-color-of-official-right",
+  "unreported-official-gift",
+]);
 
 /** The case as every decider in it sees it. */
 export interface CourtCase {
+  readonly sentencingApplicability?: SentencingApplicability;
   readonly caseKey: string;
   readonly defendantId: EntityId;
   readonly offenseKey: string;
@@ -207,7 +216,7 @@ export function evaluatePlea(
 // The jury.
 
 /**
- * Who may sit: living adults of the place the case is tried, and none who
+ * Who may sit: living adults of the estimated county catchment, and none who
  * know the defendant. Voir dire excuses the defendant's family, household and
  * anyone who has dealt with them, so no juror is somebody the record shows
  * they know.
@@ -226,7 +235,14 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
   const pool: EntityId[] = [];
   const cutoff = currentLifeCutoff(world);
   for (const person of Object.values(world.people)) {
-    if (person.homeJurisdictionId !== courtCase.venueJurisdictionId) continue;
+    if (
+      !courtCase.venueJurisdictionId ||
+      !livesInJuryCatchment(
+        person.homeJurisdictionId,
+        courtCase.venueJurisdictionId,
+      )
+    )
+      continue;
     if (excused.has(person.id)) continue;
     if (world.control.kind === "person" && world.control.personId === person.id)
       continue;
@@ -249,6 +265,22 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * jury statute draws its panels by lot. The draw picks who sits; it decides
  * nothing any of them does.
  */
+/**
+ * ESTIMATED FROM AVERAGE: the most common legal size of a felony jury. Twelve
+ * is the federal rule (Fed. R. Crim. P. 23(b)) and the rule in most states;
+ * the Constitution allows as few as six (Williams v. Florida, 399 U.S. 78
+ * (1970)) and forbids five (Ballew v. Georgia, 435 U.S. 223 (1978)), and a
+ * few states seat six or eight for some offenses. Each state's own size is
+ * not read yet, so every place starts from the common rule.
+ */
+export const JURY_PANEL_ESTIMATE = {
+  size: 12,
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Fed. R. Crim. P. 23(b) and the common state felony rule of twelve; floor of six from Williams v. Florida, 399 U.S. 78 (1970) and Ballew v. Georgia, 435 U.S. 223 (1978)",
+} as const;
+
 export function empanelJury(
   world: World,
   courtCase: CourtCase,
@@ -260,7 +292,7 @@ export function empanelJury(
   );
   const drawn: EntityId[] = [];
   const remaining = [...pool];
-  while (drawn.length < 12 && remaining.length > 0)
+  while (drawn.length < JURY_PANEL_ESTIMATE.size && remaining.length > 0)
     drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
   return drawn;
 }
@@ -429,25 +461,26 @@ export function sentencingJudge(
   courtCase: CourtCase,
   turn: number,
 ): EntityId | null {
-  const usps = courtCase.stateKey?.slice(3) ?? null;
-  const state = usps ? chiefExecutiveJurisdiction(usps) : null;
-  if (!state) return null;
+  if (!courtCase.venueJurisdictionId) return null;
+  const court = courtFor(
+    world,
+    courtCase.venueJurisdictionId,
+    "local-general-trial",
+    "criminal",
+  );
+  if (!court) return null;
   const judges: EntityId[] = [];
-  const courts = courtsForJurisdiction(world, state.id)
-    .filter((court) => court.level === "local-general-trial")
-    .sort((a, b) => a.courtId.localeCompare(b.courtId));
-  for (const court of courts)
-    for (const seat of seatsForCourt(world, court.courtId)) {
-      const holder = seatHolderAt(world, seat.seatId);
-      if (!holder || judges.includes(holder.personId)) continue;
-      if (holder.personId === courtCase.defendantId) continue;
-      if (
-        deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
-          .closeness !== "none"
-      )
-        continue;
-      judges.push(holder.personId);
-    }
+  for (const seat of seatsForCourt(world, court.courtId)) {
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder || judges.includes(holder.personId)) continue;
+    if (holder.personId === courtCase.defendantId) continue;
+    if (
+      deriveRelationshipSummary(world, holder.personId, courtCase.defendantId)
+        .closeness !== "none"
+    )
+      continue;
+    judges.push(holder.personId);
+  }
   if (judges.length === 0) return null;
   return judges[turn % judges.length]!;
 }
@@ -474,14 +507,17 @@ const MANDATORY_MINIMUM_QUESTION =
  * yes binds those cases and leaves every other case to the judge. The term's
  * length stays the court's usual one until each state's minimums are read.
  */
-export function mandatoryJailUnderLaw(
+export function mandatoryMinimumBindingAt(
   world: World,
   courtCase: CourtCase,
-): string | null {
-  const floor = custodyFloorAt(world, courtCase);
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
+): { readonly text: string; readonly law: LawInForce } | null {
   if (floor)
     return floor.months > 0
-      ? `The law requires at least ${floor.months} months in custody for this offense.`
+      ? {
+          text: `The law requires at least ${floor.months} months in custody for this offense.`,
+          law: floor.law,
+        }
       : null;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
@@ -491,13 +527,24 @@ export function mandatoryJailUnderLaw(
   if (!propositionId) return null;
   const law = lawInForce(world, courtCase.venueJurisdictionId, propositionId);
   if (law?.answer !== "yes") return null;
-  return violent
-    ? "The law here sets a jail term for a violent offense that a judge may not go below."
-    : "The law here sets a jail term for someone sentenced before that a judge may not go below.";
+  return {
+    law,
+    text: violent
+      ? "The law here sets a jail term for a violent offense that a judge may not go below."
+      : "The law here sets a jail term for someone sentenced before that a judge may not go below.",
+  };
+}
+
+export function mandatoryJailUnderLaw(
+  world: World,
+  courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
+): string | null {
+  return mandatoryMinimumBindingAt(world, courtCase, floor)?.text ?? null;
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */
-function judgePrincipleConsideration(
+export function judgePrincipleConsideration(
   world: World,
   judgeId: EntityId,
   key: string,
@@ -741,9 +788,10 @@ export function evaluateSentence(
   judgeId: EntityId,
   courtCase: CourtCase,
   pleaded: boolean,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
 ): DecisionEvaluation {
   const key = `${courtCase.caseKey}:sentence`;
-  const bound = mandatoryJailUnderLaw(world, courtCase);
+  const bound = mandatoryJailUnderLaw(world, courtCase, floor);
   return evaluateDecision(world, {
     stableKey: key,
     decisionType: "justice.sentence",

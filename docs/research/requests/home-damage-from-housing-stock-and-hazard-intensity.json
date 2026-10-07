@@ -1,0 +1,34 @@
+{
+  "filedAt": "2026-10-01T18:20:00.000Z",
+  "impact": "shapes-design",
+  "lane": "crisis and disasters",
+  "notes": [
+    "Audit item A132 (by-engine order, Social 20). A132's first step makes one damage result per home: a household now reads its dwelling's damage level, so the two records cannot disagree. The level itself is still a seeded draw against a share by magnitude (homeLevel in src/simulation/crisis/disaster.ts, shares in PROVISIONAL_DISASTER_POLICY.homeDamage), because the game records nothing about a dwelling that would decide its damage and nothing about how hard a hazard hit. The rates themselves are question disaster-damage-casualties-and-declarations; this question is the records a damage level would be computed from."
+  ],
+  "priority": "P1",
+  "question": "What recorded facts about a home and about a storm or flood decide how badly that home is damaged, and where can the game get them for every place? For a home: structure type (single-family detached, attached, small or large apartment building, mobile home), year built, and whether it sits in a mapped flood zone or at what elevation. For a hazard: a measured intensity (flood depth or crest above flood stage, peak wind gust, tornado EF rating, hail size). And the damage curve linking the two: for a given structure type and intensity, the share of homes left undamaged, damaged, or destroyed.",
+  "questionId": "home-damage-from-housing-stock-and-hazard-intensity",
+  "relatedQuestionIds": [
+    "disaster-damage-casualties-and-declarations",
+    "which-storm-reports-a-town-experiences-as-a-disaster"
+  ],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/types.ts Dwelling (id, jurisdiction, location label, classification, provenance) at main 16d1176f9",
+      "whatItDidNotSettle": "A dwelling records no structure type, year built, elevation or flood zone, so nothing about the home can decide its damage."
+    },
+    {
+      "source": "src/simulation/crisis/types.ts HazardEpisodeRecord (family, magnitude, state, jurisdictions, end date, basis) at main 16d1176f9",
+      "whatItDidNotSettle": "A hazard carries only a four-step magnitude, no measured intensity, so how hard it hit a given home is not on record."
+    },
+    {
+      "source": "docs/research/requests/disaster-damage-casualties-and-declarations.json",
+      "whatItDidNotSettle": "Asks for damage shares by hazard size, not for the home and hazard records that would decide one home's damage."
+    }
+  ],
+  "title": "Home damage from the housing stock and the hazard's measured intensity",
+  "usableAnswer": "Datasets the game could load for all 56 places, each with its year and a public source: (1) housing stock by place or tract, such as American Community Survey tables B25024 (units in structure) and B25034 (year structure built), and how to read them for the territories, where the ACS does not run (the 2020 Island Areas censuses); (2) flood exposure, such as FEMA National Flood Hazard Layer zones and the share of homes inside the 1-percent-annual-chance floodplain; (3) measured intensity per event, such as NOAA NCEI Storm Events Database magnitudes (wind gust, hail size, EF rating) and USGS or NWS river crest records for floods; (4) damage curves by structure type and intensity, such as FEMA Hazus flood depth-damage and hurricane or wind damage functions, checked against OpenFEMA Individuals and Households Program housing inspection damage levels. For each, say what it gives at the place level and what it does not.",
+  "whyItMatters": "A home's damage in a storm or flood is still a seeded draw per home. With these records the game could compute each home's damage from what it is and how hard the storm hit, as a sliding scale with no draw: an older mobile home in the flood zone fares worse than a new brick house on high ground, and a law that keeps building out of the floodplain or raises codes would change who loses a home."
+}

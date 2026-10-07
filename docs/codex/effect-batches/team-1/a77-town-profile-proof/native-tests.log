@@ -1,0 +1,84 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/governing/town-profile-clock.test.ts --maxWorkers=1 --reporter=verbose
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "./scripts/dev-lab/runtime-art-build" without a file extension (vite.config.ts:1:33). Add the file extension
+  - import "./scripts/dev-lab/runtime-content-origin" without a file extension (vite.config.ts:2:38). Add the file extension
+  - import "./scripts/dev-lab/vite-identity" without a file extension (vite.config.ts:19:33). Add the file extension
+  - import "./scripts/dev-lab/art-desk-bridge" without a file extension (vite.config.ts:20:31). Add the file extension
+  - import "./scripts/dev-lab/artbench-bridge" without a file extension (vite.config.ts:21:32). Add the file extension
+  - import "./scripts/dev-lab/round-robin-sequencer" without a file extension (vite.config.ts:22:37). Add the file extension
+  - import "./identity" without a file extension (scripts/dev-lab/vite-identity.ts:3:32). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:33:8). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-bridge.ts:19:8). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-bridge.ts:34:30). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-bridge.ts:26:8). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/art-desk-bridge.ts:36:43). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-bridge.ts:27:36). Add the file extension
+  - import "./art-desk-bridge" without a file extension (scripts/dev-lab/artbench-bridge.ts:28:50). Add the file extension
+  - import "./artbench-store" without a file extension (scripts/dev-lab/artbench-bridge.ts:36:8). Add the file extension
+  - import "./artbench-thumbnails" without a file extension (scripts/dev-lab/artbench-bridge.ts:37:32). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/art-desk-inputs.ts:14:30). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-request-code.ts:1:35). Add the file extension
+  - import "../../src/authoring/artbench" without a file extension (scripts/dev-lab/artbench-store.ts:63:8). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/art-desk-cards.ts:1:35). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-request-code.ts:2:41). Add the file extension
+  - import "../../src/authoring/asset-request" without a file extension (scripts/dev-lab/artbench-store.ts:64:35). Add the file extension
+  - import "./art-desk-usage" without a file extension (src/authoring/art-desk-cards.ts:2:55). Add the file extension
+  - import "./art-desk-request-code" without a file extension (src/authoring/art-desk-cards.ts:6:8). Add the file extension
+  - import "../../src/authoring/art-desk-request-code" without a file extension (scripts/dev-lab/artbench-store.ts:68:8). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:15:8). Add the file extension
+  - import "../../src/authoring/art-desk-cards" without a file extension (scripts/dev-lab/artbench-store.ts:69:40). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-cards.ts:16:34). Add the file extension
+  - import "../../src/authoring/asset-review" without a file extension (scripts/dev-lab/artbench-store.ts:70:42). Add the file extension
+  - import "../../src/authoring/art-desk-notifications" without a file extension (scripts/dev-lab/artbench-store.ts:71:38). Add the file extension
+  - import "./art-desk-inputs" without a file extension (scripts/dev-lab/artbench-store.ts:72:27). Add the file extension
+  - import "./raster-decode" without a file extension (scripts/dev-lab/artbench-store.ts:73:50). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-usage.ts:1:61). Add the file extension
+  - import "./asset-request" without a file extension (src/authoring/artbench.ts:18:35). Add the file extension
+  - import "./asset-review" without a file extension (src/authoring/artbench.ts:19:42). Add the file extension
+  - import "./artbench" without a file extension (src/authoring/art-desk-notifications.ts:1:59). Add the file extension
+  - import "./art-desk-cards" without a file extension (src/authoring/art-desk-notifications.ts:7:8). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '2112898'
+[a77-town-profile-proof] {"seed":"a77-town-profile-roll-call-20261001","place":"2112898","unit":"gus2025:212020","organizationId":"organization_36d745e49a763c36","measureId":"legislative-measure_66117b5cb8fc8224","pack":"us-ky-town-council-profile-v1:gus2025:212020","vote":{"outcome":"passed","tally":{"yea":5,"nay":0,"presentNotVoting":0,"absent":0,"excused":0},"members":[{"personId":"person_3bd1c4322b88dc80","name":"David Peterson","disposition":"yea","reason":"member:own-bill"},{"personId":"person_651035f48fad58d1","name":"Amber Medina","disposition":"yea","reason":"member:council-deference"},{"personId":"person_c78dc00ddf605fd3","name":"Rosa Hayes","disposition":"yea","reason":"member:council-deference"},{"personId":"person_5537d286188631d6","name":"Robert Weiss","disposition":"yea","reason":"member:council-deference"},{"personId":"person_bc562b08951004a9","name":"Taylor Anderson","disposition":"yea","reason":"member:council-deference"}]},"enactments":[{"id":"legislative-enactment_c55af7fae7b13479","stableKey":"a77-town-profile-controlled-proposal:enactment","sequence":162,"measureId":"legislative-measure_66117b5cb8fc8224","resolvedAt":"2026-01-05","outcome":"enacted","actDesignation":"ORD 1","effectiveAt":"2026-02-04","finalPassageAt":"2026-01-05","outcomeEventId":"event_a63b3b20373fab80"}]}
+
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > samples five actual profile governments from all 56 jurisdictions 2ms
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '2112898' 310ms
+stdout | src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '3661489'
+[a77-town-profile-proof] {"seed":"a77-town-profile-roll-call-20261001","place":"3661489","unit":"gus2025:186657","organizationId":"organization_9e8a4bfcbe4b776a","measureId":"legislative-measure_95ffa8fd01fe51dd","pack":"us-ny-town-council-profile-v1:gus2025:186657","vote":{"outcome":"passed","tally":{"yea":5,"nay":0,"presentNotVoting":0,"absent":0,"excused":0},"members":[{"personId":"person_1d2e860fc9e0e0c5","name":"Joseph Nguyen","disposition":"yea","reason":"member:own-bill"},{"personId":"person_22654e24c4986621","name":"Ann Terrell","disposition":"yea","reason":"member:council-deference"},{"personId":"person_f9cf9506e445ec32","name":"Riley Moon","disposition":"yea","reason":"member:council-deference"},{"personId":"person_31161fc9888c8401","name":"Aaron Mathis","disposition":"yea","reason":"member:council-deference"},{"personId":"person_7bb50f87ca1df265","name":"Ronald Kent","disposition":"yea","reason":"member:council-deference"}]},"enactments":[{"id":"legislative-enactment_acfee2d1aeda6de4","stableKey":"a77-town-profile-controlled-proposal:enactment","sequence":136,"measureId":"legislative-measure_95ffa8fd01fe51dd","resolvedAt":"2026-01-05","outcome":"enacted","actDesignation":"ORD 1","effectiveAt":"2026-02-04","finalPassageAt":"2026-01-05","outcomeEventId":"event_a63b3b20373fab80"}]}
+
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '3661489' 131ms
+stdout | src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '0567370'
+[a77-town-profile-proof] {"seed":"a77-town-profile-roll-call-20261001","place":"0567370","unit":"gus2025:161073","organizationId":"organization_493e13a0faa556db","measureId":"legislative-measure_6b53737f3e62071a","pack":"us-ar-town-council-profile-v1:gus2025:161073","vote":{"outcome":"passed","tally":{"yea":5,"nay":0,"presentNotVoting":0,"absent":0,"excused":0},"members":[{"personId":"person_57431946a555a2fe","name":"Samuel Peterson","disposition":"yea","reason":"member:own-bill"},{"personId":"person_7331f1cf3680a07b","name":"Matthew Richard","disposition":"yea","reason":"member:council-deference"},{"personId":"person_c5a499b05b75e73c","name":"Barbara Kemp","disposition":"yea","reason":"member:council-deference"},{"personId":"person_18d9ad0b6dce963f","name":"Lindsey Kelley","disposition":"yea","reason":"member:council-deference"},{"personId":"person_30e3edd9882439fc","name":"Timothy Serrano","disposition":"yea","reason":"member:council-deference"}]},"enactments":[{"id":"legislative-enactment_70aa038740602c93","stableKey":"a77-town-profile-controlled-proposal:enactment","sequence":134,"measureId":"legislative-measure_6b53737f3e62071a","resolvedAt":"2026-01-05","outcome":"enacted","actDesignation":"ORD 1","effectiveAt":"2026-02-04","finalPassageAt":"2026-01-05","outcomeEventId":"event_a63b3b20373fab80"}]}
+
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '0567370' 135ms
+stdout | src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '4543495'
+[a77-town-profile-proof] {"seed":"a77-town-profile-roll-call-20261001","place":"4543495","unit":"gus2025:112865","organizationId":"organization_74934dbcbbcd6b42","measureId":"legislative-measure_53ad7de25b7b45ef","pack":"us-sc-town-council-profile-v1:gus2025:112865","vote":{"outcome":"passed","tally":{"yea":5,"nay":0,"presentNotVoting":0,"absent":0,"excused":0},"members":[{"personId":"person_7ae723ff7ce168cd","name":"Julian Kent","disposition":"yea","reason":"member:own-bill"},{"personId":"person_5594ab765fee0b91","name":"Lauren Ortega","disposition":"yea","reason":"member:council-deference"},{"personId":"person_fc70d1595b12f178","name":"Nicholas Tillman","disposition":"yea","reason":"member:council-deference"},{"personId":"person_2000b77b49fb9a51","name":"Carol Noel","disposition":"yea","reason":"member:council-deference"},{"personId":"person_1f2a23d09788b6c6","name":"Maria Rivers","disposition":"yea","reason":"member:council-deference"}]},"enactments":[{"id":"legislative-enactment_5ff15c7c90e4482a","stableKey":"a77-town-profile-controlled-proposal:enactment","sequence":125,"measureId":"legislative-measure_53ad7de25b7b45ef","resolvedAt":"2026-01-05","outcome":"enacted","actDesignation":"ORD 1","effectiveAt":"2026-02-04","finalPassageAt":"2026-01-05","outcomeEventId":"event_a63b3b20373fab80"}]}
+
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '4543495' 123ms
+stdout | src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '4284272'
+[a77-town-profile-proof] {"seed":"a77-town-profile-roll-call-20261001","place":"4284272","unit":"gus2025:139800","organizationId":"organization_a3e3a72d9b16f4de","measureId":"legislative-measure_dc531a99192f0f85","pack":"us-pa-town-council-profile-v1:gus2025:139800","vote":{"outcome":"passed","tally":{"yea":5,"nay":0,"presentNotVoting":0,"absent":0,"excused":0},"members":[{"personId":"person_b100ac40eb21ad7b","name":"Tristan Butler","disposition":"yea","reason":"member:own-bill"},{"personId":"person_40f0b829cde9f4b3","name":"Warren Dunn","disposition":"yea","reason":"member:council-deference"},{"personId":"person_659a0355b85ae035","name":"Paul Liu","disposition":"yea","reason":"member:council-deference"},{"personId":"person_b779f49c05b22d3a","name":"Stephen Davis","disposition":"yea","reason":"member:council-deference"},{"personId":"person_1fcd6ad139576af5","name":"Judith Fernandez","disposition":"yea","reason":"member:council-deference"}]},"enactments":[{"id":"legislative-enactment_87c77d78fe12a0b9","stableKey":"a77-town-profile-controlled-proposal:enactment","sequence":129,"measureId":"legislative-measure_dc531a99192f0f85","resolvedAt":"2026-01-05","outcome":"enacted","actDesignation":"ORD 1","effectiveAt":"2026-02-04","finalPassageAt":"2026-01-05","outcomeEventId":"event_a63b3b20373fab80"}]}
+
+ ✓ src/simulation/governing/town-profile-clock.test.ts > the admitted town profile uses the saved council > keeps the actual roll call and law after Continue in '4284272' 113ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  21:32:52
+   Duration  12.56s (transform 8.94s, setup 18ms, import 11.62s, tests 815ms, environment 0ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

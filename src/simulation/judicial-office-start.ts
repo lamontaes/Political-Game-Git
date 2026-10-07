@@ -1,9 +1,10 @@
 /** Explicit fictional Custom Start premise, using canonical life writers. */
+import { inventedPersonBirthDate } from "./invented-person-age";
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
 } from "./character-history";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate } from "./dates";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { createOrganization, createWorkRelationship } from "./life";
 import { drawCanonicalNameForGender } from "./people";
@@ -107,9 +108,12 @@ export function initializeJudicialOfficePractice(
                 stableKey: personKey,
                 givenName: name.givenName,
                 familyName: name.familyName,
-                birthDate: makeIsoDate(
-                  `${Number(world.currentDate.slice(0, 4)) - 40}-01-01`,
-                ),
+                birthDate: inventedPersonBirthDate(null, {
+                  role: "court-participant-at-start",
+                  referenceDate: world.currentDate,
+                  age: 40,
+                  placement: { monthDay: "01-01" },
+                }),
                 homeJurisdictionId: input.jurisdictionId,
               },
             },

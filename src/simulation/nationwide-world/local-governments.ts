@@ -524,6 +524,17 @@ export function ensureLocalGovernmentOrganization(
           ? "service:county-government"
           : "service:municipal-government",
       locationJurisdictionId: jurisdiction.id,
+      // This organization IS the recorded government unit. Its own source
+      // identity does not establish ownership of a separate generated employer.
+      ...(listed && unit.functionalActive
+        ? {
+            publicGovernmentIdentity: {
+              kind: "local-government" as const,
+              governmentKey: unit.id,
+              jurisdictionId: jurisdiction.id,
+            },
+          }
+        : {}),
     },
   });
 }

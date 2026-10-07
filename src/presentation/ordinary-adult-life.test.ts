@@ -8,15 +8,12 @@ import {
   serializeWorld,
   refreshLifeOpportunities,
 } from "../simulation";
-import {
-  LIVING_COSTS_PLACEHOLDER,
-  livingCostsFlowFor,
-} from "../simulation/cost-of-living";
+import { livingCostsFlowFor } from "../simulation/cost-of-living";
 import { ensureLifePathPersonalPosition } from "../simulation/life-paths2-resources";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import { createOrganization, createWorkRelationship } from "../simulation/life";
-import { OFFICE_SALARY_PLACEHOLDER } from "../simulation/office-salary";
+import { statePayFor } from "../simulation/office-pay";
 import type { EntityId, World } from "../simulation";
 import { chooseAdultOption, letAdultTimePass } from "./adult-life";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -142,7 +139,7 @@ describe("living costs are charged on the first of each month", () => {
       buildAdultLifeContext(broke, personId),
     ).find((situation) => situation.key === "adult.household-money-shortfall");
     expect(offered?.prose).toMatch(
-      /^[A-Z][a-z]+'s food and bills came to \$600\.00/,
+      /^[A-Z][a-z]+'s food and bills came to \$791\.25/,
     );
     const answered = chooseAdultOption(broke, {
       personId,
@@ -170,10 +167,7 @@ describe("living costs are charged on the first of each month", () => {
     const charges = chargesOf(later, personId);
     expect(charges.every((charge) => charge.status === "completed")).toBe(true);
     expect(positionOf(later, personId)!.liquidBalance.minorUnits).toBe(
-      1_000_000 -
-        charges.length *
-          (LIVING_COSTS_PLACEHOLDER.monthlyPerAdultMinor -
-            LIVING_COSTS_PLACEHOLDER.housingShareMinor),
+      1_000_000 - charges.length * 79_125,
     );
     expect(
       buildAdultLifeContext(later, personId).openOpportunityKinds.has(
@@ -232,7 +226,7 @@ describe("holding office pays a salary", () => {
       provenance: { kind: "authored", note: "Test office." },
       initialRole: {
         title: "Governor",
-        occupationClassification: "service:elected-executive",
+        occupationClassification: "service:us-ky-governor",
         locationJurisdictionId: null,
         timeDemand: {
           expectedWeekly: { minimumHours: 40, maximumHours: 60 },
@@ -254,7 +248,7 @@ describe("holding office pays a salary", () => {
     );
     expect(paid).toHaveLength(3);
     expect(paid[0]!.transferredAmount.minorUnits).toBe(
-      Math.round(OFFICE_SALARY_PLACEHOLDER.annualMinor / 52),
+      Math.round((statePayFor("governor", "KY")!.annualDollars * 100) / 52),
     );
     expect(serializeWorld(refreshLifeOpportunities(later, personId))).toBe(
       serializeWorld(later),

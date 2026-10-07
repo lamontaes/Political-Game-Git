@@ -1,0 +1,25 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/income-tax-withholding.test.ts src/simulation/state-income-tax-law.test.ts src/simulation/office-pay.test.ts src/simulation/paid-leave-estimates.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team6-ranked-estimator-current.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+stdout | src/simulation/paid-leave-estimates.test.ts > paid-leave fallback rates read sourced peers without a draw > the existing benefit writer pays a named saved recipient from actual fixture cash and repeats after reload
+A45_SAVED_PAYMENT Diana Hansen person_a1f6300bb87e3f99 resource-flow_e8e1c268c4f1d30e resource-transfer-outcome_7efbcf40fdde6585 17548
+
+ ✓ src/simulation/paid-leave-estimates.test.ts (3 tests) 206ms
+stdout | src/simulation/office-pay.test.ts > what states pay for an office > the existing salary reader preserves the estimate and saved worker through canonical reload
+A42_SAVED_READER Sonia Velasquez person_c3f0a51afb382f25 work-relationship_04319793a43926e1 51700
+
+ ✓ src/simulation/office-pay.test.ts (7 tests) 100ms
+ ✓ src/simulation/state-income-tax-law.test.ts (8 tests) 62ms
+ ✓ src/simulation/income-tax-withholding.test.ts (12 tests) 21ms
+
+ Test Files  4 passed (4)
+      Tests  30 passed (30)
+   Start at  15:59:07
+   Duration  20.10s (transform 10.83s, setup 30ms, import 19.19s, tests 389ms, environment 1ms)
+
+JSON report written to /tmp/team6-ranked-estimator-current.json

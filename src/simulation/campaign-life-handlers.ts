@@ -14,14 +14,16 @@ import type { FutureTransitionHandler, FutureTransitionKey } from "./types";
  * shared registry (also edited by WORLD and GOVERNING) stays one edit.
  * Filled as each increment lands.
  */
-export const CAMPAIGN_LIFE_HANDLERS: readonly (readonly [
+export function campaignLifeHandlers(): readonly (readonly [
   FutureTransitionKey,
   FutureTransitionHandler,
-])[] = [
-  // Lane C: opponent campaigns act at weekly boundaries.
-  [CAMPAIGN_WEEKLY_EVALUATION_KEY, campaignWeeklyEvaluationHandler],
-  // Lane A: chapter organizers offer party and campaign activities.
-  [CAMPAIGN_LIFE_OUTREACH_KEY, campaignLifeOutreachTransitionHandler],
-  // A committee pays its ordinary bills on the days they fall due.
-  [CAMPAIGN_OPERATING_PAYMENT_KEY, campaignOperatingPaymentHandler],
-];
+])[] {
+  return [
+    // Lane C: opponent campaigns act at weekly boundaries.
+    [CAMPAIGN_WEEKLY_EVALUATION_KEY, campaignWeeklyEvaluationHandler],
+    // Lane A: chapter organizers offer party and campaign activities.
+    [CAMPAIGN_LIFE_OUTREACH_KEY, campaignLifeOutreachTransitionHandler],
+    // A committee pays its ordinary bills on the days they fall due.
+    [CAMPAIGN_OPERATING_PAYMENT_KEY, campaignOperatingPaymentHandler],
+  ];
+}

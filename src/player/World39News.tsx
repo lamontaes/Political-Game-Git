@@ -1,6 +1,7 @@
 import type { EntityId, World } from "../simulation";
 import { lawEffectsHere } from "../presentation/law-effects-here";
 import { projectWorld39News } from "../presentation/world39-news";
+import { readPressPublication } from "../simulation/press/read-publication";
 import "./world39-readers.css";
 
 const LEVEL_LABEL = {
@@ -15,10 +16,12 @@ export function World39News({
   world,
   personId,
   onOpenPerson,
+  onWorldChange,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onOpenPerson: (id: EntityId) => void;
+  readonly onWorldChange?: (world: World) => void;
 }) {
   const model = projectWorld39News(world, personId);
   const homeJurisdictionId = world.people[personId]?.homeJurisdictionId ?? null;
@@ -137,6 +140,27 @@ export function World39News({
                 </time>
               </p>
               {item.body !== item.readerHeadline ? <p>{item.body}</p> : null}
+              {onWorldChange &&
+              world.history.publications?.some(
+                (publication) =>
+                  publication.id === item.publicationId &&
+                  publication.kind === "press-story",
+              ) ? (
+                <button
+                  type="button"
+                  data-testid="world39-read-publication"
+                  onClick={() => {
+                    const next = readPressPublication(
+                      world,
+                      personId,
+                      item.publicationId,
+                    );
+                    if (next !== world) onWorldChange(next);
+                  }}
+                >
+                  Read this story
+                </button>
+              ) : null}
               <details id={`world39-publication-${item.publicationId}`}>
                 <summary>Publication details</summary>
                 <p>

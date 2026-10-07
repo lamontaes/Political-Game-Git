@@ -125,7 +125,7 @@ describe("versioned canonical earlier life", () => {
     };
     const { world } = buildProductionWorld(input);
     expect(world.history.organizationProfiles.map((p) => p.name)).toContain(
-      "Neighborhood Market",
+      "Duluth Market",
     );
     expect(world.history.educationEnrollments.length).toBeGreaterThan(0);
     expect(world.history.workRelationships.length).toBeGreaterThan(0);

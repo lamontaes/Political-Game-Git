@@ -1,3 +1,4 @@
+import { tallyDispositions } from "../legislation";
 import {
   constitutionalActions,
   constitutionalPosition,
@@ -7,6 +8,7 @@ import {
   recordStatewideRatification,
   sameRuleChanged,
   stateAmendmentProfile,
+  type ProposeConstitutionalMeasureInput,
 } from "../constitutional-process";
 import type {
   ConstitutionalMeasureRecord,
@@ -22,16 +24,13 @@ import {
   stateDecidedPropositions,
 } from "../policy-provisions";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { resolveRequiredVotes } from "../legislature-rules";
 import { isEligibleVoterIn } from "../issue-record";
 import {
   constitutionalMemberConsiderations,
   memberBallot,
-  stateVoice,
   type Voter,
 } from "../governing/article-v";
 import {
-  decideChamberVote,
   stateConstitutionalBody,
   stateConstitutionalRoster,
 } from "../governing/chamber-votes";
@@ -40,7 +39,6 @@ import {
   principledLeaning,
 } from "../governing/officeholder-principles";
 import {
-  termLimitBallot,
   termLimitConsiderations,
   type TermLimitHolder,
 } from "./federal-reform";
@@ -72,18 +70,17 @@ import {
  * (`enacted-rule-changes.ts`, `executive-term-limits.ts`).
  *
  * Once a year each governorship the World has materialized is reviewed. A
- * proposal is considered only when a cause is on the record, and made only
- * when the legislature's members, each deciding for their own reasons, would
- * carry it in every chamber under the state's amendment threshold (CTO
- * ruling, September 29, 2026, 1:54 a.m.: no dice). A measure that clears
+ * term-limit proposal is saved when its existing cause is on the record, then
+ * voted on by the actual state members. Rejection retains its saved rollcall
+ * (CTO ordering ruling, September 30, 2026, 5:16). A measure that clears
  * every chamber goes to the voters; a ratified measure changes the limit that
  * the next governor election reads.
  *
  * WHO DECIDES. Each recorded proposal reads the actual saved state chambers,
  * seat tenures and institutions. Missing rosters remain unsupported; Congress
  * cannot stand in. Each actual member decides through decideChamberVote. The
- * older filing preflight still scales the state's member totals before filing;
- * it does not supply the recorded chamber rollcall.
+ * general policy filing preflight still scales the state's member totals
+ * before filing; it does not supply the recorded chamber rollcall.
  *
  * WHY THEY DECIDE. On the governor's term limit, a member weighs the
  * governor's party, their relationship with the governor and the bar a
@@ -116,8 +113,8 @@ import {
  *   campaign), pending `constitutional-policy-amendments`.
  * - Initiatives, conventions and commissions. Every proposal is a legislative
  *   referral.
- * - Each member's own chamber. Chambers divide as the whole legislature
- *   does, and members are recorded by seat with no person named.
+ * - General policy filing order. Its preliminary verdict still projects the
+ *   combined state vote share; the recorded vote uses actual named chambers.
  * - The wider electorate. The statewide yes share is counted from the
  *   recorded views of the eligible voters the World holds
  *   (`recordedBallotTally`); with none on record the ballot is unsupported
@@ -397,58 +394,7 @@ interface AmendmentSpec {
   readonly ruleDelta: ConstitutionalRuleDelta;
 }
 
-/** One member's vote on a proposed amendment, with its weightiest reason. */
-interface MemberVote {
-  readonly personId: EntityId;
-  readonly ballot: "yea" | "nay" | "absent";
-  readonly reason: string;
-}
-
-/**
- * How the state's legislature would divide on an amendment, chamber by
- * chamber, and whether it carries every chamber under the state's own
- * proposal threshold. Each chamber divides as the members who speak for the
- * legislature did, scaled to its seats.
- */
-interface LegislatureCount {
-  readonly estimated: boolean;
-  readonly members: readonly MemberVote[];
-  readonly bodies: readonly {
-    readonly bodyKey: string;
-    readonly seats: number;
-    readonly yea: number;
-  }[];
-  readonly carries: boolean;
-}
-
-function countLegislature(
-  stateUsps: string,
-  estimated: boolean,
-  members: readonly MemberVote[],
-): LegislatureCount {
-  const profile = stateAmendmentProfile(`US-${stateUsps}`)!;
-  const cast = members.filter((member) => member.ballot !== "absent");
-  const yes = cast.filter((member) => member.ballot === "yea").length;
-  const bodies = profile.bodies.map((body) => ({
-    bodyKey: body.bodyKey,
-    seats: body.members,
-    yea: cast.length ? Math.round((body.members * yes) / cast.length) : 0,
-  }));
-  return {
-    estimated,
-    members,
-    bodies,
-    carries:
-      cast.length > 0 &&
-      bodies.every(
-        (body) =>
-          body.yea >=
-          resolveRequiredVotes(profile.base, body.seats).requiredVotes,
-      ),
-  };
-}
-
-/** The members who speak for the legislature, principles drawn. */
+/** Actual recorded state members; missing chambers never substitute Congress. */
 function legislatureVoice(
   world: World,
   stateUsps: string,
@@ -457,14 +403,32 @@ function legislatureVoice(
   readonly voters: readonly Voter[];
   readonly estimated: boolean;
 } {
-  const voice = stateVoice(world, stateUsps);
+  const jurisdictionId = chiefExecutiveJurisdictionId(stateUsps);
+  const profile = stateAmendmentProfile(`US-${stateUsps}`);
+  const rosters =
+    jurisdictionId && profile
+      ? profile.bodies.map((body) =>
+          stateConstitutionalRoster(world, jurisdictionId, body.bodyKey),
+        )
+      : [];
+  if (!jurisdictionId || !profile || rosters.some((roster) => roster === null))
+    return { world, voters: [], estimated: true };
+  const voters = rosters.flatMap((roster) =>
+    roster
+      ? roster.seated.body.members.flatMap((member) =>
+          member.personId
+            ? [{ memberKey: member.memberKey, personId: member.personId }]
+            : [],
+        )
+      : [],
+  );
   return {
-    world: ensureOfficeholderPrinciples(world, voice.personIds),
-    voters: voice.personIds.map((personId) => ({
-      memberKey: personId,
-      personId,
-    })),
-    estimated: voice.estimated,
+    world: ensureOfficeholderPrinciples(
+      world,
+      voters.map((voter) => voter.personId),
+    ),
+    voters,
+    estimated: false,
   };
 }
 
@@ -522,7 +486,7 @@ const GOVERNOR: TermLimitHolder = {
 };
 
 /**
- * The policy amendment the members' own principles would carry this year,
+ * The policy amendment the members' own principles favor changing this year,
  * if any: of the state-decided policies most of them lean toward changing,
  * the one the most lean toward, counted member by member.
  */
@@ -531,8 +495,7 @@ function principlesAmendment(
   stateUsps: string,
   year: number,
   voters: readonly Voter[],
-  estimated: boolean,
-): { readonly spec: AmendmentSpec; readonly count: LegislatureCount } | null {
+): AmendmentSpec | null {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   const counted = voters.filter((voter) => voter.personId !== player);
@@ -580,27 +543,7 @@ function principlesAmendment(
       stance,
     },
   };
-  const rejected = votersJustRejected(world, stateUsps, spec.ruleDelta);
-  const members = voters.map((voter): MemberVote => {
-    if (voter.personId === player)
-      return {
-        personId: voter.personId,
-        ballot: "absent",
-        reason: "member:player-not-asked",
-      };
-    return {
-      personId: voter.personId,
-      ...memberBallot(
-        world,
-        `${spec.key}:${voter.memberKey}`,
-        voter.personId,
-        proposition.id,
-        best.answer,
-        rejectionReasons(rejected),
-      ),
-    };
-  });
-  return { spec, count: countLegislature(stateUsps, estimated, members) };
+  return spec;
 }
 
 /** First Tuesday after the first Monday in November, on or after `from`. */
@@ -666,8 +609,8 @@ type RouteCheck = () =>
   | { readonly available: false; readonly reason: string };
 
 /**
- * The governor's term limit: a proposal only with a cause on the record, and
- * only when the legislature's members would carry it.
+ * The governor's term limit: save a cause-backed proposal before the actual
+ * chamber decisions. A rejected proposal retains those decisions.
  */
 function reviewTermLimit(
   world: World,
@@ -677,6 +620,12 @@ function reviewTermLimit(
 ): FutureTransitionHandlerResult | string {
   if (hasOpenReform(world, stateUsps))
     return "An amendment on this is already pending.";
+  if (
+    (world.history.constitutionalMeasures ?? []).some(
+      (measure) => measure.stableKey === measureKey(stateUsps, year),
+    )
+  )
+    return "This year's governor term-limit proposal already has a recorded outcome.";
   const cause = reformCause(world, stateUsps);
   if (!cause) return "No cause for an amendment is on the record.";
   const route = routeOpen();
@@ -719,42 +668,25 @@ function reviewTermLimit(
     return "The actual state chambers, seat tenures or institution bindings are missing; no governor term-limit rollcall can be recorded.";
   if (voice.voters.length === 0)
     return "Nobody speaks for the legislature in this world.";
-  const extra = rejectionReasons(
-    votersJustRejected(voice.world, stateUsps, spec.ruleDelta),
-  );
-  const direction = cause.direction === "restore" ? "restore" : "extend";
-  const count = countLegislature(
-    stateUsps,
-    voice.estimated,
-    voice.voters.map((voter) => ({
-      personId: voter.personId,
-      ...termLimitBallot(
-        voice.world,
-        `${key}:${voter.memberKey}`,
-        voter,
-        { direction, holderPersonId: cause.holderPersonId },
-        GOVERNOR,
-        extra,
-      ),
-    })),
-  );
-  // Filed only when it would carry: the count, not a draw, decides whether a
-  // proposal is made. The same legislature gives the same answer each year.
-  if (!count.carries)
-    return `The legislature would not carry an amendment on the governor's term limit, though ${cause.reason}.`;
   return done(
     proposeAndVote(voice.world, stateUsps, year, spec, cause),
     `An amendment on the governor's term limit was proposed because ${cause.reason}.`,
   );
 }
 
-/** A policy amendment the members' own principles would carry. */
+/** Save the principle-backed cause before the actual chambers decide it. */
 function reviewBackground(
   world: World,
   stateUsps: string,
   year: number,
   routeOpen: RouteCheck,
 ): FutureTransitionHandlerResult | string {
+  if (
+    (world.history.constitutionalMeasures ?? []).some(
+      (measure) => measure.stableKey === principlesMeasureKey(stateUsps, year),
+    )
+  )
+    return "This year's policy amendment already has a recorded proposal and outcome.";
   const voice = legislatureVoice(world, stateUsps);
   if (voice.estimated)
     return "The actual state legislature is not seated; a congressional delegation cannot cast its constitutional votes.";
@@ -769,19 +701,11 @@ function reviewBackground(
     )
   )
     return "The actual state chamber, seat tenure or institution binding is missing; no constitutional vote can be recorded.";
-  const found = principlesAmendment(
-    voice.world,
-    stateUsps,
-    year,
-    voice.voters,
-    voice.estimated,
-  );
+  const found = principlesAmendment(voice.world, stateUsps, year, voice.voters);
   if (!found) return "No policy has most of the legislature behind a change.";
-  const { spec, count } = found;
+  const spec = found;
   if (hasOpenMeasureOn(voice.world, stateUsps, spec.ruleDelta))
     return `An amendment on ${spec.shortTitle.toLowerCase()} is already pending.`;
-  if (!count.carries)
-    return `The legislature would not carry an amendment on ${spec.shortTitle.toLowerCase()}.`;
   const route = routeOpen();
   if (!route.available) return route.reason;
   return done(
@@ -911,7 +835,7 @@ function recordStateProposalVotes(
       continue;
     if (constitutionalPosition(next, measure.id).phase !== "consideration")
       return next;
-    const dispositions = decideChamberVote(next, {
+    const dispositions = memberBallot(next, {
       kind: "constitutional",
       stableKey: measure.stableKey,
       constitutionalMeasureId: measure.id,
@@ -929,6 +853,26 @@ function recordStateProposalVotes(
           ]),
       ),
     });
+    const tally = tallyDispositions(dispositions);
+    const present = tally.yea + tally.nay + tally.presentNotVoting;
+    // Dated vacancies and absent members cannot become an authenticated vote.
+    // Leave the existing proposal in consideration for a later actual quorum.
+    if (present <= seated.seats / 2) return next;
+    const reasonCounts = new Map<string, number>();
+    for (const disposition of dispositions) {
+      if (disposition.reason)
+        reasonCounts.set(
+          disposition.reason,
+          (reasonCounts.get(disposition.reason) ?? 0) + 1,
+        );
+    }
+    const mostOften = [...reasonCounts].sort((a, b) => b[1] - a[1])[0]?.[0];
+    const memberReasons = dispositions.map((disposition) => {
+      const member = seated.body.members.find(
+        (candidate) => candidate.memberKey === disposition.memberKey,
+      );
+      return `${member?.name ?? disposition.memberKey}: ${disposition.reason ?? "no recorded reason"}`;
+    });
     next = recordConstitutionalProposalVote(
       next,
       measure.id,
@@ -937,7 +881,7 @@ function recordStateProposalVotes(
       seated.seats,
       {
         method: "member-decisions",
-        note: `Actual saved state members decided through the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
+        note: `Actual saved state members decided for their own reasons${mostOften ? `, most often ${mostOften}` : "; no member reason was recorded"}. Recorded member reasons: ${memberReasons.join("; ")}. They used the shared chamber vote; constitutional profile basis: ${profileBasis}. No delegation or synthetic seats were used.`,
         sourceEntityIds: [...sourceRecordIds, ...causeRecordIds],
       },
     );
@@ -959,6 +903,47 @@ function proposeAndVote(
   );
 }
 
+/**
+ * The shared initial amendment writer. Automatic proposals use the same
+ * initial text version and unset sponsor/operative/ordinary-measure fields;
+ * an explicit caller value remains authoritative. The canonical producer
+ * still validates identity, authority, dates, and the jurisdiction's rule.
+ */
+export function proposeAmendment(
+  world: World,
+  input: Omit<
+    ProposeConstitutionalMeasureInput,
+    | "textVersion"
+    | "sponsorPersonId"
+    | "delayedOperativeAt"
+    | "ordinaryMeasureId"
+  > &
+    Partial<
+      Pick<
+        ProposeConstitutionalMeasureInput,
+        | "textVersion"
+        | "sponsorPersonId"
+        | "delayedOperativeAt"
+        | "ordinaryMeasureId"
+      >
+    >,
+): World {
+  const {
+    textVersion = "v1",
+    sponsorPersonId = null,
+    delayedOperativeAt = null,
+    ordinaryMeasureId = null,
+    ...proposal
+  } = input;
+  return proposeConstitutionalMeasure(world, {
+    ...proposal,
+    textVersion,
+    sponsorPersonId,
+    delayedOperativeAt,
+    ordinaryMeasureId,
+  });
+}
+
 function proposeAndVoteUnchecked(
   world: World,
   stateUsps: string,
@@ -970,7 +955,7 @@ function proposeAndVoteUnchecked(
   const stateName = world.jurisdictions[stateId]?.name ?? stateUsps;
   const key = spec.key;
   const policy = isPolicyReform(key);
-  let next = proposeConstitutionalMeasure(world, {
+  let next = proposeAmendment(world, {
     stableKey: key,
     jurisdictionId: stateId,
     jurisdictionKey: `US-${stateUsps}`,
@@ -981,14 +966,10 @@ function proposeAndVoteUnchecked(
       : `Proposed Amendment (${year})`,
     shortTitle: spec.shortTitle,
     text: spec.text,
-    textVersion: "v1",
     sponsoringAuthority: `The ${stateName} Legislature`,
-    sponsorPersonId: null,
     ratificationMode: "statewide-electors",
     deadlineAt: null,
-    delayedOperativeAt: null,
     ruleDelta: spec.ruleDelta,
-    ordinaryMeasureId: null,
   });
   const measureId = next.history.constitutionalMeasures!.at(-1)!.id;
   if (policy) {
@@ -1148,7 +1129,9 @@ export function constitutionalReformBallotHandler(
   );
 }
 
-export const CONSTITUTIONAL_REFORM_HANDLERS = [
-  [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
-  [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
-] as const;
+export function constitutionalReformHandlers() {
+  return [
+    [CONSTITUTIONAL_REFORM_REVIEW, constitutionalReformReviewHandler],
+    [CONSTITUTIONAL_REFORM_BALLOT, constitutionalReformBallotHandler],
+  ] as const;
+}

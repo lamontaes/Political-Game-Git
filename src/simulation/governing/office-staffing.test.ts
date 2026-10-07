@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
 import { openOrdinaryLife } from "../../presentation/ordinary-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { serializeWorld } from "../serialization";
@@ -24,10 +21,13 @@ import {
 } from "./office-staffing";
 
 function openingWorld(seed: string): World {
-  const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 40 }),
-  ).game!;
-  return openOrdinaryLife(game.world, game.playerPersonId);
+  // The cases read one seated governor's office; nothing else in an opening.
+  const small = smallWorld({
+    place: DEFAULT_NEW_GAME_SETUP.placeKey,
+    seed,
+    offices: ["governor"],
+  });
+  return openOrdinaryLife(small.world, small.personId);
 }
 
 const CLASS_KEYS = OFFICE_STAFF_POSITIONS.map((position) => position.classKey);

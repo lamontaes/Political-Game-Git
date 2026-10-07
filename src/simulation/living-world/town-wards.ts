@@ -1,7 +1,10 @@
+import { applyWardCommissionLandings } from "../law-consequences/modules/election-ward-landings";
 import methods from "../../../data/research/local-government/council-election-methods.json" with { type: "json" };
 import { governmentUnitsForState } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { householdMembershipsAt } from "../life-queries";
+import { primaryDwellingOf } from "../resource-queries";
+import { TOWN_HOMES_VERSION } from "./town-homes";
 import { primaryReading } from "../municipal-government";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
@@ -170,8 +173,33 @@ export function homePosition(
   const { households } = townRoster(town);
   if (households === 0 || !world.people[personId]) return null;
   const prefix = `${TOWN_RESIDENTS_VERSION}:${town}:household:`;
+  const memberships = householdMembershipsAt(world, personId);
+  const dwelling = primaryDwellingOf(world, personId);
+  if (dwelling) {
+    if (dwelling.jurisdictionId !== town) return null;
+    if (dwelling.stableKey.startsWith(`${TOWN_HOMES_VERSION}:${town}:`)) {
+      // The first roster holder identifies this dwelling's recorded address.
+      // A later tenant inherits its position, not the old tenant's identity.
+      for (const tenure of world.history.housingTenures) {
+        if (
+          tenure.dwellingId !== dwelling.id ||
+          tenure.startedAt > world.currentDate ||
+          tenure.holder.kind !== "household"
+        )
+          continue;
+        const householdId = tenure.holder.householdId;
+        const holder = world.history.households.find(
+          (row) => row.id === householdId,
+        );
+        if (!holder?.stableKey.startsWith(prefix)) continue;
+        const index = Number(holder.stableKey.slice(prefix.length));
+        if (Number.isInteger(index) && index >= 0 && index < households)
+          return index;
+      }
+    }
+  }
   let inTown = world.people[personId]!.homeJurisdictionId === town;
-  for (const row of householdMembershipsAt(world, personId)) {
+  for (const row of memberships) {
     if (row.household.stableKey.startsWith(prefix)) {
       const index = Number(row.household.stableKey.slice(prefix.length));
       if (Number.isInteger(index)) return index;
@@ -179,8 +207,8 @@ export function homePosition(
     if (row.location?.jurisdictionId === town) inTown = true;
   }
   if (!inTown) return null;
-  // A household the town's roster did not write (the life being played, or
-  // one that moved in) has its place in the order from its own id: a
+  // Without a recorded roster dwelling, a household the roster did not
+  // write keeps the legacy position from its own id: a
   // stand-in address, not a choice anyone makes.
   let hash = 2166136261;
   for (const char of personId) {
@@ -462,7 +490,7 @@ export function redrawTownWards(
   const attribution: LawEffectStampedRecord = stamp
     ? { lawEffectStamps: [stamp] }
     : {};
-  return recordWorldEvent(world, {
+  const drawnWorld = recordWorldEvent(world, {
     ...attribution,
     stableKey: `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
     type: WARDS_DRAWN,
@@ -485,7 +513,7 @@ export function redrawTownWards(
       `drawn-out:${shared.length}`,
       `paired:${paired.map((row) => row.personId).join(",")}`,
     ],
-    summary: `${plan.wardSeats} council wards were drawn by ${by}, ${input.reason}; the largest and smallest differ by ${(deviation * 100).toFixed(1)}% of an even ward${
+    summary: `${plan.wardSeats} council districts were drawn by ${by}, ${input.reason}; the largest and smallest differ by ${(deviation * 100).toFixed(1)}% of an even district${
       shared.length > 0
         ? `, and ${shared.length} sitting ${shared.length === 1 ? "member lives" : "members live"} outside the ward ${shared.length === 1 ? "their seat" : "their seats"} now ${shared.length === 1 ? "represents" : "represent"}`
         : ""
@@ -503,4 +531,12 @@ export function redrawTownWards(
       immediateReaction: null,
     },
   });
+  const saved = drawnWorld.history.events.find(
+    (row) =>
+      row.stableKey ===
+      `town-wards:${input.unit.id}:${world.currentDate}:${input.drawnBy}`,
+  );
+  return stamp && saved
+    ? applyWardCommissionLandings(drawnWorld, saved.id)
+    : drawnWorld;
 }

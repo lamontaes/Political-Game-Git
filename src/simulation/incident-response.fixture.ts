@@ -7,6 +7,7 @@ import {
   recordEventKnowledge,
 } from "./index";
 import { reportIncident } from "./incident-response";
+import { declareHazardEpisode } from "./crisis/disaster";
 const provenance = {
   kind: "authored" as const,
   note: "Explicit fictional incident response diagnostic premises, not empirical cadence or public assistance law.",
@@ -18,6 +19,18 @@ export function responseFixture(physical = false) {
     jurisdictionId = w.jurisdictionOrder[0]!;
   w = { ...w, control: { kind: "person", personId: person } };
   if (physical) {
+    // The hazard condition reads a recorded hazard, so the storm is declared
+    // through its producer first (this fixture's place is the demo scenario).
+    w = declareHazardEpisode(w, {
+      stableKey: "incident-response-storm",
+      family: "severe-storm",
+      magnitude: "moderate",
+      stateUsps: "KY",
+      jurisdictionIds: [jurisdictionId],
+      durationDays: 1,
+      basis: "Test fixture: a declared storm the hazard incident reads.",
+      sourceReference: null,
+    });
     const definitionId = Object.values(w.incidentCatalog.definitions).find(
       (d) => d.incidentKind === "incident:natural-hazard",
     )!.id;

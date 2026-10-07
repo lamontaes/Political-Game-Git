@@ -7,6 +7,9 @@ import {
 } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../fixtures/small-world";
+import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
+import { SeededRng, pickDistinct } from "../../src/simulation/rng";
 import {
   ACS_PUMS_2024_PRODUCTION_GATE,
   compileAcsPumsDonorFixture,
@@ -15,6 +18,7 @@ import {
 } from "../../src/source/domains/acs-pums/index";
 import {
   applyAcsPumsCharacterHistoryBridge,
+  largestRemainderAllocation,
   selectAcsPumsHouseholdDonor,
 } from "../../src/source/adapters/index";
 import {
@@ -211,6 +215,7 @@ describe("ACS PUMS deterministic household selection", () => {
     stateUsps: "WY",
     stateFips: "56",
     constraints: { subjectRelationship: "reference-person" as const },
+    allocation: { slot: 0, slots: 1 },
   };
 
   it("is replay-stable for the same seed, corpus, state, version, and constraints", () => {
@@ -229,19 +234,54 @@ describe("ACS PUMS deterministic household selection", () => {
     expect(first.selectionKey).toContain(compiled.corpus.canonicalSha256);
   });
 
-  it("varies across seeds while retaining exact state and whole-household constraints", () => {
+  it("shares a world's slots among the survey households by weight, with no draw", () => {
     const compiled = corpus();
-    const selected = new Set(
-      Array.from(
-        { length: 64 },
-        (_, index) =>
-          selectAcsPumsHouseholdDonor(compiled, {
-            ...baseContext,
-            worldSeed: `variation-${index}`,
-          }).household.serialNumber,
-      ),
+    const slots = 64;
+    const weights = compiled.records
+      .filter((household) => household.shard.stateUsps === "WY")
+      .sort((a, b) => a.serialNumber.localeCompare(b.serialNumber))
+      .map((household) => ({
+        serial: household.serialNumber,
+        weight: (household.householdWeight as { value: number }).value,
+      }));
+    const owed = largestRemainderAllocation(
+      weights.map((row) => row.weight),
+      slots,
     );
-    expect(selected).toEqual(new Set(["2024HU0000001", "2024HU0000002"]));
+    expect(owed.reduce((sum, count) => sum + count, 0)).toBe(slots);
+    for (const seed of ["allocation-a", "allocation-b"]) {
+      const taken = new Map<string, number>();
+      for (let slot = 0; slot < slots; slot += 1) {
+        const selection = selectAcsPumsHouseholdDonor(compiled, {
+          ...baseContext,
+          worldSeed: seed,
+          allocation: { slot, slots },
+        });
+        taken.set(
+          selection.household.serialNumber,
+          (taken.get(selection.household.serialNumber) ?? 0) + 1,
+        );
+      }
+      // Each household is taken exactly as often as its weight's share.
+      weights.forEach((row, index) =>
+        expect(taken.get(row.serial) ?? 0, `${seed} ${row.serial}`).toBe(
+          owed[index],
+        ),
+      );
+    }
+    // Largest remainder in exact integers: 7, 2 and 1 of 10 for 70, 20, 10;
+    // a remainder tie goes to the larger weight.
+    expect(largestRemainderAllocation([70, 20, 10], 10)).toEqual([7, 2, 1]);
+    expect(largestRemainderAllocation([3, 1], 2)).toEqual([2, 0]);
+    expect(largestRemainderAllocation([1, 1, 2], 2)).toEqual([1, 0, 1]);
+    expect(largestRemainderAllocation([5, 3], 1)).toEqual([1, 0]);
+    expect(() =>
+      selectAcsPumsHouseholdDonor(compiled, {
+        ...baseContext,
+        worldSeed: "allocation-a",
+        allocation: { slot: 4, slots: 4 },
+      }),
+    ).toThrow(/outside the 4 allocated/);
     expect(() =>
       selectAcsPumsHouseholdDonor(compiled, {
         ...baseContext,
@@ -262,6 +302,7 @@ describe("ACS PUMS one-way character-history bridge", () => {
     )!;
     const selection = selectAcsPumsHouseholdDonor(compiled, {
       worldSeed: world.seed,
+      allocation: { slot: 0, slots: 1 },
       surveyYear: 2024,
       stateUsps: "WY",
       stateFips: "56",
@@ -443,5 +484,72 @@ describe("ACS PUMS one-way character-history bridge", () => {
         ],
       }),
     ).toThrow(/age does not match donor AGEP/);
+  });
+});
+
+// A151, end to end: a small world in a place drawn from all 56 takes its
+// donor households from the survey's own households for that state, each
+// with every member's recorded age, or is refused where the corpus holds none.
+const SMALL_WORLD_SEED = "a151-survey-households";
+const [DRAWN] = pickDistinct(
+  new SeededRng(SMALL_WORLD_SEED),
+  lifePlaceStateIdentities(),
+  1,
+);
+describe(`A151: a small world's donor households come from its state's survey households (${DRAWN!.jurisdictionKey}, seed ${SMALL_WORLD_SEED}, drawn from all 56)`, () => {
+  it("allocates the drawn place's households by weight, or refuses a state the corpus does not hold", () => {
+    expect(lifePlaceStateIdentities()).toHaveLength(56);
+    const compiled = corpus();
+    for (const usps of [DRAWN!.usps, "WY"]) {
+      const small = smallWorld({
+        place: `US-${usps}`,
+        seed: SMALL_WORLD_SEED,
+        people: 3,
+      });
+      const records = compiled.records.filter(
+        (household) => household.shard.stateUsps === small.stateUsps,
+      );
+      const context = {
+        worldSeed: small.world.seed,
+        surveyYear: 2024 as const,
+        stateUsps: small.stateUsps,
+        stateFips: records[0]?.shard.stateFips ?? "00",
+        constraints: {},
+      };
+      if (records.length === 0) {
+        expect(() =>
+          selectAcsPumsHouseholdDonor(compiled, {
+            ...context,
+            allocation: { slot: 0, slots: 1 },
+          }),
+        ).toThrow(/No coherent PUMS household donor/);
+        continue;
+      }
+      const slots = records.length * 3;
+      for (let slot = 0; slot < slots; slot += 1) {
+        const selection = selectAcsPumsHouseholdDonor(compiled, {
+          ...context,
+          allocation: { slot, slots },
+        });
+        // A partner's and a child's ages are the survey household's own.
+        for (const person of selection.household.persons)
+          expect(person.age.state, selection.household.serialNumber).toBe(
+            "KNOWN",
+          );
+        expect(selection.household.shard.stateUsps).toBe(small.stateUsps);
+      }
+    }
+  });
+});
+
+// A151: the donor is allocated by weight, never drawn.
+describe("A151: the household donor is allocated, not drawn", () => {
+  it("its module holds no seeded stream", () => {
+    const source = readFileSync(
+      resolve(REPO, "src/source/adapters/acs-pums-character-history.ts"),
+      "utf8",
+    );
+    expect(source).not.toMatch(/SeededRng|\brng\./);
+    expect(source).toMatch(/largestRemainderAllocation\(/);
   });
 });

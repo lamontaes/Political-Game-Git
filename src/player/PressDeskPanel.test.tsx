@@ -1,11 +1,10 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
   createScenarioWorld,
@@ -53,10 +52,8 @@ function campaignFixture(seed: string): CampaignFixture {
   const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
     peopleCount: 7,
   });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,

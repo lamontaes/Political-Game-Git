@@ -1,18 +1,14 @@
 import { applyLawConsequences } from "./enacted-law-effects";
-import { applySpeechRetelling } from "./speech-retelling";
+import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
 import { applyJudicialReview } from "./judiciary/judicial-review";
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { synchronizeMunicipalGoverningOffices } from "./governing/state-governing";
+import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
 import { applyArticleV } from "./governing/article-v";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
@@ -28,6 +24,7 @@ import {
 } from "./dates";
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
+import { pressEntityAvailableAt, pressEntityExists } from "./press/integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -51,15 +48,16 @@ import type {
   WorkPlayerRequirement,
   World,
 } from "./types";
-import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
-  resolveFutureDueItemsThrough,
-} from "./future-transitions";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { recordsWithFieldValue } from "./history-index";
+import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
+import { reconcileStateLegislatureQueue } from "./nationwide-world/state-legislature-queue";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1112,7 +1110,7 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   return advanceWithWorldIntegrityAtEnd(() => {
     if (!transitionHandlers.routine) {
@@ -1139,7 +1137,7 @@ export function advanceWhileJoiningScheduledActivity(
   world: World,
   activityId: EntityId,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1196,7 +1194,7 @@ export function advanceWhileJoiningScheduledActivity(
 export function performRemainingScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1399,7 +1397,7 @@ export function controlledCommitmentsBlockingActivityPerformance(
 export function performScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1424,11 +1422,15 @@ export function performScheduledActivity(
   ) {
     return world;
   }
-  return advanceCanonicalMinutes(
+  return advanceWithWorldIntegrityAtEnd(
+    () =>
+      advanceCanonicalMinutes(
+        world,
+        timing.totalElapsedMinutes,
+        activityId,
+        transitionHandlers,
+      ),
     world,
-    timing.totalElapsedMinutes,
-    activityId,
-    transitionHandlers,
   );
 }
 
@@ -1608,7 +1610,7 @@ function advanceCanonicalMinutes(
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
-      world = resolveFutureDueItemsThrough(
+      world = resolveFutureDueItemsWithStateLegislatureQueue(
         world,
         transition.at.date,
         transitionHandlers,
@@ -2006,9 +2008,41 @@ function setCurrentMomentWithDue(
   if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
   const crossedFrom = world.currentDate;
   return setCurrentMoment(
-    resolveFutureDueItemsThrough(world, moment.date, transitionHandlers),
+    resolveFutureDueItemsWithStateLegislatureQueue(
+      world,
+      moment.date,
+      transitionHandlers,
+    ),
     moment,
     crossedFrom,
+  );
+}
+
+function resolveFutureDueItemsWithStateLegislatureQueue(
+  world: World,
+  throughDate: World["currentDate"],
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  const packs = new Set<string>();
+  for (const opening of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    "world.state-legislature-opening",
+  )) {
+    if (!opening.tags.includes(STATE_LEGISLATURE_OPENING_VERSION)) continue;
+    for (const tag of opening.tags) {
+      if (tag.startsWith("pack:")) packs.add(tag.slice("pack:".length));
+    }
+  }
+  const throughYear = Number(throughDate.slice(0, 4)) + 4;
+  let prepared = world;
+  for (const packId of packs) {
+    prepared = reconcileStateLegislatureQueue(prepared, packId, throughYear);
+  }
+  return resolveFutureDueItemsThrough(
+    prepared,
+    throughDate,
+    transitionHandlers,
   );
 }
 
@@ -2030,38 +2064,27 @@ export function applyDateBoundary(
   crossedFrom: World["currentDate"],
   world: World,
 ): World {
-  const moved = applyNationalTermTransitions(world);
+  const transitioned = applyNationalTermTransitions(world);
+  // Term entry can happen within a date; the daily chain only runs on a new date.
+  if (world.currentDate === crossedFrom) return transitioned;
+  const moved =
+    transitioned.control.kind === "person"
+      ? settleJobPay(transitioned, transitioned.control.personId)
+      : transitioned;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  // D-3 step 7: a remembered speech is retold at each first of the month.
   return applyJudicialReview(
     crossedFrom,
-    applySpeechRetelling(
-      crossedFrom,
-      applyCrisisRepairFunding(
-        applyEnactedCourtSizes(
-          applyCrisisOfficeContinuity(
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        synchronizeMunicipalGoverningOffices(
+          applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
             applyCongressLawmaking(
               crossedFrom,
               applyFederalReform(
                 crossedFrom,
-                applyArticleV(
-                  crossedFrom,
-                  applyConstitutionalReform(
-                    crossedFrom,
-                    applyPresidentialTurnover(
-                      crossedFrom,
-                      applyGovernorTurnover(
-                        crossedFrom,
-                        applyCongressTurnover(
-                          crossedFrom,
-                          applyStateLegislatureTurnover(crossedFrom, moved),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                applyArticleV(crossedFrom, afterTerms),
               ),
             ),
           ),
@@ -2176,6 +2199,7 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     // kind already existed; nothing legislative could satisfy it, so a docket
     // of bills had no way to appear in Work at all.
     legislationEntityExists(world, id) ||
+    pressEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -2210,6 +2234,9 @@ function canonicalSourceAvailable(
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
     return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
+  if (pressEntityExists(world, id)) {
+    return pressEntityAvailableAt(world, id, at.date, sequenceExclusive);
   }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;

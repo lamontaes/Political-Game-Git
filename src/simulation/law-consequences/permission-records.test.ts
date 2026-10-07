@@ -1,4 +1,5 @@
 import { createWorkItem } from "../time-work";
+import type { LawEffectContext } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate, makeSimulationMoment } from "../dates";
 import { lawInForce } from "../governing/law-in-force";
@@ -54,7 +55,7 @@ function fixture() {
   )!;
   const law = lawInForce(world, state.id, question.id, date)!;
   expect(law).not.toBeNull();
-  const context = {
+  const context: LawEffectContext = {
     effectKind: "right-permission",
     questionKey: question.stableKey,
     jurisdictionId: state.id,

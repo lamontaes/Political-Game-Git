@@ -310,7 +310,9 @@ describe("Identity belongs to the saved world", () => {
 
     // Amend, save, reload, amend again, save, reload, amend a third time.
     for (let round = 0; round < 3; round += 1) {
-      world = applyLegislativeStep(scenario, world, "offer-amendment").world;
+      world = applyLegislativeStep(scenario, world, "offer-amendment", {
+        amendmentMotive: "record",
+      }).world;
       world = deserializeWorld(serializeWorld(world));
       assertWorldIntegrity(world);
     }
@@ -319,6 +321,11 @@ describe("Identity belongs to the saved world", () => {
       (record) => record.measureId === scenario.measureId,
     );
     expect(amendments).toHaveLength(3);
+    expect(amendments.map((record) => record.authorMotive)).toEqual([
+      "record",
+      "record",
+      "record",
+    ]);
     expect(new Set(amendments.map((record) => record.stableKey)).size).toBe(3);
     expect(new Set(amendments.map((record) => record.id)).size).toBe(3);
   });
@@ -483,7 +490,7 @@ describe("A chamber that is not at full strength", () => {
       /cannot have more members elected than its 67 formal seats/,
     );
     expect(() => electedMembersFor(senate, 0)).toThrow(
-      /positive count of elected members/,
+      /positive count of elected officials/,
     );
   });
 });

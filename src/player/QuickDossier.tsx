@@ -11,7 +11,7 @@ interface QuickDossierProps {
 }
 
 function placeDescription(fact: PlayerVisibleFact): string {
-  if (fact.access === "unknown") return "Hometown not known";
+  if (fact.access === "unknown") return "Hometown has not come up";
   if (fact.id === "birthplace") return `Born in ${fact.value}`;
   if (fact.id === "residence") return `Lives in ${fact.value}`;
   return fact.value;
