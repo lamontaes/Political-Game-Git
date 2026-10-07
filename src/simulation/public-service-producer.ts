@@ -37,6 +37,7 @@ import {
 } from "./crisis/health-queries";
 import { SUBSTANCE_USE_DISORDER_KEY } from "./crisis/condition-pack";
 import { publicProgramRecords } from "./public-program-integrity";
+import { residentOfCounty } from "./county-service-authority";
 import {
   livesInServiceArea,
   requestPublicService,
@@ -55,6 +56,7 @@ import { writeWithWorldIntegrityOnce } from "./world";
 import {
   PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
+  isCountyServiceProgram,
   type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
 import type {
@@ -179,8 +181,18 @@ export function produceResidentServiceRequests(
       preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
     });
     const end = addSimulationMinutes(start, form.visit.minutes);
-    for (const personId of residentsOf(world, commitment.jurisdictionId)) {
+    const countyService = isCountyServiceProgram(commitment.programKey);
+    for (const personId of residentsOf(
+      world,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )) {
       if (records.dead.has(personId)) continue;
+      if (
+        countyService &&
+        !residentOfCounty(world, personId, commitment.programKey)
+      )
+        continue;
       if (
         !form.forChild &&
         scheduledConflictExists(current, [personId], start, end)
@@ -279,7 +291,11 @@ export function produceResidentServiceRequests(
 }
 
 /** Adults whose recorded home is in the served place, in id order. */
-function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
+function residentsOf(
+  world: World,
+  jurisdictionId: EntityId,
+  programKey?: string,
+): EntityId[] {
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   return (Object.keys(world.people) as EntityId[])
@@ -288,7 +304,7 @@ function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
         id !== controlled &&
         ageOnDate(world.people[id]!.birthDate, world.currentDate) >=
           ADULT_AGE &&
-        livesInServiceArea(world, id, jurisdictionId),
+        livesInServiceArea(world, id, jurisdictionId, programKey),
     )
     .sort();
 }
@@ -841,7 +857,12 @@ export function serviceAttendanceHandler(
     );
   if (
     !commitment ||
-    !livesInServiceArea(world, personId, commitment.jurisdictionId)
+    !livesInServiceArea(
+      world,
+      personId,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )
   )
     return done(
       cancelScheduledActivity(world, activity.id),

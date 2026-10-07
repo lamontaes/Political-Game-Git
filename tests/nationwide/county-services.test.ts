@@ -9,11 +9,16 @@ import {
 } from "../../src/presentation/opening-life";
 import { openOrdinaryLife } from "../../src/presentation/ordinary-life";
 import { cancelFutureDueItem } from "../../src/simulation/future-transitions";
-import { GOVERNING_MATTER_OPENED } from "../../src/simulation/governing/state-governing";
-import { municipalSeats } from "../../src/simulation/municipal-public-work";
-import { programAuthority } from "../../src/simulation/governing/public-program";
-import { openProgramMattersForAllOffices } from "../../src/simulation/governing/state-governing";
-import { governingMatters } from "../../src/simulation/governing/state-governing";
+import { juryCountyForPlace } from "../../src/simulation/justice/jury-catchment";
+import { ageOnDate } from "../../src/simulation/dates";
+import { beginHealthEpisode } from "../../src/simulation/crisis/health";
+import {
+  deserializeWorld,
+  serializeWorld,
+} from "../../src/simulation/serialization";
+import type { EntityId } from "../../src/simulation/types";
+import { BUDGET_PROGRAMS } from "../../src/simulation/public-budgets/store";
+import { organizationServesCounty } from "../../src/simulation/county-service-authority";
 import { addDays } from "../../src/simulation/dates";
 import { settlePublicBudgets } from "../../src/simulation/public-budgets";
 import { ensureCountyServiceAppropriations } from "../../src/simulation/county-services";
@@ -80,29 +85,7 @@ describe("a county's voted budget lines fund its services", () => {
     process.stderr.write(
       `CO-9 world seed co9-a, place ${place.displayName} (${county.stateUsps}, ${county.id}), opened ${opened.currentDate}\n`,
     );
-    let world = isolate(opened, BOARD_CLOCK);
-    try {
-      world = resolveDueThrough(world, hearing0.dueAt);
-    } catch (error) {
-      const states = new Map(
-        (world.history.futureDueItemStates ?? []).map((row) => [
-          row.dueItemId,
-          row.status,
-        ]),
-      );
-      const pending = world.history.futureDueItems
-        .filter(
-          (item) =>
-            item.dueAt <= hearing0.dueAt &&
-            (states.get(item.id) ?? "scheduled") === "scheduled" &&
-            CLOCK.test(item.transitionKey),
-        )
-        .map((item) => `${item.transitionKey}@${item.dueAt}`);
-      process.stderr.write(
-        `BLOCKED CANDIDATES ${[...new Set(pending)].join(" | ")}\n`,
-      );
-      throw error;
-    }
+    let world = resolveDueThrough(isolate(opened, BOARD_CLOCK), hearing0.dueAt);
     const hearing = countyBudgetHearings(world).find(
       (row) => row.unitId === county.id,
     )!;
@@ -110,8 +93,7 @@ describe("a county's voted budget lines fund its services", () => {
     const decided = countyBudgetHearings(world).find(
       (row) => row.key === hearing.key,
     )!;
-    process.stderr.write(`stage ${decided.stage} starts ${decided.startsOn}\n`);
-    if (decided.stage !== "adopted") return;
+    expect(decided.stage).toBe("adopted");
     // The voted year opens; the month's pass funds the county's services.
     world = resolveDueThrough(isolate(world, BOARD_CLOCK), decided.startsOn);
     const month = `${decided.startsOn.slice(0, 7)}-01` as IsoDate;
@@ -130,84 +112,106 @@ describe("a county's voted budget lines fund its services", () => {
     const appropriations = publicProgramRecords(world).filter(
       (record) => record.kind === "appropriation" && mine(record),
     );
-    for (const record of appropriations)
-      if (record.kind === "appropriation")
-        process.stderr.write(
-          `APPROPRIATION ${record.programKey}: $${record.amount.minorUnits / 100} ${record.availableFrom} to ${record.availableThrough}\n`,
-        );
     expect(appropriations.length).toBeGreaterThan(0);
-    process.stderr.write(
-      `IDENTITY ${JSON.stringify((appropriations[0] as { publicGovernmentIdentity?: unknown }).publicGovernmentIdentity ?? "jurisdiction")}\n`,
-    );
-    {
-      const key = (
-        appropriations[0] as unknown as {
-          publicGovernmentIdentity: { governmentKey: string };
-        }
-      ).publicGovernmentIdentity.governmentKey;
-      const seats = municipalSeats(world, key);
-      const manager = seats.find(
-        (seat) => seat.role === "professional-manager",
-      )!;
-      process.stderr.write(
-        `AUTHORITY ${JSON.stringify(
-          programAuthority(
-            world,
-            manager.personId,
-            { kind: "municipal", governmentKey: key },
-            appropriations[0] as never,
-          ),
-        )} date ${world.currentDate}\n`,
+    // Each appropriation is exactly the voted line, so a bigger or smaller
+    // vote is a bigger or smaller service budget.
+    const voted = world
+      .publicBudgets!.governments.find(
+        (government) => government.key === `county:${geoid}`,
+      )!
+      .years.at(-1)!;
+    for (const { family, line } of COUNTY_SERVICE_FAMILIES) {
+      const record = appropriations.find(
+        (row) => row.programKey === `${family}:${geoid}`,
       );
-      world = openProgramMattersForAllOffices(
-        world,
-        new Set(appropriations.map((record) => record.id)),
-      );
-      process.stderr.write(
-        `SEATS ${key}: ${seats.map((seat) => seat.role).join(",")}\n`,
-      );
-    }
-    const matters = world.history.events.filter(
-      (event) => event.type === GOVERNING_MATTER_OPENED,
-    );
-    process.stderr.write(
-      `MATTERS ${matters.length}: ${matters
-        .map((event) => event.summary)
-        .slice(-6)
-        .join(" | ")}\n`,
-    );
-    {
-      const ms = governingMatters(world).filter((m) => m.family === "program");
-      for (const m of ms) {
-        const d = world.history.futureDueItems.filter((i) => i.entityIds.includes(m.id));
-        process.stderr.write(`MATTER ${m.id} ${m.status} opts ${m.options.map((o) => o.key).join(",")} due ${d.map((i) => i.transitionKey + "@" + i.dueAt).join(";")}\n`);
-      }
+      const dollars = voted.appropriations[BUDGET_PROGRAMS.indexOf(line)] ?? 0;
+      if (dollars > 0)
+        expect(
+          record?.kind === "appropriation" && record.amount.minorUnits,
+        ).toBe(Math.round(dollars) * 100);
     }
     const startDay = world.currentDate;
-    for (let day = 10; day <= 120; day += 10) {
+    const step = (to: number) => {
       world = resolveDueThrough(
         isolate(world),
-        addDays(startDay, day) as IsoDate,
+        addDays(startDay, to) as IsoDate,
       );
-      const records = publicProgramRecords(world).filter(mine);
-      const kinds = records.reduce<Record<string, number>>((acc, r) => {
-        acc[r.kind] = (acc[r.kind] ?? 0) + 1;
-        return acc;
-      }, {});
-      const delivered = world.history.events.filter(
+    };
+    // The money commits and pays first.
+    step(60);
+    const commitments = publicProgramRecords(world).filter(
+      (record) => record.kind === "commitment" && mine(record),
+    );
+    expect(commitments.length).toBeGreaterThan(0);
+    // A commitment only ever pays an organization already in this county.
+    for (const record of commitments)
+      if (record.kind === "commitment")
+        expect(
+          organizationServesCounty(
+            world,
+            record.recipientOrganizationId!,
+            record.programKey,
+            record.jurisdictionId,
+          ),
+        ).toBe(true);
+    expect(
+      publicProgramRecords(world).some(
+        (record) =>
+          record.kind === "installment" &&
+          record.status === "posted" &&
+          !!record.resourceFlowId,
+      ),
+    ).toBe(true);
+    // Edge case: one county resident falls ill through the health writer;
+    // another stays well. Everything after this is the ordinary clock.
+    const residents = Object.keys(world.people)
+      .filter((id) => {
+        const home = world.people[id as never]?.homeJurisdictionId;
+        return (
+          id !== (world.control as { personId?: string }).personId &&
+          !!home &&
+          juryCountyForPlace(home) === geoid &&
+          ageOnDate(world.people[id as never]!.birthDate, world.currentDate) >=
+            18
+        );
+      })
+      .sort() as EntityId[];
+    const unwellSet = residents.slice(0, 8);
+    const wellSet = residents.slice(8);
+    for (const unwell of unwellSet)
+      world = beginHealthEpisode(world, {
+        stableKey: `test:co9-acute:${unwell}`,
+        personId: unwell,
+        severity: "acute",
+        initialLimitation: "limited",
+        origin: {
+          kind: "authored",
+          note: "CO-9 test: an acute episode written through the health writer.",
+        },
+        causalParentIds: [],
+      });
+    step(120);
+    const delivered = world.history.events.filter(
+      (event) => event.type === "service.delivery-recorded",
+    );
+    const clinic = delivered.filter((event) =>
+      event.summary.includes("Clinic visit"),
+    );
+    const fair = delivered.filter((event) =>
+      event.summary.includes("Day at the fair"),
+    );
+    const patients = new Set(clinic.flatMap((e) => e.involvedEntityIds));
+    process.stderr.write(
+      `CO-9 delivered ${delivered.length}: clinic ${clinic.length}, fair ${fair.length}; ill residents ${unwellSet.length}, well ${wellSet.length}\n`,
+    );
+    expect(fair.length).toBeGreaterThan(0);
+    expect(clinic.length).toBeGreaterThan(0);
+    for (const id of wellSet) expect(patients.has(id)).toBe(false);
+    const reloaded = deserializeWorld(serializeWorld(world));
+    expect(
+      reloaded.history.events.filter(
         (event) => event.type === "service.delivery-recorded",
-      );
-      if (day === 20)
-        process.stderr.write(`ALLMATTERS ${governingMatters(world).map((m) => m.family + ":" + m.status + ":" + m.officeKey.slice(0, 40)).join(" | ")}\n`);
-      if (day === 20 || day === 120)
-        for (const m of governingMatters(world).filter((x) => x.family === "program")) {
-          const st = new Map((world.history.futureDueItemStates ?? []).map((r) => [r.dueItemId, r.status + ":" + ((r as { reason?: string }).reason ?? "")]));
-          const d = world.history.futureDueItems.filter((i) => i.entityIds.includes(m.id));
-          process.stderr.write(`MATTER ${m.status} opts ${m.options.map((o) => o.key).join(",")} due ${d.map((i) => i.transitionKey + "@" + i.dueAt + "=" + (st.get(i.id) ?? "sched")).join(";")}\n`);
-        }
-      process.stderr.write(
-        `DAY +${day} (${world.currentDate}): ${JSON.stringify(kinds)} matters ${world.history.events.filter((event) => event.type === GOVERNING_MATTER_OPENED).length} delivered ${delivered.length}\n`,
-      );
-    }
+      ),
+    ).toHaveLength(delivered.length);
   }, 3_600_000);
 });

@@ -65,3 +65,14 @@ export function organizationServesCounty(
   if (at === countyJurisdictionId) return true;
   return geoid !== "" && juryCountyForPlace(at) === geoid;
 }
+
+/** A resident of this county's service: the person's home place is in it. */
+export function residentOfCounty(
+  world: World,
+  personId: EntityId,
+  programKey: string,
+): boolean {
+  const home = world.people[personId]?.homeJurisdictionId;
+  const geoid = programKey.split(":")[1] ?? "";
+  return !!home && geoid !== "" && juryCountyForPlace(home) === geoid;
+}
