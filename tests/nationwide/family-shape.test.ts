@@ -12,6 +12,7 @@ import { advanceWorld } from "../../src/simulation/world";
 import {
   drawFamilyShape,
   recordedFamilyEstimates,
+  shrunkTwoParentShare,
 } from "../../src/simulation/family-shape";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
@@ -77,7 +78,7 @@ function relatives(world: World, personId: EntityId, kind: string) {
 }
 
 describe("a family drawn from real shares", () => {
-  it("retains the current game's recorded family spread instead of Census shares", () => {
+  it("picks only the game's own recorded families", () => {
     const { world } = newGameAdult(onePlaceEach()[0]!, "family-shape-share");
     const estimate = recordedFamilyEstimates(world);
     expect(estimate.samples.length).toBeGreaterThan(1);
@@ -99,6 +100,24 @@ describe("a family drawn from real shares", () => {
     }
     expect(selected.size).toBeGreaterThan(1);
     expect(JSON.stringify(world)).toBe(before);
+  });
+
+  it("pulls a small recorded sample toward the Census two-parent share", () => {
+    const { world } = newGameAdult(onePlaceEach()[7]!, "family-shape-shrink");
+    const estimate = recordedFamilyEstimates(world);
+    const share = shrunkTwoParentShare(estimate.samples);
+    const recorded =
+      estimate.samples.filter((row) => row.secondParent === 1).length /
+      estimate.samples.length;
+    // Between the world's own share and the Census share, never past either.
+    expect(share).toBeGreaterThanOrEqual(Math.min(recorded, 0.71) - 1e-9);
+    expect(share).toBeLessThanOrEqual(Math.max(recorded, 0.71) + 1e-9);
+    const keys = Array.from({ length: 400 }, (_, i) => `person:${i}`);
+    const drawn =
+      keys.filter((key) => drawFamilyShape(world, key, estimate).secondParent)
+        .length / keys.length;
+    const kinds = new Set(estimate.samples.map((row) => row.secondParent));
+    if (kinds.size === 2) expect(Math.abs(drawn - share)).toBeLessThan(0.1);
   });
 
   it("makes a coherent family in every one of the 56 places", () => {

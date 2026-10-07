@@ -5,6 +5,7 @@ import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
+import { potentialRiderRuleIssue } from "./governing/rider-rule-trail";
 import {
   growingIndex,
   indexOverArrays,
@@ -2458,7 +2459,7 @@ export interface OfferAmendmentInput {
    * never enters the bill.
    */
   readonly proposedSections?: readonly LegislativeProposedSection[];
-  /** Why a computer-run member offered it. */
+  /** Why the author offered it, when the author chooses to keep that motive on record. */
   readonly authorMotive?: LegislativeAmendmentMotive;
 }
 
@@ -2519,6 +2520,14 @@ export function offerFloorAmendment(
   });
 
   const adopted = vote.outcome === "passed";
+  const potentialSingleSubjectIssue = adopted
+    ? potentialRiderRuleIssue(
+        world,
+        pack,
+        measure,
+        input.proposedSections ?? [],
+      )
+    : undefined;
   const amendment: LegislativeAmendmentRecord = {
     id: createStableId(
       "legislative-amendment",
@@ -2544,6 +2553,7 @@ export function offerFloorAmendment(
         }
       : {}),
     ...(input.authorMotive ? { authorMotive: input.authorMotive } : {}),
+    ...(potentialSingleSubjectIssue ? { potentialSingleSubjectIssue } : {}),
   };
 
   return appendAction(world, {
@@ -2664,9 +2674,20 @@ export function takeFloorVote(world: World, input: FloorVoteInput): World {
         : membership,
   );
   if (present < requiredQuorum.requiredVotes)
-    throw new Error(
-      `The ${chamber.name} cannot transact business: ${quorum.label} (${present} present, ${requiredQuorum.requiredVotes} required).`,
-    );
+    return appendAction(world, {
+      measure,
+      kind: "quorum-not-present",
+      stableKey: `${input.stableKey}:quorum-not-present`,
+      chamberKey: chamber.chamberKey,
+      committeeKey: null,
+      floorStageKey: stage.stageKey,
+      actorLabel: chamber.name,
+      rationale: `${quorum.label}: ${present} present, ${requiredQuorum.requiredVotes} required`,
+      summary: `${chamber.name}: quorum-not-present on ${measure.designation}, ${present} present, ${requiredQuorum.requiredVotes} required`,
+      eventType: "legislation.quorum-not-present",
+      tags: ["legislation.procedure"],
+      vote,
+    });
 
   const passed = vote.outcome === "passed";
   const onward = nextFloorStageKey(chamber, stage.stageKey);
@@ -3313,6 +3334,10 @@ export function recordEnactment(
     "Enactment",
   );
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const scaleTags =
+    world.jurisdictions[measure.jurisdictionId]?.kind === "state"
+      ? ["importance:major"]
+      : [];
 
   // Chamber passage and concurrence only: a veto override is not the
   // passage a state counts an effective date from.
@@ -3394,7 +3419,7 @@ export function recordEnactment(
     rationale: "The measure completed every required step and became law.",
     summary: `${measure.designation} — ${measure.shortTitle} — became law.`,
     eventType: "legislation.measure-enacted",
-    tags: ["legislation.enacted"],
+    tags: ["legislation.enacted", ...scaleTags],
   });
 
   const event = recordByStableKey(

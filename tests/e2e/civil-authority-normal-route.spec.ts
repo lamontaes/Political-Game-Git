@@ -53,7 +53,7 @@ async function worldDate(page: Page): Promise<number> {
   const label =
     (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
     "";
-  // "<name>. <Month D, YYYY>. <Place, State>. Open navigation."
+  // "<name>. <Month D, YYYY>. <Place, State>."
   const match = label.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
   if (!match) throw new Error(`No date in the shell clock: ${label}`);
   return Date.parse(`${match[0]} UTC`);
