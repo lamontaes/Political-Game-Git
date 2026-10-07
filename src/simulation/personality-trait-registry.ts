@@ -111,8 +111,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-shy",
     kind: "decision",
-    reader:
-      "contact.answer — src/simulation/traits/effects/facet-shy.ts",
+    reader: "contact.answer — src/simulation/traits/effects/facet-shy.ts",
   },
   {
     trait: "personality-v1:facet-affectionate",
