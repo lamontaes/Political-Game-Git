@@ -321,6 +321,8 @@ export function placeBackdropPeople(
      * no turned drawing (a family standing together at home).
      */
     readonly faceRoom?: boolean;
+    /** Include the controlled person when the recorded scene names them present. */
+    readonly includeViewer?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -331,7 +333,9 @@ export function placeBackdropPeople(
   const presentIds = new Set(
     present
       .map((person) => person.personId)
-      .filter((id) => id !== playerId && world.people[id]),
+      .filter(
+        (id) => (options.includeViewer || id !== playerId) && world.people[id],
+      ),
   );
   const onShift = (
     options.rosterOnly
