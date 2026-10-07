@@ -5303,11 +5303,18 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Optional per-case policy for a person holding a judicial seat. */
+  readonly judicialCaseworkModes?: Partial<
+    Record<JudicialCaseKind, JudicialCaseworkMode>
+  >;
   /** Absent on older saves; readers treat it as `what-matters`. */
   readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
+
+export type JudicialCaseKind = "criminal" | "civil" | "law-review";
+export type JudicialCaseworkMode = "player-handles" | "decide-as-usual";
 
 export type OfficeVoteInstructionDisposition =
   "yea" | "nay" | "present-not-voting";

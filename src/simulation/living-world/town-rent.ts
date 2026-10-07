@@ -98,6 +98,7 @@ import {
   type JudicialSeatHolder,
 } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -2133,7 +2134,12 @@ function trialJudge(
   const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder && world.people[holder.personId]) return { ...holder, courtId };
+    if (
+      holder &&
+      world.people[holder.personId] &&
+      !playerHandlesJudicialCase(world, holder.personId, "civil")
+    )
+      return { ...holder, courtId };
   }
   return null;
 }
