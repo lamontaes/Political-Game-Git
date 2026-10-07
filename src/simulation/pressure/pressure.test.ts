@@ -23,9 +23,9 @@ import { addDays } from "../dates";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import type { World } from "../types";
 import {
-  BLANKET_BASE_OUTFLOW_PCT_PER_YEAR,
-  BLANKET_FADE_PER_QUARTER,
-  BLANKET_HAZARD_PRESSURE,
+  BASE_OUTFLOW_PCT_PER_YEAR_ESTIMATE,
+  FADE_PER_QUARTER_ESTIMATE,
+  HAZARD_PRESSURE_ESTIMATE,
   PRESSURE_SEAMS,
   assertPressureIntegrity,
   STATE_FLOWS_EVENT,
@@ -112,8 +112,8 @@ describe("the pressure layer", { timeout: LONG }, () => {
     });
     const first = quarters(struck, 1);
     const arizona = latestReadings(first).get("US-AZ")!;
-    expect(arizona.levels.leave).toBe(BLANKET_HAZARD_PRESSURE.major);
-    expect(arizona.levels.fear).toBe(BLANKET_HAZARD_PRESSURE.major);
+    expect(arizona.levels.leave).toBe(HAZARD_PRESSURE_ESTIMATE.major);
+    expect(arizona.levels.fear).toBe(HAZARD_PRESSURE_ESTIMATE.major);
     expect(arizona.contributions.map((entry) => entry.causeKey)).toEqual([
       "hazard:flood:major",
       "hazard:flood:major",
@@ -126,7 +126,7 @@ describe("the pressure layer", { timeout: LONG }, () => {
     expect(stateWeights(first, [arizonaId], "push")[0]).toBeGreaterThan(1);
     // A free household in the flooded state's town is more likely to leave.
     expect(statePushOnTown(first, opened.home)).toBeCloseTo(
-      1 + BLANKET_HAZARD_PRESSURE.major,
+      1 + HAZARD_PRESSURE_ESTIMATE.major,
     );
     expect(statePushOnTown(opened.world, opened.home)).toBe(1);
     // Oregon had nothing, so it has no reading and reads as no pressure.
@@ -134,7 +134,7 @@ describe("the pressure layer", { timeout: LONG }, () => {
 
     const second = quarters(first, 1);
     expect(latestReadings(second).get("US-AZ")!.levels.leave).toBeCloseTo(
-      BLANKET_HAZARD_PRESSURE.major * (1 - BLANKET_FADE_PER_QUARTER),
+      HAZARD_PRESSURE_ESTIMATE.major * (1 - FADE_PER_QUARTER_ESTIMATE),
     );
 
     // The year closes: Arizona sends more of its people out than any other
@@ -145,7 +145,7 @@ describe("the pressure layer", { timeout: LONG }, () => {
     expect(flows).toHaveLength(worldStates(year).length);
     const fromArizona = flows.find((flow) => flow.fromStateKey === "US-AZ")!;
     const fromOregon = flows.find((flow) => flow.fromStateKey === "US-OR")!;
-    expect(fromOregon.outflowSharePct).toBe(BLANKET_BASE_OUTFLOW_PCT_PER_YEAR);
+    expect(fromOregon.outflowSharePct).toBe(BASE_OUTFLOW_PCT_PER_YEAR_ESTIMATE);
     expect(fromArizona.outflowSharePct).toBeGreaterThan(
       fromOregon.outflowSharePct,
     );
@@ -178,14 +178,14 @@ describe("the pressure layer", { timeout: LONG }, () => {
     });
     const next = quarters(struck, 1);
     expect(latestReadings(next).get("US-AZ")?.levels.leave).toBe(
-      BLANKET_HAZARD_PRESSURE.major,
+      HAZARD_PRESSURE_ESTIMATE.major,
     );
     // The following quarter's period starts on that day too, and skips it.
     const later = quarters(next, 1);
     const arizona = latestReadings(later).get("US-AZ")!;
     expect(arizona.contributions).toEqual([]);
     expect(arizona.levels.leave).toBeCloseTo(
-      BLANKET_HAZARD_PRESSURE.major * (1 - BLANKET_FADE_PER_QUARTER),
+      HAZARD_PRESSURE_ESTIMATE.major * (1 - FADE_PER_QUARTER_ESTIMATE),
     );
   });
 

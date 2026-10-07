@@ -96,7 +96,7 @@ export function landEnvironmentPlaceOutcomes(
 }
 
 /** Registry export required by the generated folder-module loader. */
-export const lawConsequenceLw26EnvironmentLandingsRegistrations = [] as const;
+export const registrations = [] as const;
 
 /** STUB until the shared generated manifest admits generic place landings. */
 export const placeOutcomeLandings = [

@@ -8,6 +8,7 @@ import {
 } from "./household-loans";
 import { paydayHandlers } from "./living-world/town-pay";
 import { rentDayHandlers } from "./living-world/town-rent";
+import { propertyTaxHandlers } from "./property-tax-bases";
 import { jailTermOn } from "./justice/jail-terms";
 import {
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -647,7 +648,7 @@ export function fileCampaign(
   }
   if (!input.municipalSeatKey && municipalSeatMustBeNamed(input.officeKey)) {
     throw new Error(
-      "This council elects named seats. Choose a recorded at-large or ward seat before filing.",
+      "This council elects named seats. Choose a recorded at-large or district seat before filing.",
     );
   }
   const option = eligibility.office;
@@ -2421,6 +2422,8 @@ export function composeWorldTimeHandlers(
         ...paydayHandlers(),
         // RENT DAY: every renting household pays its landlord on the first.
         ...rentDayHandlers(),
+        // PROPERTY TAX: a local property tax assesses homes on its day.
+        ...propertyTaxHandlers(),
         // CRUNCH46 CAMPAIGN: organizer outreach and weekly opponent evaluation.
         ...campaignLifeHandlers(),
       ]),

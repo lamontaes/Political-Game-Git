@@ -145,11 +145,11 @@ for (const size of SIZES) {
     await chooseStartAge(page, 30);
     await expectChosen(year, "1995");
     await expect(page.getByTestId("creator-derived-age")).toContainText(
-      "You begin at age 30, on January 5, 2026.",
+      "30 · January 5, 2026",
     );
     await page.getByTestId("creator-randomize-birthday").click();
     await expect(page.getByTestId("creator-derived-age")).toContainText(
-      "You begin at age",
+      "\u00b7",
     );
     // Gender and name are required too (CRUNCH46 R7).
     await answerCharacterBasics(page);

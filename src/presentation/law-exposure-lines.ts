@@ -46,6 +46,11 @@ const CHANNEL_WORDS: Record<
     gain: "gained {whom} {amount} at work",
     none: "changed the rules at {whose} job",
   },
+  "election-rule": {
+    cost: "prevented {whom} from seeking another term",
+    gain: "allowed {whom} to seek another term",
+    none: "changed {whose} eligibility to seek another term",
+  },
   "business-rule": {
     cost: "cost {whose} business {amount}",
     gain: "saved {whose} business {amount}",
@@ -60,6 +65,21 @@ const CHANNEL_WORDS: Record<
     cost: "recorded an environmental exposure for {whom}",
     gain: "recorded an environmental exposure for {whom}",
     none: "recorded the place measure for {whom}",
+  },
+  "court-rule": {
+    cost: "kept {whom} in jail while waiting for trial",
+    gain: "let {whom} go home while waiting for trial",
+    none: "changed how {whom} waited for trial",
+  },
+  "voting-rule": {
+    gain: "gave {whom} the vote back when the sentence ended",
+    cost: "kept {whom} from voting after the sentence ended",
+    none: "changed when {whom} vote again after a sentence",
+  },
+  "sentence-rule": {
+    cost: "set a jail term for {whom} that the judge could not go below",
+    gain: "changed the jail term set for {whom}",
+    none: "changed the sentencing rules for {whom}",
   },
   rent: {
     cost: "raised {whose} rent by {amount}",
@@ -102,7 +122,45 @@ export function lawExposureSentence(
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === exposure.measureId,
   );
-  const title = measure?.shortTitle?.trim();
+  const sourceEvent =
+    exposure.channel === "election-rule" ||
+    exposure.channel === "court-rule" ||
+    exposure.channel === "sentence-rule" ||
+    exposure.channel === "voting-rule"
+      ? world.history.events.find((row) => row.id === exposure.sourceRecordId)
+      : null;
+  const recordedTermLimitBar =
+    sourceEvent?.tags.includes("barred:term-limit") &&
+    sourceEvent.involvedEntityIds.includes(personId) &&
+    (sourceEvent.type === "local.officeholder-retired" ||
+      sourceEvent.type === "election.state-legislative-candidacy-intent");
+  const recordedPretrialDecision =
+    exposure.channel === "court-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    (sourceEvent.type === "justice.released-before-trial" ||
+      sourceEvent.type === "justice.held-before-trial");
+  const recordedSentence =
+    exposure.channel === "sentence-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.sentenced";
+  const recordedVotingRight =
+    exposure.channel === "voting-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.voting-right-set";
+  const title =
+    measure?.shortTitle?.trim() ||
+    (recordedVotingRight && exposure.measureId.startsWith("starting-law:")
+      ? "voting rights law"
+      : null) ||
+    (recordedSentence && exposure.measureId.startsWith("starting-law:")
+      ? "mandatory minimum law"
+      : null) ||
+    (recordedTermLimitBar && exposure.measureId.startsWith("starting-law:")
+      ? "term-limit law"
+      : recordedPretrialDecision &&
+          exposure.measureId.startsWith("starting-law:")
+        ? "cash bail law"
+        : null);
   if (!title) return null;
   const via =
     exposure.relation !== "own" && exposure.viaPersonId
@@ -113,13 +171,18 @@ export function lawExposureSentence(
   const whose = friend ? "their" : via ? `${via.givenName}'s` : "your";
   const whom = friend ? "them" : via ? via.givenName : "you";
   const direction =
-    exposure.amount === null || exposure.direction === "none"
+    (exposure.amount === null &&
+      exposure.channel !== "election-rule" &&
+      exposure.channel !== "court-rule" &&
+      exposure.channel !== "sentence-rule" &&
+      exposure.channel !== "voting-rule") ||
+    exposure.direction === "none"
       ? "none"
       : exposure.direction;
   const words = CHANNEL_WORDS[exposure.channel][direction]
     .replace("{whose}", whose)
     .replace("{whom}", whom)
-    .replace("{amount}", direction === "none" ? "" : amountText(exposure));
+    .replace("{amount}", exposure.amount === null ? "" : amountText(exposure));
   const share = direction === "none" ? null : shareOfPay(exposure);
   const named = /^the\s/i.test(title) ? title.replace(/^the\s/i, "") : title;
   const sentence = friend
