@@ -7,6 +7,10 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 - Set a timer for your check-ins as soon as you start: e.g. `(sleep 600; echo CHECKIN > /tmp/checkin-NN) &` in the background, or your harness's own timer/reminder if it has one.
 - When it fires (and after every PR): `git fetch origin assignments`, re-read RULES.md and your session file, read the newest OPUS CTO lines on #2424, fix any SEND BACK on your PRs, post one SESSION NN status line if you have nothing else to post, then RESTART the timer. Never let it lapse.
 
+## Subagents (owner, 11:05 a.m.: Luna is cheap — use it)
+- Every session may run up to 4 Luna subagents at once, each on a DIFFERENT item (its own branch and PR). Give each subagent the item, RULES.md, and the gate. You stay responsible for its PR and its READY line ("SESSION NN READY #N (subagent)").
+- Use them for: rescuing PRs in parallel, one trait or one law each, one pool row each, one screen each.
+
 ## Your loop (repeat until stopped)
 1. Read your assignment: `git fetch origin assignments && git show origin/assignments:sessions/session-NN.md` (NN = your number, two digits).
 2. Do the top item that is not marked DONE. One item = one branch = one PR, based on current `origin/main`.
@@ -14,7 +18,7 @@ Goal today: MERGE, MERGE, MERGE (20+ merges an hour). Sessions 01–30 build; Se
 4. Post one line on #2424: `SESSION NN READY #N: <what the player or the world gets, plain words>`, adding `(SCREEN) shot: <link>` or
    `(ENGLISH) batch: <path>` for items the CTO or the owner must check. Fix any `SEND BACK #N` in place on the same branch, then post READY again.
 5. Re-read your assignment file (it changes during the day). If every item is DONE, take the oldest unclaimed row
-   in docs/codex/assignments/POOL.md: post `SESSION NN CLAIM <row>` on #2424 first, then work it.
+   in docs/codex/assignments/POOL.md: search #2424 for '<row> CLAIM' first (skip rows claimed in the last 60 minutes or with a merged PR), post `SESSION NN CLAIM <row>`, then work it. A row whose work is already on main: mark it done in your next PR instead.
 6. If blocked more than 20 minutes: post `SESSION NN BLOCKED <item>: <exact question>` and move to your next item.
 
 ## Mergers (Sessions 31–32), ADDED 10:30 a.m.
