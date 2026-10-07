@@ -497,7 +497,7 @@ Take these after the order above, or any time a session is free. Every row is on
 
 | item  | what                                                                                                                    | doc           | status     | claimer      |
 | ----- | ----------------------------------------------------------------------------------------------------------------------- | ------------- | ---------- | ------------ |
-| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | open       |              |
+| BG-01 | Jagged white outline on cut-out figure edges (also the white fringe on the creator figure)                              | BUGS.md BG-01 | done #3194       |              |
 | BG-02 | Hair covers the face on some people                                                                                     | BUGS.md BG-02 | open       |              |
 | BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567 |              |
 | BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | done       | PR #2864     |
