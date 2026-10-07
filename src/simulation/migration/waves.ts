@@ -63,15 +63,15 @@ export interface WaveDefinition {
   /** Any one met cause begins the wave. */
   readonly causes: readonly WaveCause[];
   readonly effects: readonly WaveEffect[];
-  /** BLANKET: how long a wave lasts once begun. Not researched. */
+  /** ESTIMATED: how long a wave lasts once begun, estimated from the average. */
   readonly durationDays: number;
-  /** BLANKET: after ending, how long before the same wave may begin again in the same place. */
+  /** ESTIMATED: after ending, how long before the same wave may begin again in the same place. */
   readonly quietDays: number;
 }
 
 /**
  * The starting catalog. Three shapes, one of each kind of wave the owner
- * named or implied. Every duration and multiplier here is BLANKET, pending
+ * named or implied. Every duration and multiplier here is ESTIMATED, pending
  * `society-wide-waves-causes-pace-scale`.
  */
 export const WAVE_CATALOG: readonly WaveDefinition[] = [

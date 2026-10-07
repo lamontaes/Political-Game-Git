@@ -903,7 +903,7 @@ export function normalizeJudicialResearch(
     );
     if (!structuralFamily) {
       throw new SourceValidationError(
-        `${jurisdictionKey} has unknown structural family "${jurisdiction.structuralFamily}".`,
+        `${jurisdictionKey} has unrecognized structural family "${jurisdiction.structuralFamily}".`,
       );
     }
     const profile = packet.profiles.get(jurisdictionKey);

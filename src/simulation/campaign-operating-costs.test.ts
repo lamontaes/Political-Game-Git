@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -12,9 +12,12 @@ import { searchLifePlaces, stateJurisdictionForKey } from "./life-places";
 import { ensureStateJurisdiction } from "./nationwide-world/state-executives";
 import { ensureCampaignOpponents } from "./campaigns";
 import {
+  CAMPAIGN_UNIT_PRICES,
   campaignOperatingSpending,
   payRecordedCampaignOperatingBill,
   planCampaignOperatingWeek,
+  quoteCampaignPurchase,
+  suggestedCampaignUnits,
 } from "./campaign-operating-costs";
 import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
 import { fileCampaign } from "./campaigns";
@@ -149,8 +152,15 @@ function race() {
 }
 
 describe("recorded campaign operating bills", () => {
+  // Opening a life and passing days is the slow part. Worlds are immutable, so
+  // both tests share one fixture built once instead of building it twice.
+  let shared: ReturnType<typeof race>;
+  beforeAll(() => {
+    shared = race();
+  }, 240_000);
+
   it("does not manufacture a bill, vendor, payment date, or cost from available cash", () => {
-    const fixture = race();
+    const fixture = shared;
     console.info(`A66 operating place=${fixture.place} seed=${fixture.seed}`);
     expect(
       planCampaignOperatingWeek(
@@ -165,7 +175,7 @@ describe("recorded campaign operating bills", () => {
   });
 
   it("pays the saved amount to the saved payee on the saved due date and never pays it again", () => {
-    const fixture = race();
+    const fixture = shared;
     let world = createOrganization(fixture.world, {
       stableKey: "a66:printer",
       formedAt: fixture.world.currentDate,
@@ -252,5 +262,33 @@ describe("recorded campaign operating bills", () => {
       )!.liquidBalance.minorUnits,
     ).toBe(2000);
     expect(payRecordedCampaignOperatingBill(paid, flowId)).toBe(paid);
+  });
+});
+
+describe("campaign purchase prices", () => {
+  it("keeps unit prices fixed while place-sized quantities increase total cost", () => {
+    const smallHouseholds = 120;
+    const largeHouseholds = 12_000;
+    const smallUnits = suggestedCampaignUnits("yard-sign", smallHouseholds);
+    const largeUnits = suggestedCampaignUnits("yard-sign", largeHouseholds);
+    const small = quoteCampaignPurchase("yard-sign", smallUnits);
+    const large = quoteCampaignPurchase("yard-sign", largeUnits);
+
+    expect(small.unitPriceMinorUnits).toBe(1_500);
+    expect(large.unitPriceMinorUnits).toBe(small.unitPriceMinorUnits);
+    expect(large.totalMinorUnits).toBeGreaterThan(small.totalMinorUnits);
+    expect(small.totalMinorUnits).toBe(
+      smallUnits * CAMPAIGN_UNIT_PRICES["yard-sign"].priceMinorUnits,
+    );
+    expect(large.totalMinorUnits).toBe(
+      largeUnits * CAMPAIGN_UNIT_PRICES["yard-sign"].priceMinorUnits,
+    );
+  });
+
+  it("marks fallback unit prices as estimates and rejects fractional units", () => {
+    expect(
+      Object.values(CAMPAIGN_UNIT_PRICES).every((price) => price.estimated),
+    ).toBe(true);
+    expect(() => quoteCampaignPurchase("postage", 1.5)).toThrow(/whole number/);
   });
 });

@@ -25,8 +25,8 @@ export function PlacePeopleLayer({
   stageRef,
   onSelectPerson,
   selectedPersonId = null,
-  nameplates = false,
   overflowLabel = "Also here",
+  nameTags = false,
 }: {
   readonly people: readonly BackdropPerson[] & {
     readonly overflow?: readonly BackdropOverflowPerson[];
@@ -34,31 +34,25 @@ export function PlacePeopleLayer({
   readonly stageRef: RefObject<HTMLDivElement | null>;
   readonly onSelectPerson?: ScenePersonSelectionHandler;
   readonly selectedPersonId?: string | null;
-  /** Show each person's name and title on a plate over their head. */
-  readonly nameplates?: boolean;
   readonly overflowLabel?: string;
+  /** Show each person's name on a Kit 13 plate under their feet, always. */
+  readonly nameTags?: boolean;
 }) {
   const rect = useCoverRect(stageRef);
   const overflow = people.overflow ?? [];
   if (!rect || (people.length === 0 && overflow.length === 0)) return null;
-  // The picture is centered and may be wider than the stage (a phone), so a
-  // plate is kept inside the part of the picture that shows.
-  const shownFrom = Math.max(0, -rect.left);
-  const shownTo = rect.width - shownFrom;
-  const plateHalf = Math.min(170, (shownTo - shownFrom) * 0.22);
   return (
     <Fragment>
       {overflow.length > 0 ? (
         <details
           data-testid="scene-place-overflow"
+          className="pg-glass-panel"
           style={{
             position: "absolute",
             bottom: "1rem",
             maxHeight: "50%",
             overflowY: "auto",
             padding: "0.5rem",
-            color: "#f0e8d8",
-            background: "rgba(18, 20, 22, 0.9)",
             right: "1rem",
             zIndex: 1,
           }}
@@ -168,39 +162,22 @@ export function PlacePeopleLayer({
               </span>
             </button>
           );
-          if (!nameplates) return button;
+          if (!nameTags) return button;
           return (
             <Fragment key={person.personId}>
               {button}
               <span
-                className="scene-place-nameplate"
-                data-testid="scene-place-nameplate"
+                className="scene-place-nametag"
+                data-testid="scene-place-nametag"
                 style={
                   {
                     position: "absolute",
-                    left: `${Math.min(
-                      Math.max(
-                        ((person.leftPercent + person.widthPercent / 2) / 100) *
-                          rect.width,
-                        shownFrom + plateHalf + 4,
-                      ),
-                      shownTo - plateHalf - 4,
-                    )}px`,
-                    maxWidth: `${plateHalf * 2}px`,
-                    // Over the head, where a panel over the lower picture
-                    // never covers it.
-                    top: `${Math.max(person.topPercent, 4)}%`,
+                    left: `${person.leftPercent + person.widthPercent / 2}%`,
+                    top: `${Math.min(person.topPercent + visibleHeight, 96)}%`,
                   } satisfies CSSProperties
                 }
               >
-                <span className="scene-place-nameplate-name">
-                  {person.name}
-                </span>
-                {person.title ? (
-                  <span className="scene-place-nameplate-title">
-                    {person.title}
-                  </span>
-                ) : null}
+                {person.name}
               </span>
             </Fragment>
           );

@@ -1,0 +1,2386 @@
+{
+  "source": {
+    "expectedIdentity": {
+      "workspace": "/workspace/Political-Game-Git",
+      "head": "a6916e40f61578d5ac79f7bbac2c84034f6db331",
+      "branch": "codex/session4-played-scene-spec",
+      "dirty": false,
+      "sourceDigest": "353a06553dd67cf251852473a913eccf90f883013697380d7a1deea2e8082399"
+    },
+    "served": {
+      "workspace": "/workspace/Political-Game-Git",
+      "head": "a6916e40f61578d5ac79f7bbac2c84034f6db331",
+      "branch": "codex/session4-played-scene-spec",
+      "dirty": false,
+      "sourceDigest": "353a06553dd67cf251852473a913eccf90f883013697380d7a1deea2e8082399",
+      "pid": 28922,
+      "runId": "session4-session11-intro-six-v1"
+    },
+    "baseURL": "http://127.0.0.1:4314",
+    "projects": [
+      {
+        "name": "chromium",
+        "use": {
+          "baseURL": "http://127.0.0.1:4314",
+          "trace": "retain-on-failure",
+          "screenshot": "only-on-failure",
+          "video": "off",
+          "viewport": {
+            "width": 1280,
+            "height": 720
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.7922.34 Safari/537.36",
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        }
+      }
+    ],
+    "seedPolicy": "Each test retains its original control seed; actual URL/world seed is captured by review proof."
+  },
+  "acceptance": "INCOMPLETE: three startup assertions failed; successful capture cases do not prove every card or required slot metadata. Raw null fields and duplicate card observations are retained. Await actual Session11 trace donor; no scene merge release.",
+  "runner": {
+    "passed": 3,
+    "failed": 3
+  },
+  "sets": [
+    {
+      "title": "intro placement capture 0 Monticello, Georgia",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 30413,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('world-orientation')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('world-orientation')\u001b[22m\n\n\n  28 |     });\n  29 |     const intro = page.getByTestId(\"world-orientation\");\n> 30 |     await expect(intro).toBeVisible();\n     |                         ^\n  31 |     const cards = [];\n  32 |     while (await intro.isVisible()) {\n  33 |       const heading = intro\n    at /workspace/Political-Game-Git/tests/e2e/session4-intro-placement-proof.spec.ts:30:25"
+          ],
+          "cardsReceipt": null,
+          "artifacts": [
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/test-failed-1.png",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/error-context.md",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "intro placement capture 1 Blue Springs, Missouri",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 25710,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('world-orientation')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('world-orientation')\u001b[22m\n\n\n  28 |     });\n  29 |     const intro = page.getByTestId(\"world-orientation\");\n> 30 |     await expect(intro).toBeVisible();\n     |                         ^\n  31 |     const cards = [];\n  32 |     while (await intro.isVisible()) {\n  33 |       const heading = intro\n    at /workspace/Political-Game-Git/tests/e2e/session4-intro-placement-proof.spec.ts:30:25"
+          ],
+          "cardsReceipt": null,
+          "artifacts": [
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3206a-ure-1-Blue-Springs-Missouri-chromium/test-failed-1.png",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3206a-ure-1-Blue-Springs-Missouri-chromium/error-context.md",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3206a-ure-1-Blue-Springs-Missouri-chromium/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "intro placement capture 2 Cove, Utah",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 40198,
+          "errors": [],
+          "cardsReceipt": {
+            "seed": "session4-session11-intro-tags:2",
+            "place": {
+              "key": "4916490",
+              "displayName": "Cove, Utah",
+              "formalName": "Cove",
+              "withinName": "Utah",
+              "context": {
+                "jurisdiction": {
+                  "id": "jurisdiction_67d2bf4df21a9d08",
+                  "slug": "us-place-4916490",
+                  "name": "Cove, Utah",
+                  "kind": "census-place",
+                  "parentName": "Utah",
+                  "provenance": {
+                    "asOf": "2026-01-05",
+                    "source": "census-gazetteer-2025-places-zip",
+                    "jurisdiction": "jurisdiction_67d2bf4df21a9d08",
+                    "status": "approved"
+                  }
+                },
+                "initialMoment": {
+                  "date": "2026-01-05",
+                  "minuteOfDay": 550,
+                  "timeZone": "America/Denver",
+                  "utcOffsetMinutes": -420
+                },
+                "creationSummary": "Seeded world in Cove, Utah, from the 2025 Census Gazetteer place identity.",
+                "goalScope": "Cove, Utah",
+                "householdLocationLabel": "Cove, Utah"
+              },
+              "scope": "locality",
+              "stateJurisdictionKey": "US-UT",
+              "capabilities": {
+                "legislativeScenarioKey": null,
+                "candidacyPackId": null
+              },
+              "sourceGeoid": "4916490"
+            },
+            "state": {
+              "usps": "UT",
+              "jurisdictionKey": "US-UT",
+              "name": "Utah"
+            },
+            "cards": [
+              {
+                "key": "year",
+                "title": "In the year 2026",
+                "screenshot": "2-year-full-size.png",
+                "people": []
+              },
+              {
+                "key": "year",
+                "title": "The White House",
+                "screenshot": "2-year-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_0483b236a7a3b791",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_acf74f5f183f2f07",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "state",
+                "title": "Utah",
+                "screenshot": "2-state-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_9f4b5e292857af09",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_97f785e00ad387ec",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_b2b32dc577ce99ef",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "state",
+                "title": "Utah Legislature",
+                "screenshot": "2-state-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_9f4b5e292857af09",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_97f785e00ad387ec",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_b2b32dc577ce99ef",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_97f785e00ad387ec",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "congress",
+                "title": "Congress",
+                "screenshot": "2-congress-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_c47eb070bcba93c5",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9944d0d1c3787942",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ad9004125a56dc96",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9944d0d1c3787942",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ad9004125a56dc96",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_d81984613fb00416",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_c47eb070bcba93c5",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_4c057682a1976878",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_6c19f231f3ac23ff",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "congress",
+                "title": "Your family",
+                "screenshot": "2-congress-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_7c869f7b46b6edd0",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_7328a577fed5728d",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "parents",
+                "title": "Your family",
+                "screenshot": "2-parents-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_7c869f7b46b6edd0",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_7328a577fed5728d",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              }
+            ],
+            "recorded": {
+              "worldId": "world_bfa3ac06dc0954f1",
+              "seed": "setup-v3:3b29fea8f386e903:{\"v\":3,\"seed\":\"session4-session11-intro-tags:2\",\"placeKey\":\"4916490\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+              "moment": {
+                "date": "2026-01-05",
+                "minuteOfDay": 550,
+                "timeZone": "America/Denver",
+                "utcOffsetMinutes": -420
+              },
+              "playerPersonId": "person_74eb829625ea4883",
+              "selectionProjection": {
+                "asOf": "2026-01-05",
+                "revision": 69937,
+                "chapters": [
+                  {
+                    "key": "executive",
+                    "actors": [
+                      {
+                        "slotKey": "president",
+                        "role": "president",
+                        "person": {
+                          "personId": "person_0483b236a7a3b791",
+                          "name": "Ryan Parrish",
+                          "title": "President of the United States",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_d1b19408933a13a8",
+                          "organization_c9b69004f3dc1235"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-president",
+                          "institutionId": "organization_c9b69004f3dc1235"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "vice-president",
+                        "role": "vice-president",
+                        "person": {
+                          "personId": "person_acf74f5f183f2f07",
+                          "name": "Joy O'Connor",
+                          "title": "Vice President of the United States",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_8ad5eec8056e27d4",
+                          "organization_909caf48f1085acf"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-vice-president",
+                          "institutionId": "organization_909caf48f1085acf"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "Ryan Parrish \u2014 President of the United States",
+                      "Joy O'Connor \u2014 Vice President of the United States"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "executive-briefing",
+                      "roles": [
+                        {
+                          "slotKey": "president",
+                          "personId": "person_0483b236a7a3b791",
+                          "name": "Ryan Parrish"
+                        },
+                        {
+                          "slotKey": "vice-president",
+                          "personId": "person_acf74f5f183f2f07",
+                          "name": "Joy O'Connor"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Ryan Parrish \u2014 President of the United States",
+                        "Joy O'Connor \u2014 Vice President of the United States"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "Ryan Parrish \u2014 President of the United States",
+                      "visibleAction": "review-papers",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-desk-seat",
+                          "document-hand-contact"
+                        ],
+                        "props": ["papers"],
+                        "sceneContext": "executive working composition"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "state",
+                    "actors": [
+                      {
+                        "slotKey": "governor",
+                        "role": "governor",
+                        "person": {
+                          "personId": "person_9f4b5e292857af09",
+                          "name": "Asher Hutchinson",
+                          "title": "Governor of Utah",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 6, 2025",
+                            "Term runs until January 1, 2029",
+                            "Lives in Utah"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_7b6d9a1be40c67d2",
+                          "organization_2896613c08fc3ffc"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-ut-governor",
+                          "institutionId": "organization_2896613c08fc3ffc"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-06",
+                          "endExclusive": "2029-01-01"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": ["Asher Hutchinson \u2014 Governor of Utah"],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_67d2bf4df21a9d08",
+                      "placeKey": "4916490",
+                      "sourceGeoid": "4916490",
+                      "stateJurisdictionKey": "US-UT",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:8494adb6689ba07c"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [
+                        {
+                          "slotKey": "governor",
+                          "personId": "person_9f4b5e292857af09",
+                          "name": "Asher Hutchinson"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Asher Hutchinson \u2014 Governor of Utah"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": "4916490",
+                      "fallback": "Asher Hutchinson \u2014 Governor of Utah",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "congress",
+                    "actors": [
+                      {
+                        "slotKey": "congress:us-house:UT-02",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_c47eb070bcba93c5",
+                          "name": "Katie Ratliff",
+                          "title": "U.S. Representative for Utah's 2nd congressional district",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 3, 2019",
+                            "Term runs until January 3, 2027",
+                            "Lives in Utah"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_a44f706e094bcaa4",
+                          "organization_48eaed4ac6c70cdb"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-house",
+                          "institutionId": "organization_48eaed4ac6c70cdb"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-03",
+                          "endExclusive": "2027-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "congress:us-senate:UT:class-1",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_9944d0d1c3787942",
+                          "name": "Dawn Osborn",
+                          "title": "U.S. Senator from Utah",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 3, 2013",
+                            "Term runs until January 3, 2031",
+                            "Lives in Utah"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_37c312b1c9f53f61",
+                          "organization_6f8a7c2a02bf5e2b"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-senate",
+                          "institutionId": "organization_6f8a7c2a02bf5e2b"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-03",
+                          "endExclusive": "2031-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "congress:us-senate:UT:class-3",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_ad9004125a56dc96",
+                          "name": "Robin Thomas",
+                          "title": "U.S. Senator from Utah",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 3, 2011",
+                            "Term runs until January 3, 2029",
+                            "Lives in Utah"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_d8cc6130bf6b93bd",
+                          "organization_6f8a7c2a02bf5e2b"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-senate",
+                          "institutionId": "organization_6f8a7c2a02bf5e2b"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2023-01-03",
+                          "endExclusive": "2029-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "United States House of Representatives",
+                      "United States Senate"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "congressional-corridor",
+                      "roles": [
+                        {
+                          "slotKey": "congress:us-house:UT-02",
+                          "personId": "person_c47eb070bcba93c5",
+                          "name": "Katie Ratliff"
+                        },
+                        {
+                          "slotKey": "congress:us-senate:UT:class-1",
+                          "personId": "person_9944d0d1c3787942",
+                          "name": "Dawn Osborn"
+                        },
+                        {
+                          "slotKey": "congress:us-senate:UT:class-3",
+                          "personId": "person_ad9004125a56dc96",
+                          "name": "Robin Thomas"
+                        }
+                      ],
+                      "publicFacts": [
+                        "United States House of Representatives",
+                        "United States Senate"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "United States House of Representatives",
+                      "visibleAction": "corridor-conversation",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor",
+                          "mutually-compatible-facing"
+                        ],
+                        "props": [],
+                        "sceneContext": "verified congressional corridor; not a named hall unless source supports it"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "locality",
+                    "actors": [],
+                    "publicFacts": ["Cache County"],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_67d2bf4df21a9d08",
+                      "placeKey": "4916490",
+                      "sourceGeoid": "4916490",
+                      "stateJurisdictionKey": "US-UT",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:2326125aadd552e2"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [],
+                      "publicFacts": ["Cache County"],
+                      "asOf": "2026-01-05",
+                      "regionKey": "4916490",
+                      "fallback": "Cache County",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "your-life",
+                    "actors": [],
+                    "publicFacts": [
+                      "You're 18, and you live in Cove, Utah.",
+                      "No one else is recorded in your current household.",
+                      "Charles Morgan is your dad.",
+                      "Samantha Morgan is your mom.",
+                      "Aiko Morgan is your grandmother.",
+                      "Corey Morgan is your grandfather.",
+                      "Tracy Munoz is your grandmother.",
+                      "Haris Munoz is your grandfather.",
+                      "You started elementary school at Elmwood Elementary School in 2013.",
+                      "You started middle school at Langston Hughes Middle School in 2019.",
+                      "You started high school at Stone Bridge High School in 2022.",
+                      "You worked at Neighborhood Market from 2024."
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "home-conversation",
+                      "roles": [],
+                      "publicFacts": [
+                        "You're 18, and you live in Cove, Utah.",
+                        "No one else is recorded in your current household.",
+                        "Charles Morgan is your dad.",
+                        "Samantha Morgan is your mom.",
+                        "Aiko Morgan is your grandmother.",
+                        "Corey Morgan is your grandfather.",
+                        "Tracy Munoz is your grandmother.",
+                        "Haris Munoz is your grandfather.",
+                        "You started elementary school at Elmwood Elementary School in 2013.",
+                        "You started middle school at Langston Hughes Middle School in 2019.",
+                        "You started high school at Stone Bridge High School in 2022.",
+                        "You worked at Neighborhood Market from 2024."
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "You're 18, and you live in Cove, Utah.",
+                      "visibleAction": "talk-at-home",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-domestic-seat"
+                        ],
+                        "props": [],
+                        "sceneContext": "known household; current room still requires actual presence"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  }
+                ],
+                "startingLocation": {
+                  "setting": "home",
+                  "label": "Home",
+                  "jurisdictionId": "jurisdiction_67d2bf4df21a9d08"
+                },
+                "startingActors": []
+              }
+            },
+            "method": "DOM placement attributes observed on each card; selection projection read from the actual saved World afterward. Null fields remain missing proof, not inferred defaults."
+          },
+          "artifacts": []
+        }
+      ]
+    },
+    {
+      "title": "intro placement capture 3 Thunder Mountain, New Mexico",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 40478,
+          "errors": [],
+          "cardsReceipt": {
+            "seed": "session4-session11-intro-tags:3",
+            "place": {
+              "key": "3577635",
+              "displayName": "Thunder Mountain, New Mexico",
+              "formalName": "Thunder Mountain",
+              "withinName": "New Mexico",
+              "context": {
+                "jurisdiction": {
+                  "id": "jurisdiction_a1d2734a38f87bdd",
+                  "slug": "us-place-3577635",
+                  "name": "Thunder Mountain, New Mexico",
+                  "kind": "census-place",
+                  "parentName": "New Mexico",
+                  "provenance": {
+                    "asOf": "2026-01-05",
+                    "source": "census-gazetteer-2025-places-zip",
+                    "jurisdiction": "jurisdiction_a1d2734a38f87bdd",
+                    "status": "approved"
+                  }
+                },
+                "initialMoment": {
+                  "date": "2026-01-05",
+                  "minuteOfDay": 550,
+                  "timeZone": "America/Denver",
+                  "utcOffsetMinutes": -420
+                },
+                "creationSummary": "Seeded world in Thunder Mountain, New Mexico, from the 2025 Census Gazetteer place identity.",
+                "goalScope": "Thunder Mountain, New Mexico",
+                "householdLocationLabel": "Thunder Mountain, New Mexico"
+              },
+              "scope": "locality",
+              "stateJurisdictionKey": "US-NM",
+              "capabilities": {
+                "legislativeScenarioKey": null,
+                "candidacyPackId": null
+              },
+              "sourceGeoid": "3577635"
+            },
+            "state": {
+              "usps": "NM",
+              "jurisdictionKey": "US-NM",
+              "name": "New Mexico"
+            },
+            "cards": [
+              {
+                "key": "year",
+                "title": "In the year 2026",
+                "screenshot": "3-year-full-size.png",
+                "people": []
+              },
+              {
+                "key": "year",
+                "title": "The White House",
+                "screenshot": "3-year-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_7e17075a037a8fb2",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_937180de8e0369da",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "state",
+                "title": "New Mexico",
+                "screenshot": "3-state-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_2b376c4017f7d69e",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9a1614ed2784f941",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_f3e92d3562b73b18",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "state",
+                "title": "New Mexico Legislature",
+                "screenshot": "3-state-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_2b376c4017f7d69e",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9a1614ed2784f941",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_f3e92d3562b73b18",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9a1614ed2784f941",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "congress",
+                "title": "Congress",
+                "screenshot": "3-congress-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_1ed71d28203bc8b9",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9fe7f05b25917869",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_16a0902b07d08e46",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9fe7f05b25917869",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_16a0902b07d08e46",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_1ed71d28203bc8b9",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ace36e0f0514fb3a",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_6bbb8da695f1e137",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "congress",
+                "title": "Your family",
+                "screenshot": "3-congress-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_1ed71d28203bc8b9",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9fe7f05b25917869",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_16a0902b07d08e46",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9fe7f05b25917869",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_16a0902b07d08e46",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_1ed71d28203bc8b9",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ace36e0f0514fb3a",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_6bbb8da695f1e137",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_9c9549d16a28ecc3",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "parents",
+                "title": "Your family",
+                "screenshot": "3-parents-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_9c9549d16a28ecc3",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              }
+            ],
+            "recorded": {
+              "worldId": "world_dc0e2252441cf958",
+              "seed": "setup-v3:018b7346e81cdb23:{\"v\":3,\"seed\":\"session4-session11-intro-tags:3\",\"placeKey\":\"3577635\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+              "moment": {
+                "date": "2026-01-05",
+                "minuteOfDay": 550,
+                "timeZone": "America/Denver",
+                "utcOffsetMinutes": -420
+              },
+              "playerPersonId": "person_b761a9096f2053a2",
+              "selectionProjection": {
+                "asOf": "2026-01-05",
+                "revision": 69632,
+                "chapters": [
+                  {
+                    "key": "executive",
+                    "actors": [
+                      {
+                        "slotKey": "president",
+                        "role": "president",
+                        "person": {
+                          "personId": "person_7e17075a037a8fb2",
+                          "name": "Emily Patrick",
+                          "title": "President of the United States",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_db2ab8a9d8353e1d",
+                          "organization_ac352533bfd8fb48"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-president",
+                          "institutionId": "organization_ac352533bfd8fb48"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "vice-president",
+                        "role": "vice-president",
+                        "person": {
+                          "personId": "person_937180de8e0369da",
+                          "name": "Derek Ford",
+                          "title": "Vice President of the United States",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_c4732a3a2ba7d437",
+                          "organization_ff50f0e73d8b5874"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-vice-president",
+                          "institutionId": "organization_ff50f0e73d8b5874"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "Emily Patrick \u2014 President of the United States",
+                      "Derek Ford \u2014 Vice President of the United States"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "executive-briefing",
+                      "roles": [
+                        {
+                          "slotKey": "president",
+                          "personId": "person_7e17075a037a8fb2",
+                          "name": "Emily Patrick"
+                        },
+                        {
+                          "slotKey": "vice-president",
+                          "personId": "person_937180de8e0369da",
+                          "name": "Derek Ford"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Emily Patrick \u2014 President of the United States",
+                        "Derek Ford \u2014 Vice President of the United States"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "Emily Patrick \u2014 President of the United States",
+                      "visibleAction": "review-papers",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-desk-seat",
+                          "document-hand-contact"
+                        ],
+                        "props": ["papers"],
+                        "sceneContext": "executive working composition"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "state",
+                    "actors": [
+                      {
+                        "slotKey": "governor",
+                        "role": "governor",
+                        "person": {
+                          "personId": "person_2b376c4017f7d69e",
+                          "name": "Joseph Keller",
+                          "title": "Governor of New Mexico",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 2, 2023",
+                            "Term runs until January 4, 2027",
+                            "Lives in New Mexico"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_00d0f9500859515b",
+                          "organization_9b1716464bcef6cd"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-nm-governor",
+                          "institutionId": "organization_9b1716464bcef6cd"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2023-01-02",
+                          "endExclusive": "2027-01-04"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "Joseph Keller \u2014 Governor of New Mexico"
+                    ],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_a1d2734a38f87bdd",
+                      "placeKey": "3577635",
+                      "sourceGeoid": "3577635",
+                      "stateJurisdictionKey": "US-NM",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:9b070b8be419736f"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [
+                        {
+                          "slotKey": "governor",
+                          "personId": "person_2b376c4017f7d69e",
+                          "name": "Joseph Keller"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Joseph Keller \u2014 Governor of New Mexico"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": "3577635",
+                      "fallback": "Joseph Keller \u2014 Governor of New Mexico",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "congress",
+                    "actors": [
+                      {
+                        "slotKey": "congress:us-house:NM-01",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_1ed71d28203bc8b9",
+                          "name": "Sonia Randolph",
+                          "title": "U.S. Representative for New Mexico's 1st congressional district",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 3, 2009",
+                            "Term runs until January 3, 2027",
+                            "Lives in New Mexico"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_cb61c29bd0f26ccc",
+                          "organization_f6deda4c8dedfd08"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-house",
+                          "institutionId": "organization_f6deda4c8dedfd08"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-03",
+                          "endExclusive": "2027-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "congress:us-senate:NM:class-1",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_9fe7f05b25917869",
+                          "name": "Robin Howard",
+                          "title": "U.S. Senator from New Mexico",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 3, 2019",
+                            "Term runs until January 3, 2031",
+                            "Lives in New Mexico"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_6e3af75704f94ab4",
+                          "organization_68a69360e986f80e"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-senate",
+                          "institutionId": "organization_68a69360e986f80e"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-03",
+                          "endExclusive": "2031-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "congress:us-senate:NM:class-2",
+                        "role": "congress-member",
+                        "person": {
+                          "personId": "person_16a0902b07d08e46",
+                          "name": "Joy McLean",
+                          "title": "U.S. Senator from New Mexico",
+                          "party": "Democratic Party",
+                          "facts": [
+                            "In office since January 3, 2009",
+                            "Term runs until January 3, 2027",
+                            "Lives in New Mexico"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_48ef4f04ec1cd24d",
+                          "organization_68a69360e986f80e"
+                        ],
+                        "provenance": {
+                          "kind": "legislative-seat",
+                          "roleKey": "us-senate",
+                          "institutionId": "organization_68a69360e986f80e"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2021-01-03",
+                          "endExclusive": "2027-01-03"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "United States House of Representatives",
+                      "United States Senate"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "congressional-corridor",
+                      "roles": [
+                        {
+                          "slotKey": "congress:us-house:NM-01",
+                          "personId": "person_1ed71d28203bc8b9",
+                          "name": "Sonia Randolph"
+                        },
+                        {
+                          "slotKey": "congress:us-senate:NM:class-1",
+                          "personId": "person_9fe7f05b25917869",
+                          "name": "Robin Howard"
+                        },
+                        {
+                          "slotKey": "congress:us-senate:NM:class-2",
+                          "personId": "person_16a0902b07d08e46",
+                          "name": "Joy McLean"
+                        }
+                      ],
+                      "publicFacts": [
+                        "United States House of Representatives",
+                        "United States Senate"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "United States House of Representatives",
+                      "visibleAction": "corridor-conversation",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor",
+                          "mutually-compatible-facing"
+                        ],
+                        "props": [],
+                        "sceneContext": "verified congressional corridor; not a named hall unless source supports it"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "locality",
+                    "actors": [],
+                    "publicFacts": ["Santa Fe County"],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_a1d2734a38f87bdd",
+                      "placeKey": "3577635",
+                      "sourceGeoid": "3577635",
+                      "stateJurisdictionKey": "US-NM",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:9c42c89cd422d42d"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [],
+                      "publicFacts": ["Santa Fe County"],
+                      "asOf": "2026-01-05",
+                      "regionKey": "3577635",
+                      "fallback": "Santa Fe County",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "your-life",
+                    "actors": [],
+                    "publicFacts": [
+                      "You're 18, and you live in Thunder Mountain, New Mexico.",
+                      "No one else is recorded in your current household.",
+                      "Joshua Morgan is your dad.",
+                      "Tyler Morgan is your older brother.",
+                      "Evelyn Morgan is your grandmother.",
+                      "Joel Morgan is your grandfather.",
+                      "You started elementary school at Lakeview Elementary School in 2013.",
+                      "You started middle school at Thunder Mountain Middle School in 2019.",
+                      "You started high school at Thunder Mountain High School in 2022.",
+                      "You worked at Neighborhood Market from 2024."
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "home-conversation",
+                      "roles": [],
+                      "publicFacts": [
+                        "You're 18, and you live in Thunder Mountain, New Mexico.",
+                        "No one else is recorded in your current household.",
+                        "Joshua Morgan is your dad.",
+                        "Tyler Morgan is your older brother.",
+                        "Evelyn Morgan is your grandmother.",
+                        "Joel Morgan is your grandfather.",
+                        "You started elementary school at Lakeview Elementary School in 2013.",
+                        "You started middle school at Thunder Mountain Middle School in 2019.",
+                        "You started high school at Thunder Mountain High School in 2022.",
+                        "You worked at Neighborhood Market from 2024."
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "You're 18, and you live in Thunder Mountain, New Mexico.",
+                      "visibleAction": "talk-at-home",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-domestic-seat"
+                        ],
+                        "props": [],
+                        "sceneContext": "known household; current room still requires actual presence"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  }
+                ],
+                "startingLocation": {
+                  "setting": "home",
+                  "label": "Home",
+                  "jurisdictionId": "jurisdiction_a1d2734a38f87bdd"
+                },
+                "startingActors": []
+              }
+            },
+            "method": "DOM placement attributes observed on each card; selection projection read from the actual saved World afterward. Null fields remain missing proof, not inferred defaults."
+          },
+          "artifacts": []
+        }
+      ]
+    },
+    {
+      "title": "intro placement capture 4 Princeton, Kansas",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "status": "failed",
+          "durationMs": 25582,
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTestId('world-orientation')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTestId('world-orientation')\u001b[22m\n\n\n  28 |     });\n  29 |     const intro = page.getByTestId(\"world-orientation\");\n> 30 |     await expect(intro).toBeVisible();\n     |                         ^\n  31 |     const cards = [];\n  32 |     while (await intro.isVisible()) {\n  33 |       const heading = intro\n    at /workspace/Political-Game-Git/tests/e2e/session4-intro-placement-proof.spec.ts:30:25"
+          ],
+          "cardsReceipt": null,
+          "artifacts": [
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3e983--capture-4-Princeton-Kansas-chromium/test-failed-1.png",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3e983--capture-4-Princeton-Kansas-chromium/error-context.md",
+            "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3e983--capture-4-Princeton-Kansas-chromium/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "intro placement capture 5 Capitol Hill, Northern Mariana Islands",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "durationMs": 38977,
+          "errors": [],
+          "cardsReceipt": {
+            "seed": "session4-session11-intro-tags:5",
+            "place": {
+              "key": "territory:MP:capitol-hill",
+              "displayName": "Capitol Hill, Northern Mariana Islands",
+              "formalName": null,
+              "withinName": "Northern Mariana Islands",
+              "context": {
+                "jurisdiction": {
+                  "id": "jurisdiction_43bcafd195359f02",
+                  "slug": "territory-mp-capitol-hill",
+                  "name": "Capitol Hill, Northern Mariana Islands",
+                  "kind": "territory-place",
+                  "parentName": "Northern Mariana Islands",
+                  "provenance": {
+                    "asOf": null,
+                    "source": "territory-place-placeholder",
+                    "jurisdiction": "jurisdiction_43bcafd195359f02",
+                    "status": "placeholder"
+                  }
+                },
+                "initialMoment": {
+                  "date": "2026-01-05",
+                  "minuteOfDay": 550,
+                  "timeZone": "Pacific/Saipan",
+                  "utcOffsetMinutes": 600
+                },
+                "creationSummary": "Seeded world in Capitol Hill, Northern Mariana Islands, a placeholder territory place pending the Census Island Areas lists.",
+                "goalScope": "Capitol Hill, Northern Mariana Islands",
+                "householdLocationLabel": "Capitol Hill, Northern Mariana Islands"
+              },
+              "scope": "locality",
+              "stateJurisdictionKey": "US-MP",
+              "capabilities": {
+                "legislativeScenarioKey": null,
+                "candidacyPackId": null
+              }
+            },
+            "state": {
+              "usps": "MP",
+              "jurisdictionKey": "US-MP",
+              "name": "Northern Mariana Islands"
+            },
+            "cards": [
+              {
+                "key": "year",
+                "title": "In the year 2026",
+                "screenshot": "5-year-full-size.png",
+                "people": []
+              },
+              {
+                "key": "year",
+                "title": "The White House",
+                "screenshot": "5-year-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_ccdf6a2f4ef96468",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_0301d7c577593d6c",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "executive",
+                "title": "The White House",
+                "screenshot": "5-executive-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_ccdf6a2f4ef96468",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_0301d7c577593d6c",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_6386d1941005df30",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "state",
+                "title": "Congress",
+                "screenshot": "5-state-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_d6d262a852120820",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_e321ba4d5c2daf23",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ced839389df6b0ef",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_3d9245bd64453ef4",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_f07073f37bc3b031",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_cc08cdc0440e5086",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_44475396cd50ebb3",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_d1f291aae76f7be8",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_4191874b21cc4db5",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "congress",
+                "title": "Your family",
+                "screenshot": "5-congress-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_d6d262a852120820",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_e321ba4d5c2daf23",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_ced839389df6b0ef",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_3d9245bd64453ef4",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_f07073f37bc3b031",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_cc08cdc0440e5086",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_44475396cd50ebb3",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_d1f291aae76f7be8",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_4191874b21cc4db5",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_fb51f8215e416181",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_5c48be85d07a8788",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              },
+              {
+                "key": "parents",
+                "title": "Your family",
+                "screenshot": "5-parents-full-size.png",
+                "people": [
+                  {
+                    "personId": "person_fb51f8215e416181",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  },
+                  {
+                    "personId": "person_5c48be85d07a8788",
+                    "slotId": null,
+                    "slotRole": null,
+                    "pose": null,
+                    "facing": null,
+                    "depth": null,
+                    "selectionRecordIds": null
+                  }
+                ]
+              }
+            ],
+            "recorded": {
+              "worldId": "world_b681079818bb3712",
+              "seed": "setup-v3:87c3a3c872aa63f8:{\"v\":3,\"seed\":\"session4-session11-intro-tags:5\",\"placeKey\":\"territory:MP:capitol-hill\",\"startAge\":18,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Avery\",\"familyName\":\"Morgan\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+              "moment": {
+                "date": "2026-01-05",
+                "minuteOfDay": 550,
+                "timeZone": "Pacific/Saipan",
+                "utcOffsetMinutes": 600
+              },
+              "playerPersonId": "person_a5af352d1826c260",
+              "selectionProjection": {
+                "asOf": "2026-01-05",
+                "revision": 69657,
+                "chapters": [
+                  {
+                    "key": "executive",
+                    "actors": [
+                      {
+                        "slotKey": "president",
+                        "role": "president",
+                        "person": {
+                          "personId": "person_ccdf6a2f4ef96468",
+                          "name": "Adrian Wilkerson",
+                          "title": "President of the United States",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_337633b33763fac3",
+                          "organization_28c315909d655bee"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-president",
+                          "institutionId": "organization_28c315909d655bee"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      },
+                      {
+                        "slotKey": "vice-president",
+                        "role": "vice-president",
+                        "person": {
+                          "personId": "person_0301d7c577593d6c",
+                          "name": "Kyle McDaniel",
+                          "title": "Vice President of the United States",
+                          "party": "Republican Party",
+                          "facts": [
+                            "In office since January 20, 2025",
+                            "Term runs until January 20, 2029",
+                            "Lives in Washington, District of Columbia"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_6595d0e564d98eb9",
+                          "organization_f07a19484de70b86"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-vice-president",
+                          "institutionId": "organization_f07a19484de70b86"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2025-01-20",
+                          "endExclusive": "2029-01-20"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "Adrian Wilkerson \u2014 President of the United States",
+                      "Kyle McDaniel \u2014 Vice President of the United States"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "executive-briefing",
+                      "roles": [
+                        {
+                          "slotKey": "president",
+                          "personId": "person_ccdf6a2f4ef96468",
+                          "name": "Adrian Wilkerson"
+                        },
+                        {
+                          "slotKey": "vice-president",
+                          "personId": "person_0301d7c577593d6c",
+                          "name": "Kyle McDaniel"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Adrian Wilkerson \u2014 President of the United States",
+                        "Kyle McDaniel \u2014 Vice President of the United States"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "Adrian Wilkerson \u2014 President of the United States",
+                      "visibleAction": "review-papers",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-desk-seat",
+                          "document-hand-contact"
+                        ],
+                        "props": ["papers"],
+                        "sceneContext": "executive working composition"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "state",
+                    "actors": [
+                      {
+                        "slotKey": "governor",
+                        "role": "governor",
+                        "person": {
+                          "personId": "person_6386d1941005df30",
+                          "name": "Peter Bridges",
+                          "title": "Governor of the Northern Mariana Islands",
+                          "party": null,
+                          "facts": [
+                            "In office since January 2, 2023",
+                            "Term runs until January 4, 2027",
+                            "Lives in Northern Mariana Islands"
+                          ]
+                        },
+                        "recordIds": [
+                          "event_7d495082d41ec435",
+                          "organization_ed6f174b04f10237"
+                        ],
+                        "provenance": {
+                          "kind": "office-tenure",
+                          "roleKey": "us-mp-governor",
+                          "institutionId": "organization_ed6f174b04f10237"
+                        },
+                        "publicTenure": {
+                          "startedAt": "2023-01-02",
+                          "endExclusive": "2027-01-04"
+                        },
+                        "presenceBasis": "illustrative-public-role"
+                      }
+                    ],
+                    "publicFacts": [
+                      "Peter Bridges \u2014 Governor of the Northern Mariana Islands"
+                    ],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_43bcafd195359f02",
+                      "placeKey": "territory:MP:capitol-hill",
+                      "sourceGeoid": null,
+                      "stateJurisdictionKey": "US-MP",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:23fac82c8fc65c2f"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [
+                        {
+                          "slotKey": "governor",
+                          "personId": "person_6386d1941005df30",
+                          "name": "Peter Bridges"
+                        }
+                      ],
+                      "publicFacts": [
+                        "Peter Bridges \u2014 Governor of the Northern Mariana Islands"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": "territory:MP:capitol-hill",
+                      "fallback": "Peter Bridges \u2014 Governor of the Northern Mariana Islands",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "congress",
+                    "actors": [],
+                    "publicFacts": [
+                      "United States House of Representatives",
+                      "United States Senate"
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": ["congress-member"],
+                    "stage": {
+                      "family": "congressional-corridor",
+                      "roles": [],
+                      "publicFacts": [
+                        "United States House of Representatives",
+                        "United States Senate"
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "United States House of Representatives",
+                      "visibleAction": "corridor-conversation",
+                      "requirements": {
+                        "minimumActors": 2,
+                        "bodyContacts": [
+                          "standing-floor",
+                          "mutually-compatible-facing"
+                        ],
+                        "props": [],
+                        "sceneContext": "verified congressional corridor; not a named hall unless source supports it"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "locality",
+                    "actors": [],
+                    "publicFacts": [],
+                    "regionContext": {
+                      "jurisdictionId": "jurisdiction_43bcafd195359f02",
+                      "placeKey": "territory:MP:capitol-hill",
+                      "sourceGeoid": null,
+                      "stateJurisdictionKey": "US-MP",
+                      "regionTypes": [],
+                      "asOf": "2026-01-05",
+                      "presentationKey": "opening-region:987527c2baef600d"
+                    },
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "public-office-work",
+                      "roles": [],
+                      "publicFacts": [],
+                      "asOf": "2026-01-05",
+                      "regionKey": "territory:MP:capitol-hill",
+                      "fallback": "",
+                      "visibleAction": "listen-to-briefing",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": ["standing-floor-or-compatible-seat"],
+                        "props": [],
+                        "sceneContext": "public institution; regional imagery is illustrative"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  },
+                  {
+                    "key": "your-life",
+                    "actors": [
+                      {
+                        "slotKey": "household:person_1e1480d8183c6eda",
+                        "role": "household-member",
+                        "person": {
+                          "personId": "person_1e1480d8183c6eda",
+                          "name": "Zachary Livingston",
+                          "title": "your roommate",
+                          "party": null,
+                          "facts": ["Zachary Livingston, your roommate"]
+                        },
+                        "recordIds": ["household-membership_286d75459ea488b5"],
+                        "provenance": {
+                          "kind": "household-membership",
+                          "roleKey": "your roommate",
+                          "institutionId": null
+                        },
+                        "publicTenure": null,
+                        "presenceBasis": "known-household"
+                      }
+                    ],
+                    "publicFacts": [
+                      "You're 18, and you live in Capitol Hill, Northern Mariana Islands.",
+                      "You live with Zachary Livingston, your roommate.",
+                      "Rachel Morgan is your mom.",
+                      "Mateo Morgan is your dad.",
+                      "Priya Morgan is your older sister.",
+                      "Lila Morgan is your sister.",
+                      "Chloe Ratliff is your grandmother.",
+                      "James Ratliff is your grandfather.",
+                      "Skyler Morgan is your grandmother.",
+                      "Stephen Morgan is your grandfather.",
+                      "You started elementary school at Cottonwood Elementary School in 2013.",
+                      "You started middle school at Capitol Hill Middle School in 2019.",
+                      "You started high school at Capitol Hill High School in 2022.",
+                      "You worked at Neighborhood Market from 2024."
+                    ],
+                    "regionContext": null,
+                    "unavailableRoles": [],
+                    "stage": {
+                      "family": "home-conversation",
+                      "roles": [
+                        {
+                          "slotKey": "household:person_1e1480d8183c6eda",
+                          "personId": "person_1e1480d8183c6eda",
+                          "name": "Zachary Livingston"
+                        }
+                      ],
+                      "publicFacts": [
+                        "You're 18, and you live in Capitol Hill, Northern Mariana Islands.",
+                        "You live with Zachary Livingston, your roommate.",
+                        "Rachel Morgan is your mom.",
+                        "Mateo Morgan is your dad.",
+                        "Priya Morgan is your older sister.",
+                        "Lila Morgan is your sister.",
+                        "Chloe Ratliff is your grandmother.",
+                        "James Ratliff is your grandfather.",
+                        "Skyler Morgan is your grandmother.",
+                        "Stephen Morgan is your grandfather.",
+                        "You started elementary school at Cottonwood Elementary School in 2013.",
+                        "You started middle school at Capitol Hill Middle School in 2019.",
+                        "You started high school at Capitol Hill High School in 2022.",
+                        "You worked at Neighborhood Market from 2024."
+                      ],
+                      "asOf": "2026-01-05",
+                      "regionKey": null,
+                      "fallback": "You're 18, and you live in Capitol Hill, Northern Mariana Islands.",
+                      "visibleAction": "talk-at-home",
+                      "requirements": {
+                        "minimumActors": 1,
+                        "bodyContacts": [
+                          "standing-floor-or-compatible-domestic-seat"
+                        ],
+                        "props": [],
+                        "sceneContext": "known household; current room still requires actual presence"
+                      },
+                      "leisureContextRecordIds": []
+                    }
+                  }
+                ],
+                "startingLocation": {
+                  "setting": "home",
+                  "label": "Home",
+                  "jurisdictionId": "jurisdiction_43bcafd195359f02"
+                },
+                "startingActors": []
+              }
+            },
+            "method": "DOM placement attributes observed on each card; selection projection read from the actual saved World afterward. Null fields remain missing proof, not inferred defaults."
+          },
+          "artifacts": []
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium/2-congress-full-size.png",
+      "sha256": "b846fe7337f0a54d03db864ab375fac5352eb4494304fce3f83d31411c14f082",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium--2-congress-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium/2-parents-full-size.png",
+      "sha256": "8cbd14966645021f61995fbb623e8218b269b401245fac69fa9837f19d3b14b1",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium--2-parents-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium/2-state-full-size.png",
+      "sha256": "da8b70d8cb416994463d1de348dbd43d1a0850652ae2d4e7a10b73dae47591a2",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium--2-state-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium/2-year-full-size.png",
+      "sha256": "b9bf69889ad8b41b5688079585c74845bae84115de4f2f882bb60a58812ce3ed",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-f6f9e-acement-capture-2-Cove-Utah-chromium--2-year-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium/3-state-full-size.png",
+      "sha256": "fac25a68604c53cec5950cb86b674248fa13ed4727c934a0ce5407c607baa755",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium--3-state-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium/3-congress-full-size.png",
+      "sha256": "782bea186b1e32206d35385307bec732c2433768b5fa4e5dbfa473c8a4802483",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium--3-congress-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium/3-year-full-size.png",
+      "sha256": "dcd48dce11dc50a23fde5cb99df007666a25e1dc4df4f0054ef5963c5c75e7b8",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium--3-year-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium/3-parents-full-size.png",
+      "sha256": "f9b081f67650cd4d7945a758ef0df20d74469e966eda05603245a668763c9e72",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-695f2-Thunder-Mountain-New-Mexico-chromium--3-parents-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3206a-ure-1-Blue-Springs-Missouri-chromium/test-failed-1.png",
+      "sha256": "4bd5b72acd480a67e4464125f08a93e553c72039179c1064127c9d50a4d2a941",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-3206a-ure-1-Blue-Springs-Missouri-chromium--test-failed-1.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium/test-failed-1.png",
+      "sha256": "0ce8967637e7e31cbc206c86bf7783d5cfa007bc13374df8a76f337cc40f3770",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-ed9fc-apture-0-Monticello-Georgia-chromium--test-failed-1.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-3e983--capture-4-Princeton-Kansas-chromium/test-failed-1.png",
+      "sha256": "e1992aa30eefd2101699aeca59bade2a908b66b08bfe30255fcc6826791699bd",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-3e983--capture-4-Princeton-Kansas-chromium--test-failed-1.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium/5-parents-full-size.png",
+      "sha256": "7b702cc6830387670dd22d3dd5dfaaa268081ca756d262cae05c56bbab423219",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium--5-parents-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium/5-executive-full-size.png",
+      "sha256": "cacb9cc247daca5c2bcdaaaa9630ee37b321abe06380cc34c87d40197af29f72",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium--5-executive-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium/5-year-full-size.png",
+      "sha256": "7ebd0be0c5ad4aedab6500b41a69e786f4ea350bafb9b051b6d0ef356bb15c01",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium--5-year-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium/5-congress-full-size.png",
+      "sha256": "181cadea96c3f74ee43e3dc1da1ac67f3df828d09a45874a452064b6ce836a02",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium--5-congress-full-size.png"
+    },
+    {
+      "path": "/workspace/Political-Game-Git/test-results/runs/session4-session11-intro-six-v1/results/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium/5-state-full-size.png",
+      "sha256": "3f76754a4d90836dc02879343a108ab3eb85712c77dbf7555b3cdd4e8d7e3d50",
+      "width": 1920,
+      "height": 1080,
+      "publishedPath": "docs/codex/evidence/session4-intro-six-v1/session4-intro-placement-p-012db-ll-Northern-Mariana-Islands-chromium--5-state-full-size.png"
+    }
+  ]
+}
