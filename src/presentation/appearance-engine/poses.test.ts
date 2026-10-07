@@ -19,6 +19,9 @@ import {
   type PeoplePackManifest,
 } from "./pack";
 import { chooseBodyPose, chooseBodyView, sceneActivity } from "./pose-chooser";
+import poseByTraitData from "../../../data/content/pose-by-trait.json" with { type: "json" };
+import { loadedTraitRegistry } from "../../simulation/trait-registry";
+import { observedTraitValues } from "../../simulation/people-traits";
 import type { Raster } from "./raster";
 import type * as Runtime from "./runtime";
 
@@ -212,7 +215,7 @@ describe("the pose chooser", () => {
         activity: Parameters<typeof chooseBodyPose>[0]["activity"],
         seated = false,
       ) => chooseBodyPose({ activity, seated, seed });
-      expect(pose("speaking")).toBe("explaining");
+      expect(["explaining", "hand-on-hip"]).toContain(pose("speaking"));
       expect(pose("speech")).toBe("podium");
       expect(["arms-folded", "hand-on-hip"]).toContain(pose("listening"));
       expect(["arms-folded", "hand-on-hip"]).toContain(pose("waiting"));
@@ -225,9 +228,11 @@ describe("the pose chooser", () => {
       expect(["seated-hands-folded", "seated-leaning"]).toContain(
         pose("meeting", true),
       );
-      expect(["seated-hands-folded", "seated-listening"]).toContain(
-        pose("listening", true),
-      );
+      expect([
+        "seated-hands-folded",
+        "seated-listening",
+        "seated-leaning",
+      ]).toContain(pose("listening", true));
       expect(["seated-legs-crossed", "seated-phone"]).toContain(
         pose("waiting", true),
       );
@@ -306,24 +311,55 @@ describe("the pose chooser", () => {
         chooseBodyPose({ activity: "listening", seated: false, seed }),
       ),
     ).toEqual(listening);
-    const folded = listening.filter((pose) => pose === "arms-folded").length;
-    expect(folded).toBeGreaterThan(seeds.length * 0.35);
-    expect(folded).toBeLessThan(seeds.length * 0.65);
+    expect(new Set(listening)).toEqual(new Set(["arms-folded", "hand-on-hip"]));
   });
 
-  it("folds a guarded person's arms more often, and an open person's less", () => {
-    const share = (guarded?: number) =>
-      seeds.filter(
-        (seed) =>
-          chooseBodyPose({
-            activity: "listening",
-            seated: false,
-            seed,
-            ...(guarded === undefined ? {} : { guarded }),
-          }) === "arms-folded",
-      ).length / seeds.length;
-    expect(share(2)).toBeGreaterThan(share());
-    expect(share(-2)).toBeLessThan(share());
+  it("uses recorded trait weights and the people present, with hashes only for ties", () => {
+    expect(
+      chooseBodyPose({
+        activity: "listening",
+        seated: false,
+        seed: "person",
+        traits: [{ qualifiedKey: "people-mind-v1:sociability", value: 2 }],
+      }),
+    ).toBe("hand-on-hip");
+    expect(
+      chooseBodyPose({
+        activity: "listening",
+        seated: false,
+        seed: "person",
+        traits: [{ qualifiedKey: "people-mind-v1:sociability", value: -2 }],
+      }),
+    ).toBe("arms-folded");
+    expect(
+      chooseBodyPose({
+        activity: "idle",
+        seated: false,
+        seed: "person",
+      }),
+    ).toBe("standing");
+    expect(["standing", "hand-on-hip", "arms-folded"]).toContain(
+      chooseBodyPose({
+        activity: "idle",
+        seated: false,
+        seed: "person",
+        hasCompanion: true,
+      }),
+    );
+  });
+
+  it("accounts for every loaded trait in the pose map", () => {
+    const rules = poseByTraitData.traits as Record<
+      string,
+      { reason?: string; high?: unknown; low?: unknown }
+    >;
+    const traits = [...loadedTraitRegistry().traits.keys()];
+    expect(Object.keys(rules).sort()).toEqual(traits.sort());
+    expect(
+      Object.values(rules).every(
+        (rule) => rule.reason || rule.high || rule.low,
+      ),
+    ).toBe(true);
   });
 
   it("reads the activity from the conversation and the place", () => {
@@ -592,9 +628,21 @@ describe("a conversation in a room", async () => {
       );
     const quiet = standing();
     expect(quiet.length).toBeGreaterThanOrEqual(2);
-    // Nobody talking: nobody posed.
-    for (const person of quiet)
-      expect(person.engine!.pose ?? "standing").toBe("standing");
+    // With companions present, idle poses still follow each person's recorded
+    // traits; the scene must use the same weighted choice as the pose reader.
+    for (const person of quiet) {
+      const record = world.people[person.personId]!;
+      expect(person.engine!.pose ?? "standing").toBe(
+        chooseBodyPose({
+          activity: "idle",
+          seated: false,
+          seed: record.appearance?.seed ?? record.id,
+          traits: observedTraitValues(world, person.personId),
+          hasCompanion: true,
+          presentation: person.engine!.presentation,
+        }),
+      );
+    }
 
     const speakerId = quiet[0]!.personId;
     const talking = planLifeScenePeople(

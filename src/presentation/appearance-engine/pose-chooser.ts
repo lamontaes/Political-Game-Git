@@ -1,5 +1,7 @@
 import { stableHash } from "../../simulation/ids";
+import poseByTraitData from "../../../data/content/pose-by-trait.json" with { type: "json" };
 import {
+  isSeatedPose,
   presentationPose,
   type BodyPose,
   type BodyPresentation,
@@ -10,9 +12,8 @@ import {
  * WHAT A PERSON IS DOING IN THE SCENE, AND THE POSE THAT SHOWS IT.
  *
  * The scene says what each person present is doing; this picks the pose the
- * people engine draws them in. The same person doing the same thing is
- * always drawn the same way: every choice between two poses is drawn from
- * the person's own seed, never from the clock or the room.
+ * people engine draws them in. Recorded traits and the present activity
+ * decide the highest-weight pose; the person's seed only resolves exact ties.
  */
 export type SceneActivity =
   /** Talking, or answering, in a conversation. */
@@ -36,48 +37,112 @@ export interface PoseChoice {
   readonly seated: boolean;
   /** The person's appearance seed (or their id). */
   readonly seed: string;
-  /**
-   * How guarded the person is, from -2 (open) to 2 (guarded), from a
-   * recorded trait only; absent when nothing is recorded, which leaves the
-   * seed alone to decide.
-   */
-  readonly guarded?: number;
+  /** Recorded traits only; unknown traits have no visual effect. */
+  readonly traits?: readonly {
+    readonly qualifiedKey: string;
+    readonly value: number;
+  }[];
+  /** Whether another person is present in this scene. */
+  readonly hasCompanion?: boolean;
   /** Their presentation, whose own poses are the only ones chosen. */
   readonly presentation?: BodyPresentation;
 }
 
-function draw(seed: string, question: string): number {
-  return (
-    Number.parseInt(stableHash(`${seed}:${question}`).slice(0, 8), 16) /
-    0x100000000
-  );
+type TraitPoseWeights = Partial<
+  Record<SceneActivity, Readonly<Record<string, number>>>
+>;
+
+interface TraitPoseRule {
+  readonly reason?: string;
+  readonly high?: TraitPoseWeights;
+  readonly low?: TraitPoseWeights;
 }
 
-/** Of two poses, the seed's; `lean` shifts the odds toward the first. */
-function either(
-  seed: string,
-  question: string,
-  first: BodyPose,
-  second: BodyPose,
-  lean = 0,
-): BodyPose {
-  const odds = Math.min(0.9, Math.max(0.1, 0.5 + lean));
-  return draw(seed, question) < odds ? first : second;
+const TRAIT_POSE_RULES = poseByTraitData.traits as Record<
+  string,
+  TraitPoseRule
+>;
+
+function poseCandidates(
+  activity: SceneActivity,
+  seated: boolean,
+  hasCompanion: boolean,
+): readonly BodyPose[] {
+  switch (activity) {
+    case "speaking":
+      return seated ? ["seated-leaning"] : ["explaining", "hand-on-hip"];
+    case "speech":
+      return seated ? ["seated-leaning"] : ["podium"];
+    case "listening":
+      return seated
+        ? ["seated-hands-folded", "seated-listening", "seated-leaning"]
+        : ["arms-folded", "hand-on-hip"];
+    case "waiting":
+      return seated
+        ? ["seated-legs-crossed", "seated-phone"]
+        : ["arms-folded", "hand-on-hip"];
+    case "desk":
+      return seated ? ["seated-writing", "seated-reading"] : ["standing"];
+    case "meeting":
+      return seated ? ["seated-hands-folded", "seated-leaning"] : ["standing"];
+    case "idle":
+      if (!hasCompanion)
+        return seated ? ["seated", "seated-relaxed"] : ["standing"];
+      return seated
+        ? ["seated", "seated-relaxed", "seated-hands-folded", "seated-leaning"]
+        : ["standing", "hand-on-hip", "arms-folded"];
+  }
+}
+
+/** Highest recorded trait weight wins; a stable hash only breaks exact ties. */
+function weightedPose(choice: PoseChoice): BodyPose {
+  const candidates = new Set<BodyPose>(
+    poseCandidates(
+      choice.activity,
+      choice.seated,
+      choice.hasCompanion ?? false,
+    ),
+  );
+  const scores = new Map<BodyPose, number>();
+  for (const trait of choice.traits ?? []) {
+    if (trait.value === 0) continue;
+    const rule = TRAIT_POSE_RULES[trait.qualifiedKey];
+    const pole = trait.value > 0 ? rule?.high : rule?.low;
+    const weights = pole?.[choice.activity] ?? {};
+    for (const [pose, weight] of Object.entries(weights)) {
+      if (isSeatedPose(pose as BodyPose) !== choice.seated) continue;
+      candidates.add(pose as BodyPose);
+      scores.set(
+        pose as BodyPose,
+        (scores.get(pose as BodyPose) ?? 0) + Math.abs(trait.value) * weight,
+      );
+    }
+  }
+  const highest = Math.max(
+    ...[...candidates].map((pose) => scores.get(pose) ?? 0),
+  );
+  const tied = [...candidates].filter(
+    (pose) => (scores.get(pose) ?? 0) === highest,
+  );
+  return tied.sort((left, right) =>
+    stableHash(`${choice.seed}:${choice.activity}:${left}`).localeCompare(
+      stableHash(`${choice.seed}:${choice.activity}:${right}`),
+    ),
+  )[0]!;
 }
 
 /**
  * The pose for a person doing something. A seated person stays seated: the
  * scene gave them a chair, and only the seated poses fit one.
  *
- * - speaking: explaining, or leaning in from a chair
- * - listening: arms folded or a hand on the hip (a guarded person folds their
- *   arms more), or in a chair with hands folded or leaning in to listen
- * - waiting: standing the same way, or in a chair with legs crossed or on
- *   the phone
+ * - speaking: explaining or an open stance; seated speakers lean in
+ * - listening: a data-mapped trait pose, or a stable tie among attentive poses
+ * - waiting: a stable tie among standing or seated waiting poses
  * - speech: at the podium (from a chair, leaning in)
  * - desk: writing or reading; meeting: hands folded or leaning in; standing
  *   when there is no chair
- * - idle: standing, or seated plainly or leaning back
+ * - idle: standing alone; with others present, a data-mapped pose or stable tie
+ *   among available gestures
  */
 export function chooseBodyPose(choice: PoseChoice): BodyPose {
   const pose = choosePose(choice);
@@ -87,55 +152,7 @@ export function chooseBodyPose(choice: PoseChoice): BodyPose {
 }
 
 function choosePose(choice: PoseChoice): BodyPose {
-  const { activity, seated, seed } = choice;
-  // ESTIMATED FROM THE RECORDED SCALE: five guardedness values are spaced by
-  // 0.15, mapping -2..2 smoothly to 20%..80% while retaining both poses.
-  const guarded = (choice.guarded ?? 0) * 0.15;
-  switch (activity) {
-    case "speaking":
-      return seated ? "seated-leaning" : "explaining";
-    case "speech":
-      return seated ? "seated-leaning" : "podium";
-    case "listening":
-      // A guarded listener keeps their hands folded; an open one leans in.
-      return seated
-        ? either(
-            seed,
-            "pose:listening:seated",
-            "seated-hands-folded",
-            "seated-listening",
-            guarded,
-          )
-        : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
-    case "waiting":
-      return seated
-        ? either(
-            seed,
-            "pose:waiting:seated",
-            "seated-legs-crossed",
-            "seated-phone",
-            guarded,
-          )
-        : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
-    case "desk":
-      return seated
-        ? either(seed, "pose:desk", "seated-writing", "seated-reading")
-        : "standing";
-    case "meeting":
-      return seated
-        ? either(
-            seed,
-            "pose:table",
-            "seated-hands-folded",
-            "seated-leaning",
-            guarded,
-          )
-        : "standing";
-    case "idle":
-      return seated
-        ? either(seed, "pose:idle:seated", "seated", "seated-relaxed")
-        : "standing";
-  }
+  return weightedPose(choice);
 }
 
 /**

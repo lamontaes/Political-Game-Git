@@ -1,0 +1,694 @@
+{
+  "version": 1,
+  "defaultReason": "A trait added by a content pack has no direct posture cue until its own entry is supplied; scene activity determines the pose.",
+  "traits": {
+    "people-mind-v1:deliberation": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "people-mind-v1:sociability": {
+      "reason": "Recorded sociability changes whether an idle person turns outward or keeps their posture closed.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "listening": {
+          "hand-on-hip": 2
+        },
+        "meeting": {
+          "seated-leaning": 2
+        }
+      },
+      "low": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 2
+        }
+      }
+    },
+    "people-mind-v1:conflict": {
+      "reason": "Recorded conflict style changes whether an idle person holds a guarded stance or leans toward the group.",
+      "high": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 2
+        }
+      },
+      "low": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "listening": {
+          "hand-on-hip": 2
+        },
+        "meeting": {
+          "seated-leaning": 2
+        }
+      }
+    },
+    "people-mind-v1:reliability": {
+      "reason": "Recorded follow-through can show in a working or attentive posture.",
+      "high": {
+        "desk": {
+          "seated-writing": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      },
+      "low": {
+        "desk": {
+          "seated-reading": 1
+        },
+        "idle": {
+          "seated-relaxed": 1
+        }
+      }
+    },
+    "people-mind-v1:risk": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "legislature-v1:showing-their-hand": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:self-confidence": {
+      "reason": "The recorded self-assured pole favors an open stance; insecurity favors a closed stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "listening": {
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      },
+      "low": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:playful-manner": {
+      "reason": "Recorded playfulness favors a relaxed posture, while seriousness favors a composed posture.",
+      "high": {
+        "idle": {
+          "seated-relaxed": 2
+        },
+        "waiting": {
+          "seated-legs-crossed": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      },
+      "low": {
+        "idle": {
+          "seated": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 2
+        }
+      }
+    },
+    "personality-v1:voluntary-effort": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:concern-for-distress": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:initial-trust": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:bond-loyalty": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:truthfulness": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:method-revision": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:patience": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:action-despite-fear": {
+      "reason": "The recorded brave pole favors an open idle stance; timidity favors a guarded one.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        }
+      },
+      "low": {
+        "idle": {
+          "arms-folded": 2
+        }
+      }
+    },
+    "personality-v1:outward-emotional-display": {
+      "reason": "Recorded expressiveness favors an open idle stance; stoicism favors a composed one.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      },
+      "low": {
+        "idle": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:uncertain-outlook": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-cocky": {
+      "reason": "The recorded cocky manner favors a relaxed, expansive idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "waiting": {
+          "hand-on-hip": 1
+        }
+      }
+    },
+    "personality-v1:facet-proud": {
+      "reason": "The recorded proud manner favors an open idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        }
+      }
+    },
+    "personality-v1:facet-humble": {
+      "reason": "The recorded humble manner favors a modest, composed idle stance.",
+      "high": {
+        "idle": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-self-conscious": {
+      "reason": "The recorded self-conscious manner favors a closed idle stance.",
+      "high": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-approval-seeking": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-smug": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-entitled": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-brazen": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-assertive": {
+      "reason": "The recorded assertive manner favors an open idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "waiting": {
+          "hand-on-hip": 1
+        }
+      }
+    },
+    "personality-v1:facet-deferential": {
+      "reason": "The recorded deferential manner favors a composed, attentive posture.",
+      "high": {
+        "idle": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 2
+        }
+      }
+    },
+    "personality-v1:facet-shy": {
+      "reason": "The recorded shy manner favors a closed posture when waiting or listening.",
+      "high": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 2
+        }
+      }
+    },
+    "personality-v1:facet-slow-to-warm-up": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-independent": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-friendly": {
+      "reason": "The recorded friendly manner favors an open posture around others.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        },
+        "listening": {
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      }
+    },
+    "personality-v1:facet-charming": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-blunt": {
+      "reason": "The recorded blunt manner favors a direct, closed stance while listening.",
+      "high": {
+        "listening": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-tactful": {
+      "reason": "The recorded tactful manner favors an attentive, open posture around others.",
+      "high": {
+        "listening": {
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 2
+        }
+      }
+    },
+    "personality-v1:facet-polite": {
+      "reason": "The recorded polite manner favors a composed posture around others.",
+      "high": {
+        "listening": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-informal": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-sassy": {
+      "reason": "The recorded sassy manner favors an expressive idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        }
+      }
+    },
+    "personality-v1:facet-mischievous": {
+      "reason": "The recorded mischievous manner favors a relaxed idle posture.",
+      "high": {
+        "idle": {
+          "seated-relaxed": 1
+        },
+        "waiting": {
+          "seated-legs-crossed": 1
+        }
+      }
+    },
+    "personality-v1:facet-dramatic": {
+      "reason": "The recorded dramatic manner favors an expressive idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 2
+        },
+        "speaking": {
+          "explaining": 1
+        }
+      }
+    },
+    "personality-v1:facet-studious": {
+      "reason": "The recorded studious manner favors reading when seated at a desk.",
+      "high": {
+        "desk": {
+          "seated-reading": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-curious": {
+      "reason": "The recorded curious manner favors leaning toward people and material.",
+      "high": {
+        "listening": {
+          "seated-listening": 2,
+          "hand-on-hip": 1
+        },
+        "desk": {
+          "seated-reading": 1
+        },
+        "meeting": {
+          "seated-leaning": 2
+        }
+      }
+    },
+    "personality-v1:facet-analytical": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-practical": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-inventive": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-imaginative": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-open-minded": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-skeptical": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-cynical": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-daydreaming": {
+      "reason": "The recorded daydreaming manner favors a relaxed idle posture.",
+      "high": {
+        "idle": {
+          "seated-relaxed": 2
+        }
+      }
+    },
+    "personality-v1:facet-observant": {
+      "reason": "The recorded observant manner favors an attentive listening posture.",
+      "high": {
+        "listening": {
+          "seated-listening": 2,
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-meticulous": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-persistent": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-duty-bound": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-work-centered": {
+      "reason": "The recorded work-centered manner favors an engaged desk posture.",
+      "high": {
+        "desk": {
+          "seated-writing": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-ambitious": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-contented": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-competitive": {
+      "reason": "The recorded competitive manner favors an alert idle posture.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        },
+        "waiting": {
+          "hand-on-hip": 1
+        }
+      }
+    },
+    "personality-v1:facet-opportunistic": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-enterprising": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-self-serving": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-acquisitive": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-generous": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-gentle": {
+      "reason": "The recorded gentle manner favors an open, leaning posture around others.",
+      "high": {
+        "listening": {
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      }
+    },
+    "personality-v1:facet-supportive": {
+      "reason": "The recorded supportive manner favors leaning toward people who are present.",
+      "high": {
+        "listening": {
+          "seated-listening": 2,
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 2
+        }
+      }
+    },
+    "personality-v1:facet-comforting": {
+      "reason": "The recorded comforting manner favors an open, attentive posture around others.",
+      "high": {
+        "listening": {
+          "seated-listening": 2,
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      }
+    },
+    "personality-v1:facet-nurturing": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-philanthropic": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-envious": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-cruel": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-sincere": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-manipulative": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-guarded": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-fair-minded": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-arbitrary": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-fickle": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-zealous": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-argumentative": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-mediating": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-forgiving": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-vindictive": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-defensive": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-hostile": {
+      "reason": "The recorded hostile manner favors a guarded posture around others.",
+      "high": {
+        "idle": {
+          "arms-folded": 2
+        },
+        "listening": {
+          "arms-folded": 2
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-thrill-seeking": {
+      "reason": "The recorded thrill-seeking manner favors an expansive idle stance.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        }
+      }
+    },
+    "personality-v1:facet-calm": {
+      "reason": "The recorded calm manner favors a composed, relaxed posture.",
+      "high": {
+        "idle": {
+          "seated-relaxed": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-hot-headed": {
+      "reason": "The recorded hot-headed manner favors a guarded posture around others.",
+      "high": {
+        "idle": {
+          "arms-folded": 1
+        },
+        "listening": {
+          "arms-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-sensitive": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-tender-hearted": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-excitable": {
+      "reason": "The recorded excitable manner favors an expressive, open posture.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        },
+        "speaking": {
+          "explaining": 1
+        }
+      }
+    },
+    "personality-v1:facet-light-hearted": {
+      "reason": "The recorded light-hearted manner favors a relaxed idle posture.",
+      "high": {
+        "idle": {
+          "seated-relaxed": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      }
+    },
+    "personality-v1:facet-restless": {
+      "reason": "The recorded restless manner favors an active waiting posture.",
+      "high": {
+        "waiting": {
+          "hand-on-hip": 2,
+          "seated-legs-crossed": 1
+        }
+      }
+    },
+    "personality-v1:facet-brooding": {
+      "reason": "The recorded brooding manner favors a closed idle posture.",
+      "high": {
+        "idle": {
+          "arms-folded": 1
+        },
+        "meeting": {
+          "seated-hands-folded": 1
+        }
+      }
+    },
+    "personality-v1:facet-affectionate": {
+      "reason": "The recorded affectionate manner favors an open, leaning posture with others present.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        },
+        "listening": {
+          "seated-listening": 1,
+          "hand-on-hip": 1
+        },
+        "meeting": {
+          "seated-leaning": 1
+        }
+      }
+    },
+    "personality-v1:facet-closeness-seeking": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-intimacy-guarded": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-devoted": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-nostalgic": {
+      "reason": "The recorded trait definition gives no direct posture cue; the scene activity and people present determine the pose."
+    },
+    "personality-v1:facet-teasing": {
+      "reason": "The recorded teasing manner favors an expressive idle posture.",
+      "high": {
+        "idle": {
+          "hand-on-hip": 1
+        },
+        "speaking": {
+          "explaining": 1
+        }
+      }
+    }
+  }
+}
