@@ -135,6 +135,9 @@ function voiceLabel(line: BatchLine): string {
 
 /** Plain words: who, how old, where. No record ids or engine terms. */
 function plainSituation(line: BatchLine): string {
+  // A judge's line needs the case it decides, which the batch line words.
+  if (line.id.startsWith("judge-"))
+    return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
   const who = line.speaker.isPlayer
     ? "You"
     : `${voiceLabel(line)}, ${line.speaker.name} (${line.speaker.age})`;

@@ -1003,7 +1003,24 @@ function judgeSentence(
       situation: `Judge ${personName(world.people[judgeId]!)} sentences ${defendant.name} (${defendant.age}) for ${offenseLabel}${pleaded ? " after a guilty plea" : " after a trial"}. The judge chose ${chosen}.`,
       speaker: personOf(world, ctx.playerId, judgeId, "judge"),
       line,
-      parts: [],
+      // Each reason is a fixed sentence in the justice code, keyed by the
+      // consideration it explains, so a grade points at the sentence.
+      parts: decision.context.considerations
+        .filter(
+          (row) =>
+            row.optionKey === decision.selectedOptionKey &&
+            row.direction === "supports",
+        )
+        .map((row) => {
+          const variant = row.stableKey.split(":sentence:")[1] ?? row.stableKey;
+          return {
+            part: "core" as const,
+            partKey: `justice.sentence:core:${variant}`,
+            variantKey: variant,
+            text: row.explanation,
+            usedFactKeys: [],
+          };
+        }),
       harness: [
         `The case (${offenseLabel}, ${pleaded ? "plea" : "trial"}, ${standingFindings} standing findings) is the harness's; the judge and defendant are real people in this world.`,
       ],
