@@ -49,6 +49,7 @@ export * from "./campaign-compliance-rules";
 export * from "./candidate-qualification";
 export * from "./office-qualification-rules";
 export * from "./office-workflow";
+export * from "./constituent-casework-routing";
 export * from "./world-setup";
 /**
  * Campaign operations are named one by one on purpose.
