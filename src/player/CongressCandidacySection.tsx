@@ -151,8 +151,8 @@ export function congressStatusText(status: CongressSeatStatus): string | null {
     case "lost":
       return `Lost: ${status.identity.displayName} · ${readableCampaignDate(status.electionDate)}`;
     case "won-awaiting-term":
-      return `You won. You take the seat on ${readableCampaignDate(status.startsAt)}, and the term runs until ${readableCampaignDate(status.endsAt)}.`;
+      return `Won · Takes office: ${readableCampaignDate(status.startsAt)} · Term ends: ${readableCampaignDate(status.endsAt)}`;
     case "in-office":
-      return `You are the ${status.identity.displayName} until ${readableCampaignDate(status.endsAt)}.`;
+      return `${status.identity.displayName} · Term ends: ${readableCampaignDate(status.endsAt)}`;
   }
 }

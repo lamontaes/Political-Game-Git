@@ -46,14 +46,10 @@ describe("county calendar reaches existing campaign readers", () => {
     )!;
     expect(row.electionDate).toBe("2027-11-20");
     expect(row.eligible).toBe(false);
-    expect(row.eligibility).toBe(
-      "The requirements for this county office have not been established.",
-    );
+    expect(row.eligibility).toBe("Qualifications: not on record");
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    ).toThrow("Qualifications: not on record");
     expect(row.timing).toContain("2027");
     expect(serializeWorldPayload(world)).toEqual(before);
   });
@@ -75,13 +71,11 @@ describe("county calendar reaches existing campaign readers", () => {
     expect(row).toMatchObject({
       electionDate: null,
       eligible: false,
-      timing: "This office record has no scheduled election date.",
+      timing: null,
     });
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    ).toThrow("Qualifications: not on record");
     expect(
       availableCampaignElectionDate(
         world,

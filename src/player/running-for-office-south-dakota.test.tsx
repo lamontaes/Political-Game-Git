@@ -125,9 +125,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
         new Set(ageMinimums(office.eligibility)).size,
         `${office.title}: ${office.eligibility}`,
       ).toBe(1);
-      expect(office.eligibility).toMatch(
-        /^You must be at least \d+ to run for this office\.$/,
-      );
+      expect(office.eligibility).toMatch(/^Minimum age: \d+$/);
     }
     const governor = stateExecutiveCandidacyForPerson(world, personId)!;
     expect(governor.identity.stateUsps).toBe("SD");
@@ -179,9 +177,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
       ),
     );
     expect(statewide).toContain("Governor of South Dakota");
-    expect(statewide).toContain(
-      "You must be at least 21 to run for this office.",
-    );
+    expect(statewide).toContain("Minimum age: 21");
     for (const text of [campaign, statewide]) {
       expect(text).not.toMatch(PROVENANCE);
     }

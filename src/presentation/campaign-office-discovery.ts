@@ -17,7 +17,7 @@ import { proseDate } from "./prose-dates";
 /** Read-only established alternatives, not a national office/calendar engine. */
 export function projectCampaignOffices(world: World, personId: EntityId) {
   const person = world.people[personId];
-  if (!person) throw new Error("This character is not in the world.");
+  if (!person) throw new Error("Person not found");
   const authority = candidacyAuthority(person.homeJurisdictionId);
   const campaign = campaignForCandidate(world, personId);
   const offices = electiveOfficesForJurisdiction(person.homeJurisdictionId).map(
@@ -91,10 +91,9 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
           ? `Next election: ${proseDate(electionDate)}`
           : null,
         connections: [
-          ...(own ? ["Your recorded campaign is for this office."] : []),
+          ...(own ? ["Your campaign"] : []),
           ...[...new Set(contacts)].map(
-            (id) =>
-              `${personName(world.people[id]!)} is a recorded contestant with whom you have prior contact.`,
+            (id) => `Contestant you know: ${personName(world.people[id]!)}`,
           ),
         ],
         gaps: option.unresolvedGaps,

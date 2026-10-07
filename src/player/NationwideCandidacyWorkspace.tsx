@@ -222,7 +222,7 @@ export function NationwideCandidacyWorkspace({
                 Take up the next full term
               </span>
               <span className="game-campaign-action-note">
-                {`From ${readableCampaignDate(status.recovery.startsAt)} to ${readableCampaignDate(status.recovery.endsAt)}. Your recorded victory stays as it happened.`}
+                {`${readableCampaignDate(status.recovery.startsAt)} – ${readableCampaignDate(status.recovery.endsAt)} · Victory kept`}
               </span>
             </button>
           ) : null}
@@ -310,11 +310,9 @@ function statusText(
     case "none":
       return null;
     case "pending-election":
-      return "You are on the ballot. The campaign itself is run from your office and campaigns.";
+      return "On the ballot";
     case "lost":
-      return (
-        result ?? "The last election for this office went to someone else."
-      );
+      return result ?? "Lost";
     case "won-term-unavailable":
       return `${won} ${status.reason}`;
     case "won-off-cycle":
@@ -322,10 +320,10 @@ function statusText(
     case "awaiting-qualification":
       return `${won} The term runs from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)}, but a requirement of the office is not met, and until it is you cannot take it up.`;
     case "qualified-awaiting-entry":
-      return `You won. The term begins ${readableCampaignDate(status.startsAt)}, and you take the oath that day.`;
+      return `Won · Takes office: ${readableCampaignDate(status.startsAt)}`;
     case "in-office":
-      return `You hold this office until ${readableCampaignDate(status.endsAt)}.`;
+      return `In office · Term ends: ${readableCampaignDate(status.endsAt)}`;
     case "term-over-or-not-entered":
-      return `The term that ran from ${readableCampaignDate(status.startsAt)} to ${readableCampaignDate(status.endsAt)} is over or was never entered.`;
+      return `Term ended: ${readableCampaignDate(status.startsAt)} – ${readableCampaignDate(status.endsAt)}`;
   }
 }

@@ -220,7 +220,7 @@ describe("running for mayor", () => {
       expect(seat.termYears?.value).toBeGreaterThan(0);
       expect(townSeatRulesSentence(seat)).toMatch(/mayor serves/);
       expect(projectWorkRole(decided, personId).sentence).toBe(
-        `Your role: Mayor, ${seat.governmentName}.`,
+        `Role: Mayor, ${seat.governmentName}`,
       );
 
       // Never a council seat, and never the state's legislature.
