@@ -1,0 +1,727 @@
+{
+  "id": "eng-20261007-ep1d",
+  "title": "Dialogue batch eng-20261007-ep1d (27 exchanges)",
+  "at": "2026-10-07T02:09:30.889Z",
+  "head": "92db191de3f7575145eb9da9eabf28a7f0a9374a",
+  "status": "open",
+  "variety": {
+    "items": 27,
+    "places": 4,
+    "kinds": {
+      "conversation": 9,
+      "legislation": 1,
+      "winning-and-losing": 0,
+      "judges": 3,
+      "news": 3,
+      "journal": 3,
+      "press": 2,
+      "hearing": 3,
+      "meeting": 3,
+      "minutes": 0,
+      "notices-and-screens": 0
+    },
+    "distinctSituationRelationship": 27
+  },
+  "absent": [
+    {
+      "kind": "winning-and-losing",
+      "reason": "Panaca, Nevada: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Vaitogi, American Samoa: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Waimanalo, Hawaii: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to; Bethany, Missouri: no race in this world is decided yet; no recorded vote or decided contest exists to attach a result line to"
+    },
+    {
+      "kind": "minutes",
+      "reason": "Panaca, Nevada: no minutes producer writes in the game yet; no output, because County of Lincoln has no recorded meeting or vote to take minutes of; Vaitogi, American Samoa: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Waimanalo, Hawaii: no minutes producer writes in the game yet; no seated local governing body is recorded for the player's home town or county; Bethany, Missouri: no minutes producer writes in the game yet; no output, because City of Bethany has no recorded meeting or vote to take minutes of"
+    },
+    {
+      "kind": "notices-and-screens",
+      "reason": "Panaca, Nevada: no output, because no notices bank or composer exists yet; Vaitogi, American Samoa: no output, because no notices bank or composer exists yet; Waimanalo, Hawaii: no output, because no notices bank or composer exists yet; Bethany, Missouri: no output, because no notices bank or composer exists yet"
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "You: Say hello",
+      "reply": "From your school: Hi, Thomas. How are you?",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core",
+        "life-reply.first-greeting:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "greet",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 1,
+      "situation": "Your grandmother, Kelly Hernandez (103), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Say hello",
+      "reply": "Your grandmother: Hi, Leo.",
+      "part": "life-reply.first-greeting:core:core",
+      "parts": [
+        "life-reply.first-greeting:core:core"
+      ],
+      "composer": "lifeReplyLine (first-greeting) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "greet",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 2,
+      "situation": "Your grandmother, Claire Stanley (107), in Waimanalo, Hawaii, on January 5, 2026. You are 52.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your grandmother: Yeah, let's play.",
+      "part": "invitation.company-agree:core:yeah-play",
+      "parts": [
+        "invitation.company-agree:core:yeah-play"
+      ],
+      "composer": "invitationAgreeLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "invite-game-accept",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Waimanalo, Hawaii",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:2"
+    },
+    {
+      "i": 3,
+      "situation": "Your dad, Jared Pitts (104), in Bethany, Missouri, on January 5, 2026. You are 70.",
+      "prior": "You: Suggest playing a game together",
+      "reply": "Your dad: Oh, I'll pass for now. I'd rather try something new. Thanks for asking.",
+      "part": "english.slow-opener:opener:oh",
+      "parts": [
+        "english.slow-opener:opener:oh",
+        "invitation.company-decline:core:pass",
+        "invitation.company-decline:reason:something-new",
+        "invitation.company-decline:closer:thanks-asking"
+      ],
+      "composer": "invitationDeclineLine in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 4,
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "From your school: I remember you bringing up “Lincoln County is governed by County board.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "remembered-topic",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 5,
+      "situation": "Your dad, Owen Hernandez (71), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your dad: Me too. I've been meaning to make time to learn something.",
+      "part": "life-reply.tell-shared-plan:core:core",
+      "parts": [
+        "life-reply.tell-shared-plan:core:core",
+        "life-reply.tell-shared-plan:reason:continuation"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 6,
+      "situation": "Your mom, Bonnie Sanders (77), in Waimanalo, Hawaii, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: If you want to, go ahead.",
+      "part": "life-reply.running-open-agree-even:core:core",
+      "parts": [
+        "life-reply.running-open-agree-even:core:core"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-open",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Waimanalo, Hawaii",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:2"
+    },
+    {
+      "i": 7,
+      "situation": "Your former classmate, Anya Strickland (34), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "",
+      "reply": "Your former classmate: We can talk about the meeting.",
+      "part": "subject-reply.neighborhood_mention:core:warm-0-core-2",
+      "parts": [
+        "subject-reply.neighborhood_mention:core:warm-0-core-2"
+      ],
+      "composer": "composeSubjectReply (neighborhood) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "neighborhood-mention",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 8,
+      "situation": "Reporter, Devon Tyson (30), in Bethany, Missouri, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Reporter: Harrison County is governed by County board. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 9,
+      "situation": "You, in Waimanalo, Hawaii, on January 5, 2026. You are 52.",
+      "prior": "Reporter: What happened?",
+      "reply": "You: I can't answer that yet.",
+      "part": "press.answer-unknown:core:not-yet",
+      "parts": [
+        "press.answer-unknown:core:not-yet"
+      ],
+      "composer": "composePressLine (answer-unknown) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Waimanalo, Hawaii",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:2"
+    },
+    {
+      "i": 10,
+      "situation": "Judge Brian Shelton sentences Erica Wells (30) for vandalism after a guilty plea. The judge chose probation. In Bethany, Missouri, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: They accepted responsibility by pleading guilty. It is their first offense. The law asks for a sentence no greater than necessary.",
+      "part": "justice.sentence:core:accepted-responsibility",
+      "parts": [
+        "justice.sentence:core:accepted-responsibility",
+        "justice.sentence:core:first-offense",
+        "justice.sentence:core:parsimony"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 11,
+      "situation": "Judge Charles Riddle sentences Michael Sandoval (42) for assault after a trial. The judge chose jail. In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "Judge: The offense was violent.",
+      "part": "justice.sentence:core:violent",
+      "parts": [
+        "justice.sentence:core:violent"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 12,
+      "situation": "Judge Denise Rogers sentences Connor Whitley (41) for burglary after a trial. The judge chose jail. In Vaitogi, American Samoa, on February 3, 2026.",
+      "prior": "",
+      "reply": "Judge: They had been found at fault for the same thing before.",
+      "part": "justice.sentence:core:findings",
+      "parts": [
+        "justice.sentence:core:findings"
+      ],
+      "composer": "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      "kind": "judges",
+      "cell": {
+        "register": "court",
+        "kind": "sentence",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 13,
+      "situation": "Your former classmate, Anya Strickland (34), in Vaitogi, American Samoa, on February 3, 2026. You are 34.",
+      "prior": "You: Ask if they would like this to be a date",
+      "reply": "Your former classmate: I mean, no, thank you. I like how things are between us now.",
+      "part": "english.slow-opener:opener:i-mean",
+      "parts": [
+        "english.slow-opener:opener:i-mean",
+        "invitation.date-decline:core:no-thank-you",
+        "invitation.date-decline:reason:like-things-now"
+      ],
+      "composer": "invitationDeclineLine (date) in refusal-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "decline",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 14,
+      "situation": "The player's journal, the chapter \"2026\" (2026). In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I lived in Panaca, Nevada.",
+      "part": "journal:chapter:year:2026",
+      "parts": [
+        "journal:chapter:year:2026"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 15,
+      "situation": "The player's journal, the chapter \"2022\" (2022). In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Panaca Middle School in June 2022. I was enrolled at Glenwood High School.",
+      "part": "journal:chapter:year:2022",
+      "parts": [
+        "journal:chapter:year:2022"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 16,
+      "situation": "The player's journal, the chapter \"2019\" (2019). In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "Your journal: I finished at Prairie View Elementary School in May 2019. I was enrolled at Panaca Middle School.",
+      "part": "journal:chapter:year:2019",
+      "parts": [
+        "journal:chapter:year:2019"
+      ],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "cell": {
+        "register": "everyday",
+        "kind": "journal",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 17,
+      "situation": "A hearing exchange before County of Lincoln, from its recorded seats. Move: thanks. In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for that.",
+      "part": "bank:hearing.thanks.thank-you-for-that",
+      "parts": [
+        "bank:hearing.thanks.thank-you-for-that"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 18,
+      "situation": "A hearing exchange before County of Lincoln, from its recorded seats. Move: answer. In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Thank you for your question.",
+      "part": "bank:hearing.answer.thank-you-for-your-question",
+      "parts": [
+        "bank:hearing.answer.thank-you-for-your-question"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 19,
+      "situation": "A hearing exchange before County of Lincoln, from its recorded seats. Move: chair procedure. In Panaca, Nevada, on January 5, 2026.",
+      "prior": "",
+      "reply": "At the hearing: Without objection, so ordered.",
+      "part": "bank:hearing.chair-procedure.without-objection-so-ordered",
+      "parts": [
+        "bank:hearing.chair-procedure.without-objection-so-ordered"
+      ],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "cell": {
+        "register": "everyday",
+        "kind": "hearing",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    {
+      "i": 20,
+      "situation": "A The Vaitogi Gazette story from Vaitogi, American Samoa. In Vaitogi, American Samoa, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: Police in Vaitogi took a report of vandalism at a home. Reported by Sara Davidson for The Vaitogi Gazette.",
+      "part": "news:story:event_8b816e29fd9855ad",
+      "parts": [
+        "news:story:event_8b816e29fd9855ad"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 21,
+      "situation": "A Civic Ledger story from California. In Vaitogi, American Samoa, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 3 people entered the race for U.S. Representative for California's 8th congressional district.",
+      "part": "news:story:event_811819e1bb4e9223",
+      "parts": [
+        "news:story:event_811819e1bb4e9223"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 22,
+      "situation": "A Civic Ledger story from Alaska. In Vaitogi, American Samoa, on February 3, 2026.",
+      "prior": "",
+      "reply": "Newspaper: 2 people entered the race for Member of the Alaska House of Representatives, District 29.",
+      "part": "news:story:event_c0d3e73b9882cd39",
+      "parts": [
+        "news:story:event_c0d3e73b9882cd39"
+      ],
+      "composer": "projectNewsFrontPage in news-front-page.ts",
+      "kind": "news",
+      "cell": {
+        "register": "everyday",
+        "kind": "news",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Vaitogi, American Samoa",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1d:1"
+    },
+    {
+      "i": 23,
+      "situation": "The short title of ORD 1, a filed measure. In Bethany, Missouri, on January 5, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Meeting Room Evening Hours Ordinance\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 24,
+      "situation": "What a member says to the chair of City of Bethany, from its recorded seats. Move: opener. In Bethany, Missouri, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I thank the ranking member for the time.",
+      "part": "bank:meeting.opener.i-thank-the-ranking-member-for-the-time",
+      "parts": [
+        "bank:meeting.opener.i-thank-the-ranking-member-for-the-time"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 25,
+      "situation": "What a member says to the chair of City of Bethany, from its recorded seats. Move: procedural. In Bethany, Missouri, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I ask consent that the reading of the names be waived.",
+      "part": "bank:meeting.procedural.i-ask-consent-that-the-reading-of-the-names-be-waived",
+      "parts": [
+        "bank:meeting.procedural.i-ask-consent-that-the-reading-of-the-names-be-waived"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    {
+      "i": 26,
+      "situation": "What a member says to the chair of City of Bethany, from its recorded seats. Move: closer. In Bethany, Missouri, on January 5, 2026.",
+      "prior": "",
+      "reply": "A member: Madam Chair, I have no further speakers, and I am prepared to close.",
+      "part": "bank:meeting.closer.i-have-no-further-speakers-and-i-am-prepared-to-close",
+      "parts": [
+        "bank:meeting.closer.i-have-no-further-speakers-and-i-am-prepared-to-close"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "cell": {
+        "register": "everyday",
+        "kind": "meeting",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    }
+  ]
+}

@@ -180,7 +180,7 @@ function lines(
  * a recess, a consent request) would claim what the records do not hold.
  */
 const LOCAL_FLOOR_ONLY =
-  /\b(Senator|Senate|Congress\w*|House|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time)\b/i;
+  /\b(Senator|Senate|Congress\w*|House|gentle(?:man|woman|lady)|Representative|legislation|bill|amendment|yield\w*|recess|unanimous consent|balance of my time|privileged|resolution)\b/i;
 
 const NO_BODY =
   "no seated local governing body is recorded for the player's home town or county";

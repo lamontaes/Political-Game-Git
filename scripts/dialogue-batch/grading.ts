@@ -148,7 +148,9 @@ const KIND_VOICE: Readonly<Record<string, string>> = {
   journal: "Your journal",
   legislation: "Bill text",
   "winning-and-losing": "Results",
-  meeting: "Agenda",
+  meeting: "A member",
+  minutes: "Minutes",
+  hearing: "At the hearing",
 };
 
 function voiceLabel(line: BatchLine): string {
