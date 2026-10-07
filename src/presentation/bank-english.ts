@@ -324,7 +324,11 @@ export function readNoticesBank(world: World, playerId: EntityId): BankReading {
     pickKey: string,
     situation: string,
   ) => {
-    if (out.length >= PER_KIND) return;
+    if (
+      out.length >= PER_KIND ||
+      out.some((line) => line.partKey.startsWith(`notice.${move}.`))
+    )
+      return;
     const made = composeFromBank(
       noticesBank as EnglishBank,
       move,
