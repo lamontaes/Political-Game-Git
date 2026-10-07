@@ -42,7 +42,7 @@ import {
   contactBases,
   contactProposals,
   produceReachingOut,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { produceIntroduction } from "../simulation/social-introductions";
 import {
   studyAnswered,

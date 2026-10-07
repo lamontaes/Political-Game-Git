@@ -1,3 +1,4 @@
+import { ensureCountyServiceAppropriations } from "../county-services";
 import { makeIsoDate } from "../dates";
 import { postFederalStateProgramPayments } from "../federal-state-program-payments";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -238,6 +239,8 @@ export function publicBudgetsHandler(
   let next = settlePublicBudgets(world, firstOfPreviousMonth(dueAt));
   // Payments posted now belong to this month, after closing the prior month.
   next = postFederalStateProgramPayments(next).world;
+  // A county whose voted budget year just opened funds its services from it.
+  next = ensureCountyServiceAppropriations(next, firstOfPreviousMonth(dueAt));
   const following = firstOfNextMonth(dueAt);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PUBLIC_BUDGETS_VERSION}:pass:${following.slice(0, 7)}`,
