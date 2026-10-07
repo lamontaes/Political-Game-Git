@@ -12,6 +12,7 @@ import {
   legislativePackForJurisdiction,
   legislativePackForWorkKey,
 } from "../legislative-institutions";
+import { isCountyBudgetMeasure } from "../county-budget-record";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { chamberByKey } from "../legislature-rules";
 import { seatsForChamber } from "../legislature-game-profile";
@@ -53,6 +54,7 @@ import { personName } from "../people";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
+import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
 import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
 import { readTrait } from "../trait-readings";
 import { traitRegistryFor } from "../trait-registry";
@@ -245,6 +247,14 @@ export interface ChamberBillVoteInput extends ChamberVoteCommonInput {
    * party is no cue on its votes. A member still carries their own bill.
    */
   readonly nonpartisan?: boolean;
+  /**
+   * Recorded relationship strain with a member's own leadership, supplied by
+   * cross-party bargaining when that deal is relevant to this question.
+   */
+  readonly leaderStrainByMember?: ReadonlyMap<
+    EntityId,
+    readonly DecisionConsideration[]
+  >;
 }
 
 interface ChamberNominationVoteCommonInput extends ChamberVoteCommonInput {
@@ -267,6 +277,16 @@ export type ChamberNominationVoteInput = ChamberNominationVoteCommonInput &
         readonly jurisdictionId: EntityId;
         readonly boardKey: string;
         readonly seatOrdinal: number;
+      }
+    | {
+        readonly nominationKind: "executive-appointment";
+        readonly appointerId: EntityId;
+        readonly jurisdictionId: EntityId;
+        readonly postOfficeKey: string;
+        readonly seatOrdinal: number;
+        readonly vacancyEventId: EntityId;
+        readonly incumbentTermEventId: EntityId;
+        readonly appointmentDecisionTraceId: EntityId;
       }
   );
 
@@ -303,6 +323,20 @@ interface ChamberVoteContext {
     readonly views: readonly DecisionConsideration[];
     readonly cues: readonly DecisionConsideration[];
   };
+}
+
+/** The exact ephemeral member evaluation used to make one chamber ballot.
+ * A null evaluation means the member was absent, vacant, or had no reason. */
+export interface ChamberVoteMemberEvaluation {
+  readonly disposition: LegislativeVoteDisposition;
+  readonly evaluation: DecisionEvaluation | null;
+  readonly sourceRefs: readonly MindSourceReference[];
+}
+
+/** Optional evidence receiver for domain roll-call writers. The ordinary
+ * disposition API and all existing callers retain their current shape. */
+export interface ChamberVoteOptions {
+  readonly onMemberEvaluation?: (row: ChamberVoteMemberEvaluation) => void;
 }
 
 /** The saved state body, including actual active seat and institution sources. */
@@ -646,6 +680,189 @@ function nominationVoteContext(
       }),
     };
   }
+  if (input.nominationKind === "executive-appointment") {
+    const vacancy = world.history.events.find(
+      (row) => row.id === input.vacancyEventId,
+    );
+    const incumbentTerm = world.history.events.find(
+      (row) => row.id === input.incumbentTermEventId,
+    );
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === input.appointmentDecisionTraceId,
+    );
+    const sourceTag = event?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const decisionId = sourceTag?.slice("source-event:".length);
+    const decision = world.history.events.find((row) => row.id === decisionId);
+    const vacancyCauseTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("vacancy-cause:"),
+    );
+    const vacancyCause = vacancyCauseTag?.slice("vacancy-cause:".length);
+    const vacancySourceTag = vacancy?.tags.find((tag) =>
+      tag.startsWith("source-event:"),
+    );
+    const vacancySourceId = vacancySourceTag?.slice("source-event:".length);
+    const vacancySource = world.history.events.find(
+      (row) => row.id === vacancySourceId,
+    );
+    const incumbentPersonId = incumbentTerm?.participants.find(
+      (row) => row.role === "focus:subject",
+    )?.personId;
+    const incumbentTermEnd = incumbentTerm?.tags
+      .find((tag) => tag.startsWith("term-end:"))
+      ?.slice("term-end:".length);
+    const latestSeatRecord = world.history.events
+      .filter(
+        (row) =>
+          (row.type === "world.office-tenure" ||
+            row.type === FEDERAL_VACANCY_EVENT) &&
+          row.tags.includes(`appointment-post:${input.postOfficeKey}`) &&
+          row.tags.includes(`appointment-seat:${input.seatOrdinal}`) &&
+          row.occurredAt <= (event?.occurredAt ?? world.currentDate) &&
+          row.recordedAt <= (event?.recordedAt ?? world.currentDate),
+      )
+      .reduce<(typeof world.history.events)[number] | null>(
+        (latest, row) =>
+          !latest || row.sequence > latest.sequence ? row : latest,
+        null,
+      );
+    const matterTag = event?.tags.find((tag) =>
+      tag.startsWith("appointment-matter:"),
+    );
+    const matterId = matterTag?.slice("appointment-matter:".length);
+    const matter = world.history.events.find((row) => row.id === matterId);
+    if (
+      !event ||
+      event.visibility !== "public" ||
+      event.recordedAt > world.currentDate ||
+      event.occurredAt > world.currentDate ||
+      event.type !== "executive.appointment-nominated" ||
+      event.jurisdictionId !== input.jurisdictionId ||
+      !world.jurisdictions[input.jurisdictionId] ||
+      !world.people[input.appointerId] ||
+      !world.people[input.nomineeId] ||
+      !Number.isInteger(input.seatOrdinal) ||
+      input.seatOrdinal < 1 ||
+      input.officeKey !== input.postOfficeKey ||
+      !event.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !event.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !event.tags.includes(`appointment-vacancy:${input.vacancyEventId}`) ||
+      !event.tags.includes(`appointment-term:${input.incumbentTermEventId}`) ||
+      !event.tags.includes(
+        `appointment-decision:${input.appointmentDecisionTraceId}`,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:appointer" && row.personId === input.appointerId,
+      ) ||
+      !event.participants.some(
+        (row) =>
+          row.role === "agency:nominee" && row.personId === input.nomineeId,
+      ) ||
+      !vacancy ||
+      vacancy.type !== FEDERAL_VACANCY_EVENT ||
+      vacancy.sequence >= event.sequence ||
+      vacancy.recordedAt > event.recordedAt ||
+      vacancy.occurredAt > event.occurredAt ||
+      !vacancy.tags.includes(
+        `office:${input.postOfficeKey}:seat:${input.seatOrdinal}`,
+      ) ||
+      !vacancy.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !vacancy.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !vacancy.tags.includes(
+        `appointment-term:${input.incumbentTermEventId}`,
+      ) ||
+      latestSeatRecord?.id !== vacancy.id ||
+      !["term-expired", "death", "resignation"].includes(vacancyCause ?? "") ||
+      !incumbentTerm ||
+      incumbentTerm.type !== "world.office-tenure" ||
+      incumbentTerm.sequence >= vacancy.sequence ||
+      incumbentTerm.recordedAt > vacancy.recordedAt ||
+      incumbentTerm.occurredAt > vacancy.occurredAt ||
+      !incumbentTerm.tags.includes(`appointment-post:${input.postOfficeKey}`) ||
+      !incumbentTerm.tags.includes(`appointment-seat:${input.seatOrdinal}`) ||
+      !incumbentTerm.participants.some(
+        (row) =>
+          row.role === "focus:subject" &&
+          vacancy.involvedEntityIds.includes(row.personId),
+      ) ||
+      !vacancySource ||
+      vacancySource.sequence >= vacancy.sequence ||
+      vacancySource.recordedAt > vacancy.recordedAt ||
+      vacancySource.occurredAt > vacancy.occurredAt ||
+      !incumbentPersonId ||
+      (vacancyCause === "term-expired" &&
+        (vacancySource.id !== incumbentTerm.id ||
+          !incumbentTermEnd ||
+          incumbentTermEnd > vacancy.occurredAt)) ||
+      (vacancyCause === "death" &&
+        !world.history.personDeaths.some(
+          (death) =>
+            death.personId === incumbentPersonId &&
+            death.eventId === vacancySource.id &&
+            death.diedAt <= vacancy.occurredAt,
+        )) ||
+      (vacancyCause === "resignation" &&
+        (vacancySource.type !== "world.office-resignation" ||
+          !vacancySource.tags.includes(
+            `appointment-term:${input.incumbentTermEventId}`,
+          ) ||
+          !vacancySource.participants.some(
+            (row) =>
+              row.personId === incumbentPersonId && row.role === "focus:actor",
+          ))) ||
+      !decision ||
+      decision.type !== "governing.matter-decided" ||
+      decision.sequence >= event.sequence ||
+      decision.recordedAt > event.recordedAt ||
+      !matter ||
+      !decision.tags.includes(`matter:${matter.id}`) ||
+      !decision.tags.includes(`choice:person:${input.nomineeId}`) ||
+      matter.sequence >= decision.sequence ||
+      matter.recordedAt > decision.recordedAt ||
+      matter.occurredAt > decision.occurredAt ||
+      !decision.participants.some(
+        (row) =>
+          row.role === "agency:decider" && row.personId === input.appointerId,
+      ) ||
+      !trace ||
+      trace.id !== input.appointmentDecisionTraceId ||
+      trace.stableKey !== `appointments-v1:${matter.stableKey}:choose:trace` ||
+      trace.context.decisionType !== "appointment.choose-appointee" ||
+      trace.context.actorPersonId !== input.appointerId ||
+      trace.context.subject.key !== input.postOfficeKey ||
+      trace.sequence >= event.sequence ||
+      trace.sequence >= decision.sequence ||
+      trace.recordedAt > event.recordedAt ||
+      trace.recordedAt > decision.recordedAt ||
+      !world.people[trace.context.actorPersonId] ||
+      trace.selectedOptionKey !== `person:${input.nomineeId}` ||
+      !trace.sourceSnapshots.some(
+        (snapshot) =>
+          snapshot.reference.kind === "historical-event" &&
+          snapshot.reference.eventId === matter.id,
+      ) ||
+      matter.type !== "governing.matter-opened" ||
+      matter.sequence >= event.sequence ||
+      matter.recordedAt > event.recordedAt
+    )
+      throw new Error(
+        "An executive confirmation requires its actual dated nomination, appointer decision, named post and seat, and causal vacancy from a recorded incumbent term.",
+      );
+    return {
+      subject: {
+        kind: "context:executive-appointment-nomination",
+        key: event.stableKey,
+        entityId: event.id,
+      },
+      committee: null,
+      memberInputs: (member) => ({
+        views: input.considerationsByMember.get(member.memberKey) ?? [],
+        cues: [],
+      }),
+    };
+  }
   const chief = input.officeKey === "us-chief-justice";
   if (
     !event ||
@@ -761,8 +978,11 @@ function billVoteContext(
   // against their own principles, and the day the government's offices
   // close without one (`budget-stakes.ts`; CTO ruling, September 29,
   // 9:45 a.m.: "a budget can't pass").
+  // A county board's budget levy (CO-5) is the county's budget bill: the
+  // measure carries the tax terms, and the hearing record names it.
   const budget =
-    measure.subjectClass === "appropriation" &&
+    (measure.subjectClass === "appropriation" ||
+      isCountyBudgetMeasure(world, measure.id)) &&
     input.question.question.purpose !== "amendment";
   const contested =
     input.contested ??
@@ -827,6 +1047,7 @@ function billVoteContext(
       let views: readonly DecisionConsideration[] | undefined;
       const viewsOf = (): readonly DecisionConsideration[] =>
         (views ??= [
+          ...(input.leaderStrainByMember?.get(personId) ?? []),
           ...weighRecordedPolicyBeliefs(
             world,
             personId,

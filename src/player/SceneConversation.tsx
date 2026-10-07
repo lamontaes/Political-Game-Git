@@ -152,7 +152,7 @@ export function SceneConversation({
         aria-label="Scene"
         data-testid="scene-conversation"
       >
-        <p>This person is no longer here with you.</p>
+        <p data-problem="addressee-gone" />
         <button type="button" onClick={onBack}>
           Return to the room
         </button>
@@ -181,9 +181,7 @@ export function SceneConversation({
         onBack();
     } catch (error) {
       setFailure(
-        error instanceof Error
-          ? error.message
-          : "This exchange is no longer current.",
+        error instanceof Error ? error.message : "exchange-not-current",
       );
     }
   };
@@ -262,7 +260,7 @@ export function SceneConversation({
           ))}
           {lying &&
           !choices.some((reply) => reply.primitive === "deny-record") ? (
-            <p>You have no known fact to deny in this exchange.</p>
+            <p data-problem="no-fact-to-deny" />
           ) : null}
         </div>
       ) : null}

@@ -10,7 +10,7 @@ import {
 import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { SCENE_BINDING_EVENT } from "../simulation/scene-bindings";
 import type { EntityId, World } from "../simulation";
 import {

@@ -26,7 +26,7 @@ import {
   type World,
 } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { CONTACT_LOCATION_KEY } from "../simulation/people-contact";
+import { CONTACT_LOCATION_KEY } from "../simulation/relationship-contact";
 import { MEMBER_BALLOT_LOCATION_KEY } from "../simulation/governing/member-ballots";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { recordDomainAttendance } from "./activity-attendance";
