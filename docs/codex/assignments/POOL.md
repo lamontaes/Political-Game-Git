@@ -616,7 +616,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
 | RS-1479 | Remove unavailable reporter search from Press workspace | PR #1479 (codex/team-8-a153-unavailable-action) | open: draft: finish it or close it as superseded | |
 | RS-1488 | Read retained majority-member and NJ/Congress filing predicates | PR #1488 (codex/team1-majority-question-counts) | open: draft: finish it or close it as superseded | |
-| RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (codex/team7-county-source-intake-02) | open: draft: finish it or close it as superseded | |
+| RS-1508 | Retain dated county source intake and actual binding gaps | PR #1508 (closed; county research retained and extended on main) | done (retained evidence; no production admission; closeout #3293) | S50 |
 | RS-1511 | Persist canonical chunked world saves in SQLite | PR #1511 (codex/audit-sqlite-chunked-world-saves) | open: draft: finish it or close it as superseded | |
 | RS-1572 | A57 bypass the blanket renewal cap when final terms govern | PR #1572 (codex/team-4-a57-rent-cap-consumer) | open: draft: finish it or close it as superseded | |
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
