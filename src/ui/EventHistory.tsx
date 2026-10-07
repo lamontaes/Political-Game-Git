@@ -84,12 +84,15 @@ export function EventHistory({ world }: EventHistoryProps) {
                                 ? ` — ${event.context.location.setting}`
                                 : ""
                             }`
-                          : "Not recorded"}
+                          : "No location was saved for this event"}
                       </dd>
                     </div>
                     <div>
                       <dt>Social context</dt>
-                      <dd>{event.context.socialContext ?? "Not recorded"}</dd>
+                      <dd>
+                        {event.context.socialContext ??
+                          "No social context was saved for this event"}
+                      </dd>
                     </div>
                     <div>
                       <dt>Pressure / choice</dt>
@@ -102,7 +105,8 @@ export function EventHistory({ world }: EventHistoryProps) {
                       <dt>Motivation / reaction</dt>
                       <dd>
                         {event.context.motivation ?? "Unknown"} /{" "}
-                        {event.context.immediateReaction ?? "Not recorded"}
+                        {event.context.immediateReaction ??
+                          "No immediate reaction was saved for this event"}
                       </dd>
                     </div>
                     <div>

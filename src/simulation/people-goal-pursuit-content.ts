@@ -65,11 +65,17 @@ export function isLivelihoodGoalKey(goalKey: string): boolean {
 }
 
 /**
- * PROVISIONAL(research: npc-private-goal-pursuit). Pacing, not measurement.
- * Replace these, do not tune them.
+ * ESTIMATED FROM AVERAGE (research: npc-private-goal-pursuit). Pacing, not
+ * measurement: how often people act on a private goal is a game estimate, and
+ * the working-age range ends at 66, the full retirement age for people born in
+ * the 1950s (Social Security Administration). Replace these, do not tune them.
  */
-export const GOAL_PURSUIT_PLACEHOLDER = {
+export const GOAL_PURSUIT_ESTIMATE = {
   researchQuestionId: "npc-private-goal-pursuit",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game pacing estimates; working-age range ends at the Social Security full retirement age of 66",
   /** Days between one look at the area's private goals and the next. */
   reviewIntervalDays: 7,
   /**

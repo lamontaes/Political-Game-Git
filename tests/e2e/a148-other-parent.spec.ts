@@ -59,7 +59,6 @@ test(`asks about the other parent and records the answer (${town.displayName}, $
     fullPage: true,
   });
   await page.getByTestId("creator-continue-background").click();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
   // The world is built before play opens; give it the time it takes.
   await expect(page.getByTestId("play-screen")).toBeVisible({
