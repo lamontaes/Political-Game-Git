@@ -121,12 +121,7 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   const offer = vacancy.getByRole("button", { name: "Offer reinstatement" });
   await expect(offer).toBeEnabled();
   await offer.click();
-  await expect(
-    page.getByText(
-      "The offer was made and answered on receipt. Only an acceptance is an appointment.",
-      { exact: true },
-    ),
-  ).toBeVisible();
+  await expect(page.getByText("Offer answered", { exact: true })).toBeVisible();
   const answered = panel.getByRole("article", {
     name: /^Reinstatement offer to /,
   });

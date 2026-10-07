@@ -964,23 +964,19 @@ function openingBlocked(
   openingId: EntityId,
 ): string | null {
   const opening = jobOpening(world, openingId);
-  if (!opening || !openingTakesApplications(world, opening))
-    return "This opening is no longer taking applications.";
-  const played = isPlayed(world, personId);
+  if (!opening || !openingTakesApplications(world, opening)) return "Closed";
   if (
     applicationsFor(world, personId).some(
       (application) => application.openingId === openingId,
     )
   )
-    return played
-      ? "You have already applied for this job."
-      : "They have already applied for this job.";
+    return "Already applied";
   if (
     activeWorkRelationshipsAt(world, personId).some(
       (entry) => entry.relationship.organizationId === opening.organizationId,
     )
   )
-    return played ? "You already work here." : "They already work here.";
+    return "Works here";
   return null;
 }
 
