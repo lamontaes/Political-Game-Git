@@ -665,7 +665,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2222 | Use coverage-eligibility stamps in both existing coverage writers | PR #2222 (codex/session21-coverage-kind) | open: draft: finish it or close it as superseded | |
-| RS-2223 | Use legal-outcome stamps while preserving pretrial and custody records | PR #2223 (codex/session21-legal-kind) | ready #2223 | |
+| RS-2223 | Use legal-outcome stamps while preserving pretrial and custody records | PR #2223 (codex/session21-legal-kind) | open: draft: current-main typecheck pending | |
 | RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2229 | Add sourced Session 18 starting law terms | PR #2229 (codex/session18-law-amounts) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2232 | Use price-cost stamps for existing rent consequences | PR #2232 (codex/session21-price-kind) | open: draft: finish it or close it as superseded | |
