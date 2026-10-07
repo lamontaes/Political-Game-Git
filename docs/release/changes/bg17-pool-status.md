@@ -1,6 +1,8 @@
 ---
 id: bg17-pool-status
-impact: none
+impact: patch
+section: Fixed
+title: Record completed filing coverage
 ---
 
-No player-facing behavior changes; this records a previously delivered fix.
+The completed newspaper filing fix is now recorded in the assignment pool.
