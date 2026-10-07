@@ -6435,6 +6435,28 @@
           "clipBelowY": 64,
           "role": "general",
           "id": "office:spot:8"
+        },
+        {
+          "x": 40.5,
+          "y": 65,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 65,
+          "seatY": 47.6,
+          "group": "table",
+          "role": "general",
+          "id": "office:spot:9"
+        },
+        {
+          "x": 77.5,
+          "y": 70,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 70,
+          "seatY": 52,
+          "group": "table",
+          "role": "general",
+          "id": "office:spot:10"
         }
       ],
       "measuredFrom": "back door 2.03 m foot 53.5 top 30.2 -> 0.70; kitchen counter 0.9 m foot 65.4 top 47.6 -> 0.72 (the pair also puts the horizon at 37); kept staging 38 / 0.70",
