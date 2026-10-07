@@ -235,7 +235,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | LW-11 | Budget and taxes: laws with effect runs, no landing on people | law-batches.md LW-11 | claimed | S20 |
 | LW-12 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-12 | open (stale claim: S43) | S43 |
 | LW-13 | Government operations and elections: laws with effect runs, no landing on people | law-batches.md LW-13 | open (stale claim: S44) | S44 |
-| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | open (stale claim: S51) | S51 |
+| LW-14 | Education: laws with effect runs, no landing on people | law-batches.md LW-14 | done (#2596; verified on main) | S27 |
 | LW-15 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-15 | open (stale claim: S52) | S52 |
 | LW-16 | Health and human services: laws with effect runs, no landing on people | law-batches.md LW-16 | open (stale claim: S24) | S24 |
 | LW-17 | Justice and public safety: laws with effect runs, no landing on people | law-batches.md LW-17 | open (stale claim: S31) | S31 |
