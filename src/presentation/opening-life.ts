@@ -15,6 +15,7 @@ import type { NationwideStateLegislatureOpeningChunk } from "../simulation/natio
 import { ensureDistrictOfColumbiaCouncilOpening } from "../simulation/nationwide-world/district-of-columbia-council-opening";
 import { ensureCountyCouncilOpening } from "../simulation/municipal-council-opening";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { ensureCountyBudgetHearings } from "../simulation/living-world/county-budget-hearings";
 import { ensureLocalCouncilMeetings } from "../simulation/living-world/local-council-meetings";
 import { ensureLocalElectionCalendar } from "../simulation/living-world/local-elections";
 import {
@@ -595,12 +596,14 @@ function* openedWorld(
   const withPlayerLease = playerHouseholdId
     ? startTownLeases(seated, seated.currentDate, playerHouseholdId)
     : seated;
-  const opened = ensureRentDaySchedule(
-    ensurePaydaySchedule(
-      ensureMigrationSchedule(
-        ensureLocalCouncilMeetings(
-          ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
-          playerPersonId,
+  const opened = ensureCountyBudgetHearings(
+    ensureRentDaySchedule(
+      ensurePaydaySchedule(
+        ensureMigrationSchedule(
+          ensureLocalCouncilMeetings(
+            ensureLocalElectionCalendar(withPlayerLease, playerPersonId),
+            playerPersonId,
+          ),
         ),
       ),
     ),

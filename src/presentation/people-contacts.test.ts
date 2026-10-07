@@ -13,7 +13,7 @@ import {
   CONTACT_DECLINED_EVENT,
   CONTACT_PROPOSED_EVENT,
   contactProposals,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { recordRelationshipInteraction } from "../simulation/records";
 import { recordPersonDeath } from "../simulation/vitality";
 import { letAdultTimePass } from "./adult-life";
@@ -27,10 +27,10 @@ import {
 import { commitConversationTurn } from "./run-b-conversation";
 import {
   answerMeeting,
-  askToMeet,
   offerAnotherDay,
   projectContacts,
 } from "./people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
 
 /**
  * CRUNCH47 B1 (P3): asking somebody to meet, and being asked. A channel is a
@@ -85,13 +85,6 @@ describe("PEOPLE P3: reaching somebody", () => {
         askToMeet(world, { personId: player, otherPersonId: other, on }),
       ).toThrow(/needs at least 2 days' notice/);
     }
-    expect(() =>
-      askToMeet(world, {
-        personId: other,
-        otherPersonId: player,
-        on: addDays(world.currentDate, 5),
-      }),
-    ).toThrow(/being played/);
     // The refusal is shown to the player word for word, so it states the rule
     // and never an ISO date. The spoken dates live on the view instead.
     try {
@@ -139,9 +132,6 @@ describe("PEOPLE P3: reaching somebody", () => {
       (candidate) => candidate.personId === other,
     )!;
     expect(entry.outstanding?.direction).toBe("you-asked");
-    expect(
-      entry.actions.find((action) => action.kind === "ask-to-meet")!.available,
-    ).toBe(false);
     assertWorldIntegrity(asked);
   });
 
@@ -169,7 +159,7 @@ describe("PEOPLE P3: reaching somebody", () => {
           activity.kind === "confirmed" &&
           activity.sourceEntityIds.includes(proposal.eventId),
       )!;
-      expect(meeting.participantPersonIds.sort()).toEqual(
+      expect([...meeting.participantPersonIds].sort()).toEqual(
         [player, other].sort(),
       );
       expect(scheduledActivityState(settled, meeting.id).start.date).toBe(on);

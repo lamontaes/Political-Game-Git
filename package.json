@@ -49,6 +49,7 @@
     "export:place-county-relations": "node --import tsx scripts/source/export-place-county-relations.ts",
     "export:life-places": "node --import tsx scripts/source/export-life-places.ts",
     "export:local-institutions": "node --import tsx scripts/source/local-institutions.ts",
+    "export:college-kinds": "node --import tsx scripts/source/export-college-kinds.ts",
     "check:local-institutions": "node --import tsx scripts/source/local-institutions.ts --check",
     "export:office-qualifications": "node --import tsx scripts/source/export-office-qualifications.ts",
     "export:campaign-compliance": "node --import tsx scripts/source/export-campaign-compliance.ts",

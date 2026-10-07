@@ -37,6 +37,7 @@ import {
   estimatedMonthlyHouseholdLivingCosts,
 } from "./living-costs-data";
 import { townLeases } from "./living-world/town-rent";
+import { recordSalesTaxBases } from "./sales-tax-bases";
 import { recordWorldEvent } from "./world";
 import { drawnLinkSize } from "./outcome-web";
 import type {
@@ -587,10 +588,17 @@ function settleMonth(
     note: `Food and bills for ${monthName(dueOn)}.`,
     provenance: periodTerms.provenance,
   });
+  const taxed = recordSalesTaxBases(next, {
+    personId,
+    householdId: primaryHouseholdId(next, personId),
+    settledOn: dueOn,
+    paid: transferredAmount,
+    sourceKey: `${flow.stableKey}:${dueOn}`,
+  });
   return status === "completed"
-    ? next
+    ? taxed
     : recordFirstShortfall(
-        next,
+        taxed,
         personId,
         monthly.minorUnits,
         transferredAmount.minorUnits,
