@@ -138,6 +138,8 @@ export function SetupScreen({
   onRequestRecordedLife,
   onBack,
   onBegin,
+  onStateChange,
+  onTownChange,
   problem,
 }: {
   readonly seed: string;
@@ -155,6 +157,10 @@ export function SetupScreen({
     stagedGame?: NewGame,
   ) => void;
   readonly problem: string | null;
+  /** The chosen state's postal code, or null, so the backdrop can follow it. */
+  readonly onStateChange?: (usps: string | null) => void;
+  /** Whether a town is chosen, so the backdrop can become the town's own. */
+  readonly onTownChange?: (chosen: boolean) => void;
 }) {
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
@@ -169,6 +175,13 @@ export function SetupScreen({
   const [location, setLocation] = useState<CreatorLocationDraft>(() =>
     creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const chosenUsps =
+    lifePlaceStateIdentities().find(
+      (state) => state.jurisdictionKey === location.stateJurisdictionKey,
+    )?.usps ?? null;
+  useEffect(() => {
+    onStateChange?.(chosenUsps);
+  }, [chosenUsps, onStateChange]);
   const matchingStates = useMemo(() => {
     const needle = stateQuery.trim().toLowerCase();
     const identities = lifePlaceStateIdentities();
@@ -210,6 +223,10 @@ export function SetupScreen({
         previewMode,
       ),
   );
+  const townChosen = setup.placeKey !== "";
+  useEffect(() => {
+    onTownChange?.(townChosen);
+  }, [townChosen, onTownChange]);
   /**
    * What the age field currently shows, which is not always a number.
    *
