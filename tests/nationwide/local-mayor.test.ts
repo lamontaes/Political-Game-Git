@@ -247,7 +247,6 @@ describe("running for mayor", () => {
           (entry) => entry.role.title,
         ),
       ).toEqual(startingJobs);
-      const mayorRole = `Mayor, ${seat.governmentName}`;
       expect(projectWorkRole(decided, personId).sentence).toBe(
         `Role: Mayor, ${seat.governmentName}`,
       );
