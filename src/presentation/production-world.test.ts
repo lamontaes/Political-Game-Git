@@ -28,6 +28,7 @@ import { openOrdinaryLife } from "./ordinary-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
+import { votingPrecinctOfPerson } from "../simulation/living-world/town-wards";
 import { worldSeedFor } from "./new-game-identity";
 
 /**
@@ -181,6 +182,18 @@ describe("The production world is not a renamed fixture", () => {
     // worlds, so one can never be addressed as, or land on, the other.
     expect(world.id).not.toBe(createWorldId(world.seed, "fixture"));
     expect(world.id).toBe(createWorldId(world.seed, "production"));
+  });
+
+  it("records voting precinct membership when a new game opens", () => {
+    const { world, playerPersonId } = start({ startAge: 12 });
+    const townId = world.people[playerPersonId]!.homeJurisdictionId;
+    expect(
+      votingPrecinctOfPerson(world, townId, playerPersonId),
+    ).not.toBeNull();
+    for (const personId of world.personOrder) {
+      if (world.people[personId]!.homeJurisdictionId === townId)
+        expect(votingPrecinctOfPerson(world, townId, personId)).not.toBeNull();
+    }
   });
 
   it("refuses to be a production world holding fixture content", () => {
