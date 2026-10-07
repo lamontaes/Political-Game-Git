@@ -257,6 +257,11 @@ function buildDetails(
   const subject = world.people[personId];
   const fullRecordAccess =
     personId === playerId || world.control.kind === "observer";
+  const playerHouseholdId = householdIdFor(world, playerId);
+  const sharedHousehold =
+    personId !== playerId &&
+    playerHouseholdId !== null &&
+    peopleInHouseholdAt(world, playerHouseholdId).includes(personId);
   if (fullRecordAccess || sharedHousehold) {
     const householdId = householdIdFor(world, personId);
     if (householdId) {
