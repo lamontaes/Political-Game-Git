@@ -346,7 +346,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-presentation-root-3 | Replace about 21 placeholders in presentation / root / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-presentation-root-4 | Replace about 21 placeholders in presentation / root / 4 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-crime-1 | Replace about 21 placeholders in simulation / crime / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-crime-2 | Replace about 22 placeholders in simulation / crime / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-crime-2 | Replace about 22 placeholders in simulation / crime / 2 with recorded or estimated-and-marked values | placeholders.md | done #2790 | Session 37 |
 | PH-simulation-crisis-1 | Replace about 19 placeholders in simulation / crisis / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-crisis-2 | Replace about 20 placeholders in simulation / crisis / 2 with recorded or estimated-and-marked values | placeholders.md | done | #2616 |
 | PH-simulation-governing-1 | Replace about 22 placeholders in simulation / governing / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
