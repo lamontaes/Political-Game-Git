@@ -95,6 +95,7 @@ describe(
       const view = projectPartyAndCommunityWork(requested, player);
       const row = view.rows[0]!;
       expect(row.state).toBe("accepted");
+      expect(row.stateLabel).toBeNull();
       expect(row.actions).toEqual(["attend", "attend-condensed"]);
       expect(row.when).toMatch(/^[A-Z][a-z]+ \d{1,2}, \d{4}, 6:30 PM$/);
       expect(row.travelNote).toMatch(/20-minute local journey/);

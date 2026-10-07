@@ -294,3 +294,35 @@ export function rotationForSave(
     rest: first ? pictures.filter((picture) => picture !== first) : pictures,
   };
 }
+
+/**
+ * The picture behind a new life once its state is chosen: that state's own
+ * capitol when the build paints one (OW-4). Null when it does not, so the
+ * caller falls back to its place-free rotation rather than a federal picture.
+ */
+export function pictureForChosenState(
+  pictures: readonly TitlePicture[],
+  usps: string,
+): TitlePicture | null {
+  const place = `state-capitol-${usps.toLowerCase()}`;
+  return pictures.find((picture) => picture.place === place) ?? null;
+}
+
+/**
+ * The town's own picture once a town is chosen (OW-4): its city hall, only
+ * when the staging table places people in it and the build paints it. The
+ * state capitol is the fallback before then. Never the main street (OW-19).
+ */
+export const TOWN_BACKDROP_ORDER = ["city-hall-exterior"] as const;
+
+export function pictureForChosenTown(
+  staged: ReadonlySet<string>,
+  urlFor: (place: string) => string | null,
+): TitlePicture | null {
+  for (const place of TOWN_BACKDROP_ORDER) {
+    const url = staged.has(place) ? urlFor(place) : null;
+    if (url)
+      return { place, kind: "city-hall", url, label: civicPlaceLabel(place) };
+  }
+  return null;
+}

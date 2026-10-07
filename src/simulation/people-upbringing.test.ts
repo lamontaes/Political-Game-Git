@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { contactBases } from "./people-contact";
+import { contactBases } from "./relationship-contact";
 import { ageOnDate } from "./dates";
 import {
   ensurePeopleTraits,
@@ -126,6 +126,58 @@ describe("upbringing and starting traits", () => {
     for (const id of others) {
       expectNotableTraits(ensurePeopleTraits(world, [id]), id);
     }
+    const contexts = world.personOrder.map((id) => upbringingFor(world, id));
+    const nationalSiblingEstimates = contexts.filter(
+      (row) => row.familyContext?.siblingSource.kind === "public-data",
+    );
+    expect(nationalSiblingEstimates.length).toBeGreaterThan(0);
+    for (const row of nationalSiblingEstimates) {
+      expect(row.familyContext?.estimatedSiblingCount).toBeGreaterThanOrEqual(
+        0,
+      );
+      expect(row.familyContext?.estimatedSiblingCount).toBeLessThanOrEqual(4);
+      expect(row.familyContext?.siblingSource.key).toBe(
+        "sipp-2009-p70-126-table-4",
+      );
+    }
+    expect(
+      new Set(
+        contexts.map((row) =>
+          JSON.stringify({
+            money: row.money.map((item) => item.level),
+            parents: row.familyContext?.parentIds.length,
+            householdSize: row.familyContext?.householdMemberIds.length,
+            faith: row.familyContext?.congregationIds.length,
+            siblings: row.familyContext?.estimatedSiblingCount,
+          }),
+        ),
+      ).size,
+    ).toBeGreaterThan(1);
+    expect(
+      new Set(contexts.map((row) => row.money[0]?.level)).size,
+    ).toBeGreaterThan(1);
+    for (const row of contexts) {
+      for (const id of row.familyContext?.incomeSourcePersonIds ?? [])
+        expect(world.people[id]).toBeDefined();
+      // Estimates describe available caregivers, never emotional treatment.
+      expect(row.caregiving).toBe("estimated-care");
+      expect(row.familyContext?.caregiverCapacity).toBeGreaterThan(0);
+      expect(row.familyContext?.source.note).toContain(
+        "ESTIMATED FROM RECORDS AND PUBLIC DATA",
+      );
+      const context = row.familyContext!;
+      if (context.cohortScope === "exact")
+        for (const id of context.comparablePersonIds) {
+          const peer = upbringingFor(world, id).familyContext!;
+          expect([peer.placeId, peer.householdType, peer.incomeBand]).toEqual([
+            context.placeId,
+            context.householdType,
+            context.incomeBand,
+          ]);
+        }
+      for (const id of row.familyContext!.parentIds)
+        expect(world.people[id]).toBeDefined();
+    }
     // The played character is never given any.
     expect(notableRecords(world, playerId)).toEqual([]);
   }, 120_000);
@@ -146,8 +198,10 @@ describe("upbringing and starting traits", () => {
       upbringingFor(first.world, firstNpc).money.every(
         ({ source }) =>
           source.kind === "world-record" ||
+          (source.kind === "game-profile" &&
+            source.note.startsWith("ESTIMATED FROM RECORDS AND PUBLIC DATA")) ||
           (source.kind === "public-data" &&
-            source.note.startsWith("ESTIMATED FROM AVERAGE")),
+            source.note.startsWith("ESTIMATED FROM THE NATIONAL DISTRIBUTION")),
       ),
     ).toBe(true);
 
@@ -340,10 +394,12 @@ describe("A137: a childhood's money comes from the family's records", () => {
   it(`reads a teenager's family money from the household's recorded pay (US-${usps}, seed ${seed})`, () => {
     const { world, childId, adultId } = teenLife();
     // Nobody in the household has a recorded job yet: unknown is not zero,
-    // so the money is the median child's, marked as an estimate.
+    // so the money uses the national child distribution, marked as an estimate.
     const before = familyMoneyFor(world, childId, "adolescence");
-    expect(before.level).toBe("secure");
-    expect(before.source.note).toMatch(/^ESTIMATED FROM AVERAGE/);
+    expect(["secure", "strained", "severe-scarcity"]).toContain(before.level);
+    expect(before.source.note).toMatch(
+      /^ESTIMATED FROM THE NATIONAL DISTRIBUTION/,
+    );
     // An adult whose early childhood was before the World began: estimated.
     expect(familyMoneyFor(world, adultId, "early-childhood").source.kind).toBe(
       "public-data",

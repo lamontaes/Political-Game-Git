@@ -34,7 +34,7 @@
   padding: 0.35rem 0.75rem;
   border: 1px solid var(--pg-control-line, #8f9ba8);
   border-radius: var(--pg-control-radius, 0.45rem);
-  background: var(--pg-control-bg, #eee4d5);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -105,7 +105,7 @@
   border: 2px solid rgb(111 85 42 / 70%);
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgb(46 30 12 / 38%);
-  color: #2e2619;
+  color: var(--text-strong);
   font-weight: 700;
   text-shadow:
     0 0 3px rgb(255 250 240 / 35%),
@@ -138,7 +138,7 @@
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--pg-control-accent, #edc970);
   border-radius: var(--pg-control-radius, 0.45rem);
-  background: var(--pg-control-bg, #eee4d5);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   cursor: pointer;
@@ -262,8 +262,8 @@
   overflow: auto;
   border: 1px solid #aab4be;
   border-radius: 0.8rem;
-  background: #efe6d8;
-  color: #2f2719;
+  background: var(--kit12-glass);
+  color: var(--text-strong);
 }
 .appearance-outfit-dialog::backdrop {
   background: rgb(0 0 0 / 65%);
@@ -295,7 +295,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;
-  background: #efe6d8;
+  background: var(--kit12-glass);
   padding: 0.8rem 0;
 }
 .appearance-outfit-dialog footer button {

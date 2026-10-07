@@ -2,6 +2,7 @@ import { rentConstructionCovered } from "./rent-construction-coverage";
 import {
   RENT_COVERAGE_PREDICATE,
   RENT_CAP_TERM,
+  RENT_STABILIZATION_QUESTION,
   RENT_STABILIZATION_ROW,
 } from "./rent-stabilization-row";
 import { townLeases, rentPriceLevel } from "../living-world/town-rent";
@@ -22,7 +23,18 @@ import {
 } from "../governing/automatic-legislation";
 import { recordById, recordByStableKey } from "../history-index";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { recordLawExposure } from "../law-exposure";
+import { periodsPerYear } from "../law-effects-noticed";
 import { resourceFlowTermsAt } from "../resource-queries";
+import { organizationProfileAt } from "../life-queries";
+import {
+  recordedStudyPeriodTuitionPrice,
+  recordedTuitionFreezePrice,
+} from "../../education/tuition-prices";
+import {
+  TUITION_FREEZE_ROW,
+  TUITION_COVERAGE_PREDICATE,
+} from "./tuition-freeze-row";
 import { money, recordResourceFlowTerms } from "../resources";
 import type { World } from "../types";
 
@@ -92,21 +104,88 @@ export function resolvePriceCostConsequences(
     world.history.resourceFlows,
     activity?.resourceFlowId ?? context.activityId,
   );
-  if (!flow) throw new Error("Missing price-cost resource-flow activity");
+  if (!flow) {
+    // Payment dispatch also carries statutory tax outcomes, which are not priced flows.
+    if (context.activity === "payment" && !activity) return [];
+    // The shared renewal dispatch also serves recorded health coverage reviews.
+    if (
+      context.activity === "renewal" &&
+      recordById(world.history.futureDueItems, context.activityId)
+        ?.transitionKey === "crisis:health-coverage"
+    )
+      return [];
+    throw new Error("Missing price-cost resource-flow activity");
+  }
+  const conditions = [...row.who.predicates, ...row.conditions];
+  if (
+    conditions.some(
+      (condition) =>
+        condition.capability === BASIS &&
+        typeof condition.parameters.basisKind === "string" &&
+        condition.parameters.basisKind !== flow.basisKind,
+    )
+  )
+    return [];
   if (flow.source.kind !== "person" || !world.people[flow.source.personId])
     throw new Error("Missing price-cost person payer capability");
   if (!context.subjectIds.includes(flow.source.personId)) return [];
   if (flow.basisKind.startsWith("compensation:"))
     throw new Error("Compensation belongs to the pay handler");
-  if (!flow.jurisdictionId || !world.jurisdictions[flow.jurisdictionId])
+  let tuitionCap: {
+    amountMinor: number;
+    sourceRecordIds: readonly (typeof flow.id)[];
+  } | null = null;
+  let jurisdictionId = flow.jurisdictionId;
+  if (row.id === TUITION_FREEZE_ROW.id) {
+    if (
+      flow.recipient.kind !== "organization" ||
+      flow.basisKind !== "obligation:tuition" ||
+      world.history.resourceTransferOutcomes.some(
+        (outcome) =>
+          outcome.resourceFlowId === flow.id && outcome.status === "completed",
+      )
+    )
+      return [];
+    const schoolId = flow.recipient.organizationId;
+    const payerId = flow.source.personId;
+    const enrollment = world.history.educationEnrollments.find(
+      (candidate) =>
+        candidate.personId === payerId &&
+        candidate.organizationId === schoolId &&
+        flow.stableKey.startsWith(`life-paths2.study-period:${candidate.id}:`),
+    );
+    const period = Number(flow.stableKey.split(":").at(-1));
+    if (!enrollment || !Number.isSafeInteger(period) || period <= 0) return [];
+    const at = { ...world, currentDate: context.onDate };
+    const price = recordedStudyPeriodTuitionPrice(at, enrollment.id, period);
+    const legacy = price ? null : recordedTuitionFreezePrice(at, enrollment.id);
+    tuitionCap =
+      price?.cap !== null && price?.cap !== undefined
+        ? { amountMinor: price.cap, sourceRecordIds: price.sourceRecordIds }
+        : legacy?.status === "frozen"
+          ? {
+              amountMinor: legacy.amountMinor,
+              sourceRecordIds: legacy.sourceRecordIds,
+            }
+          : null;
+    if (!tuitionCap) return [];
+    const owner = organizationProfileAt(at, schoolId)?.publicGovernmentIdentity;
+    jurisdictionId ??=
+      owner?.kind === "jurisdiction" ? owner.jurisdictionId : null;
+  }
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId])
     throw new Error("Missing price-cost application jurisdiction");
-  const conditions = [...row.who.predicates, ...row.conditions];
   if (!conditions.some((condition) => condition.capability === BASIS))
     throw new Error(
       "Price-cost requires an explicit flow-basis coverage predicate",
     );
   for (const condition of conditions) {
-    if (condition.capability === RENT_COVERAGE_PREDICATE) continue;
+    if (
+      condition.capability === RENT_COVERAGE_PREDICATE ||
+      (condition.capability === TUITION_COVERAGE_PREDICATE &&
+        row.id === TUITION_FREEZE_ROW.id)
+    )
+      continue;
     if (condition.capability !== BASIS)
       throw new Error(`Missing price-cost predicate: ${condition.capability}`);
     if (
@@ -132,16 +211,13 @@ export function resolvePriceCostConsequences(
   )!;
   if (JSON.stringify(registered) !== JSON.stringify(row))
     throw new Error("Price-cost row differs from its canonical catalog input");
-  const law = lawInForce(
-    world,
-    flow.jurisdictionId,
-    proposition.id,
-    context.onDate,
-  );
+  const law = lawInForce(world, jurisdictionId, proposition.id, context.onDate);
   if (!law || law.answer !== "yes") return [];
   if (context.governingLawId && context.governingLawId !== law.measureId)
     return [];
-  let coverageSourceIds: (typeof flow.id)[] = [];
+  let coverageSourceIds: (typeof flow.id)[] = [
+    ...(tuitionCap?.sourceRecordIds ?? []),
+  ];
   if (
     conditions.some(
       (condition) => condition.capability === RENT_COVERAGE_PREDICATE,
@@ -207,7 +283,11 @@ export function resolvePriceCostConsequences(
       asOfDate: context.onDate,
       historySequenceExclusive: world.history.nextSequence,
     });
-  if (activity && activity.effectiveAt !== context.onDate)
+  if (
+    row.when === "renewal" &&
+    activity &&
+    activity.effectiveAt !== context.onDate
+  )
     throw new Error(
       "Price-cost renewal activity must be the current saved terms record",
     );
@@ -277,6 +357,14 @@ export function resolvePriceCostConsequences(
           }
         : {}),
       "current-flow-minor": { value: terms.amount.minorUnits, unit: "minor" },
+      ...(tuitionCap
+        ? {
+            "operative-tuition-minor": {
+              value: tuitionCap.amountMinor,
+              unit: "minor" as const,
+            },
+          }
+        : {}),
     },
     capacity: {},
     exposure: {},
@@ -297,7 +385,7 @@ export function resolvePriceCostConsequences(
       row,
       law,
       questionKey: proposition.stableKey,
-      jurisdictionId: flow.jurisdictionId,
+      jurisdictionId,
       subject: { kind: "person", id: flow.source.personId },
       activityId: context.activityId,
       effectiveAt: context.onDate,
@@ -397,20 +485,44 @@ export function applyPriceCostConsequence(
   });
   if (!stamp)
     throw new Error("Price-cost requires an operative canonical law stamp");
-  return recordResourceFlowTerms(world, {
+  const repriced = recordResourceFlowTerms(world, {
     stableKey,
     resourceFlowId: flowId,
     effectiveAt: current.effectiveAt,
     status: "active",
     amount: money(resolved.value.value, previous.amount.currency),
     cadenceKind: previous.cadenceKind,
-    reason: `Price terms under ${current.law.measureId}.`,
+    reason: `${previous.reason} The price changed under ${current.law.measureId}.`,
     provenance: {
       kind: "authored",
       note: `Applied law consequence ${current.row.id} to the recorded price activity.`,
     },
     supersedesTermsId: previous.id,
     lawEffectStamps: [stamp],
+  });
+  // A rent change reaches the renter who pays it: the saving (or the rise) per
+  // month, named next to their pay. The tuition freeze lands through
+  // tuition-freeze-noticed.ts, so it is not exposed twice here.
+  if (current.questionKey !== RENT_STABILIZATION_QUESTION) return repriced;
+  const saved = previous.amount.minorUnits - resolved.value.value;
+  const periods = periodsPerYear(previous.cadenceKind);
+  const repricedTerms = recordByStableKey(
+    repriced.history.resourceFlowTerms,
+    stableKey,
+  );
+  if (!repricedTerms) return repriced;
+  return recordLawExposure(repriced, {
+    stableKey: `${stableKey}:exposure`,
+    personId: resolved.subject.id,
+    measureId: current.law.measureId,
+    channel: "rent",
+    direction: saved >= 0 ? "gain" : "cost",
+    amount: money(
+      Math.abs(periods ? Math.round((saved * periods) / 12) : saved),
+      previous.amount.currency,
+    ),
+    cadence: periods ? "monthly" : "one-time",
+    sourceRecordId: repricedTerms.id,
   });
 }
 
@@ -420,7 +532,7 @@ export const TEAM_4_PRICE_COST_REGISTRATION: LawConsequenceKindRegistration = {
   owner: "Team4",
   selectors: [SELECTOR],
   actions: [ACTION],
-  predicates: [BASIS, RENT_COVERAGE_PREDICATE],
+  predicates: [BASIS, RENT_COVERAGE_PREDICATE, TUITION_COVERAGE_PREDICATE],
   units: ["minor"],
   resolve: resolvePriceCostConsequences,
   apply: applyPriceCostConsequence,

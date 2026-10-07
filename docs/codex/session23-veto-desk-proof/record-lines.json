@@ -1,0 +1,1267 @@
+[
+  {
+    "randomPlace": "Uehling, Nebraska",
+    "randomPlaceKey": "3149425",
+    "proofKind": "ordinary new life, authored original-player governor seat, supplied actual roll calls",
+    "seed": "setup-v3:2078c7b571c9c12b:{\"v\":3,\"seed\":\"session23-part5-veto-new-game-US-NE-2026-10-06\",\"placeKey\":\"3149425\",\"startAge\":40,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Allison\",\"familyName\":\"Vasquez\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+    "worldId": "world_71aefc4817137405",
+    "personId": "person_474a74db69199706",
+    "date": "2026-01-14",
+    "moment": {
+      "date": "2026-01-14",
+      "minuteOfDay": 420,
+      "timeZone": "America/Chicago",
+      "utcOffsetMinutes": -360
+    },
+    "measureId": "legislative-measure_60d4e7ac998e7623",
+    "rulePackId": "us-ne-legislature-v1",
+    "officeKey": "us-ne-governor",
+    "organizationId": "organization_e9588e8bf2b344cd",
+    "jurisdictionId": "jurisdiction_317641dc58effbce",
+    "termId": "event_733ebbe71458ffa9",
+    "billMatters": [
+      {
+        "id": "event_2c4080d3ac685570",
+        "openedEventId": "event_2c4080d3ac685570",
+        "decisionEventId": "event_a9b1faa0ff97602a",
+        "status": "decided"
+      }
+    ],
+    "itemPower": {
+      "reaches": "appropriation-bills",
+      "citation": "Neb. Const. art. IV, sec. 15"
+    },
+    "results": [
+      {
+        "matterId": "event_2c4080d3ac685570",
+        "measureId": "legislative-measure_60d4e7ac998e7623",
+        "designation": "Desk proof 1",
+        "shortTitle": "Public service reporting",
+        "status": "decided",
+        "phase": "awaiting-enactment",
+        "actionWindow": null,
+        "overrideForecast": null,
+        "overrideVotes": [
+          {
+            "id": "legislative-vote_3020cc12a733c30f",
+            "stableKey": "session23-part5-veto-new-game-US-NE-2026-10-06:override:legislature:vote",
+            "sequence": 236879,
+            "measureId": "legislative-measure_60d4e7ac998e7623",
+            "forum": {
+              "kind": "chamber",
+              "chamberKey": "legislature"
+            },
+            "purpose": "veto-override",
+            "floorStageKey": null,
+            "takenAt": "2026-01-14",
+            "eligibleMembers": 49,
+            "presentMembers": null,
+            "dispositions": [
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:1",
+                "personId": "person_e8c8c4c1dff265da",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:2",
+                "personId": "person_89f1de43d6a85dcd",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:3",
+                "personId": "person_4b6bad8d1cffdc2c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:4",
+                "personId": "person_d62c7084e0654447",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:5",
+                "personId": "person_6925a52e789a47d6",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:6",
+                "personId": "person_ad70480862a85bf9",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:7",
+                "personId": "person_86b8643dcef3ed48",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:8",
+                "personId": "person_ac768b34e2797dd3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:9",
+                "personId": "person_5a0181a8f8091a92",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:10",
+                "personId": "person_2faf407a7aae0516",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:11",
+                "personId": "person_f515365319e3c287",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:12",
+                "personId": "person_f6d2325d56305188",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:13",
+                "personId": "person_8711b06b5af63e39",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:14",
+                "personId": "person_c07c357b10e0021a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:15",
+                "personId": "person_9132ff0aa894e85b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:16",
+                "personId": "person_0ca2512f54d1dd6c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:17",
+                "personId": "person_61a44efd0794470d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:18",
+                "personId": "person_bcb95298d73e6cce",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:19",
+                "personId": "person_e80b333684b4413f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:20",
+                "personId": "person_ace035a300eda253",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:21",
+                "personId": "person_5a6b2c17167d3f12",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:22",
+                "personId": "person_2a34cf1bb9f181c5",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:23",
+                "personId": "person_efccc246f44424a4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:24",
+                "personId": "person_10c16ceb723ac97f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:25",
+                "personId": "person_9ad43738b950ea0e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:26",
+                "personId": "person_cb9d94c35a9593b1",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:27",
+                "personId": "person_3aaa2d177f00b020",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:28",
+                "personId": "person_26ec05d1a73a139b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:29",
+                "personId": "person_e9326f2ffe668a5a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:30",
+                "personId": "person_64ee40c3b7099c14",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:31",
+                "personId": "person_dc1ffa10fac94675",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:32",
+                "personId": "person_693311c70b85d482",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:33",
+                "personId": "person_da70765e9a1cbe03",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:34",
+                "personId": "person_78c5385a81fa70d0",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:35",
+                "personId": "person_0918093723e729e1",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:36",
+                "personId": "person_0215b33d6147d6fe",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:37",
+                "personId": "person_2ed9f1a66ac0c62f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:38",
+                "personId": "person_03f76ea695ed001c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:39",
+                "personId": "person_acee0516b72c4a3d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:40",
+                "personId": "person_3c0d3d0f4c80c551",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:41",
+                "personId": "person_bc93b2cf45d02540",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:42",
+                "personId": "person_e010c02740b09b1f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:43",
+                "personId": "person_b823df89961c3cae",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:44",
+                "personId": "person_958cba99dfaccee5",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:45",
+                "personId": "person_1b314803a31244c4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:46",
+                "personId": "person_86eaab010110e7f3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:47",
+                "personId": "person_3475a17516a084b2",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:48",
+                "personId": "person_d9013d5731d56319",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-ne-legislature-v1:legislature:seat:49",
+                "personId": "person_48ae8c7a8fe8e068",
+                "disposition": "yea"
+              }
+            ],
+            "tally": {
+              "yea": 49,
+              "nay": 0,
+              "presentNotVoting": 0,
+              "absent": 0,
+              "excused": 0
+            },
+            "thresholdLabel": "three-fifths of all the senators elected",
+            "denominatorKind": "members-elected",
+            "denominatorValue": 49,
+            "requiredVotes": 30,
+            "outcome": "passed",
+            "provenance": {
+              "method": "authored-fixture",
+              "note": "Supplied actual seated-member override votes for the executive desk proof.",
+              "sourceEntityIds": ["legislative-measure_60d4e7ac998e7623"]
+            },
+            "forumLabel": "Legislature"
+          }
+        ],
+        "overrideActions": [
+          {
+            "id": "legislative-action_63d2b10c216e3a68",
+            "stableKey": "session23-part5-veto-new-game-US-NE-2026-10-06:override:override-succeeded",
+            "sequence": 236882,
+            "measureId": "legislative-measure_60d4e7ac998e7623",
+            "kind": "override-succeeded",
+            "occurredAt": "2026-01-14",
+            "chamberKey": null,
+            "committeeKey": null,
+            "floorStageKey": null,
+            "actorLabel": "Nebraska Legislature",
+            "rationale": "Every chamber reached the threshold required to override.",
+            "eventId": "event_365c18ae297e8a6a",
+            "voteId": null,
+            "amendmentId": null
+          }
+        ],
+        "itemVetoes": [],
+        "executiveActions": [
+          {
+            "id": "legislative-action_40faa8ef3fb1e258",
+            "stableKey": "measure:legislative-measure_60d4e7ac998e7623:governor:1:vetoed",
+            "sequence": 236874,
+            "measureId": "legislative-measure_60d4e7ac998e7623",
+            "kind": "vetoed",
+            "occurredAt": "2026-01-14",
+            "chamberKey": null,
+            "committeeKey": null,
+            "floorStageKey": null,
+            "actorLabel": "Governor",
+            "rationale": "The executive vetoed the bill and returned it.",
+            "eventId": "event_c258973aa6062952",
+            "voteId": null,
+            "amendmentId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "randomPlace": "Brookston, Indiana",
+    "randomPlaceKey": "1808146",
+    "proofKind": "ordinary new life, authored original-player governor seat, supplied actual roll calls",
+    "seed": "setup-v3:8d11e310377549d5:{\"v\":3,\"seed\":\"session23-part5-veto-new-game-US-IN-2026-10-06\",\"placeKey\":\"1808146\",\"startAge\":40,\"birthMonth\":1,\"birthDay\":1,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":\"Imani\",\"familyName\":\"Gardner\",\"gender\":\"female\",\"pronouns\":\"she-her\"}",
+    "worldId": "world_2b599d82d5aa0d92",
+    "personId": "person_84536f46b5abcf48",
+    "date": "2026-01-19",
+    "moment": {
+      "date": "2026-01-19",
+      "minuteOfDay": 420,
+      "timeZone": "America/New_York",
+      "utcOffsetMinutes": -300
+    },
+    "measureId": "legislative-measure_7657a2630ca191af",
+    "rulePackId": "us-in-legislature-profile-v1",
+    "officeKey": "us-in-governor",
+    "organizationId": "organization_55935c5bba42488a",
+    "jurisdictionId": "jurisdiction_6d6a95d42895c878",
+    "termId": "event_f90d90bea8718c17",
+    "billMatters": [
+      {
+        "id": "event_e60011f41237a227",
+        "openedEventId": "event_e60011f41237a227",
+        "decisionEventId": "event_be2960c3dee60e91",
+        "status": "decided"
+      }
+    ],
+    "itemPower": null,
+    "results": [
+      {
+        "matterId": "event_e60011f41237a227",
+        "measureId": "legislative-measure_7657a2630ca191af",
+        "designation": "Desk proof 1",
+        "shortTitle": "Public service reporting",
+        "status": "decided",
+        "phase": "awaiting-enactment",
+        "actionWindow": null,
+        "overrideForecast": null,
+        "overrideVotes": [
+          {
+            "id": "legislative-vote_7e6618a3ea557a14",
+            "stableKey": "session23-part5-veto-new-game-US-IN-2026-10-06:override:house:vote",
+            "sequence": 374194,
+            "measureId": "legislative-measure_7657a2630ca191af",
+            "forum": {
+              "kind": "chamber",
+              "chamberKey": "house"
+            },
+            "purpose": "veto-override",
+            "floorStageKey": null,
+            "takenAt": "2026-01-19",
+            "eligibleMembers": 100,
+            "presentMembers": null,
+            "dispositions": [
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:1",
+                "personId": "person_8174a9f77c5d9b67",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:2",
+                "personId": "person_31c362d46cd706e8",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:3",
+                "personId": "person_c21613b10ec38999",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:4",
+                "personId": "person_aa4f906f76ef677a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:5",
+                "personId": "person_91ea61e34af7af3b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:6",
+                "personId": "person_f675ac23bae142cc",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:7",
+                "personId": "person_9e97a9ec82c38b6d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:8",
+                "personId": "person_a138b5e3730a632e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:9",
+                "personId": "person_c92596811d9ec19f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:10",
+                "personId": "person_9c71282b31eba2f1",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:11",
+                "personId": "person_c635631415247060",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:12",
+                "personId": "person_96f9ab3e3e1ccdbf",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:13",
+                "personId": "person_6ba7caa090a6f94e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:14",
+                "personId": "person_f24e6ad9c420f905",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:15",
+                "personId": "person_729e0099bd414ce4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:16",
+                "personId": "person_e74e961ce67bc593",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:17",
+                "personId": "person_7e5dbf7a02f17a52",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:18",
+                "personId": "person_36002873145ecab9",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:19",
+                "personId": "person_a5c0aa650f98de08",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:20",
+                "personId": "person_37ae4089fbd8be18",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:21",
+                "personId": "person_48d1b16a4d386209",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:22",
+                "personId": "person_aaf8c1e0e3070466",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:23",
+                "personId": "person_2eabedd3868f3dd7",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:24",
+                "personId": "person_4df9901c66ea397c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:25",
+                "personId": "person_f4b1c138258d6a1d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:26",
+                "personId": "person_29fedb014e4758ea",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:27",
+                "personId": "person_ff85713df21e802b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:28",
+                "personId": "person_2c6326e261317130",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:29",
+                "personId": "person_531b2aacf4e61641",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:30",
+                "personId": "person_23ff3c68d2bb7e27",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:31",
+                "personId": "person_0f6b68b74a521cb6",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:32",
+                "personId": "person_a11ad9153c04da59",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:33",
+                "personId": "person_7a62f54aa8506ba8",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:34",
+                "personId": "person_c570fcca2bb012fb",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:35",
+                "personId": "person_9a91f8637b01713a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:36",
+                "personId": "person_81016f50b2e6522d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:37",
+                "personId": "person_99013e951140d88c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:38",
+                "personId": "person_0768538a30064c5f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:39",
+                "personId": "person_917b1dd7771c6cee",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:40",
+                "personId": "person_0f79da943c483536",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:41",
+                "personId": "person_240dae45c4b196a7",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:42",
+                "personId": "person_7a7167279a468428",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:43",
+                "personId": "person_a1294af22dfaf2d9",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:44",
+                "personId": "person_9aa06a406cf789ba",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:45",
+                "personId": "person_c57f6ea71da62b7b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:46",
+                "personId": "person_990fb0720336f10c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:47",
+                "personId": "person_810fe12da4dc6aad",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:48",
+                "personId": "person_91898fb46912856e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:49",
+                "personId": "person_0776c56721fc64df",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:50",
+                "personId": "person_c631e83463e5c3fd",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:51",
+                "personId": "person_27f773e67455a0dc",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:52",
+                "personId": "person_3e08654c41957d0b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:53",
+                "personId": "person_fb7f01fd8c9fb2ca",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:54",
+                "personId": "person_1db8d8668e7597e9",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:55",
+                "personId": "person_b5d32caf26ff6178",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:56",
+                "personId": "person_c362743252ca0937",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:57",
+                "personId": "person_d664e8d83c458f46",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:58",
+                "personId": "person_169dcc67d24f3535",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:59",
+                "personId": "person_d4b823dc7bc61dd4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:60",
+                "personId": "person_d577a87704e90fb4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:61",
+                "personId": "person_bbe9942abc61c395",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:62",
+                "personId": "person_43a8b43702dae2a2",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:63",
+                "personId": "person_ef1fe66d05b5baa3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:64",
+                "personId": "person_a9aba7f6f4288af0",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:65",
+                "personId": "person_e37a78d87e15a201",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:66",
+                "personId": "person_dc3ae802bd61119e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:67",
+                "personId": "person_48de595ea09ee4cf",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:68",
+                "personId": "person_34ddde43081b1a3c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:69",
+                "personId": "person_182275203ac69bdd",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:70",
+                "personId": "person_35e794e5ac6f8cf3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:71",
+                "personId": "person_e3728b59c1ff29b2",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:72",
+                "personId": "person_4489a47e8b0b73e5",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:73",
+                "personId": "person_ca2e31e84e70e9c4",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:74",
+                "personId": "person_8f0daa0bec0f401f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:75",
+                "personId": "person_6720c96e417ae1ae",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:76",
+                "personId": "person_eb0a26f3f7df6a51",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:77",
+                "personId": "person_6b909cb3f12eca40",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:78",
+                "personId": "person_57d2756e19682dbb",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:79",
+                "personId": "person_7037a3fa455fe5fa",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:80",
+                "personId": "person_e380fd36b3f54232",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:81",
+                "personId": "person_35f606c29e65a573",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:82",
+                "personId": "person_ca3ca3c540670244",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:83",
+                "personId": "person_4498165b7d018c65",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:84",
+                "personId": "person_672f3b4b3370fa2e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:85",
+                "personId": "person_8f1c1be8de05589f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:86",
+                "personId": "person_6b9f0e90e324e2c0",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:87",
+                "personId": "person_eb1898d0e9d582d1",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:88",
+                "personId": "person_704615d73755fe7a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:89",
+                "personId": "person_57e0e74b0b5e463b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:90",
+                "personId": "person_a137bccf1ff10b59",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:91",
+                "personId": "person_7a7fd9048c3c9ca8",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:92",
+                "personId": "person_241c2022b6a7af27",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:93",
+                "personId": "person_0f884c712e3e4db6",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:94",
+                "personId": "person_811e530a96d2832d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:95",
+                "personId": "person_991e224ef52d098c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:96",
+                "personId": "person_c58de0840f9c43fb",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:97",
+                "personId": "person_9aaedc1d5eeda23a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:98",
+                "personId": "person_c2615f1bfc4d4791",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:99",
+                "personId": "person_8d8329f10110b280",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:house:seat:100",
+                "personId": "person_dcdce894e0c47fef",
+                "disposition": "yea"
+              }
+            ],
+            "tally": {
+              "yea": 100,
+              "nay": 0,
+              "presentNotVoting": 0,
+              "absent": 0,
+              "excused": 0
+            },
+            "thresholdLabel": "1 of 2 of all the members elected to that House",
+            "denominatorKind": "members-elected",
+            "denominatorValue": 100,
+            "requiredVotes": 50,
+            "outcome": "passed",
+            "provenance": {
+              "method": "authored-fixture",
+              "note": "Supplied actual seated-member override votes for the executive desk proof.",
+              "sourceEntityIds": ["legislative-measure_7657a2630ca191af"]
+            },
+            "forumLabel": "House of Representatives"
+          },
+          {
+            "id": "legislative-vote_0ce73079e76188de",
+            "stableKey": "session23-part5-veto-new-game-US-IN-2026-10-06:override:senate:vote",
+            "sequence": 374197,
+            "measureId": "legislative-measure_7657a2630ca191af",
+            "forum": {
+              "kind": "chamber",
+              "chamberKey": "senate"
+            },
+            "purpose": "veto-override",
+            "floorStageKey": null,
+            "takenAt": "2026-01-19",
+            "eligibleMembers": 50,
+            "presentMembers": null,
+            "dispositions": [
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:1",
+                "personId": "person_39616e81ff11c3b3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:2",
+                "personId": "person_6421714130035584",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:3",
+                "personId": "person_9e897e15f5b0b2a5",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:4",
+                "personId": "person_b866ab5bdef9886e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:5",
+                "personId": "person_2e53e10e97e367df",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:6",
+                "personId": "person_b451d3bb85019d00",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:7",
+                "personId": "person_e93008e6803e3211",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:8",
+                "personId": "person_c17d85e7e2de8cba",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:9",
+                "personId": "person_ec5c8a4e938d2e7b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:10",
+                "personId": "person_913efe8370d3d4a5",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:11",
+                "personId": "person_56d6f1aeab267784",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:12",
+                "personId": "person_2c16eeef7a34e5b3",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:13",
+                "personId": "person_c68c184c998dc372",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:14",
+                "personId": "person_dbe58953fb615411",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:15",
+                "personId": "person_a70754290024bf00",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:16",
+                "personId": "person_2109617c130689df",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:17",
+                "personId": "person_ab1c2bc95a1caa6e",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:18",
+                "personId": "person_9aa27d4295e68fad",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:19",
+                "personId": "person_b2a24c86f441160c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:20",
+                "personId": "person_18c5646985e3251c",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:21",
+                "personId": "person_c1bbfad9a7226f3d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:22",
+                "personId": "person_f1b51cf90598ef0a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:23",
+                "personId": "person_1dac80622449224b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:24",
+                "personId": "person_a6a11d32388ce5b8",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:25",
+                "personId": "person_fd5cf37c71293d29",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:26",
+                "personId": "person_091436c68c208686",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:27",
+                "personId": "person_f610c220a2a34d77",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:28",
+                "personId": "person_79bc3686a6ffc114",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:29",
+                "personId": "person_f0edefd3eabf6b75",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:30",
+                "personId": "person_3bb9fb949730389b",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:31",
+                "personId": "person_fe0064f2ee5caf5a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:32",
+                "personId": "person_9f297e74e512a74d",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:33",
+                "personId": "person_60a34dbe2b6a25ac",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:34",
+                "personId": "person_eb6410b5eecf8dc7",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:35",
+                "personId": "person_7e5d455f87049156",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:36",
+                "personId": "person_c2a7e8397112a579",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:37",
+                "personId": "person_9bf0046edd5e36c8",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:38",
+                "personId": "person_c1ae2b65f0e3c753",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:39",
+                "personId": "person_6f3921da06736412",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:40",
+                "personId": "person_c67da66fa797aaf2",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:41",
+                "personId": "person_2c087d12883ecd33",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:42",
+                "personId": "person_56c87fd1b9305f04",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:43",
+                "personId": "person_91308ca67eddbc25",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:44",
+                "personId": "person_ab0db9ec682691ee",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:45",
+                "personId": "person_20faef9f2110715f",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:46",
+                "personId": "person_a6f8e24c0e2ea680",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:47",
+                "personId": "person_dbd71777096b3b91",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:48",
+                "personId": "person_b42494786c0b963a",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:49",
+                "personId": "person_df0398df1cba37fb",
+                "disposition": "yea"
+              },
+              {
+                "memberKey": "us-in-legislature-profile-v1:senate:seat:50",
+                "personId": "person_edcf331a21cb8819",
+                "disposition": "yea"
+              }
+            ],
+            "tally": {
+              "yea": 50,
+              "nay": 0,
+              "presentNotVoting": 0,
+              "absent": 0,
+              "excused": 0
+            },
+            "thresholdLabel": "1 of 2 of all the members elected to that House",
+            "denominatorKind": "members-elected",
+            "denominatorValue": 50,
+            "requiredVotes": 25,
+            "outcome": "passed",
+            "provenance": {
+              "method": "authored-fixture",
+              "note": "Supplied actual seated-member override votes for the executive desk proof.",
+              "sourceEntityIds": ["legislative-measure_7657a2630ca191af"]
+            },
+            "forumLabel": "Senate"
+          }
+        ],
+        "overrideActions": [
+          {
+            "id": "legislative-action_65f4d2ea6e7ec388",
+            "stableKey": "session23-part5-veto-new-game-US-IN-2026-10-06:override:override-succeeded",
+            "sequence": 374200,
+            "measureId": "legislative-measure_7657a2630ca191af",
+            "kind": "override-succeeded",
+            "occurredAt": "2026-01-19",
+            "chamberKey": null,
+            "committeeKey": null,
+            "floorStageKey": null,
+            "actorLabel": "Indiana Legislature",
+            "rationale": "Every chamber reached the threshold required to override.",
+            "eventId": "event_1c50b7625dc9df6e",
+            "voteId": null,
+            "amendmentId": null
+          }
+        ],
+        "itemVetoes": [],
+        "executiveActions": [
+          {
+            "id": "legislative-action_eb77c22c6d1b18c8",
+            "stableKey": "measure:legislative-measure_7657a2630ca191af:governor:1:vetoed",
+            "sequence": 374189,
+            "measureId": "legislative-measure_7657a2630ca191af",
+            "kind": "vetoed",
+            "occurredAt": "2026-01-19",
+            "chamberKey": null,
+            "committeeKey": null,
+            "floorStageKey": null,
+            "actorLabel": "Governor",
+            "rationale": "The executive vetoed the bill and returned it.",
+            "eventId": "event_67dbb20a1292c78a",
+            "voteId": null,
+            "amendmentId": null
+          }
+        ]
+      }
+    ]
+  }
+]

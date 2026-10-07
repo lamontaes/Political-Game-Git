@@ -104,11 +104,9 @@ function FactList({
           className="pg-fact"
           data-attribution={fact.attribution}
         >
-          {fact.attribution === "known" ? null : (
-            <span className="pg-fact-attribution">
-              {fact.attribution === "record" ? "On the record" : "Reported"}
-            </span>
-          )}
+          {fact.attribution === "reported" ? (
+            <span className="pg-fact-attribution">Reported</span>
+          ) : null}
           <span>{fact.text}</span>
         </li>
       ))}
@@ -129,7 +127,6 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
-  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -152,7 +149,6 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
-  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -212,17 +208,32 @@ export function PersonCard({
     ];
   });
 
+  /*
+   * An anchor exists only when the player opened this card from the person's
+   * rendered figure. That direct scene evidence outranks a roster captured by
+   * an earlier render; otherwise the person under the pointer can be labeled
+   * away and offered travel actions while visibly standing in the room.
+   */
+  const openedFromSceneFigure = mode === "overlay" && anchor !== null;
+  const presentNow =
+    openedFromSceneFigure ||
+    (presentPersonIds
+      ? presentPersonIds.includes(dossier.personId)
+      : dossier.presentNow);
+  const contactPresence = presentNow
+    ? Array.from(new Set([...(presentPersonIds ?? []), dossier.personId]))
+    : presentPersonIds;
   const contact = projectPersonContact(world, playerId, dossier.personId, {
-    ...(presentPersonIds ? { presentPersonIds } : {}),
+    ...(contactPresence ? { presentPersonIds: contactPresence } : {}),
   });
-  const presentNow = presentPersonIds
-    ? presentPersonIds.includes(dossier.personId)
-    : dossier.presentNow;
   const facts = dossier.details;
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
-    dossier.details.find((fact) => fact.attribution === "record")?.text ?? null;
+    dossier.details.find(
+      (fact) =>
+        fact.key.startsWith("public-role-") || fact.key.startsWith("position-"),
+    )?.text ?? null;
   const isYou = dossier.personId === playerId;
   const alive =
     web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
@@ -310,6 +321,11 @@ export function PersonCard({
           />
           <div className="pg-person-card-titles">
             <h2 data-testid="dossier-name">{dossier.name}</h2>
+            {dossier.age !== null ? (
+              <p className="pg-person-card-age" data-testid="dossier-age">
+                Age · {dossier.age}
+              </p>
+            ) : null}
             {role ? (
               <p className="pg-person-card-role" data-testid="dossier-role">
                 {role}
@@ -321,13 +337,6 @@ export function PersonCard({
                 data-testid="dossier-relation"
               >
                 {knownAs.charAt(0).toUpperCase() + knownAs.slice(1)}
-              </p>
-            ) : isYou ? (
-              <p
-                className="pg-person-card-relation"
-                data-testid="dossier-relation"
-              >
-                You
               </p>
             ) : null}
             {traitsSentence ? (
@@ -359,15 +368,19 @@ export function PersonCard({
               </p>
             ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
+                <span className="pg-right-now-label">Present</span>
+                {dossier.presentRoom ? (
+                  <span data-testid="person-card-present-room">
+                    {dossier.presentRoom}
+                  </span>
+                ) : null}
               </p>
             ) : (
               <p
                 className="pg-person-card-note"
                 data-testid="person-card-presence-note"
-              >
-                Away from your current location.
-              </p>
+                data-presence="away"
+              />
             )}
           </div>
         </div>
@@ -404,14 +417,24 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
-            <p
-              className="pg-person-card-read"
-              data-testid={
-                expanded ? "dossier-last-interaction" : "quick-last-interaction"
-              }
-            >
-              {dossier.lastInteraction}
-            </p>
+            {dossier.reminders.length > 0 ? (
+              <div data-testid="dossier-reminders">
+                <h3>What you may need to remember</h3>
+                <FactList facts={dossier.reminders} testId="dossier-reminder" />
+              </div>
+            ) : null}
+            {dossier.lastInteraction === null || dossier.neverSpoken ? null : (
+              <p
+                className="pg-person-card-read"
+                data-testid={
+                  expanded
+                    ? "dossier-last-interaction"
+                    : "quick-last-interaction"
+                }
+              >
+                {dossier.lastInteraction}
+              </p>
+            )}
             {!expanded || dossier.strain === null ? null : (
               <p
                 className="pg-person-card-read"
@@ -435,8 +458,9 @@ export function PersonCard({
               <p
                 className="pg-person-card-note"
                 data-testid="dossier-facts-empty"
+                data-problem="no-facts-known"
               >
-                You don&rsquo;t know much about {dossier.shortName} yet.
+                {dossier.shortName}
               </p>
             ) : null}
             {!expanded && onExpand && (dossier.details.length > 3 || true) ? (
@@ -595,7 +619,6 @@ export function PersonCard({
             type="button"
             className="ui-action ui-action--primary"
             data-testid="dossier-talk"
-            aria-describedby={`person-talk-reason-${dossier.personId}`}
             onClick={onTalk}
           >
             Talk
@@ -606,7 +629,6 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-travel"
-            aria-describedby={`person-travel-reason-${dossier.personId}`}
             onClick={onTravel}
           >
             Travel to
@@ -617,21 +639,9 @@ export function PersonCard({
             type="button"
             className="ui-action"
             data-testid="person-meet"
-            aria-describedby={`person-meet-reason-${dossier.personId}`}
             onClick={onMeet}
           >
             Meet
-          </button>
-        ) : null}
-        {reachable && contact.contact.available && onContact ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="person-contact"
-            onClick={onContact}
-            aria-describedby={`person-contact-reason-${dossier.personId}`}
-          >
-            Contact
           </button>
         ) : null}
         {onFullRecord ? (
@@ -645,24 +655,13 @@ export function PersonCard({
           </button>
         ) : null}
       </footer>
-      <p className="sr-only" id={`person-talk-reason-${dossier.personId}`}>
-        {talkUnavailable ??
-          "Starts the established conversation with this person."}
-      </p>
-      {reachable && contact.contact.available && onContact ? (
-        <p className="sr-only" id={`person-contact-reason-${dossier.personId}`}>
-          {contact.contact.reason}
-        </p>
-      ) : null}
-      {reachable && contact.meet.available && onMeet ? (
-        <p className="sr-only" id={`person-meet-reason-${dossier.personId}`}>
-          {contact.meet.reason}
-        </p>
-      ) : null}
-      {reachable && contact.travel.available && onTravel ? (
-        <p className="sr-only" id={`person-travel-reason-${dossier.personId}`}>
-          {contact.travel.reason}
-        </p>
+      {talkUnavailable ? (
+        <p
+          className="sr-only"
+          id={`person-talk-reason-${dossier.personId}`}
+          data-testid="dossier-talk-unavailable"
+          data-reason={talkUnavailable}
+        />
       ) : null}
       {expanded && contact.travel.available && reachable ? (
         <p className="pg-person-card-note" data-testid="person-contact-reason">
@@ -671,18 +670,13 @@ export function PersonCard({
       ) : null}
       {expanded && unavailableReasons.length > 0 ? (
         <details className="pg-person-card-why">
-          <summary>Why some actions are unavailable</summary>
+          <summary>Unavailable</summary>
           <ul data-testid="person-contact-unavailable">
             {unavailableReasons.map((reason) => (
               <li key={reason}>{reason}</li>
             ))}
           </ul>
         </details>
-      ) : null}
-      {talkUnavailable ? (
-        <p className="sr-only" data-testid="dossier-talk-unavailable">
-          {talkUnavailable}
-        </p>
       ) : null}
     </aside>
   );

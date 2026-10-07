@@ -2,10 +2,7 @@ import {
   DEMO_START_DATE,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
-import {
-  US_CONGRESS_PACK_ID,
-  US_CONGRESS_RULE_PACK,
-} from "./congress-rule-pack";
+import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   legislatureForState,
@@ -64,7 +61,7 @@ export function legislativePackForJurisdiction(
 export function legislativePackForWorkKey(
   key: string,
 ): LegislativeRulePack | null {
-  if (key === `institution:${US_CONGRESS_PACK_ID}`)
+  if (key === US_CONGRESS_RULE_PACK.institution?.workKey)
     return US_CONGRESS_RULE_PACK;
   const compiled = LEGISLATIVE_RULE_PACKS.find(
     (pack) =>
@@ -111,7 +108,10 @@ function stateLocalityPlace(stateKey: string): LifePlace | null {
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
 ): DemoJurisdictionContext {
-  if (pack.packId === US_CONGRESS_PACK_ID)
+  if (pack.institution?.government === "federal") {
+    const context = pack.institution.context;
+    if (!context)
+      throw new Error(`No institutional context for '${pack.packId}'.`);
     return {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
       // Only the static scenario blueprint reads this moment. A live Congress
@@ -119,13 +119,14 @@ export function legislativeInstitutionContext(
       initialMoment: {
         date: DEMO_START_DATE,
         minuteOfDay: 9 * 60,
-        timeZone: "America/New_York",
-        utcOffsetMinutes: -300,
+        timeZone: context.timeZone,
+        utcOffsetMinutes: context.utcOffsetMinutes,
       },
-      creationSummary: "Legislative work in the Congress of the United States.",
-      goalScope: "United States",
-      householdLocationLabel: "Washington, D.C.",
+      creationSummary: context.creationSummary,
+      goalScope: context.goalScope,
+      householdLocationLabel: context.householdLocationLabel,
     };
+  }
   // A profile's state key locates its rules, not the body doing the work.
   // Resolve the validated saved pack to its actual local government/place.
   if (townCouncilProfilePackById(pack.packId)) {

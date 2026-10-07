@@ -8,6 +8,8 @@ import { placePopulation } from "../nationwide-world/place-population";
 import { STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
+import type { OutcomeRangeViolation } from ".";
+import { electricityGenerationMixOutcomeBases } from "./electricity-generation-mix";
 
 /**
  * PLACE OUTCOMES: the outcomes the world keeps for each state, D.C. and
@@ -71,6 +73,8 @@ export interface PlaceOutcomeRecord {
   readonly value: number;
   /** Each outcome-web link that moved it this month, and by how much. */
   readonly causes: readonly { readonly key: string; readonly factor: number }[];
+  /** Table range violations from the completed calculation; no clipping. */
+  readonly rangeViolations?: readonly OutcomeRangeViolation[];
 }
 
 /** A city's or county's part in its state's value. */
@@ -169,9 +173,10 @@ export function placeOutcomeValueText(
   return `${value}%`;
 }
 
-export const PLACE_OUTCOME_BASES = bases.measures as Readonly<
-  Record<string, PlaceOutcomeMeasureBase>
->;
+export const PLACE_OUTCOME_BASES = {
+  ...bases.measures,
+  ...electricityGenerationMixOutcomeBases(),
+} as Readonly<Record<string, PlaceOutcomeMeasureBase>>;
 
 /** Range for a measure that names none. */
 export const DEFAULT_PLACE_OUTCOME_DRIFT =

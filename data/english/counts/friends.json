@@ -1,0 +1,74 @@
+{
+  "schema": "english-counts/1",
+  "register": "friends",
+  "shippable": false,
+  "description": "Counts of how American friends take turns when they talk: turn length, short-turn share, question rate, reaction tokens, turn openers and hedges. Counts and one- to three-word tokens only; no line from the corpus ships.",
+  "source": {
+    "document": "Santa Barbara Corpus of Spoken American English, Parts 1 to 4",
+    "publisher": "University of California, Santa Barbara, Department of Linguistics",
+    "license": "CC BY-ND 3.0 US",
+    "url": "https://www.linguistics.ucsb.edu/research/santa-barbara-corpus-spoken-american-english"
+  },
+  "coverage": "The 10 recordings the corpus describes as friends, roommates or neighbors talking: an after-dinner conversation, friends cooking dinner, three retired women before lunch, friends visiting, two male friends, a block party, friends in a living room, four roommates and a dinner party. Recordings 2, 3, 11, 15, 17, 32, 44, 45, 50 and 51.",
+  "mining": {
+    "tool": "scripts/english-mining/count-santa-barbara.py",
+    "turnRule": "A turn is the run of transcript lines by one speaker until another speaker begins.",
+    "selection": "Chosen from each recording's own description on the corpus page; family, work, classroom and public talk are left out."
+  },
+  "counts": {
+    "turns": 5518,
+    "words": 48718,
+    "medianTurnWords": 5.0,
+    "shareTurnsThreeWordsOrFewer": 0.401,
+    "shareTurnsOneWord": 0.212,
+    "questionRate": 0.099,
+    "reactionTurnsPer1000Turns": {
+      "yeah": 39.9,
+      "mhm": 25.9,
+      "right": 14.0,
+      "oh": 10.1,
+      "hm": 9.2,
+      "no": 5.1,
+      "okay": 3.6,
+      "oh yeah": 2.7,
+      "wow": 2.0,
+      "yes": 2.0,
+      "really": 1.4,
+      "i know": 1.4,
+      "oh really": 1.3,
+      "that's right": 1.3,
+      "sure": 1.3,
+      "oh no": 0.4,
+      "exactly": 0.2,
+      "oh wow": 0.2
+    },
+    "turnOpenerPer1000Turns": {
+      "i": 67.6,
+      "and": 54.9,
+      "yeah": 37.9,
+      "you": 35.3,
+      "oh": 34.3,
+      "well": 29.5,
+      "no": 19.8,
+      "but": 19.4,
+      "so": 17.9,
+      "uh": 7.4,
+      "like": 4.0,
+      "now": 3.8,
+      "okay": 3.4,
+      "um": 2.0,
+      "see": 1.6
+    },
+    "hedgesPer1000Words": {
+      "like": 14.82,
+      "you know": 7.78,
+      "i mean": 2.67,
+      "i think": 2.3,
+      "probably": 0.94,
+      "maybe": 0.78,
+      "kind of": 0.74,
+      "i guess": 0.64,
+      "sort of": 0.6
+    }
+  }
+}

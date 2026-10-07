@@ -24,7 +24,10 @@ import {
   type LivingSceneFamily,
 } from "./living-scene-prose";
 import { projectLivingSceneSurface } from "./living-scene-surfaces";
-import { correctPublication } from "../simulation/public-information";
+import {
+  correctPublication,
+  publishPublicEvent,
+} from "../simulation/public-information";
 import { lifePlaceByKey } from "../simulation/life-places";
 import { openOrdinaryLifeRecords } from "../simulation/life-opportunities";
 
@@ -94,6 +97,8 @@ describe("saved living-scene roles and content", () => {
       expect(packet.chapters.map((chapter) => chapter.key)).toEqual([
         "executive",
         "state",
+        "legislature",
+        "parents",
         "congress",
         "locality",
         "your-life",
@@ -352,14 +357,48 @@ describe("saved living-scene roles and content", () => {
   });
   it("updates real newspaper content only after a canonical publication correction", () => {
     const game = life("2309585", "living-scenes-news");
-    const first = projectLivingSceneSurface(game.world, game.playerPersonId, {
+    // A fresh life is not a published edition. Supply the article through
+    // canonical writers so this regression exercises correction, not startup.
+    const unpublished = serializeWorld(game.world);
+    expect(
+      projectLivingSceneSurface(game.world, game.playerPersonId, {
+        kind: "news",
+      }).status,
+    ).toBe("empty");
+    expect(serializeWorld(game.world)).toBe(unpublished);
+    const occurred = recordWorldEvent(game.world, {
+      stableKey: "fixture:newspaper-forum",
+      type: "civic.public-forum-held",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [game.playerPersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["civic"],
+      summary: "A public forum concluded.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const published = publishPublicEvent(occurred, {
+      stableKey: "fixture:newspaper-publication",
+      sourceEventId: occurred.history.events.at(-1)!.id,
+    });
+    const first = projectLivingSceneSurface(published, game.playerPersonId, {
       kind: "news",
     });
     expect(first.status).toBe("bound");
     if (first.detail?.kind !== "article")
       throw Error("Expected actual article");
     const old = first.detail.article;
-    const corrected = correctPublication(game.world, {
+    const corrected = correctPublication(published, {
       stableKey: "fixture:corrected-publication",
       correctsPublicationId: old.id,
       headline: "Corrected public record",
@@ -382,6 +421,12 @@ describe("saved living-scene roles and content", () => {
       }).status,
     ).toBe("empty");
     expect(serializeWorld(corrected)).toBe(saved);
+    expect(
+      projectLivingSceneSurface(deserializeWorld(saved), game.playerPersonId, {
+        kind: "news",
+        publicationId: id,
+      }),
+    ).toEqual(shown);
   });
   it("reads the actual agenda but withholds private calendar content from another person", () => {
     const game = life("2309585", "living-scenes-agenda");

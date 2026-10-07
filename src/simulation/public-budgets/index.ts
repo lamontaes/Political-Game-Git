@@ -1,4 +1,6 @@
+import { ensureCountyServiceAppropriations } from "../county-services";
 import { makeIsoDate } from "../dates";
+import { postFederalStateProgramPayments } from "../federal-state-program-payments";
 import { scheduleFutureDueItem } from "../future-transitions";
 import type {
   FutureDueItem,
@@ -169,7 +171,7 @@ export function ensurePublicBudgets(world: World): World {
 /** Settles the month just ended for every government. */
 export function settlePublicBudgets(start: World, month: IsoDate): World {
   if (!start.publicBudgets) return start;
-  const store = withFederalBudget(start, start.publicBudgets, month);
+  const store = withFederalBudget(start, start.publicBudgets!, month);
   // A state's governor decides what its budget does with money laws gained
   // or lost it, and in what order a shortfall is met, from their own
   // principles; a governor who holds none yet takes theirs.
@@ -235,6 +237,10 @@ export function publicBudgetsHandler(
   }
   const dueAt = makeIsoDate(dueItem.dueAt);
   let next = settlePublicBudgets(world, firstOfPreviousMonth(dueAt));
+  // Payments posted now belong to this month, after closing the prior month.
+  next = postFederalStateProgramPayments(next).world;
+  // A county whose voted budget year just opened funds its services from it.
+  next = ensureCountyServiceAppropriations(next, firstOfPreviousMonth(dueAt));
   const following = firstOfNextMonth(dueAt);
   next = scheduleFutureDueItem(next, {
     stableKey: `${PUBLIC_BUDGETS_VERSION}:pass:${following.slice(0, 7)}`,

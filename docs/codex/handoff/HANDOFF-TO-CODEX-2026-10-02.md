@@ -6,7 +6,7 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
 
 ## 1. Who and what
 
-- **Owner:** Lamontae Shively, the designer of *Our Civic Duty*. He dictates by voice, so expect typos ("xhwxk" meant "check"). He wants **1–2 line replies**, never "you're right", and no long menus. He judges by results he can see in a played game, not by reports.
+- **Owner:** Lamontae Shively, the designer of _Our Civic Duty_. He dictates by voice, so expect typos ("xhwxk" meant "check"). He wants **1–2 line replies**, never "you're right", and no long menus. He judges by results he can see in a played game, not by reports.
 - **Game:** a living American political and life simulation. Every person, law, business and government is a real record. The repo is `lamontaes/Political-Game-Git` (main branch). The local clone `~/Documents/PG-LAND` is **read-only**; use worktrees under `/tmp` (`/tmp/wt-play`, `/tmp/wt-audit-r`).
 - **Steam:** app 5376890 "Our Civic Duty", developer and publisher Lamontae Shively, NOT Early Access, aiming for 1.0 in about 2 weeks. The store page must be live as "Coming Soon" for 2 weeks before release.
 
@@ -128,22 +128,23 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
 
 ## 6. Tools (`cto-notes/tools/`)
 
-| Tool | What it does |
-|---|---|
-| `docket/merge.sh <pr> <head9> "<text>"` | Checks the base is main and the head matches, runs `design_check.py`, posts "CLAUDE CTO APPROVED FOR MERGE at <sha>", merges |
-| `docket/approve.sh` | Same guards, approval comment only (for a separate Merge session) |
-| `docket/design_check.py` | Diff read locally from `/tmp/wt-play`. Flags new files and exports (needs Replaces:), PLACEHOLDER? (Placeholder-ok:), NUMBER? (Numbers-ok:), HARD-CODED? (Hardcode-ok:), release-note headers, bare JSON imports |
-| `docket/fix_note.sh <pr> [Section]` | Fixes release-note headers on a PR branch, pushes, waits for the head, prints it |
-| `docket/audit_count.py` | Per-slice passed/checks and need-to-80% |
-| `docket/audit_progress.py` | `scan()` runs `npm run audit:scan` in `/tmp/wt-audit-r` at origin/main |
-| `docket/ledger.py merge N --team --step --title --adds --audit --evidence`; `ledger.py ruling --title --detail --audit` | One central ledger; the docket derives from it |
-| `pr-monitor.sh` | Polls the repo for MERGED / READY / GATE RESULT lines. **The owner stopped it at 5:35 p.m.**; I used an until-loop poller instead |
-| `replies_top.py`, `doc_insert_point.py` | Read and insert into the coordinator docs |
-| Firefly helpers (`cto-notes/firefly/`) | `window.__genQueue` / `__genRun` with runId gating and an edit-view guard; asset_search → asset_get_presigned_urls → curl to download |
+| Tool                                                                                                                    | What it does                                                                                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docket/merge.sh <pr> <head9> "<text>"`                                                                                 | Checks the base is main and the head matches, runs `design_check.py`, posts "CLAUDE CTO APPROVED FOR MERGE at <sha>", merges                                                                                     |
+| `docket/approve.sh`                                                                                                     | Same guards, approval comment only (for a separate Merge session)                                                                                                                                                |
+| `docket/design_check.py`                                                                                                | Diff read locally from `/tmp/wt-play`. Flags new files and exports (needs Replaces:), PLACEHOLDER? (Placeholder-ok:), NUMBER? (Numbers-ok:), HARD-CODED? (Hardcode-ok:), release-note headers, bare JSON imports |
+| `docket/fix_note.sh <pr> [Section]`                                                                                     | Fixes release-note headers on a PR branch, pushes, waits for the head, prints it                                                                                                                                 |
+| `docket/audit_count.py`                                                                                                 | Per-slice passed/checks and need-to-80%                                                                                                                                                                          |
+| `docket/audit_progress.py`                                                                                              | `scan()` runs `npm run audit:scan` in `/tmp/wt-audit-r` at origin/main                                                                                                                                           |
+| `docket/ledger.py merge N --team --step --title --adds --audit --evidence`; `ledger.py ruling --title --detail --audit` | One central ledger; the docket derives from it                                                                                                                                                                   |
+| `pr-monitor.sh`                                                                                                         | Polls the repo for MERGED / READY / GATE RESULT lines. **The owner stopped it at 5:35 p.m.**; I used an until-loop poller instead                                                                                |
+| `replies_top.py`, `doc_insert_point.py`                                                                                 | Read and insert into the coordinator docs                                                                                                                                                                        |
+| Firefly helpers (`cto-notes/firefly/`)                                                                                  | `window.__genQueue` / `__genRun` with runId gating and an edit-view guard; asset_search → asset_get_presigned_urls → curl to download                                                                            |
 
 **Skills** (`~/.claude/skills`): cto-gate-merge, lanes-doc, firefly-art, cloud-brief, owner-report, feature-walkthrough.
 
 **Useful game paths:**
+
 - shared decisions: `src/simulation/decisions.ts`;
 - town pay: `living-world/town-pay.ts`;
 - business books: `living-world/town-finances.ts`, `town-business-books.ts`;
@@ -175,6 +176,7 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
   - community icon 184.
 
   Rebuild with `python3 build_c.py && node render_c.mjs`.
+
 - **Key art:** `cto-notes/steam/firefly/keyart-collage-v1-2752x1536.png` (five panels: convention, Oval Office, Supreme Court, Senate floor, press briefing).
 - **Owner taste:**
   - not too realistic: about 5.5–6 on a 10-point scale, where 10 is a photo;
@@ -209,6 +211,7 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
   - I left text on the ballot.
 
   Use runId gating, clear the references and verify them, and keep the ballot blank when the title is spelled out.
+
 - **M12. Instructions I got wrong:**
   - "foreign aid changes domestic aid" was wrong;
   - "approve everything" was misread as dropping the checks (the owner corrected that within minutes).
@@ -249,6 +252,7 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
 These come from checking this handoff against every message he sent. Each item is something he said that sections 1–10 left out.
 
 ### A. The docket and check-ins
+
 1. **The docket is the source of truth and the channel to him** (Owner's Docket artifact). Every check-in updates ALL of it. Don't restate in chat what's in the docket.
 2. **Update the docket after every merge** so the percent visibly rises: teams closest to done, what merged.
 3. **Never delete his open notes or rulings without answering them.** Clear only what he has decided.
@@ -272,12 +276,14 @@ These come from checking this handoff against every message he sent. Each item i
 21. **FIX-FIRST also includes:** #1928 leaves accounts unopened when ownership is unclear (estimate from the game instead), and about 28 values use real-data drift instead of drift from the game's own entities.
 
 ### B. Usage, models and who does what
+
 22. **Weekend resources:** Codex has resets plus cloud credits. Claude stops at 90–95% usage. Codex owns gating order and merging while Claude is capped: use the flow in section 3, with Codex sessions as checkers if the Claude checkers are unavailable.
 23. **Models and effort:** sessions run on Low or Medium effort, with only ONE High-effort session at a time (he finds High overestimates). The coordinator runs light. Each session may use up to two light subagents.
 24. **The Audit/Systems session (High, two Medium subagents) solely owns engine and code questions.** Teams only build.
 25. **He can open more sessions (overflow, standby);** Codex may open more cloud sessions if it can.
 
 ### C. Laws, engines and effects
+
 26. **One engine per domain holds all of that domain's calculations,** as many engines as needed. Laws are DATA on a frame (who / what / how much), never per-law code, and must be moddable. The audit names six engines, including the CLOCK (one way to move time).
 27. **Each law has the correct authority or authorities** (federal, state, local) and they interact modularly. Cover all jurisdictions, never one.
 28. **Every law has an effect, a cost and ideological parts.** A bill has multiple effects, all felt in play.
@@ -289,6 +295,7 @@ These come from checking this handoff against every message he sent. Each item i
 34. **Feature walkthrough gold standard:** for every feature, the why-chain to bedrock with drop-downs (skill-feature-walkthrough.md). He praised it.
 
 ### D. Player-facing text and UI
+
 35. **No statute citations, source or estimate wording, "fictional world" disclaimers or dev strings in player text.** It breaks immersion. Hard-coded version strings ("V.0.4.0") must go.
 36. **Remove empty or premature tabs** ("Waiting on you", "Your office" until the player holds one, issues, budget, parties) and duplicate screens for the same job.
 37. **Run for office happens in the world:** the player goes to the clerk's office, talks to someone and signs up, which teaches the campaign system. Nothing is menu-only; the player must be able to meet people.
@@ -312,6 +319,7 @@ These come from checking this handoff against every message he sent. Each item i
 49. **Playthrough protocol:** when he sends a message during a browser playthrough, screenshot immediately; he waits for it.
 
 ### E. Art and Steam
+
 50. **Realism:** he asked for 6.5, then "dial it back to 5.5", then "+20%", then "too realistic". The settled level is the A6 box (about 6). Not photoreal, not cartoony.
 51. **Ballot:** he first wanted "Our Civic Duty" on the ballot. Later, mid-task: "where our civic duty is spelled out, it should not be on the ballot… looks too AI slop-like." So the ballot is BLANK wherever the title is spelled out.
 52. **Logo:** no hand or skin, camera panned down, not cartoony, no lock.
@@ -330,6 +338,7 @@ These come from checking this handoff against every message he sent. Each item i
 ## 12. More from the owner's messages (Sept 26 – Sept 29), not covered above
 
 ### A. Priorities (read this first)
+
 1. **TOP GOAL: make every law do something real.** "the priority is to make the laws do something real"; "Getting this law stuff done today is number one". After the 80% finish, law wiring across ALL policy areas comes before polish.
 2. **Laws are the backbone; never narrow them** to money or transport. They must cover all policy areas and all 187 topics, each with its correct authority or authorities.
 3. **Model government broadly:** immigration and humanitarian policy, social issues (marriage, birth rates), media behavior, work weeks.
@@ -340,6 +349,7 @@ These come from checking this handoff against every message he sent. Each item i
 8. **He is open to rewriting or deleting parts of the game for the engine.** "It doesn't script things. It produces things."
 
 ### B. People and the living world
+
 9. **The 97 personality traits feed every decision as real reasons:** government, judges, everyone. Traits change with experience, have strength levels and rare big moments, and are NOT formulas ("I don't like formulas"). Personality maps to the person, not to a politics label.
 10. **People must be real and alive:** NPCs hold the jobs and pursue goals. "The world is so dead" was a complaint.
 11. **Judiciary depth:** judges have integrity and philosophy, and the court is not locked at 9 justices.
@@ -352,21 +362,25 @@ These come from checking this handoff against every message he sent. Each item i
 14. **The per-person religion record is approved.** Bill numbering follows each jurisdiction's real convention (for example "HB1 2026").
 
 ### C. Economy
+
 15. **Pay periods are staggered.** Debts are only mortgages and student loans (with interest) for now. Books balance by construction.
 16. **State-specific tax rules and local taxes in all 50 states** (no sales tax on food where that's the law). Tariffs move commodity prices by region. **Taxes settle automatically**; this is decided, so don't ask again.
 
 ### D. Dialogue, journal and campaign
+
 17. **The English/dialogue engine** has Baldur's Gate 3 as its reference: dialogue reacts to the simulation and to what the character knows. It rewards players who do extra work. There is NO in-game AI. It covers everything, with regional speech ("y'all", "yinz"), consequential word choices and a tone that changes over years. Dialogue must change the world; no canned lines.
 18. **Meetings are interactive scenes:** go up to the microphone, with real attendees dressed for the setting.
 19. **The journal is a written story** (a death retrospective in the CK3 or BitLife style), not a dated list.
 
 ### E. UI and UX
+
 20. **UI direction:**
     - no navy in the game UI, no remnants of the old UI;
     - Crusader Kings and Sims spirit;
     - Steam-storefront polish.
 
     The navy ballot logo is his own pick for branding.
+
 21. **The radial menu comes back** (restyled, not bundled, not covering the portrait), with **the character portrait next to the clock.**
 22. **Glossary underlines MUST SHIP:** a tiny underline on terms opens the glossary, and once marked learned it no longer comes up.
 23. **Mockups start from real game screenshots;** he approves the design.
@@ -389,6 +403,7 @@ These come from checking this handoff against every message he sent. Each item i
 30. **In playtests, also report what he didn't say but you noticed.**
 
 ### F. Art
+
 31. **State capitols differ** from each other; interiors use varied real references, not all on a green lawn, and not every place is clean or nice. Tag art for local flavor.
 32. **Poses:**
     - seated, with seated angles;
@@ -404,6 +419,7 @@ These come from checking this handoff against every message he sent. Each item i
     - art must match the game's style.
 
 ### G. Process
+
 35. **Check-in cadence:** teams check in every 30 minutes and the CTO a few minutes after. Work continues while he's away or asleep. Timers must actually fire; if one mechanism fails, switch mechanisms.
 36. **Merge authority:**
     - merge freely, with approval needed only for big things;
@@ -424,6 +440,7 @@ These come from checking this handoff against every message he sent. Each item i
     - treat her as the first-time-player persona.
 
 ### H. Calibration: what he praised and what angered him
+
 - **Praised:**
   - zero one-state cases;
   - inline questions;

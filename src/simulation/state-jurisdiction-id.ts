@@ -39,13 +39,16 @@ const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
  * state. A slug this module does not recognize is not a state by default:
  * unknown is unknown, never a guess at the nearest state.
  */
+const STATE_KEY_BY_SLUG = new Map<string, string | null>();
+
 export function stateKeyForJurisdictionSlug(slug: string): string | null {
+  if (STATE_KEY_BY_SLUG.has(slug)) return STATE_KEY_BY_SLUG.get(slug)!;
   const authored = AUTHORED_STATE_JURISDICTION_SLUGS[slug];
-  if (authored) return authored;
-  const corpus = CORPUS_STATE_SLUG.exec(slug);
-  if (!corpus) return null;
-  const key = corpus[1]!.toUpperCase();
-  return STATES[key.slice(3)] ? key : null;
+  const corpus = authored ? null : CORPUS_STATE_SLUG.exec(slug);
+  const key = authored ?? corpus?.[1]?.toUpperCase() ?? null;
+  const result = key !== null && STATES[key.slice(3)] ? key : null;
+  STATE_KEY_BY_SLUG.set(slug, result);
+  return result;
 }
 
 /**
@@ -71,8 +74,15 @@ const STATE_KEY_BY_NAME: ReadonlyMap<string, string> = new Map(
  */
 export function homeStateKey(world: World, personId: EntityId): string | null {
   const person = world.people[personId];
-  if (!person) return null;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
+  return person ? placeStateKey(world, person.homeJurisdictionId) : null;
+}
+
+/** The state or territory a place (or a state's own record) lies in. */
+export function placeStateKey(
+  world: World,
+  jurisdictionId: EntityId,
+): string | null {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
   if (!jurisdiction) return null;
   return (
     stateKeyForJurisdiction(jurisdiction) ??

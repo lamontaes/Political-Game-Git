@@ -1,9 +1,11 @@
+import { aggregateCustomers } from "./aggregate-customers";
+export { aggregateCustomers } from "./aggregate-customers";
 import {
-  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_ESTIMATE,
   localBusinessWageMinor,
 } from "./recorded-employer";
 export {
-  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_ESTIMATE,
   localBusinessWageMinor,
 } from "./recorded-employer";
 // Preserve the published opening API while the sole selector lives with town businesses.
@@ -322,32 +324,6 @@ function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
 }
 
-function aggregateCustomers(
-  world: World,
-  jurisdictionId: EntityId,
-): { world: World; organizationId: EntityId } {
-  const stableKey = `local-customers:${jurisdictionId}`;
-  const existing = world.history.organizations.find(
-    (organization) => organization.stableKey === stableKey,
-  );
-  if (existing) return { world, organizationId: existing.id };
-  const next = createOrganization(world, {
-    stableKey,
-    formedAt: world.currentDate,
-    detailLevel: "lightweight",
-    provenance: {
-      kind: "authored",
-      note: "An aggregate counterparty for what a town's customers spend at its businesses. The game has no individual shoppers and does not pretend to model them.",
-    },
-    initialProfile: {
-      name: "Local customers",
-      classification: "custom:aggregate-customers",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  return { world: next, organizationId: next.history.organizations.at(-1)!.id };
-}
-
 /**
  * Seats the town's businesses, once. Each gets an owner and staff, who are new
  * townspeople: the town had five or so people in it, too few to staff even
@@ -379,7 +355,7 @@ function seatMissingLocalBusinesses(
   const missing = localBusinessPlansFor(jurisdictionId);
   if (missing.length === 0) return world;
   const today = world.currentDate;
-  const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
+  const currency = money(0, LOCAL_BUSINESS_ESTIMATE.currency).currency;
   const rng = new SeededRng(world.seed).fork(
     `local-businesses:${jurisdictionId}`,
   );
@@ -389,7 +365,7 @@ function seatMissingLocalBusinesses(
       `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
       (planned.sourced
         ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
-        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),
+        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_ESTIMATE.researchQuestionId}.`),
   });
 
   type Staffing = {

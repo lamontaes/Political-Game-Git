@@ -20,6 +20,12 @@ import {
 import { join } from "node:path";
 import { PNG } from "pngjs";
 import { format, resolveConfig } from "prettier";
+import { createHash } from "node:crypto";
+import hairFaceWindows from "../../art/manifest/hair_face_windows.json" with { type: "json" };
+import {
+  hairFaceWindowErrors,
+  type HairFaceWindow,
+} from "../../src/presentation/appearance-engine/hair-face-window";
 import {
   measureBodyAnchors,
   type BodyAnchors,
@@ -59,6 +65,7 @@ import {
   isSkinPixel,
   measureSkinLuminance,
 } from "../../src/presentation/appearance-engine/skin";
+import { cleanPaintedLayer } from "../../src/presentation/appearance-engine/white-matte";
 
 const [bodiesDir, appearanceDir, outArg] = process.argv.slice(2);
 if (!bodiesDir || !appearanceDir)
@@ -79,7 +86,11 @@ const read = (path: string): Raster => {
   const png = PNG.sync.read(readFileSync(path));
   const data = new Uint8ClampedArray(png.width * (png.height + HEADROOM) * 4);
   data.set(png.data, png.width * HEADROOM * 4);
-  return { width: png.width, height: png.height + HEADROOM, data };
+  return cleanPaintedLayer({
+    width: png.width,
+    height: png.height + HEADROOM,
+    data,
+  });
 };
 const write = (raster: Raster, file: string): string => {
   const png = new PNG({ width: raster.width, height: raster.height });
@@ -1153,31 +1164,46 @@ for (const sex of ["feminine", "masculine"] as const) {
       ...paintedExpressions(FIREFLY_EXPRESSIONS, sex, face.id, ""),
     };
   });
-  const hair = SOURCES[sex].hair.map((style) => ({
-    id: style.id,
-    back: write(
-      downscaleHalf(
-        read(
-          join(
-            style.dir ?? join(appearanceDir, "hair"),
-            `${style.stem}-back-v1.png`,
+  const hair = SOURCES[sex].hair
+    .map((style) => ({
+      id: style.id,
+      back: write(
+        downscaleHalf(
+          read(
+            join(
+              style.dir ?? join(appearanceDir, "hair"),
+              `${style.stem}-back-v1.png`,
+            ),
           ),
         ),
+        `hair-${sex}-${style.id}-back.png`,
       ),
-      `hair-${sex}-${style.id}-back.png`,
-    ),
-    front: write(
-      downscaleHalf(
-        read(
-          join(
-            style.dir ?? join(appearanceDir, "hair"),
-            `${style.stem}-front-v1.png`,
+      front: write(
+        downscaleHalf(
+          read(
+            join(
+              style.dir ?? join(appearanceDir, "hair"),
+              `${style.stem}-front-v1.png`,
+            ),
           ),
         ),
+        `hair-${sex}-${style.id}-front.png`,
       ),
-      `hair-${sex}-${style.id}-front.png`,
-    ),
-  }));
+    }))
+    .map((style) => {
+      const rule = (hairFaceWindows.styles as Record<string, HairFaceWindow>)[
+        style.front
+      ];
+      if (!rule) return style;
+      const hash = createHash("sha256")
+        .update(readFileSync(join(outDir, style.front)))
+        .digest("hex");
+      if (hairFaceWindowErrors(rule).length || hash !== rule.sourceSha256)
+        throw new Error(
+          `Face-window source changed: ${style.front}; review the candidate contract before rebuilding.`,
+        );
+      return { ...style, faceWindow: rule };
+    });
   // The turned view, when its standing bodies are painted: its heads by the
   // front ids, each only where it is painted turned.
   const turnedView = (
@@ -1274,7 +1300,30 @@ for (const sex of ["feminine", "masculine"] as const) {
   };
 }
 
+const slotKindsByPose: NonNullable<PeoplePackManifest["slotKindsByPose"]> =
+  Object.fromEntries(
+    [
+      ...new Set([
+        "standing",
+        "seated",
+        ...Object.values(presentations).flatMap((p) =>
+          Object.keys(p.poses ?? {}),
+        ),
+      ]),
+    ].map((pose) => [
+      pose,
+      [
+        pose === "seated" || pose.startsWith("seated-")
+          ? "sit"
+          : pose === "podium"
+            ? "podium"
+            : "stand",
+      ],
+    ]),
+  );
+
 const manifest: PeoplePackManifest = {
+  slotKindsByPose,
   version: PEOPLE_PACK_VERSION,
   canvas: { width: 512, height: 768 + HEADROOM / 2 },
   presentations: presentations as PeoplePackManifest["presentations"],

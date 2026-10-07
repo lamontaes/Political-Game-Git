@@ -64,11 +64,6 @@ export function GuideWorkspace({
 
   return (
     <div className="pg-guide" data-testid="guide-workspace">
-      <p className="game-note">
-        What the words on the other screens mean. Reading an entry does nothing
-        in the world.
-      </p>
-
       <label className="pg-field">
         <span>Find a term</span>
         <input
@@ -112,10 +107,7 @@ export function GuideWorkspace({
                         <span className="pg-guide-result-learned">Learned</span>
                       ) : null}
                       {matched === "definition" ? (
-                        <span className="sr-only">
-                          {" "}
-                          Matched in its explanation.
-                        </span>
+                        <span className="sr-only"> Matched: explanation</span>
                       ) : null}
                     </button>
                   </li>
@@ -139,6 +131,12 @@ export function GuideWorkspace({
               {selected.shortDefinition}
             </p>
             <p data-testid="guide-entry-explanation">{selected.explanation}</p>
+            <p
+              className="pg-guide-entry-source"
+              data-testid="guide-entry-source"
+            >
+              {selected.source.note}
+            </p>
             {selected.contextNote ? (
               <p className="game-note" data-testid="guide-entry-context">
                 {selected.contextNote}
@@ -160,10 +158,6 @@ export function GuideWorkspace({
                 ? "Marked learned"
                 : "Mark learned"}
             </button>
-            <p className="game-note">
-              Marking a term learned quiets the help beside it while you play.
-              It changes nothing about your character or the world.
-            </p>
             {relatedGuideTerms(selected).length > 0 ? (
               <>
                 <h4>Related terms</h4>
@@ -185,9 +179,7 @@ export function GuideWorkspace({
             ) : null}
           </section>
         ) : (
-          <p className="game-note" data-testid="guide-entry-empty">
-            Choose a term to read what it means.
-          </p>
+          <p data-testid="guide-entry-empty" />
         )}
       </div>
     </div>
