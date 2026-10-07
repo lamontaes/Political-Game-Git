@@ -561,7 +561,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | open | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | open | |
-| BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
+| BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | ready #3445 | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
