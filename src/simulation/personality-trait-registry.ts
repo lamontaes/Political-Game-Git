@@ -214,22 +214,19 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
  * here. The coverage test below permits no third state.
  */
 export const NOT_YET_CONNECTED_TRAITS = [
-  "personality-v1:playful-manner",
   "personality-v1:truthfulness",
   "personality-v1:facet-smug",
   "personality-v1:facet-shy",
   "personality-v1:facet-charming",
   "personality-v1:facet-sassy",
-  "personality-v1:facet-mischievous",
+  "personality-v1:facet-dramatic",
   "personality-v1:facet-cynical",
   "personality-v1:facet-daydreaming",
   "personality-v1:facet-self-serving",
   "personality-v1:facet-sincere",
-  "personality-v1:facet-manipulative",
   "personality-v1:facet-fair-minded",
   "personality-v1:facet-fickle",
   "personality-v1:facet-mediating",
-  "personality-v1:facet-vindictive",
   "personality-v1:facet-hot-headed",
   "personality-v1:facet-sensitive",
   "personality-v1:facet-light-hearted",
