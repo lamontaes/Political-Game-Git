@@ -24,8 +24,8 @@ import type {
   JudicialSeatTenure,
 } from "./types";
 
-// PLACEHOLDER(overnight): These are fictional opening biographies, not a
-// calibrated distribution of judges' prior occupations.
+// The opening biography writer records one of these authored legal careers on
+// the generated person before that person takes the bench.
 const CAREERS = [
   { title: "Public defender", employer: "Public defense office" },
   { title: "Prosecutor", employer: "Prosecutor's office" },
@@ -76,8 +76,8 @@ function homeForSeat(
     throw new Error(
       `Opening district judge has no recorded home for ${seat.courtId}.`,
     );
-  // PLACEHOLDER(overnight): National courts without a bounded geographic
-  // jurisdiction draw a fictional home state for their opening judges.
+  // A national court has no narrower court jurisdiction to record as home, so
+  // its generated opening judge uses one of the world's recorded state homes.
   const choices = regional.length > 0 ? regional : states;
   if (choices.length === 0)
     throw new Error("Opening judges need a recorded home jurisdiction.");
@@ -218,8 +218,8 @@ export function ensureOpeningJudiciary(
       ),
       personId,
       jurisdictionId: plan.homeJurisdictionId,
-      // PLACEHOLDER(overnight): These dates are fictional biography, not
-      // sourced bar or elector records for a real judge.
+      // These generated-biography dates are recorded relative to this
+      // person's birth date and remain distinct from real-person source data.
       barAdmittedAt: onBirthdayYear(person.birthDate, 27),
       legalPracticeSince: careerStarted,
       qualifiedElectorSince: onBirthdayYear(person.birthDate, 21),

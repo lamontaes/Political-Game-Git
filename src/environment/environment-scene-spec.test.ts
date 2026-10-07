@@ -214,7 +214,7 @@ describe("environment scene measurements", () => {
         unit: "feet",
         confidence: "exact",
       }),
-      "cannot contain both known 'value' and unknown 'state'",
+      "cannot contain both resolved 'value' and unresolved 'state'",
     );
   });
 
@@ -244,7 +244,7 @@ describe("environment scene measurements", () => {
         confidence: "exact",
         provenance_refs: ["source:missing"],
       }),
-      "references unknown source ID 'source:missing'",
+      "references unrecognized source ID 'source:missing'",
     );
   });
 });
@@ -579,7 +579,7 @@ describe("source and scene reference integrity", () => {
         zones: [{ id: "zone:floor", type: "floor" }],
         cameras: [{ id: "camera:wide", target_zone_id: "zone:missing" }],
       }),
-      "references unknown zone ID 'zone:missing'",
+      "references unrecognized zone ID 'zone:missing'",
     );
   });
 
@@ -630,7 +630,7 @@ describe("calibration and scale evidence", () => {
     );
     expectInvalid(
       resolvedCalibrationSpec({ evidence_identifier: "source:missing" }),
-      "evidence_identifier references unknown source ID 'source:missing'",
+      "evidence_identifier references unrecognized source ID 'source:missing'",
     );
   });
 
@@ -651,7 +651,7 @@ describe("calibration and scale evidence", () => {
       resolvedCalibrationSpec({
         evidence_reference_linkage: ["source:missing"],
       }),
-      "references unknown source ID 'source:missing'",
+      "references unrecognized source ID 'source:missing'",
     );
   });
 

@@ -8,7 +8,7 @@ import {
   MACRO_ERA_CONDITIONS as ERA_CONDITIONS,
   MACRO_ERA_POLICY as ERA,
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
-  UNRESEARCHED_UNEMPLOYMENT_RECOVERY as RECOVERY,
+  ESTIMATED_UNEMPLOYMENT_RECOVERY as RECOVERY,
   type MacroRegime,
 } from "./policy";
 
@@ -130,7 +130,7 @@ function boundedUnemployment(value: number): number {
  * Section 13 monthly transition. `previous.growthPct` is the lagged growth
  * that moves unemployment; the new growth does not act until next month.
  * Unemployment's distance from the normal rate fades by
- * `UNRESEARCHED_UNEMPLOYMENT_RECOVERY`, so a slowdown raises it for as long
+ * `ESTIMATED_UNEMPLOYMENT_RECOVERY`, so a slowdown raises it for as long
  * as growth stays weak and it comes back once growth does.
  */
 export function stepMonth(

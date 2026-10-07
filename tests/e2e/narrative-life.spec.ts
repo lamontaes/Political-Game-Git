@@ -174,11 +174,7 @@ test.describe("Setting up a life reads like a game, not a form", () => {
       "true",
     );
     await expect(page.getByTestId("creator-stage-route")).toBeVisible();
-    for (const later of [
-      "creator-stage-character",
-      "creator-stage-place",
-      "creator-stage-whoareyou",
-    ]) {
+    for (const later of ["creator-stage-character", "creator-stage-place"]) {
       await expect(page.getByTestId(later)).toHaveCount(0);
     }
     // And Begin is not a thing you can press before you have decided anything
@@ -292,7 +288,6 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("place-choices")).toHaveCount(0);
 
     await page.getByTestId("creator-continue-place").press("Enter");
-    await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
     await page.getByTestId("creator-summary-place").press("Enter");
     await expect(page.getByTestId("creator-stage-place")).toBeVisible();
     await expect(page.getByTestId("place-canonical")).toHaveText(
@@ -310,7 +305,6 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     );
 
     await page.getByTestId("creator-continue-place").press("Enter");
-    await page.getByTestId("whoareyou-play").press("Enter");
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);
@@ -361,7 +355,6 @@ test.describe("Setting up a life reads like a game, not a form", () => {
     await expect(page.getByTestId("place-population-source")).toHaveCount(0);
 
     await page.getByTestId("creator-continue-place").press("Enter");
-    await page.getByTestId("whoareyou-play").press("Enter");
     await expect(page.getByTestId("begin")).toBeEnabled();
     await page.getByTestId("begin").press("Enter");
     await enterLife(page);
