@@ -14,7 +14,7 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { requireLifePlace } from "./life-places";
+import { lifePlaceStateIdentities, requireLifePlace } from "./life-places";
 import {
   isConstituentCaseException,
   routeConstituentCase,
@@ -114,6 +114,24 @@ describe("office workflow persistence", () => {
       );
     })!;
     const ordinaryCase = officeCaseForResident(ordinaryResidentId);
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      expect(
+        routeConstituentCase(
+          recorded.world,
+          {
+            ...ordinaryCase,
+            jurisdictionId: place.jurisdictionKey as EntityId,
+          },
+          built.playerPersonId,
+        ),
+      ).toMatchObject({
+        kind: "player",
+        officeRelationshipId: relationshipId,
+        mode: "player-handles-all",
+      });
+    }
     expect(
       routeConstituentCase(recorded.world, ordinaryCase, built.playerPersonId)
         ?.kind,
