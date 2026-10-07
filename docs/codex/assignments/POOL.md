@@ -566,7 +566,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
-| BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | open | Session 11 |
+| BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 (verified on current main) | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | open | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | open | |
