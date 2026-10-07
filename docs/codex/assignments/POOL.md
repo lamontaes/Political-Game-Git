@@ -278,7 +278,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | done (#1992/#2001/#2024, batch-marked by CTO Oct 7) | |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
 | AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
-| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | open | |
+| AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | done (#3494) | S55 |
 | AU-13 | Hazards and crime from causes | pool-audit-repairs.md AU-13 | open | |
 | AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | open | |
 | AU-15 | English engine as the voice (unverified: check first) | pool-audit-repairs.md AU-15 | open | |
@@ -365,8 +365,8 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-nationwide-world-2 | Replace about 16 placeholders in simulation / nationwide / world / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-press | Replace about 29 placeholders in simulation / press with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-pressure-1 | Replace about 17 placeholders in simulation / pressure / 1 with recorded or estimated-and-marked values | placeholders.md | done #2810 | Session 37 |
-| PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | done #2623 | Session 37 |
+| PH-simulation-pressure-2 | Replace about 17 placeholders in simulation / pressure / 2 with recorded or estimated-and-marked values | placeholders.md | done #2811 | Session 37 |
+| PH-simulation-public-budgets | Replace about 14 placeholders in simulation / public / budgets with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-1 | Replace about 20 placeholders in simulation / root / 1 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-2 | Replace about 20 placeholders in simulation / root / 2 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-3 | Replace about 20 placeholders in simulation / root / 3 with recorded or estimated-and-marked values | placeholders.md | open | |
@@ -567,7 +567,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
-| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
+| BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | open | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
