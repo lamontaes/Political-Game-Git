@@ -1,0 +1,56 @@
+[
+  {
+    "state": "rest",
+    "viewport": [1920, 1080],
+    "clipped": [],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  },
+  {
+    "state": "open",
+    "viewport": [1920, 1080],
+    "clipped": [],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  },
+  {
+    "state": "rest",
+    "viewport": [1366, 768],
+    "clipped": [],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  },
+  {
+    "state": "open",
+    "viewport": [1366, 768],
+    "clipped": ["sheet-frame a-card", "entry", "entry", "entry", "entry"],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  },
+  {
+    "state": "rest",
+    "viewport": [1024, 768],
+    "clipped": [],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  },
+  {
+    "state": "open",
+    "viewport": [1024, 768],
+    "clipped": ["sheet-frame a-card", "entry", "entry", "entry", "entry"],
+    "overflow": [],
+    "clockContained": true,
+    "actionsContained": true,
+    "radialMarks": 0
+  }
+]

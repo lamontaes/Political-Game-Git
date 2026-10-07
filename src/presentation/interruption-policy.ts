@@ -1,5 +1,5 @@
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
-  createCampaignElectionTransitionRegistry,
   scheduledActivityState,
   type EntityId,
   type FutureTransitionHandlerRegistry,
@@ -8,10 +8,7 @@ import {
 import { addDays, daysBetween } from "../simulation/dates";
 import { scheduledFutureDueItemsThrough } from "../simulation/future-transitions";
 import { PRESS_DESK_SWEEP_TRANSITION_KEY } from "../simulation/press";
-import {
-  DEFAULT_INTERRUPTIONS,
-  type InterruptionPreferences,
-} from "./shell-navigation";
+import type { InterruptionPreferences } from "./shell-navigation";
 
 /**
  * The player's interruption checklist, applied to the existing clock.
@@ -59,17 +56,14 @@ export const INTERRUPTION_CATEGORIES: readonly InterruptionCategory[] = [
     key: "stopForTentativeHolds",
     label: "Invitations and things you might go to",
     detail:
-      "Off: a hold you never answered lapses when its time comes, recorded as declined. On: the skip stops at the hold.",
+      "Off: a hold you never answered lapses when its time comes, recorded as unanswered. On: the skip stops at the hold.",
   },
 ];
 
-export function interruptionHandlers(
-  preferences: InterruptionPreferences = DEFAULT_INTERRUPTIONS,
-): FutureTransitionHandlerRegistry {
-  // No preference changes the handlers since the work-shift stop was retired
-  // with manual shifts; the stops that remain are read by the day skip itself.
-  void preferences;
-  return createCampaignElectionTransitionRegistry();
+export function interruptionHandlers(): FutureTransitionHandlerRegistry {
+  // Optional holds are controlled by the day-skip preference at its caller.
+  // Mandatory stops and automatic routine handlers share one registry.
+  return composeWorldTimeHandlers();
 }
 
 /**

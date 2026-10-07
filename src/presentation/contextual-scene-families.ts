@@ -13,7 +13,7 @@ import {
   answerContact,
   counterWithNewDay,
   openProposal,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import {
   stateCampaignStand,
   type LiveQuestion,
@@ -277,9 +277,9 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
   return [
     {
       key: "say-yes",
-      label: `Say ${spoken} works`,
+      label: "Say yes",
       description: "Put it on the calendar.",
-      statement: `${spoken.charAt(0).toUpperCase()}${spoken.slice(1)} works. I\u2019ll be there.`,
+      statement: `I can make it ${spoken}. I\u2019ll be there.`,
       replies: says(context, [
         "\u201cGood. It\u2019s been too long,\u201d {name} says.",
         "\u201cThat\u2019s settled, then,\u201d {name} says.",
@@ -303,7 +303,7 @@ function meetUpAnswers(context: SceneContext): SceneAnswer[] {
       key: "offer-another-day",
       label: "Offer a different day",
       description: `Say you could do ${proseDate(later)} instead.`,
-      statement: `I can\u2019t do ${spoken}. Could you do ${proseDate(later)}?`,
+      statement: `I can\u2019t make it ${spoken}. Could you make it ${proseDate(later)}?`,
       replies: says(context, [
         "\u201cLet me look at that and come back to you,\u201d {name} says.",
         "\u201cMaybe. I\u2019ll check,\u201d {name} says.",
@@ -563,7 +563,7 @@ const favor: SceneFamilyDefinition = {
     const spoken = spokenDay(context.binding.date!, context.world.currentDate);
     return says(context, [
       `“It’s been a long time. Are you free ${spoken}?” {name} asks.`,
-      `“I was thinking about you. Could you do ${spoken}?” {name} asks.`,
+      `“I was thinking about you. Could you make it ${spoken}?” {name} asks.`,
     ]);
   },
   answers: (context) =>
@@ -1564,32 +1564,23 @@ function studyPeerAnswers(context: SceneContext): SceneAnswer[] {
       label: "Suggest working together",
       description: "Propose it. They may say no.",
       statement: "Would you like to work on it together?",
-      replies: says(context, answer(decided)),
+      replies:
+        decided === null
+          ? ["You have not had an answer."]
+          : says(context, answer(decided)),
       record: `The player asked ${context.name} about working on the coursework together.`,
-      apply: settle(
-        decided,
-        decided === "agrees"
-          ? "Yes. Let\u2019s work out who is doing what."
-          : decided === "counterproposes"
-            ? `We already have the main work divided up. Would you be interested in ${task}?`
-            : "I\u2019ve already committed to another group.",
-      ),
-      ...(decided === "agrees"
-        ? {
-            relationship: {
-              kind: "work:shared-coursework" as const,
-              change: "formed" as const,
-              significance: "minor" as const,
-              summary: ({
-                playerName,
-                otherName,
-              }: {
-                playerName: string;
-                otherName: string;
-              }) => `${playerName} and ${otherName} agreed to work together.`,
-            },
-          }
-        : {}),
+      ...(decided === null
+        ? { followUp: true }
+        : {
+            apply: settle(
+              decided,
+              decided === "agrees"
+                ? "Yes. Let\u2019s work out who is doing what."
+                : decided === "counterproposes"
+                  ? `We already have the main work divided up. Would you be interested in ${task}?`
+                  : "I\u2019ve already committed to another group.",
+            ),
+          }),
     },
     {
       key: "ask",
@@ -1684,33 +1675,39 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
   if (context.binding.variant === "proposal") {
     // Theirs is settled before the player picks anything; the same approach
     // comes back whichever choice is taken.
-    const theirs = studyApproach(
-      peerStudyApproach(context.world, {
-        personId: playerId,
-        peerPersonId: peerId,
-      }).approachId,
-    )!;
+    const decided = peerStudyApproach(context.world, {
+      personId: playerId,
+      peerPersonId: peerId,
+    }).approachId;
+    const theirs = decided === null ? null : studyApproach(decided)!;
     return PROPOSABLE_APPROACHES.map((id) => {
       const mine = studyApproach(id)!;
-      const same = mine.id === theirs.id;
+      const same = theirs !== null && mine.id === theirs.id;
       return {
         key: id,
         label: `Say you would ${mine.label}`,
         description: mine.requires,
         statement: `I think we should ${mine.label}.`,
-        replies: says(
-          context,
-          same
-            ? [`“That’s what I was going to say,” {name} says. “Good.”`]
-            : [`“I’d rather we ${theirs.label},” {name} says.`],
-        ),
+        replies:
+          theirs === null
+            ? ["You have not had an answer."]
+            : says(
+                context,
+                same
+                  ? [`“That’s what I was going to say,” {name} says. “Good.”`]
+                  : [`“I’d rather we ${theirs.label},” {name} says.`],
+              ),
         record: `The player said they would ${mine.label}.`,
-        apply: (world: World) =>
-          recordStudyProposals(world, {
-            personId: playerId,
-            peerPersonId: peerId,
-            approachId: id,
-          }).world,
+        ...(theirs === null
+          ? { followUp: true }
+          : {
+              apply: (world: World) =>
+                recordStudyProposals(world, {
+                  personId: playerId,
+                  peerPersonId: peerId,
+                  approachId: id,
+                }).world,
+            }),
       };
     });
   }
@@ -1794,16 +1791,21 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
       ]),
       record: `The player asked ${context.name} to compare the two approaches.`,
     },
-    ...(revision && onCompromise
+    ...(revision
       ? [
           {
             key: "compromise",
             label: `Suggest you ${revision.label}`,
             description: revision.requires,
             statement: `What about this — we ${revision.label}?`,
-            replies: says(context, lines(onCompromise, revision, "compromise")),
+            replies:
+              onCompromise === null
+                ? ["You have not had an answer."]
+                : says(context, lines(onCompromise, revision, "compromise")),
             record: `The player suggested they ${revision.label}.`,
-            apply: settle("compromise", onCompromise),
+            ...(onCompromise === null
+              ? { followUp: true }
+              : { apply: settle("compromise", onCompromise) }),
           },
         ]
       : []),
@@ -1815,9 +1817,14 @@ function studyPlanAnswers(context: SceneContext): readonly SceneAnswer[] {
       statement: theirs.concern
         ? `I still think we should ${mine.label}. What worries me about the other way is that ${theirs.concern}.`
         : `I still think we should ${mine.label}.`,
-      replies: says(context, lines(onHold, revision, "hold")),
+      replies:
+        onHold === null
+          ? ["You have not had an answer."]
+          : says(context, lines(onHold, revision, "hold")),
       record: `The player kept their own proposal.`,
-      apply: settle("hold", onHold),
+      ...(onHold === null
+        ? { followUp: true }
+        : { apply: settle("hold", onHold) }),
     },
   ];
 }

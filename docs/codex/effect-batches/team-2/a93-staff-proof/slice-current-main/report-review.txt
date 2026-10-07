@@ -1,0 +1,1 @@
+Authorized existing civic-report helper: handback PASS. PR required splitting 56-reader coverage from actual DC producer proof; split and cited separate lines32/152.

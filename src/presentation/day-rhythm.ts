@@ -1,16 +1,6 @@
-import type { EntityId, IsoDate, SimulationMoment, World } from "../simulation";
-import { projectToday, type TodayOverview } from "./day-overview";
-import type { InterfaceProgress, ShellPreferences } from "./shell-navigation";
+import type { EntityId, SimulationMoment, World } from "../simulation";
+import type { InterfaceProgress } from "./shell-navigation";
 import { projectWorldRecap, type WorldRecap } from "./world-recap";
-
-/**
- * The day read uses the same saved facts as Today and While you were away.
- * Its interval is interface progress, not a World event or a second clock.
- */
-export interface MorningThought {
-  readonly date: IsoDate;
-  readonly today: TodayOverview;
-}
 
 export interface DaySummary {
   /** Null only for an older save whose moment frontier has not initialized. */
@@ -23,7 +13,6 @@ export interface DaySummary {
 }
 
 export interface DayRhythm {
-  readonly morningThought: MorningThought | null;
   readonly summary: DaySummary | null;
 }
 
@@ -37,7 +26,6 @@ export function projectDayRhythm(
   world: World,
   personId: EntityId,
   progress: InterfaceProgress,
-  preferences: Pick<ShellPreferences, "morningThoughts">,
 ): DayRhythm {
   const from = progress.recapThroughMoment ?? null;
   const recap =
@@ -55,15 +43,5 @@ export function projectDayRhythm(
           recap,
         }
       : null;
-  // PLACEHOLDER(wave2): local noon bounds the optional morning thought until
-  // the owner approves a more specific daily presentation window.
-  const inMorning = world.currentMoment.minuteOfDay < 12 * 60;
-  const morningThought =
-    preferences.morningThoughts &&
-    inMorning &&
-    (!progress.morningThoughtSeenOn ||
-      progress.morningThoughtSeenOn < world.currentDate)
-      ? { date: world.currentDate, today: projectToday(world, personId) }
-      : null;
-  return { morningThought, summary };
+  return { summary };
 }

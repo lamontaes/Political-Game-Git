@@ -1,10 +1,10 @@
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
   settleHouseholdAdultJobPay,
-  settleJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
-import { contactBases } from "../simulation/people-contact";
+import { contactBases } from "../simulation/relationship-contact";
 import { ensurePeopleTraits } from "../simulation/people-traits";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { scheduledActivityAnswer } from "../simulation/scheduled-activity-answer";
@@ -30,7 +30,6 @@ import {
   addDays,
   advanceWorldMinutes,
   compareSimulationMoments,
-  createCampaignElectionTransitionRegistry,
   ageOnDate,
   formativeIntervalAt,
   lifePlaceByJurisdictionId,
@@ -50,6 +49,7 @@ import type {
   World,
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import { shortPersonName } from "./conversation-subjects";
 import { dayOpeningLine } from "./day-opening-english";
 import {
@@ -64,6 +64,7 @@ import {
 } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { composeFutureTransitionHandlerRegistries } from "../simulation/future-transitions";
+import { playChildhoodMoment, projectChildhoodMoment } from "./childhood";
 
 /**
  * A day in an ordinary life.
@@ -402,7 +403,19 @@ function passOrdinaryDaysUnchecked(
   // A birthday the stretch just crossed is answered in the same stretch, not
   // the next time somebody passes a day.
   const stepped = advanceStoppingAtOwnDeath(world, days, supplied);
-  const advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
+  let advanced = stepped === world ? stepped : catchUpComingOfAge(stepped);
+  const preStartPersonId = advanced.preStartLife?.personId;
+  if (
+    preStartPersonId &&
+    advanced !== world &&
+    isPersonAliveAt(advanced, preStartPersonId, {
+      asOfDate: advanced.currentDate,
+      historySequenceExclusive: advanced.history.nextSequence,
+    }) &&
+    projectChildhoodMoment(advanced, preStartPersonId)?.scene
+  ) {
+    advanced = playChildhoodMoment(advanced, { personId: preStartPersonId });
+  }
   // A stretch that actually passed is a transition at which the world may bind
   // the situations it has made answerable (PROSE B). A refused advance writes
   // nothing.
@@ -413,16 +426,14 @@ function passOrdinaryDaysUnchecked(
   ) {
     return advanced;
   }
-  // A held job pays for each whole week that passed, at any age: a teenager's
-  // first job is paid here too, not only once adult life begins. An offer on
-  // the older work list lapses, or is followed up or withdrawn after a missed
-  // start, as days pass. So does the employer's side of a job application.
+  // The simulation advance already settled the played character's job pay.
+  // Offers and applications still follow their saved dates here.
   const personId = advanced.control.personId;
   return refreshContextualScenes(
     releaseMissedHolds(
       settleCareerOffers(
         settleHouseholdAdultJobPay(
-          settleJobPay(advanceApplications(advanced, personId), personId),
+          advanceApplications(advanced, personId),
           personId,
           world.currentDate,
         ),
@@ -505,13 +516,7 @@ function advanceOrdinaryDays(
   // behavior that keeps a scheduled consequence from being lost. The campaign
   // registry composes the ordinary life handlers with the election handler, so
   // election day arrives without either the life or the contest being dropped.
-  const ordinaryHandlers = createCampaignElectionTransitionRegistry();
-  const composed = options.handlers
-    ? composeFutureTransitionHandlerRegistries(
-        options.handlers,
-        ordinaryHandlers,
-      )
-    : ordinaryHandlers;
+  const composed = composeWorldTimeHandlers(options.handlers);
   // Asked to stop at civic holds, the advance also stops at one it posts on
   // the way, so the check below sees it come due instead of it being run past.
   const handlers: FutureTransitionHandlerRegistry = options.stopForCivicHolds
@@ -657,10 +662,8 @@ function clockTime(minuteOfDay: number): string {
 /**
  * The kitchen, as a room the conversation engine understands.
  *
- * Everybody the character currently lives with, not merely the first person the
- * world happens to list. A household of three has three people in it, and a
- * conversation surface that could only ever address one of them was making the
- * other two scenery.
+ * Household membership identifies housemates; the current scene/arrival
+ * record identifies who is actually present to talk or hear.
  *
  * Privacy is a fact about the room rather than a setting. Two people in a house
  * can say something meant for one of them; three cannot, not without leaving,
@@ -677,18 +680,22 @@ export function householdConversationRoom(
   // This adult room supports home conversations about recorded life events.
   // A dependent child is not routed through the adult scene family.
   if (activeChildAuthoritiesAt(world, personId).length > 0) return null;
+  const presence = recordedRoomPresence(world, personId);
+  if (presence?.location.setting !== "home") return null;
   // People the character actually lives with, not merely other people in the
   // world. A forty-one-year-old was holding a conversation "at home" with the
   // parent from their own summarized childhood — a household they had already
   // moved out of.
-  const companionIds = currentHouseholdCompanions(world, personId);
+  const companionIds = currentHouseholdCompanions(world, personId).filter(
+    (id) => presence.personIds.includes(id),
+  );
   if (companionIds.length === 0) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId =
-    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
-  if (!world.jurisdictions[jurisdictionId]) return null;
-  const present = [personId, ...companionIds];
-  const others = companionIds
+  const jurisdictionId = presence.location.jurisdictionId;
+  if (jurisdictionId === null || !world.jurisdictions[jurisdictionId])
+    return null;
+  const present = presence.personIds;
+  const others = present
+    .filter((id) => id !== personId && id !== companionIds[0])
     .map((id) => world.people[id])
     .filter((candidate) => candidate !== undefined);
   return {
@@ -696,7 +703,7 @@ export function householdConversationRoom(
     // A kitchen has other people in it, and they are not briefing leads. The
     // named part points at whoever the subject will speak to first.
     roles: { "the-other-person": companionIds[0]! },
-    locationLabel: "Home",
+    locationLabel: presence.location.label,
     jurisdictionId,
     playerPersonId: personId,
     physicallyPresentPersonIds: present,
@@ -707,15 +714,12 @@ export function householdConversationRoom(
     // recorded as overhearing. Inventing an eavesdropper would be inventing a
     // fact about a room the world has never described.
     quietAmbientHearingPersonIds: [],
-    privateAvailable: companionIds.length === 1,
+    privateAvailable: present.length === 2,
     privateUnavailableReason:
-      companionIds.length === 1
+      present.length === 2
         ? null
-        : `${others
-            .slice(1)
-            .map((other) => other!.givenName)
-            .join(" and ")} ${
-            others.length > 2 ? "are" : "is"
+        : `${others.map((other) => other!.givenName).join(" and ")} ${
+            others.length > 1 ? "are" : "is"
           } in the house too, and the rooms here do not really close.`,
   };
 }
@@ -734,6 +738,8 @@ export function neighborhoodConversationRoom(
 ): ConversationRoomContext | null {
   const person = world.people[personId];
   if (!person) return null;
+  const presence = recordedRoomPresence(world, personId);
+  if (presence?.location.setting !== "neighborhood") return null;
   const meeting = world.history.scheduledActivities.find(
     (activity) =>
       activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` &&
@@ -746,17 +752,16 @@ export function neighborhoodConversationRoom(
     compareSimulationMoments(world.currentMoment, meetingState.start) >= 0
   )
     return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId =
-    place?.context.jurisdiction.id ?? person.homeJurisdictionId;
-  if (!world.jurisdictions[jurisdictionId]) return null;
+  const jurisdictionId = presence.location.jurisdictionId;
+  if (jurisdictionId === null || !world.jurisdictions[jurisdictionId])
+    return null;
   const cutoff = currentLifeCutoff(world);
   const household = new Set(
     householdMembershipsAt(world, personId, cutoff).map(
       (entry) => entry.membership.householdId,
     ),
   );
-  const neighborId = world.personOrder.find((candidateId) => {
+  const neighborId = presence.personIds.find((candidateId) => {
     if (candidateId === personId) return false;
     const candidate = world.people[candidateId];
     if (!candidate) return false;
@@ -770,11 +775,11 @@ export function neighborhoodConversationRoom(
   });
   if (!neighborId) return null;
 
-  const present = [personId, neighborId];
+  const present = presence.personIds;
   return {
     sceneKey: "ordinary-life:doorstep",
     roles: { "the-other-person": neighborId },
-    locationLabel: place?.displayName ?? "The street",
+    locationLabel: presence.location.label,
     jurisdictionId,
     playerPersonId: personId,
     physicallyPresentPersonIds: present,

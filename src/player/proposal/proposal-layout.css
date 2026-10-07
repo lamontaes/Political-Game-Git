@@ -15,7 +15,7 @@
   border: 1px solid rgb(111 85 42 / 28%);
   border-radius: 3px;
   padding: 0.2rem 0.6rem;
-  background: rgb(255 251 242 / 80%);
+  background: var(--kit12-glass);
   color: inherit;
   font: inherit;
   font-size: 0.82rem;
@@ -24,7 +24,7 @@
 
 .pg-proposal-switch button[aria-pressed="true"] {
   border-color: var(--pg-brass, #c29b48);
-  background: rgb(235 224 206 / 92%);
+  background: var(--kit12-glass);
   font-weight: 650;
 }
 
@@ -37,7 +37,7 @@
   display: grid;
   gap: 0.7rem;
   max-width: 44rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--speech);
   line-height: 1.55;
 }
 
@@ -61,7 +61,7 @@
 
 .pg-proposal-flag {
   margin-inline-start: 0.5em;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--speech);
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -69,13 +69,13 @@
 }
 
 .pg-proposal-note {
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--speech);
   font-size: 0.8rem;
   opacity: 0.75;
 }
 
 .pg-proposal-reading details summary {
   cursor: pointer;
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--speech);
   font-size: 0.8rem;
 }

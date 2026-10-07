@@ -1,0 +1,14 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+{"seed":"A93-staff-record-evidence:empty","state":"US-GA","place":"Abbeville, Georgia","person":"Corey Santos","steadiness":null,"background":"The office has no record of Corey Santos's working life."}
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > keeps steadiness unknown without working history through Continue 83ms
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > reads supplied canonical posts without inventing another person's career 37ms
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > the actual office's candidate producer supplies no career or degree 56ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  19:35:26
+   Duration  13.77s (transform 10.92s, setup 18ms, import 13.47s, tests 178ms, environment 0ms)
+

@@ -71,6 +71,32 @@ export interface QualificationSourceSpec {
 /** The authorities this domain read, in a stable order. */
 export const QUALIFICATION_SOURCES: readonly QualificationSourceSpec[] = [
   {
+    artifactId: "nv-constitution-governor",
+    url: "https://www.leg.state.nv.us/Const/NVConst.html",
+    provider: "Nevada Legislature",
+    jurisdictionKey: "US-NV",
+    enactingBody: "the people of Nevada",
+    instrumentKind: "constitution",
+    instrumentTitle: "Constitution of the State of Nevada",
+    localPath:
+      "data/source/state-office-qualifications/raw/nv-constitution-governor.html",
+    provisions: [
+      {
+        locator: "Nev. Const. art. 5, § 3",
+        region: {
+          beginsWith: "No person shall be eligible to the Office of Governor",
+          endsWith:
+            "shall be elected to the Office of Governor more than once.",
+        },
+      },
+    ],
+    enacted: {
+      length: 564,
+      sha256:
+        "377e6af420165ecfffb041ee6cb2e56c6f6ee88da5c257dbdeba91a65dadd4db",
+    },
+  },
+  {
     artifactId: "mn-constitution",
     url: "https://www.revisor.mn.gov/constitution/",
     provider: "Minnesota Office of the Revisor of Statutes",

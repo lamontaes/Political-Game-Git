@@ -188,7 +188,7 @@ export type CampaignWeeklyRefusal =
  * on the ordinary clock until they change it. A scene or another commitment
  * that takes the time takes it: the hours are lost, not saved for later.
  */
-export type CampaignRoutineWork = "outreach" | "fundraising";
+export type CampaignRoutineWork = "outreach" | "fundraising" | "petition";
 
 export interface CampaignRoutineBlock {
   readonly work: CampaignRoutineWork;
@@ -255,8 +255,13 @@ export interface CampaignOpponentRecord {
   readonly treasuryPositionId: EntityId;
   /** Persistent opponent staff/field lead, materialized when it first acts. */
   readonly fieldLeadPersonId: EntityId;
-  /** Seeded, private, persistent goals; never projected to the player. */
-  readonly emphasis: CampaignPlanEmphasis;
+  /**
+   * How they believe a campaign is won, decided once from their recorded
+   * temperament; null when no trait leans either way. Records written before
+   * the decision was recorded carry the value drawn then. Private; never
+   * projected to the player.
+   */
+  readonly emphasis: CampaignPlanEmphasis | null;
   readonly createdAt: IsoDate;
 }
 

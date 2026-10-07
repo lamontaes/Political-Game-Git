@@ -1,0 +1,140 @@
+{
+  "gap": "A79",
+  "scope": "Saved state policy proposal recording caller; existing filing preflight and governor term-limit recording remain",
+  "runtimeSource": "d6bf6f28a15aeec6bcaba5b40bdc55c43bdb0fad",
+  "mainBase": "e8b22a5f712a26bf72f86f028c0d1726682f2c1c",
+  "stateFixture": {
+    "seed": "A79-saved-state-constitutional-body",
+    "place": "Adair Village, Oregon",
+    "jurisdiction": "US-OR",
+    "fullIdentityPool": 56,
+    "eligibleGameProfileStatePool": 49,
+    "authorityBasis": "game-profile, not sourced Oregon constitutional law",
+    "peopleAndSeatBasis": "Actual saved state opening, seat tenure, organization and dated institution binding"
+  },
+  "native": {
+    "processHandle": 71298,
+    "exitCode": 0,
+    "passed": 14,
+    "failed": 0,
+    "durationSeconds": 49.17,
+    "stateCases": 9,
+    "federalCases": 5,
+    "timeoutChanged": false
+  },
+  "comparisons": {
+    "actualStateMembers": 90,
+    "stateChangedDirections": 0,
+    "stateYea": 2,
+    "stateNay": 88,
+    "federalHouseMembers": 435,
+    "federalSenateMembers": 100,
+    "federalChangedDirections": 0,
+    "scope": "Same world/person/proposition inputs; authored views in fixtures, no natural filing proof"
+  },
+  "intendedInstitutionalChange": {
+    "fixture": "Larger actual chamber supports; smaller chamber opposes",
+    "oldWholeStateScalingWouldCarry": true,
+    "actualSavedProposalPhase": "rejected",
+    "opposedChamber": "senate",
+    "example": "Andrew Rice",
+    "recordedExampleDisposition": "nay",
+    "coreReviewRequired": true
+  },
+  "oneDayCoreClock": {
+    "proposalId": "constitutional-measure_ee5912a25b77c788",
+    "phase": "ratification",
+    "actualVoters": 90,
+    "basis": "Authored common support; actual saved review callback; no ordinary-life/year or certified ballot proof"
+  },
+  "otherProvenCases": [
+    "Actual ended seat remains absent with null person, no invented replacement",
+    "Present-not-voting preserved for no deciding consideration",
+    "Missing institution or mismatched roster refuses",
+    "Canonical Continue preserves IDs, source evidence and votes",
+    "Repeated saved policy recording returns unchanged world",
+    "Valid world with no state roster stays unsupported"
+  ],
+  "types": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "limitations": [
+    "Legacy policy-filing preflight still evaluates and scales the whole legislature",
+    "Legacy governor term-limit caller remains",
+    "No new legal authority research or vote weights",
+    "No full suite, browser, ordinary-life year, speed or 56 populated worlds",
+    "No statewide ratification/effects proof"
+  ],
+  "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev OCD_WORKSPACE_OWNER=team-2 VITE_CONFIG_NATIVE_IGNORE_WARNING=true node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run src/simulation/governing/state-constitutional-vote.test.ts src/simulation/governing/constitutional-chamber-vote.test.ts --maxWorkers=1 --fileParallelism=false --disableConsoleIntercept",
+  "receipts": [
+    {
+      "name": "native",
+      "localPath": "/tmp/team2-a79-state-ready-native.log",
+      "sha256": "34b25e80ae38012bf764ecbdda18a4f88de627222e3acac078f1edcbc9209f1e",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 intended chamber outcome correction {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"oldScaledWouldCarry\":true,\"newPhase\":\"rejected\",\"opposedBody\":\"senate\",\"example\":\"Andrew Rice\",\"exampleDisposition\":\"nay\",\"fixture\":\"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Yara Craig\",\"before\":\"yea\",\"after\":\"yea\"}\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Sharon Wheeler\",\"before\":\"nay\",\"after\":\"nay\"}\n\n Test Files  2 passed (2)\n      Tests  14 passed (14)\n   Start at  10:40:00\n   Duration  49.17s (transform 10.97s, setup 24ms, import 15.76s, tests 33.13s, environment 1ms)\n\n"
+    },
+    {
+      "name": "types",
+      "localPath": "/tmp/team2-a79-state-ready-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+      "text": "scoped roots 4; diagnostics 0\n"
+    },
+    {
+      "name": "lint",
+      "localPath": "/tmp/team2-a79-state-ready-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "text": ""
+    },
+    {
+      "name": "format",
+      "localPath": "/tmp/team2-a79-state-ready-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+    },
+    {
+      "name": "release",
+      "localPath": "/tmp/team2-a79-state-release.log",
+      "sha256": "14f581440027013b42f4bfb582a43d42409ec494921717bd089a0eaabf050970",
+      "text": "release:check \u2014 version 0.4.0, revision d6bf6f2, 1152 pending declaration(s), declaration range origin/main..HEAD (pr). OK.\n"
+    },
+    {
+      "name": "spelling",
+      "localPath": "/tmp/team2-a79-state-spelling.log",
+      "sha256": "6f12ec765bcd0cecdc564be950dc9dc80942879283ff26dbf27e88b7dc21a243",
+      "summary": "21 inherited findings; no newly authored A79 prose findings. Raw spelling log preserved locally at the named path and hash."
+    },
+    {
+      "name": "zero-dice",
+      "localPath": "/tmp/team2-a79-state-zero-dice.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f",
+      "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\n"
+    }
+  ],
+  "preservedFailedAttempts": [
+    {
+      "path": "/tmp/team2-a79-state-final-native.log",
+      "sha256": "e52e71d640fd2b89c4cfb6ff65a7cf7d3e8386c0443666e1b76436cc9f51c1ba",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Yara Craig\",\"before\":\"yea\",\"after\":\"yea\"}\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Sharon Wheeler\",\"before\":\"nay\",\"after\":\"nay\"}\n \u276f src/simulation/governing/constitutional-chamber-vote.test.ts (5 tests | 1 failed) 13135ms\n     \u00d7 accepts only an actual dated proposal and matching saved body members 6ms\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\n \u276f src/simulation/governing/state-constitutional-vote.test.ts (7 tests | 1 failed) 30734ms\n     \u00d7 uses the ordinary review caller to save a proposal before actual state rollcalls 18702ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 2 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > accepts only an actual dated proposal and matching saved body members\nAssertionError: expected [Function] to throw error matching /actual dated congressional proposal/ but got 'A constitutional chamber vote require\u2026'\n\n- Expected:\n/actual dated congressional proposal/\n\n+ Received:\n\"A constitutional chamber vote requires its actual dated constitutional proposal, body and seated members.\"\n\n \u276f src/simulation/governing/constitutional-chamber-vote.test.ts:288:7\n    286|         constitutionalMeasureId: world.history.events[0]!.id,\n    287|       }),\n    288|     ).toThrow(/actual dated congressional proposal/);\n       |       ^\n    289|     expect(() =>\n    290|       chamber.decideChamberVote(\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/2]\u23af\n\n FAIL  src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > uses the ordinary review caller to save a proposal before actual state rollcalls\nError: A future due item must be due after its scheduling date.\n \u276f scheduleFutureDueItem src/simulation/future-transitions.ts:250:11\n    248|   const dueAt = makeIsoDate(input.dueAt);\n    249|   if (dueAt <= scheduledAt) {\n    250|     throw new Error(\"A future due item must be due after its schedulin\u2026\n       |           ^\n    251|   }\n    252|   const entityIds = canonicalEntityIds(\n \u276f src/simulation/governing/state-constitutional-vote.test.ts:471:10\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[2/2]\u23af\n\n\n Test Files  2 failed (2)\n      Tests  2 failed | 10 passed (12)\n   Start at  10:27:49\n   Duration  61.93s (transform 12.88s, setup 23ms, import 17.80s, tests 43.87s, environment 2ms)\n\n"
+    },
+    {
+      "path": "/tmp/team2-a79-state-renewed-native.log",
+      "sha256": "e1550a6b2adf7eb74976ebdcc316583797ebaf29de13533a7209ddf7a1f4873d",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\n \u276f src/simulation/governing/state-constitutional-vote.test.ts (7 tests | 1 failed) 14198ms\n     \u00d7 uses the ordinary review caller to save a proposal before actual state rollcalls 3817ms\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"house\",\"voters\":435,\"changed\":0,\"example\":\"Yara Craig\",\"before\":\"yea\",\"after\":\"yea\"}\nA79 comparison receipt {\"seed\":\"A79-recorded-constitutional-chamber\",\"state\":\"US-TN\",\"place\":\"Adams, Tennessee\",\"measureId\":\"constitutional-measure_3f762837edb7f2c6\",\"question\":\"Pay for a higher debt limit\",\"bodyKey\":\"senate\",\"voters\":100,\"changed\":0,\"example\":\"Sharon Wheeler\",\"before\":\"nay\",\"after\":\"nay\"}\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > uses the ordinary review caller to save a proposal before actual state rollcalls\nError: History sequence is not contiguous and append-oriented.\n \u276f validateHistoryIntegrity src/simulation/world.ts:2138:11\n    2136|   const firstSequence = delta?.previousSequence ?? 0;\n    2137|   if (history.nextSequence !== firstSequence + records.length) {\n    2138|     throw new Error(\"History sequence is not contiguous and append-ori\u2026\n       |           ^\n    2139|   }\n    2140|   const seen = new Uint8Array(records.length);\n \u276f validateWorldIntegrity src/simulation/world.ts:877:24\n \u276f assertWorldIntegrity src/simulation/world.ts:650:3\n \u276f advanceWorld src/simulation/world.ts:1397:3\n \u276f src/simulation/governing/state-constitutional-vote.test.ts:544:7\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed | 1 passed (2)\n      Tests  1 failed | 11 passed (12)\n   Start at  10:30:22\n   Duration  46.38s (transform 12.91s, setup 25ms, import 18.00s, tests 28.03s, environment 1ms)\n\n"
+    },
+    {
+      "path": "/tmp/team2-a79-state-caller-native.log",
+      "sha256": "d9995aff6ddf8597659f7ee10143f3d56aac0d05eb0bf58394719fbd29573560",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\n \u276f src/simulation/governing/state-constitutional-vote.test.ts (7 tests | 1 failed) 17604ms\n     \u00d7 uses the ordinary review caller to save a proposal before actual state rollcalls 6721ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > uses the ordinary review caller to save a proposal before actual state rollcalls\nAssertionError: expected 'No cause for an amendment is on the r\u2026' to contain 'congressional delegation cannot cast'\n\nExpected: \"congressional delegation cannot cast\"\nReceived: \"No cause for an amendment is on the record. The legislature would not carry an amendment on protect farmland from development.\"\n\n \u276f src/simulation/governing/state-constitutional-vote.test.ts:565:28\n    563|           : undefined,\n    564|     });\n    565|     expect(refusalContext).toContain(\"congressional delegation cannot \u2026\n       |                            ^\n    566|     expect(unseated.history.constitutionalMeasures ?? []).toHaveLength\u2026\n    567|   });\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed (1)\n      Tests  1 failed | 6 passed (7)\n   Start at  10:32:52\n   Duration  30.77s (transform 10.43s, setup 23ms, import 12.98s, tests 17.60s, environment 0ms)\n\n"
+    },
+    {
+      "path": "/tmp/team2-a79-state-chamber-proof.log",
+      "sha256": "58bf2d818648b149d9b33bd3c17086720970ae573998b2c756ea382601adaf1a",
+      "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\n \u276f src/simulation/governing/state-constitutional-vote.test.ts (9 tests | 1 failed) 16815ms\n     \u00d7 rejects when one actual chamber opposes even though the old scaled whole-state tally would carry 248ms\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af Failed Tests 1 \u23af\u23af\u23af\u23af\u23af\u23af\u23af\n\n FAIL  src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > rejects when one actual chamber opposes even though the old scaled whole-state tally would carry\nAssertionError: expected undefined to be false // Object.is equality\n\n- Expected:\nfalse\n\n+ Received:\nundefined\n\n \u276f src/simulation/governing/state-constitutional-vote.test.ts:509:39\n    507|       actual.detail.vote.dispositions.every((row) => row.disposition =\u2026\n    508|     ).toBe(true);\n    509|     expect(actual.detail.vote.passed).toBe(false);\n       |                                       ^\n    510|     console.info(\n    511|       \"A79 intended chamber outcome correction\",\n\n\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af\u23af[1/1]\u23af\n\n\n Test Files  1 failed (1)\n      Tests  1 failed | 8 passed (9)\n   Start at  10:38:10\n   Duration  32.67s (transform 12.66s, setup 25ms, import 15.69s, tests 16.82s, environment 0ms)\n\n"
+    }
+  ],
+  "reportChecks": {
+    "mechanical": "PASS, zero errors and warnings",
+    "lightReviewer": "PASS"
+  }
+}

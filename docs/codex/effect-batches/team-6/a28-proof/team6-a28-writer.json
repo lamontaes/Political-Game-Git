@@ -1,0 +1,127 @@
+{
+  "numTotalTestSuites": 5,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 1,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790847290797,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution keeps a read-only cost stable across repeated reads and reloading",
+          "status": "passed",
+          "title": "keeps a read-only cost stable across repeated reads and reloading",
+          "duration": 46.91726600000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not change a recorded law's compliance cost when only the seed changes",
+          "status": "passed",
+          "title": "does not change a recorded law's compliance cost when only the seed changes",
+          "duration": 10.346285999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution retains the controlling measure without inventing a recurring expense or stamp",
+          "status": "passed",
+          "title": "retains the controlling measure without inventing a recurring expense or stamp",
+          "duration": 6.103635999999824,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not stamp an absent, future or repealed compliance duty",
+          "status": "passed",
+          "title": "does not stamp an absent, future or repealed compliance duty",
+          "duration": 14.651009000001068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790847304968,
+      "endTime": 1790847305046.6511,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/federal-data-privacy-law.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate reads unambiguous SRIA bands, including 500 employees",
+          "status": "passed",
+          "title": "reads unambiguous SRIA bands, including 500 employees",
+          "duration": 17.623191999999108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "status": "passed",
+          "title": "uses the explicit CTO 100/500 convention without inventing a SUSB quote",
+          "duration": 0.389578000000256,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate does not turn an absent, zero or invalid count into a cost",
+          "status": "passed",
+          "title": "does not turn an absent, zero or invalid count into a cost",
+          "duration": 0.4961780000012368,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790847304893,
+      "endTime": 1790847304911.496,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-estimate.test.ts"
+    },
+    {
+      "assertionResults": [],
+      "startTime": 1790847290797,
+      "endTime": 1790847290797,
+      "status": "failed",
+      "message": "Unknown chamber seats are unsupported in this fixture.",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-writer.test.ts"
+    }
+  ]
+}

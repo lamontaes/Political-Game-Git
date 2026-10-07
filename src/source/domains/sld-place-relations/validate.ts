@@ -180,7 +180,7 @@ export function validateSldPlaceRelationCorpus(
         severity: "error",
         code: "sld-place-relations/lexington-split",
         message:
-          "Lexington-Fayette must remain a split place; it is not whole-place house membership.",
+          "The recorded split-place oracle must remain split; it is not whole-place lower-chamber membership.",
       });
     }
   }

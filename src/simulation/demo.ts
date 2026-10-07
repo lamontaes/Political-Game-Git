@@ -1,4 +1,9 @@
-import { addDays, makeIsoDate } from "./dates";
+import {
+  addDays,
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
+} from "./dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
@@ -60,12 +65,14 @@ import {
 } from "./records";
 import type { EntityId, PersonGenerationProfile, World } from "./types";
 import {
-  advanceWorld,
   createWorld,
   createWorldId,
   materializePerson,
   recordWorldEvent,
 } from "./world";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureCrisisMortality } from "./crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -77,6 +84,8 @@ const COMMUNITY_TOPICS = [
 ] as const;
 
 export interface CreateScenarioWorldOptions {
+  /** Supply the final fixture catalog before any law-dependent records are written. */
+  readonly policyCatalog?: World["policyCatalog"];
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
@@ -146,6 +155,7 @@ export function createScenarioWorld(
     currentMoment: context.initialMoment,
     jurisdictions: [jurisdiction],
     people,
+    policyCatalog: options?.policyCatalog,
   });
 
   world = recordWorldEvent(world, {
@@ -640,7 +650,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return world;
+  return ensureCrisisMortality(world);
 }
 
 /**
@@ -660,7 +670,20 @@ export function createGeneratedWorld(
 
 export function advanceDemoWorld(world: World, days = 7): World {
   const actionSequence = world.actionSequence;
-  let advanced = advanceWorld(world, days);
+  if (!Number.isSafeInteger(days) || days <= 0) {
+    throw new Error(
+      "Time advancement must be a positive whole number of days.",
+    );
+  }
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, days),
+  );
+  let advanced = advanceWorldMinutes(
+    world,
+    simulationMinutesBetween(world.currentMoment, target),
+    composeWorldTimeHandlers(),
+  );
   const jurisdictionId = advanced.jurisdictionOrder[0];
 
   if (!jurisdictionId || advanced.personOrder.length < 2) {

@@ -10,7 +10,8 @@ import {
 import { populationCaption } from "./OpeningStatePopulation";
 
 /**
- * The locality card keeps its recorded text and navigation, with no picture.
+ * The inherited intro filter removes the locality card; the remaining cards
+ * retain their recorded text, picture rules and navigation.
  * Backdrop selection for the other cards remains independently covered.
  */
 
@@ -41,10 +42,13 @@ const PLATE: RegionalOpeningResult = {
   },
 };
 
-function render(regionalPlate?: RegionalOpeningResult): string {
+function render(
+  regionalPlate?: RegionalOpeningResult,
+  view: OrientationView = VIEW,
+): string {
   return renderToStaticMarkup(
     <WorldOrientationPanel
-      view={VIEW}
+      view={view}
       homeStateUsps="AZ"
       regionalPlate={regionalPlate}
       mode="first"
@@ -54,73 +58,44 @@ function render(regionalPlate?: RegionalOpeningResult): string {
   );
 }
 
-describe("the text-only locality step", () => {
-  it("keeps the recorded place and government text without a regional picture", () => {
-    const markup = render(PLATE);
-    expect(markup).not.toContain("<img");
-    expect(markup).not.toContain("orientation-region-plate");
-    expect(markup).not.toContain("/assets/env_regional_sonoran_desert_v1.png");
-    expect(markup).toContain("Tucson");
-    expect(markup).toContain("Regina Romero is Mayor.");
+describe("the received locality filter", () => {
+  it("safely renders no rejected locality-only card", () => {
+    expect(render(PLATE)).toBe("");
+    expect(render(undefined)).toBe("");
   });
 
-  it("keeps the text without a city-hall fallback when a regional picture is unavailable", () => {
-    for (const miss of [
-      undefined,
-      {
-        kind: "none",
-        reason: "no-region-covers-this-place",
-        regionKeys: [],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "conflicting-coverage",
-        regionKeys: ["a-region", "another-region"],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "no-picture-fits-this-context",
-        regionKeys: ["green-mountain-forest"],
-      } as RegionalOpeningResult,
-      {
-        kind: "none",
-        reason: "plate-file-missing",
-        regionKeys: ["sonoran-desert"],
-      } as RegionalOpeningResult,
-    ]) {
-      const markup = render(miss);
-      expect(markup).not.toContain("<img");
-      expect(markup).not.toContain("orientation-place-backdrop");
-      expect(markup).not.toContain("orientation-region-plate");
-      expect(markup).toContain("Tucson");
-      expect(markup).toContain("Regina Romero is Mayor.");
-    }
-  });
-});
-
-describe("the full-screen opening card", () => {
-  it("keeps the full-screen text and navigation without motion controls", () => {
-    const markup = render(PLATE);
+  it("keeps the remaining recorded card and navigation", () => {
+    const remaining: OrientationView = {
+      ...VIEW,
+      steps: [
+        ...VIEW.steps,
+        {
+          key: "state",
+          title: "Arizona",
+          summary: "Recorded state summary.",
+          people: [],
+          chambers: [],
+        },
+      ],
+    };
+    const markup = render(PLATE, remaining);
     expect(markup).toContain('class="pg-orientation"');
     expect(markup).toContain('class="pg-orientation-stage"');
-    expect(markup).toContain('data-backdrop="region"');
+    expect(markup).toContain('data-step="state"');
+    expect(markup).toContain('data-backdrop="place"');
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
+    expect(markup).toContain("Recorded state summary.");
+    expect(markup).not.toContain("Regina Romero is Mayor.");
+    expect(markup).not.toContain('data-step="locality"');
     expect(markup).not.toContain("Pause motion");
     expect(markup).not.toContain("Resume motion");
     expect(markup).not.toContain("aria-pressed");
-    // Navigation stays. This one-card fixture is its own last card, so Next
-    // reads Done and there is nothing left to skip.
     expect(markup).toContain('data-testid="orientation-back"');
     expect(markup).toContain('data-testid="orientation-next"');
+    // This filter-only receiving patch preserves the current main label;
+    // required intro completion is independently received through #2135.
     expect(markup).toContain(">Done</button>");
-  });
-
-  it("omits the city-hall picture when no regional picture resolves", () => {
-    const markup = render(undefined);
-    expect(markup).toContain('data-backdrop="place"');
-    expect(markup).not.toContain("orientation-place-backdrop");
-    expect(markup).not.toContain("orientation-region-plate");
   });
 });
 
@@ -151,75 +126,40 @@ describe("which approved picture stands behind each card", () => {
     ).toMatchObject({ kind: "place", place: "oval-office" });
   });
 
-  it("prefers the approved regional plate for the state card, then the reviewed preview, then plain ground", () => {
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
-      }).kind,
-    ).toBe("region");
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: raster,
-      }).kind,
-    ).toBe("region-preview");
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: null,
-      }),
-    ).toMatchObject({ kind: "place", place: "state-capitol-dome" });
-    expect(
-      orientationBackdrop("state", {
-        whiteHouse: raster,
-        regionalPlate: null,
-        regionScene: null,
-        homeStateUsps: "NE",
-      }),
-      // Nebraska has its own capitol picture, so it wins over the generic tower.
-    ).toMatchObject({ kind: "place", place: "state-capitol-ne" });
-  });
-
-  it("falls back from the civic building to the regional plate on the town card", () => {
-    // Outside the reviewed preview the civic plate does not resolve.
+  it("stands every intro card inside the room where its people work (OW-11)", () => {
+    const sources = {
+      whiteHouse: raster,
+      regionalPlate: plate,
+      regionScene: raster,
+      localChamber: "county-commission",
+      homePlaces: ["rowhouse"],
+    };
+    expect(orientationBackdrop("year", sources)).toMatchObject({
+      kind: "place",
+      place: "us-senate-floor",
+    });
+    expect(orientationBackdrop("congress", sources)).toMatchObject({
+      kind: "place",
+      place: "us-house-floor",
+    });
+    expect(orientationBackdrop("state", sources)).toMatchObject({
+      kind: "place",
+      place: "governor-office",
+    });
+    expect(orientationBackdrop("locality", sources)).toMatchObject({
+      kind: "place",
+      place: "county-commission",
+    });
     expect(
       orientationBackdrop("locality", {
-        whiteHouse: null,
-        regionalPlate: plate,
-        regionScene: null,
-      }).kind,
-    ).toBe("region");
-  });
-
-  it("paints the Capitol behind Congress and your town's street behind your life, never the White House or a region", () => {
-    expect(
-      orientationBackdrop("congress", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
+        ...sources,
+        localChamber: "council-chamber",
       }),
-    ).toMatchObject({ kind: "place", place: "us-capitol-exterior" });
-    expect(
-      orientationBackdrop("your-life", {
-        whiteHouse: raster,
-        regionalPlate: plate,
-        regionScene: raster,
-      }),
-    ).toMatchObject({ kind: "place", place: "main-street" });
-  });
-
-  it("paints city hall behind the town card when no regional plate exists", () => {
-    expect(
-      orientationBackdrop("locality", {
-        whiteHouse: null,
-        regionalPlate: null,
-        regionScene: null,
-      }),
-    ).toMatchObject({ kind: "place", place: "city-hall-exterior" });
+    ).toMatchObject({ kind: "place", place: "council-chamber" });
+    expect(orientationBackdrop("your-life", sources)).toMatchObject({
+      kind: "place",
+      place: "rowhouse",
+    });
   });
 });
 

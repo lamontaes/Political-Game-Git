@@ -16,12 +16,7 @@ import {
 import { clauseLever } from "./legislation-levers";
 import { programFamilies } from "./legislation-program-families";
 import { currentMeasureProvisions } from "./legislative-politics";
-import {
-  organizationProfileAt,
-  organizationsAt,
-  workRelationshipHistoryForOrganization,
-  workStatusAt,
-} from "./life-queries";
+import { organizationProfileAt, organizationsAt } from "./life-queries";
 import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
@@ -40,6 +35,8 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { publicProgramRecords } from "./public-program-integrity";
+import { eventById } from "./event-index";
 
 /**
  * The rule lever (spec 3 of "04 SYSTEM SPECS"): a section of an enacted law
@@ -54,13 +51,12 @@ import { assertWorldIntegrity, recordWorldEvent } from "./world";
  * first does something the world does not record yet (plans to withdraw a
  * health service), the duty stands with no body found within it.
  *
- * Whether a covered body complied is a provisional game rule until the
- * research question `law-clause-effects-by-family` is answered: a body with at
- * least one person working there on the compliance date is taken to have
- * carried the duty out, and the finding says so (basis "game-profile"). A
- * body with no one on record is unknown, never in breach, because the world
- * fills only some of a body's jobs. No penalty is invented: the record carries
- * the penalty the Act states, or none.
+ * Worker presence does not establish fulfillment of a legal duty. A posted
+ * service outturn counts only when its saved appropriation names this Act and
+ * its commitment names the covered body. No unrelated filing, report, staffing
+ * record, or appropriation by itself establishes fulfillment.
+ * No penalty is invented: the record carries the penalty the Act states,
+ * or none.
  *
  * Not yet: a later Act that repeals or amends the section leaves the duty
  * recorded and still due; the repeal writer will close it.
@@ -390,15 +386,6 @@ export function dutyReaches(
   return lawState !== null && stateOf(world, bodyJurisdictionId) === lawState;
 }
 
-/** Whether anyone is on record as working at the body now. */
-function hasWorkers(world: World, organizationId: EntityId): boolean {
-  return workRelationshipHistoryForOrganization(world, organizationId).some(
-    (relationship) =>
-      relationship.startedAt <= world.currentDate &&
-      workStatusAt(world, relationship.id)?.status === "active",
-  );
-}
-
 /**
  * The bodies a coverage's classes name that are within the law's reach, or
  * whose place is not on record, as the world records them now.
@@ -430,6 +417,53 @@ export function bodiesWithinDuty(
 }
 
 /**
+ * A delivered service can establish fulfillment only when its full saved
+ * chain names this Act and this covered organization. An appropriation by
+ * itself, a commitment, or a failed installment is not fulfillment.
+ */
+export function serviceEvidenceForDuty(
+  world: World,
+  duty: EnactedDutyRuleRecord,
+  organizationId: EntityId,
+): EntityId | null {
+  const records = publicProgramRecords(world);
+  for (const outturn of records) {
+    if (outturn.kind !== "capacity-outturn") continue;
+    const serviceEvent = eventById(world, outturn.eventId);
+    if (
+      !serviceEvent ||
+      serviceEvent.occurredAt > duty.complyBy ||
+      serviceEvent.occurredAt < duty.operativeAt
+    )
+      continue;
+    const installment = records.find(
+      (record) =>
+        record.kind === "installment" &&
+        record.id === outturn.installmentId &&
+        record.commitmentId === outturn.commitmentId &&
+        record.status === "posted",
+    );
+    if (!installment) continue;
+    const commitment = records.find(
+      (record) =>
+        record.kind === "commitment" &&
+        record.id === outturn.commitmentId &&
+        record.appropriationId &&
+        record.recipientOrganizationId === organizationId,
+    );
+    if (!commitment || commitment.kind !== "commitment") continue;
+    const appropriation = records.find(
+      (record) =>
+        record.kind === "appropriation" &&
+        record.id === commitment.appropriationId &&
+        record.sourceMeasureId === duty.measureId,
+    );
+    if (appropriation) return outturn.id;
+  }
+  return null;
+}
+
+/**
  * On the compliance date: a finding for each body within the duty's reach.
  * A body already found is not found again.
  */
@@ -447,27 +481,31 @@ export function settleEnactedDuty(world: World, dutyId: EntityId): World {
       )
       .map((row) => row.organizationId),
   );
+  const programRecords = publicProgramRecords(world);
   let next = world;
   for (const body of bodiesWithinDuty(world, duty)) {
     if (found.has(body.organizationId)) continue;
     const placed = body.locationJurisdictionId !== null;
-    // PLACEHOLDER (research: law-clause-effects-by-family): a body with someone
-    // working there is taken to have carried out the duty, as a provisional
-    // game rule. A body with no one on record is unknown, not in breach: the
-    // world fills only some of the jobs a body has.
+    const evidenceId =
+      placed && duty.coverage.kind !== "unrecorded-test"
+        ? serviceEvidenceForDuty(world, duty, body.organizationId)
+        : null;
     const outcome: EnactedDutyFindingRecord["outcome"] =
       !placed || duty.coverage.kind === "unrecorded-test"
         ? "coverage-unknown"
-        : hasWorkers(next, body.organizationId)
+        : evidenceId
           ? "complied"
           : "compliance-unknown";
     const reason = !placed
       ? `Where ${body.name} operates is not on record, so whether the law reaches it is not known.`
-      : duty.coverage.kind === "unrecorded-test"
-        ? `Whether the law reaches ${body.name} turns on ${duty.coverage.testLabel}, which is not on record.`
-        : outcome === "complied"
-          ? `${body.name} met the duty by ${spokenDate(duty.complyBy)}.`
-          : `No one is on record as working at ${body.name}, so whether it met the duty is not known.`;
+      : evidenceId
+        ? eventById(
+            world,
+            programRecords.find((record) => record.id === evidenceId)!.eventId,
+          )!.summary
+        : duty.coverage.kind === "unrecorded-test"
+          ? `Whether the law reaches ${body.name} turns on ${duty.coverage.testLabel}, which is not on record.`
+          : `No qualifying fulfillment record links ${body.name} to this duty by ${spokenDate(duty.complyBy)}, so whether it met the duty is not known.`;
     next = writeDutyRecord(
       next,
       `${duty.stableKey}:finding:${body.organizationId}`,
@@ -481,7 +519,8 @@ export function settleEnactedDuty(world: World, dutyId: EntityId): World {
         dutyId: duty.id,
         organizationId: body.organizationId,
         outcome,
-        basis: outcome === "complied" ? "game-profile" : "unknown",
+        basis: evidenceId ? "recorded-service" : "unknown",
+        ...(evidenceId ? { evidenceRecordId: evidenceId } : {}),
         researchQuestionId: ENACTED_DUTY_RESEARCH_QUESTION,
         reason,
       },
@@ -516,9 +555,9 @@ export function enactedDutyComplianceHandler(
   };
 }
 
-export const ENACTED_DUTY_HANDLERS = [
-  [ENACTED_DUTY_COMPLIANCE, enactedDutyComplianceHandler],
-] as const;
+export function enactedDutyHandlers() {
+  return [[ENACTED_DUTY_COMPLIANCE, enactedDutyComplianceHandler]] as const;
+}
 
 /** The duties one enacted measure placed, with what each covered body did. */
 export function enactedDutiesOf(

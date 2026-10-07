@@ -1,10 +1,27 @@
-import { addDays, ageOnDate, makeIsoDate } from "../dates";
+import { nextCountyElection } from "../nationwide-world/county-election-calendar";
+import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "../dates";
+import { candidacyEligibility } from "../candidacy";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import {
+  ensurePeopleTraitCatalog,
+  ensurePeopleTraits,
+  traitConsiderations,
+} from "../people-traits";
+import { lifeWeighsAgainstOffice } from "../careers/another-term";
 import { decideAnotherTerm } from "../careers/another-term";
-import { councilTermLimitBar } from "./local-council-term-limits";
-import { townSupportFromViews } from "../official-view-reads";
-import { townSupportFromFavors } from "../patronage/following";
+import { applyLocalElectionLawLandings } from "../law-consequences/modules/election-local-landings";
+import {
+  councilTermLimitBar,
+  COUNCIL_TERM_LIMIT_QUESTION,
+} from "./local-council-term-limits";
+import { lawInForce } from "../governing/law-in-force";
+import {
+  lawEffectStamp,
+  type LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import { campaigns } from "../campaign-queries";
 import {
+  countRecordedVoterBallots,
   cancelElectionContest,
   electionContestById,
   electionContestResult,
@@ -39,6 +56,7 @@ import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-gover
 import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import {
+  FILING_LEAD_DAYS,
   nextTownElection,
   novemberGeneralElectionDay,
 } from "../nationwide-world/town-election-calendar";
@@ -54,7 +72,6 @@ function nameOf(world: World, personId: EntityId): string {
   const person = world.people[personId];
   return person ? personName(person) : "A resident";
 }
-import { SeededRng } from "../rng";
 import type {
   CandidateTally,
   EntityId,
@@ -66,6 +83,7 @@ import type {
 import { isPersonAliveAt } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
 import {
+  COUNTY_BOARD_MEMBER,
   drawTownResident,
   localGovernmentSeated,
   organizationIdFor,
@@ -73,7 +91,7 @@ import {
 } from "./local-government-seats";
 import type { SeatedLocalOffice } from "./local-government-seats";
 import { peopleKnownTo } from "./official-views";
-import { playerTown, townRoster } from "./town-residents";
+import { playerTown } from "./town-residents";
 import {
   councilWardPlan,
   homePosition,
@@ -118,10 +136,11 @@ import {
  * - Seats are staggered so that about the same share comes up each time, in
  *   seat order. No town's own stagger has been read.
  * - A primary is held `primaryLeadDays` before the general election, and the
- *   field closes `FILING_LEAD_DAYS` before the first vote.
- * - Who runs, who retires, who resigns and how many people vote are drawn from
- *   the shares in `LOCAL_ELECTIONS_PROFILE`, and the count gives a sitting
- *   member a fixed edge. None of these is a measured rate.
+ *   field closes `FILING_LEAD_DAYS` (the national median filing lead,
+ *   ESTIMATED FROM AVERAGE) before the first vote.
+ * - Filing and voting use actual saved residents through the existing decision
+ *   evaluator. Office-service anniversaries prompt the existing resignation
+ *   review. Unresolved legal ties produce no result.
  * - A winner takes the seat on the day of the count, and an appointee on the
  *   day of the resignation.
  */
@@ -130,30 +149,24 @@ export const LOCAL_ELECTIONS_VERSION = "local-elections/v1" as const;
 const V = LOCAL_ELECTIONS_VERSION;
 
 export const LOCAL_ELECTION_FILING = "civic:local-election-filing" as const;
+export const LOCAL_ELECTION_TERM_START =
+  "civic:local-election-term-start" as const;
+
 export const LOCAL_ELECTION_COUNT = "civic:local-election-count" as const;
 export const LOCAL_GOVERNMENT_YEAR = "civic:local-government-year" as const;
 
 export const LOCAL_ELECTIONS_PROFILE = {
   id: "ocd-local-elections-placeholder/v1",
-  filingLeadDays: 28,
+  /** ESTIMATED FROM AVERAGE: see `FILING_LEAD_DAYS` and its source. */
+  filingLeadDays: FILING_LEAD_DAYS,
   primaryLeadDays: 56,
   minimumCandidateAge: 21,
-  /** How many neighbors file against a sitting member (index = count). */
-  challengersAgainstIncumbent: [0.2, 0.45, 0.2, 0.1, 0.05],
-  /** How many file for an open seat (index = count). */
-  candidatesForOpenSeat: [0, 0.15, 0.45, 0.25, 0.15],
-  /** A sitting member's share of support is multiplied by this. */
-  incumbentEdge: 1.35,
-  /** The share of grown residents who vote in a town election. */
-  turnout: { low: 0.12, high: 0.32 },
-  /** Grown residents per resident, for the count. */
-  adultShare: 0.75,
 } as const;
 
 const P = LOCAL_ELECTIONS_PROFILE;
 
 type ElectionDayBasis =
-  "state-law-unverified" | "local-choice-drawn" | "game-default";
+  "state-law-unverified" | "local-choice-estimated" | "game-default";
 
 export interface TownElectionDay {
   readonly electionDate: IsoDate;
@@ -333,6 +346,8 @@ function campaignSeats(
       contest.office.officeKey,
     );
     if (office?.unit.id !== unit.id) continue;
+    // A county row office has no numbered seat; it takes none from the board.
+    if (office.seat === "row-office") continue;
     const seat = localCampaignSeat(
       unit,
       office.seat === "chief-executive",
@@ -363,7 +378,7 @@ export function withdrawTownRaceForCampaign(
   const office = localGoverningBodyIdentityForOfficeKey(
     contest.office.officeKey,
   );
-  if (!office) return world;
+  if (!office || office.seat === "row-office") return world;
   const { unit } = office;
   const campaign = campaigns(world).find((row) => row.contestId === contestId);
   const seat = localCampaignSeat(
@@ -423,15 +438,6 @@ export function localSeatHolder(
   return holderOf(sittingLocalOfficers(world, unit), seat);
 }
 
-function pick(rng: SeededRng, shares: readonly number[]): number {
-  let point = rng.next() * shares.reduce((sum, share) => sum + share, 0);
-  for (let index = 0; index < shares.length; index += 1) {
-    point -= shares[index]!;
-    if (point < 0) return index;
-  }
-  return shares.length - 1;
-}
-
 function alive(world: World, personId: EntityId): boolean {
   return (
     !!world.people[personId] &&
@@ -460,20 +466,32 @@ function event(
     readonly town: EntityId;
     readonly label: string;
     readonly involved: readonly EntityId[];
+    readonly focusPersonId?: EntityId;
     readonly tags: readonly string[];
     readonly summary: string;
-  },
+  } & LawEffectStampedRecord,
 ): World {
   if (world.history.events.some((row) => row.stableKey === input.stableKey))
     return world;
   return recordWorldEvent(world, {
+    ...(input.lawEffectStamps
+      ? { lawEffectStamps: input.lawEffectStamps }
+      : {}),
     stableKey: input.stableKey,
     type: input.type,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: input.town,
     involvedEntityIds: [...input.involved],
-    participants: [],
+    participants: input.focusPersonId
+      ? [
+          {
+            personId: input.focusPersonId,
+            role: "focus:subject",
+            detail: "barred",
+          },
+        ]
+      : [],
     personFactConstraints: [],
     visibility: "public",
     tags: [V, ...input.tags],
@@ -690,7 +708,12 @@ function takeSeat(
     organizationId,
     startedAt: world.currentDate,
     kind: "leadership:municipal-office",
-    roleKind: seat === 0 ? "leader:municipal-mayor" : "leader:municipal-member",
+    roleKind:
+      seat === 0
+        ? "leader:municipal-mayor"
+        : unit.unitType === "county"
+          ? COUNTY_BOARD_MEMBER
+          : "leader:municipal-member",
     context: label,
     provenance: { kind: "generated", generatorKey: V },
   });
@@ -734,9 +757,19 @@ function scheduleYear(
   const key = yearKey(unit.id, year);
   if (world.history.futureDueItems.some((row) => row.stableKey === key))
     return world;
-  const rng = new SeededRng(world.seed).fork(key);
-  const dueAt = makeIsoDate(
-    `${year}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
+  const starts = sittingLocalOfficers(world, unit).flatMap((officer) => {
+    const participation = world.history.organizationParticipations.find(
+      (row) => row.id === officer.participationId,
+    );
+    return participation ? [participation.startedAt] : [];
+  });
+  // A recorded year of office service prompts this review, rather than a drawn date.
+  const anniversaries = starts.map((start) =>
+    dateAtAge(start, year - Number(start.slice(0, 4))),
+  );
+  if (anniversaries.length === 0) return world;
+  const dueAt = anniversaries.reduce((first, date) =>
+    date < first ? date : first,
   );
   return scheduleFutureDueItem(world, {
     stableKey: key,
@@ -746,7 +779,7 @@ function scheduleYear(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: `${P.id}: a year in ${unit.name}'s government, when a member may resign.`,
+      note: `${P.id}: a recorded office-service anniversary in ${unit.name} prompts the members' review.`,
     },
   });
 }
@@ -791,8 +824,7 @@ function scheduleRace(
 ): World {
   const race = raceKey(input.unit.id, input.generalDate, input.seat);
   const stableKey = `${race}:${input.stage}`;
-  // The count is scheduled first so it runs before the shared contest item
-  // due the same day, which then finds the contest already decided.
+  // The local count runs first; each handler returns its own terminal outcome.
   let next = scheduleFutureDueItem(world, {
     stableKey: `${stableKey}:count`,
     dueAt: input.voteDate,
@@ -859,7 +891,10 @@ export function localElectionFilingHandler(
   const player = due.entityIds[1];
   const household = playerHousehold(world, player);
   const excluded = excludedFrom(next, unit, household);
-  const taken = new Set<string>();
+  // Only the town's actual saved residents are considered, once at field closing.
+  const residents = next.personOrder.filter(
+    (id) => next.people[id]!.homeJurisdictionId === town && !excluded.has(id),
+  );
   const primaryDate = addDays(generalDate, -P.primaryLeadDays);
   let races = 0;
   let primaries = 0;
@@ -876,11 +911,9 @@ export function localElectionFilingHandler(
       )
     )
       continue;
-    const rng = new SeededRng(next.seed).fork(race);
     const holder = holderOf(sittingLocalOfficers(next, unit), seat);
     const phrase = seatPhrase(office, seat);
     const candidates: EntityId[] = [];
-    let incumbentRuns = false;
     // A ward seat is filled from its own ward: its holder may run again only
     // while they live there, and its field is drawn from its residents.
     const ward =
@@ -899,7 +932,7 @@ export function localElectionFilingHandler(
         label: office.governmentName,
         involved: [holder.personId],
         tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:ward"],
-        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in Ward ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents Ward ${ward}.`,
+        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in district ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents district ${ward}.`,
       });
     }
     if (holder && alive(next, holder.personId) && !drawnOut) {
@@ -918,15 +951,37 @@ export function localElectionFilingHandler(
           })
         : null;
       if (barred) {
+        const question = Object.values(next.policyCatalog.propositions).find(
+          (row) => row.stableKey === COUNCIL_TERM_LIMIT_QUESTION,
+        );
+        const law = question
+          ? lawInForce(next, town, question.id, next.currentDate)
+          : null;
+        const stamp =
+          law?.answer === "yes"
+            ? lawEffectStamp(law, {
+                effectKind: "local.officeholder-retired",
+                questionKey: COUNCIL_TERM_LIMIT_QUESTION,
+                jurisdictionId: town,
+                appliedAt: next.currentDate,
+              })
+            : null;
         next = event(next, {
+          ...(stamp ? { lawEffectStamps: [stamp] } : {}),
           stableKey: `${race}:term-limited`,
           type: "local.officeholder-retired",
           town,
           label: office.governmentName,
           involved: [holder.personId],
+          focusPersonId: holder.personId,
           tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:term-limit"],
           summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: ${barred}`,
         });
+        const barEvent = next.history.events.find(
+          (row) => row.stableKey === `${race}:term-limited`,
+        );
+        if (stamp && barEvent)
+          next = applyLocalElectionLawLandings(next, barEvent.id);
       }
       const decided = barred
         ? { world: next, seeks: false }
@@ -969,27 +1024,102 @@ export function localElectionFilingHandler(
           });
       } else {
         candidates.push(holder.personId);
-        incumbentRuns = true;
       }
     }
-    const filers = incumbentRuns
-      ? pick(rng, P.challengersAgainstIncumbent)
-      : Math.max(1, pick(rng, P.candidatesForOpenSeat));
-    for (let slot = 0; slot < filers; slot += 1) {
-      const drawn = drawTownResident(
-        next,
-        town,
-        `local-election:${race}`,
-        slot,
-        P.minimumCandidateAge,
-        excluded,
-        taken,
-        ward !== null ? wardRange(wardMap!, ward) : null,
+    for (const personId of residents) {
+      if (
+        excluded.has(personId) ||
+        !alive(next, personId) ||
+        ageOnDate(next.people[personId]!.birthDate, next.currentDate) <
+          P.minimumCandidateAge ||
+        (ward !== null && wardOfPerson(next, unit, town, personId) !== ward)
+      )
+        continue;
+      const eligibility = candidacyEligibility(next, {
+        personId,
+        jurisdictionId: town,
+        officeKey: office.officeKey,
+        alreadyACandidate: campaigns(next).some(
+          (campaign) => campaign.candidatePersonId === personId,
+        ),
+      });
+      if (!eligibility.eligible) continue;
+      next = ensurePeopleTraits(
+        ensurePeopleTraitCatalog(next),
+        [personId],
+        next.currentDate,
       );
-      next = drawn.world;
-      if (!drawn.personId) break;
-      excluded.add(drawn.personId);
-      candidates.push(drawn.personId);
+      const key = `${race}:filing:${personId}`;
+      const evaluation = evaluateDecision(next, {
+        stableKey: key,
+        decisionType: "election.consider-local-run",
+        actorPersonId: personId,
+        cutoff: {
+          asOfDate: next.currentDate,
+          historySequenceExclusive: next.history.nextSequence,
+        },
+        subject: { kind: "context:life", key: race, entityId: town },
+        options: [
+          { key: "run", label: "Run", description: `Stand for ${phrase}.` },
+          {
+            key: "decline",
+            label: "Decline",
+            description: "Stay out of this race.",
+          },
+        ],
+        constraints: [],
+        considerations: [
+          ...traitConsiderations(next, personId, key, [
+            {
+              optionKey: "run",
+              trait: "risk",
+              pole: "high",
+              explanation:
+                "They are willing to risk entering a contested election.",
+            },
+            {
+              optionKey: "decline",
+              trait: "risk",
+              pole: "low",
+              explanation:
+                "They prefer to avoid the risk of a contested election.",
+            },
+            {
+              optionKey: "run",
+              trait: "conflict",
+              pole: "high",
+              explanation: "They are willing to take part in a contested race.",
+            },
+            {
+              optionKey: "decline",
+              trait: "conflict",
+              pole: "low",
+              explanation: "They prefer to avoid a contested race.",
+            },
+          ]),
+          ...lifeWeighsAgainstOffice(next, {
+            personId,
+            keyPrefix: key,
+            onDate: next.currentDate,
+            termEnds: addDays(
+              generalDate,
+              Math.round(
+                (seat === 0
+                  ? (chief?.termYears.value ?? termYears)
+                  : termYears) * 365.25,
+              ),
+            ),
+            optionKey: "decline",
+          }),
+        ],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "durable",
+      });
+      next = recordDurableDecisionTrace(next, evaluation);
+      if (evaluation.selectedOptionKey !== "run") continue;
+      excluded.add(personId);
+      candidates.push(personId);
     }
     if (candidates.length === 0) continue;
     const primary = candidates.length > 2;
@@ -1025,50 +1155,27 @@ function countVotes(
   unit: GovernmentUnitIdentity,
   town: EntityId,
   seat: number,
-  contestKey: string,
   candidates: readonly EntityId[],
-  incumbent: EntityId | null,
   electionDate: IsoDate,
-): CandidateTally[] {
-  const rng = new SeededRng(world.seed).fork(`${contestKey}:count`);
-  // A ward seat's voters are its ward's residents (`town-wards.ts`).
+): CandidateTally[] | null {
   const plan = councilWardPlan(unit);
   const map = townWardMap(world, unit);
-  const roster = townRoster(town);
-  const [from, to] =
-    map && isWardSeat(plan, seat)
-      ? wardRange(map, seatWard(map, seat))
-      : [0, roster.households];
-  const share = roster.households > 0 ? (to - from) / roster.households : 1;
-  const adults = roster.population * P.adultShare;
-  const turnout = P.turnout.low + rng.next() * (P.turnout.high - P.turnout.low);
-  const ballots = Math.max(
-    candidates.length * 20,
-    Math.round(adults * turnout * share),
-  );
-  const support = candidates.map((id) => {
-    const base = 0.6 + rng.next() * 0.8;
-    // Spec 5: what residents think of what the candidate did in office.
-    const views = townSupportFromViews(world, town, id, electionDate);
-    // What the households who owe the candidate a job or a seat do with it.
-    const debts = townSupportFromFavors(world, town, id, electionDate);
-    return (id === incumbent ? base * P.incumbentEdge : base) * views * debts;
+  const ward = map && isWardSeat(plan, seat) ? seatWard(map, seat) : null;
+  const result = countRecordedVoterBallots(world, {
+    stableKey: `${raceKey(unit.id, electionDate, seat)}:recorded-voters`,
+    jurisdictionId: town,
+    electionDate,
+    candidatePersonIds: candidates,
+    ...(ward === null
+      ? {}
+      : {
+          admitVoter: (personId: EntityId) => {
+            const recordedWard = wardOfPerson(world, unit, town, personId);
+            return recordedWard === null ? null : recordedWard === ward;
+          },
+        }),
   });
-  const total = support.reduce((sum, value) => sum + value, 0);
-  const votes = support.map((value) =>
-    Math.max(1, Math.round((ballots * value) / total)),
-  );
-  // No two candidates finish level: how a real tie is broken is not modeled.
-  for (let i = 0; i < votes.length; i += 1)
-    for (let j = 0; j < i; j += 1) if (votes[j] === votes[i]) votes[i]! += 1;
-  const counted = votes.reduce((sum, value) => sum + value, 0);
-  return candidates
-    .map((candidatePersonId, index) => ({
-      candidatePersonId,
-      votes: votes[index]!,
-      voteShare: votes[index]! / counted,
-    }))
-    .sort((left, right) => right.votes - left.votes);
+  return result ? [...result.tallies] : null;
 }
 
 export function localElectionCountHandler(
@@ -1092,10 +1199,6 @@ export function localElectionCountHandler(
   const label = seatLabelFor(office, seat);
   const phrase = seatPhrase(office, seat);
   const holder = holderOf(sittingLocalOfficers(world, unit), seat);
-  const incumbent =
-    holder && contest.candidatePersonIds.includes(holder.personId)
-      ? holder.personId
-      : null;
   const living = contest.candidatePersonIds.filter((id) => alive(world, id));
   const field = living.length > 0 ? living : contest.candidatePersonIds;
   const counted = countVotes(
@@ -1103,11 +1206,30 @@ export function localElectionCountHandler(
     unit,
     town,
     seat,
-    contestKey,
     field,
-    incumbent,
-    electionDate,
+    contest.electionDate,
   );
+  if (!counted || counted.length === 0)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: counted
+        ? "local-election:no-ballots"
+        : "local-election:no-recorded-decision",
+      context: counted
+        ? "No admitted voter recorded a ballot; this race has no winner."
+        : "The saved voter decisions do not identify a unique winner.",
+      outcomeEventId: null,
+    };
+  if (counted.length > 1 && counted[0]!.votes === counted[1]!.votes)
+    return {
+      world,
+      status: "blocked",
+      reasonKey: "local-election:tied-count",
+      context:
+        "The leading candidates have equal vote totals; no winner has been recorded.",
+      outcomeEventId: null,
+    };
   // Candidates who died before the vote are on the ballot with no votes.
   const tallies: CandidateTally[] = [
     ...counted,
@@ -1145,6 +1267,15 @@ export function localElectionCountHandler(
     if (outcome?.kind === "decided") {
       ruleNote = ` and won outright under ${unit.stateUsps}'s ${rule.rule} rule (${rule.basis})`;
     } else {
+      if (counted.length > 2 && counted[1]!.votes === counted[2]!.votes)
+        return {
+          world,
+          status: "blocked",
+          reasonKey: "local-election:tied-advancement",
+          context:
+            "Candidates are tied for the last advancing position; no advancing field has been recorded.",
+          outcomeEventId: null,
+        };
       advancing = counted.slice(0, 2).map((row) => row.candidatePersonId);
       winner = counted[0]!.candidatePersonId;
     }
@@ -1159,7 +1290,7 @@ export function localElectionCountHandler(
     provenance: {
       method: "simulated",
       sourceEntityIds: [due.id, contest.id],
-      note: `${P.id}: a placeholder count of a town ${stage}.`,
+      note: `${P.id}: eligible residents' saved candidate views at ${contest.electionDate} determine this town ${stage} count through the shared voter decision.`,
     },
   });
 
@@ -1196,6 +1327,12 @@ export function localElectionCountHandler(
     }
   }
 
+  if (unit.unitType === "county")
+    return done(
+      deferCountyElectionWinner(next, contest.id),
+      "The county result is recorded; taking office follows its term calendar.",
+    );
+
   next = seatTheWinner(
     next,
     unit,
@@ -1209,6 +1346,122 @@ export function localElectionCountHandler(
     contestKey,
   );
   return done(next, `The race for ${phrase} was counted.`);
+}
+
+/** A recorded county result waits for its sourced term start in the same due queue. */
+export function deferCountyElectionWinner(
+  world: World,
+  contestId: EntityId,
+): World {
+  const contest = electionContestById(world, contestId);
+  const parts = contest ? countParts(`${contest.stableKey}:count`) : null;
+  const result = contest ? electionContestResult(world, contest.id) : null;
+  if (!contest || !parts || !result || parts.unit.unitType !== "county")
+    return world;
+  const office = officeFor(parts.unit, parts.seat);
+  if (!office || contest.office.officeKey !== office.officeKey) return world;
+  const read = nextCountyElection(
+    parts.unit,
+    makeIsoDate(`${parts.electionDate.slice(0, 4)}-01-01`),
+  );
+  if (
+    read.status !== "read" ||
+    read.dates.electionDate !== parts.electionDate ||
+    contest.electionDate !==
+      (parts.stage === "primary"
+        ? read.dates.primaryDate
+        : read.dates.electionDate)
+  )
+    return world;
+  const key = `${contest.stableKey}:term-start`;
+  if (
+    world.currentDate >= read.dates.termStarts ||
+    world.history.futureDueItems.some((row) => row.stableKey === key)
+  )
+    return world;
+  return scheduleFutureDueItem(world, {
+    stableKey: key,
+    dueAt: read.dates.termStarts,
+    transitionKey: LOCAL_ELECTION_TERM_START,
+    jurisdictionId: contest.jurisdictionId,
+    entityIds: [contest.id, result.winnerPersonId],
+    provenance: {
+      kind: "authored",
+      note: `County term-start calendar: ${read.dates.sourceUrls.join("; ")}`,
+    },
+  });
+}
+
+export function localElectionTermStartHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  if (world.currentDate !== due.dueAt || !due.stableKey.endsWith(":term-start"))
+    return done(world, "This county term has not begun.");
+  const key = due.stableKey.slice(0, -":term-start".length);
+  const parts = countParts(`${key}:count`);
+  const contest = electionContestById(world, due.entityIds[0]!);
+  const result = contest ? electionContestResult(world, contest.id) : null;
+  if (
+    !parts ||
+    parts.unit.unitType !== "county" ||
+    !contest ||
+    contest.stableKey !== key ||
+    contest.jurisdictionId !== due.jurisdictionId ||
+    !result ||
+    result.winnerPersonId !== due.entityIds[1]
+  )
+    return done(world, "No recorded county winner matches this term.");
+  const read = nextCountyElection(
+    parts.unit,
+    makeIsoDate(`${parts.electionDate.slice(0, 4)}-01-01`),
+  );
+  if (
+    read.status !== "read" ||
+    read.dates.termStarts !== due.dueAt ||
+    read.dates.electionDate !== parts.electionDate
+  )
+    return done(
+      world,
+      "The recorded county term date does not match its calendar.",
+    );
+  if (!alive(world, result.winnerPersonId))
+    return done(
+      world,
+      "The recorded winner cannot take office; the seat remains for the existing vacancy path.",
+    );
+  if (
+    world.history.events.some(
+      (row) =>
+        row.stableKey === `${key}:seat-changed` ||
+        row.stableKey === `${key}:reelected`,
+    )
+  )
+    return done(world, "This county term already began.");
+  const office = officeFor(parts.unit, parts.seat);
+  if (
+    !office ||
+    contest.office.officeKey !== office.officeKey ||
+    !organizationIdFor(world, parts.unit)
+  )
+    return done(world, "The county office is not present.");
+  const label = seatLabelFor(office, parts.seat);
+  const next = seatTheWinner(
+    world,
+    parts.unit,
+    contest.jurisdictionId,
+    office,
+    parts.seat,
+    label,
+    seatPhrase(office, parts.seat),
+    holderOf(sittingLocalOfficers(world, parts.unit), parts.seat),
+    result.winnerPersonId,
+    key,
+  );
+  return done(
+    next,
+    "The county winner took office at the recorded term start.",
+  );
 }
 
 function seatTheWinner(
@@ -1332,7 +1585,7 @@ export function redistrictForWardCommission(
     town,
     drawnBy: "commission",
     members: wardMembers(world, unit),
-    reason: "the independent ward commission law took effect",
+    reason: "the independent district commission law took effect",
   });
 }
 
@@ -1454,6 +1707,8 @@ export function localGovernmentYearHandler(
           },
         })
       : null;
+    // A mayor who has not selected an appointee has not delegated a draw.
+    if (mayor && !choice) continue;
     const drawn = choice
       ? { world: choice.world, personId: choice.personId }
       : drawTownResident(
@@ -1512,8 +1767,11 @@ export function localGovernmentYearHandler(
   );
 }
 
-export const LOCAL_ELECTION_HANDLERS = [
-  [LOCAL_ELECTION_FILING, localElectionFilingHandler],
-  [LOCAL_ELECTION_COUNT, localElectionCountHandler],
-  [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],
-] as const;
+export function localElectionHandlers() {
+  return [
+    [LOCAL_ELECTION_TERM_START, localElectionTermStartHandler],
+    [LOCAL_ELECTION_FILING, localElectionFilingHandler],
+    [LOCAL_ELECTION_COUNT, localElectionCountHandler],
+    [LOCAL_GOVERNMENT_YEAR, localGovernmentYearHandler],
+  ] as const;
+}

@@ -1,4 +1,5 @@
 import { kinshipRelationshipsAt, householdMembershipsAt } from "./life-queries";
+import { recordsByKey, recordsByStringField } from "./history-index";
 import { personTrait } from "./people-traits";
 import {
   readRelationshipStanding,
@@ -42,7 +43,11 @@ function warmthNeeded(world: World, personId: EntityId): StandingBand {
 }
 
 function alive(world: World, personId: EntityId): boolean {
-  return !world.history.personDeaths.some(
+  return !recordsByStringField(
+    world.history.personDeaths,
+    "personId",
+    personId,
+  ).some(
     (death) => death.personId === personId && death.diedAt <= world.currentDate,
   );
 }
@@ -67,15 +72,23 @@ export function confidantsOf(
   const homes = new Set(
     householdMembershipsAt(world, personId).map((entry) => entry.household.id),
   );
-  for (const record of world.history.householdMemberships) {
-    if (homes.has(record.householdId) && usable(record.personId)) {
-      close.add(record.personId);
+  for (const householdId of homes) {
+    for (const record of recordsByStringField(
+      world.history.householdMemberships,
+      "householdId",
+      householdId,
+    )) {
+      if (usable(record.personId)) close.add(record.personId);
     }
   }
 
   const dealings = new Map<EntityId, number>();
-  for (const interaction of world.history.relationshipInteractions) {
-    if (!interaction.personIds.includes(personId)) continue;
+  for (const interaction of recordsByKey(
+    world.history.relationshipInteractions,
+    "confidants:relationship-interactions:person",
+    (record) => [...new Set(record.personIds)],
+    personId,
+  )) {
     const other = interaction.personIds.find((id) => id !== personId);
     if (!usable(other) || close.has(other)) continue;
     dealings.set(other, (dealings.get(other) ?? 0) + 1);

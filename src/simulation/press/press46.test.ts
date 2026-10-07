@@ -1,12 +1,18 @@
+import { ensureWorldStartingConditions } from "../world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
 import { recordPersonDeath } from "../vitality";
+import {
+  ensurePublicGovernmentAccount,
+  ensureTaxPublicAccount,
+} from "../tax-policy";
 
 import {
-  GAME_ADULT_CANDIDACY_AGE,
   addDays,
   advanceWorld,
-  ageOnDate,
   campaignTreasuryPosition,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
@@ -56,10 +62,10 @@ import {
   reporterRoles,
   storyLeads,
   spendCampaignFundsPersonally,
-  MEDIA_ACTIVE_ASSIGNMENT_CAPACITY,
 } from "./index";
 import { recordEvidenceDiscovery } from "../evidence";
 import { contradictionFound } from "../claim-stances";
+import { PRESS_DESK_INTERVALS } from "./desk";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -112,13 +118,16 @@ interface PressFixture {
 }
 
 function pressFixture(seed: string, staffCount: number): PressFixture {
-  const created = createScenarioWorld(seed, KENTUCKY_CONTEXT, {
-    peopleCount: 7,
-  });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  // The polling reader consumes the opening's saved district conditions.
+  const created = ensureWorldStartingConditions(
+    createScenarioWorld(seed, KENTUCKY_CONTEXT, { peopleCount: 7 }),
+    {
+      openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+      political: generatePoliticalStartingConditions,
+    },
+  );
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   const base: World = {
     ...created,
@@ -126,11 +135,7 @@ function pressFixture(seed: string, staffCount: number): PressFixture {
   };
   const staffIds = base.personOrder
     .filter((id) => id !== playerId)
-    .filter(
-      (id) =>
-        ageOnDate(base.people[id]!.birthDate, base.currentDate) >=
-        GAME_ADULT_CANDIDACY_AGE,
-    )
+    .filter((id) => fixtureMeetsRecordedCandidacyAge(base, id))
     .slice(0, staffCount);
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "press46-campaign",
@@ -204,11 +209,15 @@ describe("PRESS46 M1 media seed pack", () => {
     for (const outlet of outlets) {
       expect(reporterRoles(fixture.world, outlet.id).length).toBeGreaterThan(0);
     }
-    expect(MEDIA_ACTIVE_ASSIGNMENT_CAPACITY).toEqual({
-      small: 1,
-      standard: 3,
-      major: 8,
-    });
+    expect(
+      outlets.every((outlet) =>
+        reporterRoles(fixture.world, outlet.id).every((role) =>
+          fixture.world.history.workRelationships.some(
+            (work) => work.id === role.workRelationshipId,
+          ),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("is idempotent and survives a save with the same outlets and people", () => {
@@ -453,7 +462,11 @@ describe("PRESS46 true hidden misuse", () => {
 });
 
 describe("PRESS46 established finding, leak and ground rules", () => {
-  const fixture = pressFixture("press46-finding", 1);
+  const opening = pressFixture("press46-finding", 1);
+  const fixture = {
+    ...opening,
+    world: ensureTaxPublicAccount(opening.world, KY),
+  };
   const misused = spendCampaignFundsPersonally(fixture.world, {
     stableKey: "press46-test:finding-misuse",
     amountMinorUnits: 2_500,
@@ -570,7 +583,12 @@ describe("PRESS46 established finding, leak and ground rules", () => {
     expect(publication.body).toContain("That is not true.");
   });
 
-  const withComplaint = fileComplaint(published, {
+  // Restitution requires the real saved receiving government, not an invented payee.
+  const receivingGovernment = ensurePublicGovernmentAccount(published, {
+    kind: "jurisdiction",
+    jurisdictionId: KY,
+  });
+  const withComplaint = fileComplaint(receivingGovernment, {
     stableKey: "press46-test:finding-complaint",
     matterId: opened.matter.id,
     complainantPersonId: fixture.rivalId,
@@ -796,7 +814,15 @@ describe("PRESS46 off-record control, hold and repeat reporter", () => {
     matterId: matter.matter.id,
   });
   const assigned = assignStory(told.world, told.leadId!);
-  const later = days(assigned, 14);
+  // Reporting now finishes through a saved work item before editorial review.
+  // Allow the existing weekly retry and hold-review intervals to run as well.
+  const later = days(
+    assigned,
+    14 +
+      PRESS_DESK_INTERVALS.sweepDays +
+      PRESS_DESK_INTERVALS.routinePublishDays +
+      PRESS_DESK_INTERVALS.holdRecheckDays,
+  );
 
   it("never publishes off-record material: the story is held, then dropped", () => {
     expect(terms.agreement!.publiclyUsable).toBe(false);

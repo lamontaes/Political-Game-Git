@@ -1,11 +1,10 @@
+import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 
 import {
   advanceWorld,
-  ageOnDate,
   createCampaignElectionTransitionRegistry,
   createScenarioWorld,
-  GAME_ADULT_CANDIDACY_AGE,
 } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import type { EntityId, HistoricalEvent, World } from "../types";
@@ -32,10 +31,8 @@ function fixture(): World {
   const created = createScenarioWorld("a07-news", KENTUCKY_CONTEXT, {
     peopleCount: 5,
   });
-  const playerId = created.personOrder.find(
-    (id) =>
-      ageOnDate(created.people[id]!.birthDate, created.currentDate) >=
-      GAME_ADULT_CANDIDACY_AGE,
+  const playerId = created.personOrder.find((id) =>
+    fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
   let world: World = {
     ...created,

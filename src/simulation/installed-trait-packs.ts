@@ -133,9 +133,12 @@ function traitShapeProblem(value: Row): string | null {
     value.seed !== null &&
     (!isRow(value.seed) ||
       !Array.isArray(value.seed.spread) ||
-      value.seed.spread.some((entry) => !isNumber(entry)))
+      value.seed.spread.some((entry) => !isNumber(entry)) ||
+      (value.seed.follows !== undefined &&
+        (!Array.isArray(value.seed.follows) ||
+          value.seed.follows.some((entry) => typeof entry !== "string"))))
   ) {
-    return "its seed must be null or a spread of numbers";
+    return "its seed must be null or a spread of numbers, with an optional list of trait keys it follows";
   }
   const movability = value.movability;
   if (!isRow(movability)) return "it needs a movability";

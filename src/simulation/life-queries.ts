@@ -1,5 +1,9 @@
 import { makeIsoDate } from "./dates";
-import { recordById, recordsByStringField } from "./history-index";
+import {
+  recordById,
+  recordsByKey,
+  recordsByStringField,
+} from "./history-index";
 import { factsForPerson } from "./people";
 import type {
   ChildAuthority,
@@ -90,9 +94,10 @@ export function currentLifeCutoff(world: World): HistoricalCutoff {
 export function organizationsAt(
   world: World,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
+  organizations: readonly Organization[] = world.history.organizations,
 ): readonly Organization[] {
   validateCutoff(world, cutoff);
-  return world.history.organizations.filter((organization) =>
+  return organizations.filter((organization) =>
     available(organization.sequence, organization.formedAt, cutoff),
   );
 }
@@ -103,12 +108,12 @@ export function organizationProfileHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationProfileRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationProfiles
-    .filter(
-      (record) =>
-        record.organizationId === organizationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.organizationProfiles,
+    "organizationId",
+    organizationId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -684,10 +689,13 @@ export function kinshipRelationshipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly KinshipRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.kinshipRelationships.filter(
-    (relationship) =>
-      relationship.personIds.includes(personId) &&
-      available(relationship.sequence, relationship.establishedAt, cutoff),
+  return recordsByKey(
+    world.history.kinshipRelationships,
+    "life-queries:kinship-person-ids",
+    (relationship) => relationship.personIds,
+    personId,
+  ).filter((relationship) =>
+    available(relationship.sequence, relationship.establishedAt, cutoff),
   );
 }
 
@@ -891,6 +899,72 @@ export function fatigueAt(
       .sort((left, right) => strengths.indexOf(left) - strengths.indexOf(right))
       .at(-1) ?? null
   );
+}
+
+/** Actual simultaneous active intervals, including work that has since ended. */
+export function recordedWorkOverlapIntervals(
+  world: World,
+  left: WorkRelationship,
+  right: WorkRelationship,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly {
+  readonly startedAt: WorkRelationship["startedAt"];
+  readonly endedAt: WorkRelationship["startedAt"] | null;
+  readonly sourceRecordIds: readonly EntityId[];
+}[] {
+  if (
+    left.personId === right.personId ||
+    left.organizationId === null ||
+    left.organizationId !== right.organizationId ||
+    left.sequence >= cutoff.historySequenceExclusive ||
+    right.sequence >= cutoff.historySequenceExclusive ||
+    left.recordedAt > cutoff.asOfDate ||
+    right.recordedAt > cutoff.asOfDate
+  )
+    return [];
+  const leftStatuses = workStatusHistory(world, left.id, cutoff);
+  const rightStatuses = workStatusHistory(world, right.id, cutoff);
+  const dates = [
+    ...new Set([
+      left.startedAt,
+      right.startedAt,
+      ...leftStatuses.map((item) => item.effectiveAt),
+      ...rightStatuses.map((item) => item.effectiveAt),
+      cutoff.asOfDate,
+    ]),
+  ]
+    .filter((date) => date <= cutoff.asOfDate)
+    .sort();
+  const intervals: {
+    startedAt: WorkRelationship["startedAt"];
+    endedAt: WorkRelationship["startedAt"] | null;
+    sourceRecordIds: EntityId[];
+  }[] = [];
+  let active: (typeof intervals)[number] | null = null;
+  for (const date of dates) {
+    const atDate = { ...cutoff, asOfDate: date };
+    const leftStatus = workStatusAt(world, left.id, atDate);
+    const rightStatus = workStatusAt(world, right.id, atDate);
+    const overlaps =
+      leftStatus?.status === "active" &&
+      rightStatus?.status === "active" &&
+      left.startedAt <= date &&
+      right.startedAt <= date;
+    if (overlaps && !active) {
+      active = {
+        startedAt: date,
+        endedAt: null,
+        sourceRecordIds: [left.id, right.id, leftStatus.id, rightStatus.id],
+      };
+      intervals.push(active);
+    } else if (!overlaps && active) {
+      active.endedAt = date;
+      if (leftStatus) active.sourceRecordIds.push(leftStatus.id);
+      if (rightStatus) active.sourceRecordIds.push(rightStatus.id);
+      active = null;
+    }
+  }
+  return intervals;
 }
 
 function workPeriodsOverlap(

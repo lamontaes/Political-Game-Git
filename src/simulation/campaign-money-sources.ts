@@ -1,8 +1,12 @@
 import { activeCampaignForCandidate } from "./campaign-queries";
+import { runCampaignCallTime } from "./campaign-donors";
+import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
+import { campaignFundraiserPayments } from "./campaign-money-source-queries";
+import { viewOfOfficial } from "./official-view-reads";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
-import type { EntityId, World } from "./types";
+import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
 
 /**
@@ -55,17 +59,157 @@ export const CAMPAIGN_MONEY_SOURCES = {
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
 
-/**
- * UNRESEARCHED. How much of their own money a candidate may put into their
- * committee. Federal law sets no limit on a candidate's own money, and this
- * blanket rule follows it everywhere until the per-state answer to
- * `how-a-campaign-can-be-paid-for` lands: the only limit is what the
- * candidate actually has.
+/** Fundraiser completion runs the remaining known-person call-time asks in
+ * stable order. Each answer, contribution, and transfer is stored separately;
+ * any legacy payment attributed directly to this event is read without paying
+ * it again.
  */
-export const UNRESEARCHED_OWN_MONEY_RULE = {
-  version: "campaign-own-money-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+export function recordCampaignFundraiserReceipts(
+  world: World,
+  input: {
+    readonly eventId: EntityId;
+    readonly committeeOrganizationId: EntityId;
+    readonly candidatePersonId: EntityId;
+    readonly currency: CurrencyCode;
+  },
+): {
+  readonly world: World;
+  readonly resourceFlowId: EntityId | null;
+  readonly resourceOutcomeId: EntityId | null;
+  readonly raisedAmount: MoneyAmount | null;
+  readonly unavailableBasis: readonly string[];
+  readonly note: string;
+} {
+  const active = activeCampaignForCandidate(world, input.candidatePersonId);
+  const asksBefore = new Set(
+    (world.history.campaignAsks ?? []).map((row) => row.id),
+  );
+  let next = active ? runCampaignCallTime(world, active.id) : world;
+  const callTimePeople = new Set(
+    (next.history.campaignAsks ?? [])
+      .filter((row) => !asksBefore.has(row.id))
+      .map((row) => row.residentId),
+  );
+  const { event, flows, receipts } = campaignFundraiserPayments(next, input);
+  const unavailableBasis = active
+    ? []
+    : ["monetary-ask", "contribution-cap-law-term"];
+
+  const paidSources = new Set(
+    flows
+      .filter((flow) => receipts.some((row) => row.resourceFlowId === flow.id))
+      .flatMap((flow) =>
+        flow.source.kind === "person" ? [flow.source.personId] : [],
+      ),
+  );
+  const attendees = [...new Set(event.participants.map((row) => row.personId))];
+  for (const personId of attendees) {
+    if (
+      personId === input.candidatePersonId ||
+      paidSources.has(personId) ||
+      callTimePeople.has(personId) ||
+      (next.control.kind === "person" && next.control.personId === personId)
+    )
+      continue;
+    const stableKey = `campaign-fundraiser:${event.id}:${personId}`;
+    if (
+      next.history.decisionTraces.some(
+        (trace) => trace.context.stableKey === stableKey,
+      )
+    )
+      continue;
+    const view = viewOfOfficial(next, personId, input.candidatePersonId);
+    const cash = resourcePositionAt(
+      next,
+      { kind: "person", personId },
+      input.currency,
+      {
+        asOfDate: event.occurredAt,
+        historySequenceExclusive: event.sequence + 1,
+      },
+    );
+    const evaluation = evaluateDecision(next, {
+      stableKey,
+      decisionType: "campaign.fundraiser-contribution",
+      actorPersonId: personId,
+      cutoff: {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      },
+      subject: {
+        kind: "context:campaign",
+        key: "fundraiser-contribution",
+        entityId: input.committeeOrganizationId,
+      },
+      options: [
+        {
+          key: "give",
+          label: "Give",
+          description: "Pay a recorded fundraising ask.",
+        },
+        {
+          key: "not-attempted",
+          label: "No payment attempted",
+          description: "Report the unavailable payment basis.",
+        },
+      ],
+      constraints: [
+        {
+          stableKey: `${stableKey}:unavailable-basis`,
+          optionKey: "give",
+          kind: "campaign:unavailable-contribution-basis",
+          explanation: `The dated fundraiser has no admitted monetary ask or contribution-cap law term. ${cash ? `Recorded cash at the event: ${cash.liquidBalance.minorUnits} ${input.currency} minor units.` : "Cash at the event is not recorded."} ${view.belief ? `The attendee's saved candidate view is ${view.belief.position}; it is not an authorization to pay.` : "No saved candidate view is recorded."}`,
+          sourceRefs: [
+            { kind: "historical-event", eventId: event.id },
+            ...(view.belief
+              ? [{ kind: "private-belief" as const, beliefId: view.belief.id }]
+              : []),
+          ],
+        },
+      ],
+      considerations: [],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    next = recordDurableDecisionTrace(next, evaluation);
+  }
+  return {
+    world: next,
+    resourceFlowId: receipts[0]?.resourceFlowId ?? null,
+    resourceOutcomeId: receipts[0]?.id ?? null,
+    raisedAmount:
+      receipts.length > 0
+        ? {
+            minorUnits: receipts.reduce(
+              (sum, row) => sum + row.transferredAmount.minorUnits,
+              0,
+            ),
+            currency: input.currency,
+          }
+        : null,
+    unavailableBasis,
+    note: active
+      ? "Call-time asked the remaining known people individually; each response and payment is saved by person."
+      : "No active campaign is attached to this event; no donor or payment was invented.",
+  };
+}
+
+/**
+ * A candidate may spend personal funds on their own candidacy without a legal
+ * ceiling. Buckley v. Valeo invalidated candidate personal-expenditure caps;
+ * current FEC guidance records the same no-limit rule while requiring federal
+ * candidates to report the money. The game separately limits the transfer to
+ * the candidate's recorded available balance.
+ */
+export const CANDIDATE_OWN_MONEY_RULE = {
+  version: "campaign-own-money-buckley-v1",
+  provenance: "recorded-constitutional-rule",
   limitMinorUnits: null,
+  sources: [
+    "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/using-personal-funds-candidate/",
+    "https://www.govinfo.gov/app/details/USREPORTS-424/USREPORTS-424-1/context",
+  ],
 } as const;
 
 export const CANDIDATE_OWN_MONEY_EVENT = "campaign-finance.candidate-own-money";
@@ -163,7 +307,7 @@ export function contributeOwnMoneyToCampaign(
     personFactConstraints: [],
     visibility: "public",
     tags: [
-      UNRESEARCHED_OWN_MONEY_RULE.version,
+      CANDIDATE_OWN_MONEY_RULE.version,
       "campaign-finance:own-money",
       "time-neutral",
     ],

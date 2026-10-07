@@ -1,7 +1,31 @@
+import type { PublicGovernmentIdentityCarrier } from "../public-government-identity";
+import type {
+  LawEffectStamp,
+  LawEffectStampedRecord,
+} from "../law-effect-stamp";
 import type { LawLevel } from "../law-hierarchy";
+import type { CountyBudgetHearing } from "../county-budget-record";
 import type { EntityId, IsoDate, World } from "../types";
-import type { FederalTreasury } from "./federal-treasury";
-import type { StatehoodCertification } from "./statehood-funds";
+import {
+  FEDERAL_RECEIPTS,
+  FEDERAL_OUTLAYS,
+  type FederalTreasury,
+} from "./federal-treasury";
+/** Old saved decisions remain readable; this shape authorizes no new payments. */
+export interface StatehoodCertification {
+  readonly decidedOn: IsoDate;
+  readonly certified: boolean;
+  readonly changeStartsOn: IsoDate | null;
+  readonly reason: string;
+}
+
+/** Historical attribution bytes remain readable; they are never new invoices. */
+export interface GovernmentLawCostAttribution {
+  readonly program: BudgetProgram;
+  readonly amountUsd: number;
+  readonly basis: string;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
 
 /**
  * PUBLIC BUDGETS: every state, D.C., territory, county and city government in
@@ -80,6 +104,49 @@ export const PROTECTED_PROGRAMS: ReadonlySet<BudgetProgram> = new Set([
 
 export type BudgetLevel = "state" | "county" | "city";
 
+/** Category sets share the payment taxonomy without reshuffling old save arrays. */
+export const GOVERNMENT_BUDGET_CATEGORIES = {
+  stateLocal: { receipts: BUDGET_SOURCES, outlays: BUDGET_PROGRAMS },
+  federal: { receipts: FEDERAL_RECEIPTS, outlays: FEDERAL_OUTLAYS },
+} as const;
+
+/** Federal cash books; state/local pension and reserve rules do not apply. */
+export interface FederalBudgetGovernment {
+  readonly key: string;
+  readonly jurisdictionId: EntityId;
+  readonly lawJurisdictionId: EntityId;
+  readonly level: "federal";
+  readonly categorySet: "federal";
+  readonly openedOn: IsoDate;
+  /** Null until a recorded USD account supplies this stock. */
+  readonly balance: number | null;
+  readonly reserve: null;
+  readonly pension: null;
+  readonly debt: number;
+  readonly interestRate: number;
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number | null;
+    readonly previousBudgetReserve: null;
+    readonly accountBalanceMinorUnits: number;
+  };
+  readonly months: readonly FederalBudgetMonthRow[];
+}
+
+export interface FederalBudgetMonthRow extends LawEffectStampedRecord {
+  readonly month: IsoDate;
+  /** Aligned to the existing seven federal receipts and thirteen outlays. */
+  readonly revenue: readonly number[];
+  readonly spending: readonly number[];
+  readonly balance: number;
+  readonly reserve: null;
+  /** Existing recorded debt; cash shortfalls do not fabricate a loan. */
+  readonly debt: number;
+  readonly cashSettlement: NonNullable<BudgetMonthRow["cashSettlement"]>;
+}
+
 /** The three budget laws, by their policy question key. */
 export const BUDGET_LAW_KEYS = {
   balanced: "us-policy-positions:fiscal.balanced-operating-budget",
@@ -102,6 +169,8 @@ export interface BudgetLawReading {
    * rule's basis, marked ESTIMATED FROM AVERAGE. Absent where a law answers.
    */
   readonly estimated?: string;
+  /** The law's share of the actual actuarially determined contribution. */
+  readonly requiredContributionShare?: number;
 }
 
 export interface AdoptedBudget {
@@ -115,7 +184,13 @@ export interface AdoptedBudget {
    * the year. "automatic": the government's own modeled adoption; a budget
    * passed as a bill comes later (Claude CTO, call 3).
    */
-  readonly basis: "opening" | "automatic";
+  readonly basis: "opening" | "automatic" | "board-vote";
+  /**
+   * "board-vote": a county board voted this year's property tax levy at its
+   * budget hearing (`living-world/county-budget-hearings.ts`); the expected
+   * property tax revenue is exactly that levy. Absent otherwise.
+   */
+  readonly hearingKey?: string;
   /** Annual, aligned to BUDGET_SOURCES. */
   readonly expectedRevenue: readonly number[];
   /** Annual, aligned to BUDGET_PROGRAMS. */
@@ -153,15 +228,26 @@ export interface AdoptedBudget {
    */
   readonly townSalesAtAdoption?: number | null;
   /**
-   * A place admitted as a state: what its government decided about
-   * certifying to the President when it adopted this budget, and why
-   * (`statehood-funds.ts`). Absent: nothing to decide.
+   * Historical compatibility only. The retired forecast wrote these bytes;
+   * they do not certify admission, set matching terms, or authorize payments.
    */
   readonly statehoodCertification?: StatehoodCertification;
 }
 
 /** One settled month. Arrays align to BUDGET_SOURCES and BUDGET_PROGRAMS. */
-export interface BudgetMonthRow {
+export interface BudgetMonthRow extends LawEffectStampedRecord {
+  /** Law-attributed components already included in modeled spending; old saves omit it. */
+  readonly lawCostAttributions?: readonly GovernmentLawCostAttribution[];
+  /** Cash settlement reads only these saved transfers, retaining exact cents. */
+  readonly cashSettlement?: {
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly sourceRecordIds: readonly EntityId[];
+    /** Physical account stock, including refundable custody funds. Old saves omit it. */
+    readonly accountBalanceMinorUnits?: number;
+    /** Custody liability excluded before budget balance/reserve allocation. */
+    readonly heldCashBailMinorUnits?: number;
+  };
   /** The first day of the month settled. */
   readonly month: IsoDate;
   readonly revenue: readonly number[];
@@ -227,12 +313,12 @@ export interface PensionRecord {
   /**
    * The share of the required contribution this government pays when no law
    * requires the full amount: ESTIMATED FROM AVERAGE, measured spread and
-   * drift (`pension-share.ts`).
+   * drift (`opening.ts`).
    */
   readonly paidShare: number;
 }
 
-export interface PublicBudgetGovernment {
+export interface PublicBudgetGovernment extends PublicGovernmentIdentityCarrier {
   /** `US-IL`, `county:17031` or `place:1714000`. */
   readonly key: string;
   readonly jurisdictionId: EntityId;
@@ -249,6 +335,15 @@ export interface PublicBudgetGovernment {
   readonly budgetCycle: "annual" | "biennial" | null;
   /** How each opening amount was reached, placeholders named. */
   readonly openingNotes: readonly string[];
+  /** One recorded correction from the old cash forecast to a saved account. */
+  readonly publicAccountMigration?: {
+    readonly onDate: IsoDate;
+    readonly organizationId: EntityId;
+    readonly positionId: EntityId;
+    readonly previousBudgetBalance: number;
+    readonly previousBudgetReserve: number;
+    readonly accountBalanceMinorUnits: number;
+  };
   readonly balance: number;
   readonly reserve: number;
   readonly debt: number;
@@ -290,16 +385,23 @@ export interface PublicBudgetStore {
   readonly governments: readonly PublicBudgetGovernment[];
   readonly adjustments: readonly BudgetAdjustment[];
   /**
+   * Each county board's budget hearing, with the levy it proposed and the one
+   * it adopted (CO-5). Absent in a world whose counties never held one.
+   */
+  readonly countyBudgetHearings?: readonly CountyBudgetHearing[];
+  /**
    * The public jobs a budget funds in the watched town: the staff and the
    * real funding when the town was first staffed from its budget
    * (`staffing.ts`). Absent in a world whose town was never staffed.
    */
   readonly staffing?: readonly StaffingBaseline[];
   /**
-   * The federal government's books (`federal-treasury.ts`). Absent in a world
-   * opened before it existed; the next monthly pass opens it.
+   * Archived federal forecast bytes from older saves. New worlds never open
+   * these books, and monthly passes preserve them without advancing them.
    */
   readonly federal?: FederalTreasury;
+  /** The sole live federal budget, settled from the saved government account. */
+  readonly federalGovernment?: FederalBudgetGovernment;
   /** Governments in the world that keep no budget, and why. */
   readonly unknown: readonly {
     readonly key: string;

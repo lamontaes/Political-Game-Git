@@ -1,3 +1,7 @@
+import {
+  cloneTermResolution,
+  type LawEffectStampedRecord,
+} from "./law-effect-stamp";
 import { createStableId } from "./ids";
 import { appendedList, hasStableKey, stableKeysOf } from "./history-index";
 import type {
@@ -41,6 +45,7 @@ import type {
   PrincipleRecord,
   PrincipleStance,
   PrivateBeliefRecord,
+  PrivateBeliefSubject,
   PropositionExposureProvenance,
   PropositionExposureRecord,
   PublicPositionRecord,
@@ -66,7 +71,7 @@ import type {
   DecisionTraceRecord,
 } from "./types";
 
-export interface HistoricalEventInput {
+export interface HistoricalEventInput extends LawEffectStampedRecord {
   readonly stableKey: string;
   readonly type: EventType;
   readonly occurredAt: IsoDate;
@@ -130,7 +135,13 @@ export interface RelationshipInteractionInput {
 export interface PrivateBeliefRecordInput {
   readonly stableKey: string;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  /**
+   * Absent on legacy policy beliefs. Party questions and officials have no
+   * proposition.
+   */
+  readonly subject?: PrivateBeliefSubject;
+  readonly optionKey?: string;
   readonly formedAt: IsoDate;
   readonly position: BeliefPosition;
   readonly conviction: BeliefConviction;
@@ -299,6 +310,7 @@ export interface DecisionTraceRecordInput extends DecisionEvaluation {
 export function createHistoryStore(): HistoryStore {
   return {
     nextSequence: 0,
+    ruleChangeConsequenceBindings: [],
     organizations: [],
     organizationProfiles: [],
     educationEnrollments: [],
@@ -325,6 +337,7 @@ export function createHistoryStore(): HistoryStore {
     resourceFlows: [],
     resourceFlowTerms: [],
     resourceTransferOutcomes: [],
+    earnedLawPayAssessments: [],
     resourceObligations: [],
     resourceObligationStates: [],
     dwellings: [],
@@ -443,6 +456,19 @@ export function appendHistoricalEvent(
     tags: canonicalTags(input.tags),
     summary: input.summary,
     context: cloneEventContext(input.context),
+    ...(input.lawEffectStamps === undefined
+      ? {}
+      : {
+          lawEffectStamps: input.lawEffectStamps.map((stamp) => ({
+            ...stamp,
+            ...(stamp.sourceRecordIds === undefined
+              ? {}
+              : { sourceRecordIds: [...stamp.sourceRecordIds] }),
+            ...(stamp.termResolution === undefined
+              ? {}
+              : { termResolution: cloneTermResolution(stamp.termResolution) }),
+          })),
+        }),
   };
 
   return {
@@ -548,6 +574,7 @@ export function appendPrivateBeliefRecord(
   );
   const belief: PrivateBeliefRecord = {
     ...input,
+    ...(input.subject ? { subject: { ...input.subject } } : {}),
     id: createStableId("belief", `${worldId}:${input.stableKey}`),
     sequence: history.nextSequence,
     formation: cloneFormation(input.formation),

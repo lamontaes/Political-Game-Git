@@ -11,7 +11,7 @@ import {
 import type { EntityId, World } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
 import { CHAPTER_JOINED_EVENT } from "../simulation/living-world/party-chapters";
-import { seekCivicPressContact } from "../simulation/press-reach";
+import { recordedCivicReporterFixture } from "../../tests/support/recorded-civic-journalist";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import type { ContextualSceneSubject } from "./contextual-scenes";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -187,7 +187,7 @@ function fileForFirstOffice(world: World, player: EntityId, key: string) {
 describe("a filing is news at home and to a reporter", () => {
   const life = adultLife("prose-b-2");
   const player = life.playerPersonId;
-  const withReporter = seekCivicPressContact(life.world).world;
+  const withReporter = recordedCivicReporterFixture(life.world).world;
   const filed = fileForFirstOffice(withReporter, player, "variants:filed");
   const next = passOrdinaryDays(filed, 1);
 

@@ -30,10 +30,13 @@
  */
 
 import { constitutionalPosition } from "./constitutional-process";
-import { addDays } from "./dates";
+import { isLawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
+import type { LawAmountUnit } from "./law-consequence-types";
+import { organizationProfileAt } from "./life-queries";
+import { measureAnswersAt } from "./vote-bundle";
+import { operativeDateForEnactment } from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import {
-  stateStatuteOperativeAt,
   statuteEffectiveDateEstimated,
   type StatuteDateContext,
 } from "./governing/statute-effective-date";
@@ -50,6 +53,7 @@ import {
 } from "./nominations/date-rules";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   LegislativeEnactmentRecord,
   World,
@@ -376,7 +380,7 @@ export function stateRuleBasis(
  * common default among the states the game has read (Alaska, Missouri, Ohio);
  * it is a game profile, not a claim about any other state's law.
  */
-export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
+export { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "./legislative-effective-date";
 
 /**
  * The dates an act's record carries that a state's effective-date rule may
@@ -386,6 +390,7 @@ export const STATUTE_EFFECTIVE_DEFAULT_DAYS = 90;
 export function enactmentStatuteDateContext(
   world: World,
   enactment: LegislativeEnactmentRecord,
+  cutoff?: HistoricalCutoff,
 ): StatuteDateContext {
   return {
     finalPassageAt: () => enactment.finalPassageAt ?? null,
@@ -394,7 +399,7 @@ export function enactmentStatuteDateContext(
         (row) => row.id === enactment.measureId,
       );
       const adjourned = measure
-        ? recordedSessionAdjournment(world, measure.rulePackId, year)
+        ? recordedSessionAdjournment(world, measure.rulePackId, year, cutoff)
         : null;
       return adjourned ? [adjourned.adjournedOn] : null;
     },
@@ -421,6 +426,339 @@ export interface RuleChangeProvisionRecord {
   /** Absent on records written before applicability existed: silent. */
   readonly applicability?: RuleChangeApplicability;
   readonly filedAt: IsoDate;
+}
+
+interface InstitutionBindingBase {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly officeKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly effectiveAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
+/** Written by the actual office producer, never inferred from names or IDs. */
+export interface InstitutionOfficeBindingRecord extends InstitutionBindingBase {
+  readonly kind: "office-organization";
+  readonly organizationId: EntityId;
+  readonly supersedesBindingId: EntityId | null;
+}
+
+/** Application attribution is separate: the original filed rule is immutable. */
+export interface RuleChangeLawBindingRecord extends InstitutionBindingBase {
+  readonly kind: "law-application";
+  readonly ruleChangeProvisionId: EntityId;
+  readonly officeBindingId: EntityId;
+  readonly bodyOrganizationId: EntityId;
+  readonly measureId: EntityId;
+  readonly rowId: string;
+  readonly questionKey: string;
+  readonly provisionId: EntityId;
+  readonly provisionKey: string;
+  readonly enactmentId: EntityId;
+  readonly unit: LawAmountUnit;
+  readonly lawEffectStamps: readonly LawEffectStamp[];
+}
+
+/** Both dated relations are append-only members of one owned binding family. */
+export type RuleChangeConsequenceBindingRecord =
+  InstitutionOfficeBindingRecord | RuleChangeLawBindingRecord;
+
+export function ruleChangeConsequenceBindingHistoryRecords(
+  world: World,
+): readonly RuleChangeConsequenceBindingRecord[] {
+  return world.history.ruleChangeConsequenceBindings ?? [];
+}
+
+/** No organization fallback: missing and ambiguous recorded identity are explicit. */
+export function institutionOfficeBindingAt(
+  world: World,
+  officeKey: string,
+  jurisdictionId: EntityId,
+  cutoff: HistoricalCutoff,
+): InstitutionOfficeBindingRecord | null {
+  if (
+    cutoff.asOfDate > world.currentDate ||
+    cutoff.historySequenceExclusive > world.history.nextSequence
+  )
+    throw new Error("Institution identity cutoff is outside saved history");
+  const available = ruleChangeConsequenceBindingHistoryRecords(world).filter(
+    (record): record is InstitutionOfficeBindingRecord =>
+      record.kind === "office-organization" &&
+      record.officeKey === officeKey &&
+      record.jurisdictionId === jurisdictionId &&
+      record.sequence < cutoff.historySequenceExclusive &&
+      record.recordedAt <= cutoff.asOfDate &&
+      record.effectiveAt <= cutoff.asOfDate,
+  );
+  const superseded = new Set(
+    available.flatMap((record) =>
+      record.supersedesBindingId ? [record.supersedesBindingId] : [],
+    ),
+  );
+  const current = available.filter((record) => !superseded.has(record.id));
+  if (current.length > 1)
+    throw new Error("Ambiguous recorded institution identity");
+  return current[0] ?? null;
+}
+
+export function institutionRuleAmountUnit(field: string): LawAmountUnit | null {
+  if (field === "body.seats" || field === "court.seats") return "count";
+  if (
+    [
+      "term.years",
+      "executive.term.years",
+      "qualification.minimumAge",
+      "qualification.stateResidenceYears",
+      "qualification.districtResidenceYears",
+    ].includes(field)
+  )
+    return "years";
+  return null;
+}
+
+function assertInstitutionOfficeBinding(
+  world: World,
+  record: InstitutionOfficeBindingRecord,
+): void {
+  const cutoff = {
+    asOfDate: record.recordedAt,
+    historySequenceExclusive: record.sequence,
+  };
+  const organization = world.history.organizations.find(
+    (entry) => entry.id === record.organizationId,
+  );
+  const profile = organizationProfileAt(world, record.organizationId, cutoff);
+  if (
+    !record.officeKey.trim() ||
+    !world.jurisdictions[record.jurisdictionId] ||
+    record.effectiveAt > record.recordedAt ||
+    !organization ||
+    organization.sequence >= record.sequence ||
+    organization.formedAt > record.effectiveAt ||
+    !profile ||
+    profile.closed ||
+    profile.locationJurisdictionId !== record.jurisdictionId ||
+    ![record.organizationId, profile.id, record.jurisdictionId].every((id) =>
+      record.sourceRecordIds.includes(id),
+    )
+  )
+    throw new Error(
+      "Institution identity requires its actual saved organization, place and profile sources",
+    );
+  const previous = institutionOfficeBindingAt(
+    world,
+    record.officeKey,
+    record.jurisdictionId,
+    cutoff,
+  );
+  if ((previous?.id ?? null) !== record.supersedesBindingId)
+    throw new Error(
+      "Institution identity must supersede the unique recorded prior relation",
+    );
+}
+
+function assertRuleChangeLawBinding(
+  world: World,
+  binding: RuleChangeLawBindingRecord,
+): void {
+  const clause = ruleChangeProvisionHistoryRecords(world).find(
+    (record) => record.id === binding.ruleChangeProvisionId,
+  );
+  const cutoff = {
+    asOfDate: binding.recordedAt,
+    historySequenceExclusive: binding.sequence,
+  };
+  const office = institutionOfficeBindingAt(
+    world,
+    binding.officeKey,
+    binding.jurisdictionId,
+    cutoff,
+  );
+  if (
+    !clause ||
+    clause.sequence >= binding.sequence ||
+    clause.measureId !== binding.measureId ||
+    clause.officeKey !== binding.officeKey ||
+    !office ||
+    office.id !== binding.officeBindingId ||
+    office.organizationId !== binding.bodyOrganizationId
+  )
+    throw new Error(
+      "Institution application requires the original rule and actual dated office identity",
+    );
+  const enactment = world.history.legislativeEnactments?.find(
+    (record) =>
+      record.id === binding.enactmentId &&
+      record.measureId === clause.measureId &&
+      record.outcome === "enacted",
+  );
+  if (
+    !enactment ||
+    enactment.sequence >= binding.sequence ||
+    !enactment.effectiveAt ||
+    enactment.resolvedAt > binding.effectiveAt ||
+    enactment.effectiveAt > binding.effectiveAt ||
+    binding.effectiveAt > binding.recordedAt
+  )
+    throw new Error(
+      "Institution application requires an actual operative enactment",
+    );
+  if (
+    !measureAnswersAt(world, clause.measureId, enactment.sequence).some(
+      (answer) =>
+        world.policyCatalog.propositions[answer.propositionId]?.stableKey ===
+        binding.questionKey,
+    )
+  )
+    throw new Error(
+      "Institution application question was not adopted by this law",
+    );
+  const versions = (world.history.legislativeProvisions ?? []).filter(
+    (record) =>
+      record.measureId === clause.measureId &&
+      record.sequence <= enactment.sequence &&
+      record.recordedAt <= binding.recordedAt,
+  );
+  const superseded = new Set(
+    versions.flatMap((record) =>
+      record.supersedesProvisionId ? [record.supersedesProvisionId] : [],
+    ),
+  );
+  const final = versions.filter((record) => !superseded.has(record.id));
+  const matches = final.flatMap((record) =>
+    record.applicationScope.segmentKey === null
+      ? (record.lawTerms ?? [])
+          .filter(
+            (term) =>
+              term.questionKey === binding.questionKey &&
+              term.key === clause.field,
+          )
+          .map((term) => ({ record, term }))
+      : [],
+  );
+  if (
+    matches.length !== 1 ||
+    matches[0]!.record.id !== binding.provisionId ||
+    matches[0]!.record.provisionKey !== binding.provisionKey ||
+    matches[0]!.term.value !== clause.value ||
+    matches[0]!.term.unit !== binding.unit ||
+    institutionRuleAmountUnit(clause.field) !== binding.unit
+  )
+    throw new Error(
+      "Institution application must agree with one final adopted typed term",
+    );
+  const required = [
+    clause.id,
+    clause.measureId,
+    enactment.id,
+    binding.provisionId,
+    binding.jurisdictionId,
+    office.id,
+    binding.bodyOrganizationId,
+    ...office.sourceRecordIds,
+  ];
+  const stamp = binding.lawEffectStamps[0];
+  if (
+    !binding.rowId ||
+    !binding.questionKey ||
+    !required.every((id) => binding.sourceRecordIds.includes(id)) ||
+    binding.lawEffectStamps.length !== 1 ||
+    !isLawEffectStamp(stamp) ||
+    stamp.source !== "enacted" ||
+    stamp.effectKind !== "institution-rule" ||
+    stamp.governingLawKey !== clause.measureId ||
+    stamp.questionKey !== binding.questionKey ||
+    stamp.jurisdictionId !== binding.jurisdictionId ||
+    stamp.operativeAt !== enactment.effectiveAt ||
+    stamp.appliedAt !== binding.effectiveAt ||
+    !required.every((id) => stamp.sourceRecordIds?.includes(id))
+  )
+    throw new Error(
+      "Institution application stamp is missing its actual saved source chain",
+    );
+}
+
+type InstitutionBindingInput =
+  | Omit<InstitutionOfficeBindingRecord, "id" | "sequence" | "recordedAt">
+  | Omit<RuleChangeLawBindingRecord, "id" | "sequence" | "recordedAt">;
+
+function appendInstitutionBinding(
+  world: World,
+  input: InstitutionBindingInput,
+): World {
+  const existing = ruleChangeConsequenceBindingHistoryRecords(world);
+  const prior = existing.find((record) => record.stableKey === input.stableKey);
+  if (prior) {
+    if (
+      JSON.stringify(prior) ===
+      JSON.stringify({
+        ...input,
+        id: prior.id,
+        sequence: prior.sequence,
+        recordedAt: prior.recordedAt,
+      })
+    )
+      return world;
+    throw new Error(
+      "Institution binding key already records another consequence",
+    );
+  }
+  const record = {
+    ...structuredClone(input),
+    id: createStableId(
+      "rule-change-consequence-binding",
+      `${world.id}:${input.stableKey}`,
+    ),
+    sequence: world.history.nextSequence,
+    recordedAt: world.currentDate,
+  } as RuleChangeConsequenceBindingRecord;
+  if (record.kind === "office-organization")
+    assertInstitutionOfficeBinding(world, record);
+  else assertRuleChangeLawBinding(world, record);
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: world.history.nextSequence + 1,
+      ruleChangeConsequenceBindings: [...existing, record],
+    },
+  };
+}
+
+export function recordInstitutionOfficeBinding(
+  world: World,
+  input: Omit<
+    InstitutionOfficeBindingRecord,
+    "id" | "sequence" | "recordedAt" | "kind"
+  >,
+): World {
+  return appendInstitutionBinding(world, {
+    ...input,
+    kind: "office-organization",
+  });
+}
+
+export function recordRuleChangeLawBinding(
+  world: World,
+  input: Omit<
+    RuleChangeLawBindingRecord,
+    "id" | "sequence" | "recordedAt" | "kind"
+  >,
+): World {
+  if (
+    ruleChangeConsequenceBindingHistoryRecords(world).some(
+      (record) =>
+        record.kind === "law-application" &&
+        record.rowId === input.rowId &&
+        record.ruleChangeProvisionId === input.ruleChangeProvisionId &&
+        record.enactmentId === input.enactmentId,
+    )
+  )
+    return world;
+  return appendInstitutionBinding(world, { ...input, kind: "law-application" });
 }
 
 /** An operative-dated change, derived from what was enacted. */
@@ -734,29 +1072,38 @@ export function fileRuleChangeProvision(
 }
 
 /** Every change a law has made, whether or not it is operative yet. */
-export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
+export function enactedRuleChanges(
+  world: World,
+  cutoff?: HistoricalCutoff,
+): readonly EnactedRuleChange[] {
   const changes: EnactedRuleChange[] = [];
   for (const provision of ruleChangeProvisionHistoryRecords(world)) {
+    if (
+      cutoff &&
+      (provision.sequence >= cutoff.historySequenceExclusive ||
+        provision.filedAt > cutoff.asOfDate)
+    )
+      continue;
     const enactment = (world.history.legislativeEnactments ?? []).find(
       (row) => row.measureId === provision.measureId,
     );
-    if (!enactment || enactment.outcome !== "enacted") continue;
-    // No caller in play passes an effective date, so an enactment's own date
-    // is usually null, and a null date is not "effective now". The state's
-    // own effective-date rule dates it where that rule is researched
-    // (`statute-effective-date.ts`). Blanket rule elsewhere: the change
-    // operates STATUTE_EFFECTIVE_DEFAULT_DAYS after the act was recorded, and
-    // says so.
-    const explicit = enactment.effectiveAt;
+    if (
+      !enactment ||
+      enactment.outcome !== "enacted" ||
+      (cutoff &&
+        (enactment.sequence >= cutoff.historySequenceExclusive ||
+          enactment.resolvedAt > cutoff.asOfDate))
+    )
+      continue;
     const federal = provision.stateUsps === FEDERAL_JURISDICTION_KEY;
-    const stateRuleAt =
-      explicit || federal
-        ? null
-        : stateStatuteOperativeAt(
-            `US-${provision.stateUsps}`,
-            enactment.resolvedAt,
-            enactmentStatuteDateContext(world, enactment),
-          );
+    const stateKey = federal ? null : `US-${provision.stateUsps}`;
+    const dateContext = enactmentStatuteDateContext(world, enactment, cutoff);
+    const operative = operativeDateForEnactment(
+      enactment,
+      stateKey,
+      dateContext,
+    );
+    if (!operative) continue;
     changes.push({
       stateUsps: provision.stateUsps,
       jurisdictionKey: federal
@@ -766,19 +1113,11 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       field: provision.field,
       value: structuredClone(provision.value),
       applicability: { ...(provision.applicability ?? SILENT) },
-      operativeAt:
-        explicit ??
-        stateRuleAt ??
-        addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      operativeBasis: explicit
-        ? "enacted-date"
-        : stateRuleAt
-          ? stateRuleBasis(
-              `US-${provision.stateUsps}`,
-              enactment.resolvedAt,
-              enactmentStatuteDateContext(world, enactment),
-            )
-          : "game-default",
+      operativeAt: operative.date,
+      operativeBasis:
+        operative.basis === "state-rule"
+          ? stateRuleBasis(stateKey!, enactment.resolvedAt, dateContext)
+          : operative.basis,
       instrument: "statute",
       level: federal ? "federal-statute" : "state-statute",
       measureId: provision.measureId,
@@ -789,6 +1128,12 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
     });
   }
   for (const measure of world.history.constitutionalMeasures ?? []) {
+    if (
+      cutoff &&
+      (measure.sequence >= cutoff.historySequenceExclusive ||
+        measure.introducedAt > cutoff.asOfDate)
+    )
+      continue;
     const delta = measure.ruleDelta;
     if (delta.kind !== "rule-field") continue;
     const federal = measure.jurisdictionKey === FEDERAL_JURISDICTION_KEY;
@@ -796,7 +1141,12 @@ export function enactedRuleChanges(world: World): readonly EnactedRuleChange[] {
       ? FEDERAL_JURISDICTION_KEY
       : constitutionalStateUsps(measure.jurisdictionKey);
     if (!stateUsps) continue;
-    const position = constitutionalPosition(world, measure.id);
+    const position = constitutionalPosition(
+      world,
+      measure.id,
+      cutoff?.asOfDate ?? world.currentDate,
+      cutoff,
+    );
     if (!position.operativeAt) continue;
     changes.push({
       stateUsps,
@@ -846,10 +1196,11 @@ export function enactedRuleChangeAt(
     readonly officeKey: string | null;
     readonly field: string;
     readonly onDate: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
   },
 ): EnactedRuleChange | null {
   if (!query.officeKey || !isAmendableRuleField(query.field)) return null;
-  const inForce = enactedRuleChanges(world).filter(
+  const inForce = enactedRuleChanges(world, query.cutoff).filter(
     (change) =>
       change.stateUsps === query.stateUsps &&
       change.officeKey === query.officeKey &&
@@ -904,6 +1255,7 @@ export function ruleValueInWorld<T>(
     readonly officeKey: string;
     readonly field: AmendableRuleField;
     readonly onDate: IsoDate;
+    readonly cutoff?: HistoricalCutoff;
   },
   compiled: T,
 ): RuleValueInWorld<T> {
@@ -913,6 +1265,7 @@ export function ruleValueInWorld<T>(
     officeKey: query.officeKey,
     field: query.field,
     onDate: query.onDate,
+    cutoff: query.cutoff,
   });
   if (!change) return { source: "compiled", value: compiled };
   return {
@@ -932,6 +1285,39 @@ export function assertRuleChangeProvisionIntegrity(
   world: World,
   ids: Set<EntityId>,
 ): void {
+  const bindingKeys = new Set<string>();
+  const appliedRules = new Set<string>();
+  let lastBindingSequence = -1;
+  for (const binding of ruleChangeConsequenceBindingHistoryRecords(world)) {
+    if (
+      ids.has(binding.id) ||
+      bindingKeys.has(binding.stableKey) ||
+      binding.sequence <= lastBindingSequence ||
+      binding.sequence >= world.history.nextSequence ||
+      binding.recordedAt > world.currentDate ||
+      !binding.stableKey.trim() ||
+      binding.id !==
+        createStableId(
+          "rule-change-consequence-binding",
+          `${world.id}:${binding.stableKey}`,
+        )
+    )
+      throw new Error(
+        "Invalid append-only institution binding identity, date or sequence",
+      );
+    ids.add(binding.id);
+    bindingKeys.add(binding.stableKey);
+    lastBindingSequence = binding.sequence;
+    if (binding.kind === "office-organization")
+      assertInstitutionOfficeBinding(world, binding);
+    else if (binding.kind === "law-application") {
+      const key = `${binding.ruleChangeProvisionId}:${binding.rowId}:${binding.enactmentId}`;
+      if (appliedRules.has(key))
+        throw new Error("Institution rule application was recorded twice");
+      appliedRules.add(key);
+      assertRuleChangeLawBinding(world, binding);
+    } else throw new Error("Unknown institution binding record kind");
+  }
   const seenKeys = new Set<string>();
   const seenClauses = new Set<string>();
   let lastSequence = -1;

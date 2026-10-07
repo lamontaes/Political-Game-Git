@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "team": 6,
+  "batchId": "national-1100-payment-service-diagnosis",
+  "scope": "rural-transit-payment-attribution",
+  "status": "partial-evidence-not-production-wiring",
+  "source": {
+    "auditHead": "d10af9af0e61d6db201d994d53f5a50135e3b22c",
+    "runtimeHead": "5dcf11f30e98185f8b4821f43a49936c7eb37bd2",
+    "path": "docs/codex/law-audit/national-1100-world-1-5dcf11f30e98185f8b4821f43a49936c7eb37bd2.json",
+    "seed": "team2-national-20260930-1100-1",
+    "months": 24
+  },
+  "observations": [
+    {
+      "measureId": "legislative-measure_48cc8a58b8d288d9",
+      "enactmentId": "legislative-enactment_3d2e73ad20537a39",
+      "jurisdiction": "Delaware",
+      "designation": "HB 3",
+      "appropriationRecord": "publicProgramRecords:public-program-record_91ead312895cbc4e",
+      "paymentRecord": "publicProgramRecords:public-program-record_45898463e4b5296a; resourceTransferOutcomes:resource-transfer-outcome_1342eaf01d1977c1",
+      "paidAmount": {
+        "minorUnits": 1000000,
+        "currency": "USD"
+      },
+      "recipient": "{\"kind\":\"organization\",\"organizationId\":\"organization_49a23c2ded4254d0\"}",
+      "serviceEventId": null,
+      "serviceEventIdStatus": "not exported; public-service evidence empty",
+      "commitmentId": null,
+      "resourceFlowId": null,
+      "purpose": null,
+      "classification": "unresolved: exported audit omits purpose and producer admission fields"
+    },
+    {
+      "measureId": "legislative-measure_53cb7eccee56b8d9",
+      "enactmentId": "legislative-enactment_262ef8750c507841",
+      "jurisdiction": "Minnesota",
+      "designation": "HF 19",
+      "appropriationRecord": "publicProgramRecords:public-program-record_fa6d7d6881520eaf",
+      "paymentRecord": "publicProgramRecords:public-program-record_0d779c43d7ec71f5; resourceTransferOutcomes:resource-transfer-outcome_7a18b0756fc0cef2",
+      "paidAmount": {
+        "minorUnits": 1000000,
+        "currency": "USD"
+      },
+      "recipient": "{\"kind\":\"organization\",\"organizationId\":\"organization_49b9452ded5542fc\"}",
+      "serviceEventId": null,
+      "serviceEventIdStatus": "not exported; public-service evidence empty",
+      "commitmentId": null,
+      "resourceFlowId": null,
+      "purpose": null,
+      "classification": "unresolved: exported audit omits purpose and producer admission fields"
+    },
+    {
+      "measureId": "legislative-measure_7567766563f51580",
+      "enactmentId": "legislative-enactment_ce9e72b3109ab1f9",
+      "jurisdiction": "New Hampshire",
+      "designation": "HB 4",
+      "appropriationRecord": "publicProgramRecords:public-program-record_6483cc2da1032a70",
+      "paymentRecord": "publicProgramRecords:public-program-record_8e1a5457ab39cb04; resourceTransferOutcomes:resource-transfer-outcome_31953a69b85b4953",
+      "paidAmount": {
+        "minorUnits": 1000000,
+        "currency": "USD"
+      },
+      "recipient": "{\"kind\":\"organization\",\"organizationId\":\"organization_49b62d2ded52e45d\"}",
+      "serviceEventId": null,
+      "serviceEventIdStatus": "not exported; public-service evidence empty",
+      "commitmentId": null,
+      "resourceFlowId": null,
+      "purpose": null,
+      "classification": "unresolved: exported audit omits purpose and producer admission fields"
+    },
+    {
+      "measureId": "legislative-measure_186e2d9bbc0e9762",
+      "enactmentId": "legislative-enactment_f567892cb2677341",
+      "jurisdiction": "New Jersey",
+      "designation": "A45",
+      "appropriationRecord": "publicProgramRecords:public-program-record_903ecbc85f86260f",
+      "paymentRecord": "publicProgramRecords:public-program-record_62633ad617b673f0; resourceTransferOutcomes:resource-transfer-outcome_0cb6a9d049dd733b",
+      "paidAmount": {
+        "minorUnits": 1000000,
+        "currency": "USD"
+      },
+      "recipient": "{\"kind\":\"organization\",\"organizationId\":\"organization_49b62b2ded52e0f7\"}",
+      "serviceEventId": null,
+      "serviceEventIdStatus": "not exported; public-service evidence empty",
+      "commitmentId": null,
+      "resourceFlowId": null,
+      "purpose": null,
+      "classification": "unresolved: exported audit omits purpose and producer admission fields"
+    }
+  ],
+  "canonicalJoin": {
+    "records": "history.publicProgramRecords",
+    "authority": "appropriation.sourceMeasureId == measure.id",
+    "commitment": "commitment.appropriationId == appropriation.id",
+    "installment": "installment.commitmentId == commitment.id",
+    "purpose": "commitment.installments[installment.installmentIndex].purpose",
+    "payment": "resourceTransferOutcomes.resourceFlowId == installment.resourceFlowId and status completed",
+    "operatingService": "history.events: type transit.program-paid-service-hours; involvedEntityIds includes measure.id and installment.resourceFlowId",
+    "serviceMetric": "history.metricStates; provenance.sourceEntityIds includes service event ID",
+    "maintenanceService": "history.publicProgramRecords: kind capacity-outturn; installmentId == installment.id; commitmentId == commitment.id; inspect restoredUnits, unitsOperational, eventId",
+    "personReader": "history.knowledge and history.memories; current modeled-rider producer is authored, not proof of an actual rider decision"
+  },
+  "diagnosis": {
+    "confirmedAdapterGap": "audit.ts requires transit.program-paid-service-hours after every completed installment without checking operating versus maintenance purpose.",
+    "producerContract": "recordPaidTransitProgramService returns unchanged for non-operating installments. public-program.ts schedules maintenance delivery or records capacity outturn. It must not translate maintenance spending into operating hours.",
+    "fourCases": "All four paid 1000000 USD minor units; this matches the authored repair option but does not establish saved purpose.",
+    "smallestRepair": "Team2: branch audit by saved purpose. For maintenance, attribute only joined saved capacity-outturn with its actual restoredUnits and eventId; retain missing/pending/zero distinctions. For operating, check exact lineage variant, profile/program-key identity, source measure, posted status and completed exact-amount transfer before assigning producer defect.",
+    "requiredExport": [
+      "commitment.id and installments[index]",
+      "installment.index/resourceFlowId/stableKey/recordedAt/status",
+      "appropriation.programKey",
+      "measure.rulePackId and lineage.variantKey",
+      "saved capacity-outturns or paid-service events",
+      "saved world or exact record snapshot"
+    ]
+  },
+  "why": [
+    "An appropriation permits spending but supplies neither cash nor service.",
+    "A commitment chooses a saved operating or maintenance plan.",
+    "A completed installment moves money to its recorded recipient.",
+    "Operating payment counts authored contracted service hours; maintenance payment requires a later counted restoration outturn.",
+    "Payment purpose and the saved physical consequence determine the effect; a transfer alone cannot establish a ride."
+  ],
+  "conditions": [
+    "Requires legal authority, posted installment and completed transfer.",
+    "Operating and maintenance consequences are distinct.",
+    "Authored contract costs and capacity units are game-profile data, not researched effect-size estimates."
+  ],
+  "reverseOnRepeal": "Repeal may close future authority according to operative law and existing commitment rules; it does not undo a completed transfer or erase delivered service.",
+  "who": "Recorded government payer and recipient organization. No named rider is proved by these four exported records.",
+  "lagWhy": "Operating service uses the posted payment date; the authored maintenance alternative has a 90-day delivery lead, which must be checked against the saved commitment.",
+  "aboutZero": false,
+  "effectSizing": {
+    "size": null,
+    "range": null,
+    "reason": "This is accounting/attribution evidence, not a new empirical coefficient; no inferred size or CI."
+  },
+  "kentucky": {
+    "measureId": "legislative-measure_25d8cc2c3ef89d16",
+    "title": "Rural Road Sign Replacement",
+    "question": null,
+    "trace": [],
+    "action": "Preserve authored scope. No fabricated rural-transit catalog answer."
+  },
+  "checks": {
+    "executed": [
+      "Exact published audit JSON read",
+      "Exact runtime transit producer and profile read",
+      "Published audit adapter read",
+      "Exact runtime maintenance writer and capacity outturn fields read"
+    ],
+    "notRun": [
+      "Four saved-world purpose/lineage inspection: raw records absent from export",
+      "Regression repair test",
+      "Nationwide rerun",
+      "Pending local strict-check completion"
+    ],
+    "environmentBlocker": "exec-server Noise harness handshake fails before command execution"
+  },
+  "ownership": {
+    "adapter": "Team2 only",
+    "transitProducer": "Team6",
+    "linksAndCatalog": "Coordinator only",
+    "noticing": "Team8",
+    "cannabis": "Team4; no competing writes"
+  },
+  "completion": {
+    "lawsAllFiveParts": 0,
+    "lawsTotal": 14,
+    "linksAdded": 0,
+    "linksActivated": 0,
+    "additionalProductionEffectsVerified": 0,
+    "costsWired": 0,
+    "ideologyCompleted": 0
+  },
+  "receipt": {
+    "collectorCommentId": 5914420396,
+    "confirmed": false
+  }
+}

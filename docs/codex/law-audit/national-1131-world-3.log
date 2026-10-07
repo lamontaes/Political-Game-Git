@@ -1,0 +1,25 @@
+{"month":1,"date":"2026-02-05","enacted":0,"elapsedSeconds":30.364539311999998}
+{"month":2,"date":"2026-03-05","enacted":0,"elapsedSeconds":70.916990992}
+{"month":3,"date":"2026-04-05","enacted":0,"elapsedSeconds":98.20029842}
+{"month":4,"date":"2026-05-05","enacted":19,"elapsedSeconds":114.390770158}
+{"month":5,"date":"2026-06-05","enacted":19,"elapsedSeconds":121.881145837}
+{"month":6,"date":"2026-07-05","enacted":19,"elapsedSeconds":129.50251975199998}
+{"month":7,"date":"2026-08-05","enacted":19,"elapsedSeconds":138.330575953}
+{"month":8,"date":"2026-09-05","enacted":19,"elapsedSeconds":149.952244237}
+{"month":9,"date":"2026-10-05","enacted":19,"elapsedSeconds":167.513896005}
+{"month":10,"date":"2026-11-05","enacted":19,"elapsedSeconds":362.667094308}
+{"month":11,"date":"2026-12-05","enacted":19,"elapsedSeconds":372.792338147}
+{"month":12,"date":"2027-01-05","enacted":19,"elapsedSeconds":396.620161583}
+{"month":13,"date":"2027-02-05","enacted":19,"elapsedSeconds":424.56311087299997}
+{"month":14,"date":"2027-03-05","enacted":19,"elapsedSeconds":444.755423052}
+{"month":15,"date":"2027-04-05","enacted":19,"elapsedSeconds":464.782043663}
+{"month":16,"date":"2027-05-05","enacted":22,"elapsedSeconds":476.28461424}
+{"month":17,"date":"2027-06-05","enacted":22,"elapsedSeconds":485.831520427}
+{"month":18,"date":"2027-07-05","enacted":22,"elapsedSeconds":498.19233059900006}
+{"month":19,"date":"2027-08-05","enacted":22,"elapsedSeconds":506.34317627400003}
+{"month":20,"date":"2027-09-05","enacted":22,"elapsedSeconds":513.375671968}
+{"month":21,"date":"2027-10-05","enacted":22,"elapsedSeconds":524.466927027}
+{"month":22,"date":"2027-11-05","enacted":22,"elapsedSeconds":559.8003923480001}
+{"month":23,"date":"2027-12-05","enacted":22,"elapsedSeconds":577.245425104}
+{"month":24,"date":"2028-01-05","enacted":22,"elapsedSeconds":603.791025796}
+{"output":"test-results/law-audit/national-1131-retry/world-3","lawsAudited":22,"effectsFiring":52,"effectsAboutZero":0,"effectsMissing":52,"reasons":{"no-catalog-answer-or-registered-effect; authored scenario needs an explicit trace":2,"reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause":42,"recorded-effect":52,"completed-payment-without-matching-paid-service-event":8},"congressIntroductions":0,"problem":null}

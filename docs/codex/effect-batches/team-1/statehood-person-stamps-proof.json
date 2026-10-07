@@ -1,0 +1,70 @@
+{
+  "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+  "seed": "setup-v3:489d81c201776718:{\"v\":3,\"seed\":\"statehood-seats-a\",\"placeKey\":\"kentucky\",\"startAge\":10,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+  "sourceProof": "controlled authored enactment; inherited legislative integrity mock",
+  "namedConsequences": [
+    {
+      "summary": "Jorge Parks serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+      "personId": "person_9c11b91e4f1bcabc",
+      "date": "2026-01-15",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_statehood_test",
+          "source": "enacted",
+          "effectKind": "congress-voting-seat-tenure",
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+          "operativeAt": "2025-07-19",
+          "appliedAt": "2026-01-15",
+          "sourceRecordIds": [
+            "person_9c11b91e4f1bcabc",
+            "organization_0c56820763cf4ca7"
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Paola Fowler serves as U.S. Senator from District of Columbia in this fictional world.",
+      "personId": "person_9dd8a0af2572e6b8",
+      "date": "2026-01-15",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_statehood_test",
+          "source": "enacted",
+          "effectKind": "congress-voting-seat-tenure",
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+          "operativeAt": "2025-07-19",
+          "appliedAt": "2026-01-15",
+          "sourceRecordIds": [
+            "person_9dd8a0af2572e6b8",
+            "organization_fc013d975012c557"
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Claire Santiago serves as U.S. Senator from District of Columbia in this fictional world.",
+      "personId": "person_fcaf22e4d8c59b73",
+      "date": "2026-01-15",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_statehood_test",
+          "source": "enacted",
+          "effectKind": "congress-voting-seat-tenure",
+          "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+          "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+          "operativeAt": "2025-07-19",
+          "appliedAt": "2026-01-15",
+          "sourceRecordIds": [
+            "person_fcaf22e4d8c59b73",
+            "organization_fc013d975012c557"
+          ]
+        }
+      ]
+    }
+  ]
+}

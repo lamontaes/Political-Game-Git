@@ -1,4 +1,5 @@
 /** Explicit fictional Custom Start premise for public personnel work. */
+import { inventedPersonBirthDate } from "./invented-person-age";
 import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
@@ -175,9 +176,12 @@ export function initializeStateAgencyStart(
               stableKey: personKey,
               givenName: name.givenName,
               familyName: name.familyName,
-              birthDate: makeIsoDate(
-                `${Number(today.slice(0, 4)) - age}-03-01`,
-              ),
+              birthDate: inventedPersonBirthDate(null, {
+                role: "agency-staff-at-start",
+                referenceDate: today,
+                age,
+                placement: { monthDay: "03-01" },
+              }),
               homeJurisdictionId: jurisdictionId,
             },
           },

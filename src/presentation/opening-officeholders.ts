@@ -1,3 +1,4 @@
+import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import {
   nationalOfficeHolder,
   NATIONAL_ELECTION_SOURCES,
@@ -27,6 +28,7 @@ import type {
   RuleFieldKey,
 } from "../simulation";
 
+import { recordPriorOfficeService } from "./opening-prior-service";
 import {
   OPENING_FEDERAL_GEOGRAPHY_VERSION,
   prepareOpeningFederalGeography,
@@ -121,7 +123,11 @@ export function establishOpeningOfficeholders(
         input: {
           stableKey: personKey,
           ...drawGeneratedPersonName(rng),
-          birthDate: makeIsoDate(`${startYear - rng.integer(45, 70)}-01-01`),
+          birthDate: inventedPersonBirthDate(rng, {
+            role: "executive-officeholder-at-opening",
+            referenceDate: makeIsoDate(`${startYear}-01-01`),
+            placement: { monthDay: "01-01" },
+          }),
           ...(geography
             ? {
                 homeJurisdictionId: geography.homeJurisdictionId,
@@ -151,6 +157,15 @@ export function establishOpeningOfficeholders(
       personId: playerPersonId,
       transitions,
     }).world;
+    // Current openings give the officeholder the career that led here.
+    if (separatedGeography)
+      next = recordPriorOfficeService(next, {
+        stableKey: `${termKey}:prior-service`,
+        personId,
+        officeKey: office.key,
+        startedAt,
+        tag: VERSION,
+      });
     next = recordWorldEvent(next, {
       stableKey: termKey,
       type: "world.office-tenure",

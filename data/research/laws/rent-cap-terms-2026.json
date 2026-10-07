@@ -1,0 +1,199 @@
+{
+  "status": "research_pending_cto_number_approval",
+  "retrieved_on": "2026-10-01",
+  "purpose": "Sourced statutory terms only; no runtime integration or inferred unit eligibility.",
+  "units": "All cap numbers are percentages or percentage points, as explicitly labeled. They limit increases, not initial rent levels.",
+  "oregon": {
+    "statutes": ["ORS 90.323", "ORS 90.324", "ORS 90.600"],
+    "sources": {
+      "annual_publication": "https://www.oregon.gov/das/OEA/Pages/Rent-stabilization.aspx",
+      "corrected_2026_publication": "https://apps.oregon.gov/oregon-newsroom/OR/DAS/Posts/Post/Correction-2026-Rent-Stabilization-Percentages",
+      "calculation_workbook": "https://www.oregon.gov/das/oea/Documents/Oregon-Maximum-Annual-Rent-Increase-2026.xlsx",
+      "sb611_enrolled": "https://olis.oregonlegislature.gov/liz/2023R1/Downloads/MeasureDocument/SB611/Enrolled",
+      "sb611_history": "https://olis.oregonlegislature.gov/liz/2023R1/Measures/Overview/SB611",
+      "hb3054_enrolled": "https://olis.oregonlegislature.gov/liz/2025R1/Downloads/MeasureDocument/HB3054/Enrolled",
+      "hb3054_history": "https://olis.oregonlegislature.gov/liz/2025R1/Measures/Overview/HB3054",
+      "consolidated_chapter_unavailable": "https://www.oregonlegislature.gov/bills_laws/ors/ors090.html"
+    },
+    "source_limitations": [
+      "The consolidated ORS chapter HTML and PDF returned 403 Access denied. Statutory text below is sourced from official enrolled SB611 (2023), sections 3-6, and HB3054 (2025), sections 1, 3 and 5, corroborated by DAS's October 1, 2025 correction. It is not represented as a complete audit of every subsequent amendment or every Chapter 90 exclusion.",
+      "No dwelling is classified as eligible from its generic home type alone. Certificate, tenancy, subsidy, facility-size and notice facts are required."
+    ],
+    "ordinary_and_small_facility_cap": {
+      "authority": "ORS 90.324(1)(b), HB3054 section 1",
+      "scope": "Tenancies subject to ORS 90.323; also tenancies subject to ORS 90.600(1) in facilities with 30 or fewer spaces.",
+      "formula": "Lesser of ten percent or seven percent plus CPI.",
+      "ceiling_percent": 10,
+      "over_cpi_percentage_points": 7,
+      "published_2026_limit_percent": 9.5,
+      "published_limit_period": {
+        "from": "2026-01-01",
+        "through": "2026-12-31"
+      },
+      "published_limit_source": "corrected_2026_publication",
+      "cpi": {
+        "authority": "ORS 90.324(4), HB3054 section 1",
+        "statutory_definition": "September annual 12-month average change in the Consumer Price Index for All Urban Consumers, West Region (All Items), as most recently published by the Bureau of Labor Statistics of the United States Department of Labor.",
+        "geography": "BLS West Region, not Oregon-only CPI or a California metropolitan CPI.",
+        "publication_rule": "DAS calculates and publishes by September 30 for the following calendar year.",
+        "workbook_description": "2026 Calculation sheet labels CPI-U West Region All Items Not Seasonally adjusted, with September 2023-August 2024 and September 2024-August 2025 observations.",
+        "inferred_runtime_rounding_rule": null
+      }
+    },
+    "large_facility_cap": {
+      "authority": "ORS 90.324(1)(a), HB3054 section 1",
+      "scope": "Tenancies subject to ORS 90.600(1) in facilities with more than 30 spaces; official correction defines facilities as manufactured dwelling parks and marinas.",
+      "formula": "Six percent; independent of CPI.",
+      "published_2026_limit_percent": 6,
+      "published_limit_period": {
+        "from": "2026-01-01",
+        "through": "2026-12-31"
+      },
+      "published_limit_source": "corrected_2026_publication",
+      "infrastructure_exception": {
+        "authority": "ORS 90.600(3)(c), HB3054 section 3, pages 2-3",
+        "maximum_percent": 12,
+        "conditions": [
+          "Facility has more than 30 spaces.",
+          "Increase substitutes for, rather than adds to, the ordinary increase in the 12-month period.",
+          "At least five years after any previous increase under this exception.",
+          "Significant project to add, replace, repair or upgrade facility infrastructure.",
+          "Written affirmative votes from 51 percent of occupied spaces, identifying space and voter signature.",
+          "Votes collected at least 30 days after written project proposal, documented cost estimate, estimated timeline and necessary rent-increase estimate, and at least 14 days after landlord's discussion meeting with tenants.",
+          "Refund without demand, less the ordinary maximum increase, if project is not substantially completed as described within 12 months of estimated completion date."
+        ]
+      }
+    },
+    "tenancy_rules": {
+      "ors_90_323": {
+        "authority": "SB611 section 4, pages 1-2",
+        "scope": "Tenancies other than week-to-week; does not apply to tenancies governed by ORS 90.505 to 90.850.",
+        "first_year": "No increase during first year after tenancy begins.",
+        "notice_days_after_first_year": 90,
+        "maximum_increases_per_12_months": 1,
+        "base": "Existing rent; maximum percentage calculated under ORS 90.324.",
+        "week_to_week": "Separate rule requires seven days written notice; the subsection (2) annual cap is not stated to govern week-to-week tenancies.",
+        "next_tenancy_constraint": "After a first-year no-cause termination by 30-day notice under ORS 90.427(3) or (4), next-tenancy rent cannot exceed maximum landlord could have charged terminated tenancy, subject to subsection (5) exemptions."
+      },
+      "ors_90_600": {
+        "authority": "HB3054 section 3, page 2",
+        "scope": "Month-to-month rental agreements to which ORS 90.505 to 90.850 apply.",
+        "notice_days": 90,
+        "maximum_increases_per_12_months": 1
+      }
+    },
+    "exemptions_from_percentage_cap": [
+      {
+        "authority": "ORS 90.323(5)(a), SB611 section 4; ORS 90.600(3)(a), HB3054 section 3",
+        "condition": "First certificate of occupancy issued less than 15 years from date of rent-increase notice."
+      },
+      {
+        "authority": "ORS 90.323(5)(b), SB611 section 4; ORS 90.600(3)(b), HB3054 section 3",
+        "condition": "Unit regulated or certified as affordable housing by federal, state or local government, and change either does not increase tenant's portion or is required by program eligibility or change in tenant income. Affordable status alone is not the full condition."
+      }
+    ],
+    "dates": {
+      "sb611_effective": "2023-07-06",
+      "sb611_date_source": "DAS 2026 calculation workbook historical note; SB611 section 8 declares effective on passage, and section 6 applies amendments to notices given on or after effective date.",
+      "hb3054_effective": "2025-09-01",
+      "hb3054_date_source": "HB3054 section 5; official bill history says larger-facility six-percent maximum begins in 2026.",
+      "sunset": null,
+      "sunset_note": "No sunset stated in inspected cap amendments; null does not certify absence of every other future amendment."
+    }
+  },
+  "california": {
+    "statute": "Civil Code 1947.12",
+    "sources": {
+      "statute": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1947.12.&lawCode=CIV",
+      "attorney_general_guidance": "https://oag.ca.gov/tenants",
+      "state_cpi_reference": "https://www.dir.ca.gov/OPRL/CAPriceIndex.htm",
+      "bls_cpi_reference": "https://www.bls.gov/regions/subjects/consumer-price-indexes.htm#CA"
+    },
+    "cap": {
+      "authority": "1947.12(a)(1)-(2)",
+      "formula": "Five percent plus percentage change in cost of living, or ten percent, whichever is lower, over any 12-month period.",
+      "over_cpi_percentage_points": 5,
+      "ceiling_percent": 10,
+      "base": "Lowest gross rental rate charged at any time during the 12 months before effective date of increase, excluding owner-offered discounts, incentives, concessions or credits accepted by tenant. Gross rent and concessions must be separately identified in agreement.",
+      "maximum_increments_per_12_months_for_same_tenant": 2,
+      "new_tenancy": "Owner may establish initial rate without this cap only when no tenant from prior tenancy remains in lawful possession; subsequent increases are capped (subdivision b).",
+      "published_2026_limit_percent": null,
+      "published_2026_limit_gap": "No single statewide annual number exists under this geographic formula. Official statute and Attorney General guidance verified; locality-specific published 2026 caps were not verified in this compilation. Do not fill this field with CPI estimates or Oregon's rate."
+    },
+    "cpi": {
+      "authority": "1947.12(g)(1), (g)(3)",
+      "series": "Consumer Price Index for All Urban Consumers for All Items (CPI-U)",
+      "geographic_series": [
+        {
+          "area": "Los Angeles-Long Beach-Anaheim",
+          "counties": ["Los Angeles", "Orange"]
+        },
+        {
+          "area": "Riverside-San Bernardino-Ontario",
+          "counties": ["Riverside", "San Bernardino"]
+        },
+        { "area": "San Diego-Carlsbad", "counties": ["San Diego"] },
+        {
+          "area": "San Francisco-Oakland-Hayward",
+          "counties": [
+            "Alameda",
+            "Contra Costa",
+            "Marin",
+            "San Francisco",
+            "San Mateo"
+          ]
+        }
+      ],
+      "fallback": "Where BLS does not publish applicable metropolitan CPI-U, California CPI-U All Items published by Department of Industrial Relations.",
+      "successors": "Successor listed metropolitan indexes apply. New BLS metropolitan indexes published on or after January 1, 2021 apply from August 1 of the calendar year when their 12-month change is first published.",
+      "before_august_1": "April immediately preceding calendar year versus April year before that; use March for both years if April is not published for applicable area.",
+      "on_or_after_august_1": "April current calendar year versus April immediately preceding year; use March for both years if April is not published for applicable area.",
+      "rounding": "Percentage change rounded to nearest one-tenth of one percent."
+    },
+    "coverage": "Residential dwelling or unit intended for human habitation, including dwelling or unit in mobilehome park, subject to statutory exemptions. Subdivision (j) excludes a homeowner of a mobilehome as defined in Section 798.9; do not equate rented mobilehome dwelling with homeowner's space rent.",
+    "exemptions": [
+      {
+        "authority": "1947.12(d)(1)",
+        "condition": "Recorded or governmental-agreement restrictions for very-low-, low- or moderate-income affordable housing, or qualifying subsidy agreement."
+      },
+      {
+        "authority": "1947.12(d)(2)",
+        "condition": "Dormitories owned and operated by higher-education institution or K-12 school."
+      },
+      {
+        "authority": "1947.12(d)(3)",
+        "condition": "Valid public-entity rent or price control with annual limit lower than state cap; local limit governs."
+      },
+      {
+        "authority": "1947.12(d)(4)",
+        "condition": "Certificate of occupancy within previous 15 years, unless housing is a mobilehome."
+      },
+      {
+        "authority": "1947.12(d)(5)",
+        "condition": "Separately alienable property, including mobilehome, only if owner is not REIT, corporation, LLC with corporate member, or mobilehome park management, AND required written exemption notice is provided. Notice belongs in agreements commenced or renewed on/after July 1, 2020, or July 1, 2022 for mobilehome tenancy; earlier agreements need notice but not necessarily in agreement. Neither detached form nor person ownership alone establishes exemption."
+      },
+      {
+        "authority": "1947.12(d)(6)",
+        "condition": "Two separate units within one structure; owner occupied one as principal residence at beginning of tenancy and continues occupancy; neither unit is ADU or junior ADU."
+      }
+    ],
+    "dates": {
+      "current_section_effective": "2024-01-01",
+      "current_section_operative": "2024-04-01",
+      "current_section_enactment": "Stats. 2023, chapter 290, section 4 (SB567), official statute footer.",
+      "original_increase_applicability_from": "2019-03-15",
+      "mobilehome_tenancy_increase_applicability_from": "2021-02-18",
+      "historical_transition_note": "Subdivisions (h) and (i) contain separate 2020/2022 rollback and transition provisions, not a general current initial-rent cap.",
+      "repeal_on": "2030-01-01",
+      "repeal_authority": "1947.12(o)"
+    },
+    "unresolved_inputs": [
+      "Local rent-control ordinance and geographic CPI applicable to each property",
+      "Actual lowest gross rent in preceding 12 months",
+      "Certificate of occupancy date",
+      "Ownership structure and exemption notice",
+      "Affordable restrictions",
+      "Owner occupancy and ADU status"
+    ]
+  }
+}

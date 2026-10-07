@@ -241,11 +241,13 @@ describe("a state amending its governor's term limit on its own", () => {
         measure.id,
         ballot.dueAt,
       ).phase;
-      expect(["operative", "rejected"]).toContain(outcome);
-      if (outcome === "operative")
-        expect(
-          executiveTermLimitInWorld(decided, "NE", ballot.dueAt)!.limit,
-        ).toMatchObject({ maxConsecutiveTerms: 2 });
+      // No voter can hold a recorded view on a term-limit amendment (it
+      // answers no catalog question), so the ballot is unsupported: nothing
+      // is drawn, and the amendment neither passes nor fails.
+      expect(outcome).toBe("ratification");
+      expect(
+        executiveTermLimitInWorld(decided, "NE", ballot.dueAt),
+      ).toMatchObject({ limit: { maxConsecutiveTerms: 1 } });
       const saved = deserializeWorld(serializeWorld(decided));
       expect(saved.history.constitutionalMeasures).toEqual(
         decided.history.constitutionalMeasures,

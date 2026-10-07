@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
-import corpus from "../../data/municipal-elections/92O-national-state-baseline.json";
+import corpus from "../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
 import {
   MUNICIPAL_CORPUS_CONFLICTS,
   MUNICIPAL_CORPUS_READINGS,
@@ -444,10 +444,14 @@ describe("the lane boundary", () => {
     // and so on), never as settled law. Candidacy, campaign and player-facing
     // code still read the packs only through it; so does the town election
     // calendar, through its `resolveMunicipalElectionTiming`.
+    //
+    // Added with #2873 (b01-p1): `recall.ts` reads the pack for who may sign a
+    // petition, so a recall follows the place's own terms.
     expect(packReaders()).toEqual([
       "src/simulation/municipal-ballot-rules.test.ts",
       "src/simulation/municipal-ballot-rules.ts",
       "src/simulation/municipal-election-rule-packs-matrix.test.ts",
+      "src/simulation/recall.ts",
     ]);
   });
 });

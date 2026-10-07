@@ -1,160 +1,626 @@
+import { rightsOrEligibilityLoss } from "../law-exposure";
 import { createOrganization, createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
-  activeWorkRelationshipsAt,
+  activeOrganizationParticipationsAt,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
   kinshipRelationshipsAt,
 } from "../life-queries";
+import { relationshipHistory } from "../queries";
+import { peopleTiedTo } from "../neighbor-news";
 import {
-  lawInterestGroup,
   lawInterestGroupKey,
   lawInterestMembers,
 } from "../official-view-reads";
-import type { EntityId, LawExposureRecord, World } from "../types";
-import { reactionLens } from "./official-views";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { onShiftAt, workSchedulesFor } from "./work-schedules";
+import groupActionRows from "../../../data/research/elections/shared-cause-group-actions.json" with { type: "json" };
+import { eventById } from "../event-index";
+import { municipalGovernmentForLifePlace } from "../municipal-government";
+import { petitionRule, startCitizenPetition } from "../recall";
+import { isEligibleVoterIn } from "../issue-record";
+import type {
+  DecisionConsideration,
+  EntityId,
+  GoalStateRecord,
+  LawExposureRecord,
+  MindSourceReference,
+  PrivateBeliefRecord,
+  World,
+} from "../types";
 
-/**
- * Organized interests (spec 5): people a law costs a real share of their pay
- * band together against it.
- *
- * APPROVED provisional values (Claude CTO, September 28, 2026, 4:57 a.m.
- * EDT): a group forms in a town once at least 6 residents have each lost a
- * tenth of a month's pay or more to the same law. The group is an ordinary
- * organization, so it shows wherever the game lists a person's groups.
- *
- * Joining is each person's own decision, never a draw (no-dice rule): the
- * size of their loss against their own pay, weighed by their temperament
- * (`reactionLens`), and whether they already know a member through family or
- * work. The same person in the same situation always decides the same way.
- *
- * NOT MODELED yet: an owner joining because their business paid (no writer
- * records a business paying a law's cost yet), group money, and donations.
- */
-
-const G = "law-interest";
-
-// APPROVED provisional: the loss that counts, and how many residents it takes.
-const LOSS_THAT_COUNTS_PER_MONTH_OF_PAY = 0.1;
-const FOUNDING_RESIDENTS = 6;
-// PLACEHOLDER: resolve is the loss in multiples of the loss that counts,
-// times the person's temperament. At twice the loss that counts, a person of
-// even temper joins on their own; someone who already knows a member joins
-// once the loss counts at all.
-const RESOLVE_TO_JOIN_ALONE = 2;
-const RESOLVE_TO_JOIN_WITH_A_TIE = 1;
-
-/** The loss as a share of the person's month's pay, or null when unmeasured. */
-function shareOfPay(exposure: LawExposureRecord): number | null {
-  if (exposure.direction !== "cost" || exposure.amount === null) return null;
-  const pay = exposure.monthlyPay?.minorUnits ?? 0;
-  if (pay <= 0) return null;
-  return exposure.amount.minorUnits / pay;
+/** Shared causes are residents' recorded goals, views and stakes, never a membership quota. */
+export interface SharedCauseInput {
+  readonly personId: EntityId;
+  readonly subjectEntityId: EntityId;
+  readonly propositionId: EntityId | null;
+  readonly stance: "support" | "oppose";
+  readonly goalStateId: EntityId | null;
+  readonly exposureId?: EntityId;
 }
 
-/** A person's own exposure that counts toward a group: a big enough loss. */
-function qualifies(exposure: LawExposureRecord): boolean {
-  if (exposure.relation !== "own") return false;
-  const share = shareOfPay(exposure);
-  return share !== null && share >= LOSS_THAT_COUNTS_PER_MONTH_OF_PAY;
-}
-
-/**
- * Called when a person reflects on their own exposure: forms the town's group
- * once enough residents qualify, and lets this person join it.
- */
-export function joinLawInterestGroup(
+function causeGroupKey(
   world: World,
-  exposure: LawExposureRecord,
+  town: EntityId,
+  subject: EntityId,
+  stance: "support" | "oppose",
+) {
+  const base = lawInterestGroupKey(town, subject);
+  return stance === "oppose" &&
+    world.history.legislativeMeasures?.some((row) => row.id === subject)
+    ? base
+    : `${base}:${stance}`;
+}
+
+export function sharedCauseGroup(
+  world: World,
+  town: EntityId,
+  subject: EntityId,
+  stance: "support" | "oppose",
+): EntityId | null {
+  const key = causeGroupKey(world, town, subject, stance);
+  return (
+    world.history.organizations.find((row) => row.stableKey === key)?.id ?? null
+  );
+}
+
+function activeGoal(
+  world: World,
+  input: SharedCauseInput,
+): GoalStateRecord | null {
+  const goal = world.history.goalStates.find(
+    (row) => row.id === input.goalStateId,
+  );
+  if (
+    !goal ||
+    goal.personId !== input.personId ||
+    goal.status !== "active" ||
+    goal.recordedAt > world.currentDate ||
+    !goal.objective.trim() ||
+    goal.targetEntityId === null ||
+    ![input.subjectEntityId, input.propositionId].includes(
+      goal.targetEntityId,
+    ) ||
+    world.history.goalStates.some(
+      (row) =>
+        row.goalId === goal.goalId &&
+        row.sequence > goal.sequence &&
+        row.recordedAt <= world.currentDate,
+    )
+  )
+    return null;
+  return goal;
+}
+
+function recordedView(
+  world: World,
+  input: SharedCauseInput,
+): PrivateBeliefRecord | null {
+  return (
+    world.history.privateBeliefs
+      .filter(
+        (row) =>
+          row.personId === input.personId &&
+          row.propositionId === input.propositionId &&
+          input.propositionId !== null &&
+          row.formedAt <= world.currentDate,
+      )
+      .at(-1) ?? null
+  );
+}
+
+function ownExposure(
+  world: World,
+  input: SharedCauseInput,
+): LawExposureRecord | null {
+  const row = world.history.lawExposures?.find(
+    (row) => row.id === input.exposureId,
+  );
+  return row &&
+    row.personId === input.personId &&
+    row.measureId === input.subjectEntityId &&
+    row.relation === "own" &&
+    row.recordedAt <= world.currentDate
+    ? row
+    : null;
+}
+
+function causeDecision(
+  world: World,
+  input: SharedCauseInput,
+  goal: GoalStateRecord | null,
+  members: readonly EntityId[],
+  founding: boolean,
+) {
+  const key = `shared-cause:${input.subjectEntityId}:${input.stance}:${input.personId}:${founding ? "found" : "join"}:${world.currentDate}`;
+  const view = recordedView(world, input);
+  const exposure = ownExposure(world, input);
+  const aligned = view?.position === input.stance;
+  const strongView =
+    aligned && view.conviction === "strong" && view.salience === "central";
+  const moneyLost =
+    exposure?.direction === "cost" && (exposure.amount?.minorUnits ?? 0) > 0;
+  const stake =
+    !!exposure &&
+    (rightsOrEligibilityLoss(exposure) ||
+      (moneyLost && !!goal && ["high", "critical"].includes(goal.priority)));
+  const reasons: DecisionConsideration[] = [];
+  if (goal)
+    reasons.push({
+      stableKey: `${key}:goal`,
+      optionKey: "organize",
+      sourceType: "mind:goal",
+      direction: "supports",
+      importance: goal.priority === "critical" ? "decisive" : "moderate",
+      confidence: "high",
+      explanation: goal.objective,
+      sourceRefs: [{ kind: "goal-state", goalStateId: goal.id }],
+    });
+  if (aligned)
+    reasons.push({
+      stableKey: `${key}:view`,
+      optionKey: "organize",
+      sourceType: "belief:proposition",
+      direction: "supports",
+      importance: strongView ? "strong" : "moderate",
+      confidence: "high",
+      explanation: `founder:view:${view.conviction}:${input.stance}`,
+      sourceRefs: [{ kind: "private-belief", beliefId: view.id }],
+    });
+  if (exposure)
+    reasons.push({
+      stableKey: `${key}:stake:${exposure.id}`,
+      optionKey: "organize",
+      sourceType: "domain:law-exposure",
+      direction: "supports",
+      importance: stake ? "strong" : "moderate",
+      confidence: "high",
+      explanation: rightsOrEligibilityLoss(exposure)
+        ? `founder:exposure:${exposure.id}:rights-or-eligibility-loss`
+        : moneyLost
+          ? `founder:exposure:${exposure.id}:money-loss`
+          : `founder:exposure:${exposure.id}:other-effect`,
+      sourceRefs: [],
+    });
+  const tieRefs = memberTieSources(world, input.personId, members);
+  if (tieRefs.length)
+    reasons.push({
+      stableKey: `${key}:ties`,
+      optionKey: "organize",
+      sourceType: "social:relationship",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: "founder:known-member-in-group",
+      sourceRefs: tieRefs,
+    });
+  const onShift = workSchedulesFor(world, input.personId).some((schedule) =>
+    onShiftAt(schedule, world.currentMoment),
+  );
+  reasons.push({
+    stableKey: `${key}:time`,
+    optionKey: "later",
+    sourceType: "context:time",
+    direction: "supports",
+    importance: onShift ? "strong" : "slight",
+    confidence: "high",
+    explanation: onShift
+      ? "founder:time-taken-by-work-shift"
+      : "founder:time-needed-to-organize",
+    sourceRefs: [],
+  });
+  return evaluateDecision(world, {
+    stableKey: key,
+    decisionType: founding
+      ? "civic.found-shared-cause-group"
+      : "civic.join-shared-cause-group",
+    actorPersonId: input.personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "entity:shared-cause",
+      key: input.subjectEntityId,
+      entityId: input.subjectEntityId,
+    },
+    options: [
+      {
+        key: "organize",
+        label: founding ? "Found the group" : "Join the group",
+        description: "founder:option:organize",
+      },
+      {
+        key: "later",
+        label: "Leave it for now",
+        description: "founder:option:later",
+      },
+    ],
+    constraints: [
+      ...(founding && !goal
+        ? [
+            {
+              stableKey: `${key}:no-goal`,
+              optionKey: "organize",
+              kind: "recorded-goal",
+              explanation: "founder:no-active-goal",
+              sourceRefs: [],
+            },
+          ]
+        : []),
+      ...((founding ? !(strongView || stake) : !(aligned || stake))
+        ? [
+            {
+              stableKey: `${key}:no-stake`,
+              optionKey: "organize",
+              kind: "recorded-stake",
+              explanation: founding
+                ? "founder:needs-strong-view-or-stake"
+                : "founder:no-aligned-view-or-stake",
+              sourceRefs: [],
+            },
+          ]
+        : []),
+      ...(onShift
+        ? [
+            {
+              stableKey: `${key}:on-shift`,
+              optionKey: "organize",
+              kind: "available-time",
+              explanation: "founder:on-work-shift",
+              sourceRefs: [],
+            },
+          ]
+        : []),
+    ],
+    considerations: reasons,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+}
+
+/** Generic causes keep the existing organization/member paths, including civic stake. */
+export function organizeSharedCauseGroup(
+  world: World,
+  input: SharedCauseInput,
 ): World {
-  if (!qualifies(exposure)) return world;
-  const person = world.people[exposure.personId];
+  const person = world.people[input.personId];
   const town = person?.homeJurisdictionId;
-  if (!person || !town) return world;
-  let next = world;
-  let groupId = lawInterestGroup(next, town, exposure.measureId);
-  if (!groupId) {
-    const hit = new Set(
-      (world.history.lawExposures ?? [])
-        .filter(
-          (row) =>
-            row.measureId === exposure.measureId &&
-            qualifies(row) &&
-            world.people[row.personId]?.homeJurisdictionId === town,
-        )
-        .map((row) => row.personId),
-    );
-    if (hit.size < FOUNDING_RESIDENTS) return world;
-    const measure = world.history.legislativeMeasures?.find(
-      (row) => row.id === exposure.measureId,
-    );
-    const place = lifePlaceByJurisdictionId(town)?.displayName;
-    if (!measure || !place) return world;
+  if (
+    !person ||
+    !town ||
+    (world.control.kind === "person" &&
+      world.control.personId === input.personId)
+  )
+    return world;
+  const groupId = sharedCauseGroup(
+    world,
+    town,
+    input.subjectEntityId,
+    input.stance,
+  );
+  const members = groupId ? lawInterestMembers(world, groupId) : [];
+  if (members.includes(input.personId)) return world;
+  const goal = activeGoal(world, input);
+  const evaluation = causeDecision(world, input, goal, members, !groupId);
+  if (
+    world.history.decisionTraces.some(
+      (row) => row.stableKey === `${evaluation.context.stableKey}:trace`,
+    )
+  )
+    return world;
+  let next = recordDurableDecisionTrace(world, evaluation);
+  if (
+    evaluation.outcomeKind !== "selected" ||
+    evaluation.selectedOptionKey !== "organize"
+  )
+    return next;
+  const explanation = evaluation.context.considerations
+    .filter((row) => row.optionKey === "organize")
+    .map((row) => row.explanation)
+    .join(" ");
+  let organizationId = groupId;
+  if (!organizationId) {
+    if (!goal) return next;
     next = createOrganization(next, {
-      stableKey: lawInterestGroupKey(town, exposure.measureId),
+      stableKey: causeGroupKey(
+        world,
+        town,
+        input.subjectEntityId,
+        input.stance,
+      ),
       formedAt: next.currentDate,
       provenance: {
         kind: "authored",
-        note: "Residents a law cost a tenth of a month's pay or more.",
+        note: `founder:founded:goal:${goal.id} (${explanation})`,
       },
       initialProfile: {
-        // PLACEHOLDER wording, awaiting editorial review.
-        name: `${place} Residents Against ${measure.shortTitle}`,
+        name: `${lifePlaceByJurisdictionId(town)?.displayName ?? next.jurisdictions[town]?.name ?? "Local"} Residents: ${goal.objective}`,
         classification: "membership:law-interest",
         locationJurisdictionId: town,
       },
     });
-    groupId = lawInterestGroup(next, town, exposure.measureId)!;
+    organizationId = sharedCauseGroup(
+      next,
+      town,
+      input.subjectEntityId,
+      input.stance,
+    )!;
   }
-  if (lawInterestMembers(next, groupId).includes(exposure.personId))
-    return next;
-  const members = lawInterestMembers(next, groupId);
-  const resolve =
-    (shareOfPay(exposure)! / LOSS_THAT_COUNTS_PER_MONTH_OF_PAY) *
-    reactionLens(next, exposure.personId);
-  const tied = knowsAMember(next, exposure.personId, members);
-  if (resolve < (tied ? RESOLVE_TO_JOIN_WITH_A_TIE : RESOLVE_TO_JOIN_ALONE))
-    return next;
   return createOrganizationParticipation(next, {
-    stableKey: `${G}:member:${groupId}:${exposure.personId}`,
-    personId: exposure.personId,
-    organizationId: groupId,
+    stableKey: `law-interest:member:${organizationId}:${input.personId}`,
+    personId: input.personId,
+    organizationId,
     startedAt: next.currentDate,
     kind: "membership:law-interest",
-    roleKind: "member:law-interest",
-    context: null,
+    roleKind: groupId ? "member:law-interest" : "leader:shared-cause",
+    context: JSON.stringify({
+      subjectEntityId: input.subjectEntityId,
+      propositionId: input.propositionId,
+      stance: input.stance,
+      goalStateId: goal?.id ?? null,
+    }),
     provenance: {
       kind: "authored",
-      note: tied
-        ? "Joined after the law cost them a real share of their pay, alongside someone they know."
-        : "Joined after the law cost them a real share of their pay.",
+      note: `${groupId ? "founder:joined" : "founder:founded"} (${explanation})`,
     },
   });
 }
 
-/** Whether the person already knows a member, through family or a workplace. */
-function knowsAMember(
+/** Existing law reflections use the same founder/join gate, with actual goals. */
+export function joinLawInterestGroup(
+  world: World,
+  exposure: LawExposureRecord,
+): World {
+  const goal = world.history.goalStates
+    .filter(
+      (row) =>
+        row.personId === exposure.personId &&
+        row.targetEntityId === exposure.measureId &&
+        row.status === "active" &&
+        row.recordedAt <= world.currentDate,
+    )
+    .at(-1);
+  if (!goal) return world;
+  const measure = world.history.legislativeMeasures?.find(
+    (row) => row.id === exposure.measureId,
+  );
+  return organizeSharedCauseGroup(world, {
+    personId: exposure.personId,
+    subjectEntityId: exposure.measureId,
+    propositionId: measure?.propositionAnswers?.[0]?.propositionId ?? null,
+    stance: exposure.direction === "gain" ? "support" : "oppose",
+    goalStateId: goal.id,
+    exposureId: exposure.id,
+  });
+}
+
+function memberTieSources(
   world: World,
   personId: EntityId,
   members: readonly EntityId[],
-): boolean {
-  if (members.length === 0) return false;
+): readonly MindSourceReference[] {
   const others = new Set(members.filter((id) => id !== personId));
-  if (
-    kinshipRelationshipsAt(world, personId).some((row) =>
-      row.personIds.some((id) => others.has(id)),
+  const tiedMembers = new Set(
+    peopleTiedTo(world, [personId], "close").filter((id) => others.has(id)),
+  );
+  if (!tiedMembers.size) return [];
+  const refs: MindSourceReference[] = [];
+  for (const row of householdMembershipsAt(world, personId))
+    if (
+      peopleInHouseholdAt(world, row.membership.householdId).some((person) =>
+        tiedMembers.has(person),
+      )
     )
+      refs.push({
+        kind: "life-history",
+        reference: {
+          family: "household-membership",
+          recordId: row.membership.id,
+        },
+      });
+  for (const row of kinshipRelationshipsAt(world, personId))
+    if (row.personIds.some((id) => tiedMembers.has(id)))
+      refs.push({
+        kind: "life-history",
+        reference: { family: "kinship", recordId: row.id },
+      });
+  for (const row of relationshipHistory(world, personId))
+    if (row.personIds.some((id) => tiedMembers.has(id)))
+      refs.push({ kind: "relationship-interaction", interactionId: row.id });
+  return refs;
+}
+
+export interface SharedCauseGroupActionContext {
+  readonly organizationId: EntityId;
+  readonly leaderPersonId: EntityId;
+  readonly propositionId: EntityId | null;
+  readonly stance: "support" | "oppose";
+}
+
+/** Canonical action writers can be supplied independently; absent writers stay unavailable. */
+export function actForSharedCauseGroup(
+  world: World,
+  input: {
+    readonly organizationId: EntityId;
+    readonly leaderPersonId: EntityId;
+    readonly decisionDayEventId: EntityId;
+    readonly handlers?: Readonly<
+      Record<
+        string,
+        (world: World, context: SharedCauseGroupActionContext) => World
+      >
+    >;
+  },
+): World {
+  if (
+    world.control.kind === "person" &&
+    world.control.personId === input.leaderPersonId
   )
-    return true;
-  const workplaces = new Set(
-    activeWorkRelationshipsAt(world, personId)
-      .map((row) => row.relationship.organizationId)
-      .filter((id): id is EntityId => id !== null),
+    return world;
+  const leader = activeOrganizationParticipationsAt(
+    world,
+    input.leaderPersonId,
+  ).find(
+    (row) =>
+      row.participation.organizationId === input.organizationId &&
+      row.state.roleKind === "leader:shared-cause",
   );
-  if (workplaces.size === 0) return false;
-  return [...others].some((id) =>
-    activeWorkRelationshipsAt(world, id).some(
-      (row) =>
-        row.relationship.organizationId !== null &&
-        workplaces.has(row.relationship.organizationId),
+  const day = eventById(world, input.decisionDayEventId);
+  if (
+    !leader?.state.context ||
+    !day ||
+    day.occurredAt !== world.currentDate ||
+    !day.participants.some((row) => row.personId === input.leaderPersonId)
+  )
+    return world;
+  const cause: {
+    propositionId: EntityId | null;
+    subjectEntityId: EntityId;
+    stance: "support" | "oppose";
+  } = JSON.parse(leader.state.context);
+  const key = `shared-cause:action:${input.organizationId}:${day.id}`;
+  if (
+    world.history.decisionTraces.some((row) => row.stableKey === `${key}:trace`)
+  )
+    return world;
+  const context: SharedCauseGroupActionContext = {
+    ...input,
+    propositionId: cause.propositionId,
+    stance: cause.stance,
+  };
+  const handlers: Record<
+    string,
+    (world: World, context: SharedCauseGroupActionContext) => World
+  > = { ...input.handlers };
+  const town = world.people[input.leaderPersonId]?.homeJurisdictionId;
+  const place = town ? lifePlaceByJurisdictionId(town) : null;
+  const government = place ? municipalGovernmentForLifePlace(place) : null;
+  const petitionTerms = government
+    ? petitionRule("local-initiative", government.state, {
+        world,
+        governmentKey: government.key,
+      })
+    : null;
+  if (
+    !handlers.petition &&
+    cause.propositionId &&
+    cause.stance === "support" &&
+    government &&
+    town &&
+    petitionTerms?.available &&
+    isEligibleVoterIn(world, input.leaderPersonId, town, world.currentDate)
+  ) {
+    const propositionId = cause.propositionId;
+    handlers.petition = (next) =>
+      startCitizenPetition(next, {
+        kind: "local-initiative",
+        petitionerPersonId: input.leaderPersonId,
+        jurisdictionId: town,
+        stateUsps: government.state,
+        governmentKey: government.key,
+        propositionId,
+      });
+  }
+  const goals = world.history.goalStates.filter(
+    (goal) =>
+      goal.personId === input.leaderPersonId &&
+      goal.status === "active" &&
+      goal.recordedAt <= world.currentDate &&
+      goal.targetEntityId !== null &&
+      [cause.subjectEntityId, cause.propositionId].includes(
+        goal.targetEntityId,
+      ) &&
+      !world.history.goalStates.some(
+        (later) =>
+          later.goalId === goal.goalId &&
+          later.sequence > goal.sequence &&
+          later.recordedAt <= world.currentDate,
+      ),
+  );
+  const busy = workSchedulesFor(world, input.leaderPersonId).some((schedule) =>
+    onShiftAt(schedule, world.currentMoment),
+  );
+  const evaluation = evaluateDecision(world, {
+    stableKey: key,
+    decisionType: "civic.shared-cause-group-action",
+    actorPersonId: input.leaderPersonId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "entity:organization",
+      key: input.organizationId,
+      entityId: input.organizationId,
+    },
+    options: [
+      ...groupActionRows.actions.map((row) => ({
+        key: row.key,
+        label: row.label,
+        description: row.description,
+      })),
+      {
+        key: "later",
+        label: "Leave it for now",
+        description: "leader:option:later",
+      },
+    ],
+    constraints: groupActionRows.actions.flatMap((row) =>
+      busy || !handlers[row.key]
+        ? [
+            {
+              stableKey: `${key}:unavailable:${row.key}`,
+              optionKey: row.key,
+              kind: busy ? "available-time" : "canonical-action-writer",
+              explanation: busy
+                ? "leader:on-work-shift"
+                : row.key === "petition" &&
+                    petitionTerms &&
+                    !petitionTerms.available
+                  ? petitionTerms.reason
+                  : "leader:action-writer-or-subject-unavailable",
+              sourceRefs: [],
+            },
+          ]
+        : [],
     ),
-  );
+    considerations: [
+      ...groupActionRows.actions.flatMap((row) =>
+        goals
+          .filter((goal) => goal.goalKey === row.goalKey)
+          .map((goal): DecisionConsideration => ({
+            stableKey: `${key}:goal:${goal.id}:${row.key}`,
+            optionKey: row.key,
+            sourceType: "mind:goal",
+            direction: "supports",
+            importance: goal.priority === "critical" ? "decisive" : "strong",
+            confidence: "high",
+            explanation: goal.objective,
+            sourceRefs: [{ kind: "goal-state", goalStateId: goal.id }],
+          })),
+      ),
+      {
+        stableKey: `${key}:time`,
+        optionKey: "later",
+        sourceType: "context:time",
+        direction: "supports",
+        importance: "slight",
+        confidence: "high",
+        explanation: "leader:time-needed-to-act",
+        sourceRefs: [],
+      },
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  const next = recordDurableDecisionTrace(world, evaluation);
+  const handler =
+    evaluation.outcomeKind === "selected" && evaluation.selectedOptionKey
+      ? handlers[evaluation.selectedOptionKey]
+      : null;
+  return handler ? handler(next, context) : next;
 }

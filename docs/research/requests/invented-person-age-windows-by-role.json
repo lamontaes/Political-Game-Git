@@ -1,0 +1,21 @@
+{
+  "filedAt": "2026-10-01T18:00:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and social engine",
+  "notes": ["Aggregates only; no named individuals are wanted."],
+  "priority": "P2",
+  "question": "For each kind of person the game invents when the records name no one, what is the real age distribution in the United States? The roles are: members of Congress and state legislators (new and sitting), people chosen to fill a legislative vacancy, presidential nominees, governors and their challengers and successors, statewide officials in office, people a governor considers appointing, party chapter organizers and national and state party committee members, campaign staff and field leads, campaign volunteers and contacts, opposing candidates, local reporters and newsroom staff, people who move into a town from elsewhere, Federal Reserve governors and reserve bank presidents, town council members and town managers, small-business owners and their workers, and state court judges when first seated. For each role give the median, the quartiles, and the 5th and 95th percentiles.",
+  "questionId": "invented-person-age-windows-by-role",
+  "relatedQuestionIds": ["state-legislator-age-tenure-and-district-lean"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Team 5 (A161, one way to make a person)",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/invented-person-age.ts (A161)",
+      "whatItDidNotSettle": "The windows there are the game's estimates, carried over from the producers that used to keep their own ranges."
+    }
+  ],
+  "title": "How old the people in each kind of role really are, so invented people get realistic ages",
+  "usableAnswer": "One row per role, with the median, quartiles, 5th and 95th percentiles and the legal minimum age where one exists. Give a citation for each figure (CRS, NCSL, NGA, FJC, Federal Reserve, BLS CPS, ACS migration flows, Pew newsroom surveys or similar).",
+  "whyItMatters": "Every invented person now takes an age from one shared table (src/simulation/invented-person-age.ts). Each window is a game estimate, marked ESTIMATED FROM AVERAGE, and checked only against a few real averages: about 58 for House members and 65 for senators at the start of the 119th Congress, about 56 to 58 for state legislators, about 58 for sitting governors, and about 50 for federal judges at appointment. A sourced distribution would replace the estimate. A seeded pick inside the real range would remain the only draw."
+}

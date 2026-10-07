@@ -1,0 +1,138 @@
+{
+  "observedAt": "2026-09-30T16:44:55.472519+00:00",
+  "source": "7f2603b5a67f4baea06e8678601173777b4879e6",
+  "productionMain": "d6fb351926da2149ad0183e21463efad18b61df7",
+  "runnerOrigin": "d10af9af0e61d6db201d994d53f5a50135e3b22c",
+  "completedWorlds": 2,
+  "worlds": [
+    {
+      "state": "GA",
+      "place": "1382916",
+      "name": "Wildwood, Georgia",
+      "unincorporated": true,
+      "seed": "team2-national-20260930-1131-1",
+      "output": "test-results/law-audit/current-main-1218/world-ga",
+      "status": "COMPLETED",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--max-old-space-size=8192",
+        "--import",
+        "tsx",
+        "scripts/law-audit/run.ts",
+        "--seed",
+        "team2-national-20260930-1131-1",
+        "--place",
+        "1382916",
+        "--months",
+        "24",
+        "--out",
+        "test-results/law-audit/current-main-1218/world-ga"
+      ],
+      "pid": 42,
+      "exitCode": 0,
+      "finishedAt": "2026-09-30T16:43:48.452Z",
+      "checkpoint": {
+        "month": 24,
+        "date": "2028-01-05",
+        "enacted": 25,
+        "elapsedSeconds": 569.673401655
+      },
+      "counts": {
+        "lawsAudited": 25,
+        "effectsFiring": 58,
+        "effectsAboutZero": 0,
+        "effectsMissing": 58,
+        "reasons": {
+          "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause": 47,
+          "recorded-effect": 58,
+          "completed-payment-without-matching-paid-service-event": 8,
+          "no-catalog-answer-or-registered-effect; authored scenario needs an explicit trace": 3
+        }
+      },
+      "producerStampedRows": 0,
+      "adapterPositiveRows": 58,
+      "unmatchedPaymentServiceRows": 8
+    },
+    {
+      "state": "NJ",
+      "place": "3439360",
+      "name": "Laurence Harbor, New Jersey",
+      "unincorporated": true,
+      "seed": "team2-national-20260930-1131-2",
+      "output": "test-results/law-audit/current-main-1218/world-nj",
+      "status": "COMPLETED",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--max-old-space-size=8192",
+        "--import",
+        "tsx",
+        "scripts/law-audit/run.ts",
+        "--seed",
+        "team2-national-20260930-1131-2",
+        "--place",
+        "3439360",
+        "--months",
+        "24",
+        "--out",
+        "test-results/law-audit/current-main-1218/world-nj"
+      ],
+      "pid": 43,
+      "exitCode": 0,
+      "finishedAt": "2026-09-30T16:44:41.966Z",
+      "checkpoint": {
+        "month": 24,
+        "date": "2028-01-05",
+        "enacted": 21,
+        "elapsedSeconds": 624.101990748
+      },
+      "counts": {
+        "lawsAudited": 21,
+        "effectsFiring": 54,
+        "effectsAboutZero": 0,
+        "effectsMissing": 45,
+        "reasons": {
+          "no-catalog-answer-or-registered-effect; authored scenario needs an explicit trace": 3,
+          "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause": 39,
+          "recorded-effect": 54,
+          "completed-payment-without-matching-paid-service-event": 3
+        }
+      },
+      "producerStampedRows": 0,
+      "adapterPositiveRows": 54,
+      "unmatchedPaymentServiceRows": 3
+    }
+  ],
+  "mergedWriters": [
+    {
+      "pr": 1244,
+      "merge": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+      "kind": "Medicaid coverage"
+    },
+    {
+      "pr": 1256,
+      "merge": "6f3c2cdcabb2c03518f4d9787f835ddb0a50d385",
+      "kind": "Federal withholding"
+    },
+    {
+      "pr": 1261,
+      "merge": "ea5f51aefe4aad8fed1e2b587867c804ef01f5b2",
+      "kind": "Federal privacy costs"
+    }
+  ],
+  "coverageGaps": [
+    "The unchanged reader scans sequenced records in world.history, not world.townFinances.businesses. The privacy writer stores stamped books in the latter.",
+    "Starting-law stamps are excluded by the enacted-source and current-measure filter.",
+    "An unmatched paid-service event remains a purpose-aware join gap, not proof of absent service."
+  ],
+  "historicalBatch": {
+    "source": "88a294907c57a45149bf417128488e5d1375607f",
+    "productionMain": "7c24983ff3320129f257d66ee497831e29d53cfc",
+    "completedWorlds": 4,
+    "northCarolinaLastCheckpoint": {
+      "month": 4,
+      "date": "2026-05-05",
+      "enacted": 20
+    },
+    "worldSaveAvailable": false
+  }
+}

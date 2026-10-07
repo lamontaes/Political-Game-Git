@@ -8,7 +8,11 @@ import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import { defenseBoostPct } from "../federal-defense-spending";
 import { railExpansionPct } from "../federal-passenger-rail";
 import { federalDeficitChangePctOfGdp } from "../federal-outlay-laws";
-import { parksLawAddedPct } from "../public-budgets/parks-dedication";
+import {
+  lawSpendingPerResident,
+  spendingPerResident,
+} from "../public-budgets/fiscal";
+import { SPENDING_QUESTION_EFFECTS } from "../public-budgets/rules";
 import { farmPaymentsCutPctOfLandValue } from "../federal-farm-subsidy-law";
 import { stateMinimumSettingAt } from "../minimum-wage";
 import {
@@ -19,7 +23,6 @@ import {
 import minimumWages from "../../../data/research/money/minimum-wage-2026.json" with { type: "json" };
 import { US_FEDERAL_POSITIONS_PACK } from "../policy-pack-us-federal-positions";
 import { US_POLICY_POSITIONS_PACK } from "../policy-pack-us-policy-positions";
-import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, World } from "../types";
 
 /**
@@ -57,12 +60,16 @@ export const OUTCOME_WEB_CALIBRATED_AT = web.calibratedAt as IsoDate;
 
 const FEDERAL_MINIMUM_HOURLY = minimumWages.federalHourly;
 
+/** Hours in a full-time work year, as pay and local-economy code count them. */
+const WORK_HOURS_PER_YEAR = 2_080;
+
 export type OutcomeEvidence =
   "researched" | "provisional" | "contested" | "about-zero" | "to-confirm";
 export type OutcomeStrength = "strong" | "moderate" | "weak" | "about-zero";
 
 export type OutcomeLinkShape =
   | { readonly kind: "linear" }
+  | { readonly kind: "elasticity" }
   | {
       readonly kind: "threshold";
       readonly at: number;
@@ -99,13 +106,18 @@ export interface OutcomeLink {
   readonly group: string;
   readonly owner: string;
   readonly evidence: OutcomeEvidence;
+  /** Declared structural inventory; never proof of delivery to a person. */
+  readonly status: OutcomeLinkStatus;
+  readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  /** Owner-deferred links retain their evidence but are not used in play. */
+  readonly consumed?: boolean;
   readonly anchor: string;
   /** Developer reference only. Never shown on a player screen. */
   readonly source: string;
   readonly moderator?: OutcomeLinkModerator;
   /**
-   * The spread of sizes the research reports, [low, high]. Each world draws
-   * its own size for each place within it; `size` is the central estimate.
+   * The spread of sizes the research reports, [low, high], retained as
+   * research evidence. Gameplay uses `size`, the recorded central estimate.
    */
   readonly range?: readonly [number, number];
   /**
@@ -124,6 +136,9 @@ export interface OutcomeLink {
 }
 
 export const OUTCOME_LINKS = web.links as readonly OutcomeLink[];
+const OUTCOME_LINK_BY_KEY = new Map(
+  OUTCOME_LINKS.map((link) => [link.key, link]),
+);
 
 const TARGET_BOUNDS = web.targets as Readonly<
   Record<string, { readonly floor: number; readonly ceiling: number }>
@@ -161,14 +176,17 @@ function stateMinimumHourlyAt(
   world: World,
   jurisdictionId: EntityId,
   asOf: IsoDate,
-): { readonly now: number; readonly before: number } | null {
+): { readonly now: number; readonly before: number | null } | null {
   const key = placeOutcomeKey(jurisdictionId);
   if (!key || !/^US-[A-Z]{2}$/.test(key)) return null;
   const setting = stateMinimumSettingAt(world, key, asOf);
   if (setting === null) return null;
   return {
     now: Math.max(FEDERAL_MINIMUM_HOURLY, setting.hourlyMinor / 100),
-    before: Math.max(FEDERAL_MINIMUM_HOURLY, setting.beforeMinor / 100),
+    before:
+      setting.beforeMinor === null
+        ? null
+        : Math.max(FEDERAL_MINIMUM_HOURLY, setting.beforeMinor / 100),
   };
 }
 
@@ -201,21 +219,54 @@ const FIXED_MEASURES: Readonly<Record<string, OutcomeMeasure>> = {
     // one the 2026 rate stands and the change is zero.
     read: (world, jurisdictionId, asOf) => {
       const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
-      return minimum === null ? null : (minimum.now / minimum.before - 1) * 100;
+      return minimum === null || minimum.before === null
+        ? null
+        : (minimum.now / minimum.before - 1) * 100;
+    },
+  },
+  "labor.minimum-wage-to-median": {
+    key: "labor.minimum-wage-to-median",
+    unit: "the state minimum wage in force as a share of the place's typical hourly pay",
+    // The minimum wage in force (`minimum-wage.ts`, `stateMinimumSettingAt`)
+    // over the place's own recorded median earnings (`place-outcomes.ts`, the
+    // `labor.median-earnings` record) spread over a 2,080-hour year. Both are
+    // saved: a law that sets the wage or a month that moves the earnings
+    // changes the reading. Median earnings count people with part-year work,
+    // so the ratio reads a little above one built on full-time hourly pay.
+    // Null until the place has a recorded month.
+    read: (world, jurisdictionId, asOf) => {
+      const minimum = stateMinimumHourlyAt(world, jurisdictionId, asOf);
+      if (minimum === null) return null;
+      const earnings = placeOutcomeAt(
+        world,
+        "labor.median-earnings",
+        jurisdictionId,
+        asOf,
+      );
+      if (earnings === null || !(earnings.value > 0)) return null;
+      return minimum.now / (earnings.value / WORK_HOURS_PER_YEAR);
     },
   },
 
   "budget.parks-added-pct": {
     key: "budget.parks-added-pct",
     unit: "percent of what the place spends on parks that a dedicated parks tax adds or a repeal takes away",
-    // A dedication (or a repeal of the one the game began with) moves the
-    // state's parks line by the same dollars per resident every month it
-    // stands (`public-budgets/parks-dedication.ts`); with none it is zero.
+    // Read the same annual per-resident row delta used by the monthly budget.
     read: (world, jurisdictionId, asOf) => {
       const key = placeOutcomeKey(jurisdictionId);
       return key === null
         ? null
-        : parksLawAddedPct(world, jurisdictionId, key, asOf);
+        : (SPENDING_QUESTION_EFFECTS.filter(
+            (effect) => effect.program === "parks",
+          ).reduce(
+            (change, effect) =>
+              change +
+              (lawSpendingPerResident(world, jurisdictionId, effect, asOf) ??
+                0),
+            0,
+          ) /
+            spendingPerResident(key, "parksAndRecreation")) *
+            100;
     },
   },
   "federal.defense-boost-pct": {
@@ -397,8 +448,9 @@ export function outcomeLinksFedByQuestion(
   const measures = LAW_QUESTION_MEASURES[questionKey] ?? [];
   return OUTCOME_LINKS.filter(
     (link) =>
-      link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
-      measures.includes(link.from),
+      link.consumed !== false &&
+      (link.from === `${LAW_CAUSE_PREFIX}${questionKey}` ||
+        measures.includes(link.from)),
   );
 }
 
@@ -553,19 +605,57 @@ export function outcomeLinkStatus(link: OutcomeLink): OutcomeLinkStatus {
   return "built";
 }
 
+export type OutcomeLinkUnsupportedReason =
+  "size-not-set" | "cause-not-recorded" | "outcome-not-produced";
+
+/** Validate the declared inventory against the existing structural classifier.
+ * This does not admit a cause value, a person-level effect or a saved delivery. */
+export function validateOutcomeLinkInventory(
+  links: readonly OutcomeLink[],
+): void {
+  for (const link of links) {
+    if (link.consumed !== undefined && typeof link.consumed !== "boolean")
+      throw new Error(
+        `Outcome link has an invalid consumption flag: ${link.key}`,
+      );
+    const actual = outcomeLinkStatus(link);
+    if (link.status !== actual)
+      throw new Error(
+        `Outcome link status disagrees with its existing readers: ${link.key}`,
+      );
+    const reason: OutcomeLinkUnsupportedReason | null =
+      link.size === null
+        ? "size-not-set"
+        : actual === "cause-not-recorded" || actual === "outcome-not-produced"
+          ? actual
+          : null;
+    if (link.unsupportedReason !== reason)
+      throw new Error(
+        `Outcome link has an invalid blocker reason: ${link.key}`,
+      );
+  }
+}
+
 export function outcomeWebStatus(): readonly {
   readonly key: string;
   readonly owner: string;
   readonly from: string;
   readonly to: string;
   readonly status: OutcomeLinkStatus;
+  readonly evidence: OutcomeEvidence;
+  readonly unsupportedReason: OutcomeLinkUnsupportedReason | null;
+  readonly consumed: boolean;
 }[] {
+  validateOutcomeLinkInventory(OUTCOME_LINKS);
   return OUTCOME_LINKS.map((link) => ({
     key: link.key,
     owner: link.owner,
     from: link.from,
     to: link.to,
     status: outcomeLinkStatus(link),
+    evidence: link.evidence,
+    unsupportedReason: link.unsupportedReason,
+    consumed: link.consumed !== false,
   }));
 }
 
@@ -587,10 +677,60 @@ export interface OutcomeReading {
   readonly causes: readonly OutcomeCause[];
 }
 
+/** A post-run check, never a replacement for the calculated effect. */
+export interface OutcomeRangeViolation {
+  readonly kind: "link" | "target";
+  readonly key: string;
+  readonly value: number;
+  readonly floor: number | null;
+  readonly ceiling: number | null;
+}
+
+/** Check the table's ranges after computing an outcome without changing it. */
+export function outcomeRangeViolations(
+  reading: OutcomeReading,
+): readonly OutcomeRangeViolation[] {
+  const violations: OutcomeRangeViolation[] = [];
+  const check = (
+    kind: OutcomeRangeViolation["kind"],
+    key: string,
+    value: number,
+    floor: number | null,
+    ceiling: number | null,
+  ) => {
+    if (
+      !Number.isFinite(value) ||
+      (floor !== null && value < floor) ||
+      (ceiling !== null && value > ceiling)
+    )
+      violations.push({ kind, key, value, floor, ceiling });
+  };
+  for (const cause of reading.causes) {
+    const link = OUTCOME_LINK_BY_KEY.get(cause.key);
+    if (link)
+      check(
+        "link",
+        link.key,
+        cause.factor,
+        link.floor ?? 0,
+        link.ceiling ?? null,
+      );
+  }
+  const bounds = TARGET_BOUNDS[reading.outcome];
+  check(
+    "target",
+    reading.outcome,
+    reading.multiplier,
+    bounds?.floor ?? null,
+    bounds?.ceiling ?? null,
+  );
+  return violations;
+}
+
 /**
  * How much one link moves its outcome when the cause sits `delta` units from
  * its baseline (`value` is the cause itself, for thresholds). Returns the
- * factor on the outcome's rate, before the moderator and the link's bounds.
+ * factor on the outcome's rate, before the moderator. Ranges are checks only.
  */
 export function shapedLinkFactor(
   link: Pick<OutcomeLink, "shape" | "size">,
@@ -600,6 +740,16 @@ export function shapedLinkFactor(
   const size = link.size ?? 0;
   const delta = value - baseline;
   switch (link.shape.kind) {
+    case "elasticity":
+      // A relative change is undefined without a positive baseline.
+      // Do not turn missing/zero exposure into a fabricated effect.
+      if (
+        !Number.isFinite(baseline) ||
+        baseline <= 0 ||
+        !Number.isFinite(value)
+      )
+        return 1;
+      return 1 + size * (delta / baseline);
     case "linear":
       return 1 + size * delta;
     case "threshold": {
@@ -623,24 +773,11 @@ export function shapedLinkFactor(
   }
 }
 
-/** How far either way a size may fall when the research gave no range. */
-const DEFAULT_SPREAD: Readonly<Record<OutcomeEvidence, number>> = {
-  researched: 0.25,
-  provisional: 0.5,
-  contested: 1,
-  "about-zero": 0,
-  "to-confirm": 0.5,
-};
-
-/**
- * The size this world uses for a link in one place. Research sizes are a
- * baseline, not literal numbers (Lamontae, Sept. 28): each world draws each
- * place's size once, stable for the whole game, within the link's range, or
- * within a default spread by evidence. A world without a seed (a fixture)
- * uses the central size.
- */
+/** The recorded central size for this place, or the link's central size.
+ * Research ranges remain evidence checks; seeds do not change a coefficient.
+ * The World argument preserves the existing callers' public contract. */
 export function drawnLinkSize(
-  world: World,
+  _world: World,
   link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
     Partial<Pick<OutcomeLink, "sizeByPlace">>,
   jurisdictionId: EntityId,
@@ -648,19 +785,7 @@ export function drawnLinkSize(
   const own = link.sizeByPlace
     ? link.sizeByPlace[placeOutcomeKey(jurisdictionId) ?? ""]
     : undefined;
-  const size = own ? own.size : (link.size ?? 0);
-  if (size === 0 || !world.seed) return size;
-  const spread = DEFAULT_SPREAD[link.evidence];
-  const [low, high] = (own ? own.range : link.range) ?? [
-    size * (1 - spread),
-    size * (1 + spread),
-  ];
-  // Two draws averaged: the middle of the range is likelier than its ends.
-  const rng = new SeededRng(world.seed).fork(
-    `outcome-web:${link.key}:${jurisdictionId}`,
-  );
-  const u = (rng.next() + rng.next()) / 2;
-  return Math.min(low, high) + Math.abs(high - low) * u;
+  return own?.size ?? link.size ?? 0;
 }
 
 function lagged(asOf: IsoDate, lagMonths: number): IsoDate {
@@ -670,8 +795,8 @@ function lagged(asOf: IsoDate, lagMonths: number): IsoDate {
 
 /**
  * The multiplier on `outcome`'s base rate in one place on one date, from every
- * built link into it, with each link's part. Each link's factor keeps to its
- * own bounds (none below zero), and the product keeps to the outcome's bounds.
+ * built link into it, with each link's part. The table's ranges never clip
+ * a cause or their product; `outcomeRangeViolations` checks the finished run.
  */
 export function outcomeFactor(
   world: World,
@@ -681,7 +806,12 @@ export function outcomeFactor(
 ): OutcomeReading {
   const causes: OutcomeCause[] = [];
   for (const link of OUTCOME_LINKS) {
-    if (link.to !== outcome || outcomeLinkStatus(link) !== "built") continue;
+    if (
+      link.consumed === false ||
+      link.to !== outcome ||
+      outcomeLinkStatus(link) !== "built"
+    )
+      continue;
     const measure = outcomeMeasure(link.from)!;
     const readAt = lagged(asOf, link.lagMonths);
     const value = measure.read(world, jurisdictionId, readAt);
@@ -721,10 +851,6 @@ export function outcomeFactor(
         continue;
       }
     }
-    factor = Math.min(
-      link.ceiling ?? Number.POSITIVE_INFINITY,
-      Math.max(link.floor ?? 0, factor),
-    );
     causes.push({
       key: link.key,
       from: link.from,
@@ -736,11 +862,7 @@ export function outcomeFactor(
     });
   }
   const product = causes.reduce((total, cause) => total * cause.factor, 1);
-  const bounds = TARGET_BOUNDS[outcome];
-  const multiplier = bounds
-    ? Math.min(bounds.ceiling, Math.max(bounds.floor, product))
-    : product;
-  return { outcome, multiplier, causes };
+  return { outcome, multiplier: product, causes };
 }
 
 /** How far back an acute link still counts, for callers that keep events. */
@@ -752,3 +874,6 @@ export function acuteWeight(
   const age = daysBetween(happenedAt, asOf);
   return age < 0 ? 0 : Math.pow(0.5, age / halfLifeDays);
 }
+
+// Admit the catalog before any caller can use an effect or status reading.
+validateOutcomeLinkInventory(OUTCOME_LINKS);

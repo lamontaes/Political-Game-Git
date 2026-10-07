@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "team": 6,
+  "lawQuestionKey": "additional-rural-transit-service-hours",
+  "productionWriter": "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService",
+  "costConsumer": "src/presentation/budget-economy.ts:projectBudgetEconomy / government.outlays:simulated-history",
+  "paymentWriter": "src/simulation/governing/public-program.ts:recordProgramOutlaysForDate",
+  "cost": "Actual posted installment amount, already debited from the government payer; no new amount, coefficient or duplicate payment.",
+  "scope": "appropriation.jurisdictionId, government.outlays, segmentKey:null, exact installment date interval",
+  "stamp": "state-spending lawEffectStamp, matching canonical operative measure, exact measure/appropriation/commitment/installment/flow/outcome/service-event IDs plus posted installment event and prior budget state",
+  "guards": [
+    "Posted operating purpose",
+    "Exact saved payment chain and currency",
+    "Actual simulated outlay has installment.eventId provenance and at least installment amount"
+  ],
+  "proof": {
+    "fixture": "HI operating plus distinct maintenance/chain fixture",
+    "testsPassed": 2,
+    "testsSkipped": 51,
+    "actualUSDOutlay": 100,
+    "payerDebitUSD": 100,
+    "budgetUSD": 100,
+    "budgetPointMatchesStampedState": true,
+    "serializationRetainsStamp": true
+  },
+  "researchBoundary": "Inherited $100/hour is authored game contract data. This wires an actual ledger cost, not a new empirical per-unit estimate. Do not claim researched nationwide operating prices.",
+  "limitations": [
+    "Maintenance outlays are not stamped by the operating-hours writer.",
+    "Shared later daily rollup may supersede the row without inheriting law stamps; historical row remains.",
+    "An aggregate daily total can include other laws; sourceRecordIds identify this component, not attribution of the whole aggregate to one law.",
+    "Nationwide runtime not run."
+  ],
+  "sharedFilesEdited": []
+}
