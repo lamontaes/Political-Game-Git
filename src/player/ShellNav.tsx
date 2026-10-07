@@ -477,7 +477,7 @@ export function ShellNav({
             data-testid="shell-nav-cluster"
             aria-expanded={open}
             aria-controls={open ? "pg-nav-flyout" : undefined}
-            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}. Open navigation.`}
+            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}.`}
             onClick={() => dispatch({ type: "toggle-navigation" })}
           >
             <span className="pg-nav-cluster-inner" aria-hidden="true">
@@ -538,7 +538,7 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-day"
                 aria-disabled={passing || undefined}
-                title={passTargets ? passTargets.day : undefined}
+                title={passTargets?.day}
                 onClick={() => {
                   if (!passing) onPassDays(1);
                 }}
@@ -550,7 +550,7 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-week"
                 aria-disabled={passing || undefined}
-                title={passTargets ? passTargets.week : undefined}
+                title={passTargets?.week}
                 onClick={() => {
                   if (!passing) onPassDays(7);
                 }}

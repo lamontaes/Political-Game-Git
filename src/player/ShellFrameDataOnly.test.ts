@@ -6,6 +6,7 @@ const FILES = [
   "src/player/ShellNav.tsx",
   "src/player/ShellPinRail.tsx",
   "src/player/ShellWorkspaces.tsx",
+  "src/player/ReturnToTitleAction.tsx",
 ];
 const JSX_SENTENCE = />\s*[A-Z][^<>{}]{25,}[.?!]\s*</;
 const STRING_SENTENCE = /["`][A-Z][^"`]{25,}[.?!]["`]/;
