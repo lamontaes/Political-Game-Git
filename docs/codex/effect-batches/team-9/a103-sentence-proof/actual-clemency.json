@@ -1,0 +1,72 @@
+[
+  {
+    "seed": "team9-g10-floor-five-20260930",
+    "place": "US-IA",
+    "name": "Quentin Waller",
+    "personId": "person_466f940d7a6ab8b3",
+    "sentenceId": "event_701d0afb0a3a2d81",
+    "petitionId": "event_59a40c8aa99bc65b",
+    "dueItemId": "future-due-item_a4623289e0fd1409",
+    "due": "2036-01-05",
+    "status": "denied",
+    "composedCourtHandler": true,
+    "pressOnlyJusticeUnchanged": true,
+    "successor": null
+  },
+  {
+    "seed": "team9-g10-floor-five-20260930",
+    "place": "US-LA",
+    "name": "Omar Cole",
+    "personId": "person_a4a81d89d811c828",
+    "sentenceId": "event_11178caf74a80006",
+    "petitionId": "event_da44d024dab814e3",
+    "dueItemId": "future-due-item_61dc143accceb130",
+    "due": "2033-01-05",
+    "status": "denied",
+    "composedCourtHandler": true,
+    "pressOnlyJusticeUnchanged": true,
+    "successor": null
+  },
+  {
+    "seed": "team9-g10-floor-five-20260930",
+    "place": "US-TX",
+    "name": "Sage Keller",
+    "personId": "person_0313ca68eed3a21c",
+    "sentenceId": "event_1cc490fe8a58f2fa",
+    "petitionId": "event_4b9804b9b96a93ac",
+    "dueItemId": "future-due-item_02974b3aa7bcea79",
+    "due": "2046-01-05",
+    "status": "denied",
+    "composedCourtHandler": true,
+    "pressOnlyJusticeUnchanged": true,
+    "successor": null
+  },
+  {
+    "seed": "team9-g10-floor-five-20260930",
+    "place": "US-CT",
+    "name": "Rachel McMahon",
+    "personId": "person_5200e386e5b349ed",
+    "sentenceId": "event_d28d2a5ad091622f",
+    "petitionId": "event_53c5229ff89f84e3",
+    "dueItemId": "future-due-item_29f69cfaa7e582e4",
+    "due": "2037-12-05",
+    "status": "denied",
+    "composedCourtHandler": true,
+    "pressOnlyJusticeUnchanged": true,
+    "successor": null
+  },
+  {
+    "seed": "team9-g10-floor-five-20260930",
+    "place": "US-ND",
+    "name": "Jose Richardson",
+    "personId": "person_ad326d417ded3cb7",
+    "sentenceId": "event_8d937c2199fbe819",
+    "petitionId": "event_bf99f647592e03f0",
+    "dueItemId": "future-due-item_bed33cd7648a1c4f",
+    "due": "2031-01-05",
+    "status": "denied",
+    "composedCourtHandler": true,
+    "pressOnlyJusticeUnchanged": true,
+    "successor": null
+  }
+]

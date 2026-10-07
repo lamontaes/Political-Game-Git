@@ -1,10 +1,193 @@
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  ensureNationalElectionJurisdiction,
+  NATIONAL_ELECTION_JURISDICTION,
+} from "./national-election-geography";
+import {
+  appendNationalRecord,
+  nationalAllocation,
+  nationalRecords,
+  registerNationalElection,
+} from "./national-elections";
+import { deserializeWorld, serializeWorld } from "./serialization";
+import {
+  CONTINGENT_STATES,
+  ELECTORAL_ALLOCATION,
+  nationalElectionRules,
+} from "./national-election-rules";
 import {
   STATES,
+  FEDERAL_DISTRICT_USPS,
   TERRITORY_USPS,
   birthConfersCitizenship,
   nonvotingHouseMemberTitle,
 } from "./state-reference";
+
+describe("place data owns jurisdiction kind and elector allocation", () => {
+  it("carries every recorded unit into the saved allocation and reopens unchanged", () => {
+    const seed = "a109-place-allocation-save-proof";
+    const place = drawRandomPlace(
+      seed,
+      (candidate) =>
+        candidate.stateJurisdictionKey !== null &&
+        STATES[candidate.stateJurisdictionKey.slice(3)]?.electorAllocation !==
+          "none",
+    );
+    const fixture = smallWorld({
+      place: place.key,
+      people: 4,
+      date: "2028-11-08",
+      seed,
+    });
+    const [a, av, b, bv] = fixture.world.personOrder;
+    if (!a || !av || !b || !bv)
+      throw new Error("Four recorded residents are required.");
+    const provenance = {
+      method: "authored" as const,
+      sourceEntityIds: [],
+      note: `Supplied certification fixture in ${fixture.place.displayName}; seed ${seed}. Not a voter prediction.`,
+    };
+    let world = registerNationalElection(
+      ensureNationalElectionJurisdiction(fixture.world),
+      {
+        stableKey: "a109-allocation-proof",
+        cycle: 2028,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        tickets: [
+          {
+            presidentPersonId: a,
+            vicePresidentPersonId: av,
+            presidentState: fixture.stateUsps,
+            vicePresidentState: fixture.stateUsps,
+          },
+          {
+            presidentPersonId: b,
+            vicePresidentPersonId: bv,
+            presidentState: fixture.stateUsps,
+            vicePresidentState: fixture.stateUsps,
+          },
+        ],
+        provenance,
+      },
+    );
+    const electionId = world.history.nationalElections!.at(-1)!.id;
+    for (const unit of nationalElectionRules(2028).units) {
+      world = appendNationalRecord(world, {
+        stableKey: `a109-result:${unit.key}`,
+        electionId,
+        kind: "unit-result",
+        unitKey: unit.key,
+        sourceContestResultId: null,
+        allocationWinnerPersonId: a,
+        tallies: [
+          { candidatePersonId: a, votes: 2 },
+          { candidatePersonId: b, votes: 1 },
+        ],
+        provenance,
+      });
+      const result = nationalRecords(world, electionId).at(-1)!;
+      world = appendNationalRecord(world, {
+        stableKey: `a109-certification:${unit.key}`,
+        electionId,
+        kind: "certification",
+        resultId: result.id,
+        disposition: "certified",
+        allocationWinnerPersonId: a,
+        authorityNote: "Supplied canonical test certification.",
+        provenance,
+      });
+    }
+    const allocation = nationalAllocation(world, electionId);
+    expect(
+      allocation.electors,
+      `${fixture.place.displayName}; seed ${seed}`,
+    ).toHaveLength(538);
+    expect(allocation.units.every((unit) => unit.status === "allocated")).toBe(
+      true,
+    );
+    expect(nationalRecords(world, electionId)).toHaveLength(
+      nationalElectionRules(2028).units.length * 2,
+    );
+    const reopened = deserializeWorld(serializeWorld(world));
+    expect(nationalAllocation(reopened, electionId)).toEqual(allocation);
+    expect(serializeWorld(reopened)).toBe(serializeWorld(world));
+  }, 120_000);
+
+  it("classifies all 56 places without giving territories electors or a contingent state vote", () => {
+    const places = Object.entries(STATES);
+    expect(places).toHaveLength(56);
+    expect(
+      places.filter(([, place]) => place.jurisdictionKind === "state"),
+    ).toHaveLength(50);
+    expect([...FEDERAL_DISTRICT_USPS]).toEqual(["DC"]);
+    expect([...TERRITORY_USPS].sort()).toEqual(["AS", "GU", "MP", "PR", "VI"]);
+    expect(CONTINGENT_STATES).toHaveLength(50);
+    for (const [usps, place] of places) {
+      expect(CONTINGENT_STATES.includes(usps), usps).toBe(
+        place.jurisdictionKind === "state",
+      );
+      expect(place.electorAllocation === "none", usps).toBe(
+        place.jurisdictionKind === "territory",
+      );
+    }
+  });
+
+  it("preserves the sourced district splits and all 538 electors in every supported allocation version", () => {
+    expect(
+      Object.entries(STATES)
+        .filter(
+          ([, place]) => place.electorAllocation === "congressional-district",
+        )
+        .map(([usps]) => usps)
+        .sort(),
+    ).toEqual(["ME", "NE"]);
+    for (const cycle of [2024, 2028, 2032]) {
+      const rules = nationalElectionRules(cycle);
+      expect(rules.units.reduce((sum, unit) => sum + unit.electors, 0)).toBe(
+        538,
+      );
+      for (const [usps, place] of Object.entries(STATES)) {
+        const units = rules.units.filter((unit) => unit.state === usps);
+        expect(
+          units.reduce((sum, unit) => sum + unit.electors, 0),
+          `${cycle} ${usps}`,
+        ).toBe(ELECTORAL_ALLOCATION[usps] ?? 0);
+        if (place.electorAllocation === "congressional-district") {
+          expect(units[0], usps).toEqual({
+            key: usps,
+            state: usps,
+            electors: 2,
+            countsPopular: true,
+          });
+          expect(
+            units
+              .slice(1)
+              .every((unit) => unit.electors === 1 && !unit.countsPopular),
+            usps,
+          ).toBe(true);
+          expect(
+            units.map((unit) => unit.key),
+            usps,
+          ).toEqual([
+            usps,
+            ...Array.from(
+              { length: ELECTORAL_ALLOCATION[usps]! - 2 },
+              (_, index) => `${usps}-${index + 1}`,
+            ),
+          ]);
+        } else {
+          expect(units, usps).toHaveLength(
+            place.electorAllocation === "none" ? 0 : 1,
+          );
+        }
+      }
+      expect(nationalElectionRules(cycle)).toBe(rules);
+      expect(Object.isFrozen(rules.units)).toBe(true);
+    }
+  });
+});
 
 describe("what a birth in each place confers", () => {
   it("makes a citizen of a birth in every state and the District", () => {

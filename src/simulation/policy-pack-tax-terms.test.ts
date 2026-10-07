@@ -1,0 +1,176 @@
+import { createProductionPolicyCatalog } from "./production-catalog";
+import { stateJurisdictionForKey } from "./life-places";
+import { STATES } from "./state-reference";
+import { questionAuthority } from "./governing/question-authority";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { createLawConsequenceRegistry } from "./law-consequence-registry";
+import { expect, it } from "vitest";
+import { loadPolicyPacks } from "./policy-packs";
+import { POLICY_PACKS } from "./policy-pack-registry";
+import {
+  TAX_TERMS_POLICY_PACK,
+  TAX_TERM_QUESTION_ROWS,
+} from "./policy-pack-tax-terms";
+import { TAX_LAW_TERM_KEYS, TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
+
+it("loads tax questions without assigning any rates or replacing existing questions", () => {
+  const original = loadPolicyPacks(
+    POLICY_PACKS.filter((pack) => pack.pack !== TAX_TERMS_POLICY_PACK.pack),
+  );
+  const next = loadPolicyPacks(POLICY_PACKS);
+  expect(next.report.rejections).toEqual([]);
+  for (const row of original.propositions) {
+    expect(next.propositions.find((entry) => entry.id === row.id)).toEqual(row);
+  }
+  expect(TAX_TERM_QUESTION_ROWS.length).toBeGreaterThan(0);
+  for (const row of TAX_TERM_QUESTION_ROWS) {
+    expect(
+      next.propositions.some(
+        (p) => p.stableKey === `${TAX_TERMS_POLICY_PACK.pack}:${row.key}`,
+      ),
+    ).toBe(true);
+  }
+  const federalTaxTermKeys = [
+    "federal.income-tax-terms",
+    "federal.sales-tax-terms",
+    "federal.payroll-tax-terms",
+    "federal.corporate-tax-terms",
+  ];
+  for (const key of federalTaxTermKeys) {
+    const row = TAX_TERM_QUESTION_ROWS.find((entry) => entry.key === key);
+    expect(row?.consequences).toHaveLength(1);
+    expect(row?.consequences?.[0]).toMatchObject({
+      kind: "tax",
+      when: "assessment",
+      who: { selector: "recorded-tax-base-payer" },
+      what: "assess-enacted-tax-base",
+      amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      evidence: {
+        sourceIds: expect.arrayContaining([
+          "src/simulation/law-consequences/tax.ts",
+          "src/simulation/tax-law-term-binding.ts",
+        ]),
+        uncertainty: expect.stringContaining(
+          "bindTaxLawTerms(world, { law, questionKey, proposalId, onDate, cutoff })",
+        ),
+      },
+    });
+  }
+  for (const row of TAX_TERM_QUESTION_ROWS) {
+    expect(row.parameters?.map((term) => term.key)).toEqual(
+      Object.values(TAX_LAW_TERM_KEYS),
+    );
+    if (federalTaxTermKeys.includes(row.key)) {
+      expect(row.consequences).toHaveLength(1);
+    } else if (row.key.endsWith(".excise-tax-terms")) {
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]).toMatchObject({
+        kind: "tax",
+        when: "assessment",
+        who: { selector: "recorded-tax-base-payer" },
+        what: "assess-enacted-tax-base",
+        amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      });
+    } else if (
+      /^(city|county)\.(property|sales|payroll|corporate)-tax-terms$/.test(
+        row.key,
+      )
+    ) {
+      // Local terms land through the same binder, with the state's own rule
+      // read by the shared local tax lookup and the question tagged for council.
+      expect(row.consequences).toHaveLength(1);
+      expect(row.tags).toContain("local-fiscal-effect:tax-policy");
+      expect(row.consequences![0]!.evidence.sourceIds).toContain(
+        "src/simulation/local-tax-authority.ts",
+      );
+    } else if (/^state\.(property|sales|payroll)-tax-terms$/.test(row.key)) {
+      // A state's own terms read the powers catalog's state row through the
+      // same binder.
+      expect(row.consequences).toHaveLength(1);
+      expect(row.consequences![0]!.evidence.sourceIds).toContain(
+        "src/simulation/state-tax-authority.ts",
+      );
+    } else expect(row.consequences).toBeUndefined();
+    expect(row.principles).toBeUndefined();
+  }
+});
+
+it("keeps exact rational rates separate from occurrence allowances and timing", () => {
+  expect(TAX_NUMERIC_LAW_TERMS.map(({ field, unit }) => [field, unit])).toEqual(
+    [
+      ["rateNumerator", "count"],
+      ["rateDenominator", "count"],
+      ["allowanceMinorUnits", "minor"],
+      ["effectiveDelayDays", "days"],
+      ["collectionLagDays", "days"],
+    ],
+  );
+  expect(
+    TAX_TERM_QUESTION_ROWS.some(
+      (row) => row.key === "federal.property-tax-terms",
+    ),
+  ).toBe(false);
+});
+
+it("routes federal tax-term rows through the existing registered tax consumer", () => {
+  const registry = createLawConsequenceRegistry();
+  const handler = registry.handlers.get("tax");
+  expect(handler?.owner).toBe("team-6");
+  const federalRows = TAX_TERM_QUESTION_ROWS.filter((row) =>
+    ["income", "sales", "payroll", "corporate"].some(
+      (family) => row.key === `federal.${family}-tax-terms`,
+    ),
+  );
+  expect(federalRows).toHaveLength(4);
+  for (const row of federalRows) {
+    const consequence = row.consequences?.[0];
+    expect(consequence).toBeDefined();
+    expect(
+      registry.capabilities.actions.get("tax")?.has(consequence!.what),
+    ).toBe(true);
+    expect(
+      registry.capabilities.selectorsByKind
+        ?.get("tax")
+        ?.has(consequence!.who.selector),
+    ).toBe(true);
+  }
+});
+
+it("keeps state tax questions at their own level across all 56 jurisdictions", () => {
+  const policyCatalog = createProductionPolicyCatalog();
+  const world = { policyCatalog };
+  const stateQuestion = Object.values(policyCatalog.propositions).find(
+    (p) => p.stableKey === "us-tax-terms:state.income-tax-terms",
+  )!;
+  const federalQuestion = Object.values(policyCatalog.propositions).find(
+    (p) => p.stableKey === "us-tax-terms:federal.income-tax-terms",
+  )!;
+  expect(stateQuestion).toBeDefined();
+  expect(federalQuestion).toBeDefined();
+  let checked = 0;
+  for (const usps of Object.keys(STATES)) {
+    const place = stateJurisdictionForKey(`US-${usps}`)!;
+    expect(place).toBeDefined();
+    const withPlaces = { ...world, jurisdictions: { [place.id]: place } };
+    expect(
+      questionAuthority(withPlaces, place.id, federalQuestion.id).may,
+    ).toBe("no");
+    expect(questionAuthority(withPlaces, place.id, stateQuestion.id).dial).toBe(
+      "income-tax",
+    );
+    checked += 1;
+  }
+  expect(checked).toBe(56);
+  expect(
+    questionAuthority(
+      {
+        ...world,
+        jurisdictions: {
+          [NATIONAL_ELECTION_JURISDICTION.id]: NATIONAL_ELECTION_JURISDICTION,
+        },
+      },
+      NATIONAL_ELECTION_JURISDICTION.id,
+      stateQuestion.id,
+    ).may,
+  ).toBe("no");
+});

@@ -1,8 +1,22 @@
+import { currentMeasureProvisions } from "../simulation/legislative-politics";
+import { operativeDateInWorld } from "../simulation/governing/law-in-force";
+import {
+  playerRequiredWorkIds,
+  releasePlayerRequiredWork,
+} from "../simulation/time-work";
+import { personName } from "../simulation/people";
+import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/state-executives";
+import {
+  governorOfficeForJurisdiction,
+  governingMatters,
+  decideGoverningMatter,
+} from "../simulation/governing/state-governing";
+import { BILL_SIGN } from "../simulation/governing/governor-bill-decision";
 import { describe, expect, it } from "vitest";
 
 import { createLegislativeScenario } from "../simulation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
-import { advanceWorld } from "../simulation/world";
+import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import { addDays } from "../simulation/dates";
 import type { EntityId, World } from "../simulation";
 import type { ProgramParameterValue } from "../simulation/legislation-content-contracts";
@@ -90,7 +104,127 @@ function staff(world: World, personId: EntityId, organizationId: EntityId) {
 
 type Scenario = ReturnType<typeof createLegislativeScenario>;
 
-/** Files one bill in the scenario's legislature and carries it to enactment. */
+/** Record the fixture's control change without rewriting pending work. */
+function controlForFixture(
+  world: World,
+  personId: EntityId,
+  stableKey: string,
+): World {
+  const previous =
+    world.control.kind === "person" ? world.control.personId : null;
+  if (previous === personId) return world;
+  const handoff = recordWorldEvent(world, {
+    stableKey,
+    type: "test.control-moved",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: null,
+    involvedEntityIds: [
+      personId,
+      ...(previous
+        ? [previous, ...playerRequiredWorkIds(world, previous)]
+        : []),
+    ],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [],
+    summary:
+      "Controlled downstream fixture moves play to the actual actor for its next recorded action.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const released = previous
+    ? releasePlayerRequiredWork(handoff, {
+        personId: previous,
+        stableKeyPrefix: `${stableKey}:released`,
+        outcomeEventId: handoff.history.events.at(-1)!.id,
+      })
+    : handoff;
+  return { ...released, control: { kind: "person", personId } };
+}
+
+/** A controlled actual-office signature for downstream law-effect fixtures. */
+function signAtActualGovernorDesk(
+  scenario: ReturnType<typeof createLegislativeScenario>,
+  start: World,
+  measureId: EntityId,
+): World {
+  let world = ensureStateExecutiveIncumbent(
+    start,
+    scenario.playerPersonId,
+    scenario.pack.jurisdictionKey.slice(3),
+  );
+  const office = governorOfficeForJurisdiction(
+    world,
+    scenario.pack.jurisdictionKey,
+  );
+  expect(
+    office,
+    "A recorded governor is required for this controlled signature.",
+  ).not.toBeNull();
+  world = controlForFixture(
+    world,
+    office!.holderPersonId,
+    `a80:governor-control:${measureId}`,
+  );
+  world = applyLegislativeStep(
+    { ...scenario, measureId },
+    world,
+    "await-executive-decision",
+  ).world;
+  const matter = governingMatters(world, office!.officeKey).find(
+    (row) => row.measureId === measureId && row.status === "open",
+  );
+  expect(
+    matter,
+    "The actual bill must reach its recorded governor's desk.",
+  ).toBeDefined();
+  const decision = decideGoverningMatter(world, matter!.id, BILL_SIGN);
+  expect(decision.ok, decision.ok ? "" : decision.reason).toBe(true);
+  const next = decision.world;
+  expect(measurePosition(next, measureId).phase).toBe("awaiting-enactment");
+  const recorded = next.history.events.find(
+    (event) =>
+      event.tags.includes(`matter:${matter!.id}`) &&
+      event.tags.includes(`choice:${BILL_SIGN}`),
+  );
+  expect(
+    recorded?.participants.some(
+      (participant) =>
+        participant.personId === office!.holderPersonId &&
+        participant.role === "agency:decider",
+    ),
+  ).toBe(true);
+  console.info(
+    "A80 actual governor fixture",
+    JSON.stringify({
+      seed: next.seed,
+      scenario: scenario.scenarioKey,
+      measureId,
+      matterId: matter!.id,
+      governor: personName(next.people[office!.holderPersonId]!),
+      governorId: office!.holderPersonId,
+      decisionEventId: recorded!.id,
+      choice: BILL_SIGN,
+      phase: measurePosition(next, measureId).phase,
+      controlledChoice: true,
+    }),
+  );
+  return next;
+}
+
+/**
+ * Files a controlled bill and signs it through the actual recorded governor
+ * desk for downstream duty tests. The signing choice is supplied, not an
+ * ordinary NPC decision. Production vacancy handling stays pending.
+ */
 function pass(
   scenario: Scenario,
   start: World,
@@ -101,7 +235,12 @@ function pass(
     readonly parameterValues?: Readonly<Record<string, ProgramParameterValue>>;
   },
 ) {
-  const filed = fileDraft(start, {
+  const controlledStart = controlForFixture(
+    start,
+    scenario.playerPersonId,
+    `a80:filing-control:${start.history.nextSequence}`,
+  );
+  const filed = fileDraft(controlledStart, {
     scenarioKey: "nebraska",
     playerPersonId: scenario.playerPersonId,
     jurisdictionId:
@@ -120,12 +259,46 @@ function pass(
       (key) => key !== "offer-amendment",
     );
     if (!step) break;
+    if (step === "await-executive-decision") {
+      world = publishLegislativeTransition(
+        world,
+        signAtActualGovernorDesk(scenario, world, measureId),
+      );
+      continue;
+    }
     world = publishLegislativeTransition(
       world,
       applyLegislativeStep(context, world, step).world,
     );
   }
   expect(measurePosition(world, measureId).outcome).toBe("enacted");
+  const enactment = world.history.legislativeEnactments?.find(
+    (row) => row.measureId === measureId,
+  );
+  console.info(
+    "A80 fixture law records",
+    JSON.stringify({
+      file: "enacted-duties",
+      measureId,
+      currentDate: world.currentDate,
+      lineages: world.history.legislativeDraftLineages?.filter(
+        (row) => row.measureId === measureId,
+      ),
+      enactment: enactment ?? null,
+      operative: enactment ? operativeDateInWorld(world, enactment) : null,
+      appropriations:
+        world.history.publicProgramRecords?.filter(
+          (row) =>
+            row.kind === "appropriation" && row.sourceMeasureId === measureId,
+        ) ?? [],
+      provisions: currentMeasureProvisions(world, measureId).map((row) => ({
+        id: row.id,
+        provisionKey: row.provisionKey,
+        text: row.text,
+        operativeEffect: row.operativeEffect ?? null,
+      })),
+    }),
+  );
   return { world, measureId, docketKey: filed.bill.docketKey };
 }
 
@@ -158,13 +331,17 @@ function enact(
 
 /** Moves to the compliance date and runs the one due item the duty scheduled. */
 function fallDue(world: World, measureId: EntityId): World {
-  const [{ duty }] = enactedDutiesOf(world, measureId);
+  const entry = enactedDutiesOf(world, measureId)[0];
+  expect(entry).toBeDefined();
+  if (!entry)
+    throw new Error("The fixture must record a duty before it falls due.");
+  const { duty } = entry;
   const due = world.history.futureDueItems.find(
     (item) =>
       item.transitionKey === ENACTED_DUTY_COMPLIANCE &&
-      item.entityIds.includes(duty!.eventId),
+      item.entityIds.includes(duty.eventId),
   )!;
-  expect(due.dueAt).toBe(duty!.complyBy);
+  expect(due.dueAt).toBe(duty.complyBy);
   // Ordinary time, with the handlers the game runs, up to the compliance date.
   const days = Math.round(
     (Date.parse(due.dueAt) - Date.parse(world.currentDate)) / 86_400_000,
@@ -173,7 +350,7 @@ function fallDue(world: World, measureId: EntityId): World {
 }
 
 describe("a law that places a duty on a class of body", () => {
-  it("records the duty, and on its date finds who complied and who did not", () => {
+  it("records the duty without mistaking workers for fulfillment", () => {
     const { world, measureId, staffedId, emptyId } = enact(
       "continuity-planning-duty",
       "critical-infrastructure",
@@ -205,11 +382,13 @@ describe("a law that places a duty on a class of body", () => {
       Object.fromEntries(
         findings.map((row) => [row.organizationId, row.outcome]),
       ),
-    ).toEqual({ [staffedId]: "complied", [emptyId]: "compliance-unknown" });
-    // The provisional rule is marked as one on the record, and an unstaffed
-    // body is unknown, never a breach.
+    ).toEqual({
+      [staffedId]: "compliance-unknown",
+      [emptyId]: "compliance-unknown",
+    });
+    // Neither a worker nor missing staffing proves performance or a breach.
     expect(findings.map((row) => row.basis).sort()).toEqual([
-      "game-profile",
+      "unknown",
       "unknown",
     ]);
     const read = enactedLawEffects(after, measureId)!.lines.find(
@@ -217,11 +396,11 @@ describe("a law that places a duty on a class of body", () => {
     );
     expect(read).toMatchObject({
       status: "in-effect",
-      complied: 1,
-      complianceUnknown: 1,
+      complied: 0,
+      complianceUnknown: 2,
     });
     expect(lawEffectSentences(after, measureId).join(" ")).toContain(
-      "Of those on record, 1 of 2 met it; for 1, whether it was met is not known.",
+      "Of those on record, for 2, whether it was met is not known.",
     );
   });
 
@@ -356,10 +535,12 @@ describe("a law that says who it applies to", () => {
       undefined,
       { "covered-bodies": { kind: "enumerated", value: "state-and-local" } },
     );
-    const [{ duty }] = enactedDutiesOf(world, measureId);
+    const entry = enactedDutiesOf(world, measureId)[0];
+    expect(entry).toBeDefined();
+    if (!entry) throw new Error("The fixture must record its coverage duty.");
+    const { duty } = entry;
     expect(
-      duty!.coverage.kind === "unrecorded-test" &&
-        duty!.coverage.classifications,
+      duty.coverage.kind === "unrecorded-test" && duty.coverage.classifications,
     ).toContain("sector:local-government-office");
     // Whether an agency employs people in classified posts is not on record,
     // so none is counted as covered.
@@ -531,10 +712,19 @@ describe("a law that ends, extends or repeals a program", () => {
     );
     expect(line).toMatchObject({ change: "repeal", superseded: false });
     if (line?.kind !== "program-term") return;
-    expect(
-      resolveAuthority(repeal.world, input(scenario), TRANSIT)
-        ?.authorizesSpending,
-    ).toBe(repeal.world.currentDate <= line.lastDay);
+    const authorityBefore = resolveAuthority(
+      repeal.world,
+      input(scenario),
+      TRANSIT,
+    );
+    expect(authorityBefore?.kind).toBe("standing-statute");
+    if (authorityBefore?.kind !== "standing-statute")
+      throw new Error(
+        "The fixture requires its recorded standing spending authority.",
+      );
+    expect(authorityBefore.authorizesSpending).toBe(
+      repeal.world.currentDate <= line.lastDay,
+    );
 
     const days = Math.round(
       (Date.parse(line.lastDay) - Date.parse(repeal.world.currentDate)) /
@@ -545,9 +735,13 @@ describe("a law that ends, extends or repeals a program", () => {
       Math.max(1, days + 1),
       createCampaignElectionTransitionRegistry(),
     );
-    expect(
-      resolveAuthority(after, input(scenario), TRANSIT)?.authorizesSpending,
-    ).toBe(false);
+    const authorityAfter = resolveAuthority(after, input(scenario), TRANSIT);
+    expect(authorityAfter?.kind).toBe("standing-statute");
+    if (authorityAfter?.kind !== "standing-statute")
+      throw new Error(
+        "The fixture requires its recorded standing spending authority.",
+      );
+    expect(authorityAfter.authorizesSpending).toBe(false);
     expect(
       availableAuthorities(after, input(scenario)).find(
         (row) => row.authorityKey === TRANSIT,
@@ -612,7 +806,7 @@ describe("a law that ends, extends or repeals a program", () => {
     expect(
       programLastDay(sunset.world, {
         authorityKey: TRANSIT,
-        jurisdictionId: "jurisdiction_elsewhere",
+        jurisdictionId: stateJurisdictionForKey("US-IA")!.id,
       }),
     ).toBeNull();
   });

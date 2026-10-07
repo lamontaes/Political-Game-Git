@@ -1,0 +1,215 @@
+{
+  "seed": "team2-a167-county-population",
+  "records": [
+    {
+      "place": "Gates, Oregon",
+      "placeKey": "4128200",
+      "jurisdictionId": "jurisdiction_7f6a51617c3cee40",
+      "stateKey": "US-OR",
+      "month": "2026-02-01",
+      "cityPopulation": 482,
+      "counties": [
+        {
+          "county": "41043",
+          "share": 0.08394160583941605,
+          "before": 132474,
+          "after": 132433.5401459854,
+          "deducted": 40.4598540145962
+        },
+        {
+          "county": "41047",
+          "share": 0.916058394160584,
+          "before": 352867,
+          "after": 352425.4598540146,
+          "deducted": 441.5401459853747
+        }
+      ],
+      "savedParticipants": [
+        {
+          "placeKey": "4128200",
+          "jurisdictionId": "jurisdiction_7f6a51617c3cee40",
+          "weight": 0.00011281791773233177
+        },
+        {
+          "placeKey": "county:41043",
+          "jurisdictionId": "jurisdiction_65dfe691f4620d54",
+          "weight": 0.030997668541890535
+        },
+        {
+          "placeKey": "county:41047",
+          "jurisdictionId": "jurisdiction_65dfe291f4620688",
+          "weight": 0.08248943264852575
+        }
+      ],
+      "savedResidents": 485341
+    },
+    {
+      "place": "Shelby, Iowa",
+      "placeKey": "1972300",
+      "jurisdictionId": "jurisdiction_8fc1336a330db8d1",
+      "stateKey": "US-IA",
+      "month": "2026-02-01",
+      "cityPopulation": 727,
+      "counties": [
+        {
+          "county": "19155",
+          "share": 0.015130674002751032,
+          "before": 93529,
+          "after": 93518,
+          "deducted": 11
+        },
+        {
+          "county": "19165",
+          "share": 0.984869325997249,
+          "before": 11821,
+          "after": 11105,
+          "deducted": 716
+        }
+      ],
+      "savedParticipants": [
+        {
+          "placeKey": "1972300",
+          "jurisdictionId": "jurisdiction_8fc1336a330db8d1",
+          "weight": 0.00022427971351428726
+        },
+        {
+          "placeKey": "county:19155",
+          "jurisdictionId": "jurisdiction_6dd05398711671cb",
+          "weight": 0.028850330465514603
+        },
+        {
+          "placeKey": "county:19165",
+          "jurisdictionId": "jurisdiction_6ddac398711f84a0",
+          "weight": 0.003425895761452765
+        }
+      ],
+      "savedResidents": 105350
+    },
+    {
+      "place": "Queen Anne, Maryland",
+      "placeKey": "2464500",
+      "jurisdictionId": "jurisdiction_8d392d6f9d8d9672",
+      "stateKey": "US-MD",
+      "month": "2026-02-01",
+      "cityPopulation": 190,
+      "counties": [
+        {
+          "county": "24035",
+          "share": 0.6875,
+          "before": 53688,
+          "after": 53557.37500000001,
+          "deducted": 130.62499999999272
+        },
+        {
+          "county": "24041",
+          "share": 0.3125,
+          "before": 38244,
+          "after": 38184.625,
+          "deducted": 59.375
+        }
+      ],
+      "savedParticipants": [
+        {
+          "placeKey": "2464500",
+          "jurisdictionId": "jurisdiction_8d392d6f9d8d9672",
+          "weight": 0.000030335833644674783
+        },
+        {
+          "placeKey": "county:24035",
+          "jurisdictionId": "jurisdiction_a6c9beb54ae4e466",
+          "weight": 0.008551092728660338
+        },
+        {
+          "placeKey": "county:24041",
+          "jurisdictionId": "jurisdiction_a6bfd2b54adcb1dd",
+          "weight": 0.006096644377812052
+        }
+      ],
+      "savedResidents": 91932
+    },
+    {
+      "place": "Mount Airy, Maryland",
+      "placeKey": "2453875",
+      "jurisdictionId": "jurisdiction_3dc4481382e46a27",
+      "stateKey": "US-MD",
+      "month": "2026-02-01",
+      "cityPopulation": 9857,
+      "counties": [
+        {
+          "county": "24013",
+          "share": 0.63455562461156,
+          "before": 177108,
+          "after": 170853.18520820385,
+          "deducted": 6254.814791796147
+        },
+        {
+          "county": "24021",
+          "share": 0.36544437538844005,
+          "before": 299317,
+          "after": 295714.81479179615,
+          "deducted": 3602.185208203853
+        }
+      ],
+      "savedParticipants": [
+        {
+          "placeKey": "2453875",
+          "jurisdictionId": "jurisdiction_3dc4481382e46a27",
+          "weight": 0.0015737911170292597
+        },
+        {
+          "placeKey": "county:24013",
+          "jurisdictionId": "jurisdiction_a6d0d0b54aeb21aa",
+          "weight": 0.027278809495467803
+        },
+        {
+          "placeKey": "county:24021",
+          "jurisdictionId": "jurisdiction_a6c6beb54ae2ae8f",
+          "weight": 0.04721450225152496
+        }
+      ],
+      "savedResidents": 476425
+    },
+    {
+      "place": "Wayne, Illinois",
+      "placeKey": "1779397",
+      "jurisdictionId": "jurisdiction_646e2afac8d87484",
+      "stateKey": "US-IL",
+      "month": "2026-02-01",
+      "cityPopulation": 2278,
+      "counties": [
+        {
+          "county": "17043",
+          "share": 0.6561679790026247,
+          "before": 937142,
+          "after": 935647.2493438321,
+          "deducted": 1494.7506561678601
+        },
+        {
+          "county": "17089",
+          "share": 0.3438320209973753,
+          "before": 520997,
+          "after": 520213.750656168,
+          "deducted": 783.2493438320234
+        }
+      ],
+      "savedParticipants": [
+        {
+          "placeKey": "1779397",
+          "jurisdictionId": "jurisdiction_646e2afac8d87484",
+          "weight": 0.00017922672558437117
+        },
+        {
+          "placeKey": "county:17043",
+          "jurisdictionId": "jurisdiction_a5087c23b4e54e8d",
+          "weight": 0.07361413204649636
+        },
+        {
+          "placeKey": "county:17089",
+          "jurisdictionId": "jurisdiction_a515ea23b4f093d3",
+          "weight": 0.04092897591486809
+        }
+      ],
+      "savedResidents": 1458139
+    }
+  ]
+}

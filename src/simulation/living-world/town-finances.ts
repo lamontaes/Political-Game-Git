@@ -1,3 +1,19 @@
+import { aggregateCustomers } from "../aggregate-customers";
+import { recordById } from "../history-index";
+import {
+  currentResourceCutoff,
+  resourceFlowsTouching,
+  resourceTransferOutcomesForFlow,
+  resourcePositionAt,
+} from "../resource-queries";
+import { paymentFromDatedCash } from "../resource-payments";
+import {
+  createResourceFlow,
+  makeCurrencyCode,
+  money,
+  recordResourceTransferOutcome,
+} from "../resources";
+import { startState } from "../macro-economy/producer";
 /**
  * The town's businesses and banks keep books (Build 19: "businesses close
  * when their cash runs out, not at a flat 11.6% a year"; "real banks in each
@@ -34,21 +50,23 @@
  * closures and unemployment feed upward.
  */
 
-import { dataPrivacyCostOn } from "../federal-data-privacy-law";
+import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
+import { privacyInitialOccurrence } from "../federal-data-privacy-law";
 import { addDays } from "../dates";
-import { recordOrganizationProfile, recordWorkStatus } from "../life";
+import { acuteWeight } from "../outcome-web";
+import { recordOrganizationProfile } from "../life";
 import { organizationClosingAt, organizationProfileAt } from "../life-queries";
 import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { areaResidents } from "../outcome-web/place-outcome-store";
-import { SeededRng } from "../rng";
 import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  WorkRelationship,
   WorkStatusRecord,
   World,
 } from "../types";
@@ -56,6 +74,7 @@ import { recordWorldEvent } from "../world";
 import {
   FDIC_SMALL_BANK_REPORT_DATE,
   FDIC_SMALL_BANK_SHAPES,
+  FDIC_SMALL_BANK_RECORDS,
 } from "./town-bank-shapes.generated";
 import {
   BANK_FAILED_EVENT,
@@ -68,11 +87,27 @@ import {
 import {
   otherCostsAtSales,
   townBusinessKindBooks,
+  TOWN_BUSINESS_WORKPLACES,
 } from "./town-business-books";
-import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
-import { activeTownJobs, TOWN_JOB_END_REASONS } from "./town-labor-market";
+import {
+  TOWN_EMPLOYMENT_VERSION,
+  TOWN_WORKPLACES,
+  townWorkplaceFor,
+} from "./town-employment";
+import {
+  activeTownJobs,
+  jobsLostBy,
+  recordTownJobLoss,
+  TOWN_JOB_END_REASONS,
+} from "./town-labor-market";
 
 export const TOWN_FINANCES_VERSION = "town-finances-v1" as const;
+
+/** The A71 research answers the books read (CTO ruling, 10/1). */
+const TOWN_BUSINESS_RESEARCH = {
+  creditLine: townBusinessResearch.answers["small-business-credit-line-size"],
+  localSales: townBusinessResearch.answers["local-sales-response-to-town-pay"],
+} as const;
 export { BANK_FAILED_EVENT, BUSINESS_CLOSED_EVENT };
 
 export const TOWN_FINANCE_CLOSING_REASONS = {
@@ -116,14 +151,39 @@ export const TOWN_FINANCE_POLICY = {
       realty: 47,
       "*": 27,
     } as Readonly<Record<string, number>>,
-    /** PLACEHOLDER: a line of credit up to this many days of revenue. */
-    creditLineDaysOfRevenue: 36.5,
     /**
-     * PLACEHOLDER: how far a business's revenue follows what the town's
-     * employers pay: the percent its sales move for each percent the town's
-     * pay moves (the rest comes from outside or does not follow).
+     * MEASURED (A71, CTO ruling 10/1): a business's line of credit is its
+     * kind's median days of revenue among small firms that hold one, times
+     * its own revenue (`townCreditLineDays`, read from
+     * data/research/money/town-business-a71-2026.json: Federal Reserve 2003
+     * Survey of Small Business Finances, limit over sales). A kind with too
+     * few firms on file takes the all-industry 48.7 days (ESTIMATED FROM
+     * AVERAGE). Gap filed as `town-bank-line-underwriting`: about a third of
+     * small firms hold a line, but the bank's decision does not yet weigh a
+     * business's own books, so every business whose bank lends gets one.
      */
-    localDemandElasticity: 0.5,
+    creditLineDaysByKind: Object.fromEntries(
+      Object.entries(TOWN_BUSINESS_RESEARCH.creditLine.byGameKind).map(
+        ([kind, row]) => [kind, row.medianDays],
+      ),
+    ) as Readonly<Record<string, number>>,
+    /**
+     * MEASURED (A71, CTO ruling 10/1): the long-run percent a business's
+     * sales move for each percent the town's pay moves, 0.335 (Moretti,
+     * "Local Multipliers," AER P&P 2010, Table 1, IV), read from the A71
+     * research file. It is a decade-long response, so it builds over time
+     * (`localDemandHalfLifeDays`) instead of landing in full each quarter.
+     */
+    localDemandElasticity: TOWN_BUSINESS_RESEARCH.localSales.value,
+    /**
+     * PLACEHOLDER, pending research question
+     * `local-sales-response-timing`: half the gap between the sales the
+     * town's pay supports in the long run and the sales its pay has already
+     * reached closes in this many days, on the outcome web's half-life shape
+     * (`acuteWeight`). Three years leaves about 10 percent of the response
+     * still to come at Moretti's ten-year measuring window.
+     */
+    localDemandHalfLifeDays: 1095,
     /**
      * GAME ASSUMPTION: the share of a new business's sales that is new
      * spending in town. Zero: a newcomer takes its sales from the businesses
@@ -233,28 +293,95 @@ export function uninsuredDepositShare(shape: BankShape): number {
   return nationalShapes[shape.index]!.uninsured;
 }
 
-/**
- * The real bank a town bank takes the shape of: one of its state's small
- * banks, or of the nation's when the state has fewer than five on file.
- * Drawing it sets the stage; the bank's fate is not drawn.
- */
-export function drawBankShape(state: string | null, draw: number): BankShape {
-  const own = state ? FDIC_SMALL_BANK_SHAPES[state] : undefined;
-  const pool = own ? parseShapes(own) : [];
-  if (pool.length >= 5) {
-    const index = Math.min(pool.length - 1, Math.floor(draw * pool.length));
-    const { cushion, otherAssets } = pool[index]!;
-    return { state, index, cushion, otherAssets };
+interface ObservedBankShape extends BankShape {
+  readonly assetsThousands: number;
+  readonly certificate: number;
+}
+
+// Build each observed source index on first use, not at module import or daily.
+const observedBankPools = new Map<
+  string | null,
+  readonly ObservedBankShape[]
+>();
+function observedBankPool(state: string | null): readonly ObservedBankShape[] {
+  const own = state === null ? undefined : FDIC_SMALL_BANK_RECORDS[state];
+  const sourceState = own && own.length >= 5 ? state : null;
+  const cached = observedBankPools.get(sourceState);
+  if (cached) return cached;
+  const states =
+    sourceState === null
+      ? Object.keys(FDIC_SMALL_BANK_SHAPES).sort()
+      : [sourceState];
+  const rows: ObservedBankShape[] = [];
+  let offset = 0;
+  for (const key of states) {
+    const shapes = parseShapes(FDIC_SMALL_BANK_SHAPES[key]!);
+    const records = FDIC_SMALL_BANK_RECORDS[key]!;
+    if (records.length !== shapes.length)
+      throw new Error(
+        "Observed bank metadata must preserve the original ratio rows.",
+      );
+    records.forEach(([assetsThousands, certificate], index) => {
+      const { cushion, otherAssets } = shapes[index]!;
+      rows.push({
+        state: sourceState,
+        index: sourceState === null ? offset + index : index,
+        assetsThousands,
+        certificate,
+        cushion,
+        otherAssets,
+      });
+    });
+    offset += shapes.length;
   }
-  nationalShapes ??= Object.keys(FDIC_SMALL_BANK_SHAPES)
-    .sort()
-    .flatMap((key) => parseShapes(FDIC_SMALL_BANK_SHAPES[key]!));
-  const index = Math.min(
-    nationalShapes.length - 1,
-    Math.floor(draw * nationalShapes.length),
+  rows.sort(
+    (a, b) =>
+      a.assetsThousands - b.assetsThousands || a.certificate - b.certificate,
   );
-  const { cushion, otherAssets } = nationalShapes[index]!;
-  return { state: null, index, cushion, otherAssets };
+  // The lowest certificate represents an asset tie, including national ties.
+  const ranked = rows.filter(
+    (row, index) =>
+      index === 0 || row.assetsThousands !== rows[index - 1]!.assetsThousands,
+  );
+  observedBankPools.set(sourceState, ranked);
+  return ranked;
+}
+
+/**
+ * One observed profile nearest this bank's recorded modeled deposits. Small
+ * source groups use the national observed pool (state:null), an estimate from
+ * real records. Original own/national ratio indexes remain valid for old saves.
+ */
+export function recordedBankShape(
+  state: string | null,
+  depositsDollars: number,
+): BankShape {
+  if (!Number.isFinite(depositsDollars) || depositsDollars < 0)
+    throw new Error(
+      "Bank profile selection requires nonnegative recorded deposits.",
+    );
+  const pool = observedBankPool(state);
+  if (pool.length === 0)
+    throw new Error("Bank profile selection requires observed records.");
+  const target = depositsDollars / 1000;
+  let low = 0;
+  let high = pool.length;
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2);
+    if (pool[middle]!.assetsThousands < target) low = middle + 1;
+    else high = middle;
+  }
+  const left = pool[Math.max(0, low - 1)]!;
+  const right = pool[Math.min(low, pool.length - 1)]!;
+  const leftDistance = Math.abs(left.assetsThousands - target);
+  const rightDistance = Math.abs(right.assetsThousands - target);
+  const chosen =
+    leftDistance < rightDistance ||
+    (leftDistance === rightDistance && left.certificate < right.certificate)
+      ? left
+      : right;
+  const { state: chosenState, index, cushion, otherAssets } = chosen;
+  return { state: chosenState, index, cushion, otherAssets };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -272,7 +399,7 @@ function formatDollars(value: number): string {
 // ─── What the quarter looked like ───────────────────────────────────────
 
 /** Paychecks a year, by the pay schedule each paycheck flow names. */
-const PAYDAYS_A_YEAR: Readonly<Record<string, number>> = {
+export const PAYDAYS_A_YEAR: Readonly<Record<string, number>> = {
   weekly: 52,
   biweekly: 26,
   semimonthly: 24,
@@ -551,16 +678,11 @@ function openBankBooks(
 ): TownBankBooks {
   const P = TOWN_FINANCE_POLICY.bank;
   const state = world.jurisdictions[town]?.parentName ?? null;
-  const shape = drawBankShape(
-    state,
-    new SeededRng(world.seed)
-      .fork(`${TOWN_FINANCES_VERSION}:bank-shape:${organizationId}`)
-      .next(),
-  );
   const deposits = round2(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
   );
+  const shape = recordedBankShape(state, deposits);
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
   return {
@@ -599,7 +721,267 @@ function lenderOf(
   return best;
 }
 
-function openBusinessBooks(
+/**
+ * Where a quarter leaves the level local sales have caught up to: part of
+ * the way from what they had reached toward what the town now pays (or
+ * employs), by the outcome web's half-life shape over the quarter's 91
+ * days. Nothing is drawn; a level that has not moved stays where it is.
+ */
+function buildToward(reached: number, target: number, today: IsoDate): number {
+  if (!(reached > 0) || !(target > 0)) return target > 0 ? target : reached;
+  const left = acuteWeight(
+    TOWN_FINANCE_POLICY.business.localDemandHalfLifeDays,
+    addDays(today, -91),
+    today,
+  );
+  return reached * (target / reached) ** (1 - left);
+}
+
+/**
+ * How many days of its revenue a business of this kind can borrow on its
+ * line: its kind's sourced median, or the all-industry median.
+ */
+export function townCreditLineDays(kind: string): number {
+  const days = TOWN_FINANCE_POLICY.business.creditLineDaysByKind;
+  return days[kind] ?? days["*"]!;
+}
+
+export const TOWN_SALES_RECEIPT_BASIS = "custom:town-recorded-sales";
+
+/** CTO Oct 2 ruling 4 admits saved quarterly business sales as cash receipts.
+ * Already credited receipts are part of sales, never an additional credit.
+ * The aggregate counterparty has no invented opening balance.
+ */
+export function recordTownSalesReceipts(
+  world: World,
+  town: EntityId,
+  periodStartsAt: IsoDate,
+  periodEndsAt: IsoDate,
+  round: string,
+  priceLevel: number,
+): World {
+  if (!Number.isFinite(priceLevel) || priceLevel <= 0)
+    throw new Error(
+      "Recorded sales require a positive nominal price conversion.",
+    );
+  const currency = makeCurrencyCode("USD");
+  let next = world;
+  for (const books of Object.values(world.townFinances?.businesses ?? {})) {
+    if (
+      (books.lastRound !== round && round !== `opening:${world.currentDate}`) ||
+      organizationProfileAt(world, books.organizationId)
+        ?.locationJurisdictionId !== town
+    )
+      continue;
+    const stableKey = `town-sales:${books.organizationId}:${periodStartsAt}:${periodEndsAt}`;
+    if (next.history.resourceFlows.some((flow) => flow.stableKey === stableKey))
+      continue;
+    const recipient = {
+      kind: "organization" as const,
+      organizationId: books.organizationId,
+    };
+    const excluded = resourceFlowsTouching(next, recipient)
+      .filter(
+        (flow) =>
+          flow.recipient.kind === "organization" &&
+          flow.recipient.organizationId === books.organizationId &&
+          (flow.basisKind === "custom:business-revenue" ||
+            flow.basisKind === TOWN_SALES_RECEIPT_BASIS ||
+            flow.basisKind === "custom:retail-purchase" ||
+            flow.basisKind === "custom:living-costs" ||
+            flow.basisKind.startsWith("custom:living-costs.") ||
+            flow.basisReference.kind === "public-program" ||
+            (flow.source.kind === "organization" &&
+              (organizationProfileAt(next, flow.source.organizationId)
+                ?.publicGovernmentIdentity !== undefined ||
+                organizationProfileAt(
+                  next,
+                  flow.source.organizationId,
+                )?.classification.endsWith(":government") ||
+                organizationProfileAt(
+                  next,
+                  flow.source.organizationId,
+                )?.classification.endsWith("-government")))),
+      )
+      .flatMap((flow) => resourceTransferOutcomesForFlow(next, flow.id))
+      .filter(
+        (outcome) =>
+          (outcome.occurredAt > periodStartsAt ||
+            (outcome.occurredAt === periodStartsAt &&
+              (periodStartsAt === periodEndsAt ||
+                books.openedAt === periodStartsAt)) ||
+            (outcome.occurredAt === periodStartsAt &&
+              outcome.periodStartsAt === outcome.periodEndsAt &&
+              recordById(next.history.resourceFlows, outcome.resourceFlowId)
+                ?.basisKind === TOWN_SALES_RECEIPT_BASIS)) &&
+          outcome.occurredAt <= periodEndsAt &&
+          outcome.transferredAmount.currency === currency &&
+          outcome.transferredAmount.minorUnits > 0,
+      );
+    const grossMinor = Math.round((books.annualRevenue / 4) * priceLevel * 100);
+    if (!Number.isSafeInteger(grossMinor) || grossMinor < 0)
+      throw new Error(
+        "Recorded quarterly sales must be nonnegative safe minor units.",
+      );
+    const alreadyPaidMinor = excluded.reduce(
+      (sum, row) => sum + row.transferredAmount.minorUnits,
+      0,
+    );
+    const amount = money(Math.max(0, grossMinor - alreadyPaidMinor), currency);
+    if (amount.minorUnits === 0) continue;
+    const customers = aggregateCustomers(next, town, periodStartsAt);
+    next = customers.world;
+    const source = {
+      kind: "organization" as const,
+      organizationId: customers.organizationId,
+    };
+    const provenance = {
+      kind: "authored" as const,
+      note: JSON.stringify({
+        authority:
+          "CTO 2026-10-02 ruling 4: recorded business sales are period receipts",
+        organizationId: books.organizationId,
+        round,
+        openedAt: books.openedAt,
+        annualRevenueConstantDollars: books.annualRevenue,
+        basePriceIndex: world.townFinances?.basePriceIndex,
+        nominalPriceLevel: priceLevel,
+        quartersPerYear: 4,
+        grossMinor,
+        alreadyPaidMinor,
+        excludedOutcomeIds: excluded.map((row) => row.id),
+        playerLivingCostsIncludedInSales: true,
+      }),
+    };
+    next = createResourceFlow(next, {
+      stableKey,
+      source,
+      recipient,
+      startsAt: periodStartsAt,
+      amount,
+      cadenceKind: "schedule:one-time",
+      basisKind: TOWN_SALES_RECEIPT_BASIS,
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: town,
+      provenance,
+    });
+    const flow = next.history.resourceFlows.at(-1)!;
+    const tracked = resourcePositionAt(
+      next,
+      source,
+      currency,
+      currentResourceCutoff(next),
+    );
+    const payment = tracked
+      ? paymentFromDatedCash(next, source, amount, periodEndsAt)
+      : null;
+    next = recordResourceTransferOutcome(next, {
+      stableKey: `${stableKey}:receipt`,
+      resourceFlowId: flow.id,
+      periodStartsAt,
+      periodEndsAt,
+      occurredAt: periodEndsAt,
+      attemptedAmount: amount,
+      transferredAmount: payment?.transferredAmount ?? amount,
+      status: payment?.status ?? "completed",
+      reasonKind: payment?.reasonKind ?? null,
+      note: `Recorded sales for ${periodStartsAt} through ${periodEndsAt}; prior receipts included.`,
+      provenance,
+    });
+  }
+  return next;
+}
+
+/** Opening-only adapter: the caller supplies recorded staff quarter-pay in nominal dollars. */
+export function ensureTownOpeningBusinessBooks(
+  world: World,
+  quarterPayByEmployer: ReadonlyMap<EntityId, number>,
+): World {
+  const priceIndex =
+    world.macroEconomy?.months
+      .filter(
+        (row) =>
+          row.scope === "national" && row.recordedAt <= world.currentDate,
+      )
+      .at(-1)?.priceIndex ??
+    (world.macroEconomy
+      ? startState(world.macroEconomy.start).priceIndex
+      : undefined);
+  if (priceIndex === undefined) return world;
+  const currency = makeCurrencyCode("USD");
+  const store = world.townFinances;
+  const books = { ...(store?.businesses ?? {}) };
+  const towns = new Set<EntityId>();
+  const round = `opening:${world.currentDate}`;
+  for (const [organizationId, quarterPay] of quarterPayByEmployer) {
+    if (!Number.isFinite(quarterPay))
+      throw new Error("Opening books require finite recorded quarter-pay.");
+    if (quarterPay <= 0) continue;
+    const profile = organizationProfileAt(world, organizationId);
+    const organization = recordById(
+      world.history.organizations,
+      organizationId,
+    );
+    if (
+      !organization ||
+      !profile ||
+      profile.closed ||
+      !profile.locationJurisdictionId
+    )
+      continue;
+    const kind =
+      townWorkplaceFor(organization.stableKey, profile.classification)?.key ??
+      TOWN_WORKPLACES.find(
+        (row) => row.classification === profile.classification,
+      )?.key;
+    if (!kind || !TOWN_BUSINESS_WORKPLACES.has(kind)) continue;
+    if (!books[organizationId]) {
+      const opened = openBusinessBooks(
+        world,
+        organizationId,
+        kind,
+        quarterPay / (priceIndex / (store?.basePriceIndex ?? priceIndex)),
+        null,
+        round,
+      );
+      const cash = resourcePositionAt(
+        world,
+        { kind: "organization", organizationId },
+        currency,
+      );
+      books[organizationId] = {
+        ...opened,
+        cash: cash ? cash.liquidBalance.minorUnits / 100 : opened.cash,
+      };
+    }
+    towns.add(profile.locationJurisdictionId);
+  }
+  if (!towns.size) return world;
+  let next: World = {
+    ...world,
+    townFinances: {
+      version: TOWN_FINANCES_VERSION,
+      banks: store?.banks ?? {},
+      markets: store?.markets ?? {},
+      ...store,
+      businesses: books,
+      basePriceIndex: store?.basePriceIndex ?? priceIndex,
+    },
+  };
+  for (const town of towns)
+    next = recordTownSalesReceipts(
+      next,
+      town,
+      next.currentDate,
+      next.currentDate,
+      round,
+      priceIndex / next.townFinances!.basePriceIndex!,
+    );
+  return next;
+}
+
+export function openBusinessBooks(
   world: World,
   organizationId: EntityId,
   kind: string,
@@ -630,7 +1012,7 @@ function openBusinessBooks(
     openingShare: 1,
     openingMarketSales: round2(annualRevenue),
     bankId,
-    lineLimit: round2((annualRevenue * P.creditLineDaysOfRevenue) / 365),
+    lineLimit: round2((annualRevenue * townCreditLineDays(kind)) / 365),
     lastQuarterNet: 0,
     lastQuarterPay: round2(quarterPay),
     lastRound: round,
@@ -720,7 +1102,6 @@ export function stepTownFinances(
 ): TownFinanceQuarter {
   const economy = economyOf(world);
   if (!economy) return { world, closing: [] };
-  const privacyLaw = dataPrivacyCostOn(world, world.currentDate);
   const store: TownFinanceStore = world.townFinances ?? {
     version: TOWN_FINANCES_VERSION,
     businesses: {},
@@ -761,9 +1142,11 @@ export function stepTownFinances(
       (sum, id) => sum + (pay.get(id) ?? 0),
       0,
     ) * 4;
-  for (const bankId of bankIds)
-    if (!banks[bankId] && yearlyTownPay > 0)
+  for (const bankId of bankIds) {
+    if (!banks[bankId] && yearlyTownPay > 0) {
       banks[bankId] = openBankBooks(world, town, bankId, bankIds.length, round);
+    }
+  }
 
   const P = TOWN_FINANCE_POLICY.business;
   const demandGrowth = Math.exp(economy.growthGapPct / 400);
@@ -894,6 +1277,8 @@ export function stepTownFinances(
         members: now,
         townJobs,
         townPay,
+        townPayReached: townPay,
+        townJobsReached: townJobs,
         averagePay: round2(averagePay),
         priceIndexSeen: economy.priceIndex,
         lastRound: round,
@@ -905,13 +1290,24 @@ export function stepTownFinances(
     const current = new Set(now);
     // Residents spend from what they earn: the town's local share of
     // spending follows its pay (books opened before pay was read follow
-    // its jobs until then).
+    // its jobs until then). The response builds: each quarter the sales
+    // close part of the gap to what the town's pay supports in the long
+    // run, on the outcome web's half-life shape. Books from older saves
+    // start building from the pay they last read.
+    const usePay =
+      market.townPay !== undefined && market.townPay > 0 && townPay > 0;
+    const reachedBefore = usePay
+      ? (market.townPayReached ?? market.townPay!)
+      : (market.townJobsReached ?? market.townJobs);
+    const reachedNow = buildToward(
+      reachedBefore,
+      usePay ? townPay : townJobs,
+      world.currentDate,
+    );
     const incomeFactor =
-      market.townPay !== undefined && market.townPay > 0 && townPay > 0
-        ? (townPay / market.townPay) ** P.localDemandElasticity
-        : market.townJobs > 0 && townJobs > 0
-          ? (townJobs / market.townJobs) ** P.localDemandElasticity
-          : 1;
+      reachedBefore > 0 && reachedNow > 0
+        ? (reachedNow / reachedBefore) ** P.localDemandElasticity
+        : 1;
     // Customers buy less of a kind whose prices rose against everything
     // else, and spend more or less on it by the elasticity.
     const stayed = now.filter((id) => before.has(id));
@@ -953,6 +1349,9 @@ export function stepTownFinances(
       members: now,
       townJobs,
       townPay,
+      ...(usePay
+        ? { townPayReached: round2(reachedNow) }
+        : { townJobsReached: round6(reachedNow) }),
       averagePay: round2(averagePay),
       priceIndexSeen: economy.priceIndex,
       lastRound: round,
@@ -1000,10 +1399,16 @@ export function stepTownFinances(
     // rest (rent, insurance, upkeep) does not (`TOWN_BUSINESS_KIND_BOOKS`).
     const annualOtherCosts = otherCostsAtSales({ ...existing, annualRevenue });
     const interest = (existing.debt * realDebtRatePct) / 400;
-    // A national data privacy law in force adds its share of the business's
-    // yearly costs (`federal-data-privacy-law.ts`).
-    const privacyCost =
-      ((quarterPay * 4 + annualOtherCosts) * privacyLaw.share) / 4;
+    // Charge initial compliance once per saved firm and operative law. The
+    // approved temporary scope uses saved revenue, labeled ESTIMATED. Missing
+    // applicability refuses a cost; recurring expense remains an evidence gap.
+    const privacy = privacyInitialOccurrence(
+      world,
+      organizationId,
+      world.currentDate,
+      existing.privacyComplianceOccurrences,
+    );
+    const privacyCost = privacy?.occurrence.initialCostDollars ?? 0;
     const net =
       annualRevenue / 4 -
       annualOtherCosts / 4 -
@@ -1023,7 +1428,7 @@ export function stepTownFinances(
     const lineLimit =
       existing.lineLimit > 0 || !lends(bank, economy)
         ? existing.lineLimit
-        : round2((existing.capacity * P.creditLineDaysOfRevenue) / 365);
+        : round2((existing.capacity * townCreditLineDays(kind)) / 365);
     if (cash < 0) {
       const room = Math.max(0, lineLimit - debt);
       if (honorsLine(bank) && room >= -cash) {
@@ -1046,6 +1451,19 @@ export function stepTownFinances(
       price: prices.get(organizationId) ?? round6(priceLevel),
       bankId,
       lastQuarterNet: round2(net),
+      lastQuarterPrivacyCost: round2(privacyCost),
+      ...(privacy
+        ? {
+            privacyComplianceOccurrences: [
+              ...(existing.privacyComplianceOccurrences ?? []),
+              privacy.occurrence,
+            ],
+          }
+        : {}),
+      lawEffectStamps: [
+        ...(existing.lawEffectStamps ?? []),
+        ...(privacy?.stamps ?? []),
+      ],
       lastRound: round,
     };
     books[organizationId] = next;
@@ -1174,6 +1592,14 @@ export function stepTownFinances(
   };
   for (const { bankId, cause } of failing)
     next = failTownBank(next, town, bankId, cause);
+  next = recordTownSalesReceipts(
+    next,
+    town,
+    since,
+    world.currentDate,
+    round,
+    priceLevel,
+  );
   return { world: next, closing };
 }
 
@@ -1239,7 +1665,7 @@ function closeOrganization(
   });
   const jobs = activeJobsAt(next, organizationId);
   for (const job of jobs)
-    next = recordWorkStatus(next, {
+    next = recordTownJobLoss(next, {
       stableKey: `${stableKey}:job-ended:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: next.currentDate,
@@ -1358,29 +1784,28 @@ function townHouseholdDefaults(
   for (const row of world.history.workStatuses)
     if (row.effectiveAt <= today) latest.set(row.workRelationshipId, row);
   const working = new Set<EntityId>();
+  const relationships = new Map<EntityId, WorkRelationship>();
+  for (const row of world.history.workRelationships) {
+    relationships.set(row.id, row);
+    if (latest.get(row.id)?.status === "active") working.add(row.personId);
+  }
+  // Each resident's last lost town job, read by the one reader of a lost job.
   const lastLost = new Map<
     EntityId,
     { at: IsoDate; organizationId: EntityId | null }
   >();
-  for (const row of world.history.workRelationships) {
-    const status = latest.get(row.id);
-    if (!status) continue;
-    if (status.status === "active") {
-      working.add(row.personId);
-      continue;
+  for (const personId of world.personOrder) {
+    if (world.people[personId]?.homeJurisdictionId !== town) continue;
+    for (const status of jobsLostBy(world, personId, today)) {
+      const row = relationships.get(status.workRelationshipId);
+      if (!row?.stableKey.startsWith(stem)) continue;
+      const before = lastLost.get(personId);
+      if (!before || before.at < status.effectiveAt)
+        lastLost.set(personId, {
+          at: status.effectiveAt,
+          organizationId: row.organizationId,
+        });
     }
-    if (
-      !row.stableKey.startsWith(stem) ||
-      (status.reason !== TOWN_JOB_END_REASONS.laidOff &&
-        status.reason !== TOWN_JOB_END_REASONS.businessClosed)
-    )
-      continue;
-    const before = lastLost.get(row.personId);
-    if (!before || before.at < status.effectiveAt)
-      lastLost.set(row.personId, {
-        at: status.effectiveAt,
-        organizationId: row.organizationId,
-      });
   }
   const charged = new Set(open.flatMap((id) => banks[id]!.chargedOff ?? []));
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
@@ -1433,6 +1858,14 @@ function failTownBank(
   cause: "insolvent" | "depositors-withdrew",
 ): World {
   const bank = world.townFinances!.banks[bankId]!;
+  // Keep the amounts with the failure. Later books cannot resize its shock.
+  const bankDepositsMinor = Math.round(bank.deposits * 100);
+  const townDepositsMinor = townBanks(world, town).reduce((sum, id) => {
+    const books = world.townFinances!.banks[id];
+    return (
+      sum + (books && !books.failed ? Math.round(books.deposits * 100) : 0)
+    );
+  }, 0);
   const townJobs = activeTownJobs(world, town).length;
   const name = organizationProfileAt(world, bankId)?.name ?? "The town's bank";
   const stableKey = `${TOWN_FINANCES_VERSION}:${town}:bank-failed:${bankId}`;
@@ -1474,6 +1907,9 @@ function failTownBank(
       `organization:${bankId}`,
       `capital-ratio:${round6(ratio)}`,
       `losses:${bank.lastQuarterLosses}`,
+      "deposit-currency:USD",
+      `bank-deposits-minor:${bankDepositsMinor}`,
+      `town-deposits-minor:${townDepositsMinor}`,
       `household-defaults:${bank.lastQuarterDefaults?.households ?? 0}`,
       `business-defaults:${bank.lastQuarterDefaults?.businesses ?? 0}`,
       `jobs:${closed.jobsLost}`,
@@ -1655,14 +2091,14 @@ export function assertTownFinanceIntegrity(world: World): void {
     if (id !== books.organizationId || !organizations.has(id))
       throw new Error(`Town books name an unknown business: ${id}`);
     if (books.bankId && !organizations.has(books.bankId))
-      throw new Error(`Town books name an unknown bank: ${books.bankId}`);
+      throw new Error(`Town books name an unrecorded bank: ${books.bankId}`);
     finite(books.cash, books.debt, books.annualRevenue, books.capacity);
     if (books.debt < 0 || books.capacity < 0)
       throw new Error(`Town books hold a negative debt or capacity: ${id}`);
   }
   for (const [id, bank] of Object.entries(store.banks)) {
     if (id !== bank.organizationId || !organizations.has(id))
-      throw new Error(`Town books name an unknown bank: ${id}`);
+      throw new Error(`Town books name an unrecorded bank: ${id}`);
     finite(bank.deposits, bank.liquid, bank.loans, bank.capital);
     if (
       bank.failed &&

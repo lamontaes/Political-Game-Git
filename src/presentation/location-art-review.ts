@@ -1,4 +1,4 @@
-import manifest from "../../art/manifest/asset_manifest.json";
+import manifest from "../../art/manifest/asset_manifest.json" with { type: "json" };
 import {
   createRuntimeVisualLibrary,
   PRODUCTION_VISUAL_LIBRARY,

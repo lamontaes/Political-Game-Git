@@ -1,5 +1,7 @@
+import { householdMembershipsAt } from "./life-queries";
 import type {
   CurrencyCode,
+  Dwelling,
   DwellingOccupancy,
   DwellingOccupancyStateRecord,
   EntityId,
@@ -113,7 +115,10 @@ export function resourcePositionAt(
       ledger.lastSequence < cutoff.historySequenceExclusive &&
       position.openedAt <= ledger.earliestAt &&
       ledger.latestAt <= cutoff.asOfDate)
-  )
+  ) {
+    let recordedIds = ledger?.outcomeIds;
+    const recordedCount = recordedIds?.length ?? 0;
+    let outcomeIds: EntityId[] | undefined;
     return {
       positionId: position.id,
       owner: { ...owner },
@@ -128,13 +133,23 @@ export function resourcePositionAt(
         ),
         currency,
       ),
-      outcomeIds: ledger ? [...ledger.outcomeIds] : [],
+      get outcomeIds(): EntityId[] {
+        // Running totals keep growing; evidence belongs to this snapshot's
+        // captured prefix, even if it is first read after another payment.
+        if (!outcomeIds) {
+          outcomeIds = recordedIds ? recordedIds.slice(0, recordedCount) : [];
+          recordedIds = undefined;
+        }
+        return outcomeIds;
+      },
     };
+  }
   // Some of the account's payments fall outside this reading (an earlier
   // moment, or before the position opened): read them one by one.
   let inflows = 0;
   let outflows = 0;
-  const outcomeIds: EntityId[] = [];
+  const asOfDate = cutoff.asOfDate;
+  const historySequenceExclusive = cutoff.historySequenceExclusive;
   // Only flows that touch this owner matter, and only their outcomes: both
   // are looked up by index, in history order, rather than read off every
   // flow and outcome the world has recorded, which grew with every payday.
@@ -144,12 +159,13 @@ export function resourcePositionAt(
   >();
   for (const flow of resourceFlowsTouching(world, endpoint))
     flows.set(flow.id, flow);
-  for (const outcome of resourceTransferOutcomesOfFlows(world, flows.keys())) {
+  const outcomes = resourceTransferOutcomesOfFlows(world, flows.keys());
+  for (const outcome of outcomes) {
     if (
       outcome.sequence <= position.sequence ||
-      outcome.sequence >= cutoff.historySequenceExclusive ||
+      outcome.sequence >= historySequenceExclusive ||
       outcome.occurredAt < position.openedAt ||
-      outcome.occurredAt > cutoff.asOfDate ||
+      outcome.occurredAt > asOfDate ||
       outcome.transferredAmount.currency !== currency ||
       outcome.transferredAmount.minorUnits === 0
     ) {
@@ -157,21 +173,20 @@ export function resourcePositionAt(
     }
     const flow = flows.get(outcome.resourceFlowId);
     if (!flow) continue;
-    let used = false;
     if (sameEndpoint(flow.recipient, endpoint)) {
       inflows = addExact(inflows, outcome.transferredAmount.minorUnits);
-      used = true;
     }
     if (sameEndpoint(flow.source, endpoint)) {
       outflows = addExact(outflows, outcome.transferredAmount.minorUnits);
-      used = true;
     }
-    if (used) outcomeIds.push(outcome.id);
   }
   const liquidMinorUnits = addExact(
     addExact(position.openingBalance.minorUnits, inflows),
     -outflows,
   );
+  let evidenceOutcomes: typeof outcomes | undefined = outcomes;
+  let evidenceFlows: typeof flows | undefined = flows;
+  let outcomeIds: EntityId[] | undefined;
   return {
     positionId: position.id,
     owner: { ...owner },
@@ -180,7 +195,31 @@ export function resourcePositionAt(
     inflows: money(inflows, currency),
     outflows: money(outflows, currency),
     liquidBalance: money(liquidMinorUnits, currency),
-    outcomeIds,
+    get outcomeIds(): EntityId[] {
+      if (outcomeIds) return outcomeIds;
+      outcomeIds = [];
+      for (const outcome of evidenceOutcomes!) {
+        if (
+          outcome.sequence <= position.sequence ||
+          outcome.sequence >= historySequenceExclusive ||
+          outcome.occurredAt < position.openedAt ||
+          outcome.occurredAt > asOfDate ||
+          outcome.transferredAmount.currency !== currency ||
+          outcome.transferredAmount.minorUnits === 0
+        )
+          continue;
+        const flow = evidenceFlows!.get(outcome.resourceFlowId);
+        if (
+          flow &&
+          (sameEndpoint(flow.recipient, endpoint) ||
+            sameEndpoint(flow.source, endpoint))
+        )
+          outcomeIds.push(outcome.id);
+      }
+      evidenceOutcomes = undefined;
+      evidenceFlows = undefined;
+      return outcomeIds;
+    },
   };
 }
 
@@ -263,10 +302,111 @@ export function outstandingDebtAt(
     )
       charged = addExact(charged, charge.amount.minorUnits);
   }
+  // Each revision's principal credit is an event, not a carried-forward term.
+  let reduced = 0;
+  for (const terms of world.history.loanTerms ?? []) {
+    if (
+      terms.resourceObligationId === obligation.id &&
+      terms.principalReduction &&
+      availableOn(terms, terms.effectiveAt, cutoff)
+    ) {
+      reduced = addExact(reduced, terms.principalReduction.minorUnits);
+    }
+  }
+  for (const discharge of world.history.loanDischarges ?? []) {
+    if (
+      discharge.resourceObligationId === obligation.id &&
+      availableOn(discharge, discharge.effectiveAt, cutoff)
+    )
+      reduced = addExact(
+        reduced,
+        addExact(discharge.principal.minorUnits, discharge.interest.minorUnits),
+      );
+  }
   return money(
-    Math.max(0, obligation.principal.minorUnits + charged - paid),
+    Math.max(0, obligation.principal.minorUnits + charged - paid - reduced),
     obligation.principal.currency,
   );
+}
+
+/** Component history is unknown if an old cash repayment lacks a saved allocation. */
+export function loanBalanceComponentsAt(
+  world: World,
+  resourceObligationId: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(world),
+): { principal: MoneyAmount; interest: MoneyAmount; fees: MoneyAmount } | null {
+  const debt = world.history.resourceObligations.find(
+    (row) => row.id === resourceObligationId,
+  );
+  if (!debt?.principal || !availableOn(debt, debt.establishedAt, cutoff))
+    return null;
+  let principal = debt.principal.minorUnits;
+  let interest = 0;
+  let fees = 0;
+  for (const charge of world.history.debtCharges ?? []) {
+    if (
+      charge.resourceObligationId !== debt.id ||
+      !availableOn(charge, charge.chargedAt, cutoff)
+    )
+      continue;
+    if (charge.kind === "interest")
+      interest = addExact(interest, charge.amount.minorUnits);
+    else fees = addExact(fees, charge.amount.minorUnits);
+  }
+  for (const terms of world.history.loanTerms ?? []) {
+    if (
+      terms.resourceObligationId === debt.id &&
+      terms.principalReduction &&
+      availableOn(terms, terms.effectiveAt, cutoff)
+    )
+      principal -= terms.principalReduction.minorUnits;
+  }
+  for (const discharge of world.history.loanDischarges ?? []) {
+    if (
+      discharge.resourceObligationId !== debt.id ||
+      !availableOn(discharge, discharge.effectiveAt, cutoff)
+    )
+      continue;
+    principal -= discharge.principal.minorUnits;
+    interest -= discharge.interest.minorUnits;
+  }
+  for (const outcome of resourceTransferOutcomesForFlow(
+    world,
+    debt.resourceFlowId,
+    cutoff,
+  )) {
+    if (
+      outcome.sequence <= debt.sequence ||
+      outcome.occurredAt < debt.establishedAt ||
+      outcome.transferredAmount.minorUnits === 0
+    )
+      continue;
+    const allocation = (world.history.loanRepaymentAllocations ?? []).find(
+      (row) =>
+        row.resourceTransferOutcomeId === outcome.id &&
+        row.resourceObligationId === debt.id &&
+        availableOn(row, row.occurredAt, cutoff),
+    );
+    if (
+      !allocation ||
+      allocation.unsupportedReason ||
+      !allocation.principal ||
+      !allocation.interest ||
+      !allocation.fees
+    )
+      return null;
+    principal -= allocation.principal.minorUnits;
+    interest -= allocation.interest.minorUnits;
+    fees -= allocation.fees.minorUnits;
+  }
+  if (principal < 0 || interest < 0 || fees < 0)
+    throw new Error("Recorded loan components cannot be negative.");
+  const currency = debt.principal.currency;
+  return {
+    principal: money(principal, currency),
+    interest: money(interest, currency),
+    fees: money(fees, currency),
+  };
 }
 
 export type AffordabilityStatus = "available" | "strained" | "blocked";
@@ -462,6 +602,37 @@ export function activeHousingTenuresAt(
       availableOn(record, record.startedAt, cutoff) &&
       housingTenureStateAt(world, record.id, cutoff)?.status === "active",
   );
+}
+
+/** Latest recorded primary occupancy supported by a matching active tenure. */
+export function primaryDwellingOf(
+  world: World,
+  personId: EntityId,
+): Dwelling | null {
+  if (!world.people[personId]) return null;
+  const primaryHouseholds = new Set(
+    householdMembershipsAt(world, personId)
+      .filter((row) => row.state.residenceRole === "primary")
+      .map((row) => row.household.id),
+  );
+  const tenures = activeHousingTenuresAt(world);
+  const occupancy = [...activeDwellingOccupanciesAt(world)]
+    .reverse()
+    .find(
+      (row) =>
+        (row.occupant.kind === "person"
+          ? row.occupant.personId === personId
+          : primaryHouseholds.has(row.occupant.householdId)) &&
+        dwellingOccupancyStateAt(world, row.id)?.residenceRole === "primary" &&
+        tenures.some(
+          (tenure) =>
+            tenure.dwellingId === row.dwellingId &&
+            sameEndpoint(tenure.holder, row.occupant),
+        ),
+    );
+  return occupancy
+    ? (recordById(world.history.dwellings, occupancy.dwellingId) ?? null)
+    : null;
 }
 
 export function sameEndpoint(

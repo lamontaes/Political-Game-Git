@@ -1,15 +1,18 @@
+import { inventedPersonBirthDate } from "../invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import type { CharacterHistoryContextPersonInput } from "../character-history";
-import { makeIsoDate } from "../dates";
 import {
   STATEHOOD_QUESTION,
   statehoodAdmittedOn,
   statehoodPlace,
 } from "../governing/statehood-admission";
 import { recordByStableKey, recordsWithFieldValue } from "../history-index";
+import { lawInForce } from "../governing/law-in-force";
+import { lawEffectStamp } from "../law-effect-stamp";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { stateJurisdictionForKey } from "../life-places";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
@@ -145,10 +148,6 @@ function seatTitle(seat: CongressSeat): string {
     : `U.S. Representative for ${name}'s at-large congressional district`;
 }
 
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
-
 interface Term {
   readonly seat: CongressSeat;
   readonly startsAt: IsoDate;
@@ -165,17 +164,17 @@ function newMemberInput(
 ): CharacterHistoryContextPersonInput {
   const key = memberKey(seat, startsAt);
   const rng = new SeededRng(world.seed).fork(key);
-  const age = rng.integer(MINIMUM_AGE[seat.chamberKey] + 7, 72);
-  const year = Number(startsAt.slice(0, 4));
   return {
     stableKey: key,
     ...drawCanonicalNamedIdentity(
       rng.fork("name"),
       generatePersonIdentity(rng.fork("identity")),
     ),
-    birthDate: makeIsoDate(
-      `${year - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-    ),
+    birthDate: inventedPersonBirthDate(rng, {
+      role: "new-legislative-member",
+      referenceDate: startsAt,
+      legalMinimumAge: MINIMUM_AGE[seat.chamberKey],
+    }),
     homeJurisdictionId: stateJurisdictionForKey(`US-${seat.stateUsps}`)!.id,
   };
 }
@@ -185,6 +184,9 @@ function writeTerms(
   terms: readonly Term[],
   date: IsoDate,
 ): World {
+  const propositionId = Object.values(world.policyCatalog.propositions).find(
+    (definition) => definition.stableKey === STATEHOOD_QUESTION,
+  )?.id;
   const inputs = terms
     .filter((term) => term.returningPersonId === null)
     .map((term) => newMemberInput(world, term.seat, term.startsAt));
@@ -206,6 +208,27 @@ function writeTerms(
       LIVING_WORLD_KEYS.chamber(term.seat.chamberKey),
     );
     const title = seatTitle(term.seat);
+    const law = propositionId
+      ? lawInForce(
+          next,
+          NATIONAL_ELECTION_JURISDICTION.id,
+          propositionId,
+          term.startsAt,
+          "enacted-only",
+        )
+      : null;
+    const stamp =
+      law?.answer === "yes"
+        ? lawEffectStamp(law, {
+            effectKind: "congress-voting-seat-tenure",
+            questionKey: STATEHOOD_QUESTION,
+            jurisdictionId: stateJurisdictionForKey(
+              `US-${term.seat.stateUsps}`,
+            )!.id,
+            appliedAt: term.startsAt,
+            sourceRecordIds: [personId, chamberId],
+          })
+        : null;
     next = recordWorldEvent(next, {
       stableKey,
       type: SEAT_TENURE_EVENT,
@@ -216,6 +239,7 @@ function writeTerms(
       participants: [{ personId, role: "focus:subject", detail: title }],
       personFactConstraints: [],
       visibility: "public",
+      ...(stamp ? { lawEffectStamps: [stamp] } : {}),
       tags: [
         V,
         STATEHOOD_PROVENANCE,

@@ -1,21 +1,23 @@
+import { addDays } from "../dates";
+import { measureActions } from "../legislation";
+import { vetoWindowDayBasisFor } from "../legislature-game-profile";
+import { legislativeRulePackForWorld } from "../legislative-procedure-world";
+import { measureSessionClosedOn } from "./legislative-clock";
 import { evaluateDecision } from "../decisions";
-import { rulePackById } from "../legislature-rule-packs";
-import { chamberByKey, resolveRequiredVotes } from "../legislature-rules";
+import { resolveRequiredVotes } from "../legislature-rules";
 import { currentHistoricalCutoff } from "../queries";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
   EntityId,
+  IsoDate,
   LegislativeMeasureRecord,
   LegislativeVoteDisposition,
   World,
 } from "../types";
 import { measureAnswersAt } from "../vote-bundle";
-import {
-  decideChamberVote,
-  publicPartyOf,
-  seatedChamberForPack,
-} from "./chamber-votes";
+import { decideChamberVote, publicPartyOf } from "./chamber-votes";
+import { executiveBillChamber } from "./executive-bill-roster";
 import { measureCosponsors } from "./congress-chambers";
 import { principleVoteConsideration } from "./officeholder-principles";
 import { relationshipConsiderations } from "./standing-considerations";
@@ -102,16 +104,11 @@ export function overrideCount(
     readonly required: number;
   }[];
 } | null {
-  const pack = rulePackById(measure.rulePackId);
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const override = pack.executive.override;
   if (override.kind === "not-applicable") return null;
   const chambers = pack.chamberOrder.map((chamberKey) =>
-    seatedChamberForPack(
-      world,
-      measure.rulePackId,
-      chamberKey,
-      chamberByKey(pack, chamberKey).name,
-    ),
+    executiveBillChamber(world, measure.rulePackId, chamberKey),
   );
   if (chambers.some((chamber) => !chamber)) return null;
   const count = (
@@ -325,12 +322,78 @@ function governorConsiderations(
   return reasons;
 }
 
+/** The pack's executable presentment window; missing basis stays unsupported. */
+export function executiveBillActionWindow(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): {
+  readonly lastActionDate: IsoDate;
+  readonly inactionAt: IsoDate;
+  readonly inactionOutcome:
+    "becomes-law-without-signature" | "pocket-veto" | null;
+} | null {
+  const presented = measureActions(world, measure.id)
+    .filter((a) => a.kind === "presented-to-executive")
+    .at(-1);
+  if (!presented) return null;
+  const pack = legislativeRulePackForWorld(world, measure.rulePackId);
+  const closed = measureSessionClosedOn(world, measure, pack);
+  const afterAdjournment = closed !== null && world.currentDate > closed;
+  const days = afterAdjournment
+    ? pack.executive.actionWindowDaysAfterAdjournment
+    : pack.executive.actionWindowDaysInSession;
+  const recordedBasis = afterAdjournment
+    ? pack.executive.actionWindowDayBasisAfterAdjournment
+    : pack.executive.actionWindowDayBasisInSession;
+  // Older state packs predate this optional field. The same sourced table
+  // reader used by generated profiles supplies their day-count basis, without
+  // replacing an explicit unresolved rule or changing a recorded day count.
+  const basis =
+    recordedBasis ??
+    vetoWindowDayBasisFor(pack.jurisdictionKey, afterAdjournment);
+  if (
+    days.kind !== "known" ||
+    basis?.kind !== "known" ||
+    !["CALENDAR", "BUSINESS", "SUNDAYS_EXCEPTED"].includes(basis.value) ||
+    !Number.isInteger(days.value) ||
+    days.value < 0
+  )
+    return null;
+  let lastActionDate = presented.occurredAt;
+  for (let remaining = days.value; remaining > 0;) {
+    lastActionDate = addDays(lastActionDate, 1);
+    const weekday = new Date(`${lastActionDate}T00:00:00Z`).getUTCDay();
+    if (
+      basis.value === "CALENDAR" ||
+      (basis.value === "SUNDAYS_EXCEPTED" && weekday !== 0) ||
+      (basis.value === "BUSINESS" && weekday !== 0 && weekday !== 6)
+    )
+      remaining -= 1;
+  }
+  const outcome = afterAdjournment
+    ? null
+    : pack.executive.inactionOutcomeInSession;
+  return {
+    lastActionDate,
+    inactionAt: addDays(lastActionDate, 1),
+    inactionOutcome: outcome?.kind === "known" ? outcome.value : null,
+  };
+}
+
 /** The governor's decision on a bill on the desk. Pure: the caller records it. */
 export function evaluateGovernorBill(
   world: World,
   input: {
     readonly stableKey: string;
     readonly governorId: EntityId;
+    readonly executiveTitle?: string;
+    /** A validated controlled officeholder instruction, sourced to the actual desk matter. */
+    readonly playerChoice?: {
+      readonly optionKey: typeof BILL_SIGN | typeof BILL_RETURN;
+      readonly matterEventId: EntityId;
+      /** Explicit saved knowledge used when the desk event did not involve the holder. */
+      readonly matterKnowledgeId?: EntityId;
+    };
     readonly measure: LegislativeMeasureRecord;
     readonly staff: {
       readonly optionKey: string;
@@ -360,12 +423,49 @@ export function evaluateGovernorBill(
         description: "Veto the bill and return it to the legislature.",
       },
     ],
-    constraints: [],
+    constraints: input.playerChoice
+      ? [
+          {
+            stableKey: "executive:player-instruction",
+            optionKey:
+              input.playerChoice.optionKey === BILL_SIGN
+                ? BILL_RETURN
+                : BILL_SIGN,
+            kind: "player:recorded-choice",
+            explanation:
+              "The controlled officeholder explicitly chose the other action.",
+            sourceRefs: [
+              {
+                kind: "historical-event",
+                eventId: input.playerChoice.matterEventId,
+              },
+              ...(input.playerChoice.matterKnowledgeId
+                ? [
+                    {
+                      kind: "event-knowledge" as const,
+                      knowledgeId: input.playerChoice.matterKnowledgeId,
+                    },
+                  ]
+                : []),
+            ],
+          },
+        ]
+      : [],
     considerations: governorConsiderations(
       world,
       input.governorId,
       input.measure,
       input.staff,
+    ).map((reason) =>
+      input.executiveTitle
+        ? {
+            ...reason,
+            explanation: reason.explanation.replace(
+              /\bgovernor\b/g,
+              input.executiveTitle.toLowerCase(),
+            ),
+          }
+        : reason,
     ),
     perceptionIds: [],
     randomness: "none",

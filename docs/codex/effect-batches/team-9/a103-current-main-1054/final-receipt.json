@@ -1,0 +1,29 @@
+{
+  "base": "bad48028479881300deed478353a18bcaf6c7728",
+  "main": "740f52f41f72a781b372352d927346d7c51c04fe",
+  "tests": {
+    "legal-outcome": {
+      "passed": 71,
+      "seconds": 37.05
+    },
+    "sentencing-term": {
+      "passed": 8,
+      "seconds": 85.5,
+      "combinedWithEarlierFiveLegalFailures": true
+    },
+    "unchangedClemencyClock": {
+      "passed": 1,
+      "source": "855c453dc0435ea439da5437737805749297c1ff"
+    }
+  },
+  "actualProofs": 5,
+  "fix": "Existing smallWorld court and complete registry; actual stage date replaces stale fixture date; real state timing replaces universal delays. No saved row rewriting.",
+  "oldReceipts": "Seven missing sentences; five press-handler fixture failures; full-life143 NOT COMPLETED; five stale date failures preserved.",
+  "notRun": [
+    "official Claude gate",
+    "browser",
+    "whole suite",
+    "repository types"
+  ],
+  "replaces": "Full-life/place-spy/backdated-event fixture and national-delay expectation; existing court/law/money/clock writers survive. No new exports."
+}

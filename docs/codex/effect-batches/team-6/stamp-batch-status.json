@@ -1,0 +1,53 @@
+{
+  "team": 6,
+  "assigned": 14,
+  "alreadyReadPerCTO": 5,
+  "stampedBranchKeys": [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    "us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "branchFiringExampleKeys": [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+    "us-policy-positions:transportation-infrastructure.fare-free-transit"
+  ],
+  "mainVerifiedStampedKeys": [
+    "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours"
+  ],
+  "unreadKeysPerCTO": [
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+    "us-policy-positions:transportation-infrastructure.public-broadband",
+    "us-policy-positions:environment-energy.price-carbon",
+    "us-policy-positions:environment-energy.ban-new-gas-hookups",
+    "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
+    "us-policy-positions:environment-energy.bottle-deposit",
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+    "us-policy-positions:agriculture-natural-resources.expand-public-land-access"
+  ],
+  "otherAlreadyReadKeysAwaitingWriterClaims": [
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+    "us-policy-positions:transportation-infrastructure.fix-it-first",
+    "us-policy-positions:environment-energy.clean-electricity-standard"
+  ],
+  "counts": {
+    "branchStamped": 2,
+    "branchWithExecutedFiringExample": 2,
+    "mainVerifiedStamped": 1,
+    "unreadPerCTO": 9,
+    "allFiveVerified": 0,
+    "nationwideFiring": "NOT RUN"
+  },
+  "proof": {
+    "seed": "team6-stamp-five-state-20260930",
+    "states": ["WA", "OR", "NM", "SD", "IL"],
+    "contractTestsPassed": 5,
+    "skipped": 54,
+    "fareFiringSamples": ["NM"],
+    "fareNoQualifyingCurrentLawPaymentSamples": ["WA", "OR", "SD", "IL"],
+    "qualifier": "Exact completed installment belongs to source appropriation and the same canonical law governs on payment date. Never invent an installment for the fixture.",
+    "earlierUnconditionalFixture": "4 failed,1 passed; engine cause forwarded to Audit/Systems."
+  },
+  "ready": "PR1283 READY by OWNER1:40; newer exact-head renewal required",
+  "mechanismClaims": "Operator linkage/types after3:30 only; Audit/Systems owns code questions; coordinator owns shared writers/claims.",
+  "notRun": ["Nationwide audit", "Full suite", "Paused speed checks"]
+}

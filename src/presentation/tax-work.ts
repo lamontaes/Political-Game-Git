@@ -1,3 +1,4 @@
+import { applyLawConsequences } from "../simulation/enacted-law-effects";
 import { recordTaxDraftIdentity } from "../simulation/legislation-tax-identity";
 import { createWorkItem } from "../simulation/time-work";
 import { introduceMeasure } from "../simulation/legislation";
@@ -11,12 +12,15 @@ import {
 } from "../simulation/public-government-identity";
 import {
   attachTaxProposal,
-  assessTaxBase,
   effectiveTaxPolicy,
   recordTaxBase,
   taxPowerEvidenceFor,
   TAX_MODEL_NOTE,
 } from "../simulation/tax-policy";
+import {
+  isStateTaxInstrument,
+  stateTaxPowerEvidenceFor,
+} from "../simulation/state-tax-authority";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
 import type { TaxTerms } from "../simulation/tax-types";
@@ -31,13 +35,21 @@ export function fileTaxProposalFromOffice(
 ): { world: World; measureId: EntityId } {
   const entry = resolveLegislativeFilingEntry(world, input.personId);
   if (entry.kind !== "available") throw new Error(entry.reason);
-  const power = taxPowerEvidenceFor(entry.seat.jurisdictionKey);
-  const gameProfile = power
-    ? null
-    : stateTaxServiceProfileForJurisdictionKey(
-        world,
-        entry.seat.jurisdictionKey,
-      );
+  // A state's own sales, property or payroll tax rests on the catalog's state
+  // row for every state; only the original excise path uses a saved profile.
+  const typedInstrument = isStateTaxInstrument(input.terms.instrument)
+    ? input.terms.instrument
+    : null;
+  const power = typedInstrument
+    ? stateTaxPowerEvidenceFor(entry.seat.jurisdictionKey, typedInstrument)
+    : taxPowerEvidenceFor(entry.seat.jurisdictionKey);
+  const gameProfile =
+    power || typedInstrument
+      ? null
+      : stateTaxServiceProfileForJurisdictionKey(
+          world,
+          entry.seat.jurisdictionKey,
+        );
   if (!power && !gameProfile)
     throw new Error(
       "No sourced tax-power contract or fictional game profile supports this office and instrument.",
@@ -61,6 +73,26 @@ export function fileTaxProposalFromOffice(
       throw new Error("An existing tax proposal cannot be overwritten.");
     return { world, measureId: prior.measureId };
   }
+  if (
+    !power ||
+    (power.instrument !== "selective-excise" &&
+      power.instrument !== typedInstrument)
+  )
+    throw new Error("This filing requires sourced tax authority.");
+  const level =
+    power.level === "STATE"
+      ? "state"
+      : power.level === "COUNTY"
+        ? "county"
+        : "city";
+  const questionKey = `us-tax-terms:${level}.${typedInstrument ?? "excise"}-tax-terms`;
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === questionKey,
+  );
+  if (!question)
+    throw new Error(
+      "The actual excise question is missing from this world's catalog.",
+    );
   const sequence = (world.history.taxProposals ?? []).length + 1;
   let next = introduceMeasure(world, {
     stableKey: `${input.stableKey}:measure`,
@@ -73,6 +105,8 @@ export function fileTaxProposalFromOffice(
     originChamberKey: entry.seat.chamberKey,
     subjectClass: "revenue",
     sponsorPersonId: input.personId,
+    propositionIds: [question.id],
+    propositionAnswers: [{ propositionId: question.id, answer: "yes" }],
   });
   const measureId = next.history.legislativeMeasures!.at(-1)!.id;
   next = attachTaxProposal(next, {
@@ -155,7 +189,13 @@ export function declarePersonalTaxOccurrence(
       prior.assumptionNote !== input.assumptionNote
     )
       throw new Error("An existing taxable occurrence cannot be overwritten.");
-    return assessTaxBase(world, prior.id, proposal.terms.seriesKey);
+    return applyLawConsequences(world, {
+      onDate: world.currentDate,
+      activity: "assessment",
+      activityId: prior.id,
+      subjectIds: [input.personId],
+      governingLawId: proposal.measureId,
+    });
   }
   let next = recordWorldEvent(world, {
     stableKey: `event:${input.stableKey}`,
@@ -188,11 +228,13 @@ export function declarePersonalTaxOccurrence(
     assumptionNote: input.assumptionNote,
     sourceEventId: next.history.events.at(-1)!.id,
   });
-  return assessTaxBase(
-    next,
-    next.history.taxBases!.at(-1)!.id,
-    proposal.terms.seriesKey,
-  );
+  return applyLawConsequences(next, {
+    onDate: next.currentDate,
+    activity: "assessment",
+    activityId: next.history.taxBases!.at(-1)!.id,
+    subjectIds: [input.personId],
+    governingLawId: proposal.measureId,
+  });
 }
 
 /** Public readers see only actual published general receipts. No payer/base

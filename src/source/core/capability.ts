@@ -89,7 +89,7 @@ function readableForProduction(
 ): { bytes: Buffer; contentScope: ProductionContentScope } {
   if (artifact.rights.status === "UNKNOWN") {
     throw new SourceCapabilityError(
-      `Artifact "${artifactId}" has UNKNOWN rights status and may not be opened for production compilation.`,
+      `Artifact "${artifactId}" has ${artifact.rights.status} rights status, which blocks production compilation until a reviewed rights determination is recorded.`,
     );
   }
   if (artifact.rights.status !== "public-domain-government-edict") {

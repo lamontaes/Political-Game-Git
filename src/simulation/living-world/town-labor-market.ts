@@ -10,27 +10,32 @@
  * be working and is not can be hired:
  *
  * - a worker who died, or reached 67, leaves the job;
- * - some workers quit, and a quitter who knows somebody working for another
- *   employer in town moves straight to a job;
+ * - workers weigh their saved wish to stop working against livelihood goals;
  * - some workers are laid off, more when the town's or the nation's recorded
  *   unemployment is high;
  * - some residents of working age who are looking (including somebody laid
  *   off, a newcomer to town or someone who has just turned 18) are hired,
  *   fewer when unemployment is high.
  *
- * Nothing is drawn. The national rates set how many leave or are hired in the
- * town each quarter; who it is comes from the record: the most recently hired
- * are laid off first, the youngest and newest quit first, and the seekers out
- * of work the shortest time are hired first. Every change is a dated
- * work-status record, with its reason, on the day of the review.
+ * Nothing is drawn. Quits are individual decisions from saved goals. A
+ * business can lay somebody off only when its books show the need and its
+ * compensation records identify the cost it is cutting. The role-shortage
+ * allocator considers every eligible seeker; a rate never picks a person.
  */
 
-import { recordWorkStatus } from "../life";
+import { recordJobEndedNews } from "../neighbor-news";
+import { recordWorkStatus, type RecordWorkStatusInput } from "../life";
+import {
+  workRelationshipHistoryForPerson,
+  workStatusHistory,
+} from "../life-queries";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
+import { resourceFlowTermsAt } from "../resource-queries";
+import { annualizedRecordedPayMinor } from "../household-pay";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,
 } from "../macro-economy/readers";
-import { sharedPlaceAcquaintances } from "../shared-places";
 import {
   TOWN_BUSINESS_WORKPLACES,
   townBusinessLaysOff,
@@ -45,6 +50,86 @@ import {
   townResidents,
 } from "./town-employment";
 import { ageOnDate, dateAtAge } from "../dates";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { goalConsiderations, activeGoalFor } from "../people-goal-pursuit";
+import { isLivelihoodGoalKey } from "../people-goal-pursuit-content";
+import type { DecisionEvaluation } from "../types";
+import { JOB_TRAIT_DECISIONS, jobTraitConsiderations } from "../traits/jobs";
+
+/** A saved wish to stop working is weighed against saved livelihood goals.
+ * No wish on record means no proposed quit, rather than an evidence-free tie.
+ * The shared goal reader supplies each goal's recorded priority. */
+export function decideTownWorkerQuit(
+  world: World,
+  personId: EntityId,
+  relationshipId: EntityId,
+  stableKey: string,
+): DecisionEvaluation | null {
+  const decline = activeGoalFor(world, personId, "life-paths2:decline-work");
+  if (!decline || decline.recordedAt > world.currentDate) return null;
+  const livelihoodKeys = [
+    ...new Set(
+      world.history.goalStates
+        .filter(
+          (goal) =>
+            goal.personId === personId && isLivelihoodGoalKey(goal.goalKey),
+        )
+        .map((goal) => goal.goalKey),
+    ),
+  ];
+  return evaluateDecision(world, {
+    stableKey,
+    decisionType: "labor.worker-quit",
+    actorPersonId: personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:employment",
+      key: relationshipId,
+      entityId: relationshipId,
+    },
+    options: [
+      {
+        key: "continue-work",
+        label: "Keep working",
+        description: "Keep the current job.",
+      },
+      { key: "quit", label: "Quit", description: "End the current job." },
+    ],
+    constraints: [],
+    considerations: [
+      ...goalConsiderations(world, personId, stableKey, [
+        {
+          optionKey: "quit",
+          goalKey: decline.goalKey,
+          direction: "supports",
+          explanation: decline.objective,
+        },
+        ...livelihoodKeys.map((goalKey) => ({
+          optionKey: "continue-work",
+          goalKey,
+          direction: "supports" as const,
+          explanation: "They are pursuing paid work.",
+        })),
+      ]),
+      ...jobTraitConsiderations(
+        world,
+        personId,
+        stableKey,
+        JOB_TRAIT_DECISIONS.workerQuit,
+      ),
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+}
 
 /**
  * How much of the town's work turns over in a quarter, before unemployment
@@ -76,6 +161,66 @@ export const TOWN_JOB_END_REASONS = {
   retired: "labor:retired",
   died: "labor:died",
 } as const;
+
+/** A job the worker did not choose to leave: a layoff or a closed business. */
+export const TOWN_JOB_LOSS_REASONS: ReadonlySet<string> = new Set([
+  TOWN_JOB_END_REASONS.laidOff,
+  TOWN_JOB_END_REASONS.businessClosed,
+]);
+
+/**
+ * Ends a job the worker did not choose to leave, and schedules the worker's
+ * reflection on the official who answers for it. Every layoff and closing
+ * writes through here, so no lost job goes unweighed.
+ */
+export function recordTownJobLoss(
+  world: World,
+  input: RecordWorkStatusInput & { readonly reason: string },
+): World {
+  if (input.status !== "ended" || !TOWN_JOB_LOSS_REASONS.has(input.reason))
+    throw new Error("A job loss ends a job by layoff or closing.");
+  const next = recordWorkStatus(world, input);
+  const status = next.history.workStatuses.find(
+    (row) => row.stableKey === input.stableKey,
+  )!;
+  const personId = next.history.workRelationships.find(
+    (row) => row.id === input.workRelationshipId,
+  )?.personId;
+  if (!personId) return next;
+  // The same step carries the loss to the people tied to the worker: the
+  // job-ended event is written and they are told (neighbor-news.ts). The work
+  // status stays the one record of the loss; this event only carries it.
+  return scheduleLivedOutcomeReflection(
+    recordJobEndedNews(next, status.id, {
+      closedBusiness: input.reason === TOWN_JOB_END_REASONS.businessClosed,
+    }),
+    personId,
+    status.id,
+  );
+}
+
+/**
+ * The jobs a person lost, oldest first: each ended work status whose reason
+ * is a layoff or a closing, in effect on or before `through`. The one reader
+ * of a lost job, for the principles a life forms and for the view of the
+ * official who answers for it.
+ */
+export function jobsLostBy(
+  world: World,
+  personId: EntityId,
+  through = world.currentDate,
+): readonly WorkStatusRecord[] {
+  return workRelationshipHistoryForPerson(world, personId).flatMap(
+    (relationship) =>
+      workStatusHistory(world, relationship.id).filter(
+        (status) =>
+          status.status === "ended" &&
+          status.reason !== null &&
+          TOWN_JOB_LOSS_REASONS.has(status.reason) &&
+          status.effectiveAt <= through,
+      ),
+  );
+}
 
 /** Reasons that are not a lost job for anyone deciding whether to move. */
 export const TOWN_JOB_ENDS_NOT_LOST: ReadonlySet<string> = new Set([
@@ -116,6 +261,40 @@ export interface TownJob {
   readonly relationshipId: EntityId;
   readonly personId: EntityId;
   readonly status: WorkStatusRecord;
+}
+
+/** Annual recorded compensation for a job, or null when the books do not say. */
+export function recordedAnnualJobPay(
+  world: World,
+  job: Pick<TownJob, "relationshipId" | "personId">,
+): number | null {
+  const relationship = world.history.workRelationships.find(
+    (row) => row.id === job.relationshipId,
+  );
+  if (!relationship?.organizationId) return null;
+  for (const flow of world.history.resourceFlows) {
+    const isThisWork =
+      flow.basisReference.kind === "work" &&
+      flow.basisReference.workRelationshipId === job.relationshipId;
+    const isThisPayment =
+      flow.source.kind === "organization" &&
+      flow.source.organizationId === relationship.organizationId &&
+      flow.recipient.kind === "person" &&
+      flow.recipient.personId === job.personId;
+    if (
+      (!isThisWork && !isThisPayment) ||
+      !flow.basisKind.startsWith("compensation:")
+    )
+      continue;
+    const terms = resourceFlowTermsAt(world, flow.id);
+    if (!terms || terms.status === "ended") continue;
+    const annual = annualizedRecordedPayMinor(
+      terms.amount.minorUnits,
+      terms.cadenceKind,
+    );
+    if (annual !== null && annual > 0) return annual;
+  }
+  return null;
 }
 
 /** The town employment's jobs active today, with their current status. */
@@ -159,7 +338,6 @@ export function reviewTownJobs(
   round: string,
 ): World {
   const today = world.currentDate;
-  const pressure = townUnemploymentPressure(world, town);
   const dead = new Set(world.history.personDeaths.map((row) => row.personId));
   const reviewKey = `${TOWN_EMPLOYMENT_VERSION}:${town}:review:${round}`;
   // A review already run for this round writes nothing new.
@@ -170,6 +348,9 @@ export function reviewTownJobs(
         row.stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:${town}:job:`),
     ) ||
     world.history.workStatuses.some((row) =>
+      row.stableKey.startsWith(reviewKey),
+    ) ||
+    world.history.decisionTraces.some((row) =>
       row.stableKey.startsWith(reviewKey),
     )
   )
@@ -221,9 +402,12 @@ export function reviewTownJobs(
     );
   };
   let next = world;
-  const rehire = new Set<EntityId>();
+  const quitters = new Set<EntityId>();
   const end = (job: TownJob, reason: string) => {
-    next = recordWorkStatus(next, {
+    const write = TOWN_JOB_LOSS_REASONS.has(reason)
+      ? recordTownJobLoss
+      : recordWorkStatus;
+    next = write(next, {
       stableKey: `${reviewKey}:end:${job.relationshipId}`,
       workRelationshipId: job.relationshipId,
       effectiveAt: today,
@@ -239,9 +423,6 @@ export function reviewTownJobs(
     if (organizationId)
       staffAt.set(organizationId, (staffAt.get(organizationId) ?? 1) - 1);
   };
-  const startedAt = new Map<EntityId, string>();
-  for (const relationship of world.history.workRelationships)
-    startedAt.set(relationship.id, relationship.startedAt);
   const staying: TownJob[] = [];
   for (const job of activeTownJobs(world, town)) {
     const person = world.people[job.personId];
@@ -259,73 +440,36 @@ export function reviewTownJobs(
     staying.push(job);
   }
 
-  // HARDWIRED: last hired, first let go, the usual order of a layoff. The
-  // town's conditions set how many of the jobs at employers without books
-  // end; a business that keeps books lays off by its books, below. Whoever
-  // runs a business is never laid off from it.
-  const byLatestHire = [...staying].sort(
-    (a, b) =>
-      startedAt
-        .get(b.relationshipId)!
-        .localeCompare(startedAt.get(a.relationshipId)!) ||
-      a.relationshipId.localeCompare(b.relationshipId),
-  );
-  const byConditions = byLatestHire.filter(
-    (job) => booksOf(job)?.lastQuarterPay === undefined,
-  );
-  let layoffs = Math.round(
-    byConditions.length * TOWN_JOB_TURNOVER.layoffPerQuarter * pressure,
-  );
-  const laidOff = new Set<EntityId>();
-  for (const job of byConditions) {
-    if (layoffs <= 0) break;
-    if (runsIt(job)) continue;
-    end(job, TOWN_JOB_END_REASONS.laidOff);
-    laidOff.add(job.relationshipId);
-    layoffs -= 1;
-  }
+  // Conditions and national rates check the town total; they do not select a
+  // person. An employer without books has no recorded need for a layoff, so it
+  // leaves every worker's status open instead of using hire date as a proxy.
 
-  // HARDWIRED: the youngest quit first, then the newest in the job. Young
-  // workers change jobs most (Topel and Ward, "Job Mobility and the Careers
-  // of Young Men", Quarterly Journal of Economics, 1992). Whoever runs a
-  // business does not quit it.
-  const remaining = staying.filter((job) => !laidOff.has(job.relationshipId));
-  const byYouth = [...remaining].sort(
-    (a, b) =>
-      world.people[b.personId]!.birthDate.localeCompare(
-        world.people[a.personId]!.birthDate,
-      ) ||
-      startedAt
-        .get(b.relationshipId)!
-        .localeCompare(startedAt.get(a.relationshipId)!) ||
-      a.relationshipId.localeCompare(b.relationshipId),
-  );
-  let quits = Math.round(
-    (remaining.length * TOWN_JOB_TURNOVER.quitPerQuarter) / pressure,
-  );
-  const employerByPerson = new Map<EntityId, EntityId | null>(
-    remaining.map((job) => [
+  // A worker's saved goals decide whether they quit. Whoever runs a business
+  // and the controlled player retain their existing protection.
+  const remaining = staying;
+  for (const job of remaining) {
+    if (runsIt(job) || job.personId === playerPersonId) continue;
+    const evaluation = decideTownWorkerQuit(
+      next,
       job.personId,
-      employerOf.get(job.relationshipId) ?? null,
-    ]),
-  );
-  for (const job of byYouth) {
-    if (quits <= 0) break;
-    if (runsIt(job)) continue;
-    end(job, TOWN_JOB_END_REASONS.quit);
-    quits -= 1;
-    // A quitter walks into another job when somebody they know from a shared
-    // room works for another employer in town.
-    const own = employerOf.get(job.relationshipId) ?? null;
-    const lead = sharedPlaceAcquaintances(world, job.personId).some(
-      (other) =>
-        employerByPerson.has(other) && employerByPerson.get(other) !== own,
+      job.relationshipId,
+      `${reviewKey}:quit:${job.relationshipId}`,
     );
-    if (lead) rehire.add(job.personId);
+    if (!evaluation) continue;
+    next = recordDurableDecisionTrace(next, evaluation);
+    if (
+      !isSelectedDecision(evaluation) ||
+      evaluation.selectedOptionKey !== "quit"
+    )
+      continue;
+    end(job, TOWN_JOB_END_REASONS.quit);
+    // A decision to stop working must not immediately allocate another job.
+    quitters.add(job.personId);
   }
 
-  // A business whose sales no longer cover its pay lets its most recent
-  // hire go, never whoever runs it.
+  // A business whose sales no longer cover pay cuts the largest recorded
+  // annual compensation it can identify, never whoever runs it. If pay is
+  // absent, the books do not support choosing a person.
   const staffOf = new Map<EntityId, TownJob[]>();
   for (const job of activeTownJobs(next, town)) {
     const organizationId = employerOf.get(job.relationshipId);
@@ -345,23 +489,22 @@ export function reviewTownJobs(
       )
     )
       continue;
-    const [last] = staff
+    const [costliest] = staff
       .filter(
         (job) =>
-          relationships.get(job.relationshipId)?.authority !== "directs-others",
+          relationships.get(job.relationshipId)?.authority !==
+            "directs-others" && recordedAnnualJobPay(next, job) !== null,
       )
       .sort(
         (a, b) =>
-          (relationships.get(b.relationshipId)?.startedAt ?? "").localeCompare(
-            relationships.get(a.relationshipId)?.startedAt ?? "",
-          ) || a.relationshipId.localeCompare(b.relationshipId),
+          recordedAnnualJobPay(next, b)! - recordedAnnualJobPay(next, a)!,
       );
-    if (last) end(last, TOWN_JOB_END_REASONS.laidOff);
+    if (costliest) end(costliest, TOWN_JOB_END_REASONS.laidOff);
   }
 
   // Everyone of working age who should be working and holds no job today:
   // somebody laid off, a newcomer, someone just turned 18, a student who has
-  // finished. Those who quit for another job are hired without a draw.
+  // finished. A worker who chose to stop working is not rehired in this review.
   const working = new Set(
     activeTownJobs(next, town).map((job) => job.personId),
   );
@@ -377,40 +520,14 @@ export function reviewTownJobs(
     if (resident.personId === playerPersonId) return false;
     if (working.has(resident.personId) || heldElsewhere.has(resident.personId))
       return false;
-    if (rehire.has(resident.personId)) return false;
+    if (quitters.has(resident.personId)) return false;
     const status = laborStatus(next, resident);
     return status === "employed" || status === "looking-for-work";
   });
-  // HARDWIRED: employers call back the seekers out of work the shortest time
-  // first (Kroft, Lange and Notowidigdo, "Duration Dependence and Labor
-  // Market Conditions", Quarterly Journal of Economics, 2013). Somebody with
-  // no job on the record has been out of work here since the later of moving
-  // into their home and turning 18: a newcomer's last job elsewhere is not
-  // known, so it is not read as never having worked.
-  const lastWorked = outOfWorkSince(
-    next,
-    seekers.map((resident) => resident.personId),
-  );
-  const hiredSeekers = [...seekers]
-    .sort(
-      (a, b) =>
-        (lastWorked.get(b.personId) ?? "").localeCompare(
-          lastWorked.get(a.personId) ?? "",
-        ) || a.personId.localeCompare(b.personId),
-    )
-    .slice(
-      0,
-      Math.round(
-        (seekers.length * TOWN_JOB_TURNOVER.hirePerQuarter) / pressure,
-      ),
-    );
-  const open = [
-    ...townResidents(next, town).filter((resident) =>
-      rehire.has(resident.personId),
-    ),
-    ...hiredSeekers,
-  ];
-  return fillTownJobs(next, town, open, { round });
+  // The allocator reads each person's age and work history and fills the
+  // largest recorded role shortage. The aggregate hiring rate remains a check
+  // on totals; it does not decide which seeker gets work.
+  return fillTownJobs(next, town, seekers, { round });
 }
 
 /**

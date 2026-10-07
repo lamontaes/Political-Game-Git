@@ -1,3 +1,4 @@
+import { openPetitionAsksFor } from "./recall";
 import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
@@ -111,7 +112,9 @@ export type AdultOptionWrite =
   /** Pays the back rent on the lease the person holds, from their money. */
   | { readonly kind: "pay-rent-owed" }
   /** The household leaves the home it rents before an eviction hearing. */
-  | { readonly kind: "move-out-before-hearing" };
+  | { readonly kind: "move-out-before-hearing" }
+  /** The person reports the offense against them to police, today. */
+  | { readonly kind: "report-offense-to-police" };
 
 /** Who else the scene needs, resolved from the world and never created. */
 export type AdultCompanionRole =
@@ -698,6 +701,57 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         ],
         aftermath: null,
         writes: { kind: "move-out-before-hearing" },
+      },
+    ],
+  },
+  {
+    key: "adult.crime-report",
+    // Written by the monthly crime pass when an offense happened to the
+    // played person and nobody else it happened to reported it (A131, CTO
+    // Ruling 11). The prose shown is that record's own summary, with the
+    // offense, the town and the day; the line below is the fallback. Nobody
+    // decides it for them: left unanswered, it stays unreported.
+    opportunity: "crime-report",
+    companion: null,
+    stakes: "notable",
+    prose: "Something was done to you, and you have not told the police.",
+    tensions: [
+      tension(
+        "institutional-trust",
+        1,
+        "privacy-preference",
+        1,
+        "Putting it in the hands of the police, against keeping it your own business.",
+      ),
+    ],
+    available: always,
+    relevance: () => 1,
+    options: [
+      {
+        key: "report-it",
+        label: "Report it to the police",
+        description:
+          "Tell the police what happened. It goes on the police log.",
+        memory: "You reported it to the police.",
+        stance: "engaged",
+        nudges: [
+          nudge("institutional-trust", 0.4),
+          nudge("privacy-preference", -0.2),
+        ],
+        aftermath: null,
+        writes: { kind: "report-offense-to-police" },
+      },
+      {
+        key: "keep-it-to-yourself",
+        label: "Keep it to yourself",
+        description: "Let it go without telling the police.",
+        memory: "You decided not to tell the police.",
+        stance: "withdrawn",
+        nudges: [
+          nudge("privacy-preference", 0.3),
+          nudge("institutional-trust", -0.2),
+        ],
+        aftermath: null,
       },
     ],
   },
@@ -1970,12 +2024,10 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
   },
   {
     key: "adult.petition-ask",
-    withheld:
-      "Group participation does not establish a petition or a request to sign. The petition, request and disclosure terms are missing.",
-    companion: "community-member",
+    companion: null,
     stakes: "notable",
     prose:
-      "Somebody wants your name on something. It is public, it is local, and it will be read by people who know you.",
+      "You have been asked to sign a filed petition. Its subject and filing terms are on the record.",
     tensions: [
       tension(
         "privacy-preference",
@@ -1986,8 +2038,8 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
       ),
     ],
     available: (context) =>
-      context.civicParticipationCount > 0 &&
-      context.communityMemberIds.length > 0,
+      openPetitionAsksFor(context.world, context.personId, context.asOfDate)
+        .length === 1,
     options: [
       {
         key: "sign",
@@ -2456,7 +2508,10 @@ function bindRequestTerms(
   ).filter((entry) => entry.kind === situation.opportunity);
   // A case left unanswered stays on the record; a later case binds its own.
   const request =
-    situation.opportunity === "eviction-case" ? requests.at(-1) : requests[0];
+    situation.opportunity === "eviction-case" ||
+    situation.opportunity === "crime-report"
+      ? requests.at(-1)
+      : requests[0];
   const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
   if (!request?.counterpartPersonId)

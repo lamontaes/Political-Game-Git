@@ -1,4 +1,5 @@
 import type { EntityId, IsoDate } from "../types";
+import type { LawEffectStamp } from "../law-effect-stamp";
 
 /** Recorded when a town business closes because its cash ran out. */
 export const BUSINESS_CLOSED_EVENT = "economy.business-closed";
@@ -43,6 +44,30 @@ export interface TownBusinessBooks {
   readonly lineLimit: number;
   /** Cash in less cash out over its last quarter. */
   readonly lastQuarterNet: number;
+  /** Privacy compliance paid this quarter, in dollars; absent in older saves. */
+  readonly lastQuarterPrivacyCost?: number;
+  /** One-time initial costs; absent in older saves. No recurring cost is inferred. */
+  readonly privacyComplianceOccurrences?: readonly {
+    readonly governingLawKey: EntityId;
+    readonly operativeAt: IsoDate;
+    readonly appliedAt: IsoDate;
+    readonly initialCostDollars: number;
+    readonly employeeCount: number;
+    readonly sourceRecordIds: readonly EntityId[];
+    readonly applicability: "ESTIMATED";
+    readonly revenueBasisDollars: number;
+    readonly applicabilityThresholdDollars: number;
+    readonly revenueBasis: "saved modeled annualRevenue, not observed gross receipts";
+    readonly applicabilitySource: string;
+    readonly costSource: string;
+    readonly costSourcePage: number;
+    readonly employeeSizeClass: string;
+    readonly bandSource: string;
+    readonly sourceLimit: string;
+    readonly boundaryConvention?: string;
+  }[];
+  /** Laws responsible for consequences saved in these books. */
+  readonly lawEffectStamps?: readonly LawEffectStamp[];
   /** Its pay over its last quarter; absent in books from older saves. */
   readonly lastQuarterPay?: number;
   /**
@@ -114,6 +139,13 @@ export interface TownMarketBooks {
    * spending follows it. Absent in books from older saves.
    */
   readonly townPay?: number;
+  /**
+   * The town pay (or, before pay was read, the town jobs) its sales have
+   * caught up to: the long-run response to pay builds over quarters. Absent
+   * in books from older saves, which start from `townPay` (or `townJobs`).
+   */
+  readonly townPayReached?: number;
+  readonly townJobsReached?: number;
   /** What a job in town paid a year on average, in current dollars. */
   readonly averagePay?: number;
   /** The nation's price index when it was last read. */

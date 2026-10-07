@@ -1,0 +1,45 @@
+{
+  "batch": "coordinator-terms-05",
+  "status": "parameter-declarations-with-explicit-research-gaps",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:government-operations.independent-ward-commission",
+      "parameters": [
+        {
+          "key": "authority",
+          "unit": "ward-drawing-body",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for authority; no universal numeric bound inferred."
+          }
+        },
+        {
+          "key": "coverage",
+          "unit": "covered-council-districts",
+          "selectableRange": {
+            "status": "needs-research",
+            "owner": "Team9",
+            "request": "Jurisdiction-specific lawful selection bounds for coverage; no universal numeric bound inferred."
+          }
+        }
+      ],
+      "currentLawSource": {
+        "path": "data/research/laws/starting-law-2026.json",
+        "key": null,
+        "status": "missing-starting-row-research-required",
+        "limit": "Existing per-place answer/citation is not necessarily a numeric parameter value."
+      },
+      "higherLevelConstraints": {
+        "status": "requires-jurisdiction-resolution",
+        "sources": [
+          "data/research/powers-catalog/question-powers.json",
+          "data/research/laws/starting-law-2026.json"
+        ],
+        "rule": "Resolve actual authority, preemption, constitutional limits and operative higher-level law before accepting a chosen value. Missing bounds are not permission."
+      },
+      "trace": "docs/codex/law-table-7am.md#catalog-rows",
+      "phaseIn": "Read effectiveDates and actual enacted operativeAt; no invented common phase-in."
+    }
+  ]
+}

@@ -16,8 +16,9 @@ import {
 } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
+import { CONDITION_PACK_KEY, packCondition } from "./condition-pack";
 import { MULTIPLIER_ONE } from "./hazard";
-import { crisisMortalityWindowAt, scheduleMortalityWithin } from "./mortality";
+import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 import { publicOfficesHeldBy } from "./offices";
 import {
   activeHealthEpisodes,
@@ -27,7 +28,7 @@ import {
 import {
   appendCrisisRecord,
   crisisRecordId,
-  crisisRecords,
+  crisisRecordIndex,
   healthAccessRank,
 } from "./records";
 import {
@@ -76,6 +77,8 @@ export const PROVISIONAL_SIMULATION_COURSES: Readonly<
 };
 
 export interface BeginHealthEpisodeInput {
+  /** Dated biography admission; only the prospective pre-start resident. */
+  readonly onsetAt?: IsoDate;
   readonly stableKey: string;
   readonly personId: EntityId;
   readonly severity: HealthSeverity;
@@ -88,6 +91,11 @@ export interface BeginHealthEpisodeInput {
   /** Hazard change while active; defaults to no represented change. */
   readonly hazard?: { readonly micros: number; readonly basis: string };
   readonly course?: readonly HealthCourseStep[];
+  /**
+   * The installed pack's condition this episode is, when its origin is the
+   * condition pack (./condition-pack.ts). The episode is then labeled with it.
+   */
+  readonly conditionKey?: string;
 }
 
 const LIMITATION_CAPACITY: Record<
@@ -108,9 +116,9 @@ export function visibilityForAccess(access: HealthAccess): EventVisibility {
 }
 
 function episodeRecord(world: World, episodeId: EntityId): HealthEpisodeRecord {
-  const record = crisisRecords(world).find((r) => r.id === episodeId);
+  const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "health-episode")
-    throw new Error(`Unknown health episode: ${episodeId}`);
+    throw new Error(`No health episode matches the recorded ID: ${episodeId}`);
   return record;
 }
 
@@ -245,7 +253,7 @@ function refreshMortality(
 ): World {
   const window = crisisMortalityWindowAt(world, world.currentDate);
   if (!window) return world;
-  return scheduleMortalityWithin(
+  return scheduleStrainOnset(
     world,
     personId,
     world.currentDate,
@@ -287,7 +295,18 @@ export function beginHealthEpisode(
 ): World {
   const person = world.people[input.personId];
   if (!person) throw new Error(`Missing health person: ${input.personId}`);
-  const onsetAt = world.currentDate;
+  const onsetAt = input.onsetAt ?? world.currentDate;
+  if (
+    onsetAt !== world.currentDate &&
+    world.preStartLife?.personId !== input.personId
+  )
+    throw new Error(
+      "Historical health admission requires the pre-start resident.",
+    );
+  if (onsetAt < person.birthDate || onsetAt > world.currentDate)
+    throw new Error(
+      "Health onset must fall between birth and the current date.",
+    );
   if (
     !isPersonAliveAt(world, input.personId, {
       asOfDate: onsetAt,
@@ -295,9 +314,18 @@ export function beginHealthEpisode(
     })
   )
     throw new Error("A deceased person cannot begin a health episode.");
-  if (input.origin.kind === "condition-pack")
+  const conditionKey =
+    input.origin.kind === "condition-pack"
+      ? (input.conditionKey ?? null)
+      : null;
+  if (
+    input.origin.kind === "condition-pack" &&
+    (input.origin.packKey !== CONDITION_PACK_KEY ||
+      !conditionKey ||
+      !packCondition(conditionKey))
+  )
     throw new Error(
-      "No researched condition pack is installed; named conditions are unavailable.",
+      `No installed condition pack names this condition: ${input.origin.packKey}/${conditionKey}.`,
     );
   const hazard = input.hazard ?? {
     micros: MULTIPLIER_ONE,
@@ -335,8 +363,8 @@ export function beginHealthEpisode(
     visibility,
     eventId: began.eventId,
     personId: input.personId,
-    label: "simulation-episode",
-    conditionKey: null,
+    label: conditionKey ? "condition" : "simulation-episode",
+    conditionKey,
     severity: input.severity,
     origin: input.origin,
     hazardMultiplierMicros: hazard.micros,
@@ -344,6 +372,16 @@ export function beginHealthEpisode(
     course,
   });
   const episodeId = crisisRecordId(next, key);
+  next = recordEventKnowledge(next, {
+    stableKey: `${key}:knows:${input.personId}:${began.eventId}`,
+    personId: input.personId,
+    eventId: began.eventId,
+    learnedAt: onsetAt,
+    believedSummary: began.world.history.events.at(-1)!.summary,
+    accuracy: "accurate",
+    confidence: "high",
+    source: { kind: "direct" },
+  });
   next = appendCrisisRecord(next, {
     kind: "health-disclosure",
     stableKey: `${key}:disclosure:initial`,
@@ -388,9 +426,34 @@ export function beginHealthEpisode(
     functionalLimitation: input.initialLimitation,
     capacityRecordId: limited.capacityRecordId,
   });
-  next = scheduleCourse(next, episodeId, input.personId, onsetAt, course, 0);
+  let courseIndex = 0;
+  while (
+    courseIndex < course.length &&
+    addDays(onsetAt, course[courseIndex]!.afterDays) <= world.currentDate
+  ) {
+    const step = course[courseIndex]!;
+    next = changeHealthState(next, {
+      stableKey: `course-${courseIndex}`,
+      episodeId,
+      state: step.state,
+      functionalLimitation: step.functionalLimitation,
+      effectiveAt: addDays(onsetAt, step.afterDays),
+    });
+    courseIndex++;
+    if (step.state === "recovered") break;
+  }
+  if (latestHealthState(next, episodeId)?.state !== "recovered")
+    next = scheduleCourse(
+      next,
+      episodeId,
+      input.personId,
+      onsetAt,
+      course,
+      courseIndex,
+    );
   if (
     input.initialLimitation === "incapacitated" &&
+    addDays(onsetAt, 1) > world.currentDate &&
     healthAccessRank(access) < healthAccessRank("official") &&
     !(
       world.control.kind === "person" &&
@@ -443,6 +506,7 @@ function teachRecipients(
 }
 
 export interface ChangeHealthStateInput {
+  readonly effectiveAt?: IsoDate;
   readonly stableKey: string;
   readonly episodeId: EntityId;
   readonly state: Exclude<HealthState, "deceased">;
@@ -458,7 +522,17 @@ export function changeHealthState(
   const prior = latestHealthState(world, episode.id);
   if (prior?.state === "recovered" || prior?.state === "deceased")
     throw new Error("This health episode has already ended.");
-  const effectiveAt = world.currentDate;
+  const effectiveAt = input.effectiveAt ?? world.currentDate;
+  if (
+    effectiveAt !== world.currentDate &&
+    world.preStartLife?.personId !== episode.personId
+  )
+    throw new Error("Historical health state requires the pre-start resident.");
+  if (
+    effectiveAt < (prior?.effectiveAt ?? episode.effectiveAt) ||
+    effectiveAt > world.currentDate
+  )
+    throw new Error("Health states must follow onset in date order.");
   const key = `${episode.stableKey}:state:${input.stableKey}`;
   const limited = applyLimitation(world, {
     stableKey: key,

@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import * as legislativeProcedureWorld from "./legislative-procedure-world";
 
 import {
   bodyForChamber,
@@ -44,6 +45,10 @@ import {
   MINNESOTA_RULE_PACK,
   NEBRASKA_RULE_PACK,
 } from "./legislature-rule-packs";
+import {
+  legislatureForState,
+  legislatureProfilePackId,
+} from "./legislature-game-profile";
 import {
   assertRulePackIntegrity,
   chamberByKey,
@@ -500,6 +505,139 @@ describe("Kentucky bicameral path", () => {
     expect(senateOverride.requiredVotes).toBe(20);
     expect(senateOverride.outcome).toBe("failed");
   });
+
+  it("saves Indiana exact-half failure and half-plus-one success with the majority label", () => {
+    const indianaPack = legislatureForState("US-IN")!;
+    const indianaScenario: LegislativeScenario = {
+      ...scenario,
+      pack: indianaPack,
+      world: {
+        ...scenario.world,
+        history: {
+          ...scenario.world.history,
+          legislativeMeasures: scenario.world.history.legislativeMeasures!.map(
+            (measure) =>
+              measure.id === scenario.measureId
+                ? {
+                    ...measure,
+                    rulePackId: legislatureProfilePackId("US-IN"),
+                  }
+                : measure,
+          ),
+        },
+      },
+    };
+    let world = toFloor(indianaScenario, indianaScenario.world, "house", 9);
+    world = clearFloor(indianaScenario, world, "house", 60);
+    world = transmitMeasure(world, {
+      stableKey: "indiana-threshold:transmit",
+      measureId: indianaScenario.measureId,
+    });
+    world = toFloor(indianaScenario, world, "senate", 6);
+    world = clearFloor(indianaScenario, world, "senate", 25);
+    world = enrollMeasure(world, {
+      stableKey: "indiana-threshold:enroll",
+      measureId: indianaScenario.measureId,
+    });
+    world = presentMeasureToExecutive(world, {
+      stableKey: "indiana-threshold:present",
+      measureId: indianaScenario.measureId,
+    });
+    world = recordExecutiveAction(world, {
+      stableKey: "indiana-threshold:veto",
+      measureId: indianaScenario.measureId,
+      action: "vetoed",
+      rationale: "The Governor returned the bill with objections.",
+    });
+    expect(
+      indianaPack.chambers.map((chamber) =>
+        chamber.seats.kind === "known" ? chamber.seats.value : null,
+      ),
+    ).toEqual([100, 50]);
+    const forums = (
+      houseYea: number,
+      senateYea: number,
+    ): Parameters<typeof attemptVetoOverride>[1]["forums"] => [
+      {
+        forumKey: "house",
+        electedMembers: 100,
+        dispositions: Array.from({ length: 100 }, (_, index) => ({
+          memberKey: `in-house-${index + 1}`,
+          personId: null,
+          disposition: index < houseYea ? ("yea" as const) : ("nay" as const),
+        })),
+      },
+      {
+        forumKey: "senate",
+        electedMembers: 50,
+        dispositions: Array.from({ length: 50 }, (_, index) => ({
+          memberKey: `in-senate-${index + 1}`,
+          personId: null,
+          disposition: index < senateYea ? ("yea" as const) : ("nay" as const),
+        })),
+      },
+    ];
+
+    const exactHalf = attemptVetoOverride(world, {
+      stableKey: "indiana-threshold:exact-half",
+      measureId: indianaScenario.measureId,
+      forums: forums(50, 25),
+      rationale: "Each chamber supplied exactly half its elected membership.",
+      provenance: AUTHORED,
+    });
+    expect(measurePosition(exactHalf, indianaScenario.measureId).outcome).toBe(
+      "vetoed-and-sustained",
+    );
+    expect(
+      measureVotes(exactHalf, indianaScenario.measureId).slice(-2),
+    ).toMatchObject([
+      {
+        denominatorValue: 100,
+        requiredVotes: 51,
+        tally: { yea: 50 },
+        outcome: "failed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+      {
+        denominatorValue: 50,
+        requiredVotes: 26,
+        tally: { yea: 25 },
+        outcome: "failed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+    ]);
+
+    const halfPlusOne = attemptVetoOverride(world, {
+      stableKey: "indiana-threshold:half-plus-one",
+      measureId: indianaScenario.measureId,
+      forums: forums(51, 26),
+      rationale:
+        "Each chamber supplied one vote over half its elected membership.",
+      provenance: AUTHORED,
+    });
+    expect(measurePosition(halfPlusOne, indianaScenario.measureId).phase).toBe(
+      "awaiting-enactment",
+    );
+    const saved = deserializeWorld(serializeWorld(halfPlusOne));
+    expect(
+      measureVotes(saved, indianaScenario.measureId).slice(-2),
+    ).toMatchObject([
+      {
+        denominatorValue: 100,
+        requiredVotes: 51,
+        tally: { yea: 51 },
+        outcome: "passed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+      {
+        denominatorValue: 50,
+        requiredVotes: 26,
+        tally: { yea: 26 },
+        outcome: "passed",
+        thresholdLabel: "A majority of all the members elected to that House",
+      },
+    ]);
+  });
 });
 
 describe("Nebraska unicameral path", () => {
@@ -887,6 +1025,124 @@ describe("Procedural discipline", () => {
         provenance: AUTHORED,
       }),
     ).toThrow(/Member voted twice/);
+  });
+
+  it.each([
+    {
+      key: "kentucky",
+      chamberKey: "house",
+      committeeYeas: 9,
+      elected: 60,
+      short: 30,
+      required: 31,
+    },
+    {
+      key: "nebraska",
+      chamberKey: "legislature",
+      committeeYeas: 5,
+      elected: 47,
+      short: 23,
+      required: 24,
+    },
+    {
+      key: "alaska",
+      chamberKey: "house",
+      committeeYeas: 4,
+      elected: 35,
+      short: 20,
+      required: 21,
+    },
+  ])(
+    "preserves $key's declared vacancy denominator in an actual floor record",
+    ({ key, chamberKey, committeeYeas, elected, short, required }) => {
+      const fixture = createLegislativeScenario(key);
+      const ready = toFloor(fixture, fixture.world, chamberKey, committeeYeas);
+      const members = bodyForChamber(fixture, chamberKey).members.slice(
+        0,
+        elected,
+      );
+      const input = {
+        stableKey: `${key}:vacant-seats`,
+        measureId: fixture.measureId,
+        electedMembers: elected,
+        provenance: AUTHORED,
+      };
+      const noQuorum = takeFloorVote(ready, {
+        ...input,
+        presentMembers: short,
+        dispositions: dispositionsFromCounts(members, { yea: short, nay: 0 }),
+      });
+      expect(noQuorum.history.legislativeActions!.at(-1)).toMatchObject({
+        kind: "quorum-not-present",
+        rationale: expect.stringContaining(
+          `${short} present, ${required} required`,
+        ),
+      });
+      expect(measureVotes(noQuorum, fixture.measureId).at(-1)).toMatchObject({
+        tally: { yea: short, nay: 0 },
+      });
+      expect(measurePosition(noQuorum, fixture.measureId).phase).toBe(
+        "on-floor",
+      );
+      const passed = takeFloorVote(ready, {
+        ...input,
+        presentMembers: required,
+        dispositions: dispositionsFromCounts(members, {
+          yea: required,
+          nay: 0,
+        }),
+      });
+      expect(measureVotes(passed, fixture.measureId).at(-1)?.tally.yea).toBe(
+        required,
+      );
+      expect(deserializeWorld(serializeWorld(passed))).toEqual(passed);
+    },
+  );
+
+  it("does not treat an unresolved quorum as permission to transact business", () => {
+    const world = toFloor(scenario, scenario.world, "house", 9);
+    const body = bodyForChamber(scenario, "house");
+    const resolvePack = legislativeProcedureWorld.legislativeRulePackForWorld;
+    const spy = vi
+      .spyOn(legislativeProcedureWorld, "legislativeRulePackForWorld")
+      .mockImplementation((current, packId) => {
+        const pack = resolvePack(current, packId);
+        return packId !== scenario.pack.packId
+          ? pack
+          : {
+              ...pack,
+              chambers: pack.chambers.map((chamber) => ({
+                ...chamber,
+                quorum: unknownRule(
+                  "This bounded fixture leaves the quorum unresolved.",
+                ),
+              })),
+            };
+      });
+    try {
+      expect(() =>
+        takeFloorVote(world, {
+          stableKey: "unresolved-quorum",
+          measureId: scenario.measureId,
+          dispositions: dispositionsFromCounts(body.members, {
+            yea: body.members.length,
+            nay: 0,
+          }),
+          presentMembers: body.members.length,
+          electedMembers: body.members.length,
+          provenance: AUTHORED,
+        }),
+      ).toThrow(/quorum is unknown/);
+      expect(
+        measureVotes(world, scenario.measureId).filter(
+          (vote) => vote.purpose === "floor-stage",
+        ),
+      ).toEqual([]);
+      expect(measurePosition(world, scenario.measureId).phase).toBe("on-floor");
+      expect(deserializeWorld(serializeWorld(world))).toEqual(world);
+    } finally {
+      spy.mockRestore();
+    }
   });
 
   it("records an amendment and its own vote at an amendable stage", () => {

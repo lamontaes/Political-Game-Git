@@ -1,0 +1,28 @@
+{
+  "filedAt": "2026-10-01T07:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "town economy",
+  "notes": [
+    "Audit gap A71. Every town business opens with a line of credit of 36.5 days of its revenue (10 percent of a year's sales): TOWN_FINANCE_POLICY.business.creditLineDaysOfRevenue in src/simulation/living-world/town-finances.ts. No source backs the number; it is a hand-set placeholder.",
+    "The line is what a business draws on when its cash runs out before it closes, so its size decides how long a struggling business survives a bad quarter."
+  ],
+  "priority": "P2",
+  "question": "How large a line of credit does a small employer business hold, as a share of its annual revenue, and how does that vary by industry and firm size? The Federal Reserve Small Business Credit Survey (Report on Employer Firms) reports the amount of financing sought and approved and the firm's annual revenue band; is there a published or derivable median line-of-credit limit relative to revenue?",
+  "questionId": "small-business-credit-line-size",
+  "relatedQuestionIds": ["local-sales-response-to-town-pay"],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "Federal Reserve Banks, Small Business Credit Survey, 2024 Report on Employer Firms (fedsmallbusiness.org)",
+      "whatItDidNotSettle": "Reports the share of applicants by amount sought and by revenue band, and the share seeking a line of credit, but not a line's limit as a share of the firm's own revenue."
+    },
+    {
+      "source": "JPMorgan Chase Institute, Cash Is King (2016)",
+      "whatItDidNotSettle": "Measures cash buffer days (already read in town-finances.ts), not credit lines."
+    }
+  ],
+  "title": "Small business line-of-credit size relative to revenue",
+  "usableAnswer": "A median (and interquartile range) line-of-credit limit for small employer firms as days or a share of annual revenue, overall and for the industries the game models (restaurant, retail, construction, professional services, manufacturing, health care), with the survey year and a named source table, from the Fed Small Business Credit Survey microdata or tables, the FDIC/FFIEC Call Report small-business loan data, or the SBA Office of Advocacy small business lending report.",
+  "whyItMatters": "With one hand-set 10 percent line, every business in every town has the same runway when sales fall; a sourced size, by industry, lets a restaurant fold faster than a professional office and makes a player's local lending law matter."
+}

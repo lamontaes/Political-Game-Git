@@ -1,3 +1,8 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import {
+  COUNCIL_ACT_MEASURE_TITLE,
+  ORDINANCE_MEASURE_TITLE,
+} from "./measure-title";
 /**
  * The municipal government a life actually lives under.
  *
@@ -148,6 +153,20 @@ export interface MunicipalProcedure {
     readonly inactionOutcome: string;
   } | null;
   readonly override: string | null;
+  readonly financialGeneralThresholdUsd?: number | null;
+  readonly financialLocalRule?: {
+    readonly operativeOn: string;
+    readonly fullMembershipAboveUsd: number;
+    readonly delayedAboveUsd: number;
+    readonly minimumInterveningDays: number;
+    readonly ordinaryCitations: readonly string[];
+    readonly ordinaryUnresolved: readonly string[];
+    readonly quorumCitation: string;
+  } | null;
+  readonly managerElectionThreshold?: MunicipalVoteThreshold | null;
+  readonly overrideWindowDays?: number | null;
+  readonly congressionalReviewDays?: number | null;
+  readonly criminalCodeReviewDays?: number | null;
   readonly overrideState: string;
   readonly overrideAbsence: string | null;
   readonly effectivePublication: string | null;
@@ -607,7 +626,9 @@ export function municipalRuleSourceRef(
   };
   const fact =
     reading.facts.find((candidate) => candidate.value === citation) ??
-    reading.facts.find((candidate) => candidate.path === paths[citation]);
+    reading.facts.find(
+      (candidate) => candidate.path === (paths[citation] ?? citation),
+    );
   const evidence = fact?.evidence?.[0];
   const source = reading.sources.find(
     (candidate) => candidate.key === evidence?.artifactId,
@@ -851,6 +872,7 @@ export function municipalRulePackFor(
   const overrideRow = powerRow(reading, "OVERRIDE", "COUNCIL");
   const vetoRow = powerRow(reading, "VETO", "MAYOR");
   const executiveTitle = reading.mayor?.title ?? "Mayor";
+  const actionDayBasis = reading.procedure.mayoralActionWindow?.dayBasis;
   const executiveSource = municipalRuleSourceRef(
     reading,
     reading.procedure.mayoralAction ?? "executive action on an ordinance",
@@ -885,6 +907,9 @@ export function municipalRulePackFor(
 
   const pack: LegislativeRulePack = {
     packId: municipalRulePackId(reading),
+    titleTemplate: reading.procedure.measureTypes?.includes("act")
+      ? COUNCIL_ACT_MEASURE_TITLE
+      : ORDINANCE_MEASURE_TITLE,
     jurisdictionKey: `US-${reading.state}`,
     displayName: `${reading.displayName} — ${bodyName}`,
     // Compiled from this city's own charter reading, so it states read law.
@@ -949,6 +974,84 @@ export function municipalRulePackFor(
       },
     ],
     chamberOrder: ["council"],
+    ...(reading.procedure.financialGeneralThresholdUsd != null ||
+    reading.procedure.financialLocalRule != null ||
+    reading.procedure.managerElectionThreshold != null ||
+    reading.procedure.overrideWindowDays != null ||
+    reading.procedure.congressionalReviewDays != null ||
+    reading.procedure.criminalCodeReviewDays != null
+      ? {
+          councilActions: {
+            ...(reading.procedure.financialGeneralThresholdUsd != null
+              ? {
+                  financialGeneralThresholdUsd: knownRule(
+                    reading.procedure.financialGeneralThresholdUsd,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialGeneralThresholdUsd",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.financialLocalRule != null
+              ? {
+                  financialLocalRule: knownRule(
+                    reading.procedure.financialLocalRule,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialLocalRule",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.managerElectionThreshold != null
+              ? {
+                  managerElectionThreshold: municipalVoteThresholdRule(
+                    reading.procedure.managerElectionThreshold,
+                    "Majority of members voting on the question",
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.managerElectionThreshold",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.overrideWindowDays != null
+              ? {
+                  overrideWindowDays: knownRule(
+                    reading.procedure.overrideWindowDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.overrideWindowDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.congressionalReviewDays != null
+              ? {
+                  congressionalReviewDays: knownRule(
+                    reading.procedure.congressionalReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.congressionalReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.criminalCodeReviewDays != null
+              ? {
+                  criminalCodeReviewDays: knownRule(
+                    reading.procedure.criminalCodeReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.criminalCodeReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+          },
+        }
+      : {}),
     origination: {
       generalOrigination: knownRule(
         ["council"],
@@ -978,6 +1081,19 @@ export function municipalRulePackFor(
             ),
       actionWindowDaysAfterAdjournment: notApplicableRule(
         "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
+      ),
+      actionWindowDayBasisInSession:
+        actionDayBasis === "CALENDAR" ||
+        actionDayBasis === "BUSINESS" ||
+        actionDayBasis === "SUNDAYS_EXCEPTED"
+          ? knownRule(actionDayBasis, executiveSource)
+          : presentment
+            ? unknownRule(
+                "No instrument read establishes the executive action window's day basis.",
+              )
+            : notApplicableRule("No executive presentment window runs."),
+      actionWindowDayBasisAfterAdjournment: notApplicableRule(
+        "No municipal adjournment window is established.",
       ),
       inactionOutcomeInSession: reading.procedure.mayoralActionWindow
         ? knownRule(
@@ -1024,6 +1140,7 @@ export function municipalRulePackFor(
       source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,
       adjournmentRule: unknownRule(
         "No instrument read establishes an adjournment rule for this body.",
@@ -1048,6 +1165,50 @@ export function municipalRulePackFor(
     evidence: reading.evidence,
     carriedOutsideThePack: outside,
   };
+}
+
+/** Compile a recorded municipal day basis without treating intervening days as elapsed days. */
+function municipalIntervalRule(
+  reading: MunicipalReading,
+  interval: MunicipalPassageInterval,
+  path:
+    | "legislativeProcedure.betweenReadings"
+    | "legislativeProcedure.introductionToPassage",
+) {
+  const fact = reading.facts.find((candidate) => candidate.path === path);
+  const evidence = fact?.evidence?.[0];
+  const source = reading.sources.find(
+    (candidate) => candidate.key === evidence?.artifactId,
+  );
+  const ruleSource: RuleSourceRef = {
+    authority:
+      reading.evidence === "enacted-text" ? "statute" : "research-reference",
+    citation: evidence?.locator.citation ?? path,
+    sourceTitle: source?.title ?? reading.displayName,
+    sourceUrl: source?.url ?? null,
+    retrievedAt: source?.retrievedDate ?? null,
+    verification: !source
+      ? "unresolved"
+      : reading.evidence === "enacted-text"
+        ? "verified"
+        : "partial",
+    note: !source
+      ? "No field-specific interval source is resolved."
+      : reading.evidence === "enacted-text"
+        ? null
+        : "Research transcription; not independently verified operative law.",
+  };
+  if (fact?.state !== "KNOWN" || !source) {
+    return unknownRule(
+      fact?.reason ?? "No field-specific source establishes this interval.",
+    );
+  }
+  return knownRule(
+    interval.basis === "ELAPSED_DAYS"
+      ? interval.minimumElapsedDays
+      : interval.minimumInterveningDays + 1,
+    ruleSource,
+  );
 }
 
 /**
@@ -1079,6 +1240,15 @@ function buildFloorStages(
               "No instrument read establishes whether this reading takes amendments.",
             ),
       separateLegislativeDayRequired: true,
+      ...(index > 1 && reading.procedure.betweenReadings
+        ? {
+            readingIntervalDays: municipalIntervalRule(
+              reading,
+              reading.procedure.betweenReadings,
+              "legislativeProcedure.betweenReadings",
+            ),
+          }
+        : {}),
       // A placeholder, where one is set: the reading is put to the same vote
       // as final passage (municipal-procedure-placeholders.ts).
       vote: everyReadingVoted
@@ -1099,6 +1269,24 @@ function buildFloorStages(
           )
         : knownRule(true, municipalRuleSourceRef(reading, "amendment")),
     separateLegislativeDayRequired: readings > 1,
+    ...(readings > 1 && reading.procedure.betweenReadings
+      ? {
+          readingIntervalDays: municipalIntervalRule(
+            reading,
+            reading.procedure.betweenReadings,
+            "legislativeProcedure.betweenReadings",
+          ),
+        }
+      : {}),
+    ...(reading.procedure.introductionToPassage
+      ? {
+          minimumDaysFromIntroduction: municipalIntervalRule(
+            reading,
+            reading.procedure.introductionToPassage,
+            "legislativeProcedure.introductionToPassage",
+          ),
+        }
+      : {}),
     vote: knownRule(passage, passageSource),
     source: passageSource,
   });

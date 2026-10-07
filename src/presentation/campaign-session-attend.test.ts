@@ -4,6 +4,13 @@ import {
   campaignActionForActivity,
   campaignActionResult,
   commitCampaignWeek,
+  fileCampaign,
+  addDays,
+  makeCurrencyCode,
+  ensureStateJurisdiction,
+  ensureCampaignOpponents,
+  stateJurisdictionForKey,
+  stateExecutiveIdentity,
   compareSimulationMoments,
   deserializeWorld,
   projectCampaignWeek,
@@ -12,9 +19,7 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { electiveOfficesForJurisdiction } from "../simulation/candidacy";
 import { playCalendarActivity } from "./calendar-time-control";
-import { fileForOffice } from "./campaign-projection";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { requireLocalityInState } from "./new-game-geography";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -30,7 +35,7 @@ import { performVenueActivity, venueActivities } from "./venue-activity";
  * call desk" — and time would not step over them. Every campaign had the same
  * dead end; only the Campaigns tab's "Do it now" reached the writer.
  */
-function mayoralWeekInEufaula(seed: string) {
+function campaignWeekInEufaula(seed: string) {
   const home = requireLocalityInState("US-AL", "Eufaula");
   const game = generateOpeningLife(
     prepareOpeningLife({
@@ -41,11 +46,33 @@ function mayoralWeekInEufaula(seed: string) {
     }),
   ).game!;
   const personId = game.playerPersonId;
-  const mayor = electiveOfficesForJurisdiction(
-    game.world.people[personId]!.homeJurisdictionId,
-  ).find((option) => option.office.title === "Mayor")!;
-  expect(mayor).toBeDefined();
-  const filed = fileForOffice(game.world, personId, null, mayor.officeKey);
+  // Routing applies to every campaign; use the existing recorded state office
+  // while the town pack's legal qualification is explicitly unavailable.
+  const jurisdictionId = stateJurisdictionForKey("US-AL")!.id;
+  const opponents = ensureCampaignOpponents(
+    ensureStateJurisdiction(game.world, "AL"),
+    {
+      stableKey: "calendar-attendance:rivals",
+      jurisdictionId,
+      count: 1,
+      excludePersonIds: [personId],
+    },
+  );
+  const filed = fileCampaign(opponents.world, {
+    stableKey: "calendar-attendance:recorded-office",
+    candidatePersonId: personId,
+    jurisdictionId: stateJurisdictionForKey("US-AL")!.id,
+    officeKey: stateExecutiveIdentity("AL")!.officeKey,
+    districtBinding: null,
+    electionDate: addDays(game.world.currentDate, 28),
+    rivalPersonIds: opponents.personIds,
+    existingContestId: null,
+    committeeName: "Calendar attendance committee",
+    donorPoolName: "Legacy fixture pool",
+    advertisingVendorName: "Fixture media vendor",
+    staffPersonIds: [],
+    treasuryCurrency: makeCurrencyCode("USD"),
+  }).world;
   const week = projectCampaignWeek(filed, personId)!;
   const committed = commitCampaignWeek(filed, personId, {
     campaignId: week.campaignId,
@@ -82,8 +109,7 @@ function expectRecordedResult(world: World, activityId: EntityId) {
   const action = campaignActionForActivity(world, activityId)!;
   const result = campaignActionResult(world, action.id);
   expect(result).not.toBeNull();
-  if (action.kind === "fundraising")
-    expect(result!.raisedAmount!.minorUnits).toBeGreaterThan(0);
+  if (action.kind === "fundraising") expect(result!.raisedAmount).toBeNull();
   if (action.kind === "outreach")
     expect(
       world.history.events.some((event) => event.id === result!.outcomeEventId),
@@ -93,7 +119,7 @@ function expectRecordedResult(world: World, activityId: EntityId) {
 
 describe("a campaign session attended from the calendar", () => {
   it("is offered as performable in place, never as one to give up", () => {
-    const { world, personId, sessions } = mayoralWeekInEufaula(
+    const { world, personId, sessions } = campaignWeekInEufaula(
       "eufaula-mayor-offered",
     );
     expect(sessions).toHaveLength(2);
@@ -111,7 +137,7 @@ describe("a campaign session attended from the calendar", () => {
   });
 
   it("does the campaign's work through its writer when attended, with no journey", () => {
-    const { world, personId, sessions } = mayoralWeekInEufaula(
+    const { world, personId, sessions } = campaignWeekInEufaula(
       "eufaula-mayor-attend",
     );
     const [first, second] = sessions;
@@ -139,7 +165,7 @@ describe("a campaign session attended from the calendar", () => {
   });
 
   it("says why, and writes nothing, when the week's session is not the next one", () => {
-    const { world, personId, sessions } = mayoralWeekInEufaula(
+    const { world, personId, sessions } = campaignWeekInEufaula(
       "eufaula-mayor-order",
     );
     const later = venueActivities(world, personId).find(

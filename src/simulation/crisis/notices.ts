@@ -1,3 +1,4 @@
+import { ageOnDate } from "../dates";
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import {
   PROVISIONAL_DISASTER_POLICY,
@@ -225,9 +226,12 @@ function envelopeFor(
   };
   switch (record.kind) {
     case "health-episode":
+      // A condition a person already held when the model first exposed them
+      // is a standing fact on their record, not news.
+      if (record.eventId === null) return null;
       return {
         ...base,
-        originEventId: record.eventId!,
+        originEventId: record.eventId,
         kind: "health-episode",
         geographyIds: homeOf(world, record.personId),
         actorIds: [],
@@ -406,7 +410,7 @@ const SEVERITY_ORDINAL: Record<HazardMagnitude, number> = {
 function hazardOf(world: World, episodeId: EntityId): HazardEpisodeRecord {
   const record = crisisRecordIndex(world).get(episodeId);
   if (!record || record.kind !== "hazard-episode")
-    throw new Error(`Unknown hazard episode: ${episodeId}`);
+    throw new Error(`No hazard episode matches the recorded ID: ${episodeId}`);
   return record;
 }
 
@@ -458,7 +462,8 @@ export function crisisProtectedDecisions(
     if (
       record.sequence > afterSequence &&
       record.kind === "health-episode" &&
-      record.personId === personId
+      record.personId === personId &&
+      ageOnDate(world.people[personId]!.birthDate, record.effectiveAt) >= 18
     )
       decisions.push({
         key: `crisis:decision:disclose:${record.id}`,
