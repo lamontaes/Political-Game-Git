@@ -26,7 +26,9 @@ import type { OpeningRegionalSceneContext } from "./opening-regional-plate";
 import {
   openingFamilyActorSources,
   openingLegislatureActorSources,
+  openingStateChamberSources,
 } from "./opening-tour-people";
+import type { StateLegislatorView } from "../simulation/nationwide-world/state-legislature-opening";
 import { workRelationshipHistoryForPerson } from "../simulation/life-queries";
 
 export interface LivingSceneActor {
@@ -69,8 +71,16 @@ export interface LivingSceneActor {
     | "current-scene";
 }
 export interface LivingSceneChapter {
-  readonly key: OrientationStepKey | "your-life" | "legislature" | "parents";
+  readonly key:
+    OrientationStepKey | "year" | "your-life" | "legislature" | "parents";
   readonly actors: readonly LivingSceneActor[];
+  /**
+   * The recorded members seated in the chapter's chamber, the player's own
+   * representatives first. A chamber shows who holds its seats, not only the
+   * two officers who answer to this life; the staging slots decide how many
+   * sit in the picture.
+   */
+  readonly seated: readonly LivingSceneActor[];
   readonly publicFacts: readonly string[];
   readonly regionContext: OpeningRegionalSceneContext | null;
   readonly stage: LivingSceneStagePacket;
@@ -180,10 +190,12 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
           actorFor(orientation.homeState.governor, "governor", "governor"),
         ].filter(valid)
       : [];
-  const legislatureActors: LivingSceneActor[] = openingLegislatureActorSources(
-    world,
-    playerId,
-  ).flatMap(({ person, member, seatKey }) => {
+  const stateSeatActor = (source: {
+    person: OrientationPerson;
+    seatKey: string;
+    member: StateLegislatorView | null;
+  }): LivingSceneActor[] => {
+    const { person, member, seatKey } = source;
     if (!member) return [];
     const work = workRelationshipHistoryForPerson(world, member.personId).find(
       (record) => record.id === member.workRelationshipId,
@@ -207,7 +219,16 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
         presenceBasis: "illustrative-public-role" as const,
       },
     ];
-  });
+  };
+  const legislatureActors: LivingSceneActor[] = openingLegislatureActorSources(
+    world,
+    playerId,
+  ).flatMap(stateSeatActor);
+  // Everyone the chamber's seats record, this life's own representatives first.
+  const stateSeated: LivingSceneActor[] = openingStateChamberSources(
+    world,
+    playerId,
+  ).flatMap(stateSeatActor);
   const parentActors: LivingSceneActor[] = openingFamilyActorSources(
     world,
     playerId,
@@ -279,6 +300,35 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
         },
       )
     : [];
+  // A chamber's recorded members, this life's own seats first. A vacancy is not
+  // a person, so it seats nobody.
+  const seatedMembers = (
+    chamber: NonNullable<typeof orientation.congress>["house"],
+    house: boolean,
+  ): LivingSceneActor[] => {
+    const own = new Set(homeSeat(chamber, house).map((seat) => seat.seatKey));
+    return [...chamber.seats]
+      .sort((a, b) => Number(own.has(b.seatKey)) - Number(own.has(a.seatKey)))
+      .flatMap((seat) =>
+        seat.occupant.kind === "member"
+          ? [
+              actorFor(
+                seat.occupant.member,
+                "congress-member",
+                `congress:${seat.seatKey}`,
+                chamber.organizationId,
+              ),
+            ]
+          : [],
+      )
+      .filter(valid);
+  };
+  const senateSeated = orientation.congress
+    ? seatedMembers(orientation.congress.senate, false)
+    : [];
+  const houseSeated = orientation.congress
+    ? seatedMembers(orientation.congress.house, true)
+    : [];
   const localActors = locals
     .slice(0, 2)
     .map(({ holder, institutionId }, i) =>
@@ -345,9 +395,11 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
     publicFacts: readonly string[],
     unavailableRoles: readonly string[] = [],
     regionContext: OpeningRegionalSceneContext | null = null,
+    seated: readonly LivingSceneActor[] = [],
   ): LivingSceneChapter => ({
     key,
     actors,
+    seated,
     publicFacts,
     regionContext,
     unavailableRoles,
@@ -413,6 +465,9 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
       legislatureActors.map(
         (actor) => `${actor.person.name} — ${actor.person.title}`,
       ),
+      [],
+      null,
+      stateSeated,
     ),
     chapter(
       "parents",
@@ -430,6 +485,18 @@ export function projectLivingSceneOpening(world: World, playerId: EntityId) {
       "congressional-corridor",
       congressionalFacts,
       congressActors.length ? [] : ["congress-member"],
+      null,
+      houseSeated,
+    ),
+    // The year opens on the Senate floor: the senators the records seat there.
+    chapter(
+      "year",
+      [],
+      "congressional-corridor",
+      congressionalFacts,
+      [],
+      null,
+      senateSeated,
     ),
     chapter(
       "locality",

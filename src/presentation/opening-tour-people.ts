@@ -97,6 +97,47 @@ export function openingLegislatureActorSources(
     );
 }
 
+/**
+ * Every member the state chamber's seats record, this life's own
+ * representatives first and the rest in seat order. A seat with no recorded
+ * holder seats nobody.
+ */
+export function openingStateChamberSources(
+  world: World,
+  personId: EntityId,
+): readonly {
+  person: OrientationPerson;
+  seatKey: string;
+  member: StateLegislatorView | null;
+}[] {
+  const own = openingLegislatureActorSources(world, personId);
+  const state = homeStateUsps(world, personId);
+  const pack = state ? stateCandidacyPack(`US-${state}`) : null;
+  if (!pack) return own;
+  const ownKeys = new Set(own.map((source) => source.seatKey));
+  const rest = [...stateLegislators(world, pack.packId)]
+    .filter(
+      (member) =>
+        world.people[member.personId] &&
+        !ownKeys.has(`${member.officeKey}:${member.ordinal}`),
+    )
+    .sort(
+      (a, b) => a.officeKey.localeCompare(b.officeKey) || a.ordinal - b.ordinal,
+    )
+    .map((member) => ({
+      seatKey: `${member.officeKey}:${member.ordinal}`,
+      member,
+      person: {
+        personId: member.personId,
+        name: personName(world.people[member.personId]!),
+        title: member.title,
+        party: member.party,
+        facts: [],
+      },
+    }));
+  return [...own, ...rest];
+}
+
 /** Selected family illustrations need kinship/authority, not residence inference. */
 export function openingFamilyActorSources(world: World, personId: EntityId) {
   const kinships = kinshipRelationshipsAt(world, personId);

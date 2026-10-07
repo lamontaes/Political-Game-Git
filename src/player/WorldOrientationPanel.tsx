@@ -366,10 +366,32 @@ export function WorldOrientationPanel({
   // the room's own scale and in a natural stance, like people in any other
   // painted place.
   const sceneStage = useRef<HTMLDivElement>(null);
-  const sceneRoster =
-    step?.key === "executive" || step?.key === "legislature"
-      ? (step?.people ?? [])
-      : cast.map((actor) => actor.person);
+  // A chamber seats the members its records hold (the year on the Senate
+  // floor, Congress on the House floor, the state's lawmakers in theirs), not
+  // only the two officers this life answers to; the staging slots decide how
+  // many sit. Your own room shows who the opening scene says is there.
+  const seatedActors = useMemo(() => chapter?.seated ?? [], [chapter]);
+  const homeCast = useMemo(
+    () =>
+      step?.key === "your-life" &&
+      (living?.startingLocation?.setting ?? "home") === "home"
+        ? (living?.startingActors ?? []).map((actor) => actor.person)
+        : [],
+    [step?.key, living],
+  );
+  const sceneRoster = useMemo(
+    () =>
+      step?.key === "executive"
+        ? (step?.people ?? [])
+        : seatedActors.length > 0
+          ? seatedActors.map((actor) => actor.person)
+          : step?.key === "your-life"
+            ? homeCast
+            : step?.key === "legislature"
+              ? (step?.people ?? [])
+              : cast.map((actor) => actor.person),
+    [step, seatedActors, homeCast, cast],
+  );
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
@@ -382,7 +404,7 @@ export function WorldOrientationPanel({
         ? openingTourStagedPeople(world, personId, measuredPlace, sceneRoster, {
             furniture: true,
             memberIds: new Set(
-              (chapter?.actors ?? [])
+              [...(chapter?.actors ?? []), ...seatedActors]
                 .filter(
                   (actor) =>
                     actor.role === "state-legislator" ||
@@ -411,7 +433,10 @@ export function WorldOrientationPanel({
       data-testid="world-orientation"
       data-step={step.key}
       data-placement-trace={JSON.stringify(
-        introPlacementTrace(scenePeople, chapter?.actors ?? []),
+        introPlacementTrace(scenePeople, [
+          ...(chapter?.actors ?? []),
+          ...seatedActors,
+        ]),
       )}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
