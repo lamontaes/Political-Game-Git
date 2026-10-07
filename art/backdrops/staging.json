@@ -7067,6 +7067,7 @@
           "facing": "right",
           "depth": 52,
           "seatY": 46,
+          "group": "waiting-row",
           "role": "general",
           "id": "polling-place:spot:1"
         },
@@ -7139,9 +7140,75 @@
           "clipBelowY": 45,
           "role": "general",
           "id": "polling-place:spot:8"
+        },
+        {
+          "x": 2,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:9"
+        },
+        {
+          "x": 6,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:10"
+        },
+        {
+          "x": 14,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:11"
+        },
+        {
+          "x": 18,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:12"
+        },
+        {
+          "x": 22,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:13"
+        },
+        {
+          "x": 26,
+          "y": 52,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 52,
+          "seatY": 46,
+          "group": "waiting-row",
+          "role": "general",
+          "id": "polling-place:spot:14"
         }
       ],
-      "measuredFrom": "near voting booth 1.8 m foot 61 top 28 (0.59); far booth 1.8 m foot 43.6 top 29.3 (0.59)",
+      "measuredFrom": "near voting booth 1.8 m foot 61 top 28 (0.59); far booth 1.8 m foot 43.6 top 29.3 (0.59); seven waiting chair positions across the visible left row estimated from the native midday painting (about ±2%)",
       "surfaceSlots": []
     },
     "public-library": {
