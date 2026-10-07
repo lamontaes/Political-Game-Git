@@ -2,14 +2,16 @@
 
 ## Completed
 
-- Pool b04-p1 merged as PR #3407 (`343136ee0`); the pool row is marked done.
-- LW-06 was already implemented on main: #3307 records source blockers and keeps unsupported outcomes inactive; city sales remains the supported path. Marked done in POOL.md.
-- LW-09 and LW-10 were already covered by main (#2479 readiness blockers; #2516 federal justice landing with unsupported stock-trading effect held inactive). Marked done in POOL.md.
-- Session 55 item 1 VIEWS is on `session-55-views`, merged current main through `4f2cbe369`. It adds side/back to the shared view set, side/back → three-quarter → front fallback, and explicit left/right facing through raster mirroring.
-- The focused pose suite passed 20/20 before the latest merge; the post-merge Vitest invocation stalled during Vite config loading. Prettier and ESLint passed on changed source/tests before the latest merge.
-- Full-screen new-game screenshots on main and branch are saved in `docs/evidence/session-55/`, each at the randomly drawn place Lingle, Wyoming.
+- b04-p1 merged as PR #3407.
+- VIEWS remains in ready PR #3420 (`session-55-views`); screenshot/browser-run setup blockers are documented in that PR.
+- AU-01 is ready in PR #3461 on `session-55-au-01`, head `df9b4e7de`, based on `1f9f620cd`. Shared federal proposal rollcall recording, pack-based Congress lookup, and sourced D.C. appropriation item veto are in place. Focused rollcall, D.C. veto, federal term-limit, proposal-writer and municipal-veto tests pass. Prettier/ESLint/diff-check pass. Typecheck has six unrelated Crime/Press test errors; release check has inherited `bg-44-refresh.md` filename/ID mismatch. Full item-veto suite's three date-fixture failures reproduce on clean main.
+- AU-02 was implemented by merged PR #3102 (`460019b0d`); documentation closeout is ready in PR #3466.
+- AU-03 was implemented by merged PR #2632 (`ffdfbd1d9`); documentation closeout is ready in PR #3471.
+- AU-04 was implemented by merged PR #3150 (`2d6ff10ed`); documentation closeout is ready in PR #3474.
+- AU-05 is implemented on main: player referral follows the clock (#2737), player and council callers share session-end handling (#1867), and state Senate appointment windows use statute deadlines or labeled estimates (#2743). Documentation closeout is ready in PR #3475.
+- AU-06 is implemented on main: the shared `courtFor` finder serves law review, criminal sentencing and civil trial paths (#1973); charging requires a recorded prosecutor (#2080); an incomplete jury remains pending (#1627). Existing tests cover each path. POOL marks it done.
 
-## Current item: Session 55 VIEWS
+## Current pool item: AU-07
 
-- Next: push `session-55-views` and open a SCREEN PR with both Lingle captures in its body; CTO pose-art branch `cto/poses-oct7` is absent. Continue with the next unclaimed pool row after LW-06.
-- Current-main typecheck errors are in Press/Crime; release check flags `bg-44-refresh.md` filename/ID; Node load check stops at existing `src/styles.css` import.
+- AU-06 closeout branch `session-55-au-06` is based on current `origin/main` `073ed9d48`.
+- Next: check same-date clock behavior, the second due-item resolution path in `world.ts`, and crisis mortality/goal review initialization across time paths.

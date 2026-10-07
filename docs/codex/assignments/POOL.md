@@ -272,7 +272,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-03 | Federal laws sized once | pool-audit-repairs.md AU-03 | open | |
 | AU-04 | Duties need evidence | pool-audit-repairs.md AU-04 | open | |
 | AU-05 | Player's legislative session matches the clock | pool-audit-repairs.md AU-05 | open | |
-| AU-06 | Courts | pool-audit-repairs.md AU-06 | open | |
+| AU-06 | Courts | pool-audit-repairs.md AU-06 | done #1973/#2080/#1627 (verified on main) | Session 55 |
 | AU-07 | One clock path | pool-audit-repairs.md AU-07 | open | |
 | AU-08 | Pay and hiring from records | pool-audit-repairs.md AU-08 | open | |
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | open | |
