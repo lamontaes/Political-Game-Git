@@ -153,7 +153,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b14-p4 | Records anyone can read | b14-_.md part 4 | open (stale claim: S36) | S36 |
 | b14-p5 | Prosecutors decide (Session 25 is sole writer of src files prosecution.ts, finding-referral.ts, court-reasoning.ts, sentencing-ranges.ts; Opus ruling, #2424, Oct 6 ~4:00 a.m.) | b14-_.md part 5 | claimed | S25 |
 | b14-p6 | Player acts as scene choices (Session 36 takes b14 Part 6 or the next open item on resume) | b14-_.md part 6 | open (stale claim: S36) | S36 |
-| b15-p1 | One inquiry record and its steps | b15-_.md part 1 | open (stale claim: S43) | S43 |
+| b15-p1 | One inquiry record and its steps | b15-_.md part 1 | ready #2682 | S49 |
 | b15-p2 | Subpoena rows | b15-_.md part 2 | open (stale claim: S43) | S43 |
 | b15-p3 | Questioning knowers | b15-_.md part 3 | open (stale claim: S43) | S43 |
 | b15-p4 | Who opens one, from the record | b15-_.md part 4 | open (stale claim: S43) | S43 |
@@ -163,7 +163,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | b22-p1 | One office-scope reader | b22-_.md part 1 | done (#2506, batch-marked by CTO Oct 7) | S48 |
 | b22-p2 | Visibility table, data not code | b22-_.md part 2 | done (#2385) | S48 |
 | b22-p3 | Coverage follows the player | b22-_.md part 3 | claimed | S48 |
-| b22-p4 | Big stories become national from their own records | b22-_.md part 4 | claimed | S48 |
+| b22-p4 | Big stories become national from their own records | b22-_.md part 4 | ready #3462 | S48 |
 | b22-p5 | News screens show what reaches you | b22-_.md part 5 | done (#2385) | S48 |
 | b22-p6 | Reach for people only where it matters | b22-_.md part 6 | claimed | S48 |
 | b24-p1 | Pipeline first (small set) | b24-_.md part 1 | open (stale claim: S11) | S11 |
@@ -554,9 +554,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | ready #3353 | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
 | BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
-| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | ready #2477 | |
+| BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
-| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
+| BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | unsupported: nationwide governor qualification rules are not source-admitted; current corpus covers only MN, MO, NE, NV, and OH | |
 | BG-53 | 'Put your name in' for Governor is a dead grey button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | ready #3459 | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
@@ -675,7 +675,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
 | RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2255 | List loading dependencies in the strict Node project | PR #2255 (codex/session5-node-loading-dependencies) | open: draft: finish it or close it as superseded | |
+| RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | ready #3568 | Session 35 |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
@@ -974,7 +974,7 @@ open: rebase on main (conflicts) | |
 
 | item  | what it is                                                                                                                                                                                                                                         | doc and part                                                     | status                                  | claimer                              |
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------- | ------------------------------------ |
-| MR-0  | Shared shell text in src/player/PlayerGame.tsx and ShellWorkspaces.tsx (21 and 3 sentence literals); overflow, anyone                                                                                                                              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3131                             | Builder L3 (anyone if silent 60 min) |
+| MR-0  | Shared shell text in src/player/PlayerGame.tsx and ShellWorkspaces.tsx (21 and 3 sentence literals); overflow, anyone                                                                                                                              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#3131 merged)                     | Builder L3 (anyone if silent 60 min) |
 | MR-1  | Strip every authored sentence, helper line, explanation and developer word from the Title screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | Session 51 (#2894, #2914)            |
 | MR-2  | Strip every authored sentence, helper line, explanation and developer word from the Creator screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2900                              | Builder L3 (anyone if silent 60 min) |
 | MR-3  | Strip every authored sentence, helper line, explanation and developer word from the Options and Difficulty screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game. | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2905                              | Builder L3 (anyone if silent 60 min) |
@@ -982,7 +982,7 @@ open: rebase on main (conflicts) | |
 | MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
 | MR-6  | Strip every authored sentence, helper line, explanation and developer word from the Contact screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2923, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
 | MR-7  | Strip every authored sentence, helper line, explanation and developer word from the Money screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
-| MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #2990                             | Builder L3 (anyone if silent 60 min) |
+| MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2990 merged)                     | Builder L3 (anyone if silent 60 min) |
 | MR-9  | Strip every authored sentence, helper line, explanation and developer word from the Calendar screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.               | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #3028                                |
 | MR-10 | Strip every authored sentence, helper line, explanation and developer word from the News screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                   | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2997                              | Session 59                           |
 | MR-11 | Strip every authored sentence, helper line, explanation and developer word from the Places screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #3213                              | Session 59                           |
