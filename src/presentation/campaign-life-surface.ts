@@ -130,7 +130,7 @@ export interface PartyWorkRow {
   readonly hostPersonId: EntityId;
   readonly organizationName: string;
   readonly state: CampaignLifeActivityView["state"];
-  readonly stateLabel: string;
+  readonly stateLabel: string | null;
   readonly when: string;
   readonly placeLabel: string;
   readonly presence: "in-person" | "remote";
@@ -301,7 +301,10 @@ export function projectPartyAndCommunityWork(
       state: view.state,
       stateLabel: awaitingRecord
         ? "Attendance is complete; its consequence entry is pending."
-        : (lapsedAnswerSentence(world, view) ?? STATE_LABELS[view.state]),
+        : (lapsedAnswerSentence(world, view) ??
+          (view.form === "candidate-guidance" && view.state === "accepted"
+            ? null
+            : STATE_LABELS[view.state])),
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",
       presence: view.presence,

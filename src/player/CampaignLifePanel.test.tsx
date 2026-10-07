@@ -7,7 +7,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
-import { acceptPartyWork } from "../presentation/campaign-life-actions";
+import { acceptPartyWork, requestPartyWork } from "../presentation/campaign-life-actions";
 import {
   addDays,
   homePartyChapters,
@@ -120,4 +120,15 @@ describe("CampaignLifePanel as mounted", () => {
     const html = render(withShift);
     expect(html).not.toContain("party-work-outcome-");
   });
+  it("does not say the player agreed to a meeting they requested", () => {
+    const requested = requestPartyWork(
+      life.world,
+      life.personId,
+      "candidate-guidance",
+      life.chapterId,
+    );
+    expect(render(requested)).not.toContain("You said you would do it.");
+    expect(render(withShift)).toContain("You said you would do it.");
+  });
+
 });
