@@ -610,7 +610,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #1306 (codex/team1-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1307 | Record housing consequence inputs and missing bindings | PR #1307 (codex/team-4-law-consequence-inputs) | open: draft: finish it or close it as superseded | |
 | RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | open: draft: finish it or close it as superseded | |
-| RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | open: draft: finish it or close it as superseded | |
+| RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | done #1358 | S50 |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | open: draft: finish it or close it as superseded | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
 | RS-1430 | Prepare scheduled rent proof and preserve runtime budget blocker | PR #1430 (codex/team-4-m10-scheduled-rent-entry) | open: draft: finish it or close it as superseded | |
