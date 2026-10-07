@@ -314,9 +314,9 @@ const ALLOWED_FILES: readonly {
   },
   {
     file: /^src\/simulation\/municipal-governments\.generated\.ts$/,
-    words: /^(?:wards?|elected members?)$/i,
+    words: /^(?:wards?|elected members?|councillors?)$/i,
     reason:
-      "generated from those real charter records: the recorded WARD seat type, and verbatim research quotes such as Fort Wayne Council has nine elected members, which the source tests check against research packet 44",
+      "generated from those real charter records: the recorded WARD seat type, and verbatim research quotes such as Fort Wayne Council has nine elected members and Cambridge's charter title City Councillor, which the source tests check against research packet 44",
   },
   {
     file: /^data\/municipal-elections\/92O-national-state-baseline\.json$/,

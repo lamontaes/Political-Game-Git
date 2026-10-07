@@ -1,3 +1,4 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
 import { carryPeopleReadIndexesAfterAppend } from "./history-index";
 import { adultLifeSituations } from "./adult-situations";
 import {
@@ -651,7 +652,7 @@ function buildCharacterHistoryContextPerson(
     ),
     establishedFacts: facts,
   };
-  return person;
+  return initializePersonCitizenship(person, world.seed, world.currentDate);
 }
 
 export function createCharacterHistoryContextPerson(
@@ -1576,63 +1577,7 @@ export function establishPreStartAdultHistory(
     });
     if (momentKey !== earlyKey) countPreStartMonth(occupiedMonths, occurredAt);
   }
-  for (let year = 18; year < age; year += 1) {
-    const occurredAt = preStartEventDate(
-      world,
-      player.birthDate,
-      year,
-      `${key}:year:${year}`,
-      occupiedMonths,
-    );
-    if (occurredAt >= world.currentDate) break;
-    const otherId = companionOn(occurredAt, year);
-    const wantsFamily = occurredAt < workStart || year < 24 || year % 4 === 0;
-    // Nobody left to share the year with, and no work yet: nothing is written.
-    if (otherId === null && occurredAt < workStart) continue;
-    const isFamily = wantsFamily && otherId !== null;
-    const otherName = otherId === null ? "" : next.people[otherId]!.givenName;
-    const summary = isFamily
-      ? `${playerName} and ${otherName} spent time together at age ${year}.`
-      : `${playerName} continued working at ${input.employerName} at age ${year}.`;
-    const involvedEntityIds = isFamily
-      ? [player.id, otherId!]
-      : [player.id, input.employerId];
-    next = recordWorldEvent(next, {
-      stableKey: `${key}:year:${year}`,
-      type: isFamily ? "life.family-time" : "life.work-routine",
-      occurredAt,
-      recordedAt: world.currentDate,
-      jurisdictionId: input.jurisdictionId,
-      involvedEntityIds,
-      participants: involvedEntityIds
-        .filter((id) => next.people[id])
-        .map((personId, index) => ({
-          personId,
-          role: index === 0 ? "agency:participant" : "presence:participant",
-          detail: null,
-        })),
-      personFactConstraints: [],
-      visibility: "limited",
-      tags: [isFamily ? "life.family-time" : "life.work-routine"],
-      summary,
-      context: {
-        location: {
-          jurisdictionId: input.jurisdictionId,
-          label: "Home area",
-          setting: null,
-        },
-        socialContext: isFamily
-          ? "Recorded time with family"
-          : "Recorded employment",
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
-    });
-    countPreStartMonth(occupiedMonths, occurredAt);
-    input.onCheckpoint?.(next, player.id);
-  }
+
   return next;
 }
 
@@ -3068,6 +3013,8 @@ export interface ResolveLifeSituationInput {
   readonly stableKey: string;
   readonly mode: CharacterHistoryMode;
   readonly personId: EntityId;
+  /** Person who made the choice; defaults to the child for ordinary scenes. */
+  readonly decisionMakerPersonId?: EntityId;
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly occurredAt: IsoDate;
@@ -3182,13 +3129,30 @@ export function resolveLifeSituation(
           // and still handed the sentence, because being listed as a
           // participant is what person history reads. Somebody who witnessed
           // nothing is not on the record of it.
-          involvedEntityIds: [input.personId, ...(shared ? [shared] : [])],
+          involvedEntityIds: [
+            ...new Set([
+              input.personId,
+              ...(input.decisionMakerPersonId
+                ? [input.decisionMakerPersonId]
+                : []),
+              ...(shared ? [shared] : []),
+            ]),
+          ],
           participants: [
             {
-              personId: input.personId,
+              personId: input.decisionMakerPersonId ?? input.personId,
               role: "agency:actor",
               detail: option.label,
             },
+            ...(input.decisionMakerPersonId
+              ? [
+                  {
+                    personId: input.personId,
+                    role: "impact:child" as const,
+                    detail: option.memory,
+                  },
+                ]
+              : []),
             ...(shared
               ? [
                   {
@@ -3484,12 +3448,13 @@ export function generateQuickCharacterHistory(
   // stream every other generated name goes through, so they are the same
   // schools in every save of this world.
   const homeJurisdiction = world.jurisdictions[input.jurisdictionId];
+  const homeTown = residentNameForJurisdiction(
+    homeJurisdiction?.name ?? "",
+    homeJurisdiction?.parentName ?? null,
+  );
   const schoolNames = generateSchoolNames(
     rng.fork("schools"),
-    residentNameForJurisdiction(
-      homeJurisdiction?.name ?? "",
-      homeJurisdiction?.parentName ?? null,
-    ),
+    homeTown,
     input.schoolNameVersion,
     {
       state: stateUsps(
@@ -3694,9 +3659,12 @@ export function generateQuickCharacterHistory(
           formedAt: age(0),
           provenance: generated,
           initialProfile: {
-            name: input.preStartDates
-              ? `${homeJurisdiction!.name} Market`
-              : "Neighborhood Market",
+            // The town's own name, never "Town, State": a store sign
+            // carries the place it stands in, not its postal address.
+            name:
+              homeTown.length > 0
+                ? `${homeTown} Market`
+                : "Neighborhood Market",
             classification: "enterprise:retail",
             locationJurisdictionId: input.jurisdictionId,
           },

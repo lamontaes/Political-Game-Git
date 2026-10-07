@@ -4,6 +4,7 @@ import {
   householdMembershipsAt,
   organizationProfileAt,
   describePersonContext,
+  personName,
   introducePerson,
   peopleInHouseholdAt,
   type EntityId,
@@ -12,6 +13,7 @@ import {
 } from "../simulation";
 import type { LifeSceneSetting } from "../simulation/opening-life-content";
 import { resolveLifeScene } from "./life-scene";
+import { workplacePresence } from "./workplace-presence";
 import { openingWorkLocation } from "./opening-work-location";
 import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { recordedRoomPresence } from "./recorded-room-presence";
@@ -91,6 +93,46 @@ export function resolveOpeningPlaySceneContext(
   scenes: SceneRegistry = SCENE_REGISTRY,
   library: RuntimeVisualLibrary = PRODUCTION_VISUAL_LIBRARY,
 ): PlaySceneContext {
+  const presence = recordedRoomPresence(world, personId);
+  const presenceEvent =
+    presence &&
+    world.history.events.find((event) => event.id === presence.eventId);
+  const activity =
+    presence &&
+    presenceEvent &&
+    world.history.scheduledActivities.find(
+      (row) =>
+        row.kind !== "travel" &&
+        presenceEvent.involvedEntityIds.includes(row.id) &&
+        row.location.label === presence.location.label &&
+        row.location.jurisdictionId === presence.location.jurisdictionId,
+    );
+  if (activity && presence) {
+    const venue = sceneVenueForLocationKey(activity.location.locationKey);
+    const plate = venue?.sceneId ? scenes.scenes.get(venue.sceneId) : null;
+    return {
+      purpose: "activity",
+      locationKey: activity.location.locationKey,
+      sceneId:
+        plate?.raster &&
+        plate.presentationStatus === "production" &&
+        library.has(plate.raster.assetId)
+          ? plate.sceneId
+          : null,
+      reason: "Recorded presence at this activity's actual venue.",
+      placeLabel: presence.location.label,
+      presentPeople: presence.personIds
+        .filter((id) => id !== personId)
+        .map((id) => ({
+          personId: id,
+          name: personName(world.people[id]!),
+          relationship: null,
+          introduction:
+            presenceEvent!.participants.find((row) => row.personId === id)
+              ?.detail ?? "",
+        })),
+    };
+  }
   const opening = currentOpeningLifeScene(world, personId);
   const location = openingLifeLocation(world, personId);
   const recordedSetting =
@@ -128,9 +170,39 @@ export function resolveOpeningPlaySceneContext(
       activityVenue,
     );
 
+  const work = workplacePresence(world, personId);
+  if (work) {
+    const venue = sceneVenueForLocationKey(`place:${work.place}`);
+    const sceneId = venue?.sceneId;
+    return {
+      purpose: "activity",
+      locationKey: work.locationKey,
+      sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
+      reason: work.arrival.summary,
+      ...(selectedWorkplaceForPerson(world, personId)
+        ? { workplace: selectedWorkplaceForPerson(world, personId)! }
+        : {}),
+      placeLabel: work.location.label,
+      presentPeople: work.personIds.flatMap((id) => {
+        if (id === personId) return [];
+        const context = describePersonContext(world, personId, id);
+        return context
+          ? [
+              {
+                personId: id,
+                name: context.name,
+                relationship: context.relationship,
+                introduction: introducePerson(context),
+              },
+            ]
+          : [];
+      }),
+    };
+  }
+
   const workArrival = openingWorkLocation(world, personId);
-  const workplace = selectedWorkplaceForPerson(world, personId);
-  if (workArrival?.context.location?.setting === "work")
+  if (workArrival?.context.location?.setting === "work") {
+    const workplace = selectedWorkplaceForPerson(world, personId);
     return {
       purpose: "activity",
       locationKey: "life-circumstance:covered-shift",
@@ -140,6 +212,7 @@ export function resolveOpeningPlaySceneContext(
       presentPeople: [],
       ...(workplace ? { workplace } : {}),
     };
+  }
 
   if (setting === "neighborhood" || setting === null)
     return {
