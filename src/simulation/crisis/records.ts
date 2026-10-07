@@ -356,6 +356,32 @@ function validateCrisisRecords(
         )
           fail(record, "malformed health coverage");
         break;
+      case "snap-participation":
+        if (
+          !world.history.households.some(
+            (household) => household.id === record.householdId,
+          ) ||
+          typeof record.enrolled !== "boolean" ||
+          !record.causeId.trim() ||
+          !Number.isSafeInteger(record.householdSize) ||
+          record.householdSize < 1 ||
+          (record.monthlyWorkHours !== null &&
+            (!Number.isFinite(record.monthlyWorkHours) ||
+              record.monthlyWorkHours < 0)) ||
+          (record.incomeToThreshold !== null &&
+            (!Number.isFinite(record.incomeToThreshold) ||
+              record.incomeToThreshold < 0)) ||
+          (record.enrolled
+            ? !Number.isSafeInteger(record.monthlyBenefitMinor) ||
+              record.monthlyBenefitMinor! < 0 ||
+              record.benefitBasis !== "ESTIMATED FROM STATE AVERAGE" ||
+              !record.benefitSource
+            : record.monthlyBenefitMinor !== null ||
+              record.benefitBasis !== null ||
+              record.benefitSource !== null)
+        )
+          fail(record, "malformed household SNAP participation record");
+        break;
       case "hazard-episode":
         if (
           record.jurisdictionIds.length === 0 ||

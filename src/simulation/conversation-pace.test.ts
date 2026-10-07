@@ -10,7 +10,7 @@ import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { latestPersonalityTendency } from "./queries";
 import { ensurePeopleTraitCatalog } from "./people-traits";
 import { peopleTraitId, TRAIT_SHAPES } from "./people-trait-definitions";
-import { contactBases } from "./people-contact";
+import { contactBases } from "./relationship-contact";
 import { introductionSpacingDays } from "./social-introductions";
 import type { EntityId, World } from "./types";
 
