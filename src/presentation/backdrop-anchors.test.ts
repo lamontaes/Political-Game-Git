@@ -51,6 +51,14 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(6);
   });
 
+  it("anchors each visible chair in the hospital waiting alcove", () => {
+    const seats = STAGES["hospital-hallway"]!.spots.filter(
+      (spot) => spot.group === "waiting" && spot.role === "audience",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
