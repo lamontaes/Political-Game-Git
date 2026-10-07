@@ -275,6 +275,8 @@ export interface ChooseFormativeOptionInput {
   readonly situationKey: LifeSituationKey;
   readonly optionKey: string;
   readonly withPersonId: EntityId | null;
+  /** Adult whose recorded authority makes this a caregiver-led choice. */
+  readonly decisionMakerPersonId?: EntityId;
 }
 
 /** Records the answer without advancing the surrounding life. */
@@ -298,7 +300,11 @@ export function chooseFormativeOption(
   const person = world.people[input.personId];
   if (!person) throw new Error("This character is not in the world.");
   const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const played = playedSituationCount(world, input.personId);
+  const stableKey = formativePlayStableKey(
+    world,
+    input.personId,
+    input.situationKey,
+  );
   const jurisdictionId = place?.context.jurisdiction.id ?? null;
   const takingTheJob =
     input.situationKey === "formative.teen-work-opportunity" &&
@@ -328,9 +334,10 @@ export function chooseFormativeOption(
       : companion.personId;
 
   const result = resolveLifeSituation(withWorld, {
-    stableKey: `formative-play:${input.personId}:${played}:${input.situationKey}`,
+    stableKey,
     mode: "played",
     personId: input.personId,
+    decisionMakerPersonId: input.decisionMakerPersonId,
     situationKey: input.situationKey,
     optionKey: input.optionKey,
     occurredAt: world.currentDate,
@@ -348,6 +355,15 @@ export function chooseFormativeOption(
   return takingTheJob
     ? payFirstJob(result.world, input.personId)
     : result.world;
+}
+
+/** Stable root key used by the one formative event written for this choice. */
+export function formativePlayStableKey(
+  world: World,
+  personId: EntityId,
+  situationKey: LifeSituationKey,
+): string {
+  return `formative-play:${personId}:${playedSituationCount(world, personId)}:${situationKey}`;
 }
 
 /**

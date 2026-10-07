@@ -26,6 +26,8 @@ import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_INTERVAL_DAYS,
   MIGRATION_SEAMS,
   WAVE_CATALOG,
   activeWavesCovering,
@@ -93,6 +95,15 @@ describe("migration scaffold", () => {
       (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
     );
     expect(review?.dueAt).toBe(addDays(opened.world.currentDate, 1));
+  });
+
+  it("schedules a separate monthly review for household housing changes", () => {
+    const review = opened.world.history.futureDueItems.find(
+      (item) => item.transitionKey === TOWN_HOME_REVIEW_TRANSITION_KEY,
+    );
+    expect(review?.dueAt).toBe(
+      addDays(opened.world.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+    );
   });
 
   it("moves a person living alone, closing the old residence and recording why", () => {
