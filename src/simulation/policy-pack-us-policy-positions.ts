@@ -1,7 +1,14 @@
 import type { PolicyPack } from "./policy-packs";
 import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
 import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
-import { juvenileJurisdictionRow } from "./law-consequences/legal-outcome";
+import {
+  GOVERNMENT_OPERATIONS_LAW_ROWS,
+  GOVERNMENT_OPERATIONS_QUESTION_KEYS,
+} from "./law-consequences/government-operations-rows";
+import {
+  juvenileJurisdictionRow,
+  minimumCustodyRow,
+} from "./law-consequences/legal-outcome";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -458,6 +465,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.require-photo-id-to-vote",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.photoId
+        ]!,
+      ],
       parameters: [
         { key: "required", value: "yes-or-no" },
         { key: "accepted-documents", value: "document-categories" },
@@ -1274,6 +1286,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should the law set minimum sentences that a judge may not go below?",
       tags: ["contested"],
+      consequences: [minimumCustodyRow],
       principles: [
         {
           principle: "public-safety",
@@ -3270,6 +3283,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.same-day-voter-registration",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.sameDayRegistration
+        ]!,
+      ],
       issue: "us-state-and-local:government-operations.election-rules",
       name: "Same-day voter registration",
       question:

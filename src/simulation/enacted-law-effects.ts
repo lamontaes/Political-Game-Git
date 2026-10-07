@@ -38,6 +38,7 @@ import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { rulePackById } from "./legislature-rule-packs";
 import { stateKeyForJurisdictionSlug } from "./life-places";
 import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
@@ -286,7 +287,10 @@ export function applyEnactedLawEffects(
     onDate: next.currentDate,
     activity: "effective",
     activityId: enactment.id,
-    subjectIds: [],
+    // Consequence resolvers apply their own row predicates and jurisdiction
+    // checks. Give them the recorded people they can evaluate on the law's
+    // effective date instead of suppressing every subject-filtered row.
+    subjectIds: [...next.personOrder],
     governingLawId: measureId,
   });
 }
@@ -782,7 +786,8 @@ function levelOfGovernment(
   world: World,
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
-  if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
+    return "federal";
   if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";

@@ -13,13 +13,13 @@ export function relevanceReasons(
 ): readonly string[] {
   const reasons: string[] = [];
   if (followedOutletKeys.includes(item.outletKey)) {
-    reasons.push(`You follow ${item.outletName}.`);
+    reasons.push("follows-outlet");
   }
   if (
     viewerPersonId !== null &&
     item.people.some((person) => person.personId === viewerPersonId)
   ) {
-    reasons.push("This story names you.");
+    reasons.push("names-you");
   }
   return reasons;
 }

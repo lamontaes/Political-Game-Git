@@ -37,6 +37,7 @@ import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { assertWorldIntegrity } from "../world";
 import { createLawConsequenceRegistry } from "../law-consequence-registry";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { personName } from "../people";
 import { validateLawConsequences } from "../law-consequence-validation";
 import type {
@@ -325,6 +326,19 @@ describe("recorded floors reach saved sentences", () => {
         ),
       });
       expect(event, `${seed}, person ${personId}`).toBeDefined();
+      const sharedStepOutcome =
+        sentenced.history.legalOutcomeConsequences?.find(
+          (record) => record.sentenceEventId === event!.id,
+        );
+      expect(sharedStepOutcome).toMatchObject({
+        subjectPersonId: personId,
+        jurisdictionId: venue,
+        minimumMonths: 120,
+        effectKind: "minimum-custody-months",
+      });
+      expect(sharedStepOutcome?.lawEffectStamps[0]?.governingLawKey).toBe(
+        measured.id,
+      );
       const months = Number(
         event!.tags
           .find((tag) => tag.startsWith(SENTENCE_MONTHS_TAG))
@@ -372,10 +386,9 @@ describe("recorded floors reach saved sentences", () => {
       );
       expect(resolved).toHaveLength(1);
       const applied = legalOutcomeRegistration.apply(sentenced, resolved[0]!);
+      expect(applied).toBe(sentenced);
       expect(applied.history.events).toBe(sentenced.history.events);
-      expect(applied.history.nextSequence).toBe(
-        sentenced.history.nextSequence + 1,
-      );
+      expect(applied.history.nextSequence).toBe(sentenced.history.nextSequence);
       assertLegalOutcomeConsequenceIntegrity(applied);
       const reloaded = deserializeWorld(serializeWorld(applied));
       assertLegalOutcomeConsequenceIntegrity(reloaded);
@@ -553,6 +566,7 @@ function fixture(place: string, floor: number | null = 120) {
         [propositionId]: {
           id: propositionId,
           stableKey: MINIMUM_CUSTODY_QUESTION,
+          consequences: [minimumCustodyRow],
           parameters: [
             {
               key: "coverage",
@@ -624,6 +638,65 @@ function fixture(place: string, floor: number | null = 120) {
 }
 
 describe("recorded custody floors through the existing sentence writer", () => {
+  it("records the named defendant through the shared case-stage dispatcher", () => {
+    const { world, courtCase, measure } = fixture(places[0]!);
+    const event = {
+      id: "event_shared_step_sentence" as EntityId,
+      type: PROSECUTION_SENTENCED_EVENT,
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: courtCase.venueJurisdictionId,
+      participants: [
+        { role: "focus:defendant", personId: courtCase.defendantId },
+      ],
+      tags: ["justice.offense:crime:robbery", `${SENTENCE_MONTHS_TAG}120`],
+    } as unknown as World["history"]["events"][number];
+    const saved = {
+      ...world,
+      people: {
+        [courtCase.defendantId]: {
+          id: courtCase.defendantId,
+          homeJurisdictionId: courtCase.venueJurisdictionId,
+        },
+      },
+      history: {
+        ...world.history,
+        events: [event],
+        nextSequence: 4,
+        legalOutcomeConsequences: [],
+      },
+    } as unknown as World;
+    const before = saved.history.legalOutcomeConsequences?.length ?? 0;
+    const after = applyLawConsequences(saved, {
+      onDate: event.occurredAt,
+      activity: "case-stage",
+      activityId: event.id,
+      subjectIds: [courtCase.defendantId],
+    });
+    const consequences = after.history.legalOutcomeConsequences ?? [];
+
+    expect(before).toBe(0);
+    expect(consequences).toHaveLength(1);
+    expect(consequences[0]).toMatchObject({
+      sentenceEventId: event.id,
+      subjectPersonId: courtCase.defendantId,
+      jurisdictionId: courtCase.venueJurisdictionId,
+      minimumMonths: 120,
+      sourceRecordIds: expect.arrayContaining([measure.id]),
+    });
+    expect(consequences[0]!.lawEffectStamps[0]!.governingLawKey).toBe(
+      measure.id,
+    );
+    expect(
+      applyLawConsequences(after, {
+        onDate: event.occurredAt,
+        activity: "case-stage",
+        activityId: event.id,
+        subjectIds: [courtCase.defendantId],
+      }),
+    ).toBe(after);
+  });
+
   it("validates the exported row against the shared registry contract", () => {
     const registry = createLawConsequenceRegistry([legalOutcomeRegistration]);
     expect(

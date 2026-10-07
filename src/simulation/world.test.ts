@@ -155,6 +155,25 @@ describe("world actions and canonical history", () => {
       }),
     ).toThrow(/before it occurred/i);
   });
+
+  it("writes a direct memory for each person involved in a major life event", () => {
+    const world = createDemoWorld("event-memory");
+    const personId = world.personOrder[1] as EntityId;
+    const event = recordWorldEvent(world, {
+      ...testEvent(world, "life:household-move"),
+      type: "life.household-move",
+      involvedEntityIds: [personId],
+      summary: "The household moved to another home.",
+    });
+    expect(event.history.memories).toContainEqual(
+      expect.objectContaining({
+        stableKey: expect.stringContaining(`:${personId}`),
+        personId,
+        eventId: event.history.events.at(-1)?.id,
+        rememberedSummary: "The household moved to another home.",
+      }),
+    );
+  });
 });
 
 describe("progressive person detail", () => {
@@ -302,13 +321,11 @@ describe("jurisdiction portability and accepted primary fixture", () => {
     [
       "default replay with history and materialization",
       () => runDemoScenario().world,
-      // The one change from the bytes accepted on main: the replay's public
-      // listening session is now labeled with the jurisdiction's own name
-      // ("Lexington-Fayette community venue" was a Lexington-only label), so no
-      // place is named in the rule. Measured: restoring that label alone
-      // returns the earlier hash.
-      "6654e66714744278ad23762221d7729cd6858d351ca306e992c8854156d8599f",
-      "990bd8ba5710cb67baaeeb44a1442ae3f149b7fe43538a2f07893d8a4ee1a5a2",
+      // The replay now persists two event memories in history.memories. This is
+      // the intended saved-state change from recording memories for people an
+      // event directly affects; the event log and all unrelated histories stay.
+      "39a9e0fd4bcf0efea2b77a1c2520c78ee404afce9076cc010b04eef3db047e75",
+      "b5039ac0b2053bdc172a3745e938b5dd0061af0614afc54d264485bdb871aed3",
     ],
     [
       "explicit legacy seed",
@@ -610,6 +627,15 @@ describe("jurisdiction portability and accepted primary fixture", () => {
     expect(serializeWorld(resumed)).not.toMatch(
       /Lexington|Kentucky|America\/New_York/i,
     );
+  });
+
+  it("loads a memoryless existing save without changing its memory field or bytes", () => {
+    const world = createDemoWorld("pre-event-memory-save");
+    expect(world.history.memories).toEqual([]);
+    const saved = serializeWorld(world);
+    const loaded = deserializeWorld(saved);
+    expect(loaded.history.memories).toEqual([]);
+    expect(serializeWorld(loaded)).toBe(saved);
   });
 
   it("defensively copies supplied jurisdiction and clock rather than retaining caller-owned state", () => {

@@ -4,7 +4,7 @@
   "asOf": "2026-09-28",
   "defaultOperativeAt": "2000-01-01",
   "effectiveDates": {
-    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from sessionEnds, one table for every place: the day the legislature published as its adjournment for a year whose session has ended (adjourned, read 9/29/2026 for 2026), else the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
+    "about": "When a state law takes effect if the act names no date of its own, as in force on 1/1/2026. Each rule is read from the place's constitution or code, or, where marked estimated, taken from the most common rule among places like it (ESTIMATED FROM AVERAGE). A rule that counts from a session's end reads it from the shared state-session-calendars-2026.json table: the day the legislature published as its adjournment for a year whose session has ended (adjourned, read 9/29/2026 for 2026), else the latest day its law lets the regular session run, estimated where the law sets no calendar limit. A rule that counts from final passage uses the date the game records for the act (Illinois). Acts that name their own date, emergency clauses, appropriation acts and special sessions are not modeled here.",
     "rules": {
       "US-AK": {
         "rule": {
@@ -559,477 +559,6 @@
         "cite": "Wyo. Stat. § 8-1-108",
         "source": "https://law.justia.com/codes/wyoming/title-8/chapter-1/section-8-1-108/",
         "note": "Every law takes effect ninety days after the session adjourns unless it names another date; the game uses the ninetieth day, inferred from the text. Most acts name July 1."
-      }
-    },
-    "sessionEnds": {
-      "US-AL": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-09"],
-            "sourceUrl": "https://www.legislature.state.al.us/",
-            "quote": "2026 Regular Session adjourned on April 9th, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-AR": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 4,
-              "weekday": 3,
-              "nth": 2
-            },
-            "lastDayAfterStart": 29
-          }
-        ],
-        "cite": "Ark. Const. art. 5, §§ 5, 17",
-        "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
-        "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-29"],
-            "sourceUrl": "https://www.arkleg.state.ar.us/",
-            "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-AS": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          },
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 7,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          },
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 7,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 44
-          }
-        ],
-        "cite": "Rev. Const. of American Samoa art. II, § 8",
-        "source": "https://asbar.org/revised-constitution-of-american-samoa/",
-        "note": "Two regular sessions a year, opening on the second Monday in January and in July, each to last 45 days. Whether those are calendar days was not read; the game counts calendar days."
-      },
-      "US-AZ": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Ariz. Const. art. 4, pt. 2, § 3",
-        "source": "https://www.azleg.gov/const/4/3.p2.htm",
-        "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-06-13"],
-            "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
-            "quote": "Adjourned Sine Die: June 13, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-DC": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "The Council meets year-round; this date only anchors the estimated rule."
-      },
-      "US-FL": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 3,
-              "weekday": 1,
-              "nth": 1,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 1,
-              "plusDays": 8
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "cite": "Fla. Const. art. III, § 3(b), (d)",
-        "source": "https://www.flsenate.gov/Laws/Constitution",
-        "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-13"],
-            "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
-            "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-HI": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-05-08"],
-            "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
-            "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-ID": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Idaho Const. art. III, § 8(1)",
-        "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
-        "note": "Sets only the opening day; no limit on length was found.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-02"],
-            "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
-            "quote": "adjourned Sine Die on April 02, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-KS": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "note": "Its rule was not read in days after a session, so its session end was not read either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-10"],
-            "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
-            "quote": "The Legislature having adjourned sine die on April 10, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-KY": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 3,
-              "day": 30
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 4,
-              "day": 15
-            }
-          }
-        ],
-        "cite": "Ky. Const. § 42",
-        "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
-        "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-15"],
-            "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
-            "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-ME": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 6,
-              "weekday": 3,
-              "nth": 3
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 4,
-              "weekday": 3,
-              "nth": 3
-            }
-          }
-        ],
-        "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
-        "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
-        "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-29"],
-            "sourceUrl": "https://legislature.maine.gov/house/",
-            "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-MI": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Mich. Const. art. IV, § 13",
-        "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
-        "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
-      },
-      "US-MO": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "day": 30
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "day": 30
-            }
-          }
-        ],
-        "cite": "Mo. Const. art. III, § 20(a)",
-        "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
-        "note": "The regular session adjourns on May 30 each year."
-      },
-      "US-NC": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "N.C. Const. art. II, § 11(1)",
-        "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
-        "note": "The session adjourns by resolution; no end date or limit on length."
-      },
-      "US-NE": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Neb. Const. art. III, § 10",
-        "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
-        "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-04-17"],
-            "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
-            "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-NM": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 3
-            },
-            "lastDayAfterStart": 60
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 3
-            },
-            "lastDayAfterStart": 30
-          }
-        ],
-        "cite": "N.M. Const. art. IV, § 5(A)",
-        "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
-        "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-02-19"],
-            "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
-            "quote": "2026 ... February 19 Session ends (noon)",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-OK": {
-        "oddYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "weekday": 5,
-              "nth": -1
-            }
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "on",
-            "day": {
-              "month": 5,
-              "weekday": 5,
-              "nth": -1
-            }
-          }
-        ],
-        "cite": "Okla. Const. art. V, § 26",
-        "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
-        "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-05-14"],
-            "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
-            "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-TX": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 2,
-              "nth": 2
-            },
-            "lastDayAfterStart": 139
-          }
-        ],
-        "evenYear": [],
-        "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
-        "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
-        "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
-      },
-      "US-UT": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 3,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 45
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 3,
-              "plusDays": 1
-            },
-            "lastDayAfterStart": 45
-          }
-        ],
-        "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
-        "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
-        "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-06"],
-            "sourceUrl": "https://le.utah.gov/",
-            "quote": "2026 General Session January 20, 2026 to March 6, 2026",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-WA": {
-        "oddYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 104
-          }
-        ],
-        "evenYear": [
-          {
-            "kind": "after-start",
-            "start": {
-              "month": 1,
-              "weekday": 1,
-              "nth": 2
-            },
-            "lastDayAfterStart": 59
-          }
-        ],
-        "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
-        "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
-        "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-12"],
-            "sourceUrl": "https://leg.wa.gov/",
-            "quote": "The 2026 Regular Session adjourned sine die on March 12",
-            "readAt": "2026-09-29"
-          }
-        }
-      },
-      "US-WY": {
-        "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
-        "cite": "Wyo. Const. art. 3, § 6",
-        "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
-        "note": "The limit is 40 legislative working days a year, which are not calendar days.",
-        "adjourned": {
-          "2026": {
-            "dates": ["2026-03-11"],
-            "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
-            "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
-            "readAt": "2026-09-29"
-          }
-        }
       }
     }
   },
@@ -1884,20 +1413,104 @@
           "answer": "no"
         },
         "US-CA": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://edd.ca.gov/en/payroll_taxes/rates_and_withholding/",
+              "quote": "The SDI withholding rate for 2026 is 1.3 percent. Effective January 1, 2024, all wages are subject to SDI contributions.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 130,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Joint employee SDI contribution funds disability and family leave; not a separate additional family-leave deduction. Uncapped wages cannot be represented by a finite dollars/year scalar. Income-dependent replacement is not a universal scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-CO": {
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://www.ctpaidleave.org/how-ct-paid-leave-works/contributions",
+              "quote": "The CT Paid Leave Board of Directors has voted to maintain the contribution rate at 0.5% for 2026. Employers deduct 0.5% from an employee's pay. Employees contribute until they reach the Social Security contribution limit. SSA 2026 COLA Fact Sheet: Maximum Taxable Earnings, Social Security (OASDI only), 2026: $184,500.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 50,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Annual covered-wage cap joins the CT source-stated Social Security contribution limit to the SSA 2026 OASDI base; each employer applies that limit as described by CT. Tiered replacement and duration are not admitted as universal scalars.",
+              "capSource": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-10-01",
+              "source": "https://dcpaidfamilyleave.dc.gov/program-updates/",
+              "quote": "These updates take effect October 1, 2026. Employer contributions: No change. Leave remains fully employer-funded with no payroll deductions from workers.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 0,
+                  "unit": "basis-points"
+                }
+              ],
+              "note": "Sourced zero employee deduction is not a zero employer tax. Sliding-scale replacement and unknown wage cap are not collapsed to scalar amounts; duration admission remains unsupported."
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
-          "operativeAt": "2026-01-01"
+          "operativeAt": "2026-01-01",
+          "source": "https://laborfiles.delaware.gov/main/pfl/FAQs/DDOL41583_HowPaidLeaveWorks_FAQs_v1.pdf",
+          "quote": "The employee can receive 80% of their weekly wages, up to $900 per week. Employers can require their employees to pay up to 50% of the cost of the program through payroll deductions.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+              "key": "replacement",
+              "value": 0.8,
+              "unit": "ratio"
+            }
+          ],
+          "note": "Optional employee contribution share is not a universal 0.4% rate. Coverage-specific premiums and FICA wage base require their exact bindings; no inferred cap. Replacement is subject to the source weekly benefit maximum. Duration compound-unit admission remains unsupported.",
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-FL": {
           "answer": "no"
@@ -1985,7 +1598,42 @@
           "answer": "no"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "operativeBasis": "source-stated-calendar-year",
+              "source": "https://nj.gov/labor/myleavebenefits/employer/",
+              "quote": "For 2026, workers contribute 0.23% on the first $171,100 (wage cap) in covered wages earned during this calendar year. Claimants are paid 85% of their average weekly wage up to the maximum weekly benefit rate set for that calendar year.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 23,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 171100,
+                  "unit": "dollars/year"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.85,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-NM": {
           "answer": "no"
@@ -1994,7 +1642,35 @@
           "answer": "no"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidfamilyleave.ny.gov/2026",
+              "quote": "For 2026, employees will contribute 0.432% of their gross wages per pay period, with a maximum annual contribution of $411.91. Employees taking Paid Family Leave receive 67% of their average weekly wage, up to a cap of 67% of the current New York State Average Weekly Wage.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 43.2,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "replacement",
+                  "value": 0.67,
+                  "unit": "ratio"
+                }
+              ],
+              "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-OH": {
           "answer": "no"
@@ -2003,7 +1679,35 @@
           "answer": "no"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://paidleave.oregon.gov/employers-overview/",
+              "quote": "The total contribution rate for 2026 is 1% of gross wages up to $184,500. Large employers (25 or more employees on average) pay 40% of the total 1% contribution rate and employees pay 60% of the 1% contribution rate.",
+              "lawTerms": [
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "rate",
+                  "value": 60,
+                  "unit": "basis-points"
+                },
+                {
+                  "questionKey": "us-policy-positions:labor-workforce.paid-family-leave",
+                  "key": "cap",
+                  "value": 184500,
+                  "unit": "dollars/year"
+                }
+              ],
+              "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported."
+            }
+          ],
+          "sourceCoverage": {
+            "from": "2026-01-01",
+            "through": "2026-12-31",
+            "note": "Source coverage only, not a legal sunset. The recorded terms continue until a sourced operative amendment changes them; later annual values need fresh source verification."
+          }
         },
         "US-PA": {
           "answer": "no"
@@ -13541,7 +13245,7 @@
         },
         "US-AS": {
           "answer": "yes",
-          "note": "Ordinary juvenile delinquency jurisdiction covers offenses committed before age 18; the upper included age is 17. Felony transfer and direct adult-charging exceptions apply, including offenses from age 14 and specified serious/repeat cases.",
+          "note": "Ordinary delinquency jurisdiction covers children under 18, so its inclusive upper age is 17. Section 45.0103(9) excludes specified violent and repeat felony cases; section 45.0115(c) permits adult certification and specified direct felony charges. This age term does not authorize those exceptions. The saved default operative date is retained; no new enactment date is inferred.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
@@ -13550,7 +13254,7 @@
               "unit": "years"
             }
           ],
-          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9), 45.0115(c)",
+          "cite": "A.S.C.A. §§ 45.0103(2), (3), (9); 45.0115(a), (c)",
           "source": "https://asbar.org/code-annotated/45-0103-definitions/"
         },
         "US-AZ": {
@@ -21356,9 +21060,22 @@
         "US-MO": {
           "answer": "yes",
           "preempts": true,
-          "cite": "RSMo § 163.172",
-          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172",
-          "note": "$40,000 for a starting teacher from the 2025-26 school year (it was $25,000 through 2024-25), with inflation adjustments from 2028-29."
+          "cite": "RSMo § 163.172.1(2); § 160.041",
+          "source": "https://revisor.mo.gov/main/OneSection.aspx?section=163.172&bid=57286",
+          "note": "$40,000 basic-contract minimum for the 2025-26 school year and subsequent years; the school year begins July 1 under § 160.041. The current provision and its 2024 predecessor both prescribe this amount. Teachers with a master's degree and ten years of experience have a higher $46,000 minimum in 2025-26; part-time certificated teachers are prorated and extra-duty supplements are excluded. Inflation adjustments begin in 2028-29.",
+          "operativeAt": "2025-07-01",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 4000000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-MP": {
           "answer": "no",
@@ -21409,9 +21126,22 @@
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
-          "cite": "N.J.S.A. 18A:29-5",
+          "cite": "N.J.S.A. 18A:29-5; 18A:29-5.3-.4",
           "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
-          "note": "$18,500 statutory minimum for a full-time teacher, unchanged since 1985 and far below actual pay."
+          "note": "$18,500 per academic year for eligible full-time teaching staff, including new full-time hires from 1985-86 onward; less than an academic year is proportionate. Existing staff must have the prescribed acceptable-performance certification, and day-to-day substitutes are excluded. Extra-duty, coaching, extracurricular and summer pay do not count toward the minimum. The latest amendment to § 18A:29-5 took effect March 28, 1986; the official compilation carries no later amendment to this minimum.",
+          "operativeAt": "1986-03-28",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 1850000,
+              "unit": "minor"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
@@ -21435,9 +21165,22 @@
         "US-OH": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Ohio Rev. Code § 3317.13",
+          "cite": "Ohio Rev. Code § 3317.13(B)-(C)",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-3317.13",
-          "note": "$35,000 for a starting teacher with a bachelor's degree, on the state minimum salary schedule (as amended by House Bill 33, effective 10/3/2023)."
+          "note": "$30,275 is the lowest mandatory salary-schedule cell, for zero years of service and less than a bachelor's degree, excluding retirement and sick leave. The zero-service bachelor's cell is $35,000; training and credited service require higher cells. This records the general lower bound rather than treating the bachelor's cell as a universal floor. House Bill 33 took effect October 3, 2023.",
+          "operativeAt": "2023-10-03",
+          "before": {
+            "answer": "yes",
+            "preempts": true
+          },
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "key": "floor",
+              "value": 3027500,
+              "unit": "minor"
+            }
+          ]
         },
         "US-OK": {
           "answer": "yes",
@@ -23273,14 +23016,30 @@
         "US-MN": {
           "answer": "yes",
           "preempts": false,
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "unit": "ratio",
+              "value": 0.1425
+            }
+          ],
           "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15)."
+          "note": "14.25 percent of the 0.375 percent Legacy sales tax goes to the parks and trails fund through June 30, 2034 (Minn. Const. art. XI, section 15). Primary verification: https://www.revisor.mn.gov/constitution/ (Minn. Const. art. XI, section 15), read October 2, 2026. The share denominator is receipts from the three-eighths-of-one-percent sales and use tax increase, plus penalties and interest and less refunds; eligible spending supports parks and trails of regional or statewide significance. This is not a share of all sales-tax revenue. The constitutional dedication runs July 1, 2009 through June 30, 2034; no operativeAt is added and the existing reader default is not an enactment date."
         },
         "US-MO": {
           "answer": "yes",
           "preempts": false,
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "unit": "ratio",
+              "value": 0.5
+            }
+          ],
           "source": "Research 1, read from the constitution 9/29/2026",
-          "note": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b))."
+          "note": "A 0.1 percent sales and use tax, half to state parks and half to soil and water, last reauthorized by voters August 4, 2026 (Mo. Const. art. IV, sections 47(a) and 47(b)). Primary verification: https://revisor.mo.gov/main/OneSection.aspx?section=IV++++47(b)&constit=y, read October 2, 2026. Fifty percent of receipts from the additional sales and use taxes under section 47(a) is deposited in the State Park Sales Tax Fund, subject to legislative appropriation for the stated purposes. The share is of that added tax revenue, not of all sales-tax revenue. Existing default date is preserved and is not asserted to be a researched enactment date."
         },
         "US-MP": {
           "answer": "no",

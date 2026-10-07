@@ -20,11 +20,11 @@ const KIND_LABEL: Readonly<Record<ModeledAccountEntry["kind"], string>> = {
 
 function entryOutcome(entry: ModeledAccountEntry): string {
   if (entry.transferred.minorUnits === 0)
-    return `Attempted ${usd(entry.attempted)}; nothing moved (${entry.status}).`;
+    return `Attempted: ${usd(entry.attempted)} · Moved: $0 · ${entry.status}`;
   const moved = `${entry.direction === "in" ? "+" : "−"}${usd(entry.transferred)}`;
   return entry.status === "completed"
     ? moved
-    : `${moved} of ${usd(entry.attempted)} attempted (${entry.status}).`;
+    : `${moved} · Attempted: ${usd(entry.attempted)} · ${entry.status}`;
 }
 
 const period = (entry: ModeledAccountEntry) =>
@@ -96,9 +96,7 @@ export function ModeledAccountHistory({
           {history.graph ? (
             <EconomicGraph graph={history.graph} />
           ) : (
-            <p data-testid="modeled-account-no-transfers">
-              No money has moved through this account yet.
-            </p>
+            <p data-testid="modeled-account-no-transfers">Transfers: none</p>
           )}
           {history.entries.length > 0 ? (
             <div className="modeled-account-records">

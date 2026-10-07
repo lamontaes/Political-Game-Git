@@ -4083,6 +4083,8 @@ export interface PublicationRecord {
   readonly correctsPublicationId: EntityId | null;
   /** Null on the first edition; required on a correction. */
   readonly correctionNote: string | null;
+  /** Recorded justice.charged events that cite this press-story edition. */
+  readonly justiceChargeEventIds?: readonly EntityId[];
 }
 
 // ---------------------------------------------------------------------------
@@ -4281,7 +4283,9 @@ export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
    * unknowns say which fact the world does not hold.
    */
   readonly outcome: "complied" | "compliance-unknown" | "coverage-unknown";
-  readonly basis: "game-profile" | "unknown";
+  readonly basis: "game-profile" | "recorded-service" | "unknown";
+  /** The actual program service outturn that established fulfillment, if any. */
+  readonly evidenceRecordId?: EntityId;
   readonly researchQuestionId: string;
   readonly reason: string;
 }
@@ -4553,6 +4557,13 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** An adult responsible for the child made this recorded choice. */
+      readonly kind: "caregiver-choice";
+      readonly caregiverPersonId: EntityId;
+      readonly situationKey: LifeSituationKey;
+      readonly optionKey: string;
     })
   | (ChildhoodRecordEntryBase & {
       /** A controlled person's recorded formative faith choice. */
@@ -5045,6 +5056,15 @@ export interface LegislativeAmendmentRecord {
    * has to pass. Omitted for the player's amendments and older records.
    */
   readonly authorMotive?: LegislativeAmendmentMotive;
+  /** Potential constitutional issue, not a finding of invalidity. Recorded
+   * only on adoption, using the procedure engine's policy-domain proxy. */
+  readonly potentialSingleSubjectIssue?: {
+    readonly citation: string;
+    readonly assessmentBasis: "policy-domain-proxy";
+    readonly billDomainIds: readonly string[];
+    readonly addedDomainIds: readonly string[];
+    readonly propositionIds: readonly string[];
+  };
 }
 
 export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
@@ -5213,6 +5233,9 @@ export interface LegislativeEnactmentRecord {
 export type OfficeVotingWorkflowMode =
   "review-batch" | "prior-instructions-with-exceptions" | "handle-individually";
 
+/** How much of an ordinary council meeting the member chooses to play. */
+export type OfficeMeetingDepth = "what-matters" | "everything";
+
 /**
  * How this office handles constituent casework. Adjustable and bound to the
  * office relationship, not a global agent default.
@@ -5280,6 +5303,8 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Absent on older saves; readers treat it as `what-matters`. */
+  readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
@@ -5862,11 +5887,17 @@ export interface SetupPriorStore {
 }
 
 export type SaveMode = "free" | "one-save";
+export type NotesVisibility = "full" | "light" | "none";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
   readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
+  /** Controls when player-known reminders appear on person cards. */
+  readonly notesVisibility: NotesVisibility;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }
