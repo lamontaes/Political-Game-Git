@@ -4,12 +4,14 @@ import { personalityTraitEffects } from "./index";
 import { facetProudEffects } from "./facet-proud";
 import { facetHumbleEffects } from "./facet-humble";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
+import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
 
 describe("public-life readers in the effects index", () => {
   it.each([
     ["proud", facetProudEffects],
     ["humble", facetHumbleEffects],
     ["self-conscious", facetSelfConsciousEffects],
+    ["thrill-seeking", facetThrillSeekingEffects],
   ] as const)(
     "registers %s's existing decisions once through the catalogue",
     (key, effects) => {
