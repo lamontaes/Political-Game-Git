@@ -63,7 +63,7 @@ export interface PurseLine {
   /** What the player calls it. */
   readonly label: string;
   /** Who owns it, said plainly, because ownership is the point. */
-  readonly ownerNote: string;
+  readonly ownerNote: string | null;
   readonly balance: MoneyAmount | null;
   /** Present only when there is no position, and then it says why. */
   readonly absence: string | null;
@@ -111,7 +111,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
   purses.push({
     kind: "personal",
     label: "Your own money",
-    ownerNote: "Yours. Nobody else can spend it.",
+    ownerNote: null,
     balance: own,
     absence: own ? null : "This life has no personal balance on record yet.",
   });
@@ -122,7 +122,7 @@ function buildPurses(world: World, personId: EntityId): readonly PurseLine[] {
     purses.push({
       kind: "household",
       label: "The household",
-      ownerNote: "Shared with everyone who lives here.",
+      ownerNote: null,
       balance: shared,
       absence: shared ? null : "The household has no shared money yet.",
     });

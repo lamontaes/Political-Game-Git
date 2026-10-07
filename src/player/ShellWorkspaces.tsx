@@ -1657,7 +1657,7 @@ export function PersonalFinancesWorkspace({
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
+              {purse.ownerNote ? <small>{purse.ownerNote}</small> : null}
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
                   {dollars(purse.balance)}
