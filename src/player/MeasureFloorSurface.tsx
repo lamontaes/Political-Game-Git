@@ -236,15 +236,15 @@ export function MeasureFloorSurface({
         onOpenWorkingDocument={openPaper}
         onOpenBriefing={openPaper}
         documentEntry={{
-          label: `${seat.progress.subjectFacts.designation} · on the floor`,
-          ariaLabel: `Open ${seat.progress.subjectFacts.designation}, the bill as it now reads`,
+          label: seat.progress.subjectFacts.designation,
+          ariaLabel: seat.progress.subjectFacts.designation,
         }}
         briefingEntry={{
           label: "Fiscal note",
-          ariaLabel: "Open the bill and its fiscal note",
+          ariaLabel: seat.progress.subjectFacts.designation,
         }}
         showCivicMarker={false}
-        sceneLabel={`The members' room off the ${seat.progress.subjectFacts.chamberName} floor`}
+        sceneLabel={seat.progress.subjectFacts.chamberName}
       />
 
       <div className="measure-room-controls">
@@ -253,9 +253,7 @@ export function MeasureFloorSurface({
           data-testid="toggle-room-privacy"
           onClick={toggleAlone}
         >
-          {alone
-            ? `Ask ${world.people[seat.guardianPersonId]!.familyName} back in`
-            : `Wait until ${world.people[seat.guardianPersonId]!.familyName} steps out`}
+          Continue
         </button>
         <p
           data-testid="room-note"
