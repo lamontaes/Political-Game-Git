@@ -612,12 +612,12 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1233 | Add regional home exteriors and corrected street candidates | PR #1233 (codex/team7-regional-exteriors) | done (superseded by C7; art preserved for later owner review) | |
 | RS-1238 | Submit four-law education effect batch and twelve-law inventory | PR #1238 (codex/team-5-law-effect-batches) | done #1238 | S50 |
 | RS-1257 | Import 61 approved picture and kids-sheet sources | PR #1257 (codex/team7-law-place-import) | done (superseded by C7; approved sources preserved for later owner review) | S35 |
-| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | ready #3278 | S50 |
-| RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | ready #1287 | |
+| RS-1275 | Government effects: qualify two near-zero estimates and reject the term-limit zero | PR #3278 (session-50-rs-1275-isolated) | done #3278 | S50 |
+| RS-1287 | WIP: cannabis tax accounting from legal sales, with golden-rule inventory | PR #1287 (codex/team-4-cannabis-retail-mechanism) | done #1287 | |
 | RS-1303 | Convert Team6 law inputs with explicit shared-handler binding gaps | PR #1303 (codex/team-6-read-law-stamps) | open: draft: finish it or close it as superseded | |
-| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | ready #3297 | |
-| RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | ready #3271 | |
-| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | ready #1332 | |
+| RS-1306 | Stage 20 federal law inputs for the shared consequence contract | PR #3297 (session-35/rs-1306-fresh) | done #3297 | |
+| RS-1307 | Record housing consequence inputs and missing bindings | PR #3271 (session-35/rs-1307-housing-consequence-inputs) | done #3271 | |
+| RS-1332 | Prove terminal starting-law and native service completion | PR #1332 (codex/opening-service-proof) | done #1332 | |
 | RS-1358 | Load shared clock registries without initialization cycles | PR #1358 (codex/audit-c7-default-clock) | done #1358 (implementation merged; verified on current main) | |
 | RS-1406 | Deliver the private monthly money call-cost diagnostic | PR #1406 (codex/team7-c9-owned-call-cost-diagnostic) | done (superseded by current-main obligation route; diagnostic depended on closed PR #1353) | |
 | RS-1415 | Preserve native lease renewal proof and save validation blocker | PR #1415 (codex/team-4-m10-native-renewal-entry) | open: draft: finish it or close it as superseded | |
@@ -924,7 +924,7 @@ open: rebase on main (conflicts) | |
 | RS-2732 | b24-p1-s3: READY for CTO review (eight turned input failures) | PR #2732 (codex/session127-b24-p1-s3) | open: rebase on main (conflicts) | |
 | RS-2734 | b24-p1-s4: native cloth-boundary probe (cuff mask unfinished) | PR #2734 (codex/session127-b24-p1-s4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2739 | b24-p2: independent tag validator proposal (owner schema missing) | PR #2739 (codex/session127-b24-p2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | ready #2742 | |
+| RS-2742 | b24-p3: slot contract audit (runtime and data gaps retained) | PR #2742 (codex/session127-b24-p3) | done #2742 | |
 | RS-2746 | b18-p3: certified ballot referrals and named voter tally | PR #2746 (session-110/b18-p3) | open: draft: finish it or close it as superseded | |
 | RS-2748 | A120: PROGRESS continuity regression follows its saved appointment date | PR #2748 (session132/a120-continuity-test-window) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2750 | b18-p4: recorded shared-cause founder and member decisions | PR #2750 (session-110/b18-p4) | open: draft: finish it or close it as superseded | |
