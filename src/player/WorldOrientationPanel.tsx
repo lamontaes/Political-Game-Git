@@ -526,7 +526,6 @@ export function WorldOrientationPanel({
                 people={scenePeople}
                 stageRef={sceneStage}
                 overflowLabel="More illustrated people"
-                nameTags={step.key === "parents"}
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,
@@ -688,7 +687,6 @@ export function WorldOrientationPanel({
                               ? "Your territory's government"
                               : "Your state government"}
                         </h3>
-                        <p>{step.summary}</p>
                         {step.people.length > 0 ? (
                           <ul className="pg-orientation-people">
                             {step.people.map((person) => (
