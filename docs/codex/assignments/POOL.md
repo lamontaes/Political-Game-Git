@@ -535,19 +535,19 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-28 | First screen of play: empty apartment, nobody in it, brick city block outside a town of 3,000, name card truncated ('UNSA'), no job or family shown | BUGS.md BG-28 | open | |
 | BG-29 | Small-town windows show a city block (same art for Fallon NV as Missouri) | BUGS.md BG-29 | ready #3515 | |
 | BG-30 | First thing offered is a public meeting nobody asked the player to attend | BUGS.md BG-30 | done #441 | |
-| BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | open | |
+| BG-31 | Loading is 4 seconds and empty | BUGS.md BG-31 | done #2150, #715 | |
 | BG-32 | Workplace rooms hold people who do not work there (city planner, attorney, clerk in a transport shift) | BUGS.md BG-32 | done #2220 | |
 | BG-33 | 'Go to meeting' ignores clicks | BUGS.md BG-33 | done #1853 | |
 | BG-34 | 'It is time for the meeting' offers no way to go from the room; only Go is buried in Politics, Campaigns | BUGS.md BG-34 | done #1853, #7eec528 | |
 | BG-35 | Council voted 5-0 before public comment with the player present; voters labeled 'Resident' | BUGS.md BG-35 | ready #3395 (unsupported: generic agenda has no order; 23 reference series across 15 governments lack an order field or current authority for all 56) | Session 34 |
 | BG-36 | 'This local journey has no recorded home endpoint' leaks to the player | BUGS.md BG-36 | ready #3415 | |
-| BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | open | |
+| BG-37 | Meeting scene: agenda panel covers the room; Stay/Go/Leave drawn as plain text, not buttons; tiny organizer behind the podium | BUGS.md BG-37 | done #495, #2145, #87 | |
 | BG-38 | 'Until needed' stops at 7 a.m. first and needs two presses to reach an evening event | BUGS.md BG-38 | done #2960 | |
-| BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | open | |
+| BG-39 | A week later the scene is still the meeting room at 7 a.m. with the same people | BUGS.md BG-39 | done #1221 | |
 | BG-40 | 'Paid $193.46' with no payee | BUGS.md BG-40 | done #2778 | |
 | BG-41 | 'Back in the room.' debug text shows in the page | BUGS.md BG-41 | done #2940 | |
 | BG-42 | First-paycheck block: opening employer cash unset (Session 8) | BUGS.md BG-42 | done #2287 | |
-| BG-43 | Pay-stub test is red | BUGS.md BG-43 | open | |
+| BG-43 | Pay-stub test is red | BUGS.md BG-43 | done #3376 | |
 | BG-44 | crime.test.ts has two reds on main | BUGS.md BG-44 | done #2976 | |
 | BG-45 | Newspaper test red | BUGS.md BG-45 | done #2315 | |
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
@@ -634,9 +634,9 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
 | RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | done #3364 | |
-| RS-2113 | Load seven sourced starting income-tax schedules | PR #2113 (codex/overflow3-starting-income-tax-terms) | open: draft: finish it or close it as superseded | |
+| RS-2113 | Load seven sourced starting income-tax schedules | PR #2113 (codex/overflow3-starting-income-tax-terms) | ready #2113 | Session 35 |
 | RS-2116 | Source American Samoa’s ordinary juvenile age ceiling | PR #2116 (codex/overflow8-territorial-juvenile-terms) | ready #2116 | Session 35 |
-| RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | open: draft: finish it or close it as superseded | |
+| RS-2117 | research: preserve abortion limits and conditional exceptions | PR #2117 (codex/standby5-abortion-compound-source-packet) | done #2117 | Session 59 |
 | RS-2121 | A15: sourced family-leave monetary rows (parked) | PR #2121 (codex/overflow1-labor-starting-terms) | open: draft: finish it or close it as superseded | |
 | RS-2122 | Document voting restoration conditions for sixteen jurisdictions | PR #2122 (codex/a117-restoration-primary-laws) | open: draft: finish it or close it as superseded | |
 | RS-2123 | Record sourced Minnesota and Missouri parks revenue shares | PR #2123 (codex/a66-parks-starting-share) | ready #2123 | Session 35 |
@@ -974,7 +974,7 @@ open: rebase on main (conflicts) | |
 
 | item  | what it is                                                                                                                                                                                                                                         | doc and part                                                     | status                                  | claimer                              |
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------- | ------------------------------------ |
-| MR-0  | Shared shell text in src/player/PlayerGame.tsx and ShellWorkspaces.tsx (21 and 3 sentence literals); overflow, anyone                                                                                                                              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-0  | Shared shell text in src/player/PlayerGame.tsx and ShellWorkspaces.tsx (21 and 3 sentence literals); overflow, anyone                                                                                                                              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3131                             | Builder L3 (anyone if silent 60 min) |
 | MR-1  | Strip every authored sentence, helper line, explanation and developer word from the Title screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | Session 51 (#2894, #2914)            |
 | MR-2  | Strip every authored sentence, helper line, explanation and developer word from the Creator screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2900                              | Builder L3 (anyone if silent 60 min) |
 | MR-3  | Strip every authored sentence, helper line, explanation and developer word from the Options and Difficulty screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game. | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2905                              | Builder L3 (anyone if silent 60 min) |
