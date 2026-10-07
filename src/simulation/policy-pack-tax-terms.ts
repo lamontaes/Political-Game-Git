@@ -92,8 +92,43 @@ function taxTermConsequenceRow(
       FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES.has(familyKey)) ||
     localTaxQuestion(levelKey, familyKey) ||
     stateTaxQuestion(levelKey, familyKey);
+  const stateIncomeTerm = levelKey === "state" && familyKey === "income";
   const excise = familyKey === "excise";
-  if (!federalTerm && !excise) return undefined;
+  if (!federalTerm && !excise && !stateIncomeTerm) return undefined;
+  if (stateIncomeTerm) {
+    return {
+      id: "tax:state:income:saved-statutory",
+      kind: "tax",
+      when: "assessment",
+      who: { selector: "recorded-tax-base-payer", predicates: [] },
+      what: "attribute-saved-statutory-tax",
+      attributes: {
+        level: "state-statute",
+        taxKey: "{authority}:wage-income-tax",
+      },
+      amount: {
+        op: "record",
+        key: "enacted-tax-assessment",
+        unit: "minor",
+      },
+      conditions: [],
+      lag: { days: 0, sourceIds: [] },
+      onRepeal: "preserve-completed",
+      evidence: {
+        sourceIds: [
+          "src/simulation/state-income-tax-law.ts",
+          "src/simulation/law-consequences/statutory-wage-tax-rows.ts",
+          "src/simulation/law-consequences/tax.ts",
+        ],
+        population: "The named payer on a saved state wage-tax liability.",
+        scope:
+          "An actual operative state income-tax law already recorded on the saved wage-tax liability.",
+        why: "The existing statutory writer calculates the wage tax; this row only attributes that saved result to the operative tax-terms law.",
+        uncertainty:
+          "The row supplies no rate, wage base or tax amount; missing law lineage remains unavailable.",
+      },
+    };
+  }
   return {
     id: `tax:${levelKey}:${familyKey}:recorded-base`,
     kind: "tax" as const,
