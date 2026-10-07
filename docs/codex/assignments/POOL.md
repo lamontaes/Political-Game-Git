@@ -502,7 +502,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-03 | Hood or collar strip drawn over the hair                                                                                | BUGS.md BG-03 | done #2567 |              |
 | BG-04 | Cuffs discolor (skin tone bleeds onto sleeves and cuffs)                                                                | BUGS.md BG-04 | open       |              |
 | BG-05 | Heads and hair are cut off at the top of scenes                                                                         | BUGS.md BG-05 | done #186  |              |
-| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | open       |              |
+| BG-06 | Two people wear the same outfit in one room                                                                             | BUGS.md BG-06 | ready #3263 |              |
 | BG-07 | A cashier is drawn standing on the counter instead of behind it                                                         | BUGS.md BG-07 | open       |              |
 | BG-08 | A person standing in the room reads 'Away from your current location'                                                   | BUGS.md BG-08 | done       | #2961        |
 | BG-09 | A person's record is thin: no age, home, job, pay or household; public career line is about the town board, not her     | BUGS.md BG-09 | open       |              |
