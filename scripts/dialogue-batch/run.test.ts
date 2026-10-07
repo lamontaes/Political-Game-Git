@@ -1,12 +1,24 @@
 import { describe, expect, it } from "vitest";
-import hearingBank from "../../data/english/parts/hearing.json" with { type: "json" };
-import legislationBank from "../../data/english/parts/legislation.json" with { type: "json" };
-import meetingBank from "../../data/english/parts/meeting.json" with { type: "json" };
-import minutesBank from "../../data/english/parts/minutes.json" with { type: "json" };
-import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
-
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { DEFAULT_AGES, runDialogueBatch } from "./run";
 import { toGradingBatch } from "./grading";
+
+function sourcedBankParts() {
+  return readdirSync("data/english/parts")
+    .filter((file) => file.endsWith(".json"))
+    .flatMap((file) => {
+      const bank = JSON.parse(
+        readFileSync(join("data/english/parts", file), "utf8"),
+      ) as {
+        readonly parts?: readonly {
+          readonly key: string;
+          readonly source?: { readonly url?: string };
+        }[];
+      };
+      return bank.parts ?? [];
+    });
+}
 
 describe("the dialogue batch", () => {
   it(
@@ -71,13 +83,7 @@ describe("the dialogue batch avoids menu prompts and raw news", () => {
         (item) => `${item.situation}|${item.cell.relationship}`,
       );
       expect(new Set(situationRelationships).size).toBe(batch.items.length);
-      const sourcedParts = [
-        ...hearingBank.parts,
-        ...legislationBank.parts,
-        ...meetingBank.parts,
-        ...minutesBank.parts,
-        ...winningLosingBank.parts,
-      ];
+      const sourcedParts = sourcedBankParts();
       for (const item of batch.items)
         for (const key of item.parts) {
           if (key.startsWith("bank:")) {
