@@ -10,6 +10,8 @@ import {
 } from "./life-queries";
 import { personName } from "./people";
 import { latestPersonalValue } from "./queries";
+import { traitRegistryFor } from "./trait-registry";
+import { registeredTraitConsiderations } from "./trait-readings";
 import { recordRelationshipInteraction } from "./records";
 import { readRelationshipStanding } from "./relationship-standing";
 import type {
@@ -328,7 +330,16 @@ export function askToBeACouple(
       },
     ],
     constraints: [],
-    considerations: romanticConsiderations(world, key, otherPersonId, personId),
+    considerations: [
+      ...romanticConsiderations(world, key, otherPersonId, personId),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        otherPersonId,
+        key,
+        "people.couple-answer",
+      ),
+    ],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",
