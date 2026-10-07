@@ -28,5 +28,6 @@ describe("an offer's minutes are the session's own length", () => {
     const text = readFileSync("src/player/PlacesWorkspace.tsx", "utf8");
     expect(text).not.toContain("{offer.minutes}");
     expect(text).toContain("{offer.activityMinutes}");
+    expect(text).toContain("{offer.tripMinutes}");
   });
 });
