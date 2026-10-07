@@ -10870,9 +10870,31 @@
           "hero": true,
           "role": "general",
           "id": "state-capitol-az:spot:5"
+        },
+        {
+          "x": 28,
+          "y": 75.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 75.5,
+          "seatY": 73.5,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:6"
+        },
+        {
+          "x": 77,
+          "y": 75.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 75.5,
+          "seatY": 73.5,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:7"
         }
       ],
-      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03",
+      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03. The two plaza bench seat centers are visual estimates from state-capitol-az__midday.jpg (about ±2% of image dimensions).",
       "surfaceSlots": []
     },
     "state-capitol-ca": {
