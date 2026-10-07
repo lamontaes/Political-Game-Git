@@ -283,13 +283,8 @@ export function PressWorkspace({
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
-          <p>
-            Choose a public civic development and a reporter who holds a current
-            journalism role. Asking is not the same as being booked. An adviser
-            is optional unless you ask one to prepare you.
-          </p>
           {reach.journalistCount === 0 ? (
-            <p>No current journalism role is recorded in this life.</p>
+            <p data-testid="press-reporters-count">Reporters: 0</p>
           ) : null}
           <form
             onSubmit={(event) => {
@@ -578,9 +573,7 @@ export function PressWorkspace({
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No interviews are arranged in this life.</p>
-      )}
+      ) : null}
     </section>
   );
 }

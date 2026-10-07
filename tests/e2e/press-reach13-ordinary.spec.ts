@@ -34,9 +34,7 @@ test("ordinary News press route reaches a seeded reporter, records the NPC decis
   // seed pack existed, and it is proven against that world in
   // src/simulation/press-reach.test.ts rather than here. Asserted as the
   // positive fact rather than as an absence of a control.
-  await expect(
-    form.getByText("No current journalism role is recorded in this life."),
-  ).toHaveCount(0);
+  await expect(form.getByTestId("press-reporters-count")).toHaveCount(0);
   await expect(page.getByTestId("press-seek-reporter")).toHaveCount(0);
 
   const development = form.getByTestId("press-basis-select");

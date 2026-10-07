@@ -73,17 +73,9 @@ export function PressDeskPanel({
       aria-labelledby="press-desk-title"
     >
       <h3 id="press-desk-title">Your press desk</h3>
-      <p className="game-note">
-        What reporters have asked you, what has been printed about you, and the
-        terms you agreed to.
-      </p>
 
       <DeskGroup id="requests" title="Questions waiting on you">
-        {desk.incomingRequests.length === 0 ? (
-          <p className="game-note">
-            No reporter is waiting on an answer from you.
-          </p>
-        ) : (
+        {desk.incomingRequests.length === 0 ? null : (
           <ul className="pg-press-desk-list">
             {desk.incomingRequests.map((request) => (
               <li key={request.leadId}>
@@ -101,9 +93,7 @@ export function PressDeskPanel({
       </DeskGroup>
 
       <DeskGroup id="stories" title="Printed about you">
-        {stories.length === 0 ? (
-          <p className="game-note">Nothing has been published about you yet.</p>
-        ) : (
+        {stories.length === 0 ? null : (
           <ul className="pg-press-desk-list" data-testid="press-desk-stories">
             {stories.map((story) => (
               <li key={story.publicationId}>
@@ -115,11 +105,7 @@ export function PressDeskPanel({
       </DeskGroup>
 
       <DeskGroup id="matters" title="Complaints and questions about you">
-        {desk.matters.length === 0 ? (
-          <p className="game-note">
-            Nobody has raised anything about you that you know of.
-          </p>
-        ) : (
+        {desk.matters.length === 0 ? null : (
           <ul className="pg-press-desk-list">
             {desk.matters.map((matter) => (
               <li key={matter.matterId}>
@@ -136,11 +122,7 @@ export function PressDeskPanel({
       </DeskGroup>
 
       <DeskGroup id="arrangements" title="Your source arrangements">
-        {desk.agreements.length === 0 ? (
-          <p className="game-note">
-            You have no ground rules agreed with a reporter.
-          </p>
-        ) : (
+        {desk.agreements.length === 0 ? null : (
           <ul
             className="pg-press-desk-list"
             data-testid="press-desk-agreements"
@@ -169,9 +151,7 @@ export function PressDeskPanel({
       </DeskGroup>
 
       <DeskGroup id="outlets" title="Newsrooms that cover this ground">
-        {desk.outlets.length === 0 ? (
-          <p className="game-note">No news outlet is recorded here.</p>
-        ) : (
+        {desk.outlets.length === 0 ? null : (
           <ul className="pg-press-desk-list" data-testid="press-desk-outlets">
             {desk.outlets.map((outlet) => (
               <li key={outlet.outletId}>
@@ -363,7 +343,6 @@ function PressRequestItem({
       </fieldset>
       {selected ? (
         <div data-testid="press-desk-answer-preview">
-          <p className="game-note">You will say, exactly:</p>
           <blockquote>{selected.statement}</blockquote>
           <p className="game-note">{selected.note}</p>
         </div>
@@ -633,7 +612,7 @@ function OutletPurchase({
   const [problem, setProblem] = useState<string | null>(null);
   const terms = outlet.purchase;
   if (terms.status === "already-yours") {
-    return <p className="game-note">You own this outlet.</p>;
+    return <p className="game-note">Owned</p>;
   }
   if (terms.priceMinorUnits === null) return null;
   if (terms.status !== "available") {
