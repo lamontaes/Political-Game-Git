@@ -258,11 +258,10 @@ export interface PackBody {
 }
 
 /**
- * Which way the whole person is turned: facing front, or turned three
- * quarters (body, outfit, face and hair all painted turned). A turned view is
- * painted turned one way (PackView.toward) and mirrored for the other.
+ * Which way the whole person is turned: front, three-quarter, side or back.
+ * Three-quarter and side paintings can be mirrored for the other direction.
  */
-export const BODY_VIEWS = ["front", "three-quarter"] as const;
+export const BODY_VIEWS = ["front", "three-quarter", "side", "back"] as const;
 export type BodyView = (typeof BODY_VIEWS)[number];
 export type TurnedBodyView = Exclude<BodyView, "front">;
 
@@ -559,7 +558,11 @@ export function posedPieces(
   const face = pack.faces.find((f) => f.id === recipe.face) ?? pack.faces[0]!;
   const hair = pack.hair.find((h) => h.id === recipe.hair) ?? pack.hair[0]!;
   const views: readonly BodyView[] =
-    recipe.view && recipe.view !== "front" ? [recipe.view, "front"] : ["front"];
+    recipe.view === "side" || recipe.view === "back"
+      ? [recipe.view, "three-quarter", "front"]
+      : recipe.view === "three-quarter"
+        ? ["three-quarter", "front"]
+        : ["front"];
   for (const pose of poseFallbacks(
     presentationPose(recipe.pose ?? "standing", recipe.presentation),
   ))
@@ -640,11 +643,35 @@ export function posedPieces(
         view,
         seated: isSeatedPose(pose),
         /** The side of the picture the drawn figure turns toward. */
-        toward: towardOf(pack, pose, view, recipe.mirrored === true),
+        toward: facingOf(pack, pose, view, recipe),
+        mirrored: mirrorForFacing(pack, pose, view, recipe),
       };
     }
   // Standing in front has no condition above: the loop always returns.
   throw new Error("unreachable: standing in front always resolves");
+}
+
+function mirrorForFacing(
+  pack: PackPresentation,
+  pose: BodyPose,
+  view: BodyView,
+  recipe: EngineRecipe,
+): boolean {
+  if (!recipe.facing) return recipe.mirrored === true;
+  if (view !== "three-quarter" && view !== "side") return false;
+  const painted = towardOf(pack, pose, view, false);
+  return painted !== null && recipe.facing !== painted;
+}
+
+function facingOf(
+  pack: PackPresentation,
+  pose: BodyPose,
+  view: BodyView,
+  recipe: EngineRecipe,
+): "left" | "right" | null {
+  if (!recipe.facing)
+    return towardOf(pack, pose, view, recipe.mirrored === true);
+  return towardOf(pack, pose, view, mirrorForFacing(pack, pose, view, recipe));
 }
 
 function towardOf(
@@ -805,6 +832,8 @@ export interface EngineRecipe {
   readonly pose?: BodyPose;
   /** Facing front unless the scene turns them (pose-chooser.ts). */
   readonly view?: BodyView;
+  /** Desired horizontal direction; turned paintings are mirrored at draw time. */
+  readonly facing?: "left" | "right";
   /** Neutral unless the moment shows on their face (expression-chooser.ts). */
   readonly expression?: FaceExpression;
   /** A facial hair style (FACIAL_HAIR_STYLES), when they wear one. */
@@ -841,6 +870,7 @@ export function engineRecipeKey(recipe: EngineRecipe): string {
       : []),
     ...(glassesOn(recipe) ? [`glasses:${recipe.glasses}`] : []),
     ...(recipe.mirrored ? ["mirrored"] : []),
+    ...(recipe.facing ? [`facing:${recipe.facing}`] : []),
     ...Object.entries(recipe.colors ?? {})
       .sort()
       .map(([part, color]) => `${part}=${color}`),
@@ -938,6 +968,8 @@ export function composeEnginePerson(
   readonly pose: BodyPose;
   /** The view drawn: the recipe's, or front when it has no art. */
   readonly view: BodyView;
+  /** Whether the resolved figure raster is mirrored for its requested facing. */
+  readonly mirrored: boolean;
   /** The expression drawn: the recipe's, or neutral when it has no art. */
   readonly expression: FaceExpression;
   /** For a seated person: the row the seat is at. */
@@ -957,6 +989,7 @@ export function composeEnginePerson(
     facialHair,
     glasses,
     accessories,
+    mirrored,
   } = posedPieces(pack, recipe, available);
   const ramp =
     SKIN_RAMPS[Math.min(SKIN_RAMPS.length, Math.max(1, recipe.shade)) - 1]!;
@@ -1089,12 +1122,13 @@ export function composeEnginePerson(
   );
   const raster = assemblePerson(body.anchors, layers);
   const seatRow = seated ? body.seatRow : undefined;
-  return recipe.mirrored
+  return mirrored
     ? {
         raster: mirrorRaster(raster),
         anchors: mirrorAnchors(body.anchors, raster.width),
         pose,
         view,
+        mirrored,
         expression,
         ...(seatRow === undefined ? {} : { seatRow }),
       }
@@ -1103,6 +1137,7 @@ export function composeEnginePerson(
         anchors: body.anchors,
         pose,
         view,
+        mirrored,
         expression,
         ...(seatRow === undefined ? {} : { seatRow }),
       };
