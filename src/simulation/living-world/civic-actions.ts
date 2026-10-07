@@ -56,8 +56,9 @@ import {
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
  * A contact becomes a recorded message when the resident has a settled view
- * on a policy proposition. Attendance names the existing scheduled council
- * meeting held in the reviewed quarter, dated on that meeting. A
+ * on a policy proposition. A contact to a current officeholder also opens a
+ * case linked to that contact. Attendance names the existing scheduled
+ * council meeting held in the reviewed quarter, dated on that meeting. A
  * scheduled meeting is eligible only on the current review date.
  */
 
@@ -67,6 +68,8 @@ export const CIVIC_ACTION_EVENTS = {
   contacted: "life.contacted-official",
   attended: "life.attended-public-meeting",
 } as const;
+
+export const OFFICE_CASE_OPENED_EVENT = "office.case-opened";
 
 export type CivicMessageChannel = "letter" | "call" | "email";
 export type CivicMessageStance = "yes" | "no";
@@ -507,10 +510,11 @@ export function reviewTownCivicActions(
   // the county's), or, where none is recorded, to their state's or
   // territory's governor.
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  const governor = stateKey
+    ? currentGovernorOf(world, stateKey.slice(3))
+    : null;
   const headOfTown =
-    localHeadOfGovernment(world, residents[0]!) ??
-    (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
-    null;
+    localHeadOfGovernment(world, residents[0]!) ?? governor?.personId ?? null;
   const groupMembers = lawInterestMembersInTown(world, town);
   const issueBeliefs = strongestCivicIssueBeliefs(world);
   const wardRepresentative = (personId: EntityId): EntityId | null => {
@@ -573,6 +577,8 @@ export function reviewTownCivicActions(
           officialId,
           null,
           stake.reason,
+          officers.some((officer) => officer.personId === officialId) ||
+            governor?.personId === officialId,
         );
       }
     }
@@ -640,13 +646,15 @@ function record(
   officialId: EntityId | null,
   meeting: QuarterMeeting | null = null,
   reason: CivicStake["reason"] | null = null,
+  officialHoldsOffice = false,
 ): World {
   const today = world.currentDate;
   if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
-  return recordWorldEvent(world, {
-    stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
+  const contactStableKey = `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`;
+  const next = recordWorldEvent(world, {
+    stableKey: contactStableKey,
     type: CIVIC_ACTION_EVENTS[action],
     occurredAt: meeting?.occurredAt ?? today,
     recordedAt: today,
@@ -700,6 +708,34 @@ function record(
           : null,
       immediateReaction: null,
     },
+  });
+  if (action !== "contacted" || !officialId || !reason || !officialHoldsOffice)
+    return next;
+
+  const contact = recordByStableKey(next.history.events, contactStableKey);
+  if (!contact) return next;
+  return recordWorldEvent(next, {
+    stableKey: `office-case-opened:${contact.id}`,
+    type: OFFICE_CASE_OPENED_EVENT,
+    occurredAt: contact.occurredAt,
+    recordedAt: today,
+    jurisdictionId: town,
+    involvedEntityIds: [personId, officialId],
+    participants: [
+      { personId, role: "focus:subject", detail: null },
+      { personId: officialId, role: "focus:object", detail: null },
+    ],
+    personFactConstraints: [],
+    visibility: "limited",
+    tags: [
+      "office.case",
+      `contact:${contact.id}`,
+      ...contact.tags.filter(
+        (tag) => tag.startsWith("reason:") || tag.startsWith("source-record:"),
+      ),
+    ],
+    summary: contact.summary,
+    context: contact.context,
   });
 }
 
