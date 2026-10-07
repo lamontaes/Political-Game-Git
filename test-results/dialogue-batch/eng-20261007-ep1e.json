@@ -1,15 +1,15 @@
 {
   "id": "eng-20261007-ep1e",
-  "title": "Dialogue batch eng-20261007-ep1e (30 exchanges)",
-  "at": "2026-10-07T18:10:03.594Z",
-  "head": "334dce0b6b93b8a5af6d7ea8d0ecdb5868bec2c7",
+  "title": "Dialogue batch eng-20261007-ep1e (34 exchanges)",
+  "at": "2026-10-07T20:03:07.373Z",
+  "head": "18c9f285cdd062298f54b8096cab6d9c61a99830",
   "status": "open",
   "variety": {
-    "items": 30,
+    "items": 34,
     "places": 6,
     "kinds": {
       "conversation": 0,
-      "legislation": 1,
+      "legislation": 4,
       "winning-and-losing": 0,
       "judges": 0,
       "news": 0,
@@ -18,9 +18,9 @@
       "hearing": 10,
       "meeting": 9,
       "minutes": 0,
-      "notices-and-screens": 0
+      "notices-and-screens": 1
     },
-    "distinctSituationRelationship": 30
+    "distinctSituationRelationship": 34
   },
   "absent": [
     {
@@ -46,10 +46,6 @@
     {
       "kind": "minutes",
       "reason": "no output, because no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one). In these worlds: Tonopah, Arizona: no minutes producer writes in the game yet; County of Maricopa has no recorded meeting or vote to take minutes of; Bothell East, Washington: no minutes producer writes in the game yet; County of Snohomish has no recorded meeting or vote to take minutes of; Chama, New Mexico: no minutes producer writes in the game yet; Village of Chama has no recorded meeting or vote to take minutes of; Lesage, West Virginia: no minutes producer writes in the game yet; County of Cabell has no recorded meeting or vote to take minutes of; Hull, Massachusetts: no minutes producer writes in the game yet; County of Plymouth has no recorded meeting or vote to take minutes of; Leal, North Dakota: no minutes producer writes in the game yet; City of Leal has no recorded meeting or vote to take minutes of; Crookston, Minnesota: no minutes producer writes in the game yet; City of Crookston has no recorded meeting or vote to take minutes of; New River, Arizona: no minutes producer writes in the game yet; County of Maricopa has no recorded meeting or vote to take minutes of"
-    },
-    {
-      "kind": "notices-and-screens",
-      "reason": "no output, because no notices composer or bank exists yet. In these worlds: Tonopah, Arizona: no notices bank or composer exists yet; Bothell East, Washington: no notices bank or composer exists yet; Chama, New Mexico: no notices bank or composer exists yet; Lesage, West Virginia: no notices bank or composer exists yet; Hull, Massachusetts: no notices bank or composer exists yet; Leal, North Dakota: no notices bank or composer exists yet; Crookston, Minnesota: no notices bank or composer exists yet; New River, Arizona: no notices bank or composer exists yet"
     }
   ],
   "items": [
@@ -57,7 +53,7 @@
       "i": 0,
       "situation": "The player's journal, the chapter \"At 28\" (2026). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I lived in Tonopah, Arizona. I noted my reservations about the proposal privately. I met Samuel Pratt through Mason.",
+      "reply": "Your journal: I lived in Tonopah, Arizona. I noted my reservations about the proposal privately. Corey Blake's household moved into an apartment: they had no home in town yet. I met Samuel Pratt through Mason.",
       "part": "journal:chapter:phase:chapter:28",
       "parts": [
         "journal:chapter:phase:chapter:28"
@@ -82,7 +78,7 @@
       "i": 1,
       "situation": "The player's journal, the chapter \"2015\" (2015). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I finished at Stone Bridge High School in December 2015. My work as a store assistant at Tonopah Market ended.",
+      "reply": "Your journal: I finished at Tonopah Valley High School in December 2015. My work as a store assistant at Tonopah Market ended.",
       "part": "journal:chapter:year:2015",
       "parts": [
         "journal:chapter:year:2015"
@@ -132,7 +128,7 @@
       "i": 3,
       "situation": "The player's journal, the chapter \"2011\" (2011). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I finished at Martin Luther King Middle School in December 2011. I was enrolled at Stone Bridge High School.",
+      "reply": "Your journal: I finished at Saddle Mountain Unified School District (4254) in December 2011. I was enrolled at Tonopah Valley High School.",
       "part": "journal:chapter:year:2011",
       "parts": [
         "journal:chapter:year:2011"
@@ -157,7 +153,7 @@
       "i": 4,
       "situation": "The player's journal, the chapter \"2008\" (2008). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I was enrolled at Martin Luther King Middle School.",
+      "reply": "Your journal: I was enrolled at Saddle Mountain Unified School District (4254).",
       "part": "journal:chapter:year:2008",
       "parts": [
         "journal:chapter:year:2008"
@@ -207,7 +203,7 @@
       "i": 6,
       "situation": "The player's journal, the chapter \"2004\" (2004). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I transferred out of Tonopah Elementary School because household move changed school context.",
+      "reply": "Your journal: I transferred out of Saddle Mountain Unified School District (4254) because household move changed school context.",
       "part": "journal:chapter:year:2004",
       "parts": [
         "journal:chapter:year:2004"
@@ -230,12 +226,12 @@
     },
     {
       "i": 7,
-      "situation": "The player's journal, the chapter \"2002\" (2002). In Tonopah, Arizona, on January 14, 2026.",
+      "situation": "The player's journal, the chapter \"At 6\" (2003). In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
-      "reply": "Your journal: I was enrolled at Tonopah Elementary School.",
-      "part": "journal:chapter:year:2002",
+      "reply": "Your journal: A household move changed the child's local routine.",
+      "part": "journal:chapter:phase:chapter:6",
       "parts": [
-        "journal:chapter:year:2002"
+        "journal:chapter:phase:chapter:6"
       ],
       "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
       "kind": "journal",
@@ -280,6 +276,81 @@
     },
     {
       "i": 9,
+      "situation": "The short title of LD 2, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This title may be cited as the \"Limit groundwater withdrawal\".",
+      "part": "bank:legislation.short-title.this-title-may-be-cited-as-the",
+      "parts": [
+        "bank:legislation.short-title.this-title-may-be-cited-as-the"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 10,
+      "situation": "The short title of LD 3, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Dedicated parks funding\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 11,
+      "situation": "The short title of LD 4, a filed measure. In Tonopah, Arizona, on January 14, 2026.",
+      "prior": "",
+      "reply": "Bill text: Short title. This Act may be cited as the \"Shift highway funds to transit\".",
+      "part": "bank:legislation.short-title.this-act-may-be-cited-as-the-act",
+      "parts": [
+        "bank:legislation.short-title.this-act-may-be-cited-as-the-act"
+      ],
+      "composer": "readLegislationBank in bank-english.ts",
+      "kind": "legislation",
+      "cell": {
+        "register": "everyday",
+        "kind": "legislation",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Tonopah, Arizona",
+        "pose": null,
+        "ageBand": "young-adult"
+      },
+      "seed": "eng-20261007-ep1e:0"
+    },
+    {
+      "i": 12,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: thanks. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you, Chair.",
@@ -304,7 +375,7 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 10,
+      "i": 13,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: answer. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: That is a great question.",
@@ -329,7 +400,7 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 11,
+      "i": 14,
       "situation": "A hearing exchange before County of Maricopa, from its recorded seats. Move: chair procedure. In Tonopah, Arizona, on January 14, 2026.",
       "prior": "",
       "reply": "At the hearing: Good morning.",
@@ -354,10 +425,10 @@
       "seed": "eng-20261007-ep1e:0"
     },
     {
-      "i": 12,
+      "i": 15,
       "situation": "The player's journal, the chapter \"2026\" (2026). In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
-      "reply": "Your journal: I lived in Bothell East, Washington. I began working as a cashier at Main Street Market.",
+      "reply": "Your journal: I lived in Bothell East, Washington. I began working as a cashier at Snohomish County Market.",
       "part": "journal:chapter:year:2026",
       "parts": [
         "journal:chapter:year:2026"
@@ -379,7 +450,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 13,
+      "i": 16,
       "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: thanks. In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for that answer.",
@@ -404,7 +475,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 14,
+      "i": 17,
       "situation": "A hearing exchange before County of Snohomish, from its recorded seats. Move: answer. In Bothell East, Washington, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for the question.",
@@ -429,7 +500,7 @@
       "seed": "eng-20261007-ep1e:1"
     },
     {
-      "i": 15,
+      "i": 18,
       "situation": "The short title of ORD 1, a filed measure. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "Bill text: Short title. This title may be cited as the \"Meeting Room Evening Hours Ordinance\".",
@@ -454,7 +525,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 16,
+      "i": 19,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: opener. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I rise today to honor the life of a true public servant.",
@@ -479,7 +550,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 17,
+      "i": 20,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: procedural. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I missed a vote today.",
@@ -504,7 +575,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 18,
+      "i": 21,
       "situation": "What a member says to the chair of Village of Chama, from its recorded seats. Move: closer. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Madam Chair, I will be brief.",
@@ -529,7 +600,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 19,
+      "i": 22,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: thanks. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Oh, thank you.",
@@ -554,7 +625,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 20,
+      "i": 23,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: answer. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Yes, thank you for that.",
@@ -579,7 +650,7 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 21,
+      "i": 24,
       "situation": "A hearing exchange before Village of Chama, from its recorded seats. Move: chair procedure. In Chama, New Mexico, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Without objection.",
@@ -604,7 +675,32 @@
       "seed": "eng-20261007-ep1e:2"
     },
     {
-      "i": 22,
+      "i": 25,
+      "situation": "Recorded local measure ORD 1, introduced January 5, 2026. In Chama, New Mexico, on January 5, 2026.",
+      "prior": "",
+      "reply": "Screen: Council Resolutions and Ordinances: ORD 1, Meeting Room Evening Hours Ordinance",
+      "part": "bank:notice.ordinance.council-ordinances",
+      "parts": [
+        "bank:notice.ordinance.council-ordinances"
+      ],
+      "composer": "readNoticesBank in bank-english.ts",
+      "kind": "notices-and-screens",
+      "cell": {
+        "register": "everyday",
+        "kind": "notices-and-screens",
+        "relationship": "self",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Chama, New Mexico",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "eng-20261007-ep1e:2"
+    },
+    {
+      "i": 26,
       "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: thanks. In Lesage, West Virginia, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for that.",
@@ -629,7 +725,7 @@
       "seed": "eng-20261007-ep1e:3"
     },
     {
-      "i": 23,
+      "i": 27,
       "situation": "A hearing exchange before County of Cabell, from its recorded seats. Move: answer. In Lesage, West Virginia, on January 5, 2026.",
       "prior": "",
       "reply": "At the hearing: Thank you for your question.",
@@ -654,7 +750,7 @@
       "seed": "eng-20261007-ep1e:3"
     },
     {
-      "i": 24,
+      "i": 28,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: opener. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I rise today with a profound sense of loss.",
@@ -679,7 +775,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 25,
+      "i": 29,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: procedural. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I have a motion at the desk.",
@@ -704,7 +800,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 26,
+      "i": 30,
       "situation": "What a member says to the chair of City of Leal, from its recorded seats. Move: closer. In Leal, North Dakota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I have no more speakers.",
@@ -729,7 +825,7 @@
       "seed": "eng-20261007-ep1e:5"
     },
     {
-      "i": 27,
+      "i": 31,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: opener. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I thank the chair for the time.",
@@ -754,7 +850,7 @@
       "seed": "eng-20261007-ep1e:6"
     },
     {
-      "i": 28,
+      "i": 32,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: procedural. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I move to proceed to executive session.",
@@ -779,7 +875,7 @@
       "seed": "eng-20261007-ep1e:6"
     },
     {
-      "i": 29,
+      "i": 33,
       "situation": "What a member says to the chair of City of Crookston, from its recorded seats. Move: closer. In Crookston, Minnesota, on January 5, 2026.",
       "prior": "",
       "reply": "A member: Mr. Chair, I will be brief.",
