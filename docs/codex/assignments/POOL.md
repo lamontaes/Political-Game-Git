@@ -553,7 +553,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-46 | Coverage-eligibility tax-kind registration red (Session 21) | BUGS.md BG-46 | done #47d9af1 | |
 | BG-47 | A town with no government (Atu Station) | BUGS.md BG-47 | open | |
 | BG-48 | The President loses her title in her record | BUGS.md BG-48 | done #810c1939b | |
-| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | open | |
+| BG-49 | State legislators are silently skipped | BUGS.md BG-49 | unsupported: no sourced sitting trigger or nonsitting action contract | |
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | open | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | open | |
@@ -953,7 +953,7 @@ open: rebase on main (conflicts) | |
 | BG-68 | offer-another-day reply grammar ("I can't do on January 15")                                                                                                                                                                   | src/presentation/contextual-scene-families.ts | open (every PR includes a fresh dialogue-batch run) |         |
 | BG-69 | conversations far too rare (3 in 56 life-days); fix the cause                                                                                                                                                                  | dialogue report                               | open (every PR includes a fresh dialogue-batch run) |         |
 | BG-71 | reporter question leaks "declined to comment" and a byline                                                                                                                                                                     | src/presentation/press-english.ts             | open (every PR includes a fresh dialogue-batch run) |         |
-| DH-1  | dialogue-batch reaches officials' views, greet-again and press answers; hourly batch on fresh seeds after                                                                                                                      | scripts/dialogue-batch                        | open (every PR includes a fresh dialogue-batch run) |         |
+| DH-1  | dialogue-batch reaches officials' views, greet-again and press answers; hourly batch on fresh seeds after                                                                                                                      | scripts/dialogue-batch                        | ready #3382                                         |         |
 
 ## Art (Oct 6)
 
