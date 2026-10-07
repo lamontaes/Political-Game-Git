@@ -88,7 +88,11 @@ function metSomebody(town: string, placeKey: string) {
     openOrdinaryLife(game.world, playerId),
     playerId,
   );
-  const option = meetingNewOptions(world, playerId)[0]!;
+  // The group just joined, as the test always meant: a grown-up start now
+  // holds a job, so the first option offered may be the people there.
+  const option = meetingNewOptions(world, playerId).find(
+    (candidate) => candidate.setting === "group",
+  )!;
   world = goMeetSomebodyNew(world, {
     personId: playerId,
     setting: option.setting,
@@ -266,21 +270,28 @@ describe("somebody who raised you is never somebody to ask out", () => {
       }),
     ).game!;
     const playerId = game.playerPersonId;
-    const opened = openOrdinaryLife(game.world, playerId);
-    const authority = opened.history.childAuthorities.find(
+    const generated = openOrdinaryLife(game.world, playerId);
+    const authority = generated.history.childAuthorities.find(
       (record) =>
         record.childPersonId === playerId && record.holder.kind === "person",
     )!;
     expect(authority).toBeDefined();
     const guardianId = (authority.holder as { personId: EntityId }).personId;
     // The case that was reported: no kinship record joins the two of them.
-    expect(
-      opened.history.kinshipRelationships.some(
-        (kin) =>
-          kin.personIds.includes(playerId) &&
-          kin.personIds.includes(guardianId),
-      ),
-    ).toBe(false);
+    // A generated start now records the guardian's kinship, so the case is
+    // made by taking that one record out; the guardianship is the game's own.
+    const joinsThem = (kin: { readonly personIds: readonly EntityId[] }) =>
+      kin.personIds.includes(playerId) && kin.personIds.includes(guardianId);
+    const opened: World = {
+      ...generated,
+      history: {
+        ...generated.history,
+        kinshipRelationships: generated.history.kinshipRelationships.filter(
+          (kin) => !joinsThem(kin),
+        ),
+      },
+    };
+    expect(opened.history.kinshipRelationships.some(joinsThem)).toBe(false);
     const world: World = {
       ...opened,
       people: {
