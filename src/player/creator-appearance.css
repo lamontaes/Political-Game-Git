@@ -271,12 +271,19 @@
   }
 }
 
-/* The figure and choices share a bounded body; action rows never overlay it. */
-.title-tableau--art.front-door .game-title.game-creator--appearance {
+/*
+ * One setup panel (OW-3): every creator step uses the same size and the same
+ * bottom button row, so moving between steps never resizes the panel. The
+ * figure and choices share a bounded body; action rows never overlay it.
+ */
+.title-tableau--art.front-door .game-title.game-creator {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: visible;
+}
+.title-tableau--art.front-door .game-creator > .creator-navigation {
+  margin-top: auto;
 }
 .title-tableau--art.front-door .game-creator--appearance .kit41-creator {
   display: flex;

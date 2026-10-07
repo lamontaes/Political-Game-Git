@@ -1064,7 +1064,7 @@ export function SetupScreen({
             else onBack();
           }}
         >
-          {currentIndex === 0 ? "Return to title" : "Back"}
+          Back
         </button>
         {isCurrent("character") ? (
           <button
@@ -1074,7 +1074,7 @@ export function SetupScreen({
             disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
             onClick={continueCharacter}
           >
-            Next
+            Continue
           </button>
         ) : null}
         {custom && isCurrent("background") ? (
@@ -1084,7 +1084,7 @@ export function SetupScreen({
             data-testid="creator-continue-background"
             onClick={() => advanceTo("begin")}
           >
-            Next
+            Continue
           </button>
         ) : null}
         {onReady && problems.length === 0 ? (
