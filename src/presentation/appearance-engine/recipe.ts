@@ -187,6 +187,8 @@ export interface EngineRecipeOptions {
   readonly officeholder?: () => boolean;
   /** Whether this person is married now (a wedding ring goes on a married person). */
   readonly married?: () => boolean;
+  /** Outfits already worn by other people in this room. Uniforms are exempt. */
+  readonly avoidOutfits?: readonly string[];
 }
 
 /**
@@ -201,16 +203,28 @@ function outfitFor(
   seed: string,
   chosen: string | undefined,
   wear: Exclude<OutfitTag, "uniform"> | undefined,
+  avoidOutfits: readonly string[] = [],
 ): PackOutfit {
   const choice = pack.outfits.find((outfit) => outfit.id === chosen);
   const wanted = wear ?? "casual";
-  if (choice && (!wear || choice.tags.includes(wear))) return choice;
+  const available = (outfit: PackOutfit) => !avoidOutfits.includes(outfit.id);
+  if (choice && (!wear || choice.tags.includes(wear)) && available(choice))
+    return choice;
   const kind = pack.outfits.filter(
+    (outfit) =>
+      outfit.tags.includes(wanted) &&
+      !outfit.tags.includes("uniform") &&
+      available(outfit),
+  );
+  const fallback = pack.outfits.filter(
     (outfit) =>
       outfit.tags.includes(wanted) && !outfit.tags.includes("uniform"),
   );
-  if (kind.length === 0) return choice ?? pack.outfits[0]!;
-  return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;
+  const candidates = kind.length > 0 ? kind : fallback;
+  if (candidates.length === 0) return choice ?? pack.outfits[0]!;
+  return candidates[
+    Math.floor(draw(seed, `outfit:${wanted}`) * candidates.length)
+  ]!;
 }
 
 /**
@@ -232,7 +246,7 @@ export function engineRecipeFor(
     items[Math.floor(draw(seed, question) * items.length)]!;
   const outfit =
     pack.outfits.find((o) => o.id === options.uniform) ??
-    outfitFor(pack, seed, choice?.outfit, options.wear);
+    outfitFor(pack, seed, choice?.outfit, options.wear, options.avoidOutfits);
   const age =
     Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =

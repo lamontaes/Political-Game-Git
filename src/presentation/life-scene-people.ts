@@ -10,7 +10,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
-import { personDayRecipe } from "./day-clothing";
+import { dayClothing, personDayRecipe } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackAvailable,
@@ -711,6 +711,20 @@ export function planLifeScenePeople(
   ].sort((left, right) => left.personId.localeCompare(right.personId));
 
   const plateAspect = scene.plate.width / scene.plate.height;
+  // Reserve ordinary outfits once for the room cast. The person order is
+  // stable, so the same world and room always produce the same distinct looks.
+  const avoidedOutfitsByPersonId = new Map<string, readonly string[]>();
+  const roomOutfits: string[] = [];
+  for (const person of people) {
+    const record = world.people[person.personId];
+    if (!record) continue;
+    avoidedOutfitsByPersonId.set(person.personId, [...roomOutfits]);
+    const uniform = dayClothing(world, record.id).uniform;
+    const recipe = personDayRecipe(world, record, {
+      avoidOutfits: roomOutfits,
+    });
+    if (recipe && !uniform) roomOutfits.push(recipe.outfit);
+  }
 
   const renderAt = (
     person: ScenePerson,
@@ -776,6 +790,7 @@ export function planLifeScenePeople(
               seated,
               activity?.turns ?? [],
             ),
+            avoidOutfits: avoidedOutfitsByPersonId.get(person.personId) ?? [],
           })
         : null;
     if (engine) {
