@@ -72,7 +72,7 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(21);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(22);
     const effectReaders = loadedTraitRegistry().report.packs.flatMap(
       ({ consumedBy }) =>
         Object.entries(consumedBy)
@@ -92,6 +92,7 @@ describe("the one personality trait registry", () => {
       PERSONALITY_TRAIT_REGISTRY.length,
     );
     expect(connected.has("personality-v1:facet-proud")).toBe(true);
+    expect(connected.has("personality-v1:facet-intimacy-guarded")).toBe(true);
     expect(NOT_YET_CONNECTED_TRAITS).not.toContain(
       "personality-v1:facet-proud",
     );
