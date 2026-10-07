@@ -161,6 +161,19 @@ describe("people anchors on every place picture", () => {
     ).toHaveLength(6);
   });
 
+  it("anchors every visible polling-place waiting chair", () => {
+    const spots = STAGES["polling-place"]!.spots;
+    const waiting = spots.filter(
+      (spot) => spot.pose === "sit" && spot.group === "waiting-row",
+    );
+    expect(waiting).toHaveLength(7);
+    expect(new Set(waiting.map((spot) => spot.id)).size).toBe(7);
+    expect(waiting.map((spot) => spot.x).sort((a, b) => a - b)).toEqual([
+      2, 6, 10, 14, 18, 22, 26,
+    ]);
+    expect(waiting.every((spot) => spot.facing === "right")).toBe(true);
+  });
+
   it("anchors the rear plaza bench at city hall", () => {
     const seats = STAGES["city-hall-exterior"]!.spots.filter(
       (spot) => spot.pose === "sit",
