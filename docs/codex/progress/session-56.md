@@ -22,7 +22,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. The L
 - Current main marks LW-10 done in `docs/codex/assignments/POOL.md`. Merged [PR #2516](https://github.com/lamontaes/Political-Game-Git/pull/2516) supplies its mandatory-minimum row. The stock-trading link remains unsized because the source measures descriptive returns and the game has no member holdings for the effect to change (`data/research/outcome-web/links.json#congress-stock-ban-to-member-returns`).
 - LW-11 remains claimed by S20 in the current pool, which marks LW-12 open with a stale S43 claim (`docs/codex/assignments/POOL.md`). Merged [PR #2495](https://github.com/lamontaes/Political-Game-Git/pull/2495) lands the legislative-term-limit effect; its map lists redistricting, automatic registration, and local-authority effects as unsupported (`data/law-consequences/election-state-landings.json`).
 - The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
-- Current branch `session-56-t4` is based on `origin/main` `65d021f80`. T4 random-world choice proofs are in `src/simulation/traits/effects/facet-affectionate-couple.proof.test.ts`; the town-stage producer trace is in `src/simulation/living-world/town-couple-actor-adapter.traits.test.ts`. The answer producer assertion is in `src/simulation/couple-undecided.test.ts`. T3 remains in separate PR #3522.
+- Current branch `session-56-t3` is based on `origin/main` `c8365c50c`. T3 campaign donor and candidate-run proofs are in the changed simulation test files; T4 remains in separate PR #3529.
 
 ---
 
