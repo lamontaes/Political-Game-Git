@@ -563,7 +563,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | open | |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | open | |
-| BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | open | |
+| BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | open | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
@@ -648,7 +648,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: finish it or close it as superseded | |
 | RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | open: draft: finish it or close it as superseded | |
+| RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | ready #2194 | S40 |
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2201 | Teacher salary-floor raises use the shared pay consequence kind | PR #2201 (codex/session21-pay-kind) | open: draft: finish it or close it as superseded | |
@@ -698,7 +698,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2346 | [b12 Part 2] Record procedural motions | PR #2346 (session35/b12-part2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2353 | [Session 33 P2] Add reusable chamber leadership races | PR #2353 (codex/session-33-b10-p2) | open: draft: finish it or close it as superseded | |
 | RS-2356 | Let the player choose their election ballot | PR #2356 (session46/b18-1-player-vote) | open: sent back: failed its own changed checks: tests | |
-| RS-2357 | B23 Part 4: Use local names for generated town employers | PR #2357 (codex/session41-b23-part4) | open: rebase on main (conflicts) | |
+| RS-2357 | B23 Part 4: Use local names for generated town employers | PR #2357 (codex/session41-b23-part4) | done #2357 | |
 | RS-2361 | Part 3: Hire managers with campaign experience | PR #2361 (session27/b02-part3-manager) | open: mergeable: needs a changed-file check | |
 | RS-2362 | Save population-based voting precinct membership beside town wards | PR #2362 (codex/session13-precinct-membership) | open: draft: finish it or close it as superseded | |
 | RS-2364 | [B19 Part 2] Read whole-career public offices | PR #2364 (session39/b19-part2-office) | open: draft: finish it or close it as superseded | |
