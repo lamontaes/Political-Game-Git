@@ -3,7 +3,6 @@ import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-d
 import {
   CONGRESS_COMMITTEE_BY_DOMAIN,
   isCongressRulePack,
-  US_CONGRESS_PACK_ID,
   US_CONGRESS_RULE_PACK,
 } from "../congress-rule-pack";
 import {

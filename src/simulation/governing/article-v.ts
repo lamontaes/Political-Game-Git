@@ -4,6 +4,7 @@ import {
   constitutionalPosition,
   constitutionalActions,
   recordConstitutionalProposalVote,
+  recordArticleVRatification,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
 import { addDays, makeIsoDate } from "../dates";
@@ -806,6 +807,9 @@ export function articleVConventionHandler(
       },
     },
   );
+  const measureId = next.history.constitutionalMeasures!.find(
+    (measure) => measure.stableKey === measureKey,
+  )!.id;
   if (constitutionalPosition(next, measureId).phase === "rejected")
     return done(next, "The convention did not propose the amendment.");
   return done(next, "The convention proposed the amendment to the states.");
@@ -848,8 +852,7 @@ export function articleVStateActionHandler(
 
 export function articleVHandlers() {
   return [
-    [ARTICLE_V_REVIEW, articleVReviewHandler],
     [ARTICLE_V_CONVENTION, articleVConventionHandler],
-    [ARTICLE_V_STATE_ACTION, constitutionalStateActionHandler],
+    [ARTICLE_V_STATE_ACTION, articleVStateActionHandler],
   ] as const;
 }

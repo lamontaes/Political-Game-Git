@@ -1,6 +1,8 @@
 import {
   ARTICLE_V_STATE_KEYS,
   constitutionalPosition,
+  proposeConstitutionalMeasure,
+  type ProposeConstitutionalMeasureInput,
 } from "../constitutional-process";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -9,10 +11,8 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
-  ProposeConstitutionalMeasureInput,
   World,
 } from "../types";
-import { proposeConstitutionalMeasure } from "../constitutional-process";
 
 type ProposalInput = Omit<
   ProposeConstitutionalMeasureInput,

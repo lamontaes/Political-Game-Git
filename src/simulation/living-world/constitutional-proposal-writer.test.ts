@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   constitutionalActions,
@@ -192,48 +192,41 @@ describe.each(places.map((place) => [place.jurisdictionKey]))(
         reason:
           "Explicit supplied cause on the actual saved president; not a simulated tenure finding.",
       };
-      const spy = vi.spyOn(reform, "proposeAmendment");
-      try {
-        const next = advanceFederalAmendment(
-          at,
+      const next = advanceFederalAmendment(
+        at,
+        Number(at.currentDate.slice(0, 4)),
+        cause,
+      );
+      const measure = next.history.constitutionalMeasures!.at(-1)!;
+      expect(measure).toMatchObject({
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        processKind: "federal-amendment",
+        ratificationMode: "state-legislatures",
+        ruleDelta: {
+          kind: "rule-field",
+          field: "executive.term.limit",
+          value: cause.value,
+          applicability: {
+            appliesTo: "terms-beginning-after",
+            countsPriorService: false,
+          },
+        },
+      });
+      const votes = constitutionalActions(next, measure.id).filter(
+        (row) => row.detail.kind === "proposal-vote",
+      );
+      expect(votes.length).toBeGreaterThan(0);
+      expect(votes.length).toBeLessThanOrEqual(2);
+      expect(
+        advanceFederalAmendment(
+          next,
           Number(at.currentDate.slice(0, 4)),
           cause,
-        );
-        expect(spy).toHaveBeenCalledOnce();
-        expect(spy.mock.calls[0]![1]).toMatchObject({
-          jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
-          processKind: "federal-amendment",
-          ratificationMode: "state-legislatures",
-          ruleDelta: {
-            kind: "rule-field",
-            field: "executive.term.limit",
-            value: cause.value,
-            applicability: {
-              appliesTo: "terms-beginning-after",
-              countsPriorService: false,
-            },
-          },
-        });
-        const measure = next.history.constitutionalMeasures!.at(-1)!;
-        const votes = constitutionalActions(next, measure.id).filter(
-          (row) => row.detail.kind === "proposal-vote",
-        );
-        expect(votes.length).toBeGreaterThan(0);
-        expect(votes.length).toBeLessThanOrEqual(2);
-        expect(
-          advanceFederalAmendment(
-            next,
-            Number(at.currentDate.slice(0, 4)),
-            cause,
-          ),
-        ).toBe(next);
-        expect(spy).toHaveBeenCalledOnce();
-        expect(deserializeWorld(serializeWorld(next)).history).toEqual(
-          next.history,
-        );
-      } finally {
-        spy.mockRestore();
-      }
+        ),
+      ).toBe(next);
+      expect(deserializeWorld(serializeWorld(next)).history).toEqual(
+        next.history,
+      );
     });
   },
 );

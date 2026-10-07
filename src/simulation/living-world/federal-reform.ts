@@ -772,7 +772,6 @@ export const federalReformStateActionHandler = constitutionalStateActionHandler;
 
 export function federalReformHandlers() {
   return [
-    [FEDERAL_REFORM_REVIEW, federalReformReviewHandler],
     [FEDERAL_REFORM_STATE_ACTION, constitutionalStateActionHandler],
   ] as const;
 }
