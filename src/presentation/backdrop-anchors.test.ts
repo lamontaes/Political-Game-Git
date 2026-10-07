@@ -100,6 +100,17 @@ describe("people anchors on every place picture", () => {
     ).toHaveLength(6);
   });
 
+  it("anchors the rear plaza bench at city hall", () => {
+    const seats = STAGES["city-hall-exterior"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(3);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(3);
+    expect(seats.filter((spot) => spot.group === "bench-rear")).toMatchObject([
+      { x: 21, y: 61, facing: "viewer", seatY: 58 },
+    ]);
+  });
+
   it("anchors union hall pews along both sides of the aisle", () => {
     const spots = STAGES["union-hall"]!.spots;
     const seats = spots.filter((spot) => spot.pose === "sit");
