@@ -1,5 +1,6 @@
 import { futureDueItemStateAt } from "../future-transitions";
 import { recordByStableKey } from "../history-index";
+import { openConstituentCaseForContact } from "../constituent-cases";
 import { LOCAL_COUNCIL_MEETING } from "./local-council-meetings";
 import { addDays, ageOnDate, daysBetween } from "../dates";
 import { currentGovernorOf } from "../crisis/offices";
@@ -56,8 +57,9 @@ import {
  * land near them; `tests/nationwide/town-civic-actions.test.ts` checks it.
  *
  * A contact becomes a recorded message when the resident has a settled view
- * on a policy proposition. Attendance names the existing scheduled council
- * meeting held in the reviewed quarter, dated on that meeting. A
+ * on a policy proposition. A contact to a current officeholder also opens a
+ * case linked to that contact. Attendance names the existing scheduled
+ * council meeting held in the reviewed quarter, dated on that meeting. A
  * scheduled meeting is eligible only on the current review date.
  */
 
@@ -67,6 +69,8 @@ export const CIVIC_ACTION_EVENTS = {
   contacted: "life.contacted-official",
   attended: "life.attended-public-meeting",
 } as const;
+
+export { OFFICE_CASE_OPENED_EVENT } from "../constituent-cases";
 
 export type CivicMessageChannel = "letter" | "call" | "email";
 export type CivicMessageStance = "yes" | "no";
@@ -134,7 +138,7 @@ export function recordCivicMessage(
         ? latestBelief
         : null;
   const salience = belief?.salience ?? "low";
-  return recordWorldEvent(world, {
+  const next = recordWorldEvent(world, {
     stableKey: input.stableKey,
     type: CIVIC_ACTION_EVENTS.contacted,
     occurredAt: world.currentDate,
@@ -172,6 +176,8 @@ export function recordCivicMessage(
       immediateReaction: null,
     },
   });
+  const contact = recordByStableKey(next.history.events, input.stableKey);
+  return contact ? openConstituentCaseForContact(next, contact) : next;
 }
 
 /** Read saved civic messages for one issue in one jurisdiction. */
@@ -507,10 +513,11 @@ export function reviewTownCivicActions(
   // the county's), or, where none is recorded, to their state's or
   // territory's governor.
   const stateKey = lifePlaceByJurisdictionId(town)?.stateJurisdictionKey;
+  const governor = stateKey
+    ? currentGovernorOf(world, stateKey.slice(3))
+    : null;
   const headOfTown =
-    localHeadOfGovernment(world, residents[0]!) ??
-    (stateKey ? currentGovernorOf(world, stateKey.slice(3)) : null)?.personId ??
-    null;
+    localHeadOfGovernment(world, residents[0]!) ?? governor?.personId ?? null;
   const groupMembers = lawInterestMembersInTown(world, town);
   const issueBeliefs = strongestCivicIssueBeliefs(world);
   const wardRepresentative = (personId: EntityId): EntityId | null => {
@@ -645,8 +652,9 @@ function record(
   if (action === "attended" && !meeting) return world;
   const ids = officialId ? [personId, officialId] : [personId];
   if (meeting) ids.push(meeting.item.id);
-  return recordWorldEvent(world, {
-    stableKey: `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`,
+  const contactStableKey = `${CIVIC_ACTIONS_VERSION}:${town}:${reviewKey}:${action}:${personId}`;
+  const next = recordWorldEvent(world, {
+    stableKey: contactStableKey,
     type: CIVIC_ACTION_EVENTS[action],
     occurredAt: meeting?.occurredAt ?? today,
     recordedAt: today,
@@ -701,6 +709,9 @@ function record(
       immediateReaction: null,
     },
   });
+  if (action !== "contacted") return next;
+  const contact = recordByStableKey(next.history.events, contactStableKey);
+  return contact ? openConstituentCaseForContact(next, contact) : next;
 }
 
 /** How many of each civic action a town's residents took. */

@@ -29,6 +29,7 @@ import {
 import {
   CIVIC_ACTION_EVENTS,
   CIVIC_ACTIONS_VERSION,
+  OFFICE_CASE_OPENED_EVENT,
   reviewTownCivicActions,
 } from "../../src/simulation/living-world/civic-actions";
 import { withWorldIntegrityDeferred } from "../../src/simulation/world";
@@ -180,6 +181,35 @@ describe(
       process.stdout.write(
         `${JSON.stringify({ receipt: "B06 contact reason provenance", seed: SEED, place: PLACE.displayName, placeKey: PLACE.key, worldId: world.id, simulationDate: world.currentDate, examples: contacts.slice(0, 3).map((event) => ({ eventId: event.id, reason: event.tags.find((tag) => tag.startsWith("reason:")), sources: event.tags.filter((tag) => tag.startsWith("source-record:")) })) })}\n`,
       );
+    });
+
+    it("opens one office case per contact to a current officeholder", () => {
+      observeYear();
+      const cases = world.history.events.filter(
+        (event) =>
+          event.type === OFFICE_CASE_OPENED_EVENT &&
+          event.jurisdictionId === town,
+      );
+      expect(cases.length).toBeGreaterThan(0);
+      const linkedContacts = new Set<string>();
+      for (const opened of cases) {
+        const contactId = opened.tags
+          .find((tag) => tag.startsWith("contact:"))
+          ?.slice("contact:".length);
+        expect(contactId).toBeDefined();
+        expect(linkedContacts.has(contactId!)).toBe(false);
+        linkedContacts.add(contactId!);
+        const contact = world.history.events.find(
+          (event) => event.id === contactId,
+        );
+        expect(contact?.type).toBe(CIVIC_ACTION_EVENTS.contacted);
+        expect(opened.involvedEntityIds).toEqual(contact?.involvedEntityIds);
+        for (const tag of contact?.tags ?? []) {
+          if (tag.startsWith("reason:") || tag.startsWith("source-record:"))
+            expect(opened.tags).toContain(tag);
+        }
+        expect(opened.stableKey).toBe(`office-case-opened:${contactId}`);
+      }
     });
 
     it("attendance names its saved meeting record from the real quarter calendar", () => {
