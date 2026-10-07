@@ -52,13 +52,6 @@ const DESTINATIONS = [
   "nav-jobs",
   "nav-places",
   "nav-finances",
-  "nav-municipal",
-  "elsewhere-work",
-  "nav-parties",
-  "nav-politics-budget",
-  "nav-politics-tax",
-  "nav-politics-transit",
-  "nav-politics-conditions",
   "nav-guide",
   "nav-options",
 ] as const;
@@ -100,6 +93,37 @@ async function capture(page: Page, place: string, screen: string) {
   reached.push({ place, screen });
 }
 
+/**
+ * Politics, read by what the hub offers: open it, then press each tab and each
+ * section strip control it draws. A tab this life is not offered is simply not
+ * there to press, so nothing is listed as missed for it.
+ */
+async function readPoliticsHub(page: Page, place: string) {
+  await tryScreen(page, place, "menu:politics", () =>
+    goTo(page, "nav-municipal"),
+  );
+  const idsOf = async (prefix: string) =>
+    page
+      .locator(`[data-testid^="${prefix}"]`)
+      .evaluateAll((nodes) =>
+        nodes.map((node) => node.getAttribute("data-testid") ?? ""),
+      );
+  for (const tab of await idsOf("politics-tab-")) {
+    await tryScreen(page, place, `politics:${tab}`, async () => {
+      await page.getByTestId(tab).click();
+      await expect(page.getByTestId(tab)).toHaveAttribute(
+        "aria-current",
+        "page",
+      );
+    });
+    for (const sub of await idsOf("politics-sub-")) {
+      await tryScreen(page, place, `politics:${tab}:${sub}`, async () => {
+        await page.getByTestId(sub).click();
+      });
+    }
+  }
+}
+
 async function tryScreen(
   page: Page,
   place: string,
@@ -114,6 +138,8 @@ async function tryScreen(
       place,
       screen,
       reason: String((error as Error).message)
+        // eslint-disable-next-line no-control-regex
+        .replace(/\u001b\[[0-9;]*m/g, "")
         .split("\n")[0]!
         .slice(0, 160),
     });
@@ -216,6 +242,7 @@ for (let draw = 0; draw < PLACES; draw += 1) {
       await tryScreen(page, label, `menu:${destination}`, () =>
         goTo(page, destination),
       );
+    await readPoliticsHub(page, label);
     await page.keyboard.press("Escape").catch(() => undefined);
     await tryScreen(page, label, "play:after-one-day", async () => {
       await passShellTime(page, "day");

@@ -12,6 +12,7 @@ import {
  * - engine: the English engine wrote it (a composer registered the text).
  * - kit13: it is one of the owner's approved control labels.
  * - literal: it is written in a source file; the file and line are given.
+ * - formatted: a number, date, time or amount a formatter wrote from a value.
  * - record: the world's own values make up the string (names, titles, figures).
  * - unresolved: none of the above, so it was built from pieces the audit
  *   cannot trace. These are the first to read by hand.
@@ -21,7 +22,13 @@ import {
  * with `alsoRecordValue` set, so a hand-written label never hides as data.
  */
 export type TextOrigin =
-  "engine" | "kit13" | "literal" | "literal-template" | "record" | "unresolved";
+  | "engine"
+  | "kit13"
+  | "literal"
+  | "literal-template"
+  | "formatted"
+  | "record"
+  | "unresolved";
 
 export interface RenderedText {
   readonly text: string;
@@ -50,6 +57,16 @@ export interface ClassifiedText {
   readonly kind: string;
   readonly candidates: number;
 }
+
+const MONTH =
+  "(?:January|February|March|April|May|June|July|August|September|October|November|December)";
+const WEEKDAY = "(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)";
+const FORMATTED = [
+  /^[^A-Za-z]*$/,
+  new RegExp(`^(?:${WEEKDAY},? )?${MONTH}(?: \\d{1,2})?(?:,? \\d{4})?$`),
+  /^\d{1,2}:\d{2} ?[AP]M$/i,
+  /^\d+(?:st|nd|rd|th)$/,
+];
 
 export const KIT13_LABELS: ReadonlySet<string> = new Set(
   JSON.parse(
@@ -114,7 +131,9 @@ export function classifyTexts(input: {
         origin = hits[0]!.via === "literal" ? "literal" : "literal-template";
         file = hits[0]!.file;
         line = hits[0]!.line;
-      } else if (share >= 0.9) origin = "record";
+      } else if (FORMATTED.some((pattern) => pattern.test(text)))
+        origin = "formatted";
+      else if (share >= 0.9) origin = "record";
     }
     rows.set(key, {
       text,

@@ -100,7 +100,9 @@ export function readScreenText(): {
     out.push({ text, kind: "text", testid: nearestId(element) });
   }
   for (const attribute of ["aria-label", "title", "placeholder", "alt"]) {
-    for (const element of document.querySelectorAll(`[${attribute}]`)) {
+    for (const element of Array.from(
+      document.querySelectorAll(`[${attribute}]`),
+    )) {
       const text = (element.getAttribute(attribute) ?? "")
         .replace(/\s+/g, " ")
         .trim();

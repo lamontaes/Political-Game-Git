@@ -158,9 +158,11 @@ export function resolveLiteral(
       }
       from = at + fragment.length;
     }
-    // A fragment of one short word fits almost anything; require more.
+    // A fragment of one short word fits almost anything; require more, or
+    // require the text to begin with the template's opening words ("Pin ${name}").
     const fixed = template.fragments.join("").length;
-    if (fits && fixed >= 8)
+    const opens = normalized.startsWith(template.fragments[0]!);
+    if (fits && (fixed >= 8 || (fixed >= 3 && opens)))
       hits.push({ file: template.file, line: template.line, via: "template" });
   }
   return hits;
