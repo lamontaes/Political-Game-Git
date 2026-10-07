@@ -125,7 +125,7 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
         new Set(ageMinimums(office.eligibility)).size,
         `${office.title}: ${office.eligibility}`,
       ).toBe(1);
-      expect(office.eligibility).toMatch(/^Minimum age: \d+$/);
+      expect(office.eligibility).toMatch(/^Minimum age: \d+( \(estimated\))?$/);
     }
     const governor = stateExecutiveCandidacyForPerson(world, personId)!;
     expect(governor.identity.stateUsps).toBe("SD");

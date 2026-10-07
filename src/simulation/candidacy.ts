@@ -931,11 +931,24 @@ export function candidacyEligibility(
       ? candidateFilingTerms(filingStateUsps, filingFamily)
       : null;
 
+  // The age a sourced rule, a compiled rule or the Constitution sets.
+  function recordedAgeValue(): { value: number; estimated: boolean } | null {
+    if (congress) return { value: congress.minimumAge, estimated: false };
+    if (qualificationRules?.minimumAge.state === "KNOWN")
+      return { value: qualificationRules.minimumAge.value, estimated: false };
+    const assessed = qualificationAssessments.find(
+      (assessment) =>
+        assessment.field === "MINIMUM_AGE" &&
+        assessment.verdict !== "not-evaluated",
+    );
+    const figure = assessed?.reason.match(/(\d+)/)?.[1];
+    return figure ? { value: Number(figure), estimated: false } : null;
+  }
   return {
     eligible: blocks.length === 0,
     minimumAgeEstimate,
     minimumAgeRequirement,
-    minimumAge: minimumAgeValue,
+    minimumAge: minimumAgeValue ?? recordedAgeValue(),
     personId: input.personId,
     pack,
     office: boundOption,
