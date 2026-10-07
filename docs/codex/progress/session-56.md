@@ -24,7 +24,7 @@ Current main marks LW-09 and LW-10 done with unsupported effects recorded. T3 ad
 - The readiness correction is open for review in [PR #3485](https://github.com/lamontaes/Political-Game-Git/pull/3485); it is mergeable and remains unmerged.
 ## Current handoffs
 
-- T3 implementation is in open PR #3522. Generated-world proof tests: `src/simulation/traits/effects/facet-philanthropic-campaign.proof.test.ts` and `src/simulation/traits/effects/facet-ambitious-candidacy.proof.test.ts`; actual candidate producer trace: `src/simulation/election-candidate-prospect.test.ts`.
+- T3 implementation is in open PR #3522. Generated-world proof tests are `src/simulation/traits/effects/facet-philanthropic-campaign.proof.test.ts` and `src/simulation/traits/effects/facet-ambitious-candidacy.proof.test.ts`; the candidate producer trace is in `src/simulation/election-candidate-prospect.test.ts`.
 - T4 implementation is in open PR #3529. Its T4 claim is stale S40; live availability remains unverified because the assignment board fetch failed.
 - T5 source audit found quitting, employee appeals, and commissioner settlements already call the registered job-trait reader; no code gap was found.
 - T6 implementation is in open PR #3535. The broader clemency suite has six generated-state failures on unmodified `main` with identical messages; the focused T6 proof and producer suite passed.
