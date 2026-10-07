@@ -659,9 +659,117 @@
           "clipBelowY": 53.4,
           "role": "general",
           "id": "classroom:spot:5"
+        },
+        {
+          "x": 19.2,
+          "y": 62.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62.5,
+          "seatY": 56.5,
+          "group": "students",
+          "clipBelowY": 48.5,
+          "role": "general",
+          "id": "classroom:spot:6"
+        },
+        {
+          "x": 36.2,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 57,
+          "group": "students",
+          "clipBelowY": 48.5,
+          "role": "general",
+          "id": "classroom:spot:7"
+        },
+        {
+          "x": 86.2,
+          "y": 62.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62.5,
+          "seatY": 56,
+          "group": "students",
+          "clipBelowY": 48.5,
+          "role": "general",
+          "id": "classroom:spot:8"
+        },
+        {
+          "x": 7.2,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 66,
+          "group": "students",
+          "clipBelowY": 54,
+          "role": "general",
+          "id": "classroom:spot:9"
+        },
+        {
+          "x": 31.7,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 66,
+          "group": "students",
+          "clipBelowY": 54,
+          "role": "general",
+          "id": "classroom:spot:10"
+        },
+        {
+          "x": 71.2,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 66.5,
+          "group": "students",
+          "clipBelowY": 54,
+          "role": "general",
+          "id": "classroom:spot:11"
+        },
+        {
+          "x": 96.2,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 66.5,
+          "group": "students",
+          "clipBelowY": 54,
+          "role": "general",
+          "id": "classroom:spot:12"
+        },
+        {
+          "x": 22.4,
+          "y": 95,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 95,
+          "seatY": 83,
+          "group": "students",
+          "clipBelowY": 66.5,
+          "role": "general",
+          "id": "classroom:spot:13"
+        },
+        {
+          "x": 80.4,
+          "y": 95,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 95,
+          "seatY": 83,
+          "group": "students",
+          "clipBelowY": 66.5,
+          "role": "general",
+          "id": "classroom:spot:14"
         }
       ],
-      "measuredFrom": "teacher's desk 0.75 m foot 57.3 top 43.2 (0.74); first-row student desk 0.75 m foot about 65 top 44.4 (0.80)",
+      "measuredFrom": "teacher's desk 0.75 m foot 57.3 top 43.2 (0.74); first-row student desk 0.75 m foot about 65 top 44.4 (0.80); October 7 ART-5: ten student chairs with in-frame floor contacts and teacher chair recorded; nine added student positions estimated from native midday painting, about 1–2 percentage points uncertainty, larger on hidden cushions; two foreground chair backs extend beyond the picture and require off-frame foot calibration before admission; original spots and floor scale retained",
       "surfaceSlots": [
         {
           "surfaceId": "classroom-whiteboard",
@@ -4325,9 +4433,78 @@
           "depth": 70,
           "role": "general",
           "id": "public-library:spot:6"
+        },
+        {
+          "x": 10.2,
+          "y": 78,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 78,
+          "seatY": 68.5,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:7"
+        },
+        {
+          "x": 20.6,
+          "y": 83.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 83.5,
+          "seatY": 73.3,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:8"
+        },
+        {
+          "x": 27,
+          "y": 75.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 75.5,
+          "seatY": 64.1,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:9",
+          "clipBelowY": 61.1
+        },
+        {
+          "x": 39,
+          "y": 69.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 69.1,
+          "seatY": 62.7,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:10",
+          "clipBelowY": 58
+        },
+        {
+          "x": 49.6,
+          "y": 65.9,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 65.9,
+          "seatY": 59.4,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:11",
+          "clipBelowY": 59.1
+        },
+        {
+          "x": 47.8,
+          "y": 71.7,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71.7,
+          "seatY": 64.8,
+          "group": "table",
+          "role": "general",
+          "id": "public-library:spot:12"
         }
       ],
-      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m",
+      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m; October 7 ART-5: all eight reading-table chairs and one reference chair recorded; six additional cushion/foot positions estimated from native midday painting, about 1–2 percentage points uncertainty, larger on hidden far-side cushions; original three seats and floor scale retained",
       "surfaceSlots": []
     },
     "public-meeting-room": {
