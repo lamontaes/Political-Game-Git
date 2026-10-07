@@ -564,7 +564,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | open | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #5060835 | |
-| BG-60 | Wrong font in places | BUGS.md BG-60 | ready #3517 | |
+| BG-60 | Wrong font in places | BUGS.md BG-60 | done #3517 | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
@@ -992,7 +992,7 @@ open: rebase on main (conflicts) | |
 | MR-15 | Strip every authored sentence, helper line, explanation and developer word from the Journal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #2937                                |
 | MR-16 | Strip every authored sentence, helper line, explanation and developer word from the Guide screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #2935                                |
 | MR-17 | Strip every authored sentence, helper line, explanation and developer word from the Municipal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2934, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
-| MR-18 | Strip every authored sentence, helper line, explanation and developer word from the Measure paper screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.          | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-18 | Strip every authored sentence, helper line, explanation and developer word from the Measure paper screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.          | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3527                             | Builder L3 (anyone if silent 60 min) |
 | MR-19 | Strip every authored sentence, helper line, explanation and developer word from the Press screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #3201                             | Builder L3 (anyone if silent 60 min) |
 
 ## County (owner order Oct 6: essential; waits behind nothing)
