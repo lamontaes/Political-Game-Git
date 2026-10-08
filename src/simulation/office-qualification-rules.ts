@@ -40,10 +40,8 @@
 
 import { addDays, ageOnDate, completedMonthsBetween } from "./dates";
 import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
-import {
-  OFFICE_QUALIFICATIONS_META,
-  OFFICE_QUALIFICATION_ROWS,
-} from "./office-qualifications.generated";
+import { OFFICE_QUALIFICATIONS_META } from "./office-qualifications.generated";
+import { researchRuleTable } from "./research-rule-tables";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type { RuleSourceRef, RuleValue } from "./legislature-rules";
 import type { IsoDate, Person } from "./types";
@@ -124,9 +122,9 @@ export interface SourcedQualification {
   readonly notes: string | null;
 }
 
-const ROWS: readonly SourcedQualification[] = JSON.parse(
-  OFFICE_QUALIFICATION_ROWS,
-) as readonly SourcedQualification[];
+const ROWS: readonly SourcedQualification[] = researchRuleTable(
+  "officeQualifications",
+).rows as readonly SourcedQualification[];
 
 export { OFFICE_QUALIFICATIONS_META };
 

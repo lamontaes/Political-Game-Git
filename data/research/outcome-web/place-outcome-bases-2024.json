@@ -2050,10 +2050,10 @@
         "nationalShare": 0.6,
         "waveMonthlyChance": 0.00125,
         "waveSdLogit": 0.25,
-        "minPct": 0.1,
+        "minPct": 0,
         "maxPct": 30000
       },
-      "note": "2015 is the latest year the Geological Survey compiled for every county. D.C. and the Virgin Islands pumped no groundwater for irrigation, and Guam, the Northern Mariana Islands and American Samoa are not in the compilation; those places are left out and never zero. The drift is judged.",
+      "note": "This is the 2015 calibration. D.C. and the U.S. Virgin Islands recorded zero groundwater withdrawal for irrigation; those zeros are measured, not missing. ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration.",
       "places": {
         "US-AK": 1.5,
         "US-AL": 98.77,
@@ -2105,7 +2105,12 @@
         "US-WA": 719.54,
         "US-WI": 286.95,
         "US-WV": 0.4,
-        "US-WY": 536.93
+        "US-WY": 536.93,
+        "US-DC": 0,
+        "US-VI": 0,
+        "US-AS": 102.4,
+        "US-GU": 102.4,
+        "US-MP": 102.4
       }
     },
     "farmland.value-per-acre": {

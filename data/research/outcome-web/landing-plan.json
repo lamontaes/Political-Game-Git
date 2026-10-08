@@ -1126,11 +1126,16 @@
       "outcome": "water.irrigation-groundwater",
       "policyArea": "water",
       "sourceArea": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
-      "recipientGroup": "place",
-      "currentStatus": "no-live-consumer",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null
+      "recipientGroup": "recorded agricultural operators (estimated groundwater conservation context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-farm-operator-resource-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39); recipient estimate: USGS 2015 irrigation groundwater withdrawals and USDA NASS 2023 Irrigation and Water Management Survey (https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Farm_and_Ranch_Irrigation/). Current recorded agricultural owners or directing operators in their home state supply an estimated irrigation-resource context. Their existing work cohort is inferred exposure; it does not establish an irrigated parcel, well, water right, pumping allocation, personal withdrawal, crop yield, or income change. Lower pumping is estimated groundwater conservation, not a measured operator benefit. ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts",
+      "unsupportedPlaceReasons": {
+        "US-DC": "USGS 2015 calibration records zero groundwater withdrawal for irrigation; there is no pumping effect to assign.",
+        "US-VI": "USGS 2015 calibration records zero groundwater withdrawal for irrigation; there is no pumping effect to assign."
+      }
     },
     {
       "key": "defense-contracts-to-earnings",
@@ -1250,9 +1255,9 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 99,
+    "person-linked": 100,
     "budget-only": 0,
     "place-number-only": 0,
-    "no-live-consumer": 2
+    "no-live-consumer": 1
   }
 }
