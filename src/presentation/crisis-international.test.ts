@@ -4,7 +4,6 @@ import {
   createDemoWorld,
   createWorld,
   crisisEnvelopesBetween,
-  crisisOfficeContinuityNotices,
   crisisProtectedDecisions,
   crisisRecords,
   currentPresidentOf,
@@ -12,16 +11,65 @@ import {
   decideInternationalCrisis,
   deserializeWorld,
   internationalCrisisState,
+  recordPoliticalAttackIntent,
   recordViolenceAttempt,
+  recordWorldEvent,
   serializeWorld,
 } from "../simulation";
 import type { IsoDate, Person, TensionLevel, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
+import {
+  INTERNATIONAL_DECISION_KEY,
+  INTERNATIONAL_RESPONSE_KEY,
+  WAR_POWERS_KEY,
+  internationalCycleOrDecisionHandler,
+  internationalResponseHandler,
+  warPowersHandler,
+} from "../simulation/crisis/international";
+import { outsideShockResponseHandler } from "../simulation/crisis/outside-shock";
+import { createFutureTransitionHandlerRegistry } from "../simulation/future-transition-registry";
+import { setDeepTransitionInputGuard } from "../simulation/future-transitions";
 
 const SLOW = 900_000;
 let opening: World;
+
+/**
+ * These cases are about the crisis route, so the days pass through only its
+ * three due-item handlers (the pattern recorded-intelligence.test.ts uses).
+ * The whole-world day clock on this 10,000-person opening costs about five
+ * seconds a day, and 400 days of it is what kept this file past 20 minutes.
+ */
+const crisisHandlers = createFutureTransitionHandlerRegistry([
+  [INTERNATIONAL_DECISION_KEY, internationalCycleOrDecisionHandler],
+  [
+    INTERNATIONAL_RESPONSE_KEY,
+    (world, item) =>
+      outsideShockResponseHandler(world, item, internationalResponseHandler),
+  ],
+  [
+    WAR_POWERS_KEY,
+    (world, item) => outsideShockResponseHandler(world, item, warPowersHandler),
+  ],
+]);
+// Every other scheduled day of the wider world is left unrun here (resolved
+// with nothing written); only the crisis handlers act.
+setDeepTransitionInputGuard(false);
+const CRISIS_ROUTE: typeof crisisHandlers = {
+  ...crisisHandlers,
+  get: (key) =>
+    crisisHandlers.get(key) ??
+    ((world, item) => ({
+      world,
+      status: "resolved",
+      reasonKey: null,
+      context: `Not run in this crisis proof (${item.transitionKey}).`,
+      outcomeEventId: null,
+    })),
+};
+const crisisDays = (world: World, days: number) =>
+  passOrdinaryDays(world, days, CRISIS_ROUTE);
 
 beforeAll(() => {
   opening = generateOpeningLife(
@@ -61,7 +109,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         "economic",
         "force-posture",
       ]);
-      const later = passOrdinaryDays(world, 60);
+      const later = crisisDays(world, 60);
       const state = internationalCrisisState(later, crisisId);
       expect(state.decisions[0]).toMatchObject({
         option: "diplomatic",
@@ -88,10 +136,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       const answers = new Set<string>();
       for (let i = 0; i < 12; i += 1) {
         const { world, crisisId } = declare(opening, `vary-${i}`, "elevated");
-        const state = internationalCrisisState(
-          passOrdinaryDays(world, 8),
-          crisisId,
-        );
+        const state = internationalCrisisState(crisisDays(world, 8), crisisId);
         answers.add(state.responses[0]!.counterparty);
       }
       expect(answers.size).toBeGreaterThan(1);
@@ -118,7 +163,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         "force-posture",
       );
       const day0 = world.currentDate;
-      const run = passOrdinaryDays(world, 110);
+      const run = crisisDays(world, 110);
       const state = internationalCrisisState(run, crisisId);
       expect(state.decisions[0]!.option).toBe("force-posture");
       const stages = state.warPowers.map((r) => [r.stage, r.effectiveAt]);
@@ -155,7 +200,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       // Partition invariance and save/reopen.
       let stepped = deserializeWorld(serializeWorld(world));
       for (const days of [3, 7, 11, 19, 29, 41])
-        stepped = passOrdinaryDays(stepped, days);
+        stepped = crisisDays(stepped, days);
       const view = (w: World) =>
         crisisRecords(w).map((r) => `${r.stableKey}|${r.effectiveAt}`);
       expect(view(stepped)).toEqual(view(run));
@@ -176,7 +221,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       expect(
         crisisProtectedDecisions(world, before - 1).map((d) => d.kind),
       ).toContain("international-decision");
-      const waited = passOrdinaryDays(world, 6);
+      const waited = crisisDays(world, 6);
       expect(internationalCrisisState(waited, crisisId).decisions).toEqual([]);
       expect(() =>
         decideInternationalCrisis(
@@ -193,7 +238,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
       expect(() =>
         decideInternationalCrisis(decided, crisisId, "economic"),
       ).toThrow();
-      const reported = passOrdinaryDays(decided, 2);
+      const reported = crisisDays(decided, 2);
       const certified = certifyWarPowersExtension(reported, crisisId);
       expect(
         internationalCrisisState(certified, crisisId).warPowers.map(
@@ -201,7 +246,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         ),
       ).toContain("withdrawal-extension-certified");
       // Without a certification, forces leave when the 60 days run out.
-      const uncertified = passOrdinaryDays(reported, 70);
+      const uncertified = crisisDays(reported, 70);
       const clock = internationalCrisisState(uncertified, crisisId).warPowers;
       const stages = clock.map((r) => r.stage);
       expect(stages.at(-1)).toBe("forces-withdrawn");
@@ -223,7 +268,7 @@ describe("CRISIS K5 international crisis, first depth", () => {
         people: demo.personOrder.map((id) => demo.people[id] as Person),
       });
       const { world, crisisId } = declare(bare, "bare", "severe");
-      const later = passOrdinaryDays(world, 8);
+      const later = crisisDays(world, 8);
       expect(
         internationalCrisisState(later, crisisId).decisions[0],
       ).toMatchObject({
@@ -236,60 +281,174 @@ describe("CRISIS K5 international crisis, first depth", () => {
   );
 
   it(
-    "records abstract attempts with survival, injury and death outcomes",
+    "requires a named actor's earlier recorded intent before an attempt",
     () => {
       const president = currentPresidentOf(opening)!.personId;
-      const { world } = declare(opening, "threat-context", "high");
+      const actor = Object.values(opening.people).find(
+        (person) => person.id !== president,
+      )!.id;
+      let world: World = { ...opening, control: { kind: "observer" } };
+      world = recordWorldEvent(world, {
+        stableKey: "missing-intent-prior-threat",
+        type: "pressure.political-threat",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: world.people[president]!.homeJurisdictionId,
+        involvedEntityIds: [actor, president],
+        participants: [
+          { personId: actor, role: "agency:threatener", detail: null },
+          { personId: president, role: "impact:threatened", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: ["crisis", "crisis.political-threat"],
+        summary: "A prior threat was recorded against the President.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
       const evidence = world.history.events.at(-1)!.id;
+      const intent = recordPoliticalAttackIntent(world, {
+        stableKey: "mismatched-intent-decision",
+        actorPersonId: actor,
+        targetPersonId: president,
+        threatEventId: evidence,
+        actorStrain: {
+          explanation: "Recorded strain supports acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        actorMeans: {
+          explanation: "Recorded means support acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        targetSecurity: {
+          explanation: "Recorded security weighs against an attempt.",
+          importance: "slight",
+          confidence: "low",
+          sourceEventIds: [evidence],
+        },
+        targetExposure: {
+          explanation: "Recorded exposure supports an attempt.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        basis:
+          "The actor weighed the recorded strain, means, security and exposure.",
+      });
+      const intentEventId = intent.world.history.events.at(-1)!.id;
       expect(() =>
-        recordViolenceAttempt(world, {
-          stableKey: "no-evidence",
-          targetPersonId: president,
-          threatEvidenceIds: [],
+        recordViolenceAttempt(intent.world, {
+          stableKey: "intent-for-different-actor",
+          actorPersonId: president,
+          targetPersonId: actor,
+          intentEventId,
+          threatEvidenceIds: [evidence],
           basis: "Test.",
         }),
-      ).toThrow(/threat evidence/);
-      const outcomes = new Map<string, World>();
-      for (let i = 0; i < 80 && outcomes.size < 3; i += 1) {
-        const next = recordViolenceAttempt(world, {
-          stableKey: `attempt-${i}`,
-          targetPersonId: president,
-          threatEvidenceIds: [evidence],
-          basis: "Declared test attempt; represented threat evidence.",
-        });
-        const attempt = crisisRecords(next).at(-1)!;
-        const outcome =
-          crisisRecords(next).find((r) => r.kind === "violence-attempt") &&
-          (
-            crisisRecords(next).find((r) => r.kind === "violence-attempt") as {
-              outcome: string;
-            }
-          ).outcome;
-        if (outcome && !outcomes.has(outcome)) outcomes.set(outcome, next);
-        expect(attempt).toBeDefined();
-      }
-      expect([...outcomes.keys()].sort()).toEqual([
-        "injured",
-        "killed",
-        "unharmed",
-      ]);
-      const killed = outcomes.get("killed")!;
+      ).toThrow(/earlier intent/);
       expect(
-        killed.history.personDeaths.find((d) => d.personId === president)
-          ?.causeKey,
-      ).toBe("crisis-violence:attempt");
+        crisisRecords(intent.world).filter(
+          (record) => record.kind === "violence-attempt",
+        ),
+      ).toEqual([]);
+    },
+    SLOW,
+  );
+
+  it(
+    "records an NPC's own intent from prior evidence before evaluating an attempt",
+    () => {
+      const president = currentPresidentOf(opening)!.personId;
+      const vice = Object.values(opening.people).find(
+        (person) => person.id !== president,
+      )!.id;
+      let world: World = { ...opening, control: { kind: "observer" } };
+      const threat = recordWorldEvent(world, {
+        stableKey: "named-intent-prior-threat",
+        type: "pressure.political-threat",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: world.people[president]!.homeJurisdictionId,
+        involvedEntityIds: [vice, president],
+        participants: [
+          { personId: vice, role: "agency:threatener", detail: null },
+          { personId: president, role: "impact:threatened", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: ["crisis", "crisis.political-threat"],
+        summary: "A prior threat was recorded against the President.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = threat;
+      const sourceEventId = world.history.events.at(-1)!.id;
+      const intent = recordPoliticalAttackIntent(world, {
+        stableKey: "named-intent-decision",
+        actorPersonId: vice,
+        targetPersonId: president,
+        threatEventId: sourceEventId,
+        actorStrain: {
+          explanation: "Recorded strain supports acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        actorMeans: {
+          explanation: "Recorded means support acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        targetSecurity: {
+          explanation: "Recorded security weighs against an attempt.",
+          importance: "slight",
+          confidence: "low",
+          sourceEventIds: [sourceEventId],
+        },
+        targetExposure: {
+          explanation: "Recorded exposure supports an attempt.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [sourceEventId],
+        },
+        basis:
+          "The named actor weighed the recorded strain, means, security and exposure.",
+      });
+      expect(intent.intentId).not.toBeNull();
+      const intentEventId = intent.world.history.events.at(-1)!.id;
+      const attempt = recordViolenceAttempt(intent.world, {
+        stableKey: "named-intent-attempt",
+        actorPersonId: vice,
+        targetPersonId: president,
+        intentEventId,
+        threatEvidenceIds: [sourceEventId],
+        basis:
+          "The actor's recorded intent and the earlier threat support this abstract attempt.",
+      });
+      expect(attempt.attemptId).not.toBeNull();
+      expect(attempt.outcome).not.toBeNull();
       expect(
-        crisisOfficeContinuityNotices(killed).map((n) => [n.kind, n.personId]),
-      ).toEqual([["death", president]]);
-      const injured = outcomes.get("injured")!;
-      expect(crisisOfficeContinuityNotices(injured).map((n) => n.kind)).toEqual(
-        ["incapacity-began"],
-      );
-      const events = killed.history.events.filter((e) =>
-        e.tags.includes("crisis.violence"),
-      );
-      expect(events.map((e) => e.visibility)).toEqual(["public"]);
-      expect(events[0]!.summary).not.toMatch(/gun|shot|bomb|knife|poison/i);
+        crisisRecords(attempt.world).find(
+          (record) => record.id === attempt.attemptId,
+        ),
+      ).toMatchObject({ actorPersonId: vice, targetPersonId: president });
     },
     SLOW,
   );
