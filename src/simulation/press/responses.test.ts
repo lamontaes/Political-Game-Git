@@ -4,6 +4,10 @@ import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import { openMatter } from "./matters";
 import { pressRecordsOfKind } from "./store";
 import { respondToMatter } from "./responses";
+import {
+  enterSupportedTerm,
+  recordedTermFixture,
+} from "../../../tests/fixtures/recorded-legislative-term";
 
 describe("subject matter responses", () => {
   it("records each of the five choices through the shared matter writer", () => {
@@ -54,5 +58,31 @@ describe("subject matter responses", () => {
         `Recorded meaning for ${response}`,
       );
     }
+  });
+
+  it("routes resignation through the office consequence writer", () => {
+    const fixture = recordedTermFixture("player");
+    const world = enterSupportedTerm(fixture.world, fixture.personId);
+    const opened = openMatter(world, {
+      stableKey: "matter-response:resignation",
+      family: "M1",
+      subjectPersonIds: [fixture.personId],
+      occurrenceId: null,
+      originEventId: world.history.events.at(-1)!.id,
+      jurisdictionId: world.people[fixture.personId]!.homeJurisdictionId,
+    });
+    const played = {
+      ...opened.world,
+      control: { kind: "person" as const, personId: fixture.personId },
+    };
+    const answered = respondToMatter(played, {
+      matterId: opened.matter.id,
+      personId: fixture.personId,
+      response: "resign",
+      meaning: "resign",
+    });
+    expect(answered.history.workStatuses.length).toBeGreaterThan(
+      played.history.workStatuses.length,
+    );
   });
 });
