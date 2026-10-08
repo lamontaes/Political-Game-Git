@@ -5,6 +5,7 @@ import { campaigns } from "./campaign-queries";
 import { askToSign } from "./candidate-petitions";
 import {
   candidatePetitionCountDecision,
+  fileCandidatePetition,
   reviewCandidatePetition,
 } from "./candidate-petition-review";
 import { candidateFilingTerms, filingTermsCoverage } from "./candidate-filing-terms";
@@ -83,6 +84,33 @@ describe("candidate petition review", () => {
           : [],
     });
     expect(review.requiredSignatures).toBeGreaterThan(0);
+  });
+
+  it("records the clerk, decision, and reason keys on a rejected filing", () => {
+    const small = smallWorld({
+      place: "US-KY",
+      people: 8,
+      seed: "petition-clerk-filing",
+    });
+    const world = fileForOffice(small.world, small.personId);
+    const campaign = campaigns(world)[0]!;
+    const clerkId = world.personOrder.find((id) => id !== small.personId)!;
+    const filing = fileCandidatePetition(world, campaign.id, clerkId);
+    const event = filing.world.history.events.find(
+      (entry) => entry.id === filing.eventId,
+    );
+    expect(filing.review.accepted).toBe(false);
+    expect(event).toMatchObject({
+      type: "campaign.petition-rejected",
+      participants: [
+        { personId: clerkId, role: "agency:clerk" },
+        { personId: small.personId, role: "agency:candidate" },
+      ],
+    });
+    expect(event?.tags).toContain("reason:petition-insufficient-signatures");
+    expect(fileCandidatePetition(filing.world, campaign.id, clerkId).world).toBe(
+      filing.world,
+    );
   });
 
   it("does not count signatures recorded after the clerk's filing date", () => {
