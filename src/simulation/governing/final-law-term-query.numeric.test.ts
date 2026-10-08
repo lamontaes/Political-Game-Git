@@ -623,8 +623,7 @@ describe("source-first modeled starting-law amount adapter", () => {
       first.evidence.donors.reduce(
         (sum, donor) => sum + donor.value * donor.weight,
         0,
-      ) /
-      first.evidence.donors.reduce((sum, donor) => sum + donor.weight, 0);
+      ) / first.evidence.donors.reduce((sum, donor) => sum + donor.weight, 0);
     expect(first.value).toBe(expectedMean);
     expect(first.estimate.mean).toBe(expectedMean);
     expect(first.estimate.estimatedFrom).toBe(
@@ -632,9 +631,25 @@ describe("source-first modeled starting-law amount adapter", () => {
     );
     expect(first.estimate.spread).toBeGreaterThan(0);
 
+    vi.spyOn(lawReader, "startingLawTermScope").mockReturnValue(CLEAN_SCOPE);
     for (const { usps } of lifePlaceStateIdentities()) {
       const seedA = lawTermWorld(usps);
       const seedB = lawTermWorld(usps);
+      startingLawTermsMock.mockImplementation((law: LawInForce) => {
+        const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
+        const source = SOURCE_TERM_STATES.find(([key]) => key === state);
+        return source && state !== usps
+          ? [
+              {
+                questionKey: CLEAN_STANDARD,
+                key: "target",
+                value: source[1],
+                unit: "ratio",
+                scope: CLEAN_SCOPE,
+              },
+            ]
+          : [];
+      });
       (seedA.world as unknown as { seed: string }).seed = "starting-law-seed-a";
       (seedB.world as unknown as { seed: string }).seed = "starting-law-seed-b";
       const resultA = readOrEstimateFinalEnactedLawTerm(
