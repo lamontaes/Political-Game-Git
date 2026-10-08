@@ -16,10 +16,7 @@ import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
-import {
-  economicContextBindingForPlace,
-  economicContextUnavailableReason,
-} from "../presentation/economic-context-bindings";
+import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import {
   NOTES_VISIBILITY_LABEL,
@@ -1659,7 +1656,6 @@ export function PersonalFinancesWorkspace({
   );
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
-  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1688,6 +1684,7 @@ export function PersonalFinancesWorkspace({
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
+                  data-problem="no-balance-on-record"
                 />
               )}
             </li>
@@ -1763,13 +1760,14 @@ export function PersonalFinancesWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
-            world={world}
-            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
-          <p className="game-note" data-testid="economic-context-unavailable">
-            {economicContextUnavailableReason(economicPlace.key)}
-          </p>
+          <p
+            className="game-note"
+            data-testid="economic-context-unavailable"
+            data-problem="no-county-area"
+            data-place={economicPlace.key}
+          />
         ) : null}
         {economicPlace ? (
           <TownBusinessesPanel
