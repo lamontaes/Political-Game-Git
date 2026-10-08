@@ -4,7 +4,13 @@ import { initializeAllOfficeSalaryFlows } from "../simulation/office-salary";
 import { initializeWorkPayCoverage } from "../simulation/pay-coverage";
 import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-transitions";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
+import { recordOpeningSchoolLocation } from "./opening-school-location";
 import { recordOpeningWorkLocation } from "./opening-work-location";
+import { inClassAt } from "../simulation/living-world/school-presence";
+import {
+  onShiftAt,
+  workSchedulesFor,
+} from "../simulation/living-world/work-schedules";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import {
@@ -523,7 +529,11 @@ function* completeOpeningLifeSteps(
       // not die. Starting it here costs the clock's hot path nothing, and the
       // version gate keeps a legacy replay byte-identical: those saves still
       // start it on their first ordinary-day pass, as before.
-      world: queued,
+      // A pupil in class is placed last, once every classmate the opening
+      // brings in exists. A legacy replay descriptor placed nobody here.
+      world: session.setup.openingDataVersion?.startsWith("playtest65-v")
+        ? recordOpeningSchoolLocation(queued, game.playerPersonId)
+        : queued,
     },
   };
 }
@@ -740,6 +750,14 @@ function establishOpeningLocation(
     )
   )
     return world;
+  // A shift outranks class, as the whereabouts rule has it; off shift, a pupil
+  // in class is at school and not "home".
+  const onShift = workSchedulesFor(world, personId).some((schedule) =>
+    onShiftAt(schedule, world.currentMoment),
+  );
+  // The classmates are people the opening brings in later, so a pupil in class
+  // is placed by `recordOpeningSchoolLocation` once the opening has finished.
+  if (!onShift && inClassAt(world, personId)) return world;
   if (version === "schedule-v1" && pressOpeningApplies(world)) {
     const scheduled = recordOpeningWorkLocation(world, personId);
     if (scheduled !== world) return scheduled;
