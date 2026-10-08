@@ -31,6 +31,7 @@ test("random-place game opens and six rooms preserve contacts and overflow selec
   for (const room of [
     "council-chamber",
     "office",
+    "governor-office",
     "diner",
     "classroom",
     "county-courtroom",

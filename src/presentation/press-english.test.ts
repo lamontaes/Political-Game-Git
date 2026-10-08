@@ -8,8 +8,13 @@ import {
   deserializeWorld,
 } from "../simulation";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../simulation/press-interviews";
+import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  chiefExecutiveJurisdictionName,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { reporterQuestionPacket } from "./press-english";
 import { composeReporterQuestion } from "./press-request";
+import type { EntityId } from "../simulation";
 
 it("keeps a reporter's fallible belief and actual source across Save/Continue", () => {
   // Authored fixture tests provenance, not a random-place game exchange.
@@ -109,6 +114,51 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
   expect(question.ok && question.statement).toBe(
     `What's your take on what's happening in ${world.jurisdictions[event.jurisdictionId!]!.name}?`,
   );
+  expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+  for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
+    const jurisdictionId = `jurisdiction:press-place:${usps}` as EntityId;
+    const name = chiefExecutiveJurisdictionName(usps);
+    const place = {
+      id: jurisdictionId,
+      slug: `press-place-${usps.toLowerCase()}`,
+      name,
+      kind: "state",
+      parentName: null,
+      provenance: {
+        asOf: null,
+        source: null,
+        jurisdiction: jurisdictionId,
+        status: "placeholder" as const,
+      },
+    };
+    const placeWorld = {
+      ...world,
+      jurisdictions: { ...world.jurisdictions, [jurisdictionId]: place },
+      jurisdictionOrder: [...world.jurisdictionOrder, jurisdictionId],
+      history: {
+        ...world.history,
+        events: world.history.events.map((entry) =>
+          entry.id === event.id ? { ...entry, jurisdictionId } : entry,
+        ),
+      },
+    };
+    const placePacket = reporterQuestionPacket(
+      placeWorld,
+      source,
+      reporter,
+      event.id,
+    )!;
+    expect(
+      composeReporterQuestion({
+        subjectSummary: knowledge.believedSummary,
+        terms: "on-record",
+        grounding: placePacket,
+      }),
+    ).toEqual({
+      ok: true,
+      statement: `What's your take on what's happening in ${name}?`,
+    });
+  }
   expect(serializeWorld(world)).toBe(before);
   expect(
     reporterQuestionPacket(

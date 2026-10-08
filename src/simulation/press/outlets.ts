@@ -15,12 +15,12 @@ import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
+import { playSettingsOf } from "../play-settings";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
 } from "../vitality-integrity";
 import { recordWorldEvent } from "../world";
-import { playSettingsOf } from "../play-settings";
 import {
   PRESS_CONTRACT_VERSION,
   PRESS_POLICY_VERSION,
@@ -510,6 +510,34 @@ export function ensurePressHomeCoverage(world: World): World {
   return next;
 }
 
+/** Add state coverage for public events the controlled person attended. */
+export function ensurePressExposureCoverage(world: World): World {
+  if (world.control.kind !== "person") return world;
+  const personId = world.control.personId;
+  const covered = new Set(
+    mediaOutlets(world)
+      .filter((outlet) => outlet.scope === "state")
+      .flatMap((outlet) => outlet.primaryJurisdictionIds),
+  );
+  const exposed = new Set<EntityId>();
+  for (const event of world.history.events) {
+    if (
+      event.visibility !== "public" ||
+      !event.jurisdictionId ||
+      !/attend/i.test(event.type)
+    )
+      continue;
+    if (!event.participants.some((entry) => entry.personId === personId))
+      continue;
+    const state = stateOfJurisdiction(world, event.jurisdictionId);
+    if (state && !covered.has(state)) exposed.add(state);
+  }
+  let next = world;
+  for (const state of [...exposed].sort())
+    next = ensurePressStateCoverage(next, state);
+  return next;
+}
+
 /**
  * The first exposure of a state's politics materializes one state newsroom.
  * Later calls return the World unchanged.
@@ -692,7 +720,7 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
-    editorialStandard: playSettingsOf(world).premises.press,
+    editorialStandard: playSettingsOf(world).pressPremise,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,

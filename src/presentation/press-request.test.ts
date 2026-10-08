@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  chiefExecutiveJurisdictionName,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
   composePressAnswer as renderPressAnswer,
   composePressRequestPitch,
   composeReporterQuestion,
@@ -101,22 +105,27 @@ describe("ordinary press structured statements", () => {
     ).toBe(false);
   });
 
-  it("keeps the reporter question owned by the reporter", () => {
-    const question = composeReporterQuestion({
-      subjectSummary: "The council published the hearing notice.",
-      terms: "on-record",
-      grounding: withTopic(
-        fixturePacket(["The council published the hearing notice."]),
-        "what's happening in Fayette County",
-      ),
-    });
-    expect(question.ok).toBe(true);
-    if (!question.ok) return;
-    expect(question.statement).toBe(
-      "What's your take on what's happening in Fayette County?",
-    );
-    expect(question.statement).not.toContain("Reported by");
-    expect(question.statement).not.toContain("declined to comment");
+  it("keeps the reporter question owned by the reporter across all 56 jurisdictions", () => {
+    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+    for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
+      const name = chiefExecutiveJurisdictionName(usps);
+      const question = composeReporterQuestion({
+        subjectSummary: "The council published the hearing notice.",
+        terms: "on-record",
+        grounding: withTopic(
+          fixturePacket(["The council published the hearing notice."]),
+          `what's happening in ${name}`,
+        ),
+      });
+      expect(question).toEqual({
+        ok: true,
+        statement: `What's your take on what's happening in ${name}?`,
+      });
+      expect(question.ok && question.statement).not.toContain("Reported by");
+      expect(question.ok && question.statement).not.toContain(
+        "declined to comment",
+      );
+    }
   });
 
   it("composes an exact answer from recorded facts before commit", () => {

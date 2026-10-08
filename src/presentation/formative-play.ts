@@ -2,6 +2,7 @@ import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { ORDINARY_DAY_START_MINUTE, passOrdinaryDays } from "./ordinary-life";
 import type { OrdinaryLifeDayAdvance } from "./life-time-handlers";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { playSettingsOf } from "../simulation/play-settings";
 import {
   activeEducationEnrollmentsAt,
   adaptiveSelectionSeed,
@@ -201,6 +202,7 @@ function nextScene(
     }),
     recentKeys: history.slice(-6),
     recentStakes: history.slice(-6).map((key) => situationProfile(key).stakes),
+    challenge: playSettingsOf(world).challengeIntensity,
   });
   if (!selection) return null;
   const situation = pool.find(
