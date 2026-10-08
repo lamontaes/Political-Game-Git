@@ -13,7 +13,7 @@ import {
 import type { LifeRequestDetails } from "./life-request-details";
 import { goalConsiderations } from "./people-goal-pursuit";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import type {
   DecisionConsideration,
   EntityId,
@@ -356,22 +356,7 @@ export function hostDecidesToAsk(
         explanation: "They have been meaning to keep up with people.",
       },
     ]),
-    ...traitConsiderations(withTraits, hostPersonId, keyPrefix, [
-      {
-        optionKey: "ask",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They like a full room.",
-      },
-      {
-        optionKey: "keep-it-small",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They would rather keep it to themselves.",
-      },
-    ]),
   ];
-  if (considerations.length === 0) return null;
   const evaluation = evaluateDecision(withTraits, {
     stableKey: keyPrefix,
     decisionType: "people.invite-over",
