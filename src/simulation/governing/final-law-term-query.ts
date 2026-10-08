@@ -94,9 +94,9 @@ export interface ModeledFinalEnactedLawTerm {
   readonly unit: LawAmountUnit;
   /** Dev/Observer-only estimate evidence. This is never a primary law term. */
   readonly estimate: {
-    readonly median: number;
+    readonly mean: number;
     readonly spread: number;
-    readonly estimatedFrom: "median of recorded states";
+    readonly estimatedFrom: "weighted mean of recorded states";
   };
   readonly evidence: {
     readonly targetJurisdictionId: EntityId;
@@ -838,23 +838,24 @@ export function readOrEstimateFinalEnactedLawTerm(
   const references = [...donors]
     .sort((left, right) => left.stateKey.localeCompare(right.stateKey))
     .map((donor, index) => ({ ...donor, rank: index + 1, weight: 1 }));
-  const sortedValues = references
-    .map((donor) => donor.value)
-    .sort((left, right) => left - right);
-  const middle = Math.floor(sortedValues.length / 2);
-  const median =
-    sortedValues.length % 2 === 1
-      ? sortedValues[middle]!
-      : (sortedValues[middle - 1]! + sortedValues[middle]!) / 2;
+  const totalWeight = references.reduce(
+    (total, donor) => total + donor.weight,
+    0,
+  );
+  const mean =
+    references.reduce(
+      (total, donor) => total + donor.value * donor.weight,
+      0,
+    ) / totalWeight;
   const spread = spreadOf(references.map((donor) => donor.value));
   return {
     kind: "modeled",
-    value: median,
+    value: mean,
     unit: input.unit,
     estimate: {
-      median,
+      mean,
       spread: spread.standardDeviation,
-      estimatedFrom: "median of recorded states",
+      estimatedFrom: "weighted mean of recorded states",
     },
     evidence: {
       targetJurisdictionId: input.jurisdictionId,
