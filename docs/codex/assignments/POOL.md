@@ -655,7 +655,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: stale/draft; fiscal filter red; 2026 Guam/USVI schedules and Arkansas property term absent on main | Session 50 |
 | RS-2201 | Teacher salary-floor raises use the shared pay consequence kind | PR #2201 (codex/session21-pay-kind) | open: stale/draft; main still uses teacher-pay; focused tests pending | Session 50 |
 | RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | done: merged #2202 | Session 50 |
-| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | open: stale vs live main 110460706d1; source-term refresh and focused gate pending | Session 50 |
+| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | blocked: PR closed unmerged as superseded; typed income/unit lawTerms remain absent from main; never reopen | Session 50 |
 | RS-2206 | Add sourced paid leave terms | PR #2206 (codex/session19-labor-law-terms) | open: stale/draft; seven-state/DC leave durations absent; focused completeness gate pending | Session 50 |
 | RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | done: current main uses shared date-bounded crimeCutoff | Session 50 |
 | RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | done: merged #3029 | Session 50 |
@@ -671,14 +671,14 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2229 | Add sourced Session 18 starting law terms | PR #2229 (codex/session18-law-amounts) | open: stale/draft; government-ops terms not yet verified on live main | Session 50 |
 | RS-2232 | Use price-cost stamps for existing rent consequences | PR #2232 (codex/session21-price-kind) | open: current main still uses inclusionary kind in both writers; stale draft | Session 50 |
-| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | open: draft: finish it or close it as superseded | |
-| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
+| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | done: merged source research in #2197 | Session 50 |
+| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | done: numeric law fallback superseded by merged #2295 | Session 50 |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: current main A52 test remains unchanged; stale draft | Session 50 |
-| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | done: coverage thresholds completed by merged #3074 | Session 50 |
 | RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | ready #3568 | Session 35 |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | blocked: owner closed; authored text and unmounted consumer violate rules; never reopen | Session 50 |
-| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | blocked: owner closed as superseded by #2229, but coverage of the terms on main is unverified; do not reopen | Session 50 |
+| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | done: shared law applicability/provenance schema merged #2264 | Session 50 |
+| RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | blocked: owner closed as superseded by #2229; replacement terms not verified on main; never reopen | Session 50 |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | blocked: owner closed for hand-written player text; never reopen | Session 50 |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: local refresh unpushed; latest main 110460706d1 unavailable over git proxy; draft pending recheck | Session 50 |
 | RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | ready #2291 | |
