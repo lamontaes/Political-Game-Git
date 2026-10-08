@@ -174,7 +174,7 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
     },
   );
 
-  it("leaves a cancelled contest unchanged", () => {
+  it("leaves a canceled contest unchanged", () => {
     const f = fixture("finding");
     const cancelled = cancelElectionContest(f.world, {
       stableKey: "fixture:cancel-contest",

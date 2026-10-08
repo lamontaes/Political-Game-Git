@@ -4,13 +4,16 @@ import {
   corpusCanonicalDigest,
   isClean,
   type ArtifactLock,
-} from "../../core/index";
-import { sourceDomain, type PlaceRelationRecord } from "./index";
-import { drawRandomPlace } from "../../../../tests/support/random-place";
+} from "../../../src/source/core/index";
+import {
+  sourceDomain,
+  type PlaceRelationRecord,
+} from "../../../src/source/domains/place-county-relations/index";
+import { drawRandomPlace } from "../../support/random-place";
 import {
   normalizeDistrictPopulationParts,
   type DistrictPopulationBlock,
-} from "./normalize";
+} from "../../../src/source/domains/place-county-relations/normalize";
 
 // Authored source fixtures: the seeded place supplies a key, not a claim
 // about its real blocks, residents, or legislative boundaries.
@@ -41,7 +44,7 @@ describe("normalizeDistrictPopulationParts authored source fixtures", () => {
       JSON.parse(
         readFileSync(
           new URL(
-            `../../../../data/source/place-county-relations/${name}`,
+            `../../../data/source/place-county-relations/${name}`,
             import.meta.url,
           ),
           "utf8",

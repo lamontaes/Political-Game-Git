@@ -104,7 +104,7 @@ function isolateAt(world: World, date: IsoDate, except?: EntityId): World {
       effectiveAt: next.currentDate,
       reasonKey: "civic:fixture-isolation",
       context:
-        "Scoped executive fixture; other due families cancelled, not skipped.",
+        "Scoped executive fixture; other due families canceled, not skipped.",
     });
   }
   return {
