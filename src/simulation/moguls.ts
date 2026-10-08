@@ -1128,6 +1128,17 @@ function reviewAcceptedDeals(world: World): World {
     const key = `mogul-broken:${offer.eventId}`;
     const considerations: DecisionConsideration[] = [
       {
+        stableKey: `${key}:unkept-deal`,
+        optionKey: "go-public",
+        sourceType: "context:own-knowledge",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation:
+          "The official did not take the public stance they agreed to.",
+        sourceRefs: [{ kind: "historical-event", eventId: offer.eventId }],
+      },
+      {
         stableKey: `${key}:own-exposure`,
         optionKey: "let-it-go",
         sourceType: "context:ethics-risk",

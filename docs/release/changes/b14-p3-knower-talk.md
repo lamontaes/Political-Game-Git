@@ -5,4 +5,4 @@ section: Improved
 title: Knower decisions use shared trait actions
 ---
 
-Campaign staff and moguls who know about misconduct now use the shared trait action kinds when deciding whether to speak up or stay quiet. These choices no longer use close-choice randomness.
+Campaign staff and moguls who know about misconduct now use the shared trait action kinds when deciding whether to speak up or stay quiet. Mogul choices also weigh the unkept deal, recorded relationship standing and personal exposure. These choices no longer use close-choice randomness.
