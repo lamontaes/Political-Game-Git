@@ -1,3 +1,5 @@
+import { writeFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { createWorkItem } from "../time-work";
 import type { LawEffectContext } from "../law-effect-stamp";
 import { describe, expect, it } from "vitest";
@@ -94,6 +96,62 @@ describe("saved law permission family", () => {
     );
     expect(saved.lawEffectStamps[0].governingLawKey).toBe(law.measureId);
     expect(saved.sourceRecordIds).toEqual(input.sourceRecordIds);
+    expect(saved.lawEffectStamps[0].effectKind).toBe("right-permission");
+    // A historical label is a saved fixture, not an input accepted by a new writer.
+    const legacyStamp = {
+      ...saved.lawEffectStamps[0],
+      effectKind: "eviction-counsel-representation",
+    };
+    const legacySaved = {
+      ...next,
+      history: {
+        ...next.history,
+        lawPermissionRecords: next.history.lawPermissionRecords!.map(
+          (record) =>
+            record.id === saved.id
+              ? { ...record, lawEffectStamps: [legacyStamp] as const }
+              : record,
+        ),
+      },
+    };
+    const legacyResumed = deserializeWorld(serializeWorld(legacySaved));
+    expect(
+      latestLawPermission(legacyResumed, input.subject, input.permissionKey)
+        ?.lawEffectStamps,
+    ).toEqual([legacyStamp]);
+    expect(
+      latestLawPermission(legacyResumed, input.subject, input.permissionKey)
+        ?.id,
+    ).toBe(saved.id);
+
+    expect(appendLawPermission(legacyResumed, law, context, input)).toBe(
+      legacyResumed,
+    );
+    writeFileSync(
+      "/tmp/session21-permission-kind.json",
+      JSON.stringify(
+        {
+          testedHead: execFileSync("git", ["rev-parse", "HEAD"], {
+            encoding: "utf8",
+          }).trim(),
+          scope:
+            "Authored generic permission review, not an eviction counsel service or representation claim.",
+          seed: world.seed,
+          personId: saved.subject.id,
+          name: personName(next.people[saved.subject.id]!),
+          recordId: saved.id,
+          status: saved.status,
+          governingLawKey: saved.lawEffectStamps[0].governingLawKey,
+          effectKind: saved.lawEffectStamps[0].effectKind,
+          sourceRecordIds: saved.sourceRecordIds,
+          savedLegacyLabel: legacyStamp.effectKind,
+          reloadedSameIdentity: true,
+          repeatedReviewIsIdempotent: true,
+        },
+        null,
+        2,
+      ),
+    );
     const resumed = deserializeWorld(serializeWorld(next));
     expect(
       latestLawPermission(resumed, input.subject, input.permissionKey),

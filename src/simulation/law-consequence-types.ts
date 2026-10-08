@@ -36,7 +36,6 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "cannabis-selective-tax-revenue",
     "congress-voting-seat-tenure",
     "election.state-legislative-candidacy-intent",
-    "eviction-counsel-representation",
     "government-outlay-change",
     "government-program-payment",
     "health-coverage",
