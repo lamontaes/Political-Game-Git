@@ -77,6 +77,13 @@ export interface PlaceOutcomeRecord {
   readonly rangeViolations?: readonly OutcomeRangeViolation[];
 }
 
+/** Stable identity for an immutable measure/place/month outcome observation. */
+export function placeOutcomeRecordId(
+  record: Pick<PlaceOutcomeRecord, "measure" | "jurisdictionId" | "month">,
+): EntityId {
+  return `place-outcome:${record.jurisdictionId}:${record.measure}:${record.month}`;
+}
+
 /** A city's or county's part in its state's value. */
 export interface PlaceOutcomeShare {
   readonly placeKey: string;

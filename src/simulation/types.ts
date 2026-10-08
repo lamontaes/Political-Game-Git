@@ -32,7 +32,11 @@ import type { JudiciaryState } from "./judiciary/types";
 import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
-import type { MediaOutletKey, PressRecord } from "./press/records";
+import type {
+  EditorialStandard,
+  MediaOutletKey,
+  PressRecord,
+} from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -1208,7 +1212,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -3636,6 +3641,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -3677,6 +3684,12 @@ export interface DecisionContext {
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
+  /**
+   * Whether the general trait system adds its reasons to this decision: `"on"`
+   * when left out. Only a test or fixture about something other than
+   * personality passes `"off"`. See `traits/act-pulls.ts`.
+   */
+  readonly traitActs?: "on" | "off";
 }
 
 export type DecisionPreference =
@@ -4494,20 +4507,29 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
 }
 
 /** Append-only attribution of a sentence already written by the court. */
-export interface LegalOutcomeConsequenceRecord {
+interface LegalOutcomeConsequenceRecordBase {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
-  readonly sentenceEventId: EntityId;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
-  readonly effectKind: "minimum-custody-months";
-  readonly minimumMonths: number;
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
+
+export type LegalOutcomeConsequenceRecord =
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "minimum-custody-months";
+      readonly sentenceEventId: EntityId;
+      readonly minimumMonths: number;
+    })
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "juvenile-jurisdiction-ceiling";
+      readonly caseStageEventId: EntityId;
+      readonly juvenileCourtAgeCeiling: number;
+    });
 
 /**
  * One dated entry in a person's childhood record (`childhood-record.ts`).
@@ -5294,11 +5316,18 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Optional per-case policy for a person holding a judicial seat. */
+  readonly judicialCaseworkModes?: Partial<
+    Record<JudicialCaseKind, JudicialCaseworkMode>
+  >;
   /** Absent on older saves; readers treat it as `what-matters`. */
   readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
+
+export type JudicialCaseKind = "criminal" | "civil" | "law-review";
+export type JudicialCaseworkMode = "player-handles" | "decide-as-usual";
 
 export type OfficeVoteInstructionDisposition =
   "yea" | "nay" | "present-not-voting";
@@ -5878,11 +5907,19 @@ export interface SetupPriorStore {
 }
 
 export type SaveMode = "free" | "one-save";
+export type NotesVisibility = "full" | "light" | "none";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
   readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
+  /** Controls when player-known reminders appear on person cards. */
+  readonly notesVisibility: NotesVisibility;
+  /** New-game-only outlet standard, copied to outlets when they are founded. */
+  readonly pressPremise: EditorialStandard;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }
