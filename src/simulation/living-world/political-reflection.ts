@@ -15,6 +15,7 @@ import type {
 } from "../types";
 import { politicalCultureFactors } from "../nationwide-world/political-culture";
 import { principledLeaning } from "../governing/officeholder-principles";
+import { politicalOutcomeFactors } from "./political-reflection-outcomes";
 import {
   exposureReflectionKey,
   POLITICAL_REFLECTION_TRANSITION_KEY,
@@ -258,5 +259,11 @@ function factorsFor(
   return [
     ...principle,
     ...politicalCultureFactors(world, personId, exposure.propositionId),
+    ...politicalOutcomeFactors(
+      world,
+      personId,
+      exposure.propositionId,
+      exposure.id,
+    ),
   ];
 }
