@@ -298,10 +298,13 @@ export function ensureEmployerCashPositions(
     }
     const row = payroll.get(flow.source.organizationId) ?? {
       annualMinor: 0,
+      firstPayrollMinor: 0,
       flowIds: [],
       termsIds: [],
     };
     if (periods !== null) row.annualMinor += terms.amount.minorUnits * periods;
+    // Keep one full pay cycle alongside the working-cash reserve.
+    row.firstPayrollMinor += terms.amount.minorUnits;
     row.flowIds.push(flow.id);
     row.termsIds.push(terms.id);
     payroll.set(flow.source.organizationId, row);
@@ -369,14 +372,16 @@ export function ensureEmployerCashPositions(
           industries[profile.classification] ?? "all-small-businesses";
         const bufferDays = medians[industry]!;
         const minor = Math.round(
-          ((pay.annualMinor + annualOtherCostsMinor) / daysInYear) * bufferDays,
+          ((pay.annualMinor + annualOtherCostsMinor) / daysInYear) *
+            bufferDays +
+            pay.firstPayrollMinor,
         );
         if (!Number.isSafeInteger(minor) || minor <= 0)
           throw new Error(
             `Invalid sourced employer opening cash for ${organizationId}.`,
           );
         amount = money(minor, USD);
-        note = `ESTIMATED OPENING STOCK: own recorded monthly payroll ${pay.annualMinor / 12} USD minor units plus estimated monthly other costs ${annualOtherCostsMinor / 12}, multiplied by 12/${daysInYear} calendar days and ${bufferDays} median cash-buffer days (${industry}). ${cashBuffers.source}, ${cashBuffers.citation}; ${cashBuffers.url}. ${cashBuffers.definition} Other costs reuse IRS 2022 Table 5.1 ${costs.industry}: payShare=${costs.payShare}, margin=${costs.margin}. ${industry === "all-small-businesses" ? cashBuffers.fallbackMethod : "Saved classification matches named source industry."} Saved payroll flows ${pay.flowIds.join(", ")}; terms ${pay.termsIds.join(", ")}; profile ${profile.id}. No wage payment, revenue or tax receipt recorded.`;
+        note = `ESTIMATED OPENING STOCK: researched ${bufferDays}-day cash buffer (${industry}) plus first-payroll reserve ${pay.firstPayrollMinor} USD minor units from active recorded pay agreements. Buffer estimate annualizes recorded payroll ${pay.annualMinor} and IRS-ratio other costs ${annualOtherCostsMinor} over ${daysInYear} calendar days. ${cashBuffers.source}, ${cashBuffers.citation}; ${cashBuffers.url}. ${cashBuffers.definition} Other costs reuse IRS 2022 Table 5.1 ${costs.industry}: payShare=${costs.payShare}, margin=${costs.margin}. ${industry === "all-small-businesses" ? cashBuffers.fallbackMethod : "Saved classification matches named source industry."} Saved payroll flows ${pay.flowIds.join(", ")}; terms ${pay.termsIds.join(", ")}; profile ${profile.id}. No wage payment, revenue or tax receipt recorded.`;
       }
       next = createResourcePosition(next, {
         stableKey: `employer-cash:${organizationId}:USD`,

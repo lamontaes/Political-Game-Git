@@ -991,7 +991,12 @@ export function ensureTownOpeningBusinessBooks(
       );
       books[organizationId] = {
         ...opened,
-        cash: cash ? cash.liquidBalance.minorUnits / 100 : opened.cash,
+        // Opening books carry the researched working-capital estimate. An empty or
+        // partial position must not erase cash for first payroll and the buffer.
+        cash: Math.max(
+          opened.cash,
+          cash ? cash.liquidBalance.minorUnits / 100 : 0,
+        ),
       };
     }
     towns.add(profile.locationJurisdictionId);

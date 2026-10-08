@@ -2067,8 +2067,23 @@ export function settleTownCompensations(
         const assessCash = createDatedCashPaymentReader(initial);
         // Settle in payday order, reading each prior payment before the next worker.
         // The shared dated-cash reader also preserves cash spent after an overdue day.
-        for (const input of inputs.sort((a, b) =>
-          a.occurredAt.localeCompare(b.occurredAt),
+        const seniority = (input: RecordResourceTransferOutcomeInput) => {
+          const flow = recordById(
+            initial.history.resourceFlows,
+            input.resourceFlowId,
+          );
+          return flow?.basisReference.kind === "work"
+            ? (recordById(
+                initial.history.workRelationships,
+                flow.basisReference.workRelationshipId,
+              )?.startedAt ?? "9999-12-31")
+            : "9999-12-31";
+        };
+        for (const input of inputs.sort(
+          (a, b) =>
+            a.occurredAt.localeCompare(b.occurredAt) ||
+            seniority(a).localeCompare(seniority(b)) ||
+            a.stableKey.localeCompare(b.stableKey),
         )) {
           const flow = recordById(
             settled.history.resourceFlows,

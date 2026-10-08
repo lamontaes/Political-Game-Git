@@ -1,0 +1,1 @@
+Opening business books now retain the researched working-cash estimate and add a reserve for the first recorded payroll. When an employer cannot cover every paycheck, settlement pays the longest-serving workers first and records remaining shortfalls through existing partial or missed-pay outcomes.

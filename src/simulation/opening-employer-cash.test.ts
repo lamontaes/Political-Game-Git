@@ -11,6 +11,7 @@ import {
   ensureEmployerCashPositions,
 } from "./opening-employer-cash";
 import { townBusinessKindBooks } from "./living-world/town-business-books";
+import { lifePlaceStateIdentities } from "./life-places";
 import {
   lifePathDefinition,
   type LifePathDefinition,
@@ -27,9 +28,11 @@ import {
   money,
   recordResourceTransferOutcome,
 } from "./resources";
+import { settleTownCompensations } from "./living-world/town-pay";
 import type { EntityId, OrganizationClassification, World } from "./types";
 
 const USD = makeCurrencyCode("USD");
+const OPENING_PLACES = lifePlaceStateIdentities();
 
 const provenance = {
   kind: "authored" as const,
@@ -115,6 +118,72 @@ function fixture() {
 }
 
 describe("saved comparable employer cash reader", () => {
+  it.each(OPENING_PLACES.map((place) => [place.jurisdictionKey]))(
+    "opens an employer with its first-payroll reserve plus the cash buffer in %s",
+    (placeKey) => {
+      let world = smallWorld({
+        seed: `b28-p2-first-payday:${placeKey}`,
+        place: placeKey,
+        date: "2026-01-05",
+      }).world;
+      const target = employer(world, `first-payday:${placeKey}`, null);
+      world = createWorkCompensation(target.world, {
+        stableKey: `first-payday:${placeKey}:pay`,
+        workRelationshipId: target.world.history.workRelationships.at(-1)!.id,
+        startsAt: target.world.currentDate,
+        amount: money(10_000, USD),
+        cadenceKind: "schedule:town-weekly",
+        restrictionKind: null,
+        jurisdictionId: null,
+        provenance,
+      });
+      const opened = ensureEmployerCashPositions(world, "opening");
+      const cash = resourcePositionAt(
+        opened,
+        { kind: "organization", organizationId: target.id },
+        USD,
+      )!;
+      const books = townBusinessKindBooks("retail");
+      const annualPayroll = 10_000 * 52;
+      const annualOtherCosts = Math.max(
+        0,
+        (annualPayroll / books.payShare) * (1 - books.margin) - annualPayroll,
+      );
+      const expectedBuffer = Math.round(
+        ((annualPayroll + annualOtherCosts) / 365) * 19,
+      );
+      expect(cash.liquidBalance.minorUnits).toBe(expectedBuffer + 10_000);
+      const opening = opened.history.resourcePositions.find(
+        (row) => row.id === cash.positionId,
+      )!;
+      expect(opening.provenance).toMatchObject({
+        kind: "authored",
+        note: expect.stringContaining("first-payroll reserve 10000"),
+      });
+      const payFlow = opened.history.resourceFlows.find(
+        (row) =>
+          row.basisKind === "compensation:work" &&
+          row.basisReference.kind === "work" &&
+          row.basisReference.workRelationshipId ===
+            target.world.history.workRelationships.at(-1)!.id,
+      )!;
+      const paid = settleTownCompensations(opened, [
+        {
+          payFlowId: payFlow.id,
+          activityId: payFlow.id,
+          stableKey: `first-payday:${placeKey}:first-payday`,
+          periodStartsAt: opened.currentDate,
+          periodEndsAt: opened.currentDate,
+          onDate: opened.currentDate,
+        },
+      ]);
+      const outcome = paid.history.resourceTransferOutcomes.find(
+        (row) => row.stableKey === `first-payday:${placeKey}:first-payday`,
+      );
+      expect(outcome?.status).toBe("completed");
+      expect(outcome?.transferredAmount).toEqual(outcome?.attemptedAmount);
+    },
+  );
   it.each([
     { path: undefined, hours: 20 },
     {
@@ -243,9 +312,11 @@ describe("saved comparable employer cash reader", () => {
       const yearlyPay =
         path.sessionPayMinor * (weeklyHours / (path.sessionMinutes / 60)) * 52;
       const costs = townBusinessKindBooks("retail");
-      const expected = Math.round(
-        (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
-      );
+      // One recorded session's pay is held back as the first-payroll reserve.
+      const expected =
+        Math.round(
+          (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
+        ) + path.sessionPayMinor;
       expect(
         resourcePositionAt(
           opened,
@@ -279,9 +350,11 @@ describe("saved comparable employer cash reader", () => {
     const owner = { kind: "organization" as const, organizationId: target.id };
     const costs = townBusinessKindBooks("retail");
     const yearlyPay = 100_000 * 12;
-    const expected = Math.round(
-      (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
-    );
+    // One recorded monthly pay is held back as the first-payroll reserve.
+    const expected =
+      Math.round(
+        (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
+      ) + 100_000;
     expect(
       resourcePositionAt(opened, owner, USD)!.liquidBalance.minorUnits,
     ).toBe(expected);
