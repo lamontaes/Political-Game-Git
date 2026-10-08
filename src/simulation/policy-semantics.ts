@@ -717,25 +717,6 @@ export function policyEstimateAt(
   return record && policyRecordAvailable(record, cutoff) ? record : null;
 }
 
-export function latestPolicyEstimateForSeriesAt(
-  world: World,
-  seriesKey: PolicySemanticKey,
-  cutoff: HistoricalCutoff,
-): PolicyEstimateRecord | null {
-  validateCutoff(world, cutoff);
-  assertSemanticKey(seriesKey, "Policy estimate series key");
-  return (
-    world.history.policyEstimates
-      .filter(
-        (record) =>
-          record.seriesKey === seriesKey &&
-          policyRecordAvailable(record, cutoff),
-      )
-      .sort(bySequence)
-      .at(-1) ?? null
-  );
-}
-
 export function policySemanticsEntityExists(
   world: World,
   id: EntityId,

@@ -557,18 +557,6 @@ function mappingFor(
   return mappingsFor(propositionKey, answer, governmentLevel)[0] ?? null;
 }
 
-export function automaticLawPropositionKeysForLevel(
-  governmentLevel: AutomaticLawGovernmentLevel,
-): readonly string[] {
-  return [
-    ...new Set(
-      AUTOMATIC_LAW_POSITION_MAPPINGS.filter(
-        (mapping) => mapping.governmentLevel === governmentLevel,
-      ).map((mapping) => mapping.propositionKey),
-    ),
-  ];
-}
-
 export function automaticLawMappingFor(
   propositionKey: string,
   answer: "yes" | "no",

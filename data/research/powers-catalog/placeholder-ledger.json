@@ -3,15 +3,15 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 240,
+    "markers": 239,
     "byKind": {
       "unresearched": 65,
-      "placeholder": 149,
+      "placeholder": 148,
       "blanket": 30
     },
     "byPath": {
       "other": 126,
-      "law": 81,
+      "law": 80,
       "government": 31,
       "money": 2
     },
@@ -64,15 +64,6 @@
       "path": "law",
       "researchQuestionId": null,
       "researchQuestionFiled": false
-    },
-    {
-      "file": "src/presentation/legislative-bargaining-brief.ts",
-      "line": 56,
-      "text": "// PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): the three amounts below and the $8,000,000",
-      "kinds": ["placeholder"],
-      "path": "law",
-      "researchQuestionId": "how-bargaining-limits-and-pay-counteroffers-are-set",
-      "researchQuestionFiled": true
     },
     {
       "file": "src/presentation/legislative-bargaining.ts",
@@ -967,7 +958,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 430,
+      "line": 431,
       "text": "readonly salience: keyof typeof UNRESEARCHED_ISSUE_RECORD.salienceWeight;",
       "kinds": ["unresearched"],
       "path": "law",
@@ -976,7 +967,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 473,
+      "line": 472,
       "text": "// PLACEHOLDER: group members to the engine's ordinal weight.",
       "kinds": ["placeholder"],
       "path": "law",
@@ -985,7 +976,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 487,
+      "line": 486,
       "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1003,7 +994,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 703,
+      "line": 704,
       "text": "* to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1129,7 +1120,7 @@
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
-      "line": 277,
+      "line": 299,
       "text": "// PLACEHOLDER weights, in parts of one quarter's pull. Age and years in town",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1138,7 +1129,7 @@
     },
     {
       "file": "src/simulation/living-world/civic-actions.ts",
-      "line": 287,
+      "line": 309,
       "text": "// PLACEHOLDER: a view of an official at least this strong doubles the pull.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1273,7 +1264,7 @@
     },
     {
       "file": "src/simulation/living-world/lived-outcomes.ts",
-      "line": 62,
+      "line": 67,
       "text": "* PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1282,7 +1273,7 @@
     },
     {
       "file": "src/simulation/living-world/lived-outcomes.ts",
-      "line": 73,
+      "line": 78,
       "text": "// PLACEHOLDER (same research request): a child pulled out of school in the",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1291,7 +1282,7 @@
     },
     {
       "file": "src/simulation/living-world/lived-outcomes.ts",
-      "line": 112,
+      "line": 118,
       "text": "// (NON_MONEY_FELT_SIZE, PLACEHOLDER).",
       "kinds": ["placeholder"],
       "path": "other",
