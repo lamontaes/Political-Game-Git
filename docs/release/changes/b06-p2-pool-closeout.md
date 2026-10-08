@@ -1,6 +1,8 @@
 ---
 id: b06-p2-pool-closeout
-impact: none
+impact: patch
+section: Fixed
+title: Mark b06-p2 complete in the pool
 ---
 
-No player-visible change; the pool now records that PR #3507 implemented linked cases for officeholder contacts.
+The pool records that PR #3507 implemented linked cases for officeholder contacts and that this PR closes the row.
