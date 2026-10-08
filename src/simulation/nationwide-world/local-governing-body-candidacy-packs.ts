@@ -42,8 +42,7 @@ import {
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
   "The game holds that every town with a government of its own elects its governing body. The town's seat count, districts, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
 
-const QUALIFICATION_AT_FILING =
-  "The age and residence requirements for this municipal office are unconfirmed.";
+const QUALIFICATION_AT_FILING = "Qualifications: not on record";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =

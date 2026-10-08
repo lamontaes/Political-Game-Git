@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { projectPersonDossier } from "./person-dossier";
+import { householdIdFor, projectPersonDossier } from "./person-dossier";
 import { recordWorldEvent } from "../simulation/world";
 import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
@@ -283,13 +283,24 @@ describe("conversation context in a freshly generated world", () => {
     const housemateId = familyGame.world.personOrder.find(
       (personId) =>
         personId !== familyGame.playerPersonId &&
-        projectPersonDossier(
-          familyGame.world,
-          familyGame.playerPersonId,
-          personId,
-        )?.details.some((fact) => fact.key === "household"),
+        householdIdFor(familyGame.world, personId) ===
+          householdIdFor(familyGame.world, familyGame.playerPersonId),
     );
     expect(housemateId, `fresh random place ${place.key}`).toBeDefined();
+
+    const housemateDossier = projectPersonDossier(
+      familyGame.world,
+      familyGame.playerPersonId,
+      housemateId!,
+    )!;
+    expect(housemateDossier.details.map((detail) => detail.text)).not.toContain(
+      "You live in the same household.",
+    );
+    expect(
+      housemateDossier.details.some((detail) =>
+        /^(?:They are|He is|She is) your /.test(detail.text),
+      ),
+    ).toBe(false);
 
     expect(
       projectPersonDossier(

@@ -1,27 +1,174 @@
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { ExecutiveBudgetRequestComparison } from "./ExecutiveBudgetRequest";
+import { ModeledAccountHistory } from "./ModeledAccountHistory";
+import type { ModeledAccountHistory as ModeledAccountHistoryModel } from "../presentation/modeled-account-history";
+import type { ExecutiveBudgetRequest } from "../simulation/governing/executive-budget-requests";
+import { PROGRAM_FAMILIES } from "../simulation/governing/program-families";
+import type { World } from "../simulation";
 
 const FILES = [
-  "EconomicContextPanel.tsx",
-  "HomePurchasePanel.tsx",
-  "MoneyLaws.tsx",
-  "TownBusinessesPanel.tsx",
-  "ModeledAccountHistory.tsx",
+  "src/player/EconomicContextPanel.tsx",
+  "src/player/MoneyLaws.tsx",
+  "src/player/BudgetEconomyWorkspace.tsx",
+  "src/player/MacroConditionsPanel.tsx",
+  "src/player/ModeledAccountHistory.tsx",
 ];
 
-describe("the Money screen carries record data, not sentences", () => {
-  it.each(FILES)("%s has no hand-written player sentence", (file) => {
-    const text = readFileSync(join(__dirname, file), "utf8")
-      .split("\n")
-      .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
-      .join("\n")
-      // Thrown developer messages go to the console in the diagnostic view.
-      .replace(/: "Economic context could not be loaded\."/, "");
+const REMOVED_COPY = [
+  [
+    "src/player/EconomicContextPanel.tsx",
+    [
+      "Economic context unavailable",
+      "Figures unavailable",
+      "How the place is doing",
+      "Where things stand now",
+      "About ",
+      "carriedLocalFigureLine",
+      "Figures held until published:",
+      "Figures: none",
+    ],
+  ],
+  [
+    "src/player/BudgetEconomyWorkspace.tsx",
+    [
+      "Latest settled month:",
+      "exact fiscal",
+      "recorded fiscal graphs are available",
+      "model.fiscalAvailability.reason",
+    ],
+  ],
+  [
+    "src/player/MacroConditionsPanel.tsx",
+    [
+      "This world&rsquo;s economy",
+      "This life began before the world kept its own economic history",
+      "No published value",
+    ],
+  ],
+  [
+    "src/player/ModeledAccountHistory.tsx",
+    [
+      "The game&rsquo;s modeled public receipts account",
+      "Coverage:",
+      "Transfers: none",
+      "Recorded transfers, in the order they happened",
+    ],
+  ],
+] as const;
+
+function code(file: string): string {
+  return readFileSync(file, "utf8")
+    .split("\n")
+    .filter((line) => !/^\s*(\/\/|\/?\*)/.test(line))
+    .join("\n");
+}
+
+describe("Money screens show record data only", () => {
+  it.each(FILES)("%s has no hand-written sentence", (file) => {
+    const text = code(file);
     expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
-    expect(text.match(/`[A-Z][^`]{25,}[.?!]`/g) ?? []).toEqual([]);
-    expect(
-      text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{20,}[.?!]\s*</g) ?? [],
-    ).toEqual([]);
+    expect(text.match(/>\s*[A-Z][a-z]+ [a-z ,']{25,}/g) ?? []).toEqual([]);
+  });
+
+  it.each(REMOVED_COPY)(
+    "%s excludes authored Money-screen helper copy",
+    (file, phrases) => {
+      const text = code(file);
+      for (const phrase of phrases) expect(text).not.toContain(phrase);
+    },
+  );
+
+  it("renders account history with recorded amounts and statuses", () => {
+    const text = code("src/player/ModeledAccountHistory.tsx");
+    expect(text).not.toContain("No money has moved through this account yet.");
+    expect(text).not.toContain("Transfers: none");
+    expect(text).not.toContain("nothing moved (");
+    expect(text).not.toContain("attempted (");
+  });
+
+  it("does not render modeled-account explanation or no-account prose", () => {
+    const noAccount = renderToStaticMarkup(
+      createElement(ModeledAccountHistory, {
+        history: {
+          status: "no-account",
+          jurisdictionId: "jurisdiction:test",
+          reason:
+            "No modeled public receipts account has been opened for this place.",
+        } as ModeledAccountHistoryModel,
+      }),
+    );
+    expect(noAccount).toContain('data-problem="no-account"');
+    expect(noAccount).not.toContain("No modeled public receipts account");
+
+    const usd = { minorUnits: 0, currency: "USD" } as const;
+    const recordedHistory = {
+      status: "recorded",
+      jurisdictionId: "jurisdiction:test",
+      jurisdictionLabel: "Test place",
+      accountOrganizationId: "organization:test",
+      openedAt: "2026-01-01",
+      asOf: "2026-01-02",
+      openingBalance: usd,
+      entries: [],
+      receipts: usd,
+      payments: usd,
+      balance: { status: "established", asOf: "2026-01-02", balance: usd },
+      graph: null,
+    } as unknown as ModeledAccountHistoryModel;
+    const recorded = renderToStaticMarkup(
+      createElement(ModeledAccountHistory, { history: recordedHistory }),
+    );
+    expect(recorded).not.toContain(
+      "The game’s modeled public receipts account",
+    );
+    expect(recorded).not.toContain("Coverage:");
+    expect(recorded).not.toContain("Each row keeps its recorded");
+
+    const withheld = renderToStaticMarkup(
+      createElement(ModeledAccountHistory, {
+        history: {
+          ...recordedHistory,
+          balance: {
+            status: "withheld",
+            reason: "The recorded ledger position and this history disagree.",
+          },
+        } as unknown as ModeledAccountHistoryModel,
+      }),
+    );
+    expect(withheld).toContain('data-testid="modeled-account-balance"');
+    expect(withheld).not.toContain("recorded ledger position");
+  });
+
+  it("keeps request dates and record fields without helper sentences", () => {
+    const familyKey = PROGRAM_FAMILIES[0]!.familyKey;
+    const request = {
+      matterId: "matter:test",
+      decisionEventId: "event:decision",
+      officeKey: "office:test",
+      personId: "person:test",
+      governmentIdentity: {
+        kind: "jurisdiction",
+        jurisdictionId: "jurisdiction:test",
+      },
+      startsOn: "2026-01-01",
+      endsOn: "2026-12-31",
+      lines: [{ familyKey, amount: { minorUnits: 100, currency: "USD" } }],
+      event: {},
+    } as unknown as ExecutiveBudgetRequest;
+    const world = {
+      currentDate: "2026-12-31",
+      history: { publicProgramRecords: [] },
+    } as unknown as World;
+    const html = renderToStaticMarkup(
+      createElement(ExecutiveBudgetRequestComparison, { world, request }),
+    );
+    expect(html).toContain('data-testid="budget-request-period"');
+    expect(html).toContain('data-problem="no-enacted-authorization"');
+    expect(html).not.toContain("Budget request for");
+    expect(html).not.toContain("Each authorization shows its own dates");
+    expect(html).not.toContain("No enacted authorization recorded");
   });
 });

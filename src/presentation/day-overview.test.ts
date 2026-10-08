@@ -118,7 +118,7 @@ describe("PT3 — Today answers what is happening, next, waiting and time", () =
     const { world, personId } = adultLife();
     const role = projectWorkRole(world, personId);
     expect(role.roles).toEqual([]);
-    expect(role.sentence).toMatch(/^You do not hold a job or an office/);
+    expect(role.sentence).toMatch(/^Role: none/);
   });
 
   it("names a held role from the work record, not from a mounted panel", () => {
@@ -148,7 +148,7 @@ describe("PT3 an offer of work that has not been answered", () => {
     const role = projectWorkRole(world, personId);
     // Still not a job. The offer is not counted as a role.
     expect(role.roles).toEqual([]);
-    expect(role.sentence).toMatch(/^You do not hold a job or an office/);
+    expect(role.sentence).toMatch(/^Role: none/);
     expect(role.awaitingAnswer).toHaveLength(1);
     expect(role.sentence).toContain(role.awaitingAnswer[0]!.roleTitle);
     expect(role.sentence).toMatch(/waiting for your answer/);
