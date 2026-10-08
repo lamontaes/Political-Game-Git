@@ -178,19 +178,6 @@ export function describePersonContext(
   };
 }
 
-/** Everybody the player is currently in a room with, described. */
-export function describePeopleContext(
-  world: World,
-  viewerId: EntityId,
-  subjectIds: readonly EntityId[],
-  asOfDate: IsoDate = world.currentDate,
-): readonly PersonContext[] {
-  return subjectIds.flatMap((id) => {
-    const found = describePersonContext(world, viewerId, id, asOfDate);
-    return found ? [found] : [];
-  });
-}
-
 /**
  * How somebody is named the first time they matter in a scene.
  *
@@ -207,18 +194,6 @@ export function introducePerson(context: PersonContext): string {
 /** What to call them afterwards. */
 export function referToPerson(context: PersonContext): string {
   return context.shortName;
-}
-
-/**
- * The relation on its own, capitalized for the start of a sentence.
- *
- * Returns the name when there is no relation, so a caller never has to
- * assemble a sentence around an empty string.
- */
-export function personRoleSentenceLead(context: PersonContext): string {
-  if (context.relationship === null) return context.name;
-  const [first, ...rest] = context.relationship;
-  return `${(first ?? "").toUpperCase()}${rest.join("")}`;
 }
 
 /* -------------------------------------------------------------------------- */

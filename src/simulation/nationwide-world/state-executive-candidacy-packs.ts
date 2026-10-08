@@ -1,3 +1,4 @@
+import { researchRuleTable } from "../research-rule-tables";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { knownRule, unknownRule } from "../legislature-rules";
 import type { RuleSourceRef } from "../legislature-rules";
@@ -31,58 +32,7 @@ import {
  * contests) keeps counting fifty. The territories, Puerto Rico among them,
  * are carried separately too.
  */
-export const US_STATE_NAMES = {
-  AL: "Alabama",
-  AK: "Alaska",
-  AZ: "Arizona",
-  AR: "Arkansas",
-  CA: "California",
-  CO: "Colorado",
-  CT: "Connecticut",
-  DE: "Delaware",
-  FL: "Florida",
-  GA: "Georgia",
-  HI: "Hawaii",
-  ID: "Idaho",
-  IL: "Illinois",
-  IN: "Indiana",
-  IA: "Iowa",
-  KS: "Kansas",
-  KY: "Kentucky",
-  LA: "Louisiana",
-  ME: "Maine",
-  MD: "Maryland",
-  MA: "Massachusetts",
-  MI: "Michigan",
-  MN: "Minnesota",
-  MS: "Mississippi",
-  MO: "Missouri",
-  MT: "Montana",
-  NE: "Nebraska",
-  NV: "Nevada",
-  NH: "New Hampshire",
-  NJ: "New Jersey",
-  NM: "New Mexico",
-  NY: "New York",
-  NC: "North Carolina",
-  ND: "North Dakota",
-  OH: "Ohio",
-  OK: "Oklahoma",
-  OR: "Oregon",
-  PA: "Pennsylvania",
-  RI: "Rhode Island",
-  SC: "South Carolina",
-  SD: "South Dakota",
-  TN: "Tennessee",
-  TX: "Texas",
-  UT: "Utah",
-  VT: "Vermont",
-  VA: "Virginia",
-  WA: "Washington",
-  WV: "West Virginia",
-  WI: "Wisconsin",
-  WY: "Wyoming",
-} as const;
+export const US_STATE_NAMES = researchRuleTable("stateNames");
 
 export type UsStateUsps = keyof typeof US_STATE_NAMES;
 
@@ -106,13 +56,7 @@ export function isUsState(stateUsps: string): stateUsps is UsStateUsps {
  * asks for the real rules. A territory is its own government and electorate;
  * nothing here lends it a state's law.
  */
-export const US_TERRITORY_GOVERNED_NAMES = {
-  PR: "Puerto Rico",
-  GU: "Guam",
-  VI: "the U.S. Virgin Islands",
-  AS: "American Samoa",
-  MP: "the Northern Mariana Islands",
-} as const;
+export const US_TERRITORY_GOVERNED_NAMES = researchRuleTable("territoryNames");
 
 export type UsTerritoryUsps = keyof typeof US_TERRITORY_GOVERNED_NAMES;
 
@@ -131,14 +75,6 @@ export const CHIEF_EXECUTIVE_JURISDICTIONS: readonly string[] = [
   DISTRICT_OF_COLUMBIA_USPS,
   ...(Object.keys(US_TERRITORY_GOVERNED_NAMES) as UsTerritoryUsps[]),
 ];
-
-export function isChiefExecutiveJurisdiction(key: string): boolean {
-  return (
-    isUsState(key) ||
-    isDistrictOfColumbia(key) ||
-    isUsTerritoryWithGovernor(key)
-  );
-}
 
 /** The jurisdiction's own name, for a state, the District or a territory. */
 export function chiefExecutiveJurisdictionName(key: string): string {

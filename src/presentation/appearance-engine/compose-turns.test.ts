@@ -8,7 +8,7 @@ describe("whose turn it is to be drawn", () => {
     const turns = createComposeTurns((run) => frames.push(run));
     const order: string[] = [];
     const draw = async (name: string) => {
-      await turns.turn();
+      await turns.turn(() => 0);
       order.push(name);
       turns.done();
     };
@@ -33,7 +33,7 @@ describe("whose turn it is to be drawn", () => {
     let drawing = 0;
     let most = 0;
     const draws = Array.from({ length: 5 }, async () => {
-      await turns.turn();
+      await turns.turn(() => 0);
       drawing += 1;
       most = Math.max(most, drawing);
       drawing -= 1;
@@ -46,5 +46,35 @@ describe("whose turn it is to be drawn", () => {
     }
     await Promise.all(draws);
     expect(most).toBe(1);
+  });
+
+  it("reads each person's priority when the turn is given", async () => {
+    const frames: (() => void)[] = [];
+    const turns = createComposeTurns((run) => frames.push(run));
+    // The people of a screen the player then leaves, and of the one they
+    // reach: leaving lowers a priority while its person is still waiting.
+    const priority = new Map([
+      ["first", 3],
+      ["left-a", 2],
+      ["left-b", 2],
+      ["here-a", 1],
+      ["here-b", 1],
+    ]);
+    const order: string[] = [];
+    const draw = async (name: string) => {
+      await turns.turn(() => priority.get(name)!);
+      order.push(name);
+      turns.done();
+    };
+    const all = ["first", "left-a", "left-b", "here-a", "here-b"].map(draw);
+    priority.set("left-a", -1);
+    priority.set("left-b", -1);
+    while (frames.length > 0) {
+      frames.shift()!();
+      await Promise.resolve();
+      await Promise.resolve();
+    }
+    await Promise.all(all);
+    expect(order).toEqual(["first", "here-b", "here-a", "left-b", "left-a"]);
   });
 });

@@ -1,4 +1,9 @@
-# Environmental outcomes reach residents
+---
+id: ow-spine-env-person-landings
+impact: minor
+section: Added
+title: Environmental outcomes reach residents
+---
 
 Carbon pricing, bottle deposits, power plant carbon limits, and clean electricity effects now produce estimated person outcome records through the shared outcome path. The same matcher covers all 56 modeled places and schedules the normal official view reflection.
 

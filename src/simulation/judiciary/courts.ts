@@ -1,3 +1,4 @@
+import { researchRuleTable } from "../research-rule-tables";
 /** Court and seat queries and bounded writers; no work runs on the Day clock. */
 
 import { currentFederalTenure } from "../federal-tenures";
@@ -183,94 +184,27 @@ export function joinFederalSeatCounts(): FederalSeatCountJoin {
 // Recorded game profiles for jurisdictions that the admitted court-identity
 // source does not enumerate. `identityBasis` keeps them distinct from sourced
 // identities when the catalog is assembled.
-const TERRITORY_LOCAL_COURTS = [
-  [
-    "US-DC",
-    "dc-court-of-appeals",
-    "District of Columbia Court of Appeals",
-    "local-highest",
-    null,
-  ],
-  [
-    "US-DC",
-    "dc-superior-court",
-    "Superior Court of the District of Columbia",
-    "local-general-trial",
-    "dc-court-of-appeals",
-  ],
-  [
-    "US-PR",
-    "pr-supreme-court",
-    "Supreme Court of Puerto Rico",
-    "local-highest",
-    null,
-  ],
-  [
-    "US-PR",
-    "pr-court-of-first-instance",
-    "Puerto Rico Court of First Instance",
-    "local-general-trial",
-    "pr-supreme-court",
-  ],
-  ["US-GU", "gu-supreme-court", "Supreme Court of Guam", "local-highest", null],
-  [
-    "US-GU",
-    "gu-superior-court",
-    "Superior Court of Guam",
-    "local-general-trial",
-    "gu-supreme-court",
-  ],
-  [
-    "US-MP",
-    "mp-supreme-court",
-    "Supreme Court of the Northern Mariana Islands",
-    "local-highest",
-    null,
-  ],
-  [
-    "US-MP",
-    "mp-superior-court",
-    "Superior Court of the Northern Mariana Islands",
-    "local-general-trial",
-    "mp-supreme-court",
-  ],
-  [
-    "US-VI",
-    "vi-supreme-court",
-    "Supreme Court of the Virgin Islands",
-    "local-highest",
-    null,
-  ],
-  [
-    "US-VI",
-    "vi-superior-court",
-    "Superior Court of the Virgin Islands",
-    "local-general-trial",
-    "vi-supreme-court",
-  ],
-  [
-    "US-AS",
-    "as-high-court",
-    "High Court of American Samoa",
-    "local-highest",
-    null,
-  ],
-  [
-    "US-AS",
-    "as-high-court-trial",
-    "High Court of American Samoa, Trial Division",
-    "local-general-trial",
-    "as-high-court",
-  ],
-] as const;
+const TERRITORY_LOCAL_COURTS = researchRuleTable("territoryCourts").map(
+  (row) => {
+    const [jurisdiction, key, name, tier, appeal] = row;
+    if (
+      row.length !== 5 ||
+      typeof jurisdiction !== "string" ||
+      typeof key !== "string" ||
+      typeof name !== "string" ||
+      (tier !== "local-highest" && tier !== "local-general-trial") ||
+      (appeal !== null && typeof appeal !== "string")
+    ) {
+      throw new Error("Invalid territorial court data row");
+    }
+    return [jurisdiction, key, name, tier, appeal] as const;
+  },
+);
 
-const EXTRA_JURISDICTION_NAMES: Readonly<Record<string, string>> = {
-  "District of Columbia": "US-DC",
-  Guam: "US-GU",
-  "Northern Mariana Islands": "US-MP",
-  "Puerto Rico": "US-PR",
-  "Virgin Islands": "US-VI",
-};
+const EXTRA_JURISDICTION_NAMES: Readonly<Record<string, string>> =
+  researchRuleTable("extraCourtJurisdictionNames") as Readonly<
+    Record<string, string>
+  >;
 
 function knownRule<T>(
   value: T,

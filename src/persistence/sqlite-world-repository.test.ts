@@ -2,7 +2,6 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import {
   SYNTHETIC_POLICY_IDS,
-  POLICY_REALIZATION_TRANSITION_KEY,
   addDays,
   activateEffect,
   advanceDemoWorld,
@@ -11,7 +10,6 @@ import {
   createChildAuthority,
   createDwelling,
   createFormationContext,
-  createFutureTransitionHandlerRegistry,
   createDemoWorld,
   createPortabilityFixture,
   advanceWorldMinutes,
@@ -35,7 +33,6 @@ import {
   makeIsoDate,
   materializePerson,
   money,
-  policyRealizationTransitionHandler,
   recordChildAuthorityState,
   recordCausalProcess,
   recordDwellingOccupancyState,
@@ -60,7 +57,6 @@ import {
   recordEvaluatedMetricState,
   recordActorInitiatedIncident,
   scheduleFutureDueItem,
-  schedulePolicyEstimateRealization,
   recordWorkCompensationTerms,
   realizePolicyEstimate,
   startDwellingOccupancy,
@@ -490,11 +486,6 @@ describe("SQLite world repository", () => {
       supersedesEstimateId: null,
     });
     const estimate = world.history.policyEstimates.at(-1)!;
-    world = schedulePolicyEstimateRealization(world, {
-      stableKey: "sqlite:run-c:e1-due",
-      estimateId: estimate.id,
-    });
-    const dueItem = world.history.futureDueItems.at(-1)!;
     const firstSaved = repository.save(world);
     world = recordPolicyAnalysisKnowledge(world, {
       stableKey: "sqlite:run-c:analysis",
@@ -545,13 +536,6 @@ describe("SQLite world repository", () => {
       provenance,
     });
     const realization = world.history.policyRealizations.at(-1)!;
-    world = advanceWorld(
-      world,
-      1,
-      createFutureTransitionHandlerRegistry([
-        [POLICY_REALIZATION_TRANSITION_KEY, policyRealizationTransitionHandler],
-      ]),
-    );
     const saved = repository.save(world);
     const restored = repository.load(world.id);
 
@@ -576,15 +560,6 @@ describe("SQLite world repository", () => {
     expect(restored?.history.policyRealizations.at(-1)).toStrictEqual(
       realization,
     );
-    expect(
-      restored?.history.futureDueItemStates
-        .filter((state) => state.dueItemId === dueItem.id)
-        .at(-1),
-    ).toMatchObject({
-      status: "cancelled",
-      reasonKey: "policy:alternative-already-realized",
-      outcomeEventId: null,
-    });
     expect(restored?.history.knowledge.at(-1)?.personId).toBe(actorId);
   });
 

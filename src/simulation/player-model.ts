@@ -496,14 +496,6 @@ export function dimensionWeight(
   return model.dimensions[dimension]?.weight ?? 0;
 }
 
-/** Dimensions with the least observation, which is what coverage need means. */
-export function coverageNeed(
-  model: PlayerModel,
-  dimension: PlayerModelDimension,
-): number {
-  return 1 / (1 + dimensionWeight(model, dimension));
-}
-
 /* -------------------------------------------------------------------------- */
 /* Cross-pressure                                                              */
 /* -------------------------------------------------------------------------- */
