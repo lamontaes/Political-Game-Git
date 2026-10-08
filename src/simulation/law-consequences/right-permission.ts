@@ -1,4 +1,7 @@
 import { ageOnDate } from "../dates";
+import { canonicalJson } from "../canonical-json";
+import { housingVoucherIncomeScope } from "../housing-voucher-eligibility";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { lawInForce } from "../governing/law-in-force";
 import {
   activeWorkRelationshipsAt,
@@ -26,6 +29,8 @@ const SELECTORS = [
 const PREDICATES = [
   "permission-minimum-age",
   "permission-active-work",
+  "permission-voucher-income-scope",
+  "permission-enacted-law",
 ] as const;
 const ACTIONS = ["permit-on-yes", "prohibit-on-yes"] as const;
 
@@ -67,6 +72,14 @@ function checkRow(row: LawConsequenceRow): void {
         throw new Error(
           "Active-work scope requires exact saved organizationId/workKind values.",
         );
+    } else if (
+      predicate.capability === "permission-voucher-income-scope" ||
+      predicate.capability === "permission-enacted-law"
+    ) {
+      if (Object.keys(parameters).length)
+        throw new Error(
+          canonicalJson({ status: "invalid-voucher-scope", parameters }),
+        );
     } else throw new Error("Unimplemented permission scope predicate.");
     if (row.who.selector !== "recorded-person-permission")
       throw new Error("Person age/work scope cannot qualify an organization.");
@@ -86,17 +99,24 @@ function scopeSources(
   personId: EntityId,
   predicates: readonly LawConsequencePredicate[],
   context: LawConsequenceContext,
-): EntityId[] | null {
+): { sourceRecordIds: EntityId[]; qualifies: boolean } | null {
   const person = world.people[personId];
   if (!person) return null;
   const sources: EntityId[] = [];
+  let qualifies = true;
   for (const predicate of predicates) {
+    if (predicate.capability === "permission-enacted-law") continue;
     if (predicate.capability === "permission-minimum-age") {
       if (
         ageOnDate(person.birthDate, context.onDate) <
         Number(predicate.parameters.years)
       )
         return null;
+    } else if (predicate.capability === "permission-voucher-income-scope") {
+      const scope = housingVoucherIncomeScope(world, personId, context.onDate);
+      if (!scope) return null;
+      qualifies &&= scope.qualifies;
+      sources.push(...scope.sourceRecordIds);
     } else {
       const work = activeWorkRelationshipsAt(world, personId, {
         asOfDate: context.onDate,
@@ -113,7 +133,7 @@ function scopeSources(
       sources.push(work.relationship.id, work.status.id, work.role.id);
     }
   }
-  return sources;
+  return { sourceRecordIds: sources, qualifies };
 }
 
 /** Caller supplies actual saved activity subjects; broader actor selection is never inferred. */
@@ -133,6 +153,23 @@ export function resolveRightPermission(
     (q) => q.stableKey === context.questionKey,
   );
   if (!question) return [];
+  const federal = question.stableKey.startsWith("us-federal-positions:");
+  const federalLaw = federal
+    ? lawInForce(
+        world,
+        NATIONAL_ELECTION_JURISDICTION.id,
+        question.id,
+        context.onDate,
+      )
+    : null;
+  const enactedOnly = [...row.who.predicates, ...row.conditions].some(
+    (predicate) => predicate.capability === "permission-enacted-law",
+  );
+  if (
+    federal &&
+    (!federalLaw || (enactedOnly && federalLaw.origin !== "enacted"))
+  )
+    return [];
   const activity = Object.values(world.history)
     .flatMap((rows) => (Array.isArray(rows) ? rows : []))
     .find((record) => record.id === context.activityId);
@@ -157,6 +194,7 @@ export function resolveRightPermission(
       continue;
     let jurisdictionId: EntityId | undefined;
     let subject: ResolvedLawConsequence["subject"];
+    let qualifies = true;
     const sourceRecordIds: EntityId[] = [context.activityId];
     if (row.who.selector === "recorded-person-permission") {
       if (!world.people[subjectId]) continue;
@@ -167,7 +205,8 @@ export function resolveRightPermission(
         context,
       );
       if (!scope) continue;
-      sourceRecordIds.push(...scope);
+      sourceRecordIds.push(...scope.sourceRecordIds);
+      qualifies = scope.qualifies;
       const member = householdMembershipsAt(world, subjectId, cutoff)[0];
       if (!member) continue;
       const location = householdLocationAt(
@@ -190,15 +229,20 @@ export function resolveRightPermission(
       subject = { kind: "organization", id: subjectId };
       sourceRecordIds.push(organization.id, profile.id);
     }
-    const law = lawInForce(world, jurisdictionId, question.id, context.onDate);
+    if (federal) jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
+    const law =
+      federalLaw ??
+      lawInForce(world, jurisdictionId, question.id, context.onDate);
     if (
       !law ||
+      (enactedOnly && law.origin !== "enacted") ||
       (law.answer !== "yes" && law.answer !== "no") ||
       (context.governingLawId && law.measureId !== context.governingLawId)
     )
       continue;
     // The row owner explicitly chooses the legal direction. No missing law becomes permission.
-    const permitted = (law.answer === "yes") === (row.what === "permit-on-yes");
+    const permitted =
+      qualifies && (law.answer === "yes") === (row.what === "permit-on-yes");
     result.push({
       row,
       law,

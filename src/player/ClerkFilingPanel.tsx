@@ -79,10 +79,11 @@ export function ClerkFilingPanel({
                   {seat.electionDateEstimated ? " (estimated)" : ""}
                 </dd>
               ) : null}
-              {seat.deadline ? (
+              {seat.deadlineDate || seat.deadline ? (
                 <dd>
-                  {proseMonthDay(seat.deadline)}
-                  {seat.termsEstimatedFrom ? " (estimated)" : ""}
+                  {seat.deadlineDate
+                    ? `${proseDate(seat.deadlineDate)} (estimated)`
+                    : `${proseMonthDay(seat.deadline!)}${seat.termsEstimatedFrom ? " (estimated)" : ""}`}
                 </dd>
               ) : null}
               {seat.feeMinorUnits !== undefined ? (

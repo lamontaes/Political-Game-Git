@@ -26,6 +26,7 @@ import {
   countyElectedRowOffices,
   countyRowOfficeFromRoleKind,
   countyRowOfficeRoleKind,
+  countyRowOfficeRule,
   type CountyRowOfficeKey,
 } from "../nationwide-world/county-row-offices";
 import {
@@ -898,16 +899,34 @@ function countyKeepsClerkRow(unit: GovernmentUnitIdentity): boolean {
 }
 
 /**
+ * Whether the office asked for is the county's elected clerk: no title named,
+ * or the clerk row's own title, in a county that elects one.
+ */
+function countyClerkRowTakes(
+  unit: GovernmentUnitIdentity,
+  title: string | undefined,
+): boolean {
+  if (!countyKeepsClerkRow(unit)) return false;
+  return (
+    title === undefined ||
+    title === countyRowOfficeRule(unit.stateUsps, "clerk").title
+  );
+}
+
+/**
  * Who keeps this government's records and takes its candidates' filings
  * today: a county's elected clerk where the county elects one, otherwise the
- * clerk seated in the town's, township's or county's own organization. Null
- * when nobody holds the office.
+ * clerk seated in the town's, township's or county's own organization. Where
+ * the state gives the filings to another office (a county board of elections,
+ * a town's board of canvassers), `title` names it and its own officer is
+ * read. Null when nobody holds the office.
  */
 export function sittingLocalClerk(
   world: World,
   unit: GovernmentUnitIdentity,
+  title?: string,
 ): { readonly personId: EntityId; readonly title: string } | null {
-  if (countyKeepsClerkRow(unit)) {
+  if (countyClerkRowTakes(unit, title)) {
     const row = sittingCountyRowOfficers(world, unit).find(
       (officer) => officer.office === "clerk",
     );
@@ -919,6 +938,11 @@ export function sittingLocalClerk(
     if (participation.organizationId !== organizationId) continue;
     const state = organizationParticipationStateAt(world, participation.id);
     if (state?.status !== "active" || state.roleKind !== LOCAL_CLERK_ROLE)
+      continue;
+    if (
+      title !== undefined &&
+      (state.context ?? localClerkTitle(unit)) !== title
+    )
       continue;
     if (
       !isPersonAliveAt(world, participation.personId, {
@@ -947,25 +971,32 @@ export function ensureLocalClerkForUnit(
   unit: GovernmentUnitIdentity,
   town: EntityId,
   excludePersonIds: readonly EntityId[] = [],
+  officeTitle?: string,
 ): World {
-  if (sittingLocalClerk(world, unit)) return world;
-  if (countyKeepsClerkRow(unit))
+  if (sittingLocalClerk(world, unit, officeTitle)) return world;
+  if (countyClerkRowTakes(unit, officeTitle))
     return ensureCountyRowOfficersForUnit(world, unit, town, excludePersonIds);
+  const title = officeTitle ?? localClerkTitle(unit);
+  // An office other than the town's own clerk is its own seat.
+  const ownClerk = title === localClerkTitle(unit);
   const excluded = new Set([
     ...excludePersonIds,
     ...sittingLocalOfficers(world, unit).map((seat) => seat.personId),
   ]);
+  const holder = sittingLocalClerk(world, unit);
+  if (holder) excluded.add(holder.personId);
   const found = drawTownResident(
     world,
     town,
-    `local-government:${unit.id}:clerk`,
+    ownClerk
+      ? `local-government:${unit.id}:clerk`
+      : `local-government:${unit.id}:filing-office:${title}`,
     0,
     MINIMUM_AGE,
     excluded,
   );
   if (!found.personId) return found.world;
-  const title = localClerkTitle(unit);
-  const compiled = municipalWorkspaceGovernmentForUnit(unit);
+  const compiled = ownClerk ? municipalWorkspaceGovernmentForUnit(unit) : null;
   if (compiled) {
     const installed = installMunicipalGovernment(found.world, {
       governmentKey: compiled.key,
@@ -984,7 +1015,9 @@ export function ensureLocalClerkForUnit(
   const organizationId = organizationIdFor(next, unit);
   if (!organizationId) return next;
   return createOrganizationParticipation(next, {
-    stableKey: `local-government-clerk:${unit.id}:${found.personId}`,
+    stableKey: ownClerk
+      ? `local-government-clerk:${unit.id}:${found.personId}`
+      : `local-government-filing-office:${unit.id}:${found.personId}`,
     personId: found.personId,
     organizationId,
     startedAt: next.currentDate,
