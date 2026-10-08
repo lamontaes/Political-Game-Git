@@ -267,19 +267,22 @@ export function proveTwoPersonTraitDifference(
   });
   const registry = loadedTraitRegistry();
   const nonTargetTraitSignature = (personId: EntityId) =>
-    reader === "registered" ? registeredTraitConsiderations(
-      game.world,
-      registry,
-      personId,
-      stageId,
-      decisionId,    )
-      .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
-      .map(
-        ({ stableKey, optionKey, direction, importance, confidence }) =>
-          `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
-      )
-      .sort()
-      .join("\n") : "";
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          game.world,
+          registry,
+          personId,
+          stageId,
+          decisionId,
+        )
+          .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
+          .map(
+            ({ stableKey, optionKey, direction, importance, confidence }) =>
+              `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
+          )
+          .sort()
+          .join("\n")
+      : "";
   const candidates = game.world.personOrder.filter(
     (id) => id !== game.playerPersonId,
   );
