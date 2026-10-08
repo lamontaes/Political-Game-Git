@@ -1,4 +1,9 @@
-# Voting outcomes reach recorded people
+---
+id: outcome-web-voting-person-landings
+impact: minor
+section: Added
+title: Voting outcomes reach recorded people
+---
 
 Six voting outcome estimates now use the shared person outcome, lived outcome,
 and official-view path. Graduation effects use recorded adult school completion;
