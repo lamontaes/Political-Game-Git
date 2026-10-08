@@ -72,7 +72,7 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(29);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(30);
     expect(PERSONALITY_TRAIT_READERS).toContainEqual({
       trait: "personality-v1:facet-excitable",
       kind: "decision",
