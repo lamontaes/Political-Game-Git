@@ -956,6 +956,7 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
@@ -1010,6 +1011,8 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A source label for amounts estimated from population-level evidence. */
+  readonly estimatedFrom?: string;
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }
@@ -3879,6 +3882,14 @@ export interface CandidateTally {
   readonly voteShare: number;
 }
 
+export interface ElectionPrecinctTally {
+  readonly townId: EntityId;
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
+}
+
 export interface ElectionContestResultRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3887,6 +3898,8 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  /** Present when every recorded ballot has saved precinct membership. */
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
 }
@@ -3906,6 +3919,7 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly provenance?: ElectionContestProvenance;
 }
 
