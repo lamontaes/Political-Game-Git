@@ -1,4 +1,5 @@
 import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
+import { completeScheduledCareerTask } from "./career-path7";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
 import { ensureEmployerCashPositions } from "./opening-employer-cash";
@@ -916,7 +917,8 @@ function createLifePathRoutineHook(): RoutineTimeHook {
       }
     },
     afterActivityCompleted(world, activityId) {
-      return applyLifePathSessionCompletion(world, activityId);
+      const completed = applyLifePathSessionCompletion(world, activityId);
+      return completeScheduledCareerTask(completed, activityId);
     },
   };
 }
