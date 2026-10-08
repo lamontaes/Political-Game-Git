@@ -766,7 +766,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2489 | B06 Part 2: Open a case for each office contact | PR #2489 (session28/b06-p2-open-cases) | open: sent back: failed its own changed checks: tests; rebase on main (conflicts) | |
 | RS-2490 | LW06: add county and city tax term rows | PR #2490 (codex/lw06-county-city-tax-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2491 | Add public misconduct record readers | PR #2491 (codex/lw03-federal-tax-terms) | open: draft: finish it or close it as superseded | |
-| RS-2494 | B09 part 3: classify vote readings | PR #2494 (codex/session32-b09-p3-vote-reading) | open: draft: finish it or close it as superseded | |
+| RS-2494 | B09 part 3: classify vote readings | PR #2494 (codex/session32-b09-p3-vote-reading) | ready #2494 | S40 |
 | RS-2496 | LW-13: record the person barred by council term limits | PR #2496 (codex/session13-lw13-local-election-exposure) | open: rebase on main (conflicts); stacked on codex/session13-lw12-state-election-exposure: retarget to main; draft: finish it or close it as superseded | |
 | RS-2497 | Add citizen ballot measures and law in force | PR #2497 (session46/b18-3-ballot-measures) | open: draft: finish it or close it as superseded | |
 | RS-2498 | Add concern for distress trait effect | PR #2498 (session49-t9-concern-distress) | open: draft: finish it or close it as superseded | |
