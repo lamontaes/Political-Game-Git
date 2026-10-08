@@ -23,6 +23,7 @@
   flex-direction: column;
   gap: var(--pg-space-2, 8px);
   min-width: 0;
+  container-type: inline-size;
 }
 
 .pg-map-header {
@@ -127,6 +128,12 @@
   }
 }
 
+@container (max-width: 1100px) {
+  .pg-map-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .pg-map-canvas {
   min-width: 0;
 }
@@ -141,6 +148,8 @@
   touch-action: none;
   cursor: grab;
   user-select: none;
+  shape-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
 }
 .pg-map-svg:active {
   cursor: grabbing;
@@ -257,6 +266,7 @@
   text-anchor: middle;
   dominant-baseline: central;
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 /* Markers never take a click meant for the region beneath them. */
 .pg-map-marker {

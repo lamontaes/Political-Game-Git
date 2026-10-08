@@ -13,8 +13,6 @@ export const facetForgivingEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-forgiving",
         pole: "high",
-        explanation:
-          "They let an earlier hurt weigh less and accept the request.",
       },
     ],
   },

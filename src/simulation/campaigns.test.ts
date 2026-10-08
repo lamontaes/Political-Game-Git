@@ -7,6 +7,9 @@ import { describe, expect, it } from "vitest";
 import { recordWorldEvent } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { doorKnockingReturn } from "./campaign-recognition";
+import { viewOfOfficial } from "./official-view-reads";
+import { createFormationContext, recordPrivateBelief } from "./politics";
+import { officialOpinionSubject } from "./political-opinion-subjects";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
@@ -27,6 +30,7 @@ import {
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
   lifePlaces,
   makeCurrencyCode,
   makeIsoDate,
@@ -38,6 +42,7 @@ import {
   addDays,
   assessCampaignContributionForPack,
   campaignCompliancePackFor,
+  compliancePackFor,
   campaignObligations,
   committeeCampaignComplianceDocuments,
   publicCampaignComplianceDocuments,
@@ -51,7 +56,7 @@ import {
   leftoverFundsRuleForState,
 } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
-import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
+import { compliancePackFor as resolveCompliancePackFor } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
@@ -60,6 +65,11 @@ import {
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+
+const KENTUCKY_CAMPAIGN_COMPLIANCE_PACK = resolveCompliancePackFor(
+  "US-KY",
+  makeIsoDate("2026-09-09"),
+);
 import { startingSupportAdjustment } from "./record-in-office";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { generatePoliticalStartingConditions } from "./world-setup/political-start";
@@ -300,6 +310,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     expect(eligibility.blocks.map((block) => block.kind)).toContain(
       "no-sourced-office",
     );
+    expect(
+      eligibility.blocks.find((block) => block.kind === "no-sourced-office")
+        ?.reason,
+    ).toBe("Qualifications: not on record");
   });
 
   it("reaches its own state's pack, and never a different state's", () => {
@@ -333,6 +347,45 @@ describe("candidacy coverage is stated, never assumed", () => {
       lifePlaceByJurisdictionId(LEXINGTON_DEMO_CONTEXT.jurisdiction.id)
         ?.stateJurisdictionKey,
     );
+  });
+});
+
+describe("campaign compliance packs by place", () => {
+  it("resolves all 56 places and marks federal fallback fields as estimates", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const pack = compliancePackFor(
+        place.jurisdictionKey,
+        makeIsoDate("2026-09-09"),
+      );
+      expect(pack.jurisdictionKey).toBe(place.jurisdictionKey);
+      expect(pack.packId.length).toBeGreaterThan(0);
+      if (place.jurisdictionKey === "US-KY") {
+        expect(pack.statementOfIntentWithinDays).toMatchObject({
+          state: "KNOWN",
+          value: 5,
+        });
+        expect(
+          Object.values(pack).some(
+            (value) =>
+              typeof value === "object" &&
+              value !== null &&
+              "estimatedFrom" in value,
+          ),
+        ).toBe(false);
+        continue;
+      }
+      const fields = Object.entries(pack).filter(
+        ([key]) => key !== "packId" && key !== "jurisdictionKey",
+      );
+      expect(fields).toHaveLength(10);
+      for (const [, value] of fields) {
+        expect(value).toMatchObject({
+          estimatedFrom: "federal campaign finance rules",
+        });
+      }
+    }
   });
 });
 
@@ -1365,6 +1418,126 @@ describe("election day", () => {
     expect(campaignState(later, played.campaign.id).status).toBe("lost");
     // And the life can be lived further still.
     expect(advanceWorld(later, 90).currentDate > later.currentDate).toBe(true);
+  });
+
+  it("keeps recorded contacts and views through a loss without a recovery bonus", () => {
+    const filed = fileKentuckyCampaign("b04-p5-preserve-records", 0);
+    const contest = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    const otherPersonId = doorKnockingReturn(
+      filed.world,
+      filed.campaign,
+    ).adultResidentIds.find((id) => !contest.candidatePersonIds.includes(id))!;
+    let beforeLoss = recordWorldEvent(filed.world, {
+      stableKey: "b04-p5-preserve-records:contact:event",
+      type: "campaign.fixture-contact",
+      occurredAt: filed.world.currentDate,
+      recordedAt: filed.world.currentDate,
+      jurisdictionId: filed.campaign.jurisdictionId,
+      involvedEntityIds: [filed.candidatePersonId, otherPersonId],
+      participants: [filed.candidatePersonId, otherPersonId].map(
+        (personId) => ({
+          personId,
+          role: "presence:participant",
+          detail: "Recorded encounter used to check loss carry-forward.",
+        }),
+      ),
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["fixture:authored-contact"],
+      summary: "Recorded encounter used to check loss carry-forward.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    beforeLoss = recordRelationshipInteraction(beforeLoss, {
+      stableKey: "b04-p5-preserve-records:contact",
+      personIds: [filed.candidatePersonId, otherPersonId],
+      eventId: beforeLoss.history.events.at(-1)!.id,
+      occurredAt: beforeLoss.currentDate,
+      kind: "contact:met-at-party-event",
+      change: "formed",
+      significance: "minor",
+      summary: "Recorded encounter used to check loss carry-forward.",
+      tags: ["campaign.contact"],
+    });
+    beforeLoss = recordPrivateBelief(beforeLoss, {
+      stableKey: "b04-p5-preserve-records:official-view",
+      personId: otherPersonId,
+      propositionId: null,
+      subject: officialOpinionSubject(filed.candidatePersonId),
+      formedAt: beforeLoss.currentDate,
+      position: "support",
+      conviction: "moderate",
+      salience: "moderate",
+      flexibility: "open",
+      rationale: null,
+      formation: createFormationContext("reflection:initial"),
+      supersedesBeliefId: null,
+    });
+    const daysUntilElection = Math.floor(
+      (Date.parse(`${contest.electionDate}T00:00:00.000Z`) -
+        Date.parse(`${beforeLoss.currentDate}T00:00:00.000Z`)) /
+        86_400_000,
+    );
+    beforeLoss = advanceWorld(
+      beforeLoss,
+      daysUntilElection - 1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(beforeLoss, filed.campaign.id).status).toBe("active");
+
+    const priorInteractions = beforeLoss.history.relationshipInteractions;
+    const priorBeliefs = beforeLoss.history.privateBeliefs;
+    const priorViews = beforeLoss.history.officialViews ?? [];
+    const priorSupport = supportSnapshot(
+      beforeLoss,
+      filed.campaign,
+      contest.candidatePersonIds,
+    );
+    const priorRecognition = doorKnockingReturn(
+      beforeLoss,
+      filed.campaign,
+    ).recognizedPersonIds;
+    const priorView = viewOfOfficial(
+      beforeLoss,
+      otherPersonId,
+      filed.candidatePersonId,
+    );
+    expect(priorRecognition).toContain(otherPersonId);
+    expect(priorView.points).toBeGreaterThan(0);
+
+    const lost = advanceWorld(
+      beforeLoss,
+      1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      supportSnapshot(lost, filed.campaign, contest.candidatePersonIds),
+    ).toEqual(priorSupport);
+    expect(
+      viewOfOfficial(lost, otherPersonId, filed.candidatePersonId).points,
+    ).toBe(priorView.points);
+    expect(lost.history.relationshipInteractions).toEqual(
+      expect.arrayContaining([...priorInteractions]),
+    );
+    expect(lost.history.privateBeliefs).toEqual(
+      expect.arrayContaining([...priorBeliefs]),
+    );
+    expect(lost.history.officialViews ?? []).toEqual(
+      expect.arrayContaining([...priorViews]),
+    );
+    expect(
+      doorKnockingReturn(lost, filed.campaign).recognizedPersonIds,
+    ).toContain(otherPersonId);
   });
 
   it("lets the same seed answer differently depending on the campaign run", () => {

@@ -9,8 +9,6 @@ export const facetEnviousEffects: TraitPack["effects"] = [
         option: "accept",
         trait: "personality-v1:facet-envious",
         pole: "high",
-        explanation:
-          "They want to see where they stand beside the person asking.",
       },
     ],
   },

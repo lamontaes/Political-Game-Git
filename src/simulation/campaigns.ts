@@ -3,6 +3,7 @@ import {
   recordCampaignFundraiserReceipts,
 } from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
+import { campaignCompliancePackIdForPlace } from "./campaign-compliance";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -47,8 +48,16 @@ import { enactedDutyHandlers } from "./enacted-duties";
 import { officeContinuityHandlers } from "./governing/office-continuity";
 import { governorTurnoverHandlers } from "./nationwide-world/state-executive-turnover";
 import { constitutionalReformHandlers } from "./living-world/constitutional-reform";
-import { federalReformHandlers } from "./living-world/federal-reform";
-import { articleVHandlers } from "./governing/article-v";
+import {
+  FEDERAL_REFORM_REVIEW,
+  federalReformHandlers,
+  federalReformReviewHandler,
+} from "./living-world/federal-reform";
+import {
+  ARTICLE_V_REVIEW,
+  articleVHandlers,
+  articleVReviewHandler,
+} from "./governing/article-v";
 import {
   POLITICAL_REFLECTION_TRANSITION_KEY,
   politicalReflectionTransitionHandler,
@@ -878,11 +887,14 @@ export function fileCampaign(
     jurisdictionId: input.jurisdictionId,
     officeKey: option.officeKey,
     candidacyPackId: packId,
-    compliancePackId:
-      lifePlaceByJurisdictionId(input.jurisdictionId)?.stateJurisdictionKey ===
-      "US-KY"
-        ? "us-ky-candidate-campaign-compliance-v1"
-        : null,
+    compliancePackId: (() => {
+      const jurisdictionKey = lifePlaceByJurisdictionId(
+        input.jurisdictionId,
+      )?.stateJurisdictionKey;
+      return jurisdictionKey
+        ? campaignCompliancePackIdForPlace(jurisdictionKey)
+        : null;
+    })(),
     organizationId,
     donorPoolOrganizationId,
     advertisingVendorOrganizationId,
@@ -2366,6 +2378,16 @@ function endCampaignStaff(
   return next;
 }
 
+/** Both federal amendment routes enter through one clock-handler function. */
+function federalAmendmentReviewHandler(
+  world: World,
+  due: FutureDueItem,
+): FutureTransitionHandlerResult {
+  return due.transitionKey === ARTICLE_V_REVIEW
+    ? articleVReviewHandler(world, due)
+    : federalReformReviewHandler(world, due);
+}
+
 export function composeWorldTimeHandlers(
   additional?: FutureTransitionHandlerRegistry,
 ): FutureTransitionHandlerRegistry {
@@ -2399,6 +2421,8 @@ export function composeWorldTimeHandlers(
         // A legislature and voters changing the governor's term limit.
         ...constitutionalReformHandlers(),
         // Congress and the states amending the U.S. Constitution.
+        [FEDERAL_REFORM_REVIEW, federalAmendmentReviewHandler],
+        [ARTICLE_V_REVIEW, federalAmendmentReviewHandler],
         ...federalReformHandlers(),
         ...articleVHandlers(),
         ...presidentialTurnoverHandlers(),

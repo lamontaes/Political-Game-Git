@@ -98,6 +98,16 @@ describe("the rendered scene recipe selection producer", () => {
     );
     expect(source).not.toContain("nameplates");
     expect(source).not.toContain("scene-place-nameplate");
+    expect(source).not.toContain("scene-place-nametag");
+  });
+
+  it("does not render floating name cards for officials", () => {
+    const source = readFileSync(
+      new URL("./OfficeScene.tsx", import.meta.url),
+      "utf8",
+    );
+    expect(source).not.toContain("person-nameplate");
+    expect(source).not.toContain("scene-person-nameplate");
   });
 
   it.each(["scene-person-recorded-person", "scene-name-recorded-person"])(

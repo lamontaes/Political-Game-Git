@@ -3,8 +3,7 @@ import {
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 import {
-  US_CONGRESS_PACK_ID,
-  isCongressRulePack,
+  federalRulePackById,
   US_CONGRESS_RULE_PACK,
 } from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
@@ -65,15 +64,17 @@ export function legislativePackForJurisdiction(
 export function legislativePackForWorkKey(
   key: string,
 ): LegislativeRulePack | null {
-  if (key === `institution:${US_CONGRESS_PACK_ID}`)
-    return US_CONGRESS_RULE_PACK;
+  const institutionPackId = key.startsWith("institution:")
+    ? key.slice("institution:".length)
+    : null;
+  const federalPack = institutionPackId
+    ? federalRulePackById(institutionPackId)
+    : null;
+  if (federalPack?.jurisdictionKey === "US") return federalPack;
   const compiled = LEGISLATIVE_RULE_PACKS.find(
     (pack) =>
       legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
   );
-  const institutionPackId = key.startsWith("institution:")
-    ? key.slice("institution:".length)
-    : null;
   // A researched chamber whose committees are unread refers its bills to the
   // stand-in standing committee, as `rulePackById` does.
   const statePack =
@@ -112,7 +113,10 @@ function stateLocalityPlace(stateKey: string): LifePlace | null {
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
 ): DemoJurisdictionContext {
-  if (isCongressRulePack(pack.packId))
+  if (pack.institution?.government === "federal") {
+    const context = pack.institution.context;
+    if (!context)
+      throw new Error(`No institutional context for '${pack.packId}'.`);
     return {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
       // Only the static scenario blueprint reads this moment. A live Congress
@@ -120,13 +124,14 @@ export function legislativeInstitutionContext(
       initialMoment: {
         date: DEMO_START_DATE,
         minuteOfDay: 9 * 60,
-        timeZone: "America/New_York",
-        utcOffsetMinutes: -300,
+        timeZone: context.timeZone,
+        utcOffsetMinutes: context.utcOffsetMinutes,
       },
-      creationSummary: "Legislative work in the Congress of the United States.",
-      goalScope: "United States",
-      householdLocationLabel: "Washington, D.C.",
+      creationSummary: context.creationSummary,
+      goalScope: context.goalScope,
+      householdLocationLabel: context.householdLocationLabel,
     };
+  }
   // A profile's state key locates its rules, not the body doing the work.
   // Resolve the validated saved pack to its actual local government/place.
   if (townCouncilProfilePackById(pack.packId)) {

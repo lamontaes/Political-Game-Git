@@ -16,11 +16,9 @@ import "./politics-hub.css";
 export function PublicServicePanel({
   world,
   jurisdictionId,
-  placeLabel,
 }: {
   readonly world: World;
   readonly jurisdictionId: EntityId;
-  readonly placeLabel: string;
 }) {
   const services = useMemo(
     () => projectPublicServiceConditions(world, jurisdictionId),
@@ -34,17 +32,13 @@ export function PublicServicePanel({
       data-testid="public-services"
     >
       <h3 id="pg-public-services-title">Public services</h3>
-      {services.length === 0 ? (
-        <p className="game-note" data-testid="public-services-none">
-          No public service records are kept for {placeLabel} in this game.
-        </p>
-      ) : (
+      {services.length > 0 ? (
         <ul className="pg-public-services-list">
           {services.map((service) => (
             <ServiceItem key={service.programKey} service={service} />
           ))}
         </ul>
-      )}
+      ) : null}
     </section>
   );
 }
