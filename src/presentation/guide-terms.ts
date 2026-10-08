@@ -1,4 +1,4 @@
-import glossary from "../../data/research/glossary/terms.json";
+import glossary from "../../data/research/glossary/terms.json" with { type: "json" };
 
 /**
  * The one term catalog: what the words on the screen mean.
