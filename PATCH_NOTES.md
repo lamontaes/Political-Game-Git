@@ -2,6 +2,13 @@
 
 Newest release first.
 
+## UNRELEASED — A conversation can stand on its own
+
+Life callbacks no longer add a second, hand-written personality nudge to a
+conversation about an earlier disagreement. The shared decision labels now
+provide that pull, keeping the same choices while giving the trait system one
+consistent source.
+
 ## UNRELEASED — Tomorrow is actually a new day
 
 Getting on with the day used to move the date and leave the clock alone. If you
