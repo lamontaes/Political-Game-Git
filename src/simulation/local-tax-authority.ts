@@ -1,6 +1,6 @@
 import matrix from "../../data/research/money/local-tax-authority-matrix.json" with { type: "json" };
 import type { TaxPowerEvidence } from "./tax-types";
-import { makeIsoDate } from "./dates";
+import type { IsoDate } from "./types";
 import { governmentUnit } from "./government-units";
 import { municipalGovernmentByKey } from "./municipal-government";
 
@@ -14,9 +14,6 @@ import { municipalGovernmentByKey } from "./municipal-government";
  * takes the most common value across the states it covers, marked as such.
  * Nothing here names a state; the data does.
  */
-
-/** The opening every new game shares; local authority is read as of then. */
-const LOCAL_TAX_BASELINE_AS_OF = makeIsoDate("2026-01-01");
 
 export type LocalTaxInstrument =
   "property" | "sales" | "payroll" | "corporate-income";
@@ -142,6 +139,7 @@ export function localTaxAuthority(input: {
 /** The legal-power evidence a local tax proposal carries: secondary and
  * estimated unless a production record backs it. Same input, same bytes. */
 export function localTaxPowerEvidenceFor(input: {
+  readonly asOf: IsoDate;
   readonly stateUsps: string;
   readonly level: LocalTaxLevel;
   readonly governmentKey: string;
@@ -154,16 +152,12 @@ export function localTaxPowerEvidenceFor(input: {
     level: input.level,
     governmentKey: input.governmentKey,
     instrument: input.instrument,
-    // The rule was researched on the matrix date and is carried back as the
-    // baseline every game opens with (a 2026 opening), like the other acquired
-    // baselines; the research date stays in the citations.
-    asOf: LOCAL_TAX_BASELINE_AS_OF,
+    asOf: input.asOf,
     sourceArtifactId: authority.cell,
     sourceSha256: "",
     sourceUrl: matrix.matrix.path,
     citations: [
       authority.cell,
-      `researched ${matrix.matrix.asOf}, carried back to the game's opening baseline`,
       `status ${authority.status}${authority.estimated ? " (estimated from the 92N matrix)" : ""}`,
       `state general rule: ${authority.generalRule.dillonsRule}, ${authority.generalRule.fiscalHomeRuleScope}`,
     ],
