@@ -1,4 +1,5 @@
 ---
+id: t9-bond-loyalty-two-person-proof
 impact: none
 ---
 
