@@ -1262,19 +1262,6 @@ function latestReading(
  * day where the state's municipal election law puts it there, and otherwise
  * on the short placeholder schedule until the town's calendar is read.
  */
-/** County identity and calendar do not establish qualification or district domicile. */
-export function countyCandidacyUnavailableReason(
-  officeKey: string,
-): string | null {
-  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
-  // A county's executive and its row offices carry the disclosed age estimate
-  // and county residence, so they are not refused; a county board seat stays
-  // unavailable until its own requirements are read.
-  return office?.unit.unitType === "county" && office.seat === "governing-body"
-    ? "Qualifications: not on record"
-    : null;
-}
-
 /** A missing county calendar remains unknown for read-only consumers. */
 export function campaignElectionDateIsEstimated(
   world: World,
@@ -1387,10 +1374,6 @@ export function fileForOffice(
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
-  // Refuse new admission before generating opponents or writing a candidate.
-  // Existing recorded campaigns are not changed by this filing preflight.
-  const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
-  if (countyRefusal) throw new Error(countyRefusal);
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
   const electionDate =
     authoredElectionDate ??
