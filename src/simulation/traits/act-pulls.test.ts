@@ -5,6 +5,7 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
+import { PROPOSABLE_APPROACHES } from "../people-study-plan";
 import { RATE_OPTIONS } from "../macro-economy/rate-choice";
 import {
   evaluateDecision,
@@ -275,6 +276,7 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
     ),
   ],
   "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
+  "people.study-plan": () => PROPOSABLE_APPROACHES,
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
@@ -292,6 +294,11 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   ],
   // Offered only when a revision was authored; the keys are fixed.
   "people.study-plan-answer": () => ["agrees", "counterproposes", "unresolved"],
+  "people.study-plan-compromise-answer": () => [
+    "agrees",
+    "counterproposes",
+    "unresolved",
+  ],
 };
 
 describe("act kinds, option labels and trait pulls are one consistent table", () => {
@@ -504,7 +511,6 @@ const DECISIONS_OF_INLINE_CALLER: Readonly<
   ],
   decideOnOffer: ["people.job-offer-answer"],
   decidesToAct: ["people.goal-step"],
-  decideStudyPlanOutcome: ["people.study-plan-answer"],
   helperAskConsiderations: ["campaign.helper-request"],
   speechReactionOf: ["speech.react"],
   askToSign: ["campaign.petition-signature"],
@@ -1138,6 +1144,31 @@ describe("the table runs the same in every one of the 56 places", () => {
           `sweep:${state.jurisdictionKey}`,
         ),
       );
+      const withStudyPlanTraits = recordTrait(
+        recordTrait(withTraits, personId, "people-mind-v1:deliberation", 2),
+        personId,
+        "people-mind-v1:conflict",
+        2,
+      );
+      for (const decisionType of [
+        "people.study-plan",
+        "people.study-plan-answer",
+        "people.study-plan-compromise-answer",
+      ]) {
+        const studyPlanDecision = evaluateDecision(
+          withStudyPlanTraits,
+          decisionFor(
+            withStudyPlanTraits,
+            personId,
+            decisionType,
+            `sweep:${state.jurisdictionKey}:${decisionType}`,
+          ),
+        );
+        expect(isSelectedDecision(studyPlanDecision)).toBe(true);
+        expect(
+          studyPlanDecision.context.options.map((option) => option.key).sort(),
+        ).toEqual([...tables.optionActs.get(decisionType)!.keys()].sort());
+      }
       if (actReasons(evaluation.context.considerations).length === 0) {
         withoutReason.push(state.jurisdictionKey);
       }
