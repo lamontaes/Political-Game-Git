@@ -1,0 +1,35 @@
+{
+  "id": "poll-interview-prices",
+  "asOf": "2026-10-05",
+  "status": "ESTIMATED",
+  "unit": "USD per completed interview",
+  "sources": [
+    {
+      "priceRange": [36, 53],
+      "mode": "telephone",
+      "basis": "Older health-survey methodology cost comparison; weak fit for political polling.",
+      "citation": "BMC Medical Research Methodology, DOI 10.1186/1471-2288-12-32",
+      "url": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-12-32"
+    },
+    {
+      "priceRange": [46, 80],
+      "mode": "web",
+      "basis": "Survey-methods cost comparison pages; secondary and weakly documented.",
+      "citation": "Survey-methods cost comparison sources summarized in B07 research note, retrieved 2026-10-05",
+      "url": "https://bmcmedresmethodol.biomedcentral.com/articles/10.1186/1471-2288-12-32"
+    },
+    {
+      "priceRange": [15000, 40000],
+      "mode": "whole local poll",
+      "basis": "Reported local-race poll total prices, not per-interview rates; retained as a reasonableness check only.",
+      "citation": "Daily Montanan, 2023-08-22, Polling experts weigh in on contested Realtors' survey",
+      "url": "https://dailymontanan.com/2023/08/22/polling-experts-weigh-in-on-contested-realtors-survey/"
+    }
+  ],
+  "selectedEstimate": {
+    "low": 36,
+    "high": 80,
+    "method": "Retain the observed telephone and web ranges without collapsing them to a claimed market price. The whole-poll figures are contextual only.",
+    "placeWageScaling": "NOT YET MODELED: the cited material does not provide a defensible place-level price adjustment. Do not silently scale by minimum wage."
+  }
+}

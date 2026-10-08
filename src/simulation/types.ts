@@ -173,6 +173,7 @@ export type EntityKind =
   | "national-election-record"
   | "election-contest"
   | "election-contest-result"
+  | "poll"
   | "executive-disposition"
   | "legislative-action"
   | "legislative-amendment"
@@ -3866,6 +3867,34 @@ export interface ElectionContestResultRecord {
   readonly provenance: ElectionContestProvenance;
 }
 
+export interface PollDeclineRecord {
+  readonly personId: EntityId;
+  readonly reason: string;
+}
+
+export interface PollRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly sponsorId: EntityId;
+  readonly contestId: EntityId | null;
+  readonly officialId: EntityId | null;
+  readonly jurisdictionId: EntityId;
+  readonly fieldStartAt: IsoDate;
+  readonly fieldEndAt: IsoDate;
+  readonly population: number;
+  readonly requestedSampleSize: number;
+  readonly respondentIds: readonly EntityId[];
+  readonly declines: readonly PollDeclineRecord[];
+  readonly answerShares: Readonly<Record<string, number>>;
+  readonly marginOfError95: number | null;
+  readonly interviewedCount: number;
+  readonly interviewCost: MoneyAmount;
+  readonly priceEstimateKey: string;
+  readonly resourceFlowId: EntityId | null;
+  readonly resourceOutcomeId: EntityId | null;
+}
+
 export interface ScheduleElectionContestInput {
   readonly stableKey: string;
   readonly jurisdictionId: EntityId;
@@ -4704,6 +4733,8 @@ export interface HistoryStore {
   readonly nationalElections?: readonly NationalElection[];
   readonly nationalElectionRecords?: readonly NationalElectionRecord[];
   readonly electionContests?: readonly ElectionContestRecord[];
+  /** Optional so saves predating paid polls remain readable. */
+  readonly polls?: readonly PollRecord[];
   readonly electionContestResults?: readonly ElectionContestResultRecord[];
   readonly campaigns?: readonly CampaignRecord[];
   readonly campaignStates?: readonly CampaignStateRecord[];

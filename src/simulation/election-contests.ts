@@ -16,6 +16,7 @@ import type {
   ElectionContestProvenance,
   ElectionContestRecord,
   ElectionContestResultRecord,
+  DecisionEvaluation,
   ElectionContestStatus,
   ElectiveOfficeRef,
   EntityId,
@@ -202,24 +203,25 @@ export interface RecordedVoterCountInput {
   readonly admitVoter?: (personId: EntityId) => boolean | null;
 }
 
-/** Evaluate actual saved candidate views through the one decision function.
- * A missing consideration is omitted, never estimated from party shares.
- */
-export function countRecordedVoterBallots(
+/** The same saved-reasons decision used by election counts, exposed to polls. */
+export function decideRecordedVoterBallot(
   world: World,
   input: RecordedVoterCountInput,
-): {
-  readonly winnerPersonId: EntityId;
-  readonly tallies: readonly CandidateTally[];
-} | null {
-  const candidates = new Set<string>(input.candidatePersonIds);
-  if (
-    candidates.size === 0 ||
-    candidates.size !== input.candidatePersonIds.length
-  )
-    throw new Error("A voter count requires distinct candidate records.");
-  // Index saved candidate views once for this election, never once per voter.
+  voterId: EntityId,
+): DecisionEvaluation | null {
+  const candidates = new Set(input.candidatePersonIds);
   const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
+  indexRecordedCandidateViews(world, input, candidates, views);
+  const context = recordedVoterDecisionContext(world, input, voterId, views);
+  return context ? evaluateDecision(world, context) : null;
+}
+
+function indexRecordedCandidateViews(
+  world: World,
+  input: RecordedVoterCountInput,
+  candidates: ReadonlySet<string>,
+  views: Map<EntityId, Map<EntityId, PrivateBeliefRecord>>,
+): void {
   for (const belief of world.history.privateBeliefs) {
     if (
       belief.subject?.kind !== "official" ||
@@ -240,6 +242,92 @@ export function countRecordedVoterBallots(
       views.set(belief.personId, byCandidate);
     }
   }
+}
+
+function recordedVoterDecisionContext(
+  world: World,
+  input: RecordedVoterCountInput,
+  voterId: EntityId,
+  views: ReadonlyMap<EntityId, ReadonlyMap<EntityId, PrivateBeliefRecord>>,
+): DecisionContext | null {
+  const voter = world.people[voterId];
+  if (!voter) return null;
+  const considerations: DecisionContext["considerations"][number][] = [];
+  for (const [candidateId, belief] of views.get(voterId) ?? []) {
+    if (belief.position !== "support" && belief.position !== "oppose") continue;
+    considerations.push({
+      stableKey: `${input.stableKey}:${voterId}:${belief.id}`,
+      optionKey: candidateId,
+      sourceType: "belief:official",
+      direction: belief.position === "support" ? "supports" : "opposes",
+      importance:
+        belief.salience === "central"
+          ? "decisive"
+          : belief.salience === "high"
+            ? "strong"
+            : belief.salience === "moderate"
+              ? "moderate"
+              : "slight",
+      confidence:
+        belief.conviction === "tentative"
+          ? "low"
+          : belief.conviction === "moderate"
+            ? "medium"
+            : "high",
+      explanation:
+        belief.rationale ?? "The voter has a recorded view of this candidate.",
+      sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+    });
+  }
+  return {
+    stableKey: `${input.stableKey}:voter:${voterId}`,
+    decisionType: "election.vote",
+    actorPersonId: voterId,
+    cutoff: {
+      asOfDate: input.electionDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:election", key: input.stableKey, entityId: null },
+    options: [
+      ...input.candidatePersonIds.map((key) => ({
+        key,
+        label: personName(world.people[key]!),
+        description: "Vote for this candidate.",
+      })),
+      {
+        key: "abstain",
+        label: "Do not choose a candidate",
+        description:
+          "No candidate is preferred on the recorded considerations.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  };
+}
+
+/** Evaluate actual saved candidate views through the one decision function.
+ * A missing consideration is omitted, never estimated from party shares.
+ */
+export function countRecordedVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+} | null {
+  const candidates = new Set<string>(input.candidatePersonIds);
+  if (
+    candidates.size === 0 ||
+    candidates.size !== input.candidatePersonIds.length
+  )
+    throw new Error("A voter count requires distinct candidate records.");
+  // Index saved candidate views once for this election, never once per voter.
+  const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
+  indexRecordedCandidateViews(world, input, candidates, views);
   const contexts = new Map<EntityId, DecisionContext>();
   for (const voterId of world.personOrder) {
     if (
@@ -251,69 +339,9 @@ export function countRecordedVoterBallots(
       )
     )
       continue;
-    const considerations: DecisionContext["considerations"][number][] = [];
-    for (const [candidateId, belief] of views.get(voterId) ?? []) {
-      if (belief.position !== "support" && belief.position !== "oppose")
-        continue;
-      // These categories feed the existing evaluator's single weight table.
-      // No election-specific numerical multiplier is introduced.
-      considerations.push({
-        stableKey: `${input.stableKey}:${voterId}:${belief.id}`,
-        optionKey: candidateId,
-        sourceType: "belief:official",
-        direction: belief.position === "support" ? "supports" : "opposes",
-        importance:
-          belief.salience === "central"
-            ? "decisive"
-            : belief.salience === "high"
-              ? "strong"
-              : belief.salience === "moderate"
-                ? "moderate"
-                : "slight",
-        confidence:
-          belief.conviction === "tentative"
-            ? "low"
-            : belief.conviction === "moderate"
-              ? "medium"
-              : "high",
-        explanation:
-          belief.rationale ??
-          "The voter has a recorded view of this candidate.",
-        sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
-      });
-    }
-    contexts.set(voterId, {
-      stableKey: `${input.stableKey}:voter:${voterId}`,
-      decisionType: "election.vote",
-      actorPersonId: voterId,
-      cutoff: {
-        asOfDate: input.electionDate,
-        historySequenceExclusive: world.history.nextSequence,
-      },
-      subject: {
-        kind: "context:election",
-        key: input.stableKey,
-        entityId: null,
-      },
-      options: [
-        ...input.candidatePersonIds.map((key) => ({
-          key,
-          label: personName(world.people[key]!),
-          description: "Vote for this candidate.",
-        })),
-        {
-          key: "abstain",
-          label: "Do not choose a candidate",
-          description:
-            "No candidate is preferred on the recorded considerations.",
-        },
-      ],
-      constraints: [],
-      considerations,
-      perceptionIds: [],
-      randomness: "none",
-      retention: "ephemeral",
-    });
+    const context = recordedVoterDecisionContext(world, input, voterId, views);
+    if (!context) continue;
+    contexts.set(voterId, context);
   }
   if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
