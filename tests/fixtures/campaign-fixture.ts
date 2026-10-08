@@ -20,6 +20,25 @@ import {
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
 import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
+import { contributeOwnMoneyToCampaign } from "../../src/simulation/campaign-money-sources";
+import { createResourcePosition, money } from "../../src/simulation/resources";
+import { ensureWorldStartingConditions } from "../../src/simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../../src/simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../../src/simulation/world-setup/types";
+
+/**
+ * A scenario world is built without the opening's political starting
+ * conditions. Campaign work reads a district's recorded lean to estimate
+ * support (`campaign-polling-estimate.ts`), and a save without it has none to
+ * read, so a fixture that runs campaign actions records them the way a new
+ * life's opening does.
+ */
+export function withRecordedStartingConditions(world: World): World {
+  return ensureWorldStartingConditions(world, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+}
 
 /** Legacy scenario fixtures deliberately name their intended provider office.
  * Production callers must supply an explicit office key; this is not UI policy.
@@ -122,4 +141,37 @@ function trySession(
     }
     throw error;
   }
+}
+
+/**
+ * Puts recorded money in a candidate's committee the way a candidate does it:
+ * their own savings go in through the shared own-money writer. A fundraising
+ * session no longer raises anything on its own (it needs a dated monetary ask
+ * and a contribution-cap law term), so a fixture that needs a funded committee
+ * seeds one here instead of relying on a session's yield.
+ */
+export function fundCommitteeFromCandidate(
+  world: World,
+  personId: EntityId,
+  minorUnits: number,
+  reserveMinorUnits = 1_000_00,
+): World {
+  // The candidate's savings are opened once, with a reserve left over so a
+  // fixture can put in more later.
+  const funded = world.history.resourcePositions.some(
+    (position) =>
+      position.owner.kind === "person" && position.owner.personId === personId,
+  )
+    ? world
+    : createResourcePosition(world, {
+        stableKey: `fixture:candidate-savings:${personId}`,
+        owner: { kind: "person", personId },
+        openedAt: world.currentDate,
+        openingBalance: money(minorUnits + reserveMinorUnits, "USD"),
+        provenance: {
+          kind: "authored",
+          note: "Fixture savings for a funded committee.",
+        },
+      });
+  return contributeOwnMoneyToCampaign(funded, personId, minorUnits);
 }
