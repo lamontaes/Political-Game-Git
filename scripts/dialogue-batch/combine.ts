@@ -25,7 +25,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import { toGradingBatch, type GradingBatch } from "./grading";
+import { counted, toGradingBatch, type GradingBatch } from "./grading";
 import { repeatKey, type BatchLine, type BatchResult } from "./run";
 import { batchStats } from "./stats";
 import { BATCH_DIR, COVERAGE_FILE, type GradedCoverage } from "./apply-grades";
@@ -96,6 +96,15 @@ export function combineResults(
   const numbered = new Map<string, number>();
   const worlds: BatchResult["worlds"][number][] = [];
   const absent = new Map<string, string[]>();
+  // Lines a kind lost before the batch, by why: a kind with none left is
+  // listed as absent with these counts, not as one no situation reached.
+  const dropped = new Map<string, { repeated: number; overLimit: number }>();
+  const drop = (line: BatchLine, why: "repeated" | "overLimit") => {
+    const kind = kindOfLine(line);
+    const counts = dropped.get(kind) ?? { repeated: 0, overLimit: 0 };
+    counts[why] += 1;
+    dropped.set(kind, counts);
+  };
   for (const result of results) {
     for (const world of result.worlds)
       worlds.push({ ...world, index: worlds.length });
@@ -108,11 +117,14 @@ export function combineResults(
           ?.index ?? 0;
       const seed = line.seed ?? `${result.seed}:${index}`;
       const worldKind = `${seed}|${kind}`;
-      if (
-        shapes.has(shape) ||
-        (fromWorld.get(worldKind) ?? 0) >= PER_WORLD_KIND
-      )
+      if (shapes.has(shape)) {
+        drop(line, "repeated");
         continue;
+      }
+      if ((fromWorld.get(worldKind) ?? 0) >= PER_WORLD_KIND) {
+        drop(line, "overLimit");
+        continue;
+      }
       shapes.add(shape);
       fromWorld.set(worldKind, (fromWorld.get(worldKind) ?? 0) + 1);
       // Ids stay unique across runs: text-news-1, text-news-2, ...
@@ -124,9 +136,25 @@ export function combineResults(
     for (const row of result.absent ?? [])
       absent.set(row.kind, [...(absent.get(row.kind) ?? []), row.reason]);
   }
-  const produced = new Set(
-    lines.map((line) => /^text-(.+)-\d+$/.exec(line.id)?.[1]),
-  );
+  const produced = new Set(lines.map(kindOfLine));
+  const lost = [...dropped]
+    .filter(([kind]) => !produced.has(kind) && !leaveOut.has(kind))
+    .map(([kind, { repeated, overLimit }]) => ({
+      kind,
+      reason: [
+        ...(repeated > 0
+          ? [
+              `${counted(repeated, "line")} repeated one already put to the owner`,
+            ]
+          : []),
+        ...(overLimit > 0
+          ? [
+              `${counted(overLimit, "line")} went over the limit of ${PER_WORLD_KIND} from one life`,
+            ]
+          : []),
+      ].join("; "),
+      dropped: true,
+    }));
   return {
     seed: results.map((result) => result.seed).join("+"),
     worlds,
@@ -134,11 +162,18 @@ export function combineResults(
     skipped: results.flatMap((result) => result.skipped),
     absent: [
       ...[...absent]
-        .filter(([kind]) => !produced.has(kind) && !leaveOut.has(kind))
+        .filter(
+          ([kind]) =>
+            !produced.has(kind) &&
+            !leaveOut.has(kind) &&
+            !lost.some((row) => row.kind === kind),
+        )
         .map(([kind, reasons]) => ({ kind, reason: reasons.join("; ") })),
+      ...lost,
       ...[...leaveOut].map((kind) => ({
         kind,
-        reason: "left out of this batch by its builder (--leave-out)",
+        reason: "it was left out of this batch by its builder (--leave-out)",
+        dropped: true,
       })),
     ],
     stats: batchStats(lines),

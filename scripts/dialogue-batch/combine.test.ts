@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { askedKeys, combineResults, leastGradedFirst } from "./combine";
 import { gradedCoverage } from "./apply-grades";
 import { toGradingBatch } from "./grading";
-import type { BatchLine, BatchResult } from "./run";
+import { repeatKey, type BatchLine, type BatchResult } from "./run";
 
 /*
  * Two stand-in runs: what is under test is how runs combine (seeds kept per
@@ -170,6 +170,34 @@ describe("combining batch runs", () => {
       ["meeting", expect.stringMatching(/^procedural wording/)],
       ["hearing", expect.stringMatching(/^procedural wording/)],
     ]);
+  });
+
+  it("says where a kind's lines went when none reached the owner", () => {
+    // The hearing line was already asked, and the meeting lines are procedure.
+    const asked = new Set([
+      repeatKey("text-hearing", "Good morning.", "bank:text-hearing-1"),
+    ]);
+    const combinedAgain = combineResults([a, b], asked);
+    expect(combinedAgain.absent?.find((row) => row.kind === "hearing")).toEqual(
+      {
+        kind: "hearing",
+        reason: "1 line repeated one already put to the owner",
+        dropped: true,
+      },
+    );
+    const { batch } = toGradingBatch(combinedAgain, {
+      id: "batch-test",
+      head: "test-head",
+      at: new Date("2026-10-08T17:00:00.000Z"),
+    });
+    const reasons = new Map(batch.absent.map((row) => [row.kind, row.reason]));
+    expect(reasons.get("hearing")).toBe(
+      "no output, because 1 line repeated one already put to the owner",
+    );
+    expect(reasons.get("meeting")).toMatch(
+      /^no output, because 1 line went to the bin \(procedural/,
+    );
+    expect(reasons.get("news")).toMatch(/^no output, because/);
   });
 
   it("counts graded items by axis and kind, and fills the least-graded cells first", () => {

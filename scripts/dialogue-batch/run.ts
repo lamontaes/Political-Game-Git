@@ -222,6 +222,11 @@ export interface BatchResult {
   readonly absent?: readonly {
     readonly kind: string;
     readonly reason: string;
+    /**
+     * The runs produced lines of this kind, but none reached the batch: each
+     * was left out, repeated a line already asked, or was over a life's limit.
+     */
+    readonly dropped?: boolean;
   }[];
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];

@@ -251,6 +251,11 @@ export function binRule(reply: string): string | null {
   return null;
 }
 
+/** "1 line", "2 lines". */
+export function counted(n: number, noun: string): string {
+  return `${n} ${n === 1 ? noun : `${noun}s`}`;
+}
+
 export function toGradingBatch(
   result: BatchResult,
   run: { readonly id: string; readonly head: string; readonly at: Date },
@@ -335,9 +340,23 @@ export function toGradingBatch(
   // Every absent kind is a row that names the composer it is missing (CTO
   // 10:14 p.m. Oct 6), with what each world reported.
   const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => {
+    const row = result.absent?.find((entry) => entry.kind === kind);
+    const binned = bin.filter((entry) => entry.item.kind === kind);
+    // Lines were made but none reached the owner: say where they went.
+    if (row?.dropped || binned.length > 0)
+      return {
+        kind,
+        reason: `no output, because ${[
+          ...(binned.length > 0
+            ? [
+                `${counted(binned.length, "line")} went to the bin (${[...new Set(binned.map((entry) => entry.rule))].join("; ")})`,
+              ]
+            : []),
+          ...(row?.dropped ? [row.reason] : []),
+        ].join("; ")}`,
+      };
     const seen =
-      result.absent?.find((row) => row.kind === kind)?.reason ??
-      "no situation in the batch reaches this kind yet";
+      row?.reason ?? "no situation in the batch reaches this kind yet";
     return {
       kind,
       reason: `no output, because ${MISSING_COMPOSER[kind] ?? "no composer reached this kind"}. In these worlds: ${seen.replace(/no output, because /g, "")}`,
