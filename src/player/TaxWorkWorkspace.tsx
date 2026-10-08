@@ -136,7 +136,23 @@ export function TaxWorkWorkspace({
       action();
       setError(null);
     } catch (caught) {
-      setError((caught as Error).message);
+      const message = caught instanceof Error ? caught.message : String(caught);
+      let label: string | undefined;
+      try {
+        const packet: unknown = JSON.parse(message);
+        if (
+          packet &&
+          typeof packet === "object" &&
+          "status" in packet &&
+          typeof packet.status === "string"
+        )
+          label = Object.entries(taxBaseUnits.validationLabels).find(
+            ([key]) => key === packet.status,
+          )?.[1];
+      } catch {
+        /* Existing free-text refusals already have their recorded message. */
+      }
+      setError(label ?? message);
     }
     setFeedbackSeq((count) => count + 1);
   }
@@ -249,7 +265,7 @@ export function TaxWorkWorkspace({
             <select
               value={baseUnit}
               onChange={(event) => setBaseUnit(event.target.value)}
-              aria-label={selectedUnit.label}
+              aria-label={taxBaseUnits.unitControlLabel}
             >
               {taxBaseUnits.options.map((row) => (
                 <option key={row.key} value={row.key}>
@@ -315,10 +331,6 @@ export function TaxWorkWorkspace({
           </fieldset>
           <fieldset className="tax-work-step">
             <legend>3. Commitment: file it</legend>
-            <p>
-              This proposal is written against the taxing power as this game
-              records it for Alaska.
-            </p>
             <p>
               This route uses the ninety-day default after enactment, exact
               half-up cent rounding and general public receipts. It models no

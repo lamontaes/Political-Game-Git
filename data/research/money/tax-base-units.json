@@ -17,5 +17,11 @@
       "seriesKey": "tax:declared-road-use",
       "baseKey": "tax-base:declared-vehicle-miles"
     }
-  ]
+  ],
+  "unitControlLabel": "Tax base unit",
+  "validationLabels": {
+    "invalid-quantity": "Whole vehicle miles",
+    "invalid-rate": "USD per vehicle mile",
+    "inexact-rate": "Exact USD per vehicle mile"
+  }
 }

@@ -41,6 +41,19 @@ import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { ensureNationalElectionJurisdiction } from "./national-election-geography";
 import { createResourcePosition, money } from "./resources";
+import { createWorkCompensation, recordResourceFlowTerms } from "./resources";
+import {
+  createHousehold,
+  recordHouseholdLocation,
+  startHouseholdMembership,
+  createOrganization,
+  createWorkRelationship,
+} from "./life";
+import { HOUSING_VOUCHER_QUESTION } from "./law-consequences/housing-voucher-rows";
+import { housingVoucherIncomeScope } from "./housing-voucher-eligibility";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { latestLawPermission } from "./law-consequences/permission-records";
+import { serializeWorld, deserializeWorld } from "./serialization";
 import { resourcePositionAt } from "./resource-queries";
 import { ensureLivingWorldOpening } from "./living-world/opening";
 import { establishOpeningOfficeholders } from "../presentation/opening-officeholders";
@@ -64,11 +77,13 @@ function enactCap(
     cap?: number;
     coverage?: readonly HouseholdLoanKind[];
     effectiveAt?: string;
+    questionKey?: string;
   } = {},
 ): World {
   let next = ensureNationalElectionJurisdiction(world);
   const question = Object.values(next.policyCatalog.propositions).find(
-    (row) => row.stableKey === CONSUMER_LOAN_CAP_QUESTION,
+    (row) =>
+      row.stableKey === (options.questionKey ?? CONSUMER_LOAN_CAP_QUESTION),
   )!;
   next = introduceMeasure(next, {
     stableKey: "fixture:lw29:bill",
@@ -101,21 +116,25 @@ function enactCap(
       segmentKey: null,
     },
     answers: { propositionId: question.id, answer: "yes" },
-    lawTerms: [
-      {
-        questionKey: CONSUMER_LOAN_CAP_QUESTION,
-        key: "cap",
-        unit: "basis-points",
-        value: options.cap ?? 1200,
-      },
-    ],
-    lawCategories: [
-      {
-        questionKey: CONSUMER_LOAN_CAP_QUESTION,
-        key: "coverage",
-        values: options.coverage ?? ["personal"],
-      },
-    ],
+    lawTerms: options.questionKey
+      ? []
+      : [
+          {
+            questionKey: CONSUMER_LOAN_CAP_QUESTION,
+            key: "cap",
+            unit: "basis-points",
+            value: options.cap ?? 1200,
+          },
+        ],
+    lawCategories: options.questionKey
+      ? []
+      : [
+          {
+            questionKey: CONSUMER_LOAN_CAP_QUESTION,
+            key: "coverage",
+            values: options.coverage ?? ["personal"],
+          },
+        ],
   });
   const bodies = US_CONGRESS_RULE_PACK.chamberOrder.map(
     (key) => seatedCongressChamber(next, key)!.body,
@@ -397,4 +416,192 @@ describe("enacted federal loan caps reach borrowers", () => {
       }) + "\n",
     );
   });
+});
+
+describe("voucher income entitlement uses existing legal permissions", () => {
+  function householdFixture(stateKey: string, recordedIncome = true) {
+    const { world: initial, personId } = fixture(stateKey);
+    const date = initial.currentDate;
+    const provenance = {
+      kind: "authored" as const,
+      note: "Controlled household and earned-income fixture.",
+    };
+    let world = createHousehold(initial, {
+      stableKey: "fixture:voucher-household",
+      formedAt: date,
+      label: "Controlled household",
+      provenance,
+    });
+    const householdId = world.history.households.at(-1)!.id;
+    world = recordHouseholdLocation(world, {
+      stableKey: "fixture:voucher-location",
+      householdId,
+      effectiveAt: date,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      label: "Controlled residence",
+      kind: "residence:ordinary",
+      provenance,
+      supersedesLocationId: null,
+    });
+    world = startHouseholdMembership(world, {
+      stableKey: "fixture:voucher-membership",
+      personId,
+      householdId,
+      startedAt: date,
+      residenceRole: "primary",
+      kind: "resident:ordinary",
+      provenance,
+    });
+    if (!recordedIncome) return { world, personId, provenance };
+    world = createOrganization(world, {
+      stableKey: "fixture:voucher-employer",
+      formedAt: date,
+      provenance,
+      initialProfile: {
+        name: "Controlled employer",
+        classification: "sector:private",
+        locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+      },
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "fixture:voucher-job",
+      personId,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: date,
+      kind: "employment:staff",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance,
+      initialRole: {
+        title: "Controlled work",
+        occupationClassification: null,
+        locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 1, maximumHours: 1 },
+          attention: "low",
+          concurrency: "mostly-concurrent",
+          scheduleRigidity: "flexible",
+          interruptibility: "interruptible",
+          locationJurisdictionId: world.people[personId]!.homeJurisdictionId,
+        },
+      },
+    });
+    world = createWorkCompensation(world, {
+      stableKey: "fixture:voucher-pay",
+      workRelationshipId: world.history.workRelationships.at(-1)!.id,
+      startsAt: date,
+      amount: money(100_000, "USD"),
+      cadenceKind: "schedule:monthly",
+      restrictionKind: null,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      provenance,
+    });
+    return { world, personId, provenance };
+  }
+
+  it("uses a marked, nonblank income estimate instead of missing income or zero in all 56 places", () => {
+    for (const place of lifePlaceStateIdentities()) {
+      const fixture = householdFixture(place.jurisdictionKey, false);
+      const scope = housingVoucherIncomeScope(
+        fixture.world,
+        fixture.personId,
+        DATE,
+      )!;
+      expect(scope).toBeDefined();
+      expect(scope.incomeEstimated).toBe(true);
+      expect(scope.annualIncomeMinor).toBeGreaterThan(0);
+      expect(scope.limitMinor).toBeGreaterThan(0);
+      expect(scope.estimatedFrom).toContain("ESTIMATED FROM AVERAGE");
+    }
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "reviews the adopted income-scoped right in $jurisdictionKey and removes it after recorded income rises",
+    (place) => {
+      const fixture = householdFixture(place.jurisdictionKey);
+      const scope = housingVoucherIncomeScope(
+        fixture.world,
+        fixture.personId,
+        DATE,
+      )!;
+      expect(scope).toMatchObject({
+        annualIncomeMinor: 1_200_000,
+        incomeEstimated: false,
+        qualifies: true,
+      });
+      expect(scope.estimatedFrom).toBeTruthy();
+      const lawWorld = enactCap(fixture.world, {
+        questionKey: HOUSING_VOUCHER_QUESTION,
+      });
+      const enacted = applyLawConsequences(lawWorld, {
+        activity: "renewal",
+        activityId: fixture.world.history.resourceFlowTerms.at(-1)!.id,
+        subjectIds: [fixture.personId],
+        onDate: DATE,
+        questionKey: HOUSING_VOUCHER_QUESTION,
+      });
+      const subject = { kind: "person" as const, id: fixture.personId };
+      const permission = latestLawPermission(
+        enacted,
+        subject,
+        HOUSING_VOUCHER_QUESTION,
+      )!;
+      expect(permission).toBeDefined();
+      expect(permission.status).toBe("permitted");
+      expect(permission.sourceRecordIds).toEqual(
+        expect.arrayContaining(scope.sourceRecordIds),
+      );
+      expect(permission.lawEffectStamps[0]!.governingLawKey).toBe(
+        billId(enacted),
+      );
+      expect(enacted.history.resourceTransferOutcomes).toEqual(
+        fixture.world.history.resourceTransferOutcomes,
+      );
+      const prior =
+        enacted.history.resourceFlowTerms.find(
+          (row) => row.stableKey === "fixture:voucher-pay:terms",
+        ) ??
+        enacted.history.resourceFlowTerms
+          .filter((row) => scope.sourceRecordIds.includes(row.id))
+          .at(-1)!;
+      expect(prior).toBeDefined();
+      const raised = recordResourceFlowTerms(enacted, {
+        stableKey: "fixture:voucher-pay-raised",
+        resourceFlowId: prior.resourceFlowId,
+        effectiveAt: DATE,
+        status: "active",
+        amount: money(10_000_000, "USD"),
+        cadenceKind: prior.cadenceKind,
+        reason: null,
+        provenance: fixture.provenance,
+        supersedesTermsId: prior.id,
+      });
+      expect(
+        housingVoucherIncomeScope(raised, fixture.personId, DATE),
+      ).toMatchObject({ incomeEstimated: false, qualifies: false });
+      const reviewed = applyLawConsequences(raised, {
+        activity: "renewal",
+        activityId: raised.history.resourceFlowTerms.at(-1)!.id,
+        subjectIds: [fixture.personId],
+        onDate: DATE,
+        questionKey: HOUSING_VOUCHER_QUESTION,
+      });
+      expect(
+        latestLawPermission(reviewed, subject, HOUSING_VOUCHER_QUESTION)
+          ?.status,
+      ).toBe("prohibited");
+      if (
+        place.jurisdictionKey === lifePlaceStateIdentities()[0]!.jurisdictionKey
+      ) {
+        const resumed = deserializeWorld(serializeWorld(reviewed));
+        expect(
+          latestLawPermission(resumed, subject, HOUSING_VOUCHER_QUESTION),
+        ).toEqual(
+          latestLawPermission(reviewed, subject, HOUSING_VOUCHER_QUESTION),
+        );
+      }
+    },
+  );
 });
