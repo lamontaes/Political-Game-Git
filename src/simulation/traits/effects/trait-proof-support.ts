@@ -109,6 +109,7 @@ function decisionForPerson(
   reasonFromActTable: boolean,
   optionKeys?: readonly string[],
   reader: "registered" | "act-pulls" = "registered",
+  stageId = `proof:${decisionId}`,
 ): { choice: string | null; reason: string | null } {
   const considerations =
     reader === "registered"
@@ -116,9 +117,8 @@ function decisionForPerson(
           world,
           loadedTraitRegistry(),
           personId,
-          `proof:${decisionId}`,
-          decisionId,
-        )
+          stageId,
+          decisionId,        )
       : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declarationDecisionId =
@@ -253,6 +253,8 @@ export function proveTwoPersonTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  reader: "registered" | "act-pulls" = "registered",
+  stageId = `proof:${decisionId}`,
 ): TwoPersonTraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -265,20 +267,22 @@ export function proveTwoPersonTraitDifference(
   });
   const registry = loadedTraitRegistry();
   const nonTargetTraitSignature = (personId: EntityId) =>
-    registeredTraitConsiderations(
-      game.world,
-      registry,
-      personId,
-      `proof:${decisionId}`,
-      decisionId,
-    )
-      .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
-      .map(
-        ({ stableKey, optionKey, direction, importance, confidence }) =>
-          `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
-      )
-      .sort()
-      .join("\n");
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          game.world,
+          registry,
+          personId,
+          stageId,
+          decisionId,
+        )
+          .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
+          .map(
+            ({ stableKey, optionKey, direction, importance, confidence }) =>
+              `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
+          )
+          .sort()
+          .join("\n")
+      : "";
   const candidates = game.world.personOrder.filter(
     (id) => id !== game.playerPersonId,
   );
@@ -318,6 +322,10 @@ export function proveTwoPersonTraitDifference(
         highPersonId,
         decisionId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
     low: {

@@ -16,6 +16,7 @@ import {
   recordWorldEvent,
   serializeWorld,
 } from "../simulation";
+import { internationalTestActors } from "../simulation/crisis/international-test-actors";
 import type { IsoDate, Person, TensionLevel, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -84,6 +85,7 @@ beforeAll(() => {
 function declare(world: World, key: string, tension: TensionLevel) {
   const next = declareInternationalCrisis(world, {
     stableKey: key,
+    ...internationalTestActors(world, key, ["treaty allies"]),
     counterpartyLabel: "a foreign government",
     allyLabels: ["treaty allies"],
     subject: "access to a disputed shipping lane",
@@ -134,8 +136,9 @@ describe("CRISIS K5 international crisis, first depth", () => {
     "gives counterparties their own varied answers",
     () => {
       const answers = new Set<string>();
-      for (let i = 0; i < 12; i += 1) {
-        const { world, crisisId } = declare(opening, `vary-${i}`, "elevated");
+      const tensions = ["low", "elevated", "high", "severe"] as const;
+      for (let i = 0; i < tensions.length; i += 1) {
+        const { world, crisisId } = declare(opening, `vary-${i}`, tensions[i]!);
         const state = internationalCrisisState(crisisDays(world, 8), crisisId);
         answers.add(state.responses[0]!.counterparty);
       }

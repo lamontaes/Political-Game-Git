@@ -6,6 +6,9 @@ import {
 import { createMindProvenance, recordPersonalityTendency } from "../mind";
 import { loadedTraitRegistry } from "../trait-registry";
 import { traitDefinitionFromPack } from "../trait-packs";
+import { recordJudicialPhilosophy } from "../judiciary/philosophy";
+import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { recordWorldEvent } from "../world";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import {
   evaluateDetention,
@@ -115,5 +118,81 @@ describe("court decision producers read registered traits", () => {
         })}\n`,
       );
     }
+  });
+
+  it("passes a judge's recorded rights outlook into detention and sentencing", () => {
+    const seed = "t6-court-rights-outlook";
+    const place = drawRandomPlace(seed);
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startKind: "custom",
+      startAge: 40,
+      questionnaire: "skipped",
+    });
+    const opened = ensureOpeningJudiciary(game.world);
+    const judgeId = opened.personOrder.find(
+      (id) => id !== game.playerPersonId,
+    )!;
+    const defendantId = opened.personOrder.find(
+      (id) => id !== game.playerPersonId && id !== judgeId,
+    )!;
+    const evidenced = recordWorldEvent(opened, {
+      stableKey: `t6-rights-outlook:${judgeId}`,
+      type: "judiciary.outlook-evidence",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId: game.world.people[judgeId]!.homeJurisdictionId,
+      involvedEntityIds: [judgeId],
+      participants: [
+        { personId: judgeId, role: "agency:speaker", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["judiciary.outlook"],
+      summary: "A judge's recorded rights view.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: "The judge recorded a rights view.",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const eventId = evidenced.history.events.at(-1)!.id;
+    const world = recordJudicialPhilosophy(evidenced, {
+      stableKey: "t6-rights-outlook",
+      personId: judgeId,
+      formedAt: evidenced.currentDate,
+      dimensions: {
+        rights: {
+          strength: 2,
+          evidence: [{ kind: "historical-event", id: eventId }],
+          reason: "judicial.outlook.rights.civil-liberties",
+        },
+      },
+      reason: "judicial.outlook.recorded-at-seating",
+    });
+    const courtCase: CourtCase = {
+      caseKey: "t6-rights-outlook-case",
+      defendantId,
+      offenseKey: "crime:assault",
+      offenseLabel: "assault",
+      evidence: "testimony",
+      standingFindings: 0,
+      venueJurisdictionId: world.people[judgeId]!.homeJurisdictionId,
+      stateKey: null,
+    };
+    for (const evaluation of [
+      evaluateDetention(world, judgeId, courtCase),
+      evaluateSentence(world, judgeId, courtCase, false),
+    ])
+      expect(
+        evaluation.context.considerations.some(
+          (row) => row.sourceType === "belief:judicial-philosophy",
+        ),
+      ).toBe(true);
   });
 });

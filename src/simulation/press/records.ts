@@ -266,6 +266,15 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
   },
 };
 
+/** Filed contract, payroll, disclosure, budget, and roll-call records are public. */
+export const PUBLIC_MISCONDUCT_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "record:contract-award",
+  "record:disclosure-filing",
+  "record:payroll-posting",
+  "record:public-budget-ledger",
+  "record:legislative-vote",
+]);
+
 export const MISCONDUCT_FAMILY_LABELS: Readonly<Record<MatterFamily, string>> =
   {
     ...(Object.fromEntries(

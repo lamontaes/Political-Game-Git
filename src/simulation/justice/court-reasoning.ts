@@ -9,6 +9,7 @@ import {
 } from "../governing/officeholder-principles";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
+import { judicialOutlookConsideration } from "../judiciary/philosophy";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -667,6 +668,16 @@ export function sentencingConsiderations(
     });
   const principle = judgePrincipleConsideration(world, judgeId, key);
   if (principle) out.push(principle);
+  const rights = judicialOutlookConsideration(
+    world,
+    judgeId,
+    "rights",
+    SENTENCE_SUPERVISION,
+    SENTENCE_JAIL,
+    `${key}:judicial-outlook:rights`,
+    "criminal-procedure",
+  );
+  if (rights) out.push(rights);
   return out;
 }
 
@@ -736,6 +747,16 @@ export function evaluateDetention(
       explanation: "They had been found at fault for the same thing before.",
       sourceRefs: [],
     });
+  const rights = judicialOutlookConsideration(
+    world,
+    judgeId,
+    "rights",
+    PRETRIAL_RELEASE,
+    PRETRIAL_HOLD,
+    `${key}:judicial-outlook:rights`,
+    "criminal-procedure",
+  );
+  if (rights) considerations.push(rights);
   return evaluateDecision(world, {
     stableKey: key,
     decisionType: "justice.pretrial-detention",
