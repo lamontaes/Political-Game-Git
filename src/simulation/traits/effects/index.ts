@@ -39,16 +39,6 @@ import { facetHumbleEffects } from "./facet-humble";
 import { facetImaginativeEffects } from "./facet-imaginative";
 import { facetIndependentEffects } from "./facet-independent";
 import { facetInformalEffects } from "./facet-informal";
-import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
-import { facetInventiveEffects } from "./facet-inventive";
-import { facetManipulativeEffects } from "./facet-manipulative";
-import { facetMeticulousEffects } from "./facet-meticulous";
-import { facetMischievousEffects } from "./facet-mischievous";
-import { facetNurturingEffects } from "./facet-nurturing";
-import { facetObservantEffects } from "./facet-observant";
-import { facetOpenMindedEffects } from "./facet-open-minded";
-import { facetOpportunisticEffects } from "./facet-opportunistic";
-import { facetPersistentEffects } from "./facet-persistent";
 import { facetPhilanthropicEffects } from "./facet-philanthropic";
 import { facetPoliteEffects } from "./facet-polite";
 import { facetPracticalEffects } from "./facet-practical";
@@ -69,6 +59,11 @@ import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
 import { methodRevisionEffects } from "./method-revision";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
+import { patienceEffects } from "./patience";
+import { playfulMannerEffects } from "./playful-manner";
+import { selfConfidenceEffects } from "./self-confidence";
+import { uncertainOutlookEffects } from "./uncertain-outlook";
+import { voluntaryEffortEffects } from "./voluntary-effort";
 
 /**
  * The catalog's effect readers, one trait per leaf module. Adding a trait
@@ -115,16 +110,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetImaginativeEffects,
     ...facetIndependentEffects,
     ...facetInformalEffects,
-    ...facetIntimacyGuardedEffects,
-    ...facetInventiveEffects,
-    ...facetManipulativeEffects,
-    ...facetMeticulousEffects,
-    ...facetMischievousEffects,
-    ...facetNurturingEffects,
-    ...facetObservantEffects,
-    ...facetOpenMindedEffects,
-    ...facetOpportunisticEffects,
-    ...facetPersistentEffects,
     ...facetPhilanthropicEffects,
     ...facetPoliteEffects,
     ...facetPracticalEffects,
@@ -145,5 +130,10 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...initialTrustEffects,
     ...methodRevisionEffects,
     ...outwardEmotionalDisplayEffects,
+    ...patienceEffects,
+    ...playfulMannerEffects,
+    ...selfConfidenceEffects,
+    ...uncertainOutlookEffects,
+    ...voluntaryEffortEffects,
   ];
 }
