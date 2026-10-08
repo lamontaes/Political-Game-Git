@@ -39,6 +39,7 @@ import {
 import { jailTermOn } from "../justice/jail-terms";
 import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
+import { applyLawConsequences } from "../enacted-law-effects";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
 import {
@@ -1355,7 +1356,7 @@ export function writeTownEmployer(
       styles[(firstStyle + attempt) % styles.length]!(context);
     if (!taken.has(name)) break;
   }
-  return createOrganization(world, {
+  const created = createOrganization(world, {
     stableKey,
     formedAt,
     detailLevel: "lightweight",
@@ -1367,6 +1368,15 @@ export function writeTownEmployer(
       classification: workplace.classification,
       locationJurisdictionId: town,
     },
+  });
+  if (workplace.key !== "retail") return created;
+  return applyLawConsequences(created, {
+    onDate: formedAt,
+    activity: "application",
+    activityId: id,
+    subjectIds: [id],
+    questionKey:
+      "us-policy-positions:business-commerce.legalize-cannabis-sales",
   });
 }
 

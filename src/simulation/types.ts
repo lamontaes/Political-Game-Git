@@ -3,6 +3,7 @@ import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
   PermitApplicationRecord,
+  PermitReviewRecord,
   PermitStatusRecord,
 } from "./permit-types";
 import type {
@@ -4645,6 +4646,7 @@ export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitReviews?: readonly PermitReviewRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];

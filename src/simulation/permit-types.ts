@@ -32,6 +32,29 @@ export interface PermitStatusRecord {
   readonly sourceRecordIds: readonly EntityId[];
 }
 
+/** A sheriff's review of the cited rule; eligibility alone never issues a permit. */
+export interface PermitReviewRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly applicationId: EntityId;
+  readonly reviewerPersonId: EntityId | null;
+  readonly reviewerParticipationId: EntityId | null;
+  readonly lawMeasureId: EntityId;
+  readonly ruleSourceUrl: string;
+  readonly minimumAgeYears: number;
+  readonly outcome: "eligible" | "ineligible" | "unavailable";
+  readonly reasonKey:
+    | "meets-recorded-rule"
+    | "below-recorded-minimum-age"
+    | "law-prohibits-permit"
+    | "sheriff-not-recorded"
+    | "sheriff-unavailable"
+    | "permission-record-missing";
+  readonly sourceRecordIds: readonly EntityId[];
+}
+
 /** Sourced legal rules are data; no issuer, age or deadline is inferred. */
 export interface PermitRule {
   readonly jurisdictionId: EntityId;

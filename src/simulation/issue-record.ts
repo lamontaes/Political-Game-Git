@@ -8,6 +8,7 @@ import {
   stateResidenceSince,
 } from "./nationwide-world/residence-duration";
 import { isPersonAliveAt } from "./vitality-integrity";
+import { votingStandingOn } from "./justice/voting-standing";
 import type {
   EntityId,
   IsoDate,
@@ -355,6 +356,12 @@ export function isEligibleVoterIn(
       asOfDate: asOf,
       historySequenceExclusive: world.history.nextSequence,
     })
+  )
+    return false;
+  const votingStanding = votingStandingOn(world, personId, asOf);
+  if (
+    votingStanding.standing === "suspended-serving" ||
+    votingStanding.standing === "withheld-after-sentence"
   )
     return false;
   return residesForVoting(world, personId, jurisdictionId, asOf);

@@ -506,6 +506,7 @@ export function institutionOfficeBindingAt(
 
 export function institutionRuleAmountUnit(field: string): LawAmountUnit | null {
   if (field === "body.seats" || field === "court.seats") return "count";
+  if (field === "labor.minimumWage.hourlyCents") return "minor/hour";
   if (
     [
       "term.years",

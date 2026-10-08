@@ -17,6 +17,10 @@ import {
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
 import {
+  INSTITUTION_RULE_ROWS,
+  RIGHT_PERMISSION_ROWS,
+} from "./law-consequences/unused-kind-rows";
+import {
   SNAP_PARTICIPATION_ROW,
   SNAP_WORK_REQUIREMENT_QUESTION,
 } from "./law-consequences/modules/snap-participation/rows";
@@ -129,6 +133,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const developmentIncentive =
         key ===
         "us-policy-positions:business-commerce.cap-development-incentives";
+      const rightPermission = RIGHT_PERMISSION_ROWS[key];
+      const institutionRules = INSTITUTION_RULE_ROWS[key] ?? [];
       if (
         coverage.length === 0 &&
         justice.length === 0 &&
@@ -137,7 +143,9 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         !rent &&
         !tuition &&
         !snap &&
-        !developmentIncentive
+        !developmentIncentive &&
+        !rightPermission &&
+        institutionRules.length === 0
       )
         return row;
       return {
@@ -156,6 +164,8 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
           ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
+          ...(rightPermission ?? []),
+          ...institutionRules,
           ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
           ...coverage,
           ...justice,

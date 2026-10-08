@@ -1,4 +1,5 @@
 import { addDays, ageOnDate } from "../dates";
+import { lawInForce } from "../governing/law-in-force";
 import { createStableId } from "../ids";
 import { DEGREE_LEVELS, degreeProgramFor } from "../degree-levels";
 import {
@@ -25,7 +26,44 @@ import {
   crimeJusticeEvidenceAt,
 } from "./dated-inputs";
 import { isPersonAliveAt } from "../vitality";
+import { latestLawPermission } from "../law-consequences/permission-records";
 import type { CrimeOffense } from "./contract";
+
+const CONCEALED_CARRY_QUESTION_KEY =
+  "us-policy-positions:justice-public-safety.permit-to-carry-concealed";
+
+/** The carry-permit decision recorded for this person under current law. */
+export function concealedCarryPermitRuleAt(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): "permitted" | "prohibited" | "unknown" {
+  if (!world.people[personId] || !world.jurisdictions[jurisdictionId])
+    return "unknown";
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === CONCEALED_CARRY_QUESTION_KEY,
+  );
+  if (!question) return "unknown";
+  const law = lawInForce(world, jurisdictionId, question.id, asOf);
+  if (!law || (law.answer !== "yes" && law.answer !== "no")) return "unknown";
+  const permission = latestLawPermission(
+    world,
+    { kind: "person", id: personId },
+    CONCEALED_CARRY_QUESTION_KEY,
+    asOf,
+  );
+  const stamp = permission?.lawEffectStamps[0];
+  if (
+    !permission ||
+    stamp.questionKey !== CONCEALED_CARRY_QUESTION_KEY ||
+    stamp.jurisdictionId !== jurisdictionId ||
+    stamp?.governingLawKey !== law.measureId ||
+    stamp.operativeAt !== law.operativeAt
+  )
+    return "unknown";
+  return permission.status;
+}
 
 /**
  * Who commits a reported offense, from the town's own people.

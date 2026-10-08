@@ -7,6 +7,7 @@ import {
 import { readFinalEnactedLawTerm } from "../governing/automatic-legislation";
 import { lawInForce } from "../governing/law-in-force";
 import { lawEffectStamp } from "../law-effect-stamp";
+import { measureAnswersAt } from "../vote-bundle";
 import type {
   LawConsequenceContext,
   LawConsequenceKindRegistration,
@@ -49,11 +50,6 @@ export function resolveLawInstitutionRuleConsequences(
       "Institution-rule requires one explicit recorded rule field",
     );
   const field = predicates[0]!.parameters.field;
-  if (
-    row.amount.key !== field ||
-    institutionRuleAmountUnit(field) !== row.amount.unit
-  )
-    throw new Error("Institution-rule field and typed term unit disagree");
   const proposition = world.policyCatalog.propositionOrder
     .map((id) => world.policyCatalog.propositions[id]!)
     .find((candidate) =>
@@ -88,6 +84,17 @@ export function resolveLawInstitutionRuleConsequences(
     throw new Error(
       "Institution-rule requires an actual government jurisdiction",
     );
+  if (
+    !measureAnswersAt(world, measure.id, enactment.sequence).some(
+      (answer) => answer.propositionId === proposition.id,
+    )
+  )
+    return [];
+  if (
+    row.amount.key !== field ||
+    institutionRuleAmountUnit(field) !== row.amount.unit
+  )
+    throw new Error("Institution-rule field and typed term unit disagree");
   const law = lawInForce(
     world,
     measure.jurisdictionId,
@@ -105,12 +112,12 @@ export function resolveLawInstitutionRuleConsequences(
     termKey: field,
     unit: row.amount.unit,
   });
-  if (!term)
-    throw new Error("Missing institution-rule final adopted typed term");
+  if (!term) return [];
   const clauses = ruleChangeProvisionHistoryRecords(world).filter(
     (record) => record.measureId === law.measureId && record.field === field,
   );
-  if (!clauses.length || clauses.some((clause) => clause.value !== term.value))
+  if (!clauses.length) return [];
+  if (clauses.some((clause) => clause.value !== term.value))
     throw new Error(
       "Missing institution-rule unambiguous recorded institution/term agreement",
     );

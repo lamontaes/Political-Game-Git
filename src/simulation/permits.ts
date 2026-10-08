@@ -1,3 +1,4 @@
+import { ageOnDate } from "./dates";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -7,8 +8,14 @@ import { makeIsoDate } from "./dates";
 import { appendedList, recordById } from "./history-index";
 import { createStableId } from "./ids";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import { countyRowOfficerForJurisdiction } from "./justice/county-offices";
+import { latestLawPermission } from "./law-consequences/permission-records";
+import { concealedCarryPermitRuleAt } from "./crime/offenders";
+import { isPersonAliveAt } from "./vitality";
+import { applyLawConsequences } from "./enacted-law-effects";
 import type {
   PermitApplicationRecord,
+  PermitReviewRecord,
   PermitRule,
   PermitStatusRecord,
 } from "./permit-types";
@@ -19,6 +26,7 @@ import type { DecisionContext, EntityId, World } from "./types";
 interface PermitHistory {
   readonly nextSequence: number;
   readonly permitApplications?: readonly PermitApplicationRecord[];
+  readonly permitReviews?: readonly PermitReviewRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
 }
 export function permitApplications(
@@ -30,6 +38,104 @@ export function permitApplications(
 export function permitStatuses(world: World): readonly PermitStatusRecord[] {
   const history: PermitHistory = world.history;
   return history.permitStatuses ?? [];
+}
+export function permitReviews(world: World): readonly PermitReviewRecord[] {
+  const history: PermitHistory = world.history;
+  return history.permitReviews ?? [];
+}
+
+function recordPermitReview(
+  world: World,
+  application: PermitApplicationRecord,
+  rule: PermitRule,
+): World {
+  const stableKey = `permit-review/v1:${application.id}`;
+  const prior = permitReviews(world).find((row) => row.stableKey === stableKey);
+  if (prior) return world;
+  const cutoff = {
+    asOfDate: world.currentDate,
+    historySequenceExclusive: world.history.nextSequence,
+  };
+  const seated = countyRowOfficerForJurisdiction(
+    world,
+    rule.jurisdictionId,
+    "sheriff",
+  );
+  const sheriff =
+    seated &&
+    seated.personId !== application.personId &&
+    world.people[seated.personId] &&
+    isPersonAliveAt(world, seated.personId, cutoff)
+      ? seated
+      : null;
+  const ruleAnswer = concealedCarryPermitRuleAt(
+    world,
+    application.personId,
+    rule.jurisdictionId,
+    application.appliedAt,
+  );
+  const age = ageOnDate(
+    world.people[application.personId]!.birthDate,
+    application.appliedAt,
+  );
+  let outcome: PermitReviewRecord["outcome"];
+  let reasonKey: PermitReviewRecord["reasonKey"];
+  if (!seated) {
+    outcome = "unavailable";
+    reasonKey = "sheriff-not-recorded";
+  } else if (!sheriff) {
+    outcome = "unavailable";
+    reasonKey = "sheriff-unavailable";
+  } else if (ruleAnswer === "unknown") {
+    outcome = "unavailable";
+    reasonKey = "permission-record-missing";
+  } else if (ruleAnswer === "prohibited") {
+    outcome = "ineligible";
+    reasonKey = "law-prohibits-permit";
+  } else if (age < rule.minimumAgeYears) {
+    outcome = "ineligible";
+    reasonKey = "below-recorded-minimum-age";
+  } else {
+    outcome = "eligible";
+    reasonKey = "meets-recorded-rule";
+  }
+  const permission = latestLawPermission(
+    world,
+    { kind: "person", id: application.personId },
+    application.questionKey,
+    application.appliedAt,
+  );
+  const sourceRecordIds = [
+    application.id,
+    ...(permission?.lawEffectStamps[0]?.governingLawKey ===
+    application.governingLawKey
+      ? [permission.id]
+      : []),
+    ...(sheriff ? [sheriff.participationId] : []),
+  ];
+  const review: PermitReviewRecord = {
+    id: createStableId("decision", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence: world.history.nextSequence,
+    recordedAt: world.currentDate,
+    applicationId: application.id,
+    reviewerPersonId: sheriff?.personId ?? null,
+    reviewerParticipationId: sheriff?.participationId ?? null,
+    lawMeasureId: application.governingLawKey,
+    ruleSourceUrl: rule.sourceUrl,
+    minimumAgeYears: rule.minimumAgeYears,
+    outcome,
+    reasonKey,
+    sourceRecordIds: [...new Set(sourceRecordIds)],
+  };
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      permitReviews: appendedList(permitReviews(world), [review]),
+      nextSequence: world.history.nextSequence + 1,
+    },
+  };
 }
 export interface PermitApplicationResult {
   readonly world: World;
@@ -68,7 +174,14 @@ export function applyForPermit(
   } as const;
   const person = world.people[input.personId];
   const law = input.law;
-  if (!person || !law || law.answer !== "yes" || !input.rule.sourceUrl.trim())
+  if (
+    !person ||
+    !law ||
+    (law.answer !== "yes" && law.answer !== "no") ||
+    !input.rule.sourceUrl.trim() ||
+    !Number.isSafeInteger(input.rule.minimumAgeYears) ||
+    input.rule.minimumAgeYears < 0
+  )
     return unsupported;
   const question = Object.values(world.policyCatalog.propositions).find(
     (q) => q.stableKey === input.rule.questionKey,
@@ -170,6 +283,15 @@ export function applyForPermit(
     nextSequence: next.history.nextSequence + 1,
   };
   next = { ...next, history };
+  next = applyLawConsequences(next, {
+    onDate: next.currentDate,
+    activity: "application",
+    activityId: record.id,
+    subjectIds: [person.id],
+    governingLawId: law.measureId,
+    questionKey: input.rule.questionKey,
+  });
+  next = recordPermitReview(next, record, input.rule);
   return { world: next, status: "applied", applicationId: record.id };
 }
 
@@ -228,7 +350,11 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
     const law = question
       ? lawInForce(world, row.jurisdictionId, question.id, row.appliedAt)
       : null;
-    if (!law || law.answer !== "yes" || law.measureId !== row.governingLawKey)
+    if (
+      !law ||
+      (law.answer !== "yes" && law.answer !== "no") ||
+      law.measureId !== row.governingLawKey
+    )
       throw new Error("Permit application has no matching operative law.");
     const measure =
       law.origin === "enacted"
@@ -255,6 +381,73 @@ export function assertPermitIntegrity(world: World, ids: Set<EntityId>): void {
     )
       throw new Error("Permit application has invalid actual source evidence.");
     sequence = row.sequence;
+  }
+  let reviewSequence = -1;
+  const applications = new Map(
+    permitApplications(world).map((row) => [row.id, row]),
+  );
+  const reviewKeys = new Set<string>();
+  for (const row of permitReviews(world)) {
+    const application = applications.get(row.applicationId);
+    if (
+      ids.has(row.id) ||
+      row.id !== createStableId("decision", `${world.id}:${row.stableKey}`) ||
+      row.stableKey !== `permit-review/v1:${row.applicationId}` ||
+      reviewKeys.has(row.stableKey) ||
+      !application ||
+      !Number.isSafeInteger(row.sequence) ||
+      row.sequence <= reviewSequence ||
+      row.sequence <= application.sequence ||
+      row.sequence >= world.history.nextSequence ||
+      row.recordedAt < application.appliedAt ||
+      row.recordedAt > world.currentDate ||
+      row.lawMeasureId !== application.governingLawKey ||
+      !row.ruleSourceUrl.trim() ||
+      !Number.isSafeInteger(row.minimumAgeYears) ||
+      row.minimumAgeYears < 0 ||
+      !["eligible", "ineligible", "unavailable"].includes(row.outcome) ||
+      new Set(row.sourceRecordIds).size !== row.sourceRecordIds.length ||
+      !row.sourceRecordIds.includes(application.id)
+    )
+      throw new Error("Invalid saved permit review.");
+    const hasReviewer =
+      row.reviewerPersonId !== null &&
+      row.reviewerParticipationId !== null &&
+      !!world.people[row.reviewerPersonId];
+    if (
+      (row.reviewerPersonId === null) !==
+      (row.reviewerParticipationId === null)
+    )
+      throw new Error("Permit review has a partial sheriff identity.");
+    const sheriffGap =
+      row.reasonKey === "sheriff-not-recorded" ||
+      row.reasonKey === "sheriff-unavailable";
+    if (sheriffGap === hasReviewer || (!sheriffGap && !hasReviewer))
+      throw new Error("Permit review must name its actual sheriff or gap.");
+    for (const sourceId of row.sourceRecordIds) {
+      if (sourceId === application.id) continue;
+      const participation = recordById(
+        world.history.organizationParticipations,
+        sourceId,
+      );
+      const permission = recordById(
+        world.history.lawPermissionRecords ?? [],
+        sourceId,
+      );
+      if (!participation && !permission)
+        throw new Error("Permit review cites missing saved evidence.");
+      if (
+        participation &&
+        (participation.sequence >= row.sequence ||
+          participation.personId !== row.reviewerPersonId)
+      )
+        throw new Error("Permit review cites a different sheriff's seat.");
+      if (permission && permission.sequence >= row.sequence)
+        throw new Error("Permit review cites future permission evidence.");
+    }
+    ids.add(row.id);
+    reviewKeys.add(row.stableKey);
+    reviewSequence = row.sequence;
   }
   // No status producer is admitted until actual eligibility evidence and a
   // cited processing rule are supplied; absence cannot grant a permit.

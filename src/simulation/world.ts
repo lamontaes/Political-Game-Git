@@ -5,6 +5,7 @@ import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
   assertPermitIntegrity,
   permitApplications,
+  permitReviews,
   permitStatuses,
 } from "./permits";
 import {
@@ -2120,6 +2121,7 @@ function validateHistoryIntegrity(
         ...enactedDutyRecords(world),
         ...lawPermissionRecords(world),
         ...permitApplications(world),
+        ...permitReviews(world),
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...childhoodRecordEntries(world),

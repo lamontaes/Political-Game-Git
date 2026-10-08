@@ -18,6 +18,8 @@ import {
 } from "../life-queries";
 import { SeededRng } from "../rng";
 import { localBusinessWageMinor } from "../recorded-employer";
+import { lawInForce } from "../governing/law-in-force";
+import { latestLawPermission } from "../law-consequences/permission-records";
 import type {
   EntityId,
   OrganizationClassification,
@@ -104,6 +106,8 @@ export interface TownBusiness {
   readonly workplace: Workplace;
   readonly outlet: number;
   readonly name: string;
+  /** A current stamped permission record controls this license check. */
+  readonly cannabisSalesLicensed: boolean;
   /** Active town jobs there today. */
   readonly jobs: readonly {
     readonly relationshipId: EntityId;
@@ -111,6 +115,38 @@ export interface TownBusiness {
     readonly status: WorkStatusRecord;
     readonly directsOthers: boolean;
   }[];
+}
+
+const CANNABIS_SALES_QUESTION_KEY =
+  "us-policy-positions:business-commerce.legalize-cannabis-sales";
+
+function cannabisSalesLicensed(
+  world: World,
+  organizationId: EntityId,
+): boolean {
+  const profile = organizationProfileAt(world, organizationId);
+  const question = Object.values(world.policyCatalog.propositions).find(
+    (row) => row.stableKey === CANNABIS_SALES_QUESTION_KEY,
+  );
+  if (!profile?.locationJurisdictionId || !question) return false;
+  const law = lawInForce(
+    world,
+    profile.locationJurisdictionId,
+    question.id,
+    world.currentDate,
+  );
+  const permission = latestLawPermission(
+    world,
+    { kind: "organization", id: organizationId },
+    CANNABIS_SALES_QUESTION_KEY,
+  );
+  const stamp = permission?.lawEffectStamps[0];
+  return (
+    law?.answer === "yes" &&
+    permission?.status === "permitted" &&
+    stamp?.governingLawKey === law.measureId &&
+    stamp.operativeAt === law.operativeAt
+  );
 }
 
 const WORKPLACE_BY_KEY = new Map(
@@ -166,6 +202,7 @@ export function townBusinesses(
       workplace: entry.workplace,
       outlet: entry.outlet,
       name: organizationProfileAt(world, organizationId)?.name ?? "",
+      cannabisSalesLicensed: cannabisSalesLicensed(world, organizationId),
       jobs: jobs.get(organizationId) ?? [],
     }));
 }

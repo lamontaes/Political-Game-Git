@@ -1,4 +1,5 @@
 import { lawInForce } from "../governing/law-in-force";
+import { latestLawPermission } from "../law-consequences/permission-records";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
@@ -139,13 +140,20 @@ export function votingStandingOn(
         questionId && sentenced.jurisdictionId
           ? lawInForce(world, sentenced.jurisdictionId, questionId, date)
           : null;
-      next =
-        law?.answer === "yes"
-          ? { standing: "restored", sentenceEventId: sentenced.id }
-          : {
-              standing: "withheld-after-sentence",
-              sentenceEventId: sentenced.id,
-            };
+      const permission = latestLawPermission(
+        world,
+        { kind: "person", id: personId },
+        RESTORE_VOTING_QUESTION_KEY,
+        date,
+      );
+      next = (
+        permission ? permission.status === "permitted" : law?.answer === "yes"
+      )
+        ? { standing: "restored", sentenceEventId: sentenced.id }
+        : {
+            standing: "withheld-after-sentence",
+            sentenceEventId: sentenced.id,
+          };
     }
     if (rank[next.standing] > rank[worst.standing]) worst = next;
   }
