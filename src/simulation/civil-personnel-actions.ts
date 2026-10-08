@@ -1,3 +1,8 @@
+import {
+  PERSONNEL_JURISDICTION_RULES,
+  personnelJurisdictionRule,
+  personnelProcedureApplies,
+} from "./civil-personnel-rules";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
@@ -91,11 +96,16 @@ export function personnelProcedures(): readonly PersonnelProcedure[] {
 export function procedureApplicability(
   key: PersonnelProcedureKey,
   onDate: IsoDate,
+  jurisdictionKey?: string,
 ):
   | { readonly state: "SUPPORTED" }
   | { readonly state: "UNKNOWN"; readonly reason: string } {
   const procedure = personnelProcedure(key);
-  if (onDate < procedure.validity.observedOn)
+  if (
+    jurisdictionKey
+      ? !personnelProcedureApplies(procedure, jurisdictionKey, onDate)
+      : onDate < procedure.validity.observedOn
+  )
     return {
       state: "UNKNOWN",
       reason: `${procedure.citation.citation} was observed in current text on ${procedure.validity.observedOn}; that does not establish it on ${onDate}.`,
@@ -155,10 +165,9 @@ export function personnelStateKeyForJurisdiction(
   if (!jurisdictionId) return null;
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
-  for (const profile of sources.profiles) {
-    if (profile.employerLevel !== "state") continue;
-    if (stateJurisdictionForKey(profile.jurisdictionKey)?.id === jurisdictionId)
-      return profile.jurisdictionKey;
+  for (const rule of PERSONNEL_JURISDICTION_RULES) {
+    if (stateJurisdictionForKey(rule.jurisdictionKey)?.id === jurisdictionId)
+      return rule.jurisdictionKey;
   }
   return null;
 }
@@ -292,6 +301,8 @@ function appendRecord(
   const id = createStableId("personnel-record", `${world.id}:${stableKey}`);
   const full = {
     ...record,
+    estimatedFrom:
+      personnelJurisdictionRule(record.jurisdictionKey)?.estimatedFrom ?? null,
     id,
     stableKey,
     sequence: world.history.nextSequence,
@@ -324,6 +335,9 @@ function appendRecords(
     (entry) =>
       ({
         ...entry.record,
+        estimatedFrom:
+          personnelJurisdictionRule(entry.record.jurisdictionKey)
+            ?.estimatedFrom ?? null,
         id: createStableId(
           "personnel-record",
           `${world.id}:${entry.stableKey}`,
@@ -661,7 +675,7 @@ export type DisciplineAssessment =
   | { readonly available: false; readonly reason: string };
 
 /** Every gate is field-local; the first unmet one is reported. */
-export function assessMinnesotaDiscipline(
+export function assessPersonnelDiscipline(
   world: World,
   actorPersonId: EntityId,
   incumbencyId: EntityId,
@@ -687,20 +701,22 @@ export function assessMinnesotaDiscipline(
     },
   );
   if (!authority.ok) return { available: false, reason: authority.reason };
-  if (position.jurisdictionKey !== "US-MN")
+  const rule = personnelJurisdictionRule(position.jurisdictionKey);
+  if (!rule?.classifiedProcedureAvailable)
     return {
       available: false,
-      reason:
-        position.jurisdictionKey === "US-AK"
-          ? "Alaska disciplinary measures are set by personnel rules under AS 39.25.150(15)-(16), which are not acquired."
-          : `No disciplinary procedure is compiled for ${position.jurisdictionKey}.`,
+      reason: `No disciplinary procedure is compiled for ${position.jurisdictionKey}.`,
     };
   for (const key of [
     "mn-just-cause",
     "mn-just-cause-grounds",
     "mn-discipline-notice",
   ] as const) {
-    const applicability = procedureApplicability(key, world.currentDate);
+    const applicability = procedureApplicability(
+      key,
+      world.currentDate,
+      position.jurisdictionKey,
+    );
     if (applicability.state === "UNKNOWN")
       return { available: false, reason: applicability.reason };
   }
@@ -779,7 +795,7 @@ export function recordInformalResolutionAttempt(
 ): PersonnelResult {
   const actor = controlledActor(world);
   if (!actor) return refuse(world, "Choose a living person to act.");
-  const assessment = assessMinnesotaDiscipline(
+  const assessment = assessPersonnelDiscipline(
     world,
     actor,
     input.incumbencyId,
@@ -865,7 +881,7 @@ export function recordInformalResolutionAttempt(
 }
 
 /** Reprimand or discharge for an enumerated just cause, with written notice. */
-export function issueMinnesotaDiscipline(
+export function issuePersonnelDiscipline(
   world: World,
   input: {
     readonly incumbencyId: EntityId;
@@ -876,7 +892,7 @@ export function issueMinnesotaDiscipline(
 ): PersonnelResult {
   const actor = controlledActor(world);
   if (!actor) return refuse(world, "Choose a living person to act.");
-  const assessment = assessMinnesotaDiscipline(
+  const assessment = assessPersonnelDiscipline(
     world,
     actor,
     input.incumbencyId,
@@ -1071,6 +1087,7 @@ export function fileNoticeWithCommissioner(
   const applicability = procedureApplicability(
     "mn-discipline-notice",
     world.currentDate,
+    found.position.jurisdictionKey,
   );
   if (applicability.state === "UNKNOWN")
     return refuse(world, applicability.reason);
@@ -1265,6 +1282,7 @@ function settlementRefusal(
   const applicability = procedureApplicability(
     "mn-commissioner-settlement",
     world.currentDate,
+    appeal.jurisdictionKey,
   );
   if (applicability.state === "UNKNOWN") return applicability.reason;
   if (
@@ -1459,11 +1477,15 @@ function reinstatementPositionBar(
   world: World,
   position: PersonnelPositionRecord,
 ): string | null {
-  if (position.jurisdictionKey !== "US-MN")
+  if (
+    !personnelJurisdictionRule(position.jurisdictionKey)
+      ?.classifiedProcedureAvailable
+  )
     return `No appointment procedure is compiled for ${position.jurisdictionKey}; selection, qualification and pay instruments are not acquired.`;
   const applicability = procedureApplicability(
     "mn-reinstatement",
     world.currentDate,
+    position.jurisdictionKey,
   );
   if (applicability.state === "UNKNOWN") return applicability.reason;
   if (position.civilClass !== "classified")
@@ -1472,7 +1494,7 @@ function reinstatementPositionBar(
 }
 
 /** Qualification is former class service within four years; kinship is irrelevant. */
-export function assessMinnesotaReinstatement(
+export function assessPersonnelReinstatement(
   world: World,
   actorPersonId: EntityId,
   positionId: EntityId,
@@ -1513,7 +1535,7 @@ export function assessMinnesotaReinstatement(
       const separated = separationDate(world, i);
       return (
         formerPosition?.classKey === position.classKey &&
-        formerPosition.jurisdictionKey === "US-MN" &&
+        formerPosition.jurisdictionKey === position.jurisdictionKey &&
         separated !== null &&
         world.currentDate <= yearsAfter(separated, limit)
       );
@@ -1551,7 +1573,7 @@ export function assessMinnesotaReinstatement(
   };
 }
 
-export function offerMinnesotaReinstatement(
+export function offerPersonnelReinstatement(
   world: World,
   input: {
     readonly positionId: EntityId;
@@ -1561,7 +1583,7 @@ export function offerMinnesotaReinstatement(
 ): PersonnelResult {
   const actor = controlledActor(world);
   if (!actor) return refuse(world, "Choose a living person to act.");
-  const assessment = assessMinnesotaReinstatement(
+  const assessment = assessPersonnelReinstatement(
     world,
     actor,
     input.positionId,
@@ -1950,13 +1972,13 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
       },
     ).ok;
     if (!active || (!mine && !authorityHere)) continue;
-    const informal = assessMinnesotaDiscipline(
+    const informal = assessPersonnelDiscipline(
       world,
       actor,
       incumbency.id,
       "informal-resolution",
     );
-    const discipline = assessMinnesotaDiscipline(
+    const discipline = assessPersonnelDiscipline(
       world,
       actor,
       incumbency.id,
@@ -2027,7 +2049,7 @@ export function personnelMatters(world: World): readonly PersonnelMatterView[] {
       ),
     ];
     const assessments = formerPeople.map((personId) =>
-      assessMinnesotaReinstatement(world, actor, job.id, personId),
+      assessPersonnelReinstatement(world, actor, job.id, personId),
     );
     const eligible = assessments.some((a) => a.available);
     const declined = assessments.some(
@@ -2176,7 +2198,7 @@ export function reinstatementOpportunities(world: World) {
     const candidates = [
       ...new Set(recordsOf(world, "incumbency").map((i) => i.personId)),
     ].flatMap((personId) => {
-      const assessment = assessMinnesotaReinstatement(
+      const assessment = assessPersonnelReinstatement(
         world,
         actor,
         job.id,
@@ -2214,6 +2236,7 @@ export type ExecutiveOfficeStaffBoundary =
   | {
       readonly state: "known";
       readonly civilClass: "unclassified" | "exempt";
+      readonly estimatedFrom: string | null;
       readonly statement: string;
       readonly citation: string;
       /** What the class leaves unestablished; never a staffing permission. */
@@ -2230,24 +2253,25 @@ export function executiveOfficeStaffBoundary(
   jurisdictionKey: string,
   onDate: IsoDate,
 ): ExecutiveOfficeStaffBoundary {
-  const key: PersonnelProcedureKey | null =
-    jurisdictionKey === "US-MN"
-      ? "mn-unclassified-offices"
-      : jurisdictionKey === "US-AK"
-        ? "ak-governor-office-exempt"
-        : null;
+  const rule = personnelJurisdictionRule(jurisdictionKey);
+  const key = rule?.boundaryProcedureKey ?? null;
   if (!key)
     return {
       state: "unknown",
       reason: `No civil-service boundary is compiled for ${jurisdictionKey}.`,
     };
-  const applicability = procedureApplicability(key, onDate);
+  const applicability = procedureApplicability(
+    key,
+    onDate,
+    rule?.boundaryEstimatedFrom ? jurisdictionKey : undefined,
+  );
   if (applicability.state === "UNKNOWN")
     return { state: "unknown", reason: applicability.reason };
   const procedure = personnelProcedure(key);
   return {
     state: "known",
-    civilClass: key === "mn-unclassified-offices" ? "unclassified" : "exempt",
+    civilClass: rule!.boundaryClass,
+    estimatedFrom: rule!.boundaryEstimatedFrom,
     statement: procedure.statement,
     citation: procedure.citation.citation,
     unestablished: [

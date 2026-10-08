@@ -1,3 +1,7 @@
+import {
+  personnelJurisdictionRule,
+  personnelProcedureApplies,
+} from "./civil-personnel-rules";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { eventById } from "./event-index";
 import { addDays, daysBetween, makeIsoDate } from "./dates";
@@ -20,12 +24,6 @@ function term(key: string, name: string): number | readonly string[] {
   if (value === undefined)
     throw new Error(`Personnel integrity needs ${key} term ${name}.`);
   return value;
-}
-
-function observedOn(key: string): IsoDate {
-  const found = procedures.find((p) => p.key === key);
-  if (!found) throw new Error(`Personnel integrity needs procedure ${key}.`);
-  return makeIsoDate(found.validity.observedOn);
 }
 
 function yearsAfter(date: IsoDate, years: number): IsoDate {
@@ -330,11 +328,16 @@ export function assertPersonnelIntegrity(
         )
           fail(record, "was not taken by the employer's appointing authority.");
         if (
-          position.jurisdictionKey !== "US-MN" ||
+          !personnelJurisdictionRule(position.jurisdictionKey)
+            ?.classifiedProcedureAvailable ||
           position.civilClass !== "classified" ||
           position.agreementCoverage !== "not-covered" ||
           incumbency.tenure !== "permanent" ||
-          record.recordedAt < observedOn("mn-discipline-notice") ||
+          !personnelProcedureApplies(
+            procedures.find((p) => p.key === "mn-discipline-notice")!,
+            position.jurisdictionKey,
+            record.recordedAt,
+          ) ||
           record.effectiveOn !== record.recordedAt ||
           !(
             term("mn-just-cause-grounds", "grounds") as readonly string[]
@@ -463,7 +466,11 @@ export function assertPersonnelIntegrity(
           !heldRole(world, record.actorPersonId, designation, record) ||
           record.actorPersonId === appeal.personId ||
           record.actorPersonId === action.actorPersonId ||
-          record.recordedAt < observedOn("mn-commissioner-settlement")
+          !personnelProcedureApplies(
+            procedures.find((p) => p.key === "mn-commissioner-settlement")!,
+            record.jurisdictionKey,
+            record.recordedAt,
+          )
         )
           fail(record, "was not decided by the commissioner's office holder.");
         if (
@@ -497,10 +504,15 @@ export function assertPersonnelIntegrity(
           former.personId !== record.personId ||
           former.tenure === "unknown" ||
           formerPosition.classKey !== position.classKey ||
-          position.jurisdictionKey !== "US-MN" ||
-          formerPosition.jurisdictionKey !== "US-MN" ||
+          !personnelJurisdictionRule(position.jurisdictionKey)
+            ?.classifiedProcedureAvailable ||
+          formerPosition.jurisdictionKey !== position.jurisdictionKey ||
           position.civilClass !== "classified" ||
-          record.recordedAt < observedOn("mn-reinstatement") ||
+          !personnelProcedureApplies(
+            procedures.find((p) => p.key === "mn-reinstatement")!,
+            position.jurisdictionKey,
+            record.recordedAt,
+          ) ||
           !separated ||
           record.recordedAt >
             yearsAfter(
