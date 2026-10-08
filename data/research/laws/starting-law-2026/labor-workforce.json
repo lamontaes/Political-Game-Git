@@ -283,7 +283,7 @@
                   "unit": "basis-points"
                 }
               ],
-              "note": "Sourced zero employee deduction is not a zero employer tax. Sliding-scale replacement and unknown wage cap are not collapsed to scalar amounts; duration admission remains unsupported."
+              "note": "Sourced zero employee deduction is not a zero employer tax. Sliding-scale replacement and unknown wage cap are not collapsed to scalar amounts; duration admission remains unsupported. Effective October 1, 2026: parental leave is up to 12 weeks, family-care leave 6 weeks, medical leave 10 weeks, and prenatal leave 2 weeks. The sliding replacement formula can reach 90%; the weekly maximum is $1,100. Current code text has not yet caught up with the agency update; D.C. Code § 32-541.04; FY2027 Budget Support Act of 2026, Bill 26-661."
             }
           ]
         },
@@ -350,7 +350,15 @@
           "operativeAt": "2028-01-01",
           "before": {
             "answer": "no"
-          }
+          },
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2028-01-01",
+              "source": "https://paidleave.maryland.gov/employees/",
+              "note": "Maryland’s statewide program allows up to 12 weeks in a 12-month period. Benefits are scheduled to begin January 1, 2028, so the term applies when this answer becomes operative; Maryland Code, Labor & Employment, Title 8.3."
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
@@ -421,7 +429,7 @@
                   "unit": "ratio"
                 }
               ],
-              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date."
+              "note": "Family Leave Insurance employee share only; distinct from Temporary Disability Insurance. Replacement is subject to the sourced weekly benefit maximum; duration is not admitted as a scalar. This 2026 monetary phase does not assert a 2000 enactment date. Family Leave Insurance allows up to 12 consecutive weeks per 12 months or 56 intermittent days (8 weeks); 2026 replacement is 85% of average weekly wage, subject to a $1,119 weekly maximum; N.J. Stat. Ann. § 43:21-39.1."
             }
           ],
           "sourceCoverage": {
@@ -458,7 +466,7 @@
                   "unit": "ratio"
                 }
               ],
-              "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported."
+              "note": "The $411.91 annual contribution maximum is not an annual covered-wage cap. No derived wage-cap scalar admitted. Replacement is subject to the source weekly benefit cap. Duration compound-unit admission remains unsupported. Up to 12 weeks in a 52-week period for qualifying family-care and bonding leave; 2026 replacement is 67% of average weekly wage, subject to a $1,228.53 weekly maximum; N.Y. Workers’ Compensation Law § 204."
             }
           ],
           "sourceCoverage": {
@@ -495,7 +503,7 @@
                   "unit": "dollars/year"
                 }
               ],
-              "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported."
+              "note": "Employee share is 60% of the stated 1% total contribution, not the total or employer share. Employer coverage/exemptions remain separate. Tiered replacement not collapsed to a scalar. Duration compound-unit admission remains unsupported. Up to 12 weeks per benefit year, with up to two additional weeks for pregnancy, childbirth, or related conditions (14 maximum); 2026 total contribution is 1% of gross wages, with employees paying 60% (60 basis points) and employers paying the remainder subject to statutory exceptions; covered wages capped at $184,500; Or. Rev. Stat. § 657B.150."
             }
           ],
           "sourceCoverage": {
@@ -513,7 +521,15 @@
           "note": "Not read in the 9/29/2026 pass."
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "phases": [
+            {
+              "answer": "yes",
+              "operativeAt": "2026-01-01",
+              "source": "https://webserver.rilegislature.gov/Statutes/TITLE28/28-41/28-41-35_28-41-35.htm",
+              "note": "Effective January 1, 2026, caregiver leave is up to eight weeks per benefit year. New TDI/TCI claims beginning July 1, 2026 or later have a $1,150 maximum weekly base benefit; earlier claims retain $1,103. The weekly benefit maximum is retained as a note because it is not an annual covered-wage cap; R.I. Gen. Laws § 28-41-35(d)(5)."
+            }
+          ]
         },
         "US-SC": {
           "answer": "no"
@@ -547,7 +563,9 @@
           "answer": "no"
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "source": "https://paidleave.wa.gov/find-out-how-paid-leave-works/",
+          "note": "Family leave is up to 12 weeks; combined family and medical leave can reach 16 weeks, and pregnancy-related incapacity can extend the combined maximum to 18 weeks. The 2026 maximum weekly benefit is $1,647; the replacement formula varies; RCW 50A.15.020."
         },
         "US-WI": {
           "answer": "no"
