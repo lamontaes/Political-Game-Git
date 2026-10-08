@@ -472,7 +472,7 @@ function townPayPeriodWeights(
   ) as Record<TownPayPeriod, number>;
 }
 
-/** Largest-remainder cadence allocation for a stable employer ordering. */
+/** Largest-remainder cadence counts, placed on employers by their own expected shares. */
 export function allocateTownPayPeriods(
   expected: readonly Readonly<Record<TownPayPeriod, number>>[],
 ): readonly TownPayPeriod[] {
@@ -501,9 +501,29 @@ export function allocateTownPayPeriods(
       a.localeCompare(b),
   );
   for (let i = 0; i < remaining; i += 1) allocated[byRemainder[i]!] += 1;
-  return (Object.keys(allocated) as TownPayPeriod[]).flatMap((period) =>
-    Array.from({ length: allocated[period] }, () => period),
+  // The shares decide how many employers take each cadence; each employer's own
+  // industry and size decide which ones. Walk every (employer, cadence) pair
+  // from the strongest expected share down, so an employer whose industry is
+  // mostly weekly is placed in the weekly quota before one that is not.
+  const order = ["weekly", "biweekly", "semimonthly", "monthly"] as const;
+  const pairs = expected.flatMap((share, index) =>
+    order.map((period) => ({ index, period, weight: share[period] })),
   );
+  pairs.sort(
+    (a, b) =>
+      b.weight - a.weight ||
+      order.indexOf(a.period) - order.indexOf(b.period) ||
+      a.index - b.index,
+  );
+  const placed: TownPayPeriod[] = Array.from({ length: expected.length });
+  const filled = new Set<number>();
+  for (const { index, period } of pairs) {
+    if (filled.has(index) || allocated[period] === 0) continue;
+    placed[index] = period;
+    filled.add(index);
+    allocated[period] -= 1;
+  }
+  return placed;
 }
 
 /** Assign recorded cadence counts by largest remainder within each town. */

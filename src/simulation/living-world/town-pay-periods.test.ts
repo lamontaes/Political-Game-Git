@@ -44,3 +44,27 @@ it.each(["2026-01-01", "2026-01-02", "2026-01-03", "2026-01-07"])(
     ).toBeLessThanOrEqual(6);
   },
 );
+
+it("gives each employer the cadence its own industry and size favor", () => {
+  const mostlyMonthly = {
+    weekly: 0.05,
+    biweekly: 0.1,
+    semimonthly: 0.05,
+    monthly: 0.8,
+  };
+  const mostlyWeekly = {
+    weekly: 0.7,
+    biweekly: 0.2,
+    semimonthly: 0.05,
+    monthly: 0.05,
+  };
+  // Same two employers in either formation order get the same cadences.
+  expect(allocateTownPayPeriods([mostlyMonthly, mostlyWeekly])).toEqual([
+    "monthly",
+    "weekly",
+  ]);
+  expect(allocateTownPayPeriods([mostlyWeekly, mostlyMonthly])).toEqual([
+    "weekly",
+    "monthly",
+  ]);
+});
