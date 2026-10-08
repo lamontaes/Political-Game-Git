@@ -26,8 +26,7 @@ import type { ChildhoodRecordEntry, EntityId, World } from "./types";
  * Nothing here draws or estimates. A measure the World does not record yet
  * (years in poverty, school funding per pupil, preschool years, particulates
  * at birth) has no entry kind until its producer exists; a missing entry is
- * not a zero. Years eligible for public health coverage are read from the
- * coverage records themselves (`childhood-record-queries.ts`), not copied.
+ * not a zero.
  */
 
 export const CHILDHOOD_RECORD_VERSION = "childhood-record/v1" as const;

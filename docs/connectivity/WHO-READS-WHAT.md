@@ -2,7 +2,7 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. Each missing link is a defect, and each one names the thread that owns each end.
 
-14 producers, and 6 of them never run in an ordinary game. 31 missing links: 10 open with nobody on it; 6 being built in an open pull request; 5 handed to its owner; 6 waiting on research; 4 closed.
+13 producers, and 5 of them never run in an ordinary game. 30 missing links: 9 open with nobody on it; 6 being built in an open pull request; 5 handed to its owner; 6 waiting on research; 4 closed.
 
 Nothing here waits on the owner. An open link needs a thread to take it; the others are already with a thread or with research.
 
@@ -24,7 +24,6 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 
 1. **A legislator's views deciding their floor vote.** From a person forming a political view (producer owned by People and life). being built in an open pull request.
 2. **A law changing a rule of government, such as a term limit or a filing requirement.** From an enacted law (producer owned by Legislation). being built in an open pull request.
-3. **A player drafting a bill with several subjects, or delegating routine steps.** From bills with several subjects, and delegated bill steps (producer owned by Legislation). open with nobody on it.
 
 ### Local crime
 
@@ -230,20 +229,6 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 
 1. **A player facing a finding choosing how to answer, or resigning** (Consequences for corruption; closed). Built by Consequences for corruption (#523). The press desk now carries the answer surface. (proved by `src/player/PressDeskPanel.office.test.ts`)
 
-### Bills with several subjects, and delegated bill steps
-
-`multi-subject-bills` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Legislation
-
-**Writes.** Bundled clauses composed into one measure; delegated routine steps and a sitting member's floor action (legislative-routine-plan.ts, legislative-current-member-action.ts). (`src/simulation/legislation-bundle.ts`)
-
-**Runs in an ordinary save.** No. legislation-bundle-composition.ts, legislative-routine-plan.ts and legislative-current-member-action.ts have no caller; no screen reaches them.
-
-**Read by.** Nothing outside tests.
-
-**Should be read by, and is not.**
-
-1. **A player drafting a bill with several subjects, or delegating routine steps** (Legislation; open with nobody on it). About 2,560 lines built with no route. Wire into DocketWorkspace or trim; the Legislation thread decides.
-
 ### Someone moving in or out of town
 
 `a-move` · counted at main at 130dd113, measured September 23, 2026 · producer owned by Migration and big social movements
@@ -312,4 +297,4 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 
 ## How this document is made
 
-Rendered October 1, 2026 from commit b84750d91, with link entries not yet committed, by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.
+Rendered October 8, 2026 from commit 7c41da1d7, with link entries not yet committed, by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.

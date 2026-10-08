@@ -483,7 +483,6 @@ const DECISIONS_OF_INLINE_CALLER: Readonly<
   produceFavorCollection: ["people.ask-favor-back"],
   tellOfRefusal: ["people.tell-of-refusal"],
   decideEmphasis: ["campaign.opponent-emphasis"],
-  decidePromiseRenegotiation: ["people.promise-renegotiation"],
   runnerUpAsks: ["election.consider-nomination-runoff"],
   decideSelfStarterRun: [
     "election.consider-congress-run",

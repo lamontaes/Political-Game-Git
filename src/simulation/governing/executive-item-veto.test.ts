@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { projectExecutiveBillResults } from "../../presentation/executive-bill-results";
-import { executiveBillSceneOffers } from "../../presentation/executive-scene-offers";
 import { daysBetween } from "../dates";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {
@@ -110,7 +109,7 @@ function fixture() {
 }
 
 describe("a player's item veto through the shared executive decision", () => {
-  it("keeps the pure scene packet and forecast separate from actual override votes and outcome", () => {
+  it("keeps the forecast separate from actual override votes and outcome", () => {
     const { setup, world, office, matter } = fixture();
     const saved = serializeWorld(world);
     const projected = projectExecutiveBillResults(
@@ -119,15 +118,6 @@ describe("a player's item veto through the shared executive decision", () => {
     )[0]!;
     expect(projected.overrideVotes).toEqual([]);
     expect(projected.overrideActions).toEqual([]);
-    const packet = executiveBillSceneOffers(world, office.holderPersonId)[0]!;
-    expect(packet.sourceEventId).toBe(matter.openedEvent.id);
-    expect(packet.authorityRecordId).toBe(office.termId);
-    expect(packet.recordedPresenceEventId).toBeNull();
-    expect(packet.presentPersonIds).toEqual([]);
-    expect(packet.actions.map((action) => action.optionKey)).toEqual([
-      BILL_SIGN,
-      BILL_RETURN,
-    ]);
     expect(serializeWorld(world)).toBe(saved);
     const veto = decideGoverningMatter(world, matter.id, BILL_RETURN);
     if (!veto.ok) throw new Error(veto.reason);
