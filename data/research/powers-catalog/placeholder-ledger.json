@@ -3,19 +3,19 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 237,
+    "markers": 240,
     "byKind": {
-      "unresearched": 62,
+      "unresearched": 65,
       "placeholder": 149,
       "blanket": 30
     },
     "byPath": {
       "other": 126,
-      "law": 78,
+      "law": 81,
       "government": 31,
       "money": 2
     },
-    "withoutQuestion": 153,
+    "withoutQuestion": 156,
     "questionNotFiled": 7,
     "moneyOrLawQuestions": 34
   },
@@ -409,7 +409,7 @@
     },
     {
       "file": "src/simulation/crisis/medicare-drug-negotiation.ts",
-      "line": 14,
+      "line": 15,
       "text": "* PLACEHOLDER(research: per-person-medicare-drug-negotiation-savings): actual",
       "kinds": ["placeholder"],
       "path": "other",
@@ -904,7 +904,7 @@
     },
     {
       "file": "src/simulation/justice/prosecution.ts",
-      "line": 172,
+      "line": 173,
       "text": "version: \"jail-effects-unresearched-v1\",",
       "kinds": ["unresearched"],
       "path": "other",
@@ -949,7 +949,16 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 385,
+      "line": 21,
+      "text": "import { UNRESEARCHED_ISSUE_RECORD } from \"./issue-record\";",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 387,
       "text": "// PLACEHOLDER(overnight): map recorded conviction and salience to the",
       "kinds": ["placeholder"],
       "path": "law",
@@ -958,7 +967,16 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 441,
+      "line": 430,
+      "text": "readonly salience: keyof typeof UNRESEARCHED_ISSUE_RECORD.salienceWeight;",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 473,
       "text": "// PLACEHOLDER: group members to the engine's ordinal weight.",
       "kinds": ["placeholder"],
       "path": "law",
@@ -967,7 +985,7 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 455,
+      "line": 487,
       "text": "// PLACEHOLDER: net view points to the engine's ordinal weight.",
       "kinds": ["placeholder"],
       "path": "law",
@@ -976,7 +994,16 @@
     },
     {
       "file": "src/simulation/legislative-member-decisions.ts",
-      "line": 639,
+      "line": 508,
+      "text": "const weight = UNRESEARCHED_ISSUE_RECORD.salienceWeight[call.salience];",
+      "kinds": ["unresearched"],
+      "path": "law",
+      "researchQuestionId": null,
+      "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/legislative-member-decisions.ts",
+      "line": 703,
       "text": "* to them. PLACEHOLDER(build-25): the ordinal weight is the game's own until",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1309,7 +1336,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 122,
+      "line": 123,
       "text": "* PLACEHOLDER is set by hand and filed for research as",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1318,7 +1345,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 179,
+      "line": 180,
       "text": "* PLACEHOLDER, pending research question",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1327,7 +1354,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 198,
+      "line": 199,
       "text": "* PLACEHOLDER: how far a quarter's crowding moves a business's prices.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1336,7 +1363,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 206,
+      "line": 207,
       "text": "* PLACEHOLDER: how strongly customers choose among a town's businesses",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1345,7 +1372,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 213,
+      "line": 214,
       "text": "/** PLACEHOLDER: capital as a share of assets when books open. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1354,7 +1381,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 221,
+      "line": 222,
       "text": "/** PLACEHOLDER: below this capital ratio it makes no new loans. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1363,7 +1390,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 223,
+      "line": 224,
       "text": "/** PLACEHOLDER: below this capital ratio depositors take fright. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1372,7 +1399,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 225,
+      "line": 226,
       "text": "/** PLACEHOLDER: how much of a lost cushion it rebuilds a quarter. */",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1381,7 +1408,7 @@
     },
     {
       "file": "src/simulation/living-world/town-finances.ts",
-      "line": 248,
+      "line": 249,
       "text": "* Every other kind: PLACEHOLDER, 0.5.",
       "kinds": ["placeholder"],
       "path": "other",
@@ -1480,7 +1507,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-names.ts",
-      "line": 26,
+      "line": 25,
       "text": "* Census listing name gives it, in `PLACEHOLDER_BODY_BY_FORM`. These are",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1489,7 +1516,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-names.ts",
-      "line": 55,
+      "line": 54,
       "text": "const PLACEHOLDER_BODY_BY_FORM: Readonly<Record<string, PlaceholderBody>> = {",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1498,7 +1525,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-names.ts",
-      "line": 61,
+      "line": 60,
       "text": "const PLACEHOLDER_OTHERWISE: PlaceholderBody = {",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1507,7 +1534,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-names.ts",
-      "line": 141,
+      "line": 139,
       "text": "(form ? PLACEHOLDER_BODY_BY_FORM[form] : undefined) ??",
       "kinds": ["placeholder"],
       "path": "law",
@@ -1516,7 +1543,7 @@
     },
     {
       "file": "src/simulation/nationwide-world/local-governing-body-names.ts",
-      "line": 142,
+      "line": 140,
       "text": "PLACEHOLDER_OTHERWISE;",
       "kinds": ["placeholder"],
       "path": "law",
