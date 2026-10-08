@@ -14,6 +14,7 @@ import {
 } from "../simulation/life-personality";
 import { relationshipHistory } from "../simulation/queries";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
+import { parsePlanTurn } from "./prior-turn";
 
 /**
  * Things the player could actually tell somebody, drawn from their own life.
@@ -231,23 +232,24 @@ export function tellAnswer(
     return answer("tell-privacy", false);
   const stance = listenerStance(world, listenerId, playerPersonId);
   if (topic.kind === "plan") {
-    const goal = latestGoalStatesForPerson(world, listenerId).find(
+    // The reply answers what the plan was about, never the plan's own words.
+    const told = parsePlanTurn(ORDINARY_LIFE_GOALS[topic.goal]);
+    const toldRecord = latestGoalStatesForPerson(world, playerPersonId).find(
       (record) =>
         record.goalKey === `opening-life:${topic.goal}` &&
         record.status === "active",
     );
-    if (goal) {
-      facts.plan = {
-        text: lowerFirst(goal.objective)
-          .replace(/\byou know\b/g, "I know")
-          .replace(/\byourself\b/g, "myself"),
-        sourceRecordIds: [goal.id],
-      };
-      return answer("tell-shared-plan");
-    }
+    if (stance === "guarded" || !told || !toldRecord)
+      return answer("tell-guarded");
+    facts.followup = { text: told.followup, sourceRecordIds: [toldRecord.id] };
+    const shared = latestGoalStatesForPerson(world, listenerId).some(
+      (record) =>
+        record.goalKey === `opening-life:${topic.goal}` &&
+        record.status === "active",
+    );
     return answer(
-      stance === "guarded"
-        ? "tell-guarded"
+      shared
+        ? "tell-shared-plan"
         : options.parentOfYoungPlayer
           ? "tell-parent-plan"
           : stance === "warm"
