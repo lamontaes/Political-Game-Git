@@ -110,4 +110,5 @@ for move, kind, shape, _ in SHAPES:
     })
 
 read = sorted({d for s in days.values() for d in s})
-print(json.dumps({"parts": parts, "daysWithAHit": len(read)}, indent=2))
+seen = {shape: len(d) for shape, d in days.items()}
+print(json.dumps({"parts": parts, "daysWithAHit": len(read), "shapesSeen": seen}, indent=2))
