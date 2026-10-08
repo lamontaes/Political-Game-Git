@@ -347,7 +347,7 @@ describe("CRUNCH46 opponent campaigns", () => {
     // the chapter declines.
     ["opponents-support-8", "declined"],
     ["opponents-support-2", "declined"],
-  ] as const)(
+  ] as readonly (readonly [string, "granted" | "declined"])[])(
     "records a chapter's decision on a support request without touching the race (%s)",
     (seed, expectedDecision) => {
       const filed = withRelationshipsRival(

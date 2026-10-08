@@ -135,11 +135,13 @@ export function recordLocalGovernmentSeatGap(
     ],
     summary: "No eligible officeholder was found in the recorded local roster.",
     context: {
-      location: {
-        jurisdictionId: town,
-        label: world.jurisdictions[town]?.name ?? null,
-        setting: null,
-      },
+      location: world.jurisdictions[town]
+        ? {
+            jurisdictionId: town,
+            label: world.jurisdictions[town].name,
+            setting: null,
+          }
+        : null,
       socialContext: null,
       pressure: null,
       choice: null,

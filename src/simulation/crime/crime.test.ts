@@ -39,7 +39,6 @@ import {
   crimeIncidents,
   localCrimeFigures,
   sampleMonthlyCrime,
-  UNRESEARCHED_LOCAL_CRIME,
 } from "./index";
 import { arrestReferral, ensureCrimeProduction, offenseOf } from "./producer";
 import { adultCourtAgeAt } from "../justice/juvenile-court";
@@ -59,7 +58,7 @@ function open(seed: string) {
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
       seed,
-      placeKey: place.key,
+      placeKey: place.jurisdictionKey,
       startAge: 30,
       depth: "summarize-earlier-life",
     }),
@@ -106,18 +105,6 @@ function openCrimeSmallWorld(seed: string) {
 }
 
 describe("ordinary local crime", () => {
-  it("every rate is marked as an unresearched placeholder", () => {
-    expect(UNRESEARCHED_LOCAL_CRIME.provenance).toBe(
-      "unresearched-blanket-rule",
-    );
-    for (const rule of UNRESEARCHED_LOCAL_CRIME.offenses) {
-      for (const share of [rule.reportedShare, rule.arrestShare]) {
-        expect(share).toBeGreaterThan(0);
-        expect(share).toBeLessThan(1);
-      }
-    }
-  });
-
   it(
     "a year of ordinary time in a small world produces reported, unreported and solved crime that the local paper can see",
     () => {

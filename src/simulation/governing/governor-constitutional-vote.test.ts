@@ -1,3 +1,4 @@
+import { composeWorldTimeHandlers } from "../campaigns";
 import { legacyTermLimitBallot as termLimitBallot } from "../../../tests/fixtures/legacy-term-limit-ballot";
 import { beforeAll, describe, expect, it } from "vitest";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
@@ -280,12 +281,16 @@ describe("A79 governor term-limit actual-member rollcall", () => {
     const due = at.history.futureDueItems.find(
       (row) => row.stableKey === `${proposalKey}:review`,
     )!;
-    const saved = advanceWorld(at, 1, {
-      get: (key) =>
-        key === CONSTITUTIONAL_REFORM_REVIEW
-          ? constitutionalReformReviewHandler
-          : undefined,
-    });
+    const saved = advanceWorld(
+      at,
+      1,
+      composeWorldTimeHandlers({
+        get: (key) =>
+          key === CONSTITUTIONAL_REFORM_REVIEW
+            ? constitutionalReformReviewHandler
+            : undefined,
+      }),
+    );
     const measure = saved.history.constitutionalMeasures!.find(
       (row) => row.stableKey === proposalKey,
     )!;
@@ -490,22 +495,22 @@ describe("A79 governor term-limit actual-member rollcall", () => {
     expect(ballot.ballot).toBe("yea");
     return ballot.reason;
   }
-  it("keeps input order when equally weighted reasons tie in both callers", () => {
+  // A decision's considerations are stored in canonical stable-key order
+  // (decisions.ts canonicalDecisionContext), so an equal-weight tie resolves by
+  // that order and the order the caller supplied them in no longer matters.
+  it("breaks an equal-weight tie by canonical stable key in both callers, whatever the input order", () => {
     const first = suppliedReason("z-first");
     const second = suppliedReason("a-second");
-    expect(actualMemberReason([first, second])).toBe(first.stableKey);
+    expect(actualMemberReason([first, second])).toBe(second.stableKey);
     expect(actualMemberReason([second, first])).toBe(second.stableKey);
   });
-  it("keeps an opposing reason's full magnitude and tie position in both callers", () => {
+  it("keeps an opposing reason's full magnitude and breaks the tie by canonical stable key in both callers", () => {
     const negative = suppliedReason("z-negative-first", "opposes");
+    const positive = suppliedReason("a-positive");
     expect(considerationScore(negative)).toBe(-18);
     expect(
-      actualMemberReason([
-        negative,
-        suppliedReason("a-positive"),
-        suppliedReason("b-positive"),
-      ]),
-    ).toBe(negative.stableKey);
+      actualMemberReason([negative, positive, suppliedReason("b-positive")]),
+    ).toBe(positive.stableKey);
   });
   it("records the ordinary member caller's exact decisions, accounts and durable traces", () => {
     const members = bodies(

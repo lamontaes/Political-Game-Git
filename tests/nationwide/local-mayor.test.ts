@@ -36,10 +36,7 @@ import {
   fileForOffice,
   projectCampaign,
 } from "../../src/presentation/campaign-projection";
-import {
-  localGoverningSeatFor,
-  townSeatRulesSentence,
-} from "../../src/presentation/local-governing-seat";
+import { localGoverningSeatFor } from "../../src/presentation/local-governing-seat";
 import { projectCampaignOffices } from "../../src/presentation/campaign-office-discovery";
 import { projectWorkRole } from "../../src/presentation/day-overview";
 import { projectGovernmentBrowser } from "../../src/presentation/politics-government";
@@ -236,7 +233,6 @@ describe("running for mayor", () => {
       expect(seat.hasCityScreen).toBe(cityScreen);
       expect(seat.seats).toBeNull();
       expect(seat.termYears?.value).toBeGreaterThan(0);
-      expect(townSeatRulesSentence(seat)).toMatch(/mayor serves/);
       // The job the town's employers gave this person at the opening stays
       // (read from the record), followed by the office.
       const startingJobs = activeWorkRelationshipsAt(world, personId).map(
