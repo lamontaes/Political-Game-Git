@@ -26,6 +26,8 @@ describe("the tender-hearted difference in a random new game", () => {
     expect(proof.high.personId).not.toBe(proof.low.personId);
     expect(proof.high.person).toEqual(expect.any(String));
     expect(proof.low.person).toEqual(expect.any(String));
-    expect(proof.high.reason).toContain("hurt feelings");
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-tender-hearted|people.contact-answer|counter|high",
+    );
   });
 });
