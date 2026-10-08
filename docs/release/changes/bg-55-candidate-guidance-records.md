@@ -4,3 +4,5 @@ impact: minor
 section: campaigns
 title: Candidate guidance reads recorded office rules
 ---
+
+Candidate guidance stores and displays recorded office age, residency, and filing rules.
