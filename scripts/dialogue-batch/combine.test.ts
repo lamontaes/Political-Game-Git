@@ -108,6 +108,17 @@ describe("combining batch runs", () => {
     const later = combineResults([b], askedKeys([earlier]));
     // b's meeting line is a's bank part with another town's name in it.
     expect(later.lines.map((row) => row.line)).toEqual(["Good morning."]);
+    // A journal chapter that opens its sentences the same way, with other
+    // figures, was asked already too.
+    const journal = run("seed-d", "Nome, Alaska", [
+      line("text-journal-1", "I began work in 2019.", "Nome, Alaska"),
+      line("text-journal-2", "I moved in 2001.", "Nome, Alaska"),
+    ]);
+    expect(
+      combineResults([journal], askedKeys([earlier])).lines.map(
+        (row) => row.line,
+      ),
+    ).toEqual(["I moved in 2001."]);
   });
 
   it("keeps an absent kind only when no run produced it", () => {

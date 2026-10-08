@@ -1360,7 +1360,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           personOf(ctx.world, ctx.playerId, ctx.playerId, null),
         ),
         line: text.text,
-        parts: [text.partKey],
+        parts: text.parts ?? [text.partKey],
         world: {
           place: ctx.place,
           player: ctx.playerName,
