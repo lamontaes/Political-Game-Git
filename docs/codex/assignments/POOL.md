@@ -268,9 +268,9 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 |
 | T13 | Resting face from the record (low priority) | pool-traits.md T13 | done (#3386) | |
 | AU-01 | One amendment process and Congress as a rule pack | pool-audit-repairs.md AU-01 | ready #3461 | Session 55 |
-| AU-02 | One effects map and one stamp registry | pool-audit-repairs.md AU-02 | open | |
+| AU-02 | One effects map and one stamp registry | pool-audit-repairs.md AU-02 | done (#3102) | |
 | AU-03 | Federal laws sized once | pool-audit-repairs.md AU-03 | done (#2632, batch-marked by CTO Oct 7) | |
-| AU-04 | Duties need evidence | pool-audit-repairs.md AU-04 | open | |
+| AU-04 | Duties need evidence | pool-audit-repairs.md AU-04 | done (#3150) | |
 | AU-05 | Player's legislative session matches the clock | pool-audit-repairs.md AU-05 | done (#2737/#1867/#2743, batch-marked by CTO Oct 7) | |
 | AU-06 | Courts | pool-audit-repairs.md AU-06 | open | |
 | AU-07 | One clock path | pool-audit-repairs.md AU-07 | ready #3595 | |
