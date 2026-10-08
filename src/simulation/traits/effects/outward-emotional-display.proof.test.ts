@@ -12,7 +12,11 @@ describe("the outward-emotional-display difference in a random new game", () => 
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("accept");
     expect(proof.low.choice).toBe("decline");
-    expect(proof.high.reason).toEqual(expect.any(String));
-    expect(proof.low.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:outward-emotional-display|press.reporter-request-response|accept|high",
+    );
+    expect(proof.low.reason).toBe(
+      "personality-v1:outward-emotional-display|press.reporter-request-response|decline|low",
+    );
   });
 });
