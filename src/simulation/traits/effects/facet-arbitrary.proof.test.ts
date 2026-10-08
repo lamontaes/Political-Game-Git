@@ -19,12 +19,15 @@ describe("the arbitrary facet in a random new game", () => {
       "career.consider-another-term",
       "s13-proof-facet-arbitrary",
       [baseline],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("seek");
     expect(proof.low.choice).toBe("seek");
     expect(proof.high.choice).toBe("step-down");
-    expect(proof.high.reason).toContain("unpredictable career choice");
+    expect(proof.high.reason).toContain(
+      "personality-v1:facet-arbitrary|career.consider-another-term|",
+    );
     expect(proof.low.reason).toContain("usually seek");
   });
 });
