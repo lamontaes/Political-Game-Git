@@ -544,11 +544,6 @@ function detailSentence(
   return parts.join(" ") || "The law took effect.";
 }
 
-/** Whether an event is a law-effect record this module wrote. */
-export function isLawEffectEvent(event: HistoricalEvent): boolean {
-  return event.type === LAW_EFFECT_EVENT_TYPE;
-}
-
 /*
  * The other half: a law that moves a place's outcomes.
  *

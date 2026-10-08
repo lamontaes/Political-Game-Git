@@ -2,33 +2,37 @@
  * WHOSE TURN IT IS TO BE DRAWN.
  *
  * People are composed one at a time, so a full room never stalls a frame for
- * long, and the newest asked for go first: the room the player has just
- * walked into is drawn before the rest of the one they left. Each turn is
- * given a frame of its own (`schedule`), so the page keeps drawing while a
- * room fills.
+ * long. Each waiting person carries a priority, read when the next turn is
+ * given rather than when they joined the line, and the highest goes first:
+ * the people on the screen the player is looking at, newest first, before
+ * anyone from a screen they have left (runtime.ts sets the priority). Equal
+ * priorities go newest first. Each turn is given a frame of its own
+ * (`schedule`), so the page keeps drawing while a room fills.
  */
 export interface ComposeTurns {
   /** Resolves when it is this caller's turn; call `done` when finished. */
-  readonly turn: () => Promise<void>;
+  readonly turn: (priority: () => number) => Promise<void>;
   readonly done: () => void;
 }
 
 export function createComposeTurns(
   schedule: (run: () => void) => void = (run) => setTimeout(run, 0),
 ): ComposeTurns {
-  const waiting: (() => void)[] = [];
+  const waiting: { priority: () => number; resolve: () => void }[] = [];
   let composing = false;
   const next = () => {
-    if (composing) return;
-    const turn = waiting.pop();
-    if (!turn) return;
+    if (composing || waiting.length === 0) return;
+    let best = waiting.length - 1;
+    for (let at = waiting.length - 2; at >= 0; at -= 1)
+      if (waiting[at]!.priority() > waiting[best]!.priority()) best = at;
+    const [chosen] = waiting.splice(best, 1);
     composing = true;
-    schedule(turn);
+    schedule(chosen!.resolve);
   };
   return {
-    turn: () =>
+    turn: (priority) =>
       new Promise((resolve) => {
-        waiting.push(resolve);
+        waiting.push({ priority, resolve });
         next();
       }),
     done: () => {
