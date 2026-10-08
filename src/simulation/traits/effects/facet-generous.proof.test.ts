@@ -7,6 +7,8 @@ describe("the generous difference in a random new game", () => {
       "personality-v1:facet-generous",
       "campaign.support-request",
       "m2-proof-facet-generous",
+      [],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
