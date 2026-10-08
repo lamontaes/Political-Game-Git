@@ -32,6 +32,7 @@ import { CONTACT_LOCATION_KEY } from "../../src/simulation/relationship-contact"
 import { describePersonContext } from "../../src/simulation/person-context";
 import { introducedPeople } from "../../src/simulation/social-introductions";
 import { scheduledActivityState } from "../../src/simulation";
+import { drawRandomPlace } from "../support/random-place";
 import type { EntityId, World } from "../../src/simulation";
 import {
   deserializeWorld,
@@ -48,7 +49,10 @@ const KIN =
  */
 
 const TOWNS = [
-  ["Houma, Louisiana", "2236255"],
+  (() => {
+    const place = drawRandomPlace("b21-p1-one-recorded-date");
+    return [place.displayName, place.key] as const;
+  })(),
   ["Reno, Nevada", "3260600"],
 ] as const;
 
@@ -104,7 +108,7 @@ function metSomebody(town: string, placeKey: string) {
 
 describe("two people become a couple", () => {
   for (const [town, placeKey] of TOWNS) {
-    it(`${town}: two dates, then asked, then together`, () => {
+    it(`${town}: one recorded date opens the question, then they decide`, () => {
       const met = metSomebody(town, placeKey);
       const { playerId, otherId } = met;
       let world = met.world;
@@ -114,7 +118,7 @@ describe("two people become a couple", () => {
       );
       for (let day = 0; day < 21; day += 1) {
         if (
-          keptDates(world, playerId, otherId).length < 2 &&
+          keptDates(world, playerId, otherId).length < 1 &&
           action(world, playerId, otherId, "ask-on-a-date")?.available
         ) {
           world = askOnADate(world, {
@@ -124,19 +128,10 @@ describe("two people become a couple", () => {
           });
         }
         world = attendDueMeetings(world, playerId);
-        if (keptDates(world, playerId, otherId).length === 1) {
-          // One evening is not enough to ask, and the screen says why.
-          expect(
-            action(world, playerId, otherId, "ask-to-be-a-couple"),
-          ).toMatchObject({
-            available: false,
-            unavailableReason: "You have only been out together once.",
-          });
-        }
-        if (keptDates(world, playerId, otherId).length >= 2) break;
+        if (keptDates(world, playerId, otherId).length >= 1) break;
         world = passOrdinaryDays(world, 1);
       }
-      expect(keptDates(world, playerId, otherId)).toHaveLength(2);
+      expect(keptDates(world, playerId, otherId)).toHaveLength(1);
       expect(
         action(world, playerId, otherId, "ask-to-be-a-couple")?.available,
       ).toBe(true);

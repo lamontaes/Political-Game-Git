@@ -2,6 +2,19 @@
 
 Newest release first.
 
+## UNRELEASED — A speech reaction uses shared trait pulls
+
+People who hear a speech still react according to their recorded personality,
+but the reaction now comes from the shared option labels instead of a separate
+inline lean.
+
+## UNRELEASED — Starting law estimates use recorded state medians
+
+When a place has no recorded starting-law amount, the Observer view now uses the
+median of matching recorded state terms. D.C. and territories use that same
+median, labeled as an estimate from recorded states. Results no longer depend
+on the world seed.
+
 ## UNRELEASED — Tomorrow is actually a new day
 
 Getting on with the day used to move the date and leave the clock alone. If you

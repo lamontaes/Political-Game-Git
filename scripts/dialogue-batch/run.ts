@@ -36,7 +36,6 @@ import {
 } from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
-import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
 import { describePersonContext } from "../../src/simulation/person-context";
 import {
@@ -48,10 +47,6 @@ import {
 } from "../../src/simulation/justice/court-reasoning";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { stateKeyForJurisdiction } from "../../src/simulation/state-jurisdiction-id";
-import {
-  latestPersonalValue,
-  latestPersonalityTendency,
-} from "../../src/simulation/queries";
 import { observedTraitLabels } from "../../src/simulation/people-traits";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../../src/simulation/press-interviews";
 import { createOpeningLifeController } from "../../src/presentation/opening-life";
@@ -85,13 +80,14 @@ import {
   reporterQuestionPacket,
 } from "../../src/presentation/press-english";
 import {
-  invitationAgreeLine,
-  invitationDeclineLine,
-} from "../../src/presentation/refusal-english";
-import {
   matterUninformedLine,
   officialViewLine,
+  greetAgainLine,
 } from "../../src/presentation/small-talk-english";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "../../src/presentation/life-conversation";
 import {
   currentKnownMatter,
   matterAwareness,
@@ -280,9 +276,6 @@ const isParent = (person: Person) =>
   PARENT_RELATIONS.has(person.relation ?? "");
 const isPeer = (person: Person) =>
   /classmate|from your school/.test(person.relation ?? "");
-const isSibling = (person: Person) =>
-  /brother|sister|sibling/.test(person.relation ?? "");
-
 /** Scans the whole world for a person the cast does not already hold. */
 function findLocal(
   ctx: WorldContext,
@@ -451,36 +444,6 @@ function playerFact(ctx: WorldContext) {
 
 const youngPlayer = (ctx: WorldContext) => ctx.playerAge < 13;
 
-// The leisure and company answers, read the way the conversation reads them.
-function leisureOf(world: World, id: EntityId): string {
-  if (activeOrdinaryGoal(world, id, "learning")) return "explore";
-  if (activeOrdinaryGoal(world, id, "connection")) return "company";
-  if (
-    latestPersonalValue(world, id, LIFE_MIND_IDS.learning)?.orientation ===
-    "embraces"
-  )
-    return "explore";
-  return (
-    latestPersonalityTendency(world, id, LIFE_MIND_IDS.leisure)
-      ?.expressionKey ?? "familiar"
-  );
-}
-
-function acceptsGame(world: World, id: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, id, "privacy") &&
-    leisureOf(world, id) !== "explore"
-  );
-}
-
-function willingToDate(world: World, id: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, id, "privacy") &&
-    latestPersonalValue(world, id, LIFE_MIND_IDS.connection)?.orientation ===
-      "embraces"
-  );
-}
-
 // ---------------------------------------------------------------------------
 // The situations, in priority order
 // ---------------------------------------------------------------------------
@@ -502,108 +465,6 @@ function greeting(
     composer: "lifeReplyLine (first-greeting) in life-reply-english.ts",
     situation: `${ctx.playerName} says hello for the first time to ${describeWho(speaker)}${label}. ${note}`,
     prior: LIFE_TALK_INTENTS.greet,
-    speaker,
-    line: line.text,
-    parts: line.parts,
-  };
-}
-
-function invitationAccept(ctx: WorldContext): Produced {
-  const speaker = ctx.cast.find(
-    (person) => person.age >= 5 && acceptsGame(ctx.world, person.id),
-  );
-  if (!speaker) return skip("nobody in the cast would take up a game");
-  const line = worded(
-    () =>
-      invitationAgreeLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-game-accept",
-        "game",
-      ),
-    "invitationAgreeLine game",
-  );
-  return {
-    axis: "interaction",
-    composer: "invitationAgreeLine in refusal-english.ts",
-    situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, who is free to say yes (no privacy goal; leisure style "${leisureOf(ctx.world, speaker.id)}").`,
-    prior: LIFE_TALK_INTENTS.suggestGame,
-    speaker,
-    line: line.text,
-    parts: line.parts,
-    harness: [
-      "The suggestion is the harness's; the decision rule is the conversation's own.",
-    ],
-  };
-}
-
-function invitationDecline(ctx: WorldContext): Produced {
-  for (const speaker of ctx.cast) {
-    if (speaker.age < 5 || acceptsGame(ctx.world, speaker.id)) continue;
-    let line: { text: string; parts: readonly ComposedPart[] } | null = null;
-    try {
-      line = invitationDeclineLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-game-decline",
-        "game",
-      );
-    } catch {
-      line = null;
-    }
-    if (!line) continue;
-    const why = activeOrdinaryGoal(ctx.world, speaker.id, "privacy")
-      ? "an active goal to keep to themselves"
-      : `a leisure style of "${leisureOf(ctx.world, speaker.id)}"`;
-    return {
-      axis: "interaction",
-      composer: "invitationDeclineLine in refusal-english.ts",
-      situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, whose record gives ${why}.`,
-      prior: LIFE_TALK_INTENTS.suggestGame,
-      speaker,
-      line: line.text,
-      parts: line.parts,
-      harness: [
-        "The suggestion is the harness's; the refusal reason is read from the person's own records.",
-      ],
-    };
-  }
-  return skip("nobody in the cast has a recorded reason to turn down a game");
-}
-
-function dateDecline(ctx: WorldContext): Produced {
-  const speaker = ctx.cast.find(
-    (person) =>
-      person.age >= 18 &&
-      ctx.playerAge >= 18 &&
-      !isParent(person) &&
-      !isSibling(person) &&
-      !/grand|uncle|aunt|cousin/.test(person.relation ?? "") &&
-      !willingToDate(ctx.world, person.id),
-  );
-  if (!speaker)
-    return skip("no adult non-relative in the cast who would decline");
-  const line = worded(
-    () =>
-      invitationDeclineLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-date-decline",
-        "date",
-      ),
-    "invitationDeclineLine date",
-  );
-  return {
-    axis: "relationship",
-    composer: "invitationDeclineLine (date) in refusal-english.ts",
-    situation: `${ctx.playerName} asks ${describeWho(speaker)} if they would like this to be a date; their record shows no openness to it.`,
-    prior: LIFE_TALK_INTENTS.date,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -962,6 +823,61 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+function greetAgain(ctx: WorldContext): Produced {
+  for (const person of ctx.cast) {
+    const conversation = projectLifeConversation(
+      ctx.world,
+      ctx.playerId,
+      person.id,
+    );
+    if (!conversation?.intents.some((intent) => intent.key === "greet"))
+      continue;
+    let greeted: World;
+    try {
+      greeted = commitLifeConversation(ctx.world, {
+        playerPersonId: ctx.playerId,
+        personId: person.id,
+        intent: "greet",
+        revision: conversation.revision,
+      });
+    } catch {
+      continue;
+    }
+    const history = greeted.history.events.filter(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === ctx.playerId &&
+            participant.role === "focus:subject",
+        ) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === person.id &&
+            participant.role === "coordination:counterpart",
+        ) &&
+        event.occurredAt <= greeted.currentDate,
+    );
+    const line = greetAgainLine(greeted, person.id, ctx.playerId, history);
+    if (!line) continue;
+    return {
+      axis: "interaction",
+      composer: "greetAgainLine in small-talk-english.ts",
+      situation: `${ctx.playerName} says hello again to ${describeWho(person)} after their saved conversation.`,
+      prior: LIFE_TALK_INTENTS.greet,
+      speaker: personOf(greeted, ctx.playerId, person.id, person.relation),
+      line: line.text,
+      parts: line.parts,
+      harness: [
+        "The batch records a first ordinary greeting in the current scene, then reads the next greeting from that saved conversation.",
+      ],
+    };
+  }
+  return skip(
+    "no present person has a current scene where a greeting can be recorded",
+  );
+}
+
 /**
  * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
  * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
@@ -1178,7 +1094,7 @@ function privacyMood(ctx: WorldContext): Produced {
 // Kept available for situation-specific tests; grading batches exclude these
 // authored menu scenarios until they are backed by real played records.
 export const SITUATIONS: readonly Situation[] = [
-  // The sixteen kept first, spread across the composers.
+  // Core conversation, narrative and record-backed situations come first.
   {
     id: "greet-ask",
     run: (ctx) => {
@@ -1224,8 +1140,7 @@ export const SITUATIONS: readonly Situation[] = [
       );
     },
   },
-  { id: "invite-game-accept", run: invitationAccept },
-  { id: "invite-game-decline", run: invitationDecline },
+  { id: "greet-again", run: greetAgain },
   { id: "remember-news-topic", run: rememberTopic },
   { id: "told-plan-first-listener", run: toldPlan(0) },
   { id: "running-open", run: running("open") },
@@ -1256,7 +1171,6 @@ export const SITUATIONS: readonly Situation[] = [
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
-  { id: "invite-date-decline", run: dateDecline },
   { id: "matter-heard", run: matterHeard },
   { id: "privacy-mood", run: privacyMood },
   { id: "everyday-accept", run: everyday("social-accept-reply") },

@@ -59,7 +59,10 @@ test("the room, the bill, the bargain, and the vote", async ({ page }) => {
   await expect(page.getByTestId("scene-person-nameplate")).toContainText(
     "Member, House of Representatives",
   );
-  await expect(page.getByTestId("room-note")).toContainText("can hear");
+  await expect(page.getByTestId("room-note")).toHaveAttribute(
+    "data-room",
+    "both-present",
+  );
 
   // The bill is a thing on the desk, not a menu item.
   const entry = page.getByTestId("working-document-entry");
@@ -125,7 +128,10 @@ test("the room, the bill, the bargain, and the vote", async ({ page }) => {
   await page.getByTestId("open-proposal").click();
   await page.getByTestId("variant-capped").click();
   await page.getByTestId("offer-amendment").click();
-  await expect(page.getByTestId("measure-message")).toContainText("adopted");
+  await expect(page.getByTestId("measure-message")).toHaveAttribute(
+    "data-reason",
+    /adopted/,
+  );
   await expect(view).toHaveAttribute("data-provision-count", "4");
   await expect(view).toHaveAttribute("data-amendment-count", "1");
   const section4 = page.getByTestId("measure-section-local-project-match");
@@ -140,16 +146,16 @@ test("the room, the bill, the bargain, and the vote", async ({ page }) => {
   // The vote, and what each modeled member says they did and why.
   await page.getByTestId("call-the-vote").click();
   const result = page.getByTestId("floor-result");
-  await expect(result).toContainText("voted");
+  await expect(result).toContainText("yea");
   const accounts = page.getByTestId("member-accounts");
-  await expect(accounts).toContainText("Alexander Thompson voted yea");
+  await expect(accounts).toContainText("Alexander Thompson yea");
   await expect(accounts).toContainText("said this much on the record");
-  await expect(accounts).toContainText("Jasmine Noel voted");
+  await expect(accounts).toContainText("Jasmine Noel");
 
   // The record carries what was said, what was asked, and where it stands.
   await page.getByTestId("open-record").click();
   const record = page.getByTestId("record-panel");
-  await expect(record).toContainText("Adopted.");
+  await expect(record).toContainText("Adopted");
   await expect(page.getByTestId("record-commitment")).toContainText(
     "voted yea on the bill's passage, which is what was said",
   );
@@ -180,11 +186,11 @@ test("refusing costs something, and the record says what", async ({ page }) => {
   await page.getByTestId("working-document-entry").click();
   await page.getByTestId("call-the-vote").click();
   const accounts = page.getByTestId("member-accounts");
-  await expect(accounts).toContainText("Alexander Thompson voted nay");
+  await expect(accounts).toContainText("Alexander Thompson nay");
   await expect(accounts).toContainText(
     /Nothing in the bill as it now reads is written for/,
   );
-  await expect(page.getByTestId("floor-result")).toContainText("voted");
+  await expect(page.getByTestId("floor-result")).toContainText("yea");
 
   // "I'm a no unless you write it in" is a commitment that binds while the
   // condition is unmet, and the record says so rather than calling it broken.
@@ -202,7 +208,10 @@ test("a private word is private, and an offer of money is refused", async ({
   const view = page.getByTestId("measure-floor-view");
   await page.getByTestId("toggle-room-privacy").click();
   await expect(view).toHaveAttribute("data-room", "advocate-only");
-  await expect(page.getByTestId("room-note")).toContainText("alone");
+  await expect(page.getByTestId("room-note")).toHaveAttribute(
+    "data-room",
+    "advocate-only",
+  );
 
   await talkTo(page, "Alexander Thompson");
   const strip = page.getByTestId("conversation-strip");

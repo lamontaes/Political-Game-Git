@@ -14,8 +14,6 @@ export const facetGenerousEffects: readonly TraitEffectDeclaration[] = [
         option: "grant",
         trait: "personality-v1:facet-generous",
         pole: "high",
-        explanation:
-          "They readily share what they have, so they are quick to give the backing asked of them.",
       },
     ],
   },

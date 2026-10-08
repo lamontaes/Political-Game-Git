@@ -13,15 +13,11 @@ export const voluntaryEffortEffects: readonly TraitEffectDeclaration[] = [
         option: "continue-work",
         trait: "personality-v1:voluntary-effort",
         pole: "high",
-        explanation:
-          "They keep putting in effort at the job beyond what is asked.",
       },
       {
         option: "quit",
         trait: "personality-v1:voluntary-effort",
         pole: "low",
-        explanation:
-          "They put in only what is required and leave when the job stops being worth it.",
       },
     ],
   },

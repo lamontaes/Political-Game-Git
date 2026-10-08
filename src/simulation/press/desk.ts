@@ -64,6 +64,7 @@ import {
 import { sharingSiblings } from "./ownership";
 import {
   PRESS_CONTRACT_VERSION,
+  mediaOutletKey,
   type LeadRoute,
   type MediaBeat,
   type MediaOutletRecord,
@@ -81,6 +82,8 @@ import {
   reportLawOutcomes,
 } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { newsHabitOf } from "../living-world/news-habits";
+import { recordStoryHeardOfficialViews } from "../living-world/official-views";
 import {
   appendPressRecord,
   pressDispositionsForLead,
@@ -1318,8 +1321,20 @@ function recordProfessionalReaders(
     const basis = eventById(world, basisId);
     if (basis) for (const id of lawNewsReaders(world, basis)) readers.add(id);
   }
+  const outlet = mediaOutlets(world).find(
+    (candidate) => mediaOutletKey(candidate.id) === publication.outletKey,
+  );
+  // Keep person-by-person readership bounded to the residents represented
+  // inside a local outlet's actual coverage; other reach stays aggregate.
+  if (outlet?.scope === "local") {
+    const coveredPlaces = new Set(outlet.primaryJurisdictionIds);
+    for (const person of Object.values(world.people))
+      if (coveredPlaces.has(person.homeJurisdictionId)) readers.add(person.id);
+  }
   let next = world;
   for (const personId of [...readers].sort()) {
+    if (!newsHabitOf(next, personId).outletKeys.includes(publication.outletKey))
+      continue;
     next = recordEventKnowledge(next, {
       stableKey: `${publication.stableKey}:read:${personId}`,
       personId,
@@ -1344,6 +1359,7 @@ function recordProfessionalReaders(
           knowledgeId: knowledge.id,
           basisEventId,
         });
+    if (knowledge) next = recordStoryHeardOfficialViews(next, knowledge.id);
   }
   if (lead.matterId) {
     next = produceMatterResponses(next, lead.matterId, story);

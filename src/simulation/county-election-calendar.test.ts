@@ -140,6 +140,7 @@ describe("every county reads its state's statutory calendar", () => {
       row.body!.election.month,
     );
     expect(read.dates.termYears).toBe(row.body!.termYears);
+    expect(read.dates.estimated).toBe(true);
     expect(read.dates.termStarts > read.dates.electionDate).toBe(true);
   });
 });

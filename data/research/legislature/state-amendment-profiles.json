@@ -1,0 +1,793 @@
+[
+  {
+    "jurisdictionKey": "US-AK",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 40
+      },
+      {
+        "bodyKey": "senate",
+        "members": 20
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-AL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 105
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-AR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-AS",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": []
+  },
+  {
+    "jurisdictionKey": "US-AZ",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 60
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-CA",
+    "basis": "sourced",
+    "effectiveDaysAfterStatement": 5,
+    "bodies": [
+      {
+        "bodyKey": "assembly",
+        "members": 80
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-CO",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 65
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-CT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 151
+      },
+      {
+        "bodyKey": "senate",
+        "members": 36
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-DC",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": []
+  },
+  {
+    "jurisdictionKey": "US-DE",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 41
+      },
+      {
+        "bodyKey": "senate",
+        "members": 21
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-FL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 120
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-GA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 180
+      },
+      {
+        "bodyKey": "senate",
+        "members": 56
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-GU",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": []
+  },
+  {
+    "jurisdictionKey": "US-HI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 51
+      },
+      {
+        "bodyKey": "senate",
+        "members": 25
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-IA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-ID",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-IL",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 118
+      },
+      {
+        "bodyKey": "senate",
+        "members": 59
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-IN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-KS",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 125
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-KY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-LA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 105
+      },
+      {
+        "bodyKey": "senate",
+        "members": 39
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 160
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MD",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 141
+      },
+      {
+        "bodyKey": "senate",
+        "members": 47
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-ME",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 151
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 110
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 134
+      },
+      {
+        "bodyKey": "senate",
+        "members": 67
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MO",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 163
+      },
+      {
+        "bodyKey": "senate",
+        "members": 34
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MP",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": []
+  },
+  {
+    "jurisdictionKey": "US-MS",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 122
+      },
+      {
+        "bodyKey": "senate",
+        "members": 52
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-MT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NC",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 120
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-ND",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 94
+      },
+      {
+        "bodyKey": "senate",
+        "members": 47
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NE",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "legislature",
+        "members": 49
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NH",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 400
+      },
+      {
+        "bodyKey": "senate",
+        "members": 24
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NJ",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 80
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NM",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 42
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NV",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "assembly",
+        "members": 42
+      },
+      {
+        "bodyKey": "senate",
+        "members": 21
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-NY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 63
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-OH",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-OK",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 101
+      },
+      {
+        "bodyKey": "senate",
+        "members": 48
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-OR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 60
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-PA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 203
+      },
+      {
+        "bodyKey": "senate",
+        "members": 50
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-PR",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 51
+      },
+      {
+        "bodyKey": "senate",
+        "members": 27
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-RI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 75
+      },
+      {
+        "bodyKey": "senate",
+        "members": 38
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-SC",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 124
+      },
+      {
+        "bodyKey": "senate",
+        "members": 46
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-SD",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 70
+      },
+      {
+        "bodyKey": "senate",
+        "members": 35
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-TN",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-TX",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 31
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-UT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 75
+      },
+      {
+        "bodyKey": "senate",
+        "members": 29
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-VA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 40
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-VI",
+    "basis": "not-applicable",
+    "effectiveDaysAfterStatement": null,
+    "bodies": []
+  },
+  {
+    "jurisdictionKey": "US-VT",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 150
+      },
+      {
+        "bodyKey": "senate",
+        "members": 30
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-WA",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 98
+      },
+      {
+        "bodyKey": "senate",
+        "members": 49
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-WI",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 99
+      },
+      {
+        "bodyKey": "senate",
+        "members": 33
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-WV",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 100
+      },
+      {
+        "bodyKey": "senate",
+        "members": 34
+      }
+    ]
+  },
+  {
+    "jurisdictionKey": "US-WY",
+    "basis": "game-profile",
+    "effectiveDaysAfterStatement": 0,
+    "bodies": [
+      {
+        "bodyKey": "house",
+        "members": 62
+      },
+      {
+        "bodyKey": "senate",
+        "members": 31
+      }
+    ]
+  }
+]

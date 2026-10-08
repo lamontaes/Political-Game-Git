@@ -23,5 +23,21 @@ describe("LW-09 effect readiness", () => {
         true,
       );
     }
+    const studentDebt = readiness.entries.find(
+      (entry) =>
+        entry.questionKey ===
+        "us-federal-positions:education.forgive-student-loans",
+    );
+    expect(studentDebt?.blockers).toContain(
+      "The poverty link is about-zero because debt relief is not money income. The canonical student-debt writer creates named federal student loans, and the household-loan ledger supports recorded noncash discharges, but no law consequence dispatches enacted forgiveness terms to those records.",
+    );
+    expect(studentDebt?.existingRuntimePieces).toEqual([
+      "src/simulation/student-debt.ts#financeRecordedStudentTuition",
+      "src/simulation/household-loans.ts#recordLoanDischarge",
+    ]);
+    expect(studentDebt?.termReaderGaps).toEqual([
+      "The catalog assigns cap unit usd-forgiven-per-borrower, but this unit is absent from LAW_AMOUNT_UNITS, which readFinalEnactedLawTerm requires.",
+      "The eligibility parameter has no allowed-values vocabulary for the final-law category reader.",
+    ]);
   });
 });

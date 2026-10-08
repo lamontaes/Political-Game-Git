@@ -125,7 +125,7 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
   addBank(
     "legislation",
     bills,
-    readLegislationBank(world),
+    readLegislationBank(world, playerId),
     "readLegislationBank in bank-english.ts",
     "no Congress measure with printed text is filed",
   );

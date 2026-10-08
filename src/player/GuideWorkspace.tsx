@@ -65,7 +65,7 @@ export function GuideWorkspace({
   return (
     <div className="pg-guide" data-testid="guide-workspace">
       <label className="pg-field">
-        <span>Find a term</span>
+        <span>Search</span>
         <input
           type="search"
           value={query}
@@ -131,6 +131,12 @@ export function GuideWorkspace({
               {selected.shortDefinition}
             </p>
             <p data-testid="guide-entry-explanation">{selected.explanation}</p>
+            <p
+              className="pg-guide-entry-source"
+              data-testid="guide-entry-source"
+            >
+              {selected.source.note}
+            </p>
             {selected.contextNote ? (
               <p className="game-note" data-testid="guide-entry-context">
                 {selected.contextNote}
