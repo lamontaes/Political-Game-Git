@@ -53,6 +53,10 @@ export interface GradingCell {
 
 export interface GradingItem {
   readonly i: number;
+  /** The batch situation the line came from. */
+  readonly id: string;
+  /** The one thing this line varies, the axis being graded. */
+  readonly axis: string;
   readonly situation: string;
   readonly prior: string;
   readonly reply: string;
@@ -243,6 +247,8 @@ export function toGradingBatch(
   for (const line of result.lines) {
     const traitKeys = Object.keys(line.speaker.traits);
     const item: Omit<GradingItem, "i"> = {
+      id: line.id,
+      axis: line.axis,
       situation: plainSituation(line),
       prior:
         line.prior === undefined
@@ -271,7 +277,8 @@ export function toGradingBatch(
         pose: null,
         ageBand: ageBandOf(line.speaker.age),
       },
-      seed: `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
+      seed:
+        line.seed ?? `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
     };
     // At most two items for any one relationship (CTO 9:03 p.m. Oct 6:
     // "dads carried 9 of 13").
