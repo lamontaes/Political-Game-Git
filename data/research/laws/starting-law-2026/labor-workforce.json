@@ -351,14 +351,8 @@
           "before": {
             "answer": "no"
           },
-          "phases": [
-            {
-              "answer": "yes",
-              "operativeAt": "2028-01-01",
-              "source": "https://paidleave.maryland.gov/employees/",
-              "note": "Maryland’s statewide program allows up to 12 weeks in a 12-month period. Benefits are scheduled to begin January 1, 2028, so the term applies when this answer becomes operative; Maryland Code, Labor & Employment, Title 8.3."
-            }
-          ]
+          "source": "https://paidleave.maryland.gov/employees/",
+          "note": "Maryland’s statewide program allows up to 12 weeks in a 12-month period. Benefits are scheduled to begin January 1, 2028, so the term applies when this answer becomes operative; Maryland Code, Labor & Employment, Title 8.3."
         },
         "US-ME": {
           "answer": "yes",
