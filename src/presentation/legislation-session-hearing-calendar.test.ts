@@ -201,12 +201,22 @@ describe("the player hearing command uses the session calendar", () => {
       seed,
     }).world;
     const input = filed(council, councilWorld, false);
+    // Council calendars now carry a hearing interval; the guard is proved
+    // on the same calendar with that task removed.
+    const calendar = LEGISLATIVE_SESSION_CALENDARS.council;
     const scenario = context(
       {
         ...council,
         session: {
           ...council.session,
-          sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
+          sittingCalendar: {
+            ...calendar,
+            tasks: Object.fromEntries(
+              Object.entries(calendar.tasks ?? {}).filter(
+                ([task]) => task !== "hearing",
+              ),
+            ),
+          },
         },
       },
       input.scenario.measureId,

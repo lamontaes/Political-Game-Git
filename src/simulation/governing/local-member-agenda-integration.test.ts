@@ -18,6 +18,7 @@ import {
 import type { PrincipleRecordInput } from "../history";
 import {
   introduceMeasure,
+  measureEnactment,
   measurePosition,
   placeMeasureOnCalendar,
 } from "../legislation";
@@ -533,11 +534,17 @@ describe("a council's plain position bills", () => {
       expect(bill.subjectClass).toBe("general-policy");
       const phase = measurePosition(world, bill.id).phase;
       expect(["on-floor", "enacted", "failed"]).toContain(phase);
-      // An enacted one is law in force, which is the only thing it moves yet.
+      // An enacted one is law in force from its own effective date (the
+      // local default, 30 days after adoption), which is the only thing it
+      // moves yet.
       if (phase === "enacted")
         expect(
-          lawInForce(world, bill.jurisdictionId, bill.propositionIds![0]!)
-            ?.answer,
+          lawInForce(
+            world,
+            bill.jurisdictionId,
+            bill.propositionIds![0]!,
+            measureEnactment(world, bill.id)!.effectiveAt!,
+          )?.answer,
         ).toBe(bill.propositionAnswers![0]!.answer);
     }
     // A mapped question also stays plain without a verified numeric reference.

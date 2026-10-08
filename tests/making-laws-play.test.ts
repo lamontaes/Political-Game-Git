@@ -12,7 +12,12 @@ import {
 } from "../src/simulation/living-world/local-government-seats";
 import { councilRules } from "../src/simulation/living-world/local-council-binding";
 import { legislativePackForWorkKey } from "../src/simulation/legislative-institutions";
-import { chamberByKey } from "../src/simulation/legislature-rules";
+import {
+  chamberByKey,
+  LOCAL_ORDINANCE_EFFECTIVE_DAYS,
+} from "../src/simulation/legislature-rules";
+import { addDays, daysBetween } from "../src/simulation/dates";
+import { advanceWorld } from "../src/simulation/world";
 import { nextMeasureNumbering } from "../src/simulation/measure-numbering";
 import {
   introduceMeasure,
@@ -226,10 +231,14 @@ describe(`Making Laws play script (seed ${SEED})`, () => {
       );
       expect(acts).toHaveLength(1);
       expect(acts[0]!.outcome).toBe("enacted");
-      expect(acts[0]!.effectiveAt).toBe(acts[0]!.resolvedAt);
+      // No town's own publication rule has been read: the local ordinance
+      // default, 30 days after adoption.
+      expect(acts[0]!.effectiveAt).toBe(
+        addDays(acts[0]!.resolvedAt, LOCAL_ORDINANCE_EFFECTIVE_DAYS),
+      );
       expect(acts[0]!.effectiveDateGameProfile).toEqual({
         version: entry.pack.packId,
-        days: 0,
+        days: LOCAL_ORDINANCE_EFFECTIVE_DAYS,
       });
     });
 
@@ -272,10 +281,14 @@ describe(`Making Laws play script (seed ${SEED})`, () => {
           (row) => row.measureId === bill.id,
         );
         expect(acts).toHaveLength(1);
-        expect(acts[0]!.effectiveAt).toBe(acts[0]!.resolvedAt);
+        const effectiveAt = addDays(
+          acts[0]!.resolvedAt,
+          LOCAL_ORDINANCE_EFFECTIVE_DAYS,
+        );
+        expect(acts[0]!.effectiveAt).toBe(effectiveAt);
         expect(acts[0]!.effectiveDateGameProfile).toEqual({
           version: entry.pack.packId,
-          days: 0,
+          days: LOCAL_ORDINANCE_EFFECTIVE_DAYS,
         });
         expect(voted.vote.provenance.method).toBe("member-decisions");
         expect(
@@ -283,7 +296,11 @@ describe(`Making Laws play script (seed ${SEED})`, () => {
             row.reason?.startsWith("member:"),
           ),
         ).toBe(true);
-        return next;
+        // Not law until its own date; the World clock runs to it.
+        expect(
+          lawInForce(next, opening.jurisdictionId, question.id)?.measureId,
+        ).not.toBe(bill.id);
+        return advanceWorld(next, daysBetween(next.currentDate, effectiveAt));
       };
       world = recordedViews(world, opening.members, question, false);
       expect(file(world, "no-law-to-repeal")).toEqual(world);

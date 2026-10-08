@@ -122,8 +122,10 @@ describe("A82 NPC council veto reenactment through the sitting", () => {
       .legislativeVotes!.filter((row) => row.measureId === measure.id)
       .at(-1)!;
     expect(vote.provenance.method).toBe("member-decisions");
-    expect(vote.dispositions.map((row) => row.personId)).toEqual(
-      seats.map((seat) => seat.personId),
+    // Every seated member, and no one else, casts a ballot; the shared
+    // council driver lists them in seat order.
+    expect(vote.dispositions.map((row) => row.personId).sort()).toEqual(
+      seats.map((seat) => seat.personId).sort(),
     );
     expect(vote.dispositions.some((row) => row.personId === outsider)).toBe(
       false,

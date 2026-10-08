@@ -211,15 +211,19 @@ export function playerOfficeHoldsMeasure(
 function effectiveOwner(
   world: World,
   measure: LegislativeMeasureRecord,
+  /** The body is a council bound to its recorded members. */
+  seatedCouncil = false,
 ): MeasureStepOwner | null {
   const owner = measureStepOwner(world, measure.id, measure.originChamberKey);
   if (owner === "sponsor-office" && !playerOfficeHoldsMeasure(world, measure))
     // A non-player sponsor's requests go through on the clock. A veto
-    // override is put to the members where the legislature is seated with
-    // real people, so the result is their decisions against the state's own
-    // override rule; with no seated members there is nobody to decide it.
+    // override is put to the members where the body is seated with real
+    // people (a legislature's seated roll or a council's recorded members),
+    // so the result is their decisions against the body's own override rule;
+    // with no seated members there is nobody to decide it.
     return measurePosition(world, measure.id).phase === "awaiting-override"
-      ? isSeatedChamber(world, legislativeBlueprintForMeasure(world, measure))
+      ? seatedCouncil ||
+        isSeatedChamber(world, legislativeBlueprintForMeasure(world, measure))
         ? "institution"
         : null
       : "institution";
@@ -781,7 +785,7 @@ export function applyInstitutionStep(
   // Drawing principles and closing notices change neither the rule pack nor
   // the seated roster. Reuse the roster already read for this same step.
   const pack = blueprint.pack;
-  const owner = effectiveOwner(world, measure);
+  const owner = effectiveOwner(world, measure, local !== undefined);
   if (owner === null || owner === "sponsor-office") return { kind: "idle" };
   const position = measurePosition(world, measureId);
   const sessionEnd = applyInstitutionSessionEnd(world, measureId);

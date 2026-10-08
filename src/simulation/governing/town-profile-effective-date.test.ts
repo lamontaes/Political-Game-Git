@@ -12,7 +12,10 @@ import {
 } from "../living-world/local-government-seats";
 import { councilRules } from "../living-world/local-council-binding";
 import { legislativePackForWorkKey } from "../legislative-institutions";
-import { chamberByKey } from "../legislature-rules";
+import {
+  chamberByKey,
+  LOCAL_ORDINANCE_EFFECTIVE_DAYS,
+} from "../legislature-rules";
 import { nextMeasureNumbering } from "../measure-numbering";
 import {
   enrollMeasure,
@@ -59,7 +62,7 @@ describe("the town profile saves its effective date once", () => {
     expect(cases).toHaveLength(5);
   });
   it.each(cases)(
-    "keeps the on-adoption date and its game-profile basis after Continue in $place.key",
+    "keeps the 30-day local default and its game-profile basis after Continue in $place.key",
     ({ unit, place, pack }) => {
       const opening = smallWorld({ place: place.key, seed });
       let world = ensureLocalGovernmentSeatsForUnit(
@@ -141,25 +144,28 @@ describe("the town profile saves its effective date once", () => {
       expect(vote.outcome).toBe("passed");
       expect(enactments).toHaveLength(1);
       expect(enactments[0]!.outcome).toBe("enacted");
-      expect(enactments[0]!.effectiveAt).toBe(enactments[0]!.resolvedAt);
+      // No town's own publication rule has been read: the local ordinance
+      // default, 30 days after adoption (CTO ruling, October 7, 2026).
+      const effectiveAt = addDays(
+        enactments[0]!.resolvedAt,
+        LOCAL_ORDINANCE_EFFECTIVE_DAYS,
+      );
+      expect(enactments[0]!.effectiveAt).toBe(effectiveAt);
       expect(enactments[0]!.effectiveDateBasis).toBe("game-default");
       expect(enactments[0]!.effectiveDateGameProfile).toEqual({
         version: pack.packId,
-        days: 0,
+        days: LOCAL_ORDINANCE_EFFECTIVE_DAYS,
       });
       // A recorded state-date context must not replace this council's own
-      // on-adoption rule merely because its pack carries a US-XX key.
+      // rule merely because its pack carries a US-XX key.
       expect(
         resolveLegislativeEffectiveDate(pack, enactments[0]!.resolvedAt, {
           finalPassageAt: () => vote.takenAt,
         }),
-      ).toEqual({
-        kind: "game-default",
-        effectiveAt: enactments[0]!.resolvedAt,
-      });
+      ).toEqual({ kind: "game-default", effectiveAt });
       expect(
         operativeDateForEnactment(enactments[0]!, `US-${unit.stateUsps}`),
-      ).toEqual({ date: enactments[0]!.resolvedAt, basis: "game-default" });
+      ).toEqual({ date: effectiveAt, basis: "game-default" });
       console.info(
         "[a83-town-profile-date-proof]",
         JSON.stringify({
@@ -190,7 +196,7 @@ describe("the town profile saves its effective date once", () => {
       )!;
       expect(
         operativeDateForEnactment(savedAct, `US-${unit.stateUsps}`),
-      ).toEqual({ date: enactments[0]!.resolvedAt, basis: "game-default" });
+      ).toEqual({ date: effectiveAt, basis: "game-default" });
       expect(resumed).toEqual(world);
       expect(sittingLocalOfficers(resumed, unit)).toEqual(officers);
       expect(organizationIdFor(resumed, unit)).toBe(organizationId);
