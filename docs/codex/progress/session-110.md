@@ -99,3 +99,5 @@ cd /workspace/Political-Game-Git && rg -n 'GoalPriority|priority === "medium"|co
 ```
 
 Then repair canonical moderate comparison and prove stable-key idempotence/actual motives with a small focused fixture; receive current-main contracts through connector if CLI remains offline. Do not run long world tests until SPEED FIXED, take new tasks or merge this draft.
+
+Final publication receipt: remote89617f84ab9879194b7eea3816f3fb8085c206aa, draft3784. #2424 handoff attempt returned403: commenting disabled above2500comments. Full fallback recorded on3784 conversation and Drive00q LOG. Local saved code commit000fa1242 retained; no active tests.
