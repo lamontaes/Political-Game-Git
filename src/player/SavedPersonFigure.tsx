@@ -17,7 +17,7 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { EngineFigure } from "./EnginePerson";
-import { personDayRecipe } from "../presentation/day-clothing";
+import { personDayRecipeWithOutfitExclusions } from "../presentation/day-clothing";
 import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
@@ -27,11 +27,14 @@ export function SavedPersonFigure({
   personId,
   libraries: explicitLibraries,
   className,
+  avoidOutfits,
 }: {
   readonly world: World;
   readonly personId: string;
   readonly libraries?: PersonVisualLibraries;
   readonly className?: string;
+  /** Room wardrobe exclusions when this saved figure stands in for that room. */
+  readonly avoidOutfits?: readonly string[];
 }) {
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
@@ -48,7 +51,7 @@ export function SavedPersonFigure({
   if (!person) return null;
   const engine =
     !explicitLibraries && peoplePackAvailable()
-      ? personDayRecipe(world, person)
+      ? personDayRecipeWithOutfitExclusions(world, person, { avoidOutfits })
       : null;
   const figureEngine = engine;
   if (figureEngine) {

@@ -36,6 +36,7 @@ describe("play settings", () => {
       saves: "free",
       challengeIntensity: "standard",
       notesVisibility: "full",
+      pressPremise: "realistic",
       personalLifeDepiction: "full",
     });
     const legacy = {
@@ -48,6 +49,7 @@ describe("play settings", () => {
       saves: "free",
       challengeIntensity: "standard",
       notesVisibility: "full",
+      pressPremise: "realistic",
       personalLifeDepiction: "full",
     });
     expect(

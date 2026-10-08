@@ -1,6 +1,7 @@
 import { recordWorldEvent } from "./world";
 import playSettingsContent from "../../data/content/play-settings.json" with { type: "json" };
 import notesVisibilityContent from "../../data/content/notes-visibility.json" with { type: "json" };
+import type { EditorialStandard } from "./press/records";
 import type {
   ChallengeIntensity,
   NotesVisibility,
@@ -14,6 +15,7 @@ export const DEFAULT_PLAY_SETTINGS: PlaySettings = {
   saves: "free",
   challengeIntensity: "standard",
   notesVisibility: "full",
+  pressPremise: "realistic",
   personalLifeDepiction: "full",
 };
 
@@ -45,6 +47,7 @@ export function playSettingsOf(world: World): PlaySettings {
       saved.challengeIntensity ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
     notesVisibility:
       saved.notesVisibility ?? DEFAULT_PLAY_SETTINGS.notesVisibility,
+    pressPremise: saved.pressPremise ?? DEFAULT_PLAY_SETTINGS.pressPremise,
     personalLifeDepiction:
       saved.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
@@ -114,6 +117,7 @@ export function initialPlaySettings(input: {
   readonly saves?: SaveMode;
   readonly challenge?: ChallengeIntensity;
   readonly notes?: NotesVisibility;
+  readonly pressPremise?: EditorialStandard;
   readonly personalLifeDepiction?: PersonalLifeDepiction;
 }): PlaySettings {
   return {
@@ -121,6 +125,7 @@ export function initialPlaySettings(input: {
     challengeIntensity:
       input.challenge ?? DEFAULT_PLAY_SETTINGS.challengeIntensity,
     notesVisibility: input.notes ?? DEFAULT_PLAY_SETTINGS.notesVisibility,
+    pressPremise: input.pressPremise ?? DEFAULT_PLAY_SETTINGS.pressPremise,
     personalLifeDepiction:
       input.personalLifeDepiction ??
       DEFAULT_PLAY_SETTINGS.personalLifeDepiction,
