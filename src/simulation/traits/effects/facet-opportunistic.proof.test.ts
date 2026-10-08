@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
 import { proveTwoPersonTraitDifference } from "./trait-proof-support";
 
-describe("the opportunistic trait-act table reading", () => {
-  it("changes the career choices of two people who differ in the recorded tendency", () => {
+describe("the opportunistic difference in a random new game", () => {
+  it("changes a career decision for two people who differ only in the trait", () => {
     const proof = proveTwoPersonTraitDifference(
       "personality-v1:facet-opportunistic",
       "career.consider-another-term",
-      "session-81-opportunistic-proof",
+      "l1-proof-facet-opportunistic-two-person",
       [],
       "act-pulls",
     );
     expect(proof.high.personId).not.toBe(proof.low.personId);
     expect(proof.high.choice).toBe("seek");
+    expect(proof.low.choice).toBeNull();
     expect(proof.high.reason).toEqual(expect.any(String));
-    expect(proof.low.choice).not.toBe(proof.high.choice);
   });
 });
