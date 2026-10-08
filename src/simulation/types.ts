@@ -3393,6 +3393,8 @@ export interface LoanTermsRecord {
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
   readonly rateCapMeasureId: EntityId | null;
+  /** Recorded contract/offer rate before the cap; never a modeled market rate. */
+  readonly rateBeforeCapBasisPoints?: number;
   readonly repayment: LoanRepayment;
   /** Null: this loan's contract states no late fee. */
   readonly lateFee: MoneyAmount | null;
@@ -4058,6 +4060,14 @@ export interface CampaignActionResultRecord {
   readonly observationId: EntityId;
   readonly feedbackEventId: EntityId;
   readonly feedbackKnowledgeId: EntityId;
+  /**
+   * An outreach session's doors: every household knocked on, in order, and
+   * the residents who were home to answer. Absent for other kinds of work.
+   */
+  readonly canvass?: {
+    readonly householdIds: readonly EntityId[];
+    readonly metPersonIds: readonly EntityId[];
+  };
 }
 
 /**

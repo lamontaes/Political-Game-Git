@@ -102,7 +102,7 @@ export function bindTaxLawTerms(
     input.questionKey,
   );
   const stateQuestion =
-    /^us-tax-terms:state\.(sales|property|payroll)-tax-terms$/.exec(
+    /^us-tax-terms:state\.(sales|property|payroll|corporate)-tax-terms$/.exec(
       input.questionKey,
     );
   const localInstrument = localQuestion

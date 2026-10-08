@@ -9,7 +9,16 @@ import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { viewOfOfficial } from "./official-view-reads";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
-import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcome,
+} from "./resources";
+import {
+  ESTIMATED_PERSONAL_MONEY_VERSION,
+  estimatedPersonalBalance,
+} from "./starting-money";
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
 import leftoverFundsRules from "../../data/research/campaign-reality/leftover-funds-rules.json" with { type: "json" };
@@ -351,9 +360,9 @@ export const CANDIDATE_OWN_MONEY_EVENT = "campaign-finance.candidate-own-money";
 
 /**
  * What the candidate has in their own account, in the committee's currency,
- * or null when the game is not tracking this person's money at all. Unknown
- * is not zero: a life with no recorded money cannot spend any, and the screen
- * says so rather than showing $0. Read-only.
+ * or null when the game holds no record of this person's money. Null is not
+ * zero: a recorded $0 is a balance, and no record has no balance yet. Use
+ * `candidatePersonalMoney` for what a screen shows. Read-only.
  */
 export function candidatePersonalBalance(
   world: World,
@@ -388,6 +397,28 @@ export function candidatePersonalBalance(
   );
 }
 
+export interface CandidatePersonalMoney {
+  readonly minorUnits: number;
+  /** Set when the figure is an estimate, with where it comes from. */
+  readonly estimateBasis: string | null;
+}
+
+/**
+ * What a screen shows of the candidate's own money: the recorded balance, or,
+ * when the game holds no record, an estimate from the average with its basis.
+ * Nothing shows blank or unknown. Read-only.
+ */
+export function candidatePersonalMoney(
+  world: World,
+  personId: EntityId,
+): CandidatePersonalMoney | null {
+  if (!activeCampaignForCandidate(world, personId)) return null;
+  const recorded = candidatePersonalBalance(world, personId);
+  if (recorded !== null) return { minorUnits: recorded, estimateBasis: null };
+  const estimate = estimatedPersonalBalance(world, personId);
+  return { minorUnits: estimate.minorUnits, estimateBasis: estimate.basis };
+}
+
 /**
  * The candidate moves personal money into their committee. It is a public
  * act: the contribution is on the record, and a reader can see how much of
@@ -403,14 +434,34 @@ export function contributeOwnMoneyToCampaign(
   if (!Number.isSafeInteger(amountMinorUnits) || amountMinorUnits <= 0) {
     throw new Error("The amount has to be more than nothing.");
   }
-  let next = ensureLifePathPersonalPosition(
-    world,
-    personId,
-    campaign.treasuryCurrency,
-  );
-  const have = candidatePersonalBalance(world, personId);
-  if (have === null) {
-    throw new Error("None of your own money can go into the campaign yet.");
+  const recorded = candidatePersonalBalance(world, personId);
+  let next: World;
+  let have: number;
+  if (recorded !== null) {
+    next = ensureLifePathPersonalPosition(
+      world,
+      personId,
+      campaign.treasuryCurrency,
+    );
+    have = recorded;
+  } else {
+    // No record of this person's money: the account opens at the estimate the
+    // screen showed, marked as generated from the average, and the gift comes
+    // out of it.
+    if (campaign.treasuryCurrency !== "USD")
+      throw new Error("None of your own money can go into the campaign yet.");
+    const estimate = estimatedPersonalBalance(world, personId);
+    next = createResourcePosition(world, {
+      stableKey: `${ESTIMATED_PERSONAL_MONEY_VERSION}:${personId}:personal-position`,
+      owner: { kind: "person", personId },
+      openedAt: world.currentDate,
+      openingBalance: money(estimate.minorUnits, campaign.treasuryCurrency),
+      provenance: {
+        kind: "generated",
+        generatorKey: ESTIMATED_PERSONAL_MONEY_VERSION,
+      },
+    });
+    have = estimate.minorUnits;
   }
   if (have < amountMinorUnits) {
     throw new Error("You do not have that much of your own money.");

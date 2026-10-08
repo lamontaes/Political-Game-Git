@@ -248,6 +248,37 @@ describe("one binder for a county or a city in any state", () => {
       expect(result.reason).toContain("does not let this level");
   });
 
+  it("binds county income only where that level has wage-income authority", () => {
+    const county = drawUnit(
+      "p2-county-income",
+      "county",
+      (stateUsps) =>
+        localTaxAuthority({
+          stateUsps,
+          level: "COUNTY",
+          instrument: "wage-income",
+        }).permits,
+    );
+    const f = fixture(county, "wage-income");
+    expect(f.questionKey).toBe("us-tax-terms:county.income-tax-terms");
+    expect(bindTaxLawTerms(f.world, f.input).kind).toBe("available");
+    const prohibited = drawUnit(
+      "p2-county-income-refusal",
+      "county",
+      (stateUsps) =>
+        !localTaxAuthority({
+          stateUsps,
+          level: "COUNTY",
+          instrument: "wage-income",
+        }).permits,
+    );
+    const g = fixture(prohibited, "wage-income");
+    expect(bindTaxLawTerms(g.world, g.input)).toMatchObject({
+      kind: "unavailable",
+      reason: expect.stringContaining("does not let this level"),
+    });
+  });
+
   it("refuses a tax that is not the question's tax, and a county question for a city", () => {
     const city = drawUnit("seam-binder-mismatch", "municipality");
     const f = fixture(city, "property");
