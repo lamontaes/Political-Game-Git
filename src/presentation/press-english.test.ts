@@ -117,3 +117,96 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     ),
   ).toEqual(packet);
 });
+
+it("asks a reporter's question from a published headline, never its body credit or refusals", () => {
+  // Authored fixture tests the wording boundary, not a random-place game.
+  const fixture = createRunCFixture("bg71-press-headline");
+  const source = fixture.playerPersonId;
+  const reporter = fixture.world.personOrder.find((id) => id !== source)!;
+  let world = createWorkRelationship(fixture.world, {
+    stableKey: "fixture:reporter",
+    personId: reporter,
+    organizationId: null,
+    startedAt: fixture.world.currentDate,
+    kind: "employment:news-reporting",
+    compensation: "paid",
+    authority: "self-directed",
+    dependency: "partly-dependent",
+    economicRisk: "organization-borne",
+    provenance: { kind: "authored", note: "Explicit BG-71 press fixture." },
+    initialRole: {
+      title: "Reporter",
+      occupationClassification: JOURNALISM_OCCUPATION_CLASSIFICATION,
+      locationJurisdictionId: fixture.roomContext.jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 30, maximumHours: 40 },
+        attention: "high",
+        concurrency: "partly-concurrent",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: fixture.roomContext.jurisdictionId,
+      },
+    },
+  });
+  world = recordWorldEvent(world, {
+    stableKey: "fixture:hearing",
+    type: "civic.hearing-held",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: fixture.roomContext.jurisdictionId,
+    involvedEntityIds: [source, reporter],
+    participants: [
+      { personId: source, role: "agency:speaker", detail: "Attended" },
+      { personId: reporter, role: "observation:reporter", detail: "Heard" },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["fixture:press"],
+    summary: "The hearing ended without a final vote.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const event = world.history.events.at(-1)!;
+  const edition = {
+    id: "publication_bg71",
+    stableKey: "fixture:bg71-edition",
+    sequence: world.history.nextSequence,
+    kind: "news",
+    sourceEventId: event.id,
+    sourceRecordIds: [],
+    jurisdictionId: fixture.roomContext.jurisdictionId,
+    outletKey: "civic-ledger",
+    outletName: "Civic Ledger",
+    headline: "The hearing ended without a final vote",
+    body: "A source declined to comment.\n\nReported by A Reporter for Civic Ledger.",
+    publishedAt: world.currentDate,
+    recordedAt: world.currentDate,
+    correctsPublicationId: null,
+    correctionNote: null,
+  } as unknown as NonNullable<typeof world.history.publications>[number];
+  world = {
+    ...world,
+    history: {
+      ...world.history,
+      publications: [...(world.history.publications ?? []), edition],
+      nextSequence: world.history.nextSequence + 1,
+    },
+  };
+  const packet = reporterQuestionPacket(world, source, reporter, event.id)!;
+  expect(packet.facts.subject?.text).toBe(edition.headline);
+  const question = composeReporterQuestion({
+    subjectSummary: edition.headline,
+    terms: "on-record",
+    grounding: packet,
+  });
+  expect(question.ok && question.statement).toContain(edition.headline);
+  expect(question.ok && question.statement).not.toMatch(
+    /declined to comment|Reported by/,
+  );
+});

@@ -252,7 +252,12 @@ export function reporterQuestionPacket(
   const subject = belief
     ? { text: belief.believedSummary, sourceRecordIds: [belief.id, event.id] }
     : publication
-      ? { text: publication.body, sourceRecordIds: [publication.id, event.id] }
+      ? {
+          // The headline states the first public fact; the body also carries
+          // the reporting credit and who declined to comment.
+          text: publication.headline,
+          sourceRecordIds: [publication.id, event.id],
+        }
       : null;
   const facts: Record<string, GroundedEnglishFact> = subject ? { subject } : {};
 
