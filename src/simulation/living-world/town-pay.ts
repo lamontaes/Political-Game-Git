@@ -512,77 +512,83 @@ function recordEmployerPayPeriods(
   world: World,
   staff: ReadonlyMap<EntityId, number>,
 ): World {
-  let next = world;
-  const organizations = world.history.organizations
-    .map((organization) => {
-      const profile = organizationProfileAt(world, organization.id);
-      return profile && staff.has(organization.id)
-        ? { organization, profile, staff: staff.get(organization.id)! }
-        : null;
-    })
-    .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
-  const groups = new Map<EntityId | null, typeof organizations>();
-  for (const entry of organizations) {
-    if (entry.profile.payPeriod) continue;
-    const group = groups.get(entry.profile.locationJurisdictionId) ?? [];
-    group.push(entry);
-    groups.set(entry.profile.locationJurisdictionId, group);
-  }
-  for (const group of groups.values()) {
-    group.sort(
-      (a, b) =>
-        a.organization.formedAt.localeCompare(b.organization.formedAt) ||
-        a.organization.stableKey.localeCompare(b.organization.stableKey),
-    );
-    const assignments = new Map<EntityId, TownPayPeriod>();
-    const privateEmployers = group.filter(
-      ({ profile }) =>
-        !GOVERNMENT_CLASSIFICATIONS.has(profile.classification) &&
-        !profile.publicGovernmentIdentity,
-    );
-    for (const { organization } of group)
-      if (
-        !privateEmployers.some(
-          (entry) => entry.organization.id === organization.id,
-        )
-      )
-        assignments.set(organization.id, "biweekly");
-    if (privateEmployers.length) {
-      const expected = privateEmployers.map(({ profile, staff: n }) =>
-        townPayPeriodWeights(profile.classification, n),
-      );
-      const cadenceList = allocateTownPayPeriods(expected);
-      privateEmployers.forEach((entry, index) =>
-        assignments.set(entry.organization.id, cadenceList[index]!),
-      );
-    }
-    group.forEach((entry) => {
-      const profile = organizationProfileAt(next, entry.organization.id)!;
-      const period =
-        profile.payPeriod ?? assignments.get(entry.organization.id)!;
-      next = recordOrganizationProfile(next, {
-        stableKey: `${TOWN_PAY_VERSION}:employer-period:${entry.organization.id}`,
-        organizationId: entry.organization.id,
-        effectiveAt: world.currentDate,
-        name: profile.name,
-        classification: profile.classification,
-        locationJurisdictionId: profile.locationJurisdictionId,
-        ...(profile.publicGovernmentIdentity
-          ? { publicGovernmentIdentity: profile.publicGovernmentIdentity }
-          : {}),
-        ...(profile.collegePlace ? { collegePlace: profile.collegePlace } : {}),
-        payPeriod: period,
-        provenance: profile.publicGovernmentIdentity
-          ? profile.provenance
-          : {
-              kind: "authored",
-              note: "BLS pay-period shares, largest remainder within town",
-            },
-        supersedesProfileId: profile.id,
-      });
-    });
-  }
-  return next;
+  return writeWithWorldIntegrityOnce(world, () =>
+    withHistoryAppendTransaction(world, ["organizationProfiles"], () => {
+      let next = world;
+      const organizations = world.history.organizations
+        .map((organization) => {
+          const profile = organizationProfileAt(world, organization.id);
+          return profile && staff.has(organization.id)
+            ? { organization, profile, staff: staff.get(organization.id)! }
+            : null;
+        })
+        .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+      const groups = new Map<EntityId | null, typeof organizations>();
+      for (const entry of organizations) {
+        if (entry.profile.payPeriod) continue;
+        const group = groups.get(entry.profile.locationJurisdictionId) ?? [];
+        group.push(entry);
+        groups.set(entry.profile.locationJurisdictionId, group);
+      }
+      for (const group of groups.values()) {
+        group.sort(
+          (a, b) =>
+            a.organization.formedAt.localeCompare(b.organization.formedAt) ||
+            a.organization.stableKey.localeCompare(b.organization.stableKey),
+        );
+        const assignments = new Map<EntityId, TownPayPeriod>();
+        const privateEmployers = group.filter(
+          ({ profile }) =>
+            !GOVERNMENT_CLASSIFICATIONS.has(profile.classification) &&
+            !profile.publicGovernmentIdentity,
+        );
+        for (const { organization } of group)
+          if (
+            !privateEmployers.some(
+              (entry) => entry.organization.id === organization.id,
+            )
+          )
+            assignments.set(organization.id, "biweekly");
+        if (privateEmployers.length) {
+          const expected = privateEmployers.map(({ profile, staff: n }) =>
+            townPayPeriodWeights(profile.classification, n),
+          );
+          const cadenceList = allocateTownPayPeriods(expected);
+          privateEmployers.forEach((entry, index) =>
+            assignments.set(entry.organization.id, cadenceList[index]!),
+          );
+        }
+        group.forEach((entry) => {
+          const profile = organizationProfileAt(next, entry.organization.id)!;
+          const period =
+            profile.payPeriod ?? assignments.get(entry.organization.id)!;
+          next = recordOrganizationProfile(next, {
+            stableKey: `${TOWN_PAY_VERSION}:employer-period:${entry.organization.id}`,
+            organizationId: entry.organization.id,
+            effectiveAt: world.currentDate,
+            name: profile.name,
+            classification: profile.classification,
+            locationJurisdictionId: profile.locationJurisdictionId,
+            ...(profile.publicGovernmentIdentity
+              ? { publicGovernmentIdentity: profile.publicGovernmentIdentity }
+              : {}),
+            ...(profile.collegePlace
+              ? { collegePlace: profile.collegePlace }
+              : {}),
+            payPeriod: period,
+            provenance: profile.publicGovernmentIdentity
+              ? profile.provenance
+              : {
+                  kind: "authored",
+                  note: "BLS pay-period shares, largest remainder within town",
+                },
+            supersedesProfileId: profile.id,
+          });
+        });
+      }
+      return next;
+    }),
+  );
 }
 
 export function openingPaydayPhase(openedAt: IsoDate): number {
