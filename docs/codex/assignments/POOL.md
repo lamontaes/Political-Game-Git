@@ -658,7 +658,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2206 | Add sourced paid leave terms | PR #2206 (codex/session19-labor-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | done #2402 | |
-| RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | done #3029 | |
 | RS-2211 | P1: Preserve dated historical inputs and diagnose excessive past processing | PR #2211 (codex/session5-historical-world) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2216 | Record supported 2026 environment law amounts | PR #2216 (codex/session17-environment-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2217 | Record supported 2026 mileage fee amounts | PR #2217 (codex/session17-transportation-amounts) | open: draft: finish it or close it as superseded | |
