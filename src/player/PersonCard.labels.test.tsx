@@ -275,3 +275,23 @@ it("keeps no hidden screen-reader sentence on the card", () => {
   expect(text.match(/className="sr-only"[^>]*>\s*\{/g) ?? []).toEqual([]);
   expect(text).not.toMatch(/aria-describedby=\{`person-\w+-reason-/);
 });
+
+it("does not add an authored heading above connected records", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text).not.toContain("Connected people");
+});
+
+it("does not show explanatory relationship-web captions", () => {
+  const text = readFileSync(
+    join(__dirname, "PeopleRelationshipWeb.tsx"),
+    "utf8",
+  );
+  for (const sentence of [
+    "How you know",
+    "No record connects you directly",
+    "are shown in full color",
+    "do not fit in the web",
+  ]) {
+    expect(text).not.toContain(sentence);
+  }
+});

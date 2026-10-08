@@ -168,6 +168,40 @@
   opacity: 1;
 }
 
+.front-door-progress {
+  box-sizing: border-box;
+  width: min(100%, 24rem);
+  height: 0.65rem;
+  margin: 1rem auto 0;
+  overflow: hidden;
+  border: 1px solid var(--front-door-brass);
+  background: rgb(12 15 16 / 76%);
+}
+
+.front-door-progress > span {
+  display: block;
+  width: 42%;
+  height: 100%;
+  background: linear-gradient(90deg, #76521d, #d4ae65, #f3dda2);
+  animation: front-door-progress 1.25s ease-in-out infinite alternate;
+}
+
+@keyframes front-door-progress {
+  from {
+    transform: translateX(-72%);
+  }
+  to {
+    transform: translateX(172%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front-door-progress > span {
+    animation: none;
+    transform: translateX(45%);
+  }
+}
+
 .title-tableau.front-door
   .game-title:not(.game-creator)
   button:is(:hover, :focus-visible):not(:disabled) {
