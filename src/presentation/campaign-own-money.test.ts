@@ -12,21 +12,34 @@ import {
   searchLifePlaces,
   stateExecutiveIdentity,
   stateJurisdictionForKey,
+  type EntityId,
 } from "../simulation";
 import {
   CANDIDATE_OWN_MONEY_EVENT,
   candidatePersonalBalance,
+  candidatePersonalMoney,
   contributeOwnMoneyToCampaign,
 } from "../simulation/campaign-money-sources";
+import { ESTIMATED_PERSONAL_MONEY_VERSION } from "../simulation/starting-money";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { CampaignOwnMoney } from "../player/CampaignOwnMoney";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
+import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { withPersonalSavings } from "../../tests/fixtures/personal-money";
 
-/** An ordinary 40-year-old life in a town in the state, filed for governor. */
-function governorRace(usps: string, seed: string) {
+/**
+ * An ordinary 40-year-old life in a town in the state, filed for governor. The
+ * candidate is the player, whose opening records savings, or with
+ * `untracked-neighbor` an adult of the same town the game holds no money
+ * record for at all.
+ */
+function governorRace(
+  usps: string,
+  seed: string,
+  candidate: "player" | "untracked-neighbor" = "player",
+) {
   const place = searchLifePlaces("", 1, {
     stateJurisdictionKey: `US-${usps}`,
     scope: "locality",
@@ -40,8 +53,29 @@ function governorRace(usps: string, seed: string) {
       questionnaire: "skipped",
     }),
   ).game!;
-  const personId = game.playerPersonId;
-  const world = openOrdinaryLife(game.world, personId);
+  const playerId = game.playerPersonId;
+  const world = openOrdinaryLife(game.world, playerId);
+  const homeId = world.people[playerId]!.homeJurisdictionId;
+  const noMoneyRecorded = (id: EntityId) =>
+    !world.history.resourcePositions.some(
+      (position) =>
+        position.owner.kind === "person" && position.owner.personId === id,
+    ) &&
+    !world.history.resourceFlows.some(
+      (flow) =>
+        (flow.source.kind === "person" && flow.source.personId === id) ||
+        (flow.recipient.kind === "person" && flow.recipient.personId === id),
+    );
+  const personId =
+    candidate === "player"
+      ? playerId
+      : world.personOrder.find(
+          (id) =>
+            id !== playerId &&
+            world.people[id]!.homeJurisdictionId === homeId &&
+            fixtureMeetsRecordedCandidacyAge(world, id) &&
+            noMoneyRecorded(id),
+        )!;
   const jurisdictionId = stateJurisdictionForKey(`US-${usps}`)!.id;
   const opponents = ensureCampaignOpponents(
     ensureStateJurisdiction(world, usps),
@@ -147,9 +181,15 @@ describe("a candidate's own money", () => {
     ]);
   }, 300_000);
 
-  it("says so, rather than showing $0, when the game is not tracking the money", () => {
-    const race = governorRace("ND", "own-money-nd");
+  it("shows an estimate with its basis, not a blank, when the game holds no money record", () => {
+    const race = governorRace("ND", "own-money-nd", "untracked-neighbor");
+    // The neighbor has no account and no pay or other money on record.
     expect(candidatePersonalBalance(race.world, race.personId)).toBeNull();
+    const own = candidatePersonalMoney(race.world, race.personId)!;
+    // The middle fifth of family income holds a median of $7,400 in
+    // transaction accounts (Survey of Consumer Finances 2022).
+    expect(own.minorUnits).toBe(740_000);
+    expect(own.estimateBasis).toContain("ESTIMATED FROM AVERAGE");
     const html = renderToStaticMarkup(
       createElement(CampaignOwnMoney, {
         world: race.world,
@@ -157,10 +197,46 @@ describe("a candidate's own money", () => {
         onWorldChange: () => undefined,
       }),
     );
-    expect(html).toContain("Own money: not on record");
-    expect(html).not.toContain("<button");
+    expect(html).toContain("You have about $7,400 of your own");
+    expect(html).toContain("an estimate");
+    expect(html).not.toContain("not on record");
+    // Reading it wrote nothing.
+    expect(candidatePersonalBalance(race.world, race.personId)).toBeNull();
+
+    // Giving from it opens the account at the estimate, marked as generated
+    // from the average, and moves the money like any other gift.
+    const campaign = campaignForCandidate(race.world, race.personId)!;
+    const after = contributeOwnMoneyToCampaign(
+      race.world,
+      race.personId,
+      50_000,
+    );
+    expect(candidatePersonalBalance(after, race.personId)).toBe(690_000);
+    const opened = after.history.resourcePositions.find(
+      (position) =>
+        position.owner.kind === "person" &&
+        position.owner.personId === race.personId,
+    )!;
+    expect(opened.provenance).toEqual({
+      kind: "generated",
+      generatorKey: ESTIMATED_PERSONAL_MONEY_VERSION,
+    });
+    expect(
+      resourcePositionAt(
+        after,
+        { kind: "organization", organizationId: campaign.organizationId },
+        campaign.treasuryCurrency,
+      )?.liquidBalance.minorUnits,
+    ).toBe(
+      (resourcePositionAt(
+        race.world,
+        { kind: "organization", organizationId: campaign.organizationId },
+        campaign.treasuryCurrency,
+      )?.liquidBalance.minorUnits ?? 0) + 50_000,
+    );
+    // Nobody gives more than the estimate.
     expect(() =>
-      contributeOwnMoneyToCampaign(race.world, race.personId, 50_000),
-    ).toThrow(/None of your own money can go into the campaign yet/);
+      contributeOwnMoneyToCampaign(race.world, race.personId, 740_001),
+    ).toThrow(/do not have that much/);
   }, 300_000);
 });
