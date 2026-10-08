@@ -18,6 +18,9 @@ import {
   searchLifePlaces,
 } from "../simulation/life-places";
 import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
+import { PEOPLE_PACK } from "./appearance-engine/runtime";
+import { engineRecipeFor } from "./appearance-engine/recipe";
+import { placeWear } from "./dress-code";
 
 function unincorporatedPlace(seed: string) {
   const rng = new SeededRng(seed);
@@ -222,6 +225,47 @@ it(
     expect(introPlacementTrace(oval, executives).unstagedActors).toHaveLength(
       executives.length,
     );
+    // The portrait candidate and an off-shift Oval Office actor share the
+    // saved person's formal outfit recipe. Pose/view are scene-specific; the
+    // person and garment choices are not.
+    for (const actor of executives) {
+      const person = world.people[actor.person.personId]!;
+      const portraitRecipe = engineRecipeFor(
+        person,
+        world.currentDate,
+        PEOPLE_PACK,
+        { wear: placeWear("oval-office", world.currentDate) },
+      )!;
+      const sceneRecipe = engineRecipeFor(
+        person,
+        world.currentDate,
+        PEOPLE_PACK,
+        {
+          wear: placeWear("oval-office", world.currentDate),
+          pose: "standing",
+          view: "front",
+        },
+      )!;
+      expect({
+        presentation: portraitRecipe.presentation,
+        build: portraitRecipe.build,
+        shade: portraitRecipe.shade,
+        face: portraitRecipe.face,
+        hair: portraitRecipe.hair,
+        hairColor: portraitRecipe.hairColor,
+        outfit: portraitRecipe.outfit,
+        colors: portraitRecipe.colors,
+      }).toEqual({
+        presentation: sceneRecipe.presentation,
+        build: sceneRecipe.build,
+        shade: sceneRecipe.shade,
+        face: sceneRecipe.face,
+        hair: sceneRecipe.hair,
+        hairColor: sceneRecipe.hairColor,
+        outfit: sceneRecipe.outfit,
+        colors: sceneRecipe.colors,
+      });
+    }
     const actors = chapters.find((c) => c.key === "congress")!.actors;
     const placements = openingTourStagedPeople(
       world,
