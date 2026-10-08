@@ -126,6 +126,19 @@ export interface PlaceStaging {
   /** Raised floors: the same horizon, each with its own scale. */
   readonly floors?: Readonly<Record<string, number>>;
   readonly spots: readonly StagingSpot[];
+  /**
+   * Furniture whose front face a person can be drawn against but not stand
+   * on: a desk, a table, a counter. A box in percent of the picture, from
+   * the top edge down to the foot of its front (`baseY`); a standing spot's
+   * foot point is on open floor, never inside one.
+   */
+  readonly furniture?: readonly {
+    readonly id: string;
+    readonly left: number;
+    readonly right: number;
+    readonly top: number;
+    readonly baseY: number;
+  }[];
   readonly surfaceSlots?: readonly {
     readonly surfaceId: string;
     readonly kind: string;

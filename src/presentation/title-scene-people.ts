@@ -20,6 +20,7 @@ import {
   spotFigure,
   spotView,
   turnedToSpot,
+  type PlaceStaging,
   type SpotFigure,
   type StagingSpot,
 } from "./backdrop-people";
@@ -188,13 +189,17 @@ function heroRecipe(
 export function titleScenePeople(
   picture: Pick<TitlePicture, "place" | "variant">,
   hero: TitleSceneHero | null = null,
+  room: TitleSceneRoom | null = null,
 ): readonly TitleScenePerson[] {
   const stage = backdropStaging(picture.place);
   if (!stage) return [];
+  // A spot under the menu or cut by the window's edge holds no one, and its
+  // lectern gives no speech: the speaker is whoever can be seen giving it.
   const spots = stage.spots.filter(
     (spot) =>
       spot.facing !== "away" &&
-      !(spot.pose === "podium" && spot.audience === "away"),
+      !(spot.pose === "podium" && spot.audience === "away") &&
+      (!room || titlePeopleInView([spotBox(stage, spot)], room).length > 0),
   );
   const spotId = (spot: StagingSpot) =>
     spot.id ?? `${picture.place}:spot:${stage.spots.indexOf(spot)}`;
@@ -246,7 +251,13 @@ export function titleScenePeople(
       engine,
     });
   }
-  return people.sort((a, b) => a.depth - b.depth);
+  const farthestFirst = people.sort((a, b) => a.depth - b.depth);
+  return room ? titlePeopleInView(farthestFirst, room) : farthestFirst;
+}
+
+/** The figure a spot holds before anyone is posed there. */
+function spotBox(stage: PlaceStaging, spot: StagingSpot): SpotFigure {
+  return spotFigure(stage, spot);
 }
 
 /** A box in percent of the picture (1672 x 941). */
@@ -313,10 +324,16 @@ export interface TitleSceneRoom {
  * window. A person who cannot be seen is left out, as a spot with no pose
  * in the pack is: nobody is drawn where they would be hidden or cut off.
  */
-export function titlePeopleInView(
-  people: readonly TitleScenePerson[],
-  room: TitleSceneRoom,
-): readonly TitleScenePerson[] {
+export function titlePeopleInView<
+  Figure extends Pick<
+    SpotFigure,
+    | "leftPercent"
+    | "topPercent"
+    | "widthPercent"
+    | "heightPercent"
+    | "clipBelowPercent"
+  >,
+>(people: readonly Figure[], room: TitleSceneRoom): readonly Figure[] {
   const frame = room.frame ?? { left: 0, right: 100 };
   return people.filter((person) => {
     const body = figureBodyBox(person);

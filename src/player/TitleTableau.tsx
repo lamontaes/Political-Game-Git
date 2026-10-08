@@ -4,8 +4,8 @@ import { scenePlateClips } from "../presentation/scene-occlusion";
 import { figureClip } from "../presentation/backdrop-people";
 import { titlePictureId } from "../presentation/title-civic-rotation";
 import {
-  titlePeopleInView,
   titlePeopleTint,
+  titleScenePeople,
   type PictureBox,
 } from "../presentation/title-scene-people";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
@@ -375,8 +375,11 @@ function PictureStage({
   // everyone is lit as the picture is (a night picture darkens its people).
   const room = useMenuAndFrame(viewportRef, transform);
   const people = useMemo(
-    () => titlePeopleInView(presentation.picturePeople ?? [], room),
-    [presentation.picturePeople, room],
+    () =>
+      presentation.picturePeople
+        ? titleScenePeople(picture, presentation.pictureHero ?? null, room)
+        : [],
+    [picture, presentation.picturePeople, presentation.pictureHero, room],
   );
   const tint = titlePeopleTint(picture.variant);
   return (

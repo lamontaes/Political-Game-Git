@@ -5,7 +5,7 @@ import {
   type SceneRegistry,
 } from "./scene-registry";
 import type { TitlePicture } from "./title-civic-rotation";
-import type { TitleScenePerson } from "./title-scene-people";
+import type { TitleScenePerson, TitleSceneHero } from "./title-scene-people";
 
 /**
  * Title tableau primitives.
@@ -125,6 +125,11 @@ export interface TitlePresentation {
    * hero spot when the resolver put them there.
    */
   readonly picturePeople?: readonly TitleScenePerson[];
+  /**
+   * The returning player the picture's people were made with, so the stage
+   * can place them again once it knows where the menu and window edges are.
+   */
+  readonly pictureHero?: TitleSceneHero | null;
 }
 
 export interface TitlePresentationRequest {

@@ -300,6 +300,7 @@ export function AmbientTableau({
           heroName: leadHero.name,
           description: `${room.label}, with ${leadHero.name} in front.`,
           picturePeople: people,
+          pictureHero: leadHero,
         }
       : { ...empty, picturePeople: people };
   };
