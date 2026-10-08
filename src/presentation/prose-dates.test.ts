@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { formatMinute } from "./player-calendar";
-import { proseDate } from "./prose-dates";
+import { proseDate, proseMonthDay } from "./prose-dates";
 
 describe("player-facing dates", () => {
   it("says a stored ISO date the American way", () => {
@@ -13,5 +13,11 @@ describe("player-facing dates", () => {
 
   it("leaves text that is not a date alone rather than inventing one", () => {
     expect(proseDate("No current record")).toBe("No current record");
+    expect(proseMonthDay("13-40")).toBe("13-40");
+  });
+
+  it("says a yearly month and day without inventing a year", () => {
+    expect(proseMonthDay("06-01")).toBe("June 1");
+    expect(proseMonthDay("02-29")).toBe("February 29");
   });
 });

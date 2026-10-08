@@ -19,6 +19,11 @@ import {
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
 import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
+import {
+  arriveAtFilingVisit,
+  isFilingVisit,
+  projectClerkFilingScene,
+} from "./clerk-filing-scene";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
@@ -127,13 +132,18 @@ export function playCalendarActivity(
       campaignLifeActivityForScheduledActivity(world, activityId)?.form ===
         "candidate-guidance" &&
       projectCandidateGuidanceScene(world, personId)?.activityId !== activityId;
+    const openingFilingVisit =
+      isFilingVisit(world, activityId) &&
+      projectClerkFilingScene(world, personId)?.activityId !== activityId;
     next = openingMeeting
       ? arriveAtOrdinaryMeeting(world, personId, activityId)
       : openingGuidance
         ? arriveAtCandidateGuidance(world, personId, activityId)
-        : performVenueActivity(world, personId, activityId, undefined, {
-            finishMeeting,
-          });
+        : openingFilingVisit
+          ? arriveAtFilingVisit(world, personId, activityId)
+          : performVenueActivity(world, personId, activityId, undefined, {
+              finishMeeting,
+            });
   } catch (error) {
     // A writer that refuses (a buy the committee can no longer pay for, a
     // session that is not the week's next) says why, and nothing is written:
@@ -164,8 +174,10 @@ export function playCalendarActivity(
         : projectCandidateGuidanceScene(next, personId)?.activityId ===
             activityId
           ? projectCandidateGuidanceScene(next, personId)!.caption
-          : (activityCompletionOutcome(next, personId, activityId) ??
-            describeRoutineOutcome(before, next, personId)),
+          : projectClerkFilingScene(next, personId)?.activityId === activityId
+            ? ""
+            : (activityCompletionOutcome(next, personId, activityId) ??
+              describeRoutineOutcome(before, next, personId)),
   };
 }
 

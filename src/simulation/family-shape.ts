@@ -2,7 +2,7 @@ import { ageOnDate } from "./dates";
 import { stableHash } from "./ids";
 import { spreadOf, type Spread } from "./sample-spread";
 import type { EntityId, World } from "./types";
-import censusFamilyEstimate from "../../data/research/family-shape/census-two-parent-share.json";
+import censusFamilyEstimate from "../../data/research/family-shape/census-two-parent-share.json" with { type: "json" };
 
 export interface DrawnFamilyShape {
   /** Actual saved pattern retained for downstream caregiver estimates. */
