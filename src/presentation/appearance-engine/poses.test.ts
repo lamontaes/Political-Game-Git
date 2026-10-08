@@ -315,6 +315,28 @@ describe("the pose chooser", () => {
     }
   });
 
+  it("carries a feeling in the stance of an open person more than a guarded one", () => {
+    // Sadness reads in poses with no guarded or open stance of their own, so
+    // only the trait's weight on the feeling moves the count.
+    const reads = (guarded: number) =>
+      seeds.filter((seed) =>
+        (poseData.byExpression.sad as string[]).includes(
+          chooseBodyPose({
+            activity: "waiting",
+            seated: false,
+            seed,
+            guarded,
+            expression: "sad",
+          }),
+        ),
+      ).length;
+    expect(reads(-2)).toBeGreaterThan(reads(0));
+    expect(reads(0)).toBeGreaterThan(reads(2));
+    // A guarded person still may: the trait weighs the stance, it does not
+    // forbid it.
+    expect(reads(2)).toBeGreaterThan(0);
+  });
+
   it("poses an audience seen from behind in the poses painted from behind", () => {
     const behind = seeds.map((seed) =>
       chooseBodyPose({
