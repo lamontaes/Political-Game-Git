@@ -83,9 +83,9 @@ function visibleText(markup: string): string {
 }
 
 function ageMinimums(text: string): number[] {
-  return [...text.matchAll(/(?:at least|under|minimum age of) (\d+)/g)].map(
-    (match) => Number(match[1]),
-  );
+  return [
+    ...text.matchAll(/(?:at least|under|minimum age of|Minimum age:) (\d+)/g),
+  ].map((match) => Number(match[1]));
 }
 
 function renderRaceScreen({ world, personId }: Life): string {
@@ -125,9 +125,7 @@ describe.each([
       expect(governor).toContain(title);
       const ages = ageMinimums(governor);
       expect(ages, governor).toHaveLength(1);
-      expect(governor).toContain(
-        `You must be at least ${ages[0]} to run for this office.`,
-      );
+      expect(governor).toContain(`Minimum age: ${ages[0]}`);
       expect(governor).not.toMatch(PROVENANCE);
 
       const candidacy = stateExecutiveCandidacyForPerson(
@@ -186,7 +184,7 @@ describe.each([
       );
       expect(() =>
         fileForStateExecutiveOffice(tooYoung.world, tooYoung.personId),
-      ).toThrow(`You must be at least ${shown} to run for this office.`);
+      ).toThrow(`Minimum age: ${shown}`);
 
       const oldEnough = openLife(
         placeName,
@@ -259,9 +257,7 @@ describe.each([
       expect(governor).toContain(title);
       const ages = ageMinimums(governor);
       expect(ages, governor).toHaveLength(1);
-      expect(governor).toContain(
-        `You must be at least ${ages[0]} to run for this office.`,
-      );
+      expect(governor).toContain(`Minimum age: ${ages[0]}`);
       // The other requirement is decided from the life's own record: born in
       // the state and living there, they meet it, so it bars nothing.
       expect(governor).not.toContain(other);
@@ -299,9 +295,7 @@ describe.each([
           .map((block) => block.reason)
           .filter((reason) => ageMinimums(reason).length > 0);
       };
-      expect(ageBlocks(shown! - 1)).toEqual([
-        `You must be at least ${shown} to run for this office.`,
-      ]);
+      expect(ageBlocks(shown! - 1)).toEqual([`Minimum age: ${shown}`]);
       expect(ageBlocks(shown!)).toEqual([]);
     }, 60_000);
   },

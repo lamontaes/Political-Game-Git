@@ -8,6 +8,7 @@ import {
   seekCareerOffer,
   respondCareerOffer,
   acceptCareerResponsibilities,
+  scheduleCareerTask,
   resignCareer,
 } from "../simulation/career-path7";
 import {
@@ -19,6 +20,7 @@ import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { projectPracticalOpportunities } from "../presentation/practical-opportunities";
 import { InlineDayControl } from "./controls/InlineDayControl";
+import { scheduledActivityState } from "../simulation/time-work";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -27,6 +29,9 @@ export function CareerPathsPanel({
   readonly onWorldChange: (w: World) => void;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
+    [selectedTaskId, setSelectedTaskId] = useState(
+      CAREER_PROVIDERS[0]!.tasks[0]?.id ?? "",
+    ),
     [query, setQuery] = useState(""),
     [wide, setWide] = useState(false);
   const p = CAREER_PROVIDERS.find((p) => p.id === selected)!;
@@ -98,6 +103,11 @@ export function CareerPathsPanel({
         // accepted offer is told apart by its acceptance, not its status.
         const accepted =
           status === "expected" && careerOfferAccepted(world, r.id);
+        const hasScheduledShift = world.history.scheduledActivities.some(
+          (activity) =>
+            activity.sourceEntityIds.includes(r.id) &&
+            scheduledActivityState(world, activity.id).status === "scheduled",
+        );
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
@@ -145,6 +155,37 @@ export function CareerPathsPanel({
               </>
             ) : status === "active" ? (
               <>
+                <select
+                  value={
+                    p.tasks.some((task) => task.id === selectedTaskId)
+                      ? selectedTaskId
+                      : (p.tasks[0]?.id ?? "")
+                  }
+                  onChange={(event) => setSelectedTaskId(event.target.value)}
+                >
+                  {p.tasks.map((task) => (
+                    <option key={task.id} value={task.id}>
+                      {task.text}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  className="ui-action"
+                  disabled={
+                    !!reason || p.tasks.length === 0 || hasScheduledShift
+                  }
+                  onClick={() => {
+                    const taskId = p.tasks.some(
+                      (task) => task.id === selectedTaskId,
+                    )
+                      ? selectedTaskId
+                      : p.tasks[0]?.id;
+                    if (taskId) act(scheduleCareerTask(world, r.id, p, taskId));
+                  }}
+                >
+                  Continue
+                </button>
                 <button
                   onClick={() =>
                     act(acceptCareerResponsibilities(world, r.id, p))

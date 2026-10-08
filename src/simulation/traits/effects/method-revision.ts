@@ -13,15 +13,11 @@ export const methodRevisionEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:method-revision",
         pole: "high",
-        explanation:
-          "They readily change their own plans when someone offers a workable alternative.",
       },
       {
         option: "decline",
         trait: "personality-v1:method-revision",
         pole: "low",
-        explanation:
-          "They resist changing an established approach and turn the request down.",
       },
     ],
   },
