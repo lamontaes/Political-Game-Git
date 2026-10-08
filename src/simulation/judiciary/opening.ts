@@ -15,8 +15,8 @@ import {
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, PersonFact, World } from "../types";
-import { assertWorldIntegrity } from "../world";
 import { buildOpeningCourtCatalog } from "./courts";
+import { recordJudicialPhilosophiesAtSeating } from "./philosophy";
 import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
 import type {
   JudicialProfessionalQualificationRecord,
@@ -240,6 +240,6 @@ export function ensureOpeningJudiciary(
       professionalQualifications: qualifications,
     },
   };
-  assertWorldIntegrity(next);
+  next = recordJudicialPhilosophiesAtSeating(next, tenures);
   return next;
 }
