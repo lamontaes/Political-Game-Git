@@ -20,6 +20,23 @@ import {
   spendAnAfternoon,
 } from "../../src/presentation/campaign-projection";
 import { passOrdinaryDays } from "../../src/presentation/ordinary-life";
+import { ensureWorldStartingConditions } from "../../src/simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../../src/simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../../src/simulation/world-setup/types";
+
+/**
+ * A scenario world is built without the opening's political starting
+ * conditions. Campaign work reads a district's recorded lean to estimate
+ * support (`campaign-polling-estimate.ts`), and a save without it has none to
+ * read, so a fixture that runs campaign actions records them the way a new
+ * life's opening does.
+ */
+export function withRecordedStartingConditions(world: World): World {
+  return ensureWorldStartingConditions(world, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+}
 
 /** Legacy scenario fixtures deliberately name their intended provider office.
  * Production callers must supply an explicit office key; this is not UI policy.
