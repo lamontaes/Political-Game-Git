@@ -256,7 +256,7 @@ export function projectWorld39Notices(
 
 /**
  * Who and what a public event names, by name: the people who took part in it
- * and the organizations it involves. Record names only; the event's saved
+ * or are named in it, and the organizations it involves. Record names only; the event's saved
  * summary is not printed because some events save a key as their summary.
  */
 function eventParties(
@@ -270,11 +270,14 @@ function eventParties(
   readonly organizations: readonly string[];
 } {
   const seen = new Set<EntityId>();
-  const people = event.participants.flatMap((row) => {
-    const person = world.people[row.personId];
-    if (!person || seen.has(row.personId)) return [];
-    seen.add(row.personId);
-    return [{ personId: row.personId, name: personName(person) }];
+  const people = [
+    ...event.participants.map((row) => row.personId),
+    ...event.involvedEntityIds,
+  ].flatMap((id) => {
+    const person = world.people[id];
+    if (!person || seen.has(id)) return [];
+    seen.add(id);
+    return [{ personId: id, name: personName(person) }];
   });
   const organizations = event.involvedEntityIds.flatMap((id) => {
     const name = organizationProfileAt(world, id)?.name;

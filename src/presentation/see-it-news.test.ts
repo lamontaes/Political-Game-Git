@@ -74,7 +74,8 @@ describe(`public events name who and what they involve (${place.displayName}, pl
         ).toBe(true);
       for (const person of event.people)
         expect(
-          source.participants.some((row) => row.personId === person.personId),
+          source.participants.some((row) => row.personId === person.personId) ||
+            source.involvedEntityIds.includes(person.personId),
         ).toBe(true);
     }
     const html = render(world);
