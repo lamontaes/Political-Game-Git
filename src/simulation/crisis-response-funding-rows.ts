@@ -1,5 +1,7 @@
-import table from "../../data/research/health/crisis-response-funding-rows.json" with { type: "json" };
+import { researchRuleTable } from "./research-rule-tables";
 import { validatePlaceTable } from "./data-tables";
+
+const table = researchRuleTable("crisisFunding");
 
 export interface StateAdoptedAppropriation {
   readonly amountMinorUnits: number;
