@@ -46,11 +46,7 @@ import { isEligibleVoterIn } from "../issue-record";
 import { townBusinesses } from "../living-world/town-businesses";
 import { concealedCarryPermitRuleAt } from "../crime/offenders";
 import { latestLawPermission } from "./permission-records";
-import {
-  assertWorldIntegrity,
-  createWorldId,
-  recordWorldEvent,
-} from "../world";
+import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { STATES } from "../state-reference";
 import {
   PROSECUTION_SENTENCED_EVENT,
@@ -117,7 +113,9 @@ function addRightsSubjects(
     const hasPriorEvents = world.history.events.some(
       (event) =>
         event.involvedEntityIds.includes(candidate.id) ||
-        event.participants.some((participant) => participant.personId === candidate.id),
+        event.participants.some(
+          (participant) => participant.personId === candidate.id,
+        ),
     );
     if (
       !alreadyInWorld &&
@@ -126,7 +124,8 @@ function addRightsSubjects(
     )
       voter = candidate;
   }
-  if (!voter) throw new Error(`Could not seed a distinct adult voter for ${usps}.`);
+  if (!voter)
+    throw new Error(`Could not seed a distinct adult voter for ${usps}.`);
   world = {
     ...world,
     people: { ...world.people, [voter.id]: voter },
@@ -315,6 +314,11 @@ function directTerritoryRuleFixture(
   minimumWageQuestion: string,
   rightsAnswers: readonly { propositionId: string; answer: LawAnswer }[],
   rightsSubjects: { voterId: string; retailerId: string },
+  initialRightsAnswers: {
+    votingAnswer: LawAnswer | null;
+    carryAnswer: LawAnswer | null;
+    cannabisAnswer: LawAnswer | null;
+  },
   adoptedRights: {
     votingAnswer: LawAnswer;
     carryAnswer: LawAnswer;
@@ -520,6 +524,7 @@ function directTerritoryRuleFixture(
     measureId,
     enactmentId: enactment.id,
     directFixture: true,
+    initialRightsAnswers,
     ...rightsSubjects,
     ...adoptedRights,
   };
@@ -566,6 +571,29 @@ function fixture(usps: string) {
   const votingAnswer = rightsAnswer(RESTORE_VOTING_QUESTION_KEY);
   const carryAnswer = rightsAnswer(CONCEALED_CARRY_QUESTION_KEY);
   const cannabisAnswer = rightsAnswer(CANNABIS_QUESTION_KEY);
+  const initialRightsAnswers = {
+    votingAnswer:
+      lawInForce(
+        world,
+        state.id,
+        questionIdFor(world, RESTORE_VOTING_QUESTION_KEY),
+        DATE,
+      )?.answer ?? null,
+    carryAnswer:
+      lawInForce(
+        world,
+        state.id,
+        questionIdFor(world, CONCEALED_CARRY_QUESTION_KEY),
+        DATE,
+      )?.answer ?? null,
+    cannabisAnswer:
+      lawInForce(
+        world,
+        state.id,
+        questionIdFor(world, CANNABIS_QUESTION_KEY),
+        DATE,
+      )?.answer ?? null,
+  };
   const pack =
     legislativePackForJurisdiction(state.id) ??
     legislatureForState(`US-${usps}`);
@@ -582,6 +610,7 @@ function fixture(usps: string) {
         voterId: rightsSubjects.voterId,
         retailerId: rightsSubjects.retailerId,
       },
+      initialRightsAnswers,
       { votingAnswer, carryAnswer, cannabisAnswer },
     );
   const chamber = pack.chambers[0]!;
@@ -708,6 +737,7 @@ function fixture(usps: string) {
     minimumWageOfficeKey,
     context,
     directFixture: false,
+    initialRightsAnswers,
     voterId: rightsSubjects.voterId,
     retailerId: rightsSubjects.retailerId,
     votingAnswer,
@@ -733,6 +763,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
             governingLawId: f.measureId,
           })
         : applyEnactedLawEffects(enactMeasure(f.world, f.context), f.measureId);
+      const effectiveDate = applied.currentDate;
       const votingQuestion = questionIdFor(
         applied,
         RESTORE_VOTING_QUESTION_KEY,
@@ -749,7 +780,11 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         answer: f.votingAnswer,
       });
       expect(f.votingAnswer, usps).not.toBe(
-        lawInForce(f.world, f.state.id, votingQuestion, DATE)?.answer,
+        f.initialRightsAnswers.votingAnswer,
+      );
+      expect(f.carryAnswer, usps).not.toBe(f.initialRightsAnswers.carryAnswer);
+      expect(f.cannabisAnswer, usps).not.toBe(
+        f.initialRightsAnswers.cannabisAnswer,
       );
       expect(
         latestLawPermission(
@@ -770,11 +805,12 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         ],
       });
       expect(sentencesOf(applied, f.voterId), usps).toHaveLength(1);
-      expect(votingStandingOn(applied, f.voterId, DATE).standing, usps).toBe(
-        f.votingAnswer === "yes" ? "restored" : "withheld-after-sentence",
-      );
       expect(
-        isEligibleVoterIn(applied, f.voterId, f.state.id, DATE),
+        votingStandingOn(applied, f.voterId, effectiveDate).standing,
+        usps,
+      ).toBe(f.votingAnswer === "yes" ? "restored" : "withheld-after-sentence");
+      expect(
+        isEligibleVoterIn(applied, f.voterId, f.state.id, effectiveDate),
         usps,
       ).toBe(f.votingAnswer === "yes");
 
@@ -832,8 +868,8 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       const carryApplication = recordWorldEvent(applied, {
         stableKey: `au2-wire-06:${usps}:concealed-carry-application`,
         type: "fixture.concealed-carry-application",
-        occurredAt: DATE,
-        recordedAt: DATE,
+        occurredAt: effectiveDate,
+        recordedAt: effectiveDate,
         jurisdictionId: f.state.id,
         involvedEntityIds: [f.voterId],
         participants: [
@@ -853,7 +889,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         },
       });
       const carryApplied = applyLawConsequences(carryApplication, {
-        onDate: DATE,
+        onDate: effectiveDate,
         activity: "application",
         activityId: carryApplication.history.events.at(-1)!.id,
         subjectIds: [f.voterId],
@@ -879,7 +915,12 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         ],
       });
       expect(
-        concealedCarryPermitRuleAt(carryApplied, f.voterId, f.state.id, DATE),
+        concealedCarryPermitRuleAt(
+          carryApplied,
+          f.voterId,
+          f.state.id,
+          effectiveDate,
+        ),
         usps,
       ).toBe(f.carryAnswer === "yes" ? "permitted" : "prohibited");
       const law = lawInForce(
