@@ -128,6 +128,19 @@ export interface PlaceStaging {
   /** Raised floors: the same horizon, each with its own scale. */
   readonly floors?: Readonly<Record<string, number>>;
   readonly spots: readonly StagingSpot[];
+  /**
+   * Furniture whose front face a person can be drawn against but not stand
+   * on: a desk, a table, a counter. A box in percent of the picture, from
+   * the top edge down to the foot of its front (`baseY`); a standing spot's
+   * foot point is on open floor, never inside one.
+   */
+  readonly furniture?: readonly {
+    readonly id: string;
+    readonly left: number;
+    readonly right: number;
+    readonly top: number;
+    readonly baseY: number;
+  }[];
   readonly surfaceSlots?: readonly {
     readonly surfaceId: string;
     readonly kind: string;
@@ -233,6 +246,44 @@ export function spotFigure(
   };
 }
 
+/**
+ * How much of a figure at a spot shows: behind a counter, desk or podium
+ * front everything below `clipBelowPercent` is cut off (the visible height
+ * ends there); behind open furniture only the band down to
+ * `clipBandEndPercent` is cut out and the legs show underneath. Percentages
+ * of the figure's own box, for a clip path.
+ */
+export function figureClip(
+  figure: Pick<
+    SpotFigure,
+    "topPercent" | "heightPercent" | "clipBelowPercent" | "clipBandEndPercent"
+  >,
+): {
+  readonly visibleHeightPercent: number;
+  readonly band: { readonly from: number; readonly to: number } | null;
+} {
+  const band =
+    figure.clipBelowPercent !== null && figure.clipBandEndPercent !== null
+      ? {
+          from:
+            ((figure.clipBelowPercent - figure.topPercent) /
+              figure.heightPercent) *
+            100,
+          to:
+            ((figure.clipBandEndPercent - figure.topPercent) /
+              figure.heightPercent) *
+            100,
+        }
+      : null;
+  return {
+    visibleHeightPercent:
+      figure.clipBelowPercent === null || band
+        ? figure.heightPercent
+        : Math.max(0, figure.clipBelowPercent - figure.topPercent),
+    band,
+  };
+}
+
 /** The draw order of a spot: its own, or its foot line when unmarked. */
 export function spotDepth(spot: StagingSpot): number {
   return spot.depth ?? spot.y;
@@ -284,6 +335,56 @@ export function spotPose(
 /** Whether the pack has people seen from behind to stand at a spot facing away. */
 function peopleSeenFromBehind(): boolean {
   return PEOPLE_PACK.presentations.feminine.views?.back !== undefined;
+}
+
+/**
+ * A recipe as the pack draws it at a spot: the pose and view it resolves to,
+ * or null when that drawing cannot be there (a standing body in a seat, a
+ * pose the spot's kind does not take, a turned view the pack has not
+ * painted for these clothes).
+ */
+export function drawnAtSpot(
+  at: StagingSpot,
+  recipe: EngineRecipe,
+  view: BodyView,
+): ReturnType<typeof posedPieces> | null {
+  const resolved = posedPieces(
+    PEOPLE_PACK.presentations[recipe.presentation],
+    recipe,
+    peoplePackFileAvailable,
+  );
+  if (
+    !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
+      at.pose ?? "stand",
+    ) ||
+    (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
+    resolved.view !== view
+  )
+    return null;
+  return resolved;
+}
+
+/**
+ * Turned toward the side the spot faces: mirrored when the painting turns
+ * the other way. A front view is drawn as it is.
+ */
+export function turnedToSpot(
+  spot: StagingSpot,
+  recipe: EngineRecipe,
+  view: BodyView,
+): EngineRecipe {
+  return (spot.facing === "left" || spot.facing === "right") && view !== "front"
+    ? {
+        ...recipe,
+        mirrored: mirrorToFace(
+          PEOPLE_PACK.presentations[recipe.presentation],
+          recipe,
+          spot.x,
+          spot.facing === "left" ? spot.x - 10 : spot.x + 10,
+          peoplePackFileAvailable,
+        ),
+      }
+    : recipe;
 }
 
 /** People present who need another measured spot or compatible artwork. */
@@ -572,20 +673,8 @@ export function placeBackdropPeople(
         avoidOutfits: outfitExclusions.get(record.id),
       });
       if (!recipe) return null;
-      const resolved = posedPieces(
-        PEOPLE_PACK.presentations[recipe.presentation],
-        recipe,
-        peoplePackFileAvailable,
-      );
-      if (
-        !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
-          at.pose ?? "stand",
-        ) ||
-        (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
-        resolved.view !== view
-      )
-        return null;
-      return { recipe, resolved };
+      const resolved = drawnAtSpot(at, recipe, view);
+      return resolved ? { recipe, resolved } : null;
     };
     let spot = assignedSpot;
     let fit = tryAt(spot);
@@ -624,22 +713,7 @@ export function placeBackdropPeople(
       continue;
     }
     const { recipe, resolved } = fit;
-    // Turned toward the side the spot faces: mirrored when the painting
-    // turns the other way.
-    const engine =
-      (spot.facing === "left" || spot.facing === "right") &&
-      resolved.view !== "front"
-        ? {
-            ...recipe,
-            mirrored: mirrorToFace(
-              PEOPLE_PACK.presentations[recipe.presentation],
-              recipe,
-              spot.x,
-              spot.facing === "left" ? spot.x - 10 : spot.x + 10,
-              peoplePackFileAvailable,
-            ),
-          }
-        : recipe;
+    const engine = turnedToSpot(spot, recipe, resolved.view);
     placed.push({
       personId: worker.personId,
       resolvedPose: resolved.pose,

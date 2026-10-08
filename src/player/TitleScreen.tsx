@@ -22,7 +22,10 @@ import {
   rotationForSave,
   type TitlePicture,
 } from "../presentation/title-civic-rotation";
-import { titlePictureHero } from "../presentation/title-picture-hero";
+import {
+  titleSceneHero,
+  titleScenePeople,
+} from "../presentation/title-scene-people";
 import { middayBackdropUrl } from "../presentation/place-backdrops";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import backdropManifest from "../../art/backdrops/manifest.json" with { type: "json" };
@@ -194,17 +197,17 @@ export function AmbientTableau({
 }) {
   const pictures = useMemo(() => titlePictures(), []);
   const cycle = useMemo<readonly TitleAmbientRoom[]>(() => {
-    const ambient = civicAmbientCycle(
-      TITLE_TABLEAU_REGISTRY,
-      SCENE_REGISTRY,
-      PRODUCTION_VISUAL_LIBRARY,
-      pictures,
-    );
+    const ambient = civicAmbientCycle(pictures);
     if (chosenState) {
       const own =
         (chosenTown
           ? pictureForChosenTown(STAGED_PLACES, middayBackdropUrl)
-          : null) ?? pictureForChosenState(pictures, chosenState);
+          : null) ??
+        pictureForChosenState(
+          backdropManifest.backdrops,
+          backdropUrl,
+          chosenState,
+        );
       const placeFree = ambient.filter(
         (room) => room.sceneId !== "picture:white-house-exterior",
       );
@@ -234,15 +237,33 @@ export function AmbientTableau({
   }, [resolved, recent, pictures, chosenState, chosenTown]);
 
   /**
-   * The returning player in front of their place. Only on the title itself:
-   * behind the creator a new life is being made, and the last one standing
-   * there would say otherwise.
+   * The returning player, on their place's hero spot. Only on the title
+   * itself: behind the creator a new life is being made, and the last one
+   * standing there would say otherwise.
    */
   const leadHero = useMemo(() => {
-    const lead = cycle[0]?.picture;
-    if (chosenState || !recent || !lead || !peoplePackAvailable()) return null;
-    return titlePictureHero(recent, lead.place);
-  }, [cycle, recent, chosenState]);
+    if (chosenState || still || !cycle[0]?.picture || !peoplePackAvailable())
+      return null;
+    return titleSceneHero(recent);
+  }, [cycle, recent, chosenState, still]);
+
+  /**
+   * The people in each picture of the rotation, at its staging spots, with
+   * the returning player in the first one. Worked out once per rotation; a
+   * build without the people pack paints the pictures empty.
+   */
+  const peopleByRoom = useMemo(() => {
+    const byRoom = new Map<string, ReturnType<typeof titleScenePeople>>();
+    if (!peoplePackAvailable()) return byRoom;
+    cycle.forEach((room, index) => {
+      if (room.picture)
+        byRoom.set(
+          room.sceneId,
+          titleScenePeople(room.picture, index === 0 ? leadHero : null),
+        );
+    });
+    return byRoom;
+  }, [cycle, leadHero]);
 
   const reducedMotion = usePrefersReducedMotion();
   const step = useAmbientStep(cycle.length > 1 && !still);
@@ -268,16 +289,20 @@ export function AmbientTableau({
       TITLE_TABLEAU_REGISTRY,
       SCENE_REGISTRY,
     );
-    if (index === 0 && empty && leadHero && !still) {
-      return {
-        ...empty,
-        kind: "hero-in-tableau" as const,
-        heroName: leadHero.name,
-        description: `${room.label}, with ${leadHero.name} in front.`,
-        pictureHero: leadHero,
-      };
-    }
-    return empty;
+    const people = peopleByRoom.get(room.sceneId) ?? [];
+    if (!empty || people.length === 0) return empty;
+    const heroPlaced =
+      index === 0 && leadHero && people.some((person) => person.personId);
+    return heroPlaced
+      ? {
+          ...empty,
+          kind: "hero-in-tableau" as const,
+          heroName: leadHero.name,
+          description: `${room.label}, with ${leadHero.name} in front.`,
+          picturePeople: people,
+          pictureHero: leadHero,
+        }
+      : { ...empty, picturePeople: people };
   };
 
   const showing = frame ? presentationFor(frame.current, frame.index) : null;
@@ -344,6 +369,7 @@ function titlePictures(): readonly TitlePicture[] {
     ? [
         {
           place: "white-house-exterior",
+          variant: "midday",
           kind: "white-house",
           url: whiteHouse.url,
           label: "The White House",

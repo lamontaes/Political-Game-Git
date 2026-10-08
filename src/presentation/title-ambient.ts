@@ -1,11 +1,6 @@
 import type { SceneRegistry } from "./scene-registry";
-import {
-  interleaveByKind,
-  type CivicBackdropKind,
-  type TitlePicture,
-} from "./title-civic-rotation";
+import { titlePictureId, type TitlePicture } from "./title-civic-rotation";
 import type { TitlePresentation, TitleTableauRegistry } from "./title-tableau";
-import type { RuntimeVisualLibrary } from "./visual-integration";
 
 /**
  * The rooms the title screen drifts through, and which one is showing.
@@ -34,7 +29,8 @@ export interface TitleAmbientRoom {
   readonly label: string;
   /**
    * Set when this room is a place picture from the civic rotation rather
-   * than a registered scene. Its ids are then `picture:<place>`.
+   * than a registered scene. Its ids are then `picture:<place>`, with the
+   * light after it for a picture other than the daytime one.
    */
   readonly picture?: TitlePicture;
 }
@@ -53,124 +49,27 @@ export interface TitleAmbientFrame {
   readonly index: number;
 }
 
-/**
- * The rooms that may appear, in a stable order.
- *
- * Three filters, and each one is a promise the packet made:
- *
- *   - only the neutral bank, because those are the tableaux that read correctly
- *     with nobody in them, and the title screen has nobody in it;
- *   - only scenes that exist in the registry;
- *   - only scenes whose raster is in the released production library, so no
- *     candidate or unreleased art can enter the cycle. Membership of that
- *     library IS release: nothing reaches it without going through the gate.
- *
- * Order is the registry's own, deduplicated by scene, so the same library
- * always produces the same cycle and the front door does not reshuffle.
- */
-export function titleAmbientCycle(
-  registry: TitleTableauRegistry,
-  scenes: SceneRegistry,
-  library: RuntimeVisualLibrary,
-): readonly TitleAmbientRoom[] {
-  const rooms: TitleAmbientRoom[] = [];
-  const seen = new Set<string>();
-  for (const tableau of registry.neutralBank) {
-    if (!tableau.supportsNoCharacter) continue;
-    if (seen.has(tableau.sceneId)) continue;
-    const scene = scenes.scenes.get(tableau.sceneId);
-    if (!scene?.raster) continue;
-    if (!library.has(scene.raster.assetId)) continue;
-    seen.add(tableau.sceneId);
-    rooms.push({
-      tableauId: tableau.tableauId,
-      sceneId: tableau.sceneId,
-      label: tableau.label,
-    });
-  }
-  return rooms;
-}
-
-/**
- * Puts the front door first.
- *
- * The first thing a player sees should be the room the registry nominates as
- * the front door rather than whichever happened to be first in the bank. After
- * that the order is the bank's, so the cycle is stable and predictable.
- */
-export function orderedAmbientCycle(
-  registry: TitleTableauRegistry,
-  scenes: SceneRegistry,
-  library: RuntimeVisualLibrary,
-): readonly TitleAmbientRoom[] {
-  const rooms = titleAmbientCycle(registry, scenes, library);
-  const frontDoorIndex = rooms.findIndex(
-    (room) => room.tableauId === registry.frontDoorTableauId,
-  );
-  if (frontDoorIndex <= 0) return rooms;
-  return [...rooms.slice(frontDoorIndex), ...rooms.slice(0, frontDoorIndex)];
-}
-
 /** The rotation entry for one place picture. */
 export function pictureRoom(picture: TitlePicture): TitleAmbientRoom {
+  const id = titlePictureId(picture);
   return {
-    tableauId: `picture:${picture.place}`,
-    sceneId: `picture:${picture.place}`,
+    tableauId: id,
+    sceneId: id,
     label: picture.label,
     picture,
   };
 }
 
-/** The civic kind of a registered room in the neutral bank. */
-function registeredRoomKind(familyId: string): CivicBackdropKind {
-  if (/court/.test(familyId)) return "court";
-  if (/campaign/.test(familyId)) return "campaign";
-  return "chamber";
-}
-
 /**
- * The title's whole rotation: every civic place picture and every released
- * civic room in the neutral bank, the White House first and each kind spread
- * through the rest (title-civic-rotation.ts). No home is in either source, so
- * none is in the rotation.
+ * The title's whole rotation: every national place picture, the White House
+ * first and each kind spread through the rest (title-civic-rotation.ts). No
+ * registered room joins it: a hearing room nobody can name is not a place the
+ * country recognizes (Lamontae, Oct. 7), and it has no staging for people.
  */
 export function civicAmbientCycle(
-  registry: TitleTableauRegistry,
-  scenes: SceneRegistry,
-  library: RuntimeVisualLibrary,
   pictures: readonly TitlePicture[],
 ): readonly TitleAmbientRoom[] {
-  const registered = titleAmbientCycle(registry, scenes, library).flatMap(
-    (room) => {
-      const tableau = registry.neutralBank.find(
-        (entry) => entry.tableauId === room.tableauId,
-      );
-      return tableau
-        ? [
-            {
-              kind: registeredRoomKind(tableau.familyId),
-              place: room.sceneId,
-              room,
-            },
-          ]
-        : [];
-    },
-  );
-  const leading = pictures.filter((picture) => picture.kind === "white-house");
-  const others = [
-    ...pictures
-      .filter((picture) => picture.kind !== "white-house")
-      .map((picture) => ({
-        kind: picture.kind,
-        place: picture.place,
-        room: pictureRoom(picture),
-      })),
-    ...registered,
-  ];
-  return [
-    ...leading.map(pictureRoom),
-    ...interleaveByKind(others).map((entry) => entry.room),
-  ];
+  return pictures.map(pictureRoom);
 }
 
 /**
