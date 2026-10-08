@@ -653,7 +653,15 @@
           "preempts": false,
           "cite": "25 Del. C. § 5602",
           "source": "https://delcode.delaware.gov/title25/c056/index.html",
-          "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and § 5607 phases it in through June 30, 2028 subject to funding."
+          "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and § 5607 phases it in through June 30, 2028 subject to funding.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "key": "income-limit",
+              "value": 2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -918,7 +926,15 @@
           "preempts": false,
           "cite": "RCW 59.18.640",
           "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.640",
-          "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes."
+          "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "key": "income-limit",
+              "value": 2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
@@ -1152,7 +1168,15 @@
           "preempts": true,
           "cite": "Mont. Code Ann. § 76-2-304(3) (SB 323, 2023)",
           "source": "https://archive.legmt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0040/0760-0020-0030-0040.html",
-          "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026."
+          "note": "Cities of at least 5,000 residents must allow a duplex as a permitted use on any lot where a single-family home is permitted; a Gallatin County court challenge (filed 12/2023) ended with a 3/3/2025 district court ruling upholding SB 323 in its entirety, affirmed by the Montana Supreme Court on 3/17/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -1307,14 +1331,30 @@
           "preempts": true,
           "cite": "24 V.S.A. § 4412(1) (Act 47 of 2023, the HOME Act)",
           "source": "https://legislature.vermont.gov/statutes/section/24/117/04412",
-          "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, § 2, eff. July 1, 2023)."
+          "note": "Every municipality must allow a duplex in any district that allows year-round residential use, on the same lot size as a single-unit home, and in districts served by municipal water and sewer must allow up to four units (source history: 2023, No. 47, § 2, eff. July 1, 2023).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "preempts": true,
           "cite": "RCW 36.70A.635 (HB 1110, 2023)",
           "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.70A.635",
-          "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026."
+          "note": "Cities of 25,000 to 75,000 must allow at least two units per residential lot (four near major transit or with an affordable unit), and cities of 75,000 or more must allow four (six near transit or with affordable units); each city must comply at its next periodic comprehensive plan update, so a few smaller or later-cycle cities may not yet have been bound on 1/1/2026.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "key": "units",
+              "value": 2,
+              "unit": "count"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
