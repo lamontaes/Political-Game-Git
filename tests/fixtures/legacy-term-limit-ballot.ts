@@ -70,8 +70,10 @@ export function legacyTermLimitBallot(
     retention: "ephemeral",
   });
   const ballot = evaluation.selectedOptionKey === "vote-yea" ? "yea" : "nay";
+  // The decision stores its reasons in canonical stable-key order, so a tie
+  // between equal weights is read from that record, as the shared caller does.
   const reason =
-    considerations
+    evaluation.context.considerations
       .filter((c) => c.optionKey === `vote-${ballot}`)
       .sort(
         (a, b) =>

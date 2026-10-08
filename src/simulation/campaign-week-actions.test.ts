@@ -407,13 +407,14 @@ describe("concrete campaign week actions", () => {
       "attended",
     );
     const outcome = campaignLifeOutcomeRecords(finished).at(-1)!;
-    // This opening predates the reviewed Kentucky pack, so the donor does
-    // not give money through an unknown legal threshold.
+    // No donor has made a recorded monetary ask and no contribution-cap law
+    // term applies, so the fundraiser records attendance and attempts no
+    // payment. The screen says so instead of naming an unknown threshold.
     expect(outcome.raisedAmount).toBeNull();
     expect(
       projectCampaignWeekActions(finished, life.personId)!.recentResults.at(-1)
         ?.summary,
-    ).toMatch(/itemization threshold is UNKNOWN/);
+    ).toMatch(/no new payment was attempted without a recorded monetary ask/);
     const after = campaignTreasuryPosition(finished, campaign)!.liquidBalance
       .minorUnits;
     expect(after - before).toBe(outcome.raisedAmount?.minorUnits ?? 0);

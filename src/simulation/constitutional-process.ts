@@ -281,7 +281,8 @@ export function constitutionalProposalRuleForWorld(
   // from 1920, so the federal route has no observation gate.
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
     return {
@@ -394,12 +395,11 @@ export function proposeConstitutionalMeasure(
     throw Error("Canonical jurisdiction identity does not match the process.");
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
-    throw Error(
-      "This current-source process is supported from its 2026-09-13 observation; earlier applicability is not established.",
-    );
+    throw Error(profile.base.source.citation);
   const mode = federal
     ? ["state-legislatures", "state-conventions"]
     : charter

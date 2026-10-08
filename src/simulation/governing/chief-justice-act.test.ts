@@ -2,6 +2,7 @@
 import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { composeWorldTimeHandlers } from "../campaigns";
 import { createDemoWorld } from "../demo";
 import {
   createWorld,
@@ -101,12 +102,20 @@ function scheduled(world: World) {
   const due = next.history.futureDueItems.at(-1)!;
   return { world: next, due };
 }
-const handlers = createFutureTransitionHandlerRegistry([
-  [
-    CHIEF_JUSTICE_CONFIRMATION,
-    (world, due) => confirmChiefJustice(world, due, (next) => next),
-  ],
-]);
+// The clock schedules Congress's own intake the day after the world is lived
+// in, so this isolated handler rides on the registry a passed day composes.
+const handlers = composeWorldTimeHandlers(
+  createFutureTransitionHandlerRegistry([
+    [
+      CHIEF_JUSTICE_CONFIRMATION,
+      (world, due) => confirmChiefJustice(world, due, (next) => next),
+    ],
+  ]),
+);
+const confirmationItems = (candidate: World) =>
+  candidate.history.futureDueItems.filter(
+    (item) => item.transitionKey === CHIEF_JUSTICE_CONFIRMATION,
+  );
 
 beforeAll(() => {
   const demo = createDemoWorld(seed);
@@ -240,9 +249,11 @@ describe("Chief Justice requires the recorded act", () => {
     const next = advanceWorld(
       world,
       1,
-      createFutureTransitionHandlerRegistry([
-        [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
-      ]),
+      composeWorldTimeHandlers(
+        createFutureTransitionHandlerRegistry([
+          [CHIEF_JUSTICE_NOMINATION, chiefJusticeNominationHandler],
+        ]),
+      ),
     );
     const nominated = next.history.events.filter(
       (event) => event.type === CHIEF_JUSTICE_NOMINATED_EVENT,
@@ -313,9 +324,9 @@ describe("Chief Justice requires the recorded act", () => {
       expect(dueState(continued, due.id)?.status).toBe(
         baseline ? "resolved" : "blocked",
       );
-      expect(
-        advanceWorld(continued, 1, handlers).history.futureDueItems,
-      ).toEqual(continued.history.futureDueItems);
+      expect(confirmationItems(advanceWorld(continued, 1, handlers))).toEqual(
+        confirmationItems(continued),
+      );
       receipts.push({
         case: "no-senate",
         code,
