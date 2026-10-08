@@ -77,7 +77,6 @@ import { LEAVING_HOME_EVENT } from "../living-world/leaving-home";
 import { TOWN_FAMILY_EVENTS } from "../living-world/town-families";
 import { employerDisplayName } from "../job-market";
 import { monthlyPayByPerson } from "../living-world/town-rent";
-import { traitConsiderations } from "../people-traits";
 import { offerStrength, openOfferElsewhere } from "./job-offers";
 import type {
   DecisionConsideration,
@@ -588,22 +587,6 @@ export function decideToLeave(
       "the town and state are holding people",
       "medium",
     );
-  considerations.push(
-    ...traitConsiderations(world, personId, stableKey, [
-      {
-        optionKey: "leave",
-        trait: "risk",
-        pole: "high",
-        explanation: "They will take a chance on somewhere new.",
-      },
-      {
-        optionKey: "keep-home",
-        trait: "risk",
-        pole: "low",
-        explanation: "They would rather keep what they know.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey,
     decisionType: "migration.leave-town",

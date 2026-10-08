@@ -1713,7 +1713,7 @@ export function raiseTeacherPayToFloor(
       const stamp =
         governing?.measureId === floor.measureId && jurisdictionId
           ? lawEffectStamp(governing, {
-              effectKind: "teacher-pay",
+              effectKind: "pay",
               questionKey: TEACHER_SALARY_FLOOR_QUESTION,
               jurisdictionId,
               appliedAt: day,

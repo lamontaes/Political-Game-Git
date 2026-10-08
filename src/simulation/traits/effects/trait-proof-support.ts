@@ -105,14 +105,19 @@ function decisionForPerson(
   personId: EntityId,
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
+  traitId: string,
+  reader: "registered" | "act-pulls",
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
+  const considerations =
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          world,
+          loadedTraitRegistry(),
+          personId,
+          `proof:${decisionId}`,
+          decisionId,
+        )
+      : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
@@ -137,12 +142,24 @@ function decisionForPerson(
     randomness: "none",
     retention: "durable",
   });
+  const traitReason = evaluation.context.considerations.find(
+    ({ stableKey, optionKey }) =>
+      optionKey === evaluation.selectedOptionKey &&
+      stableKey.includes(
+        reader === "act-pulls" ? `:act:${traitId}:` : `:trait:${traitId}:`,
+      ),
+  );
+  const supportingActReason =
+    reader === "act-pulls"
+      ? evaluation.context.considerations.find(
+          ({ stableKey, direction }) =>
+            stableKey.includes(`:act:${traitId}:`) && direction === "supports",
+        )
+      : undefined;
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      allConsiderations.find(
-        ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-      )?.explanation ?? null,
+      traitReason?.explanation ?? supportingActReason?.explanation ?? null,
   };
 }
 
@@ -157,6 +174,7 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  reader: "registered" | "act-pulls" = "registered",
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -179,18 +197,24 @@ export function proveTraitDifference(
       personId,
       decisionId,
       baselineConsiderations,
+      traitId,
+      reader,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
       decisionId,
       baselineConsiderations,
+      traitId,
+      reader,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
       decisionId,
       baselineConsiderations,
+      traitId,
+      reader,
     ),
   };
 }
