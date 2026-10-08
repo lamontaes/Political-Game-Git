@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "debt-notice",
-  "description": "What a debt collector's validation notice and a lender's late-payment statement say, copied word for word from two federal model forms (public domain): Regulation F Model Form B-1, which most collection letters follow, and Regulation Z Form H-30(B), the sample mortgage statement with its delinquency box. Only names, dates and amounts are slots, filled from a loan's records. Form H-30(B) is a mortgage statement, so its delinquency lines name a mortgage and are for a loan on a home only.",
+  "description": "What a debt collector's validation notice and a lender's late-payment statement say, copied word for word from two federal model forms (public domain): Regulation F Model Form B-1, which most collection letters follow, and Regulation Z Form H-30(B), the sample mortgage statement with its delinquency box. Only names, dates and amounts are slots, filled from a loan's records. Form H-30(B) is a mortgage statement, so every move it supplies except its column labels is named for a mortgage and is for a loan on a home only.",
   "slots": {
     "collector": "The name of the debt collector recorded as collecting the debt.",
     "creditor": "The name of the lender the debt is owed to, from the loan's records.",
@@ -433,8 +433,8 @@
       }
     },
     {
-      "key": "debt-notice.payment-history.payment-due-date-fully-paid-on-time",
-      "move": "payment-history",
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-fully-paid-on-time",
+      "move": "mortgage-payment-history",
       "kind": "written",
       "text": "Payment due {date}: Fully paid on time",
       "shippable": true,
@@ -445,8 +445,8 @@
       }
     },
     {
-      "key": "debt-notice.payment-history.payment-due-date-fully-paid-on-paiddate",
-      "move": "payment-history",
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-fully-paid-on-paiddate",
+      "move": "mortgage-payment-history",
       "kind": "written",
       "text": "Payment due {date}: Fully paid on {paidDate}",
       "shippable": true,
@@ -457,8 +457,8 @@
       }
     },
     {
-      "key": "debt-notice.payment-history.payment-due-date-unpaid-balance-of-amount",
-      "move": "payment-history",
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-unpaid-balance-of-amount",
+      "move": "mortgage-payment-history",
       "kind": "written",
       "text": "Payment due {date}: Unpaid balance of {amount}",
       "shippable": true,
@@ -469,8 +469,8 @@
       }
     },
     {
-      "key": "debt-notice.late-fee.if-payment-is-received-after-date-amount-late",
-      "move": "late-fee",
+      "key": "debt-notice.mortgage-late-fee.if-payment-is-received-after-date-amount-late",
+      "move": "mortgage-late-fee",
       "kind": "written",
       "text": "If payment is received after {date}, {amount} late fee will be charged.",
       "shippable": true,
@@ -481,8 +481,8 @@
       }
     },
     {
-      "key": "debt-notice.late-fee.late-fee-charged-because-full-payment-not-received",
-      "move": "late-fee",
+      "key": "debt-notice.mortgage-late-fee.late-fee-charged-because-full-payment-not-received",
+      "move": "mortgage-late-fee",
       "kind": "written",
       "text": "Late Fee (charged because full payment not received by {date})",
       "shippable": true,
