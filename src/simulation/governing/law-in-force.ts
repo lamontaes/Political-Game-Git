@@ -31,6 +31,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
 import { unincorporatedCountyJurisdictionIds } from "../nationwide-world/local-governments";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
+import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -789,7 +790,19 @@ function governingChain(
   if (jurisdictionId === federal) return chain;
   const state = stateOf(jurisdictionId);
   if (state) chain.set(state, "state-statute");
-  if (state !== jurisdictionId) chain.set(jurisdictionId, "local-ordinance");
+  if (state !== jurisdictionId) {
+    const stateKey =
+      lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+    const isWholeGovernment =
+      stateKey &&
+      chiefExecutiveJurisdictionId(stateKey.slice(3)) === jurisdictionId;
+    // A single government serving both scopes legislates at the state's rank;
+    // its canonical city identity must not make its own starting law outrank it.
+    chain.set(
+      jurisdictionId,
+      isWholeGovernment ? "state-statute" : "local-ordinance",
+    );
+  }
   // A place with no town government lives under its county's ordinances.
   for (const county of unincorporatedCountyJurisdictionIds(jurisdictionId))
     chain.set(county, "local-ordinance");

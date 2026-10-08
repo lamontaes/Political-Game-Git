@@ -277,10 +277,21 @@ export type TensionLevel = "low" | "elevated" | "high" | "severe";
 export interface InternationalCrisisRecord extends CrisisRecordBase {
   readonly kind: "international-crisis";
   readonly counterpartyLabel: string;
+  readonly counterpartyLeaderPersonId: EntityId;
   readonly allyLabels: readonly string[];
+  readonly allianceRecords: readonly InternationalAllianceRecord[];
   readonly subject: string;
   readonly tension: TensionLevel;
   readonly basis: string;
+}
+
+/** Recorded treaty participation for one allied decision maker. */
+export interface InternationalAllianceRecord {
+  readonly stableKey: string;
+  readonly allyPersonId: EntityId;
+  readonly allyLabel: string;
+  readonly supportOptions: readonly CrisisOptionKey[];
+  readonly source: string;
 }
 
 export interface IntelligenceAssessmentRecord extends CrisisRecordBase {
@@ -323,6 +334,7 @@ export interface CounterpartyResponseRecord extends CrisisRecordBase {
   readonly allies: "supported" | "stood-aside";
   readonly tensionAfter: TensionLevel;
   readonly ended: boolean;
+  readonly decisionTraceIds: readonly EntityId[];
 }
 
 export type WarPowersStage =
