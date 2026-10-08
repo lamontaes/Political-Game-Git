@@ -381,7 +381,7 @@ function hasOpenReform(world: World, stateUsps: string): boolean {
   return hasOpenMeasureOn(world, stateUsps, {
     kind: "rule-field",
     officeKey,
-    field: "executive.term.limit",
+    field: "term.limit",
     value: null,
   });
 }
@@ -642,7 +642,7 @@ function reviewTermLimit(
     ruleDelta: {
       kind: "rule-field",
       officeKey: office.officeKey,
-      field: "executive.term.limit",
+      field: "term.limit",
       value: cause.value,
       applicability:
         cause.direction === "extend"
@@ -770,7 +770,7 @@ export function recordStateGovernorTermLimitProposalVotes(
     holder.personId !== cause.holderPersonId ||
     delta?.kind !== "rule-field" ||
     delta.officeKey !== office.officeKey ||
-    delta.field !== "executive.term.limit" ||
+    delta.field !== "term.limit" ||
     cause.direction === "background" ||
     typeof delta.value !== "object" ||
     delta.value === null ||
