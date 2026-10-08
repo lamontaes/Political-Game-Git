@@ -380,7 +380,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-root-11 | Replace about 20 placeholders in simulation / root / 11 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-12 | Replace about 20 placeholders in simulation / root / 12 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-13 | Replace about 20 placeholders in simulation / root / 13 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-root-14 | Replace about 20 placeholders in simulation / root / 14 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-root-14 | Replace about 20 placeholders in simulation / root / 14 with recorded or estimated-and-marked values | placeholders.md | ready #3316 | Session 42 |
 | PH-simulation-root-15 | Replace about 20 placeholders in simulation / root / 15 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-source-domains-1 | Replace about 20 placeholders in source / domains / 1 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-2 | Replace about 20 placeholders in source / domains / 2 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
@@ -561,7 +561,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | done #3459 | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | open | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
-| BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | ready #3448 | |
+| BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | done #3448 | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #3445 | Session 59 |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | done #3517 | |
@@ -643,7 +643,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | ready #2127 | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
-| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: finish it or close it as superseded | |
+| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | ready #2156 | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -654,8 +654,8 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2201 | Teacher salary-floor raises use the shared pay consequence kind | PR #2201 (codex/session21-pay-kind) | open: draft: finish it or close it as superseded | |
-| RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | ready #2202 | |
-| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | done #2202 | |
+| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | done #2203 | |
 | RS-2206 | Add sourced paid leave terms | PR #2206 (codex/session19-labor-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | open: draft: finish it or close it as superseded | |
 | RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
