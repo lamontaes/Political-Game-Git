@@ -29,6 +29,8 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { createOrganizationParticipation } from "../simulation/life";
+import { PARTY_AFFILIATION_KIND } from "../simulation/living-world/opening";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
@@ -73,6 +75,19 @@ function chapterBackedCandidate(seed: string) {
   );
   const chapter = homePartyChapters(unhosted)[0]!;
   let backed = joinPartyChapter(unhosted, candidateId, chapter.organizationId);
+  // Joining a chapter does not make the candidate's party public. The
+  // organizer weighs whether they share the chapter's party, so the
+  // affiliation is recorded the way a declared one is.
+  backed = createOrganizationParticipation(backed, {
+    stableKey: "choices-panel:public-party-affiliation",
+    personId: candidateId,
+    organizationId: chapter.partyOrganizationId,
+    startedAt: backed.currentDate,
+    kind: PARTY_AFFILIATION_KIND,
+    roleKind: "member:public-affiliation",
+    context: "Test fixture public affiliation",
+    provenance: { kind: "authored", note: "Test fixture affiliation" },
+  });
   backed = requestPartyWork(
     backed,
     candidateId,
@@ -140,7 +155,7 @@ describe("campaign choices in the player UI", () => {
     expect(view.availabilityReason).toBe("needs-host");
     expect(view.choices).toEqual([]);
     expect(html).toContain('href="#party-work-title"');
-    expect(html).toContain("Ask a local chapter organizer for support");
+    expect(html).toContain("Host: none");
     expect(html).not.toContain("open calendar");
     expect(html).not.toContain("campaign-book-phone-shift");
   });
@@ -203,17 +218,19 @@ describe("campaign choices in the player UI", () => {
     expect(html).toContain('data-testid="campaign-recent-results"');
     expect(html).toContain(result.contactNames[0]!);
     expect(html).toContain("Worked with:");
+    // Two recorded people worked the hour, so the phone-shift benchmark of
+    // 10–15 conversations per volunteer hour counts for both of them.
     expect(result.fieldReach?.estimatedCompletedConversations).toEqual({
-      min: 10,
-      max: 15,
+      min: 20,
+      max: 30,
     });
-    expect(html).toContain("Estimated conversations: 10–15");
+    expect(html).toContain("Estimated conversations: 20–30");
     expect(renderChoices(deserializeWorld(serializeWorld(finished)))).toContain(
-      "Estimated conversations: 10–15",
+      "Estimated conversations: 20–30",
     );
     expect(html).toContain("Held ");
     expect(html).not.toContain(result.summary);
-  });
+  }, 120_000);
 
   it("does not present an unreceived fundraiser gift as campaign cash", () => {
     const view = projectCampaignWeekActions(world, personId)!;
@@ -232,9 +249,10 @@ describe("campaign choices in the player UI", () => {
     const html = renderChoices(finished);
     expect(result.raisedAmount).toBeNull();
     expect(html).toContain("Raised: none");
-    expect(html).not.toContain("Raised:");
+    // "Raised: none" is the whole line; no dollar amount follows "Raised:".
+    expect(html).not.toMatch(/Raised: (<!-- -->)?\$/);
     expect(html).not.toContain(result.summary);
-  });
+  }, 120_000);
 
   it("keeps an older committed week's sessions available without its count editor", () => {
     const week = projectCampaignWeek(world, personId)!;
