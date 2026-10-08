@@ -204,6 +204,10 @@ describe(
         );
         expect(contact?.type).toBe(CIVIC_ACTION_EVENTS.contacted);
         expect(opened.involvedEntityIds).toEqual(contact?.involvedEntityIds);
+        const officeRelationshipId = opened.tags
+          .find((tag) => tag.startsWith("office-relationship:"))
+          ?.slice("office-relationship:".length);
+        expect(officeRelationshipId).toBeTruthy();
         for (const tag of contact?.tags ?? []) {
           if (tag.startsWith("reason:") || tag.startsWith("source-record:"))
             expect(opened.tags).toContain(tag);
