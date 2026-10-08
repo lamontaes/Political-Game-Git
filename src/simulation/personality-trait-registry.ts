@@ -77,6 +77,26 @@ export interface TraitReaderRegistration {
 /** Real behavioral readers present at this commit. Display-only code is excluded. */
 export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
+    trait: "personality-v1:facet-intimacy-guarded",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-inventive",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:truthfulness",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-manipulative",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
     trait: "people-mind-v1:deliberation",
     kind: "decision",
     reader:
@@ -109,10 +129,29 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
       "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
   },
   {
+    trait: "personality-v1:patience",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:playful-manner",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:uncertain-outlook",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:voluntary-effort",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
     trait: "personality-v1:facet-excitable",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-excitable.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-affectionate",
@@ -135,14 +174,26 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-envious",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-envious.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
+  ...[
+    "facet-curious",
+    "facet-defensive",
+    "facet-deferential",
+    "facet-devoted",
+    "facet-dramatic",
+    "facet-duty-bound",
+    "facet-enterprising",
+    "facet-entitled",
+  ].map((facet) => ({
+    trait: `personality-v1:${facet}`,
+    kind: "decision" as const,
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  })),
   {
     trait: "personality-v1:facet-gentle",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-gentle.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-supportive",
@@ -157,10 +208,29 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
       "registeredTraitConsiderations — src/simulation/traits/effects/facet-comforting.ts",
   },
   {
+    trait: "personality-v1:facet-mischievous",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-observant",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-open-minded",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-persistent",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
     trait: "personality-v1:facet-nurturing",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-nurturing.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-tender-hearted",
@@ -171,8 +241,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-opportunistic",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-opportunistic.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-studious",
@@ -195,14 +264,52 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-meticulous",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-meticulous.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-independent",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-independent.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-forgiving",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-friendly",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-generous",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-guarded",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-hostile",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-humble",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-imaginative",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-informal",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
 ];
 
@@ -214,12 +321,10 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
  * here. The coverage test below permits no third state.
  */
 export const NOT_YET_CONNECTED_TRAITS = [
-  "personality-v1:truthfulness",
   "personality-v1:facet-smug",
   "personality-v1:facet-shy",
   "personality-v1:facet-charming",
   "personality-v1:facet-sassy",
-  "personality-v1:facet-dramatic",
   "personality-v1:facet-cynical",
   "personality-v1:facet-daydreaming",
   "personality-v1:facet-self-serving",
@@ -232,7 +337,6 @@ export const NOT_YET_CONNECTED_TRAITS = [
   "personality-v1:facet-light-hearted",
   "personality-v1:facet-brooding",
   "personality-v1:facet-closeness-seeking",
-  "personality-v1:facet-devoted",
   "personality-v1:facet-nostalgic",
   "personality-v1:facet-teasing",
 ] as const;

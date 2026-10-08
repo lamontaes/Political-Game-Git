@@ -16,6 +16,7 @@ import {
 import { describeStateExecutiveTerm } from "./state-executive-term-description";
 import type {
   CandidacyBlock,
+  CandidacyEligibility,
   EntityId,
   IsoDate,
   StateExecutiveIdentity,
@@ -34,6 +35,7 @@ export interface StateExecutiveCandidacy {
   readonly jurisdictionId: EntityId;
   readonly eligible: boolean;
   readonly blocks: readonly CandidacyBlock[];
+  readonly minimumAge: CandidacyEligibility["minimumAge"];
 }
 
 /**
@@ -63,6 +65,7 @@ export function stateExecutiveCandidacyForPerson(
     jurisdictionId: jurisdiction.id,
     eligible: eligibility.eligible,
     blocks: eligibility.blocks,
+    minimumAge: eligibility.minimumAge,
   };
 }
 

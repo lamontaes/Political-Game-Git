@@ -3,20 +3,20 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 301,
+    "markers": 302,
     "byKind": {
       "unresearched": 99,
-      "placeholder": 179,
+      "placeholder": 180,
       "blanket": 30
     },
     "byPath": {
-      "other": 165,
+      "other": 166,
       "law": 86,
       "government": 48,
       "money": 2
     },
     "withoutQuestion": 191,
-    "questionNotFiled": 4,
+    "questionNotFiled": 5,
     "moneyOrLawQuestions": 39
   },
   "markers": [
@@ -388,6 +388,15 @@
       "path": "other",
       "researchQuestionId": "place-population-today",
       "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/crisis/condition-pack.ts",
+      "line": 193,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "chronic-condition-income-gradients",
+      "researchQuestionFiled": false
     },
     {
       "file": "src/simulation/crisis/condition-pack.ts",
@@ -2728,6 +2737,15 @@
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
+    }
+  ],
+  "estimates": [
+    {
+      "id": "au3-wire-04-cannabis-market",
+      "file": "data/research/money/cannabis-retail-market.json",
+      "estimatedFrom": "SAMHSA NSDUH state estimates; Census adult population share; state retail sales / users; median of 21 recorded starting-law retail rates (0.14)",
+      "limitation": "Shared national adult/use/spending estimates stand in for matched place-specific market records. The adopted numeric rate overrides the estimated rate. These aggregate receipts do not prove individual purchases.",
+      "replacement": "Compile matched adult-population, past-month-use and retail-sales series for every place."
     }
   ]
 }

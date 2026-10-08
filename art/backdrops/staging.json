@@ -1,6 +1,6 @@
 {
   "schema": "ocd-place-staging/v2",
-  "note": "Where people can be in a place picture, shared by all its light and weather versions (each checked to share the midday picture's camera). Percent of the picture (1672 x 941). Each spot is a foot point with a pose (stand, sit, podium, lean), a facing (viewer, left, right) and a draw depth (0 farthest); a seat also has seatY (the cushion top), a podium its audience side, seats at one desk or table share a group, and a spot behind a desk, counter or lectern has clipBelowY, below which nothing is drawn. A person's height is 1.7 m x metersPercent x (y - horizonY) percent of the picture; a raised floor (stage, dais, bench, steps, porch) keeps the horizon and has its own metersPercent under floors. One spot per place is the hero spot, where the main character stands on the title screen. Measured by eye on Sept. 28, 2026 from a 5% grid and zoomed crops, scale from painted objects of known size (measuredFrom), and checked by drawing engine people on every spot. Session 11 audit on October 5, 2026: added furniture positions are visual estimates from native midday paintings (about 1-2 percentage points uncertainty, larger on hidden floors); existing measured floor scales retained. Facing away marks real chairs awaiting rear-view people art, never a front-view substitute. See docs/art/seating-audit.md. Standing scene role tags distinguish physical eligibility from attendance; generic furniture grants no authority. Surface slots reference the existing measured surface registry; position/size are native-pixel bounds of its midday quad, not new measurements or approvals.",
+  "note": "Where people can be in a place picture, shared by all its light and weather versions (each checked to share the midday picture's camera). Percent of the picture (1672 x 941). Each spot is a foot point with a pose (stand, sit, podium, lean), a facing (viewer, left, right) and a draw depth (0 farthest); a seat also has seatY (the cushion top), a podium its audience side, seats at one desk or table share a group, and a spot behind a desk, counter or lectern has clipBelowY, below which nothing is drawn. A person's height is 1.7 m x metersPercent x (y - horizonY) percent of the picture; a raised floor (stage, dais, bench, steps, porch) keeps the horizon and has its own metersPercent under floors. One spot per place is the hero spot, where the main character stands on the title screen. Measured by eye on Sept. 28, 2026 from a 5% grid and zoomed crops, scale from painted objects of known size (measuredFrom), and checked by drawing engine people on every spot. Session 11 audit on October 5, 2026: added furniture positions are visual estimates from native midday paintings (about 1-2 percentage points uncertainty, larger on hidden floors); existing measured floor scales retained. Facing away marks real chairs awaiting rear-view people art, never a front-view substitute. See docs/art/seating-audit.md. Standing scene role tags distinguish physical eligibility from attendance; generic furniture grants no authority. Surface slots reference the existing measured surface registry; position/size are native-pixel bounds of its midday quad, not new measurements or approvals. Places with no measured painted surface keep an empty surfaceSlots list and a matching placeholder research request in surfaces.json.",
   "places": {
     "appellate-courtroom": {
       "horizonY": 33,
@@ -247,6 +247,53 @@
       "measuredFrom": "front door 2.0 m foot 59 top 26.6 (0.62); waiting chairs 0.45 m seat; third barber-chair sit point visually estimated from the native midday painting with approximately 2 percentage point placement uncertainty",
       "surfaceSlots": []
     },
+    "bedroom-teen": {
+      "horizonY": 40,
+      "metersPercent": 0.9,
+      "spots": [
+        {
+          "x": 47.8,
+          "y": 90.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90.3,
+          "hero": true,
+          "role": "general",
+          "id": "bedroom-teen:spot:0"
+        },
+        {
+          "x": 77.8,
+          "y": 79.2,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 79.2,
+          "seatY": 63.8,
+          "role": "general",
+          "id": "bedroom-teen:spot:1"
+        },
+        {
+          "x": 23.9,
+          "y": 79.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 79.7,
+          "seatY": 62.9,
+          "role": "general",
+          "id": "bedroom-teen:spot:2"
+        },
+        {
+          "x": 59.8,
+          "y": 63.8,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 63.8,
+          "role": "general",
+          "id": "bedroom-teen:spot:3"
+        }
+      ],
+      "measuredFrom": "backpack 0.45 m (foot 92.3, top 70.7) and desk chair seat 0.45 m (foot 81, top 65) give about 0.9 at horizon 40; placed by eye",
+      "surfaceSlots": []
+    },
     "campaign-storefront": {
       "horizonY": 29,
       "metersPercent": 0.44,
@@ -403,6 +450,157 @@
           "source": "art/backdrops/surfaces.json"
         }
       ]
+    },
+    "church-exterior": {
+      "horizonY": 56,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 49.6,
+          "y": 85.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 85.0,
+          "hero": true,
+          "role": "general",
+          "id": "church-exterior:spot:0"
+        },
+        {
+          "x": 56.2,
+          "y": 65.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 65.0,
+          "role": "general",
+          "id": "church-exterior:spot:1"
+        },
+        {
+          "x": 60.4,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 68.0,
+          "role": "general",
+          "id": "church-exterior:spot:2"
+        },
+        {
+          "x": 20.9,
+          "y": 87.1,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 87.1,
+          "role": "general",
+          "id": "church-exterior:spot:3"
+        },
+        {
+          "x": 71.8,
+          "y": 84.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 84.0,
+          "role": "general",
+          "id": "church-exterior:spot:4"
+        },
+        {
+          "x": 28.1,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74.4,
+          "role": "general",
+          "id": "church-exterior:spot:5"
+        }
+      ],
+      "measuredFrom": "front doors 2.03 m (foot 64.7, top 48.4) and lamp posts about 4 m (foot 69.7, top 37) bracket 0.8 at horizon 56; placed by eye",
+      "surfaceSlots": []
+    },
+    "church-sanctuary": {
+      "horizonY": 32,
+      "metersPercent": 0.67,
+      "floors": {
+        "platform": 1.39
+      },
+      "spots": [
+        {
+          "x": 49.6,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "church-sanctuary:spot:0"
+        },
+        {
+          "x": 37.1,
+          "y": 82.9,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82.9,
+          "role": "general",
+          "id": "church-sanctuary:spot:1"
+        },
+        {
+          "x": 62.2,
+          "y": 78.6,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 78.6,
+          "role": "general",
+          "id": "church-sanctuary:spot:2"
+        },
+        {
+          "x": 41.9,
+          "y": 65.9,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 65.9,
+          "role": "general",
+          "id": "church-sanctuary:spot:3"
+        },
+        {
+          "x": 57.4,
+          "y": 62.7,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 62.7,
+          "role": "general",
+          "id": "church-sanctuary:spot:4"
+        },
+        {
+          "x": 49.6,
+          "y": 55.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 55.3,
+          "role": "general",
+          "id": "church-sanctuary:spot:5"
+        },
+        {
+          "x": 61.0,
+          "y": 41.0,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 41.0,
+          "clipBelowY": 28.3,
+          "floor": "platform",
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "church-sanctuary:spot:6"
+        },
+        {
+          "x": 41.9,
+          "y": 41.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 41.0,
+          "floor": "platform",
+          "role": "general",
+          "id": "church-sanctuary:spot:7"
+        }
+      ],
+      "measuredFrom": "pew ends 0.95 m at three depths (foot 84 top 50.8; foot 70.7 top 45.7; foot 51.5 top 39) fit 0.67 at horizon 32; lectern 1.15 m on the platform (foot 41 top 26.6) puts the platform at 1.39; pew rows face away so nobody is seated in them",
+      "surfaceSlots": []
     },
     "church-supper-hall": {
       "horizonY": 32,
@@ -1002,6 +1200,141 @@
         }
       ]
     },
+    "city-hall-hallway": {
+      "horizonY": 40,
+      "metersPercent": 0.72,
+      "spots": [
+        {
+          "x": 50.8,
+          "y": 90.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90.3,
+          "hero": true,
+          "role": "general",
+          "id": "city-hall-hallway:spot:0"
+        },
+        {
+          "x": 53.8,
+          "y": 65.9,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 65.9,
+          "role": "general",
+          "id": "city-hall-hallway:spot:1"
+        },
+        {
+          "x": 41.9,
+          "y": 80.8,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 80.8,
+          "role": "general",
+          "id": "city-hall-hallway:spot:2"
+        },
+        {
+          "x": 70.0,
+          "y": 69.1,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 69.1,
+          "role": "general",
+          "id": "city-hall-hallway:spot:3"
+        },
+        {
+          "x": 20.3,
+          "y": 57.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57.4,
+          "clipBelowY": 54.7,
+          "role": "staff-behind-counter",
+          "id": "city-hall-hallway:spot:4"
+        },
+        {
+          "x": 54.7,
+          "y": 58.2,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 58.2,
+          "seatY": 52.1,
+          "group": "bench",
+          "role": "audience",
+          "id": "city-hall-hallway:spot:5"
+        }
+      ],
+      "measuredFrom": "doors 2.1 m at two depths (foot 68.1 top 26.6; foot 64.4 top 24.5) and the far double door fit about 0.72 at horizon 40; placed by eye",
+      "surfaceSlots": []
+    },
+    "city-hall-steps-event": {
+      "horizonY": 49.5,
+      "metersPercent": 0.6,
+      "floors": {
+        "stage": 1.64
+      },
+      "spots": [
+        {
+          "x": 49.9,
+          "y": 90.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90.3,
+          "hero": true,
+          "role": "general",
+          "id": "city-hall-steps-event:spot:0"
+        },
+        {
+          "x": 49.9,
+          "y": 76.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 76.5,
+          "role": "general",
+          "id": "city-hall-steps-event:spot:1"
+        },
+        {
+          "x": 41.9,
+          "y": 69.1,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 69.1,
+          "role": "general",
+          "id": "city-hall-steps-event:spot:2"
+        },
+        {
+          "x": 58.3,
+          "y": 69.1,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 69.1,
+          "role": "general",
+          "id": "city-hall-steps-event:spot:3"
+        },
+        {
+          "x": 49.9,
+          "y": 57.2,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 57.2,
+          "clipBelowY": 45.0,
+          "floor": "stage",
+          "audience": "viewer",
+          "role": "speaker",
+          "id": "city-hall-steps-event:spot:4"
+        },
+        {
+          "x": 13.8,
+          "y": 60.6,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 60.6,
+          "role": "general",
+          "id": "city-hall-steps-event:spot:5"
+        }
+      ],
+      "measuredFrom": "folding chairs 0.85 m (foot 95.2 top 71.8; foot 72.3 top 60.6) fit 0.60 at horizon 49.5; the lectern 1.15 m on the stage (foot 57.4 top 42.5) puts the stage at 1.64",
+      "surfaceSlots": []
+    },
     "classroom": {
       "horizonY": 32,
       "metersPercent": 0.77,
@@ -1080,6 +1413,72 @@
           "source": "art/backdrops/surfaces.json"
         }
       ]
+    },
+    "clerk-back-office": {
+      "horizonY": 15,
+      "metersPercent": 0.49,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "clerk-back-office:spot:0"
+        },
+        {
+          "x": 33.5,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74.4,
+          "role": "general",
+          "id": "clerk-back-office:spot:1"
+        },
+        {
+          "x": 77.2,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 74.4,
+          "role": "general",
+          "id": "clerk-back-office:spot:2"
+        },
+        {
+          "x": 50.8,
+          "y": 63.8,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 63.8,
+          "clipBelowY": 59.0,
+          "role": "general",
+          "id": "clerk-back-office:spot:3"
+        },
+        {
+          "x": 63.7,
+          "y": 85.0,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 85.0,
+          "seatY": 69.3,
+          "group": "desk",
+          "role": "general",
+          "id": "clerk-back-office:spot:4"
+        },
+        {
+          "x": 40.7,
+          "y": 84.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84.0,
+          "role": "general",
+          "id": "clerk-back-office:spot:5"
+        }
+      ],
+      "measuredFrom": "desk 0.75 m (top 59, leg foot 81.4), shelf unit 2 m (foot 60.4) and the swivel chair seat 0.45 m (foot 85, seat 69.7) fit about 0.49 at horizon 15; the picture is a little inconsistent in depth, so this is the best single fit; placed by eye",
+      "surfaceSlots": []
     },
     "clerk-counter": {
       "horizonY": 30,
@@ -1244,6 +1643,72 @@
         }
       ]
     },
+    "coffee-shop": {
+      "horizonY": 32,
+      "metersPercent": 0.605,
+      "spots": [
+        {
+          "x": 47.8,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "coffee-shop:spot:0"
+        },
+        {
+          "x": 15.0,
+          "y": 85.0,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 85.0,
+          "seatY": 69.1,
+          "group": "table",
+          "role": "customer",
+          "id": "coffee-shop:spot:1"
+        },
+        {
+          "x": 29.9,
+          "y": 76.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 76.5,
+          "role": "general",
+          "id": "coffee-shop:spot:2"
+        },
+        {
+          "x": 59.8,
+          "y": 76.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76.5,
+          "role": "general",
+          "id": "coffee-shop:spot:3"
+        },
+        {
+          "x": 50.2,
+          "y": 59.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 59.5,
+          "role": "general",
+          "id": "coffee-shop:spot:4"
+        },
+        {
+          "x": 65.2,
+          "y": 59.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 59.5,
+          "clipBelowY": 48.4,
+          "role": "staff-behind-counter",
+          "id": "coffee-shop:spot:5"
+        }
+      ],
+      "measuredFrom": "bar stools 0.65 m (foot 60.4, top 49.1) and chair backs 0.9 m (foot 85.6, top 56.4) fit 0.605 at horizon 32; stools at the window bar face away so are left out; placed by eye",
+      "surfaceSlots": []
+    },
     "college-quad": {
       "horizonY": 48,
       "metersPercent": 0.6,
@@ -1327,6 +1792,156 @@
         }
       ],
       "measuredFrom": "lamp posts about 3.5 m: left foot 54.5 top 40, right foot 56.5 top 42, far foot 51.5 top 45 (0.55, and they place the horizon near 48 with the paving seams); left bench back 0.85 m foot 75.5 top 61 (0.62)",
+      "surfaceSlots": []
+    },
+    "committee-hearing-room": {
+      "horizonY": 25.8,
+      "metersPercent": 0.48,
+      "floors": {
+        "dais": 0.64
+      },
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "committee-hearing-room:spot:0"
+        },
+        {
+          "x": 43.7,
+          "y": 73.3,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 73.3,
+          "role": "general",
+          "id": "committee-hearing-room:spot:1"
+        },
+        {
+          "x": 56.8,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68.0,
+          "role": "general",
+          "id": "committee-hearing-room:spot:2"
+        },
+        {
+          "x": 50.0,
+          "y": 60.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 60.6,
+          "role": "general",
+          "id": "committee-hearing-room:spot:3"
+        },
+        {
+          "x": 66.5,
+          "y": 55.8,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 55.8,
+          "clipBelowY": 42.0,
+          "audience": "away",
+          "role": "speaker",
+          "id": "committee-hearing-room:spot:4"
+        },
+        {
+          "x": 25.8,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:5"
+        },
+        {
+          "x": 33.7,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:6"
+        },
+        {
+          "x": 41.4,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:7"
+        },
+        {
+          "x": 49.8,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "presiding",
+          "id": "committee-hearing-room:spot:8"
+        },
+        {
+          "x": 57.9,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:9"
+        },
+        {
+          "x": 65.8,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:10"
+        },
+        {
+          "x": 74.0,
+          "y": 45.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 45.5,
+          "clipBelowY": 32.9,
+          "seatY": 39.0,
+          "group": "dais",
+          "floor": "dais",
+          "role": "member-at-dais",
+          "id": "committee-hearing-room:spot:11"
+        }
+      ],
+      "measuredFrom": "lectern 1.1 m (foot 55.9, top 39.9) and audience chair backs 0.9 m (foot 97, top 66.5) fit 0.48 at horizon 25.8; the dais bench front 1.05 m (foot 44.5, top 31.9) puts the dais at 0.64; the lectern and witness chairs face the dais, away from the viewer",
       "surfaceSlots": []
     },
     "community-room": {
@@ -1466,7 +2081,7 @@
           "pose": "sit",
           "facing": "right",
           "depth": 72,
-          "seatY": 10.4,
+          "seatY": 60.4,
           "group": "circle-left",
           "role": "general",
           "id": "community-room:spot:12"
@@ -1477,7 +2092,7 @@
           "pose": "sit",
           "facing": "left",
           "depth": 72,
-          "seatY": 10.4,
+          "seatY": 60.4,
           "group": "circle-right",
           "role": "general",
           "id": "community-room:spot:13"
@@ -5139,6 +5754,248 @@
           "depth": 76,
           "role": "general",
           "id": "debate-stage:spot:6"
+        },
+        {
+          "x": 16,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:7"
+        },
+        {
+          "x": 30,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:8"
+        },
+        {
+          "x": 44,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:9"
+        },
+        {
+          "x": 84,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:10"
+        },
+        {
+          "x": 70,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:11"
+        },
+        {
+          "x": 56,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 55.9,
+          "group": "audience-row-1",
+          "role": "audience",
+          "id": "debate-stage:spot:12"
+        },
+        {
+          "x": 10,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:13"
+        },
+        {
+          "x": 22,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:14"
+        },
+        {
+          "x": 34,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:15"
+        },
+        {
+          "x": 90,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:16"
+        },
+        {
+          "x": 78,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:17"
+        },
+        {
+          "x": 66,
+          "y": 75,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 75,
+          "seatY": 63.8,
+          "group": "audience-row-2",
+          "role": "audience",
+          "id": "debate-stage:spot:18"
+        },
+        {
+          "x": 5,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:19"
+        },
+        {
+          "x": 15,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:20"
+        },
+        {
+          "x": 25,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:21"
+        },
+        {
+          "x": 35,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:22"
+        },
+        {
+          "x": 45,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:23"
+        },
+        {
+          "x": 95,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:24"
+        },
+        {
+          "x": 85,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:25"
+        },
+        {
+          "x": 75,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:26"
+        },
+        {
+          "x": 65,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:27"
+        },
+        {
+          "x": 55,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "seatY": 70.9,
+          "group": "audience-row-3",
+          "role": "audience",
+          "id": "debate-stage:spot:28"
         }
       ],
       "measuredFrom": "front-row armrest 0.6-0.65 m foot 73.5 top 58.5; second-row armrest foot 83 top 65.3 (the pair gives horizon 20.7, 0.44-0.47); front-row seat back 1.0 m foot 73.5 top 51.7 (0.41); stage: lectern 1.2 m foot 42.3 top 16 (1.02); stage face 0.84 m foot 57 top 44",
@@ -5349,9 +6206,53 @@
           "group": "waiting",
           "role": "audience",
           "id": "dmv-office:spot:8"
+        },
+        {
+          "x": 75,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:24"
+        },
+        {
+          "x": 83,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:25"
+        },
+        {
+          "x": 91,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:26"
+        },
+        {
+          "x": 99,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:27"
         }
       ],
-      "measuredFrom": "customer chair 0.9 m foot 91 top 62.7 (0.77); service counter about 1.1 m foot 52.6",
+      "measuredFrom": "customer chair 0.9 m foot 91 top 62.7 (0.77); service counter about 1.1 m foot 52.6; four foreground-right waiting seat anchors are visual estimates within ±2% from the midday painting",
       "surfaceSlots": []
     },
     "door-knocking-rural": {
@@ -5573,6 +6474,64 @@
         }
       ],
       "measuredFrom": "sidewalk and curb vanish at x 75.4, y 47.6; near stoop 0.68 m (top 60, ground 83) and near door 2.03 m (top 4, foot 60) give 0.88; green door 2.03 m foot 51 top 26.8 with a 0.72 m stoop gives 0.99; stoop landing scale from the near door (a 1.7 m person about 48%)",
+      "surfaceSlots": []
+    },
+    "dorm-room": {
+      "horizonY": 31,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "dorm-room:spot:0"
+        },
+        {
+          "x": 71.2,
+          "y": 81.3,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 81.3,
+          "seatY": 70.1,
+          "group": "desk",
+          "role": "general",
+          "id": "dorm-room:spot:1"
+        },
+        {
+          "x": 17.9,
+          "y": 89.3,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 89.3,
+          "seatY": 72.5,
+          "group": "bed",
+          "role": "general",
+          "id": "dorm-room:spot:2"
+        },
+        {
+          "x": 83.7,
+          "y": 85.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 85.0,
+          "role": "general",
+          "id": "dorm-room:spot:3"
+        },
+        {
+          "x": 29.9,
+          "y": 81.8,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 81.8,
+          "role": "general",
+          "id": "dorm-room:spot:4"
+        }
+      ],
+      "measuredFrom": "desk 0.75 m (top 58.5, leg foot 79.8), desk chair seat 0.45 m (foot 82.4) and the door 2 m (foot 85.6) fit about 0.58 at horizon 31; chairs facing the desks are left out; placed by eye",
       "surfaceSlots": []
     },
     "election-night-venue": {
@@ -5798,6 +6757,81 @@
         }
       ]
     },
+    "election-office": {
+      "horizonY": 41.6,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "election-office:spot:0"
+        },
+        {
+          "x": 41.3,
+          "y": 49.9,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 49.9,
+          "clipBelowY": 43.0,
+          "role": "staff-behind-counter",
+          "id": "election-office:spot:1"
+        },
+        {
+          "x": 50.0,
+          "y": 49.9,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 49.9,
+          "clipBelowY": 43.0,
+          "role": "staff-behind-counter",
+          "id": "election-office:spot:2"
+        },
+        {
+          "x": 58.9,
+          "y": 49.9,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 49.9,
+          "clipBelowY": 43.0,
+          "role": "staff-behind-counter",
+          "id": "election-office:spot:3"
+        },
+        {
+          "x": 50.0,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 74.4,
+          "role": "general",
+          "id": "election-office:spot:4"
+        },
+        {
+          "x": 41.9,
+          "y": 65.9,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 65.9,
+          "role": "general",
+          "id": "election-office:spot:5"
+        },
+        {
+          "x": 58.6,
+          "y": 65.9,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 65.9,
+          "role": "general",
+          "id": "election-office:spot:6"
+        }
+      ],
+      "measuredFrom": "service counter 1.05 m (foot 52.9, top 45.2) and waiting chair backs 0.9 m (foot 91.5, top 62.2) fit 0.65 at horizon 41.6; waiting chairs face the counter, away from the viewer, so they are left out",
+      "surfaceSlots": []
+    },
     "factory-floor": {
       "horizonY": 46.7,
       "metersPercent": 0.75,
@@ -5861,6 +6895,69 @@
       "measuredFrom": "horizon where the two yellow aisle lines meet (x 51.1, y 46.7); right workbench 0.9 m foot 82 top 59 (0.72); left workbench 0.9 m foot 85 top 59 (0.75); rolling tool cabinet ~0.9 m foot 68 top 52 (0.83)",
       "surfaceSlots": []
     },
+    "farm-yard": {
+      "horizonY": 41.3,
+      "metersPercent": 0.258,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "farm-yard:spot:0"
+        },
+        {
+          "x": 35.9,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74.4,
+          "role": "general",
+          "id": "farm-yard:spot:1"
+        },
+        {
+          "x": 55.6,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 68.0,
+          "role": "general",
+          "id": "farm-yard:spot:2"
+        },
+        {
+          "x": 17.9,
+          "y": 80.8,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 80.8,
+          "role": "general",
+          "id": "farm-yard:spot:3"
+        },
+        {
+          "x": 71.8,
+          "y": 84.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 84.0,
+          "role": "general",
+          "id": "farm-yard:spot:4"
+        },
+        {
+          "x": 25.1,
+          "y": 63.8,
+          "pose": "lean",
+          "facing": "viewer",
+          "depth": 63.8,
+          "role": "general",
+          "id": "farm-yard:spot:5"
+        }
+      ],
+      "measuredFrom": "barn door 2.4 m (foot 59.8, top 48.4) and pickup cab 1.9 m (foot 76, top 58.9) fit 0.258 at the field horizon 41.3; placed by eye on the gravel yard",
+      "surfaceSlots": []
+    },
     "fire-station": {
       "horizonY": 42,
       "metersPercent": 0.41,
@@ -5913,6 +7010,61 @@
         }
       ],
       "measuredFrom": "pumper 3.3 m foot 69 top 36 (0.41); turnout coats about 0.9 m",
+      "surfaceSlots": []
+    },
+    "gas-station-store": {
+      "horizonY": 30,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 90.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90.3,
+          "hero": true,
+          "role": "general",
+          "id": "gas-station-store:spot:0"
+        },
+        {
+          "x": 73.0,
+          "y": 53.1,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 53.1,
+          "clipBelowY": 43.0,
+          "role": "staff-behind-counter",
+          "id": "gas-station-store:spot:1"
+        },
+        {
+          "x": 50.0,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 74.4,
+          "role": "general",
+          "id": "gas-station-store:spot:2"
+        },
+        {
+          "x": 41.9,
+          "y": 59.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 59.5,
+          "role": "general",
+          "id": "gas-station-store:spot:3"
+        },
+        {
+          "x": 59.8,
+          "y": 69.1,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 69.1,
+          "role": "general",
+          "id": "gas-station-store:spot:4"
+        }
+      ],
+      "measuredFrom": "double door 2.1 m (foot 48.4, top 25.5) and the checkout counter 1.05 m (foot 72.3, top 45.7) fit 0.60 at horizon 30; placed by eye",
       "surfaceSlots": []
     },
     "governor-office": {
@@ -6036,6 +7188,142 @@
       "measuredFrom": "governor's high-back chair 0.7 m wide (7% of width) back top 32, floor about 51.6; sofa back 0.9 m foot 57 top 37; desk 0.76 m foot 60 top 43; visitor chair back 0.95 m foot 72 top 46.5; near and far furniture read almost the same size, so horizon 15 / 0.46 is the flattest fit that keeps the governor's chair exact (0.46) and the visitor chairs (0.47) and sofa (0.51) close",
       "surfaceSlots": []
     },
+    "governor-residence-exterior": {
+      "horizonY": 58,
+      "metersPercent": 0.55,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:0"
+        },
+        {
+          "x": 50.0,
+          "y": 78.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 78.6,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:1"
+        },
+        {
+          "x": 50.0,
+          "y": 69.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 69.6,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:2"
+        },
+        {
+          "x": 40.7,
+          "y": 85.0,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 85.0,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:3"
+        },
+        {
+          "x": 59.8,
+          "y": 84.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 84.0,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:4"
+        },
+        {
+          "x": 47.2,
+          "y": 65.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 65.0,
+          "role": "general",
+          "id": "governor-residence-exterior:spot:5"
+        }
+      ],
+      "measuredFrom": "the brick walk is 1.2 m wide (27.2% at the bottom edge) and the front door 2.1 m (foot 63.8, top 54) fit 0.55 at horizon 58, where the walk's edges meet; placed by eye",
+      "surfaceSlots": []
+    },
+    "home-kitchen": {
+      "horizonY": 36,
+      "metersPercent": 0.7,
+      "spots": [
+        {
+          "x": 19.7,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "home-kitchen:spot:0"
+        },
+        {
+          "x": 33.5,
+          "y": 85.0,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 85.0,
+          "seatY": 69.1,
+          "group": "table",
+          "role": "general",
+          "id": "home-kitchen:spot:1"
+        },
+        {
+          "x": 65.8,
+          "y": 85.0,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 85.0,
+          "seatY": 70.7,
+          "group": "table",
+          "role": "general",
+          "id": "home-kitchen:spot:2"
+        },
+        {
+          "x": 44.0,
+          "y": 74.4,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 74.4,
+          "clipBelowY": 62.7,
+          "seatY": 65.9,
+          "group": "table",
+          "role": "general",
+          "id": "home-kitchen:spot:3"
+        },
+        {
+          "x": 55.6,
+          "y": 73.9,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 73.9,
+          "clipBelowY": 62.7,
+          "seatY": 65.4,
+          "group": "table",
+          "role": "general",
+          "id": "home-kitchen:spot:4"
+        },
+        {
+          "x": 79.5,
+          "y": 76.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76.5,
+          "role": "general",
+          "id": "home-kitchen:spot:5"
+        }
+      ],
+      "measuredFrom": "counter 0.9 m (foot 62.8, top 45.7) and the table 0.75 m (foot 89.9, top 62.8) fit 0.70 at horizon 36; the far chairs sit behind the table edge; placed by eye",
+      "surfaceSlots": []
+    },
     "hospital-hallway": {
       "horizonY": 38,
       "metersPercent": 0.86,
@@ -6142,6 +7430,93 @@
         }
       ],
       "measuredFrom": "kept staged 38 / 0.86; checked against the waiting chairs: nearest chair back 0.85 m foot 68.3 top 43.6 (0.96), seat 0.45 m top 55.5 (0.94); middle chair seat top 54, legs 65.4; added the fourth chair at the far left by visual estimate (foot 74.5, seat 59.5), ±2 percentage points",
+      "surfaceSlots": []
+    },
+    "hospital-lobby": {
+      "horizonY": 40,
+      "metersPercent": 0.72,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 91.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 91.4,
+          "hero": true,
+          "role": "general",
+          "id": "hospital-lobby:spot:0"
+        },
+        {
+          "x": 33.5,
+          "y": 53.7,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 53.7,
+          "clipBelowY": 45.4,
+          "role": "staff-behind-counter",
+          "id": "hospital-lobby:spot:1"
+        },
+        {
+          "x": 28.7,
+          "y": 53.7,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 53.7,
+          "clipBelowY": 45.4,
+          "role": "staff-behind-counter",
+          "id": "hospital-lobby:spot:2"
+        },
+        {
+          "x": 18.5,
+          "y": 70.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 70.7,
+          "seatY": 59.2,
+          "group": "waiting",
+          "role": "audience",
+          "id": "hospital-lobby:spot:3"
+        },
+        {
+          "x": 25.4,
+          "y": 62.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 62.7,
+          "seatY": 54.3,
+          "group": "waiting",
+          "role": "audience",
+          "id": "hospital-lobby:spot:4"
+        },
+        {
+          "x": 50.0,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 74.4,
+          "role": "general",
+          "id": "hospital-lobby:spot:5"
+        },
+        {
+          "x": 62.8,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68.0,
+          "role": "general",
+          "id": "hospital-lobby:spot:6"
+        },
+        {
+          "x": 83.7,
+          "y": 76.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76.5,
+          "role": "general",
+          "id": "hospital-lobby:spot:7"
+        }
+      ],
+      "measuredFrom": "lobby doors 2.1 m (foot 52.1, top 34.0), the reception counter 1.05 m (foot 62.2, top 45.2) and a vending machine 1.8 m (foot 63.8) fit 0.72 at horizon 40; placed by eye",
       "surfaceSlots": []
     },
     "hotel-ballroom": {
@@ -6900,6 +8275,129 @@
       "measuredFrom": "rug edges converge near y 42; right sofa seat 0.45 m (floor 60, cushion top 48) and back 0.85 m (foot 62 top 36.5) with armchair back 0.9 m (foot 50.5 top 37.5) give horizon 39.9, 1.36; armchair seat 0.45 m (legs 52.4, cushion 45.1) checks 1.37",
       "surfaceSlots": []
     },
+    "local-newspaper-office": {
+      "horizonY": 32,
+      "metersPercent": 0.5,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 92.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92.5,
+          "hero": true,
+          "role": "general",
+          "id": "local-newspaper-office:spot:0"
+        },
+        {
+          "x": 45.5,
+          "y": 81.8,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 81.8,
+          "role": "general",
+          "id": "local-newspaper-office:spot:1"
+        },
+        {
+          "x": 41.3,
+          "y": 70.1,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 70.1,
+          "role": "general",
+          "id": "local-newspaper-office:spot:2"
+        },
+        {
+          "x": 65.8,
+          "y": 73.3,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 73.3,
+          "role": "general",
+          "id": "local-newspaper-office:spot:3"
+        },
+        {
+          "x": 86.1,
+          "y": 57.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57.4,
+          "clipBelowY": 54.7,
+          "role": "staff-behind-counter",
+          "id": "local-newspaper-office:spot:4"
+        }
+      ],
+      "measuredFrom": "water cooler 1.3 m (foot 61.2, top 38.8) and the front counter 1.05 m (foot 74.5, top 54.8) fit about 0.5 at horizon 32; placed by eye",
+      "surfaceSlots": []
+    },
+    "lodge-hall": {
+      "horizonY": 38,
+      "metersPercent": 0.59,
+      "floors": {
+        "stage": 1.37
+      },
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 92.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92.5,
+          "hero": true,
+          "role": "general",
+          "id": "lodge-hall:spot:0"
+        },
+        {
+          "x": 50.0,
+          "y": 69.1,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 69.1,
+          "role": "general",
+          "id": "lodge-hall:spot:1"
+        },
+        {
+          "x": 41.9,
+          "y": 59.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 59.5,
+          "role": "general",
+          "id": "lodge-hall:spot:2"
+        },
+        {
+          "x": 58.6,
+          "y": 73.3,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 73.3,
+          "role": "general",
+          "id": "lodge-hall:spot:3"
+        },
+        {
+          "x": 45.5,
+          "y": 43.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 43.6,
+          "floor": "stage",
+          "role": "general",
+          "id": "lodge-hall:spot:4"
+        },
+        {
+          "x": 54.4,
+          "y": 43.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 43.6,
+          "floor": "stage",
+          "role": "general",
+          "id": "lodge-hall:spot:5"
+        }
+      ],
+      "measuredFrom": "folding table 0.75 m (top 62, leg foot 81.4) and the stage apron 0.9 m (foot 51, top 44.1) fit 0.59 at horizon 38; a person on the stage reads as at the same depth as the apron's foot, 1.37",
+      "surfaceSlots": []
+    },
     "main-street": {
       "horizonY": 61,
       "metersPercent": 0.9,
@@ -6992,6 +8490,74 @@
           "source": "art/backdrops/surfaces.json"
         }
       ]
+    },
+    "mayor-office": {
+      "horizonY": 33,
+      "metersPercent": 0.66,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 90.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90.3,
+          "hero": true,
+          "role": "general",
+          "id": "mayor-office:spot:0"
+        },
+        {
+          "x": 49.6,
+          "y": 62.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 62.7,
+          "clipBelowY": 52.8,
+          "seatY": 49.9,
+          "group": "desk",
+          "role": "general",
+          "id": "mayor-office:spot:1"
+        },
+        {
+          "x": 12.9,
+          "y": 79.7,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 79.7,
+          "seatY": 62.7,
+          "group": "table",
+          "role": "general",
+          "id": "mayor-office:spot:2"
+        },
+        {
+          "x": 77.2,
+          "y": 63.2,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 63.2,
+          "role": "general",
+          "id": "mayor-office:spot:3"
+        },
+        {
+          "x": 28.7,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 68.0,
+          "role": "general",
+          "id": "mayor-office:spot:4"
+        },
+        {
+          "x": 77.8,
+          "y": 87.1,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 87.1,
+          "role": "general",
+          "id": "mayor-office:spot:5"
+        }
+      ],
+      "measuredFrom": "visitor chair seat 0.45 m (foot 89.6, seat top 71.5) and desk 0.75 m (top 50, front 73) give about 0.66 at horizon 33; spots placed by eye on the midday painting; chairs seen from behind left out (facing away is not a front-view spot)",
+      "surfaceSlots": []
     },
     "mobile-home": {
       "horizonY": 35,
@@ -7146,8 +8712,8 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 52,
-          "seatY": 45,
-          "group": "desk",
+          "seatY": 47.5,
+          "group": "glass-office-desk",
           "clipBelowY": 45,
           "role": "general",
           "id": "newsroom:spot:5"
@@ -7173,6 +8739,18 @@
           "group": "desk",
           "role": "general",
           "id": "newsroom:spot:7"
+        },
+        {
+          "x": 64.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52,
+          "seatY": 45,
+          "group": "glass-office-desk",
+          "clipBelowY": 45,
+          "role": "general",
+          "id": "newsroom:spot:8"
         }
       ],
       "measuredFrom": "desk chair 0.95 m foot 66.4 top 50 (0.86); glass-office desk 0.75 m foot 52",
@@ -7352,7 +8930,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 52,
-          "clipBelowY": 43.5,
+          "clipBelowY": 44.4,
           "seatY": 43.5,
           "group": "desk",
           "hero": true,
@@ -7360,29 +8938,29 @@
           "id": "oval-office:spot:0"
         },
         {
-          "x": 41,
-          "y": 63,
+          "x": 36,
+          "y": 82,
           "pose": "stand",
           "facing": "right",
-          "depth": 63,
+          "depth": 82,
           "role": "general",
           "id": "oval-office:spot:1"
         },
         {
-          "x": 59,
-          "y": 63,
+          "x": 64,
+          "y": 82,
           "pose": "stand",
           "facing": "left",
-          "depth": 63,
+          "depth": 82,
           "role": "general",
           "id": "oval-office:spot:2"
         },
         {
-          "x": 32,
-          "y": 70,
+          "x": 25,
+          "y": 73,
           "pose": "stand",
           "facing": "right",
-          "depth": 70,
+          "depth": 73,
           "role": "general",
           "id": "oval-office:spot:3"
         },
@@ -7409,7 +8987,7 @@
           "id": "oval-office:spot:5"
         },
         {
-          "x": 29.5,
+          "x": 27,
           "y": 53,
           "pose": "lean",
           "facing": "viewer",
@@ -7418,7 +8996,7 @@
           "id": "oval-office:spot:6"
         },
         {
-          "x": 67,
+          "x": 74,
           "y": 55,
           "pose": "stand",
           "facing": "left",
@@ -7449,7 +9027,7 @@
           "id": "oval-office:spot:9"
         }
       ],
-      "measuredFrom": "horizon from the left sofa's near and far arms (foot 91.3 top 64.7; foot 73.5 top 54); sofa arm 0.65 m foot 73.5 top 54 -> 0.62; desk 0.76 m foot 58 top 42.4 -> 0.62; side doors top 15.5 read about 2.15 m at this scale",
+      "measuredFrom": "horizon from the left sofa's near and far arms (foot 91.3 top 64.7; foot 73.5 top 54); sofa arm 0.65 m foot 73.5 top 54 -> 0.62; desk 0.76 m foot 58 top 42.4 -> 0.62; side doors top 15.5 read about 2.15 m at this scale; re-measured on Oct. 6, 2026 for the wider Resolute desk (x 32-68, front plinth foot 73.4, top back edge 44.4, 0.79 m at this scale): the hero's clip moves to the desk's far edge, the visitor spots that stood behind the old desk move onto the rug in front of it (y 82) and to its sides, and the lean and standing spots beside it move out of its footprint",
       "surfaceSlots": []
     },
     "park": {
@@ -8275,6 +9853,138 @@
           "id": "public-library:spot:2"
         },
         {
+          "x": 8,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "seatY": 63.2,
+          "group": "table-west",
+          "role": "general",
+          "id": "public-library:spot:7"
+        },
+        {
+          "x": 18,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68.2,
+          "group": "table-west",
+          "role": "general",
+          "id": "public-library:spot:8"
+        },
+        {
+          "x": 29,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.2,
+          "group": "table-west",
+          "role": "general",
+          "id": "public-library:spot:9"
+        },
+        {
+          "x": 32,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 56.2,
+          "group": "table-west",
+          "role": "general",
+          "id": "public-library:spot:10"
+        },
+        {
+          "x": 42,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 52.2,
+          "group": "table-west",
+          "role": "general",
+          "id": "public-library:spot:11"
+        },
+        {
+          "x": 46,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 51.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:12"
+        },
+        {
+          "x": 55,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 48.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:13"
+        },
+        {
+          "x": 65,
+          "y": 59,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 59,
+          "seatY": 50.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:14"
+        },
+        {
+          "x": 74,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 52.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:15"
+        },
+        {
+          "x": 80,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 57.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:16"
+        },
+        {
+          "x": 67,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 61.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:17"
+        },
+        {
+          "x": 48,
+          "y": 68,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 68,
+          "seatY": 59.2,
+          "group": "table-center",
+          "role": "general",
+          "id": "public-library:spot:18"
+        },
+        {
           "x": 60,
           "y": 88,
           "pose": "stand",
@@ -8312,7 +10022,7 @@
           "id": "public-library:spot:6"
         }
       ],
-      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m",
+      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m; 12 added chair anchors are visual estimates from public-library__midday.jpg (about ±2 percentage points)",
       "surfaceSlots": []
     },
     "public-meeting-room": {
@@ -8435,7 +10145,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 66,
-          "seatY": 10.8,
+          "seatY": 57,
           "clipBelowY": 58,
           "group": "spectator-pew",
           "role": "audience",
@@ -8447,7 +10157,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 66,
-          "seatY": 10.8,
+          "seatY": 57,
           "clipBelowY": 58,
           "group": "spectator-pew",
           "role": "audience",
@@ -8459,7 +10169,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 75,
-          "seatY": 13.7,
+          "seatY": 66,
           "clipBelowY": 67,
           "group": "spectator-pew",
           "role": "audience",
@@ -8471,7 +10181,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 75,
-          "seatY": 13.7,
+          "seatY": 66,
           "clipBelowY": 67,
           "group": "spectator-pew",
           "role": "audience",
@@ -8483,7 +10193,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 84,
-          "seatY": 16.5,
+          "seatY": 75,
           "clipBelowY": 76,
           "group": "spectator-pew",
           "role": "audience",
@@ -8495,7 +10205,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 84,
-          "seatY": 16.5,
+          "seatY": 75,
           "clipBelowY": 76,
           "group": "spectator-pew",
           "role": "audience",
@@ -9098,6 +10808,125 @@
         }
       ],
       "measuredFrom": "public podium 1.1 m foot 59.5 top 39.8 (0.61); board desk about 1.1 m on a raised dais",
+      "surfaceSlots": []
+    },
+    "school-cafeteria": {
+      "horizonY": 28,
+      "metersPercent": 0.4,
+      "spots": [
+        {
+          "x": 33.8,
+          "y": 73.3,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 73.3,
+          "hero": true,
+          "role": "general",
+          "id": "school-cafeteria:spot:0"
+        },
+        {
+          "x": 40.1,
+          "y": 48.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 48.4,
+          "role": "general",
+          "id": "school-cafeteria:spot:1"
+        },
+        {
+          "x": 67.6,
+          "y": 48.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 48.4,
+          "role": "general",
+          "id": "school-cafeteria:spot:2"
+        },
+        {
+          "x": 47.8,
+          "y": 46.8,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 46.8,
+          "clipBelowY": 44.6,
+          "role": "staff-behind-counter",
+          "id": "school-cafeteria:spot:3"
+        },
+        {
+          "x": 60.4,
+          "y": 46.8,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 46.8,
+          "clipBelowY": 44.6,
+          "role": "staff-behind-counter",
+          "id": "school-cafeteria:spot:4"
+        }
+      ],
+      "measuredFrom": "recycling bins 0.9 m (foot 49.5, top 39.9) and the near table 0.75 m (top 81.4, leg foot 100) fit about 0.40 at horizon 28; the picture is nearly all tables and benches, so spots are in the aisles and behind the serving line; placed by eye",
+      "surfaceSlots": []
+    },
+    "school-exterior": {
+      "horizonY": 49,
+      "metersPercent": 0.55,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "school-exterior:spot:0"
+        },
+        {
+          "x": 50.0,
+          "y": 67.0,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 67.0,
+          "role": "general",
+          "id": "school-exterior:spot:1"
+        },
+        {
+          "x": 80.7,
+          "y": 68.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68.0,
+          "role": "general",
+          "id": "school-exterior:spot:2"
+        },
+        {
+          "x": 58.6,
+          "y": 59.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 59.5,
+          "role": "general",
+          "id": "school-exterior:spot:3"
+        },
+        {
+          "x": 17.9,
+          "y": 73.3,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 73.3,
+          "role": "general",
+          "id": "school-exterior:spot:4"
+        },
+        {
+          "x": 89.7,
+          "y": 85.0,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 85.0,
+          "role": "general",
+          "id": "school-exterior:spot:5"
+        }
+      ],
+      "measuredFrom": "entrance doors 2.2 m (foot 58, top 47.3) fit 0.55 at horizon 49; placed by eye on the lawn, drive and walks",
       "surfaceSlots": []
     },
     "school-gym-town-hall": {
@@ -10487,6 +12316,78 @@
         }
       ]
     },
+    "school-hallway": {
+      "horizonY": 46.2,
+      "metersPercent": 0.78,
+      "spots": [
+        {
+          "x": 50.0,
+          "y": 93.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93.5,
+          "hero": true,
+          "role": "general",
+          "id": "school-hallway:spot:0"
+        },
+        {
+          "x": 50.0,
+          "y": 74.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 74.4,
+          "role": "general",
+          "id": "school-hallway:spot:1"
+        },
+        {
+          "x": 41.9,
+          "y": 63.8,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 63.8,
+          "role": "general",
+          "id": "school-hallway:spot:2"
+        },
+        {
+          "x": 57.4,
+          "y": 65.9,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 65.9,
+          "role": "general",
+          "id": "school-hallway:spot:3"
+        },
+        {
+          "x": 50.0,
+          "y": 57.4,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57.4,
+          "role": "general",
+          "id": "school-hallway:spot:4"
+        },
+        {
+          "x": 62.2,
+          "y": 69.6,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 69.6,
+          "role": "general",
+          "id": "school-hallway:spot:5"
+        },
+        {
+          "x": 25.1,
+          "y": 84.0,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 84.0,
+          "role": "general",
+          "id": "school-hallway:spot:6"
+        }
+      ],
+      "measuredFrom": "doors 2.1 m (foot 76, top 27.1) and the far double door (foot 50.5, top 43.4) fit 0.78 at horizon 46.2; placed by eye",
+      "surfaceSlots": []
+    },
     "small-apartment": {
       "horizonY": 35,
       "metersPercent": 0.95,
@@ -10881,9 +12782,31 @@
           "hero": true,
           "role": "general",
           "id": "state-capitol-az:spot:5"
+        },
+        {
+          "x": 28,
+          "y": 76,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 76,
+          "seatY": 75.2,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:6"
+        },
+        {
+          "x": 77,
+          "y": 76,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 76,
+          "seatY": 75.2,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:7"
         }
       ],
-      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03",
+      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03. The two plaza bench seat centers are visual estimates from state-capitol-az__midday.jpg (about ±2% of image dimensions).",
       "surfaceSlots": []
     },
     "state-capitol-ca": {
@@ -14435,6 +16358,28 @@
           "id": "state-capitol-wy:spot:2"
         },
         {
+          "x": 4,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 94.3,
+          "seatY": 91.4,
+          "group": "bench-left",
+          "role": "general",
+          "id": "state-capitol-wy:spot:7"
+        },
+        {
+          "x": 96,
+          "y": 94.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 94.3,
+          "seatY": 91.4,
+          "group": "bench-right",
+          "role": "general",
+          "id": "state-capitol-wy:spot:8"
+        },
+        {
           "x": 40.5,
           "y": 89.5,
           "pose": "stand",
@@ -14471,7 +16416,7 @@
           "id": "state-capitol-wy:spot:6"
         }
       ],
-      "measuredFrom": "horizon where the front walk edges converge (~74); bollard ~0.9 m foot 96.5 top 90 -> 0.32; sidewalk bench back ~0.85 m foot 93.5 top 88.8 -> 0.28; globe lamp ~4.5 m foot 96.5 top 65 -> 0.31",
+      "measuredFrom": "horizon where the front walk edges converge (~74); bollard ~0.9 m foot 96.5 top 90 -> 0.32; sidewalk bench back ~0.85 m foot 93.5 top 88.8 -> 0.28; globe lamp ~4.5 m foot 96.5 top 65 -> 0.31; two added outer bench spots are visual estimates from state-capitol-wy__midday.jpg (about ±2 percentage points)",
       "surfaceSlots": []
     },
     "state-legislative-chamber-bicameral": {
@@ -14530,25 +16475,25 @@
           "id": "state-legislative-chamber-bicameral:spot:3"
         },
         {
-          "x": 24.7,
-          "y": 68,
+          "x": 27,
+          "y": 66,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "clipBelowY": 60.3,
-          "seatY": 61.2,
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
           "group": "members-left",
           "role": "member-at-dais",
           "id": "state-legislative-chamber-bicameral:spot:4"
         },
         {
-          "x": 75.3,
-          "y": 68,
+          "x": 73,
+          "y": 66,
           "pose": "sit",
           "facing": "away",
-          "depth": 68,
-          "clipBelowY": 60.3,
-          "seatY": 61.2,
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
           "group": "members-right",
           "role": "member-at-dais",
           "id": "state-legislative-chamber-bicameral:spot:5"
@@ -14588,6 +16533,438 @@
           "depth": 90,
           "role": "general",
           "id": "state-legislative-chamber-bicameral:spot:9"
+        },
+        {
+          "x": 7,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:10"
+        },
+        {
+          "x": 17,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:11"
+        },
+        {
+          "x": 27,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:12"
+        },
+        {
+          "x": 73,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:13"
+        },
+        {
+          "x": 83,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:14"
+        },
+        {
+          "x": 93,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 49.7,
+          "seatY": 50.6,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:15"
+        },
+        {
+          "x": 7,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:16"
+        },
+        {
+          "x": 17,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:17"
+        },
+        {
+          "x": 27,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:18"
+        },
+        {
+          "x": 73,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:19"
+        },
+        {
+          "x": 83,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:20"
+        },
+        {
+          "x": 93,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.9,
+          "seatY": 54.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:21"
+        },
+        {
+          "x": 7,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:22"
+        },
+        {
+          "x": 17,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:23"
+        },
+        {
+          "x": 83,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:24"
+        },
+        {
+          "x": 93,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:25"
+        },
+        {
+          "x": 7,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:26"
+        },
+        {
+          "x": 17,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:27"
+        },
+        {
+          "x": 27,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:28"
+        },
+        {
+          "x": 73,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:29"
+        },
+        {
+          "x": 83,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:30"
+        },
+        {
+          "x": 93,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 62.2,
+          "seatY": 63.1,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:31"
+        },
+        {
+          "x": 7,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:32"
+        },
+        {
+          "x": 17,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:33"
+        },
+        {
+          "x": 27,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:34"
+        },
+        {
+          "x": 73,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:35"
+        },
+        {
+          "x": 83,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:36"
+        },
+        {
+          "x": 93,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 66.3,
+          "seatY": 67.2,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:37"
+        },
+        {
+          "x": 7,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:38"
+        },
+        {
+          "x": 17,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:39"
+        },
+        {
+          "x": 27,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:40"
+        },
+        {
+          "x": 73,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:41"
+        },
+        {
+          "x": 83,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:42"
+        },
+        {
+          "x": 93,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70.5,
+          "seatY": 71.4,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:43"
+        },
+        {
+          "x": 37,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:44"
+        },
+        {
+          "x": 63,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 58,
+          "seatY": 58.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:45"
         }
       ],
       "measuredFrom": "two member desks 0.78 m at different depths (x25 foot 76 top 61; x33 foot 68 top 56.5) give horizon 42-44 and 0.58-0.59; nearer-aisle desk (x37 foot 64.5 top 53.5) 0.66; rostrum platform about 0.45 m above the floor (two steps, base 61.5) scaled from the main floor at the same depth gives 0.82",
@@ -14651,25 +17028,25 @@
           "id": "state-legislative-chamber-unicameral:spot:4"
         },
         {
-          "x": 16,
-          "y": 86,
+          "x": 17,
+          "y": 84,
           "pose": "sit",
           "facing": "away",
-          "depth": 86,
-          "clipBelowY": 66,
-          "seatY": 74,
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
           "group": "members-left",
           "role": "member-at-dais",
           "id": "state-legislative-chamber-unicameral:spot:5"
         },
         {
-          "x": 84,
-          "y": 86,
+          "x": 83,
+          "y": 84,
           "pose": "sit",
           "facing": "away",
-          "depth": 86,
-          "clipBelowY": 66,
-          "seatY": 74,
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
           "group": "members-right",
           "role": "member-at-dais",
           "id": "state-legislative-chamber-unicameral:spot:6"
@@ -14691,6 +17068,438 @@
           "depth": 96,
           "role": "general",
           "id": "state-legislative-chamber-unicameral:spot:8"
+        },
+        {
+          "x": 7,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:9"
+        },
+        {
+          "x": 17,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:10"
+        },
+        {
+          "x": 27,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:11"
+        },
+        {
+          "x": 73,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:12"
+        },
+        {
+          "x": 83,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:13"
+        },
+        {
+          "x": 93,
+          "y": 54,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 54,
+          "clipBelowY": 48.9,
+          "seatY": 49.8,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:14"
+        },
+        {
+          "x": 7,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:15"
+        },
+        {
+          "x": 17,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:16"
+        },
+        {
+          "x": 27,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:17"
+        },
+        {
+          "x": 73,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:18"
+        },
+        {
+          "x": 83,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:19"
+        },
+        {
+          "x": 93,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "clipBelowY": 53.1,
+          "seatY": 54,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:20"
+        },
+        {
+          "x": 7,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:21"
+        },
+        {
+          "x": 17,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:22"
+        },
+        {
+          "x": 27,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:23"
+        },
+        {
+          "x": 73,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:24"
+        },
+        {
+          "x": 83,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:25"
+        },
+        {
+          "x": 93,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "clipBelowY": 57.4,
+          "seatY": 58.3,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:26"
+        },
+        {
+          "x": 7,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:27"
+        },
+        {
+          "x": 17,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:28"
+        },
+        {
+          "x": 27,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:29"
+        },
+        {
+          "x": 73,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:30"
+        },
+        {
+          "x": 83,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:31"
+        },
+        {
+          "x": 93,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "clipBelowY": 61.6,
+          "seatY": 62.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:32"
+        },
+        {
+          "x": 7,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:33"
+        },
+        {
+          "x": 17,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:34"
+        },
+        {
+          "x": 27,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:35"
+        },
+        {
+          "x": 73,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:36"
+        },
+        {
+          "x": 83,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:37"
+        },
+        {
+          "x": 93,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 65.8,
+          "seatY": 66.7,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:38"
+        },
+        {
+          "x": 7,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:39"
+        },
+        {
+          "x": 27,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:40"
+        },
+        {
+          "x": 73,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:41"
+        },
+        {
+          "x": 93,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:42"
+        },
+        {
+          "x": 37,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:43"
+        },
+        {
+          "x": 63,
+          "y": 84,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 84,
+          "clipBelowY": 70,
+          "seatY": 70.9,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:44"
         }
       ],
       "measuredFrom": "horizon from the two aisle stripes converging at x50 y40; member desk 0.78 m (x33 foot 78.2 top 61.7) 0.55 and nearer desk (x20 foot 93.8 top 74.7) 0.46-0.6; three rostrum steps 0.54 m (base 53, top 49.3) 0.54; averaged 0.58. Presiding tier from the presiding chair (0.6 m wide spans 75 px = 8 percent of the height, back 1.1 m, top 35.5) puts its floor at y 50.2 (hidden behind the desk), 1.3",

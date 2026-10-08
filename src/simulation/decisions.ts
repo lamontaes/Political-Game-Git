@@ -21,6 +21,10 @@ import {
 } from "./life-sources";
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
+import {
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
 import { validateCutoff } from "./perception";
 import { traitRegistryFor } from "./trait-registry";
 import {
@@ -39,6 +43,7 @@ import type {
   DecisionConsideration,
   DecisionContext,
   DecisionEvaluation,
+  DecisionImportance,
   DecisionOptionEvaluation,
   DecisionPreference,
   DecisionSourceSnapshot,
@@ -48,7 +53,13 @@ import type {
 } from "./types";
 import { assertWorldIntegrity, resolveEntityLabel } from "./world";
 
-const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
+export const DECISION_IMPORTANCE_ORDER: readonly DecisionImportance[] = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+];
+const IMPORTANCES = DECISION_IMPORTANCE_ORDER;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
@@ -412,6 +423,13 @@ function validateConsideration(
   }
   assertMember(IMPORTANCES, consideration.importance, "decision importance");
   assertMember(CONFIDENCES, consideration.confidence, "decision confidence");
+  if (
+    consideration.weightScale !== undefined &&
+    (!Number.isFinite(consideration.weightScale) ||
+      consideration.weightScale < 0 ||
+      consideration.weightScale > 1)
+  )
+    throw new Error("Decision consideration weight scale must be in [0, 1].");
   validateMindSourceReferences(
     world,
     context.actorPersonId,
@@ -735,6 +753,19 @@ function snapshotSource(
           reference: { ...reference },
           label: `Decision · ${record.context.decisionType}`,
           content: record.selectedOptionKey ?? "No available option",
+        };
+      break;
+    }
+    case "place-outcome": {
+      const record = placeOutcomeRecords(world).find(
+        (candidate) =>
+          placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+      );
+      if (record)
+        return {
+          reference: { ...reference },
+          label: `Outcome · ${record.measure}`,
+          content: `${record.value} · ${record.month}`,
         };
       break;
     }

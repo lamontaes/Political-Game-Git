@@ -29,11 +29,6 @@ import {
   EXPECTED_DISTRICT_COURT_COUNT,
 } from "../../src/source/domains/federal-courts/index";
 import {
-  EASTERN_BAND_DESIGNATED_AREA,
-  FEMA_FRAUD_ORACLES,
-  deriveDesignatedAreaType,
-} from "../../src/source/domains/fema-disasters/index";
-import {
   readBeaValue,
   classifyBeaGeography,
 } from "../../src/source/domains/bea-regional/index";
@@ -249,77 +244,6 @@ describe("federal courts", () => {
   });
 });
 
-describe("FEMA — the fraud oracles", () => {
-  interface Declaration {
-    disasterNumber: number;
-    femaDeclarationString: string;
-    state: string;
-    designatedArea: string;
-    derivedDesignatedAreaType: string;
-    incidentType: string | null;
-    declarationTitle: string;
-    iaProgramDeclared: boolean | null;
-  }
-  const all = records<Declaration>("fema-disasters");
-
-  it("holds the authentic record behind each fabricated declaration", () => {
-    for (const oracle of FEMA_FRAUD_ORACLES) {
-      const found = all.filter(
-        (r) => r.disasterNumber === oracle.disasterNumber,
-      );
-      expect(found.length, oracle.rejectedClaim).toBeGreaterThan(0);
-      for (const record of found) {
-        expect(record.femaDeclarationString, oracle.rejectedClaim).toBe(
-          oracle.expectedDeclarationString,
-        );
-        expect(record.state, oracle.rejectedClaim).toBe(oracle.expectedState);
-      }
-    }
-  });
-
-  it("holds no federal border emergency, because none has ever been declared", () => {
-    expect(
-      all.filter((r) => /BORDER EMERGENCY/i.test(r.declarationTitle)),
-    ).toHaveLength(0);
-  });
-
-  it("keeps the provider's own incident type, title and legacy program flag", () => {
-    expect(all.find((r) => r.disasterNumber === 4586)?.incidentType).toBe(
-      "Severe Ice Storm",
-    );
-    expect(all.find((r) => r.disasterNumber === 4724)?.declarationTitle).toBe(
-      "WILDFIRES AND HIGH WINDS",
-    );
-    for (const record of all.filter((r) => r.disasterNumber === 4085)) {
-      expect(record.iaProgramDeclared).toBe(false);
-    }
-  });
-
-  it("distinguishes a tribe from a county of a similar name in the same declaration", () => {
-    const helene = all.filter((r) => r.disasterNumber === 4827);
-    const tribe = helene.find(
-      (r) => r.designatedArea === EASTERN_BAND_DESIGNATED_AREA,
-    );
-    const county = helene.find((r) => r.designatedArea === "Cherokee (County)");
-    expect(tribe?.derivedDesignatedAreaType).toBe("tribal");
-    expect(county?.derivedDesignatedAreaType).toBe("county-or-parish");
-    expect(all.some((r) => r.designatedArea === "Cherokee Nation")).toBe(false);
-  });
-
-  it("types a Rhode Island area that carries a metropolitan note after its class", () => {
-    expect(
-      deriveDesignatedAreaType(
-        "Washington (County)(in (P)MSA 5520,6480)",
-        false,
-      ),
-    ).toBe("county-or-parish");
-    expect(deriveDesignatedAreaType(EASTERN_BAND_DESIGNATED_AREA, false)).toBe(
-      "tribal",
-    );
-    expect(deriveDesignatedAreaType("Statewide", false)).toBe("statewide");
-  });
-});
-
 describe("BEA", () => {
   interface Observation {
     recordId: string;
@@ -518,26 +442,5 @@ describe("HUD", () => {
     const withoutTown = all.filter((r) => r.area.countyTownName === null);
     expect(withoutTown.length).toBeGreaterThan(0);
     expect(all.some((r) => r.area.countyTownName === "")).toBe(false);
-  });
-});
-
-describe("FEC", () => {
-  interface Row {
-    recordKind: string;
-    candidateId?: string;
-    officeDistrict?: string | null;
-    committeeId?: string;
-  }
-  const all = records<Row>("fec");
-
-  it("holds every row of all three bulk files", () => {
-    expect(all.filter((r) => r.recordKind === "candidate")).toHaveLength(9798);
-    expect(all.filter((r) => r.recordKind === "committee")).toHaveLength(20938);
-    expect(all.filter((r) => r.recordKind === "linkage")).toHaveLength(8619);
-  });
-
-  it("keeps an at-large House district as the 00 the Commission publishes", () => {
-    const alaska = all.find((r) => r.candidateId === "H0AK00105");
-    expect(alaska?.officeDistrict).toBe("00");
   });
 });

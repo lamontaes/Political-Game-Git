@@ -13,7 +13,9 @@ import {
 import type { LifeRequestDetails } from "./life-request-details";
 import { goalConsiderations } from "./people-goal-pursuit";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
+import { evaluateTownDateProposal } from "./living-world/town-couple-actor-adapter";
+import { contactProposals } from "./relationship-contact";
 import type {
   DecisionConsideration,
   EntityId,
@@ -46,7 +48,8 @@ import type {
  */
 
 /** The reasons this module can read. Bounded; each names its own record. */
-export type InitiatorOccasionReason = "birthday" | "new-home" | "new-work";
+export type InitiatorOccasionReason =
+  "birthday" | "new-home" | "new-work" | "date";
 
 export interface InitiatorOccasion {
   readonly reason: InitiatorOccasionReason;
@@ -233,15 +236,14 @@ export function initiatorOccasions(
   const today = world.currentDate;
   if (ageOnDate(host.birthDate, today) < 18) return [];
   const household = hostHome(world, hostPersonId);
-  if (!household) return [];
-  const home = household.location;
+  const home = household?.location;
   const name = personName(host);
-  const homeLabel = `${name}'s home`;
+  const homeLabel = home ? `${name}'s home` : "";
   const found: InitiatorOccasion[] = [];
 
   const birthday = nextBirthday(host.birthDate, today);
   const birthdayGathering = saturdayOnOrAfter(birthday);
-  if (inNoticeWindow(today, birthdayGathering)) {
+  if (household && inNoticeWindow(today, birthdayGathering)) {
     const turning = ageOnDate(host.birthDate, birthday);
     const when =
       birthday === birthdayGathering
@@ -267,6 +269,8 @@ export function initiatorOccasions(
 
   // A move is a location that replaced an earlier one, recorded recently.
   if (
+    household &&
+    home &&
     home.supersedesLocationId !== null &&
     daysBetween(home.effectiveAt, today) >= 0 &&
     daysBetween(home.effectiveAt, today) <= NEW_HOME_RECENT_DAYS
@@ -327,6 +331,50 @@ export function initiatorOccasions(
     break;
   }
 
+  const date = saturdayOnOrAfter(addDays(today, OCCASION_NOTICE_MIN_DAYS));
+  if (inNoticeWindow(today, date)) {
+    const latestInteractions = new Map<
+      EntityId,
+      (typeof world.history.relationshipInteractions)[number]
+    >();
+    for (const interaction of world.history.relationshipInteractions) {
+      if (
+        !interaction.personIds.includes(hostPersonId) ||
+        interaction.occurredAt > today
+      )
+        continue;
+      const otherPersonId = interaction.personIds.find(
+        (personId) => personId !== hostPersonId,
+      );
+      if (!otherPersonId || !world.people[otherPersonId]) continue;
+      const previous = latestInteractions.get(otherPersonId);
+      if (!previous || interaction.sequence > previous.sequence)
+        latestInteractions.set(otherPersonId, interaction);
+    }
+    for (const [otherPersonId, interaction] of [...latestInteractions].sort(
+      ([left], [right]) => left.localeCompare(right),
+    )) {
+      if (ageOnDate(world.people[otherPersonId]!.birthDate, today) < 18)
+        continue;
+      found.push({
+        reason: "date",
+        hostPersonId,
+        sourceRecordId: interaction.id,
+        date,
+        details: {
+          version: 1,
+          task: "date",
+          opening: "date",
+          condition: null,
+          minutes: 180,
+        },
+        homeLabel,
+        summary: "date",
+        believed: "date",
+      });
+    }
+  }
+
   return found;
 }
 
@@ -345,6 +393,32 @@ export function hostDecidesToAsk(
   recipientPersonId: EntityId,
   occasion: InitiatorOccasion,
 ): World | null {
+  if (occasion.reason === "date") {
+    const interaction = world.history.relationshipInteractions.find(
+      (row) => row.id === occasion.sourceRecordId,
+    );
+    if (
+      !interaction ||
+      !interaction.personIds.includes(hostPersonId) ||
+      !interaction.personIds.includes(recipientPersonId) ||
+      contactProposals(world, hostPersonId).some(
+        (proposal) =>
+          proposal.fromPersonId === recipientPersonId ||
+          proposal.toPersonId === recipientPersonId,
+      )
+    )
+      return null;
+    return evaluateTownDateProposal(
+      world,
+      `occasion:date:${hostPersonId}:${recipientPersonId}:${interaction.id}`,
+      hostPersonId,
+      [recipientPersonId],
+      world.control.kind === "person" &&
+        world.control.personId === recipientPersonId,
+    ) === recipientPersonId
+      ? world
+      : null;
+  }
   const withTraits = ensurePeopleTraits(world, [hostPersonId]);
   const keyPrefix = `occasion:${occasion.reason}:${hostPersonId}:${recipientPersonId}:${occasion.date}`;
   const considerations: DecisionConsideration[] = [
@@ -356,22 +430,7 @@ export function hostDecidesToAsk(
         explanation: "They have been meaning to keep up with people.",
       },
     ]),
-    ...traitConsiderations(withTraits, hostPersonId, keyPrefix, [
-      {
-        optionKey: "ask",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They like a full room.",
-      },
-      {
-        optionKey: "keep-it-small",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They would rather keep it to themselves.",
-      },
-    ]),
   ];
-  if (considerations.length === 0) return null;
   const evaluation = evaluateDecision(withTraits, {
     stableKey: keyPrefix,
     decisionType: "people.invite-over",

@@ -724,6 +724,21 @@ export interface EventLocation {
   readonly setting: string | null;
 }
 
+export interface CampaignGuidanceRuleRecord {
+  readonly kind: "known" | "unknown" | "not-applicable";
+  readonly value?: number | string;
+  readonly citation?: string | null;
+  readonly sourceUrl?: string | null;
+}
+
+export interface CampaignGuidanceOfficeRecord {
+  readonly officeKey: string;
+  readonly officeName: string;
+  readonly minimumAge?: CampaignGuidanceRuleRecord;
+  readonly residency?: CampaignGuidanceRuleRecord;
+  readonly filing?: CampaignGuidanceRuleRecord;
+}
+
 export interface EventContext {
   readonly location: EventLocation | null;
   readonly socialContext: string | null;
@@ -731,6 +746,7 @@ export interface EventContext {
   readonly choice: string | null;
   readonly motivation: string | null;
   readonly immediateReaction: string | null;
+  readonly campaignGuidanceAnswer?: string;
 }
 
 export interface HistoricalEvent extends LawEffectStampedRecord {
@@ -940,6 +956,7 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
@@ -1212,7 +1229,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -3640,6 +3658,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -3860,6 +3880,14 @@ export interface CandidateTally {
   readonly voteShare: number;
 }
 
+export interface ElectionPrecinctTally {
+  readonly townId: EntityId;
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
+}
+
 export interface ElectionContestResultRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3868,6 +3896,8 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  /** Present when every recorded ballot has saved precinct membership. */
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
 }
@@ -3887,6 +3917,7 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly provenance?: ElectionContestProvenance;
 }
 
@@ -4046,6 +4077,10 @@ export interface CampaignComplianceDocumentRecord {
     | "60-day-preelection"
     | "30-day-preelection"
     | "15-day-preelection"
+    | "quarterly"
+    | "pre-election"
+    | "post-election"
+    | "year-end"
     | "30-day-postelection"
     | "correction";
   readonly periodStart: IsoDate | null;
@@ -4053,7 +4088,7 @@ export interface CampaignComplianceDocumentRecord {
   readonly dueOn: IsoDate;
   readonly status: "draft" | "filed";
   readonly visibility: "committee-private" | "public-record";
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly filedAt: IsoDate | null;
   readonly amendsDocumentId: EntityId | null;
   readonly correctionReason: string | null;

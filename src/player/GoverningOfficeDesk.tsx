@@ -101,13 +101,14 @@ export function GoverningOfficeDesk({
             <li key={member.personId} data-testid="office-staff-member">
               <strong>{member.name}</strong>
               <span>{member.roleTitle}</span>
-              <span
-                className="game-note"
-                data-testid="office-staff-assignment"
-                data-problem={member.assignment ? undefined : "no-assignment"}
-              >
-                {member.assignment ?? "—"}
-              </span>
+              {member.assignment ? (
+                <span
+                  className="game-note"
+                  data-testid="office-staff-assignment"
+                >
+                  {member.assignment}
+                </span>
+              ) : null}
               <time className="game-note" dateTime={member.startedAt}>
                 {proseDate(member.startedAt)}
               </time>
@@ -138,13 +139,11 @@ export function GoverningOfficeDesk({
               <time className="game-note" dateTime={measure.introducedAt}>
                 {proseDate(measure.introducedAt)}
               </time>
-              <span
-                className="game-note"
-                data-testid="office-measure-stage"
-                data-problem={measure.lastAction ? undefined : "filed-only"}
-              >
-                {measure.lastAction?.replaceAll("-", " ") ?? "—"}
-              </span>
+              {measure.lastAction ? (
+                <span className="game-note" data-testid="office-measure-stage">
+                  {measure.lastAction.replaceAll("-", " ")}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>
@@ -241,13 +240,9 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
           <dt>{program.capacity.unitLabel}</dt>
           <dd>{`${program.capacity.inService} / ${program.capacity.total}`}</dd>
           <dd>{program.capacity.monthlyNeed}</dd>
-          <dd
-            data-problem={
-              program.capacity.restorationCost ? undefined : "not-established"
-            }
-          >
-            {program.capacity.restorationCost ?? "—"}
-          </dd>
+          {program.capacity.restorationCost !== null ? (
+            <dd>{program.capacity.restorationCost}</dd>
+          ) : null}
           {program.monthsCovered ? (
             <>
               <dd>{program.monthsCovered}</dd>
@@ -285,12 +280,9 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
           {program.commitments.map((commitment) => (
             <li key={commitment.id} data-testid="office-program-commitment">
               <strong>{commitment.alternativeTitle}</strong>
-              <span
-                className="game-note"
-                data-problem={commitment.total ? undefined : "no-money"}
-              >
-                {commitment.total ?? "—"}
-              </span>
+              {commitment.total !== null ? (
+                <span className="game-note">{commitment.total}</span>
+              ) : null}
               <span className="game-note" data-authority={commitment.authority}>
                 <time dateTime={commitment.recordedAt}>
                   {proseDate(commitment.recordedAt)}

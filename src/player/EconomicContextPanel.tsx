@@ -14,13 +14,9 @@ import {
 export { LEXINGTON_ECONOMIC_BINDING } from "../presentation/economic-context-bindings";
 import { proseDate } from "../presentation/prose-dates";
 import {
-  carriedLocalFigureLine,
-  carriedLocalFigures,
   periodInWords,
   placeInWords,
 } from "../presentation/local-economy-carried";
-import type { CarriedLocalFigure } from "../presentation/local-economy-carried";
-import type { World } from "../simulation";
 import { averageTwoBedroomRent } from "../presentation/rent-estimate";
 import "./economic-context-panel.css";
 
@@ -44,13 +40,6 @@ interface EconomicContextPanelProps {
    * information and are shown either way.
    */
   readonly diagnostics?: boolean;
-  /**
-   * The world and the home jurisdiction, when the caller has them: after the
-   * last real edition the panel then also shows where the world's own economy
-   * has taken the town's rent, income and unemployment.
-   */
-  readonly world?: World;
-  readonly jurisdictionId?: string;
 }
 
 type LoadState =
@@ -67,8 +56,6 @@ export function EconomicContextPanel({
   provider = DEFAULT_PROVIDER,
   fiscalGraphs = [],
   diagnostics = false,
-  world,
-  jurisdictionId,
 }: EconomicContextPanelProps) {
   const [state, setState] = useState<LoadState>({ status: "loading" });
 
@@ -84,10 +71,7 @@ export function EconomicContextPanel({
         if (current) {
           setState({
             status: "error",
-            message:
-              error instanceof Error
-                ? error.message
-                : "Economic context could not be loaded.",
+            message: error instanceof Error ? error.message : "load-failed",
           });
         }
       });
@@ -109,16 +93,19 @@ export function EconomicContextPanel({
      */
     if (diagnostics)
       return (
-        <section className="economic-context-panel" role="status">
-          <h2>Economic context unavailable</h2>
-          <p>{state.message}</p>
-        </section>
+        <section
+          className="economic-context-panel"
+          role="status"
+          data-problem="load-failed"
+          data-detail={state.message}
+        />
       );
     return (
-      <section className="economic-context-panel" role="status">
-        <h2>Figures unavailable</h2>
-        <p>Figures: none</p>
-      </section>
+      <section
+        className="economic-context-panel"
+        role="status"
+        data-problem="figures-unavailable"
+      />
     );
   }
   return (
@@ -127,11 +114,6 @@ export function EconomicContextPanel({
       fiscalGraphs={fiscalGraphs}
       diagnostics={diagnostics}
       stateFips={stateFipsOf(binding)}
-      carried={
-        world && jurisdictionId
-          ? carriedLocalFigures(world, jurisdictionId, state.context)
-          : []
-      }
     />
   );
 }
@@ -140,13 +122,11 @@ export function EconomicContextView({
   context,
   fiscalGraphs = [],
   diagnostics = false,
-  carried = [],
   stateFips = null,
 }: {
   readonly context: BrowserEconomicContextResult;
   readonly fiscalGraphs?: readonly EconomicGraphModel[];
   readonly diagnostics?: boolean;
-  readonly carried?: readonly CarriedLocalFigure[];
   /** Where to average a rent from when the place has no figure of its own. */
   readonly stateFips?: string | null;
 }) {
@@ -191,17 +171,13 @@ export function EconomicContextView({
     >
       <header className="economic-context-header">
         <div>
-          <p className="economic-context-kicker">How the place is doing</p>
           <h2 id="economic-context-title">{context.placeLabel}</h2>
         </div>
         <span>{proseDate(context.simulationDate)}</span>
       </header>
 
       {diagnostics ? (
-        <p className="economic-context-boundary">
-          These are sourced observations known by this date—not simulated
-          history or a forecast of what a proposal will do.
-        </p>
+        <p className="economic-context-boundary" data-basis="observed" />
       ) : null}
 
       {/*
@@ -228,25 +204,6 @@ export function EconomicContextView({
         </ul>
       ) : null}
 
-      {carried.length > 0 ? (
-        <section
-          className="economic-carried"
-          aria-label="Where things stand now"
-          data-testid="economic-carried"
-        >
-          <h3>Where things stand now</h3>
-          <p className="game-note">
-            These have moved with prices, output and jobs in this world since
-            the time each one started from.
-          </p>
-          <ul>
-            {carried.map((figure) => (
-              <li key={figure.key}>{carriedLocalFigureLine(figure)}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
       {graphs.length > 0 ? (
         <div className="economic-graph-grid">
           {graphs.map((graph) => (
@@ -258,11 +215,15 @@ export function EconomicContextView({
           ))}
         </div>
       ) : (
-        <p role="status">
-          {context.withheldFutureObservationCount > 0
-            ? `Figures held until published: ${context.withheldFutureObservationCount}`
-            : "Figures: none"}
-        </p>
+        <p
+          role="status"
+          data-problem={
+            context.withheldFutureObservationCount > 0
+              ? "figures-withheld"
+              : "no-figures"
+          }
+          data-withheld-count={context.withheldFutureObservationCount}
+        />
       )}
 
       {!hasRent && !diagnostics && stateFips ? (
@@ -299,10 +260,6 @@ export function EconomicContextView({
               </li>
             ))}
           </ul>
-          <p>
-            Reference periods, product vintages, release dates, retrieval dates,
-            and the simulation date remain separate. Missing data stays missing.
-          </p>
         </details>
       ) : null}
     </section>
@@ -336,7 +293,6 @@ export function EconomicGraph({
     <figure className="economic-graph" data-graph-kind={graph.kind}>
       <figcaption>
         <strong>{graph.title}</strong>
-        {graph.description && <span>{graph.description}</span>}
         {/*
           Ordinary play names the place and the unit. The provider's level
           vocabulary, its footnote mark and the day the figure reached the
@@ -450,27 +406,27 @@ export function EconomicGraph({
             </thead>
             <tbody>
               {graph.series.flatMap((series) =>
-                series.points.map((point) => (
-                  <tr key={point.pointKey}>
-                    <th scope="row">{seriesName(series)}</th>
-                    <td>
-                      {diagnostics ? point.period : periodInWords(point.period)}
-                    </td>
-                    {diagnostics ? (
-                      <td>{recordClassLabel(point.recordClass)}</td>
-                    ) : null}
-                    {diagnostics ? (
-                      <td>{point.releaseStatus ?? "Not established"}</td>
-                    ) : null}
-                    <td>
-                      {point.value === null
-                        ? diagnostics
-                          ? `Missing — ${point.missingReason ?? "No value supplied"}`
-                          : "—"
-                        : formatGraphValue(point.value, graph.unit)}
-                    </td>
-                  </tr>
-                )),
+                series.points.flatMap((point) =>
+                  point.value === null
+                    ? []
+                    : [
+                        <tr key={point.pointKey}>
+                          <th scope="row">{seriesName(series)}</th>
+                          <td>
+                            {diagnostics
+                              ? point.period
+                              : periodInWords(point.period)}
+                          </td>
+                          {diagnostics ? (
+                            <td>{recordClassLabel(point.recordClass)}</td>
+                          ) : null}
+                          {diagnostics ? (
+                            <td>{point.releaseStatus ?? "Not established"}</td>
+                          ) : null}
+                          <td>{formatGraphValue(point.value, graph.unit)}</td>
+                        </tr>,
+                      ],
+                ),
               )}
             </tbody>
           </table>
@@ -604,17 +560,14 @@ function EstimatedRent({ stateFips }: { readonly stateFips: string }) {
     <figure className="economic-graph" data-testid="economic-rent-estimate">
       <figcaption>
         <strong>Two-bedroom rent</strong>
-        <span>
-          Estimated from the average for this state; this place has no figure of
-          its own.
-        </span>
+        <span data-basis="ESTIMATED FROM AVERAGE">State average</span>
       </figcaption>
       <p className="economic-graph-latest">
-        {`About ${new Intl.NumberFormat("en-US", {
+        {`${new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
           maximumFractionDigits: 0,
-        }).format(rent)} per month`}
+        }).format(rent)} USD per month`}
       </p>
     </figure>
   );

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
+import poseData from "../../data/content/pose-by-activity.json" with { type: "json" };
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
@@ -396,15 +397,18 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const speaker = placed.find(
       (person) => person.personId === present[0]!.personId,
     );
-    if (speaker) expect(speaker.engine.pose).toBe("explaining");
+    const speaking = poseData.activities.speaking.front.stand.map(
+      (entry) => entry.pose,
+    );
+    if (speaker) expect(speaking).toContain(speaker.engine.pose);
     else
       expect(
         placed.overflow.find(
           (person) => person.personId === present[0]!.personId,
         )?.reason,
       ).toBe("missing-art");
-    expect(spotPose({ x: 50, y: 50, pose: "stand" }, "speaking")).toBe(
-      "explaining",
+    expect(speaking).toContain(
+      spotPose({ x: 50, y: 50, pose: "stand" }, "speaking"),
     );
   });
 });
