@@ -810,6 +810,24 @@ export function votingPrecinctOfPerson(
     : null;
 }
 
+/** Resolve a person's saved precinct from their recorded primary home. */
+export function savedVotingPrecinctOfPerson(
+  world: World,
+  personId: EntityId,
+  asOf: IsoDate = world.currentDate,
+): {
+  readonly townId: EntityId;
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+} | null {
+  const townId = primaryPrecinctHome(world, personId, asOf);
+  if (!townId) return null;
+  const membership = votingPrecinctOfPerson(world, townId, personId, asOf);
+  return membership
+    ? { townId, precinctKey: membership.precinctKey, mapId: membership.mapId }
+    : null;
+}
+
 function writePrecinctEvent(
   world: World,
   townId: EntityId,
