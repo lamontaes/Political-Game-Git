@@ -760,7 +760,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2480 | Bind tax terms through one authority table | PR #2480 (session9/generic-tax-term-binding) | open: draft: finish it or close it as superseded | |
 | RS-2481 | LW-07: add city tax term rows | PR #2481 (codex/session30-lw07) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2483 | B06 Part 6: Share the office casework choices | PR #2483 (session28/b06-p6-shared-casework-choices) | open: sent back: failed its own changed checks: eslint | |
-| RS-2486 | B07 P4: add poll sampling and ballot foundations | PR #2486 (session29-b07-p4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2486 | B07 P4: add poll sampling and ballot foundations | PR #2486 (session29-b07-p4) | ready #2486; gates in PR | Session 40 |
 | RS-2487 | b10-p3: record committee requests and seat assignments | PR #2487 (codex/session-33-b10-p3) | open: draft: finish it or close it as superseded | |
 | RS-2488 | feat(traits): connect voluntary effort to another-term choices | PR #2488 (codex/session49-lw01) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2489 | B06 Part 2: Open a case for each office contact | PR #2489 (session28/b06-p2-open-cases) | open: sent back: failed its own changed checks: tests; rebase on main (conflicts) | |
