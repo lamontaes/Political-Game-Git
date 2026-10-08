@@ -50,7 +50,6 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { recordedRoomPresence } from "./recorded-room-presence";
-import { shortPersonName } from "./conversation-subjects";
 import { composeDayOpening } from "./day-opening-english";
 import {
   lapseVenueActivity,
@@ -302,7 +301,9 @@ export function projectOrdinaryDay(
     placeName,
     placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
     waitingIds: pendingIds,
-    housemateName: companion ? shortPersonName(world, companion.id) : null,
+    // Someone the player lives with goes by their first name ("Jeffrey is
+    // home."), never the family name alone ("Chapman is home.").
+    housemateName: companion ? companion.givenName : null,
     housemateSourceIds: companion
       ? [companion.id, ...householdSourceIds(world, personId)]
       : [],
