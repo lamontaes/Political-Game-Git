@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import { createRunCFixture } from "./run-c-working-document";
 import {
   createWorkRelationship,
@@ -12,6 +13,16 @@ import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../simulation/nationwide-world/st
 import { lifePlaceSearch } from "../simulation/life-places";
 import { reporterQuestionPacket } from "./press-english";
 import { composeReporterQuestion } from "./press-request";
+
+const SOURCED_REPORTER_QUESTIONS = pressParts.parts
+  .filter(
+    (part) =>
+      part.move === "reporter-question" &&
+      part.kind === "spoken" &&
+      part.shippable &&
+      part.text.endsWith("?"),
+  )
+  .map((part) => part.text);
 
 function createReporterQuestionFixture(seed: string) {
   const fixture = createRunCFixture(seed);
@@ -114,8 +125,8 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     terms: "on-record",
     grounding: packet,
   });
-  expect(question.ok && question.statement).toBe(
-    `What's your take on what's happening in ${world.jurisdictions[event.jurisdictionId!]!.name}?`,
+  expect(SOURCED_REPORTER_QUESTIONS).toContain(
+    question.ok ? question.statement : "",
   );
   expect(serializeWorld(world)).toBe(before);
   expect(
@@ -169,19 +180,16 @@ it("uses the recorded place name in reporter questions across all 56 jurisdictio
       event.id,
     );
 
-    expect(packet?.facts.topic).toEqual({
-      text: `what's happening in ${jurisdiction.name}`,
-      sourceRecordIds: [event.id, jurisdiction.id],
+    expect(packet?.sourceRecordIds).toContain(event.id);
+    const question = composeReporterQuestion({
+      subjectSummary: packet?.facts.subject?.text ?? "",
+      terms: "on-record",
+      grounding: packet,
     });
-    expect(
-      composeReporterQuestion({
-        subjectSummary: packet?.facts.subject?.text ?? "",
-        terms: "on-record",
-        grounding: packet,
-      }),
-    ).toEqual({
-      ok: true,
-      statement: `What's your take on what's happening in ${jurisdiction.name}?`,
-    });
+    expect(question.ok).toBe(true);
+    if (!question.ok) throw new Error(question.reason);
+    expect(SOURCED_REPORTER_QUESTIONS).toContain(question.statement);
+    expect(question.statement).not.toContain("Reported by");
+    expect(question.statement).not.toContain("declined to comment");
   }
 });

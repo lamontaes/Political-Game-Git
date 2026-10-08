@@ -8,6 +8,7 @@ import {
   composeGroundedLine,
   type ComposedLineBank,
 } from "./english-composition";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import type {
   GroundedEnglishFact,
   GroundedEnglishPacket,
@@ -20,20 +21,22 @@ export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
     version: "1",
     surface: "dialogue",
     act: "ask",
-    // The reporter asks from their own question parts only. The development
-    // they know is the matter on the desk, not something they read aloud: a
-    // finished news line ("declined to comment. Reported by…") belongs to the
-    // story after the answer, never to the question.
     parts: {
       core: {
-        variants: [
-          {
-            key: "your-take",
-            kind: "template",
-            text: "What's your take on {{topic}}?",
+        variants: pressParts.parts
+          .filter(
+            (part) =>
+              part.move === "reporter-question" &&
+              part.kind === "spoken" &&
+              part.shippable &&
+              part.text.endsWith("?"),
+          )
+          .map((part) => ({
+            key: part.key,
+            kind: "template" as const,
+            text: part.text,
             requiresFacts: ["subject"],
-          },
-        ],
+          })),
       },
     },
   },
@@ -254,8 +257,6 @@ export function reporterQuestionPacket(
       ? { text: publication.body, sourceRecordIds: [publication.id, event.id] }
       : null;
   const facts: Record<string, GroundedEnglishFact> = subject ? { subject } : {};
-  const topic = subject ? spokenTopic(world, event) : null;
-  if (topic) facts.topic = topic;
 
   return {
     surface: "dialogue",
@@ -318,40 +319,4 @@ export function composePressLine(
     bank,
   );
   return result.kind === "rendered" ? result : null;
-}
-
-/**
- * What a reporter calls the development in speech, from its records: the
- * measure ("the vote on the Farm Act" when a recorded vote is behind it), or
- * else the place it happened ("what's happening in Allegany County"). Never
- * the summary line itself.
- */
-function spokenTopic(
-  world: World,
-  event: World["history"]["events"][number],
-): GroundedEnglishFact | null {
-  const action = (world.history.legislativeActions ?? []).find(
-    (row) => row.eventId === event.id,
-  );
-  const measure = action
-    ? (world.history.legislativeMeasures ?? []).find(
-        (row) => row.id === action.measureId,
-      )
-    : undefined;
-  if (action && measure)
-    return {
-      text: action.voteId
-        ? `the vote on ${measure.shortTitle}`
-        : measure.shortTitle,
-      sourceRecordIds: [measure.id, action.id],
-    };
-  const place = event.jurisdictionId
-    ? world.jurisdictions[event.jurisdictionId]
-    : undefined;
-  return place
-    ? {
-        text: `what's happening in ${place.name}`,
-        sourceRecordIds: [event.id, place.id],
-      }
-    : null;
 }

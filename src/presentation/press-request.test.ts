@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import {
   CHIEF_EXECUTIVE_JURISDICTIONS,
   chiefExecutiveJurisdictionName,
@@ -12,6 +13,16 @@ import {
 } from "./press-request";
 
 import type { GroundedEnglishPacket } from "./grounded-english";
+
+const SOURCED_REPORTER_QUESTIONS = pressParts.parts
+  .filter(
+    (part) =>
+      part.move === "reporter-question" &&
+      part.kind === "spoken" &&
+      part.shippable &&
+      part.text.endsWith("?"),
+  )
+  .map((part) => part.text);
 // Authored test packets are explicit fixtures, never a production fallback.
 function fixturePacket(texts: readonly string[]): GroundedEnglishPacket {
   const facts = Object.fromEntries(
@@ -36,25 +47,6 @@ function fixturePacket(texts: readonly string[]): GroundedEnglishPacket {
       factKey,
       sourceRecordIds: fact.sourceRecordIds,
     })),
-  };
-}
-/** The spoken topic a reporter packet carries, as reporterQuestionPacket adds it. */
-function withTopic(
-  packet: GroundedEnglishPacket,
-  text: string,
-): GroundedEnglishPacket {
-  const topic = { text, sourceRecordIds: ["fixture:topic"] };
-  return {
-    ...packet,
-    facts: { ...packet.facts, topic },
-    knowledge: [
-      ...packet.knowledge,
-      {
-        personId: packet.speaker!.personId,
-        factKey: "topic",
-        sourceRecordIds: topic.sourceRecordIds,
-      },
-    ],
   };
 }
 function composePressAnswer(
@@ -109,18 +101,15 @@ describe("ordinary press structured statements", () => {
     expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
     for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
       const name = chiefExecutiveJurisdictionName(usps);
+      const subject = `The council published the hearing notice in ${name}.`;
       const question = composeReporterQuestion({
-        subjectSummary: "The council published the hearing notice.",
+        subjectSummary: subject,
         terms: "on-record",
-        grounding: withTopic(
-          fixturePacket(["The council published the hearing notice."]),
-          `what's happening in ${name}`,
-        ),
+        grounding: fixturePacket([subject]),
       });
-      expect(question).toEqual({
-        ok: true,
-        statement: `What's your take on what's happening in ${name}?`,
-      });
+      expect(question.ok).toBe(true);
+      if (!question.ok) throw new Error(question.reason);
+      expect(SOURCED_REPORTER_QUESTIONS).toContain(question.statement);
       expect(question.ok && question.statement).not.toContain("Reported by");
       expect(question.ok && question.statement).not.toContain(
         "declined to comment",
