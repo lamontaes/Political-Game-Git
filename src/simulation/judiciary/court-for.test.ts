@@ -5,6 +5,7 @@ import {
   openObserverWorld,
 } from "../../presentation/observer-world";
 import { addDays } from "../dates";
+import { createStableId } from "../ids";
 import { currentLifeCutoff } from "../life-queries";
 import {
   lifePlaceStateIdentities,
@@ -79,6 +80,36 @@ describe("one finder reads saved courts", () => {
         ),
         `${state.jurisdictionKey}: saved court venue`,
       ).toBe(old[0]);
+    }
+  });
+
+  it("records an outlook for seated trial judges across all 56 places", () => {
+    const at = world();
+    for (const place of lifePlaceStateIdentities()) {
+      const jurisdictionId = stateJurisdictionForKey(place.jurisdictionKey)!.id;
+      const court = courtFor(
+        at,
+        jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      )!;
+      const holders = seatsForCourt(at, court.courtId)
+        .map((seat) => seatHolderAt(at, seat.seatId, at.currentDate))
+        .filter((holder) => holder !== null);
+      expect(holders.length, place.jurisdictionKey).toBeGreaterThan(0);
+      for (const holder of holders) {
+        expect(
+          at.judiciary!.philosophies.some(
+            (record) =>
+              record.recordId ===
+              createStableId(
+                "judicial-philosophy",
+                `${holder.personId}:seating:${holder.tenureId}`,
+              ),
+          ),
+          `${place.jurisdictionKey}:${holder.personId}`,
+        ).toBe(true);
+      }
     }
   });
 
