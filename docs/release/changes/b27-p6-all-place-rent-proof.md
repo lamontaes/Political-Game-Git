@@ -1,0 +1,1 @@
+The housing records now have an all-state-and-territory test proving each playable jurisdiction can start a sourced rent lease and expose a positive housing bill. American Samoa and the Northern Mariana Islands are checked against their estimated HUD baselines.
