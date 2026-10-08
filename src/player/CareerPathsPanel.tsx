@@ -1,13 +1,9 @@
 import { useState } from "react";
 import type { World } from "../simulation/types";
-import {
-  CAREER_PROVIDERS,
-  CAREER_SOURCE_CONTEXT,
-} from "../presentation/career-path7-provider";
+import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
 import {
   startCareerWork,
   careerEligibility,
-  careerExpectedStart,
   careerOfferAccepted,
   seekCareerOffer,
   respondCareerOffer,
@@ -23,10 +19,6 @@ import type { LifePathResult } from "../simulation/life-paths2";
 import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { projectPracticalOpportunities } from "../presentation/practical-opportunities";
 import { InlineDayControl } from "./controls/InlineDayControl";
-import { nationalMedianWageSentence } from "../presentation/career-wage";
-import { proseDate } from "../presentation/prose-dates";
-import { addDays } from "../simulation/dates";
-import { JOB_MARKET_PLACEHOLDER as JOB_MARKET_TIMING } from "../simulation/job-market";
 export function CareerPathsPanel({
   world,
   onWorldChange,
@@ -35,13 +27,11 @@ export function CareerPathsPanel({
   readonly onWorldChange: (w: World) => void;
 }) {
   const [selected, setSelected] = useState(CAREER_PROVIDERS[0]!.id),
-    [notice, setNotice] = useState(""),
     [query, setQuery] = useState(""),
     [wide, setWide] = useState(false);
   const p = CAREER_PROVIDERS.find((p) => p.id === selected)!;
   const path = lifePathDefinition(p.pathId);
   const act = (r: LifePathResult) => {
-    setNotice(r.message);
     if (r.ok) onWorldChange(r.world);
   };
   if (world.control.kind !== "person") return null;
@@ -60,7 +50,6 @@ export function CareerPathsPanel({
           e.type === "career-path7.offer" && e.involvedEntityIds.includes(r.id),
       ),
   );
-  const source = CAREER_SOURCE_CONTEXT.find((r) => r.id === p.occupationCode)!;
   const reason = careerEligibility(world, p);
   return (
     <section aria-label="Career opportunities">
@@ -84,13 +73,10 @@ export function CareerPathsPanel({
             <strong>{choice.path.title}</strong>
             <small>
               {employerName(choice.path)} ·{" "}
-              {choice.relationshipId
-                ? choice.status
-                : (choice.unavailable ?? "Meets the listed entry requirements")}
+              {choice.relationshipId ? choice.status : null}
             </small>
           </button>
         ))}
-        {choices.length === 0 ? <p>No matching work is listed.</p> : null}
       </div>
       <button
         type="button"
@@ -100,55 +86,22 @@ export function CareerPathsPanel({
         {wide ? "Show suggested work" : "Browse all listed work"}
       </button>
       <h4>{path.title}</h4>
-      <p>
-        {employerName(path)} pays ${(path.sessionPayMinor / 100).toFixed(2)} for
-        a completed {path.sessionMinutes}-minute shift, on the following day.
-      </p>
-      <p>{path.responsibility}</p>
       <button
         disabled={!!reason}
         onClick={() => act(seekCareerOffer(world, p))}
       >
         Seek an offer
       </button>
-      {reason && <p>{reason}</p>}
-      {/*
-       * What this work pays nationally is a fact about the job, and a player
-       * choosing between two of them wants it. Where the game read it is not,
-       * so the occupation code, the record id and the publisher attribution
-       * that used to sit above it stay on the record instead of on this
-       * screen.
-       */}
-      {world.currentDate >= "2026-09-09" && source.wage && (
-        <p>{nationalMedianWageSentence(source.wage)}</p>
-      )}
       {mine.map((r) => {
         const status = workStatusAt(world, r.id)?.status;
         // Accepting leaves the status at "expected" until work begins, so an
         // accepted offer is told apart by its acceptance, not its status.
         const accepted =
           status === "expected" && careerOfferAccepted(world, r.id);
-        const expectedStart = careerExpectedStart(world, r.id) ?? r.startedAt;
-        const startReached = expectedStart <= world.currentDate;
-        const calledBack = expectedStart !== r.startedAt;
-        const beginBy = addDays(
-          expectedStart,
-          JOB_MARKET_TIMING.missedStartGraceDays,
-        );
         return (
           <article key={r.id}>
             <h4>{workRoleAt(world, r.id)?.title}</h4>
-            <p>
-              {accepted
-                ? startReached
-                  ? `${calledBack ? "The employer called when you did not come in, and still wants you." : "You accepted this offer."} Begin work by ${proseDate(beginBy)}, or they may withdraw it.`
-                  : `You accepted this offer. Work begins ${proseDate(expectedStart)}.`
-                : status === "expected"
-                  ? "Offer awaiting your response"
-                  : status === "ended"
-                    ? (workStatusAt(world, r.id)?.reason ?? "Engagement ended")
-                    : status}
-            </p>
+            <p>{status}</p>
             {status === "expected" ? (
               <>
                 {accepted ? null : (
@@ -167,7 +120,6 @@ export function CareerPathsPanel({
                     >
                       Refuse offer
                     </button>
-                    <p>Starts {proseDate(r.startedAt)}.</p>
                   </>
                 )}
                 {/*
@@ -181,8 +133,9 @@ export function CareerPathsPanel({
                   personId={actor}
                   label="Wait one day"
                   testid="career-paths-wait-day"
-                  onOutcome={setNotice}
-                  unavailableNote="Waiting a day is not offered here: this panel is open outside the play shell, which owns the one clock."
+                  onOutcome={() => {}}
+                  unavailableNote=""
+                  showContext={false}
                 />
                 {accepted ? (
                   <button onClick={() => act(startCareerWork(world, r.id, p))}>
@@ -216,18 +169,12 @@ export function CareerPathsPanel({
                     ].includes(e.type) && e.involvedEntityIds.includes(r.id),
                 )
                 .map((e) => (
-                  <li key={e.id}>
-                    {e.occurredAt}: {e.summary}
-                  </li>
+                  <li key={e.id}>{e.occurredAt}</li>
                 ))}
             </ul>
           </article>
         );
       })}
-      {/* The clock's own report is several lines; keep them as lines. */}
-      <p role="status" style={{ whiteSpace: "pre-line" }}>
-        {notice}
-      </p>
     </section>
   );
 }

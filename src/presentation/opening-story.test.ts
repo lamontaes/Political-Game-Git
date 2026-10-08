@@ -61,14 +61,12 @@ describe("In the year 2026", () => {
           /\d\.\d% of people looking for work/.test(line),
         ),
       ).toBe(true);
-      // Each headline is one the World published, not written here.
-      const published = new Set(
-        world.history.publications.map((publication) => publication.headline),
-      );
-      expect(view.headlines.length).toBeGreaterThan(0);
-      expect(view.headlines.length).toBeLessThanOrEqual(2);
-      for (const headline of view.headlines)
-        expect(published.has(headline)).toBe(true);
+      // Every masthead and headline comes from the same published record.
+      expect(view.publications.length).toBeLessThanOrEqual(2);
+      for (const publication of view.publications)
+        expect(world.history.publications).toContainEqual(
+          expect.objectContaining(publication),
+        );
     }
   });
 });
@@ -193,7 +191,9 @@ describe("Your county and town", () => {
     expect(minneapolis.officials.some((line) => /, Mayor of /.test(line))).toBe(
       true,
     );
-    expect(minneapolis.matters.length).toBeGreaterThan(0);
+    // No ready-made local proposal is seeded into a new life
+    // (ensureLivingWorldDevelopments); a matter appears only once a real
+    // writer records one, and then it is a posted proposal.
     for (const matter of minneapolis.matters)
       expect(matter).toMatch(/posted a proposal/);
     // Lexington records no seated mayor, so none is named.

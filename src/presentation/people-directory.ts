@@ -17,6 +17,10 @@ import {
 import { currentLifeCutoff } from "../simulation/life-queries";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { householdIdFor } from "./person-dossier";
+import {
+  heardOfficialViews,
+  type HeardOfficialView,
+} from "../simulation/heard-official-views";
 
 /**
  * Everybody this life actually has, sorted into the categories a player thinks
@@ -70,6 +74,10 @@ export interface DirectoryPerson {
 }
 
 export interface PeopleDirectory {
+  /** Statements about this player they actually heard; never private standing. */
+  readonly heardViews: readonly (HeardOfficialView & {
+    readonly holderName: string;
+  })[];
   readonly people: readonly DirectoryPerson[];
   readonly counts: Readonly<Record<PersonCategory | "all", number>>;
   /**
@@ -84,12 +92,22 @@ export interface PeopleDirectory {
  * The most people a workplace or group can hold, besides you, before being in
  * it stops meaning you know them all.
  *
- * PLACEHOLDER, NOT RESEARCH: filed as `how-many-colleagues-a-person-knows`.
+ * ESTIMATED FROM AVERAGE: 20, near the size of a close team or classroom, where
+ * everyone sees everyone daily; no survey gives the exact cutoff. Filed as
+ * `how-many-colleagues-a-person-knows`.
  * Below it, sharing a workplace is still enough to know somebody, as before.
  * Above it — a legislative chamber, a large employer — a colleague is somebody
  * you know once the two of you have something on the record.
  */
 export const EVERYBODY_KNOWS_EVERYBODY_LIMIT = 20;
+
+/** Where the limit above comes from. */
+export const EVERYBODY_KNOWS_LIMIT_PROVENANCE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game estimate near the size of a close team or classroom where everyone sees everyone daily",
+} as const;
 
 function addCategory(
   into: Map<EntityId, Set<PersonCategory>>,
@@ -289,7 +307,11 @@ export function projectPeopleDirectory(
   }
   notYetMet.sort((left, right) => left.name.localeCompare(right.name));
 
-  return { people, counts, notYetMet };
+  const heardViews = heardOfficialViews(world, playerId).map((view) => ({
+    ...view,
+    holderName: personName(world.people[view.holderId]!),
+  }));
+  return { people, counts, notYetMet, heardViews };
 }
 
 /** Filters the directory the way the screen's controls do, and nowhere else. */

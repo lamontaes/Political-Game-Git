@@ -1,3 +1,4 @@
+import { conversationRegister } from "./conversation-register";
 import { speakerTraits } from "./speaker-traits";
 import { ageOnDate } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
@@ -90,9 +91,11 @@ const COMPANY_DECLINE: ComposedLineBank = {
           requiresFacts: ["wants-new"],
         },
         {
-          key: "something-different",
+          // Owner grade REWRITE, eng-20261006-1925:3: the old "I'm in the mood
+          // for something different." read awkward.
+          key: "something-else",
           kind: "template",
-          text: "I'm in the mood for something different.",
+          text: "I feel like doing something else.",
           requiresFacts: ["wants-new"],
         },
         {
@@ -112,7 +115,18 @@ const COMPANY_DECLINE: ComposedLineBank = {
     closer: {
       variants: [
         { key: "another-time", kind: "template", text: "Maybe another time." },
-        { key: "thanks-asking", kind: "template", text: "Thanks for asking." },
+        {
+          key: "thanks-asking",
+          kind: "template",
+          text: "Thanks for asking.",
+          registers: ["small-talk"],
+        },
+        {
+          key: "maybe-later",
+          kind: "template",
+          text: "Maybe later.",
+          registers: ["family"],
+        },
       ],
     },
   },
@@ -309,7 +323,7 @@ function compose(
     recentPartKeys: history
       .slice(-6)
       .flatMap((event) => linePartsOf(event.tags) ?? []),
-    register: "small-talk",
+    register: conversationRegister(world, speakerId, playerPersonId),
   });
   return line.kind === "rendered"
     ? { text: line.text, parts: line.parts }

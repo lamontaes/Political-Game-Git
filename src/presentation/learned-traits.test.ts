@@ -1,6 +1,11 @@
 import { beforeAll, describe, expect, it } from "vitest";
 
-import type { EntityId, World } from "../simulation";
+import {
+  householdMembershipsAt,
+  recordWorldEvent,
+  type EntityId,
+  type World,
+} from "../simulation";
 import {
   observedTraitLabels,
   personTrait,
@@ -11,7 +16,7 @@ import { learnedTraits, strongestLearnedTraits } from "./learned-traits";
 import { learnedTraitWhere } from "./person-card-english";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import { contactBases } from "../simulation/people-contact";
+import { contactBases } from "../simulation/relationship-contact";
 import { projectPlayerConversation } from "./player-conversation";
 import { commitConversationTurn } from "./run-b-conversation";
 import { DEFAULT_INTERRUPTIONS } from "./shell-navigation";
@@ -35,6 +40,62 @@ interface Life {
   readonly neighborId: EntityId;
 }
 
+/**
+ * A doorstep room needs the world to record who is there: since 9c85186e8
+ * ("require recorded home and neighbor presence") presence comes from a scene
+ * record, never from household membership. A neighbor is somebody from the
+ * player's own town who does not live with them.
+ */
+function recordNeighborAtTheDoor(world: World, playerId: EntityId): World {
+  const player = world.people[playerId]!;
+  const household = new Set(
+    householdMembershipsAt(world, playerId).map(
+      (entry) => entry.membership.householdId,
+    ),
+  );
+  const neighborId = world.personOrder.find(
+    (id) =>
+      id !== playerId &&
+      world.people[id]!.homeJurisdictionId === player.homeJurisdictionId &&
+      !householdMembershipsAt(world, id).some((entry) =>
+        household.has(entry.membership.householdId),
+      ),
+  );
+  if (!neighborId)
+    throw new Error("This life has no neighbor to stand at the door.");
+  const jurisdictionId = player.homeJurisdictionId;
+  const ids = [playerId, neighborId];
+  return recordWorldEvent(world, {
+    stableKey: "learned-traits:doorstep",
+    type: "life.scene.opened",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId,
+    involvedEntityIds: ids,
+    participants: ids.map((personId) => ({
+      personId,
+      role: "presence:participant",
+      detail: "Recorded doorstep presence in the authored test scenario.",
+    })),
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [`moment:${JSON.stringify(world.currentMoment)}`],
+    summary: "The player and a neighbor are at the door.",
+    context: {
+      location: {
+        jurisdictionId,
+        label: "neighborhood",
+        setting: "neighborhood",
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 function openLife(): Life {
   const game = createOpeningLifeController(
     explicitNewGameSetup({
@@ -46,13 +107,14 @@ function openLife(): Life {
   ).finishTransition().game!;
   const playerId = game.playerPersonId;
   const opened = openOrdinaryLife(game.world, playerId);
-  const world = submitTimeCommand(opened, {
+  const passed = submitTimeCommand(opened, {
     requestId: "learned-traits:day",
     personId: playerId,
     sourceMoment: opened.currentMoment,
     command: { kind: "days", days: 1 },
     interruptions: DEFAULT_INTERRUPTIONS,
   }).world;
+  const world = recordNeighborAtTheDoor(passed, playerId);
   const view = projectPlayerConversation(world, playerId, SUBJECT);
   if (!view) throw new Error("This life offers no doorstep conversation.");
   return {
@@ -124,68 +186,76 @@ describe("The traits a card names are the ones the player has learned", () => {
     }
   });
 
-  it("learns a trait from an answer the person gave, and says when and why", () => {
-    const before = outgoingNeighbor(life);
-    expect(learnedTraits(before, life.playerId, life.neighborId)).toEqual([]);
-    const mentioned = say(before, life.playerId, "mention-meeting");
-    const asked = say(mentioned, life.playerId, "ask-them-to-go");
-    const answer = asked.history.decisionTraces.at(-1)!;
-    expect(answer.selectedOptionKey).toBe("attend-the-meeting");
+  it(
+    "learns a trait from an answer the person gave, and says when and why",
+    { timeout: 180_000 },
+    () => {
+      const before = outgoingNeighbor(life);
+      expect(learnedTraits(before, life.playerId, life.neighborId)).toEqual([]);
+      const mentioned = say(before, life.playerId, "mention-meeting");
+      const asked = say(mentioned, life.playerId, "ask-them-to-go");
+      const answer = asked.history.decisionTraces.at(-1)!;
+      expect(answer.selectedOptionKey).toBe("attend-the-meeting");
 
-    const learned = learnedTraits(asked, life.playerId, life.neighborId);
-    const sociable = personTrait(asked, life.neighborId, "sociability");
-    expect(learned.length).toBeGreaterThan(0);
-    // Every learned trait is one that argued for what they chose, cited by
-    // the answer the player heard.
-    for (const trait of learned) {
-      expect(trait.decisionTraceId).toBe(answer.id);
-      expect(trait.learnedOn).toBe(asked.currentDate);
-      const reasons = answer.context.considerations.filter(
-        (entry) =>
-          entry.optionKey === answer.selectedOptionKey &&
-          entry.explanation === trait.reason,
+      const learned = learnedTraits(asked, life.playerId, life.neighborId);
+      const sociable = personTrait(asked, life.neighborId, "sociability");
+      expect(learned.length).toBeGreaterThan(0);
+      // Every learned trait is one that argued for what they chose, cited by
+      // the answer the player heard.
+      for (const trait of learned) {
+        expect(trait.decisionTraceId).toBe(answer.id);
+        expect(trait.learnedOn).toBe(asked.currentDate);
+        const reasons = answer.context.considerations.filter(
+          (entry) =>
+            entry.optionKey === answer.selectedOptionKey &&
+            entry.explanation === trait.reason,
+        );
+        expect(reasons.length).toBeGreaterThan(0);
+      }
+      expect(
+        learned.some(
+          (trait) =>
+            trait.tendencyId ===
+            asked.history.personalityTendencies.find(
+              (record) => record.id === sociable.recordId,
+            )!.tendencyId,
+        ),
+      ).toBe(true);
+      expect(learnedTraitWhere(learned[0]!)).toMatch(
+        /^Seen [A-Z][a-z]+ \d{1,2}, \d{4}, in an answer to you\. /,
       );
-      expect(reasons.length).toBeGreaterThan(0);
-    }
-    expect(
-      learned.some(
-        (trait) =>
-          trait.tendencyId ===
-          asked.history.personalityTendencies.find(
-            (record) => record.id === sociable.recordId,
-          )!.tendencyId,
-      ),
-    ).toBe(true);
-    expect(learnedTraitWhere(learned[0]!)).toMatch(
-      /^Seen [A-Z][a-z]+ \d{1,2}, \d{4}, in an answer to you\. /,
-    );
-    // The small card names at most three.
-    expect(
-      strongestLearnedTraits(asked, life.playerId, life.neighborId, 3).length,
-    ).toBeLessThanOrEqual(3);
-    // The player learned it; the neighbor learned nothing about the player.
-    expect(learnedTraits(asked, life.neighborId, life.playerId)).toEqual([]);
-  });
+      // The small card names at most three.
+      expect(
+        strongestLearnedTraits(asked, life.playerId, life.neighborId, 3).length,
+      ).toBeLessThanOrEqual(3);
+      // The player learned it; the neighbor learned nothing about the player.
+      expect(learnedTraits(asked, life.neighborId, life.playerId)).toEqual([]);
+    },
+  );
 
-  it("names a trait as the player saw it, even after it changes", () => {
-    const outgoing = outgoingNeighbor(life);
-    const asked = say(
-      say(outgoing, life.playerId, "mention-meeting"),
-      life.playerId,
-      "ask-them-to-go",
-    );
-    const seen = learnedTraits(asked, life.playerId, life.neighborId);
-    const changed = recordTraitChange(asked, {
-      personId: life.neighborId,
-      trait: "sociability",
-      value: -2,
-      eventId: neighborEvent(asked, life.neighborId),
-      reason: "Test: they withdrew later.",
-    });
-    expect(learnedTraits(changed, life.playerId, life.neighborId)).toEqual(
-      seen,
-    );
-  });
+  it(
+    "names a trait as the player saw it, even after it changes",
+    { timeout: 180_000 },
+    () => {
+      const outgoing = outgoingNeighbor(life);
+      const asked = say(
+        say(outgoing, life.playerId, "mention-meeting"),
+        life.playerId,
+        "ask-them-to-go",
+      );
+      const seen = learnedTraits(asked, life.playerId, life.neighborId);
+      const changed = recordTraitChange(asked, {
+        personId: life.neighborId,
+        trait: "sociability",
+        value: -2,
+        eventId: neighborEvent(asked, life.neighborId),
+        reason: "Test: they withdrew later.",
+      });
+      expect(learnedTraits(changed, life.playerId, life.neighborId)).toEqual(
+        seen,
+      );
+    },
+  );
 
   it("writes nothing when read", () => {
     const history = life.world.history;

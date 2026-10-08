@@ -12,18 +12,16 @@ import { PRESS_CONTRACT_VERSION } from "./records";
 import { sortedUnique } from "./shared";
 
 /**
- * ESTIMATED FROM AVERAGE. When a committee files its spending report and what
- * each line says. Monthly matches the federal monthly filer schedule; it is
- * not any one jurisdiction's filing calendar or line-item rules. Filed with
- * the research queue as `campaign-expenditure-reports`. A researched schedule
- * replaces this one under a new version.
+ * ESTIMATED FROM THE GAME'S RECORDED COMMITTEE REPORTS. The comparison set is
+ * every state and local committee, which previously used the same 30-day
+ * candidate-payment reporting interval. Each line uses facts recorded on a
+ * completed resource flow: payee, date, purpose and amount. This is not a
+ * claim about a jurisdiction's filing calendar; `campaign-expenditure-reports`
+ * can replace it with sourced place rows.
  */
-export const SPENDING_REPORTS_ESTIMATE = {
-  version: "campaign-spending-reports-unresearched-v1",
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "the Federal Election Commission's monthly filer schedule for committees",
+export const RECORDED_SPENDING_REPORTS = {
+  version: "campaign-spending-reports-recorded-v1",
+  provenance: "recorded-game-rule-from-committee-report-intervals",
   /** A committee files a report covering its new spending once a month. */
   intervalDays: 30,
 } as const;
@@ -166,7 +164,7 @@ export function produceCampaignSpendingReports(world: World): World {
     const last = own.at(-1);
     if (
       last &&
-      addDays(last.occurredAt, SPENDING_REPORTS_ESTIMATE.intervalDays) >
+      addDays(last.occurredAt, RECORDED_SPENDING_REPORTS.intervalDays) >
         world.currentDate
     )
       continue;
@@ -203,7 +201,7 @@ export function produceCampaignSpendingReports(world: World): World {
       visibility: "public",
       tags: [
         PRESS_CONTRACT_VERSION,
-        SPENDING_REPORTS_ESTIMATE.version,
+        RECORDED_SPENDING_REPORTS.version,
         "campaign-finance:spending-report",
         // A routine filing is a record to read, not news by itself: what a
         // reader finds in it reaches the paper through the scrutiny routes.

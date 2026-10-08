@@ -10,7 +10,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../dates";
 import { CRIME_EVENT_TYPES } from "../crime/producer";
 import { recordWorldEvent } from "../world";
 import {
@@ -24,8 +24,11 @@ import { serializeWorld } from "../serialization";
 import type { MacroMonthRecord } from "../macro-economy/types";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
+import { votingPrecinctOfPerson } from "../living-world/town-wards";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_TRANSITION_KEY,
+  TOWN_HOME_REVIEW_INTERVAL_DAYS,
   MIGRATION_SEAMS,
   WAVE_CATALOG,
   activeWavesCovering,
@@ -88,12 +91,20 @@ describe("migration scaffold", () => {
   const town = opened.world.people[opened.playerId]!.homeJurisdictionId;
   const oregon = stateJurisdictionForKey("US-OR")!.id;
 
-  it("schedules a quarterly review for a current opening", () => {
-    expect(
-      opened.world.history.futureDueItems.some(
-        (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
-      ),
-    ).toBe(true);
+  it("schedules the first town review on the opening date", () => {
+    const review = opened.world.history.futureDueItems.find(
+      (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
+    );
+    expect(review?.dueAt).toBe(addDays(opened.world.currentDate, 1));
+  });
+
+  it("schedules a separate monthly review for household housing changes", () => {
+    const review = opened.world.history.futureDueItems.find(
+      (item) => item.transitionKey === TOWN_HOME_REVIEW_TRANSITION_KEY,
+    );
+    expect(review?.dueAt).toBe(
+      addDays(opened.world.currentDate, TOWN_HOME_REVIEW_INTERVAL_DAYS),
+    );
   });
 
   it("moves a person living alone, closing the old residence and recording why", () => {
@@ -129,6 +140,31 @@ describe("migration scaffold", () => {
         waveKey: null,
       }),
     ]);
+  });
+
+  it("assigns a resident arriving in a town to its saved voting precinct", () => {
+    const world = createCharacterHistoryContextPeople(opened.world, [
+      {
+        stableKey: "migration-test:precinct-arrival",
+        givenName: "Avery",
+        familyName: "Rivera",
+        birthDate: makeIsoDate("1980-03-14"),
+        homeJurisdictionId: oregon,
+      },
+    ]);
+    const personId = characterHistoryContextPersonId(
+      world,
+      "migration-test:precinct-arrival",
+    );
+    const moved = relocateHousehold(world, {
+      stableKey: "migration-test:precinct-arrival-move",
+      personId,
+      toJurisdictionId: town,
+      reason: "work:transfer",
+      waveKey: null,
+    });
+    expect(moved.people[personId]!.homeJurisdictionId).toBe(town);
+    expect(votingPrecinctOfPerson(moved, town, personId)).not.toBeNull();
   });
 
   it("refuses to move the player, somebody tied to the town, or a bad reason", () => {

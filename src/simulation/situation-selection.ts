@@ -91,8 +91,6 @@ export interface SituationCandidate {
 }
 
 export interface SituationSelectionInput {
-  /** Changes ordering only; absent legacy callers use today's standard weights. */
-  readonly intensity?: ChallengeIntensity;
   /**
    * Deterministic and derived from the world seed and the persisted priors.
    * It decides ordering only; it never reaches a generator, so it cannot
@@ -108,6 +106,8 @@ export interface SituationSelectionInput {
   readonly recentKeys: readonly SelectableSituationKey[];
   /** The last few tiers, newest last, for the pacing guard. */
   readonly recentStakes: readonly LifeStakesTier[];
+  /** Defaults to the standard ordering for old callers and saved lives. */
+  readonly challenge?: ChallengeIntensity;
 }
 
 /**
@@ -217,7 +217,7 @@ export function rankSituations(
     const pacingPenalty = pacingPenaltyFor(
       candidate.stakes,
       recentLoad,
-      input.intensity ?? "standard",
+      input.challenge ?? "standard",
     );
     return {
       candidate,
@@ -324,24 +324,25 @@ function winsWithout(
   );
 }
 
-export const PACING_WEIGHTS: Readonly<
+// Game-tuning choices; all three settings rank the same eligible candidates.
+const PACING_WEIGHTS: Readonly<
   Record<
     ChallengeIntensity,
     { readonly pressure: number; readonly quiet: number }
   >
 > = {
-  quiet: { pressure: 1.8, quiet: 0.1 },
+  quiet: { pressure: 1.8, quiet: 0.2 },
   standard: { pressure: PACING_PENALTY, quiet: MONOTONY_PENALTY },
-  relentless: { pressure: 0.55, quiet: 0.8 },
+  relentless: { pressure: 0.6, quiet: 0.9 },
 };
 
 function pacingPenaltyFor(
   stakes: LifeStakesTier,
   recentLoad: number,
-  intensity: ChallengeIntensity,
+  challenge: ChallengeIntensity,
 ): number {
   const load = STAKES_LOAD[stakes];
-  const weights = PACING_WEIGHTS[intensity];
+  const weights = PACING_WEIGHTS[challenge];
   if (recentLoad >= 0.6) {
     // Recently demanding. A demanding candidate pays for it.
     return weights.pressure * load * recentLoad;

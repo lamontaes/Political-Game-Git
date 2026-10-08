@@ -3,7 +3,12 @@ import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
+  campaignState,
   campaignHelperCandidates,
+  campaignManagerCandidates,
+  campaignManagerOffer,
+  offerCampaignManager,
+  createWorkRelationship,
   candidacyPackById,
   createScenarioWorld,
   ensureCampaignOpponents,
@@ -18,8 +23,12 @@ import {
   addCampaignHelper,
   askToHelp,
   campaignHasHelper,
+  helperAskConsiderations,
 } from "./campaign-helpers";
 import { recordRelationshipInteraction } from "./records";
+import { createStableId } from "./ids";
+import { recordWorldEvent } from "./world";
+import { ensurePeopleTraits } from "./people-traits";
 import type { EntityId, World } from "./types";
 
 function filedCampaign(): {
@@ -119,6 +128,63 @@ describe("campaign helpers", () => {
     ).toThrow("A campaign manager requires a funded salary.");
   });
 
+  it("does not offer a manager salary the campaign cannot cover through election day", () => {
+    const filed = filedCampaign();
+    const personId = filed.people[0]!;
+    const knownWorld = recordRelationshipInteraction(filed.world, {
+      stableKey: "campaign-helper-test:known-manager",
+      personIds: [filed.candidatePersonId, personId],
+      eventId: null,
+      occurredAt: filed.world.currentDate,
+      kind: "contact:met-in-community",
+      change: "formed",
+      significance: "meaningful",
+      summary: "They met in their community.",
+      tags: [],
+    });
+    const experiencedWorld = createWorkRelationship(knownWorld, {
+      stableKey: "prior-campaign-work",
+      personId,
+      organizationId: null,
+      startedAt: addDays(knownWorld.currentDate, -60),
+      kind: "volunteer:campaign-staff",
+      compensation: "unpaid",
+      authority: "shared",
+      dependency: "independent",
+      economicRisk: "person-borne",
+      provenance: { kind: "authored", note: "Fixture campaign history." },
+      initialRole: {
+        title: "Campaign volunteer",
+        occupationClassification: "service:campaign-volunteer",
+        locationJurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 2, maximumHours: 12 },
+          attention: "moderate",
+          concurrency: "partly-concurrent",
+          scheduleRigidity: "flexible",
+          interruptibility: "interruptible",
+          locationJurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        },
+      },
+    });
+    expect(
+      campaignManagerCandidates(experiencedWorld, filed.campaignId),
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ personId, campaignWorkDays: 60 }),
+      ]),
+    );
+    expect(
+      campaignManagerOffer(experiencedWorld, filed.campaignId, personId)
+        ?.affordable,
+    ).toBe(false);
+    expect(() =>
+      offerCampaignManager(experiencedWorld, filed.campaignId, personId),
+    ).toThrow(
+      "The campaign cannot cover a manager's salary through election day.",
+    );
+  });
+
   it("asks a known person through a deterministic decision and records the answer", () => {
     const filed = filedCampaign();
     const personId = filed.people[0]!;
@@ -160,6 +226,131 @@ describe("campaign helpers", () => {
     );
     expect(first.accepted).toBe(
       campaignHasHelper(first.world, filed.campaignId, personId),
+    );
+  });
+
+  it("reads the last result, a recorded concession reaction, and a thank-you interaction on a later ask", () => {
+    const filed = filedCampaign();
+    const personId = filed.people[0]!;
+    const candidateId = filed.candidatePersonId;
+    let world = ensurePeopleTraits(filed.world, [personId]);
+    world = recordWorldEvent(world, {
+      stableKey: "campaign-helper-test:concession",
+      type: "campaign.concession",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+      involvedEntityIds: [candidateId, personId],
+      participants: [
+        { personId: candidateId, role: "focus:subject", detail: "Conceded" },
+        {
+          personId,
+          role: "observation:witness",
+          detail: "Heard the concession",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["campaign.election-night"],
+      summary: "The candidate conceded the election.",
+      context: {
+        location: null,
+        socialContext: "Election night",
+        pressure: null,
+        choice: "Concede",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const concession = world.history.events.at(-1)!;
+    world = recordWorldEvent(world, {
+      stableKey: "campaign-helper-test:concession:reception",
+      type: "speech.reception",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+      involvedEntityIds: [candidateId, personId],
+      participants: [
+        {
+          personId: candidateId,
+          role: "focus:subject",
+          detail: "Gave the speech",
+        },
+        {
+          personId,
+          role: "observation:witness",
+          detail: "Heard it and cheered",
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`speech.of:${concession.id}`],
+      summary: "The witness cheered.",
+      context: {
+        location: null,
+        socialContext: "Election night",
+        pressure: null,
+        choice: "React",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = recordRelationshipInteraction(world, {
+      stableKey: "campaign-helper-test:thanked-helper",
+      personIds: [candidateId, personId],
+      eventId: concession.id,
+      occurredAt: concession.occurredAt,
+      kind: "support:campaign-thanked",
+      change: "strengthened",
+      significance: "minor",
+      summary: concession.summary,
+      tags: ["campaign:thank-to-helper"],
+    });
+    const originalState = campaignState(world, filed.campaignId);
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        campaignStates: [
+          ...(world.history.campaignStates ?? []),
+          {
+            id: createStableId(
+              "campaign-state",
+              `${world.id}:campaign-helper-test:state:lost`,
+            ),
+            stableKey: "campaign-helper-test:state:lost",
+            sequence: world.history.nextSequence,
+            campaignId: filed.campaignId,
+            effectiveAt: world.currentDate,
+            status: "lost",
+            electionResultId: null,
+            reason: "The campaign ended.",
+            supersedesStateId: originalState.id,
+          },
+        ],
+      },
+    };
+
+    const considerations = helperAskConsiderations(
+      world,
+      personId,
+      candidateId,
+    );
+    expect(considerations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sourceType: "context:campaign-result",
+          optionKey: "decline",
+        }),
+        expect.objectContaining({
+          sourceType: "context:concession-reaction",
+          optionKey: "help",
+        }),
+        expect.objectContaining({
+          sourceType: "social:relationship",
+          explanation: "The candidate conceded the election.",
+        }),
+      ]),
     );
   });
 });

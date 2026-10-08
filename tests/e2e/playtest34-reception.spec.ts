@@ -197,7 +197,6 @@ test("birthday validates through actual creator keyboard/pointer controls and pe
     { age: 22, place: "Lexington", state: "Kentucky" },
     false,
   );
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("setup-advanced").locator("summary").press("Enter");
   const replay = (await page
     .getByTestId("setup-replay-link")

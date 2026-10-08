@@ -3,6 +3,7 @@ import type { EntityId, World } from "../simulation";
 import { buyHome } from "../simulation/home-purchase";
 import { refreshLifeOpportunities } from "../simulation/life-opportunities";
 import { projectHomePurchase } from "../presentation/home-purchase-view";
+import { dollars } from "../presentation/campaign-life-surface";
 
 /**
  * Owning a home, or buying one. Reads the projection; the only write is the
@@ -22,16 +23,28 @@ export function HomePurchasePanel({
   if (!view) return null;
   return (
     <section aria-label="Your home" data-testid="home-purchase">
-      <h3>{view.kind === "owns" ? "Your home" : view.headline}</h3>
+      <h3>{view.kind === "owns" ? "Your home" : "Buy a home"}</h3>
       {view.kind === "owns" ? (
-        <>
-          <p>{view.headline}</p>
-          {view.mortgageLine && <p>{view.mortgageLine}</p>}
-        </>
+        view.mortgageLeft && (
+          <dl>
+            <dt>Mortgage left</dt>
+            <dd>{dollars(view.mortgageLeft)}</dd>
+          </dl>
+        )
       ) : (
         <>
-          <p>{view.terms}</p>
-          {view.reason && <p className="game-note">{view.reason}</p>}
+          <dl>
+            <dt>House price</dt>
+            <dd>{dollars(view.price)}</dd>
+            <dt>Down payment</dt>
+            <dd>{dollars(view.downPayment)}</dd>
+            {view.monthlyPayment && (
+              <>
+                <dt>Mortgage per month</dt>
+                <dd>{dollars(view.monthlyPayment)}</dd>
+              </>
+            )}
+          </dl>
           <button
             type="button"
             data-testid="buy-home"
