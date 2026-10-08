@@ -107,6 +107,7 @@ export type EntityKind =
   | "childhood-entry"
   | "story-moment"
   | "story-intake"
+  | "story-thread-state"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -4691,6 +4692,55 @@ export interface StoryIntakeMark {
   readonly throughSequence: number;
 }
 
+/** How a thread changed (story director, part 2). */
+export type StoryThreadTurn =
+  "started" | "grew" | "soured" | "turned" | "faded" | "renewed" | "closed";
+
+/** A relationship line as a thread reads it: band 0 to 3, negative when adverse. */
+export interface StoryThreadLines {
+  readonly warmth: number;
+  readonly trust: number;
+  readonly respect: number;
+  readonly commitment: number;
+  readonly tension: number;
+}
+
+/**
+ * One change in one person's thread to another: written on a day a moment
+ * touches the pair, or when the pair's fade check comes due. Read the latest
+ * row of a pair for where the thread stands.
+ */
+export interface StoryThreadStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** Whose thread this is. */
+  readonly personId: EntityId;
+  /** The person the thread is to. */
+  readonly otherPersonId: EntityId;
+  /** When the change happened: the moment's date, or the fade check's. */
+  readonly occurredAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly turn: StoryThreadTurn;
+  /** The moment that caused the change, or null for a renewal by contact or a fade check. */
+  readonly momentId: EntityId | null;
+  /** The record behind the change: the moment's source, the contact, or the fade check. */
+  readonly sourceRecordId: EntityId;
+  /** The standing tie plus the moments, discounted by fading, as read on `recordedAt`. */
+  readonly importance: number;
+  /** The sum of the pair's moment salience so far, undiscounted. */
+  readonly momentSum: number;
+  /** The standing tie for kin and a shared home. */
+  readonly tie: number;
+  /** The absence reader's fading, 0 to 1, as read on `recordedAt`. */
+  readonly fading: number;
+  /** The absence reader's currency, or null with no contact on record. */
+  readonly currency:
+    "current" | "less-current" | "dormant" | "reconnecting" | null;
+  readonly lastContactOn: IsoDate | null;
+  readonly lines: StoryThreadLines;
+}
+
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
@@ -4698,6 +4748,8 @@ export interface HistoryStore {
   readonly storyMoments?: readonly StoryMomentRecord[];
   /** The story director's reading positions, one per intake that read anything. */
   readonly storyIntakeMarks?: readonly StoryIntakeMark[];
+  /** Changes in people's threads to one another, read with `storyThreadStatesOf`. */
+  readonly storyThreadStates?: readonly StoryThreadStateRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
