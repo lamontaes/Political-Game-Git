@@ -770,7 +770,16 @@ export function evaluateDetention(
             sourceRefs: [],
           },
         ],
-    considerations,
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        judgeId,
+        key,
+        "justice.pretrial-detention",
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
@@ -827,6 +836,13 @@ export function evaluateSentence(
       : [],
     considerations: [
       ...sentencingConsiderations(world, judgeId, courtCase, pleaded),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        judgeId,
+        key,
+        "justice.sentence",
+      ),
       ...(bound
         ? [
             {
