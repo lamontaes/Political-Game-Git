@@ -7776,9 +7776,20 @@
           "clipBelowY": 56,
           "role": "general",
           "id": "party-headquarters:spot:7"
+        },
+        {
+          "x": 12,
+          "y": 88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 88,
+          "seatY": 78,
+          "group": "desk",
+          "role": "general",
+          "id": "party-headquarters:spot:8"
         }
       ],
-      "measuredFrom": "folding table 0.75 m foot about 70 top 58; office chair 0.95 m",
+      "measuredFrom": "Folding table 0.75 m foot about 70 top 58; office chair 0.95 m. The fourth chair seat center at x about 12%, y 78% is estimated from party-headquarters__midday.jpg.",
       "surfaceSlots": []
     },
     "phone-bank-room": {

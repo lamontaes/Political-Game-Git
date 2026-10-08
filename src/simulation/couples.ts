@@ -35,13 +35,9 @@ import { recordWorldEvent } from "./world";
  * Every answer is the other person's, weighed from their own side through the
  * shared decision evaluator, and a no is as real as a yes.
  *
- * PLACEHOLDER, NOT RESEARCH: which considerations bear on saying yes, how much
- * each weighs, and how many dates come before asking are filed with ChatGPT as
- * `how-two-people-become-a-couple` (the rules) and
- * `how-american-couples-form-in-numbers` (the measured pace). The game has no
- * model of attraction; openness to company, how the two of them already
- * stand, and whether the person asked is already with somebody stand in until
- * those answers land.
+ * Answers draw on the person's own recorded traits, values, and relationship
+ * history. A fixed number of dates does not decide whether either person is
+ * ready to ask or say yes.
  */
 
 export const DATE_OCCASION = "date";
@@ -51,9 +47,6 @@ export const COUPLE_KIND = "romantic:couple";
 export const COUPLE_FORMED_EVENT = "life.couple-formed";
 export const COUPLE_DECLINED_EVENT = "life.couple-declined";
 export const COUPLE_ENDED_EVENT = "life.couple-ended";
-
-/** Calibration: kept dates before either of them may ask. See header. */
-export const DATES_BEFORE_ASKING = 2;
 
 const ADULT_AGE = 18;
 
@@ -212,23 +205,16 @@ export function romanticConsiderations(
     answererId,
     askerId,
   ).readings;
-  // How they stand is read from what passed between them; the latest of it
-  // is what the answer cites.
-  const latest = world.history.relationshipInteractions
-    .filter(
-      (interaction) =>
-        interaction.personIds.includes(answererId) &&
-        interaction.personIds.includes(askerId),
-    )
-    .at(-1);
-  const between = latest
-    ? [
-        {
-          kind: "relationship-interaction" as const,
-          interactionId: latest.id,
-        },
-      ]
-    : [];
+  // Cite the relationship evidence that actually formed each reading. This
+  // preserves the pair's full history and its recency inputs in the trace.
+  const warmthSources = readings.warmth.basis.map((interactionId) => ({
+    kind: "relationship-interaction" as const,
+    interactionId,
+  }));
+  const tensionSources = readings.tension.basis.map((interactionId) => ({
+    kind: "relationship-interaction" as const,
+    interactionId,
+  }));
   if (
     !readings.warmth.adverse &&
     (readings.warmth.band === "marked" || readings.warmth.band === "strong")
@@ -241,7 +227,7 @@ export function romanticConsiderations(
       importance: readings.warmth.band === "strong" ? "strong" : "moderate",
       confidence: "high",
       explanation: "They are glad of the other's company.",
-      sourceRefs: between,
+      sourceRefs: warmthSources,
     });
   }
   if (
@@ -256,7 +242,7 @@ export function romanticConsiderations(
       importance: "strong",
       confidence: "high",
       explanation: "Something between them is unsettled.",
-      sourceRefs: between,
+      sourceRefs: tensionSources,
     });
   }
   return considerations;
@@ -272,12 +258,6 @@ export function coupleAskRefusal(
   if (refusal) return refusal;
   if (coupleBetween(world, personId, otherId))
     return "You are already together.";
-  const dates = keptDates(world, personId, otherId).length;
-  if (dates < DATES_BEFORE_ASKING) {
-    return dates === 0
-      ? "You have not been out together yet."
-      : "You have only been out together once.";
-  }
   if (
     world.history.events.some(
       (event) =>
