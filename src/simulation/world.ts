@@ -1,4 +1,5 @@
 import { initializePersonCitizenship } from "./citizenship-creation";
+import { recordById as historyRecordById } from "./history-index";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -3772,9 +3773,7 @@ function validateFormationContext(
     }
   }
   for (const traceId of formation.decisionTraceIds) {
-    const trace = world.history.decisionTraces.find(
-      (candidate) => candidate.id === traceId,
-    );
+    const trace = historyRecordById(world.history.decisionTraces, traceId);
     if (
       !trace ||
       trace.context.actorPersonId !== personId ||
