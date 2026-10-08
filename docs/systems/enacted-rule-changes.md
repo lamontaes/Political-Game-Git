@@ -21,7 +21,7 @@ next amendment.
 ## Values and applicability
 
 Most fields take a whole number inside game bounds. `executive.term.years`
-and `executive.term.limit` exist for the executive-term consumer (Nationwide
+and `term.limit` exist for the executive-term consumer (Nationwide
 government lane), which owns what they mean. A term limit is a
 `TermLimitRule` (`maxConsecutiveTerms`, `maxLifetimeTerms`, `lookbackYears`)
 or null for no limit. A change may carry `applicability`
