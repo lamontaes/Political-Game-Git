@@ -8,7 +8,6 @@ export const facetNurturingEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-nurturing",
         pole: "high",
-        explanation: "They make time for another person's care and growth.",
       },
     ],
   },

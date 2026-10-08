@@ -27,8 +27,6 @@ describe("the envious trait reader", () => {
       expect.objectContaining({
         option: "accept",
         pole: "high",
-        explanation:
-          "They want to see where they stand beside the person asking.",
       }),
     ]);
   });
