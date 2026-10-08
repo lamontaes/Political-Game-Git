@@ -189,12 +189,12 @@ describe("whether somebody runs for another term", () => {
       },
     });
     const response: MatterResponseRecord = {
-      id: "test:resignation-call:record",
+      id: "test:resignation-call:record" as EntityId,
       stableKey: "test:resignation-call:record",
       sequence: 1,
       recordedAt: world.currentDate,
       kind: "matter-response",
-      matterId: "test:matter",
+      matterId: "test:matter" as EntityId,
       actorPersonId: playerId,
       actorRole: "party",
       response: "call-for-resignation",

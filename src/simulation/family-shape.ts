@@ -17,11 +17,6 @@ export interface DrawnFamilyShape {
   readonly estimate: ReturnType<typeof recordedFamilyEstimates>;
 }
 
-/** The current game's recorded two-parent share; no external distribution. */
-export function worldTwoParentShare(world: World): Spread | null {
-  return recordedFamilyEstimates(world).secondParent;
-}
-
 /**
  * Reuse a recorded family pattern from the game's observed spread, rather than
  * rolling a percentage or inventing a sibling ordering. Birth-year intervals

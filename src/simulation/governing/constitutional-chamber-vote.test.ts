@@ -291,11 +291,13 @@ describe("A79 recorded constitutional proposal uses the shared chamber vote", ()
         members: [base.members[0]!, base.members[0]!],
       }),
     ).toThrow(/actual dated congressional proposal/);
-    expect(() =>
-      chamber.decideChamberVote(world, {
-        ...base,
-        purpose: "ratification" as "proposal",
-      }),
-    ).toThrow(/actual dated congressional proposal/);
+    expect(
+      () =>
+        chamber.decideChamberVote(world, {
+          ...base,
+          purpose: "ratification" as "proposal",
+        }),
+      // A ratification vote names what it needs in ratification's own words.
+    ).toThrow(/actual federal proposal in ratification/);
   });
 });

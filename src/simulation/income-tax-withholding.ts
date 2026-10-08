@@ -1,4 +1,3 @@
-import { spreadOf, type Spread } from "./sample-spread";
 /**
  * Income tax withheld from one paycheck, federal and state.
  *
@@ -21,9 +20,15 @@ import { spreadOf, type Spread } from "./sample-spread";
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import stateHouseholdIncome2023 from "../../data/research/money/state-household-income-cps-2023.json" with { type: "json" };
 import { daysBetween } from "./dates";
+import { researchRuleTable } from "./research-rule-tables";
 import { activePartnershipsAt, householdMembershipsAt } from "./life-queries";
 import { childrenOf } from "./people-family";
-import type { EntityId, ResourceTransferOutcome, World } from "./types";
+import type {
+  EntityId,
+  IsoDate,
+  ResourceTransferOutcome,
+  World,
+} from "./types";
 import { censusRegionOf } from "./world-setup/census-regions";
 
 export type FilingStatus =
@@ -36,57 +41,64 @@ export interface IncomeTaxBracket {
 }
 
 export interface IncomeTaxSchedule {
+  readonly estimatedFrom?: string;
+  readonly taxYear?: number;
   readonly standardDeductionMinor: number;
   readonly brackets: readonly IncomeTaxBracket[];
   readonly sourceUrl: string;
 }
 
-export const FEDERAL_INCOME_TAX_SOURCE =
-  "https://www.irs.gov/newsroom/irs-releases-tax-inflation-adjustments-for-tax-year-2026-including-amendments-from-the-one-big-beautiful-bill";
+const FEDERAL_SCHEDULE_DATA = researchRuleTable("federalIncomeTaxes");
 
-/** Revenue Procedure 2025-32, whose Table 2 gives the head-of-household rates. */
-export const FEDERAL_HEAD_OF_HOUSEHOLD_SOURCE =
-  "https://www.irs.gov/pub/irs-drop/rp-25-32.pdf";
-
-const rates = [1000, 1200, 2200, 2400, 3200, 3500, 3700];
-const schedule = (
-  standardDeductionDollars: number,
-  thresholdsDollars: readonly number[],
-  sourceUrl: string = FEDERAL_INCOME_TAX_SOURCE,
-): IncomeTaxSchedule => ({
-  standardDeductionMinor: standardDeductionDollars * 100,
-  brackets: rates.map((rateBasisPoints, index) => ({
-    overMinor: index === 0 ? 0 : thresholdsDollars[index - 1]! * 100,
-    rateBasisPoints,
-  })),
-  sourceUrl,
-});
-
-/**
- * Tax year 2026, Revenue Procedure 2025-32 as the IRS announced it. Single:
- * the 56-place intake (checked September 22, 2026). Married filing jointly:
- * the same IRS announcement as a search summary read on September 28, 2026.
- * Head of household: the standard deduction ($24,150) from the announcement
- * and the brackets from the Revenue Procedure's Table 2, read on September 29,
- * 2026.
- */
+/** The versioned export remains available to existing source and fixture readers. */
 export const FEDERAL_INCOME_TAX_2026: Readonly<
   Record<FilingStatus, IncomeTaxSchedule | null>
-> = {
-  single: schedule(
-    16_100,
-    [12_400, 50_400, 105_700, 201_775, 256_225, 640_600],
-  ),
-  "married-filing-jointly": schedule(
-    32_200,
-    [24_800, 100_800, 211_400, 403_550, 512_450, 768_700],
-  ),
-  "head-of-household": schedule(
-    24_150,
-    [17_700, 67_450, 105_700, 201_750, 256_200, 640_600],
-    FEDERAL_HEAD_OF_HOUSEHOLD_SOURCE,
-  ),
-};
+> = FEDERAL_SCHEDULE_DATA.records.find(
+  (row) => row.taxYear === FEDERAL_SCHEDULE_DATA.baselineTaxYear,
+)!.schedules;
+export const FEDERAL_INCOME_TAX_SOURCE =
+  FEDERAL_INCOME_TAX_2026.single!.sourceUrl;
+export const FEDERAL_HEAD_OF_HOUSEHOLD_SOURCE =
+  FEDERAL_INCOME_TAX_2026["head-of-household"]!.sourceUrl;
+
+/** Missing years use the recorded schedules' median and retain the research gap. */
+export function federalIncomeTaxScheduleFor(
+  status: FilingStatus,
+  paidAt: IsoDate,
+): IncomeTaxSchedule {
+  const taxYear = Number(paidAt.slice(0, 4));
+  const read = FEDERAL_SCHEDULE_DATA.records.find(
+    (row) => row.taxYear === taxYear,
+  );
+  if (read) return read.schedules[status];
+  const references = FEDERAL_SCHEDULE_DATA.records.map(
+    (row) => row.schedules[status],
+  );
+  const reference = references[0]!;
+  const median = (values: readonly number[]) => {
+    const ordered = [...values].sort((a, b) => a - b);
+    const middle = Math.floor(ordered.length / 2);
+    return ordered.length % 2
+      ? ordered[middle]!
+      : (ordered[middle - 1]! + ordered[middle]!) / 2;
+  };
+  return {
+    taxYear,
+    estimatedFrom: FEDERAL_SCHEDULE_DATA.estimate.estimatedFrom,
+    sourceUrl: reference.sourceUrl,
+    standardDeductionMinor: median(
+      references.map((row) => row.standardDeductionMinor),
+    ),
+    brackets: reference.brackets.map((_, index) => ({
+      overMinor: median(
+        references.map((row) => row.brackets[index]!.overMinor),
+      ),
+      rateBasisPoints: median(
+        references.map((row) => row.brackets[index]!.rateBasisPoints),
+      ),
+    })),
+  };
+}
 
 interface StatePlace {
   readonly wageIncomeTax: string;
@@ -105,20 +117,6 @@ const STATE_PLACES = stateIncomeTax2026.places as Readonly<
 
 export { spreadOf } from "./sample-spread";
 export type { Spread } from "./sample-spread";
-
-/**
- * The single filer's standard deduction, in dollars, across the states with
- * this kind of wage income tax whose deduction was read.
- */
-export function stateDeductionSpread(shape: "flat" | "graduated"): Spread {
-  return spreadOf(
-    Object.values(STATE_PLACES).flatMap((place) =>
-      place.wageIncomeTax === shape && place.standardDeductionSingle !== null
-        ? [place.standardDeductionSingle]
-        : [],
-    ),
-  );
-}
 
 /**
  * The existing similar-state estimator's shared ranking step. Closeness comes

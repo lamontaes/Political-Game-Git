@@ -72,7 +72,7 @@ describe("a wage law's terms reach the actual payment", () => {
       })!;
       const stamp = {
         ...canonicalStamp,
-        effectKind: "minimum-wage-compensation",
+        effectKind: "minimum-wage-compensation" as const,
       };
       w = recordResourceFlowTerms(w, {
         stableKey: "stamp-raise",

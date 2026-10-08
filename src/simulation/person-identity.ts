@@ -164,11 +164,6 @@ export function personPronouns(person: Person | undefined): PronounSet {
   return key === undefined ? UNKNOWN_PRONOUNS : PRONOUN_SETS[key];
 }
 
-/** True when the world has actually been told, rather than falling back. */
-export function personIdentityIsStated(person: Person | undefined): boolean {
-  return person?.identity !== undefined;
-}
-
 export function personGender(person: Person | undefined): GenderIdentityKey {
   return person?.identity?.gender ?? "unstated";
 }
@@ -264,28 +259,4 @@ export function generatePersonIdentity(rng: SeededRng): PersonIdentity {
   const gender: GenderIdentityKey =
     at < female ? "female" : at < female + male ? "male" : "nonbinary";
   return { gender, pronouns: defaultPronounsForGender(gender) };
-}
-
-/**
- * The identity a person-generating writer should use, given what it was told.
- *
- * Callers that have an explicit identity — the player's own character, whose
- * gender the player chose — pass it through untouched. Callers that have
- * nothing get one generated from their own seeded stream.
- */
-export function resolvePersonIdentity(
-  explicit: PersonIdentity | undefined,
-  rng: SeededRng,
-): PersonIdentity {
-  return explicit ?? generatePersonIdentity(rng);
-}
-
-/** Rejects an identity the canonical record should not hold. */
-export function assertPersonIdentity(identity: PersonIdentity): void {
-  if (!GENDER_IDENTITY_KEYS.includes(identity.gender)) {
-    throw new Error(`Unsupported gender identity: ${identity.gender}`);
-  }
-  if (!PRONOUN_SET_KEYS.includes(identity.pronouns)) {
-    throw new Error(`Unsupported pronoun set: ${identity.pronouns}`);
-  }
 }

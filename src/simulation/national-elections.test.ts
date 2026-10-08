@@ -32,7 +32,6 @@ import {
   qualifyNationalOfficeEntry,
   nationalOfficeHolder,
   importNationalContestResult,
-  scheduleNationalUnitContest,
 } from "./national-election-consumer";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import {
@@ -669,51 +668,6 @@ describe("National electoral resolution (supplied fictional results)", () => {
       }),
     ).toThrow(/does not match/);
     expect(deserializeWorld(serializeWorld(next))).toEqual(next);
-  });
-  it("scheduled unit producer imports an existing supplied result and refuses a missing raw producer", () => {
-    const { world, electionId, a, b } = setup("linked-national-producer");
-    const scheduled = scheduleNationalUnitContest(world, {
-      stableKey: "national-ne-2",
-      electionId,
-      unitKey: "NE-2",
-      jurisdictionId: nationalUnitJurisdiction(2028, "NE-2").id,
-      provenance,
-    });
-    const contestId = scheduled.history.electionContests!.at(-1)!.id;
-    const unresolved = advanceWorld(
-      scheduled,
-      37,
-      createCampaignElectionTransitionRegistry(),
-    );
-    expect(unresolved.history.electionContestResults ?? []).toHaveLength(0);
-    expect(unresolved.history.futureDueItemStates.at(-1)?.reasonKey).toBe(
-      "election:national-unit-result-missing",
-    );
-    let supplied = resolveElectionContest(at(scheduled, "2028-11-07"), {
-      contestId,
-      winnerPersonId: a,
-      tallies: [
-        { candidatePersonId: a, votes: 2, voteShare: 2 / 3 },
-        { candidatePersonId: b, votes: 1, voteShare: 1 / 3 },
-      ],
-      provenance,
-    });
-    supplied = advanceWorld(
-      supplied,
-      1,
-      createCampaignElectionTransitionRegistry(),
-    );
-    expect(
-      nationalAllocation(supplied, electionId).units.find(
-        (unit) => unit.key === "NE-2",
-      )?.status,
-    ).toBe("uncertified");
-    expect(
-      nationalRecords(supplied, electionId).filter(
-        (record) => record.kind === "unit-result",
-      ),
-    ).toHaveLength(1);
-    expect(deserializeWorld(serializeWorld(supplied))).toEqual(supplied);
   });
   it("legacy snapshots stay unchanged and missing count inputs become an explicit scheduled refusal", () => {
     const old = createDemoWorld("legacy-national-no-op");

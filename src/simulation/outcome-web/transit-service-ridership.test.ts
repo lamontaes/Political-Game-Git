@@ -69,9 +69,9 @@ describe("transit service to ridership", () => {
     expect(link.lagMonths).toBe(12);
   });
 
-  it("raises rides half as much as causes raised service, a year later, in every place with transit data", () => {
+  it("raises rides half as much as causes raised service, a year later, in all 56 places", () => {
     const places = Object.keys(PLACE_OUTCOME_BASES[RIDES]!.places);
-    expect(places).toHaveLength(52);
+    expect(places).toHaveLength(56);
     for (const key of places) {
       const base = PLACE_OUTCOME_BASES[SERVICE]!.places[key]!;
       const up = worldWith([serviceRecord(key, "2028-07-01", base, 1.06)]);

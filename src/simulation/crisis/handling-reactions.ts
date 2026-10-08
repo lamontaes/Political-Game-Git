@@ -151,25 +151,6 @@ const LABELS: Readonly<Record<Reaction, string>> = {
   "no-action": "Say nothing",
 };
 
-/**
- * What a judged disaster decision does beyond its own record: voters in any
- * open race the decision-maker is running in move toward or away from them,
- * and, for the played character, their family, household and party
- * organizers, who read the public record, each decide what to say about it. Before this, a governor could let
- * thirteen requests for federal help lapse and the only trace was a line in
- * the paper (Nevada replay, 2026-09-22).
- *
- * The standard is the game's own (`handlingVerdict`); the sizes are
- * ESTIMATED FROM AVERAGE. What the President or national press say when asked about a
- * state's handling is not built: filed as `disaster-handling-reactions`.
- */
-export function applyDisasterHandlingReactions(
-  world: World,
-  response: DisasterResponseRecord,
-): World {
-  return resolveDisasterHandlingReactions(world, response).world;
-}
-
 function resolveDisasterHandlingReactions(
   world: World,
   response: DisasterResponseRecord,

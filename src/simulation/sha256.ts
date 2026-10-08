@@ -164,18 +164,6 @@ export function sha256Hex(text: string): string {
 }
 
 /**
- * The digest's leading bits as a number, for "lowest hash wins" ordering.
- *
- * Forty-eight bits, because that is the widest prefix a double can hold
- * exactly. Comparing the whole digest as a decimal would round, and two
- * candidates whose digests differ only past the rounding point would compare
- * equal — which is the one thing a tie-break may not do.
- */
-export function sha256Ordinal(text: string): number {
-  return Number.parseInt(sha256Hex(text).slice(0, 12), 16);
-}
-
-/**
  * Orders candidates by digest, lowest first, with the digested text itself as
  * the final separator so the order is total even in the (practically
  * impossible) event of a prefix collision.

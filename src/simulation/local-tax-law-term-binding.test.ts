@@ -63,6 +63,7 @@ function fixture(unit: GovernmentUnitIdentity, instrument: LocalTaxInstrument) {
     publicOrganizationId: id("recipient"),
     publicGovernmentIdentity: identity,
     power: localTaxPowerEvidenceFor({
+      asOf: date,
       ...government,
       governmentKey: unit.id,
       instrument,

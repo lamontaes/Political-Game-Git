@@ -12,7 +12,7 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { searchLifePlaces } from "../index";
-import type { World } from "../types";
+import type { Person, World } from "../types";
 import { schedulePoliticalReflectionForExposure } from "./political-reflection-schedule";
 import { politicalReflectionTransitionHandler } from "./political-reflection";
 import { politicalOutcomeFactors } from "./political-reflection-outcomes";
@@ -91,24 +91,28 @@ function worldAtState(
     value: 100 * causeFactor,
     causes: [{ key: outcomeLink.key, factor: causeFactor }],
   };
+  const moved: Person =
+    person.detailLevel === "materialized"
+      ? {
+          ...person,
+          homeJurisdictionId: jurisdiction.id,
+          establishedFacts: person.establishedFacts.map(moveCurrentResidence),
+          details: {
+            ...person.details,
+            generatedFacts:
+              person.details.generatedFacts.map(moveCurrentResidence),
+          },
+        }
+      : {
+          ...person,
+          homeJurisdictionId: jurisdiction.id,
+          establishedFacts: person.establishedFacts.map(moveCurrentResidence),
+        };
   const world: World = {
     ...base.world,
     people: {
       ...base.world.people,
-      [base.personId]: {
-        ...person,
-        homeJurisdictionId: jurisdiction.id,
-        establishedFacts: person.establishedFacts.map(moveCurrentResidence),
-        ...(person.detailLevel === "materialized"
-          ? {
-              details: {
-                ...person.details,
-                generatedFacts:
-                  person.details.generatedFacts.map(moveCurrentResidence),
-              },
-            }
-          : {}),
-      },
+      [base.personId]: moved,
     },
     placeOutcomes: {
       months: [{ month: currentDate, records: [outcome] }],

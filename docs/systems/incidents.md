@@ -112,19 +112,13 @@ active/resolved phase history with an open namespaced phase key and mandatory
 ordinary event. States supersede the prior state rather than mutating an
 incident. Resolved incidents remain historical/queryable.
 
-`IncidentTransitionPlanRecord` owns the durable meaning of a delayed phase:
-incident, due date, target state, phase/reason/context, optional typed
-consequences, provenance, and global sequence. `scheduleIncidentTransition`
-creates one ordinary Run A due item with transition key `incident:transition`
-and exactly the plan ID as its reference. A plan may be scheduled only while
-its source state (the latest state before the plan sequence) is also the latest
-active state. Integrity reconstructs that same source state and requires it to
-equal the latest active state before the due item's own sequence, as well as
-the date/scope/provenance and one-plan/one-due identity. A normal due handler
-records the phase and state exactly once. If later incident history already
-resolves or advances the incident, the now-obsolete item terminally cancels with
-`incident:already-resolved` or `incident:state-advanced`; time can cross the
-frontier without rewriting history or silently scheduling a replacement.
+`IncidentTransitionPlanRecord` is the saved shape of a delayed phase: incident,
+due date, target state, phase/reason/context, optional typed consequences,
+provenance, and global sequence. Nothing writes or schedules one in play, and
+the plan route has been removed; integrity still validates any plan a save
+holds. A live incident changes stage when its caller re-checks the world and
+calls `recordIncidentStage`, which writes an ordinary phase event and a state
+that supersedes the latest one on the current date.
 
 Cutoff-aware APIs provide incident identity, latest state, active incidents,
 definition/kind-and-scope selection, causal root, and the associated ordinary

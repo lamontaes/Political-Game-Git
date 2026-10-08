@@ -401,11 +401,6 @@ export function affiliationAt(
   };
 }
 
-/** No registered committee or ballot access is represented; a label grants neither. */
-export function partyBallotStatusAt(): "not-represented" {
-  return "not-represented";
-}
-
 export function partyPlatformAt(
   world: World,
   organizationId: EntityId,

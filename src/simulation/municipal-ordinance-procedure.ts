@@ -93,7 +93,6 @@ import {
 } from "./municipal-government";
 import {
   municipalActionAuthority,
-  municipalMeasureKey,
   municipalMeasures,
   municipalSeats,
 } from "./municipal-public-work";
@@ -1523,17 +1522,4 @@ export function admitCouncilAction(
           `${localRule.source.citation} before its ${local.operativeOn} amendment was not retrieved; only ${generalRule.source.citation} is applied on this date.`,
         ],
   };
-}
-
-/** The measure stable key an ordinance of this designation is filed under. */
-export function municipalOrdinanceMeasureKey(
-  governmentKey: string,
-  designation: string,
-): string {
-  return municipalMeasureKey(governmentKey, designation);
-}
-
-/** Convenience for callers holding only a measure id. */
-export function municipalOrdinanceMeasure(world: World, measureId: EntityId) {
-  return requireMeasure(world, measureId);
 }
