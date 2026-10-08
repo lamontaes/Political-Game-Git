@@ -1,5 +1,6 @@
 import exciseEstimates from "../../data/research/money/selective-excise-authority-estimates.json" with { type: "json" };
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
+import { businessTaxOwnersAt } from "./business-tax-payers";
 import {
   queryFiscalAuthority,
   type PortableFiscalAuthorityRecord,
@@ -22,6 +23,7 @@ import {
 import { isTypedPropertyTax } from "./property-tax-schedule";
 import {
   isStateTaxInstrument,
+  STATE_TAX_INSTRUMENT_BY_FAMILY,
   stateTaxPowerEvidenceFor,
 } from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
@@ -530,7 +532,7 @@ export function attachTaxProposal(
       : localGovernment && localInstrument
         ? localTaxTermsQuestionKey(localGovernment.level, localInstrument)
         : stateInstrument
-          ? `us-tax-terms:state.${stateInstrument}-tax-terms`
+          ? `us-tax-terms:state.${Object.entries(STATE_TAX_INSTRUMENT_BY_FAMILY).find(([, instrument]) => instrument === stateInstrument)![0]}-tax-terms`
           : "us-tax-terms:state.excise-tax-terms";
   const exciseQuestion = (measure.propositionIds ?? [])
     .map((id) => world.policyCatalog.propositions[id])
@@ -599,7 +601,12 @@ export function attachTaxProposal(
 }
 
 export function taxLevyText(terms: TaxTerms): string {
-  if (terms.baseUnit) return canonicalJson(terms);
+  if (
+    terms.baseUnit ||
+    terms.instrument === "corporate-income" ||
+    terms.instrument === "wage-income"
+  )
+    return canonicalJson(terms);
   const effectiveDelayDays = terms.effectiveDelayDays ?? 90;
   const effectiveDelay =
     effectiveDelayDays === 90 ? "ninety days" : `${effectiveDelayDays} days`;
@@ -1019,13 +1026,21 @@ function taxBaseMatchesOccurrenceSource(
     source.jurisdictionId === base.jurisdictionId &&
     (source.kind === "event"
       ? base.recordedAt === base.occurredAt &&
-        (!isTaxQuantity(base.amount) ||
-          (base.payer.kind === "person" &&
-            source.eventRecord.involvedEntityIds.includes(
-              base.payer.personId,
-            ) &&
-            source.eventRecord.context.choice ===
-              canonicalJson({ amount: base.amount, baseKey: base.baseKey })))
+        (source.eventRecord.type === "tax.declared-occurrence" ||
+        source.eventRecord.type === "tax.corporate-income-assessed"
+          ? source.eventRecord.context.choice ===
+            canonicalJson({
+              amount: base.amount,
+              baseKey: base.baseKey,
+              payer: base.payer,
+            })
+          : !isTaxQuantity(base.amount) ||
+            (base.payer.kind === "person" &&
+              source.eventRecord.involvedEntityIds.includes(
+                base.payer.personId,
+              ) &&
+              source.eventRecord.context.choice ===
+                canonicalJson({ amount: base.amount, baseKey: base.baseKey })))
       : canonicalJson(base.payer) === canonicalJson(source.payer) &&
         canonicalJson(base.amount) === canonicalJson(source.amount))
   );
@@ -1508,7 +1523,11 @@ function exposePayer(
                     active.membership.householdId === payer.householdId,
                 ),
             )
-        : [];
+        : payer.kind === "organization"
+          ? businessTaxOwnersAt(world, payer.organizationId).map(
+              (owner) => owner.personId,
+            )
+          : [];
   let next = world;
   for (const personId of personIds)
     next = recordLawExposure(next, {

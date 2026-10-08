@@ -66,7 +66,8 @@ export interface TaxTerms {
   readonly legalBaselineAssumption:
     "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
   /** Which local tax this is. Absent means the original selective excise. */
-  readonly instrument?: "property" | "sales" | "payroll" | "corporate-income";
+  readonly instrument?:
+    "property" | "sales" | "payroll" | "corporate-income" | "wage-income";
 }
 
 interface TaxHistoryRoot {

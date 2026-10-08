@@ -1,0 +1,8 @@
+{
+  "ownerWorkKind": "independent:business-owner",
+  "payerControlLabel": "Payer",
+  "chooseControlLabel": "Choose",
+  "declarationControlLabel": "Declare company occurrence",
+  "source": "Existing business-owner work records; IRS corporate-income tax is paid by the corporation, separately from its owner",
+  "estimatedFrom": "IRS corporate returns and the model's recorded business-owner relationship; no ownership percentage or personal distribution is inferred"
+}

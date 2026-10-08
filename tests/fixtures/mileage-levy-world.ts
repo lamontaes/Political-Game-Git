@@ -22,6 +22,10 @@ import {
 } from "../../src/simulation/tax-policy";
 import { createWorld } from "../../src/simulation/world";
 import type { TaxTerms } from "../../src/simulation/tax-types";
+import {
+  stateTaxPowerEvidenceFor,
+  isStateTaxInstrument,
+} from "../../src/simulation/state-tax-authority";
 
 export const MILEAGE_TEST_TERMS: TaxTerms = {
   seriesKey: "tax:test-mileage",
@@ -32,7 +36,7 @@ export const MILEAGE_TEST_TERMS: TaxTerms = {
   allowanceMinorUnits: 0,
   rateNumerator: 2,
   rateDenominator: 1,
-  currency: "USD",
+  currency: money(0, "USD").currency,
   exemptBaseKeys: [],
   collectionLagDays: 2,
   publicPurpose: "Fixture road services",
@@ -41,7 +45,10 @@ export const MILEAGE_TEST_TERMS: TaxTerms = {
   legalBaselineAssumption: "carry-forward-acquired-baseline-in-game",
 };
 
-export function createMileageLevyWorld() {
+export function createMileageLevyWorld(
+  terms: TaxTerms = MILEAGE_TEST_TERMS,
+  questionKey: string = MILEAGE_FEE_QUESTION,
+) {
   const scenario = createLegislativeScenario("alaska");
   let world = createWorld({
     seed: scenario.world.seed,
@@ -54,7 +61,7 @@ export function createMileageLevyWorld() {
     policyCatalog: createProductionPolicyCatalog(),
   });
   const proposition = Object.values(world.policyCatalog.propositions).find(
-    (row) => row.stableKey === MILEAGE_FEE_QUESTION,
+    (row) => row.stableKey === questionKey,
   )!;
   world = introduceMeasure(world, {
     stableKey: "mileage-test:measure",
@@ -74,8 +81,14 @@ export function createMileageLevyWorld() {
     stableKey: "mileage-test:proposal",
     measureId,
     sponsorPersonId: scenario.playerPersonId,
-    power: taxPowerEvidenceFor(scenario.pack.jurisdictionKey)!,
-    terms: MILEAGE_TEST_TERMS,
+    power: isStateTaxInstrument(terms.instrument)
+      ? stateTaxPowerEvidenceFor(
+          scenario.pack.jurisdictionKey,
+          terms.instrument,
+          world.currentDate,
+        )!
+      : taxPowerEvidenceFor(scenario.pack.jurisdictionKey)!,
+    terms,
   });
   const proposalId = world.history.taxProposals!.at(-1)!.id;
   world = recordTaxDraftIdentity(world, proposalId);

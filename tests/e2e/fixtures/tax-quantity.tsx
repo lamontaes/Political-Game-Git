@@ -6,21 +6,7 @@ import {
   serializeWorld,
 } from "../../../src/simulation/serialization";
 import { createMileageLevyWorld } from "../../fixtures/mileage-levy-world";
-
-declare global {
-  interface Window {
-    p2TaxFixture?: {
-      reload(): void;
-      counts(): {
-        bases: number;
-        assessments: number;
-        collections: number;
-        amount: unknown;
-        assessedMinor: number | null;
-      };
-    };
-  }
-}
+import type {} from "./tax-quantity-contract";
 
 const fixture = createMileageLevyWorld();
 function TaxQuantityFixture() {

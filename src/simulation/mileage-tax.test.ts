@@ -149,7 +149,7 @@ describe("mileage through the existing tax engine", () => {
       resourcePositionAt(
         world,
         { kind: "person", personId: f.personId },
-        "USD",
+        money(0, "USD").currency,
       )!.liquidBalance,
     ).toEqual(money(8000, "USD"));
     const recipient = world.history.taxProposals![0]!.publicOrganizationId;
@@ -157,7 +157,7 @@ describe("mileage through the existing tax engine", () => {
       resourcePositionAt(
         world,
         { kind: "organization", organizationId: recipient },
-        "USD",
+        money(0, "USD").currency,
       )!.liquidBalance,
     ).toEqual(money(2000, "USD"));
     expect(world.history.taxCollections).toHaveLength(1);

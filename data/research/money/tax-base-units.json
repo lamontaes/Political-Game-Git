@@ -19,6 +19,11 @@
     }
   ],
   "unitControlLabel": "Tax base unit",
+  "previewLabels": {
+    "title": "Preview",
+    "base": "Taxable base",
+    "tax": "Tax"
+  },
   "validationLabels": {
     "invalid-quantity": "Whole vehicle miles",
     "invalid-rate": "USD per vehicle mile",

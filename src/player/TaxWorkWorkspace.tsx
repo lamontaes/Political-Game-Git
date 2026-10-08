@@ -1,5 +1,8 @@
 import "./tax-work.css";
 import taxBaseUnits from "../../data/research/money/tax-base-units.json" with { type: "json" };
+import businessPayerScope from "../../data/research/money/business-taxpayer-scope.json" with { type: "json" };
+import { businessTaxOwnersAt } from "../simulation/business-tax-payers";
+import { organizationProfileAt } from "../simulation/life-queries";
 import { isTaxQuantity } from "../simulation/tax-types";
 import { useEffect, useRef, useState } from "react";
 import { canonicalJson } from "../simulation/canonical-json";
@@ -70,8 +73,12 @@ export function TaxWorkWorkspace({
   const [assumptions, setAssumptions] = useState("");
   const [exempt, setExempt] = useState(false);
   const [occurrence, setOccurrence] = useState("");
+  const [companyPayer, setCompanyPayer] = useState<EntityId | null>(null);
   const [following, setFollowing] = useState<EntityId | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [previewValue, setPreviewValue] = useState<ReturnType<
+    typeof previewTax
+  > | null>(null);
   const [error, setError] = useState<string | null>(null);
   // A filed or already-pending proposal is where the player's next step is, so
   // it is brought into view and focused instead of appearing out of sight.
@@ -201,17 +208,20 @@ export function TaxWorkWorkspace({
             ? { unit: "vehicle-mile", units: exactTaxQuantityInput(occurrence) }
             : money(exactDollarInput(occurrence), "USD"),
       );
-      setMessage(
-        result.status === "unavailable"
-          ? result.reason
-          : `Preview only: ${display(result.taxAmount.minorUnits)} on ${isTaxQuantity(result.taxableAmount) ? `${result.taxableAmount.units} ${result.taxableAmount.unit}` : display(result.taxableAmount.minorUnits)} of taxable base. No funds moved.`,
-      );
+      setPreviewValue(result);
+      setMessage(result.status === "unavailable" ? result.reason : null);
     });
   }
   const proposals = (world.history.taxProposals ?? []).filter(
     (row) =>
       row.sponsorPersonId === personId ||
       world.history.taxPolicies?.some((policy) => policy.proposalId === row.id),
+  );
+  const companyPayers = world.history.organizations.filter(
+    (company) =>
+      businessTaxOwnersAt(world, company.id).some(
+        (owner) => owner.personId === personId,
+      ) && !organizationProfileAt(world, company.id)?.closed,
   );
   return (
     <section
@@ -229,6 +239,21 @@ export function TaxWorkWorkspace({
       <div ref={feedbackRef} className="tax-work-feedback">
         {error ? <p role="alert">{error}</p> : null}
         {message ? <p role="status">{message}</p> : null}
+        {previewValue?.status === "available" ? (
+          <dl aria-label={taxBaseUnits.previewLabels.title}>
+            <dt>{taxBaseUnits.previewLabels.base}</dt>
+            <dd>
+              {isTaxQuantity(previewValue.taxableAmount)
+                ? `${previewValue.taxableAmount.units} ${previewValue.taxableAmount.unit}`
+                : `${display(previewValue.taxableAmount.minorUnits)} ${previewValue.taxableAmount.currency}`}
+            </dd>
+            <dt>{taxBaseUnits.previewLabels.tax}</dt>
+            <dd>
+              {display(previewValue.taxAmount.minorUnits)}{" "}
+              {previewValue.taxAmount.currency}
+            </dd>
+          </dl>
+        ) : null}
       </div>
       {power ? (
         /*
@@ -448,11 +473,43 @@ export function TaxWorkWorkspace({
             ) : null}
             {active?.id === policy?.id && policy ? (
               <>
+                {proposal.terms.instrument === "corporate-income" ? (
+                  <label>
+                    {businessPayerScope.payerControlLabel}
+                    <select
+                      aria-label={businessPayerScope.payerControlLabel}
+                      value={companyPayer ?? ""}
+                      onChange={(event) =>
+                        setCompanyPayer(
+                          companyPayers.find(
+                            (company) => company.id === event.target.value,
+                          )?.id ?? null,
+                        )
+                      }
+                    >
+                      <option value="">
+                        {businessPayerScope.chooseControlLabel}
+                      </option>
+                      {companyPayers.map((company) => (
+                        <option key={company.id} value={company.id}>
+                          {organizationProfileAt(world, company.id)?.name ??
+                            company.stableKey}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : null}
                 <label>
                   {proposal.terms.baseLabel}{" "}
                   {proposal.terms.baseUnit ?? proposal.terms.currency}{" "}
                   <input
-                    aria-label={`${proposal.terms.baseLabel} ${proposal.terms.baseUnit ?? proposal.terms.currency}`}
+                    aria-label={
+                      proposal.terms.baseUnit
+                        ? taxBaseUnits.options.find(
+                            (unit) => unit.key === proposal.terms.baseUnit,
+                          )!.label
+                        : `${proposal.terms.baseLabel} ${proposal.terms.currency}`
+                    }
                     value={occurrence}
                     inputMode="decimal"
                     onChange={(event) => setOccurrence(event.target.value)}
@@ -464,7 +521,13 @@ export function TaxWorkWorkspace({
                     act(() => {
                       const next = declarePersonalTaxOccurrence(world, {
                         personId,
-                        stableKey: `tax-occurrence:ordinary-${world.history.nextSequence}`,
+                        ...(proposal.terms.instrument === "corporate-income" &&
+                        companyPayer
+                          ? { organizationId: companyPayer }
+                          : {}),
+                        stableKey: proposal.terms.baseUnit
+                          ? `tax-quantity:${proposal.id}:${personId}:${world.currentDate}`
+                          : `tax-occurrence:ordinary-${world.history.nextSequence}`,
                         proposalId: proposal.id,
                         baseKey: proposal.terms.baseKey,
                         ...(proposal.terms.baseUnit
@@ -485,7 +548,9 @@ export function TaxWorkWorkspace({
                     })
                   }
                 >
-                  Declare personal occurrence
+                  {proposal.terms.instrument === "corporate-income"
+                    ? businessPayerScope.declarationControlLabel
+                    : "Declare personal occurrence"}
                 </button>
               </>
             ) : null}

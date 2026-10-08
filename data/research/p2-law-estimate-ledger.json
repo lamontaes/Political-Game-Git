@@ -1,6 +1,20 @@
 {
   "entries": [
     {
+      "id": "p2:e:county-income-scope",
+      "kind": "law-rule-estimate",
+      "estimatedFrom": "Tax Foundation Local Income Taxes in 2023 and the 92N state-local fiscal-authority matrix. The most common matrix rule supplies unread jurisdictions. Wage-income, employer-payroll and head-tax categories remain distinct.",
+      "dataFile": "data/research/money/local-income-tax-scope.json",
+      "replacement": "Replace the secondary classification with each county's first-party wage-income authority, caps and resident/nonresident rules. Actual adopted rates and saved paid wages remain necessary; no income, payment or county government is invented."
+    },
+    {
+      "id": "p2:e:company-tax-payer",
+      "kind": "law-rule-estimate",
+      "estimatedFrom": "IRS corporate tax practice and recorded business-owner relationships. Completed company receipts less completed wages remain an incomplete operating-income estimate; nonpay costs and deductions are not invented.",
+      "dataFile": "data/research/money/business-taxpayer-scope.json",
+      "replacement": "Use recorded corporate form and complete taxable books when available. The company pays from its own cash; owner exposure represents a company cost, never a personal distribution or ownership-share allocation."
+    },
+    {
       "id": "p2:e:selective-excise-authority",
       "kind": "law-rule-estimate",
       "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack.",

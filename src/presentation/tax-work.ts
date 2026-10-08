@@ -19,16 +19,14 @@ import {
 } from "../simulation/tax-policy";
 import {
   isStateTaxInstrument,
+  STATE_TAX_INSTRUMENT_BY_FAMILY,
   stateTaxPowerEvidenceFor,
 } from "../simulation/state-tax-authority";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
-import {
-  isTaxQuantity,
-  type TaxTerms,
-  type TaxQuantity,
-} from "../simulation/tax-types";
+import { type TaxTerms, type TaxQuantity } from "../simulation/tax-types";
 import { MILEAGE_FEE_QUESTION } from "../simulation/public-budgets/road-usage-charge-constants";
+import { businessTaxOwnersAt } from "../simulation/business-tax-payers";
 
 /** Exact entered quantity; a blank entry never silently becomes zero. */
 export function exactTaxQuantityInput(value: string): number {
@@ -136,7 +134,7 @@ export function fileTaxProposalFromOffice(
   const questionKey =
     input.terms.baseUnit === "vehicle-mile"
       ? MILEAGE_FEE_QUESTION
-      : `us-tax-terms:${level}.${typedInstrument ?? "excise"}-tax-terms`;
+      : `us-tax-terms:${level}.${Object.entries(STATE_TAX_INSTRUMENT_BY_FAMILY).find(([, value]) => value === typedInstrument)?.[0] ?? "excise"}-tax-terms`;
   const question = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === questionKey,
   );
@@ -200,6 +198,7 @@ export function declarePersonalTaxOccurrence(
   world: World,
   input: {
     personId: EntityId;
+    organizationId?: EntityId;
     stableKey: string;
     proposalId: EntityId;
     baseKey: string;
@@ -220,6 +219,29 @@ export function declarePersonalTaxOccurrence(
     (row) => row.id === input.proposalId,
   );
   if (!proposal) throw new Error("No recorded tax proposal.");
+  const payer = input.organizationId
+    ? { kind: "organization" as const, organizationId: input.organizationId }
+    : { kind: "person" as const, personId: input.personId };
+  const subjectId = input.organizationId ?? input.personId;
+  if (
+    input.organizationId &&
+    !businessTaxOwnersAt(world, input.organizationId).some(
+      (owner) => owner.personId === input.personId,
+    )
+  )
+    throw new Error(
+      canonicalJson({
+        status: "payer-not-owned",
+        organizationId: input.organizationId,
+      }),
+    );
+  if (proposal.terms.instrument === "corporate-income" && !input.organizationId)
+    throw new Error(
+      canonicalJson({
+        status: "corporate-payer-required",
+        proposalId: proposal.id,
+      }),
+    );
   const active = effectiveTaxPolicy(
     world,
     proposal.jurisdictionId,
@@ -237,8 +259,7 @@ export function declarePersonalTaxOccurrence(
   );
   if (prior) {
     if (
-      prior.payer.kind !== "person" ||
-      prior.payer.personId !== input.personId ||
+      canonicalJson(prior.payer) !== canonicalJson(payer) ||
       prior.baseKey !== input.baseKey ||
       canonicalJson(prior.amount) !== canonicalJson(amount) ||
       prior.assumptionNote !== input.assumptionNote
@@ -248,7 +269,7 @@ export function declarePersonalTaxOccurrence(
       onDate: world.currentDate,
       activity: "assessment",
       activityId: prior.id,
-      subjectIds: [input.personId],
+      subjectIds: [subjectId],
       governingLawId: proposal.measureId,
     });
   }
@@ -258,25 +279,24 @@ export function declarePersonalTaxOccurrence(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: proposal.jurisdictionId,
-    involvedEntityIds: [input.personId],
+    involvedEntityIds: input.organizationId
+      ? [input.personId, input.organizationId]
+      : [input.personId],
     participants: [],
     personFactConstraints: [],
     visibility: "private",
     tags: ["tax"],
-    summary: isTaxQuantity(amount)
-      ? canonicalJson({
-          amount,
-          baseKey: input.baseKey,
-          assumptionNote: input.assumptionNote,
-        })
-      : `The character explicitly declared one fictional taxable occurrence. ${input.assumptionNote} ${TAX_MODEL_NOTE}`,
+    summary: canonicalJson({
+      amount,
+      payer,
+      baseKey: input.baseKey,
+      assumptionNote: input.assumptionNote,
+    }),
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: isTaxQuantity(amount)
-        ? canonicalJson({ amount, baseKey: input.baseKey })
-        : "Declare a modeled taxable occurrence.",
+      choice: canonicalJson({ amount, baseKey: input.baseKey, payer }),
       motivation: null,
       immediateReaction: null,
     },
@@ -284,7 +304,7 @@ export function declarePersonalTaxOccurrence(
   next = recordTaxBase(next, {
     stableKey: input.stableKey,
     jurisdictionId: proposal.jurisdictionId,
-    payer: { kind: "person", personId: input.personId },
+    payer,
     baseKey: input.baseKey,
     occurredAt: world.currentDate,
     amount,
@@ -295,7 +315,7 @@ export function declarePersonalTaxOccurrence(
     onDate: next.currentDate,
     activity: "assessment",
     activityId: next.history.taxBases!.at(-1)!.id,
-    subjectIds: [input.personId],
+    subjectIds: [subjectId],
     governingLawId: proposal.measureId,
   });
 }
