@@ -4060,6 +4060,14 @@ export interface CampaignActionResultRecord {
   readonly observationId: EntityId;
   readonly feedbackEventId: EntityId;
   readonly feedbackKnowledgeId: EntityId;
+  /**
+   * An outreach session's doors: every household knocked on, in order, and
+   * the residents who were home to answer. Absent for other kinds of work.
+   */
+  readonly canvass?: {
+    readonly householdIds: readonly EntityId[];
+    readonly metPersonIds: readonly EntityId[];
+  };
 }
 
 /**
