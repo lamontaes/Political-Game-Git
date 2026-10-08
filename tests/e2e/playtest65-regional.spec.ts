@@ -52,9 +52,10 @@ for (const place of places) {
     await expect(page.getByTestId("orientation-step-state")).toBeVisible();
     const plate = page.getByTestId("opening-regional-plate");
     await expect(plate).toBeVisible();
+    // Menu reset: the picture carries no caption of its own.
     await expect(
       page.getByText("Your home region · Illustration", { exact: true }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(plate).toHaveJSProperty("naturalWidth", place.width);
     await expect(plate).toHaveAttribute(
       "src",

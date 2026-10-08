@@ -73,7 +73,10 @@ export function OpeningStatePopulation({
           </figcaption>
         </figure>
       ) : stateUsps ? (
-        <figure className="pg-state-population-figure">
+        <figure
+          className="pg-state-population-figure"
+          data-problem={failed === key ? "population-unavailable" : undefined}
+        >
           <p className="pg-state-population-number">
             <span className="pg-state-population-value">
               About{" "}
@@ -82,13 +85,11 @@ export function OpeningStatePopulation({
             <span className="pg-state-population-unit">people</span>
           </p>
           <figcaption className="pg-state-population-caption">
-            {failed === key
-              ? "Estimated from the average House district"
-              : "Estimated from the average House district; the exact count replaces it when it arrives"}
+            Estimated from the average House district
           </figcaption>
         </figure>
       ) : (
-        <p>Population unavailable for this date.</p>
+        <p data-problem="no-home-state" />
       )}
     </section>
   );
