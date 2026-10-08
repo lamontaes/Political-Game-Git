@@ -204,7 +204,7 @@ describe.each(places.map((place) => [place.jurisdictionKey]))(
         ratificationMode: "state-legislatures",
         ruleDelta: {
           kind: "rule-field",
-          field: "executive.term.limit",
+          field: "term.limit",
           value: cause.value,
           applicability: {
             appliesTo: "terms-beginning-after",
