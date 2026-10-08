@@ -22,7 +22,6 @@ import {
 } from "../political-belief-formation";
 import { officialOpinionSubject } from "../political-opinion-subjects";
 import { recordWorldEvent } from "../world";
-import { withHistoryAppendTransaction } from "../history-index";
 import { recordEventKnowledge } from "../records";
 import { joinLawInterestGroup } from "./law-interest-groups";
 import {
@@ -405,16 +404,8 @@ export function officialViewReflectionHandler(
     }
     next = recordReflection(next, exposure);
     const eventId = next.history.events.at(-1)!.id;
-    next = withHistoryAppendTransaction(
-      next,
-      ["privateBeliefs", "decisionTraces"],
-      (current) => {
-        let reflected = current;
-        for (const act of weighed)
-          reflected = formViewOfOfficial(reflected, exposure, act, eventId);
-        return reflected;
-      },
-    );
+    for (const act of weighed)
+      next = formViewOfOfficial(next, exposure, act, eventId);
   }
   next = joinLawInterestGroup(next, exposure);
   if (exposure.relation === "own")
