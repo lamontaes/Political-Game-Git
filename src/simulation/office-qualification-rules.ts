@@ -276,14 +276,6 @@ export function officeFamilyForChamberKey(
   return OFFICE_FAMILY_BY_CHAMBER_KEY[chamberKey] ?? null;
 }
 
-/** True where this repository has read any authority for the state. */
-export function stateQualificationsAreSourced(
-  stateJurisdictionKey: string | null,
-): boolean {
-  if (stateJurisdictionKey === null) return false;
-  return QUALIFICATION_SOURCED_STATE_KEYS.includes(stateJurisdictionKey);
-}
-
 /** Every verified fact about one office in one state. */
 export function officeQualifications(
   stateJurisdictionKey: string | null,

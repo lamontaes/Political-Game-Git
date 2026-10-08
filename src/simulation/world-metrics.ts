@@ -1202,13 +1202,6 @@ export function sameReferencePeriod(
         left.endsAt === right.endsAt;
 }
 
-export function referencePeriodKey(period: MetricReferencePeriod): string {
-  validateReferencePeriod(period);
-  return period.kind === "point"
-    ? `point:${period.at}`
-    : `interval:${period.startsAt}:${period.endsAt}`;
-}
-
 function referencePeriodStart(period: MetricReferencePeriod): string {
   return period.kind === "point" ? period.at : period.startsAt;
 }

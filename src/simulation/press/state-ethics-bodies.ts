@@ -612,16 +612,6 @@ export const STATE_LEGISLATIVE_ETHICS_BODIES: readonly StateLegislativeEthicsBod
     },
   ];
 
-export function stateLegislativeEthicsBody(
-  procedureKey: ProcedureKey,
-): StateLegislativeEthicsBody | null {
-  return (
-    STATE_LEGISLATIVE_ETHICS_BODIES.find(
-      (body) => body.procedureKey === procedureKey,
-    ) ?? null
-  );
-}
-
 /**
  * The accountability-institution key for a row, derived from its state key so
  * the two cannot drift apart. Kentucky's is spelled out in `procedures.ts`
