@@ -117,26 +117,37 @@ describe(`rent and pay reach the Personal page (${place.displayName}, place ${pl
     expect(pay!.counterparty).not.toBeNull();
   });
 
-  it("shows a child with no money records nothing", ({ skip }) => {
-    const child = Object.values(world.people).find(
-      (person) =>
-        person.birthDate > "2015-01-01" &&
-        !world.history.resourceFlows.some(
-          (flow) =>
-            (flow.source.kind === "person" &&
-              flow.source.personId === person.id) ||
-            (flow.recipient.kind === "person" &&
-              flow.recipient.personId === person.id),
-        ) &&
-        householdMembershipsAt(world, person.id).length === 0,
+  it("shows only the player's own and household's flows, never a stranger's", () => {
+    const householdIds = new Set(
+      householdMembershipsAt(world, playerId).map((row) => row.household.id),
     );
-    if (!child) return skip();
-    expect(projectPersonalObligations(world, child.id)).toEqual({
-      income: [],
-      bills: [],
-      debts: [],
-      permissions: [],
-    });
+    const obligations = projectPersonalObligations(world, playerId)!;
+    const lines = [...obligations.income, ...obligations.bills];
+    expect(lines.length).toBeGreaterThan(0);
+    for (const line of lines) {
+      const flow = world.history.resourceFlows.find(
+        (row) => row.id === line.flowId,
+      )!;
+      const touchesPlayer = [flow.source, flow.recipient].some(
+        (endpoint) =>
+          (endpoint.kind === "person" && endpoint.personId === playerId) ||
+          (endpoint.kind === "household" &&
+            householdIds.has(endpoint.householdId)),
+      );
+      expect(touchesPlayer, line.flowId).toBe(true);
+    }
+    // Another resident's list holds none of the player's flows.
+    const stranger = Object.keys(world.people).find(
+      (id) =>
+        id !== playerId &&
+        !householdMembershipsAt(world, id).some((row) =>
+          householdIds.has(row.household.id),
+        ),
+    )!;
+    const theirs = projectPersonalObligations(world, stranger)!;
+    const playerFlowIds = new Set(lines.map((line) => line.flowId));
+    for (const line of [...theirs.income, ...theirs.bills])
+      expect(playerFlowIds.has(line.flowId)).toBe(false);
   });
 
   it("reads the payment a rent day records, with its status and date", () => {
