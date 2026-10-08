@@ -1,4 +1,5 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
+import recipientAgeCohorts from "../../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import agePlaceholderLedger from "../../../data/research/education/placeholder-ledger.json" with { type: "json" };
 import sourceLinks from "../../../data/research/outcome-web/links.json" with { type: "json" };
@@ -52,6 +53,29 @@ const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
     }
   >
 >;
+const recipientAgeRanges = recipientAgeCohorts.cohortsByRule as Readonly<
+  Record<
+    Exclude<
+      OutcomeRecipientRule,
+      "recorded-school-enrollment-or-compulsory-age-estimate"
+    >,
+    {
+      readonly minimumAge: number;
+      readonly maximumAge: number | null;
+      readonly estimatedFrom: string;
+    }
+  >
+>;
+
+function recipientAtAge(age: number, activeSubstanceUseCondition = false) {
+  return {
+    age,
+    activeEducationEnrollment: false,
+    hasRecordedEducationEnrollment: false,
+    compulsorySchoolAge: null,
+    activeSubstanceUseCondition,
+  };
+}
 
 describe("the outcome landing plan", () => {
   it("tracks every built link once from the audit through the candidate status", () => {
@@ -107,39 +131,43 @@ describe("the outcome landing plan", () => {
     );
   });
 
-  it.each([
-    ["age-0-infant-cohort-estimate", 0, false, true],
-    ["age-0-infant-cohort-estimate", 1, false, false],
-    ["age-19-to-64-cohort-estimate", 18, false, false],
-    ["age-19-to-64-cohort-estimate", 19, false, true],
-    ["age-19-to-64-cohort-estimate", 64, false, true],
-    ["age-19-to-64-cohort-estimate", 65, false, false],
-    ["age-65-plus-cohort-estimate", 64, false, false],
-    ["age-65-plus-cohort-estimate", 65, false, true],
-    ["age-18-plus-substance-use-condition-estimate", 18, false, false],
-    ["age-18-plus-substance-use-condition-estimate", 18, true, true],
-    ["age-18-plus-substance-use-condition-estimate", 17, true, false],
-    ["age-13-to-17-cohort-estimate", 13, false, true],
-    ["age-13-to-17-cohort-estimate", 17, false, true],
-    ["age-13-to-17-cohort-estimate", 18, false, false],
-    ["age-5-to-17-cohort-estimate", 4, false, false],
-    ["age-5-to-17-cohort-estimate", 5, false, true],
-    ["age-5-to-17-cohort-estimate", 17, false, true],
-    ["age-5-to-17-cohort-estimate", 18, false, false],
-  ] as const)(
-    "matches %s at age %i with condition=%s => %s",
-    (rule, age, active, expected) => {
+  it.each(
+    Object.entries(recipientAgeRanges) as [
+      Exclude<
+        OutcomeRecipientRule,
+        "recorded-school-enrollment-or-compulsory-age-estimate"
+      >,
+      (typeof recipientAgeRanges)[string],
+    ][],
+  )("matches the sourced %s age cohort", (rule, range) => {
+    expect(range.estimatedFrom.length).toBeGreaterThan(0);
+    if (rule === "adult-substance-use-condition-estimate") {
       expect(
-        matchesOutcomeRecipientRule(rule, {
-          age,
-          activeEducationEnrollment: false,
-          hasRecordedEducationEnrollment: false,
-          compulsorySchoolAge: null,
-          activeSubstanceUseCondition: active,
-        }),
-      ).toBe(expected);
-    },
-  );
+        matchesOutcomeRecipientRule(rule, recipientAtAge(range.minimumAge)),
+      ).toBe(false);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule,
+          recipientAtAge(range.minimumAge, true),
+        ),
+      ).toBe(true);
+      return;
+    }
+    expect(
+      matchesOutcomeRecipientRule(rule, recipientAtAge(range.minimumAge)),
+    ).toBe(true);
+    expect(
+      matchesOutcomeRecipientRule(rule, recipientAtAge(range.minimumAge - 1)),
+    ).toBe(false);
+    if (range.maximumAge !== null) {
+      expect(
+        matchesOutcomeRecipientRule(rule, recipientAtAge(range.maximumAge)),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(rule, recipientAtAge(range.maximumAge + 1)),
+      ).toBe(false);
+    }
+  });
 
   it.each(lifePlaceStateIdentities())(
     "uses recorded enrollment or sourced attendance ages for %s",
@@ -215,13 +243,9 @@ describe("the outcome landing plan", () => {
     "uses the same health cohorts and gain-cost rules for %s",
     (place) => {
       expect(place.jurisdictionKey).toMatch(/^US-/);
-      const youth = {
-        age: 16,
-        activeEducationEnrollment: false,
-        hasRecordedEducationEnrollment: false,
-        compulsorySchoolAge: null,
-        activeSubstanceUseCondition: false,
-      };
+      const youth = recipientAtAge(
+        recipientAgeRanges["youth-cannabis-cohort-estimate"].minimumAge,
+      );
       const eligibleHealthLinks = plannedHealth
         .filter((row) =>
           matchesOutcomeRecipientRule(
@@ -261,9 +285,10 @@ describe("a named education outcome landing", () => {
       if (!resident) return false;
       const age = ageOnDate(resident.birthDate, fixture.world.currentDate);
       return (
-        age >= 19 &&
-        age <= 64 &&
-        !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
+        matchesOutcomeRecipientRule(
+          "working-age-adult-cohort-estimate",
+          recipientAtAge(age),
+        ) && !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
       );
     });
     if (!healthPersonId)
@@ -274,9 +299,10 @@ describe("a named education outcome landing", () => {
       if (!resident) return false;
       const age = ageOnDate(resident.birthDate, fixture.world.currentDate);
       return (
-        age >= 19 &&
-        age <= 64 &&
-        !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
+        matchesOutcomeRecipientRule(
+          "working-age-adult-cohort-estimate",
+          recipientAtAge(age),
+        ) && !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
       );
     });
     if (!unconditionedAdultId)
@@ -390,7 +416,7 @@ describe("a named education outcome landing", () => {
     );
     expect(healthLanding).toMatchObject({
       measure: "health.uninsured-pct",
-      recipientRule: "age-19-to-64-cohort-estimate",
+      recipientRule: "working-age-adult-cohort-estimate",
       direction: "cost",
       estimatedFrom: expect.any(String),
     });

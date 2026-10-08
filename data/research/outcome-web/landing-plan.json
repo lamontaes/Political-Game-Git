@@ -107,7 +107,7 @@
       "sourceArea": "env.particulates:pct-of-start",
       "recipientGroup": "infants",
       "currentStatus": "person-linked",
-      "recipientRule": "age-0-infant-cohort-estimate",
+      "recipientRule": "infant-mortality-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -131,7 +131,7 @@
       "sourceArea": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
       "recipientGroup": "expansion adults 19 to 64",
       "currentStatus": "person-linked",
-      "recipientRule": "age-19-to-64-cohort-estimate",
+      "recipientRule": "working-age-adult-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -244,7 +244,7 @@
       "sourceArea": "law:us-policy-positions:civil-family-community.restrict-abortion",
       "recipientGroup": "infants",
       "currentStatus": "person-linked",
-      "recipientRule": "age-0-infant-cohort-estimate",
+      "recipientRule": "infant-mortality-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Gemmill et al. 2025 (JAMA)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -278,7 +278,7 @@
       "sourceArea": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
       "recipientGroup": "low-income adults",
       "currentStatus": "person-linked",
-      "recipientRule": "age-19-to-64-cohort-estimate",
+      "recipientRule": "working-age-adult-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -392,7 +392,7 @@
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "teens",
       "currentStatus": "person-linked",
-      "recipientRule": "age-13-to-17-cohort-estimate",
+      "recipientRule": "youth-cannabis-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -495,7 +495,7 @@
       "sourceArea": "labor.unemployment-pct",
       "recipientGroup": "working-age men; women and children shielded by public insurance",
       "currentStatus": "person-linked",
-      "recipientRule": "age-19-to-64-cohort-estimate",
+      "recipientRule": "working-age-adult-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Cawley, Moriya and Simon 2015",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -573,7 +573,7 @@
       "sourceArea": "law:us-federal-positions:health.medicare-drug-price-negotiation",
       "recipientGroup": "Medicare enrollees",
       "currentStatus": "person-linked",
-      "recipientRule": "age-65-plus-cohort-estimate",
+      "recipientRule": "older-adult-medicare-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -945,7 +945,7 @@
       "sourceArea": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "age-18-plus-substance-use-condition-estimate",
+      "recipientRule": "adult-substance-use-condition-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -991,7 +991,7 @@
       "sourceArea": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "age-5-to-17-cohort-estimate",
+      "recipientRule": "child-asthma-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -1050,7 +1050,7 @@
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "age-18-plus-substance-use-condition-estimate",
+      "recipientRule": "adult-substance-use-condition-estimate",
       "outcomeDirection": "higher-is-worse",
       "estimatedFrom": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"

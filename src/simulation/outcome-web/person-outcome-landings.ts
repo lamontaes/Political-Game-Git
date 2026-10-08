@@ -1,4 +1,5 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
+import recipientAgeCohorts from "../../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
@@ -24,12 +25,12 @@ import {
 
 export type OutcomeRecipientRule =
   | "recorded-school-enrollment-or-compulsory-age-estimate"
-  | "age-0-infant-cohort-estimate"
-  | "age-19-to-64-cohort-estimate"
-  | "age-65-plus-cohort-estimate"
-  | "age-18-plus-substance-use-condition-estimate"
-  | "age-13-to-17-cohort-estimate"
-  | "age-5-to-17-cohort-estimate";
+  | "infant-mortality-cohort-estimate"
+  | "working-age-adult-cohort-estimate"
+  | "older-adult-medicare-cohort-estimate"
+  | "adult-substance-use-condition-estimate"
+  | "youth-cannabis-cohort-estimate"
+  | "child-asthma-cohort-estimate";
 
 interface CompulsorySchoolAgeRange {
   readonly minimumAge: number;
@@ -39,6 +40,22 @@ interface CompulsorySchoolAgeRange {
 
 const COMPULSORY_SCHOOL_AGES = schoolAges.agesByJurisdictionKey as Readonly<
   Record<string, CompulsorySchoolAgeRange>
+>;
+
+interface RecipientAgeCohort {
+  readonly minimumAge: number;
+  readonly maximumAge: number | null;
+  readonly estimatedFrom: string;
+}
+
+const RECIPIENT_AGE_COHORTS = recipientAgeCohorts.cohortsByRule as Readonly<
+  Record<
+    Exclude<
+      OutcomeRecipientRule,
+      "recorded-school-enrollment-or-compulsory-age-estimate"
+    >,
+    RecipientAgeCohort
+  >
 >;
 
 interface PlannedLanding {
@@ -90,19 +107,14 @@ export function matchesOutcomeRecipientRule(
         person.age >= person.compulsorySchoolAge.minimumAge &&
         person.age <= person.compulsorySchoolAge.maximumAge
       );
-    case "age-0-infant-cohort-estimate":
-      return person.age === 0;
-    case "age-19-to-64-cohort-estimate":
-      return person.age >= 19 && person.age <= 64;
-    case "age-65-plus-cohort-estimate":
-      return person.age >= 65;
-    case "age-18-plus-substance-use-condition-estimate":
-      return person.age >= 18 && person.activeSubstanceUseCondition;
-    case "age-13-to-17-cohort-estimate":
-      return person.age >= 13 && person.age <= 17;
-    case "age-5-to-17-cohort-estimate":
-      return person.age >= 5 && person.age <= 17;
   }
+  const ageRange = RECIPIENT_AGE_COHORTS[rule];
+  return (
+    person.age >= ageRange.minimumAge &&
+    (ageRange.maximumAge === null || person.age <= ageRange.maximumAge) &&
+    (rule !== "adult-substance-use-condition-estimate" ||
+      person.activeSubstanceUseCondition)
+  );
 }
 
 /** A metric movement as a named person's estimated gain or cost. */
@@ -144,9 +156,10 @@ export function recordPlannedPersonOutcomeLandings(
       "recorded-school-enrollment-or-compulsory-age-estimate",
   );
   const needsSubstanceUseCondition = PERSON_LANDINGS.some(
-    (row) =>
-      row.recipientRule === "age-18-plus-substance-use-condition-estimate",
+    (row) => row.recipientRule === "adult-substance-use-condition-estimate",
   );
+  const adultConditionMinimumAge =
+    RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
   const education = needsEducationEnrollment
     ? educationEnrollmentsAt(world, month)
     : { active: new Set<EntityId>(), recorded: new Set<EntityId>() };
@@ -191,7 +204,7 @@ export function recordPlannedPersonOutcomeLandings(
         ? (COMPULSORY_SCHOOL_AGES[stateKey] ?? null)
         : null,
       activeSubstanceUseCondition:
-        needsSubstanceUseCondition && age >= 18
+        needsSubstanceUseCondition && age >= adultConditionMinimumAge
           ? holdsPackCondition(world, personId, SUBSTANCE_USE_DISORDER_KEY)
           : false,
     };
