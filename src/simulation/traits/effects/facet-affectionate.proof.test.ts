@@ -7,6 +7,8 @@ describe("the facet-affectionate trait in a random new game", () => {
       "personality-v1:facet-affectionate",
       "people.date-answer",
       "session42-proof-facet-affectionate",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
