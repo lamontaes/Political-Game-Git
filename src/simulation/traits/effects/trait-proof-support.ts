@@ -118,7 +118,8 @@ function decisionForPerson(
           loadedTraitRegistry(),
           personId,
           stageId,
-          decisionId,        )
+          decisionId,
+        )
       : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declarationDecisionId =
@@ -321,6 +322,7 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         highPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
         reader === "act-pulls",
         undefined,
@@ -335,7 +337,12 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         lowPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
   };

@@ -27,6 +27,7 @@ import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
+import { makeCurrencyCode } from "../simulation/resources";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -1566,7 +1567,7 @@ export function PersonalFinancesWorkspace({
                         householdCosts.monthlyMinor) /
                         (12 * householdCosts.averageMonthlyMinor),
                     ),
-                    currency: "USD",
+                    currency: makeCurrencyCode("USD"),
                   })}
                 </span>
               </li>

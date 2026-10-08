@@ -81,6 +81,11 @@ const CHANNEL_WORDS: Record<
     gain: "lowered {whose} rent by {amount}",
     none: "changed the rules on {whose} rent",
   },
+  "environmental-condition": {
+    cost: "worsened conditions around {whose} home",
+    gain: "improved conditions around {whose} home",
+    none: "changed conditions around {whose} home",
+  },
 };
 
 function amountText(exposure: LawExposureRecord): string {
@@ -170,7 +175,8 @@ export function lawExposureSentence(
       exposure.channel !== "election-rule" &&
       exposure.channel !== "court-rule" &&
       exposure.channel !== "sentence-rule" &&
-      exposure.channel !== "voting-rule") ||
+      exposure.channel !== "voting-rule" &&
+      exposure.channel !== "environmental-condition") ||
     exposure.direction === "none"
       ? "none"
       : exposure.direction;

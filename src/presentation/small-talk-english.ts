@@ -690,6 +690,10 @@ function outcomeFacts(
         },
       };
     }
+    // No line in LIVED_OUTCOME_VIEW is written for a county-office outcome, so
+    // there are no facts to say; the speaker stays quiet rather than improvise.
+    case "county-justice":
+      return null;
   }
 }
 
@@ -759,7 +763,7 @@ export function strongestOfficialView(
   readonly points: number;
   readonly belief: PrivateBeliefRecord | null;
   readonly measureId: EntityId;
-  readonly act: OfficialViewRecord["act"];
+  readonly act: OfficialViewRecord["act"] | "could-repeal";
   readonly exposure: LawExposureRecord;
   /** The saved view, or the old reflection row, the line speaks from. */
   readonly sourceRecordId: EntityId;

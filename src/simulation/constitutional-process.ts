@@ -164,7 +164,7 @@ export function stateAmendmentProfile(
             GAME_PROFILE_AMENDMENT_SOURCE,
           ),
     effectiveDaysAfterStatement: profile.effectiveDaysAfterStatement!,
-    basis: profile.basis,
+    basis: profile.basis === "sourced" ? "sourced" : "game-profile",
   };
 }
 

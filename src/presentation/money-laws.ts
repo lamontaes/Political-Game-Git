@@ -102,6 +102,11 @@ const TOWN_WORDS: Record<
     cost: (who, sum) => `raised the rent of ${who} by ${sum}`,
     none: (who) => `changed the rent rules for ${who}`,
   },
+  "environmental-condition": {
+    gain: (who) => `improved conditions around the homes of ${who}`,
+    cost: (who) => `worsened conditions around the homes of ${who}`,
+    none: (who) => `changed conditions around the homes of ${who}`,
+  },
 };
 
 /**
@@ -181,7 +186,9 @@ export function projectMoneyLaws(
     if (row.relation !== "own") continue;
     if (world.people[row.personId]?.homeJurisdictionId !== home) continue;
     const direction: Direction =
-      row.amount === null && row.channel !== "election-rule"
+      row.amount === null &&
+      row.channel !== "election-rule" &&
+      row.channel !== "environmental-condition"
         ? "none"
         : row.direction;
     const key = `${row.measureId}|${row.channel}|${direction}`;
@@ -200,12 +207,18 @@ export function projectMoneyLaws(
       const people = rows.length;
       const who = `${people} ${people === 1 ? "person" : "people"} in ${placeName}`;
       const direction: Direction =
-        first.amount === null && first.channel !== "election-rule"
+        first.amount === null &&
+        first.channel !== "election-rule" &&
+        first.channel !== "environmental-condition"
           ? "none"
           : first.direction;
       const sum = direction === "none" ? null : totalText(rows);
       const words = TOWN_WORDS[first.channel][
-        sum || first.channel === "election-rule" ? direction : "none"
+        sum ||
+        first.channel === "election-rule" ||
+        first.channel === "environmental-condition"
+          ? direction
+          : "none"
       ](who, sum ?? "");
       return [
         {

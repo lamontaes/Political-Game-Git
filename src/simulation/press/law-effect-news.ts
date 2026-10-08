@@ -87,6 +87,7 @@ type Reach =
   | "court-rule"
   | "sentence-rule"
   | "voting-rule"
+  | "environmental-condition"
   | "health-coverage";
 
 interface Touch {
@@ -499,6 +500,8 @@ function effectPhrase(group: readonly Touch[], count: number): string {
       return `changed when ${plural(count, "resident", "residents")} vote again after a sentence`;
     case "public-service":
       return `changed a public service for ${plural(count, "resident", "residents")}`;
+    case "environmental-condition":
+      return `changed conditions where ${plural(count, "resident lives", "residents live")}`;
   }
 }
 
