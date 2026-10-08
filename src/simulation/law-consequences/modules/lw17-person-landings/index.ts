@@ -12,6 +12,8 @@ import {
   PRETRIAL_RELEASED_EVENT,
 } from "../../../justice/jail-terms";
 import type { EntityId, World } from "../../../types";
+import { applyPretrialLawLandings } from "../justice-pretrial-landings";
+import { applySentencingLawLandings } from "../justice-sentencing-landings";
 
 export const JUSTICE_PERSON_EXPOSURE_KIND = "justice-person-exposure" as const;
 
@@ -277,6 +279,16 @@ export function applyJusticePersonExposure(
   const isMinimum =
     current.value.type === "amount" && current.value.unit === "months";
   if (!isHeldBail && !isNoBailRelease && !isMinimum) return world;
+  // Prosecution also invokes these writers directly. Reuse their event keys
+  // so registry dispatch cannot count the same court outcome twice.
+  if (isNoBailRelease)
+    return applyPretrialLawLandings(world, current.activityId);
+  if (isMinimum)
+    return applySentencingLawLandings(
+      world,
+      current.activityId,
+      current.law.measureId,
+    );
   return recordLawExposure(world, {
     stableKey: `justice-person-exposure/v1:${JSON.stringify([
       current.row.id,
@@ -286,15 +298,12 @@ export function applyJusticePersonExposure(
     ])}`,
     personId: current.subject.id,
     measureId: current.law.measureId,
-    channel: isMinimum ? "sentence-rule" : "court-rule",
-    direction: isNoBailRelease ? "gain" : "cost",
+    channel: "court-rule",
+    direction: "cost",
     sectionKey: current.questionKey,
     amount: null,
     cadence: null,
-    sourceRecordId: isMinimum
-      ? (current.sourceRecordIds.find((id) => id !== current.activityId) ??
-        current.activityId)
-      : current.activityId,
+    sourceRecordId: current.activityId,
     includeFamily: false,
   });
 }

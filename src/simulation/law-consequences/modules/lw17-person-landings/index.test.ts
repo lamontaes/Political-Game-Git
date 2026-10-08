@@ -8,6 +8,7 @@ import {
 import { lawEffectStamp } from "../../../law-effect-stamp";
 import { lawExposuresOf } from "../../../law-exposure";
 import { recordWorldEvent } from "../../../world";
+import { applyPretrialLawLandings } from "../justice-pretrial-landings";
 import { smallWorld } from "../../../../../tests/fixtures/small-world";
 import type { EntityId, World } from "../../../types";
 import type { LawConsequenceRow } from "../../../law-consequence-types";
@@ -171,6 +172,19 @@ describe("LW-17 named-person landings", () => {
       const next = applyJusticePersonExposure(world, resolved[0]!);
       expect(lawExposuresOf(next, personId)).toHaveLength(1);
       expect(lawExposuresOf(next, personId)[0]?.channel).toBe("court-rule");
+      const canonicalFirst = applyPretrialLawLandings(world, eventId);
+      const dispatchedAfter = applyJusticePersonExposure(
+        canonicalFirst,
+        resolved[0]!,
+      );
+      expect(
+        lawExposuresOf(dispatchedAfter, personId),
+        jurisdictionKey,
+      ).toHaveLength(1);
+      expect(
+        lawExposuresOf(applyPretrialLawLandings(next, eventId), personId),
+        jurisdictionKey,
+      ).toHaveLength(1);
     }
   });
 

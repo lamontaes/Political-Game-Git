@@ -38,7 +38,7 @@ afterAll(() => {
 });
 
 // Full production composer with unrelated saved commitments canonically
-// cancelled; this is a bounded case-clock proof, not a whole-world year.
+// canceled; this is a bounded case-clock proof, not a whole-world year.
 describe("a saved NPC sentence wakes its existing clemency decision", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
   const states = pickDistinct(rng, lifePlaceStateIdentities(), 1);
