@@ -302,7 +302,7 @@ describe("Stage 6.5 visual integration contract", () => {
         personId: "person_unknown_unreleased_999",
         title: "Staffer",
         role: "Visiting aide",
-        qualitativeRead: "Unknown",
+        qualitativeRead: "Unrecorded",
         inferredRead: "No notes",
         anchorId: "primary-desk-chair",
         visualVariant: "primary",

@@ -10,10 +10,15 @@ import { createLightweightPerson } from "../people";
 import { SeededRng } from "../rng";
 import { createWorld, createWorldId, recordWorldEvent } from "../world";
 import type { EntityId, World } from "../types";
-import { applySentencingLawLandings } from "./modules/justice-sentencing-landings";
+import {
+  applySentencingLawLandings,
+  applyStandYourGroundCaseLanding,
+} from "./modules/justice-sentencing-landings";
 
 const QUESTION_KEY =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
+const STAND_YOUR_GROUND_QUESTION_KEY =
+  "us-policy-positions:justice-public-safety.stand-your-ground";
 const SEED = "justice-sentencing-landings-fixture";
 const DATE = makeIsoDate("2026-10-01");
 
@@ -82,5 +87,61 @@ describe("mandatory minimum sentencing landings", () => {
       applySentencingLawLandings(world, event.id, "measure:other" as EntityId),
     ).toBe(world);
     expect(lawExposuresOf(world, personId)).toEqual([]);
+  });
+});
+
+describe("stand-your-ground case landings", () => {
+  it("records the operative rule for named defendants across all 56 places", () => {
+    for (const { jurisdictionKey } of lifePlaceStateIdentities()) {
+      const { world: opened, personId } = build(jurisdictionKey);
+      const proposition = Object.values(opened.policyCatalog.propositions).find(
+        (row) => row.stableKey === STAND_YOUR_GROUND_QUESTION_KEY,
+      )!;
+      const law = lawInForce(
+        opened,
+        stateJurisdictionForKey(jurisdictionKey)!.id,
+        proposition.id,
+        DATE,
+      );
+      const charge = recordWorldEvent(opened, {
+        stableKey: `fixture:stand-your-ground:${jurisdictionKey}`,
+        type: "justice.charged",
+        occurredAt: DATE,
+        recordedAt: DATE,
+        jurisdictionId: stateJurisdictionForKey(jurisdictionKey)!.id,
+        involvedEntityIds: [personId],
+        participants: [{ personId, role: "focus:defendant", detail: null }],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: ["justice.offense:crime:assault"],
+        summary: "A case.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const event = charge.history.events.at(-1)!;
+      const after = applyStandYourGroundCaseLanding(charge, event.id);
+      const exposures = lawExposuresOf(after, personId).filter(
+        (row) => row.sourceRecordId === event.id,
+      );
+      if (!law) {
+        expect(exposures).toEqual([]);
+        continue;
+      }
+      expect(exposures).toHaveLength(1);
+      expect(exposures[0]).toMatchObject({
+        measureId: law.measureId,
+        channel: "court-rule",
+        direction: law.answer === "yes" ? "gain" : "cost",
+        sourceRecordId: event.id,
+        personId,
+      });
+      expect(applyStandYourGroundCaseLanding(after, event.id)).toBe(after);
+    }
   });
 });
