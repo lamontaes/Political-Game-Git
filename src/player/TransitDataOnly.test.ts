@@ -19,6 +19,21 @@ describe("the transit screens print no hand-written sentence", () => {
       expect(text).not.toMatch(
         /^\s+[A-Z][a-z’]+ [a-z’][^<>{}\n]{12,}[.?!]\s*$/m,
       );
+      for (const phrase of [
+        "Propose added service",
+        "Objective: which service to add",
+        "Proposal: how much to provide",
+        "Commitment: file it",
+        "Service period",
+        "Total amount provided (USD)",
+        "If paid",
+        "What changed",
+        "Contract records and reports",
+        "First period",
+        "Second period",
+      ]) {
+        expect(text).not.toContain(phrase);
+      }
     });
   }
 });

@@ -125,8 +125,9 @@ for (const size of SIZES) {
       await expect(onePaper).toHaveAttribute("aria-pressed", "true");
       await expect(page.getByTestId("news-paper-select")).toBeVisible();
     } else {
-      await expect(page.getByTestId("news-empty")).toHaveText(
-        "Nothing has been published yet.",
+      await expect(page.getByTestId("news-empty")).toHaveAttribute(
+        "data-problem",
+        "nothing-published",
       );
     }
 

@@ -92,10 +92,7 @@ export function TransitWorkspace({
             }
           }}
         >
-          <h3>Propose added service</h3>
-          <h4>1. Objective: which service to add</h4>
           <fieldset>
-            <legend>Service period</legend>
             {TRANSIT_SERVICE_CHOICES.map((c) => (
               <label key={c.value} className="transit-service-choice">
                 <input
@@ -110,9 +107,7 @@ export function TransitWorkspace({
               </label>
             ))}
           </fieldset>
-          <h4>2. Proposal: how much to provide</h4>
           <label>
-            Total amount provided (USD)
             <input
               type="number"
               required
@@ -123,7 +118,6 @@ export function TransitWorkspace({
               onChange={(e) => setAmount(e.target.value)}
             />
           </label>
-          <h4>3. Commitment: file it</h4>
           <button type="submit">File transit appropriation</button>
         </form>
       )}
@@ -221,12 +215,8 @@ export function TransitWorkspace({
                           {p.state.status}
                         </span>
                       </p>
-                      <dl>
-                        <dt>If paid</dt>
-                        <dd>{serviceUnits(p.forecast)}</dd>
-                        <dt>Delivered</dt>
-                        <dd>{serviceUnits(p.delivered)}</dd>
-                      </dl>
+                      <p>{serviceUnits(p.forecast)}</p>
+                      <p>{serviceUnits(p.delivered)}</p>
                       {p.state.status !== "resolved" && p.state.context && (
                         <p data-reason={p.state.context} />
                       )}
@@ -252,19 +242,14 @@ export function TransitWorkspace({
                 <section
                   className="transit-outcome"
                   data-testid="transit-outcome"
-                  aria-label="What this appropriation has done"
                 >
-                  <h4>What changed</h4>
                   <dl>
-                    <dt>Delivered</dt>
                     <dd data-problem={paidMinorUnits > 0 ? undefined : "none"}>
                       {paidMinorUnits > 0
                         ? serviceHoursText(paidMinorUnits)
                         : "—"}
                     </dd>
-                    <dt>Paid</dt>
                     <dd>{usd(paidMinorUnits)}</dd>
-                    <dt>Public account</dt>
                     <dd
                       data-problem={
                         publicCashMinorUnits === null
@@ -285,7 +270,6 @@ export function TransitWorkspace({
       )}
       {view.reports.length > 0 && (
         <div className="transit-reports">
-          <h3>Contract records and reports</h3>
           {view.reports.map(({ event, published }) => (
             <article key={event.id}>
               <p>

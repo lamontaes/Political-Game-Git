@@ -972,13 +972,24 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 61,
-          "seatY": 58.0,
+          "seatY": 58,
           "group": "bench-rear",
           "role": "general",
           "id": "city-hall-exterior:spot:7"
+        },
+        {
+          "x": 79,
+          "y": 61,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 61,
+          "seatY": 58,
+          "group": "bench-rear",
+          "role": "general",
+          "id": "city-hall-exterior:spot:8"
         }
       ],
-      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear left bench foot point estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
+      "measuredFrom": "entrance doors 2.03 m foot 56.7 top 48.2 and five steps plus 0.9 m handrails give about 4.3% per meter at the steps' foot y 62 (0.54); benches, back about 0.85 m, foot 67-68 top 60 (0.65, weighted most: people read too small against the benches at 0.57); lamp post about 4 m foot 69.5 top 37 (0.52); the top landing is its own floor, scaled from the doors; rear plaza bench foot points estimated from the native midday image and calibrated against the existing near-bench foot and cushion contacts",
       "surfaceSlots": [
         {
           "surfaceId": "city-hall-exterior-name-panel",
@@ -3594,7 +3605,7 @@
           "facing": "away",
           "depth": 71,
           "seatY": 60.8,
-          "group": "audience",
+          "group": "audience-row-5-left",
           "role": "audience",
           "id": "council-chamber:spot:12"
         },
@@ -3605,12 +3616,804 @@
           "facing": "away",
           "depth": 71,
           "seatY": 60.8,
-          "group": "audience",
+          "group": "audience-row-5-right",
           "role": "audience",
           "id": "council-chamber:spot:13"
+        },
+        {
+          "x": 5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-left",
+          "role": "audience",
+          "id": "council-chamber:spot:14"
+        },
+        {
+          "x": 12.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-left",
+          "role": "audience",
+          "id": "council-chamber:spot:15"
+        },
+        {
+          "x": 20,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-left",
+          "role": "audience",
+          "id": "council-chamber:spot:16"
+        },
+        {
+          "x": 27.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-left",
+          "role": "audience",
+          "id": "council-chamber:spot:17"
+        },
+        {
+          "x": 35,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-left",
+          "role": "audience",
+          "id": "council-chamber:spot:18"
+        },
+        {
+          "x": 65,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-right",
+          "role": "audience",
+          "id": "council-chamber:spot:19"
+        },
+        {
+          "x": 72.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-right",
+          "role": "audience",
+          "id": "council-chamber:spot:20"
+        },
+        {
+          "x": 80,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-right",
+          "role": "audience",
+          "id": "council-chamber:spot:21"
+        },
+        {
+          "x": 87.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-right",
+          "role": "audience",
+          "id": "council-chamber:spot:22"
+        },
+        {
+          "x": 95,
+          "y": 52,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "audience-row-1-right",
+          "role": "audience",
+          "id": "council-chamber:spot:23"
+        },
+        {
+          "x": 2,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:24"
+        },
+        {
+          "x": 8.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:25"
+        },
+        {
+          "x": 15,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:26"
+        },
+        {
+          "x": 21.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:27"
+        },
+        {
+          "x": 28,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:28"
+        },
+        {
+          "x": 34.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-left",
+          "role": "audience",
+          "id": "council-chamber:spot:29"
+        },
+        {
+          "x": 65.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:30"
+        },
+        {
+          "x": 72,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:31"
+        },
+        {
+          "x": 78.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:32"
+        },
+        {
+          "x": 85,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:33"
+        },
+        {
+          "x": 91.5,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:34"
+        },
+        {
+          "x": 98,
+          "y": 57,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 57,
+          "seatY": 49.5,
+          "group": "audience-row-2-right",
+          "role": "audience",
+          "id": "council-chamber:spot:35"
+        },
+        {
+          "x": 1,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:36"
+        },
+        {
+          "x": 7,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:37"
+        },
+        {
+          "x": 14,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:38"
+        },
+        {
+          "x": 21,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:39"
+        },
+        {
+          "x": 28,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:40"
+        },
+        {
+          "x": 35,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-left",
+          "role": "audience",
+          "id": "council-chamber:spot:41"
+        },
+        {
+          "x": 65,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:42"
+        },
+        {
+          "x": 72,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:43"
+        },
+        {
+          "x": 79,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:44"
+        },
+        {
+          "x": 86,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:45"
+        },
+        {
+          "x": 93,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:46"
+        },
+        {
+          "x": 99,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 54,
+          "group": "audience-row-3-right",
+          "role": "audience",
+          "id": "council-chamber:spot:47"
+        },
+        {
+          "x": 1,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:48"
+        },
+        {
+          "x": 8,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:49"
+        },
+        {
+          "x": 15,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:50"
+        },
+        {
+          "x": 22,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:51"
+        },
+        {
+          "x": 29,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:52"
+        },
+        {
+          "x": 36,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-left",
+          "role": "audience",
+          "id": "council-chamber:spot:53"
+        },
+        {
+          "x": 64,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:54"
+        },
+        {
+          "x": 71,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:55"
+        },
+        {
+          "x": 78,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:56"
+        },
+        {
+          "x": 85,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:57"
+        },
+        {
+          "x": 92,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:58"
+        },
+        {
+          "x": 99,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 58.5,
+          "group": "audience-row-4-right",
+          "role": "audience",
+          "id": "council-chamber:spot:59"
+        },
+        {
+          "x": 3,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-left",
+          "role": "audience",
+          "id": "council-chamber:spot:60"
+        },
+        {
+          "x": 11,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-left",
+          "role": "audience",
+          "id": "council-chamber:spot:61"
+        },
+        {
+          "x": 19,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-left",
+          "role": "audience",
+          "id": "council-chamber:spot:62"
+        },
+        {
+          "x": 27,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-left",
+          "role": "audience",
+          "id": "council-chamber:spot:63"
+        },
+        {
+          "x": 73,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-right",
+          "role": "audience",
+          "id": "council-chamber:spot:64"
+        },
+        {
+          "x": 81,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-right",
+          "role": "audience",
+          "id": "council-chamber:spot:65"
+        },
+        {
+          "x": 89,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-right",
+          "role": "audience",
+          "id": "council-chamber:spot:66"
+        },
+        {
+          "x": 97,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 60.8,
+          "group": "audience-row-5-right",
+          "role": "audience",
+          "id": "council-chamber:spot:67"
+        },
+        {
+          "x": 4,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-left",
+          "role": "audience",
+          "id": "council-chamber:spot:68"
+        },
+        {
+          "x": 14,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-left",
+          "role": "audience",
+          "id": "council-chamber:spot:69"
+        },
+        {
+          "x": 24,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-left",
+          "role": "audience",
+          "id": "council-chamber:spot:70"
+        },
+        {
+          "x": 34,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-left",
+          "role": "audience",
+          "id": "council-chamber:spot:71"
+        },
+        {
+          "x": 66,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-right",
+          "role": "audience",
+          "id": "council-chamber:spot:72"
+        },
+        {
+          "x": 76,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-right",
+          "role": "audience",
+          "id": "council-chamber:spot:73"
+        },
+        {
+          "x": 86,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-right",
+          "role": "audience",
+          "id": "council-chamber:spot:74"
+        },
+        {
+          "x": 96,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 68,
+          "group": "audience-row-6-right",
+          "role": "audience",
+          "id": "council-chamber:spot:75"
+        },
+        {
+          "x": 4,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-left",
+          "role": "audience",
+          "id": "council-chamber:spot:76"
+        },
+        {
+          "x": 14,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-left",
+          "role": "audience",
+          "id": "council-chamber:spot:77"
+        },
+        {
+          "x": 24,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-left",
+          "role": "audience",
+          "id": "council-chamber:spot:78"
+        },
+        {
+          "x": 34,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-left",
+          "role": "audience",
+          "id": "council-chamber:spot:79"
+        },
+        {
+          "x": 66,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-right",
+          "role": "audience",
+          "id": "council-chamber:spot:80"
+        },
+        {
+          "x": 76,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-right",
+          "role": "audience",
+          "id": "council-chamber:spot:81"
+        },
+        {
+          "x": 86,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-right",
+          "role": "audience",
+          "id": "council-chamber:spot:82"
+        },
+        {
+          "x": 96,
+          "y": 88,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88,
+          "seatY": 75,
+          "group": "audience-row-7-right",
+          "role": "audience",
+          "id": "council-chamber:spot:83"
+        },
+        {
+          "x": 14,
+          "y": 49,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 49,
+          "seatY": 42.5,
+          "group": "public-comment-table",
+          "role": "audience",
+          "id": "council-chamber:spot:84"
+        },
+        {
+          "x": 22,
+          "y": 49,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 49,
+          "seatY": 42.5,
+          "group": "public-comment-table",
+          "role": "audience",
+          "id": "council-chamber:spot:85"
         }
       ],
-      "measuredFrom": "audience chairs about 0.95 m: near foot 96 top 66.5, far foot 64 top 48 (they place the horizon near 26; 0.47); public lectern 1.15 m foot 50 top 40 (0.36); dais floor from the council chairs: 0.6 m wide (4.5% of the width), back top 1.1 m above the hidden floor, top at y 28, so that floor is at y 42.6 behind the dais desk (top 32)",
+      "measuredFrom": "audience chairs about 0.95 m: near foot 96 top 66.5, far foot 64 top 48 (they place the horizon near 26; 0.47); public lectern 1.15 m foot 50 top 40 (0.36); dais floor from the council chairs: 0.6 m wide (4.5% of the width), back top 1.1 m above the hidden floor, top at y 28, so that floor is at y 42.6 behind the dais desk (top 32); seated anchors for the side-table chairs and audience rows are visual estimates from council-chamber__midday.jpg (about ±2% position uncertainty)",
       "surfaceSlots": []
     },
     "county-commission": {
@@ -4146,9 +4949,33 @@
           "group": "table",
           "role": "general",
           "id": "county-party-office:spot:8"
+        },
+        {
+          "x": 50,
+          "y": 52.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52.5,
+          "clipBelowY": 43.8,
+          "seatY": 47,
+          "group": "table",
+          "role": "general",
+          "id": "county-party-office:spot:9"
+        },
+        {
+          "x": 65,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "clipBelowY": 43.8,
+          "seatY": 49.7,
+          "group": "table",
+          "role": "general",
+          "id": "county-party-office:spot:10"
         }
       ],
-      "measuredFrom": "front door 2.03 m foot 52.5 top 23 (1.00); meeting chair back 0.9 m foot 57 top 42.5 (0.85); front desk 0.75 m foot 87 top 60 (0.73); kept staged 38 / 0.85",
+      "measuredFrom": "front door 2.03 m foot 52.5 top 23 (1.00); meeting chair back 0.9 m foot 57 top 42.5 (0.85); front desk 0.75 m foot 87 top 60 (0.73); kept staged 38 / 0.85; two far-side conference-chair seat and foot points visually estimated from the native midday painting (approximately ±2 percentage points), clipped at the tabletop edge",
       "surfaceSlots": [
         {
           "surfaceId": "county-party-office-corkboard",
@@ -5117,13 +5944,24 @@
           "id": "governor-office:spot:1"
         },
         {
+          "x": 77,
+          "y": 56.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56.1,
+          "seatY": 45.5,
+          "group": "sofa",
+          "role": "general",
+          "id": "governor-office:spot:10"
+        },
+        {
           "x": 92,
           "y": 64.2,
           "pose": "sit",
           "facing": "left",
           "depth": 64.2,
           "seatY": 51.5,
-          "group": "sofa",
+          "group": "armchair",
           "role": "general",
           "id": "governor-office:spot:2"
         },
@@ -6685,9 +7523,163 @@
           "depth": 69.5,
           "role": "general",
           "id": "park:spot:6"
+        },
+        {
+          "x": 35,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 58.5,
+          "group": "picnic-west",
+          "role": "audience",
+          "id": "park:spot:7"
+        },
+        {
+          "x": 46,
+          "y": 60,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 60,
+          "seatY": 56.5,
+          "group": "picnic-west",
+          "role": "audience",
+          "id": "park:spot:8"
+        },
+        {
+          "x": 51,
+          "y": 63,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 63,
+          "seatY": 59.5,
+          "group": "picnic-center-west",
+          "role": "audience",
+          "id": "park:spot:9"
+        },
+        {
+          "x": 57,
+          "y": 65,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 65,
+          "seatY": 61.5,
+          "group": "picnic-center-west",
+          "role": "audience",
+          "id": "park:spot:10"
+        },
+        {
+          "x": 69,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 60.5,
+          "group": "picnic-center-east",
+          "role": "audience",
+          "id": "park:spot:11"
+        },
+        {
+          "x": 74,
+          "y": 66.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 66.5,
+          "seatY": 63,
+          "group": "picnic-center-east",
+          "role": "audience",
+          "id": "park:spot:12"
+        },
+        {
+          "x": 82,
+          "y": 68,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 68,
+          "seatY": 64.5,
+          "group": "picnic-east",
+          "role": "audience",
+          "id": "park:spot:13"
+        },
+        {
+          "x": 90,
+          "y": 71.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 71.5,
+          "seatY": 68,
+          "group": "picnic-east",
+          "role": "audience",
+          "id": "park:spot:14"
+        },
+        {
+          "x": 43,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 66.5,
+          "group": "picnic-front-west",
+          "role": "audience",
+          "id": "park:spot:15"
+        },
+        {
+          "x": 51,
+          "y": 72,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 72,
+          "seatY": 68.5,
+          "group": "picnic-front-west",
+          "role": "audience",
+          "id": "park:spot:16"
+        },
+        {
+          "x": 61,
+          "y": 73,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 73,
+          "seatY": 69.5,
+          "group": "picnic-front-center",
+          "role": "audience",
+          "id": "park:spot:17"
+        },
+        {
+          "x": 69,
+          "y": 74,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 74,
+          "seatY": 70.5,
+          "group": "picnic-front-center",
+          "role": "audience",
+          "id": "park:spot:18"
+        },
+        {
+          "x": 80,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 72.5,
+          "group": "picnic-front-east",
+          "role": "audience",
+          "id": "park:spot:19"
+        },
+        {
+          "x": 90,
+          "y": 78,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 78,
+          "seatY": 74.5,
+          "group": "picnic-front-east",
+          "role": "audience",
+          "id": "park:spot:20"
         }
       ],
-      "measuredFrom": "horizon from the two trash cans (near foot 75.3 top 63.9; far foot 63.2 top 56.5) and the far treeline base; trash can 0.9 m -> 0.43 both; picnic table top 0.75 m foot 59 top 54.2 -> 0.49",
+      "measuredFrom": "horizon from the two trash cans (near foot 75.3 top 63.9; far foot 63.2 top 56.5) and the far treeline base; trash can 0.9 m -> 0.43 both; picnic table top 0.75 m foot 59 top 54.2 -> 0.49; fourteen visual-estimate additional bench contacts sampled from park__midday.jpg using the existing 3.5-point foot-to-seat offset; away-facing positions await matching rear-view art",
       "surfaceSlots": [
         {
           "surfaceId": "park-notice-board",
@@ -6784,9 +7776,20 @@
           "clipBelowY": 56,
           "role": "general",
           "id": "party-headquarters:spot:7"
+        },
+        {
+          "x": 12,
+          "y": 88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 88,
+          "seatY": 78,
+          "group": "desk",
+          "role": "general",
+          "id": "party-headquarters:spot:8"
         }
       ],
-      "measuredFrom": "folding table 0.75 m foot about 70 top 58; office chair 0.95 m",
+      "measuredFrom": "Folding table 0.75 m foot about 70 top 58; office chair 0.95 m. The fourth chair seat center at x about 12%, y 78% is estimated from party-headquarters__midday.jpg.",
       "surfaceSlots": []
     },
     "phone-bank-room": {
@@ -6904,9 +7907,75 @@
           "group": "desk",
           "role": "general",
           "id": "phone-bank-room:spot:10"
+        },
+        {
+          "x": 10,
+          "y": 80,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:11"
+        },
+        {
+          "x": 19,
+          "y": 69,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:12"
+        },
+        {
+          "x": 42,
+          "y": 56,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-left",
+          "role": "general",
+          "id": "phone-bank-room:spot:13"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80,
+          "seatY": 68,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:14"
+        },
+        {
+          "x": 81,
+          "y": 69,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 69,
+          "seatY": 57,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:15"
+        },
+        {
+          "x": 58,
+          "y": 56,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 56,
+          "seatY": 46,
+          "group": "desk-right",
+          "role": "general",
+          "id": "phone-bank-room:spot:16"
         }
       ],
-      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m",
+      "measuredFrom": "horizon from the far desk end vs the near chair; far desk end 0.75 m foot 55.2 top 43 -> 0.70; near left chair seat 0.45 m foot 92 top 73 -> 0.70; near chair back 0.9 m foot 88.5 top 51.5 -> 0.73; back wall floor 52 to ceiling 7.5 reads 2.7 m; added chair foot and seat points are visual estimates from the midday image (about 1-2 percentage points uncertainty)",
       "surfaceSlots": [
         {
           "surfaceId": "phone-bank-room-whiteboard",
@@ -6990,7 +8059,8 @@
           "facing": "right",
           "depth": 85,
           "seatY": 76,
-          "role": "general",
+          "group": "waiting-bench",
+          "role": "audience",
           "id": "police-station:spot:2"
         },
         {
@@ -7041,9 +8111,31 @@
           "clipBelowY": 53.5,
           "role": "general",
           "id": "police-station:spot:7"
+        },
+        {
+          "x": 9,
+          "y": 62,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 62,
+          "seatY": 58,
+          "group": "waiting-bench",
+          "role": "audience",
+          "id": "police-station:spot:8"
+        },
+        {
+          "x": 23,
+          "y": 74,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 74,
+          "seatY": 63,
+          "group": "waiting-bench",
+          "role": "audience",
+          "id": "police-station:spot:9"
         }
       ],
-      "measuredFrom": "glass counter about 1.1 m foot 66.4 top 55 (0.75); lobby bench 0.45 m seat",
+      "measuredFrom": "glass counter about 1.1 m foot 66.4 top 55 (0.75); lobby bench 0.45 m seat; two additional waiting-bench foot points visually estimated from the native midday painting with approximately 2 percentage point placement uncertainty",
       "surfaceSlots": []
     },
     "polling-place": {
@@ -7576,9 +8668,87 @@
           "depth": 72.5,
           "role": "general",
           "id": "rally-stage:spot:5"
+        },
+        {
+          "x": 81,
+          "y": 54.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 54.5,
+          "seatY": 50.1,
+          "floorHorizonY": 43,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-1",
+          "role": "audience",
+          "id": "rally-stage:spot:6"
+        },
+        {
+          "x": 84,
+          "y": 50,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 50,
+          "seatY": 45.6,
+          "floorHorizonY": 38.5,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-2",
+          "role": "audience",
+          "id": "rally-stage:spot:7"
+        },
+        {
+          "x": 87,
+          "y": 46,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 46,
+          "seatY": 41.6,
+          "floorHorizonY": 34.5,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-3",
+          "role": "audience",
+          "id": "rally-stage:spot:8"
+        },
+        {
+          "x": 90,
+          "y": 42,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 42,
+          "seatY": 37.6,
+          "floorHorizonY": 30.5,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-4",
+          "role": "audience",
+          "id": "rally-stage:spot:9"
+        },
+        {
+          "x": 93,
+          "y": 38,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 38,
+          "seatY": 33.6,
+          "floorHorizonY": 26.5,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-5",
+          "role": "audience",
+          "id": "rally-stage:spot:10"
+        },
+        {
+          "x": 96,
+          "y": 34,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 34,
+          "seatY": 29.6,
+          "floorHorizonY": 22.5,
+          "floorMetersPercent": 0.86,
+          "group": "bleacher-row-6",
+          "role": "audience",
+          "id": "rally-stage:spot:11"
         }
       ],
-      "measuredFrom": "horizon from the court center circle (3.6 m across, center row 90) against the stage front (skirt 0.65 m, foot 77.4) and the back door behind the stage (knob 58, top 50); stage-front depth reads 22%/m (the lectern, foot 62.2 top 37, is painted about 1.3 m tall) -> stage 2.16; center circle -> main floor 0.84; stage front -> 0.87",
+      "measuredFrom": "horizon from the court center circle (3.6 m across, center row 90) against the stage front (skirt 0.65 m, foot 77.4) and the back door behind the stage (knob 58, top 50); stage-front depth reads 22%/m (the lectern, foot 62.2 top 37, is painted about 1.3 m tall) -> stage 2.16; center circle -> main floor 0.84; stage front -> 0.87; six separate bleacher tiers mapped from their visible front edges at 54.5, 50, 46, 42, 38, and 34 percent image height; each 0.45 m seat-to-foot gap maps to about 4.4% of image height; local horizons 11.5 percentage points behind each row at the retained 0.86 scale produce about 16.8% character height (visual estimate, ±2 percentage points)",
       "surfaceSlots": []
     },
     "rowhouse": {
@@ -7752,9 +8922,33 @@
           "group": "table",
           "role": "general",
           "id": "rural-farmhouse:spot:8"
+        },
+        {
+          "x": 15.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:9"
+        },
+        {
+          "x": 23.5,
+          "y": 56,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 56,
+          "clipBelowY": 41,
+          "seatY": 47,
+          "group": "table-far-side",
+          "role": "general",
+          "id": "rural-farmhouse:spot:10"
         }
       ],
-      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82",
+      "measuredFrom": "horizon from the counter run (far end foot 56.1 top 37.8, near foot 71.2 top 42.2 -> 30) and back door vs table (-> 34); back door 2.03 m foot 54.9 top 11 -> 0.95; far counter 0.9 m -> 0.85; near counter -> 0.82; table 0.75 m foot 65.2 top 44.2 -> 0.85; chair seat 0.45 m foot 60 top 49.5 -> 0.82; far-side table chairs placed from the native midday painting with approximately 2 percentage point visual uncertainty",
       "surfaceSlots": []
     },
     "school-board-room": {
@@ -8171,7 +9365,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:23"
@@ -8182,7 +9376,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:24"
@@ -8193,7 +9387,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:25"
@@ -8204,7 +9398,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:26"
@@ -8215,7 +9409,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:27"
@@ -8226,7 +9420,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:28"
@@ -8237,7 +9431,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:29"
@@ -8248,7 +9442,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:30"
@@ -8259,7 +9453,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:31"
@@ -8270,7 +9464,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:32"
@@ -8281,7 +9475,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:33"
@@ -8292,7 +9486,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:34"
@@ -8303,7 +9497,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:35"
@@ -8314,7 +9508,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 46,
-          "seatY": 42.0,
+          "seatY": 42,
           "group": "audience-row-2",
           "role": "audience",
           "id": "school-gym-town-hall:spot:36"
@@ -8787,7 +9981,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:79"
@@ -8798,7 +9992,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:80"
@@ -8809,7 +10003,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:81"
@@ -8820,7 +10014,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:82"
@@ -8831,7 +10025,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:83"
@@ -8842,7 +10036,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:84"
@@ -8853,7 +10047,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:85"
@@ -8864,7 +10058,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:86"
@@ -8875,7 +10069,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:87"
@@ -8886,7 +10080,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:88"
@@ -8897,7 +10091,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:89"
@@ -8908,7 +10102,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:90"
@@ -8919,7 +10113,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:91"
@@ -8930,7 +10124,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 63,
-          "seatY": 54.0,
+          "seatY": 54,
           "group": "audience-row-6",
           "role": "audience",
           "id": "school-gym-town-hall:spot:92"
@@ -9095,7 +10289,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:107"
@@ -9106,7 +10300,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:108"
@@ -9117,7 +10311,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:109"
@@ -9128,7 +10322,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:110"
@@ -9139,7 +10333,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:111"
@@ -9150,7 +10344,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:112"
@@ -9161,7 +10355,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:113"
@@ -9172,7 +10366,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:114"
@@ -9183,7 +10377,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:115"
@@ -9194,7 +10388,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:116"
@@ -9205,7 +10399,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:117"
@@ -9216,7 +10410,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:118"
@@ -9227,7 +10421,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:119"
@@ -9238,7 +10432,7 @@
           "pose": "sit",
           "facing": "away",
           "depth": 73,
-          "seatY": 61.0,
+          "seatY": 61,
           "group": "audience-row-8",
           "role": "audience",
           "id": "school-gym-town-hall:spot:120"
@@ -12149,6 +13343,17 @@
         },
         {
           "x": 60,
+          "y": 88.4,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 88.4,
+          "seatY": 86.6,
+          "group": "walk-bench-right",
+          "role": "general",
+          "id": "state-capitol-pa:spot:7"
+        },
+        {
+          "x": 60,
           "y": 93.5,
           "pose": "stand",
           "facing": "left",
@@ -12175,7 +13380,7 @@
           "id": "state-capitol-pa:spot:6"
         }
       ],
-      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076",
+      "measuredFrom": "high camera; horizon on the far hills and river line (~38); sidewalk lamp ~4 m foot 94.7 top 80.1 -> 0.064; sidewalk bench back ~0.85 m foot 92.1 top 88.6 -> 0.076; right walkway bench mirrored from the left bench estimate within ±2 percentage points, measured from state-capitol-pa__midday.jpg",
       "surfaceSlots": []
     },
     "state-capitol-pr": {
@@ -13002,6 +14207,50 @@
           "id": "state-capitol-wa:spot:4"
         },
         {
+          "x": 40.5,
+          "y": 82.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82.5,
+          "seatY": 81.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:6"
+        },
+        {
+          "x": 59.5,
+          "y": 82.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82.5,
+          "seatY": 81.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:7"
+        },
+        {
+          "x": 40.5,
+          "y": 88.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88.5,
+          "seatY": 87.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:8"
+        },
+        {
+          "x": 59.5,
+          "y": 88.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 88.5,
+          "seatY": 87.7,
+          "group": "fountain-benches",
+          "role": "general",
+          "id": "state-capitol-wa:spot:9"
+        },
+        {
           "x": 50,
           "y": 77,
           "pose": "stand",
@@ -13011,7 +14260,7 @@
           "id": "state-capitol-wa:spot:5"
         }
       ],
-      "measuredFrom": "high aerial camera; horizon on the far water and hill line (~40); plaza bench back ~0.85 m foot 89 top 86.5 -> 0.06; plaza lamp ~4 m foot 83.5 top 74 -> 0.055",
+      "measuredFrom": "high aerial camera; horizon on the far water and hill line (~40); plaza bench back ~0.85 m foot 89 top 86.5 -> 0.06; plaza lamp ~4 m foot 83.5 top 74 -> 0.055; four added fountain-plaza bench positions estimated from the native midday painting (±2 percentage points)",
       "surfaceSlots": []
     },
     "state-capitol-wi": {
@@ -13646,9 +14895,42 @@
           "group": "home",
           "role": "general",
           "id": "suburban-house:spot:11"
+        },
+        {
+          "x": 80.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 52,
+          "seatY": 45.5,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:12"
+        },
+        {
+          "x": 71.8,
+          "y": 46.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 46.5,
+          "seatY": 40.8,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:13"
+        },
+        {
+          "x": 80.5,
+          "y": 46.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 46.5,
+          "seatY": 40.8,
+          "group": "dining-table",
+          "role": "general",
+          "id": "suburban-house:spot:14"
         }
       ],
-      "measuredFrom": "sliding door 2.03 m (foot 49.5 top 23.5) 0.65; dining table 0.75 m (foot 51.5 top 41.5) 0.62; dining chair back 0.9 m (foot 51.5 top 38.5) 0.67; counter stool 0.75 m (foot 69.5 top 50) 0.66; coffee table 0.45 m (foot 58.5 top 49.5) 0.70; horizon chosen where these agree (all table and counter tops are seen from above)",
+      "measuredFrom": "sliding door 2.03 m (foot 49.5 top 23.5) 0.65; dining table 0.75 m (foot 51.5 top 41.5) 0.62; dining chair back 0.9 m (foot 51.5 top 38.5) 0.67; counter stool 0.75 m (foot 69.5 top 50) 0.66; coffee table 0.45 m (foot 58.5 top 49.5) 0.70; horizon chosen where these agree (all table and counter tops are seen from above); three additional dining chair foot and cushion placements estimated from the native midday painting at about 1-2 percentage point uncertainty",
       "surfaceSlots": [
         {
           "surfaceId": "suburban-house-tv",

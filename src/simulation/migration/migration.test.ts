@@ -24,6 +24,7 @@ import { serializeWorld } from "../serialization";
 import type { MacroMonthRecord } from "../macro-economy/types";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
+import { votingPrecinctOfPerson } from "../living-world/town-wards";
 import {
   MIGRATION_REVIEW_TRANSITION_KEY,
   TOWN_HOME_REVIEW_TRANSITION_KEY,
@@ -139,6 +140,31 @@ describe("migration scaffold", () => {
         waveKey: null,
       }),
     ]);
+  });
+
+  it("assigns a resident arriving in a town to its saved voting precinct", () => {
+    const world = createCharacterHistoryContextPeople(opened.world, [
+      {
+        stableKey: "migration-test:precinct-arrival",
+        givenName: "Avery",
+        familyName: "Rivera",
+        birthDate: makeIsoDate("1980-03-14"),
+        homeJurisdictionId: oregon,
+      },
+    ]);
+    const personId = characterHistoryContextPersonId(
+      world,
+      "migration-test:precinct-arrival",
+    );
+    const moved = relocateHousehold(world, {
+      stableKey: "migration-test:precinct-arrival-move",
+      personId,
+      toJurisdictionId: town,
+      reason: "work:transfer",
+      waveKey: null,
+    });
+    expect(moved.people[personId]!.homeJurisdictionId).toBe(town);
+    expect(votingPrecinctOfPerson(moved, town, personId)).not.toBeNull();
   });
 
   it("refuses to move the player, somebody tied to the town, or a bad reason", () => {
