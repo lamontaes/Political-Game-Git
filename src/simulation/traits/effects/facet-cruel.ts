@@ -48,7 +48,6 @@ export const facetCruelEffects: readonly TraitEffectDeclaration[] = [
         option: "convict",
         trait: "personality-v1:facet-cruel",
         pole: "high",
-        explanation: "They want to see the defendant made to pay.",
       },
     ],
   },

@@ -20,8 +20,6 @@ describe("the brazen trait reader", () => {
       option: "deal",
       trait: "personality-v1:facet-brazen",
       pole: "high",
-      explanation:
-        "They are not easily checked by the embarrassment of making an audacious offer.",
     });
   });
 
