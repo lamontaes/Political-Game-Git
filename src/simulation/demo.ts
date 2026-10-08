@@ -137,6 +137,7 @@ export function createScenarioWorld(
   const count = options?.peopleCount ?? 6;
   const people = Array.from({ length: count }, (_, index) =>
     createLightweightPerson({
+      cohortSize: count,
       worldId,
       worldSeed: seed,
       index,

@@ -56,6 +56,8 @@ export interface LightweightPersonInput {
   readonly worldId: EntityId;
   readonly worldSeed: string;
   readonly index: number;
+  /** The actual generation cohort, when the caller is creating a roster. */
+  readonly cohortSize?: number;
   readonly currentDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
@@ -97,13 +99,17 @@ export function factsForPerson(person: Person): readonly PersonFact[] {
  * stage, and the one age-window table (`invented-person-age.ts`) holds each
  * stage's ages.
  */
-function generateProductionAge(rng: SeededRng, ordinal: number): number {
+function generateProductionAge(
+  rng: SeededRng,
+  ordinal: number,
+  population: number,
+): number {
   const role = cohortCategoryAt(
     COHORT_REFERENCE.ageRoles.map(
       ([role, weight]) => [String(role), Number(weight)] as const,
     ),
-    COHORT_REFERENCE.cohortSlots,
-    ordinal % COHORT_REFERENCE.cohortSlots,
+    population,
+    ordinal % population,
   );
   return inventedPersonAge(rng, role as InventedPersonRole);
 }
@@ -237,7 +243,11 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     if (profile === "stress") {
       birthDate = generateStressBirthDate(input.index, input.currentDate, rng);
     } else {
-      const targetAge = generateProductionAge(rng, input.index);
+      const targetAge = generateProductionAge(
+        rng,
+        input.index,
+        input.cohortSize ?? COHORT_REFERENCE.cohortSlots,
+      );
       birthDate = generateProductionBirthDate(
         input.currentDate,
         targetAge,

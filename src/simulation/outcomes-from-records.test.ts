@@ -159,16 +159,23 @@ describe("one recorded mechanism in all 56 places", () => {
       counts.set(kind, (counts.get(kind) ?? 0) + 1);
     }
     expect(Object.fromEntries(counts)).toEqual({ one: 40, two: 40, three: 20 });
-    expect(
-      cohortCategoryPosition(
+    const nested = new Map<string, number>();
+    for (let ordinal = 0; ordinal < 100; ordinal++) {
+      const position = cohortCategoryPosition(
         [
           ["one", 0.4],
           ["two", 0.6],
         ],
         100,
-        40,
-      ),
-    ).toEqual({ category: "two", categoryPopulation: 60, categoryOrdinal: 0 });
+        ordinal,
+      );
+      expect(position.categoryOrdinal).toBe(nested.get(position.category) ?? 0);
+      expect(position.categoryPopulation).toBe(
+        position.category === "one" ? 40 : 60,
+      );
+      nested.set(position.category, position.categoryOrdinal + 1);
+    }
+    expect(Object.fromEntries(nested)).toEqual({ two: 60, one: 40 });
     expect(() => cohortCategoryAt([["one", 1]], 1, 1)).toThrow();
     expect(medianRepresentedRate("flood", 1)).toBeGreaterThanOrEqual(0);
     expect(cohortReference.estimatedFrom).toContain("Census");
@@ -239,6 +246,12 @@ describe("canonical recorded consumers", () => {
         initial: startValuesFromLatents("near-reference", latents),
         effectiveDate: date,
       }),
+      {
+        lowerPct: CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct.lower,
+        upperPct: CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct.upper,
+        basis: "retained-reference",
+        decisionEventId: null,
+      },
     );
     const bank = world.macroEconomy!.centralBank!;
     for (const seat of bank.seats) {

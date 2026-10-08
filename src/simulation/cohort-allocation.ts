@@ -26,16 +26,34 @@ export function cohortCategoryPosition<Key extends string>(
     positive.map(([, weight]) => Math.max(1, Math.round(weight * 1_000_000))),
     population,
   );
-  let start = 0;
-  for (const [index, [key]] of positive.entries()) {
-    const count = counts[index]!;
-    if (ordinal < start + count)
+  // Interleave the exact quotas by their service deadlines. A town's first
+  // represented households must not all belong to the first source category.
+  // Starting at each quota's elapsed share leaves fewer than rows.length
+  // positions to settle, rather than walking the entire population.
+  const served = counts.map((count) =>
+    Math.floor((ordinal * count) / population),
+  );
+  let position = served.reduce((sum, count) => sum + count, 0);
+  while (position <= ordinal) {
+    let next = -1;
+    for (let index = 0; index < counts.length; index++) {
+      if (served[index]! >= counts[index]!) continue;
+      if (
+        next < 0 ||
+        (served[index]! + 1) * counts[next]! <
+          (served[next]! + 1) * counts[index]!
+      )
+        next = index;
+    }
+    if (next < 0) break;
+    if (position === ordinal)
       return {
-        category: key,
-        categoryPopulation: count,
-        categoryOrdinal: ordinal - start,
+        category: positive[next]![0],
+        categoryPopulation: counts[next]!,
+        categoryOrdinal: served[next]!,
       };
-    start += count;
+    served[next]! += 1;
+    position += 1;
   }
   throw new Error("A cohort allocation has no category for this member.");
 }
