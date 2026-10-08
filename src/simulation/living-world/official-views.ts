@@ -20,6 +20,7 @@ import {
   type PoliticalBeliefFormationOutcome,
 } from "../political-belief-formation";
 import { officialOpinionSubject } from "../political-opinion-subjects";
+import { eventById } from "../event-index";
 import { recordWorldEvent } from "../world";
 import { recordEventKnowledge } from "../records";
 import { joinLawInterestGroup } from "./law-interest-groups";
@@ -936,20 +937,25 @@ function reflectOnLivedOutcome(
       dueItem.stableKey,
   );
   if (!outcome) return done(world, "outcome-not-present");
-  const officialId = officialAnsweringFor(
-    world,
-    personId,
-    LIVED_OUTCOME_ANSWERED_BY[outcome.kind],
-  );
-  if (!officialId || officialId === personId || !world.people[officialId])
-    return done(world, "no-official");
+  const officialIds = [
+    ...new Set(
+      LIVED_OUTCOME_ANSWERED_BY[outcome.kind]
+        .map((office) => officialAnsweringFor(world, personId, office))
+        .filter(
+          (id): id is EntityId =>
+            id !== null && id !== personId && Boolean(world.people[id]),
+        ),
+    ),
+  ];
+  if (officialIds.length === 0) return done(world, "no-official");
+  const sourceEvent = eventById(world, outcome.sourceRecordId);
   let next = recordWorldEvent(world, {
     stableKey: livedOutcomeReflectionEventKey(personId, outcome),
     type: LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [personId, officialId],
+    involvedEntityIds: [personId, ...officialIds],
     participants: [{ personId, role: "focus:subject", detail: null }],
     personFactConstraints: [],
     visibility: "private",
@@ -960,7 +966,10 @@ function reflectOnLivedOutcome(
       `lived-outcome:${outcome.kind}`,
       `${LIVED_OUTCOME_SOURCE_TAG}${outcome.sourceRecordId}`,
     ],
-    summary: `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
+    summary:
+      outcome.kind === "crime-suffered"
+        ? (sourceEvent?.summary ?? "")
+        : `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
     context: {
       location: null,
       socialContext: null,
@@ -971,23 +980,27 @@ function reflectOnLivedOutcome(
     },
   });
   const eventId = next.history.events.at(-1)!.id;
-  const reason = outcomeFactor(next, personId, officialId, outcome, eventId);
-  if (!reason) return done(next, "not-felt");
-  next = formViewFromFactor(
-    next,
-    personId,
-    officialId,
-    reason,
-    `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
-    "What happened to them runs against the view of this official the person already held.",
-  );
-  next = tellViewToHearers(next, {
-    holderId: personId,
-    officialId,
-    eventId,
-    stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}`,
-  });
-  return done(next, "reflected");
+  let reflected = false;
+  for (const officialId of officialIds) {
+    const reason = outcomeFactor(next, personId, officialId, outcome, eventId);
+    if (!reason) continue;
+    reflected = true;
+    next = formViewFromFactor(
+      next,
+      personId,
+      officialId,
+      reason,
+      `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
+      "What happened to them runs against the view of this official the person already held.",
+    );
+    next = tellViewToHearers(next, {
+      holderId: personId,
+      officialId,
+      eventId,
+      stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}:${officialId}`,
+    });
+  }
+  return done(next, reflected ? "reflected" : "not-felt");
 }
 
 /**
@@ -1027,10 +1040,16 @@ function outcomeFactor(
       sourceType: "information:lived-outcome",
       importance: IMPORTANCE_FROM.find(([from]) => felt >= from)![1],
       confidence: "high",
-      explanation: `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
-        anchored ? "; the person's party loyalty tempers it" : ""
-      }.`,
-      sourceRefs: [{ kind: "historical-event", eventId }],
+      explanation:
+        outcome.kind === "crime-suffered"
+          ? `lived-outcome:${outcome.kind}:estimated-from:${outcome.estimatedFrom}`
+          : `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
+              anchored ? "; the person's party loyalty tempers it" : ""
+            }.`,
+      sourceRefs: [
+        { kind: "historical-event", eventId: outcome.sourceRecordId },
+        { kind: "historical-event", eventId },
+      ],
     },
   };
 }
