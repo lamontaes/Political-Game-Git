@@ -45,7 +45,7 @@ import {
   officialViewReflectionHandler,
 } from "../living-world/official-views";
 import { livedOutcomeReflectionKey } from "../law-exposure";
-import { createWorkCompensation, money } from "../resources";
+import { createWorkCompensation, makeCurrencyCode, money } from "../resources";
 import { RENT_EVENTS } from "../living-world/town-rent";
 import { recordWorldEvent } from "../world";
 import {
@@ -212,10 +212,10 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 99,
+      "person-linked": 100,
       "budget-only": 0,
       "place-number-only": 0,
-      "no-live-consumer": 2,
+      "no-live-consumer": 1,
     });
   });
 
@@ -653,7 +653,7 @@ describe("the outcome landing plan", () => {
         OutcomeRecipientRule,
         "recorded-school-enrollment-or-compulsory-age-estimate"
       >,
-      (typeof recipientAgeRanges)[string],
+      (typeof recipientAgeRanges)[keyof typeof recipientAgeRanges],
     ][],
   )("matches the sourced %s age cohort", (rule, range) => {
     expect(range.estimatedFrom.length).toBeGreaterThan(0);
@@ -1717,7 +1717,7 @@ describe("a named household outcome landing", () => {
       monthlyBenefitMinor: 25000,
       benefitSource: "seeded SNAP recipient fixture",
       causeId: householdId,
-      applicationId: "ow-spine-household-test:snap-application",
+      applicationId: "ow-spine-household-test:snap-application" as EntityId,
       effectiveAt: month,
       householdSize: fixture.world.history.householdMemberships.length,
       monthlyWorkHours: null,
@@ -1764,7 +1764,7 @@ describe("a named household outcome landing", () => {
       workRelationshipId:
         relationshipWorld.history.workRelationships.at(-1)!.id,
       startsAt: month,
-      amount: { minorUnits: 250000, currency: "USD" },
+      amount: { minorUnits: 250000, currency: makeCurrencyCode("USD") },
       cadenceKind: "schedule:monthly",
       restrictionKind: null,
       jurisdictionId: fixture.jurisdictionId,
@@ -1897,26 +1897,26 @@ describe("a named housing outcome landing", () => {
       monthlyBenefitMinor: 25000,
       benefitSource: "seeded housing recipient fixture",
       causeId: householdId,
-      applicationId: "ow-spine-housing-test:snap-application",
+      applicationId: "ow-spine-housing-test:snap-application" as EntityId,
       effectiveAt: month,
       householdSize: fixture.world.history.householdMemberships.length,
       monthlyWorkHours: null,
       incomeToThreshold: 0.5,
     });
-    const tenureId = "test:ow-spine-housing:rental-tenure";
+    const tenureId = "test:ow-spine-housing:rental-tenure" as EntityId;
     const nextSequence = world.history.nextSequence;
     const tenure = {
       id: tenureId,
       stableKey: tenureId,
       sequence: nextSequence,
       holder: { kind: "household" as const, householdId },
-      dwellingId: "test:ow-spine-housing:dwelling",
+      dwellingId: "test:ow-spine-housing:dwelling" as EntityId,
       startedAt: month,
       kind: "lease:rented",
       provenance,
     } as (typeof world.history.housingTenures)[number];
     const tenureState = {
-      id: "test:ow-spine-housing:rental-tenure:active",
+      id: "test:ow-spine-housing:rental-tenure:active" as EntityId,
       stableKey: "test:ow-spine-housing:rental-tenure:active",
       sequence: nextSequence + 1,
       housingTenureId: tenureId,

@@ -66,7 +66,8 @@ export type OutcomeRecipientRule =
   | "recorded-restored-voting-right-estimate"
   | "recorded-medicaid-expansion-recipient-estimate"
   | "recorded-payday-loan-borrower-estimate"
-  | "recorded-farm-operator-land-value-estimate";
+  | "recorded-farm-operator-land-value-estimate"
+  | "recorded-farm-operator-resource-estimate";
 
 type AgeBoundedOutcomeRecipientRule = Exclude<
   OutcomeRecipientRule,
@@ -84,6 +85,7 @@ type AgeBoundedOutcomeRecipientRule = Exclude<
   | "recorded-payday-loan-borrower-estimate"
   | "recorded-restored-voting-right-estimate"
   | "recorded-farm-operator-land-value-estimate"
+  | "recorded-farm-operator-resource-estimate"
 >;
 
 interface CompulsorySchoolAgeRange {
@@ -222,6 +224,7 @@ export function matchesOutcomeRecipientRule(
     case "recorded-payday-loan-borrower-estimate":
       return person.hasActivePaydayLoan;
     case "recorded-farm-operator-land-value-estimate":
+    case "recorded-farm-operator-resource-estimate":
       return person.hasRecordedFarmOperator === true;
     case "recorded-medicaid-expansion-recipient-estimate": {
       const cohort = RECIPIENT_AGE_COHORTS[rule];
@@ -320,7 +323,9 @@ export function recordPlannedPersonOutcomeLandings(
     (row) => row.recipientRule === "recorded-payday-loan-borrower-estimate",
   );
   const needsFarmOperators = PERSON_LANDINGS.some(
-    (row) => row.recipientRule === "recorded-farm-operator-land-value-estimate",
+    (row) =>
+      row.recipientRule === "recorded-farm-operator-land-value-estimate" ||
+      row.recipientRule === "recorded-farm-operator-resource-estimate",
   );
   const farmOperators = needsFarmOperators
     ? recordedFarmOperatorsAt(world, month)

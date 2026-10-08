@@ -55,10 +55,11 @@ describe("environmental laws reach residents through their place outcome", () =>
         ]),
       );
       vi.spyOn(outcomeWeb, "outcomeFactor").mockImplementation(
-        (_world, _jurisdictionId, outcome) => ({
-          multiplier: CAUSES[outcome]?.factor ?? 1,
-          causes: CAUSES[outcome] ? [CAUSES[outcome]!] : [],
-        }),
+        (_world, _jurisdictionId, outcome) =>
+          ({
+            multiplier: CAUSES[outcome]?.factor ?? 1,
+            causes: CAUSES[outcome] ? [CAUSES[outcome]!] : [],
+          }) as unknown as ReturnType<typeof outcomeWeb.outcomeFactor>,
       );
       vi.spyOn(lawInForceModule, "lawInForce").mockImplementation(
         (_world, _jurisdictionId, propositionId, at) => {
@@ -70,7 +71,7 @@ describe("environmental laws reach residents through their place outcome", () =>
               `starting-law:${place.jurisdictionKey}:${question}` as never,
             origin: "in-force-at-start",
             level: "state-statute",
-            operativeAt: at,
+            operativeAt: at ?? fixture.world.currentDate,
             operativeBasis: "enacted-date",
           } satisfies LawInForce;
         },
