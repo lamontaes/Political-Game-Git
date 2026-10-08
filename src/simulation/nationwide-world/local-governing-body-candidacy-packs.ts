@@ -1,5 +1,5 @@
 import { governmentUnitDisplayName } from "./government-unit-names";
-import { governmentUnit } from "../government-units";
+import { governmentUnit, municipioUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { knownRule, unknownRule } from "../legislature-rules";
 import {
@@ -222,7 +222,11 @@ export function localGoverningBodyIdentityForOfficeKey(
         : null;
   if (!suffix) return null;
   const publisherId = officeKey.slice(OFFICE_PREFIX.length, -suffix.length);
-  const unit = governmentUnit(`gus2025:${publisherId}`);
+  // A Puerto Rico municipio is not in the Census listing; its key carries
+  // the municipio's own county-equivalent code instead.
+  const unit = publisherId.startsWith("municipio:")
+    ? municipioUnit(publisherId.slice("municipio:".length))
+    : governmentUnit(`gus2025:${publisherId}`);
   if (!unit) return null;
   const identity = rowKey
     ? localRowOfficeIdentity(unit, rowKey)

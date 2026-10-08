@@ -5,6 +5,7 @@ import {
   localGoverningBodiesForJurisdiction,
 } from "./candidacy";
 import { searchLifePlaces } from "./life-places";
+import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
 import { STATES } from "./state-reference";
 
@@ -55,6 +56,12 @@ describe("a governing-body seat's age, in all 56 places", () => {
       expect(age.source.sourceTitle, usps).toBe(
         "Qualified elector of the place",
       );
+      // The key a filing carries names this same seat again, so the
+      // eligibility gate and the filing office can find it.
+      expect(
+        localGoverningBodyIdentityForOfficeKey(found.seat.officeKey)?.unit.id,
+        usps,
+      ).toBe(found.seat.unit.id);
       expect(office.qualification.minimumAgeEstimate, usps).toMatchObject({
         basis: "qualified-elector-of-the-place",
         jurisdictionKey: `US-${usps}`,
