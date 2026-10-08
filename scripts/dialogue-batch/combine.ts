@@ -14,8 +14,14 @@
  * A development tool. It never words anything.
  */
 import { execSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { dirname, join } from "node:path";
 import { toGradingBatch, type GradingBatch } from "./grading";
 import { repeatKey, type BatchLine, type BatchResult } from "./run";
 import { batchStats } from "./stats";
@@ -24,9 +30,29 @@ import { BATCH_DIR } from "./apply-grades";
 /** No one world's life or body fills a kind of text in a combined batch. */
 const PER_WORLD_KIND = 2;
 
-export function combineResults(results: readonly BatchResult[]): BatchResult {
+/**
+ * The repeat keys of every item already put to the owner, so a later batch
+ * never asks for the same grade twice.
+ */
+export function askedKeys(batches: readonly GradingBatch[]): Set<string> {
+  const asked = new Set<string>();
+  for (const batch of batches)
+    for (const item of batch.items) {
+      // A reply is "Voice: line"; the key reads the line the engine wrote.
+      const line = item.reply.slice(item.reply.indexOf(": ") + 2);
+      asked.add(
+        repeatKey(item.id.replace(/-\d+$/, ""), line, item.parts[0] ?? ""),
+      );
+    }
+  return asked;
+}
+
+export function combineResults(
+  results: readonly BatchResult[],
+  asked: ReadonlySet<string> = new Set(),
+): BatchResult {
   const lines: BatchLine[] = [];
-  const shapes = new Set<string>();
+  const shapes = new Set<string>(asked);
   const fromWorld = new Map<string, number>();
   const numbered = new Map<string, number>();
   const worlds: BatchResult["worlds"][number][] = [];
@@ -84,11 +110,25 @@ function main() {
     (file) => JSON.parse(readFileSync(file, "utf8")) as BatchResult,
   );
   const id = `batch-${number}`;
-  const { batch, bin } = toGradingBatch(combineResults(results), {
-    id,
-    head: execSync("git rev-parse HEAD").toString().trim(),
-    at: new Date(),
-  });
+  // Earlier batches in the folder are what the owner has already been asked.
+  const earlier = existsSync(BATCH_DIR)
+    ? readdirSync(BATCH_DIR)
+        .filter((name) => name.endsWith(".json") && name !== `${id}.json`)
+        .map(
+          (name) =>
+            JSON.parse(
+              readFileSync(join(BATCH_DIR, name), "utf8"),
+            ) as GradingBatch,
+        )
+    : [];
+  const { batch, bin } = toGradingBatch(
+    combineResults(results, askedKeys(earlier)),
+    {
+      id,
+      head: execSync("git rev-parse HEAD").toString().trim(),
+      at: new Date(),
+    },
+  );
   const out = `${BATCH_DIR}/${id}.json`;
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { combineResults } from "./combine";
+import { askedKeys, combineResults } from "./combine";
 import { toGradingBatch } from "./grading";
 import type { BatchLine, BatchResult } from "./run";
 
@@ -97,6 +97,17 @@ describe("combining batch runs", () => {
       ["text-journal-2", "I moved in 2001."],
       ["text-journal-3", "I married in 2009."],
     ]);
+  });
+
+  it("never asks again for a line an earlier batch already put to the owner", () => {
+    const { batch: earlier } = toGradingBatch(combineResults([a]), {
+      id: "batch-earlier",
+      head: "test-head",
+      at: new Date("2026-10-08T17:00:00.000Z"),
+    });
+    const later = combineResults([b], askedKeys([earlier]));
+    // b's meeting line is a's bank part with another town's name in it.
+    expect(later.lines.map((row) => row.line)).toEqual(["Good morning."]);
   });
 
   it("keeps an absent kind only when no run produced it", () => {
