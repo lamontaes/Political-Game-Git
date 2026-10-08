@@ -13,7 +13,7 @@ describe("public-life readers in the effects index", () => {
     ["self-conscious", facetSelfConsciousEffects],
     ["thrill-seeking", facetThrillSeekingEffects],
   ] as const)(
-    "registers %s's existing decisions once through the catalogue",
+    "registers %s's existing decisions once through the catalog",
     (key, effects) => {
       const indexed = personalityTraitEffects();
       const registry = loadedTraitRegistry();

@@ -7657,7 +7657,7 @@ _Released October 7, 2026._
 
 - **Governing follow-ups report recorded actions and delivery** Governing work
   counts as completed only when its completion cites the matter's saved
-  decision. Cancelled or lapsed work does not qualify. Budget and agency
+  decision. Canceled or lapsed work does not qualify. Budget and agency
   follow-ups now require a linked enacted appropriation or saved delivery
   outturn; party, staff skill, a spending decision, and a payment alone do not
   create results.
@@ -10999,7 +10999,7 @@ _Released October 7, 2026._
   says where you are going, such as "Go to the public meeting", instead of "Make
   the journey", and other activities say "Start now". Trips on the calendar read
   "Trip to the public meeting". The game's wording check now catches British
-  spellings and words (favour, neighbour, whilst, fortnight, queue, programme
+  spellings and words (favor, neighbor, while, fortnight, queue, program
   and others) and stiff phrases (make the journey, proceed to, commence), so new
   ones can't come back.
 

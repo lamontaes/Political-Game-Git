@@ -284,6 +284,7 @@ describe("governing work and delivery require their own saved actions", () => {
     });
   });
 
+  // british-spelling-ok: the saved work-item state uses the persisted spelling.
   it("keeps the native lapsed decision cancelled rather than fulfilled", () => {
     const matter = governingMatterById(opened, matterId)!;
     if (!matter.deadline) throw new Error("The program deadline is missing.");

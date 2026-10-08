@@ -154,6 +154,7 @@ it.each(places)(
   },
 );
 
+// british-spelling-ok: the saved due-item state uses the persisted spelling.
 it("replaces a cancelled same-day clock append-only without reusing its key", () => {
   let world = ensurePaydaySchedule(
     smallWorld({
