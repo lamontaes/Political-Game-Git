@@ -429,7 +429,32 @@
           "preempts": true,
           "cite": "Cal. Pub. Res. Code § 14560",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
-          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act."
+          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more. Effective January 1, 2024, covered wine and distilled spirits in boxes, bladders and pouches carry a 25-cent refund value.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "kind": "tiers",
+              "tiers": [
+                {
+                  "threshold": 0,
+                  "unit": "fluid-ounces",
+                  "amount": {
+                    "value": 5,
+                    "unit": "minor/container"
+                  }
+                },
+                {
+                  "threshold": 24,
+                  "unit": "fluid-ounces",
+                  "amount": {
+                    "value": 10,
+                    "unit": "minor/container"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -442,7 +467,15 @@
           "preempts": true,
           "cite": "Conn. Gen. Stat. § 22a-244",
           "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
-          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation."
+          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-DC": {
           "answer": "no",
@@ -483,14 +516,30 @@
           "preempts": true,
           "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
           "source": "https://health.hawaii.gov/hi5/",
-          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here."
+          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-IA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 455C.2",
           "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
-          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container."
+          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -531,9 +580,17 @@
         "US-MA": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Mass. Gen. Laws ch. 94, § 323",
-          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
-          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed."
+          "cite": "Mass. Gen. Laws ch. 94, § 322",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section322",
+          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-MD": {
           "answer": "no",
@@ -546,14 +603,22 @@
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 38, § 3103",
           "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
-          "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed."
+          "note": "Refund value is at least 5 cents for general covered containers; wine and spirits have separate size-based rules (up to 5 cents at 50 ml or less, at least 15 cents above 50 ml). The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed."
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mich. Comp. Laws § 445.572",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
-          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit."
+          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-MN": {
           "answer": "no",
@@ -632,7 +697,15 @@
           "preempts": true,
           "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
           "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
-          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403."
+          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-OH": {
           "answer": "no",
@@ -651,7 +724,15 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. § 459A.705",
           "source": "https://oregon.public.law/statutes/ors_459a.705",
-          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx)."
+          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -718,7 +799,7 @@
           "preempts": true,
           "cite": "Vt. Stat. Ann. tit. 10, § 1522",
           "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
-          "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill)."
+          "note": "A deposit of at least 5 cents applies generally; containers over 50 ml containing liquor carry 15 cents. The 2025 overhaul phases in a producer responsibility organization, with labeling changes from July 1, 2026, and participation required from July 1, 2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill)."
         },
         "US-WA": {
           "answer": "no",
@@ -778,7 +859,15 @@
           "preempts": true,
           "cite": "Ariz. Admin. Code R14-2-1801 et seq. (Renewable Energy Standard and Tariff)",
           "source": "https://azcc.gov/utilities/electric/renewable-energy-standard-and-tariff",
-          "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force."
+          "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
@@ -792,28 +881,60 @@
           "preempts": true,
           "cite": "Colo. Rev. Stat. §§ 40-2-124, 40-2-125.5",
           "source": "https://leg.colorado.gov/bills/sb19-236",
-          "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries."
+          "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.3,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CT": {
           "answer": "yes",
           "preempts": true,
           "cite": "Conn. Gen. Stat. § 16-245a",
           "source": "https://portal.ct.gov/pura/rps/renewable-portfolio-standards-overview",
-          "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes)."
+          "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.37,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
           "preempts": true,
           "cite": "D.C. Code § 34-1432",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/34-1432",
-          "note": "Mandatory: 100% renewable by 2032, with the solar share rising to 15% by 2041."
+          "note": "In 2026 the statutory minimum is 59% Tier 1 renewable sources, with at least 5% from solar; the Tier 1 requirement reaches 100% in 2032.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.59,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
           "preempts": true,
           "cite": "Del. Code tit. 26, § 354",
           "source": "https://delcode.delaware.gov/title26/c001/sc03a/index.html",
-          "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share."
+          "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.255,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -891,14 +1012,30 @@
           "preempts": true,
           "cite": "Mass. Gen. Laws ch. 25A, § 11F",
           "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter25A/Section11F",
-          "note": "Mandatory: Class I rises 3 points a year through 2029 (about 40% by 2030), then 1 point a year indefinitely."
+          "note": "Class I minimum reaches 30% for 2026 under the statutory schedule: it rises 3 percentage points each year through 2029 and 1 point a year thereafter. Retail sales served under supply contracts executed or extended by December 31, 2018, are exempt from incremental obligations imposed after January 1, 2019.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.3,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
           "cite": "Md. Code, Pub. Util. § 7-703",
           "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&section=7-703&enactments=false",
-          "note": "Mandatory: 50% Tier 1 renewable by 2030, including 14.5% solar."
+          "note": "The statute requires 38% Tier 1 renewable sources in 2026, including at least 8% solar and 0.5% post-2022 geothermal, with a separate offshore-wind requirement; the Tier 1 target reaches 50% in 2030.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.38,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
@@ -912,7 +1049,15 @@
           "preempts": true,
           "cite": "Mich. Comp. Laws § 460.1028",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1028",
-          "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040)."
+          "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MN": {
           "answer": "yes",
@@ -926,7 +1071,15 @@
           "preempts": true,
           "cite": "Mo. Rev. Stat. § 393.1030",
           "source": "https://revisor.mo.gov/main/OneSection.aspx?section=393.1030",
-          "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled."
+          "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
@@ -934,7 +1087,15 @@
           "operativeAt": "2006-08-10",
           "cite": "4 CMC §§ 8522-8524",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/8522.pdf",
-          "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder."
+          "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no",
@@ -954,7 +1115,15 @@
           "preempts": true,
           "cite": "N.C. Gen. Stat. §§ 62-133.8, 62-110.9",
           "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-133.8.html",
-          "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050."
+          "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.125,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ND": {
           "answer": "no",
@@ -974,7 +1143,15 @@
           "preempts": true,
           "cite": "N.H. Rev. Stat. § 362-F:3",
           "source": "https://gc.nh.gov/rsa/html/XXXIV/362-F/362-F-3.htm",
-          "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled."
+          "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
@@ -1009,7 +1186,15 @@
           "preempts": true,
           "cite": "Ohio Rev. Code § 4928.64",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-4928.64",
-          "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement."
+          "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.085,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OK": {
           "answer": "no",
@@ -1030,7 +1215,15 @@
           "preempts": true,
           "cite": "73 P.S. § 1648.3",
           "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=2004&ActNum=0213.&SessInd=0",
-          "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled."
+          "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.18,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
@@ -1045,7 +1238,7 @@
           "preempts": true,
           "cite": "R.I. Gen. Laws § 39-26-4",
           "source": "https://webserver.rilegislature.gov/Statutes/TITLE39/39-26/39-26-4.htm",
-          "note": "Mandatory: rising yearly to 100% renewable by 2033."
+          "note": "The 2026 increment is an additional 7% of retail electricity sales from eligible renewable energy resources, on top of prior-year requirements; the statutory increments rise toward 100% in 2033."
         },
         "US-SC": {
           "answer": "no",
