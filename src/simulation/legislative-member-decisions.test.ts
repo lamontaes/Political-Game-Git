@@ -4,6 +4,7 @@ import { makeIsoDate } from "./dates";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createPortabilityFixture } from "./portability-fixture";
+import { STATES } from "./state-reference";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
 
 const memberId = "person_member" as EntityId;
@@ -71,6 +72,7 @@ function worldWith(
       legislativeCommitments: [],
       privateBeliefs: beliefs,
       relationshipInteractions: [],
+      events: [],
     },
   } as unknown as World;
 }
@@ -138,6 +140,7 @@ describe("member votes read what constituents made of an existing law", () => {
     billAnswer: "yes" | "no",
     points: readonly number[],
     groupMembers = 0,
+    jurisdictionId: EntityId = federal,
   ) {
     return {
       currentDate: makeIsoDate("2026-06-01"),
@@ -151,7 +154,7 @@ describe("member votes read what constituents made of an existing law", () => {
           {
             id: lawId,
             stableKey: "test:law",
-            jurisdictionId: federal,
+            jurisdictionId,
             sponsorPersonId: null,
             propositionIds: [propositionId],
             propositionAnswers: [{ propositionId, answer: "yes" }],
@@ -159,7 +162,7 @@ describe("member votes read what constituents made of an existing law", () => {
           {
             id: measureId,
             stableKey: "test:measure",
-            jurisdictionId: federal,
+            jurisdictionId,
             sponsorPersonId: null,
             propositionIds: [propositionId],
             propositionAnswers: [{ propositionId, answer: billAnswer }],
@@ -184,6 +187,7 @@ describe("member votes read what constituents made of an existing law", () => {
         legislativeCommitments: [],
         privateBeliefs: [],
         relationshipInteractions: [],
+        events: [],
         organizations: groupMembers
           ? [{ id: "org_group", stableKey: `law-interest:town_x:${lawId}` }]
           : [],
@@ -246,6 +250,139 @@ describe("member votes read what constituents made of an existing law", () => {
       { optionKey: "vote-nay", importance: "slight" },
     ]);
     expect(lobby(withLaw("no", [], 0))).toEqual([]);
+  });
+
+  it("reads only recorded constituent messages sent to this member", () => {
+    const withCalls = (
+      billAnswer: "yes" | "no",
+      messages: readonly {
+        readonly id: string;
+        readonly sender: string;
+        readonly official: string;
+        readonly stance: "yes" | "no";
+        readonly salience: "low" | "moderate" | "high" | "central";
+      }[],
+      jurisdictionId: EntityId = federal,
+    ) => {
+      const base = withLaw(billAnswer, [], 0, jurisdictionId);
+      const events = messages.map((message, index) => ({
+        id: message.id,
+        sequence: index + 1,
+        type: "life.contacted-official",
+        occurredAt: makeIsoDate("2026-05-01"),
+        jurisdictionId,
+        participants: [
+          { personId: message.sender as EntityId, role: "focus:subject" },
+          { personId: message.official as EntityId, role: "focus:object" },
+        ],
+        tags: [
+          "civic-message:v1",
+          `message-proposition-id:${propositionId}`,
+          `message-stance:${message.stance}`,
+          "message-channel:call",
+          `message-salience:${message.salience}`,
+        ],
+      }));
+      return {
+        ...base,
+        history: { ...base.history, events },
+      } as unknown as World;
+    };
+    const message = (
+      id: string,
+      sender: string,
+      official: string,
+      stance: "yes" | "no",
+      salience: "low" | "moderate" | "high" | "central",
+    ) => ({ id, sender, official, stance, salience });
+    const calls = (world: World) =>
+      memberVoteConsiderations(world, {
+        stableKey: "test:vote",
+        personId: memberId,
+        question: {
+          question: {
+            measureId,
+            purpose: "floor-stage",
+            forumKey: "house",
+            floorStageKey: null,
+            amendmentStableKey: null,
+            provisionKey: null,
+          },
+          questionLabel: "Pass this measure?",
+        },
+      }).filter((row) =>
+        row.stableKey.startsWith("member:constituents-calling:"),
+      );
+
+    expect(calls(withCalls("yes", []))).toEqual([]);
+    expect(
+      calls(
+        withCalls("yes", [
+          message(
+            "message_other_member",
+            "person_sender",
+            "person_other",
+            "yes",
+            "central",
+          ),
+        ]),
+      ),
+    ).toEqual([]);
+    expect(
+      calls(
+        withCalls("yes", [
+          message("message_for", "person_supporter", memberId, "yes", "high"),
+          message("message_against", "person_opponent", memberId, "no", "low"),
+        ]),
+      ),
+    ).toMatchObject([
+      {
+        stableKey: "member:constituents-calling:for",
+        optionKey: "vote-yea",
+        sourceType: "context:constituents",
+        importance: "moderate",
+        sourceRefs: [
+          { kind: "historical-event", eventId: "message_for" },
+          { kind: "historical-event", eventId: "message_against" },
+        ],
+      },
+    ]);
+    expect(
+      calls(
+        withCalls("no", [
+          message("message_for", "person_supporter", memberId, "yes", "high"),
+        ]),
+      ),
+    ).toMatchObject([{ optionKey: "vote-nay" }]);
+    const places = Object.keys(STATES);
+    expect(places).toHaveLength(56);
+    for (const usps of places) {
+      const place = `jurisdiction:${usps}` as EntityId;
+      expect(
+        calls(
+          withCalls(
+            "yes",
+            [
+              message(
+                `message_${usps}`,
+                `supporter_${usps}`,
+                memberId,
+                "yes",
+                "moderate",
+              ),
+            ],
+            place,
+          ),
+        ),
+      ).toMatchObject([
+        {
+          stableKey: "member:constituents-calling:for",
+          sourceRefs: [
+            { kind: "historical-event", eventId: `message_${usps}` },
+          ],
+        },
+      ]);
+    }
   });
 });
 
