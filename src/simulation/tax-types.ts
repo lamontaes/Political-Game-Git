@@ -31,6 +31,7 @@ export interface TaxPowerEvidence {
   readonly authorityStatus?: string;
   /** True when the evidence rests on a secondary source, not a first-party record. */
   readonly estimated?: boolean;
+  readonly estimatedFrom?: string;
 }
 
 /** Immutable identity for an explicitly fictional, versioned game profile.
@@ -46,7 +47,10 @@ export interface TaxTerms {
   readonly seriesKey: string;
   readonly baseKey: string;
   readonly baseLabel: string;
-  /** Exact share; zero is an explicit repeal/zero rate, never missing data. */
+  /** Absent means a monetary base. A quantity rate is USD minor units per unit. */
+  readonly baseUnit?: "vehicle-mile";
+  readonly allowanceUnits?: number;
+  /** Exact share, or minor units per baseUnit; zero is an explicit zero rate. */
   readonly rateNumerator: number;
   readonly rateDenominator: number;
   readonly exemptBaseKeys: readonly string[];
@@ -70,6 +74,17 @@ interface TaxHistoryRoot {
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
+}
+
+export interface TaxQuantity {
+  readonly unit: "vehicle-mile";
+  readonly units: number;
+}
+
+export type TaxBaseAmount = MoneyAmount | TaxQuantity;
+
+export function isTaxQuantity(amount: TaxBaseAmount): amount is TaxQuantity {
+  return "unit" in amount;
 }
 
 export interface TaxProposalRecord extends TaxHistoryRoot {
@@ -100,7 +115,7 @@ export interface TaxBaseRecord extends TaxHistoryRoot {
   readonly payer: ResourcePositionOwner;
   readonly baseKey: string;
   readonly occurredAt: IsoDate;
-  readonly amount: MoneyAmount;
+  readonly amount: TaxBaseAmount;
   readonly assumptionNote: string;
   readonly sourceEventId: EntityId;
 }
@@ -111,7 +126,7 @@ export interface TaxAssessmentRecord
   readonly policyId: EntityId;
   readonly baseId: EntityId;
   readonly dueAt: IsoDate;
-  readonly taxableAmount: MoneyAmount;
+  readonly taxableAmount: TaxBaseAmount;
   readonly taxAmount: MoneyAmount;
   readonly exemptionReason: "excluded-base" | "allowance" | null;
 }

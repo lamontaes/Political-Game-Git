@@ -1,3 +1,4 @@
+import { taxTermConsequenceRow } from "./policy-pack-tax-terms";
 import type { PolicyPack } from "./policy-packs";
 import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
 import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
@@ -1837,6 +1838,12 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      consequences: [
+        {
+          ...taxTermConsequenceRow("state", "excise")!,
+          id: "tax:state:mileage:recorded-base",
+        },
+      ],
       parameters: [
         { key: "rate", value: "usd-per-vehicle-mile" },
         { key: "coverage", value: "covered-vehicle-categories" },

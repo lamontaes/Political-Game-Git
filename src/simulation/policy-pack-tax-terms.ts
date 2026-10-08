@@ -80,7 +80,7 @@ function stateTaxQuestion(levelKey: string, familyKey: string): boolean {
   );
 }
 
-function taxTermConsequenceRow(
+export function taxTermConsequenceRow(
   levelKey: string,
   familyKey: string,
 ): LawConsequenceRow | undefined {

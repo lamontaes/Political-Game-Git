@@ -48,7 +48,15 @@ describe("registered law paths", () => {
         )?.[1];
         expect(answer, `${questionKey}/${place.jurisdictionKey}`).toBeDefined();
         expect(["yes", "no"]).toContain(answer?.answer);
-        expect(answer?.cite?.trim()).toBeTruthy();
+        expect(
+          answer &&
+            Object.entries(answer).some(
+              ([key, value]) =>
+                ["cite", "source", "estimated"].includes(key) &&
+                typeof value === "string" &&
+                value.trim(),
+            ),
+        ).toBeTruthy();
       }
     }
   });
@@ -87,16 +95,13 @@ describe("registered law paths", () => {
     const state = stateJurisdictionForKey(
       lifePlaceStateIdentities()[0]!.jurisdictionKey,
     )!;
-    const person = {
-      ...createLightweightPerson({
-        worldId: createWorldId(seed),
-        worldSeed: seed,
-        index: 0,
-        currentDate: date,
-        homeJurisdictionId: state.id,
-      }),
-      birthDate: makeIsoDate("1970-01-01"),
-    };
+    const person = createLightweightPerson({
+      worldId: createWorldId(seed),
+      worldSeed: seed,
+      index: 0,
+      currentDate: date,
+      homeJurisdictionId: state.id,
+    });
     let world = createWorld({
       seed,
       currentDate: date,
@@ -149,7 +154,7 @@ describe("registered law paths", () => {
       workRelationshipId: work.id,
       effectiveAt: date,
       status: "ended",
-      reason: null,
+      reason: "fixture:term-ended",
       provenance,
       supersedesStatusId: world.history.workStatuses.at(-1)!.id,
     });
@@ -170,6 +175,15 @@ describe("registered law paths", () => {
     expect(saved.sourceRecordIds).toContain(work.id);
     expect(saved.lawEffectStamps[0]!.questionKey).toBe(questionKey);
     expect(saved.subject.id).toBe(person.id);
+    const answer = Object.entries(startingLaws.questions).find(
+      ([key]) => key === questionKey,
+    )![1];
+    const source = Object.entries(answer.answers).find(
+      ([key]) => key === lifePlaceStateIdentities()[0]!.jurisdictionKey,
+    )![1];
+    expect(saved.status).toBe(
+      source.answer === "yes" ? "prohibited" : "permitted",
+    );
     assertWorldIntegrity(applied);
     const continued = deserializeWorld(serializeWorld(applied));
     expect(lawPermissionRecords(continued)).toContainEqual(saved);

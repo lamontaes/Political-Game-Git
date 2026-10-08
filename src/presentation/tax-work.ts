@@ -23,7 +23,51 @@ import {
 } from "../simulation/state-tax-authority";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
-import type { TaxTerms } from "../simulation/tax-types";
+import {
+  isTaxQuantity,
+  type TaxTerms,
+  type TaxQuantity,
+} from "../simulation/tax-types";
+import { MILEAGE_FEE_QUESTION } from "../simulation/public-budgets/road-usage-charge-constants";
+
+/** Exact entered quantity; a blank entry never silently becomes zero. */
+export function exactTaxQuantityInput(value: string): number {
+  const text = value.trim();
+  const units = /^\d+$/.test(text) ? Number(text) : NaN;
+  if (!Number.isSafeInteger(units) || units < 0)
+    throw new Error(
+      canonicalJson({ input: value, status: "invalid-quantity" }),
+    );
+  return units;
+}
+
+/** USD per unit into an exact rational number of cents, including fractional cents. */
+export function exactQuantityTaxRateInput(value: string) {
+  const text = value.trim();
+  if (!/^\d+(\.\d+)?$/.test(text))
+    throw new Error(canonicalJson({ input: value, status: "invalid-rate" }));
+  const [whole, fraction = ""] = text.split(".");
+  let numerator = BigInt(whole! + fraction) * 100n;
+  let denominator = 10n ** BigInt(fraction.length);
+  let a = numerator,
+    b = denominator;
+  while (b) {
+    const remainder = a % b;
+    a = b;
+    b = remainder;
+  }
+  numerator /= a;
+  denominator /= a;
+  if (
+    numerator > BigInt(Number.MAX_SAFE_INTEGER) ||
+    denominator > BigInt(Number.MAX_SAFE_INTEGER)
+  )
+    throw new Error(canonicalJson({ input: value, status: "inexact-rate" }));
+  return {
+    rateNumerator: Number(numerator),
+    rateDenominator: Number(denominator),
+  };
+}
 
 /** The current office is re-resolved at the action boundary; a cached panel
  * context, staff title or selected place never grants introduction authority.
@@ -89,7 +133,10 @@ export function fileTaxProposalFromOffice(
       : power.level === "COUNTY"
         ? "county"
         : "city";
-  const questionKey = `us-tax-terms:${level}.${typedInstrument ?? "excise"}-tax-terms`;
+  const questionKey =
+    input.terms.baseUnit === "vehicle-mile"
+      ? MILEAGE_FEE_QUESTION
+      : `us-tax-terms:${level}.${typedInstrument ?? "excise"}-tax-terms`;
   const question = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === questionKey,
   );
@@ -156,9 +203,11 @@ export function declarePersonalTaxOccurrence(
     stableKey: string;
     proposalId: EntityId;
     baseKey: string;
-    amountMinorUnits: number;
     assumptionNote: string;
-  },
+  } & (
+    | { amountMinorUnits: number; quantity?: never }
+    | { quantity: TaxQuantity; amountMinorUnits?: never }
+  ),
 ): World {
   if (
     world.control.kind !== "person" ||
@@ -181,6 +230,8 @@ export function declarePersonalTaxOccurrence(
     throw new Error(
       "This tax version is not effective for a new occurrence today.",
     );
+  const amount =
+    input.quantity ?? money(input.amountMinorUnits!, proposal.terms.currency);
   const prior = world.history.taxBases?.find(
     (row) => row.stableKey === input.stableKey,
   );
@@ -189,7 +240,7 @@ export function declarePersonalTaxOccurrence(
       prior.payer.kind !== "person" ||
       prior.payer.personId !== input.personId ||
       prior.baseKey !== input.baseKey ||
-      prior.amount.minorUnits !== input.amountMinorUnits ||
+      canonicalJson(prior.amount) !== canonicalJson(amount) ||
       prior.assumptionNote !== input.assumptionNote
     )
       throw new Error("An existing taxable occurrence cannot be overwritten.");
@@ -212,12 +263,20 @@ export function declarePersonalTaxOccurrence(
     personFactConstraints: [],
     visibility: "private",
     tags: ["tax"],
-    summary: `The character explicitly declared one fictional taxable occurrence. ${input.assumptionNote} ${TAX_MODEL_NOTE}`,
+    summary: isTaxQuantity(amount)
+      ? canonicalJson({
+          amount,
+          baseKey: input.baseKey,
+          assumptionNote: input.assumptionNote,
+        })
+      : `The character explicitly declared one fictional taxable occurrence. ${input.assumptionNote} ${TAX_MODEL_NOTE}`,
     context: {
       location: null,
       socialContext: null,
       pressure: null,
-      choice: "Declare a modeled taxable occurrence.",
+      choice: isTaxQuantity(amount)
+        ? canonicalJson({ amount, baseKey: input.baseKey })
+        : "Declare a modeled taxable occurrence.",
       motivation: null,
       immediateReaction: null,
     },
@@ -228,7 +287,7 @@ export function declarePersonalTaxOccurrence(
     payer: { kind: "person", personId: input.personId },
     baseKey: input.baseKey,
     occurredAt: world.currentDate,
-    amount: money(input.amountMinorUnits, proposal.terms.currency),
+    amount,
     assumptionNote: input.assumptionNote,
     sourceEventId: next.history.events.at(-1)!.id,
   });

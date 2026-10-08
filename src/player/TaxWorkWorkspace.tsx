@@ -1,4 +1,6 @@
 import "./tax-work.css";
+import taxBaseUnits from "../../data/research/money/tax-base-units.json" with { type: "json" };
+import { isTaxQuantity } from "../simulation/tax-types";
 import { useEffect, useRef, useState } from "react";
 import { canonicalJson } from "../simulation/canonical-json";
 import {
@@ -17,6 +19,8 @@ import {
   declarePersonalTaxOccurrence,
   fileTaxProposalFromOffice,
   readPublicTaxReceipts,
+  exactTaxQuantityInput,
+  exactQuantityTaxRateInput,
 } from "../presentation/tax-work";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
@@ -53,6 +57,11 @@ export function TaxWorkWorkspace({
   onWorldChange: (world: World) => void;
   onOpenMeasure: (measureId: EntityId) => void;
 }) {
+  const [baseUnit, setBaseUnit] = useState(taxBaseUnits.options[0]!.key);
+  const selectedUnit = taxBaseUnits.options.find(
+    (row) => row.key === baseUnit,
+  )!;
+  const quantityBase = baseUnit === "vehicle-mile";
   const [baseLabel, setBaseLabel] = useState("");
   const [rate, setRate] = useState("");
   const [allowance, setAllowance] = useState("");
@@ -101,15 +110,22 @@ export function TaxWorkWorkspace({
     onWorldChange(publishLegislativeTransition(world, next));
   function terms(): TaxTerms {
     return {
-      seriesKey: "tax:authored-selective-excise",
-      baseKey: "tax-base:declared-activity",
+      seriesKey: selectedUnit.seriesKey,
+      baseKey: selectedUnit.baseKey,
+      ...(quantityBase
+        ? {
+            baseUnit: "vehicle-mile" as const,
+            allowanceUnits: exactTaxQuantityInput(allowance),
+          }
+        : {}),
       baseLabel,
-      rateNumerator: exactDollarInput(rate),
-      rateDenominator: 10000,
-      allowanceMinorUnits: exactDollarInput(allowance),
+      ...(quantityBase
+        ? exactQuantityTaxRateInput(rate)
+        : { rateNumerator: exactDollarInput(rate), rateDenominator: 10000 }),
+      allowanceMinorUnits: quantityBase ? 0 : exactDollarInput(allowance),
       currency: money(0, "USD").currency,
       collectionLagDays: /^\d+$/.test(lag) ? Number(lag) : NaN,
-      exemptBaseKeys: exempt ? ["tax-base:declared-activity"] : [],
+      exemptBaseKeys: exempt ? [selectedUnit.baseKey] : [],
       publicPurpose: purpose,
       assumptionNote: assumptions,
       legalBaselineAssumption: "carry-forward-acquired-baseline-in-game",
@@ -162,15 +178,17 @@ export function TaxWorkWorkspace({
     act(() => {
       const result = previewTax(
         terms(),
-        "tax-base:declared-activity",
+        selectedUnit.baseKey,
         occurrence.trim() === ""
           ? null
-          : money(exactDollarInput(occurrence), "USD"),
+          : quantityBase
+            ? { unit: "vehicle-mile", units: exactTaxQuantityInput(occurrence) }
+            : money(exactDollarInput(occurrence), "USD"),
       );
       setMessage(
         result.status === "unavailable"
           ? result.reason
-          : `Preview only: ${display(result.taxAmount.minorUnits)} on ${display(result.taxableAmount.minorUnits)} of taxable base. No funds moved.`,
+          : `Preview only: ${display(result.taxAmount.minorUnits)} on ${isTaxQuantity(result.taxableAmount) ? `${result.taxableAmount.units} ${result.taxableAmount.unit}` : display(result.taxableAmount.minorUnits)} of taxable base. No funds moved.`,
       );
     });
   }
@@ -228,19 +246,30 @@ export function TaxWorkWorkspace({
           </fieldset>
           <fieldset className="tax-work-step">
             <legend>2. Proposal: the terms</legend>
+            <select
+              value={baseUnit}
+              onChange={(event) => setBaseUnit(event.target.value)}
+              aria-label={selectedUnit.label}
+            >
+              {taxBaseUnits.options.map((row) => (
+                <option key={row.key} value={row.key}>
+                  {row.label}
+                </option>
+              ))}
+            </select>
             <label>
-              Rate, percent{" "}
+              {selectedUnit.rateLabel}{" "}
               <input
-                aria-label="Tax rate percent"
+                aria-label={selectedUnit.rateLabel}
                 inputMode="decimal"
                 value={rate}
                 onChange={(event) => setRate(event.target.value)}
               />
             </label>
             <label>
-              Allowance per occurrence, USD{" "}
+              {selectedUnit.allowanceLabel}{" "}
               <input
-                aria-label="Tax allowance USD"
+                aria-label={selectedUnit.allowanceLabel}
                 inputMode="decimal"
                 value={allowance}
                 onChange={(event) => setAllowance(event.target.value)}
@@ -272,9 +301,9 @@ export function TaxWorkWorkspace({
               />
             </label>
             <label>
-              Declared occurrence base, USD{" "}
+              {selectedUnit.label}{" "}
               <input
-                aria-label="Declared occurrence base USD"
+                aria-label={selectedUnit.label}
                 inputMode="decimal"
                 value={occurrence}
                 onChange={(event) => setOccurrence(event.target.value)}
@@ -408,9 +437,10 @@ export function TaxWorkWorkspace({
             {active?.id === policy?.id && policy ? (
               <>
                 <label>
-                  Occurrence base, USD{" "}
+                  {proposal.terms.baseLabel}{" "}
+                  {proposal.terms.baseUnit ?? proposal.terms.currency}{" "}
                   <input
-                    aria-label={`Occurrence base USD for ${proposal.terms.baseLabel}`}
+                    aria-label={`${proposal.terms.baseLabel} ${proposal.terms.baseUnit ?? proposal.terms.currency}`}
                     value={occurrence}
                     inputMode="decimal"
                     onChange={(event) => setOccurrence(event.target.value)}
@@ -425,7 +455,14 @@ export function TaxWorkWorkspace({
                         stableKey: `tax-occurrence:ordinary-${world.history.nextSequence}`,
                         proposalId: proposal.id,
                         baseKey: proposal.terms.baseKey,
-                        amountMinorUnits: exactDollarInput(occurrence),
+                        ...(proposal.terms.baseUnit
+                          ? {
+                              quantity: {
+                                unit: proposal.terms.baseUnit,
+                                units: exactTaxQuantityInput(occurrence),
+                              },
+                            }
+                          : { amountMinorUnits: exactDollarInput(occurrence) }),
                         assumptionNote:
                           "Explicitly declared fictional taxable occurrence; no underlying purchase, income or observed tax return is inferred.",
                       });
