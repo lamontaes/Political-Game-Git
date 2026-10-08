@@ -26,6 +26,11 @@ import {
 } from "./life-sources";
 import { factsForPerson } from "./people";
 import {
+  placeOutcomeAt,
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
+import {
   assertOpenTaxonomyKey,
   PERCEPTION_SUBJECT_NAMESPACES,
 } from "./taxonomy";
@@ -570,6 +575,33 @@ export function validateMindSourceReferences(
           reference.reference,
         );
         break;
+      case "place-outcome": {
+        const record = placeOutcomeRecords(world).find(
+          (candidate) =>
+            placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+        );
+        const person = world.people[personId];
+        const resolved =
+          record && person
+            ? placeOutcomeAt(
+                world,
+                record.measure,
+                person.homeJurisdictionId,
+                asOfDate,
+              )
+            : null;
+        if (
+          !record ||
+          !person ||
+          !resolved ||
+          record.month > asOfDate ||
+          placeOutcomeRecordId(resolved) !== reference.outcomeRecordId
+        )
+          throw new Error(
+            `Unavailable place-outcome source: ${reference.outcomeRecordId}`,
+          );
+        break;
+      }
       case "personality-tendency":
         assertOwnedHistoryRecord(
           recordById(
@@ -823,7 +855,8 @@ function validateMindProvenance(
   assertOptional(provenance.note, "Mind provenance note");
   if (
     provenance.kind === "player-choice" &&
-    (world.control.kind !== "person" || world.control.personId !== personId)
+    (world.control.kind !== "person" || world.control.personId !== personId) &&
+    world.preStartLife?.personId !== personId
   ) {
     throw new Error("Player-choice provenance requires the controlled person.");
   }

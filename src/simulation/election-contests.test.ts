@@ -5,12 +5,14 @@ import { createDemoWorld } from "./demo";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   cancelElectionContest,
+  countRecordedVoterBallots,
   electionContestById,
   electionContestResult,
   electionContestStatus,
   electionContestsForCandidate,
   electionContestsForJurisdiction,
   electionContestTransitionHandler,
+  orderElectionReportingBatches,
   isElectionContestPending,
   isElectionContestResolved,
   pendingElectionContests,
@@ -23,6 +25,10 @@ import {
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";
 import { createStableId } from "./ids";
 import { isEligibleVoterIn } from "./issue-record";
+import { createFormationContext, recordPrivateBelief } from "./politics";
+import { establishVotingPrecinctMembership } from "./living-world/town-wards";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "./life-places";
 import { createPortabilityFixture } from "./portability-fixture";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
@@ -53,6 +59,120 @@ function createElectionTransitionRegistry() {
 }
 
 describe("Election Contest Substrate", () => {
+  it.each(lifePlaceStateIdentities())(
+    "groups saved ballots by precinct and preserves the aggregate result in $name",
+    ({ jurisdictionKey }) => {
+      const seed = `b03-p3-precinct-ballot-count:${jurisdictionKey}`;
+      let world = smallWorld({
+        place: jurisdictionKey,
+        people: 24,
+        seed,
+        date: "2026-01-05",
+      }).world;
+      const jurisdictionId =
+        world.people[world.personOrder[0]!]!.homeJurisdictionId;
+      world = establishVotingPrecinctMembership(world, jurisdictionId);
+      const candidate1 = getPersonId(world, 0);
+      const candidate2 = getPersonId(world, 1);
+      for (const personId of world.personOrder) {
+        if (personId === candidate1 || personId === candidate2) continue;
+        for (const [candidateId, position] of [
+          [candidate1, "support"],
+          [candidate2, "oppose"],
+        ] as const) {
+          world = recordPrivateBelief(world, {
+            stableKey: `b03-p3:${personId}:${candidateId}`,
+            personId,
+            propositionId: null,
+            subject: { kind: "official", personId: candidateId },
+            formedAt: world.currentDate,
+            position,
+            conviction: "strong",
+            salience: "central",
+            flexibility: "firm",
+            rationale: `Recorded ${position} view for precinct count test.`,
+            formation: createFormationContext("reflection:initial"),
+            supersedesBeliefId: null,
+          });
+        }
+      }
+
+      world = advanceWorld(world, 1);
+      const countDate = world.currentDate;
+
+      const contestInput = {
+        stableKey: "b03-p3:town-council",
+        jurisdictionId,
+        electionDate: countDate,
+        candidatePersonIds: [candidate1, candidate2],
+      };
+      const counted = countRecordedVoterBallots(world, contestInput);
+      expect(counted).not.toBeNull();
+      expect(counted!.byPrecinct).not.toBeNull();
+      const byPrecinct = counted!.byPrecinct!;
+      expect(byPrecinct.length).toBeGreaterThan(0);
+      expect(byPrecinct.reduce((sum, row) => sum + row.ballotsCast, 0)).toBe(
+        counted!.tallies.reduce((sum, row) => sum + row.votes, 0),
+      );
+      for (const tally of counted!.tallies)
+        expect(
+          byPrecinct.reduce(
+            (sum, row) =>
+              sum +
+              row.tallies.find(
+                (candidate) =>
+                  candidate.candidatePersonId === tally.candidatePersonId,
+              )!.votes,
+            0,
+          ),
+        ).toBe(tally.votes);
+
+      world = scheduleElectionContest(world, {
+        ...contestInput,
+        electionDate: addDays(countDate, 1),
+        office: {
+          officeKey: "town-council",
+          title: "Town Council",
+          seatKey: null,
+          occupationClassification: null,
+        },
+        provenance: { method: "authored", sourceEntityIds: [], note: null },
+      });
+      const contest = world.history.electionContests!.at(-1)!;
+      world = advanceWorld(world, 1, createElectionTransitionRegistry());
+      const saved = electionContestResult(world, contest.id)!;
+      expect(saved.winnerPersonId).toBe(counted!.winnerPersonId);
+      expect(saved.tallies).toEqual(counted!.tallies);
+      expect(saved.precinctTallies).toEqual(counted!.byPrecinct);
+      assertWorldIntegrity(world);
+      expect(deserializeWorld(serializeWorld(world))).toStrictEqual(world);
+    },
+  );
+
+  it("orders recorded batches by turnout and honors a recorded early-mail-first rule", () => {
+    const reports = [
+      { batchKey: "precinct-b", ballotsCast: 40, kind: "precinct" as const },
+      { batchKey: "mail", ballotsCast: 500, kind: "early-mail" as const },
+      { batchKey: "precinct-a", ballotsCast: 12, kind: "precinct" as const },
+    ];
+
+    expect(
+      orderElectionReportingBatches(reports, true).map(
+        (batch) => batch.batchKey,
+      ),
+    ).toEqual(["mail", "precinct-a", "precinct-b"]);
+    expect(
+      orderElectionReportingBatches(reports, false).map(
+        (batch) => batch.batchKey,
+      ),
+    ).toEqual(["precinct-a", "precinct-b", "mail"]);
+    expect(reports.map((batch) => batch.batchKey)).toEqual([
+      "precinct-b",
+      "mail",
+      "precinct-a",
+    ]);
+  });
+
   it("1. deterministic creation: creates contest records with stable IDs and scheduled future due items", () => {
     const worldA = createDemoWorld("election-deterministic-creation-seed");
     const worldB = createDemoWorld("election-deterministic-creation-seed");

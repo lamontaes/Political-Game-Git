@@ -1,0 +1,16 @@
+{
+  "questionKey": "us-policy-positions:health-human-services.housing-first-homelessness",
+  "label": "Housing first",
+  "requestReasonKey": "housing:displaced-after-eviction",
+  "displacementEventType": "housing.evicted",
+  "estimatedFrom": "HUD Housing First Assessment Tool (2016): access to housing assistance without treatment or sobriety preconditions",
+  "visit": { "startMinuteOfDay": 600, "minutes": 60 },
+  "placeholderLedger": [
+    {
+      "key": "housing-first-service-appointment",
+      "estimatedFrom": "HUD Housing First Assessment Tool (2016), service-planning estimate",
+      "assumption": "One daytime hour of housing assistance; the source establishes the service approach, not appointment timing or a completed housing placement.",
+      "researchQuestion": "What are local provider intake appointment lengths and opening hours?"
+    }
+  ]
+}

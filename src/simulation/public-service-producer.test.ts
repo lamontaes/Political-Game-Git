@@ -1,23 +1,46 @@
 import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
-import { addDays } from "./dates";
-import { scheduleFutureDueItem } from "./future-transitions";
+import { addDays, daysBetween } from "./dates";
 import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
 import { stableHash } from "./ids";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  createHousehold,
+  startHouseholdMembership,
+  recordHouseholdMembershipState,
+} from "./life";
+import { householdMembershipsAt } from "./life-queries";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "./life-places";
+import { createCharacterHistoryContextPeople } from "./character-history";
+import {
+  SUBSTANCE_USE_DISORDER_KEY,
+  holdsPackCondition,
+} from "./crisis/condition-pack";
+import {
+  MORTALITY_WINDOW_KEY,
+  ensureCrisisMortality,
+} from "./crisis/mortality";
+import { scheduleFutureDueItem } from "./future-transitions";
 import { createMindProvenance, recordGoalState } from "./mind";
 import {
   LIVELIHOOD_GOAL_KEY,
   PRIVACY_GOAL_KEY,
 } from "./people-goal-pursuit-content";
-import { createResourcePosition, money as usd } from "./resources";
+import {
+  createResourcePosition,
+  money as usd,
+  createDwelling,
+  startDwellingOccupancy,
+  recordDwellingOccupancyState,
+} from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { scheduledActivityState } from "./time-work";
-import { advanceWorld, assertWorldIntegrity } from "./world";
+import { advanceWorld, assertWorldIntegrity, recordWorldEvent } from "./world";
+import housingFirstService from "../../data/research/health/housing-first-service.json";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
   PUBLIC_SERVICE_ATTENDANCE,
@@ -34,6 +57,8 @@ import type { EntityId, Person, World } from "./types";
 
 const PARKS =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
+const HARM_REDUCTION =
+  "us-policy-positions:health-human-services.harm-reduction-services";
 const TRANSIT =
   "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit";
 
@@ -149,7 +174,11 @@ function goal(world: World, personId: EntityId, goalKey: string) {
  * installment left for the clock to pay tomorrow. Residents and their
  * records are authored per scenario.
  */
-function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
+function fundedTomorrow(
+  stateKey: string,
+  keyOfQuestion: string,
+  paidInDays = 1,
+) {
   const jurisdiction = stateJurisdictionForKey(stateKey)!;
   let world: World = {
     ...base,
@@ -189,7 +218,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
     accountOrganizationId: account.id,
     amount: money(10_000),
     availableFrom: world.currentDate,
-    availableThrough: addDays(world.currentDate, 30),
+    availableThrough: addDays(world.currentDate, paidInDays + 30),
     sourceMeasureId: measureId,
     basis: { kind: "authored-fixture", note: provenance.note },
   });
@@ -203,7 +232,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
     recipientOrganizationId: provider.id,
     installments: [
       {
-        dueAt: addDays(world.currentDate, 1),
+        dueAt: addDays(world.currentDate, paidInDays),
         amount: money(10_000),
         purpose: "operating",
       },
@@ -215,7 +244,7 @@ function fundedTomorrow(stateKey: string, keyOfQuestion: string) {
   // The same due item commitPublicProgram writes for a later installment.
   world = scheduleFutureDueItem(world, {
     stableKey: `${commitment.stableKey}:installment:0`,
-    dueAt: addDays(world.currentDate, 1),
+    dueAt: addDays(world.currentDate, paidInDays),
     transitionKey: PUBLIC_PROGRAM_INSTALLMENT,
     entityIds: [account.id],
     jurisdictionId: jurisdiction.id,
@@ -262,6 +291,165 @@ const traceFor = (world: World, personId: EntityId) =>
   );
 
 describe("residents ask for a paid service on their own records, then take part", () => {
+  it.each(lifePlaceStateIdentities())(
+    "housing-first assistance reaches a displaced resident in $jurisdictionKey",
+    ({ jurisdictionKey }) => {
+      const f = fundedTomorrow(
+        jurisdictionKey,
+        housingFirstService.questionKey,
+      );
+      const [displaced, quiet] = f.residents as [EntityId, EntityId];
+      let world = homeIn(
+        homeIn(f.world, displaced, f.jurisdiction.id),
+        quiet,
+        f.jurisdiction.id,
+      );
+      for (const { membership, state } of householdMembershipsAt(
+        world,
+        displaced,
+      )) {
+        world = recordHouseholdMembershipState(world, {
+          stableKey: `test:leave-household:${membership.id}`,
+          membershipId: membership.id,
+          effectiveAt: world.currentDate,
+          status: "ended",
+          residenceRole: state.residenceRole,
+          kind: state.kind,
+          provenance,
+          supersedesStateId: state.id,
+        });
+      }
+      world = createHousehold(world, {
+        stableKey: "test:displaced-household",
+        formedAt: world.currentDate,
+        label: "Test household",
+        provenance,
+      });
+      const householdId = world.history.households.at(-1)!.id;
+      world = startHouseholdMembership(world, {
+        stableKey: "test:displaced-member",
+        personId: displaced,
+        householdId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "resident:family",
+        provenance,
+      });
+      world = createDwelling(world, {
+        stableKey: "test:lost-home",
+        establishedAt: world.currentDate,
+        jurisdictionId: f.jurisdiction.id,
+        locationLabel: "Test home",
+        classification: "residential:apartment",
+        provenance,
+      });
+      const dwellingId = world.history.dwellings.at(-1)!.id;
+      world = startDwellingOccupancy(world, {
+        stableKey: "test:lost-occupancy",
+        occupant: { kind: "household", householdId },
+        dwellingId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "residence:rented",
+        provenance,
+      });
+      const occupancy = world.history.dwellingOccupancies.at(-1)!;
+      const initial = world.history.dwellingOccupancyStates.at(-1)!;
+      // Saved edge fixture: the existing rent producer writes this event and
+      // ends occupancy with this provenance when it executes an eviction.
+      world = recordWorldEvent(world, {
+        stableKey: "test:eviction",
+        type: "housing.evicted",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: f.jurisdiction.id,
+        involvedEntityIds: [displaced, householdId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "Authored eviction fixture.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = recordDwellingOccupancyState(world, {
+        stableKey: "test:ended-occupancy",
+        dwellingOccupancyId: occupancy.id,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        residenceRole: "primary",
+        kind: initial.kind,
+        reason: "Test eviction",
+        provenance: {
+          kind: "simulated-event",
+          eventId: world.history.events.at(-1)!.id,
+        },
+        supersedesStateId: initial.id,
+      });
+      const lostStateId = world.history.dwellingOccupancyStates.at(-1)!.id;
+      const before = world;
+      world = advanceWorld(world, 3, registry);
+      const trace = traceFor(world, displaced)!;
+      expect(trace.selectedOptionKey).toBe("ask");
+      expect(trace.context.considerations).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            explanation: housingFirstService.requestReasonKey,
+            sourceRefs: [
+              {
+                kind: "life-history",
+                reference: {
+                  family: "dwelling-occupancy-state",
+                  recordId: lostStateId,
+                },
+              },
+            ],
+          }),
+        ]),
+      );
+      expect(traceFor(world, quiet)).toBeUndefined();
+      expect(requestsBy(world, quiet)).toEqual([]);
+      const receipts = deliveries(world);
+      expect(receipts).toHaveLength(1);
+      expect(receipts[0]!.participants[0]!.personId).toBe(displaced);
+      expect(receipts[0]!.lawEffectStamps![0]).toMatchObject({
+        questionKey: housingFirstService.questionKey,
+        jurisdictionId: f.jurisdiction.id,
+        effectKind: "service-delivered",
+      });
+      expect(
+        advanceWorld(
+          deserializeWorld(serializeWorld(world)),
+          3,
+          registry,
+        ).history.events.filter(
+          (event) => event.type === "service.delivery-recorded",
+        ),
+      ).toHaveLength(1);
+      // A replacement home removes the reason even though the old eviction
+      // remains in history. Missing housing records never supply this reason.
+      const rehoused = startDwellingOccupancy(before, {
+        stableKey: "test:replacement-occupancy",
+        occupant: { kind: "household", householdId },
+        dwellingId,
+        startedAt: before.currentDate,
+        residenceRole: "primary",
+        kind: "residence:rented",
+        provenance,
+      });
+      const quietWorld = advanceWorld(rehoused, 3, registry);
+      expect(traceFor(quietWorld, displaced)).toBeUndefined();
+      expect(deliveries(quietWorld)).toEqual([]);
+    },
+    30_000,
+  );
+
   const parksSeed = "team5-producer-parks";
   const parksPlace = drawPlace(parksSeed);
   it(`parks: one asks, one declines, one ties, one has no reason; the visit is delivered once (${parksPlace}, seed ${parksSeed})`, () => {
@@ -395,4 +583,83 @@ describe("residents ask for a paid service on their own records, then take part"
       effectKind: "service-delivered",
     });
   });
+
+  const harmSeed = "lw16-harm-reduction-2";
+  const harmPlace = drawPlace(harmSeed);
+  it(`harm reduction: people with the substance use record ask, full-time work holds one back, people without it have no reason (${harmPlace}, seed ${harmSeed})`, () => {
+    // The model first exposes people at its next quarter window; the service
+    // is paid the day after, so the records exist when residents weigh it.
+    const window = ensureCrisisMortality(base).history.futureDueItems.find(
+      (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+    )!;
+    const paidInDays = daysBetween(base.currentDate, window.dueAt) + 1;
+    const f = fundedTomorrow(harmPlace, HARM_REDUCTION, paidInDays);
+    f.world = ensureCrisisMortality(f.world);
+    // Authored fixture: twenty-year-olds living in the served place, given the
+    // pack's starting conditions at the survey's shares by age.
+    const date = f.world.currentDate;
+    let world = createCharacterHistoryContextPeople(
+      f.world,
+      Array.from({ length: 80 }, (_, index) => ({
+        stableKey: `lw16:harm:${index}`,
+        givenName: "Resident",
+        familyName: `Member-${index}`,
+        birthDate: addDays(date, -Math.round(22 * 365.25) - index),
+        homeJurisdictionId: f.jurisdiction.id,
+      })),
+    );
+    const cohortIds = world.personOrder.slice(-80);
+    // Run to the window: the model's own first exposure writes the
+    // starting conditions of everyone in the world.
+    world = advanceWorld(world, paidInDays - 1, registry);
+    const holders = cohortIds.filter((id) =>
+      holdsPackCondition(world, id, SUBSTANCE_USE_DISORDER_KEY),
+    );
+    const others = cohortIds.filter((id) => !holders.includes(id));
+    expect(holders.length).toBeGreaterThan(5);
+    const [free, busy] = holders as [EntityId, EntityId];
+    const [healthy] = others as [EntityId];
+    world = job(world, busy, f.jurisdiction.id, 40);
+    assertWorldIntegrity(world);
+
+    world = advanceWorld(world, 3, registry);
+
+    const askedTrace = traceFor(world, free)!;
+    expect(askedTrace.selectedOptionKey).toBe("ask");
+    expect(
+      askedTrace.context.considerations.map((c) => [
+        c.optionKey,
+        c.explanation,
+      ]),
+    ).toEqual([["ask", "Lives with a substance use disorder."]]);
+    expect(requestsBy(world, free)[0]!.summary).toContain(
+      "a harm reduction visit",
+    );
+    // The same record, but forty hours of work already hold the day.
+    const heldBack = traceFor(world, busy)!;
+    // Equal reasons for and against: a saved trace, no request.
+    expect(heldBack.selectedOptionKey).not.toBe("ask");
+    expect(heldBack.context.considerations.map((c) => c.optionKey)).toEqual([
+      "ask",
+      "wait",
+    ]);
+    expect(requestsBy(world, busy)).toEqual([]);
+    // No record of the condition: no reason, nothing saved.
+    expect(traceFor(world, healthy)).toBeUndefined();
+    expect(requestsBy(world, healthy)).toEqual([]);
+    // Everyone who asked held the record; the law's receipt follows the visit.
+    const askers = cohortIds.filter((id) => requestsBy(world, id).length > 0);
+    expect(askers.length).toBeGreaterThan(0);
+    expect(askers.every((id) => holders.includes(id))).toBe(true);
+    const receipts = deliveries(world);
+    expect(receipts.length).toBe(askers.length);
+    expect(receipts[0]!.lawEffectStamps![0]).toMatchObject({
+      questionKey: HARM_REDUCTION,
+      jurisdictionId: f.jurisdiction.id,
+      effectKind: "service-delivered",
+    });
+    console.info(
+      `LW-16 harm reduction, ${harmPlace} (seed ${harmSeed}): ${holders.length} of ${cohortIds.length} twenty-two-year-olds hold the record; ${askers.length} asked; ${receipts.length} visits delivered; the 40-hour worker with the record waited.`,
+    );
+  }, 240_000);
 });

@@ -11,7 +11,6 @@ import { previewCreatorNames } from "../presentation/creator-name-preview";
 import { stateUsps } from "../simulation/school-names";
 import {
   creatorBirthDate,
-  creatorCharacterHint,
   creatorCharacterMissing,
   statedCreatorGender,
 } from "../presentation/creator-character";
@@ -25,6 +24,7 @@ import {
   otherParentQuestionApplies,
   type NewGameOtherParent,
   type NewGameSetup,
+  type NewGame,
 } from "../presentation/new-game";
 import {
   clearCreatorState,
@@ -43,12 +43,14 @@ import {
 } from "../presentation/place-start-summary";
 import { placeRegionalFacts } from "../presentation/place-regional-facts";
 import { queryHometownPopulationFacts } from "../presentation/place-hometown-population";
-import { questionnaireScreenFor } from "../presentation/setup-questionnaire-flow";
 import {
   setupForArtPreview,
   type ArtPreviewMode,
 } from "../presentation/art-preview";
-import { replayDescriptorUrl } from "../presentation/new-game-identity";
+import {
+  worldSeedFor,
+  replayDescriptorUrl,
+} from "../presentation/new-game-identity";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import {
   defaultPronounsForGender,
@@ -96,19 +98,12 @@ import {
  * are the generator's to decide after Begin (Task E). Only a custom start
  * carries the extra "background" step where those are set by hand.
  */
-const NORMAL_CREATOR_STEPS = [
-  "route",
-  "character",
-  "place",
-  "whoAreYou",
-  "begin",
-] as const;
+const NORMAL_CREATOR_STEPS = ["route", "character", "place", "begin"] as const;
 const CUSTOM_CREATOR_STEPS = [
   "route",
   "character",
   "place",
   "background",
-  "whoAreYou",
   "begin",
 ] as const;
 
@@ -119,22 +114,18 @@ type CreatorStep =
 const OTHER_PARENT_CHOICES: readonly {
   readonly key: NewGameOtherParent;
   readonly label: string;
-  readonly detail: string;
 }[] = [
   {
     key: "living",
     label: "Living",
-    detail: "Alive, and not part of this story.",
   },
   {
     key: "nonresident",
     label: "Lives elsewhere",
-    detail: "Alive, and living somewhere else.",
   },
   {
     key: "deceased",
     label: "Has died",
-    detail: "Died before your story begins.",
   },
 ];
 
@@ -143,9 +134,12 @@ export function SetupScreen({
   seedOrigin,
   previewMode,
   initialSetup,
-  questionnaireComplete = false,
+  stagedGame,
+  onRequestRecordedLife,
   onBack,
   onBegin,
+  onStateChange,
+  onTownChange,
   problem,
 }: {
   readonly seed: string;
@@ -153,17 +147,21 @@ export function SetupScreen({
   readonly previewMode: ArtPreviewMode;
   readonly initialSetup?: NewGameSetup;
   readonly questionnaireComplete?: boolean;
+  readonly stagedGame?: NewGame;
+  readonly onRequestRecordedLife?: (setup: NewGameSetup) => void;
   readonly onBack: () => void;
   readonly onBegin: (
     setup: NewGameSetup,
     appearance: CreatorAppearanceChoice | null,
     questionsFinished?: boolean,
+    stagedGame?: NewGame,
   ) => void;
   readonly problem: string | null;
+  /** The chosen state's postal code, or null, so the backdrop can follow it. */
+  readonly onStateChange?: (usps: string | null) => void;
+  /** Whether a town is chosen, so the backdrop can become the town's own. */
+  readonly onTownChange?: (chosen: boolean) => void;
 }) {
-  const [finishedQuestions, setFinishedQuestions] = useState(
-    questionnaireComplete,
-  );
   const [stateQuery, setStateQuery] = useState("");
   const [placeQuery, setPlaceQuery] = useState("");
   const [replacingPlace, setReplacingPlace] = useState(false);
@@ -177,6 +175,13 @@ export function SetupScreen({
   const [location, setLocation] = useState<CreatorLocationDraft>(() =>
     creatorLocationFromPlaceKey(initialSetup?.placeKey),
   );
+  const chosenUsps =
+    lifePlaceStateIdentities().find(
+      (state) => state.jurisdictionKey === location.stateJurisdictionKey,
+    )?.usps ?? null;
+  useEffect(() => {
+    onStateChange?.(chosenUsps);
+  }, [chosenUsps, onStateChange]);
   const matchingStates = useMemo(() => {
     const needle = stateQuery.trim().toLowerCase();
     const identities = lifePlaceStateIdentities();
@@ -218,6 +223,10 @@ export function SetupScreen({
         previewMode,
       ),
   );
+  const townChosen = setup.placeKey !== "";
+  useEffect(() => {
+    onTownChange?.(townChosen);
+  }, [townChosen, onTownChange]);
   /**
    * What the age field currently shows, which is not always a number.
    *
@@ -244,6 +253,7 @@ export function SetupScreen({
    * The step the player is on. It only moves forward on its own; the summaries
    * of finished steps move it back when one is reopened to change an answer.
    */
+  const [beginSlot, setBeginSlot] = useState<HTMLElement | null>(null);
   const stateSearchRef = useRef<HTMLInputElement>(null);
   const placeSearchRef = useRef<HTMLInputElement>(null);
   const stateChoicesRef = useRef<HTMLDivElement>(null);
@@ -262,9 +272,37 @@ export function SetupScreen({
       steps.indexOf(step) > steps.indexOf(now) ? step : now,
     );
   const reopen = (step: CreatorStep) => {
-    if (step === "whoAreYou") setFinishedQuestions(false);
     setCurrent(step);
   };
+
+  const stagedSetup: NewGameSetup = {
+    ...committed,
+    questionnaire: "skipped",
+    priors: [],
+  };
+  const stageIdentity = worldSeedFor(stagedSetup);
+  const matchingStagedGame =
+    stagedGame && worldSeedFor(stagedGame.setup) === stageIdentity
+      ? stagedGame
+      : undefined;
+  const requestedLife = useRef<string | null>(null);
+  useEffect(() => {
+    if (
+      current !== "begin" ||
+      matchingStagedGame ||
+      !onRequestRecordedLife ||
+      requestedLife.current === stageIdentity
+    )
+      return;
+    requestedLife.current = stageIdentity;
+    onRequestRecordedLife(stagedSetup);
+  }, [
+    current,
+    stageIdentity,
+    matchingStagedGame,
+    onRequestRecordedLife,
+    stagedSetup,
+  ]);
 
   const problems = newGameSetupProblems(committed);
   /*
@@ -304,13 +342,10 @@ export function SetupScreen({
   const [birthdayCompletionProblem, setBirthdayCompletionProblem] = useState<
     string | null
   >(null);
-  const characterHint = creatorCharacterHint(characterMissing);
   const continueCharacter = () => {
     const completed = resolveCreatorBirthday(setup, ageChosen);
     if (!completed) {
-      setBirthdayCompletionProblem(
-        "Choose both a birthday month and day, or leave both blank. Check that the date exists in your chosen year.",
-      );
+      setBirthdayCompletionProblem("incomplete-birthday");
       return;
     }
     setBirthdayCompletionProblem(null);
@@ -344,16 +379,12 @@ export function SetupScreen({
                 : "Everyday life",
         ].join(" · ")
       : "",
-    whoAreYou:
-      setup.questionnaire === "skipped"
-        ? "Discover through play"
-        : "Answering a few questions",
   };
   const onReady = currentIndex >= steps.indexOf("begin");
 
   return (
     <main
-      className={`game-title game-setup game-creator pg-glass-panel${onReady && (finishedQuestions || !questionnaireScreenFor(committed)) ? " game-creator--appearance" : ""}`}
+      className={`game-title game-setup game-creator pg-glass-panel${onReady ? " game-creator--appearance" : ""}`}
       data-testid="setup-screen"
     >
       {/*
@@ -408,7 +439,7 @@ export function SetupScreen({
 
       {isCurrent("route") ? (
         <section data-testid="creator-stage-route">
-          <h2>How do you want to start?</h2>
+          <h2>Start</h2>
           <div className="game-choices" data-testid="start-kind-choices">
             <button
               type="button"
@@ -427,11 +458,6 @@ export function SetupScreen({
               }}
             >
               Start a life
-              <small>
-                You say who you are and where you're from. Everything else —
-                your family, your home, the years behind you — the game builds
-                when you begin.
-              </small>
             </button>
             <button
               type="button"
@@ -444,10 +470,6 @@ export function SetupScreen({
               }}
             >
               Custom start
-              <small>
-                Set the background yourself — who's at home, whether you already
-                work somewhere, how much of the early years to play.
-              </small>
             </button>
           </div>
         </section>
@@ -503,7 +525,6 @@ export function SetupScreen({
                   required
                   autoComplete="off"
                   value={setup.givenName ?? ""}
-                  aria-describedby="creator-name-hint"
                   onChange={(event) =>
                     setSetup((now) => ({
                       ...now,
@@ -519,7 +540,6 @@ export function SetupScreen({
                   required
                   autoComplete="off"
                   value={setup.familyName ?? ""}
-                  aria-describedby="creator-name-hint"
                   onChange={(event) =>
                     setSetup((now) => ({
                       ...now,
@@ -553,15 +573,6 @@ export function SetupScreen({
               >
                 Randomize name
               </button>
-              <p
-                className="game-hint"
-                id="creator-name-hint"
-                data-testid="creator-name-hint"
-              >
-                {chosenGender === null
-                  ? "Choose a gender first; Randomize name then draws a name for it."
-                  : "Type a first and last name, or use Randomize name."}
-              </p>
             </div>
           </div>
 
@@ -576,17 +587,8 @@ export function SetupScreen({
             />
           </div>
 
-          {characterHint ? (
-            <p
-              className="game-hint"
-              id="creator-character-missing"
-              data-testid="creator-character-missing"
-            >
-              {characterHint}
-            </p>
-          ) : null}
           {birthdayCompletionProblem ? (
-            <p role="alert">{birthdayCompletionProblem}</p>
+            <p role="alert" data-problem={birthdayCompletionProblem} />
           ) : null}
         </section>
       ) : null}
@@ -681,9 +683,7 @@ export function SetupScreen({
                   ))}
                 </div>
               ) : (
-                <p className="game-note" data-testid="state-no-match">
-                  Nothing here matches that yet.
-                </p>
+                <p data-testid="state-no-match" />
               )}
             </>
           )}
@@ -691,9 +691,7 @@ export function SetupScreen({
             <>
               {placeListOpen ? (
                 <div className="game-search">
-                  <label htmlFor="creator-place-search">
-                    Search places in this state
-                  </label>
+                  <label htmlFor="creator-place-search">Search</label>
                   <div className="creator-search-entry">
                     <input
                       id="creator-place-search"
@@ -755,12 +753,10 @@ export function SetupScreen({
                         ...now,
                         placeKey: statewidePlace.key,
                       }));
+                      advanceTo("background");
                     }}
                   >
                     {statewidePlace.displayName}
-                    <small data-place-scope="state">
-                      Statewide — not a hometown
-                    </small>
                   </button>
                 </div>
               ) : null}
@@ -801,6 +797,7 @@ export function SetupScreen({
                               ? "ordinary-life"
                               : now.startingLife,
                         }));
+                        advanceTo(custom ? "background" : "begin");
                       }}
                     >
                       {candidate.displayName}
@@ -832,13 +829,6 @@ export function SetupScreen({
                   {replacingPlace ? "Keep" : "Change"}
                 </span>
               </button>
-              {place.scope !== "locality" ? (
-                <p className="game-hint" data-testid="place-scope">
-                  {place.scope === "state"
-                    ? "Statewide start."
-                    : "County-wide start; a specific town is not selected."}
-                </p>
-              ) : null}
               {placeStartFacts(place)
                 .filter((fact) => fact.kind !== "name")
                 .map((fact) => (
@@ -880,7 +870,7 @@ export function SetupScreen({
       {custom && isCurrent("background") ? (
         <section data-testid="creator-stage-background">
           <h2>Your background</h2>
-          <h3>How much of the early years to play</h3>
+          <h3>Early years</h3>
           <div className="game-choices">
             <button
               type="button"
@@ -896,11 +886,6 @@ export function SetupScreen({
               }
             >
               Start in childhood
-              <small>
-                {setup.startAge < 18
-                  ? "Play the early years one at a time."
-                  : "Only for a character under eighteen."}
-              </small>
             </button>
             <button
               type="button"
@@ -918,7 +903,6 @@ export function SetupScreen({
               }
             >
               Begin later
-              <small>The early years are already behind you.</small>
             </button>
           </div>
 
@@ -937,7 +921,6 @@ export function SetupScreen({
               }
             >
               Everyday life
-              <small>No office. No formal political role.</small>
             </button>
             <button
               type="button"
@@ -956,13 +939,6 @@ export function SetupScreen({
               }
             >
               Legislative staff
-              <small>
-                {place?.capabilities.legislativeScenarioKey === null
-                  ? "A legislative staff start is not available for this selected place yet."
-                  : setup.startAge < LEGISLATIVE_OFFICE_MINIMUM_AGE
-                    ? `Available for characters ${LEGISLATIVE_OFFICE_MINIMUM_AGE} and older.`
-                    : "Working for a state legislature."}
-              </small>
             </button>
           </div>
 
@@ -984,11 +960,6 @@ export function SetupScreen({
             }
           >
             Judicial office practice
-            <small>
-              Fictional workplace and working relationships, for ages 25 and
-              older. This start grants no election, appointment, legal term or
-              authority to decide cases.
-            </small>
           </button>
           <button
             type="button"
@@ -1008,18 +979,11 @@ export function SetupScreen({
             }
           >
             State agency director
-            <small>
-              {stateAgencyStartAvailableFor(place?.stateJurisdictionKey ?? null)
-                ? setup.startAge < STATE_AGENCY_START_MINIMUM_AGE
-                  ? `Available for characters ${STATE_AGENCY_START_MINIMUM_AGE} and older.`
-                  : "A fictional state agency with existing staff. Its charter makes you the appointing authority; personnel procedures apply only where acquired law supports them."
-                : "Available only in a state whose personnel procedures the game has compiled."}
-            </small>
           </button>
           <h3>At home</h3>
           {setup.startAge < 18 ? (
             <>
-              <h3>Who raises you?</h3>
+              <h3>Raised by</h3>
               <div className="game-choices" data-testid="family-shape-choices">
                 {(
                   [
@@ -1057,11 +1021,6 @@ export function SetupScreen({
               }
             >
               Nobody else
-              <small>
-                {setup.startAge < 18
-                  ? "No other children in the household."
-                  : "You live on your own."}
-              </small>
             </button>
             <button
               type="button"
@@ -1074,20 +1033,11 @@ export function SetupScreen({
               }
             >
               Somebody else
-              <small>
-                {setup.startAge < 18
-                  ? "A brother or a sister in the house too."
-                  : "One other adult shares the household."}
-              </small>
             </button>
           </div>
           {otherParentQuestionApplies(setup) ? (
             <>
               <h3>Your other parent</h3>
-              <p className="game-note" data-testid="other-parent-note">
-                One parent is raising you. Say what is true of the other, or
-                leave it unsaid.
-              </p>
               <div className="game-choices" data-testid="other-parent-choices">
                 {OTHER_PARENT_CHOICES.map((choice) => (
                   <button
@@ -1102,76 +1052,11 @@ export function SetupScreen({
                     }
                   >
                     {choice.label}
-                    <small>{choice.detail}</small>
                   </button>
                 ))}
               </div>
             </>
           ) : null}
-        </section>
-      ) : null}
-
-      {isCurrent("whoAreYou") ? (
-        <section data-testid="creator-stage-whoareyou">
-          <h2>Who are you?</h2>
-          <p className="game-note" data-testid="whoareyou-note">
-            A few imagined situations. Choose what you would do, or skip. These
-            answers do not write your character’s biography.
-          </p>
-          <div className="game-choices" data-testid="whoareyou-choices">
-            <button
-              type="button"
-              data-testid="whoareyou-answer"
-              className={
-                setup.questionnaire === "short" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "short",
-                  priors: now.questionnaire === "short" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer a few questions
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-deep"
-              className={
-                setup.questionnaire === "deep" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "deep",
-                  priors: now.questionnaire === "deep" ? now.priors : [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Answer more questions
-              <small>You can begin your life whenever you are ready.</small>
-            </button>
-            <button
-              type="button"
-              data-testid="whoareyou-play"
-              className={
-                setup.questionnaire === "skipped" ? "is-chosen" : undefined
-              }
-              onClick={() => {
-                setSetup((now) => ({
-                  ...now,
-                  questionnaire: "skipped",
-                  priors: [],
-                }));
-                advanceTo("begin");
-              }}
-            >
-              Discover through play
-            </button>
-          </div>
         </section>
       ) : null}
 
@@ -1196,35 +1081,17 @@ export function SetupScreen({
             else onBack();
           }}
         >
-          {currentIndex === 0 ? "Return to title" : "Back"}
+          Back
         </button>
         {isCurrent("character") ? (
           <button
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-character"
-            aria-describedby={
-              characterHint ? "creator-character-missing" : undefined
-            }
             disabled={characterMissing.length > 0 || (ageChosen && !ageUsable)}
             onClick={continueCharacter}
           >
-            Next
-          </button>
-        ) : null}
-        {isCurrent("place") ? (
-          <button
-            type="button"
-            className="game-creator-next creator-primary-action"
-            data-testid="creator-continue-place"
-            disabled={
-              !place ||
-              !creatorLocationIsReady(location, custom ? "custom" : "normal") ||
-              replacingPlace
-            }
-            onClick={() => advanceTo(custom ? "background" : "whoAreYou")}
-          >
-            Next
+            Continue
           </button>
         ) : null}
         {custom && isCurrent("background") ? (
@@ -1232,32 +1099,26 @@ export function SetupScreen({
             type="button"
             className="game-creator-next creator-primary-action"
             data-testid="creator-continue-background"
-            onClick={() => advanceTo("whoAreYou")}
+            onClick={() => advanceTo("begin")}
           >
-            Next
+            Continue
           </button>
         ) : null}
-        {onReady && !finishedQuestions && questionnaireScreenFor(committed) ? (
-          <button
-            type="button"
-            className="creator-primary-action"
-            data-testid="begin"
-            disabled={problems.length > 0}
-            onClick={() => onBegin(committed, null)}
-          >
-            Continue to questions
-          </button>
+        {onReady && problems.length === 0 ? (
+          <span ref={setBeginSlot} className="creator-begin-slot" />
         ) : null}
       </div>
 
-      {onReady &&
-      problems.length === 0 &&
-      (finishedQuestions || !questionnaireScreenFor(committed)) ? (
+      {onReady && problems.length === 0 ? (
         <CreatorAppearanceStep
           key={JSON.stringify(committed)}
           setup={committed}
           mode={previewMode}
-          onBegin={(appearance) => onBegin(committed, appearance, true)}
+          beginSlot={beginSlot}
+          waiting={Boolean(onRequestRecordedLife && !matchingStagedGame)}
+          onBegin={(appearance) =>
+            onBegin(stagedSetup, appearance, true, matchingStagedGame)
+          }
         />
       ) : null}
 
@@ -1265,13 +1126,9 @@ export function SetupScreen({
         <details className="game-dev" data-testid="setup-advanced">
           <summary>Advanced &mdash; reproducing this world</summary>
           <p>
-            This world is generated from{" "}
-            <code data-testid="setup-seed">{seed}</code>
-            {seedOrigin === "replay"
-              ? ", which was supplied to reproduce an earlier one."
-              : ", drawn fresh for this session."}{" "}
-            The address below carries the place, the age and any names you typed
-            as well, so it rebuilds the same world.
+            <code data-testid="setup-seed" data-seed-origin={seedOrigin}>
+              {seed}
+            </code>
           </p>
           <p>
             <code data-testid="setup-replay-link">

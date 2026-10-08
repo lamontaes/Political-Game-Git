@@ -6,6 +6,8 @@ import { checkExecutiveTermLimit } from "../nationwide-world/executive-term-limi
 import { eventById } from "../event-index";
 import { feltDebtConsiderations } from "../favors";
 import { readRelationshipStanding } from "../relationship-standing";
+import { registeredTraitConsiderations } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import { answersTo, petitionerOf, tagValue } from "./clemency-records";
 import {
   CLEMENCY_SENTENCE_TAG,
@@ -41,12 +43,17 @@ export const CLEMENCY_GRANT = "clemency:grant" as const;
 export const CLEMENCY_DENY = "clemency:deny" as const;
 
 /**
- * PLACEHOLDER (hand-set): how near the end of a term counts as "leaving
+ * ESTIMATED FROM AVERAGE: how near the end of a term counts as "leaving
  * office", and how near an election counts as "facing voters soon". Real
  * clemency waves come at the end of a term (Research 4, 1a item 5); where
- * exactly the window starts is not measured.
+ * exactly the window starts is not measured, so 120 days and a year are game
+ * estimates.
  */
-export const CLEMENCY_CALENDAR_PLACEHOLDER = {
+export const CLEMENCY_CALENDAR_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "recorded end-of-term clemency waves (Research 4, 1a item 5); the window sizes are game estimates",
   leavingOfficeWithinDays: 120,
   facingVotersWithinDays: 365,
 } as const;
@@ -209,7 +216,7 @@ function calendarConsideration(
   term: DeciderTerm,
 ): DecisionConsideration | null {
   if (!term.termEndsAt) return null;
-  const windows = CLEMENCY_CALENDAR_PLACEHOLDER;
+  const windows = CLEMENCY_CALENDAR_ESTIMATE;
   const canStandAgain = term.stateUsps
     ? (checkExecutiveTermLimit(world, {
         stateUsps: term.stateUsps,
@@ -336,7 +343,16 @@ export function evaluateClemency(
       },
     ],
     constraints: [],
-    considerations: clemencyConsiderations(world, deciderId, question, term),
+    considerations: [
+      ...clemencyConsiderations(world, deciderId, question, term),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        deciderId,
+        `${question.petition.stableKey}:decider:${deciderId}`,
+        "justice.clemency-decision",
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",

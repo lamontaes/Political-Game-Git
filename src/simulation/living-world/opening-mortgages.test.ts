@@ -263,7 +263,7 @@ describe("A53 opening mortgage ages are recorded or explicit peer estimates", ()
         row.dueAt > purchased.world.currentDate,
     )!;
     // Isolated scheduled-servicing proof: cancel unrelated opening timers through
-    // their existing writer, retaining original IDs and explicit cancelled states.
+    // their existing writer, retaining original IDs and explicit canceled states.
     // The ordinary opening itself remains unchanged and is proved below.
     const isolated = withWorldIntegrityDeferred(() => {
       let next: World = { ...purchased.world, control: { kind: "observer" } };
@@ -280,7 +280,7 @@ describe("A53 opening mortgage ages are recorded or explicit peer estimates", ()
           effectiveAt: next.currentDate,
           reasonKey: "fixture:isolated-loan-servicing",
           context:
-            "Explicit isolated loan-servicing fixture; unrelated opening timer remains preserved as cancelled.",
+            "Explicit isolated loan-servicing fixture; unrelated opening timer remains preserved as canceled.",
         });
       }
       return next;

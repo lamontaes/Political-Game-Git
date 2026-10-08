@@ -1,3 +1,4 @@
+import market from "../../../data/research/money/cannabis-retail-market.json";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import {
   createNewGameWorld,
@@ -117,7 +118,13 @@ describe("cannabis tax-row migration preserves the existing financial contract",
     });
     const expected = {
       reason: "sales-legalized",
-      annualRevenueDelta: 40_700,
+      annualRevenueDelta:
+        1000 *
+        market.adultPopulationShare.value *
+        market.pastMonthUseShare.value *
+        market.monthlySpendingPerUser.value *
+        12 *
+        market.exciseRate.value,
       sourceMeasureId: "measure_0",
     };
     expect(

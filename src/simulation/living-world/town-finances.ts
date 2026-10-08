@@ -60,6 +60,7 @@ import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { localInstitutionsFor } from "../local-institutions";
 import { areaResidents } from "../outcome-web/place-outcome-store";
 import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
@@ -255,6 +256,8 @@ const DEFAULT_PRICE_ELASTICITY = 0.5;
 export interface BankShape {
   readonly state: string | null;
   readonly index: number;
+  /** The FDIC certificate of the bank row behind a real-name institution. */
+  readonly certificate?: number;
   readonly cushion: number;
   readonly otherAssets: number;
 }
@@ -380,8 +383,37 @@ export function recordedBankShape(
     (leftDistance === rightDistance && left.certificate < right.certificate)
       ? left
       : right;
-  const { state: chosenState, index, cushion, otherAssets } = chosen;
-  return { state: chosenState, index, cushion, otherAssets };
+  const {
+    state: chosenState,
+    index,
+    certificate,
+    cushion,
+    otherAssets,
+  } = chosen;
+  return { state: chosenState, index, certificate, cushion, otherAssets };
+}
+
+/** Resolve a bank's books from the same FDIC certificate as its source name. */
+export function recordedBankShapeForCertificate(
+  state: string | null,
+  certificate: number,
+): BankShape {
+  if (!Number.isSafeInteger(certificate) || certificate < 1)
+    throw new Error("FDIC bank certificate must be a positive whole number");
+  const bank = observedBankPool(state).find(
+    (row) => row.certificate === certificate,
+  );
+  if (!bank)
+    throw new Error(
+      `No modeled FDIC financial row matches certificate ${certificate}`,
+    );
+  return {
+    state: bank.state,
+    index: bank.index,
+    certificate: bank.certificate,
+    cushion: bank.cushion,
+    otherAssets: bank.otherAssets,
+  };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -682,7 +714,14 @@ function openBankBooks(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
   );
-  const shape = recordedBankShape(state, deposits);
+  const organizationName = organizationProfileAt(world, organizationId)?.name;
+  const institution = localInstitutionsFor(world, town).banks.find(
+    (row) => row.name === organizationName,
+  );
+  const certificate = institution ? Number(institution.sourceId) : NaN;
+  const shape = institution
+    ? recordedBankShapeForCertificate(state, certificate)
+    : recordedBankShape(state, deposits);
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
   return {
@@ -2091,14 +2130,14 @@ export function assertTownFinanceIntegrity(world: World): void {
     if (id !== books.organizationId || !organizations.has(id))
       throw new Error(`Town books name an unknown business: ${id}`);
     if (books.bankId && !organizations.has(books.bankId))
-      throw new Error(`Town books name an unknown bank: ${books.bankId}`);
+      throw new Error(`Town books name an unrecorded bank: ${books.bankId}`);
     finite(books.cash, books.debt, books.annualRevenue, books.capacity);
     if (books.debt < 0 || books.capacity < 0)
       throw new Error(`Town books hold a negative debt or capacity: ${id}`);
   }
   for (const [id, bank] of Object.entries(store.banks)) {
     if (id !== bank.organizationId || !organizations.has(id))
-      throw new Error(`Town books name an unknown bank: ${id}`);
+      throw new Error(`Town books name an unrecorded bank: ${id}`);
     finite(bank.deposits, bank.liquid, bank.loans, bank.capital);
     if (
       bank.failed &&

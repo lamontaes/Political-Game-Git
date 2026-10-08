@@ -11,10 +11,11 @@ import type {
   AnyLawConsequenceKindRegistration,
 } from "./law-consequence-types";
 import type { LawConsequenceCapabilities } from "./law-consequence-validation";
+import { LAW_CONSEQUENCE_MODULE_REGISTRATIONS } from "./law-consequence-module-manifest";
 
-/** Sole registration surface. Coordinator appends reviewed kind exports here. */
-export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
-  [
+/** Resolve registrations on demand to keep manifest modules cycle-safe. */
+export function lawConsequenceRegistrations(): readonly AnyLawConsequenceKindRegistration[] {
+  return [
     PAY_REGISTRATION,
     legalOutcomeRegistration,
     COVERAGE_ELIGIBILITY_REGISTRATION,
@@ -23,10 +24,25 @@ export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegist
     SERVICE_DELIVERED_REGISTRATION,
     RIGHT_PERMISSION_REGISTRATION,
     INSTITUTION_RULE_REGISTRATION,
+    ...LAW_CONSEQUENCE_MODULE_REGISTRATIONS,
   ];
+}
+
+/** Backward-compatible lazy array surface for callers that keep the list. */
+export const LAW_CONSEQUENCE_REGISTRATIONS: readonly AnyLawConsequenceKindRegistration[] =
+  new Proxy([] as AnyLawConsequenceKindRegistration[], {
+    get(_target, property) {
+      const registrations = lawConsequenceRegistrations();
+      const value = Reflect.get(registrations, property, registrations);
+      return typeof value === "function" ? value.bind(registrations) : value;
+    },
+    set() {
+      return false;
+    },
+  });
 
 export function createLawConsequenceRegistry(
-  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = lawConsequenceRegistrations(),
 ) {
   const handlers = new Map<
     LawConsequenceKind,

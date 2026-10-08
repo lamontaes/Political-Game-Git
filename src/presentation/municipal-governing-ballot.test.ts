@@ -93,9 +93,13 @@ describe("ordinary council ballot projection", () => {
       createElement(MunicipalWorkspace, {
         world: placed.world,
         onWorldChange: () => {},
+        diagnostics: true,
       }),
     );
-    expect(beforeScreen).toContain("Choose a ballot to record your decision");
+    expect(beforeScreen).not.toContain(">Unknown<");
+    expect(beforeScreen).not.toContain(
+      "Choose a ballot to record your decision",
+    );
     expect(beforeScreen).toContain("municipal-reading-due");
     const preview = previewAuthoredCouncilBallots(
       placed.world,

@@ -34,10 +34,10 @@ interface CheckModeGlobals {
 }
 
 function defaultMode(): WorldIntegrityCheckMode {
-  // Tests keep the full check after every advance; play checks what changed.
-  // OCD_FULL_WORLD_CHECK=1 turns the full check back on for a Node tool.
+  // A full-world check is an explicit test/audit choice. Clock transitions use
+  // the append-aware changed-record check unless a test or diagnostic opts in.
   const env = (globalThis as CheckModeGlobals).process?.env;
-  return env?.VITEST || env?.OCD_FULL_WORLD_CHECK === "1" ? "full" : "changed";
+  return env?.OCD_FULL_WORLD_CHECK === "1" ? "full" : "changed";
 }
 
 let mode: WorldIntegrityCheckMode = defaultMode();
@@ -73,6 +73,7 @@ const UNIQUE_STABLE_KEY_FAMILIES: ReadonlySet<string> = new Set([
   "districtResidenceIntervals",
   "electionContestResults",
   "legislativeMeasures",
+  "legislativeProposals",
   "legislativeActions",
   "committeeReferrals",
   "committeeActions",

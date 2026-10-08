@@ -2,13 +2,22 @@
 
 Generated 2026-10-06 by cto-notes/tools/laws_wired.mjs against main. Rerun it to refresh.
 
+## Ownership rule (Opus ruling, #2424, Oct 6 ~5:05 a.m.)
+
+- Session 20 is sole writer of the applyLawConsequences core, the kind registry and the landing core
+- Session 19 is sole writer of lawInForce
+- An LW batch writes ONLY data rows plus, for a new kind, one kind-module file registered through the registry's registration point
+- No batch edits the core files
+- If no data-driven registration point exists yet, Session 20's next PR adds a folder-loaded kind registry before batches add kinds
+- A batch that needs a core change posts the need on the board and waits on Session 20 while finishing its data rows
+
 ## Rules (all batches)
 
 - Zero dice. Nothing is rolled anywhere in a law's effect.
 - Nothing blank: where the law's own number is not known for a place, estimate it from similar places and mark it as an estimate (basis and the places used on the row).
 - One law engine. Add rows as data (WHO / WHAT / HOW MUCH) and register a kind through `src/simulation/law-consequence-registry.ts` if one is missing. No per-law code paths.
 - Make the effect land on named people through Session 20's landing engine (`applyLawConsequences`, `recordLawExposure`, the `law-effects-noticed.ts` pattern), so the exposure names the person, the law and the amount.
-- One PR per batch. Post "Session N takes LW-xx" on #2052 before starting. Whoever merges second rebases.
+- One PR per batch. Post "Session N takes LW-xx" on #2424 before starting. Whoever merges second rebases.
 - Proof for each law: start a new game in a random place where the law is in force and print the cause chain: law, effect, person.
 
 ## Today's numbers
@@ -42,6 +51,16 @@ Laws:
   - Today: link enforcement-to-hispanic-enrollment [outcome-not-produced] (data/research/outcome-web/links.json:1464); link enforcement-to-undocumented-employment [outcome-not-produced] (data/research/outcome-web/links.json:2043); link enforcement-to-us-born-employment [outcome-not-produced] (data/research/outcome-web/links.json:2063)
 
 One-PR job: add the consequence rows for each law (WHO/WHAT/HOW MUCH as data, sized from current law and similar places, estimates marked), register the kind through the existing registry if missing, make it land on named people through the landing engine, and prove it from a new game in a random place where the law is in force (printed chain: law, effect, person).
+
+### LW-02 source and person-coverage check (Session 21)
+
+The three rules are already recorded for all 56 jurisdictions in `data/research/laws/starting-law-2026.json` and read as starting law by `src/simulation/governing/law-in-force.ts`. The shared consequence dispatch is `src/simulation/enacted-law-effects.ts:800`. No producer currently records the qualifying event for these rules, so do not attribute effects to a person from a generic crime, booking, or household record.
+
+| Law                                                                  | Starting-law record                                                                                              | Existing person event and coverage                                                                                                                                                                                                                                                                                                                                                           |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `justice-public-safety.child-access-prevention`                      | `starting-law-2026.json:23820`; sourced state answers, including estimates, for all 56 places.                   | Rule recorded; reaches people when a recorded firearm ownership/storage and child-access producer exists. No such producer or qualifying record is present; the future producer must dispatch through `enacted-law-effects.ts:800` with the recorded owner and child-access event.                                                                                                           |
+| `justice-public-safety.raise-handgun-purchase-age`                   | `starting-law-2026.json:24192`; sourced state answers, with estimates marked for unread places.                  | Rule recorded; reaches people when a recorded handgun-purchase producer exists. General purchases do not identify a firearm, seller, or buyer eligibility; the future purchase producer must dispatch through `enacted-law-effects.ts:800` with the buyer and transaction.                                                                                                                   |
+| `justice-public-safety.partner-with-federal-immigration-enforcement` | `starting-law-2026.json:25268`; sourced state 287(g) requirements, permissions, and estimates for all 56 places. | Rule recorded; reaches people when a recorded immigration-enforcement interaction producer exists. The booking rollup at `justice/county-office-work.ts:108` includes pretrial holds and jail sentences, but records no immigration status, agency action, or 287(g) check; a future interaction producer must dispatch through `enacted-law-effects.ts:800` with that recorded interaction. |
 
 ## LW-03: Federal taxation and revenue (no running effect)
 

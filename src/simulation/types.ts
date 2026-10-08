@@ -1,3 +1,4 @@
+import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
 import type {
@@ -6,6 +7,7 @@ import type {
 } from "./permit-types";
 import type {
   LawAmountUnit,
+  LawTermApplicability,
   LawTermScope,
   RentalPriceRule,
   LawConsequenceRow,
@@ -27,9 +29,14 @@ import type {
 } from "./campaign-life-types";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import type { JudiciaryState } from "./judiciary/types";
+import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
-import type { MediaOutletKey, PressRecord } from "./press/records";
+import type {
+  EditorialStandard,
+  MediaOutletKey,
+  PressRecord,
+} from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -64,6 +71,7 @@ import type {
   JobApplicationStepRecord,
   JobOpeningRecord,
 } from "./job-market-types";
+import type { CitizenshipStatusRecord } from "./citizenship-types";
 declare const entityIdBrand: unique symbol;
 declare const isoDateBrand: unique symbol;
 declare const currencyCodeBrand: unique symbol;
@@ -107,6 +115,7 @@ export type EntityKind =
   | "constitutional-action"
   | "crisis-record"
   | "constitutional-rule-version"
+  | "legislative-proposal"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -656,6 +665,8 @@ export interface PersonFactConstraint {
 }
 
 interface PersonCore {
+  /** Private canonical status history; absent on old saves, never auto-inferred on read. */
+  readonly citizenshipStatuses?: readonly CitizenshipStatusRecord[];
   readonly id: EntityId;
   readonly generationKey: string;
   readonly generatorVersion?: string;
@@ -714,6 +725,21 @@ export interface EventLocation {
   readonly setting: string | null;
 }
 
+export interface CampaignGuidanceRuleRecord {
+  readonly kind: "known" | "unknown" | "not-applicable";
+  readonly value?: number | string;
+  readonly citation?: string | null;
+  readonly sourceUrl?: string | null;
+}
+
+export interface CampaignGuidanceOfficeRecord {
+  readonly officeKey: string;
+  readonly officeName: string;
+  readonly minimumAge?: CampaignGuidanceRuleRecord;
+  readonly residency?: CampaignGuidanceRuleRecord;
+  readonly filing?: CampaignGuidanceRuleRecord;
+}
+
 export interface EventContext {
   readonly location: EventLocation | null;
   readonly socialContext: string | null;
@@ -721,6 +747,7 @@ export interface EventContext {
   readonly choice: string | null;
   readonly motivation: string | null;
   readonly immediateReaction: string | null;
+  readonly campaignGuidanceAnswer?: string;
 }
 
 export interface HistoricalEvent extends LawEffectStampedRecord {
@@ -930,12 +957,17 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
   | "job-rule"
+  | "election-rule"
   | "business-rule"
   | "public-service"
+  | "court-rule"
+  | "sentence-rule"
+  | "voting-rule"
   | "rent";
 
 /**
@@ -980,6 +1012,8 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A source label for amounts estimated from population-level evidence. */
+  readonly estimatedFrom?: string;
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }
@@ -1198,7 +1232,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -1419,6 +1454,18 @@ export interface OrganizationProfileRecord {
   readonly locationJurisdictionId: EntityId | null;
   /** Source-backed legal employer identity; not a funder or public account. */
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  /** Source-backed IPEDS identity attached by the education organization writer. */
+  readonly collegePlace?: {
+    readonly institutionId: string;
+    readonly kind:
+      | "flagship"
+      | "ivy-league"
+      | "political-hotbed"
+      | "regional-public"
+      | "private"
+      | "community";
+    readonly campusId: string | null;
+  };
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**
@@ -3614,6 +3661,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -3655,6 +3704,12 @@ export interface DecisionContext {
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
+  /**
+   * Whether the general trait system adds its reasons to this decision: `"on"`
+   * when left out. Only a test or fixture about something other than
+   * personality passes `"off"`. See `traits/act-pulls.ts`.
+   */
+  readonly traitActs?: "on" | "off";
 }
 
 export type DecisionPreference =
@@ -3828,6 +3883,14 @@ export interface CandidateTally {
   readonly voteShare: number;
 }
 
+export interface ElectionPrecinctTally {
+  readonly townId: EntityId;
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
+}
+
 export interface ElectionContestResultRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3838,6 +3901,8 @@ export interface ElectionContestResultRecord {
   readonly tallies: readonly CandidateTally[];
   /** Individual choices from the same count that produced these tallies. */
   readonly ballots?: readonly ElectionBallotRecord[];
+  /** Present when every recorded ballot has saved precinct membership. */
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
 }
@@ -3874,6 +3939,7 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly provenance?: ElectionContestProvenance;
 }
 
@@ -4033,6 +4099,10 @@ export interface CampaignComplianceDocumentRecord {
     | "60-day-preelection"
     | "30-day-preelection"
     | "15-day-preelection"
+    | "quarterly"
+    | "pre-election"
+    | "post-election"
+    | "year-end"
     | "30-day-postelection"
     | "correction";
   readonly periodStart: IsoDate | null;
@@ -4040,7 +4110,7 @@ export interface CampaignComplianceDocumentRecord {
   readonly dueOn: IsoDate;
   readonly status: "draft" | "filed";
   readonly visibility: "committee-private" | "public-record";
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly filedAt: IsoDate | null;
   readonly amendsDocumentId: EntityId | null;
   readonly correctionReason: string | null;
@@ -4080,6 +4150,8 @@ export interface PublicationRecord {
   readonly correctsPublicationId: EntityId | null;
   /** Null on the first edition; required on a correction. */
   readonly correctionNote: string | null;
+  /** Recorded justice.charged events that cite this press-story edition. */
+  readonly justiceChargeEventIds?: readonly EntityId[];
 }
 
 // ---------------------------------------------------------------------------
@@ -4278,7 +4350,9 @@ export interface EnactedDutyFindingRecord extends EnactedDutyRecordBase {
    * unknowns say which fact the world does not hold.
    */
   readonly outcome: "complied" | "compliance-unknown" | "coverage-unknown";
-  readonly basis: "game-profile" | "unknown";
+  readonly basis: "game-profile" | "recorded-service" | "unknown";
+  /** The actual program service outturn that established fulfillment, if any. */
+  readonly evidenceRecordId?: EntityId;
   readonly researchQuestionId: string;
   readonly reason: string;
 }
@@ -4487,20 +4561,29 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
 }
 
 /** Append-only attribution of a sentence already written by the court. */
-export interface LegalOutcomeConsequenceRecord {
+interface LegalOutcomeConsequenceRecordBase {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
-  readonly sentenceEventId: EntityId;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
-  readonly effectKind: "minimum-custody-months";
-  readonly minimumMonths: number;
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
+
+export type LegalOutcomeConsequenceRecord =
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "minimum-custody-months";
+      readonly sentenceEventId: EntityId;
+      readonly minimumMonths: number;
+    })
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "juvenile-jurisdiction-ceiling";
+      readonly caseStageEventId: EntityId;
+      readonly juvenileCourtAgeCeiling: number;
+    });
 
 /**
  * One dated entry in a person's childhood record (`childhood-record.ts`).
@@ -4541,7 +4624,44 @@ export type ChildhoodRecordEntry =
       readonly kind: "no-school-on-record";
       readonly toJurisdictionId: EntityId;
       readonly grade: number;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** An adult responsible for the child made this recorded choice. */
+      readonly kind: "caregiver-choice";
+      readonly caregiverPersonId: EntityId;
+      readonly situationKey: LifeSituationKey;
+      readonly optionKey: string;
+    })
+  | (ChildhoodRecordEntryBase & {
+      /** A controlled person's recorded formative faith choice. */
+      readonly kind: "faith-choice";
+      readonly congregationId: EntityId | null;
+      readonly situationKey: string;
+      readonly optionKey: string;
     });
+
+export type CampaignAskOutcome = "gave" | "declined" | "deferred";
+export interface CampaignAsk {
+  readonly id: EntityId;
+  readonly candidateId: EntityId;
+  readonly residentId: EntityId;
+  readonly askedOn: IsoDate;
+  readonly amountMinorUnits: number;
+  readonly outcome: CampaignAskOutcome;
+  readonly reasonBeliefId: EntityId | null;
+}
+
+export interface CampaignPurchaseRecord {
+  readonly id: EntityId;
+  readonly campaignId: EntityId;
+  readonly purchasedOn: IsoDate;
+  readonly item:
+    "yard-sign" | "palm-card" | "postage" | "print-ad" | "filing-fee";
+  readonly units: number;
+  readonly unitPriceMinorUnits: number;
+  readonly totalMinorUnits: number;
+  readonly flowId: EntityId;
+}
 
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
@@ -4654,6 +4774,8 @@ export interface HistoryStore {
   readonly campaignActions?: readonly CampaignActionRecord[];
   readonly campaignActionResults?: readonly CampaignActionResultRecord[];
   readonly campaignComplianceDocuments?: readonly CampaignComplianceDocumentRecord[];
+  readonly campaignAsks?: readonly CampaignAsk[];
+  readonly campaignPurchases?: readonly CampaignPurchaseRecord[];
   /** CRUNCH46 CAMPAIGN; optional so pre-CRUNCH46 snapshots stay readable. */
   readonly campaignLifeActivities?: readonly CampaignLifeActivityRecord[];
   readonly campaignLifeOutcomes?: readonly CampaignLifeOutcomeRecord[];
@@ -4669,6 +4791,8 @@ export interface HistoryStore {
   /** CRISIS severe-event records; absent in Worlds written before them. */
   readonly crisisRecords?: readonly CrisisRecord[];
   readonly legislativeMeasures?: readonly LegislativeMeasureRecord[];
+  /** Separate from filed measures: a proposal has not entered the chamber. */
+  readonly legislativeProposals?: readonly LegislativeProposalRecord[];
   readonly legislativeActions?: readonly LegislativeActionRecord[];
   readonly committeeReferrals?: readonly CommitteeReferralRecord[];
   readonly committeeActions?: readonly CommitteeActionRecord[];
@@ -4780,6 +4904,19 @@ export interface LegislativeMeasureNumberingSession {
   readonly fullDesignation: string;
 }
 
+/** A member's saved ordinance draft before any chamber has received it. */
+export interface LegislativeProposalRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly governmentKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly sponsorPersonId: EntityId;
+  readonly title: string;
+  readonly operativeText: string;
+  readonly proposedAt: IsoDate;
+}
+
 export interface LegislativeMeasureRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -4796,6 +4933,8 @@ export interface LegislativeMeasureRecord {
    */
   readonly numberingSession?: LegislativeMeasureNumberingSession;
   readonly shortTitle: string;
+  /** Omitted on existing measures, which are statutes by default. */
+  readonly governmentInstrument?: "statute" | "regulation" | "executive-order";
   readonly summary: string;
   readonly origin: LegislativeMeasureOrigin;
   readonly subjectClass: LegislativeSubjectClass;
@@ -4851,6 +4990,16 @@ export type LegislativeActionKind =
   | "amendment-rejected"
   | "floor-stage-passed"
   | "floor-stage-failed"
+  | "procedural-motion-failed"
+  | "tabled"
+  | "postponed"
+  | "recommitted"
+  | "recorded-vote-demanded"
+  | "full-reading-demanded"
+  | "rules-suspended"
+  | "sine-die-vote-carried"
+  | "quorum-not-present"
+  | "debate-extended"
   | "transmitted"
   | "concurred"
   | "concurrence-failed"
@@ -4881,6 +5030,8 @@ export interface LegislativeActionRecord {
   readonly chamberKey: string | null;
   readonly committeeKey: string | null;
   readonly floorStageKey: string | null;
+  readonly proceduralMotion?: MinorityProcedureMotion;
+  readonly resumeAt?: IsoDate | null;
   /** The actor or body responsible, in plain language. */
   readonly actorLabel: string;
   /** Why this happened, in plain language, for the player-facing record. */
@@ -4973,6 +5124,15 @@ export interface LegislativeAmendmentRecord {
    * has to pass. Omitted for the player's amendments and older records.
    */
   readonly authorMotive?: LegislativeAmendmentMotive;
+  /** Potential constitutional issue, not a finding of invalidity. Recorded
+   * only on adoption, using the procedure engine's policy-domain proxy. */
+  readonly potentialSingleSubjectIssue?: {
+    readonly citation: string;
+    readonly assessmentBasis: "policy-domain-proxy";
+    readonly billDomainIds: readonly string[];
+    readonly addedDomainIds: readonly string[];
+    readonly propositionIds: readonly string[];
+  };
 }
 
 export type LegislativeAmendmentMotive = "pass" | "sink" | "record" | "ride";
@@ -5010,7 +5170,8 @@ export type LegislativeVotePurpose =
   | "floor-stage"
   | "amendment"
   | "concurrence"
-  | "veto-override";
+  | "veto-override"
+  | "procedural-motion";
 
 /**
  * How a single member disposed of a question. Legislative voting is a record of
@@ -5113,6 +5274,10 @@ export interface LegislativeEnactmentRecord {
    * saves may carry null and retain their original game-interval reading.
    */
   readonly effectiveAt: IsoDate | null;
+  /** Publication is recorded separately from filing and taking effect. */
+  readonly publishedAt?: IsoDate | null;
+  /** An instrument ceases to govern after this date; null means no expiry. */
+  readonly expiresAt?: IsoDate | null;
   /** New records distinguish source dates from game defaults. */
   readonly effectiveDateBasis?: "source-default" | "game-default";
   /** A new game's fallback stays fixed when future profiles change. */
@@ -5135,6 +5300,9 @@ export interface LegislativeEnactmentRecord {
  */
 export type OfficeVotingWorkflowMode =
   "review-batch" | "prior-instructions-with-exceptions" | "handle-individually";
+
+/** How much of an ordinary council meeting the member chooses to play. */
+export type OfficeMeetingDepth = "what-matters" | "everything";
 
 /**
  * How this office handles constituent casework. Adjustable and bound to the
@@ -5203,9 +5371,18 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Optional per-case policy for a person holding a judicial seat. */
+  readonly judicialCaseworkModes?: Partial<
+    Record<JudicialCaseKind, JudicialCaseworkMode>
+  >;
+  /** Absent on older saves; readers treat it as `what-matters`. */
+  readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
+
+export type JudicialCaseKind = "criminal" | "civil" | "law-review";
+export type JudicialCaseworkMode = "player-handles" | "decide-as-usual";
 
 export type OfficeVoteInstructionDisposition =
   "yea" | "nay" | "present-not-voting";
@@ -5309,6 +5486,8 @@ export interface LegislativeProvisionRecord {
     readonly unit: LawAmountUnit;
     /** Missing legacy scope is unknown, never an implicit statewide rule. */
     readonly scope?: LawTermScope;
+    /** Missing legacy applicability is unknown, never an implicit region. */
+    readonly applicability?: LawTermApplicability;
     readonly rentalPriceRule?: RentalPriceRule;
   }[];
   /** Explicit annual amount; omission preserves older whole-program records. */
@@ -5782,7 +5961,27 @@ export interface SetupPriorStore {
   readonly answers: readonly SetupAnswerRecord[];
 }
 
+export type SaveMode = "free" | "one-save";
+export type NotesVisibility = "full" | "light" | "none";
+export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
+
+/** Player-facing choices kept on the World; absent legacy data means defaults. */
+export interface PlaySettings {
+  readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
+  /** Controls when player-known reminders appear on person cards. */
+  readonly notesVisibility: NotesVisibility;
+  /** New-game-only outlet standard, copied to outlets when they are founded. */
+  readonly pressPremise: EditorialStandard;
+  /** Changes how recorded personal-life events are worded, never world facts. */
+  readonly personalLifeDepiction: PersonalLifeDepiction;
+}
+
 export interface World {
+  /** Loading-only routine summary mode; removed at the recorded Begin boundary. */
+  readonly pastMode?: HistoricalPastMode;
   /** Saved courts and seated judges; absent in lives created before courts opened. */
   readonly judiciary?: JudiciaryState;
   /** Immutable validated definitions accepted for this life; absent in legacy saves. */
@@ -5806,7 +6005,14 @@ export interface World {
   readonly incidentCatalog: IncidentCatalog;
   readonly vitalityCatalog: VitalityCatalog;
   readonly control: ControlState;
+  /** The prospective player acts as a resident until the recorded Begin date. */
+  readonly preStartLife?: {
+    readonly personId: EntityId;
+    readonly targetStartDate: IsoDate;
+  };
   readonly history: HistoryStore;
+  /** Optional so worlds saved before player settings remain readable. */
+  readonly playSettings?: PlaySettings;
   /**
    * What the player answered at setup, kept beside the world rather than in
    * it.

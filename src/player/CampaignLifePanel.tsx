@@ -81,9 +81,7 @@ export function CampaignLifePanel({
     try {
       const next = work();
       if (next === world) {
-        setMessage(
-          blocked() ?? "Something already on the calendar has to happen first.",
-        );
+        setMessage(blocked() ?? "Calendar conflict");
         return;
       }
       setMessage(after(next));
@@ -122,7 +120,7 @@ export function CampaignLifePanel({
         (candidate) => candidate.lifeActivityId === row.lifeActivityId,
       )?.state === "completed"
         ? null
-        : "Something came up before you got there. The time that passed is kept; you can try again.";
+        : "Interrupted";
     };
     switch (action) {
       case "accept":
@@ -181,9 +179,7 @@ export function CampaignLifePanel({
       <h3 id="party-work-title">Party and community work</h3>
 
       {view.rows.length === 0 ? (
-        <p data-testid="party-work-empty">
-          Nothing is on your calendar from a party or campaign yet.
-        </p>
+        <p data-testid="party-work-empty" />
       ) : (
         <ul className="game-campaign-life-list">
           {view.rows.map((row) => (
@@ -203,12 +199,14 @@ export function CampaignLifePanel({
                   {row.travelNote}
                 </span>
               ) : null}
-              <span
-                className="game-campaign-life-state"
-                data-testid={`party-work-state-${row.lifeActivityId}`}
-              >
-                {row.stateLabel}
-              </span>
+              {row.stateLabel ? (
+                <span
+                  className="game-campaign-life-state"
+                  data-testid={`party-work-state-${row.lifeActivityId}`}
+                >
+                  {row.stateLabel}
+                </span>
+              ) : null}
               {row.attendNote ? (
                 <span className="game-campaign-life-line">
                   {row.attendNote}
@@ -216,8 +214,7 @@ export function CampaignLifePanel({
               ) : null}
               {row.lifeActivityId === activeGuidanceLifeId ? (
                 <span className="game-campaign-life-line">
-                  The conversation is open in the community room. Return to the
-                  room to ask, stay or leave.
+                  Open in the community room
                 </span>
               ) : row.actions.length > 0 ? (
                 <span className="game-campaign-life-actions">

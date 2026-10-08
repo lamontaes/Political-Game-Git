@@ -55,7 +55,6 @@ import {
   localGovernmentGameProfileForPlace,
   localGovernmentGameProfile,
   localOrdinanceGameRulePack,
-  localOrdinanceGameRulePackById,
   localOrdinanceSourceAnchor,
 } from "./local-ordinance-game-profile";
 import {
@@ -872,6 +871,7 @@ export function municipalRulePackFor(
   const overrideRow = powerRow(reading, "OVERRIDE", "COUNCIL");
   const vetoRow = powerRow(reading, "VETO", "MAYOR");
   const executiveTitle = reading.mayor?.title ?? "Mayor";
+  const actionDayBasis = reading.procedure.mayoralActionWindow?.dayBasis;
   const executiveSource = municipalRuleSourceRef(
     reading,
     reading.procedure.mayoralAction ?? "executive action on an ordinance",
@@ -1080,6 +1080,19 @@ export function municipalRulePackFor(
             ),
       actionWindowDaysAfterAdjournment: notApplicableRule(
         "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
+      ),
+      actionWindowDayBasisInSession:
+        actionDayBasis === "CALENDAR" ||
+        actionDayBasis === "BUSINESS" ||
+        actionDayBasis === "SUNDAYS_EXCEPTED"
+          ? knownRule(actionDayBasis, executiveSource)
+          : presentment
+            ? unknownRule(
+                "No instrument read establishes the executive action window's day basis.",
+              )
+            : notApplicableRule("No executive presentment window runs."),
+      actionWindowDayBasisAfterAdjournment: notApplicableRule(
+        "No municipal adjournment window is established.",
       ),
       inactionOutcomeInSession: reading.procedure.mayoralActionWindow
         ? knownRule(
@@ -1313,18 +1326,7 @@ export function municipalCouncilRulePacks(): readonly LegislativeRulePack[] {
   return packs;
 }
 
-/** One municipal pack by id, or null when this id is not a municipal one. */
-export function municipalRulePackById(
-  packId: string,
-): LegislativeRulePack | null {
-  const gameSuffix = `:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
-  if (packId.endsWith(gameSuffix)) {
-    return localOrdinanceGameRulePackById(packId);
-  }
-  return (
-    municipalCouncilRulePacks().find((pack) => pack.packId === packId) ?? null
-  );
-}
+export { municipalRulePackById } from "./municipal-rule-registry";
 
 /** The government whose council plays under this pack id, sourced or game. */
 export function municipalGovernmentForRulePackId(

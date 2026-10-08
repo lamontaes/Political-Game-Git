@@ -181,7 +181,7 @@ export function UX39CalendarGrid({
                         className="ux39-calendar-date"
                         aria-current={date === today ? "date" : undefined}
                         aria-pressed={selectedDate === date}
-                        aria-label={`${calendarDisplayDate(date, dateOrder)}${date === today ? ", today" : ""}, ${entries.length} upcoming or ongoing ${entries.length === 1 ? "entry" : "entries"}`}
+                        aria-label={calendarDisplayDate(date, dateOrder)}
                         tabIndex={
                           date === focusDate ||
                           (!dates.includes(focusDate) && date === dates[0])
@@ -236,10 +236,7 @@ export function UX39CalendarGrid({
           </tbody>
         </table>
       </div>
-      <p className="game-note ux39-calendar-hint">
-        Select a date to see its upcoming and ongoing entries. Use arrow keys to
-        browse dates.
-      </p>
+      <p className="game-note ux39-calendar-hint" data-hint="select-date" />
     </section>
   );
 }

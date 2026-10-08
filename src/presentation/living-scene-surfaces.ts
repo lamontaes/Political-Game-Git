@@ -102,9 +102,9 @@ export function projectLivingSceneSurface(
       : null;
     const article =
       selection.publicationId === undefined
-        ? projectNewsFrontPage(world, "front", null).lead
+        ? projectNewsFrontPage(world, "front", null, viewerPersonId).lead
         : selected
-          ? projectNewsArticle(world, selected.publicationId)
+          ? projectNewsArticle(world, selected.publicationId, viewerPersonId)
           : null;
     if (!article) {
       empty.add("headline");

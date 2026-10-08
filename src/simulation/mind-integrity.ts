@@ -14,6 +14,11 @@ import { indexOverArrays, recordById } from "./history-index";
 import { resourceHousingEntityExists } from "./resource-integrity";
 import { factsForPerson } from "./people";
 import {
+  placeOutcomeAt,
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
+import {
   assertOpenTaxonomyKey,
   DECISION_SOURCE_NAMESPACES,
   decisionSourceRequiresReference,
@@ -828,6 +833,13 @@ function validateDecisionContext(
       consideration.confidence,
       "decision confidence",
     );
+    if (
+      consideration.weightScale !== undefined &&
+      (!Number.isFinite(consideration.weightScale) ||
+        consideration.weightScale < 0 ||
+        consideration.weightScale > 1)
+    )
+      throw new Error("Decision consideration weight scale must be in [0, 1].");
     validateSourceRefs(
       world,
       context.actorPersonId,
@@ -1052,6 +1064,33 @@ function validateSourceRefs(
           reference.reference,
         );
         break;
+      case "place-outcome": {
+        const record = placeOutcomeRecords(world).find(
+          (candidate) =>
+            placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+        );
+        const person = world.people[personId];
+        const resolved =
+          record && person
+            ? placeOutcomeAt(
+                world,
+                record.measure,
+                person.homeJurisdictionId,
+                asOfDate,
+              )
+            : null;
+        if (
+          !record ||
+          !person ||
+          !resolved ||
+          record.month > asOfDate ||
+          placeOutcomeRecordId(resolved) !== reference.outcomeRecordId
+        )
+          throw new Error(
+            `Unavailable place-outcome source: ${reference.outcomeRecordId}`,
+          );
+        break;
+      }
       case "personality-tendency":
         validateOwnedRecord(
           recordById(
@@ -1489,6 +1528,8 @@ function entityExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     resourceHousingEntityExists(world, id) ||
     legislationEntityExists(world, id) ||

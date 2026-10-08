@@ -97,6 +97,8 @@ describe("saved living-scene roles and content", () => {
       expect(packet.chapters.map((chapter) => chapter.key)).toEqual([
         "executive",
         "state",
+        "legislature",
+        "parents",
         "congress",
         "locality",
         "your-life",

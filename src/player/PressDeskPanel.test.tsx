@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it } from "vitest";
@@ -194,28 +196,44 @@ beforeAll(() => {
 }, 600_000);
 
 describe("PressDeskPanel", () => {
-  it("says plainly that nothing is waiting when the life has no press yet", () => {
+  it("shows only the group names when the life has no press yet", () => {
     const html = render(fresh.world, fresh.playerId);
     expect(html).toContain('data-testid="press-desk-panel"');
-    expect(html).toContain("No reporter is waiting on an answer from you.");
-    expect(html).toContain("Nothing has been published about you yet.");
-    expect(html).toContain(
-      "Nobody has raised anything about you that you know of.",
-    );
-    expect(html).toContain("You have no ground rules agreed with a reporter.");
-    expect(html).toContain("No news outlet is recorded here.");
+    expect(html).toContain("Questions waiting on you");
+    expect(html).not.toContain("game-note");
+    expect(html).not.toContain('data-testid="press-desk-stories"');
     expect(html).not.toContain('data-testid="press-desk-story"');
+  });
+
+  it("carries no authored sentence in the press screen files", () => {
+    for (const file of [
+      "PressDeskPanel.tsx",
+      "PressWorkspace.tsx",
+      "PressInterviewPanel.tsx",
+      "PressSourceDesk.tsx",
+    ]) {
+      const text = readFileSync(join(__dirname, file), "utf8")
+        .split("\n")
+        .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+        .join("\n");
+      expect(
+        text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{20,}[.?!]\s*</g) ?? [],
+      ).toEqual([]);
+      expect(
+        text.match(
+          /<p[^>]*>\s*(No |Nothing |Nobody |You have no |Reading this)/g,
+        ) ?? [],
+      ).toEqual([]);
+    }
   });
 
   it("shows the newsrooms, what was printed with its byline, and the matter", () => {
     const html = render(covered.world, covered.playerId);
     expect(html).toContain('data-testid="press-desk-outlets"');
-    expect(html).not.toContain("No news outlet is recorded here.");
     expect(html).toContain('data-testid="press-desk-stories"');
     expect(html).toContain('data-testid="press-desk-story"');
     expect(html).toContain("· By ");
     expect(html).toContain('data-testid="press-desk-matter"');
-    expect(html).not.toContain("Nothing has been published about you yet.");
   });
 
   it("marks a reporter the player has never met as no acquaintance", () => {

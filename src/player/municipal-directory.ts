@@ -116,7 +116,7 @@ export function uspsFromStateJurisdictionKey(
 }
 
 export function stateDisplayName(stateCode: string | null | undefined): string {
-  if (!stateCode) return "Unknown state";
+  if (!stateCode) return "State outside the recorded home scope";
   return STATE_NAMES[stateCode] ?? stateCode;
 }
 
@@ -160,11 +160,6 @@ function humanRole(role: MunicipalRole): string {
     default:
       return role;
   }
-}
-
-function humanLabel(value: string): string {
-  const words = value.toLowerCase().replace(/[_-]/g, " ");
-  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 /** Trimmed, case-insensitive literal substring filter over government display fields. */
@@ -268,25 +263,7 @@ export function projectMunicipalKnownPeople(
     represented: true,
   }));
   if (!reading) return people;
-  const representedRoles = new Set(seated.map((seat) => seat.role));
-  if (reading.mayor && !representedRoles.has("mayor")) {
-    people.push({
-      personId: null,
-      name: "Unknown",
-      roleLabel: humanLabel(reading.mayor.structuralPosition),
-      seatLabel: null,
-      represented: false,
-    });
-  }
-  if (reading.manager && !representedRoles.has("professional-manager")) {
-    people.push({
-      personId: null,
-      name: "Unknown",
-      roleLabel: reading.manager.statedRole ?? "Professional manager",
-      seatLabel: null,
-      represented: false,
-    });
-  }
+  // An office without a saved holder is not a person entry.
   return people;
 }
 

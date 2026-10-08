@@ -5,6 +5,8 @@ import { createStableId } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   EVIDENCE_BEARINGS,
+  INQUIRY_BODY_KINDS,
+  INQUIRY_CAUSES,
   LEAD_ROUTES,
   MATTER_RESPONSES,
   MEDIA_BEATS,
@@ -14,6 +16,7 @@ import {
   MEDIA_RESOURCE_TIERS,
   MEDIA_SCOPES,
   MISCONDUCT_FAMILIES,
+  PERSONAL_LIFE_MATTER_FAMILY,
   OUTLET_OWNERSHIP_BASES,
   PRESS_POLICY_VERSION,
   PROCEDURE_KEYS,
@@ -26,6 +29,7 @@ import {
   sourceTermsAttributable,
   sourceTermsPubliclyUsable,
   type PressRecord,
+  type MatterFamily,
   type ReporterRoleRecord,
   type StoryDecision,
 } from "./records";
@@ -144,6 +148,7 @@ export function validatePressRecords(
   note(world.history.claims);
   note(world.history.knowledge);
   note(world.history.evidenceArtifacts);
+  note(world.history.evidenceDiscoveries);
   note(world.history.resourceFlows);
   note(world.history.decisionTraces);
   note(world.history.organizations);
@@ -173,6 +178,7 @@ export function validatePressRecords(
   const outletActive = new Map<EntityId, Set<EntityId>>();
   const leadDecision = new Map<EntityId, StoryDecision>();
   const closedProceedings = new Set<EntityId>();
+  const inquiryHours = new Map<EntityId, number>();
   const reporterRoles: ReporterRoleRecord[] = [];
   const currentOwnership = new Map<EntityId, EntityId>();
   let previousSequence = -1;
@@ -225,7 +231,7 @@ export function validatePressRecords(
         text(record.provenanceNote, "outlet provenance");
         earlier(record.organizationId, seq, "outlet organization");
         if (record.policyVersion !== PRESS_POLICY_VERSION) {
-          throw new Error(`Outlet uses an unknown policy: ${record.id}`);
+          throw new Error(`Outlet uses an unsupported policy: ${record.id}`);
         }
         if (
           (record.scope === "national") !==
@@ -537,12 +543,50 @@ export function validatePressRecords(
         break;
       }
       case "matter": {
-        member(MISCONDUCT_FAMILIES, record.family, "misconduct family");
+        member(
+          [
+            ...MISCONDUCT_FAMILIES,
+            PERSONAL_LIFE_MATTER_FAMILY,
+          ] as readonly MatterFamily[],
+          record.family,
+          "matter family",
+        );
         if (record.subjectPersonIds.length === 0) {
           throw new Error(`A matter needs its subjects: ${record.id}`);
         }
         for (const id of record.subjectPersonIds) person(id, "matter subject");
         earlier(record.originEventId, seq, "matter origin");
+        if (record.family === PERSONAL_LIFE_MATTER_FAMILY) {
+          const sourceEvent = eventById(world, record.originEventId);
+          const publicClaim = world.history.claims.some(
+            (claim) =>
+              claim.eventId === record.originEventId &&
+              claim.audience === "public" &&
+              claim.sequence < seq,
+          );
+          if (
+            record.personalEventId !== record.originEventId ||
+            !sourceEvent ||
+            (sourceEvent.visibility !== "public" && !publicClaim) ||
+            (!["crime.arrest-made", "life.couple-ended"].includes(
+              sourceEvent.type,
+            ) &&
+              !publicClaim)
+          ) {
+            throw new Error(
+              `A personal-life matter needs an on-record personal event: ${record.id}`,
+            );
+          }
+          if (record.occurrenceId !== null) {
+            throw new Error(
+              `A personal-life matter cannot cite a financial occurrence: ${record.id}`,
+            );
+          }
+        } else if (record.personalEventId) {
+          throw new Error(
+            `A misconduct matter cannot cite a personal event: ${record.id}`,
+          );
+        }
         if (record.occurrenceId) {
           const occurrence = prior(
             record.occurrenceId,
@@ -640,6 +684,83 @@ export function validatePressRecords(
         }
         break;
       }
+      case "inquiry": {
+        person(record.investigatorPersonId, "inquiry investigator");
+        member(INQUIRY_CAUSES, record.cause, "inquiry cause");
+        member(
+          INQUIRY_BODY_KINDS,
+          record.authorityScope.bodyKind,
+          "inquiry body kind",
+        );
+        text(record.authorityScope.basis, "inquiry authority basis");
+        text(record.budgetBasis, "inquiry work-time basis");
+        if (
+          !Number.isFinite(record.hoursBudget.minimum) ||
+          !Number.isFinite(record.hoursBudget.maximum) ||
+          record.hoursBudget.minimum < 0 ||
+          record.hoursBudget.maximum < record.hoursBudget.minimum
+        ) {
+          throw new Error(`Inquiry has an invalid hours budget: ${record.id}`);
+        }
+        if (
+          record.authorityScope.records === "public-only" &&
+          record.authorityScope.compelledEvidenceKinds.length > 0
+        ) {
+          throw new Error(
+            `Public-only inquiry claims compelled records: ${record.id}`,
+          );
+        }
+        if (
+          (record.cause === "investigator-goal") !==
+          (record.causeRecordId === null)
+        ) {
+          throw new Error(
+            `Inquiry cause record does not match its cause: ${record.id}`,
+          );
+        }
+        if (record.causeRecordId !== null) {
+          earlier(record.causeRecordId, seq, "inquiry cause");
+        }
+        break;
+      }
+      case "inquiry-step": {
+        const inquiry = prior(record.inquiryId, "inquiry", "inquiry step");
+        if (record.at < inquiry.openedAt || record.at > world.currentDate) {
+          throw new Error(
+            `Inquiry step has impossible chronology: ${record.id}`,
+          );
+        }
+        if (!Number.isFinite(record.hoursUsed) || record.hoursUsed <= 0) {
+          throw new Error(`Inquiry step has invalid hours: ${record.id}`);
+        }
+        const totalHours =
+          (inquiryHours.get(inquiry.id) ?? 0) + record.hoursUsed;
+        if (totalHours > inquiry.hoursBudget.maximum) {
+          throw new Error(
+            `Inquiry steps exceed their work-time budget: ${record.id}`,
+          );
+        }
+        inquiryHours.set(inquiry.id, totalHours);
+        for (const id of record.artifactIdsRead) {
+          earlier(id, seq, "inquiry artifact");
+        }
+        for (const id of record.discoveryIds) {
+          earlier(id, seq, "inquiry discovery");
+          const discovery = world.history.evidenceDiscoveries.find(
+            (candidate) => candidate.id === id,
+          );
+          if (
+            !discovery ||
+            discovery.personId !== inquiry.investigatorPersonId ||
+            !record.artifactIdsRead.includes(discovery.evidenceArtifactId)
+          ) {
+            throw new Error(
+              `Inquiry step discovery does not belong to its investigator and artifact: ${record.id}`,
+            );
+          }
+        }
+        break;
+      }
       case "media-owner": {
         text(record.name, "owner name");
         text(record.packId, "owner pack");
@@ -696,8 +817,10 @@ export function validatePressRecords(
         break;
       }
       default: {
-        const unknown: never = record;
-        throw new Error(`Unknown press record: ${JSON.stringify(unknown)}`);
+        const unsupported: never = record;
+        throw new Error(
+          `Unsupported press record: ${JSON.stringify(unsupported)}`,
+        );
       }
     }
     byId.set(record.id, record);

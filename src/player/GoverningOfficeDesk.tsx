@@ -15,8 +15,10 @@ import {
   type OfficeProgram,
   type OfficeProgramAppropriation,
 } from "../presentation/governing-office-desk";
+import { proseDate } from "../presentation/prose-dates";
 import { GameSelect } from "./controls/GameSelect";
 import { OfficeStaffHiring } from "./OfficeStaffHiring";
+import { ExecutiveBillResults } from "./ExecutiveBillResults";
 
 /**
  * The rest of the officeholder's desk, under Work > "Your office" beside the
@@ -65,38 +67,51 @@ export function GoverningOfficeDesk({
 
   return (
     <section className="governing-office-desk" data-testid="office-desk">
-      <h4>What this office is answerable for</h4>
-      {desk.programsNote ? (
-        <p className="game-note" data-testid="office-programs-none">
-          {desk.programsNote}
-        </p>
+      {desk.programsReason ? (
+        <p
+          className="game-note"
+          data-testid="office-programs-none"
+          data-problem={desk.programsReason}
+        />
       ) : (
-        <ul className="office-desk-list" data-testid="office-programs">
+        <ul
+          id="governing-money"
+          className="office-desk-list"
+          data-testid="office-programs"
+        >
           {desk.programs.map((program) => (
             <ProgramCard key={program.programKey} program={program} />
           ))}
         </ul>
       )}
 
-      <h4>Who works here</h4>
-      {desk.staffNote ? (
-        <p className="game-note" data-testid="office-staff-none">
-          {desk.staffNote}
-        </p>
+      {desk.staffReason ? (
+        <p
+          className="game-note"
+          data-testid="office-staff-none"
+          data-problem={desk.staffReason}
+        />
       ) : (
-        <ul className="office-desk-list" data-testid="office-staff">
+        <ul
+          id="governing-people"
+          className="office-desk-list"
+          data-testid="office-staff"
+        >
           {desk.staff.map((member) => (
             <li key={member.personId} data-testid="office-staff-member">
               <strong>{member.name}</strong>
               <span>{member.roleTitle}</span>
               {member.assignment ? (
-                <span className="game-note">{`Assigned to ${member.assignment}.`}</span>
-              ) : (
-                <span className="game-note">
-                  No assignment is recorded for this post.
+                <span
+                  className="game-note"
+                  data-testid="office-staff-assignment"
+                >
+                  {member.assignment}
                 </span>
-              )}
-              <span className="game-note">{member.sinceLine}</span>
+              ) : null}
+              <time className="game-note" dateTime={member.startedAt}>
+                {proseDate(member.startedAt)}
+              </time>
             </li>
           ))}
         </ul>
@@ -110,24 +125,32 @@ export function GoverningOfficeDesk({
         />
       ) : null}
 
-      <h4>Your measures</h4>
-      {desk.measuresNote ? (
-        <p className="game-note" data-testid="office-measures-none">
-          {desk.measuresNote}
-        </p>
+      {desk.measuresReason ? (
+        <p
+          className="game-note"
+          data-testid="office-measures-none"
+          data-problem={desk.measuresReason}
+        />
       ) : (
         <ul className="office-desk-list" data-testid="office-measures">
           {desk.measures.map((measure) => (
             <li key={measure.measureId} data-testid="office-measure">
               <strong>{`${measure.designation}, ${measure.shortTitle}`}</strong>
-              <span className="game-note">{measure.introducedLine}</span>
-              <span className="game-note">{measure.stageLine}</span>
+              <time className="game-note" dateTime={measure.introducedAt}>
+                {proseDate(measure.introducedAt)}
+              </time>
+              {measure.lastAction ? (
+                <span className="game-note" data-testid="office-measure-stage">
+                  {measure.lastAction.replaceAll("-", " ")}
+                </span>
+              ) : null}
             </li>
           ))}
         </ul>
       )}
 
-      <h4>Casework</h4>
+      <ExecutiveBillResults world={world} personId={personId} />
+
       {casework ? (
         <div className="office-desk-casework">
           {/*
@@ -135,12 +158,9 @@ export function GoverningOfficeDesk({
             name is carried by aria-labelledby rather than the association
             alone.
           */}
-          <label id="office-casework-label" htmlFor="office-casework-mode">
-            How this office handles constituent requests
-          </label>
           <GameSelect
             id="office-casework-mode"
-            aria-labelledby="office-casework-label"
+            aria-label="People"
             data-testid="office-casework-mode"
             value={casework.mode ?? ""}
             onChange={(event) => {
@@ -155,39 +175,42 @@ export function GoverningOfficeDesk({
                 );
             }}
           >
-            {casework.mode === null ? (
-              <option value="" disabled>
-                Not chosen yet
-              </option>
-            ) : null}
             {CASEWORK_CHOICES.map((choice) => (
               <option key={choice.mode} value={choice.mode}>
-                {choice.label}
+                {choice.mode}
               </option>
             ))}
           </GameSelect>
-          <p className="game-note">
-            {CASEWORK_CHOICES.find((choice) => choice.mode === casework.mode)
-              ?.detail ??
-              "Nothing is recorded about how this office handles casework."}
-          </p>
-          {casework.recordedLine ? (
-            <p className="game-note">{casework.recordedLine}</p>
+          <p
+            className="game-note"
+            data-testid="office-casework-detail"
+            data-mode={casework.mode ?? undefined}
+            data-problem={casework.mode ? undefined : "no-casework-mode"}
+          />
+          {casework.recordedAt ? (
+            <time className="game-note" dateTime={casework.recordedAt}>
+              {proseDate(casework.recordedAt)}
+            </time>
           ) : null}
         </div>
       ) : (
-        <p className="game-note" data-testid="office-casework-none">
-          {desk.caseworkNote}
-        </p>
+        <p
+          className="game-note"
+          data-testid="office-casework-none"
+          data-problem={desk.caseworkReason ?? undefined}
+        />
       )}
 
       {/*
         Mounted whether or not there is a refusal: a live region added to the
         page at the same moment as its text is not reliably announced.
       */}
-      <p role="status" className="game-note" data-testid="office-desk-refusal">
-        {refusal}
-      </p>
+      <p
+        role="status"
+        className="game-note"
+        data-testid="office-desk-refusal"
+        data-reason={refusal ?? undefined}
+      />
     </section>
   );
 }
@@ -200,53 +223,93 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
         name in the World, and the program's record key is not a name, so the
         heading says as much rather than titling the panel with an identifier.
       */}
-      <h5>{program.serviceLabel ?? "A program with no recorded name"}</h5>
+      {program.serviceLabel ? <h5>{program.serviceLabel}</h5> : null}
       {program.serviceLabel ? null : (
-        <p className="game-note" data-testid="office-program-unnamed">
-          {`Nothing on record names this service. It is filed only as ${program.programKey}.`}
-        </p>
+        <p
+          className="game-note"
+          data-testid="office-program-unnamed"
+          data-problem="unnamed-service"
+        />
       )}
-      <ul className="office-program-objective">
-        {program.objectiveLines.map((line, index) => (
-          <li key={`${index}-${line}`}>{line}</li>
-        ))}
-      </ul>
+      {program.capacity ? (
+        <dl
+          className="office-program-objective"
+          data-testid="office-program-capacity"
+          data-basis={program.capacity.basisNote}
+        >
+          <dt>{program.capacity.unitLabel}</dt>
+          <dd>{`${program.capacity.inService} / ${program.capacity.total}`}</dd>
+          <dd>{program.capacity.monthlyNeed}</dd>
+          {program.capacity.restorationCost !== null ? (
+            <dd>{program.capacity.restorationCost}</dd>
+          ) : null}
+          {program.monthsCovered ? (
+            <>
+              <dd>{program.monthsCovered}</dd>
+            </>
+          ) : null}
+        </dl>
+      ) : (
+        <p
+          className="game-note"
+          data-testid="office-program-no-capacity"
+          data-problem="no-capacity-record"
+        />
+      )}
 
       {program.appropriations.length === 0 ? (
-        <p className="game-note">
-          No appropriation for this program has reached this office.
-        </p>
+        <p
+          className="game-note"
+          data-testid="office-program-no-appropriation"
+          data-problem="no-appropriation"
+        />
       ) : (
         program.appropriations.map((appropriation) => (
           <Appropriation key={appropriation.id} appropriation={appropriation} />
         ))
       )}
 
-      <h6>Committed</h6>
       {program.commitments.length === 0 ? (
-        <p className="game-note" data-testid="office-program-uncommitted">
-          This office has committed nothing here. Nothing above is a decision.
-        </p>
+        <p
+          className="game-note"
+          data-testid="office-program-uncommitted"
+          data-problem="nothing-committed"
+        />
       ) : (
         <ul data-testid="office-program-commitments">
           {program.commitments.map((commitment) => (
             <li key={commitment.id} data-testid="office-program-commitment">
               <strong>{commitment.alternativeTitle}</strong>
-              <span className="game-note">{commitment.totalLine}</span>
-              <span className="game-note">
-                {`${commitment.decidedOnLine} Decided by ${commitment.decidedByName}. ${commitment.authority}`}
+              {commitment.total !== null ? (
+                <span className="game-note">{commitment.total}</span>
+              ) : null}
+              <span className="game-note" data-authority={commitment.authority}>
+                <time dateTime={commitment.recordedAt}>
+                  {proseDate(commitment.recordedAt)}
+                </time>{" "}
+                <span>{commitment.decidedByName}</span>
               </span>
               <details>
-                <summary>Payments and what became of them</summary>
+                <summary>Money</summary>
                 <ul>
-                  {commitment.installmentLines.map((line, index) => (
-                    <li key={`${index}-${line}`}>{line}</li>
+                  {commitment.payments.map((payment, index) => (
+                    <li
+                      key={`${index}-${payment.purpose}`}
+                      data-status={payment.status}
+                    >
+                      {payment.amount} · {payment.purpose} ·{" "}
+                      <time dateTime={payment.dueAt}>
+                        {proseDate(payment.dueAt)}
+                      </time>
+                    </li>
                   ))}
                 </ul>
                 {commitment.failureReasons.map((reason, index) => (
-                  <p key={`${index}-${reason}`} className="game-note">
-                    {reason}
-                  </p>
+                  <p
+                    key={`${index}-${reason}`}
+                    className="game-note"
+                    data-reason={reason}
+                  />
                 ))}
               </details>
             </li>
@@ -255,14 +318,11 @@ function ProgramCard({ program }: { readonly program: OfficeProgram }) {
       )}
 
       {program.outturnLines.length > 0 ? (
-        <>
-          <h6>What the work came to</h6>
-          <ul data-testid="office-program-outturn">
-            {program.outturnLines.map((line, index) => (
-              <li key={`${index}-${line}`}>{line}</li>
-            ))}
-          </ul>
-        </>
+        <ul data-testid="office-program-outturn">
+          {program.outturnLines.map((line, index) => (
+            <li key={`${index}-${line}`}>{line}</li>
+          ))}
+        </ul>
       ) : null}
     </li>
   );
@@ -279,30 +339,41 @@ function Appropriation({
       data-testid="office-program-appropriation"
       data-authority={appropriation.authority.status}
     >
-      <h6>Put to this office</h6>
-      <p>{appropriation.amountLine}</p>
-      <p className="game-note">{appropriation.windowLine}</p>
-      <p className="game-note">{appropriation.uncommittedLine}</p>
+      <p>{appropriation.amount}</p>
+      <p className="game-note">
+        <time dateTime={appropriation.availableFrom}>
+          {proseDate(appropriation.availableFrom)}
+        </time>
+        –
+        <time dateTime={appropriation.availableThrough}>
+          {proseDate(appropriation.availableThrough)}
+        </time>
+      </p>
+      <p className="game-note" data-testid="office-program-uncommitted-amount">
+        {appropriation.uncommitted}
+      </p>
       {appropriation.authority.status === "available" ? (
         <>
-          <p className="game-note" data-testid="office-program-authority">
-            {appropriation.authority.basis}
-          </p>
+          <p
+            className="game-note"
+            data-testid="office-program-authority"
+            data-basis={appropriation.authority.basis}
+          />
           {appropriation.alternativesNote ? (
-            <p className="game-note" data-testid="office-program-no-options">
-              {appropriation.alternativesNote}
-            </p>
+            <p
+              className="game-note"
+              data-testid="office-program-no-options"
+              data-problem="no-alternatives"
+            />
           ) : null}
         </>
       ) : (
-        <p className="game-note" data-testid="office-program-no-authority">
-          {appropriation.authority.reason}
-        </p>
+        <p
+          className="game-note"
+          data-testid="office-program-no-authority"
+          data-reason={appropriation.authority.reason}
+        />
       )}
-      <details>
-        <summary>Where this figure comes from</summary>
-        <p>{appropriation.basisNote}</p>
-      </details>
     </div>
   );
 }
