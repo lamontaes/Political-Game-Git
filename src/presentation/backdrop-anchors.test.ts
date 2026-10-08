@@ -170,6 +170,19 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
   });
 
+  it("anchors both outer benches at the Wyoming state capitol", () => {
+    const seats = STAGES["state-capitol-wy"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(4);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(4);
+    expect(seats.filter((spot) => spot.group === "bench-left")).toHaveLength(2);
+    expect(seats.filter((spot) => spot.group === "bench-right")).toHaveLength(
+      2,
+    );
+    expect(seats.every((spot) => spot.facing === "viewer")).toBe(true);
+  });
+
   it("anchors the visible public library reading table chairs", () => {
     const seats = STAGES["public-library"]!.spots.filter(
       (spot) => spot.pose === "sit" && spot.group?.startsWith("table"),
@@ -262,6 +275,27 @@ describe("people anchors on every place picture", () => {
     expect(
       ballroom.filter((spot) => spot.group === "ballroom-front-right"),
     ).toHaveLength(8);
+  });
+
+  it("anchors convention hall and debate stage audience chairs", () => {
+    const rooms = [
+      ["convention-hall", 164, 20],
+      ["debate-stage", 22, 3],
+    ] as const;
+    for (const [place, expectedSeats, expectedRows] of rooms) {
+      const spots = STAGES[place]!.spots;
+      const seats = spots.filter((spot) => spot.pose === "sit");
+      const audience = seats.filter((spot) => spot.role === "audience");
+      expect(seats).toHaveLength(expectedSeats);
+      expect(audience).toHaveLength(expectedSeats);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(expectedSeats);
+      expect(audience.filter((spot) => spot.facing === "away")).toHaveLength(
+        expectedSeats,
+      );
+      const rowGroups = new Set(audience.map((spot) => spot.group));
+      expect(rowGroups.size).toBe(expectedRows);
+      expect(spots).toHaveLength(7 + expectedSeats);
+    }
   });
 
   it("anchors visible church supper hall table chairs", () => {
