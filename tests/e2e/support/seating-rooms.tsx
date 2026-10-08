@@ -25,6 +25,7 @@ const { world, playerPersonId } = opened.game;
 const rooms = [
   "council-chamber",
   "office",
+  "governor-office",
   "diner",
   "classroom",
   "county-courtroom",

@@ -42,6 +42,7 @@ import {
 } from "../life";
 import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
 import { TOWN_HOMES_VERSION } from "../living-world/town-homes";
+import { syncVotingPrecinctArrival } from "../living-world/town-wards";
 import { activeCampaignForCandidate } from "../campaign-queries";
 import {
   activeEducationEnrollmentsAt,
@@ -721,6 +722,8 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       move.toJurisdictionId,
       date,
     );
+  for (const personId of move.personIds)
+    next = syncVotingPrecinctArrival(next, personId);
   return next;
 }
 
