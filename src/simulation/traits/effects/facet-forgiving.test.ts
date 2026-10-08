@@ -8,7 +8,7 @@ describe("the facet-forgiving trait in a random new game", () => {
       "contact.answer",
       "l1-proof-facet-forgiving",
       [],
-      true,
+      "act-pulls",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

@@ -8,7 +8,7 @@ describe("the generous difference in a random new game", () => {
       "campaign.support-request",
       "m2-proof-facet-generous",
       [],
-      true,
+      "act-pulls",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

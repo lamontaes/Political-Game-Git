@@ -105,20 +105,22 @@ function decisionForPerson(
   personId: EntityId,
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
-  useActTable: boolean,
+  traitId: string,
+  reader: "registered" | "act-pulls",
 ): { choice: string | null; reason: string | null } {
-  const considerations = useActTable
-    ? []
-    : registeredTraitConsiderations(
-        world,
-        loadedTraitRegistry(),
-        personId,
-        `proof:${decisionId}`,
-        decisionId,
-      );
+  const considerations =
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          world,
+          loadedTraitRegistry(),
+          personId,
+          `proof:${decisionId}`,
+          decisionId,
+        )
+      : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const runtimeDecisionId =
-    useActTable && decisionId === "contact.answer"
+    reader === "act-pulls" && decisionId === "contact.answer"
       ? "people.contact-answer"
       : decisionId;
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
@@ -144,12 +146,24 @@ function decisionForPerson(
     randomness: "none",
     retention: "durable",
   });
+  const traitReason = evaluation.context.considerations.find(
+    ({ stableKey, optionKey }) =>
+      optionKey === evaluation.selectedOptionKey &&
+      stableKey.includes(
+        reader === "act-pulls" ? `:act:${traitId}:` : `:trait:${traitId}:`,
+      ),
+  );
+  const supportingActReason =
+    reader === "act-pulls"
+      ? evaluation.context.considerations.find(
+          ({ stableKey, direction }) =>
+            stableKey.includes(`:act:${traitId}:`) && direction === "supports",
+        )
+      : undefined;
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      evaluation.context.considerations.find(
-        ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-      )?.explanation ?? null,
+      traitReason?.explanation ?? supportingActReason?.explanation ?? null,
   };
 }
 
@@ -164,7 +178,7 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
-  useActTable = false,
+  reader: "registered" | "act-pulls" = "registered",
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -187,21 +201,24 @@ export function proveTraitDifference(
       personId,
       decisionId,
       baselineConsiderations,
-      useActTable,
+      traitId,
+      reader,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
       decisionId,
       baselineConsiderations,
-      useActTable,
+      traitId,
+      reader,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
       decisionId,
       baselineConsiderations,
-      useActTable,
+      traitId,
+      reader,
     ),
   };
 }
@@ -281,7 +298,6 @@ export function proveTwoPersonTraitDifference(
         highPersonId,
         decisionId,
         baselineConsiderations,
-        false,
       ),
     },
     low: {
@@ -292,7 +308,6 @@ export function proveTwoPersonTraitDifference(
         lowPersonId,
         decisionId,
         baselineConsiderations,
-        false,
       ),
     },
   };
