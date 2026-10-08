@@ -1,10 +1,7 @@
 import { receiveExecutiveWorkIfCurrentOffice } from "../simulation/incident-response";
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { publishPublicEvent } from "../simulation/public-information";
-import {
-  composeExecutiveWorkHandlers,
-  synchronizeExecutiveInbox,
-} from "../simulation/executive-work";
+import { synchronizeExecutiveInbox } from "../simulation/executive-work";
 import {
   EXECUTIVE_NORMAL_ENTRY,
   planElectedExecutiveOfficeTerm,
@@ -12,10 +9,7 @@ import {
 } from "../simulation/executive-work-entry";
 import { resolveExecutiveOffice } from "../simulation/executive-work-context";
 import { publishExecutivePublicOutcomes } from "./publish-executive-transition";
-import type {
-  FutureTransitionHandlerRegistry,
-  World,
-} from "../simulation/types";
+import type { World } from "../simulation/types";
 
 export { planElectedExecutiveOfficeTerm, recordElectedExecutiveQualification };
 
@@ -51,16 +45,6 @@ export function executiveIncidentPorts() {
     receiveExecutiveWork: receiveExecutiveWorkIfCurrentOffice,
     publishPublicEvent,
   };
-}
-
-/**
- * Ordinary play clock composition. Dated elected-term entry/expiry ride the
- * existing executive registry; this is not a second election engine.
- */
-export function executivePlayHandlers(
-  existing?: FutureTransitionHandlerRegistry,
-) {
-  return composeExecutiveWorkHandlers(existing);
 }
 
 /**

@@ -8,7 +8,6 @@ import { activateEffect, recordCausalProcess } from "./effect-records";
 import {
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
-  scheduleFutureDueItem,
 } from "./future-transitions";
 import { createStableId } from "./ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
@@ -33,9 +32,6 @@ import type {
   EntityId,
   EffectActivationRecord,
   ExactQuantity,
-  FutureDueItem,
-  FutureDueReasonKey,
-  FutureTransitionHandlerResult,
   HistoricalCutoff,
   MetricObservationUncertainty,
   MetricReferencePeriod,
@@ -60,7 +56,7 @@ import type {
   WorldMetricDefinition,
   WorldMetricValue,
 } from "./types";
-import { assertWorldIntegrity, recordWorldEvent } from "./world";
+import { assertWorldIntegrity } from "./world";
 import {
   requireMetricDefinition,
   sameMetricScope,
@@ -86,9 +82,6 @@ const IMPLEMENTATION_FACTOR_ORDER = [
   "enforcement-compliance",
   "uptake-participation",
 ] as const satisfies readonly PolicyImplementationFactorKind[];
-
-export const POLICY_REALIZATION_TRANSITION_KEY =
-  "policy:realize-estimate" as const;
 
 export interface RecordPolicyAlternativeInput {
   readonly stableKey: string;
@@ -174,11 +167,6 @@ export interface RealizePolicyEstimateInput {
   readonly estimateId: EntityId;
   readonly implementationProfileId?: EntityId;
   readonly provenance: PolicyRecordProvenance;
-}
-
-export interface SchedulePolicyEstimateRealizationInput {
-  readonly stableKey: string;
-  readonly estimateId: EntityId;
 }
 
 export interface DirectPolicyImplementationFactorInput {
@@ -574,106 +562,6 @@ export function realizePolicyEstimate(
   });
 }
 
-export function schedulePolicyEstimateRealization(
-  world: World,
-  input: SchedulePolicyEstimateRealizationInput,
-): World {
-  const estimate = requirePolicyEstimate(world, input.estimateId);
-  assertPolicyEstimateIsCurrentForImplementation(world, estimate);
-  if (
-    world.history.policyRealizations.some(
-      (record) => record.estimateId === estimate.id,
-    )
-  ) {
-    throw new Error("A realized policy estimate cannot be scheduled again.");
-  }
-  if (policyEstimateWouldProduceEffects(world, estimate)) {
-    assertAlternativeHasNoEffectProducingRealization(world, estimate);
-  }
-  if (policyRealizationDueItemsForEstimate(world, estimate.id).length > 0) {
-    throw new Error(
-      "A policy estimate may have only one policy-realization due item.",
-    );
-  }
-  const dueAt = policyRealizationDueAt(world, estimate);
-  return scheduleFutureDueItem(world, {
-    stableKey: input.stableKey,
-    dueAt,
-    transitionKey: POLICY_REALIZATION_TRANSITION_KEY,
-    entityIds: [estimate.id],
-    jurisdictionId: policyRealizationJurisdictionId(world, estimate),
-    provenance: { kind: "simulated", sourceEntityIds: [estimate.id] },
-  });
-}
-
-export function policyRealizationTransitionHandler(
-  world: World,
-  dueItem: FutureDueItem,
-): FutureTransitionHandlerResult {
-  if (dueItem.transitionKey !== POLICY_REALIZATION_TRANSITION_KEY) {
-    throw new Error("Policy realization handler received another transition.");
-  }
-  const estimate = validatePolicyRealizationDueItem(world, dueItem);
-  const obsoleteReason = policyRealizationObsolescenceReason(world, estimate);
-  if (obsoleteReason !== null) {
-    return {
-      world,
-      status: "cancelled",
-      reasonKey: obsoleteReason,
-      context:
-        obsoleteReason === "policy:superseded-estimate"
-          ? "The scheduled policy estimate was superseded before its implementation frontier."
-          : "Another estimate already produced this alternative's one allowed effect-producing realization.",
-      outcomeEventId: null,
-    };
-  }
-  let working = realizePolicyEstimate(world, {
-    stableKey: `${dueItem.stableKey}:realization`,
-    estimateId: estimate.id,
-    provenance: { kind: "simulated", sourceEntityIds: [dueItem.id] },
-  });
-  const realization = working.history.policyRealizations.at(-1);
-  if (!realization) throw new Error("Policy due handler lost its realization.");
-  working = recordWorldEvent(working, {
-    stableKey: `${dueItem.stableKey}:outcome`,
-    type: "policy.implementation-realization",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: policyRealizationJurisdictionId(working, estimate),
-    involvedEntityIds: [
-      estimate.id,
-      realization.id,
-      ...realization.consequences.map((item) => item.effectActivationId),
-    ],
-    participants: [],
-    personFactConstraints: [],
-    visibility: "limited",
-    tags: ["policy.implementation", `policy.${realization.status}`],
-    summary: `Policy implementation was ${realization.status}.`,
-    context: {
-      location: null,
-      socialContext:
-        "A delayed quantitative policy estimate reached its explicit implementation frontier.",
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const event = working.history.events.at(-1);
-  if (!event) throw new Error("Policy due handler lost its outcome event.");
-  return {
-    world: working,
-    status: realization.status === "blocked" ? "blocked" : "resolved",
-    reasonKey:
-      realization.status === "blocked"
-        ? (realization.reasonKeys[0] ?? "policy:implementation-blocked")
-        : null,
-    context: `Policy realization ${realization.status}.`,
-    outcomeEventId: event.id,
-  };
-}
-
 export function policyBaselineAt(
   world: World,
   baselineId: EntityId,
@@ -715,25 +603,6 @@ export function policyEstimateAt(
     (candidate) => candidate.id === estimateId,
   );
   return record && policyRecordAvailable(record, cutoff) ? record : null;
-}
-
-export function latestPolicyEstimateForSeriesAt(
-  world: World,
-  seriesKey: PolicySemanticKey,
-  cutoff: HistoricalCutoff,
-): PolicyEstimateRecord | null {
-  validateCutoff(world, cutoff);
-  assertSemanticKey(seriesKey, "Policy estimate series key");
-  return (
-    world.history.policyEstimates
-      .filter(
-        (record) =>
-          record.seriesKey === seriesKey &&
-          policyRecordAvailable(record, cutoff),
-      )
-      .sort(bySequence)
-      .at(-1) ?? null
-  );
 }
 
 export function policySemanticsEntityExists(
@@ -811,7 +680,6 @@ export function assertPolicySemanticsIntegrity(
     assertHistoryIdentity(ids, world, record, "policy-realization");
     validatePolicyRealization(world, record);
   }
-  validatePolicyRealizationDueItems(world);
 }
 
 type PolicyHistoryRecord =
@@ -865,33 +733,6 @@ function assertPolicyEstimateIsCurrentForImplementation(
   }
 }
 
-function policyRealizationObsolescenceReason(
-  world: World,
-  estimate: PolicyEstimateRecord,
-): FutureDueReasonKey | null {
-  const latest = world.history.policyEstimates
-    .filter((record) => record.seriesKey === estimate.seriesKey)
-    .sort(bySequence)
-    .at(-1);
-  if (!latest || latest.id !== estimate.id) {
-    return "policy:superseded-estimate";
-  }
-  if (
-    world.history.policyRealizations.some((record) => {
-      if (record.status !== "full" && record.status !== "partial") {
-        return false;
-      }
-      return (
-        requirePolicyEstimate(world, record.estimateId).alternativeId ===
-        estimate.alternativeId
-      );
-    })
-  ) {
-    return "policy:alternative-already-realized";
-  }
-  return null;
-}
-
 function assertAlternativeHasNoEffectProducingRealization(
   world: World,
   estimate: PolicyEstimateRecord,
@@ -906,200 +747,6 @@ function assertAlternativeHasNoEffectProducingRealization(
       "A policy alternative may have only one effect-producing realization.",
     );
   }
-}
-
-function policyRealizationDueItemsForEstimate(
-  world: World,
-  estimateId: EntityId,
-): readonly FutureDueItem[] {
-  return world.history.futureDueItems.filter(
-    (item) =>
-      item.transitionKey === POLICY_REALIZATION_TRANSITION_KEY &&
-      item.entityIds.includes(estimateId),
-  );
-}
-
-function policyEstimateWouldProduceEffects(
-  world: World,
-  estimate: PolicyEstimateRecord,
-): boolean {
-  const profile = requirePolicyImplementationProfile(
-    world,
-    estimate.implementationProfileId,
-  );
-  const hasActiveChange = computePolicyConsequences(
-    world,
-    estimate.operationIds,
-    profile,
-  ).some(
-    (consequence) =>
-      consequence.triggered && !isZeroMetricValue(consequence.estimatedChange),
-  );
-  const status = realizationStatus(profile, hasActiveChange);
-  return status === "full" || status === "partial";
-}
-
-function policyRealizationDueAt(
-  world: World,
-  estimate: PolicyEstimateRecord,
-): ReturnType<typeof makeIsoDate> {
-  const dueAt = estimate.operationIds
-    .map((id) => requirePolicyOperation(world, id).timing.startsAt)
-    .sort()[0];
-  if (!dueAt) throw new Error("Policy estimate has no operation start date.");
-  return dueAt;
-}
-
-function policyRealizationJurisdictionId(
-  world: World,
-  estimate: PolicyEstimateRecord,
-): EntityId | null {
-  const jurisdictionIds = new Set(
-    estimate.operationIds.map(
-      (id) => requirePolicyOperation(world, id).targetScope.jurisdictionId,
-    ),
-  );
-  if (jurisdictionIds.size !== 1) return null;
-  return jurisdictionIds.values().next().value ?? null;
-}
-
-function validatePolicyRealizationDueItems(world: World): void {
-  const seenEstimateIds = new Set<EntityId>();
-  for (const dueItem of world.history.futureDueItems) {
-    if (dueItem.transitionKey !== POLICY_REALIZATION_TRANSITION_KEY) continue;
-    const estimate = validatePolicyRealizationDueItem(world, dueItem);
-    if (seenEstimateIds.has(estimate.id)) {
-      throw new Error(
-        `Policy estimate has duplicate realization due items: ${estimate.id}`,
-      );
-    }
-    seenEstimateIds.add(estimate.id);
-  }
-}
-
-function validatePolicyRealizationDueItem(
-  world: World,
-  dueItem: FutureDueItem,
-): PolicyEstimateRecord {
-  if (dueItem.entityIds.length !== 1 || dueItem.entityIds[0] === undefined) {
-    throw new Error(
-      `Policy realization due item must reference exactly one estimate: ${dueItem.id}`,
-    );
-  }
-  const estimate = requirePolicyEstimate(world, dueItem.entityIds[0]);
-  if (
-    estimate.sequence >= dueItem.sequence ||
-    estimate.recordedAt > dueItem.scheduledAt ||
-    dueItem.dueAt !== policyRealizationDueAt(world, estimate) ||
-    dueItem.jurisdictionId !== policyRealizationJurisdictionId(world, estimate)
-  ) {
-    throw new Error(
-      `Policy realization due item has mismatched estimate semantics: ${dueItem.id}`,
-    );
-  }
-  for (const operationId of estimate.operationIds) {
-    const operation = requirePolicyOperation(world, operationId);
-    if (
-      operation.sequence >= dueItem.sequence ||
-      operation.recordedAt > dueItem.scheduledAt
-    ) {
-      throw new Error(
-        `Policy realization due item has unavailable operation: ${dueItem.id}`,
-      );
-    }
-  }
-  if (
-    dueItem.provenance.kind !== "simulated" ||
-    !sameEntityIds(dueItem.provenance.sourceEntityIds, [estimate.id])
-  ) {
-    throw new Error(
-      `Policy realization due item has invalid canonical source: ${dueItem.id}`,
-    );
-  }
-  assertPolicyEstimateCurrentAtDueCreation(world, estimate, dueItem);
-  const realization = world.history.policyRealizations.find(
-    (record) => record.estimateId === estimate.id,
-  );
-  if (realization) {
-    if (realization.sequence < dueItem.sequence) {
-      throw new Error(
-        `Policy realization due item was created after realization: ${dueItem.id}`,
-      );
-    }
-    const latestState = world.history.futureDueItemStates
-      .filter((state) => state.dueItemId === dueItem.id)
-      .sort(bySequence)
-      .at(-1);
-    if (
-      latestState?.status === "scheduled" &&
-      !isPolicyDueResolutionInFlight(world, dueItem, realization)
-    ) {
-      throw new Error(
-        `Policy realization due item remains pending after realization: ${dueItem.id}`,
-      );
-    }
-  }
-  assertAlternativeWasNotImplementedAtDueCreation(world, estimate, dueItem);
-  return estimate;
-}
-
-function assertPolicyEstimateCurrentAtDueCreation(
-  world: World,
-  estimate: PolicyEstimateRecord,
-  dueItem: FutureDueItem,
-): void {
-  const latestAtCreation = world.history.policyEstimates
-    .filter(
-      (record) =>
-        record.seriesKey === estimate.seriesKey &&
-        record.sequence < dueItem.sequence,
-    )
-    .sort(bySequence)
-    .at(-1);
-  if (!latestAtCreation || latestAtCreation.id !== estimate.id) {
-    throw new Error(
-      `Policy realization due item was stale when scheduled: ${dueItem.id}`,
-    );
-  }
-}
-
-function assertAlternativeWasNotImplementedAtDueCreation(
-  world: World,
-  estimate: PolicyEstimateRecord,
-  dueItem: FutureDueItem,
-): void {
-  if (!policyEstimateWouldProduceEffects(world, estimate)) return;
-  if (
-    world.history.policyRealizations.some((record) => {
-      if (
-        record.sequence >= dueItem.sequence ||
-        (record.status !== "full" && record.status !== "partial")
-      ) {
-        return false;
-      }
-      return (
-        requirePolicyEstimate(world, record.estimateId).alternativeId ===
-        estimate.alternativeId
-      );
-    })
-  ) {
-    throw new Error(
-      `Policy realization due item was created after alternative implementation: ${dueItem.id}`,
-    );
-  }
-}
-
-function isPolicyDueResolutionInFlight(
-  world: World,
-  dueItem: FutureDueItem,
-  realization: PolicyRealizationRecord,
-): boolean {
-  return (
-    dueItem.dueAt === world.currentDate &&
-    realization.stableKey === `${dueItem.stableKey}:realization` &&
-    realization.provenance.kind === "simulated" &&
-    sameEntityIds(realization.provenance.sourceEntityIds, [dueItem.id])
-  );
 }
 
 function computePolicyConsequences(

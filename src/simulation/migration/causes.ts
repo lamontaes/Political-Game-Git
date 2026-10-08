@@ -56,7 +56,7 @@
  * `who-may-move`).
  */
 
-import { addDays, ageOnDate, spokenDate } from "../dates";
+import { addDays, spokenDate } from "../dates";
 import { evaluateDecision, isSelectedDecision } from "../decisions";
 import {
   activeWorkRelationshipsAt,
@@ -629,9 +629,4 @@ export function decideToLeave(
         ? lead.explanation
         : `${lead.explanation}, and ${place.label}`,
   };
-}
-
-/** A resident's age today, for the bar. */
-export function residentAge(world: World, personId: EntityId): number {
-  return ageOnDate(world.people[personId]!.birthDate, world.currentDate);
 }

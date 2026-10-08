@@ -1,3 +1,4 @@
+import { assertWorldIntegrityFully } from "../world";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
@@ -201,6 +202,8 @@ describe("council filing follows the saved effective-date game profile", () => {
       expect(enactment.effectiveDateBasis).toBe("game-default");
       // Integrity refuses a missing cache paired with a saved profile. This
       // negative control must not be presented as an admissible older save.
+      // An autosave takes the incremental play-time check, so the refusal is
+      // asked of the full check that opening and explicit saves run.
       const invalidCache = {
         ...world,
         history: {
@@ -211,7 +214,7 @@ describe("council filing follows the saved effective-date game profile", () => {
           ),
         },
       };
-      expect(() => serializeWorld(invalidCache)).toThrow(
+      expect(() => assertWorldIntegrityFully(invalidCache)).toThrow(
         /Enactment game effective date does not match its profile/,
       );
       world = deserializeWorld(serializeWorld(world));

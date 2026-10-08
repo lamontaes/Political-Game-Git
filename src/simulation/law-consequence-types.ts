@@ -478,7 +478,7 @@ export interface LawConsequenceContext {
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
-  subjectIds: EntityId[];
+  subjectIds: readonly EntityId[];
   origin?: LawInForce["origin"];
   standingAppropriationId?: EntityId;
   governingLawId?: EntityId;

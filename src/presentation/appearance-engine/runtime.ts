@@ -1,4 +1,5 @@
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
+import { createComposeTurns } from "./compose-turns";
 import { optionalGlob } from "../optional-glob";
 import type { BodyAnchors } from "./anchors";
 import {
@@ -90,8 +91,43 @@ function decode(file: string): Promise<Raster> {
 }
 
 const composed = new Map<string, Promise<EnginePersonImage>>();
-/** People are composed one at a time, so a full room never stalls a frame for long. */
-let queue: Promise<unknown> = Promise.resolve();
+
+/** One person composed at a time, by priority (compose-turns.ts). */
+const turns = createComposeTurns();
+
+/**
+ * Who is on screen: how many figures show each composed person, and when one
+ * was last put on screen. People on screen are drawn newest first; a person
+ * no figure shows any more (a screen the player has left) waits until they
+ * are drawn, newest first among themselves.
+ */
+let shownClock = 0;
+const shown = new Map<string, { count: number; at: number }>();
+
+function drawPriority(key: string): number {
+  const entry = shown.get(key);
+  if (!entry) return -Number.MAX_SAFE_INTEGER;
+  return entry.count > 0 ? entry.at : entry.at - Number.MAX_SAFE_INTEGER / 2;
+}
+
+/**
+ * A figure showing this person is on screen; call the returned function when
+ * it leaves. The figure's own `enginePersonImage` request is then drawn
+ * before people who are no longer shown.
+ */
+export function showEnginePerson(recipe: EngineRecipe): () => void {
+  const key = engineRecipeKey(recipe);
+  const entry = shown.get(key) ?? { count: 0, at: 0 };
+  entry.count += 1;
+  entry.at = ++shownClock;
+  shown.set(key, entry);
+  let left = false;
+  return () => {
+    if (left) return;
+    left = true;
+    entry.count -= 1;
+  };
+}
 
 export function enginePersonImage(
   recipe: EngineRecipe,
@@ -106,31 +142,33 @@ export function enginePersonImage(
           files.map(async (file) => [file, await decode(file)] as const),
         ),
       );
-      const turn = queue.then(
-        () => new Promise((resolve) => setTimeout(resolve, 0)),
-      );
-      queue = turn;
-      await turn;
-      const { raster, anchors, pose, seatRow } = composeEnginePerson(
-        PEOPLE_PACK,
-        (file) => rasters.get(file)!,
-        recipe,
-        peoplePackFileAvailable,
-      );
+      await turns.turn(() => drawPriority(key));
+      let drawn: ReturnType<typeof composeEnginePerson>;
       const canvas = document.createElement("canvas");
-      canvas.width = raster.width;
-      canvas.height = raster.height;
-      canvas
-        .getContext("2d")!
-        .putImageData(
-          new ImageData(
-            new Uint8ClampedArray(raster.data),
-            raster.width,
-            raster.height,
-          ),
-          0,
-          0,
+      try {
+        drawn = composeEnginePerson(
+          PEOPLE_PACK,
+          (file) => rasters.get(file)!,
+          recipe,
+          peoplePackFileAvailable,
         );
+        canvas.width = drawn.raster.width;
+        canvas.height = drawn.raster.height;
+        canvas
+          .getContext("2d")!
+          .putImageData(
+            new ImageData(
+              new Uint8ClampedArray(drawn.raster.data),
+              drawn.raster.width,
+              drawn.raster.height,
+            ),
+            0,
+            0,
+          );
+      } finally {
+        turns.done();
+      }
+      const { raster, anchors, pose, seatRow } = drawn;
       const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob(
           (b) => (b ? resolve(b) : reject(new Error("Encoding failed."))),

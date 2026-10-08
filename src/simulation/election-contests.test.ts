@@ -35,7 +35,11 @@ import type {
   ResolveElectionContestInput,
   World,
 } from "./types";
-import { assertWorldIntegrity, advanceWorld } from "./world";
+import {
+  assertWorldIntegrity,
+  assertWorldIntegrityFully,
+  advanceWorld,
+} from "./world";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 
 function getPersonId(world: World, index: number): EntityId {
@@ -54,6 +58,66 @@ function createElectionTransitionRegistry() {
   return createFutureTransitionHandlerRegistry([
     [ELECTION_CONTEST_TRANSITION_KEY, electionContestTransitionHandler],
   ]);
+}
+
+/**
+ * A count reads only the candidate views people have recorded; presence on a
+ * ballot invents no vote. Before the clock reaches election day, every other
+ * person records one view of each candidate on a pending ballot: support for
+ * the first candidate (every third voter after the first backs the second, so
+ * no count ties), opposition to the rest.
+ */
+function advanceWithRecordedViews(
+  world: World,
+  days: number,
+  registry?: Parameters<typeof advanceWorld>[2],
+): World {
+  let next = world;
+  // One person holds one current view of a candidate; a later ballot that
+  // wants a different view supersedes the earlier one.
+  const held = new Map<string, { id: EntityId; position: string }>();
+  for (const belief of next.history.privateBeliefs)
+    if (belief.subject?.kind === "official")
+      held.set(`${belief.personId}:${belief.subject.personId}`, {
+        id: belief.id,
+        position: belief.position,
+      });
+  for (const contest of next.history.electionContests ?? []) {
+    if (electionContestStatus(next, contest.id) !== "pending") continue;
+    // Only ballots counted inside this advance read the views written now.
+    if (contest.electionDate > addDays(next.currentDate, days)) continue;
+    const candidates = contest.candidatePersonIds;
+    const voters = next.personOrder.filter((id) => !candidates.includes(id));
+    voters.forEach((personId, index) => {
+      const favoredIndex =
+        index > 0 && index % 3 === 0 ? Math.min(1, candidates.length - 1) : 0;
+      candidates.forEach((candidateId, candidateIndex) => {
+        const position = candidateIndex === favoredIndex ? "support" : "oppose";
+        const heldKey = `${personId}:${candidateId}`;
+        const prior = held.get(heldKey);
+        if (prior?.position === position) return;
+        next = recordPrivateBelief(next, {
+          stableKey: `contest-views:${contest.id}:${personId}:${candidateId}`,
+          personId,
+          propositionId: null,
+          subject: { kind: "official", personId: candidateId },
+          formedAt: next.currentDate,
+          position,
+          conviction: "strong",
+          salience: "central",
+          flexibility: "firm",
+          rationale: "Recorded view for the election fixture.",
+          formation: createFormationContext("reflection:initial"),
+          supersedesBeliefId: prior?.id ?? null,
+        });
+        held.set(heldKey, {
+          id: next.history.privateBeliefs.at(-1)!.id,
+          position,
+        });
+      });
+    });
+  }
+  return advanceWorld(next, days, registry);
 }
 
 describe("Election Contest Substrate", () => {
@@ -436,7 +500,7 @@ describe("Election Contest Substrate", () => {
 
     // Advance time to the election day
     const registry = createElectionTransitionRegistry();
-    world = advanceWorld(world, daysUntilElection, registry);
+    world = advanceWithRecordedViews(world, daysUntilElection, registry);
 
     expect(world.currentDate).toBe(electionDate);
     expect(electionContestStatus(world, contest.id)).toBe("resolved");
@@ -501,7 +565,7 @@ describe("Election Contest Substrate", () => {
 
     // Advance 10 days (halfway to election)
     const registry = createElectionTransitionRegistry();
-    world = advanceWorld(world, 10, registry);
+    world = advanceWithRecordedViews(world, 10, registry);
 
     expect(world.currentDate).not.toBe(electionDate);
     expect(electionContestStatus(world, contest.id)).toBe("pending");
@@ -541,12 +605,12 @@ describe("Election Contest Substrate", () => {
     const registry = createElectionTransitionRegistry();
 
     // Advance to election date
-    world = advanceWorld(world, daysUntilElection, registry);
+    world = advanceWithRecordedViews(world, daysUntilElection, registry);
     expect(world.history.electionContestResults ?? []).toHaveLength(1);
     const firstResult = electionContestResult(world, contest.id)!;
 
     // Advance time further (e.g. 14 days after election)
-    world = advanceWorld(world, 14, registry);
+    world = advanceWithRecordedViews(world, 14, registry);
     expect(world.history.electionContestResults ?? []).toHaveLength(1);
     expect(electionContestResult(world, contest.id)).toEqual(firstResult);
 
@@ -602,7 +666,7 @@ describe("Election Contest Substrate", () => {
 
     // Advance 7 days to resolve race 1
     const registry = createElectionTransitionRegistry();
-    world = advanceWorld(world, 7, registry);
+    world = advanceWithRecordedViews(world, 7, registry);
 
     const contest1 = (world.history.electionContests ?? [])[0]!;
     const contest2 = (world.history.electionContests ?? [])[1]!;
@@ -662,7 +726,7 @@ describe("Election Contest Substrate", () => {
       });
 
       const registry = createElectionTransitionRegistry();
-      world = advanceWorld(world, 10, registry);
+      world = advanceWithRecordedViews(world, 10, registry);
       return world;
     }
 
@@ -714,7 +778,7 @@ describe("Election Contest Substrate", () => {
     expect(contest.jurisdictionId).toBe(jurisdictionId);
 
     const registry = createElectionTransitionRegistry();
-    portabilityWorld = advanceWorld(portabilityWorld, 15, registry);
+    portabilityWorld = advanceWithRecordedViews(portabilityWorld, 15, registry);
 
     expect(electionContestStatus(portabilityWorld, contest.id)).toBe(
       "resolved",
@@ -800,7 +864,7 @@ describe("Election Contest Substrate", () => {
     const registry = createElectionTransitionRegistry();
 
     // Advance to date A: only contest 1 resolves
-    world = advanceWorld(world, 7, registry);
+    world = advanceWithRecordedViews(world, 7, registry);
     expect(electionContestStatus(world, c1.id)).toBe("resolved");
     expect(electionContestStatus(world, c2.id)).toBe("pending");
     expect(electionContestStatus(world, c3.id)).toBe("pending");
@@ -808,7 +872,7 @@ describe("Election Contest Substrate", () => {
     expect(pendingElectionContests(world)).toHaveLength(2);
 
     // Advance to date B: contest 2 resolves
-    world = advanceWorld(world, 7, registry);
+    world = advanceWithRecordedViews(world, 7, registry);
     expect(electionContestStatus(world, c1.id)).toBe("resolved");
     expect(electionContestStatus(world, c2.id)).toBe("resolved");
     expect(electionContestStatus(world, c3.id)).toBe("pending");
@@ -816,7 +880,7 @@ describe("Election Contest Substrate", () => {
     expect(pendingElectionContests(world)).toHaveLength(1);
 
     // Advance to date C: contest 3 resolves
-    world = advanceWorld(world, 7, registry);
+    world = advanceWithRecordedViews(world, 7, registry);
     expect(electionContestStatus(world, c1.id)).toBe("resolved");
     expect(electionContestStatus(world, c2.id)).toBe("resolved");
     expect(electionContestStatus(world, c3.id)).toBe("resolved");
@@ -852,18 +916,16 @@ describe("Election Contest Substrate", () => {
 
     const contest = (world.history.electionContests ?? [])[0]!;
     const registry = createElectionTransitionRegistry();
-    world = advanceWorld(world, 5, registry);
+    world = advanceWithRecordedViews(world, 5, registry);
 
     const result = electionContestResult(world, contest.id);
     expect(result).not.toBeNull();
     expect(result?.winnerPersonId).toBe(soleCandidate);
-    expect(result?.tallies).toEqual([
-      {
-        candidatePersonId: soleCandidate,
-        votes: 1000,
-        voteShare: 1.0,
-      },
-    ]);
+    // The count is the recorded ballots, not a fixed number of votes.
+    expect(result?.tallies).toHaveLength(1);
+    expect(result?.tallies[0]?.candidatePersonId).toBe(soleCandidate);
+    expect(result?.tallies[0]?.votes).toBeGreaterThan(0);
+    expect(result?.tallies[0]?.voteShare).toBe(1);
 
     assertWorldIntegrity(world);
   });
@@ -941,7 +1003,7 @@ describe("Election Contest Substrate", () => {
       const registry = createElectionTransitionRegistry();
 
       // Advance world 9 days (1 day before electionDate)
-      world = advanceWorld(world, 9, registry);
+      world = advanceWithRecordedViews(world, 9, registry);
       const preResolveWorld = structuredClone(world);
       const preEventsCount = world.history.events.length;
 
@@ -975,7 +1037,7 @@ describe("Election Contest Substrate", () => {
       assertWorldIntegrity(world);
 
       // Advance 1 more day to exact electionDate
-      world = advanceWorld(world, 1, registry);
+      world = advanceWithRecordedViews(world, 1, registry);
       expect(world.currentDate).toBe(electionDate);
       expect(electionContestStatus(world, contest.id)).toBe("resolved");
       expect(electionContestResult(world, contest.id)).not.toBeNull();
@@ -1020,18 +1082,18 @@ describe("Election Contest Substrate", () => {
       const registry = createElectionTransitionRegistry();
 
       // Advance 4 days (still pending)
-      world = advanceWorld(world, 4, registry);
+      world = advanceWithRecordedViews(world, 4, registry);
       expect(electionContestStatus(world, contest.id)).toBe("pending");
       expect(electionContestResult(world, contest.id)).toBeNull();
 
       // Advance 1 day to election date (resolves exactly once)
-      world = advanceWorld(world, 1, registry);
+      world = advanceWithRecordedViews(world, 1, registry);
       expect(world.currentDate).toBe(electionDate);
       expect(electionContestStatus(world, contest.id)).toBe("resolved");
       expect(world.history.electionContestResults ?? []).toHaveLength(1);
 
       // Advance further (remains resolved, exactly 1 result record)
-      world = advanceWorld(world, 5, registry);
+      world = advanceWithRecordedViews(world, 5, registry);
       expect(electionContestStatus(world, contest.id)).toBe("resolved");
       expect(world.history.electionContestResults ?? []).toHaveLength(1);
       assertWorldIntegrity(world);
@@ -1090,7 +1152,7 @@ describe("Election Contest Substrate", () => {
 
       // Winner supplied without tallies must throw during resolution transition
       expect(() =>
-        advanceWorld(
+        advanceWithRecordedViews(
           world,
           5,
           createManualRegistry({
@@ -1134,7 +1196,7 @@ describe("Election Contest Substrate", () => {
 
       // Tallies supplied without winnerPersonId must throw during transition
       expect(() =>
-        advanceWorld(
+        advanceWithRecordedViews(
           world,
           5,
           createManualRegistry({
@@ -1181,7 +1243,7 @@ describe("Election Contest Substrate", () => {
 
       // candidate1 specified as winner, but candidate2 has higher votes
       expect(() =>
-        advanceWorld(
+        advanceWithRecordedViews(
           world,
           5,
           createManualRegistry({
@@ -1227,7 +1289,7 @@ describe("Election Contest Substrate", () => {
         { candidatePersonId: candidate2, votes: 250, voteShare: 0.25 },
       ];
 
-      const resolvedWorld = advanceWorld(
+      const resolvedWorld = advanceWithRecordedViews(
         world,
         5,
         createManualRegistry({
@@ -1272,7 +1334,7 @@ describe("Election Contest Substrate", () => {
         { candidatePersonId: candidate2, votes: 500, voteShare: 0.5 },
       ];
 
-      const resolvedWorldA = advanceWorld(
+      const resolvedWorldA = advanceWithRecordedViews(
         world,
         5,
         createManualRegistry({
@@ -1295,7 +1357,7 @@ describe("Election Contest Substrate", () => {
         { candidatePersonId: candidate1, votes: 500, voteShare: 0.5 },
       ];
 
-      const resolvedWorldB = advanceWorld(
+      const resolvedWorldB = advanceWithRecordedViews(
         world,
         5,
         createManualRegistry({
@@ -1318,7 +1380,7 @@ describe("Election Contest Substrate", () => {
 
       // Case 3: Winner has fewer votes than max (499 vs 500) throws
       expect(() =>
-        advanceWorld(
+        advanceWithRecordedViews(
           world,
           5,
           createManualRegistry({
@@ -1385,7 +1447,7 @@ describe("Election Contest Substrate", () => {
       const registry = createElectionTransitionRegistry();
 
       // Advance to election date (day 10) so it resolves legitimately
-      world = advanceWorld(world, 10, registry);
+      world = advanceWithRecordedViews(world, 10, registry);
       expect(electionContestStatus(world, contest.id)).toBe("resolved");
       assertWorldIntegrity(world);
 
@@ -1470,7 +1532,11 @@ describe("Election Contest Substrate", () => {
           ],
         ]);
 
-      worldLater = advanceWorld(worldLater, 12, certificationHoldingRegistry);
+      worldLater = advanceWithRecordedViews(
+        worldLater,
+        12,
+        certificationHoldingRegistry,
+      );
       expect(worldLater.currentDate).toBe(certDate);
 
       worldLater = resolveElectionContest(worldLater, {
@@ -1540,7 +1606,7 @@ describe("Election Contest Substrate", () => {
 
       // Advance world to election date
       const registry = createElectionTransitionRegistry();
-      world = advanceWorld(world, 10, registry);
+      world = advanceWithRecordedViews(world, 10, registry);
       expect(world.currentDate).toBe(electionDate);
       expect(electionContestStatus(world, contest.id)).toBe("cancelled");
 
@@ -1597,7 +1663,7 @@ describe("Election Contest Substrate", () => {
         candidatePersonIds: [cand1, cand2],
         provenance: { method: "authored", sourceEntityIds: [], note: null },
       });
-      resolvedWorld = advanceWorld(resolvedWorld, 5, registry);
+      resolvedWorld = advanceWithRecordedViews(resolvedWorld, 5, registry);
       expect(
         electionContestStatus(
           resolvedWorld,
@@ -1617,7 +1683,13 @@ describe("Election Contest Substrate", () => {
               id: createStableId("future-due-item-state", "corrupt:state"),
               stableKey: "corrupt:state",
               sequence: resolvedWorld.history.nextSequence,
-              dueItemId: resolvedWorld.history.futureDueItems[0]!.id,
+              dueItemId: resolvedWorld.history.futureDueItems.find(
+                (item) =>
+                  item.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
+                  item.entityIds.includes(
+                    resolvedWorld.history.electionContests![0]!.id,
+                  ),
+              )!.id,
               effectiveAt: validElectDate,
               status: "cancelled",
               reasonKey: "election:contest-cancelled",
@@ -1629,9 +1701,9 @@ describe("Election Contest Substrate", () => {
         },
       };
 
-      expect(() => assertWorldIntegrity(corruptCancelledAndResolved)).toThrow(
-        /Election contest result exists for canceled contest/i,
-      );
+      expect(() =>
+        assertWorldIntegrityFully(corruptCancelledAndResolved),
+      ).toThrow(/Election contest result exists for canceled contest/i);
     });
 
     it("ELEC-005: cancellation records semantic election:contest-canceled reasonKey", () => {
@@ -1715,7 +1787,7 @@ describe("Election Contest Substrate", () => {
           }),
         ],
       ]);
-      world = advanceWorld(world, 5, holdingRegistry);
+      world = advanceWithRecordedViews(world, 5, holdingRegistry);
 
       world = resolveElectionContest(world, {
         contestId: contestSim.id,
@@ -1746,7 +1818,7 @@ describe("Election Contest Substrate", () => {
       });
 
       const contestManual = (world.history.electionContests ?? [])[1]!;
-      world = advanceWorld(world, 5, holdingRegistry);
+      world = advanceWithRecordedViews(world, 5, holdingRegistry);
 
       world = resolveElectionContest(world, {
         contestId: contestManual.id,
@@ -1810,7 +1882,7 @@ describe("Election Contest Substrate", () => {
       };
       const callerTallies = [callerTally1, callerTally2];
 
-      const resolvedWorld = advanceWorld(
+      const resolvedWorld = advanceWithRecordedViews(
         world,
         5,
         createFutureTransitionHandlerRegistry([

@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../demo";
 import { recordEvidenceArtifact } from "../evidence";
-import type { EvidenceAccess, World } from "../types";
+import type { EntityId, EvidenceAccess, World } from "../types";
 import { advanceInquiry, openInquiry } from "./inquiries";
 
 const SIMULATED = { kind: "simulated", sourceEntityIds: [] } as const;
 
 function addArtifact(
   world: World,
-  subjectId: string,
+  subjectId: EntityId,
   key: string,
   access: EvidenceAccess,
   evidenceKind: `${string}:${string}`,

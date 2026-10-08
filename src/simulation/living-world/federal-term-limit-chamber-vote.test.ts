@@ -35,7 +35,7 @@ import {
   advanceFederalAmendment,
   decideArticleVStateMemberVotes,
   recordArticleVStateMemberVote,
-  federalReformStateActionHandler,
+  constitutionalStateActionHandler,
   termLimitCount,
   type FederalReformCause,
 } from "./federal-reform";
@@ -483,7 +483,7 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
         const due = result.history.futureDueItems.find((row) =>
           row.stableKey.endsWith(`:state:${stateKey}`),
         )!;
-        const outcome = federalReformStateActionHandler(result, due);
+        const outcome = constitutionalStateActionHandler(result, due);
         const next = outcome.world;
         const action = constitutionalActions(next, measure.id).find(
           (row) =>
@@ -563,7 +563,9 @@ describe("A79 recorded presidential term-limit proposal uses the shared chamber"
         const due = result.history.futureDueItems.find((row) =>
           row.stableKey.endsWith(`:state:${stateKey}`),
         )!;
-        expect(federalReformStateActionHandler(result, due).world).toBe(result);
+        expect(constitutionalStateActionHandler(result, due).world).toBe(
+          result,
+        );
         expect(
           recordArticleVStateMemberVote(result, measure.id, stateKey),
         ).toBeNull();
