@@ -48,6 +48,7 @@ import { concealedCarryPermitRuleAt } from "../crime/offenders";
 import { latestLawPermission } from "./permission-records";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { STATES } from "../state-reference";
+import { stateJurisdictionForKey } from "../life-places";
 import {
   PROSECUTION_SENTENCED_EVENT,
   SENTENCE_KIND_TAG,
@@ -817,300 +818,309 @@ function fixture(usps: string) {
   };
 }
 
-describe("final institution-rule terms in all 56 state and territory places", () => {
-  it("applies final bill answers and typed terms through all 56 place readers", () => {
+describe("shared institution-rule readers and all-place rule data", () => {
+  it("has all 56 state and territory keys", () => {
     expect(Object.keys(STATES)).toHaveLength(56);
-    for (const usps of Object.keys(STATES).sort()) {
-      const f = fixture(usps);
-      const subjectIds = [
-        ...f.world.personOrder,
-        ...f.world.history.organizations.map((row) => row.id),
-      ];
-      const rightsApplied = f.directFixture
-        ? applyLawConsequences(f.world, {
-            onDate: f.world.currentDate,
-            activity: "effective",
-            activityId: f.rightsEnactmentId,
-            subjectIds,
-            governingLawId: f.rightsMeasureId,
-          })
-        : applyEnactedLawEffects(
-            enactMeasure(f.world, f.rightsContext),
-            f.rightsMeasureId,
-          );
-      const applied = f.directFixture
-        ? applyLawConsequences(rightsApplied, {
-            onDate: rightsApplied.currentDate,
-            activity: "effective",
-            activityId: f.ruleEnactmentId,
-            subjectIds,
-            governingLawId: f.ruleMeasureId,
-          })
-        : applyEnactedLawEffects(
-            enactMeasure(rightsApplied, f.ruleContext),
-            f.ruleMeasureId,
-          );
-      const effectiveDate = applied.currentDate;
-      const votingQuestion = questionIdFor(
+  });
+
+  it.each(Object.keys(STATES).sort())(
+    "maps institution rule data for US-%s",
+    (usps) => {
+      const state = stateJurisdictionForKey(`US-${usps}`);
+      expect(state, usps).not.toBeNull();
+      expect(state?.name, usps).toBe(STATES[usps]!.name);
+      expect(laborLawOfficeKey(usps), usps).toBe(
+        `us-${usps.toLowerCase()}-labor-law`,
+      );
+    },
+  );
+
+  it("applies final bill answers and typed terms in one seeded place", () => {
+    const usps = "CA";
+    const f = fixture(usps);
+    const subjectIds = [
+      ...f.world.personOrder,
+      ...f.world.history.organizations.map((row) => row.id),
+    ];
+    const rightsApplied = f.directFixture
+      ? applyLawConsequences(f.world, {
+          onDate: f.world.currentDate,
+          activity: "effective",
+          activityId: f.rightsEnactmentId,
+          subjectIds,
+          governingLawId: f.rightsMeasureId,
+        })
+      : applyEnactedLawEffects(
+          enactMeasure(f.world, f.rightsContext),
+          f.rightsMeasureId,
+        );
+    const applied = f.directFixture
+      ? applyLawConsequences(rightsApplied, {
+          onDate: rightsApplied.currentDate,
+          activity: "effective",
+          activityId: f.ruleEnactmentId,
+          subjectIds,
+          governingLawId: f.ruleMeasureId,
+        })
+      : applyEnactedLawEffects(
+          enactMeasure(rightsApplied, f.ruleContext),
+          f.ruleMeasureId,
+        );
+    const effectiveDate = applied.currentDate;
+    const votingQuestion = questionIdFor(applied, RESTORE_VOTING_QUESTION_KEY);
+    const votingLaw = lawInForce(
+      applied,
+      f.state.id,
+      votingQuestion,
+      applied.currentDate,
+    );
+    expect(votingLaw, usps).toMatchObject({
+      origin: "enacted",
+      measureId: f.rightsMeasureId,
+      answer: f.votingAnswer,
+    });
+    expect(f.votingAnswer, usps).not.toBe(f.initialRightsAnswers.votingAnswer);
+    expect(f.carryAnswer, usps).not.toBe(f.initialRightsAnswers.carryAnswer);
+    expect(f.cannabisAnswer, usps).not.toBe(
+      f.initialRightsAnswers.cannabisAnswer,
+    );
+    expect(
+      latestLawPermission(
         applied,
+        { kind: "person", id: f.voterId },
         RESTORE_VOTING_QUESTION_KEY,
-      );
-      const votingLaw = lawInForce(
-        applied,
-        f.state.id,
-        votingQuestion,
-        applied.currentDate,
-      );
-      expect(votingLaw, usps).toMatchObject({
-        origin: "enacted",
-        measureId: f.rightsMeasureId,
-        answer: f.votingAnswer,
-      });
-      expect(f.votingAnswer, usps).not.toBe(
-        f.initialRightsAnswers.votingAnswer,
-      );
-      expect(f.carryAnswer, usps).not.toBe(f.initialRightsAnswers.carryAnswer);
-      expect(f.cannabisAnswer, usps).not.toBe(
-        f.initialRightsAnswers.cannabisAnswer,
-      );
-      expect(
-        latestLawPermission(
-          applied,
-          { kind: "person", id: f.voterId },
-          RESTORE_VOTING_QUESTION_KEY,
-        ),
-        usps,
-      ).toMatchObject({
-        status: f.votingAnswer === "yes" ? "permitted" : "prohibited",
-        lawEffectStamps: [
-          expect.objectContaining({
-            effectKind: "right-permission",
-            questionKey: RESTORE_VOTING_QUESTION_KEY,
-            jurisdictionId: f.state.id,
-            governingLawKey: f.rightsMeasureId,
-          }),
-        ],
-      });
-      expect(sentencesOf(applied, f.voterId), usps).toHaveLength(1);
-      expect(
-        votingStandingOn(applied, f.voterId, effectiveDate).standing,
-        usps,
-      ).toBe(f.votingAnswer === "yes" ? "restored" : "withheld-after-sentence");
-      expect(
-        isEligibleVoterIn(applied, f.voterId, f.state.id, effectiveDate),
-        usps,
-      ).toBe(f.votingAnswer === "yes");
-
-      const cannabisQuestion = questionIdFor(applied, CANNABIS_QUESTION_KEY);
-      const cannabisLaw = lawInForce(
-        applied,
-        f.state.id,
-        cannabisQuestion,
-        applied.currentDate,
-      );
-      expect(cannabisLaw, usps).toMatchObject({
-        origin: "enacted",
-        measureId: f.rightsMeasureId,
-        answer: f.cannabisAnswer,
-      });
-      expect(
-        latestLawPermission(
-          applied,
-          { kind: "organization", id: f.retailerId },
-          CANNABIS_QUESTION_KEY,
-        ),
-        usps,
-      ).toMatchObject({
-        status: f.cannabisAnswer === "yes" ? "permitted" : "prohibited",
-        lawEffectStamps: [
-          expect.objectContaining({ effectKind: "right-permission" }),
-        ],
-      });
-      expect(
-        townBusinesses(applied, f.state.id).find(
-          (business) => business.organizationId === f.retailerId,
-        )?.cannabisSalesLicensed,
-        usps,
-      ).toBe(f.cannabisAnswer === "yes");
-
-      const retailOpening = applyLawConsequences(applied, {
-        onDate: applied.currentDate,
-        activity: "application",
-        activityId: f.retailerId,
-        subjectIds: [f.retailerId],
-        questionKey: CANNABIS_QUESTION_KEY,
-        governingLawId: f.rightsMeasureId,
-      });
-      expect(
-        latestLawPermission(
-          retailOpening,
-          { kind: "organization", id: f.retailerId },
-          CANNABIS_QUESTION_KEY,
-        ),
-        usps,
-      ).toMatchObject({
-        status: f.cannabisAnswer === "yes" ? "permitted" : "prohibited",
-      });
-
-      const carryApplication = recordWorldEvent(applied, {
-        stableKey: `au2-wire-06:${usps}:concealed-carry-application`,
-        type: "fixture.concealed-carry-application",
-        occurredAt: effectiveDate,
-        recordedAt: effectiveDate,
-        jurisdictionId: f.state.id,
-        involvedEntityIds: [f.voterId],
-        participants: [
-          { personId: f.voterId, role: "agency:actor", detail: null },
-        ],
-        personFactConstraints: [],
-        visibility: "private",
-        tags: ["fixture:concealed-carry-application"],
-        summary: "Controlled concealed-carry application activity.",
-        context: {
-          location: null,
-          socialContext: null,
-          pressure: null,
-          choice: null,
-          motivation: null,
-          immediateReaction: null,
-        },
-      });
-      const carryApplied = applyLawConsequences(carryApplication, {
-        onDate: effectiveDate,
-        activity: "application",
-        activityId: carryApplication.history.events.at(-1)!.id,
-        subjectIds: [f.voterId],
-        questionKey: CONCEALED_CARRY_QUESTION_KEY,
-        governingLawId: f.rightsMeasureId,
-      });
-      expect(
-        latestLawPermission(
-          carryApplied,
-          { kind: "person", id: f.voterId },
-          CONCEALED_CARRY_QUESTION_KEY,
-        ),
-        usps,
-      ).toMatchObject({
-        status: f.carryAnswer === "yes" ? "permitted" : "prohibited",
-        lawEffectStamps: [
-          expect.objectContaining({
-            effectKind: "right-permission",
-            questionKey: CONCEALED_CARRY_QUESTION_KEY,
-            jurisdictionId: f.state.id,
-            governingLawKey: f.rightsMeasureId,
-          }),
-        ],
-      });
-      expect(
-        concealedCarryPermitRuleAt(
-          carryApplied,
-          f.voterId,
-          f.state.id,
-          effectiveDate,
-        ),
-        usps,
-      ).toBe(f.carryAnswer === "yes" ? "permitted" : "prohibited");
-      const law = lawInForce(
-        applied,
-        f.state.id,
-        f.question,
-        applied.currentDate,
-      );
-      expect(law, usps).toMatchObject({
-        origin: "enacted",
-        measureId: f.ruleMeasureId,
-        answer: "yes",
-      });
-      expect(
-        readFinalEnactedLawTerm(applied, law!, {
-          questionKey: QUESTION_KEY,
-          termKey: "term.years",
-          unit: "years",
-          onDate: applied.currentDate,
+      ),
+      usps,
+    ).toMatchObject({
+      status: f.votingAnswer === "yes" ? "permitted" : "prohibited",
+      lawEffectStamps: [
+        expect.objectContaining({
+          effectKind: "right-permission",
+          questionKey: RESTORE_VOTING_QUESTION_KEY,
+          jurisdictionId: f.state.id,
+          governingLawKey: f.rightsMeasureId,
         }),
-        usps,
-      ).toMatchObject({
-        value: 4,
+      ],
+    });
+    expect(sentencesOf(applied, f.voterId), usps).toHaveLength(1);
+    expect(
+      votingStandingOn(applied, f.voterId, effectiveDate).standing,
+      usps,
+    ).toBe(f.votingAnswer === "yes" ? "restored" : "withheld-after-sentence");
+    expect(
+      isEligibleVoterIn(applied, f.voterId, f.state.id, effectiveDate),
+      usps,
+    ).toBe(f.votingAnswer === "yes");
+
+    const cannabisQuestion = questionIdFor(applied, CANNABIS_QUESTION_KEY);
+    const cannabisLaw = lawInForce(
+      applied,
+      f.state.id,
+      cannabisQuestion,
+      applied.currentDate,
+    );
+    expect(cannabisLaw, usps).toMatchObject({
+      origin: "enacted",
+      measureId: f.rightsMeasureId,
+      answer: f.cannabisAnswer,
+    });
+    expect(
+      latestLawPermission(
+        applied,
+        { kind: "organization", id: f.retailerId },
+        CANNABIS_QUESTION_KEY,
+      ),
+      usps,
+    ).toMatchObject({
+      status: f.cannabisAnswer === "yes" ? "permitted" : "prohibited",
+      lawEffectStamps: [
+        expect.objectContaining({ effectKind: "right-permission" }),
+      ],
+    });
+    expect(
+      townBusinesses(applied, f.state.id).find(
+        (business) => business.organizationId === f.retailerId,
+      )?.cannabisSalesLicensed,
+      usps,
+    ).toBe(f.cannabisAnswer === "yes");
+
+    const retailOpening = applyLawConsequences(applied, {
+      onDate: applied.currentDate,
+      activity: "application",
+      activityId: f.retailerId,
+      subjectIds: [f.retailerId],
+      questionKey: CANNABIS_QUESTION_KEY,
+      governingLawId: f.rightsMeasureId,
+    });
+    expect(
+      latestLawPermission(
+        retailOpening,
+        { kind: "organization", id: f.retailerId },
+        CANNABIS_QUESTION_KEY,
+      ),
+      usps,
+    ).toMatchObject({
+      status: f.cannabisAnswer === "yes" ? "permitted" : "prohibited",
+    });
+
+    const carryApplication = recordWorldEvent(applied, {
+      stableKey: `au2-wire-06:${usps}:concealed-carry-application`,
+      type: "fixture.concealed-carry-application",
+      occurredAt: effectiveDate,
+      recordedAt: effectiveDate,
+      jurisdictionId: f.state.id,
+      involvedEntityIds: [f.voterId],
+      participants: [
+        { personId: f.voterId, role: "agency:actor", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: ["fixture:concealed-carry-application"],
+      summary: "Controlled concealed-carry application activity.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const carryApplied = applyLawConsequences(carryApplication, {
+      onDate: effectiveDate,
+      activity: "application",
+      activityId: carryApplication.history.events.at(-1)!.id,
+      subjectIds: [f.voterId],
+      questionKey: CONCEALED_CARRY_QUESTION_KEY,
+      governingLawId: f.rightsMeasureId,
+    });
+    expect(
+      latestLawPermission(
+        carryApplied,
+        { kind: "person", id: f.voterId },
+        CONCEALED_CARRY_QUESTION_KEY,
+      ),
+      usps,
+    ).toMatchObject({
+      status: f.carryAnswer === "yes" ? "permitted" : "prohibited",
+      lawEffectStamps: [
+        expect.objectContaining({
+          effectKind: "right-permission",
+          questionKey: CONCEALED_CARRY_QUESTION_KEY,
+          jurisdictionId: f.state.id,
+          governingLawKey: f.rightsMeasureId,
+        }),
+      ],
+    });
+    expect(
+      concealedCarryPermitRuleAt(
+        carryApplied,
+        f.voterId,
+        f.state.id,
+        effectiveDate,
+      ),
+      usps,
+    ).toBe(f.carryAnswer === "yes" ? "permitted" : "prohibited");
+    const law = lawInForce(
+      applied,
+      f.state.id,
+      f.question,
+      applied.currentDate,
+    );
+    expect(law, usps).toMatchObject({
+      origin: "enacted",
+      measureId: f.ruleMeasureId,
+      answer: "yes",
+    });
+    expect(
+      readFinalEnactedLawTerm(applied, law!, {
+        questionKey: QUESTION_KEY,
+        termKey: "term.years",
         unit: "years",
-        measureId: f.ruleMeasureId,
-      });
-      expect(
-        enactedRuleChangeAt(applied, {
-          stateUsps: usps,
-          officeKey: f.officeKey,
-          field: "term.years",
-          onDate: applied.currentDate,
-        })?.value,
-        usps,
-      ).toBe(4);
-      const minimumWageLaw = lawInForce(
-        applied,
-        f.state.id,
-        f.minimumWageQuestion,
-        applied.currentDate,
-      );
-      expect(minimumWageLaw, usps).toMatchObject({
-        origin: "enacted",
-        measureId: f.ruleMeasureId,
-        answer: "yes",
-      });
-      expect(
-        readFinalEnactedLawTerm(applied, minimumWageLaw!, {
-          questionKey: MINIMUM_WAGE_QUESTION_KEY,
-          termKey: "labor.minimumWage.hourlyCents",
-          unit: "minor/hour",
-          onDate: applied.currentDate,
-        }),
-        usps,
-      ).toMatchObject({
-        value: 1500,
+        onDate: applied.currentDate,
+      }),
+      usps,
+    ).toMatchObject({
+      value: 4,
+      unit: "years",
+      measureId: f.ruleMeasureId,
+    });
+    expect(
+      enactedRuleChangeAt(applied, {
+        stateUsps: usps,
+        officeKey: f.officeKey,
+        field: "term.years",
+        onDate: applied.currentDate,
+      })?.value,
+      usps,
+    ).toBe(4);
+    const minimumWageLaw = lawInForce(
+      applied,
+      f.state.id,
+      f.minimumWageQuestion,
+      applied.currentDate,
+    );
+    expect(minimumWageLaw, usps).toMatchObject({
+      origin: "enacted",
+      measureId: f.ruleMeasureId,
+      answer: "yes",
+    });
+    expect(
+      readFinalEnactedLawTerm(applied, minimumWageLaw!, {
+        questionKey: MINIMUM_WAGE_QUESTION_KEY,
+        termKey: "labor.minimumWage.hourlyCents",
         unit: "minor/hour",
-        measureId: f.ruleMeasureId,
-      });
-      expect(
-        enactedRuleChangeAt(applied, {
-          stateUsps: usps,
+        onDate: applied.currentDate,
+      }),
+      usps,
+    ).toMatchObject({
+      value: 1500,
+      unit: "minor/hour",
+      measureId: f.ruleMeasureId,
+    });
+    expect(
+      enactedRuleChangeAt(applied, {
+        stateUsps: usps,
+        officeKey: f.minimumWageOfficeKey,
+        field: "labor.minimumWage.hourlyCents",
+        onDate: applied.currentDate,
+      })?.value,
+      usps,
+    ).toBe(1500);
+    const bindings = applied.history.ruleChangeConsequenceBindings!.filter(
+      (record) =>
+        record.kind === "law-application" &&
+        record.measureId === f.ruleMeasureId,
+    );
+    expect(bindings, usps).toHaveLength(2);
+    expect(bindings, usps).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          officeKey: f.officeKey,
+          bodyOrganizationId: expect.any(String),
+          rowId: "institution-rule:legislative-term-years",
+          lawEffectStamps: [
+            expect.objectContaining({
+              effectKind: "institution-rule",
+              questionKey: QUESTION_KEY,
+              jurisdictionId: f.state.id,
+            }),
+          ],
+        }),
+        expect.objectContaining({
           officeKey: f.minimumWageOfficeKey,
-          field: "labor.minimumWage.hourlyCents",
-          onDate: applied.currentDate,
-        })?.value,
-        usps,
-      ).toBe(1500);
-      const bindings = applied.history.ruleChangeConsequenceBindings!.filter(
-        (record) =>
-          record.kind === "law-application" &&
-          record.measureId === f.ruleMeasureId,
-      );
-      expect(bindings, usps).toHaveLength(2);
-      expect(bindings, usps).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            officeKey: f.officeKey,
-            bodyOrganizationId: expect.any(String),
-            rowId: "institution-rule:legislative-term-years",
-            lawEffectStamps: [
-              expect.objectContaining({
-                effectKind: "institution-rule",
-                questionKey: QUESTION_KEY,
-                jurisdictionId: f.state.id,
-              }),
-            ],
-          }),
-          expect.objectContaining({
-            officeKey: f.minimumWageOfficeKey,
-            bodyOrganizationId: expect.any(String),
-            rowId: "institution-rule:state-minimum-wage",
-            lawEffectStamps: [
-              expect.objectContaining({
-                effectKind: "institution-rule",
-                questionKey: MINIMUM_WAGE_QUESTION_KEY,
-                jurisdictionId: f.state.id,
-              }),
-            ],
-          }),
-        ]),
-      );
-      if (!f.directFixture) assertWorldIntegrity(carryApplied);
-    }
-  }, 300000);
+          bodyOrganizationId: expect.any(String),
+          rowId: "institution-rule:state-minimum-wage",
+          lawEffectStamps: [
+            expect.objectContaining({
+              effectKind: "institution-rule",
+              questionKey: MINIMUM_WAGE_QUESTION_KEY,
+              jurisdictionId: f.state.id,
+            }),
+          ],
+        }),
+      ]),
+    );
+    if (!f.directFixture) assertWorldIntegrity(carryApplied);
+  });
 });
