@@ -138,20 +138,22 @@ These are about bodies, bills and elections more than people. All are read by at
 5. The household's own bills, debts and permissions have no screen. The Personal money page shows balances, cost estimates and the mortgage only.
 6. Town finances (business books, bank runs, defaults) have no screen.
 7. A view a friend tells the player is saved as the fields `told-view:<teller>:<official>:<position>`, and the Journal printed those fields as "As I heard it". The Journal now leaves them out until an English bank words them. The People screen's heard-views list still shows them (about the player only).
+8. A resident's environmental exposure (`environmental-condition`, written to every resident by `environment-energy-landings.ts`) has no wording in the Journal or the money page. Reading it threw `Cannot read properties of undefined (reading 'none')`, so any Journal projection or Money laws list for a resident with one would fail. Both now leave it out.
 
 ## ENGLISH gaps
 
 A sentence is needed and no bank in `data/english/parts` covers it. No line was written.
 
-| Gap                                                               | Where it is needed     |
-| ----------------------------------------------------------------- | ---------------------- |
-| A view of an official: credit or blame, with the law behind it    | Journal, person record |
-| A permission granted or refused by a law (`lawPermissionRecords`) | Personal               |
-| A debt falling late, going into default or collections            | Journal, Personal      |
-| A permit decision (also needs a writer)                           | Journal, News          |
-| A bank run, business closure or default in the town               | Town, News             |
-| A change in functional capacity                                   | Journal                |
-| Short labels for money rows ("due", "late", "paid")               | Personal               |
+| Gap                                                                                     | Where it is needed     |
+| --------------------------------------------------------------------------------------- | ---------------------- |
+| A view of an official: credit or blame, with the law behind it                          | Journal, person record |
+| A permission granted or refused by a law (`lawPermissionRecords`)                       | Personal               |
+| A debt falling late, going into default or collections                                  | Journal, Personal      |
+| A permit decision (also needs a writer)                                                 | Journal, News          |
+| A bank run, business closure or default in the town                                     | Town, News             |
+| A change in functional capacity                                                         | Journal                |
+| A place's measured environmental condition moving because of a law (air, water, energy) | Journal, Personal      |
+| Short labels for money rows ("due", "late", "paid")                                     | Personal               |
 
 ## What each pull request connects
 
