@@ -118,6 +118,10 @@ function turnWith(
     sequence: world.history.nextSequence + serial,
     occurredAt: world.currentDate,
     tags,
+    participants: [
+      { personId: speaker, role: "focus:respondent", detail: null },
+      { personId: listener, role: "focus:subject", detail: null },
+    ],
   };
   const written = interactions.map(
     (interaction, index): RelationshipInteraction => ({
@@ -239,10 +243,8 @@ describe("the tone of a recorded line", () => {
       ["conversation.outcome.proposal-refused"],
       "refusal",
     ],
-    ["an accepted date", ["life.answer:date-accepted"], "agree"],
     ["a declined invitation", ["life.answer:company-declined"], "refusal"],
     ["a worry shared", ["life.answer:running-worry"], "bad-news"],
-    ["a game suggested", ["life.talk:suggestGame"], "joke"],
     ["nothing more", ["life.conversation"], "plain"],
   ];
   for (const [what, tags, tone] of cases)
@@ -301,20 +303,18 @@ describe("faces in a conversation", () => {
     world: World,
     person: EntityId,
     turns: readonly ConversationExchangeTurn[],
-  ) => conversationExpression(world, person, person, turns);
+  ) => conversationExpression(world, person, turns);
 
   it("shows the speaker's tone on the speaker's face", () => {
     const expected: Partial<Record<LineTone, string>> = {
       agree: "smile",
       warm: "smile",
-      joke: "laugh",
       "bad-news": "concerned",
       refusal: "neutral",
     };
     for (const [tags, tone] of [
       [["conversation.outcome.proposal-accepted"], "agree"],
       [["conversation.outcome.reassured"], "warm"],
-      [["life.talk:suggestGame"], "joke"],
       [["life.answer:running-worry"], "bad-news"],
       [["life.answer:company-declined"], "refusal"],
     ] as const) {
@@ -324,13 +324,6 @@ describe("faces in a conversation", () => {
   });
 
   it("has a listener react through how they stand with the speaker", () => {
-    const joke = ["life.talk:suggestGame"];
-    const warm = turnWith(standing(base, B, A, "warm"), joke);
-    expect(faceOf(warm.world, B, [warm.turn])).toBe("laugh");
-    const worn = turnWith(standing(base, B, A, "worn"), joke);
-    expect(faceOf(worn.world, B, [worn.turn])).toBe("skeptical");
-    const even = turnWith(base, joke);
-    expect(faceOf(even.world, B, [even.turn])).toBe("smile");
     // Bad news saddens a listener who cares for the speaker.
     const news = turnWith(standing(base, B, A, "warm"), [
       "life.answer:running-worry",
@@ -368,11 +361,11 @@ describe("faces in a conversation", () => {
   });
 
   it("holds a reaction for its line and the next, then eases back to rest", () => {
-    const first = turnWith(base, ["life.talk:suggestGame"]);
+    const first = turnWith(base, ["conversation.outcome.proposal-accepted"]);
     const second = turnWith(first.world, ["life.conversation"]);
     const third = turnWith(second.world, ["life.conversation"]);
-    expect(faceOf(third.world, A, [first.turn])).toBe("laugh");
-    expect(faceOf(third.world, A, [first.turn, second.turn])).toBe("laugh");
+    expect(faceOf(third.world, A, [first.turn])).toBe("smile");
+    expect(faceOf(third.world, A, [first.turn, second.turn])).toBe("smile");
     expect(faceOf(third.world, A, [first.turn, second.turn, third.turn])).toBe(
       "neutral",
     );
@@ -384,7 +377,7 @@ describe("faces in a conversation", () => {
 
   it("gives the same face every time for the same record", () => {
     const { world, turn } = turnWith(standing(base, B, A, "worn"), [
-      "life.talk:suggestGame",
+      "conversation.outcome.proposal-accepted",
     ]);
     const faces = new Set(
       Array.from({ length: 5 }, () => faceOf(world, B, [turn])),
@@ -395,7 +388,7 @@ describe("faces in a conversation", () => {
 
 describe("the face a temperament rests in", () => {
   it("rests neutral with an ordinary temper when nothing is recorded", () => {
-    expect(faceTemperament(base, A, A)).toEqual({
+    expect(faceTemperament(base, A)).toEqual({
       rest: "neutral",
       temper: null,
     });
@@ -403,34 +396,34 @@ describe("the face a temperament rests in", () => {
 
   it("rests a warm person smiling and an anxious one concerned", () => {
     expect(
-      faceTemperament(
-        recorded(base, A, "personality-v1:playful-manner", 1),
-        A,
-        A,
-      ).rest,
+      faceTemperament(recorded(base, A, "personality-v1:playful-manner", 1), A)
+        .rest,
     ).toBe("smile");
     expect(
       faceTemperament(
         recorded(base, A, "personality-v1:self-confidence", -1),
         A,
-        A,
       ).rest,
     ).toBe("concerned");
   });
 
-  it("rests a guarded person neutral or skeptical, by their seed", () => {
+  it("rests a guarded person neutrally when no event records an expression", () => {
     const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
-    const rests = new Set(
-      Array.from(
-        { length: 40 },
-        (_, n) => faceTemperament(guarded, A, `seed-${n}`).rest,
-      ),
-    );
-    expect([...rests].sort()).toEqual(["neutral", "skeptical"]);
+    expect(
+      Array.from({ length: 40 }, () => faceTemperament(guarded, A).rest),
+    ).toEqual(Array.from({ length: 40 }, () => "neutral"));
+  });
+
+  it("uses the latest recorded turn's face, then returns to neutral when the next record is plain", () => {
+    const guarded = recorded(base, A, "personality-v1:facet-defensive", 1);
+    const recent = turnWith(guarded, ["life.talk:suggestGame"]);
+    expect(faceTemperament(recent.world, A).rest).toBe("laugh");
+
+    const plain = turnWith(recent.world, ["life.conversation"]);
+    expect(faceTemperament(plain.world, A).rest).toBe("neutral");
   });
 
   it("shows hostility sooner in the quick-tempered and later in the calm", () => {
-    const joke = ["life.talk:suggestGame"];
     const quick = turnWith(
       standing(
         recorded(base, B, "personality-v1:facet-hot-headed", 1),
@@ -438,11 +431,9 @@ describe("the face a temperament rests in", () => {
         A,
         "worn",
       ),
-      joke,
+      ["conversation.outcome.proposal-accepted"],
     );
-    expect(conversationExpression(quick.world, B, B, [quick.turn])).toBe(
-      "angry",
-    );
+    expect(conversationExpression(quick.world, B, [quick.turn])).toBe("angry");
     const threat = turnWith(
       standing(recorded(base, B, "personality-v1:facet-calm", 1), B, A, "worn"),
       [],
@@ -455,13 +446,13 @@ describe("the face a temperament rests in", () => {
         },
       ],
     );
-    expect(conversationExpression(threat.world, B, B, [threat.turn])).toBe(
+    expect(conversationExpression(threat.world, B, [threat.turn])).toBe(
       "skeptical",
     );
   });
 });
 
-describe("a joke in a room", async () => {
+describe("an accepted proposal in a room", async () => {
   const { planLifeScenePeople } = await import("../life-scene-people");
   const { DOMESTIC_CANONICAL_SCENE_ID } = await import("../scene-registry");
 
@@ -474,7 +465,7 @@ describe("a joke in a room", async () => {
     };
   }
 
-  it("has the speaker smile at their joke and a wary listener look skeptical", () => {
+  it("has the speaker smile and a wary listener look skeptical", () => {
     const present = others.map((personId) => ({
       personId,
       name: personId,
@@ -492,7 +483,7 @@ describe("a joke in a room", async () => {
     const [speaker, listener] = placedIds as [EntityId, EntityId];
     const { world, turn } = turnWith(
       standing(base, listener, speaker, "worn"),
-      ["life.talk:suggestGame"],
+      ["conversation.outcome.proposal-accepted"],
       [],
       speaker,
       listener,
@@ -507,7 +498,7 @@ describe("a joke in a room", async () => {
     );
     const faceOf = (id: EntityId) =>
       placed.find((person) => person.personId === id)!.engine!;
-    expect(faceOf(speaker).expression).toBe("laugh");
+    expect(faceOf(speaker).expression).toBe("smile");
     expect(faceOf(listener).expression).toBe("skeptical");
     for (const id of [speaker, listener]) {
       const drawn = composeEnginePerson(EXPRESSIVE, read, faceOf(id));

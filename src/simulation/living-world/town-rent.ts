@@ -98,6 +98,7 @@ import {
   type JudicialSeatHolder,
 } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -134,6 +135,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { RENT_STABILIZATION_QUESTION } from "../law-consequences/rent-stabilization-row";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import {
@@ -1712,6 +1714,29 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
+      const rule = housingLawYes(
+        next,
+        lease.town,
+        RENT_LAW_KEYS.rentStabilization,
+        dueOn,
+      );
+      const finalCap = rule
+        ? readFinalEnactedLawTerm(next, rule, {
+            questionKey: RENT_LAW_KEYS.rentStabilization,
+            termKey: "cap",
+            unit: "ratio",
+            onDate: dueOn,
+          })
+        : null;
+      // A yes answer alone does not establish a numeric cap. Preserve the
+      // recorded rent until the shared price-cost consumer has a supported
+      // final term to apply.
+      if (
+        rule &&
+        landlordKindOf(next, lease.flow.recipient) !== "public" &&
+        finalCap === null
+      )
+        continue;
       // The shared price-cost consequence applies an adopted cap from recorded terms.
       amount = Math.round((old * homePrices) / 100) * 100;
       reason = marketRentRenewalReason(
@@ -1738,6 +1763,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       activityId: renewal.id,
       subjectIds: [lease.leaseholderId],
       onDate: dueOn,
+      questionKey: RENT_STABILIZATION_QUESTION,
     });
   }
   return next;
@@ -2110,7 +2136,12 @@ function trialJudge(
   const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder && world.people[holder.personId]) return { ...holder, courtId };
+    if (
+      holder &&
+      world.people[holder.personId] &&
+      !playerHandlesJudicialCase(world, holder.personId, "civil")
+    )
+      return { ...holder, courtId };
   }
   return null;
 }

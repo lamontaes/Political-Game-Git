@@ -12,8 +12,6 @@ export const facetHumbleEffects: readonly TraitEffectDeclaration[] = [
         option: "withhold",
         trait: "personality-v1:facet-humble",
         pole: "high",
-        explanation:
-          "They want to hear others' contributions before treating their own judgment as final.",
       },
     ],
   },
@@ -24,8 +22,6 @@ export const facetHumbleEffects: readonly TraitEffectDeclaration[] = [
         option: "organization-meeting",
         trait: "personality-v1:facet-humble",
         pole: "high",
-        explanation:
-          "They value a chapter meeting where others can contribute and share credit for the work.",
       },
     ],
   },
@@ -36,8 +32,6 @@ export const facetHumbleEffects: readonly TraitEffectDeclaration[] = [
         option: "defer",
         trait: "personality-v1:facet-humble",
         pole: "high",
-        explanation:
-          "They want other chapter members heard before presenting the chapter's backing as their own decision.",
       },
     ],
   },
@@ -48,8 +42,6 @@ export const facetHumbleEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-humble",
         pole: "high",
-        explanation:
-          "They value an exchange that can acknowledge the people who contributed to the reporting.",
       },
     ],
   },
@@ -60,8 +52,6 @@ export const facetHumbleEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-humble",
         pole: "high",
-        explanation:
-          "They value explaining the office's shared work without claiming the credit personally.",
       },
     ],
   },

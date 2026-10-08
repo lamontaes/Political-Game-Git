@@ -1,6 +1,6 @@
 import {
   createLawConsequenceRegistry,
-  LAW_CONSEQUENCE_REGISTRATIONS,
+  lawConsequenceRegistrations,
 } from "./law-consequence-registry";
 import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
@@ -38,6 +38,7 @@ import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { rulePackById } from "./legislature-rule-packs";
 import { stateKeyForJurisdictionSlug } from "./life-places";
 import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
@@ -785,7 +786,8 @@ function levelOfGovernment(
   world: World,
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
-  if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
+    return "federal";
   if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";
@@ -800,13 +802,12 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = lawConsequenceRegistrations(),
 ): World {
+  const baselineRegistrations = lawConsequenceRegistrations();
   const registry = createLawConsequenceRegistry([
-    ...LAW_CONSEQUENCE_REGISTRATIONS,
-    ...registrations.filter(
-      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
-    ),
+    ...baselineRegistrations,
+    ...registrations.filter((entry) => !baselineRegistrations.includes(entry)),
   ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {

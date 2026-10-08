@@ -1,6 +1,6 @@
 import { lawInForce } from "../governing/law-in-force";
 import { readJuvenileJurisdictionTerm } from "../law-consequences/legal-outcome";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { stateJurisdictionForKey } from "../life-places";
 import type { EntityId, IsoDate, World } from "../types";
 import { propositionIdByKey } from "./pretrial";

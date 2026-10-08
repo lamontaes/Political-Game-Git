@@ -13,8 +13,6 @@ export const facetFriendlyEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-friendly",
         pole: "high",
-        explanation:
-          "They begin with a welcoming manner and are glad to say yes.",
       },
     ],
   },

@@ -13,8 +13,6 @@ export const facetGuardedEffects: readonly TraitEffectDeclaration[] = [
         option: "decline",
         trait: "personality-v1:facet-guarded",
         pole: "high",
-        explanation:
-          "They keep their guard up with someone they do not know well and decline.",
       },
     ],
   },

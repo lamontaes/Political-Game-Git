@@ -26,7 +26,8 @@ export function decisionConsiderationScore(
 ): number {
   const magnitude =
     IMPORTANCE_WEIGHT[consideration.importance] *
-    CONFIDENCE_WEIGHT[consideration.confidence];
+    CONFIDENCE_WEIGHT[consideration.confidence] *
+    (consideration.weightScale ?? 1);
   return consideration.direction === "supports" ? magnitude : -magnitude;
 }
 

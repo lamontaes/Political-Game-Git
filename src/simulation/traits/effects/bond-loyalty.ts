@@ -14,15 +14,11 @@ export const bondLoyaltyEffects: readonly TraitEffectDeclaration[] = [
         option: "stay",
         trait: "personality-v1:bond-loyalty",
         pole: "high",
-        explanation:
-          "They keep faith with a bond they have already built, even when other pulls compete.",
       },
       {
         option: "break-up",
         trait: "personality-v1:bond-loyalty",
         pole: "low",
-        explanation:
-          "They let this bond go readily once other motives outweigh it.",
       },
     ],
   },
