@@ -59,6 +59,7 @@ import { openProceeding, proceedingSteps } from "./procedures";
 import {
   MISCONDUCT_FAMILY_LABELS,
   MISCONDUCT_FAMILY_ROWS,
+  PUBLIC_MISCONDUCT_RECORD_KINDS,
   PRESS_CONTRACT_VERSION,
   PERSONAL_LIFE_MATTER_FAMILY,
   type FinancialOccurrenceRecord,
@@ -218,6 +219,9 @@ export function recordMisconductAct(
     next = recordEvidenceArtifact(next, {
       ...artifact,
       relatedEntityIds: [event.id],
+      access: PUBLIC_MISCONDUCT_RECORD_KINDS.has(artifact.evidenceKind)
+        ? "public"
+        : artifact.access,
       provenance: { kind: "simulated", sourceEntityIds: [event.id] },
     });
     recordEvidenceArtifactIds.push(next.history.evidenceArtifacts.at(-1)!.id);

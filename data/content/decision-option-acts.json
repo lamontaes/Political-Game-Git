@@ -297,6 +297,15 @@
       "ask": ["engage", "speak-out"],
       "wait": ["delay", "withdraw"]
     },
+    "crisis.international-ally-support": {
+      "support": ["cooperate", "help-others", "follow-rules"],
+      "stand-aside": ["play-safe", "self-interest", "keep-same"]
+    },
+    "crisis.international-response": {
+      "de-escalate": ["withdraw", "concede", "cooperate", "delay"],
+      "hold": ["keep-same", "play-safe"],
+      "escalate": ["confront", "speak-out", "take-risk", "bend-rules"]
+    },
     "speech.react": {
       "cheered": ["engage", "speak-out"],
       "applauded": ["follow-rules", "keep-same"],
