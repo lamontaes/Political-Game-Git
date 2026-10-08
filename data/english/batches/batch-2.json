@@ -1,8 +1,8 @@
 {
   "id": "batch-2",
   "title": "Dialogue batch batch-2 (68 exchanges)",
-  "at": "2026-10-08T21:24:19.818Z",
-  "head": "264b3a99ec913bdcb60c88f325639ebdaeeba2d1",
+  "at": "2026-10-08T21:46:08.232Z",
+  "head": "a1917aa221bc17bb1cfe93fb6901592207f41124",
   "status": "open",
   "variety": {
     "items": 68,
@@ -222,7 +222,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Amboy, Indiana, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Amboy, Indiana, in January. The list is empty. Nichols is home.",
+      "reply": "Screen: A Monday in Amboy, Indiana, in January. The list is empty. Emma is home.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -561,7 +561,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Acushnet Center, Massachusetts, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: Monday in Acushnet Center, Massachusetts. Nobody is waiting on you for anything today. Snow is around somewhere.",
+      "reply": "Screen: Monday in Acushnet Center, Massachusetts. Nobody is waiting on you for anything today. Nicholas is around somewhere.",
       "part": "day-opening:core:day-1",
       "parts": [
         "day-opening:core:day-1",
@@ -615,7 +615,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Barton, New Mexico, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: January in Barton, New Mexico, and it is Monday. Nobody is waiting on you for anything today. Farmer is in the next room.",
+      "reply": "Screen: January in Barton, New Mexico, and it is Monday. Nobody is waiting on you for anything today. Nicole is in the next room.",
       "part": "day-opening:core:day-4",
       "parts": [
         "day-opening:core:day-4",
@@ -669,7 +669,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Andes, New York, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Andes, New York, in January. Nothing is waiting on you. Mercado is home.",
+      "reply": "Screen: A Monday in Andes, New York, in January. Nothing is waiting on you. Quinn is home.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -723,7 +723,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Eden, South Dakota, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: January in Eden, South Dakota, and it is Monday. Nothing is waiting on you. Merrill is home.",
+      "reply": "Screen: January in Eden, South Dakota, and it is Monday. Nothing is waiting on you. Patricia is home.",
       "part": "day-opening:core:day-4",
       "parts": [
         "day-opening:core:day-4",
@@ -777,7 +777,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Hortonville, Wisconsin, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: January in Hortonville, Wisconsin, and it is Monday. Nothing on the list is waiting on you. Snyder is in the next room.",
+      "reply": "Screen: January in Hortonville, Wisconsin, and it is Monday. Nothing on the list is waiting on you. Philip is in the next room.",
       "part": "day-opening:core:day-4",
       "parts": [
         "day-opening:core:day-4",
@@ -806,7 +806,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In California Junction, Iowa, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in California Junction, Iowa, in January. There is nothing on the list today. Clayton is around somewhere.",
+      "reply": "Screen: A Monday in California Junction, Iowa, in January. There is nothing on the list today. Kevin is around somewhere.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -885,7 +885,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Roberts, Idaho, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: January in Roberts, Idaho, and it is Monday. The list is empty. Fuller is home.",
+      "reply": "Screen: January in Roberts, Idaho, and it is Monday. The list is empty. Cassandra is home.",
       "part": "day-opening:core:day-4",
       "parts": [
         "day-opening:core:day-4",
@@ -939,7 +939,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Mongmong-Toto-Maite, Guam, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Mongmong-Toto-Maite, Guam, in January. There is nothing on the list today. Woodard is in the next room.",
+      "reply": "Screen: A Monday in Mongmong-Toto-Maite, Guam, in January. There is nothing on the list today. Mark is in the next room.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -993,7 +993,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Eaton Rapids, Michigan, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Eaton Rapids, Michigan, in January. Nothing is waiting on you. Pierce is in the next room.",
+      "reply": "Screen: A Monday in Eaton Rapids, Michigan, in January. Nothing is waiting on you. Jeremiah is in the next room.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -1097,7 +1097,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Washington, District of Columbia, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: Monday in Washington, District of Columbia. The list is empty. Sampson is in the next room.",
+      "reply": "Screen: Monday in Washington, District of Columbia. The list is empty. Erin is in the next room.",
       "part": "day-opening:core:day-1",
       "parts": [
         "day-opening:core:day-1",
@@ -1151,7 +1151,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In New Hampton, New Hampshire, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: January in New Hampton, New Hampshire, and it is Monday. There is nothing on the list today. Love is home.",
+      "reply": "Screen: January in New Hampton, New Hampshire, and it is Monday. There is nothing on the list today. Tariq is home.",
       "part": "day-opening:core:day-4",
       "parts": [
         "day-opening:core:day-4",
@@ -1205,7 +1205,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Shelburne Falls, Massachusetts, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: Monday in Shelburne Falls, Massachusetts. Nothing on the list is waiting on you. Thompson is around somewhere.",
+      "reply": "Screen: Monday in Shelburne Falls, Massachusetts. Nothing on the list is waiting on you. Allison is around somewhere.",
       "part": "day-opening:core:day-1",
       "parts": [
         "day-opening:core:day-1",
@@ -1259,7 +1259,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Shelley, Idaho, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Shelley, Idaho, in January. There is nothing on the list today. Barnes is home.",
+      "reply": "Screen: A Monday in Shelley, Idaho, in January. There is nothing on the list today. Jacob is home.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -1313,7 +1313,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Duchesne, Utah, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: Monday in Duchesne, Utah. There is nothing on the list today. Hardy is in the next room.",
+      "reply": "Screen: Monday in Duchesne, Utah. There is nothing on the list today. Haris is in the next room.",
       "part": "day-opening:core:day-1",
       "parts": [
         "day-opening:core:day-1",
@@ -1367,7 +1367,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Letona, Arkansas, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: A Monday in Letona, Arkansas, in January. Nobody is waiting on you for anything today. Olsen is around somewhere.",
+      "reply": "Screen: A Monday in Letona, Arkansas, in January. Nobody is waiting on you for anything today. Michael is around somewhere.",
       "part": "day-opening:core:day-2",
       "parts": [
         "day-opening:core:day-2",
@@ -1421,7 +1421,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In West Simsbury, Connecticut, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: It is Monday in West Simsbury, Connecticut. Nothing is waiting on you. Ortega is around somewhere.",
+      "reply": "Screen: It is Monday in West Simsbury, Connecticut. Nothing is waiting on you. Beverly is around somewhere.",
       "part": "day-opening:core:day-3",
       "parts": [
         "day-opening:core:day-3",
@@ -1475,7 +1475,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Bancroft, Michigan, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: It is Monday in Bancroft, Michigan. The list is empty. Rowland is around somewhere.",
+      "reply": "Screen: It is Monday in Bancroft, Michigan. The list is empty. Julian is around somewhere.",
       "part": "day-opening:core:day-3",
       "parts": [
         "day-opening:core:day-3",
@@ -1579,7 +1579,7 @@
       "axis": "place",
       "situation": "The line that opens the player's day on the day screen. In Brown City, Michigan, on January 5, 2026.",
       "prior": "",
-      "reply": "Screen: It is Monday in Brown City, Michigan. The list is empty. Ratliff is in the next room.",
+      "reply": "Screen: It is Monday in Brown City, Michigan. The list is empty. Timothy is in the next room.",
       "part": "day-opening:core:day-3",
       "parts": [
         "day-opening:core:day-3",
