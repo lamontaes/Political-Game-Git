@@ -369,7 +369,7 @@
     },
     "personality-v1:facet-light-hearted": {
       "high": {
-        "toward": ["keep-same", "play-safe", "engage"],
+        "toward": ["keep-same", "play-safe", "engage", "delay"],
         "away": ["confront"]
       }
     },

@@ -10,6 +10,8 @@ import {
   scheduleFutureDueItem,
 } from "../future-transitions";
 import { personName } from "../people";
+import { traitRegistryFor } from "../trait-registry";
+import { registeredTraitConsiderations } from "../trait-readings";
 import { correctPublication, publishPublicEvent } from "../public-information";
 import {
   PRESS_STORY_EVENT_TYPE,
@@ -828,7 +830,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
           optionKey: matter && !involved ? "dispute" : "decline",
           sourceType: "context:own-knowledge",
           direction: "supports",
-          importance: "moderate",
+          importance: "slight",
           confidence: "high",
           explanation:
             matter && !involved
@@ -836,6 +838,13 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
               : "Saying nothing on the record avoids committing to an account.",
           sourceRefs: [],
         },
+        ...registeredTraitConsiderations(
+          next,
+          traitRegistryFor(next),
+          personId,
+          `${lead.stableKey}:npc-response:${personId}`,
+          "press.subject-response",
+        ),
       ],
       perceptionIds: [],
       randomness: "close-choices",
