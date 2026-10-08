@@ -58,6 +58,9 @@ import type {
   TimeDemandProfile,
   World,
 } from "./types";
+import { useFullWorldIntegrity } from "../../tests/fixtures/full-world-integrity";
+
+useFullWorldIntegrity();
 
 const OTHER_PLACE_ID = createStableId(
   "jurisdiction",
