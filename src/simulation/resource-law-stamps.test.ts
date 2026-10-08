@@ -62,14 +62,18 @@ describe("a wage law's terms reach the actual payment", () => {
         operativeAt: w.currentDate,
         operativeBasis: "enacted-date",
       };
-      const stamp = lawEffectStamp(law, {
-        effectKind: "minimum-wage-compensation",
+      const canonicalStamp = lawEffectStamp(law, {
+        effectKind: "pay",
         questionKey:
           "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
         jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
         appliedAt: w.currentDate,
         sourceRecordIds: [flow.id, old.id],
       })!;
+      const stamp = {
+        ...canonicalStamp,
+        effectKind: "minimum-wage-compensation",
+      };
       w = recordResourceFlowTerms(w, {
         stableKey: "stamp-raise",
         resourceFlowId: flow.id,
@@ -83,6 +87,10 @@ describe("a wage law's terms reach the actual payment", () => {
         lawEffectStamps: [stamp],
       });
       const terms = w.history.resourceFlowTerms.at(-1)!;
+      expect(
+        deserializeWorld(serializeWorld(w)).history.resourceFlowTerms.at(-1)
+          ?.lawEffectStamps,
+      ).toEqual([stamp]);
       const termsBeforePayment = structuredClone(w.history.resourceFlowTerms);
       const stampBeforePayment = structuredClone(stamp);
       w = recordResourceTransferOutcome(w, {
