@@ -29,6 +29,7 @@ import {
 } from "../living-world/official-views";
 import { livedOutcomeReflectionKey } from "../law-exposure";
 import { createWorkCompensation } from "../resources";
+import { RENT_EVENTS } from "../living-world/town-rent";
 import type { PlaceOutcomeRecord } from "./place-outcome-store";
 import {
   matchesOutcomeRecipientRule,
@@ -53,6 +54,9 @@ const plannedHealth = landingPlan.links.filter(
 const plannedHousehold = landingPlan.links.filter(
   (row) => row.policyArea === "household" && row.recipientRule !== null,
 );
+const plannedHousing = landingPlan.links.filter(
+  (row) => row.policyArea === "housing" && row.recipientRule !== null,
+);
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
     string,
@@ -71,6 +75,9 @@ const recipientAgeRanges = recipientAgeCohorts.cohortsByRule as Readonly<
       | "household-resident-estimate"
       | "snap-enrolled-household-member-estimate"
       | "recorded-wage-family-member-estimate"
+      | "active-renter-household-member-estimate"
+      | "snap-enrolled-renter-household-member-estimate"
+      | "evicted-household-without-home-member-estimate"
     >,
     {
       readonly minimumAge: number;
@@ -88,6 +95,9 @@ function recipientAtAge(
     readonly hasSnapEnrolledHousehold?: boolean;
     readonly hasRecordedWageHousehold?: boolean;
     readonly completedSchooling?: boolean;
+    readonly hasActiveRenterHousehold?: boolean;
+    readonly hasSnapEnrolledRenterHousehold?: boolean;
+    readonly hasEvictedHouseholdWithoutHome?: boolean;
   } = {},
 ) {
   return {
@@ -101,6 +111,11 @@ function recipientAtAge(
     hasSnapEnrolledHousehold: householdFacts.hasSnapEnrolledHousehold ?? false,
     hasRecordedWageHousehold: householdFacts.hasRecordedWageHousehold ?? false,
     completedSchooling: householdFacts.completedSchooling ?? false,
+    hasActiveRenterHousehold: householdFacts.hasActiveRenterHousehold ?? false,
+    hasSnapEnrolledRenterHousehold:
+      householdFacts.hasSnapEnrolledRenterHousehold ?? false,
+    hasEvictedHouseholdWithoutHome:
+      householdFacts.hasEvictedHouseholdWithoutHome ?? false,
   };
 }
 
@@ -123,9 +138,9 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 54,
+      "person-linked": 61,
       "budget-only": 4,
-      "place-number-only": 41,
+      "place-number-only": 34,
       "no-live-consumer": 2,
     });
   });
@@ -184,6 +199,31 @@ describe("the outcome landing plan", () => {
         "unemployment-to-poverty",
       ].sort(),
     );
+  });
+
+  it("routes all seven housing estimates through the shared person path", () => {
+    expect(plannedHousing).toHaveLength(7);
+    expect(
+      plannedHousing.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    const directions = new Map(
+      plannedHousing.map((row) => [row.key, row.outcomeDirection]),
+    );
+    expect(Object.fromEntries(directions)).toEqual({
+      "rent-control-to-rental-supply": "higher-is-better",
+      "rent-control-to-tenant-stays": "higher-is-worse",
+      "housing-by-right-to-new-buildings": "higher-is-better",
+      "housing-first-to-homelessness": "higher-is-worse",
+      "housing-vouchers-to-homelessness": "higher-is-worse",
+      "by-right-permitting-to-homelessness": "higher-is-worse",
+      "housing-preemption-to-homelessness": "higher-is-worse",
+    });
   });
 
   it.each(
@@ -260,6 +300,9 @@ describe("the outcome landing plan", () => {
         hasSnapEnrolledHousehold: false,
         hasRecordedWageHousehold: false,
         completedSchooling: false,
+        hasActiveRenterHousehold: false,
+        hasSnapEnrolledRenterHousehold: false,
+        hasEvictedHouseholdWithoutHome: false,
       };
       expect(
         matchesOutcomeRecipientRule(rule, {
@@ -391,6 +434,59 @@ describe("the outcome landing plan", () => {
         matchesOutcomeRecipientRule(
           rule("retirement-age-to-poverty"),
           recipientAtAge(retirement.minimumAge),
+        ),
+      ).toBe(true);
+    },
+  );
+
+  it.each(lifePlaceStateIdentities())(
+    "matches the same housing recipient rules for %s",
+    (place) => {
+      expect(place.jurisdictionKey).toMatch(/^US-/);
+      const rule = (key: string) =>
+        plannedHousing.find((row) => row.key === key)
+          ?.recipientRule as OutcomeRecipientRule;
+      const activeRenter = recipientAtAge(35, false, {
+        hasCurrentHouseholdResidence: true,
+        hasActiveRenterHousehold: true,
+        hasSnapEnrolledRenterHousehold: true,
+      });
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("rent-control-to-rental-supply"),
+          activeRenter,
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("housing-vouchers-to-homelessness"),
+          activeRenter,
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("housing-vouchers-to-homelessness"),
+          recipientAtAge(35, false, {
+            hasCurrentHouseholdResidence: true,
+            hasActiveRenterHousehold: true,
+          }),
+        ),
+      ).toBe(false);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("housing-first-to-homelessness"),
+          recipientAtAge(35, false, {
+            hasCurrentHouseholdResidence: true,
+            hasEvictedHouseholdWithoutHome: true,
+          }),
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("housing-by-right-to-new-buildings"),
+          recipientAtAge(35, false, {
+            hasCurrentHouseholdResidence: true,
+          }),
         ),
       ).toBe(true);
     },
@@ -806,6 +902,157 @@ describe("a named household outcome landing", () => {
     );
     if (!landing) throw new Error("The household price outcome did not land.");
     const reflectionKey = livedOutcomeReflectionKey(workerId, landing.id);
+    expect(
+      landed.history.futureDueItems.some(
+        (row) => row.stableKey === reflectionKey,
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named housing outcome landing", () => {
+  it("uses active renter and recorded housing-crisis household facts", () => {
+    const fixture = smallWorld({
+      place: "OH",
+      date: "2026-01-01",
+      household: true,
+      offices: ["governor"],
+      seed: "ow-spine-housing-recorded-recipients",
+    });
+    const month = makeIsoDate("2026-01-01");
+    const state = stateJurisdictionForKey("US-OH");
+    if (!state) throw new Error("Ohio's state jurisdiction must be present.");
+    const personId = fixture.world.personOrder.find(
+      (id) => id !== fixture.personId,
+    );
+    if (!personId)
+      throw new Error("The small world needs another household member.");
+    const householdId = fixture.world.history.households[0]?.id;
+    if (!householdId)
+      throw new Error("The small world needs its recorded household.");
+    const provenance = {
+      kind: "authored" as const,
+      note: "A seeded housing outcome landing test record.",
+    };
+    let world = recordSnapParticipation(fixture.world, {
+      householdId,
+      enrolled: true,
+      monthlyBenefitMinor: 25000,
+      benefitSource: "seeded housing recipient fixture",
+      causeId: householdId,
+      applicationId: "ow-spine-housing-test:snap-application",
+      effectiveAt: month,
+      householdSize: fixture.world.history.householdMemberships.length,
+      monthlyWorkHours: null,
+      incomeToThreshold: 0.5,
+    });
+    const tenureId = "test:ow-spine-housing:rental-tenure";
+    const nextSequence = world.history.nextSequence;
+    const tenure = {
+      id: tenureId,
+      stableKey: tenureId,
+      sequence: nextSequence,
+      holder: { kind: "household" as const, householdId },
+      dwellingId: "test:ow-spine-housing:dwelling",
+      startedAt: month,
+      kind: "lease:rented",
+      provenance,
+    } as (typeof world.history.housingTenures)[number];
+    const tenureState = {
+      id: "test:ow-spine-housing:rental-tenure:active",
+      stableKey: "test:ow-spine-housing:rental-tenure:active",
+      sequence: nextSequence + 1,
+      housingTenureId: tenureId,
+      effectiveAt: month,
+      status: "active" as const,
+      context: null,
+      provenance,
+      supersedesStateId: null,
+    } as (typeof world.history.housingTenureStates)[number];
+    const eviction = {
+      id: "test:ow-spine-housing:eviction",
+      stableKey: "test:ow-spine-housing:eviction",
+      sequence: nextSequence + 2,
+      type: RENT_EVENTS.evicted,
+      occurredAt: month,
+      recordedAt: month,
+      jurisdictionId: fixture.jurisdictionId,
+      locationJurisdictionId: fixture.jurisdictionId,
+      involvedEntityIds: [householdId],
+    } as unknown as (typeof world.history.events)[number];
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: nextSequence + 3,
+        housingTenures: [...world.history.housingTenures, tenure],
+        housingTenureStates: [
+          ...world.history.housingTenureStates,
+          tenureState,
+        ],
+        events: [...world.history.events, eviction],
+      },
+    };
+
+    const causesByMeasure = new Map<
+      string,
+      { key: string; factor: number }[]
+    >();
+    for (const row of plannedHousing) {
+      const causes = causesByMeasure.get(row.outcome) ?? [];
+      const factor =
+        row.key === "housing-by-right-to-new-buildings" ? 1.05 : 0.95;
+      causes.push({ key: row.key, factor });
+      causesByMeasure.set(row.outcome, causes);
+    }
+    const records: PlaceOutcomeRecord[] = [...causesByMeasure].map(
+      ([measure, causes]) => ({
+        measure,
+        placeKey: "US-OH",
+        jurisdictionId: state.id,
+        month,
+        base: 100,
+        structural: 100,
+        multiplier: 1,
+        value: 100,
+        causes,
+      }),
+    );
+    world = {
+      ...world,
+      placeOutcomes: { months: [{ month, records }] },
+    };
+
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const landings = landed.placeOutcomes?.landings?.filter(
+      (row) => row.personId === personId,
+    );
+    expect(landings?.map((row) => row.linkKey).sort()).toEqual(
+      plannedHousing.map((row) => row.key).sort(),
+    );
+    const supply = landings?.find(
+      (row) => row.linkKey === "rent-control-to-rental-supply",
+    );
+    const tenantStays = landings?.find(
+      (row) => row.linkKey === "rent-control-to-tenant-stays",
+    );
+    const housingFirst = landings?.find(
+      (row) => row.linkKey === "housing-first-to-homelessness",
+    );
+    expect(supply?.direction).toBe("cost");
+    expect(tenantStays?.direction).toBe("gain");
+    expect(housingFirst).toMatchObject({
+      recipientRule: "evicted-household-without-home-member-estimate",
+      direction: "gain",
+      estimatedFrom: plannedHousing.find(
+        (row) => row.key === "housing-first-to-homelessness",
+      )?.estimatedFrom,
+    });
+    if (!housingFirst)
+      throw new Error(
+        "The recorded housing crisis did not reach the resident.",
+      );
+    const reflectionKey = livedOutcomeReflectionKey(personId, housingFirst.id);
     expect(
       landed.history.futureDueItems.some(
         (row) => row.stableKey === reflectionKey,
