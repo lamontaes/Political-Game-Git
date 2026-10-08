@@ -20,6 +20,7 @@ import { facetComfortingEffects } from "./facet-comforting";
 import { facetCompetitiveEffects } from "./facet-competitive";
 import { facetContentedEffects } from "./facet-contented";
 import { facetCruelEffects } from "./facet-cruel";
+import { facetMischievousEffects } from "./facet-mischievous";
 import { facetPhilanthropicEffects } from "./facet-philanthropic";
 import { facetPoliteEffects } from "./facet-polite";
 import { facetPracticalEffects } from "./facet-practical";
@@ -67,6 +68,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCompetitiveEffects,
     ...facetContentedEffects,
     ...facetCruelEffects,
+    ...facetMischievousEffects,
     ...facetPhilanthropicEffects,
     ...facetPoliteEffects,
     ...facetPracticalEffects,
