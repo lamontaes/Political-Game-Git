@@ -55,7 +55,10 @@ import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
-import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "./governing/ordinance-effective-date";
+import {
+  computeLegislativeEffectiveDate,
+  resolveCouncilEffectiveDate,
+} from "./legislative-effective-date";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 
@@ -761,12 +764,10 @@ export function congressionalReviewEffectiveOn(
   transmittedOn: IsoDate,
   days: number,
 ): IsoDate {
-  const firstCounted = isWeekend(transmittedOn) ? 0 : 1;
-  const lastDay =
-    firstCounted === 1 && days === 1
-      ? transmittedOn
-      : addWeekdays(transmittedOn, days - firstCounted);
-  return addDays(lastDay, 1);
+  return computeLegislativeEffectiveDate(
+    { kind: "congressional-review", days },
+    transmittedOn,
+  )!;
 }
 
 /** Whoever holds this government's executive office today, if anyone does. */
@@ -802,7 +803,6 @@ export function completeCouncilPassage(
   const government = governmentKey
     ? municipalGovernmentByKey(governmentKey)
     : null;
-  const reading = government ? municipalProcedureReading(government) : null;
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const presentment = pack.executive.presentmentRequired;
   let next = enrollMeasure(world, {
@@ -831,10 +831,6 @@ export function completeCouncilPassage(
         immediateReaction: null,
       },
     });
-    const effectiveFromPassage =
-      reading?.procedure.effectivePublication?.includes(
-        "from the date of its passage",
-      ) === true;
     next = recordEnactment(next, {
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
@@ -844,11 +840,12 @@ export function completeCouncilPassage(
       ...(governmentKey
         ? {
             // A filed typed levy states its own delay; the later date rules.
-            effectiveAt:
-              filedTaxEffectiveDate(next, measure.id) ??
-              (effectiveFromPassage
-                ? next.currentDate
-                : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS)),
+            effectiveAt: resolveCouncilEffectiveDate(
+              pack,
+              next.currentDate,
+              actAmendsCriminalCode(next, measure),
+              filedTaxEffectiveDate(next, measure.id),
+            ),
           }
         : {}),
     });
@@ -901,29 +898,12 @@ function enactCouncilMeasure(
   governmentKey: string,
   measure: LegislativeMeasureRecord,
 ): World {
-  const review = councilActionDays(world, measure, "congressionalReviewDays");
-  const criminalReview = councilActionDays(
-    world,
-    measure,
-    "criminalCodeReviewDays",
+  const effectiveAt = resolveCouncilEffectiveDate(
+    legislativeRulePackForWorld(world, measure.rulePackId),
+    world.currentDate,
+    actAmendsCriminalCode(world, measure),
+    filedTaxEffectiveDate(world, measure.id),
   );
-  const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = municipalProcedureReading(government);
-  const reviewDays = actAmendsCriminalCode(world, measure)
-    ? criminalReview
-    : review;
-  const effectiveAt =
-    review === null && filedTaxEffectiveDate(world, measure.id)
-      ? filedTaxEffectiveDate(world, measure.id)
-      : review !== null
-        ? reviewDays !== null
-          ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
-          : null
-        : reading.procedure.effectivePublication?.includes(
-              "from the date of its passage",
-            )
-          ? world.currentDate
-          : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,

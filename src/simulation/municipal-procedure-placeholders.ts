@@ -28,6 +28,7 @@ export interface MunicipalProcedurePlaceholder {
    * advance past it.
    */
   readonly everyReadingVoted: boolean;
+  readonly committeeRequired?: boolean;
   readonly researchQuestionId: string;
   readonly note: string;
 }
@@ -37,8 +38,9 @@ const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
     introductionSponsorship:
       "Any member of the Council may introduce an act. (A placeholder: the Council's own rules were not read.)",
     everyReadingVoted: true,
+    committeeRequired: true,
     researchQuestionId: "dc-council-rules-of-organization-and-procedure",
-    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, no committee stage is modeled, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
+    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, a standing committee reports each act, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
   },
 };
 

@@ -1,3 +1,7 @@
+import {
+  resolveTaxEffectiveDate,
+  STATUTE_EFFECTIVE_DEFAULT_DAYS,
+} from "./legislative-effective-date";
 import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
 import {
   queryFiscalAuthority,
@@ -611,17 +615,13 @@ export function taxPolicyEffectiveDate(
   },
   terms: TaxTerms,
 ): IsoDate {
-  const profileDate = addDays(
+  return resolveTaxEffectiveDate(
     enactment.resolvedAt,
-    terms.effectiveDelayDays ?? 90,
+    terms.effectiveDelayDays ?? STATUTE_EFFECTIVE_DEFAULT_DAYS,
+    terms.legalBaselineAssumption === "authored-state-game-profile"
+      ? enactment.effectiveAt
+      : null,
   );
-  if (
-    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
-    !enactment.effectiveAt ||
-    enactment.effectiveAt <= profileDate
-  )
-    return profileDate;
-  return enactment.effectiveAt;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.

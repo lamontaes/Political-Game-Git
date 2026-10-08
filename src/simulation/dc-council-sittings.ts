@@ -1,34 +1,16 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import { fileMemberAgendaBills } from "./governing/member-agenda";
-import { applyInstitutionSessionEnd } from "./governing/legislative-clock";
+import { applyInstitutionStep } from "./governing/legislative-clock";
 import { legislativeSittingHandler } from "./governing/legislative-sittings";
 import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { mayAnswerQuestion } from "./governing/question-authority";
-import {
-  COUNCIL_VOTE_NOTE,
-  decideCouncilVote,
-  ensureCouncilPrinciples,
-} from "./governing/council-lawmaking";
-import { measurePosition, placeMeasureOnCalendar } from "./legislation";
-import { chamberByKey } from "./legislature-rules";
-import { offerPlannedAmendment } from "./governing/amendment-authors";
-import {
-  amendmentAdmissible,
-  floorStageTakesAmendments,
-} from "./governing/chamber-procedure";
-import { publicPartyOf } from "./governing/chamber-votes";
-import { personName } from "./people";
+import { measurePosition } from "./legislation";
 import {
   municipalGovernmentByKey,
   municipalRulePackFor,
 } from "./municipal-government";
-import {
-  municipalExecutiveHolder,
-  recordCouncilReadingVote,
-  recordCouncilOverrideVote,
-} from "./municipal-ordinance-procedure";
 import {
   municipalGovernmentJurisdictionId,
   municipalMeasureKey,
@@ -158,7 +140,7 @@ function fileActs(world: World): World {
 }
 
 /** Every act a non-player sponsor carries takes its next lawful step. */
-function moveActs(world: World): World {
+function advanceCouncilMeasures(world: World): World {
   const player =
     world.control.kind === "person" ? world.control.personId : null;
   const measures = municipalMeasures(world, DC_GOVERNMENT_KEY);
@@ -178,101 +160,15 @@ function moveActs(world: World): World {
         !measurePosition(current, measureId).terminal,
       );
     },
-    takeStep: (current, measureId) => {
-      const measure = measures.find((row) => row.id === measureId)!;
-      let next = current;
-      const sessionEnd = applyInstitutionSessionEnd(next, measure.id);
-      if (sessionEnd) {
-        return "world" in sessionEnd && sessionEnd.world
-          ? sessionEnd.world
-          : next;
-      }
-      const phase = measurePosition(next, measure.id).phase;
-      if (phase === "awaiting-referral")
-        return placeMeasureOnCalendar(next, {
-          stableKey: `${measure.stableKey}:agenda`,
-          measureId: measure.id,
-          rationale:
-            "Placed before the Council for its first reading (no committee stage is modeled; placeholder).",
-        });
-      if (phase !== "on-floor" && phase !== "awaiting-override") return next;
-      const members = councilMembers(next);
-      const mayor = municipalExecutiveHolder(next, DC_GOVERNMENT_KEY);
-      next = ensureCouncilPrinciples(next, [
-        ...members,
-        ...(mayor ? [{ personId: mayor }] : []),
-      ]);
-      if (phase === "on-floor") {
-        const position = measurePosition(next, measure.id);
-        const chamber = chamberByKey(pack, "council");
-        const stage = chamber.floorStages.find(
-          (row) => row.stageKey === position.floorStageKey,
-        );
-        if (
-          stage &&
-          members.length > 0 &&
-          members.every((seat) => next.people[seat.personId]) &&
-          (!position.earliestNextFloorDate ||
-            position.earliestNextFloorDate <= next.currentDate) &&
-          floorStageTakesAmendments(chamber, stage)
-        ) {
-          next = offerPlannedAmendment(next, {
-            measureId: measure.id,
-            chamber,
-            stage,
-            members: members.map((seat, index) => ({
-              memberKey: `council:${index + 1}`,
-              personId: seat.personId,
-              name: personName(next.people[seat.personId]!),
-              caucusLabel: publicPartyOf(next, seat.personId) ?? "No party",
-            })),
-            stableKey: `${measure.stableKey}:reading:${stage.stageKey}:amendment`,
-            nonpartisan: false,
-            admissible: (bill, part) =>
-              mayAnswerQuestion(
-                next,
-                measure.jurisdictionId,
-                part.propositionId,
-              ) &&
-              amendmentAdmissible(next, pack, chamber.chamberKey, bill, part)
-                .admissible,
-          });
-        }
-      }
-      const dispositions = decideCouncilVote(next, {
-        stableKey: `${measure.stableKey}:${phase === "awaiting-override" ? "override" : "vote"}:${next.currentDate}`,
-        measureId: measure.id,
-        jurisdictionId: measure.jurisdictionId,
-        members,
-        playerPersonId: player,
-        questionLabel:
-          phase === "awaiting-override"
-            ? `Reenact ${measure.designation} over the executive return`
-            : `Pass ${measure.designation}`,
-        executivePersonId: mayor,
-        // The Council is elected in party primaries, and the Home Rule Act
-        // limits how many at-large seats one party may hold (D.C. Code
-        // § 1-204.01), so its members' parties are cues.
-        nonpartisan: false,
-      });
-      const recordVote =
-        phase === "awaiting-override"
-          ? recordCouncilOverrideVote
-          : recordCouncilReadingVote;
-      const result = recordVote(next, {
-        governmentKey: DC_GOVERNMENT_KEY,
-        measureId: measure.id,
-        dispositions,
-        provenance: {
-          method: "member-decisions",
-          note: COUNCIL_VOTE_NOTE,
-          sourceEntityIds: [measure.id],
+    takeStep: (current, measureId) =>
+      applyInstitutionStep(current, measureId, (unchanged) => unchanged, {
+        municipalCouncil: {
+          governmentKey: DC_GOVERNMENT_KEY,
+          nonpartisan: false,
         },
-      });
-      // A reading that may not be taken yet waits for a later sitting.
-      return result.ok ? result.world : next;
-    },
-    applyResult: (_current, _measureId, result) => result,
+      }),
+    applyResult: (current, _measureId, result) =>
+      "world" in result && result.world ? result.world : current,
   });
 }
 
@@ -288,7 +184,7 @@ export function dcCouncilSittingHandler(
       outcomeEventId: null,
     };
   }
-  let next = moveActs(world);
+  let next = advanceCouncilMeasures(world);
   next = fileActs(next);
   next = scheduleDcCouncilSitting(next);
   return {

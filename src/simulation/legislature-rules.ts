@@ -522,6 +522,12 @@ export interface ExecutiveRule {
 }
 
 export interface EnactmentRule {
+  /** Applied only when the act explicitly carries an admitted emergency clause. */
+  readonly emergencyEffectiveSchedule?: RuleValue<{
+    readonly kind: "days-after-enactment";
+    readonly days: number;
+  }>;
+
   /** Whether becoming law and taking effect are separate dates here. */
   readonly effectiveDateDistinctFromEnactment: RuleValue<boolean>;
   readonly defaultEffectiveRule: RuleValue<string>;
@@ -1310,6 +1316,18 @@ export function assertRulePackIntegrity(pack: LegislativeRulePack): void {
     pack.enactment.defaultEffectiveRule,
     "default effective rule",
   );
+  const emergency = pack.enactment.emergencyEffectiveSchedule;
+  if (emergency)
+    assertRuleValue(emergency, "emergency effective schedule", (value) => {
+      if (
+        value.kind !== "days-after-enactment" ||
+        !Number.isSafeInteger(value.days) ||
+        value.days < 0
+      )
+        throw new Error(
+          "Default effective schedule must name a nonnegative number of days after enactment.",
+        );
+    });
   const schedule = pack.enactment.defaultEffectiveSchedule;
   if (schedule) {
     assertRuleValue(schedule, "default effective schedule", (value) => {

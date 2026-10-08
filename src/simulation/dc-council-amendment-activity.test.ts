@@ -18,10 +18,14 @@ import {
 } from "./municipal-public-work";
 import {
   introduceMeasure,
+  COMMITTEE_HEARING_TRANSITION_KEY,
+  committeeHearingTransitionHandler,
   measureActions,
   measureAmendments,
   measurePosition,
   placeMeasureOnCalendar,
+  referMeasure,
+  recordCommitteeDisposition,
 } from "./legislation";
 import { nextMeasureNumbering } from "./measure-numbering";
 import { chamberByKey } from "./legislature-rules";
@@ -43,7 +47,7 @@ const home =
     new SeededRng(seed).integer(0, CHIEF_EXECUTIVE_JURISDICTIONS.length)
   ]!;
 
-function fixture(playerSponsored = false) {
+function fixture(playerSponsored = false, onFloor = true) {
   const small = smallWorld({ place: home, people: 4, seed });
   let world = small.world;
   // Reuse the real DC scenario only for its canonical jurisdictions. The
@@ -121,6 +125,33 @@ function fixture(playerSponsored = false) {
     propositionAnswers: [{ propositionId: proposition.id, answer: "yes" }],
   });
   const measure = world.history.legislativeMeasures!.at(-1)!;
+  if (!onFloor) return { world, measure, seats, chamber, pack };
+  const committee = chamber.committees[0]!;
+  world = referMeasure(world, {
+    stableKey: `${measure.stableKey}:referral`,
+    measureId: measure.id,
+    committeeKey: committee.committeeKey,
+  });
+  world = recordCommitteeDisposition(world, {
+    stableKey: `${measure.stableKey}:committee`,
+    measureId: measure.id,
+    recommendation: "favorable",
+    dispositions: seats
+      .slice(0, committee.appointedMembers)
+      .map((seat, index) => ({
+        memberKey: `council:${index + 1}`,
+        personId: seat.personId,
+        name: seat.personId,
+        disposition: "yea" as const,
+        reason: "Authored committee support for the reading fixture.",
+      })),
+    rationale: "Authored committee report for the reading fixture.",
+    provenance: {
+      method: "authored-fixture",
+      note: "Reading fixture setup.",
+      sourceEntityIds: [],
+    },
+  });
   world = placeMeasureOnCalendar(world, {
     stableKey: `${measure.stableKey}:agenda`,
     measureId: measure.id,
@@ -131,6 +162,64 @@ function fixture(playerSponsored = false) {
 afterEach(() => vi.restoreAllMocks());
 
 describe(`DC amendment reading activity (seed-drawn home ${home})`, () => {
+  it("takes an actual seated act through the shared committee driver before its first reading", () => {
+    const setup = fixture(false, false);
+    expect(measurePosition(setup.world, setup.measure.id).phase).toBe(
+      "awaiting-referral",
+    );
+    const referred = dcCouncilSittingHandler(setup.world).world;
+    expect(measurePosition(referred, setup.measure.id).phase).toBe(
+      "in-committee",
+    );
+    const scheduled = dcCouncilSittingHandler(referred).world;
+    const hearing = scheduled.history.futureDueItems.find(
+      (item) =>
+        item.transitionKey === COMMITTEE_HEARING_TRANSITION_KEY &&
+        item.entityIds.includes(setup.measure.id),
+    )!;
+    expect(hearing).toBeDefined();
+    const heard = committeeHearingTransitionHandler(
+      {
+        ...scheduled,
+        currentDate: hearing.dueAt,
+        currentMoment: { ...scheduled.currentMoment, date: hearing.dueAt },
+      },
+      hearing,
+    ).world;
+    const reported = dcCouncilSittingHandler(heard).world;
+    const votes = reported.history.legislativeVotes!.filter(
+      (vote) => vote.measureId === setup.measure.id,
+    );
+    expect(votes).toHaveLength(1);
+    expect(votes[0]!.purpose).toBe("committee-report");
+    expect(votes[0]!.dispositions).toHaveLength(
+      setup.chamber.committees[0]!.appointedMembers,
+    );
+    expect(
+      votes[0]!.dispositions.every((vote) =>
+        setup.seats.some((seat) => seat.personId === vote.personId),
+      ),
+    ).toBe(true);
+    expect(measurePosition(reported, setup.measure.id).phase).toBe(
+      "awaiting-floor",
+    );
+    const calendared = dcCouncilSittingHandler(reported).world;
+    expect(measurePosition(calendared, setup.measure.id).phase).toBe(
+      "on-floor",
+    );
+    const read = dcCouncilSittingHandler(calendared).world;
+    expect(
+      measureActions(read, setup.measure.id).some(
+        (action) => action.kind === "committee-reported",
+      ),
+    ).toBe(true);
+    expect(
+      read.history.legislativeVotes!.filter(
+        (vote) => vote.measureId === setup.measure.id,
+      ),
+    ).toHaveLength(2);
+  });
+
   it("keeps the canonical unread amendment rule closed while recording a reading", () => {
     expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
     const setup = fixture();

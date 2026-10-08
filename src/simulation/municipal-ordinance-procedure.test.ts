@@ -8,6 +8,8 @@ import {
   measureActions,
   measureEnactment,
   measurePosition,
+  referMeasure,
+  recordCommitteeDisposition,
 } from "./legislation";
 import {
   municipalGovernmentByKey,
@@ -107,7 +109,28 @@ function introduced(world: World, key: string, designation = "Ord. 26-1") {
   });
   if (!filed.ok) throw new Error(filed.reason);
   const measure = (filed.world.history.legislativeMeasures ?? []).at(-1)!;
-  const placed = placeMunicipalOrdinanceOnAgenda(filed.world, {
+  let reported = filed.world;
+  const rules = municipalRulePackFor(municipalGovernmentByKey(key)!);
+  if (rules.ok && rules.pack.chambers[0]!.committees.length) {
+    const committee = rules.pack.chambers[0]!.committees[0]!;
+    reported = referMeasure(reported, {
+      stableKey: `${measure.stableKey}:referral`,
+      measureId: measure.id,
+      committeeKey: committee.committeeKey,
+    });
+    const members = municipalSeats(reported, key)
+      .slice(0, committee.appointedMembers)
+      .map((seat) => seat.personId);
+    reported = recordCommitteeDisposition(reported, {
+      stableKey: `${measure.stableKey}:committee`,
+      measureId: measure.id,
+      recommendation: "favorable",
+      dispositions: roll(members, members.length, 0),
+      rationale: "Authored committee report for the reading fixture.",
+      provenance: PROVENANCE,
+    });
+  }
+  const placed = placeMunicipalOrdinanceOnAgenda(reported, {
     governmentKey: key,
     measureId: measure.id,
   });
@@ -317,7 +340,13 @@ describe("a Charlottesville general ordinance through the shared measure engine"
       second.world.history.legislativeVotes?.filter(
         (vote) => vote.measureId === measureId,
       ),
-    ).toHaveLength(2);
+    ).toHaveLength(3);
+    expect(
+      second.world.history.legislativeVotes!.filter(
+        (vote) =>
+          vote.measureId === measureId && vote.purpose === "committee-report",
+      ),
+    ).toHaveLength(1);
     expect(deserializeWorld(serializeWorld(second.world))).toEqual(
       second.world,
     );
