@@ -1,5 +1,5 @@
 # Staging slot contract
 
-Staged rooms now resolve a lean pose directly, retain the required front, mirrored three-quarter, and back facing map, and have a surface registry entry. Places without a completed visual survey carry an explicit placeholder request to inspect all five backdrop variants; the request does not invent surface geometry. Existing measured slots continue to reference their declared surface IDs and kinds.
+Staged rooms select a dedicated lean pose and slot kind; until lean artwork is available the pack falls back to hand-on-hip rather than treating lean spots as standing. Facing remains viewer/front, left/right/mirrored three-quarter, and away/back. Every staged place has a surface registry entry; unmeasured places carry explicit review requests instead of invented geometry, and measured slots remain linked by ID and kind.
 
-The scene registry still exposes legacy anchors for painted production scenes. The slot contract test reports those rooms and development fixtures so the remaining migration is visible while registry consumers are moved to staging.
+Legacy scene anchors remain available to production scene consumers. The contract test reports retained production anchors and the development fixture rooms that still need them, making that migration visible.
