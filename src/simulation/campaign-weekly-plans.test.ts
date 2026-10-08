@@ -1,6 +1,9 @@
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
-import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
+import {
+  namedSeatForFixture,
+  withRecordedStartingConditions,
+} from "../../tests/fixtures/campaign-fixture";
 
 import {
   addDays,
@@ -71,7 +74,10 @@ function fundedCampaign(
   const personId = created.personOrder.find((candidate) =>
     fixtureMeetsRecordedCandidacyAge(created, candidate),
   )!;
-  const base: World = { ...created, control: { kind: "person", personId } };
+  const base: World = withRecordedStartingConditions({
+    ...created,
+    control: { kind: "person", personId },
+  });
   const staffPersonIds = base.personOrder
     .filter((candidate) => candidate !== personId)
     .filter((candidate) => fixtureMeetsRecordedCandidacyAge(base, candidate))
