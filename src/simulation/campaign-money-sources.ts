@@ -12,7 +12,7 @@ import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
-import leftoverFundsRules from "../../data/research/campaign-reality/leftover-funds-rules.json";
+import leftoverFundsRules from "../../data/research/campaign-reality/leftover-funds-rules.json" with { type: "json" };
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { electionContestResult } from "./election-contests";
 
