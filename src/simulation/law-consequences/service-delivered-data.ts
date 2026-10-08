@@ -1,6 +1,6 @@
 import type { LawConsequenceRow } from "../law-consequence-types";
 import type { EducationContextKind, EducationProgramKind } from "../types";
-import housingFirstService from "../../../data/research/health/housing-first-service.json";
+import housingFirstService from "../../../data/research/health/housing-first-service.json" with { type: "json" };
 
 export const SERVICE_SELECTOR = "service.completed-activity-participants";
 export const SERVICE_ACTION = "record-delivered-service";
