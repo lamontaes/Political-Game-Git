@@ -42,12 +42,9 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "health-coverage",
     "housing-permit-units",
     "inclusionary-affordable-rent",
-    "justice.held-before-trial",
-    "justice.released-before-trial",
     "law.pay-compensation",
     "local.officeholder-retired",
     "local.wards-drawn",
-    "minimum-custody-months",
     "minimum-wage-compensation",
     "paid-leave-benefit",
     "paid-leave-budget-cost",
@@ -58,6 +55,12 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "teacher-pay",
     "work-compensation-payment",
   ],
+  /** Historical stamp strings accepted on saved records but no longer written. */
+  historical: [
+    "justice.held-before-trial",
+    "justice.released-before-trial",
+    "minimum-custody-months",
+  ],
 } as const;
 
 export type LawConsequenceKind =
@@ -66,11 +69,20 @@ export type LawConsequenceKind =
 /** Existing bespoke stamp labels awaiting migration; new kinds use LawConsequenceKind. */
 export type LegacyEffectKind = (typeof LAW_EFFECT_KIND_REGISTRY.legacy)[number];
 
-export type LawEffectKind = LawConsequenceKind | LegacyEffectKind;
+export type HistoricalEffectKind =
+  (typeof LAW_EFFECT_KIND_REGISTRY.historical)[number];
+
+/** Persisted stamp labels, including historical labels accepted on old saves. */
+export type LawEffectKind =
+  LawConsequenceKind | LegacyEffectKind | HistoricalEffectKind;
+
+/** Labels current writers may add to saved records. */
+export type LawEffectWriterKind = LawConsequenceKind | LegacyEffectKind;
 
 export const LAW_EFFECT_KINDS: readonly LawEffectKind[] = [
   ...LAW_EFFECT_KIND_REGISTRY.consequences,
   ...LAW_EFFECT_KIND_REGISTRY.legacy,
+  ...LAW_EFFECT_KIND_REGISTRY.historical,
 ];
 
 /** Units are checked by the evaluator before a handler can write a record. */

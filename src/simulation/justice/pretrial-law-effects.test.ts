@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { appendFileSync } from "node:fs";
 
-import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
-import {
-  generateOpeningLife,
-  prepareOpeningLife,
-} from "../../presentation/opening-life";
+import { smallWorld } from "../../../tests/fixtures/small-world";
+import { personName } from "../people";
+import { createOrganization, createWorkRelationship } from "../life";
+import type { EntityId, World } from "../types";
 import { addDays } from "../dates";
 import { isLawEffectStamp } from "../law-effect-stamp";
+import type { LawEffectStamp } from "../law-effect-stamp";
 import type { LawEffectStampedRecord } from "../law-effect-stamp";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { SeededRng, pickDistinct } from "../rng";
@@ -20,6 +20,61 @@ import {
   PROSECUTION_ESTIMATE,
   PROSECUTION_CHARGED_EVENT,
 } from "./prosecution";
+
+function seatProsecutor(
+  world: World,
+  defendantId: EntityId,
+  jurisdictionId: World["people"][string]["homeJurisdictionId"],
+): World {
+  const person = Object.values(world.people).find(
+    (candidate) =>
+      candidate.id !== defendantId &&
+      (world.control.kind !== "person" ||
+        candidate.id !== world.control.personId),
+  );
+  if (!person) throw new Error("No resident can be seated as prosecutor.");
+  const provenance = {
+    kind: "authored" as const,
+    note: "Controlled recorded prosecutor appointment fixture; no opening official is invented.",
+  };
+  let next = createOrganization(world, {
+    stableKey: "fixture:prosecutor:office",
+    formedAt: world.currentDate,
+    provenance,
+    initialProfile: {
+      name: "Recorded prosecution office",
+      classification: "sector:government",
+      locationJurisdictionId: jurisdictionId,
+    },
+  });
+  const organizationId = next.history.organizations.at(-1)!.id;
+  next = createWorkRelationship(next, {
+    stableKey: "fixture:prosecutor:appointment",
+    personId: person.id,
+    organizationId,
+    startedAt: world.currentDate,
+    kind: "employment:executive-office",
+    compensation: "unpaid",
+    authority: "self-directed",
+    dependency: "independent",
+    economicRisk: "organization-borne",
+    provenance,
+    initialRole: {
+      title: "Prosecutor",
+      occupationClassification: "profession:prosecutor",
+      locationJurisdictionId: jurisdictionId,
+      timeDemand: {
+        expectedWeekly: { minimumHours: 0, maximumHours: 0 },
+        attention: "moderate",
+        concurrency: "mostly-exclusive",
+        scheduleRigidity: "mixed",
+        interruptibility: "limited",
+        locationJurisdictionId: jurisdictionId,
+      },
+    },
+  });
+  return next;
+}
 
 describe("saved pretrial law attribution", () => {
   const baseSeed = "team9-pretrial-stamp-20260930-five";
@@ -39,17 +94,14 @@ describe("saved pretrial law attribution", () => {
             stateJurisdictionKey: state.jurisdictionKey,
             scope: "state",
           })[0]!;
-      const game = generateOpeningLife(
-        prepareOpeningLife({
-          ...DEFAULT_NEW_GAME_SETUP,
-          seed,
-          placeKey: place.key,
-          startAge: 40,
-          questionnaire: "skipped",
-        }),
-      ).game!;
-      const subjectId = game.playerPersonId;
-      const jurisdictionId = game.world.people[subjectId]!.homeJurisdictionId;
+      const fixture = smallWorld({ place: place.key, seed, people: 6 });
+      const subjectId = fixture.personId;
+      const jurisdictionId =
+        fixture.world.people[subjectId]!.homeJurisdictionId;
+      const game = {
+        world: seatProsecutor(fixture.world, subjectId, jurisdictionId),
+        playerPersonId: subjectId,
+      };
       const referral = referForProsecution(game.world, {
         stableKey: "team9-stamp-case",
         subjectPersonId: subjectId,
@@ -57,8 +109,8 @@ describe("saved pretrial law attribution", () => {
         offenseKey: "crime:robbery",
         referredBy: { kind: "police", label: "police", personId: null },
         basisEventIds: [],
-        evidence: "testimony",
-        standingFindings: 0,
+        evidence: "documentary",
+        standingFindings: 6,
       });
       // An authored historical referral is due today. Keep canonical time
       // untouched: this focused writer fixture does not advance every other
@@ -144,6 +196,7 @@ describe("saved pretrial law attribution", () => {
       expect(saved.lawEffectStamps).toHaveLength(1);
       const stamp = saved.lawEffectStamps![0]!;
       expect(isLawEffectStamp(stamp)).toBe(true);
+      expect(stamp.effectKind).toBe("legal-outcome");
       expect(stamp.governingLawKey).toBe(law!.measureId);
       expect(stamp.questionKey).toBe(
         "us-policy-positions:justice-public-safety.end-cash-bail",
@@ -151,15 +204,48 @@ describe("saved pretrial law attribution", () => {
       expect(stamp.jurisdictionId).toBe(jurisdictionId);
       expect(stamp.sourceRecordIds).toContain(referral.referralId);
       expect(stamp.sourceRecordIds).toContain(events[0]!.id);
+      const savedEvent = reloaded.history.events.find(
+        (event) => event.id === events[0]!.id,
+      )!;
+      const historicalStamp = {
+        ...stamp,
+        effectKind: savedEvent.type as LawEffectStamp["effectKind"],
+      };
+      const legacyWorld = {
+        ...reloaded,
+        history: {
+          ...reloaded.history,
+          events: reloaded.history.events.map((event) =>
+            event.id === savedEvent.id
+              ? { ...event, lawEffectStamps: [historicalStamp] }
+              : event,
+          ),
+        },
+      };
+      const legacyLoaded = deserializeWorld(serializeWorld(legacyWorld));
+      const legacyEvent = legacyLoaded.history.events.find(
+        (event) => event.id === savedEvent.id,
+      )! as typeof savedEvent & LawEffectStampedRecord;
+      expect(legacyEvent.type).toBe(savedEvent.type);
+      expect(legacyEvent.lawEffectStamps).toEqual([historicalStamp]);
+      expect(advanceProsecutions(legacyLoaded).history.events).toEqual(
+        legacyLoaded.history.events,
+      );
       const receipt = JSON.stringify({
         seed,
         place: place.key,
         personId: subjectId,
+        personName: personName(world.people[subjectId]!),
+        scope: "controlled small-world referral; not natural opening",
         consequence: events[0]!.summary,
         lawKey: stamp.governingLawKey,
         stampedConsequences: events.length,
         jurisdiction: state.jurisdictionKey,
         reloadedStampValid: true,
+        eventType: savedEvent.type,
+        canonicalStamp: stamp,
+        historicalStamp,
+        legacyReloadIdempotent: true,
       });
       if (process.env.TEAM9_PRETRIAL_RECEIPT)
         appendFileSync(process.env.TEAM9_PRETRIAL_RECEIPT, `${receipt}\n`);

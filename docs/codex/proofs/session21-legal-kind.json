@@ -1,0 +1,478 @@
+{
+  "baselineHead": "af8c098372379836cc22a0b487d10f79e2049a32",
+  "baseline": {
+    "passed": 71,
+    "failed": 0,
+    "durationSeconds": 33.96
+  },
+  "scope": "Retire three unused legal stamp writer labels only. Existing sentence writer and custody record discriminator remain unchanged. Controlled fictional custody-floor enactments are not current legal values.",
+  "retiredWriterLabels": [
+    "justice.held-before-trial",
+    "justice.released-before-trial",
+    "minimum-custody-months"
+  ],
+  "canonicalStampKind": "legal-outcome",
+  "custodyRecordKindUnchanged": "minimum-custody-months",
+  "watchedSentences": [
+    {
+      "seed": "team9-g10-floor:US-IA",
+      "place": "US-IA",
+      "personId": "person_ed9c1b53516e3b3b",
+      "name": "Ramon Munoz",
+      "sentenceId": "event_86213720d0b54a6b",
+      "months": 120,
+      "recordedChoice": "term:minimum",
+      "operativeBounds": {
+        "minimumMonths": 120,
+        "maximumMonths": 120
+      },
+      "measureId": "legislative-measure_530f417efc72546f",
+      "summary": "Ramon Munoz was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_b8d49bd51aad60b1",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_530f417efc72546f",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-08-19",
+          "sourceRecordIds": [
+            "event_86213720d0b54a6b",
+            "legislative-measure_530f417efc72546f",
+            "legislative-enactment_95c511741229d6dd",
+            "legislative-provision_d0c141622672b340"
+          ]
+        }
+      ],
+      "legacyKindsReloaded": [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months"
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-LA",
+      "place": "US-LA",
+      "personId": "person_f55b52dc6caea87e",
+      "name": "Zara Patton",
+      "sentenceId": "event_48fc788ce9348d16",
+      "months": 120,
+      "recordedChoice": "term:minimum",
+      "operativeBounds": {
+        "minimumMonths": 120,
+        "maximumMonths": 120
+      },
+      "measureId": "legislative-measure_9c141773680d0c1d",
+      "summary": "Zara Patton was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_5a9942c702c43300",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_9c141773680d0c1d",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-07-20",
+          "sourceRecordIds": [
+            "event_48fc788ce9348d16",
+            "legislative-measure_9c141773680d0c1d",
+            "legislative-enactment_f5bec07436312482",
+            "legislative-provision_fc1a1a7d694fb9e7"
+          ]
+        }
+      ],
+      "legacyKindsReloaded": [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months"
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-TX",
+      "place": "US-TX",
+      "personId": "person_b8dfa6b0571a0178",
+      "name": "Adam Tate",
+      "sentenceId": "event_51a0ff300bffb61c",
+      "months": 120,
+      "recordedChoice": "term:minimum",
+      "operativeBounds": {
+        "minimumMonths": 120,
+        "maximumMonths": 240
+      },
+      "measureId": "legislative-measure_bf49bb7374a06edf",
+      "summary": "Adam Tate was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_f5afd4285a917ba1",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_bf49bb7374a06edf",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_00bf606d2531f337",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-07-20",
+          "sourceRecordIds": [
+            "event_51a0ff300bffb61c",
+            "legislative-measure_bf49bb7374a06edf",
+            "legislative-enactment_427c8ed18df6d197",
+            "legislative-provision_1e8478bb15c312da"
+          ]
+        }
+      ],
+      "legacyKindsReloaded": [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months"
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-CT",
+      "place": "US-CT",
+      "personId": "person_f1fdb89295ad8ff2",
+      "name": "Alan Noble",
+      "sentenceId": "event_48ab3541fc2203e6",
+      "months": 120,
+      "recordedChoice": "term:minimum",
+      "operativeBounds": {
+        "minimumMonths": 120,
+        "maximumMonths": 143
+      },
+      "measureId": "legislative-measure_b21a1e43861e64cc",
+      "summary": "Alan Noble was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_0d82f1d8fab8bfe9",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_b21a1e43861e64cc",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-07-20",
+          "sourceRecordIds": [
+            "event_48ab3541fc2203e6",
+            "legislative-measure_b21a1e43861e64cc",
+            "legislative-enactment_64aff62bce9fa1ba",
+            "legislative-provision_21535d5c25f11bb3"
+          ]
+        }
+      ],
+      "legacyKindsReloaded": [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months"
+      ]
+    },
+    {
+      "seed": "team9-g10-floor:US-ND",
+      "place": "US-ND",
+      "personId": "person_7144629603df0525",
+      "name": "Bo Mack",
+      "sentenceId": "event_5a2b52fa5de1d455",
+      "months": 120,
+      "recordedChoice": "term:minimum",
+      "operativeBounds": {
+        "minimumMonths": 120,
+        "maximumMonths": 120
+      },
+      "measureId": "legislative-measure_5247858321512067",
+      "summary": "Bo Mack was sentenced to 120 months in jail for robbery.",
+      "consequenceId": "decision_087a2e206fee069c",
+      "stamps": [
+        {
+          "version": "law-effect-stamp/v1",
+          "governingLawKey": "legislative-measure_5247858321512067",
+          "source": "enacted",
+          "effectKind": "legal-outcome",
+          "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+          "jurisdictionId": "jurisdiction_7e617609be5671dd",
+          "operativeAt": "2027-01-19",
+          "appliedAt": "2027-08-05",
+          "sourceRecordIds": [
+            "event_5a2b52fa5de1d455",
+            "legislative-measure_5247858321512067",
+            "legislative-enactment_495264a4708abc31",
+            "legislative-provision_5c0dce869d558764"
+          ]
+        }
+      ],
+      "legacyKindsReloaded": [
+        "justice.held-before-trial",
+        "justice.released-before-trial",
+        "minimum-custody-months"
+      ]
+    }
+  ],
+  "initialTestedCodeHead": "a667212120abc719734241408c4a6c55c183f4e7",
+  "initialCandidate": {
+    "passed": 72,
+    "failed": 0,
+    "durationSeconds": 48.09
+  },
+  "initialTypecheck": {
+    "exitCode": 1,
+    "diagnostic": "TS2322 justice/prosecution.ts472 active dynamic pretrial event type was still a writer stamp input."
+  },
+  "testedCodeHead": "31387233f4da71ded711d55f567ff342532bfe0b",
+  "candidate": {
+    "passed": 77,
+    "failed": 0,
+    "durationSeconds": 42.51
+  },
+  "pretrialBaseline": {
+    "passed": 5,
+    "failed": 0,
+    "durationSeconds": 115.65,
+    "scope": "Original generated-opening fixture on exact clean main."
+  },
+  "intermediateCandidate": {
+    "testedCodeHead": "70dc791a4949331ef00a0b3f2f8310ba62b6d6f9",
+    "passed": 72,
+    "failed": 5,
+    "failure": "Five pretrial fixture timeouts at30000ms with additional canonical save round-trip; full typecheck EXIT0."
+  },
+  "fixtureRepair": "Existing controlled referral case now uses shared smallWorld six-person production-catalog builder at the same sampled place/seed. Actual person differs from original full-opening fixture and is separately recorded. All original attribution assertions retained; canonical and historical serializer checks added; timeout unchanged.",
+  "producerReservation": "Session20 ACK6006237153: justice/prosecution.ts lawEffectStamp effectKind property only \u2192 legal-outcome.",
+  "watchedPretrial": [
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-MA",
+      "place": "2503690",
+      "personId": "person_900520860027a83f",
+      "personName": "Nicholas Brooks",
+      "scope": "controlled small-world referral; not natural opening",
+      "consequence": "Nicholas Brooks's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+      "lawKey": "starting-law:US-MA:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-MA",
+      "reloadedStampValid": true,
+      "eventType": "justice.held-before-trial",
+      "canonicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MA:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_fd42073f58c1ebee",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_751a28e9073a3a03",
+          "event_1c54921397a922ba",
+          "event_32dc9daf7d395bd2"
+        ]
+      },
+      "historicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MA:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "justice.held-before-trial",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_fd42073f58c1ebee",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_751a28e9073a3a03",
+          "event_1c54921397a922ba",
+          "event_32dc9daf7d395bd2"
+        ]
+      },
+      "legacyReloadIdempotent": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-CO",
+      "place": "0853120",
+      "personId": "person_dda59353b1417043",
+      "personName": "Hannah Spencer",
+      "scope": "controlled small-world referral; not natural opening",
+      "consequence": "Hannah Spencer's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+      "lawKey": "starting-law:US-CO:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-CO",
+      "reloadedStampValid": true,
+      "eventType": "justice.held-before-trial",
+      "canonicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-CO:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_883c802fa4f85568",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_719ffbb8b83bc31f",
+          "event_22d3fdfeeb3c161e",
+          "event_22153f2dae074b86"
+        ]
+      },
+      "historicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-CO:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "justice.held-before-trial",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_883c802fa4f85568",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_719ffbb8b83bc31f",
+          "event_22d3fdfeeb3c161e",
+          "event_22153f2dae074b86"
+        ]
+      },
+      "legacyReloadIdempotent": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-MI",
+      "place": "2686050",
+      "personId": "person_51dbe30b9cda79d1",
+      "personName": "Amara Gardner",
+      "scope": "controlled small-world referral; not natural opening",
+      "consequence": "Amara Gardner's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+      "lawKey": "starting-law:US-MI:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-MI",
+      "reloadedStampValid": true,
+      "eventType": "justice.held-before-trial",
+      "canonicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MI:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_b1839cba8bff8092",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_ace391b69f0f54e1",
+          "event_9f992a83bea0e328",
+          "event_026bf2ddc9567748"
+        ]
+      },
+      "historicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-MI:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "justice.held-before-trial",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_b1839cba8bff8092",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_ace391b69f0f54e1",
+          "event_9f992a83bea0e328",
+          "event_026bf2ddc9567748"
+        ]
+      },
+      "legacyReloadIdempotent": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-ID",
+      "place": "1637360",
+      "personId": "person_ebf61d49db77276c",
+      "personName": "Catherine Clayton",
+      "scope": "controlled small-world referral; not natural opening",
+      "consequence": "Catherine Clayton's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+      "lawKey": "starting-law:US-ID:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-ID",
+      "reloadedStampValid": true,
+      "eventType": "justice.held-before-trial",
+      "canonicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-ID:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_165fed4ddc46c629",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_701155493c023e0a",
+          "event_5bc2dc9ad70492c3",
+          "event_6e48adddfe25954f"
+        ]
+      },
+      "historicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-ID:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "justice.held-before-trial",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_165fed4ddc46c629",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_701155493c023e0a",
+          "event_5bc2dc9ad70492c3",
+          "event_6e48adddfe25954f"
+        ]
+      },
+      "legacyReloadIdempotent": true
+    },
+    {
+      "seed": "team9-pretrial-stamp-20260930-five:US-AZ",
+      "place": "0481175",
+      "personId": "person_9d3fd6d4999f05ce",
+      "personName": "Karim Ferguson",
+      "scope": "controlled small-world referral; not natural opening",
+      "consequence": "Karim Ferguson's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+      "lawKey": "starting-law:US-AZ:us-policy-positions:justice-public-safety.end-cash-bail",
+      "stampedConsequences": 1,
+      "jurisdiction": "US-AZ",
+      "reloadedStampValid": true,
+      "eventType": "justice.held-before-trial",
+      "canonicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AZ:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_12e9479eff7236bb",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_053c525ef2e90654",
+          "event_8f48b2ceef52173d",
+          "event_d29bbb40254fb8f1"
+        ]
+      },
+      "historicalStamp": {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "starting-law:US-AZ:us-policy-positions:justice-public-safety.end-cash-bail",
+        "source": "in-force-at-start",
+        "effectKind": "justice.held-before-trial",
+        "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+        "jurisdictionId": "jurisdiction_12e9479eff7236bb",
+        "operativeAt": "2000-01-01",
+        "appliedAt": "2026-01-05",
+        "sourceRecordIds": [
+          "event_053c525ef2e90654",
+          "event_8f48b2ceef52173d",
+          "event_d29bbb40254fb8f1"
+        ]
+      },
+      "legacyReloadIdempotent": true
+    }
+  ],
+  "typecheck": {
+    "exitCode": 0,
+    "testedCodeHead": "31387233f4da71ded711d55f567ff342532bfe0b",
+    "unresolvedTestImports": 0,
+    "typingDonor": "cf02ef25c06ee9f96e2a369ae23faa38727ef96f"
+  },
+  "checks": {
+    "lint": "PASS",
+    "release": "PASS",
+    "zeroDice": "PASS",
+    "mergeTree": "PASS",
+    "diffCheck": "PASS"
+  }
+}

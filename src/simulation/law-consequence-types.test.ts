@@ -28,12 +28,9 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
     "health-coverage",
     "housing-permit-units",
     "inclusionary-affordable-rent",
-    "justice.held-before-trial",
-    "justice.released-before-trial",
     "law.pay-compensation",
     "local.officeholder-retired",
     "local.wards-drawn",
-    "minimum-custody-months",
     "minimum-wage-compensation",
     "paid-leave-benefit",
     "paid-leave-budget-cost",
@@ -49,6 +46,18 @@ it("closes new writer labels while listing the legacy labels to retire", () => {
   // @ts-expect-error A new bespoke outcome label must not enter the shared writer.
   const invented: LawEffectContext["effectKind"] = "invented-new-effect";
   void invented;
+  // @ts-expect-error Historical legal labels are saved strings, not new writer inputs.
+  const retiredLegal0: LawEffectContext["effectKind"] =
+    "justice.held-before-trial";
+  void retiredLegal0;
+  // @ts-expect-error Historical legal labels are saved strings, not new writer inputs.
+  const retiredLegal1: LawEffectContext["effectKind"] =
+    "justice.released-before-trial";
+  void retiredLegal1;
+  // @ts-expect-error Historical legal labels are saved strings, not new writer inputs.
+  const retiredLegal2: LawEffectContext["effectKind"] =
+    "minimum-custody-months";
+  void retiredLegal2;
   // @ts-expect-error Retired tax stamps remain readable, but new writers use tax.
   const retiredTax: LawEffectContext["effectKind"] = "tax-assessment";
   void retiredTax;

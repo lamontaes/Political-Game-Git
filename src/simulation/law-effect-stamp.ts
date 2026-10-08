@@ -3,6 +3,7 @@ import { isCountyServiceProgram } from "./law-consequences/service-delivered-dat
 import type { LawInForce } from "./governing/law-in-force";
 import type {
   LawEffectKind,
+  LawEffectWriterKind,
   LawTermApplicability,
   LawTermScope,
   LawTermResolutionProvenance,
@@ -42,7 +43,7 @@ export interface LawEffectStamp {
 }
 
 export interface LawEffectContext {
-  readonly effectKind: LawEffectKind;
+  readonly effectKind: LawEffectWriterKind;
   readonly questionKey: string | null;
   /** Present only for a real enacted rule with no policy question. */
   readonly ruleAuthority?: {
