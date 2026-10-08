@@ -1,3 +1,4 @@
+import { makeIsoDate } from "./dates";
 import { execFileSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import matrix from "../../data/research/money/local-tax-authority-matrix.json" with { type: "json" };
@@ -140,6 +141,7 @@ describe("one local tax authority lookup for every place", () => {
       );
       for (const instrument of INSTRUMENTS) {
         const evidence = localTaxPowerEvidenceFor({
+          asOf: makeIsoDate("2026-10-01"),
           ...government,
           governmentKey: unit.id,
           instrument,
