@@ -922,26 +922,6 @@ export function commitPlayedSceneTurn(
           description: "Leave the discussion undecided.",
         },
       },
-      traitLeans: [
-        {
-          meaning: "agree",
-          trait: "sociability",
-          pole: "high",
-          explanation: "I prefer talking things through with people.",
-        },
-        {
-          meaning: "decline",
-          trait: "sociability",
-          pole: "low",
-          explanation: "I prefer to keep to myself.",
-        },
-        {
-          meaning: "undecided",
-          trait: "deliberation",
-          pole: "low",
-          explanation: "I'd rather think before I answer.",
-        },
-      ],
       playerLeans: [],
     });
     next = recordDurableDecisionTrace(decided.world, decided.evaluation);
