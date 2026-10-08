@@ -105,21 +105,28 @@ function decisionForPerson(
   personId: EntityId,
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
+  useActTable: boolean,
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
+  const considerations = useActTable
+    ? []
+    : registeredTraitConsiderations(
+        world,
+        loadedTraitRegistry(),
+        personId,
+        `proof:${decisionId}`,
+        decisionId,
+      );
   const allConsiderations = [...baselineConsiderations, ...considerations];
+  const runtimeDecisionId =
+    useActTable && decisionId === "contact.answer"
+      ? "people.contact-answer"
+      : decisionId;
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType: runtimeDecisionId,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
@@ -140,7 +147,7 @@ function decisionForPerson(
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      allConsiderations.find(
+      evaluation.context.considerations.find(
         ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
       )?.explanation ?? null,
   };
@@ -157,6 +164,7 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  useActTable = false,
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -179,18 +187,21 @@ export function proveTraitDifference(
       personId,
       decisionId,
       baselineConsiderations,
+      useActTable,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
       decisionId,
       baselineConsiderations,
+      useActTable,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
       decisionId,
       baselineConsiderations,
+      useActTable,
     ),
   };
 }
@@ -270,6 +281,7 @@ export function proveTwoPersonTraitDifference(
         highPersonId,
         decisionId,
         baselineConsiderations,
+        false,
       ),
     },
     low: {
@@ -280,6 +292,7 @@ export function proveTwoPersonTraitDifference(
         lowPersonId,
         decisionId,
         baselineConsiderations,
+        false,
       ),
     },
   };
