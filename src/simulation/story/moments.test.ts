@@ -11,6 +11,9 @@ import {
   refreshLifeOpportunities,
 } from "../life-opportunities";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { relationshipHistory } from "../queries";
+import { readRelationshipAbsence } from "../relationship-absence";
+import { INTRODUCER_CONTACT_KIND } from "../social-introductions";
 import { ACT_KINDS } from "../traits/act-pulls";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrityFully } from "../world";
@@ -178,6 +181,20 @@ describe("story moments in a seeded week", () => {
       true,
     );
     expect(friendships.some((moment) => moment.factors.first === 1)).toBe(true);
+  });
+
+  it("puts the introducer back in touch: Wyatt's time apart ends at the introduction", () => {
+    const introducer = relationshipHistory(world, personId).filter(
+      (interaction) => interaction.kind === INTRODUCER_CONTACT_KIND,
+    );
+    expect(introducer.map((interaction) => interaction.occurredAt)).toEqual([
+      "2026-01-12",
+    ]);
+    const wyattId = introducer[0]!.personIds.find((id) => id !== personId)!;
+    expect(world.people[wyattId]?.givenName).toBe("Wyatt");
+    const absence = readRelationshipAbsence(world, personId, wyattId);
+    expect(absence.lastMeaningfulContactOn).toBe("2026-01-12");
+    expect(absence.fading).toBe(0);
   });
 
   it("reads each record once: a second intake writes nothing", () => {
