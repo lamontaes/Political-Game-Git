@@ -406,27 +406,27 @@ export function EconomicGraph({
             </thead>
             <tbody>
               {graph.series.flatMap((series) =>
-                series.points.map((point) => (
-                  <tr key={point.pointKey}>
-                    <th scope="row">{seriesName(series)}</th>
-                    <td>
-                      {diagnostics ? point.period : periodInWords(point.period)}
-                    </td>
-                    {diagnostics ? (
-                      <td>{recordClassLabel(point.recordClass)}</td>
-                    ) : null}
-                    {diagnostics ? (
-                      <td>{point.releaseStatus ?? "Not established"}</td>
-                    ) : null}
-                    <td>
-                      {point.value === null
-                        ? diagnostics
-                          ? `Missing — ${point.missingReason ?? "No value supplied"}`
-                          : "—"
-                        : formatGraphValue(point.value, graph.unit)}
-                    </td>
-                  </tr>
-                )),
+                series.points.flatMap((point) =>
+                  point.value === null
+                    ? []
+                    : [
+                        <tr key={point.pointKey}>
+                          <th scope="row">{seriesName(series)}</th>
+                          <td>
+                            {diagnostics
+                              ? point.period
+                              : periodInWords(point.period)}
+                          </td>
+                          {diagnostics ? (
+                            <td>{recordClassLabel(point.recordClass)}</td>
+                          ) : null}
+                          {diagnostics ? (
+                            <td>{point.releaseStatus ?? "Not established"}</td>
+                          ) : null}
+                          <td>{formatGraphValue(point.value, graph.unit)}</td>
+                        </tr>,
+                      ],
+                ),
               )}
             </tbody>
           </table>

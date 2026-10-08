@@ -236,10 +236,21 @@
       "counterproposes": ["change", "delay"],
       "declines": ["refuse", "withdraw"]
     },
+    "people.study-plan": {
+      "outline-first": ["delay", "play-safe"],
+      "evidence-first": ["delay", "play-safe"],
+      "one-draft-together": ["engage", "cooperate"],
+      "split-by-section": ["keep-same", "commit"]
+    },
     "people.study-plan-answer": {
-      "agrees": ["concede", "cooperate", "play-safe"],
-      "counterproposes": ["change", "delay", "speak-out"],
-      "unresolved": ["delay", "keep-same", "refuse"]
+      "agrees": ["concede", "cooperate"],
+      "counterproposes": ["delay", "play-safe"],
+      "unresolved": ["refuse"]
+    },
+    "people.study-plan-compromise-answer": {
+      "agrees": ["cooperate", "play-safe"],
+      "counterproposes": ["speak-out"],
+      "unresolved": ["delay", "play-safe"]
     },
     "people.tell-of-refusal": {
       "tell": ["speak-out", "engage"],
@@ -320,6 +331,18 @@
     "civil-personnel.reinstatement-response": {
       "accept": ["cooperate", "commit"],
       "decline": ["refuse", "change"]
+    },
+    "query-fixture": {
+      "act": ["engage", "take-risk"],
+      "wait": ["delay", "keep-same"]
+    },
+    "run-a-life-source": {
+      "mention": ["speak-out", "change"],
+      "omit": ["stay-quiet", "keep-same"]
+    },
+    "run-a-source-cutoff": {
+      "use": ["trust", "engage"],
+      "omit": ["keep-same", "stay-quiet"]
     }
   },
   "unlabeled": [
@@ -340,7 +363,6 @@
     "movement.membership-review",
     "people.caregiver-choice",
     "people.date-proposal",
-    "people.study-plan",
     "political-belief-formation",
     "career.after-office-endorsement"
   ]

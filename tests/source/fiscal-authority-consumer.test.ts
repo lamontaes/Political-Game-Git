@@ -8,7 +8,7 @@ import {
   districtIdentityByRecordId,
 } from "../../src/districts/query";
 import type { ArtifactLock } from "../../src/source/core/index";
-import { adaptFiscalAuthorityRecords } from "../../src/source/adapters/fiscal-authority";
+import { adaptFiscalAuthorityRecords } from "../support/source/fiscal-authority";
 import {
   currentTaxPermission,
   queryFiscalAuthority,

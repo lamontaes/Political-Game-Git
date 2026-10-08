@@ -1117,13 +1117,15 @@ export function MunicipalWorkspace({
               data-testid="municipal-source-review"
             >
               <summary>{"Source review"}</summary>
-              <p>
-                {"Census place: "}
-                {view.government.placeGeoid ?? "Unknown"}
-                {
-                  ". A place identifier is not a government-unit or county identifier."
-                }
-              </p>
+              {view.government.placeGeoid ? (
+                <p>
+                  {"Census place: "}
+                  {view.government.placeGeoid}
+                  {
+                    ". A place identifier is not a government-unit or county identifier."
+                  }
+                </p>
+              ) : null}
               {view.government.identity ? (
                 <details>
                   <summary>{"Government identity and geography"}</summary>
@@ -1134,20 +1136,35 @@ export function MunicipalWorkspace({
                   <p>
                     {"Publisher PID: "}
                     {view.government.identity.publisherId}
-                    {". Legacy government ID:"}{" "}
-                    {view.government.identity.censusGovernmentUnitId ??
-                      "Unknown"}
-                    {"."}
+                    {view.government.identity.censusGovernmentUnitId
+                      ? `. Legacy government ID: ${view.government.identity.censusGovernmentUnitId}.`
+                      : "."}
                   </p>
-                  <p>
-                    {"County-equivalent representation:"}{" "}
-                    {view.government.identity.countyEquivalentGeoid ??
-                      "Not established"}
-                    {". County area:"}{" "}
-                    {view.government.identity.governmentUnit.countyAreaName ??
-                      "Unknown"}{" "}
-                    {"(not a governing parent)."}
-                  </p>
+                  {view.government.identity.countyEquivalentGeoid ||
+                  view.government.identity.governmentUnit.countyAreaName ? (
+                    <p>
+                      {view.government.identity.countyEquivalentGeoid ? (
+                        <>
+                          {"County-equivalent representation: "}
+                          {view.government.identity.countyEquivalentGeoid}
+                        </>
+                      ) : null}
+                      {view.government.identity.governmentUnit
+                        .countyAreaName ? (
+                        <>
+                          {view.government.identity.countyEquivalentGeoid
+                            ? ". "
+                            : ""}
+                          {"County area: "}
+                          {
+                            view.government.identity.governmentUnit
+                              .countyAreaName
+                          }
+                          {" (not a governing parent)."}
+                        </>
+                      ) : null}
+                    </p>
+                  ) : null}
                   <p>{view.government.identity.basis}</p>
                   <p>
                     {"Inventory observation:"}{" "}
@@ -1182,16 +1199,30 @@ export function MunicipalWorkspace({
                     {reading.asOf}
                   </summary>
                   <dl>
-                    <dt>{"Form"}</dt>
-                    <dd>
-                      {reading.form ? humanLabel(reading.form) : "Unknown"}
-                    </dd>
-                    <dt>{"Body"}</dt>
-                    <dd>{reading.bodyName ?? "Unknown"}</dd>
-                    <dt>{"Members"}</dt>
-                    <dd>{reading.bodySize ?? "Unknown"}</dd>
-                    <dt>{"Seat pattern"}</dt>
-                    <dd>{reading.composition?.note ?? "Unknown"}</dd>
+                    {reading.form ? (
+                      <>
+                        <dt>{"Form"}</dt>
+                        <dd>{humanLabel(reading.form)}</dd>
+                      </>
+                    ) : null}
+                    {reading.bodyName ? (
+                      <>
+                        <dt>{"Body"}</dt>
+                        <dd>{reading.bodyName}</dd>
+                      </>
+                    ) : null}
+                    {reading.bodySize !== null ? (
+                      <>
+                        <dt>{"Members"}</dt>
+                        <dd>{reading.bodySize}</dd>
+                      </>
+                    ) : null}
+                    {reading.composition?.note ? (
+                      <>
+                        <dt>{"Seat pattern"}</dt>
+                        <dd>{reading.composition.note}</dd>
+                      </>
+                    ) : null}
                     {/*
                       The office is named as this government names it. A place
                       whose executive is a Mayor-President or a village
@@ -1199,20 +1230,26 @@ export function MunicipalWorkspace({
                       the title; only a reading that states none falls back to
                       the general word.
                     */}
-                    <dt>{reading.mayor?.title ?? "Mayor"}</dt>
-                    <dd>
-                      {reading.mayor
-                        ? humanLabel(reading.mayor.structuralPosition)
-                        : "Unknown"}
-                    </dd>
-                    <dt>{reading.manager?.title ?? "Professional manager"}</dt>
-                    <dd>{reading.manager?.statedRole ?? "Unknown"}</dd>
-                    <dt>{"Consolidation"}</dt>
-                    <dd>
-                      {reading.consolidationType
-                        ? humanLabel(reading.consolidationType)
-                        : "Unknown"}
-                    </dd>
+                    {reading.mayor ? (
+                      <>
+                        <dt>{reading.mayor.title}</dt>
+                        <dd>{humanLabel(reading.mayor.structuralPosition)}</dd>
+                      </>
+                    ) : null}
+                    {reading.manager?.statedRole ? (
+                      <>
+                        <dt>
+                          {reading.manager.title ?? "Professional manager"}
+                        </dt>
+                        <dd>{reading.manager.statedRole}</dd>
+                      </>
+                    ) : null}
+                    {reading.consolidationType ? (
+                      <>
+                        <dt>{"Consolidation"}</dt>
+                        <dd>{humanLabel(reading.consolidationType)}</dd>
+                      </>
+                    ) : null}
                   </dl>
                   <details>
                     <summary>{"All recorded facts and evidence"}</summary>
@@ -1280,56 +1317,65 @@ export function MunicipalWorkspace({
               {view.capacity.finance.length === 0 && (
                 <p>{"Finance: none on file"}</p>
               )}
-              {view.capacity.finance.map((row) => (
-                <p key={row.recordId}>
-                  {row.itemDescription}
-                  {":"}{" "}
-                  {row.amount.state === "KNOWN" ? row.amount.value : "Unknown"}{" "}
-                  {row.units}
-                  {"; fiscal year ending "}
-                  {row.fiscalYearEnding}
-                  {"."}{" "}
-                  {municipalCapacitySourceUrl(row.evidence.artifactId) && (
-                    <a
-                      href={municipalCapacitySourceUrl(
-                        row.evidence.artifactId,
-                      )!}
-                    >
-                      {"Publisher observation"}
-                    </a>
-                  )}
-                </p>
-              ))}
+              {view.capacity.finance.map((row) =>
+                row.amount.state === "KNOWN" ? (
+                  <p key={row.recordId}>
+                    {row.itemDescription}
+                    {":"} {row.amount.value} {row.units}
+                    {"; fiscal year ending "}
+                    {row.fiscalYearEnding}
+                    {"."}{" "}
+                    {municipalCapacitySourceUrl(row.evidence.artifactId) && (
+                      <a
+                        href={municipalCapacitySourceUrl(
+                          row.evidence.artifactId,
+                        )!}
+                      >
+                        {"Publisher observation"}
+                      </a>
+                    )}
+                  </p>
+                ) : null,
+              )}
               {view.capacity.employment.length === 0 && (
                 <p>{"Employment: none on file"}</p>
               )}
-              {view.capacity.employment.map((row) => (
-                <p key={row.recordId}>
-                  {row.functionLabel}
-                  {":"}{" "}
-                  {row.fullTimeEmployees.state === "KNOWN"
-                    ? row.fullTimeEmployees.value
-                    : "Unknown"}{" "}
-                  {"full-time employees,"}{" "}
-                  {row.partTimeEmployees.state === "KNOWN"
-                    ? row.partTimeEmployees.value
-                    : "Unknown"}{" "}
-                  {"part-time employees; observed "}
-                  {proseDate(row.referenceDate)}
-                  {
-                    ". The publisher does not report full-time equivalents, and headcount cannot establish them."
-                  }{" "}
-                  {municipalCapacitySourceUrl(row.evidence.artifactId) && (
-                    <a
-                      href={municipalCapacitySourceUrl(
-                        row.evidence.artifactId,
-                      )!}
-                    >
-                      {"Publisher observation"}
-                    </a>
-                  )}
-                </p>
-              ))}
+              {view.capacity.employment.map((row) =>
+                row.fullTimeEmployees.state === "KNOWN" ||
+                row.partTimeEmployees.state === "KNOWN" ? (
+                  <p key={row.recordId}>
+                    {row.functionLabel}
+                    {row.fullTimeEmployees.state === "KNOWN" ? (
+                      <>
+                        {": "}
+                        {row.fullTimeEmployees.value}
+                        {" full-time employees"}
+                      </>
+                    ) : null}
+                    {row.fullTimeEmployees.state === "KNOWN" &&
+                    row.partTimeEmployees.state === "KNOWN"
+                      ? ", "
+                      : null}
+                    {row.partTimeEmployees.state === "KNOWN"
+                      ? `${row.partTimeEmployees.value} part-time employees`
+                      : null}
+                    {"; observed "}
+                    {proseDate(row.referenceDate)}
+                    {
+                      ". The publisher does not report full-time equivalents, and headcount cannot establish them."
+                    }{" "}
+                    {municipalCapacitySourceUrl(row.evidence.artifactId) && (
+                      <a
+                        href={municipalCapacitySourceUrl(
+                          row.evidence.artifactId,
+                        )!}
+                      >
+                        {"Publisher observation"}
+                      </a>
+                    )}
+                  </p>
+                ) : null,
+              )}
             </details>
           ) : null}
 
