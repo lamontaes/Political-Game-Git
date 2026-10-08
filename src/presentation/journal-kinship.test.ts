@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { kinshipRelationshipsAt } from "../simulation";
+import { composeChapters } from "./journal-chapters";
 import { createOpeningLifeController } from "./opening-life";
 import { explicitNewGameSetup } from "./new-game-geography";
 import { projectWorld39Journal } from "./world39-journal";
@@ -50,5 +51,21 @@ describe("family in the dated journal", () => {
       ).toMatch(older ? /is your parent\.$/ : /is your child\.$/);
     }
     expect(parents).toBeGreaterThan(0);
+    // The chapter's first mention of each relative reads the same way.
+    const kin = composeChapters(world, personId, world.currentDate).flatMap(
+      (chapter) => chapter.firstMentionKin,
+    );
+    let mentioned = 0;
+    for (const kinship of lineal) {
+      const otherId = kinship.personIds.find((id) => id !== personId)!;
+      const mention = kin.find((row) => row.personId === otherId);
+      if (!mention) continue;
+      mentioned += 1;
+      const older = world.people[otherId]!.birthDate < person.birthDate;
+      expect(mention.relation).toMatch(
+        older ? /^(?:mother|father|parent)$/ : /^(?:daughter|son|child)$/,
+      );
+    }
+    expect(mentioned).toBeGreaterThan(0);
   });
 });
