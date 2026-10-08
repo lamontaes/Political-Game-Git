@@ -8,7 +8,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { relationshipHistory } from "./queries";
 import { readRelationshipStanding } from "./relationship-standing";
@@ -209,22 +209,6 @@ export function speechReactionOf(
         interactionId,
       })),
     });
-  considerations.push(
-    ...traitConsiderations(world, witnessId, key, [
-      {
-        optionKey: "cheered",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They are outgoing and let it show.",
-      },
-      {
-        optionKey: "applauded",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They are reserved, even when pleased.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey: key,
     decisionType: "speech.react",

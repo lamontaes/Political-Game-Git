@@ -14,15 +14,11 @@ export const outwardEmotionalDisplayEffects: readonly TraitEffectDeclaration[] =
           option: "accept",
           trait: "personality-v1:outward-emotional-display",
           pole: "high",
-          explanation:
-            "They say what they feel openly, so a reporter's question gets an answer.",
         },
         {
           option: "decline",
           trait: "personality-v1:outward-emotional-display",
           pole: "low",
-          explanation:
-            "They keep their feelings to themselves and turn the reporter down.",
         },
       ],
     },

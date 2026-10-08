@@ -1,5 +1,4 @@
 import { evaluateDecision, isSelectedDecision } from "../decisions";
-import { traitConsiderations } from "../people-traits";
 import type {
   DecisionConsideration,
   DecisionEvaluation,
@@ -96,8 +95,6 @@ function importanceOf(strength: number): DecisionImportance | null {
 
 /** Each circumstance, as a strength toward one option. */
 export function leavingHomeConsiderations(
-  world: World,
-  personId: EntityId,
   facts: LeavingHomeFacts,
   stableKey: string,
 ): DecisionConsideration[] {
@@ -169,22 +166,6 @@ export function leavingHomeConsiderations(
       sourceRefs: [],
     });
   }
-  list.push(
-    ...traitConsiderations(world, personId, stableKey, [
-      {
-        optionKey: LEAVING_HOME_OPTIONS.leave,
-        trait: "risk",
-        pole: "high",
-        explanation: "They want a place of their own.",
-      },
-      {
-        optionKey: LEAVING_HOME_OPTIONS.stay,
-        trait: "risk",
-        pole: "low",
-        explanation: "They would rather keep what they know.",
-      },
-    ]),
-  );
   return list;
 }
 
@@ -222,12 +203,7 @@ export function decideToLeaveHome(
       },
     ],
     constraints: [],
-    considerations: leavingHomeConsiderations(
-      world,
-      personId,
-      facts,
-      stableKey,
-    ),
+    considerations: leavingHomeConsiderations(facts, stableKey),
     perceptionIds: [],
     randomness: "none",
     retention: "ephemeral",

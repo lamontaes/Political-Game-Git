@@ -278,10 +278,14 @@ describe("A125 an occasion requires a selected invitation across all recorded pl
           occasion!,
         );
         expect(
-          spy.mock.calls.some(
-            ([, input]: Parameters<typeof original>) =>
-              input.decisionType === "people.invite-over" &&
-              input.considerations.length > 0,
+          spy.mock.results.some(
+            (result) =>
+              result.type === "return" &&
+              result.value.context.decisionType === "people.invite-over" &&
+              result.value.context.considerations.some(
+                (consideration) =>
+                  consideration.sourceType === "mind:personality",
+              ),
           ),
         ).toBe(true);
         if (packet.asks) {

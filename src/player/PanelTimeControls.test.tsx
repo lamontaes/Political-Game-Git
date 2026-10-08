@@ -16,8 +16,18 @@ import {
   PROTECTED_STOP_NOTE,
   skipToLabel,
 } from "../presentation/time-target-label";
-import { addSimulationMinutes, type EntityId, type World } from "../simulation";
-import { seekCareerOffer } from "../simulation/career-path7";
+import {
+  addSimulationMinutes,
+  advanceWorld,
+  type EntityId,
+  type World,
+} from "../simulation";
+import {
+  seekCareerOffer,
+  respondCareerOffer,
+  startCareerWork,
+} from "../simulation/career-path7";
+import { lifePaths2Handlers } from "../simulation/life-paths2";
 import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
 import { CareerPathsPanel } from "./CareerPathsPanel";
 import { LifePathsPanel } from "./LifePathsPanel";
@@ -162,6 +172,21 @@ describe("the wait control on a career offer", () => {
       'data-testid="career-paths-wait-day-unavailable"',
     );
     expect(markup).not.toContain("Unavailable here");
+  });
+
+  it("offers an active career task through the approved action control", () => {
+    let world = sought.world;
+    const relationshipId = world.history.workRelationships.at(-1)!.id;
+    world = respondCareerOffer(world, relationshipId, provider, true).world;
+    world = advanceWorld(world, 1, lifePaths2Handlers());
+    world = startCareerWork(world, relationshipId, provider).world;
+
+    const markup = withRunner(
+      stubRunner(false),
+      <CareerPathsPanel world={world} onWorldChange={() => {}} />,
+    );
+    expect(markup).toContain(provider.tasks[0]!.text);
+    expect(markup).toContain(">Continue</button>");
   });
 });
 

@@ -160,8 +160,7 @@ describe("facet-self-conscious's public-life reader", () => {
     ).toMatchObject([
       {
         optionKey: "withhold",
-        explanation:
-          "They want more time before taking a position others will scrutinize.",
+        explanation: "Self-conscious",
       },
     ]);
     // Scrutiny can support withholding, but cannot invent a policy position.
@@ -178,8 +177,7 @@ describe("facet-self-conscious's public-life reader", () => {
       {
         optionKey: "withhold",
         sourceType: "mind:personality",
-        explanation:
-          "They want more time before taking a position others will scrutinize.",
+        explanation: "Self-conscious",
       },
     ]);
     expect(
@@ -199,8 +197,7 @@ describe("facet-self-conscious's public-life reader", () => {
       expect.objectContaining({
         optionKey: "withhold",
         sourceType: "mind:personality",
-        explanation:
-          "They want more time before taking a position others will scrutinize.",
+        explanation: "Self-conscious",
       }),
     );
     for (const [decisionId, optionKey] of [

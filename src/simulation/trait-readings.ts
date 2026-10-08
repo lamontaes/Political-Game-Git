@@ -205,7 +205,7 @@ export function registeredTraitConsiderations(
         direction: "supports",
         importance: importanceOf(trait, reading.value),
         confidence: "medium",
-        explanation: lean.explanation,
+        explanation: lean.explanation ?? trait.poles[lean.pole].label,
         sourceRefs: [ref],
       } satisfies DecisionConsideration,
     ];

@@ -19,12 +19,15 @@ describe("the manipulative facet difference in a random new game", () => {
       "press.subject-response",
       "s15-proof-facet-manipulative",
       [baseline],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("decline");
     expect(proof.high.choice).toBe("dispute");
     expect(proof.low.choice).toBe("decline");
-    expect(proof.high.reason).toContain("selective framing and pressure");
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-manipulative|press.subject-response|dispute|high",
+    );
     expect(proof.low.reason).toContain("usually decline");
   });
 });

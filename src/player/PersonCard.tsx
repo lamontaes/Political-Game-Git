@@ -420,6 +420,36 @@ export function PersonCard({
           />
         ) : null}
         <div className="pg-person-card-reading">
+          {expanded ? (
+            <section
+              className="pg-dossier-section"
+              aria-label="Life record"
+              data-testid="dossier-life-record"
+            >
+              <h3>Life record</h3>
+              <p>
+                {dossier.age} years old · Home: {dossier.lifeRecord.home}
+              </p>
+              <p>
+                Job:{" "}
+                {dossier.lifeRecord.jobs.length > 0
+                  ? dossier.lifeRecord.jobs.join("; ")
+                  : "No current job on record."}
+              </p>
+              <p>
+                Pay:{" "}
+                {dossier.lifeRecord.monthlyPay === null
+                  ? "No current pay on record."
+                  : `${(dossier.lifeRecord.monthlyPay / 100).toLocaleString("en-US", { style: "currency", currency: "USD" })} a month`}
+              </p>
+              <p>
+                Household:{" "}
+                {dossier.lifeRecord.household.length > 0
+                  ? dossier.lifeRecord.household.join(", ")
+                  : "Lives alone."}
+              </p>
+            </section>
+          ) : null}
           <section className="pg-dossier-section" aria-label="What you know">
             {showReminders && dossier.reminders.length > 0 ? (
               <div data-testid="dossier-reminders">
@@ -551,11 +581,7 @@ export function PersonCard({
           ) : null}
 
           {expanded && connections.length > 0 && onOpenPerson ? (
-            <section
-              className="pg-dossier-section"
-              aria-label="Connected people"
-            >
-              <h3>Connected people</h3>
+            <div className="pg-dossier-section">
               <div
                 className="pg-person-card-connections"
                 data-testid="person-card-connections"
@@ -586,7 +612,7 @@ export function PersonCard({
                   </button>
                 ))}
               </div>
-            </section>
+            </div>
           ) : null}
 
           {expanded &&

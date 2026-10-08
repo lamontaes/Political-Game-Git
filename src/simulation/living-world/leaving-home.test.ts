@@ -128,7 +128,7 @@ describe(`a new household forms only from a recorded cause (A135; place ${PLACE}
           ageOnDate(opened.people[id]!.birthDate, today) >= 18,
       )!;
       const lean = (facts: LeavingHomeFacts) =>
-        leavingHomeConsiderations(opened, person, facts, "test").reduce(
+        leavingHomeConsiderations(facts, "test").reduce(
           (sum, row) =>
             sum +
             (row.optionKey === "own-home" ? 1 : -1) *
