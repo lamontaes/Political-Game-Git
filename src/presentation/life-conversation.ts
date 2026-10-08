@@ -220,7 +220,11 @@ export function projectLifeConversation(
         reply: event.context.immediateReaction!,
       })),
     };
-  const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  // Every choice names something real (owner rule R1, October 8, 2026):
+  // there is no "talk about what is happening here" or "ask if you can tell
+  // them something", and leaving is the screen's own control, not a line
+  // (rule R2).
+  const intents: LifeTalkIntent[] = ["greet", "activity"];
   intents.push(...running.topics.map((topic) => topic.key));
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
@@ -234,21 +238,13 @@ export function projectLifeConversation(
       strongestLivedOutcomeView(world, personId) !== null)
   )
     intents.push("officials");
-  // Having asked to tell them something and been told to go ahead, the
-  // player can tell them something real from their own life, or say it can
-  // wait. Nothing is offered that the world does not hold.
-  const invited =
-    previousIntent === "share" &&
-    !previous?.tags.includes("life.answer:private");
-  const topics = invited ? tellableTopics(world, playerPersonId, personId) : [];
-  if (invited)
-    intents.push(
-      ...topics.map((topic) => topic.key as LifeTalkIntent),
-      "nothing",
-    );
-  if (["activity", "share"].includes(previousIntent ?? ""))
-    intents.push("explain");
-  if (history.length > 0) intents.push("remember", "acknowledge");
+  // Something real from the player's own life, each named by what it is.
+  // Nothing is offered that the world does not hold, and whether the other
+  // person listens is theirs to decide (life-talk-topics.ts).
+  const topics = tellableTopics(world, playerPersonId, personId);
+  intents.push(...topics.map((topic) => topic.key as LifeTalkIntent));
+  if (previousIntent === "activity") intents.push("explain");
+  if (history.length > 0) intents.push("remember");
   const currentSceneId = currentLifeTalkScene(world, playerPersonId)!.eventId;
   const proposal = currentTalkProposal(
     world,
@@ -256,8 +252,9 @@ export function projectLifeConversation(
     personId,
     currentSceneId,
   );
+  // An open invitation is answered yes or no (rule R3).
   if (proposal?.status === "proposed")
-    intents.push("acceptProposal", "declineProposal");
+    intents.splice(0, intents.length, "acceptProposal", "declineProposal");
   if (proposal?.status === "accepted") intents.push("cancelProposal");
   if (
     !history.some(
@@ -268,7 +265,6 @@ export function projectLifeConversation(
     proposal?.status === "accepted"
   )
     intents.push("spendTime");
-  intents.push("leave");
   return {
     context,
     person: describePersonContext(world, playerPersonId, personId)!,
