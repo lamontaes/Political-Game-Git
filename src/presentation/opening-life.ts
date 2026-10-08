@@ -6,6 +6,7 @@ import { recoverOverdueProsecutions } from "../simulation/justice/prosecution-tr
 import { advanceWithWorldIntegrityAtEnd } from "../simulation/world";
 import { recordOpeningWorkLocation } from "./opening-work-location";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
+import { householdMembersAtHome } from "../simulation/living-world/home-presence";
 import { ensureOpeningPriorLocalRecords } from "../simulation/living-world/developments";
 import {
   ensureStateLegislatureOpening,
@@ -748,20 +749,21 @@ function establishOpeningLocation(
     (item) => item.state.residenceRole === "primary",
   );
   if (!membership?.location) return world;
+  // The household members the world has at home at this moment are in the
+  // room too (EN-1 removed the authored scene that used to write them down).
+  const housemates = householdMembersAtHome(world, personId);
   return recordWorldEvent(world, {
     stableKey: `playtest65:starting-location:${personId}`,
     type: "life.scene.arrived",
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: world.people[personId]!.homeJurisdictionId,
-    involvedEntityIds: [personId, membership.household.id],
-    participants: [
-      {
-        personId,
-        role: "presence:participant",
-        detail: "At home when play begins",
-      },
-    ],
+    involvedEntityIds: [personId, membership.household.id, ...housemates],
+    participants: [personId, ...housemates].map((id) => ({
+      personId: id,
+      role: "presence:participant",
+      detail: "At home when play begins",
+    })),
     personFactConstraints: [],
     visibility: "private",
     tags: [
