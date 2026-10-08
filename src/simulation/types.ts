@@ -1228,7 +1228,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -3656,6 +3657,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
