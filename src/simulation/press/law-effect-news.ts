@@ -666,6 +666,9 @@ export function lawOutcomeFindings(
           const then = placeOutcomeAt(world, outcome, place, before);
           const now = placeOutcomeAt(world, outcome, place, world.currentDate);
           if (!then || !now) continue;
+          // A story says the figure moved; where the place's own figure is
+          // unchanged there is nothing to report.
+          if (then.value === now.value) continue;
           findings.push({
             stableKey: `${LAW_EFFECT_NEWS_VERSION}:outcome:${enactment.measureId}|${proposition.stableKey}|${outcome}|${place}`,
             reach: "public-service",
