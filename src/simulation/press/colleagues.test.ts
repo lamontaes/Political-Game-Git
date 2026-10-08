@@ -63,7 +63,7 @@ describe("press colleagues", () => {
     );
     const subject = people[0]!;
     expect(colleaguesOf(base, subject)).toEqual([]);
-    expect(colleaguesOf(world, subject)).toEqual(people.slice(3, 9));
+    expect(colleaguesOf(world, subject)).toEqual(people.slice(3));
     const work = world.history.workRelationships.find(
       (row) =>
         row.personId === people[3] && row.organizationId === organizationId,
@@ -77,10 +77,10 @@ describe("press colleagues", () => {
       provenance: { kind: "authored", note: "Colleague lookup test." },
       supersedesStatusId: workStatusAt(world, work.id)!.id,
     });
-    expect(colleaguesOf(left, subject)).toEqual(people.slice(4, 10));
-    expect(colleaguesOf(world, subject)).toEqual(people.slice(3, 9));
+    expect(colleaguesOf(left, subject)).toEqual(people.slice(4));
+    expect(colleaguesOf(world, subject)).toEqual(people.slice(3));
     expect(
       colleaguesOf(deserializeWorld(serializeWorld(left)), subject),
-    ).toEqual(people.slice(4, 10));
+    ).toEqual(people.slice(4));
   });
 });

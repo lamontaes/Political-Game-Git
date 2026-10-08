@@ -10,19 +10,13 @@ import {
   type CouncilRules,
 } from "./local-council-binding";
 import { addDays } from "../dates";
-import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   governmentUnit,
   type GovernmentUnitIdentity,
 } from "../government-units";
-import {
-  introduceMeasure,
-  measurePosition,
-  placeMeasureOnCalendar,
-} from "../legislation";
-import { nextMeasureNumbering } from "../measure-numbering";
+import { measurePosition } from "../legislation";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
 import {
@@ -45,7 +39,6 @@ import {
   localGovernmentSeated,
   sittingLocalOfficers,
 } from "./local-government-seats";
-import { PUBLIC_MEETING_KEY } from "../life-opportunities";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -59,14 +52,9 @@ import { settleQuietCouncilItems } from "./council-quiet-items";
 /**
  * The player's town council meets and votes.
  *
- * On the place's recorded or estimated schedule, the council seated at the
- * opening meets. At each meeting a
- * member other than the player introduces an ordinance, and every ordinance
- * introduced at an earlier meeting is put to a roll call of the sitting
- * members and adopted or rejected. The first meeting is the public meeting
- * the opening posts on the local calendar: its agenda item, opening the
- * meeting room one extra evening each week, is on the council's agenda as an
- * ordinance, so that meeting ends with the council's vote.
+ * Scheduled meetings move existing measures through the council's process.
+ * A meeting notice or agenda must come from its own saved organizer record;
+ * this handler does not create one as part of an ordinary-life opening.
  *
  * A council whose charter is compiled into a rule pack that the engine can
  * run moves its ordinances through that pack's own readings and thresholds
@@ -319,51 +307,6 @@ export function townQuestions(
     );
 }
 
-function introduce(
-  world: World,
-  unit: GovernmentUnitIdentity,
-  town: EntityId,
-  rules: CouncilRules,
-  input: {
-    readonly stableKey?: string;
-    readonly sponsorPersonId: EntityId;
-    readonly shortTitle: string;
-    readonly summary: string;
-    readonly proposition: PolicyPropositionDefinition | null;
-    readonly answer: "yes" | "no";
-  },
-): World {
-  const pack = rulePackById(rules.packId);
-  const law = lawJurisdiction(world, unit, town);
-  const numbering = nextMeasureNumbering(law.world, {
-    jurisdictionId: law.jurisdictionId,
-    originChamber: chamberByKey(pack, "council"),
-    rulePackId: rules.packId,
-  });
-  return introduceMeasure(law.world, {
-    stableKey:
-      input.stableKey ??
-      `${V}:${unit.id}:${numbering.numberingSession.key}:${numbering.designation}`,
-    jurisdictionId: law.jurisdictionId,
-    rulePackId: rules.packId,
-    ...numbering,
-    shortTitle: input.shortTitle,
-    summary: input.summary,
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: "council",
-    sponsorPersonId: input.sponsorPersonId,
-    ...(input.proposition
-      ? {
-          propositionIds: [input.proposition.id],
-          propositionAnswers: [
-            { propositionId: input.proposition.id, answer: input.answer },
-          ],
-        }
-      : {}),
-  });
-}
-
 /**
  * Members other than the player file what their principles press them to,
  * at most one ordinance each through the shared member filer.
@@ -515,69 +458,6 @@ export function ensureLocalCouncilMeetings(
     addDays(world.currentDate, Math.round(cadence.councilMeetingIntervalDays)),
     cadence,
   );
-}
-
-/**
- * The public meeting posted on the local calendar today, for tomorrow
- * evening, is a meeting of the town council: its agenda item goes before the
- * council as an ordinance, and the council meets that day to vote on it.
- * Unchanged when no meeting was posted today or the town is not seated.
- */
-export function ensurePostedMeetingOnCouncilAgenda(
-  world: World,
-  playerPersonId: EntityId,
-): World {
-  const notice = world.history.events.find(
-    (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
-  );
-  if (!notice || notice.occurredAt !== world.currentDate) return world;
-  const council = seatedCouncil(world, playerPersonId);
-  if (!council || notice.jurisdictionId !== council.town) return world;
-  const { unit, town, rules } = council;
-  const key = postedMeetingOrdinanceKey(town);
-  if (
-    (world.history.legislativeMeasures ?? []).some(
-      (measure) => measure.stableKey === key,
-    )
-  )
-    return world;
-  const sponsor = members(world, unit).find(
-    (seat) => seat.personId !== playerPersonId,
-  );
-  if (!sponsor) return world;
-  let next = introduce(world, unit, town, rules, {
-    stableKey: key,
-    sponsorPersonId: sponsor.personId,
-    shortTitle: "Meeting Room Evening Hours Ordinance",
-    summary:
-      "Opens the public meeting room one extra evening each week. No hours or funding proposal is attached.",
-    proposition: null,
-    answer: "yes",
-  });
-  const measure = next.history.legislativeMeasures!.at(-1)!;
-  next = placeMeasureOnCalendar(next, {
-    stableKey: `${measure.stableKey}:agenda`,
-    measureId: measure.id,
-    rationale: "Posted on the agenda of the public meeting.",
-  });
-  const dueAt = addDays(world.currentDate, 1);
-  const calendar =
-    rulePackById(rules.packId).session.sittingCalendar ??
-    LEGISLATIVE_SESSION_CALENDARS.council;
-  const stableKey = `${V}:${unit.id}:posted-meeting:${dueAt}`;
-  if (next.history.futureDueItems.some((item) => item.stableKey === stableKey))
-    return next;
-  return scheduleFutureDueItem(next, {
-    stableKey,
-    dueAt,
-    transitionKey: LOCAL_COUNCIL_MEETING,
-    entityIds: [town, playerPersonId],
-    jurisdictionId: town,
-    provenance: {
-      kind: "authored",
-      note: `${calendar.id}: the posted public meeting is a meeting of ${unit.name}'s council.`,
-    },
-  });
 }
 
 /** The roll call the posted public meeting ended with, if there was one. */

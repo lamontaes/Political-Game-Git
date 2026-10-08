@@ -63,6 +63,18 @@ export function personDayRecipe(
   });
 }
 
+/** The same saved figure recipe with the room's existing outfit exclusions. */
+export function personDayRecipeWithOutfitExclusions(
+  world: World,
+  person: Person,
+  pose: Omit<
+    EngineRecipeOptions,
+    "wear" | "uniform" | "officeholder" | "married"
+  > = {},
+): EngineRecipe | null {
+  return personDayRecipe(world, person, pose);
+}
+
 /**
  * Non-uniform outfits already used by earlier people in this room. Stable
  * person ordering makes a room's clothes independent of roster input order.
@@ -79,7 +91,9 @@ export function roomDayOutfitExclusions(
     const avoidOutfits = [...used];
     exclusions.set(personId, avoidOutfits);
     if (dayClothing(world, personId).uniform) continue;
-    const recipe = personDayRecipe(world, person, { avoidOutfits });
+    const recipe = personDayRecipeWithOutfitExclusions(world, person, {
+      avoidOutfits,
+    });
     if (recipe) used.add(recipe.outfit);
   }
   return exclusions;

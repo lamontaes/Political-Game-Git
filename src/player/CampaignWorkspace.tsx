@@ -378,10 +378,10 @@ export function CampaignWorkspace({
                     const status = office.eligible
                       ? { reasons: [office.eligibility] }
                       : splitEligibilityText(office.eligibility);
-                    const [electionOn, ...timingDetail] = office.timing
+                    const [electionOn, ...timingDetail] = (office.timing ?? "")
                       .split(" — ")
                       .map((part) => part.trim());
-                    const hasElection = ISO_DATE.test(office.timing);
+                    const hasElection = ISO_DATE.test(office.timing ?? "");
                     /*
                      * What is left to say about the office, beyond its status
                      * and its date. The unresolved research gaps are notes to
@@ -429,7 +429,7 @@ export function CampaignWorkspace({
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
-                              ? `Election: ${readableCampaignDate(electionOn ?? "")}`
+                              ? readableCampaignDate(electionOn ?? "")
                               : office.timing}
                           </span>
                           {office.connections.map((line) => (

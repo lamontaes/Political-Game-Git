@@ -186,7 +186,7 @@ describe("jobs in a town", () => {
           /^\$[\d,]+(\.\d\d)? (an hour|a year) · usually \d+(–\d+)? hours a week$/,
         );
         expect(listing.employerLine).not.toMatch(/fictional|County of /);
-        expect(listing.closesLine).toMatch(/^Taking applications through /);
+        expect(listing.closesLine).toMatch(/^Applications close: /);
         // The median is optional detail, never the offer line.
         expect(listing.termsLine).not.toMatch(/median/i);
       }
@@ -263,7 +263,7 @@ describe("jobs in a town", () => {
     expect(step.reason).toMatch(/full-time/);
     expect(
       projectJobMarket(answered, start.personId).applications[0]!.status,
-    ).toMatch(/^They turned you down\./);
+    ).toMatch(/^Declined/);
   });
 
   it("hires through someone the player knows, and pays the job weekly once started", () => {
@@ -485,7 +485,7 @@ describe("jobs in a town", () => {
     );
     expect(
       projectJobMarket(world, alone.personId).applications[0]!.status,
-    ).toMatch(/^They withdrew the offer\. You missed the second start date/);
+    ).toMatch(/^Offer withdrawn · You missed the second start date/);
     assertWorldIntegrity(world);
 
     // Somebody else applied too: the employer withdraws at the first miss.
