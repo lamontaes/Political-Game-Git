@@ -1,4 +1,5 @@
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
+import { createComposeTurns } from "./compose-turns";
 import { optionalGlob } from "../optional-glob";
 import type { BodyAnchors } from "./anchors";
 import {
@@ -90,8 +91,9 @@ function decode(file: string): Promise<Raster> {
 }
 
 const composed = new Map<string, Promise<EnginePersonImage>>();
-/** People are composed one at a time, so a full room never stalls a frame for long. */
-let queue: Promise<unknown> = Promise.resolve();
+
+/** One person composed at a time, newest asked for first (compose-turns.ts). */
+const turns = createComposeTurns();
 
 export function enginePersonImage(
   recipe: EngineRecipe,
@@ -106,31 +108,33 @@ export function enginePersonImage(
           files.map(async (file) => [file, await decode(file)] as const),
         ),
       );
-      const turn = queue.then(
-        () => new Promise((resolve) => setTimeout(resolve, 0)),
-      );
-      queue = turn;
-      await turn;
-      const { raster, anchors, pose, seatRow } = composeEnginePerson(
-        PEOPLE_PACK,
-        (file) => rasters.get(file)!,
-        recipe,
-        peoplePackFileAvailable,
-      );
+      await turns.turn();
+      let drawn: ReturnType<typeof composeEnginePerson>;
       const canvas = document.createElement("canvas");
-      canvas.width = raster.width;
-      canvas.height = raster.height;
-      canvas
-        .getContext("2d")!
-        .putImageData(
-          new ImageData(
-            new Uint8ClampedArray(raster.data),
-            raster.width,
-            raster.height,
-          ),
-          0,
-          0,
+      try {
+        drawn = composeEnginePerson(
+          PEOPLE_PACK,
+          (file) => rasters.get(file)!,
+          recipe,
+          peoplePackFileAvailable,
         );
+        canvas.width = drawn.raster.width;
+        canvas.height = drawn.raster.height;
+        canvas
+          .getContext("2d")!
+          .putImageData(
+            new ImageData(
+              new Uint8ClampedArray(drawn.raster.data),
+              drawn.raster.width,
+              drawn.raster.height,
+            ),
+            0,
+            0,
+          );
+      } finally {
+        turns.done();
+      }
+      const { raster, anchors, pose, seatRow } = drawn;
       const blob = await new Promise<Blob>((resolve, reject) =>
         canvas.toBlob(
           (b) => (b ? resolve(b) : reject(new Error("Encoding failed."))),
