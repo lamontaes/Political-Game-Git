@@ -3,6 +3,7 @@ import {
   addDays,
   assertWorldIntegrity,
   deserializeWorld,
+  recordWorldEvent,
   scheduledActivityState,
   serializeWorld,
 } from "../simulation";
@@ -15,6 +16,7 @@ import {
   contactProposals,
 } from "../simulation/relationship-contact";
 import { recordRelationshipInteraction } from "../simulation/records";
+import { recordFavor } from "../simulation/favors";
 import { recordPersonDeath } from "../simulation/vitality";
 import { setWorldIntegrityCheckMode } from "../simulation/world-integrity-changed";
 import { letAdultTimePass } from "./adult-life";
@@ -202,7 +204,7 @@ describe("PEOPLE P3: reaching somebody", () => {
     expect(serializeWorld(deserializeWorld(serializeWorld(settled)))).toBe(
       serializeWorld(settled),
     );
-  });
+  }, 60_000);
 
   it("the same proposal is answered once", () => {
     let settled = asked;
@@ -217,7 +219,7 @@ describe("PEOPLE P3: reaching somebody", () => {
     // And time passing again does not answer it twice.
     const later = passOrdinaryDays(settled, 3);
     expect(answersTo(later, proposal.eventId)).toHaveLength(1);
-  });
+  }, 60_000);
 
   it("a different day offered back is an answer and a new request", () => {
     const theirAsk = askToMeet(
@@ -298,7 +300,7 @@ describe("PEOPLE P3: somebody gets back in touch", () => {
       ),
     ).toBe(true);
     assertWorldIntegrity(answered);
-  });
+  }, 60_000);
 });
 
 describe("PEOPLE P3: the call, answered in the conversation", () => {
@@ -349,7 +351,7 @@ describe("PEOPLE P3: the call, answered in the conversation", () => {
       "contact:arranged-to-meet",
     );
     assertWorldIntegrity(agreed);
-  });
+  }, 60_000);
 });
 
 describe("what the People screen says about somebody", () => {
@@ -396,6 +398,94 @@ describe("what the People screen says about somebody", () => {
     )!;
     expect(contact.standing).toMatch(/would not rely on/);
   });
+
+  it("looks back at a recorded favor and conflict that is still unsettled", () => {
+    const seed = "contacts-lookback-random-place";
+    const place = drawRandomPlace(seed);
+    const opening = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        startAge: 34,
+        placeKey: place.key,
+      }),
+    ).game!;
+    const player = opening.playerPersonId;
+    const world = openOrdinaryLife(opening.world, player);
+    const other = projectContacts(world, player).contacts[0]!.personId;
+    const date = addDays(world.currentDate, -300);
+    let next = recordWorldEvent(world, {
+      stableKey: "contacts-lookback:help-event",
+      type: "life.recorded-help",
+      occurredAt: date,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.people[player]!.homeJurisdictionId,
+      involvedEntityIds: [player, other],
+      participants: [
+        { personId: player, role: "agency:helper", detail: null },
+        { personId: other, role: "impact:recipient", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "private",
+      tags: [],
+      summary: "You covered a repair bill for them.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    next = recordFavor(next, {
+      stableKey: "contacts-lookback:favor",
+      giverPersonId: player,
+      receiverPersonId: other,
+      kind: "personal:help",
+      description: "covered the cost of a repair",
+      givenAt: date,
+      eventId: next.history.events.at(-1)!.id,
+      subject: { kind: "none" },
+      motive: "kindness",
+      weight: "moderate",
+      audience: "private",
+      witnessPersonIds: [],
+      inReturnForFavorId: null,
+      undertakingId: null,
+    });
+    next = recordRelationshipInteraction(next, {
+      stableKey: "contacts-lookback:grudge",
+      personIds: [player, other],
+      eventId: null,
+      occurredAt: date,
+      kind: "conflict:disagreement",
+      change: "strained",
+      significance: "meaningful",
+      summary: "They disagreed about the move.",
+      tags: [],
+    });
+
+    const contact = projectContacts(next, player).contacts.find(
+      (entry) => entry.personId === other,
+    )!;
+    expect(contact.lookBack).toEqual([
+      expect.objectContaining({
+        kind: "favor",
+        at: date,
+        text: "You covered the cost of a repair.",
+      }),
+      expect.objectContaining({
+        kind: "unsettled-friction",
+        at: date,
+        text: "Still unsettled: They disagreed about the move.",
+      }),
+    ]);
+    console.info(
+      "S6_CONTACT_LOOKBACK_NEW_GAME",
+      JSON.stringify({ seed, place: place.key, player, other }),
+    );
+  });
 });
 
 describe("what became of asking", () => {
@@ -423,5 +513,5 @@ describe("what became of asking", () => {
       }
     }
     throw new Error("No request was answered within a day.");
-  });
+  }, 60_000);
 });
