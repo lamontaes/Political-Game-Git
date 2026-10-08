@@ -144,7 +144,7 @@ it.each([100_000, 300_000])(
     const f = smallWorld({
       place: jurisdictionKey,
       seed: `${TERM_SEED}:${jurisdictionKey}`,
-      date: "2025-12-18",
+      date: "2025-12-28",
       people: 3,
       offices: ["governor"],
       laws: [GRADUATED_STATE_INCOME_TAX_QUESTION],
