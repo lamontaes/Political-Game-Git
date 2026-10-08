@@ -26,7 +26,6 @@ import {
 } from "../simulation";
 import type {
   EntityId,
-  OfficeCaseworkWorkflowMode,
   OfficeVoteInstructionDisposition,
   OfficeVotingWorkflowMode,
   World,

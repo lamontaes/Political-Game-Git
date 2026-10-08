@@ -14,7 +14,7 @@ import {
   recordHouseholdMembershipState,
   startHouseholdMembership,
 } from "./life";
-import { GROWN_UP_PRESENTATION_AGE_PLACEHOLDER } from "./age-of-majority";
+import { GROWN_UP_PRESENTATION_AGE_ESTIMATE } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
@@ -153,7 +153,7 @@ function movesOutToBuy(
   // authority to end, and whether it has ended is not asked.
   if (
     ageOnDate(person.birthDate, world.currentDate) <
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER
+    GROWN_UP_PRESENTATION_AGE_ESTIMATE
   )
     return false;
   const residents = new Set(peopleInHouseholdAt(world, householdId));

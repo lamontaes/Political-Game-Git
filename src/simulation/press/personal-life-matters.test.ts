@@ -19,6 +19,23 @@ import {
   storyLeads,
 } from "./index";
 import { ALASKA_CONTEXT } from "../legislation-scenarios";
+import { PLACE_POPULATION_ROWS } from "../nationwide-world/place-population.generated";
+import { TERRITORY_PLACE_ROWS } from "../territory-places";
+
+function onePlaceEach(): string[] {
+  const largest = new Map<string, [string, number]>();
+  for (const pair of PLACE_POPULATION_ROWS.split(";")) {
+    const [geoid, people] = pair.split(":") as [string, string];
+    const state = geoid.slice(0, 2);
+    if ((largest.get(state)?.[1] ?? -1) < Number(people))
+      largest.set(state, [geoid, Number(people)]);
+  }
+  largest.set("15", ["1571550", 0]);
+  largest.set("72", ["7276770", 0]);
+  for (const [geoid, , usps] of TERRITORY_PLACE_ROWS)
+    if (!largest.has(usps)) largest.set(usps, [geoid, 0]);
+  return [...largest.values()].map(([geoid]) => geoid);
+}
 
 function personalWorld(seed: string, placeKey = "kentucky") {
   return createNewGameWorld({
@@ -69,6 +86,52 @@ function breakup(world: ReturnType<typeof personalWorld>) {
 }
 
 describe("personal-life matters", () => {
+  it(
+    "uses the recorded-event path in one place in every state, D.C. and territory",
+    { timeout: 600_000 },
+    () => {
+      const placeKeys = onePlaceEach();
+      expect(placeKeys).toHaveLength(56);
+      for (const [index, placeKey] of placeKeys.entries()) {
+        const world = personalWorld(`b26-p5-all-places-${index}`, placeKey);
+        const personId = world.personOrder[0]!;
+        const source = recordWorldEvent(world, {
+          stableKey: `b26-p5-all-places-${index}:arrest`,
+          type: "crime.arrest-made",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: world.people[personId]!.homeJurisdictionId,
+          involvedEntityIds: [personId],
+          participants: [
+            { personId, role: "agency:arrested", detail: "Was arrested" },
+          ],
+          personFactConstraints: [],
+          visibility: "public",
+          tags: ["crime", "crime:arrest"],
+          summary: "A recorded arrest.",
+          context: {
+            location: null,
+            socialContext: "An arrest record",
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        const sourceEvent = source.history.events.at(-1)!;
+        const opened = openPersonalLifeMatter(source, {
+          stableKey: `b26-p5-all-places-${index}:matter`,
+          sourceEventId: sourceEvent.id,
+          subjectPersonIds: [personId],
+        });
+        expect(opened.matter.personalEventId, placeKey).toBe(sourceEvent.id);
+        expect(opened.world.history.events.at(-1)?.type, placeKey).toBe(
+          "matter.personal-life-opened",
+        );
+      }
+    },
+  );
+
   it("opens only from an existing public arrest record and preserves its source", () => {
     const world = personalWorld("session25-b26-p5-arrest-watch", "alaska");
     const personId = world.personOrder[0]!;

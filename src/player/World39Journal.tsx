@@ -50,9 +50,7 @@ export function World39Journal({
       <h3>My life so far</h3>
       <p>{biography.name}</p>
       {!biography.entries.some((entry) => entry.at > birthDate) ? (
-        <p data-testid="world39-journal-sparse">
-          Nothing more has happened yet.
-        </p>
+        <p data-testid="world39-journal-sparse" />
       ) : null}
       <div className="world39-journal-controls" data-testid="journal-controls">
         <div role="group" aria-label="Journal view">

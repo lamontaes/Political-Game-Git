@@ -160,6 +160,19 @@ describe(
       }
     });
 
+    it("records a memory for everyone directly involved in a family event", () => {
+      for (const event of familyEvents(world, town))
+        for (const personId of event.involvedEntityIds.filter(
+          (id) => world.people[id],
+        ))
+          expect(
+            world.history.memories.some(
+              (memory) =>
+                memory.eventId === event.id && memory.personId === personId,
+            ),
+          ).toBe(true);
+    });
+
     it("nobody dates a relative", () => {
       for (const partnership of world.history.partnerships) {
         if (!partnership.stableKey.startsWith(TOWN_FAMILIES_VERSION)) continue;

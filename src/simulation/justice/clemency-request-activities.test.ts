@@ -19,7 +19,7 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
 } from "./prosecution";
 import { prosecutionTimingFor } from "./prosecution-timing";
 import { PROSECUTION_STAGE_TRANSITION_KEY } from "./prosecution-transitions";
@@ -38,7 +38,7 @@ afterAll(() => {
 });
 
 // Full production composer with unrelated saved commitments canonically
-// cancelled; this is a bounded case-clock proof, not a whole-world year.
+// canceled; this is a bounded case-clock proof, not a whole-world year.
 describe("a saved NPC sentence wakes its existing clemency decision", () => {
   const rng = new SeededRng("team9-g10-floor-five-20260930");
   const states = pickDistinct(rng, lifePlaceStateIdentities(), 1);
@@ -107,10 +107,7 @@ describe("a saved NPC sentence wakes its existing clemency decision", () => {
       );
       expect(item.entityIds).toEqual([subjectId]);
       expect(item.dueAt).toBe(
-        addDays(
-          isolated.currentDate,
-          UNRESEARCHED_PROSECUTION.chargeDecisionDays,
-        ),
+        addDays(isolated.currentDate, PROSECUTION_ESTIMATE.chargeDecisionDays),
       );
       const registry = composeWorldTimeHandlers();
       const reloaded = deserializeWorld(serializeWorld(referral.world));

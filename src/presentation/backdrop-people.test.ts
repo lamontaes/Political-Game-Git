@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
+import poseData from "../../data/content/pose-by-activity.json" with { type: "json" };
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
@@ -14,6 +15,7 @@ import { peopleAtWorkAt } from "../simulation/living-world/work-schedules";
 import { playerTown } from "../simulation/living-world/town-residents";
 import { addDays, simulationMomentOnLocalDate } from "../simulation/dates";
 import type { IsoDate, World } from "../simulation";
+import { drawRandomPlace } from "../../tests/support/random-place";
 
 const LEXINGTON = "2146027";
 
@@ -82,15 +84,35 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
   });
 
   it("keeps the counter for a scene cashier when a customer is listed first", () => {
-    const [customer, cashier] = Object.values(world.people)
-      .filter((person) => person.id !== player && person.appearance)
+    const seed = "bg-07-cashier-floor-2026-10-06";
+    const place = drawRandomPlace(seed);
+    const randomGame = generateOpeningLife(
+      prepareOpeningLife({
+        ...DEFAULT_NEW_GAME_SETUP,
+        seed,
+        placeKey: place.key,
+        startAge: 24,
+        questionnaire: "skipped",
+      }),
+    ).game!;
+    console.info("BG_07_NEW_GAME", {
+      seed,
+      placeKey: place.key,
+      place: place.displayName,
+      personId: randomGame.playerPersonId,
+    });
+    const [customer, cashier] = Object.values(randomGame.world.people)
+      .filter(
+        (person) =>
+          person.id !== randomGame.playerPersonId && person.appearance,
+      )
       .slice(0, 2);
     if (!customer || !cashier) throw new Error("two present people are needed");
     const people = placeBackdropPeople(
-      world,
-      player,
+      randomGame.world,
+      randomGame.playerPersonId,
       "store",
-      world.currentMoment,
+      randomGame.world.currentMoment,
       [
         { personId: customer.id, title: "Customer" },
         {
@@ -103,9 +125,24 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const counterTop = staging.places.store.spots.find(
       (spot) => "group" in spot && spot.group === "counter",
     )!.clipBelowY;
-    expect(
-      people.find((person) => person.personId === cashier.id)?.clipBelowPercent,
-    ).toBe(counterTop);
+    const cashierPlacement = people.find(
+      (person) => person.personId === cashier.id,
+    );
+    expect(cashierPlacement?.slotId).toBe("store:spot:0");
+    expect(cashierPlacement?.slotRole).toBe("staff-behind-counter");
+    expect(cashierPlacement?.clipBelowPercent).toBe(counterTop);
+    const cashierSlot = staging.places.store.spots[0];
+    expect(cashierSlot).toMatchObject({
+      x: 68,
+      y: 72,
+      depth: 72,
+      clipBelowY: 43,
+      pose: "stand",
+      role: "staff-behind-counter",
+    });
+    // The slot's y-coordinate is the hidden floor contact, not the visible
+    // counter surface. This guards against putting the cashier's feet on top.
+    expect(cashierSlot!.y).toBeGreaterThan(cashierSlot!.clipBelowY!);
     const visitor = people.find((person) => person.personId === customer.id);
     expect(visitor?.clipBelowPercent ?? null).toBeNull();
     expect(
@@ -360,15 +397,18 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
     const speaker = placed.find(
       (person) => person.personId === present[0]!.personId,
     );
-    if (speaker) expect(speaker.engine.pose).toBe("explaining");
+    const speaking = poseData.activities.speaking.front.stand.map(
+      (entry) => entry.pose,
+    );
+    if (speaker) expect(speaking).toContain(speaker.engine.pose);
     else
       expect(
         placed.overflow.find(
           (person) => person.personId === present[0]!.personId,
         )?.reason,
       ).toBe("missing-art");
-    expect(spotPose({ x: 50, y: 50, pose: "stand" }, "speaking")).toBe(
-      "explaining",
+    expect(speaking).toContain(
+      spotPose({ x: 50, y: 50, pose: "stand" }, "speaking"),
     );
   });
 });

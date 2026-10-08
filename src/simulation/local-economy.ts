@@ -1,11 +1,11 @@
 import { aggregateCustomers } from "./aggregate-customers";
 export { aggregateCustomers } from "./aggregate-customers";
 import {
-  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_ESTIMATE,
   localBusinessWageMinor,
 } from "./recorded-employer";
 export {
-  LOCAL_BUSINESS_PLACEHOLDER,
+  LOCAL_BUSINESS_ESTIMATE,
   localBusinessWageMinor,
 } from "./recorded-employer";
 // Preserve the published opening API while the sole selector lives with town businesses.
@@ -27,6 +27,11 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { organizationProfileAt } from "./life-queries";
+import { recordsByStringField } from "./history-index";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { taxReachesPlace } from "./property-tax-bases";
+import { effectiveTaxPolicy, recordTaxBase } from "./tax-policy";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -44,7 +49,7 @@ import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
 import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
-import { writeWithWorldIntegrityOnce } from "./world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   EntityId,
   IsoDate,
@@ -244,6 +249,23 @@ export const OWNER_DRAW_BASIS = "compensation:owner-draw" as const;
 export const BUSINESS_OWNER_WORK_KIND = "independent:business-owner" as const;
 export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
+/** Estimated business income uses completed receipts after recorded payroll. */
+export function modeledLocalBusinessOperatingIncomeMinor(
+  receiptsMinor: number,
+  payrollMinor: number,
+): number {
+  if (
+    !Number.isSafeInteger(receiptsMinor) ||
+    receiptsMinor < 0 ||
+    !Number.isSafeInteger(payrollMinor) ||
+    payrollMinor < 0
+  )
+    throw new Error(
+      "Business receipts and payroll must be nonnegative minor units.",
+    );
+  return Math.max(0, receiptsMinor - payrollMinor);
+}
+
 const CATCH_UP_LIMIT_MONTHS = 240;
 
 /** The hours and demands of a local business's full-time job. */
@@ -355,7 +377,7 @@ function seatMissingLocalBusinesses(
   const missing = localBusinessPlansFor(jurisdictionId);
   if (missing.length === 0) return world;
   const today = world.currentDate;
-  const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
+  const currency = money(0, LOCAL_BUSINESS_ESTIMATE.currency).currency;
   const rng = new SeededRng(world.seed).fork(
     `local-businesses:${jurisdictionId}`,
   );
@@ -365,7 +387,7 @@ function seatMissingLocalBusinesses(
       `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
       (planned.sourced
         ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
-        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`),
+        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_ESTIMATE.researchQuestionId}.`),
   });
 
   type Staffing = {
@@ -632,6 +654,134 @@ function businessFlows(
 }
 
 /**
+ * Corporate-income terms need a person-level base in the shared tax engine.
+ * The town model records estimated receipts and wage commitments but not
+ * nonpay costs. Use completed monthly receipts less completed payroll as an
+ * explicitly incomplete operating-income estimate; the saved base keeps that
+ * limitation visible, and the adopted law still supplies the rate and terms.
+ */
+function recordLocalCorporateIncomeBases(
+  world: World,
+  organizations: ReadonlySet<EntityId>,
+  periods: ReadonlySet<IsoDate>,
+): World {
+  if (organizations.size === 0 || periods.size === 0) return world;
+  const proposals = (world.history.taxProposals ?? []).filter(
+    (row) =>
+      row.terms.instrument === "corporate-income" &&
+      (row.publicGovernmentIdentity?.kind === "local-government" ||
+        row.power?.level === "STATE"),
+  );
+  if (proposals.length === 0) return world;
+  const today = world.currentDate;
+  let next = world;
+  for (const organizationId of organizations) {
+    const revenueFlows = businessFlows(world, organizationId).filter(
+      (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
+    );
+    const wageFlows = businessFlows(world, organizationId).filter(
+      (flow) => flow.basisKind === BUSINESS_WAGES_BASIS,
+    );
+    if (revenueFlows.length === 0) continue;
+    const profile = organizationProfileAt(world, organizationId);
+    const place = profile?.locationJurisdictionId;
+    const owner = world.history.workRelationships.find(
+      (row) =>
+        row.organizationId === organizationId &&
+        row.kind === BUSINESS_OWNER_WORK_KIND,
+    );
+    if (!place || !owner || !world.people[owner.personId]) continue;
+    for (const period of periods) {
+      const revenue = revenueFlows.reduce((sum, flow) => {
+        const outcome = world.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === flow.id && row.periodStartsAt === period,
+        );
+        return sum + (outcome?.transferredAmount.minorUnits ?? 0);
+      }, 0);
+      const payroll = wageFlows.reduce((sum, flow) => {
+        const outcome = world.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === flow.id && row.periodStartsAt === period,
+        );
+        return sum + (outcome?.transferredAmount.minorUnits ?? 0);
+      }, 0);
+      const amountMinor = modeledLocalBusinessOperatingIncomeMinor(
+        revenue,
+        payroll,
+      );
+      if (amountMinor <= 0) continue;
+      for (const proposal of proposals) {
+        const policy = effectiveTaxPolicy(
+          world,
+          proposal.jurisdictionId,
+          proposal.terms.seriesKey,
+          today,
+        );
+        if (
+          !policy ||
+          policy.proposalId !== proposal.id ||
+          !taxReachesPlace(world, proposal, place)
+        )
+          continue;
+        const stableKey = `local-corporate-income-base:${proposal.id}:${organizationId}:${period}`;
+        if (
+          recordsByStringField(
+            next.history.taxBases ?? [],
+            "stableKey",
+            stableKey,
+          ).length > 0
+        )
+          continue;
+        next = recordWorldEvent(next, {
+          stableKey: `event:${stableKey}`,
+          type: "tax.corporate-income-assessed",
+          occurredAt: today,
+          recordedAt: today,
+          jurisdictionId: proposal.jurisdictionId,
+          involvedEntityIds: [owner.personId, organizationId],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: ["tax", "tax-base:estimated-operating-income"],
+          summary:
+            "A local business's estimated operating income was assessed for corporate income tax.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        const revenueCurrency = resourceFlowTermsAt(world, revenueFlows[0]!.id)
+          ?.amount.currency;
+        if (!revenueCurrency) continue;
+        next = recordTaxBase(next, {
+          stableKey,
+          sourceEventId: next.history.events.at(-1)!.id,
+          jurisdictionId: proposal.jurisdictionId,
+          payer: { kind: "person", personId: owner.personId },
+          baseKey: proposal.terms.baseKey,
+          occurredAt: today,
+          amount: money(amountMinor, revenueCurrency),
+          assumptionNote: `Estimated from completed local-business receipts less completed wage transfers for ${period}; nonpay operating costs, deductions, and corporate ownership shares are not separately recorded. Revenue originates from County Business Patterns and Economic Census estimates; wages use saved employer pay records.`,
+        });
+        next = applyLawConsequences(next, {
+          onDate: today,
+          activity: "assessment",
+          activityId: next.history.taxBases!.at(-1)!.id,
+          subjectIds: [owner.personId],
+          governingLawId: proposal.measureId,
+        });
+      }
+    }
+  }
+  return next;
+}
+
+/**
  * Writes every due month at once, in date order with each month's revenue
  * ahead of its pay, so a month's pay is never recorded before its takings.
  * One integrity check for the whole batch.
@@ -684,7 +834,20 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
         },
       ]);
     }
-    return next;
+    const corporateOrganizations = new Set<EntityId>();
+    for (const entry of due)
+      if (entry.revenue && entry.flow.recipient.kind === "organization")
+        corporateOrganizations.add(entry.flow.recipient.organizationId);
+    const months = new Set<IsoDate>(
+      due
+        .filter((entry) => entry.revenue)
+        .map((entry) => makeIsoDate(entry.input.periodStartsAt)),
+    );
+    return recordLocalCorporateIncomeBases(
+      next,
+      corporateOrganizations,
+      months,
+    );
   });
 }
 

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import catalog from "../../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import questionPowers from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import {
   lifePlaceByKey,
@@ -50,7 +50,7 @@ const CELLS = new Map(
   (
     catalog.dials as unknown as readonly {
       id: string;
-      levels: Record<string, { may: string }>;
+      levels: Record<string, { may: string; status?: string }>;
     }[]
   ).map((dial) => [dial.id, dial.levels]),
 );
@@ -139,7 +139,7 @@ const PLACES = everyPlace();
 
 describe("which question each level may answer", () => {
   it("maps every question in the catalog to a powers dial, at levels its issue allows", () => {
-    expect(QUESTIONS.length).toBe(122);
+    expect(QUESTIONS.length).toBe(121);
     expect(Object.keys(ROWS).sort()).toEqual(
       QUESTIONS.map((question) => question.key).sort(),
     );
@@ -238,11 +238,18 @@ describe("which question each level may answer", () => {
         // A gated question also reads the state's law; its own test covers it.
         if (row.gate) continue;
         const cells = own.map((level) => CELLS.get(row.dial)![level]!.may);
+        const stateLaw = own.map((level) => {
+          const cell = CELLS.get(row.dial)![level]!;
+          return (
+            cell.may === "UNKNOWN" ||
+            (cell.may === "varies by state" && cell.status === "game-profile")
+          );
+        });
         // A local power left to home rule or Dillon's rule reads the state's
         // law on home rule; its own test covers it.
         if (
           own.every((level) => level === "county" || level === "city") &&
-          cells.every((may) => may === "UNKNOWN")
+          stateLaw.every(Boolean)
         )
           continue;
         const expected = cells.some((may) => may === "yes" || may === "limited")

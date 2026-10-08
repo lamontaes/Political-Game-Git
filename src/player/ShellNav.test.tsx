@@ -10,10 +10,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../presentation/new-game";
-import {
-  describeTimeCommandPreview,
-  previewTimeCommand,
-} from "../presentation/time-command";
+import { previewTimeCommand } from "../presentation/time-command";
 import {
   describeTimeTarget,
   skipToLabel,
@@ -84,7 +81,7 @@ describe("ShellNav portrait hub", () => {
     expect(html).toContain("Jordan Avery Price");
     expect(html).toContain("Tuesday, January 20, 2026");
     expect(html).toContain(
-      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record. Open navigation."',
+      'aria-label="Jordan Avery Price. Tuesday, January 20, 2026. Somewhere on record."',
     );
     // A figure never sits inside the button.
     expect(html).not.toMatch(
@@ -121,7 +118,7 @@ describe("ShellNav portrait hub", () => {
     const html = render(sub);
     expect(html).toContain('data-level="submenu"');
     expect(html).toMatch(
-      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-140px/,
+      /data-testid="nav-submenu-back" style="--fan-x:0px;--fan-y:-150px/,
     );
     expect(html).toContain('data-testid="nav-finances"');
   });
@@ -131,10 +128,10 @@ describe("fanLayout", () => {
   it("fills the inner ring first, straight up, then opens a further ring", () => {
     const layout = fanLayout(10);
     expect(layout).toHaveLength(10);
-    expect(layout[0]).toEqual({ x: 0, y: -140, ring: 0 });
+    expect(layout[0]).toEqual({ x: 0, y: -150, ring: 0 });
     expect(layout.filter((at) => at.ring === 0)).toHaveLength(3);
-    expect(layout.filter((at) => at.ring === 1)).toHaveLength(5);
-    expect(layout.filter((at) => at.ring === 2)).toHaveLength(2);
+    expect(layout.filter((at) => at.ring === 1)).toHaveLength(4);
+    expect(layout.filter((at) => at.ring === 2)).toHaveLength(3);
     // Everything opens up and to the right of the portrait.
     for (const at of layout) {
       expect(at.x).toBeGreaterThanOrEqual(0);
@@ -143,8 +140,8 @@ describe("fanLayout", () => {
   });
 
   it("keeps neighbors on a ring far enough apart that entries never touch", () => {
-    // An entry's width plus a visible margin between neighbors.
-    const entry = 3.9 * 16 + 4;
+    // The actual 4.4rem menu disc plus a visible 8px gap.
+    const entry = 4.4 * 16 + 8;
     const layout = fanLayout(18);
     for (const ring of FAN_RINGS.keys()) {
       const points = layout.filter((at) => at.ring === ring);
@@ -158,10 +155,19 @@ describe("fanLayout", () => {
     }
   });
 
-  it("fits the tallest ring used by the full menu inside a 768-pixel window", () => {
-    const top = Math.min(...fanLayout(10).map((at) => at.y));
-    // Portrait center sits about 54px above the bottom edge; entries are 62px.
-    expect(54 - top + 31).toBeLessThan(768);
+  it("keeps the full fan inside the smallest viewport that enables it", () => {
+    const layout = fanLayout(10);
+    const left = Math.min(...layout.map((at) => at.x));
+    const right = Math.max(...layout.map((at) => at.x));
+    const top = Math.min(...layout.map((at) => at.y));
+    const bottom = Math.max(...layout.map((at) => at.y));
+    // CSS enables the radial fan at 761 by 700. Its center remains within
+    // 50px of the left edge and 54px of the bottom edge; the discs are 4.4rem.
+    const radius = (4.4 * 16) / 2;
+    expect(50 + right + radius).toBeLessThan(761);
+    expect(54 - top + radius).toBeLessThan(700);
+    expect(50 + left - radius).toBeGreaterThanOrEqual(0);
+    expect(54 - bottom - radius).toBeGreaterThanOrEqual(0);
   });
 });
 
@@ -182,16 +188,13 @@ describe("ShellNav interrupt checklist", () => {
         onPassDays={() => {}}
       />,
     );
-    expect(html).toMatch(
-      /data-testid="shell-day-controls"[\s\S]*data-testid="shell-stops-toggle"/,
-    );
-    expect(html).toMatch(
-      /data-testid="shell-stops-toggle"[^>]*aria-expanded="false"|aria-expanded="false"[^>]*data-testid="shell-stops-toggle"/,
-    );
-    expect(html).not.toContain('data-testid="shell-stops"');
+    // OW-22: "Until needed" and "Stops" are not approved Kit 13 names.
+    expect(html).toContain('data-testid="shell-day-controls"');
+    expect(html).not.toContain('data-testid="shell-stops-toggle"');
+    expect(html).not.toContain('data-testid="shell-pass-until-needed"');
   });
 
-  it("keeps Day, Week and Until needed available in a child's life", () => {
+  it("keeps Day and Week available in a child's life", () => {
     const child = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
       seed: "child-shell-day-week",
@@ -206,12 +209,8 @@ describe("ShellNav interrupt checklist", () => {
       kind: "days",
       days: 7,
     });
-    const untilNeeded = previewTimeCommand(child.world, child.playerPersonId, {
-      kind: "quiet-stretch",
-    });
     expect(day).not.toBeNull();
     expect(week).not.toBeNull();
-    expect(untilNeeded).not.toBeNull();
     const html = renderToStaticMarkup(
       <ShellNav
         state={INITIAL_SHELL_STATE}
@@ -225,50 +224,16 @@ describe("ShellNav interrupt checklist", () => {
         onSave={() => {}}
         onLeave={() => {}}
         onPassDays={() => {}}
-        onPassUntilNeeded={() => {}}
         passTargets={{
           day: skipToLabel(day!.target),
           week: skipToLabel(week!.target),
-          untilNeeded: describeTimeCommandPreview(untilNeeded!),
         }}
       />,
     );
     expect(html).toContain('data-testid="shell-pass-day"');
     expect(html).toContain('data-testid="shell-pass-week"');
-    expect(html).toContain('data-testid="shell-pass-until-needed"');
     expect(html).toContain(skipToLabel(day!.target));
     expect(html).toContain(skipToLabel(week!.target));
-    expect(html).toContain(describeTimeCommandPreview(untilNeeded!));
-  });
-
-  it("leaves an already due Work decision in the player's hands", () => {
-    const html = renderToStaticMarkup(
-      <ShellNav
-        state={INITIAL_SHELL_STATE}
-        dispatch={() => {}}
-        playerName="Jordan Avery Price"
-        dateLabel="Tuesday, January 20, 2026"
-        placeName={null}
-        destinations={DESTINATIONS}
-        canSave
-        unsaved={false}
-        onSave={() => {}}
-        onLeave={() => {}}
-        onPassDays={() => {}}
-        onPassUntilNeeded={() => {}}
-        passTargets={{
-          day: "Tomorrow",
-          week: "Next week",
-          untilNeeded: null,
-          untilNeededReason:
-            "Resolve the decision under Work before another quiet stretch.",
-        }}
-      />,
-    );
-    expect(html).toMatch(
-      /data-testid="shell-pass-until-needed"[^>]*aria-disabled="true"/,
-    );
-    expect(html).toContain("Resolve the decision under Work");
   });
 });
 
@@ -297,7 +262,6 @@ function renderReceivedClockWorld(
       onSave={() => {}}
       onLeave={() => {}}
       onPassDays={() => {}}
-      onPassUntilNeeded={() => {}}
       passTargets={targets}
     />,
   );
@@ -379,32 +343,4 @@ describe("the shell bar displays the received world's actual clock", () => {
       expect(later.history).toBe(laterHistory);
     },
   );
-});
-it("names a civic calendar choice without routing it to Work", () => {
-  const html = renderToStaticMarkup(
-    <ShellNav
-      state={INITIAL_SHELL_STATE}
-      dispatch={() => {}}
-      playerName="Jordan"
-      dateLabel="Tuesday"
-      placeName={null}
-      destinations={DESTINATIONS}
-      canSave
-      unsaved={false}
-      onSave={() => {}}
-      onLeave={() => {}}
-      onPassDays={() => {}}
-      onPassUntilNeeded={() => {}}
-      passTargets={{
-        day: "Tomorrow",
-        week: "Next week",
-        untilNeeded: null,
-        untilNeededReason:
-          "Resident meeting is waiting on your calendar. Decide whether to attend or decline before another quiet stretch.",
-      }}
-    />,
-  );
-  expect(html).toContain("Resident meeting is waiting on your calendar");
-  expect(html).not.toContain("under Work");
-  expect(html).not.toContain("Work needs you now");
 });

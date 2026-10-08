@@ -17,6 +17,7 @@ export interface CampaignComplianceObligationView {
     "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
   readonly summary: string;
   readonly sourceUrl: string | null;
+  readonly estimatedFrom?: string;
 }
 
 export interface CampaignComplianceView {
@@ -54,7 +55,8 @@ function obligation(
       key,
       state: value.state,
       summary: knownSummary(value.value),
-      sourceUrl: value.source.sourceUrl,
+      sourceUrl: value.source?.sourceUrl ?? null,
+      ...(value.estimatedFrom ? { estimatedFrom: value.estimatedFrom } : {}),
     };
   }
   return {
@@ -72,6 +74,7 @@ function obligation(
         : value.state === "UNKNOWN"
           ? (value.source?.sourceUrl ?? null)
           : null,
+    ...(value.estimatedFrom ? { estimatedFrom: value.estimatedFrom } : {}),
   };
 }
 
@@ -124,7 +127,7 @@ export function projectCampaignCompliance(
         "report-receipt-window",
         pack.reportReceiptWithinBusinessDays,
         (days) =>
-          `A report is timely when received within ${String(days)} business days after the reporting period ends; this simulation does not guess a calendar date without a Kentucky business-day calendar.`,
+          `A report is timely when received within ${String(days)} business days after the reporting period ends; this simulation does not guess a calendar date without a jurisdiction-specific business-day calendar.`,
       ),
       obligation(
         "electronic-filing",

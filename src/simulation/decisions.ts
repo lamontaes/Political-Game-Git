@@ -21,7 +21,18 @@ import {
 } from "./life-sources";
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
+import {
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
 import { validateCutoff } from "./perception";
+import { traitRegistryFor } from "./trait-registry";
+import {
+  decisionHasActLabels,
+  isActConsideration,
+  traitActConsiderations,
+  traitIdsAlreadyReasoned,
+} from "./traits/act-pulls";
 import {
   assertOpenTaxonomyKey,
   decisionSourceRequiresReference,
@@ -32,6 +43,7 @@ import type {
   DecisionConsideration,
   DecisionContext,
   DecisionEvaluation,
+  DecisionImportance,
   DecisionOptionEvaluation,
   DecisionPreference,
   DecisionSourceSnapshot,
@@ -41,7 +53,13 @@ import type {
 } from "./types";
 import { assertWorldIntegrity, resolveEntityLabel } from "./world";
 
-const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
+export const DECISION_IMPORTANCE_ORDER: readonly DecisionImportance[] = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+];
+const IMPORTANCES = DECISION_IMPORTANCE_ORDER;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
@@ -108,6 +126,10 @@ export function evaluateDecision(
     assertNonEmpty(option.label, "Decision option label");
     assertNonEmpty(option.description, "Decision option description");
   }
+  // The general trait system: one call, here, for every decision whose
+  // options carry act kinds. Placed after the options are known to be valid so
+  // a malformed decision still fails on its own error.
+  if (context.traitActs !== "off") context = withTraitActs(world, context);
 
   const constraintKeys = new Set<string>();
   for (const constraint of context.constraints) {
@@ -401,6 +423,13 @@ function validateConsideration(
   }
   assertMember(IMPORTANCES, consideration.importance, "decision importance");
   assertMember(CONFIDENCES, consideration.confidence, "decision confidence");
+  if (
+    consideration.weightScale !== undefined &&
+    (!Number.isFinite(consideration.weightScale) ||
+      consideration.weightScale < 0 ||
+      consideration.weightScale > 1)
+  )
+    throw new Error("Decision consideration weight scale must be in [0, 1].");
   validateMindSourceReferences(
     world,
     context.actorPersonId,
@@ -408,6 +437,39 @@ function validateConsideration(
     consideration.sourceRefs,
     context.cutoff.historySequenceExclusive,
   );
+}
+
+/**
+ * Adds the reasons the person's recorded traits give for each option, from
+ * what kind of act the option is (`traits/act-pulls.ts`). A trait this
+ * decision already got through the older per-decision paths is skipped, so it
+ * is never counted twice. A context that already carries these reasons, such as
+ * a recorded one being replayed, is returned as it is.
+ */
+function withTraitActs(
+  world: World,
+  context: DecisionContext,
+): DecisionContext {
+  if (!decisionHasActLabels(context.decisionType)) return context;
+  if (context.considerations.some(isActConsideration)) return context;
+  const registry = traitRegistryFor(world);
+  const acts = traitActConsiderations(
+    world,
+    registry,
+    context.actorPersonId,
+    context.stableKey,
+    context.decisionType,
+    context.options,
+    traitIdsAlreadyReasoned(registry, context.considerations),
+    context.cutoff,
+  );
+  if (acts.length === 0) return context;
+  return {
+    ...context,
+    considerations: [...context.considerations, ...acts].sort((left, right) =>
+      left.stableKey.localeCompare(right.stableKey),
+    ),
+  };
 }
 
 function canonicalDecisionContext(input: DecisionContext): DecisionContext {
@@ -694,6 +756,19 @@ function snapshotSource(
         };
       break;
     }
+    case "place-outcome": {
+      const record = placeOutcomeRecords(world).find(
+        (candidate) =>
+          placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+      );
+      if (record)
+        return {
+          reference: { ...reference },
+          label: `Outcome · ${record.measure}`,
+          content: `${record.value} · ${record.month}`,
+        };
+      break;
+    }
   }
   throw new Error(`Decision source could not be resolved: ${reference.kind}`);
 }
@@ -735,6 +810,8 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||

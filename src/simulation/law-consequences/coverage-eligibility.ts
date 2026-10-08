@@ -4,6 +4,7 @@ import {
   coverageDecisionsForSubjects,
   recordHealthCoverageForSubjects,
 } from "../crisis/health-coverage";
+import { exposeCoverageChanges } from "../crisis/health-coverage-exposure";
 import { readEligibilityLawsInForce } from "../enacted-eligibility";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { householdMembershipsAt } from "../life-queries";
@@ -25,6 +26,7 @@ import {
 export {
   COVERAGE_QUESTION_KEYS,
   COVERAGE_ELIGIBILITY_ROWS,
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
 } from "./coverage-eligibility-rows";
 
 function questionFor(row: LawConsequenceRow): string {
@@ -197,12 +199,17 @@ export function applyCoverageEligibility(
     current.value.value !== resolved.value.value
   )
     return world;
-  return settleCoverageEligibilitySubjects(
+  const before = healthCoverageRecords(world).length;
+  const settled = settleCoverageEligibilitySubjects(
     world,
     resolved.effectiveAt,
     resolved.activityId,
     [resolved.subject.id],
     current.sourceRecordIds,
+  );
+  return exposeCoverageChanges(
+    settled,
+    healthCoverageRecords(settled).slice(before),
   );
 }
 

@@ -96,10 +96,9 @@ export const FAMILY_LABELS: Readonly<Record<CampaignLifeFamily, string>> = {
 };
 
 const STATE_LABELS: Readonly<
-  Record<CampaignLifeActivityView["state"], string>
+  Partial<Record<CampaignLifeActivityView["state"], string>>
 > = {
   offered: "Offered. Going is up to you.",
-  accepted: "You said you would do it.",
   declined: "You declined.",
   expired: "It passed without you.",
   completed: "Done.",
@@ -130,7 +129,7 @@ export interface PartyWorkRow {
   readonly hostPersonId: EntityId;
   readonly organizationName: string;
   readonly state: CampaignLifeActivityView["state"];
-  readonly stateLabel: string;
+  readonly stateLabel: string | null;
   readonly when: string;
   readonly placeLabel: string;
   readonly presence: "in-person" | "remote";
@@ -300,8 +299,10 @@ export function projectPartyAndCommunityWork(
       organizationName: organizationName(world, view.hostOrganizationId),
       state: view.state,
       stateLabel: awaitingRecord
-        ? "It has happened. What came of it is not recorded yet."
-        : (lapsedAnswerSentence(world, view) ?? STATE_LABELS[view.state]),
+        ? "Attendance is complete; its consequence entry is pending."
+        : (lapsedAnswerSentence(world, view) ??
+          STATE_LABELS[view.state] ??
+          null),
       when: readableMoment(view.start),
       placeLabel: hold?.location.label ?? "",
       presence: view.presence,

@@ -1,7 +1,9 @@
 import { readableTuitionSummary } from "../simulation/education-study-progression";
 import {
   ageOnDate,
+  activePartnershipsAt,
   electionContestResult,
+  kinshipRelationshipsAt,
   personName,
   organizationProfileAt,
   privateBeliefHistory,
@@ -26,6 +28,7 @@ import {
   consequentialSocialEventIds,
   isRoutineSocialOccasion,
 } from "./journal-significance";
+import { isOwnCaseEvent } from "./journal-own-case";
 
 export interface World39BiographyEntry {
   readonly id: string;
@@ -71,6 +74,9 @@ export function livedWorld39Sentence(raw: string): string | null {
   return stripped;
 }
 
+/** How a told view of an official is saved: fields, not a sentence. */
+const TOLD_VIEW_FIELDS = "told-view:";
+
 /** No inferred motives or outcome classification: original words retain their scope. */
 export function projectWorld39Journal(world: World, personId: EntityId) {
   const person = world.people[personId];
@@ -90,6 +96,44 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     text: `You were born on ${proseDate(person.birthDate)}.`,
     sourceId: person.id,
   });
+  // Family is part of the canonical life record, not an incidental contact.
+  // Read the same kinship and partnership records used by the household and
+  // relationship surfaces rather than trying to infer family from names or
+  // co-residence.
+  for (const relationship of kinshipRelationshipsAt(world, personId)) {
+    const otherId = relationship.personIds.find((id) => id !== personId);
+    const other = otherId ? world.people[otherId] : null;
+    if (!other) continue;
+    const name = personName(other);
+    const relation = relationship.kind.includes("parent-child")
+      ? relationship.personIds[0] === personId
+        ? "child"
+        : "parent"
+      : relationship.kind.includes("sibling")
+        ? "sibling"
+        : "relative";
+    entries.push({
+      id: `kinship:${relationship.id}`,
+      at: relationship.establishedAt,
+      sequence: relationship.sequence,
+      kind: "life",
+      text: `${name} is your ${relation}.`,
+      sourceId: relationship.id,
+    });
+  }
+  for (const partnership of activePartnershipsAt(world, personId)) {
+    const otherId = partnership.personIds.find((id) => id !== personId);
+    const other = otherId ? world.people[otherId] : null;
+    if (!other) continue;
+    entries.push({
+      id: `partnership:${partnership.id}`,
+      at: partnership.startedAt,
+      sequence: partnership.sequence,
+      kind: "life",
+      text: `${personName(other)} is your ${partnership.kind === "legal:marriage" ? "spouse" : "partner"}.`,
+      sourceId: partnership.id,
+    });
+  }
   for (const fact of person.establishedFacts) {
     if (
       fact.occurredAt > world.currentDate ||
@@ -150,7 +194,7 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
               : state.status === "temporarily-inactive"
                 ? `Your studies at ${school} were on hold.`
                 : state.status === "transferred"
-                  ? `You transferred out of ${school}.`
+                  ? `You transferred out of ${school}${state.reason ? ` because ${state.reason.charAt(0).toLowerCase()}${state.reason.slice(1).replace(/\.$/, "")}` : ""}.`
                   : `Your time at ${school} ended.`;
     entries.push({
       id: `education:${state.id}`,
@@ -223,11 +267,12 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       event.occurredAt < person.birthDate
     )
       continue;
-    const participated = event.participants.some(
-      (row) =>
-        row.personId === personId &&
-        (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
-    );
+    const participated =
+      event.participants.some(
+        (row) =>
+          row.personId === personId &&
+          (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
+      ) || isOwnCaseEvent(event, personId);
     const directKnowledge = world.history.knowledge.find(
       (row) =>
         row.personId === personId &&
@@ -340,6 +385,9 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (isRoutineSocialOccasion(consequentialEvents, source.id, source.type))
       continue;
     if (!account.believedSummary.trim()) continue;
+    // A view somebody told the player is saved as fields for the English
+    // engine to word, not as a sentence (`heard-official-views.ts`).
+    if (account.believedSummary.startsWith(TOLD_VIEW_FIELDS)) continue;
     entries.push({
       id: `account:${account.id}`,
       at: account.learnedAt,
@@ -548,14 +596,11 @@ const SPOKEN_PAST: Readonly<Record<string, (name: string) => string>> = {
     `You talked with ${name} about what was happening around you.`,
   activity: (name) => `You asked ${name} what they would like to do.`,
   explain: (name) => `You asked ${name} why.`,
-  suggestGame: (name) => `You suggested playing a game with ${name}.`,
-  suggestQuiet: (name) => `You suggested sitting and talking with ${name}.`,
   share: (name) => `You asked ${name} if you could tell them something.`,
   matter: (name) => `You mentioned something in the news to ${name}.`,
   remember: (name) => `You talked with ${name} about an earlier conversation.`,
   acknowledge: (name) => `You let ${name} know you had heard.`,
   leave: (name) => `You said goodbye to ${name}.`,
-  date: (name) => `You asked ${name} if they would like it to be a date.`,
   spendTime: (name) => `You spent half an hour with ${name}.`,
   acceptProposal: (name) => `You agreed to ${name}'s suggestion.`,
   declineProposal: (name) => `You declined ${name}'s suggestion.`,

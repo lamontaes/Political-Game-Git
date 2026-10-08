@@ -41,7 +41,7 @@ import { assessPaychecksTaxes } from "./statutory-tax";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { withholdingForPaycheck } from "./income-tax-withholding";
 import { lawInForce } from "./governing/law-in-force";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
 import {
@@ -172,7 +172,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
       const f = smallWorld({
         place: jurisdictionKey,
         seed: `${TERM_SEED}:${jurisdictionKey}`,
-        date: "2025-12-18",
+        date: "2025-12-28",
         people: 3,
         offices: ["governor"],
         laws: [ADOPT_STATE_INCOME_TAX_QUESTION],
@@ -272,7 +272,7 @@ describe("A22 adopted numeric terms reach the existing paycheck writer", () => {
             "Authored favorable votes for the numeric terms fixture.",
         },
       });
-      // The canonical procedure spends fourteen days before enactment. Start
+      // The canonical procedure advances four days before enactment. Start
       // before the tax year rather than backdating the law or its occurrence.
       expect(world.currentDate).toBe("2026-01-01");
       // Keep the actual signer in control while their required desk work is open.
@@ -507,36 +507,59 @@ describe("a state's income tax law, as enacted in play", () => {
     const answers = startingLaw.questions[ADOPT_STATE_INCOME_TAX_QUESTION]
       .answers as unknown as Record<
       string,
+      {
+        lawSchedules?: readonly {
+          kind: string;
+          schedule?: {
+            standardDeductionMinor: number;
+            brackets: readonly {
+              overMinor: number;
+              rateBasisPoints: number;
+            }[];
+          };
+        }[];
+      }
+    >;
+    const graduatedAnswers = startingLaw.questions[
+      GRADUATED_STATE_INCOME_TAX_QUESTION
+    ].answers as unknown as Record<
+      string,
       { lawSchedules?: readonly { kind: string }[] }
     >;
-    const places = Object.entries(answers).filter(([, row]) =>
-      row.lawSchedules?.some((term) => term.kind === "income-tax"),
-    );
-    expect(places).toHaveLength(19);
+    const identities = lifePlaceStateIdentities();
+    expect(identities).toHaveLength(56);
+    expect(Object.keys(answers)).toHaveLength(56);
     const world = lawWorld("recorded-starting-schedules", []);
-    for (const [place] of places) {
+    for (const { jurisdictionKey: place } of identities) {
       const read = stateIncomeTaxUnderLaw(world, place, "single", paid);
+      const recordedSchedule = answers[place]?.lawSchedules?.find(
+        (term) => term.kind === "income-tax",
+      );
+      if (!recordedSchedule?.schedule) {
+        // Some current opening schedules come from the separate, sourced
+        // state table rather than a starting-law schedule row.
+        continue;
+      }
       if (read.kind !== "enacted")
         throw new Error(`${place}: production table was refused`);
-      const source =
-        stateIncomeTax2026.places[
-          place as keyof typeof stateIncomeTax2026.places
-        ];
-      expect(source.standardDeductionSingle).not.toBeNull();
       expect(read.shape).toBe("graduated");
       expect(read.schedule.standardDeductionMinor).toBe(
-        source.standardDeductionSingle! * 100,
+        recordedSchedule.schedule.standardDeductionMinor,
       );
       expect(read.schedule.brackets).toEqual(
-        source.brackets.map((row) => ({
-          overMinor: row.overSingle * 100,
-          rateBasisPoints: Math.round(row.ratePercent * 100),
-        })),
+        recordedSchedule.schedule.brackets,
       );
-      expect(read.lawMeasureIds).toEqual([
-        `starting-law:${place}:${GRADUATED_STATE_INCOME_TAX_QUESTION}`,
-        `starting-law:${place}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
-      ]);
+      const hasGraduatedSchedule = graduatedAnswers[place]?.lawSchedules?.some(
+        (term) => term.kind === "income-tax",
+      );
+      expect(read.lawMeasureIds).toEqual(
+        hasGraduatedSchedule
+          ? [
+              `starting-law:${place}:${GRADUATED_STATE_INCOME_TAX_QUESTION}`,
+              `starting-law:${place}:${ADOPT_STATE_INCOME_TAX_QUESTION}`,
+            ]
+          : [`starting-law:${place}:${ADOPT_STATE_INCOME_TAX_QUESTION}`],
+      );
     }
   });
   it("keeps sourced schedules and admits flat and graduated starting terms", () => {

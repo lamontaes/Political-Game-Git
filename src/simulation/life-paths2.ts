@@ -1,4 +1,5 @@
 import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
+import { completeScheduledCareerTask } from "./career-path7";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
 import { ensureEmployerCashPositions } from "./opening-employer-cash";
@@ -14,7 +15,6 @@ import {
   bootstrapStudyPeriodProgression,
   cancelStudyPeriodDues,
   enrollmentStudyModel,
-  registerStudyPathResolver,
   scheduleStudyPeriodDue,
   studyProgressSummary,
   studyUsesPeriodModel,
@@ -30,6 +30,7 @@ import {
   studyPeriodDueDate,
   totalStudyPeriods,
 } from "./education-study-progression";
+import { registerStudyPathResolver } from "./study-path-resolver";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
@@ -83,7 +84,6 @@ import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { goalConsiderations } from "./people-goal-pursuit";
-import { traitConsiderations } from "./people-traits";
 import {
   employerName,
   lifePathDefinition,
@@ -916,7 +916,8 @@ function createLifePathRoutineHook(): RoutineTimeHook {
       }
     },
     afterActivityCompleted(world, activityId) {
-      return applyLifePathSessionCompletion(world, activityId);
+      const completed = applyLifePathSessionCompletion(world, activityId);
+      return completeScheduledCareerTask(completed, activityId);
     },
   };
 }
@@ -1377,14 +1378,6 @@ export function recruitLifePathPerson(
             explanation: "They have been looking for suitable work.",
           })),
       ),
-      ...traitConsiderations(world, personId, responseKey, [
-        {
-          optionKey: "refused",
-          trait: "risk",
-          pole: "high",
-          explanation: "They would chance waiting for something better.",
-        },
-      ]),
     ],
     perceptionIds: [],
     randomness: "none",

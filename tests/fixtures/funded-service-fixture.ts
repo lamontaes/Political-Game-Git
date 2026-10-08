@@ -8,7 +8,12 @@ import {
 } from "../../src/simulation/legislation";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
+import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
+import {
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+} from "../../src/simulation/minimum-wage";
 import { createOrganization } from "../../src/simulation/life";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { publicProgramRecordId } from "../../src/simulation/public-program-integrity";
@@ -44,7 +49,30 @@ export const provenance = {
   note: "Explicit L1 test contract; no production amount or forecast.",
 };
 export const procedure = createLegislativeScenario("alaska");
-const catalog = createProductionPolicyCatalog();
+const productionCatalog = createProductionPolicyCatalog();
+// The scenario world's saved pay-coverage determinations were made against its
+// own wage questions; the production catalog's wage questions carry starting
+// laws and pay rows those records do not name, so the scenario's two stay.
+const WAGE_KEYS = [
+  FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
+  STATE_MINIMUM_WAGE_QUESTION_KEY,
+];
+const wageIds = new Set(
+  Object.values(productionCatalog.propositions)
+    .filter((p) => WAGE_KEYS.includes(p.stableKey))
+    .map((p) => p.id),
+);
+const catalog = {
+  ...productionCatalog,
+  propositions: Object.fromEntries(
+    Object.entries(productionCatalog.propositions).filter(
+      ([id]) => !wageIds.has(id as EntityId),
+    ),
+  ),
+  propositionOrder: productionCatalog.propositionOrder.filter(
+    (id) => !wageIds.has(id),
+  ),
+};
 export const base = {
   ...procedure.world,
   policyCatalog: {
@@ -157,9 +185,9 @@ export function appendProgram(
   jurisdictionId: EntityId,
   kind: PublicProgramRecord["kind"],
   fields: object,
+  personId: EntityId = procedure.playerPersonId,
 ) {
   const key = `test:program:${kind}:${world.history.nextSequence}`;
-  const personId = procedure.playerPersonId;
   let next = recordWorldEvent(world, {
     stableKey: `${key}:event`,
     type: `public-program.${kind}`,
@@ -210,35 +238,43 @@ export function appendProgram(
 export function fundedServiceFixture(
   stateKey: string,
   keyOfQuestion = questionKey,
+  opening?: { world: World; personId: EntityId },
 ) {
   const jurisdiction = stateJurisdictionForKey(stateKey)!;
+  const sourceWorld = opening?.world ?? base;
   let world: World = {
-    ...base,
-    jurisdictions: { ...base.jurisdictions, [jurisdiction.id]: jurisdiction },
+    ...sourceWorld,
+    jurisdictions: {
+      ...sourceWorld.jurisdictions,
+      [jurisdiction.id]: jurisdiction,
+    },
     jurisdictionOrder: [
-      ...new Set([...base.jurisdictionOrder, jurisdiction.id]),
+      ...new Set([...sourceWorld.jurisdictionOrder, jurisdiction.id]),
     ],
   };
-  const personId = procedure.playerPersonId;
+  const personId = opening?.personId ?? procedure.playerPersonId;
   world = { ...world, control: { kind: "person", personId } };
-  world = enact(world, jurisdiction.id, "yes", keyOfQuestion);
+  if (!opening) world = enact(world, jurisdiction.id, "yes", keyOfQuestion);
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (p) => p.stableKey === keyOfQuestion,
   )!;
-  world = {
-    ...world,
-    policyCatalog: {
-      ...world.policyCatalog,
-      propositions: {
-        ...world.policyCatalog.propositions,
-        [proposition.id]: {
-          ...proposition,
-          consequences: [...SERVICE_DELIVERED_LAW_ROWS[keyOfQuestion]!],
+  if (!opening)
+    world = {
+      ...world,
+      policyCatalog: {
+        ...world.policyCatalog,
+        propositions: {
+          ...world.policyCatalog.propositions,
+          [proposition.id]: {
+            ...proposition,
+            consequences: [...SERVICE_DELIVERED_LAW_ROWS[keyOfQuestion]!],
+          },
         },
       },
-    },
-  };
-  const measureId = world.history.legislativeMeasures!.at(-1)!.id;
+    };
+  const measureId = opening
+    ? lawInForce(world, jurisdiction.id, proposition.id)!.measureId
+    : world.history.legislativeMeasures!.at(-1)!.id;
   const organization = (
     key: string,
     classification: "sector:government" | "sector:private",
@@ -264,33 +300,45 @@ export function fundedServiceFixture(
     openingBalance: money(10_000, "USD"),
     provenance,
   });
-  let part = appendProgram(world, jurisdiction.id, "appropriation", {
-    accountOrganizationId: accountId,
-    amount: money(10_000, "USD"),
-    availableFrom: world.currentDate,
-    availableThrough: world.currentDate,
-    sourceMeasureId: measureId,
-    basis: { kind: "authored-fixture", note: provenance.note },
-  });
+  let part = appendProgram(
+    world,
+    jurisdiction.id,
+    "appropriation",
+    {
+      accountOrganizationId: accountId,
+      amount: money(10_000, "USD"),
+      availableFrom: world.currentDate,
+      availableThrough: world.currentDate,
+      sourceMeasureId: measureId,
+      basis: { kind: "authored-fixture", note: provenance.note },
+    },
+    personId,
+  );
   world = part.world;
   const appropriationId = part.record.id;
-  part = appendProgram(world, jurisdiction.id, "commitment", {
-    appropriationId,
-    alternativeKey: "recorded-trip",
-    alternativeTitle: "Operating support for the recorded trip",
-    decidedByPersonId: personId,
-    authority:
-      "Explicit authored test contract; not a live government decision.",
-    recipientOrganizationId: providerId,
-    installments: [
-      {
-        dueAt: world.currentDate,
-        amount: money(10_000, "USD"),
-        purpose: "operating",
-      },
-    ],
-    deliveryLeadDays: null,
-  });
+  part = appendProgram(
+    world,
+    jurisdiction.id,
+    "commitment",
+    {
+      appropriationId,
+      alternativeKey: "recorded-trip",
+      alternativeTitle: "Operating support for the recorded trip",
+      decidedByPersonId: personId,
+      authority:
+        "Explicit authored test contract; not a live government decision.",
+      recipientOrganizationId: providerId,
+      installments: [
+        {
+          dueAt: world.currentDate,
+          amount: money(10_000, "USD"),
+          purpose: "operating",
+        },
+      ],
+      deliveryLeadDays: null,
+    },
+    personId,
+  );
   world = part.world;
   const commitmentId = part.record.id,
     commitmentEventId = part.record.eventId;
@@ -325,13 +373,19 @@ export function fundedServiceFixture(
     note: "Actual fixture cash transfer, not service delivery.",
     provenance,
   });
-  part = appendProgram(world, jurisdiction.id, "installment", {
-    commitmentId,
-    installmentIndex: 0,
-    status: "posted",
-    resourceFlowId: flowId,
-    reason: null,
-  });
+  part = appendProgram(
+    world,
+    jurisdiction.id,
+    "installment",
+    {
+      commitmentId,
+      installmentIndex: 0,
+      status: "posted",
+      resourceFlowId: flowId,
+      reason: null,
+    },
+    personId,
+  );
   world = part.world;
   return {
     world,

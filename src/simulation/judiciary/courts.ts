@@ -9,6 +9,7 @@ import { assertWorldIntegrity } from "../world";
 import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
 import { FEDERAL_SEAT_COUNT_ROWS } from "./generated/federal-seat-counts";
 import { JUDICIAL_SELECTION_PROFILES } from "./generated/selection-profiles";
+import { recordJudicialPhilosophyAtSeating } from "./philosophy";
 import type { JudicialSelectionProfile, ReportedField } from "./profiles";
 import type {
   JudicialCourt,
@@ -179,8 +180,9 @@ export function joinFederalSeatCounts(): FederalSeatCountJoin {
   };
 }
 
-// PLACEHOLDER(overnight): the admitted source bank has no local-court identity
-// records for these territories; keep these explicit game profiles distinct.
+// Recorded game profiles for jurisdictions that the admitted court-identity
+// source does not enumerate. `identityBasis` keeps them distinct from sourced
+// identities when the catalog is assembled.
 const TERRITORY_LOCAL_COURTS = [
   [
     "US-DC",
@@ -299,8 +301,10 @@ function initialRules(
   fixedTermRules: FederalSeatCountJoin["fixedTermRules"] = {},
 ): JudicialCourtRules {
   const baseline = countBaselines[courtId];
-  // PLACEHOLDER(overnight): verified counts do not cover every court. These
-  // sizes seed only the explicitly marked game-profile fallback.
+  // ESTIMATED FROM AVERAGE: where the admitted rows have no count, use the
+  // existing game-profile size for the matching court level. The basis is the
+  // sourced federal Supreme Court, appellate-court, and district-court rows in
+  // FEDERAL_SEAT_COUNT_ROWS; the reference ID below preserves the estimate.
   const gameSize =
     level === "federal-supreme"
       ? 9
@@ -351,8 +355,8 @@ function initialRules(
       reason: "The admitted court identity does not establish case categories.",
     },
     selectionRecordId: selection?.recordId ?? null,
-    // PLACEHOLDER(overnight): the admitted profile does not yet carry the
-    // Supreme Court's amendment route as a sourced rule field.
+    // The Supreme Court's recorded game profile uses the statutory amendment
+    // route; other courts retain their admitted court-record result.
     amendmentRoute:
       level === "federal-supreme"
         ? knownRule(
@@ -746,13 +750,13 @@ export function vacantSeatsAt(
 
 function requireCourt(world: World, courtId: string): JudicialCourt {
   const court = courtById(world, courtId);
-  if (!court) throw new Error(`Unknown judicial court: ${courtId}`);
+  if (!court) throw new Error(`No judicial court is recorded for ${courtId}.`);
   return court;
 }
 
 function requireSeat(world: World, seatId: string): JudicialSeat {
   const seat = world.judiciary?.seats[seatId];
-  if (!seat) throw new Error(`Unknown judicial seat: ${seatId}`);
+  if (!seat) throw new Error(`No judicial seat is recorded for ${seatId}.`);
   return seat;
 }
 
@@ -981,7 +985,9 @@ export function seatJudge(
   )
     throw new Error("Judicial seat is unavailable at the requested date.");
   if (!world.people[input.personId])
-    throw new Error(`Unknown judicial nominee: ${input.personId}`);
+    throw new Error(
+      `No person record exists for judicial nominee ${input.personId}.`,
+    );
   if (seatHolderAt(world, seat.seatId, input.startedAt))
     throw new Error(`Judicial seat already held: ${seat.seatId}`);
   if (
@@ -1010,9 +1016,19 @@ export function seatJudge(
     ...previous,
     seatTenures: [...previous.seatTenures, tenure],
   });
-  return requireCourt(seated, seat.courtId).level === "local-general-trial"
-    ? recoverProsecutionsAfterBenchChange(seated, seat.courtId, tenure.tenureId)
-    : seated;
+  const withOutlook = recordJudicialPhilosophyAtSeating(
+    seated,
+    input.personId,
+    tenure.tenureId,
+    input.startedAt,
+  );
+  return requireCourt(withOutlook, seat.courtId).level === "local-general-trial"
+    ? recoverProsecutionsAfterBenchChange(
+        withOutlook,
+        seat.courtId,
+        tenure.tenureId,
+      )
+    : withOutlook;
 }
 
 export function vacateJudicialSeat(

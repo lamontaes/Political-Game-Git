@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { loadedTraitRegistry } from "./trait-registry";
 
 import {
   PERSONALITY_TRAIT_READERS,
@@ -71,8 +72,57 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(5);
-    expect(NOT_YET_CONNECTED_TRAITS).toHaveLength(92);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(50);
+    expect(PERSONALITY_TRAIT_READERS).toContainEqual({
+      trait: "personality-v1:facet-excitable",
+      kind: "decision",
+      reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+    });
+    expect(PERSONALITY_TRAIT_READERS).toContainEqual({
+      trait: "personality-v1:patience",
+      kind: "decision",
+      reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+    });
+    expect(
+      PERSONALITY_TRAIT_READERS.filter(({ reader }) =>
+        reader.includes("traitActConsiderations"),
+      ).map(({ trait }) => trait),
+    ).toEqual(
+      expect.arrayContaining([
+        "personality-v1:facet-curious",
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-entitled",
+        "personality-v1:facet-envious",
+        "personality-v1:facet-excitable",
+      ]),
+    );
+    const effectReaders = loadedTraitRegistry().report.packs.flatMap(
+      ({ consumedBy }) =>
+        Object.entries(consumedBy)
+          .filter(([, decisions]) => decisions.length > 0)
+          .map(([trait]) => trait),
+    );
+    const knownTraits = new Set(
+      PERSONALITY_TRAIT_REGISTRY.map(({ qualifiedKey }) => qualifiedKey),
+    );
+    const connected = new Set(
+      [
+        ...PERSONALITY_TRAIT_READERS.map(({ trait }) => trait),
+        ...effectReaders,
+      ].filter((trait) => knownTraits.has(trait)),
+    );
+    expect(new Set([...NOT_YET_CONNECTED_TRAITS, ...connected]).size).toBe(
+      PERSONALITY_TRAIT_REGISTRY.length,
+    );
+    expect(connected.has("personality-v1:facet-proud")).toBe(true);
+    expect(NOT_YET_CONNECTED_TRAITS).not.toContain(
+      "personality-v1:facet-proud",
+    );
     expect(
       new Set(PERSONALITY_TRAIT_READERS.map(({ trait }) => trait)).size,
     ).toBe(PERSONALITY_TRAIT_READERS.length);

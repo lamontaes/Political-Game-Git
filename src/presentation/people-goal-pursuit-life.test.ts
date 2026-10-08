@@ -3,6 +3,11 @@ import * as callDecisions from "../simulation/decisions";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { SeededRng, pickDistinct } from "../simulation/rng";
 import { createMindProvenance, recordGoalState } from "../simulation/mind";
+import { makeIsoDate } from "../simulation/dates";
+import {
+  characterHistoryContextPersonId,
+  createCharacterHistoryContextPeople,
+} from "../simulation/character-history";
 import { describe, expect, it, vi } from "vitest";
 
 import { createWorkRelationship, recordWorkStatus } from "../simulation/life";
@@ -44,6 +49,11 @@ import {
   projectOrdinaryDay,
 } from "./ordinary-life";
 import { projectWorld39Journal } from "./world39-journal";
+import {
+  observeFromOpening,
+  observerAnchorPersonId,
+} from "../simulation/people-continuation";
+import { advanceObservedWorld } from "./observer-world";
 
 /**
  * People pursue their own goals while the player looks elsewhere.
@@ -52,7 +62,7 @@ import { projectWorld39Journal } from "./world39-journal";
  * screen. Every assertion is about the canonical history the clock wrote:
  * which openings were applied to, who was called, what was blocked and why.
  */
-function life(seed = "goal-pursuit-life") {
+function life(seed = "goal-pursuit-life", observer = false, openMarket = true) {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: "custom",
@@ -68,15 +78,21 @@ function life(seed = "goal-pursuit-life") {
     game.world,
     game.world.people[personId]!.homeJurisdictionId,
   );
-  const world = openWeeklyListings(openOrdinaryLife(local, personId), personId);
+  const world = observer
+    ? observeFromOpening(
+        openMarket ? openWeeklyListings(local, personId) : local,
+        personId,
+      )
+    : openWeeklyListings(openOrdinaryLife(local, personId), personId);
   expect(
     townEmployerRoles(world, personId).length,
     "Recorded town employers expose actual roles",
   ).toBeGreaterThan(0);
-  expect(
-    world.history.jobOpenings?.length,
-    "Actual market producer lists roles before pursuit",
-  ).toBeGreaterThan(0);
+  if (openMarket)
+    expect(
+      world.history.jobOpenings?.length,
+      "Actual market producer lists roles before pursuit",
+    ).toBeGreaterThan(0);
   return { world, playerId: personId };
 }
 
@@ -125,6 +141,67 @@ function kindOf(record: GoalStateRecord): string {
 }
 
 describe("generated people pursue their own goals", () => {
+  it("forms a work goal and opens the town market for an unemployed adult", () => {
+    const start = life("goal-pursuit-opening-unemployed", true, false);
+    const town = start.world.people[start.playerId]!.homeJurisdictionId;
+    const year = Number(start.world.currentDate.slice(0, 4)) - 30;
+    const withResident = createCharacterHistoryContextPeople(start.world, [
+      {
+        stableKey: "goal-pursuit:opening-unemployed-adult",
+        givenName: "Maya",
+        familyName: "Ortiz",
+        birthDate: makeIsoDate(`${year}-01-01`),
+        homeJurisdictionId: town,
+      },
+    ]);
+    const resident = characterHistoryContextPersonId(
+      withResident,
+      "goal-pursuit:opening-unemployed-adult",
+    );
+    expect(pursuitCandidates(withResident)).toContain(resident);
+    const reviewed = reviewPeopleGoals(withResident, {
+      openingReview: true,
+    }).world;
+    const search = reviewed.history.goalStates.find(
+      (record) =>
+        record.personId === resident && record.goalKey === LIVELIHOOD_GOAL_KEY,
+    );
+    expect(search).toMatchObject({ status: "active" });
+    expect(search?.provenance.sourceRefs).toEqual([]);
+    expect(reviewed.history.jobOpenings?.length).toBeGreaterThan(0);
+    expect(
+      applicationsFor(reviewed, resident!).every((application) => {
+        const opening = jobOpening(reviewed, application.openingId);
+        return (
+          opening !== null &&
+          application.submittedAt >= opening.opensAt &&
+          application.submittedAt <= opening.closesAt
+        );
+      }),
+    ).toBe(true);
+  }, 120_000);
+
+  it("reviews livelihoods around the recorded Observer anchor without taking control", () => {
+    const start = life("goal-pursuit-life", true);
+    const worker = residentWithJob(start.world, start.playerId);
+    let world = start.world;
+    world = loseJob(world, worker, "The shop closed early for winter.");
+    expect(pursuitCandidates(world)).toContain(worker);
+    expect(pursuitCandidates(world)).toContain(start.playerId);
+    world = advanceObservedWorld(world, 14 * 7);
+    expect(world.control.kind).toBe("observer");
+    expect(observerAnchorPersonId(world)).toBe(start.playerId);
+    const decisions = world.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.job-offer-answer",
+    );
+    expect(decisions.length).toBeGreaterThan(0);
+    const restored = deserializeWorld(serializeWorld(world));
+    expect(restored.history.decisionTraces).toEqual(
+      world.history.decisionTraces,
+    );
+    expect(restored.control.kind).toBe("observer");
+  }, 120_000);
+
   it("two adults left alone for twelve weeks act, stay blocked, or set a goal aside, each for a recorded reason", () => {
     const start = life();
     const worker = residentWithJob(start.world, start.playerId);
@@ -169,11 +246,14 @@ describe("generated people pursue their own goals", () => {
       expect(application.submittedAt <= opening.closesAt).toBe(true);
     }
     // No more than one step on any one day for the same person.
-    const stepDays = search
+    const livelihoodSearch = search.filter((record) =>
+      record.goalKey.startsWith(LIVELIHOOD_GOAL_KEY),
+    );
+    const stepDays = livelihoodSearch
       .filter((record) => kindOf(record) === "step")
       .map((record) => record.recordedAt);
     expect(new Set(stepDays).size).toBe(stepDays.length);
-    const last = search.at(-1)!;
+    const last = livelihoodSearch.at(-1)!;
     expect(
       last.status === "completed" ||
         goalBlockerOf(last) !== null ||
@@ -347,6 +427,51 @@ describe("generated people pursue their own goals", () => {
     expect(reloaded.history.jobApplications).toEqual(
       world.history.jobApplications,
     );
+    const offerDecisions = reloaded.history.decisionTraces.filter(
+      (trace) => trace.context.decisionType === "people.job-offer-answer",
+    );
+    expect(offerDecisions.length).toBeGreaterThan(0);
+    expect(reloaded.history.decisionTraces).toEqual(
+      world.history.decisionTraces,
+    );
+    const offerDecisionTags = new Set(
+      offerDecisions.map((decision) => `decision-trace:${decision.id}`),
+    );
+    expect(
+      reloaded.history.jobApplicationSteps!.some(
+        (step) =>
+          step.kind === "started" &&
+          reloaded.history.events
+            .find((event) => event.id === step.eventId)
+            ?.tags.some((tag) => offerDecisionTags.has(tag)),
+      ),
+    ).toBe(true);
+    for (const decision of offerDecisions) {
+      expect(decision.context.retention).toBe("durable");
+      expect(decision.context.considerations.length).toBeGreaterThan(0);
+      const answer = reloaded.history.jobApplicationSteps!.find((step) => {
+        if (step.kind !== "accepted" && step.kind !== "refused") return false;
+        return reloaded.history.events
+          .find((event) => event.id === step.eventId)
+          ?.tags.includes(`decision-trace:${decision.id}`);
+      });
+      expect(answer).toBeDefined();
+      const application = reloaded.history.jobApplications!.find(
+        (row) => row.id === answer!.applicationId,
+      )!;
+      expect(application.personId).toBe(decision.context.actorPersonId);
+      expect(decision.context.subject.entityId).toBe(application.id);
+      const started = reloaded.history.jobApplicationSteps!.find(
+        (step) =>
+          step.applicationId === application.id && step.kind === "started",
+      );
+      if (started) {
+        expect(
+          reloaded.history.events.find((event) => event.id === started.eventId)
+            ?.tags,
+        ).toContain(`decision-trace:${decision.id}`);
+      }
+    }
     const replacements = reloaded.history.goalStates.filter(
       (record) => record.replacesGoalId !== null,
     );
