@@ -1,4 +1,8 @@
 import type {
+  HazardPhysicalConditions,
+  HazardAssetProtection,
+} from "./disaster-mechanism";
+import type {
   DecisionImportance,
   EntityId,
   EventVisibility,
@@ -207,6 +211,10 @@ export interface HazardEpisodeRecord extends CrisisRecordBase {
   readonly endsAt: IsoDate;
   readonly basis: string;
   readonly sourceReference: string | null;
+  readonly physicalConditions?: HazardPhysicalConditions;
+  readonly assetProtections?: readonly HazardAssetProtection[];
+  readonly evacuatedPersonIds?: readonly EntityId[];
+  readonly estimatedFrom?: string | null;
 }
 
 export type DisasterTargetKind = "household" | "dwelling" | "organization";
@@ -223,6 +231,9 @@ export interface DisasterDamageRecord extends CrisisRecordBase {
   readonly level: DisasterDamageLevel;
   /** Authored repair effort; for an interruption, the days of lost service. */
   readonly repairUnits: number;
+  readonly physicalLoad?: number;
+  readonly protectionTargetId?: EntityId;
+  readonly estimatedFrom?: string | null;
 }
 
 export interface DisasterAssessmentRecord extends CrisisRecordBase {

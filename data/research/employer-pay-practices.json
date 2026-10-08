@@ -1,0 +1,180 @@
+{
+  "schema": "employer-pay-practice-v1",
+  "source": "BLS Current Employment Statistics, Length of pay periods in the Current Employment Statistics survey, February 2023; 5 U.S.C. 5504",
+  "estimatedFrom": "Modal reported BLS pay period by industry and establishment size; first Friday on or after organization formation until an actual payroll calendar is recorded",
+  "governmentClassifications": [
+    "sector:federal-government-office",
+    "sector:state-government-office",
+    "sector:local-government-office",
+    "service:fire",
+    "service:police",
+    "service:public-health",
+    "service:school"
+  ],
+  "industryOf": {
+    "enterprise:agriculture": "Mining and logging",
+    "enterprise:mining": "Mining and logging",
+    "enterprise:construction": "Construction",
+    "enterprise:manufacturing": "Manufacturing",
+    "enterprise:retail": "Trade, transportation, and utilities",
+    "enterprise:wholesale": "Trade, transportation, and utilities",
+    "enterprise:transportation": "Trade, transportation, and utilities",
+    "enterprise:utility": "Trade, transportation, and utilities",
+    "enterprise:telecommunications": "Information",
+    "enterprise:banking": "Financial activities",
+    "enterprise:insurance": "Financial activities",
+    "enterprise:real-estate": "Financial activities",
+    "enterprise:professional-services": "Professional and business services",
+    "enterprise:corporate-office": "Professional and business services",
+    "enterprise:building-services": "Professional and business services",
+    "enterprise:political-consulting": "Professional and business services",
+    "service:clinic": "Education and health services",
+    "service:hospital": "Education and health services",
+    "service:nursing-home": "Education and health services",
+    "service:private-school": "Education and health services",
+    "enterprise:food-service": "Leisure and hospitality",
+    "enterprise:lodging": "Leisure and hospitality",
+    "enterprise:recreation": "Leisure and hospitality",
+    "enterprise:repair": "Other services",
+    "enterprise:personal-services": "Other services",
+    "community:congregation": "Other services",
+    "community:organizing-nonprofit": "Other services",
+    "membership:labor-union": "Other services",
+    "membership:party-chapter": "Other services"
+  },
+  "periodOfBls": {
+    "Weekly": "weekly",
+    "Biweekly": "biweekly",
+    "Semimonthly": "semimonthly",
+    "Monthly": "monthly"
+  },
+  "sizeGroups": [
+    [10, "1–9"],
+    [20, "10–19"],
+    [50, "20–49"],
+    [100, "50–99"],
+    [250, "100–249"],
+    [500, "250–499"],
+    [1000, "500–999"]
+  ],
+  "largestSizeGroup": "1,000+",
+  "publicPeriod": "biweekly",
+  "paydayWeekday": 5,
+  "calendarEpoch": "2000-01-07",
+  "shares": {
+    "overall|all private establishments": {
+      "Weekly": 27,
+      "Biweekly": 43,
+      "Semimonthly": 19.8,
+      "Monthly": 10.3
+    },
+    "establishment-size|1–9": {
+      "Weekly": 24.1,
+      "Biweekly": 39,
+      "Semimonthly": 22.5,
+      "Monthly": 14.5
+    },
+    "establishment-size|10–19": {
+      "Weekly": 34,
+      "Biweekly": 46.5,
+      "Semimonthly": 15.9,
+      "Monthly": 3.7
+    },
+    "establishment-size|20–49": {
+      "Weekly": 32.8,
+      "Biweekly": 51.1,
+      "Semimonthly": 14.7,
+      "Monthly": 1.4
+    },
+    "establishment-size|50–99": {
+      "Weekly": 31.6,
+      "Biweekly": 54,
+      "Semimonthly": 13.4,
+      "Monthly": 1
+    },
+    "establishment-size|100–249": {
+      "Weekly": 27.3,
+      "Biweekly": 59.4,
+      "Semimonthly": 12.5,
+      "Monthly": 0.7
+    },
+    "establishment-size|250–499": {
+      "Weekly": 24.7,
+      "Biweekly": 63.4,
+      "Semimonthly": 11.4,
+      "Monthly": 0.5
+    },
+    "establishment-size|500–999": {
+      "Weekly": 25.4,
+      "Biweekly": 63.8,
+      "Semimonthly": 10.1,
+      "Monthly": 0.7
+    },
+    "establishment-size|1,000+": {
+      "Weekly": 26.3,
+      "Biweekly": 66.6,
+      "Semimonthly": 5.6,
+      "Monthly": 1.5
+    },
+    "industry|Mining and logging": {
+      "Weekly": 34.4,
+      "Biweekly": 46,
+      "Semimonthly": 10.1,
+      "Monthly": 9.4
+    },
+    "industry|Construction": {
+      "Weekly": 65.4,
+      "Biweekly": 22.3,
+      "Semimonthly": 6.5,
+      "Monthly": 5.9
+    },
+    "industry|Manufacturing": {
+      "Weekly": 43.4,
+      "Biweekly": 46.6,
+      "Semimonthly": 8.6,
+      "Monthly": 1.5
+    },
+    "industry|Trade, transportation, and utilities": {
+      "Weekly": 30.5,
+      "Biweekly": 44.1,
+      "Semimonthly": 16,
+      "Monthly": 9.5
+    },
+    "industry|Information": {
+      "Weekly": 4.4,
+      "Biweekly": 47.2,
+      "Semimonthly": 37.5,
+      "Monthly": 10.9
+    },
+    "industry|Financial activities": {
+      "Weekly": 14,
+      "Biweekly": 37.4,
+      "Semimonthly": 30.2,
+      "Monthly": 18.4
+    },
+    "industry|Professional and business services": {
+      "Weekly": 16,
+      "Biweekly": 42.2,
+      "Semimonthly": 29.4,
+      "Monthly": 12.4
+    },
+    "industry|Education and health services": {
+      "Weekly": 9.9,
+      "Biweekly": 63.6,
+      "Semimonthly": 18.4,
+      "Monthly": 8.1
+    },
+    "industry|Leisure and hospitality": {
+      "Weekly": 25.6,
+      "Biweekly": 54.9,
+      "Semimonthly": 14.1,
+      "Monthly": 5.5
+    },
+    "industry|Other services": {
+      "Weekly": 35.4,
+      "Biweekly": 36.3,
+      "Semimonthly": 18.4,
+      "Monthly": 10
+    }
+  }
+}

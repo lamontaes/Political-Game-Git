@@ -17,7 +17,7 @@ import {
 } from "../life-queries";
 import { ensurePeopleTraits } from "../people-traits";
 import { deriveRelationshipSummary } from "../queries";
-import { SeededRng } from "../rng";
+import juryRule from "../../../data/research/jury-panel-rules.json" with { type: "json" };
 import { registeredTraitConsiderations } from "../trait-readings";
 import { traitRegistryFor } from "../trait-registry";
 import type {
@@ -87,6 +87,14 @@ export interface CourtCase {
   readonly venueJurisdictionId: EntityId | null;
   /** The state whose courts hear the case, as "US-XX". */
   readonly stateKey: string | null;
+  readonly jurySelection?: {
+    readonly venirePersonIds: readonly EntityId[];
+    readonly excusedPersonIds: readonly EntityId[];
+    readonly peremptoryChallenges: readonly {
+      readonly personId: EntityId;
+      readonly decisionTraceId: EntityId;
+    }[];
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -247,7 +255,8 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
     if (excused.has(person.id)) continue;
     if (world.control.kind === "person" && world.control.personId === person.id)
       continue;
-    if (ageOnDate(person.birthDate, world.currentDate) < 18) continue;
+    if (ageOnDate(person.birthDate, world.currentDate) < juryRule.minimumAge)
+      continue;
     if (!isPersonAliveAt(world, person.id, cutoff)) continue;
     if (
       deriveRelationshipSummary(world, person.id, courtCase.defendantId)
@@ -259,13 +268,7 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
   return pool.sort();
 }
 
-/**
- * The twelve who hear the case, drawn from the pool at random. This is the one
- * draw here, and the law prescribes it: jurors are "selected at random from a
- * fair cross section of the community" (28 U.S.C. § 1861), and every state's
- * jury statute draws its panels by lot. The draw picks who sits; it decides
- * nothing any of them does.
- */
+/** Recorded venire order and admitted challenges determine who hears the case. */
 /**
  * ESTIMATED FROM AVERAGE: the most common legal size of a felony jury. Twelve
  * is the federal rule (Fed. R. Crim. P. 23(b)) and the rule in most states;
@@ -274,13 +277,7 @@ export function juryPool(world: World, courtCase: CourtCase): EntityId[] {
  * few states seat six or eight for some offenses. Each state's own size is
  * not read yet, so every place starts from the common rule.
  */
-export const JURY_PANEL_ESTIMATE = {
-  size: 12,
-  provenance: "estimated-from-average",
-  estimated: true,
-  estimatedFrom:
-    "Fed. R. Crim. P. 23(b) and the common state felony rule of twelve; floor of six from Williams v. Florida, 399 U.S. 78 (1970) and Ballew v. Georgia, 435 U.S. 223 (1978)",
-} as const;
+export const JURY_PANEL_ESTIMATE = juryRule;
 
 export function empanelJury(
   world: World,
@@ -288,14 +285,39 @@ export function empanelJury(
   trialNumber: number,
 ): readonly EntityId[] {
   const pool = juryPool(world, courtCase);
-  const rng = new SeededRng(
-    `${world.seed}:jury-panel-v1:${courtCase.caseKey}:${trialNumber}`,
-  );
-  const drawn: EntityId[] = [];
-  const remaining = [...pool];
-  while (drawn.length < JURY_PANEL_ESTIMATE.size && remaining.length > 0)
-    drawn.push(remaining.splice(rng.integer(0, remaining.length), 1)[0]!);
-  return drawn;
+  if (!Number.isSafeInteger(trialNumber) || trialNumber < 1)
+    throw new Error("A jury panel must belong to a numbered trial.");
+  const eligible = new Set(pool);
+  const selection = courtCase.jurySelection;
+  const excused = new Set(selection?.excusedPersonIds ?? []);
+  for (const challenge of selection?.peremptoryChallenges ?? []) {
+    const trace = world.history.decisionTraces.find(
+      (row) => row.id === challenge.decisionTraceId,
+    );
+    if (!trace || trace.selectedOptionKey !== `strike:${challenge.personId}`)
+      throw new Error(
+        "A jury strike must cite the actual selected lawyer decision.",
+      );
+    excused.add(challenge.personId);
+  }
+  const priorService = new Map<EntityId, number>();
+  for (const trace of world.history.decisionTraces) {
+    if (trace.context.decisionType !== "justice.jury-vote") continue;
+    priorService.set(
+      trace.context.actorPersonId,
+      (priorService.get(trace.context.actorPersonId) ?? 0) + 1,
+    );
+  }
+  const venire =
+    selection?.venirePersonIds ??
+    [...pool].sort(
+      (a, b) =>
+        (priorService.get(a) ?? 0) - (priorService.get(b) ?? 0) ||
+        world.personOrder.indexOf(a) - world.personOrder.indexOf(b),
+    );
+  return [...new Set(venire)]
+    .filter((id) => eligible.has(id) && !excused.has(id))
+    .slice(0, JURY_PANEL_ESTIMATE.size);
 }
 
 function evidenceForJuror(

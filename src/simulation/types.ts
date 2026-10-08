@@ -1,3 +1,4 @@
+import type { EmployerPayPractice } from "./employer-pay-practice";
 import type { HistoricalPastMode } from "./historical-past-mode";
 import type { WorkPayCoverageDeterminationRecord } from "./pay-coverage-types";
 import type { LawScheduleTerm } from "./law-structured-terms";
@@ -585,6 +586,10 @@ export type GenderIdentityKey = "female" | "male" | "nonbinary" | "unstated";
 export interface PersonIdentity {
   readonly gender: GenderIdentityKey;
   readonly pronouns: PronounSetKey;
+  readonly partnerPreference?: {
+    readonly kind: "same-gender" | "different-gender";
+    readonly estimatedFrom: string;
+  };
 }
 
 export interface PersonAppearance {
@@ -1465,6 +1470,7 @@ export interface OrganizationProfileRecord {
       | "community";
     readonly campusId: string | null;
   };
+  readonly payPractice?: EmployerPayPractice;
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId | null;
   /**

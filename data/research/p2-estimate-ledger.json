@@ -1,0 +1,59 @@
+{
+  "package": "P2-a",
+  "entries": [
+    {
+      "record": "employer-pay-practices.json",
+      "estimatedFrom": "BLS Current Employment Statistics, February 2023 pay-period prevalence",
+      "limitation": "Modal industry and establishment-size practice; first Friday is an estimated employer calendar until a recorded calendar replaces it.",
+      "researchPending": true
+    },
+    {
+      "record": "birth-citizenship-rules.json",
+      "estimatedFrom": "U.S. Constitution Amendment XIV; 8 USC 1401-1408; Covenant section 303",
+      "limitation": "Current birth-law rows cover all 56 places. Historical births before a row's applicability and unread birthplace evidence use modal Census county citizenship counts, with no invented oath date.",
+      "researchPending": true
+    },
+    {
+      "record": "starting-cohorts.json",
+      "estimatedFrom": "Census ACS household composition, same-sex couple and educational-attainment tables; BLS occupational employment; NCSL legislator tenure",
+      "limitation": "Starting cohorts use aggregate apportionment. Education and occupation weights, child counts and starting tenure are reference estimates pending compiled subgroup observations.",
+      "researchPending": true
+    },
+    {
+      "record": "physical-disaster-estimates.json",
+      "estimatedFrom": "FEMA Hazus flood and hurricane technical manuals; NFIP depth-damage practice; NWS flood and wind hazard guidance",
+      "limitation": "Depth, wind, elevation, resistance, mobility and backup inputs govern consequences. Default physical capacities and injury-load bands are estimates, not calibrated local engineering or clinical observations.",
+      "researchPending": true
+    },
+    {
+      "record": "hazard-catalog-mechanism.json",
+      "estimatedFrom": "NOAA NCEI Storm Events 2000-2024 catalog and 2023-2024 detailed episode records",
+      "limitation": "Recorded season and county footprints replay without draws. Unread local catalog rates use the median recorded county-adjusted seasonal rate; detailed weather-zone crosswalk remains uncompiled.",
+      "researchPending": true
+    },
+    {
+      "record": "jury-panel-rules.json",
+      "estimatedFrom": "28 USC 1861 and 1865; Federal Rule of Criminal Procedure 23(b)",
+      "limitation": "Recorded venire, excusals and trace-backed strikes take priority. Unread venire order follows prior recorded service and roster order as a marked administrative estimate.",
+      "researchPending": true
+    },
+    {
+      "record": "world-setup/conditions.ts",
+      "estimatedFrom": "Compiled macro-regime reference frequencies in CRUNCH46 policy",
+      "limitation": "An existing opening regime is retained; an unread category takes the modal recorded reference regime.",
+      "researchPending": true
+    },
+    {
+      "record": "macro-economy/central-bank.ts",
+      "estimatedFrom": "Federal Reserve Act, Board of Governors appointment and chair terms",
+      "limitation": "Member risk tendency supplies the price-versus-job view. An existing President chooses through the appointment engine; an opening without an appointer uses longest service as an estimated chair record.",
+      "researchPending": true
+    },
+    {
+      "record": "governing/constitutional-amendments.ts",
+      "estimatedFrom": "U.S. Constitution Article V and existing legislative session-calendar data",
+      "limitation": "State ratification dates follow the current shared session calendar after the recorded minimum lead time. Per-state sessions will remain marked reference calendars until compiled.",
+      "researchPending": true
+    }
+  ]
+}

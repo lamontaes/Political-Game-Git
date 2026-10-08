@@ -1,0 +1,317 @@
+{
+  "schema": "physical-disaster-estimates-v1",
+  "source": "FEMA Hazus Flood Model and Hurricane Model technical manuals; FEMA NFIP Technical Bulletin 1; NOAA/NWS flood and wind safety guidance",
+  "estimatedFrom": "National reference engineering inputs from FEMA Hazus/NFIP and NWS guidance; numerical depth, structural capacity, injury loads and service restoration are marked estimates until local measurements and asset surveys are recorded",
+  "places": {
+    "US-AK": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-AL": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-AR": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-AS": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-AZ": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-CA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-CO": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-CT": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-DC": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-DE": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-FL": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-GA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-GU": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-HI": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-IA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-ID": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-IL": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-IN": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-KS": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-KY": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-LA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MD": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-ME": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MI": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MN": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MO": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MP": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MS": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-MT": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NC": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-ND": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NE": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NH": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NJ": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NM": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NV": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-NY": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-OH": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-OK": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-OR": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-PA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-PR": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-RI": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-SC": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-SD": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-TN": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-TX": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-UT": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-VA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-VI": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-VT": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-WA": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-WI": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-WV": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    },
+    "US-WY": {
+      "reference": "national-engineering-estimate",
+      "estimatedFrom": "FEMA Hazus/NFIP national reference until local physical observations are recorded"
+    }
+  },
+  "conditions": {
+    "flood": {
+      "minor": {
+        "floodDepthFeet": 0.5,
+        "windSpeedMph": 0
+      },
+      "moderate": {
+        "floodDepthFeet": 2,
+        "windSpeedMph": 0
+      },
+      "major": {
+        "floodDepthFeet": 5,
+        "windSpeedMph": 0
+      },
+      "catastrophic": {
+        "floodDepthFeet": 10,
+        "windSpeedMph": 0
+      }
+    },
+    "severe-storm": {
+      "minor": {
+        "floodDepthFeet": 0,
+        "windSpeedMph": 40
+      },
+      "moderate": {
+        "floodDepthFeet": 0,
+        "windSpeedMph": 75
+      },
+      "major": {
+        "floodDepthFeet": 0,
+        "windSpeedMph": 120
+      },
+      "catastrophic": {
+        "floodDepthFeet": 0,
+        "windSpeedMph": 175
+      }
+    }
+  },
+  "protection": {
+    "occupiedFloorFeet": 1,
+    "windResistanceMph": 110,
+    "backupServiceDays": 0
+  },
+  "destroyedDepthFeet": 8,
+  "destroyedWindOverload": 0.5,
+  "serviceDaysPerFloodFoot": 2,
+  "serviceDaysPerWindOverload": 20,
+  "mobility": {
+    "capable": {
+      "floodEscapeFeet": 5,
+      "windShelterOverload": 0.4
+    },
+    "limited": {
+      "floodEscapeFeet": 2,
+      "windShelterOverload": 0.2
+    },
+    "incapacitated": {
+      "floodEscapeFeet": 0,
+      "windShelterOverload": 0
+    }
+  },
+  "seriousInjuryLoad": 1,
+  "fatalInjuryLoad": 3,
+  "windInjuryScale": 4,
+  "ageReferenceYears": 65,
+  "repairUnits": {
+    "damaged": 2,
+    "destroyed": 8
+  },
+  "weeklyCapacity": {
+    "local": 2,
+    "federalAssisted": 6
+  },
+  "stateReviewAfterDays": 3,
+  "federalReviewAfterDays": 10,
+  "stateRequestWindowDays": 30,
+  "federalPrograms": {
+    "minor": ["public-assistance"],
+    "moderate": ["public-assistance"],
+    "major": ["public-assistance", "individual-assistance"],
+    "catastrophic": [
+      "public-assistance",
+      "individual-assistance",
+      "hazard-mitigation"
+    ]
+  }
+}

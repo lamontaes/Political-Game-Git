@@ -19,7 +19,8 @@ export interface CitizenshipStatusRecord {
   readonly sourceEventId: EntityId | null;
   readonly visibility: "private";
   readonly provenance: {
-    readonly method: "estimated-from-population-share" | "recorded-event";
+    readonly method:
+      "estimated-from-population-share" | "recorded-event" | "birth-law";
     readonly basis: "county" | "state-counties" | "published-counties" | null;
     readonly countyGeoids: readonly string[];
     readonly sourceVintage: string | null;

@@ -1,3 +1,7 @@
+import {
+  estimatedEmployerPayPractice,
+  employerBiweeklyPhase,
+} from "../employer-pay-practice";
 import { settleAllOfficeSalaries } from "../office-salary";
 import { assessedCompletedHourlyGrossMinor } from "../completed-hourly-gross";
 import { payPayerAt, payWorkplaceAt } from "../pay-coverage-predicates";
@@ -35,7 +39,7 @@ import { createStableId } from "../ids";
  *
  * How often. Governments pay every two weeks (Claude CTO's provisional rule:
  * the BLS table covers private employers only). A private employer's pay
- * period is drawn once from the BLS shares for its industry and its size.
+ * period comes from the employer's recorded payroll calendar or marked BLS estimate.
  * Weekly and every-two-weeks pay comes on Fridays; twice a month on the 15th
  * and the last day; monthly on the last day.
  *
@@ -106,7 +110,6 @@ import {
 import { createDatedCashPaymentReader } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
 import { hasLifePathCredential } from "../life-paths2";
-import { SeededRng } from "../rng";
 import {
   createResourceFlows,
   money,
@@ -158,7 +161,6 @@ import {
   TOWN_PAY_COUNTY_AREAS,
   TOWN_PAY_META,
   TOWN_PAY_PERCENTILES,
-  TOWN_PAY_PERIOD_SHARES,
 } from "./town-pay.generated";
 
 export const TOWN_PAY_VERSION = "town-pay-v2";
@@ -171,13 +173,6 @@ const HOURS_PER_YEAR = 2_080;
 const CATCH_UP_LIMIT_DAYS = 400;
 
 export type TownPayPeriod = "weekly" | "biweekly" | "semimonthly" | "monthly";
-
-const PERIOD_OF_BLS: Readonly<Record<string, TownPayPeriod>> = {
-  Weekly: "weekly",
-  Biweekly: "biweekly",
-  Semimonthly: "semimonthly",
-  Monthly: "monthly",
-};
 
 /** Paychecks a year, so a period's pay is the annual rate over this. */
 const PERIODS_PER_YEAR: Readonly<Record<TownPayPeriod, number>> = {
@@ -389,102 +384,24 @@ export function townJobRate(
 
 // ─── Paydays ────────────────────────────────────────────────────────────
 
-const GOVERNMENT_CLASSIFICATIONS = new Set<string>([
-  "sector:federal-government-office",
-  "sector:state-government-office",
-  "sector:local-government-office",
-  "service:fire",
-  "service:police",
-  "service:public-health",
-  "service:school",
-]);
-
-/** GAME ASSUMPTION, labeled: the BLS industry each kind of employer is in. */
-const INDUSTRY_OF: Readonly<Record<string, string>> = {
-  "enterprise:agriculture": "Mining and logging",
-  "enterprise:mining": "Mining and logging",
-  "enterprise:construction": "Construction",
-  "enterprise:manufacturing": "Manufacturing",
-  "enterprise:retail": "Trade, transportation, and utilities",
-  "enterprise:wholesale": "Trade, transportation, and utilities",
-  "enterprise:transportation": "Trade, transportation, and utilities",
-  "enterprise:utility": "Trade, transportation, and utilities",
-  "enterprise:telecommunications": "Information",
-  "enterprise:banking": "Financial activities",
-  "enterprise:insurance": "Financial activities",
-  "enterprise:real-estate": "Financial activities",
-  "enterprise:professional-services": "Professional and business services",
-  "enterprise:corporate-office": "Professional and business services",
-  "enterprise:building-services": "Professional and business services",
-  "enterprise:political-consulting": "Professional and business services",
-  "service:clinic": "Education and health services",
-  "service:hospital": "Education and health services",
-  "service:nursing-home": "Education and health services",
-  "service:private-school": "Education and health services",
-  "enterprise:food-service": "Leisure and hospitality",
-  "enterprise:lodging": "Leisure and hospitality",
-  "enterprise:recreation": "Leisure and hospitality",
-  "enterprise:repair": "Other services",
-  "enterprise:personal-services": "Other services",
-  "community:congregation": "Other services",
-  "community:organizing-nonprofit": "Other services",
-  "membership:labor-union": "Other services",
-  "membership:party-chapter": "Other services",
-};
-
-function sizeGroup(staff: number): string {
-  if (staff < 10) return "1–9";
-  if (staff < 20) return "10–19";
-  if (staff < 50) return "20–49";
-  if (staff < 100) return "50–99";
-  if (staff < 250) return "100–249";
-  if (staff < 500) return "250–499";
-  if (staff < 1000) return "500–999";
-  return "1,000+";
-}
-
-/**
- * An employer's pay period. Governments: every two weeks. A private employer:
- * drawn once, seeded by the organization, from the BLS shares for its
- * industry and its size combined as if independent (each share over the
- * all-private share), a labeled simplification.
- */
+/** The employer's recorded payroll calendar, or its marked source estimate. */
 export function townPayPeriod(
   world: World,
   organizationId: EntityId,
   classification: OrganizationClassification | string,
   staff: number,
 ): TownPayPeriod {
-  if (
-    GOVERNMENT_CLASSIFICATIONS.has(classification) ||
-    organizationProfileAt(world, organizationId)?.publicGovernmentIdentity
-  )
-    return "biweekly";
-  const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
-  const industry = INDUSTRY_OF[classification];
-  const byIndustry = industry
-    ? TOWN_PAY_PERIOD_SHARES[`industry|${industry}`]
-    : undefined;
-  const bySize =
-    TOWN_PAY_PERIOD_SHARES[`establishment-size|${sizeGroup(staff)}`];
-  const weights = Object.keys(PERIOD_OF_BLS).map((name) => {
-    const base = overall[name] ?? 0;
-    const weight =
-      base <= 0
-        ? 0
-        : ((byIndustry?.[name] ?? base) * (bySize?.[name] ?? base)) / base;
-    return [name, weight] as const;
-  });
-  const total = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  let roll =
-    new SeededRng(world.seed)
-      .fork(`${TOWN_PAY_VERSION}:period:${organizationId}`)
-      .next() * total;
-  for (const [name, weight] of weights) {
-    roll -= weight;
-    if (roll < 0) return PERIOD_OF_BLS[name]!;
-  }
-  return "biweekly";
+  const profile = organizationProfileAt(world, organizationId);
+  return (
+    profile?.payPractice ??
+    estimatedEmployerPayPractice(
+      classification,
+      world.history.organizations.find((org) => org.id === organizationId)
+        ?.formedAt ?? world.currentDate,
+      staff,
+      profile?.publicGovernmentIdentity !== undefined,
+    )
+  ).period;
 }
 
 function weekday(date: IsoDate): number {
@@ -1036,14 +953,17 @@ export function startTownJobPay(
       );
       periods.set(organizationId, period);
     }
-    const phase =
-      period === "biweekly"
-        ? Math.floor(
-            new SeededRng(world.seed)
-              .fork(`${TOWN_PAY_VERSION}:phase:${organizationId}`)
-              .next() * 2,
-          )
-        : 0;
+    const profile = organizationProfileAt(world, organizationId);
+    const practice =
+      profile?.payPractice ??
+      estimatedEmployerPayPractice(
+        profile?.classification ?? "",
+        world.history.organizations.find((org) => org.id === organizationId)
+          ?.formedAt ?? startsAt,
+        staff.get(organizationId) ?? 1,
+        profile?.publicGovernmentIdentity !== undefined,
+      );
+    const phase = period === "biweekly" ? employerBiweeklyPhase(practice) : 0;
     const weeklyHours = weeklyHoursOf(role);
     const perPeriod = Math.round(
       (hourlyMinor * weeklyHours * 52) / PERIODS_PER_YEAR[period],

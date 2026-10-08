@@ -21,17 +21,13 @@ import type { GenderIdentityKey, IsoDate } from "./types";
  *     says its coverage before 1937 is incomplete; a birth after the 2020s is a
  *     projection, and holding the latest decade is the game's projection, not a
  *     forecast.
- *   - Only COHORT_GIVEN_NAME_SHARE of people take a cohort name. The rest keep
- *     the name the ordinary draw gave them, from the whole name list, because a
- *     name outside a decade's top 100 was still somebody's name. That share is
- *     authored, not measured. The real share is how many births in a decade
- *     the top 100 accounts for, which varies by decade and sex; the SSA decade
- *     pages publish it and it is not in the evidence file yet.
+ *   - A recorded naming tradition keeps the family's selected name. Otherwise
+ *     the source cohort supplies a starting name; no percentage decides whether
+ *     a family follows its naming tradition.
  *
  * Direction, as with gender: birth year is an input to the draw. A name is
  * never read backwards to decide anybody's age.
  */
-export const COHORT_GIVEN_NAME_SHARE = 0.6;
 
 type Sex = "male" | "female";
 type DecadeTable = Readonly<
@@ -122,15 +118,16 @@ export function birthCohortGivenName(
     readonly familyName: string;
     readonly birthDate: IsoDate;
     readonly gender: GenderIdentityKey | undefined;
+    readonly namingTradition?: "family-name" | "birth-cohort";
   },
   takenGivenNames: readonly string[] = [],
 ): string {
   const sex = person.gender;
+  if (person.namingTradition === "family-name") return person.givenName;
   if (sex !== "male" && sex !== "female") return person.givenName;
   const rng = new SeededRng(worldSeed).fork(
     `given-name-cohort-v1:${personKey}`,
   );
-  if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;
   return (
     drawCohortGivenName(
       rng,

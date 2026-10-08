@@ -64,7 +64,7 @@ describe("canonical private citizenship", () => {
       const status = person.citizenshipStatuses![0]!;
       const shares = citizenshipSharesForJurisdiction(input.homeJurisdictionId);
       expect(status.provenance).toMatchObject({
-        method: "estimated-from-population-share",
+        method: "birth-law",
         basis: shares.basis,
         countyGeoids: shares.countyGeoids,
       });
@@ -114,7 +114,7 @@ describe("canonical private citizenship", () => {
     });
     const added = appended.personOrder.at(-1)!;
     expect(citizenshipStatusOf(appended, added)?.provenance.method).toBe(
-      "estimated-from-population-share",
+      "birth-law",
     );
     expect(appended.history.events).toEqual(f.world.history.events);
     const restored = deserializeWorld(serializeWorld(appended));

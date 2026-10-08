@@ -22,11 +22,13 @@ import {
   recordDurableDecisionTrace,
 } from "../decisions";
 import { recordsWithFieldValue } from "../history-index";
-import { activeWorkRelationshipsAt } from "../life-queries";
+import { isPersonAliveAt } from "../vitality";
 import type { DecisionConsideration, DecisionContext } from "../types";
 import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,
+  GoalStateRecord,
+  IsoDate,
   OrganizationClassification,
   OccupationClassification,
   Organization,
@@ -803,7 +805,7 @@ function reviewTownGroupsOf(
     }
   }
 
-  // A founding, where enough adults belong to none of this kind.
+  // Unaffiliated adults decide from their own recorded association motives.
   const still = townGroups(next, town, profile);
   const belonging = new Set(
     still.flatMap((entry) => entry.members.map((member) => member.personId)),
@@ -898,21 +900,32 @@ export function decideTownGroupFounding(
 ): { readonly world: World; readonly found: boolean } {
   if (world.control.kind === "person" && world.control.personId === personId)
     return { world, found: false };
+  const prior = recordsWithFieldValue(
+    world.history.decisionTraces,
+    "stableKey",
+    `${stableKey}:trace`,
+  )[0];
+  if (prior)
+    return {
+      world,
+      found: isSelectedDecision(prior) && prior.selectedOptionKey === "found",
+    };
   const person = world.people[personId];
-  if (!person || person.homeJurisdictionId !== town)
-    return { world, found: false };
-  const goal = recordsWithFieldValue(
-    world.history.goalStates,
-    "personId",
-    personId,
+  if (
+    !person ||
+    person.homeJurisdictionId !== town ||
+    !isPersonAliveAt(world, personId, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })
   )
-    .filter(
-      (row) =>
-        row.recordedAt <= world.currentDate &&
-        row.scope === profile.key &&
-        row.targetEntityId === town,
-    )
-    .at(-1);
+    return { world, found: false };
+  const goal = townGroupFoundingGoal(
+    recordsWithFieldValue(world.history.goalStates, "personId", personId),
+    town,
+    profile,
+    world.currentDate,
+  );
   const memberships = recordsWithFieldValue(
     world.history.organizationParticipations,
     "personId",
@@ -929,14 +942,14 @@ export function decideTownGroupFounding(
     considerations.push({
       stableKey: `${stableKey}:goal`,
       optionKey: "found",
-      sourceType: "goal:association",
+      sourceType: "mind:association-goal",
       direction: "supports",
       importance:
         goal.priority === "critical"
           ? "decisive"
           : goal.priority === "high"
             ? "strong"
-            : goal.priority === "medium"
+            : goal.priority === "moderate"
               ? "moderate"
               : "slight",
       confidence: "high",
@@ -967,10 +980,13 @@ export function decideTownGroupFounding(
       direction: "opposes",
       importance: "slight",
       confidence: "high",
-      explanation: employment[0]!.kind,
+      explanation: employment[0]!.relationship.kind,
       sourceRefs: employment.map((row) => ({
         kind: "life-history",
-        reference: { family: "work-relationship", recordId: row.id },
+        reference: {
+          family: "work-relationship",
+          recordId: row.relationship.id,
+        },
       })),
     });
   const context: DecisionContext = {
@@ -1001,4 +1017,21 @@ export function decideTownGroupFounding(
     world: recordDurableDecisionTrace(world, result),
     found: isSelectedDecision(result) && result.selectedOptionKey === "found",
   };
+}
+
+/** The latest goal on this association in this place, including its end. */
+export function townGroupFoundingGoal(
+  goals: readonly GoalStateRecord[],
+  town: EntityId,
+  profile: TownGroupProfile,
+  date: IsoDate,
+): GoalStateRecord | undefined {
+  return goals
+    .filter(
+      (row) =>
+        row.recordedAt <= date &&
+        row.scope === profile.key &&
+        row.targetEntityId === town,
+    )
+    .at(-1);
 }

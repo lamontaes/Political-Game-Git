@@ -171,13 +171,6 @@
       "code": "if (draw(seed, `accessory:${kind}`) < ACCESSORY_SHARE[kind][presentation])"
     },
     {
-      "file": "src/presentation/appearance-engine/pose-chooser.ts",
-      "kind": "roll",
-      "build": "Build 6",
-      "count": 1,
-      "code": "return draw(seed, question) < odds ? first : second;"
-    },
-    {
       "file": "src/presentation/appearance-engine/recipe.ts",
       "kind": "fixed-share",
       "build": "Build 6",
@@ -339,116 +332,11 @@
       "code": "if (context.jurisdictionKey !== \"US-MN\") {"
     },
     {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (jurisdictionKey === \"US-CA\")"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "minor: { share: 100_000, days: 1 },"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "moderate: { share: 300_000, days: 3 },"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "major: { share: 600_000, days: 10 },"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "catastrophic: { share: 900_000, days: 30 },"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (draw(world, episode, `${key}:damaged`) >= policy.damaged) return null;"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "return draw(world, episode, `${key}:destroyed`) < policy.destroyedGivenDamaged"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (draw(next, episode, `death:${personId}`) < deathChance) {"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (draw(next, episode, `injury:${personId}`) < injuryChance) {"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "draw(next, episode, `injury-severity:${personId}`) < MICRO / 3;"
-    },
-    {
-      "file": "src/simulation/crisis/disaster.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "if (draw(next, episode, `organization:${organization.id}`) < service.share)"
-    },
-    {
-      "file": "src/simulation/crisis/hazard-producer.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "while (product > limit && count < 25) {"
-    },
-    {
-      "file": "src/simulation/given-name-cohorts.ts",
-      "kind": "fixed-share",
-      "build": "Build 7",
-      "count": 1,
-      "code": "export const COHORT_GIVEN_NAME_SHARE = 0.6;"
-    },
-    {
       "file": "src/simulation/given-name-cohorts.ts",
       "kind": "roll",
       "build": "Build 7",
       "count": 1,
       "code": "if (point < 0) return name;"
-    },
-    {
-      "file": "src/simulation/given-name-cohorts.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
-    },
-    {
-      "file": "src/simulation/governing/question-authority.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (place?.stateJurisdictionKey === \"US-DC\") return [\"dc\"];"
     },
     {
       "file": "src/simulation/justice/clemency.ts",
@@ -470,27 +358,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "lowOpportunityShare: 0.18,"
-    },
-    {
-      "file": "src/simulation/living-world/opening.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "since: drawn < window.startsAt ? window.startsAt : drawn,"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;"
-    },
-    {
-      "file": "src/simulation/living-world/town-businesses.ts",
-      "kind": "roll",
-      "build": "Build 19",
-      "count": 1,
-      "code": "if (rng.fork(\"found\").next() >= expected) return next;"
     },
     {
       "file": "src/simulation/living-world/town-employment.ts",
@@ -519,34 +386,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "const CONGREGATION_HOUSEHOLD_SHARE = 0.45;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (point < 0) return shape;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "for (let c = 0; c < children; c += 1)"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
     },
     {
       "file": "src/simulation/national-election-consumer.ts",
@@ -603,34 +442,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "const WITHIN_REACH_PERMILLE = 100;"
-    },
-    {
-      "file": "src/simulation/outcome-web/place-outcome-store.ts",
-      "kind": "place-in-logic",
-      "build": "Build 2",
-      "count": 1,
-      "code": "if (place.stateJurisdictionKey === \"US-DC\") return null;"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "if (roll < 0.15) {"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "} else if (roll < 0.7) {"
-    },
-    {
-      "file": "src/simulation/people.ts",
-      "kind": "roll",
-      "build": "Build 7",
-      "count": 1,
-      "code": "} else if (roll < 0.9) {"
     },
     {
       "file": "src/simulation/person-identity.ts",
@@ -715,13 +526,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (point < 0) return value;"
-    },
-    {
-      "file": "src/simulation/world-setup/conditions.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "if (u < cumulative) return regime;"
     }
   ]
 }

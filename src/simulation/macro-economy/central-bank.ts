@@ -232,15 +232,17 @@ function isDead(world: World, personId: EntityId): boolean {
 }
 
 /**
- * A member's view of prices against jobs, drawn once from their own stream
- * when they join the board and recorded on the appointment. It is a
- * GAME PROFILE: people differ on it, and nothing about a person's name,
- * place or background sets it.
+ * A member's view of prices against jobs, read from their recorded risk tendency
+ * when they join the board and recorded on the appointment. People differ on it through the
+ * canonical tendency reader; names and place labels do not set it.
  */
-function drawInflationLean(world: World, personId: EntityId): TraitValue {
-  return new SeededRng(world.seed)
-    .fork(`${CENTRAL_BANK_VERSION}:view:${personId}`)
-    .integer(-2, 3) as TraitValue;
+export function recordedInflationLean(
+  world: World,
+  personId: EntityId,
+): TraitValue {
+  // Caution weighs inflation risk; willingness to take risk weighs jobs.
+  // The tendency reader resolves the actual record or recorded upbringing.
+  return -personTrait(world, personId, "risk").value as TraitValue;
 }
 
 function leanWords(lean: TraitValue): string {
@@ -385,7 +387,7 @@ export function ensureCentralBankSeated(
   for (const [seat, stableKey] of stableKeys.entries()) {
     const personId = people.personIds[seat]!;
     const input = { stableKey };
-    const lean = drawInflationLean(next, personId);
+    const lean = recordedInflationLean(next, personId);
     const termEnds = seatTermEnds(seat, year);
     const recorded = recordAppointment(next, {
       stableKey: `${input.stableKey}:appointed`,
@@ -405,11 +407,33 @@ export function ensureCentralBankSeated(
       inflationLean: lean,
     });
   }
-  const chairSeat = new SeededRng(world.seed)
-    .fork(`${CENTRAL_BANK_VERSION}:opening:chair`)
-    .integer(0, seats.length);
+  const president = currentPresidentOf(next);
+  const eligible = new Set(seats.map((seat) => seat.personId));
+  const chairChoice = president
+    ? chooseAppointee(next, {
+        stableKey: `${CENTRAL_BANK_VERSION}:opening:chair:choice`,
+        appointerPersonId: president.personId,
+        post: {
+          officeKey: "central-bank-chair",
+          title: "chair of the central bank's board",
+        },
+        circle: appointmentCircle(next, president.personId, [...eligible]),
+        eligible: (id) => eligible.has(id),
+      })
+    : null;
+  if (chairChoice) next = chairChoice.world;
+  // Without an appointer's recorded choice, retain the longest-serving member
+  // as the marked opening estimate rather than inventing an appointment roll.
+  const chairPersonId =
+    chairChoice?.personId ??
+    [...seats].sort(
+      (a, b) =>
+        a.termEnds.localeCompare(b.termEnds) ||
+        a.personId.localeCompare(b.personId),
+    )[0]!.personId;
+  const chairSeat = seats.findIndex((seat) => seat.personId === chairPersonId);
   const chairTermEnds = makeIsoDate(
-    `${year + new SeededRng(world.seed).fork(`${CENTRAL_BANK_VERSION}:opening:chair-term`).integer(1, CENTRAL_BANK_PROFILE.chairTermYears + 1)}-${world.currentDate.slice(5)}`,
+    `${year + CENTRAL_BANK_PROFILE.chairTermYears}-${world.currentDate.slice(5)}`,
   );
   const chair = recordAppointment(next, {
     stableKey: `${CENTRAL_BANK_VERSION}:opening:chair:appointed`,
@@ -698,7 +722,7 @@ function confirm(
       termEnds = makeIsoDate(
         `${Number(termEnds.slice(0, 4)) + CENTRAL_BANK_PROFILE.governorTermYears}-01-31`,
       );
-    const lean = drawInflationLean(next, nomination.nomineeId);
+    const lean = recordedInflationLean(next, nomination.nomineeId);
     const recorded = recordAppointment(next, {
       stableKey: `${CENTRAL_BANK_VERSION}:confirmed:governor:${nomination.seat}:${nomination.nomineeId}:${next.currentDate}`,
       personId: nomination.nomineeId,
@@ -760,7 +784,7 @@ export function ensureReserveBankPresidents(world: World): World {
   const presidents: ReserveBankPresidentSeat[] = [];
   for (const [index, row] of RESERVE_BANKS.entries()) {
     const personId = people.personIds[index]!;
-    const lean = drawInflationLean(next, personId);
+    const lean = recordedInflationLean(next, personId);
     const recorded = recordAppointment(next, {
       stableKey: `${stableKeys[index]}:appointed`,
       personId,
@@ -834,7 +858,7 @@ function stepReserveBankPresidents(world: World): World {
     );
     next = people.world;
     const personId = people.personIds[0]!;
-    const lean = drawInflationLean(next, personId);
+    const lean = recordedInflationLean(next, personId);
     const recorded = recordAppointment(next, {
       stableKey: `${stableKey}:appointed`,
       personId,

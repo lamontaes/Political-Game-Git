@@ -1,3 +1,5 @@
+import COHORT_REFERENCE from "../../../data/research/starting-cohorts.json" with { type: "json" };
+import { cohortCategoryAt, cohortCategoryPosition } from "../cohort-allocation";
 /**
  * Everyone who lives in the player's town, and the few of them written out.
  *
@@ -117,12 +119,21 @@ export const UNKNOWN_TOWN_POPULATION = 1_000;
  * recorded one-to-three-child range for households with children. Places
  * used: every jurisdiction in the Census-derived household-mix table.
  */
+const meanChildren =
+  COHORT_REFERENCE.children.reduce(
+    (sum, [count, weight]) => sum + Number(count) * Number(weight),
+    0,
+  ) /
+  COHORT_REFERENCE.children.reduce(
+    (sum, [, weight]) => sum + Number(weight),
+    0,
+  );
 const MEAN_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
   alone: 1,
   couple: 2,
   // One to three children.
-  "couple-with-children": 4,
-  "parent-with-children": 3,
+  "couple-with-children": 2 + meanChildren,
+  "parent-with-children": 1 + meanChildren,
   housemates: 2,
 };
 
@@ -275,14 +286,12 @@ function householdRng(world: World, town: EntityId, index: number) {
   return new SeededRng(world.seed).fork(householdKey(town, index));
 }
 
-function pickShape(rng: SeededRng, town: EntityId): HouseholdShape {
-  const { shares } = householdMixForJurisdiction(town);
-  let point = rng.next();
-  for (const [shape, share] of shares) {
-    point -= share;
-    if (point < 0) return shape;
-  }
-  return shares.at(-1)![0];
+function householdCohort(town: EntityId, index: number) {
+  return cohortCategoryPosition(
+    householdMixForJurisdiction(town).shares,
+    townRoster(town).households,
+    index,
+  );
 }
 
 /** Household `index` of the town: its shape and its members' ages. Cheap. */
@@ -292,7 +301,8 @@ export function townHouseholdSkeleton(
   index: number,
 ): TownHouseholdSkeleton {
   const rng = householdRng(world, town, index);
-  const shape = pickShape(rng.fork("shape"), town);
+  const cohort = householdCohort(town, index);
+  const shape = cohort.category;
   const members: SkeletonMember[] = [];
   const push = (age: number) => {
     members.push({ age, role: "adult" });
@@ -318,7 +328,15 @@ export function townHouseholdSkeleton(
           .integer(Math.max(19, head - 6), Math.min(90, head + 6) + 1),
       );
     if (shape === "couple-with-children" || shape === "parent-with-children") {
-      const children = rng.fork("children").integer(1, 4);
+      const children = Number(
+        cohortCategoryAt(
+          COHORT_REFERENCE.children.map(
+            ([count, weight]) => [String(count), Number(weight)] as const,
+          ),
+          cohort.categoryPopulation,
+          cohort.categoryOrdinal,
+        ),
+      );
       const youngest = Math.max(0, head - 45);
       for (let c = 0; c < children; c += 1)
         members.push({
@@ -363,34 +381,40 @@ export function townHouseholdMaterialized(
 }
 
 /**
- * CALIBRATION, not a sourced figure: the share of the town's couples who are
- * two women or two men. Claude CTO ruled on September 27, 2026 that the
- * opening pairs couples by the real share of mixed-sex and same-sex
- * households, one rule for every state. About 1.5 percent is inferred from
- * the Census Bureau's American Community Survey same-sex couple tables (about
- * 1.3 million of roughly 65 million couple households), not read from a file
- * in the repository.
- */
-export const SAME_SEX_COUPLE_SHARE = 0.015;
-
-/**
  * The second partner's identity in a couple. Before this, each partner's
  * gender was drawn on its own, so about half of the town's couples were two
  * women or two men. A partner who is nonbinary, or partnered with somebody
  * nonbinary, keeps the identity they drew.
  */
+/** Published starting-cohort reference; never a partner-selection chance. */
+export const SAME_SEX_COUPLE_SHARE =
+  Number(
+    COHORT_REFERENCE.partnerPreferences.find(
+      ([kind]) => kind === "same-gender",
+    )![1],
+  ) /
+  COHORT_REFERENCE.partnerPreferences.reduce(
+    (sum, [, weight]) => sum + Number(weight),
+    0,
+  );
+
 function partnerIdentity(
   first: PersonIdentity,
   drawn: PersonIdentity,
-  rng: SeededRng,
+  preference: NonNullable<PersonIdentity["partnerPreference"]>,
 ): PersonIdentity {
   const binary = (gender: string) => gender === "female" || gender === "male";
   if (!binary(first.gender) || !binary(drawn.gender)) return drawn;
-  const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;
+  const sameSex = preference.kind === "same-gender";
   const gender = sameSex === (first.gender === "female") ? "female" : "male";
   return gender === drawn.gender
     ? drawn
-    : { gender, pronouns: defaultPronounsForGender(gender) };
+    : {
+        ...drawn,
+        gender,
+        pronouns: defaultPronounsForGender(gender),
+        partnerPreference: preference,
+      };
 }
 
 /** Who household `index` would be written out as: names and birthdays. Pure. */
@@ -413,13 +437,33 @@ function namedMembers(
   const couple =
     skeleton.shape === "couple" || skeleton.shape === "couple-with-children";
   let firstPartner: PersonIdentity | null = null;
+  const cohort = householdCohort(town, skeleton.index);
   return skeleton.members.map((member, n) => {
     const personRng = rng.fork(`person:${n}`);
     const stableKey = townResidentKey(town, skeleton.index, n);
     let identity = generatePersonIdentity(personRng.fork("identity"));
-    if (couple && n === 0) firstPartner = identity;
+    if (couple && n === 0) {
+      identity = {
+        ...identity,
+        partnerPreference: {
+          kind: cohortCategoryAt(
+            COHORT_REFERENCE.partnerPreferences.map(
+              ([kind, weight]) => [String(kind), Number(weight)] as const,
+            ),
+            cohort.categoryPopulation,
+            cohort.categoryOrdinal,
+          ) as "same-gender" | "different-gender",
+          estimatedFrom: COHORT_REFERENCE.partnerPreferenceSource,
+        },
+      };
+      firstPartner = identity;
+    }
     if (couple && n === 1 && firstPartner)
-      identity = partnerIdentity(firstPartner, identity, rng.fork("couple"));
+      identity = partnerIdentity(
+        firstPartner,
+        identity,
+        firstPartner.partnerPreference!,
+      );
     const named = drawCanonicalNamedIdentity(personRng.fork("name"), identity, {
       corpusVersion,
     });

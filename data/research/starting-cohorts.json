@@ -1,0 +1,97 @@
+{
+  "schema": "starting-cohort-reference-v1",
+  "estimatedFrom": "Census 2023 ACS B01001 and S1501; Census 2023 CPS Families and Living Arrangements Table F1; BLS 2025 OEWS occupational employment; distributions are marked estimates until detailed age/credential/occupation joint tables are compiled",
+  "cohortSlots": 1000,
+  "ageRoles": [
+    ["scenario-young-adult", 15],
+    ["scenario-mid-career", 55],
+    ["scenario-senior-career", 20],
+    ["scenario-elder", 10]
+  ],
+  "educationPaths": [
+    {
+      "institution": "a synthetic local high school",
+      "field": null,
+      "credential": "high school diploma",
+      "startAge": 14,
+      "endAge": 18,
+      "subjectTags": []
+    },
+    {
+      "institution": "a synthetic regional trade program",
+      "field": "skilled trades",
+      "credential": "trade credential",
+      "startAge": 18,
+      "endAge": 19,
+      "subjectTags": ["background.education.skilled-trades"]
+    },
+    {
+      "institution": "a synthetic community college",
+      "field": "general studies",
+      "credential": "associate degree",
+      "startAge": 18,
+      "endAge": 20,
+      "subjectTags": ["background.education.general-studies"]
+    },
+    {
+      "institution": "a synthetic four-year college",
+      "field": "public administration",
+      "credential": "bachelor's degree",
+      "startAge": 18,
+      "endAge": 22,
+      "subjectTags": ["background.education.public-administration"]
+    }
+  ],
+  "educationWeights": [40, 10, 10, 40],
+  "occupationProfiles": [
+    {
+      "employer": "a synthetic neighborhood business",
+      "title": "small-business bookkeeper",
+      "subjectTags": ["background.occupation.local-finance"]
+    },
+    {
+      "employer": "a synthetic community health nonprofit",
+      "title": "community health coordinator",
+      "subjectTags": ["background.occupation.community-health"]
+    },
+    {
+      "employer": "a synthetic construction firm",
+      "title": "construction supervisor",
+      "subjectTags": ["background.occupation.construction"]
+    },
+    {
+      "employer": "a synthetic hospitality company",
+      "title": "hospitality manager",
+      "subjectTags": ["background.occupation.hospitality"]
+    },
+    {
+      "employer": "a synthetic insurance office",
+      "title": "insurance claims specialist",
+      "subjectTags": ["background.occupation.insurance"]
+    },
+    {
+      "employer": "a synthetic public library",
+      "title": "library program assistant",
+      "subjectTags": ["background.occupation.public-programs"]
+    }
+  ],
+  "occupationWeights": [1, 1, 1, 1, 1, 1],
+  "workStartOffsetYears": 1,
+  "children": [
+    ["1", 40],
+    ["2", 40],
+    ["3", 20]
+  ],
+  "partnerPreferences": [
+    ["different-gender", 98],
+    ["same-gender", 2]
+  ],
+  "partnerPreferenceSource": "Census ACS 2023 same-sex couple households, estimated 1.3 million of approximately 65 million couple households",
+  "legislatorTenureYears": 4,
+  "legislatorTenureEstimatedFrom": "NCSL state legislative turnover reports; four years is a marked national reference estimate until individual first-election dates are recorded",
+  "congressPriorServiceYears": {
+    "us-house": 8,
+    "us-senate": 12
+  },
+  "congressPriorServiceEstimatedFrom": "CRS R46705, Membership of the 117th Congress; national reference estimates until an individual first-election date is recorded"
+}

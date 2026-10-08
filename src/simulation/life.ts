@@ -1,3 +1,4 @@
+import { estimatedEmployerPayPractice } from "./employer-pay-practice";
 import { determineWorkPayCoverage } from "./pay-coverage";
 import { eventById } from "./event-index";
 import { assertPublicGovernmentIdentity } from "./public-government-identity";
@@ -116,6 +117,7 @@ export interface CreateOrganizationInput {
     readonly locationJurisdictionId: EntityId | null;
     readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
     readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
+    readonly payPractice?: OrganizationProfileRecord["payPractice"];
   };
 }
 
@@ -128,6 +130,7 @@ export interface RecordOrganizationProfileInput {
   readonly locationJurisdictionId: EntityId | null;
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
+  readonly payPractice?: OrganizationProfileRecord["payPractice"];
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
   /** Present when this profile closes the organization. */
@@ -402,6 +405,14 @@ export function createOrganization(
     sequence: world.history.nextSequence + 1,
     organizationId: organization.id,
     effectiveAt: formedAt,
+    payPractice:
+      input.initialProfile.payPractice ??
+      estimatedEmployerPayPractice(
+        input.initialProfile.classification,
+        formedAt,
+        undefined,
+        input.initialProfile.publicGovernmentIdentity !== undefined,
+      ),
     name: input.initialProfile.name,
     classification: input.initialProfile.classification,
     locationJurisdictionId: input.initialProfile.locationJurisdictionId,
@@ -512,6 +523,7 @@ export function recordOrganizationProfile(
             ...(input.collegePlace ?? previous.collegePlace!),
           },
         }),
+    payPractice: input.payPractice ?? previous.payPractice,
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);

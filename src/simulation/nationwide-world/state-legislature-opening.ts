@@ -1,3 +1,4 @@
+import cohortReference from "../../../data/research/starting-cohorts.json" with { type: "json" };
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -62,12 +63,7 @@ import {
 import { isPersonAliveAt } from "../vitality-integrity";
 import { politicalStartingConditions } from "../world-setup/conditions";
 import { US_STATE_USPS } from "./state-executive-candidacy-packs";
-import {
-  clampShare,
-  logistic,
-  logit,
-  standardNormal,
-} from "../world-setup/deterministic-math";
+import { clampShare, logistic, logit } from "../world-setup/deterministic-math";
 import legislatorsTable from "../../../data/research/laws/legislators-2023.json" with { type: "json" };
 import { districtIdentityCatalog } from "../../districts/catalog";
 import {
@@ -580,15 +576,6 @@ export function ensureStateLegislatureOpening(
       : statewide.length > 0
         ? mean(statewide)
         : null;
-  let squares = 0;
-  let freedom = 0;
-  for (const values of houseShares.values()) {
-    if (values.length < 2) continue;
-    const m = mean(values);
-    for (const value of values) squares += (value - m) ** 2;
-    freedom += values.length - 1;
-  }
-  const spread = freedom > 0 ? Math.sqrt(squares / freedom) : 0;
   const parties = ["democratic", "republican"].filter(
     (party) =>
       recordById(
@@ -669,7 +656,7 @@ export function ensureStateLegislatureOpening(
       let party: string | null = null;
       let democraticShare: number | null = null;
       if (center !== null && parties.length === 2) {
-        const lean = center + spread * standardNormal(seatRng.fork("lean"));
+        const lean = center;
         democraticShare = logistic(lean);
         party = democraticShare >= 0.5 ? "democratic" : "republican";
       }
@@ -677,11 +664,13 @@ export function ensureStateLegislatureOpening(
         legalMinimumAge: minimumAge,
       });
       // A state that limits its legislators' terms has no sitting member
-      // past the limit: service so far is spread over the years under it
-      // (the current term is part of it), not piled at the limit.
-      const drawnYears = seatRng.integer(0, 13);
+      // past the limit: the sourced starting tenure is capped below the legal limit
+      // (the current term is part of it).
+      const referenceYears = cohortReference.legislatorTenureYears;
       const yearsServed = Math.min(
-        limitYears === null ? drawnYears : drawnYears % limitYears,
+        limitYears === null
+          ? referenceYears
+          : Math.min(referenceYears, Math.max(0, limitYears - 1)),
         Math.max(0, age - minimumAge - 1),
       );
       const birthDate = inventedPersonBirthDate(seatRng, {
