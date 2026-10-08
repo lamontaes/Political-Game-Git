@@ -28,7 +28,8 @@ describe("one staging slot contract", () => {
     process.stdout.write(
       `Unresolved facing gaps: ${JSON.stringify(facingGaps)}; lean missing: ${leanMissing}.\n`,
     );
-    expect(facingGaps.length).toBeGreaterThan(0);
+    // The pack now draws a person seen from behind, so no facing is a gap.
+    expect(facingGaps).toEqual([]);
     expect(leanMissing).toBe(true);
   });
 
