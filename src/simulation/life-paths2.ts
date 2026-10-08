@@ -84,7 +84,6 @@ import { recordWorldEvent } from "./world";
 import { evaluateLifeEligibility } from "./life-eligibility";
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { goalConsiderations } from "./people-goal-pursuit";
-import { traitConsiderations } from "./people-traits";
 import {
   employerName,
   lifePathDefinition,
@@ -1379,14 +1378,6 @@ export function recruitLifePathPerson(
             explanation: "They have been looking for suitable work.",
           })),
       ),
-      ...traitConsiderations(world, personId, responseKey, [
-        {
-          optionKey: "refused",
-          trait: "risk",
-          pole: "high",
-          explanation: "They would chance waiting for something better.",
-        },
-      ]),
     ],
     perceptionIds: [],
     randomness: "none",
