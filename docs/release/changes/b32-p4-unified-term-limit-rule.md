@@ -1,3 +1,3 @@
-# One term limit field across office records
+# Shared rule fields for public offices
 
-Ordinary rule changes now use the shared `term.limit` field for executive offices and legislative chambers. Executive term-limit readers and constitutional reform records use the same field, and the chamber binding check accepts chambers in the measure's own rule pack. The rule record retains its applicability and effective date.
+Ordinary rule changes use the shared `term.limit` field for executive offices and legislative chambers. The existing `qualification.minimumAge` field can now be amended for any state office, including executive offices and chambers. Executive term-limit and candidacy age readers use the recorded field and its effective date.
