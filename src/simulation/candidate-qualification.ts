@@ -366,7 +366,7 @@ export function assessCandidateQualification(
       refusals.push({
         kind: "minimum-age",
         field: "minimumAge",
-        reason: `You must be at least ${rules.minimumAge.value} to run for this office.`,
+        reason: `Minimum age: ${rules.minimumAge.value}`,
         source: rules.minimumAge.source,
       });
     }

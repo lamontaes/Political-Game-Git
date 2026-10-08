@@ -6,7 +6,7 @@ import { stableHash } from "../ids";
 import { lifePlaceStateIdentities } from "../life-places";
 import type { EntityId, World } from "../types";
 import {
-  UNRESEARCHED_EPIDEMIC as U,
+  EPIDEMIC_ESTIMATE as U,
   epidemicCaseSeverity,
   epidemicSeasonOn,
   epidemicSeriousness,

@@ -1,6 +1,6 @@
 import {
   createLawConsequenceRegistry,
-  LAW_CONSEQUENCE_REGISTRATIONS,
+  lawConsequenceRegistrations,
 } from "./law-consequence-registry";
 import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
@@ -802,13 +802,12 @@ function levelOfGovernment(
 export function applyLawConsequences(
   world: World,
   context: LawConsequenceContext,
-  registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
+  registrations: readonly AnyLawConsequenceKindRegistration[] = lawConsequenceRegistrations(),
 ): World {
+  const baselineRegistrations = lawConsequenceRegistrations();
   const registry = createLawConsequenceRegistry([
-    ...LAW_CONSEQUENCE_REGISTRATIONS,
-    ...registrations.filter(
-      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
-    ),
+    ...baselineRegistrations,
+    ...registrations.filter((entry) => !baselineRegistrations.includes(entry)),
   ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
