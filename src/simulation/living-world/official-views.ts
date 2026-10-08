@@ -970,7 +970,7 @@ function reflectOnLivedOutcome(
     ],
     summary:
       outcome.summary ??
-      `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
+      `Thought over ${livedOutcomeLabel(outcome)}, and who answers for it.`,
     context: {
       location: null,
       socialContext: null,
@@ -1040,11 +1040,19 @@ function outcomeFactor(
       confidence: "high",
       explanation:
         outcome.explanationKey ??
-        `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
+        `This official answers for ${livedOutcomeLabel(outcome)}${
           anchored ? "; the person's party loyalty tempers it" : ""
         }.`,
       sourceRefs: [
         { kind: "historical-event", eventId },
+        ...(outcome.kind === "place-outcome" && outcome.outcomeRecordId
+          ? [
+              {
+                kind: "place-outcome" as const,
+                outcomeRecordId: outcome.outcomeRecordId,
+              },
+            ]
+          : []),
         ...(outcome.sourceKnowledgeId
           ? [
               {
@@ -1064,6 +1072,10 @@ function outcomeFactor(
       ],
     },
   };
+}
+
+function livedOutcomeLabel(outcome: LivedOutcome): string {
+  return outcome.summary ?? LIVED_OUTCOME_SUMMARY[outcome.kind] ?? outcome.kind;
 }
 
 /**
