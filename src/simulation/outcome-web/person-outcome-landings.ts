@@ -12,12 +12,15 @@ import {
   sentencedPersonOf,
 } from "../justice/jail-terms";
 import { hasPolicyRestoredVotingRightOn } from "../justice/voting-standing";
+import { debtStandingAt, loanTermsAt } from "../household-loans";
+import { outstandingDebtAt } from "../resource-queries";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 import { householdMembershipsAt } from "../life-queries";
 import {
   holdsPackCondition,
   SUBSTANCE_USE_DISORDER_KEY,
 } from "../crisis/condition-pack";
+import { healthCoverageRecords } from "../crisis/health-coverage";
 import { snapParticipationRecords } from "../crisis/snap-participation";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { officialAnsweringFor } from "../living-world/lived-outcomes";
@@ -57,7 +60,9 @@ export type OutcomeRecipientRule =
   | "recorded-parent-of-young-child-estimate"
   | "recorded-parent-of-infant-estimate"
   | "voting-age-resident-estimate"
-  | "recorded-restored-voting-right-estimate";
+  | "recorded-restored-voting-right-estimate"
+  | "recorded-medicaid-expansion-recipient-estimate"
+  | "recorded-payday-loan-borrower-estimate";
 
 type AgeBoundedOutcomeRecipientRule = Exclude<
   OutcomeRecipientRule,
@@ -72,6 +77,7 @@ type AgeBoundedOutcomeRecipientRule = Exclude<
   | "recorded-married-woman-estimate"
   | "recorded-parent-of-young-child-estimate"
   | "recorded-parent-of-infant-estimate"
+  | "recorded-payday-loan-borrower-estimate"
   | "recorded-restored-voting-right-estimate"
 >;
 
@@ -144,6 +150,8 @@ export interface OutcomeLandingPerson {
   readonly hasActiveParentOfYoungChild: boolean;
   readonly hasActiveParentOfInfant: boolean;
   readonly hasPolicyRestoredVotingRight: boolean;
+  readonly hasRecordedMedicaidExpansionCoverage: boolean;
+  readonly hasActivePaydayLoan: boolean;
 }
 
 /** Match a person to the estimate's cohort, using recorded facts when present. */
@@ -168,6 +176,8 @@ export function matchesOutcomeRecipientRule(
     | "hasActiveParentOfYoungChild"
     | "hasActiveParentOfInfant"
     | "hasPolicyRestoredVotingRight"
+    | "hasRecordedMedicaidExpansionCoverage"
+    | "hasActivePaydayLoan"
   >,
 ): boolean {
   switch (rule) {
@@ -201,6 +211,16 @@ export function matchesOutcomeRecipientRule(
       return person.hasActiveParentOfInfant;
     case "recorded-restored-voting-right-estimate":
       return person.hasPolicyRestoredVotingRight;
+    case "recorded-payday-loan-borrower-estimate":
+      return person.hasActivePaydayLoan;
+    case "recorded-medicaid-expansion-recipient-estimate": {
+      const cohort = RECIPIENT_AGE_COHORTS[rule];
+      return (
+        person.hasRecordedMedicaidExpansionCoverage &&
+        person.age >= cohort.minimumAge &&
+        (cohort.maximumAge === null || person.age <= cohort.maximumAge)
+      );
+    }
     case "adult-school-completer-estimate": {
       const cohort = RECIPIENT_AGE_COHORTS[rule];
       return (
@@ -268,7 +288,8 @@ export function recordPlannedPersonOutcomeLandings(
       row.recipientRule === "recorded-wage-family-member-estimate" ||
       row.recipientRule === "active-renter-household-member-estimate" ||
       row.recipientRule === "snap-enrolled-renter-household-member-estimate" ||
-      row.recipientRule === "evicted-household-without-home-member-estimate",
+      row.recipientRule === "evicted-household-without-home-member-estimate" ||
+      row.recipientRule === "recorded-payday-loan-borrower-estimate",
   );
   const needsSnapParticipation = PERSON_LANDINGS.some(
     (row) =>
@@ -280,6 +301,13 @@ export function recordPlannedPersonOutcomeLandings(
   );
   const needsPolicyRestoredVotingRight = PERSON_LANDINGS.some(
     (row) => row.recipientRule === "recorded-restored-voting-right-estimate",
+  );
+  const needsMedicaidExpansionRecipients = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "recorded-medicaid-expansion-recipient-estimate",
+  );
+  const needsPaydayLoanBorrowers = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "recorded-payday-loan-borrower-estimate",
   );
   const adultConditionMinimumAge =
     RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
@@ -310,6 +338,31 @@ export function recordPlannedPersonOutcomeLandings(
         policyRestoredVoters.add(personId);
     }
   }
+  const medicaidExpansionRecipients = new Set<EntityId>();
+  if (needsMedicaidExpansionRecipients) {
+    const latestCoverage = new Map<
+      EntityId,
+      ReturnType<typeof healthCoverageRecords>[number]
+    >();
+    for (const record of healthCoverageRecords(world)) {
+      if (
+        record.program !== "medicaid-expansion" ||
+        record.effectiveAt > month ||
+        record.recordedAt > month
+      )
+        continue;
+      const prior = latestCoverage.get(record.personId);
+      if (
+        !prior ||
+        record.effectiveAt > prior.effectiveAt ||
+        (record.effectiveAt === prior.effectiveAt &&
+          record.sequence > prior.sequence)
+      )
+        latestCoverage.set(record.personId, record);
+    }
+    for (const [personId, record] of latestCoverage)
+      if (record.covered) medicaidExpansionRecipients.add(personId);
+  }
   const education = needsEducationEnrollment
     ? educationEnrollmentsAt(world, month)
     : {
@@ -328,6 +381,41 @@ export function recordPlannedPersonOutcomeLandings(
         ])
       : [],
   );
+  const activePaydayLoanBorrowers = new Set<EntityId>();
+  if (needsPaydayLoanBorrowers) {
+    const peopleByHousehold = new Map<EntityId, Set<EntityId>>();
+    for (const [personId, memberships] of membershipsByPerson)
+      for (const membership of memberships) {
+        const householdId = membership.membership.householdId;
+        const people =
+          peopleByHousehold.get(householdId) ?? new Set<EntityId>();
+        people.add(personId);
+        peopleByHousehold.set(householdId, people);
+      }
+    const resourceFlows = new Map(
+      world.history.resourceFlows.map((flow) => [flow.id, flow]),
+    );
+    const cutoff = {
+      asOfDate: month,
+      historySequenceExclusive: world.history.nextSequence,
+    };
+    for (const obligation of world.history.resourceObligations) {
+      const terms = loanTermsAt(world, obligation.id, cutoff);
+      if (terms?.kind !== "payday" || terms.lenderKind !== "payday-lender")
+        continue;
+      const balance = outstandingDebtAt(world, obligation.id, cutoff);
+      if (!balance || balance.minorUnits <= 0) continue;
+      if (debtStandingAt(world, obligation.id, month)?.standing === "paid-off")
+        continue;
+      const source = resourceFlows.get(obligation.resourceFlowId)?.source;
+      if (source?.kind === "person") {
+        activePaydayLoanBorrowers.add(source.personId);
+      } else if (source?.kind === "household") {
+        for (const personId of peopleByHousehold.get(source.householdId) ?? [])
+          activePaydayLoanBorrowers.add(personId);
+      }
+    }
+  }
   const snapHouseholds = new Set<EntityId>();
   if (needsSnapParticipation) {
     const latestSnapByHousehold = new Map<
@@ -580,6 +668,9 @@ export function recordPlannedPersonOutcomeLandings(
       hasActiveParentOfYoungChild: parentsOfYoungChildren.has(personId),
       hasActiveParentOfInfant: parentsOfInfants.has(personId),
       hasPolicyRestoredVotingRight: policyRestoredVoters.has(personId),
+      hasRecordedMedicaidExpansionCoverage:
+        medicaidExpansionRecipients.has(personId),
+      hasActivePaydayLoan: activePaydayLoanBorrowers.has(personId),
     };
     for (const row of PERSON_LANDINGS) {
       if (
