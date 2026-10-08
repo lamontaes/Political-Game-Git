@@ -301,33 +301,6 @@
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     },
     {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 98,
-      "text": "{/* PLACEHOLDER(overnight): Resident lines await the English engine's exact-word review. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 211,
-      "text": "{/* PLACEHOLDER(overnight): These exact speech choices are COPY-PENDING in the canonical producer. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
-      "file": "src/player/OrdinaryMeetingPanel.tsx",
-      "line": 331,
-      "text": "{/* PLACEHOLDER(overnight): The canonical writer currently uses a 15-minute visit. */}",
-      "occurrence": 1,
-      "disposition": "rebuild",
-      "rebuildStep": "A166",
-      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
-    },
-    {
       "file": "src/presentation/appearance-engine/fabric.ts",
       "line": 26,
       "text": "* The first fabric colors. PLACEHOLDER(wave2): picked by eye for the first",

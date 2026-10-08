@@ -16,20 +16,9 @@ import {
   PROTECTED_STOP_NOTE,
   skipToLabel,
 } from "../presentation/time-target-label";
-import {
-  addSimulationMinutes,
-  advanceWorld,
-  type EntityId,
-  type World,
-} from "../simulation";
-import {
-  seekCareerOffer,
-  respondCareerOffer,
-  startCareerWork,
-} from "../simulation/career-path7";
-import { lifePaths2Handlers } from "../simulation/life-paths2";
+import { addSimulationMinutes, type EntityId, type World } from "../simulation";
+import { seekCareerOffer } from "../simulation/career-path7";
 import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
-import { CareerPathsPanel } from "./CareerPathsPanel";
 import { LifePathsPanel } from "./LifePathsPanel";
 import { PressPreparationTimeControl } from "./PressWorkspace";
 import {
@@ -118,75 +107,6 @@ describe("the day control inside Jobs and study", () => {
     expect(markup).not.toContain('data-testid="life-paths-pass-day"');
     expect(markup).toContain('data-testid="life-paths-pass-day-unavailable"');
     expect(markup).toContain("owns the one clock");
-  });
-});
-
-describe("the wait control on a career offer", () => {
-  const life = adultLife();
-  const provider = CAREER_PROVIDERS[0]!;
-  const sought = seekCareerOffer(life.world, provider);
-  const panel = (
-    <CareerPathsPanel world={sought.world} onWorldChange={() => {}} />
-  );
-
-  it("offers an expected career offer to wait on", () => {
-    // If this fails the rest of this block is proving nothing, so it is
-    // asserted rather than skipped around.
-    expect(sought.ok).toBe(true);
-    expect(withRunner(stubRunner(false), panel)).toContain(
-      'data-testid="career-paths-wait-day"',
-    );
-  });
-
-  it("keeps timing explanation copy off the record-only Work screen", () => {
-    const markup = withRunner(stubRunner(false), panel);
-    expect(markup).not.toContain(
-      skipToLabel(
-        previewTimeCommand(sought.world, life.personId, {
-          kind: "days",
-          days: 1,
-        })!.target,
-      ),
-    );
-    expect(markup).not.toContain(PROTECTED_STOP_NOTE);
-    expect(markup).not.toContain(
-      'aria-describedby="career-paths-wait-day-target"',
-    );
-  });
-
-  it("is busy and disabled while a command is running", () => {
-    const markup = withRunner(stubRunner(true), panel);
-    expect(markup).toMatch(
-      /data-testid="career-paths-wait-day"[^>]*aria-disabled="true"/,
-    );
-    expect(markup).toMatch(
-      /data-testid="career-paths-wait-day"[^>]*aria-busy="true"/,
-    );
-    expect(markup).not.toContain("Time is passing…");
-  });
-
-  it("is absent with its reason where the shell's clock is not mounted", () => {
-    const markup = withRunner(null, panel);
-    expect(markup).not.toContain('data-testid="career-paths-wait-day"');
-    expect(markup).not.toContain(
-      'data-testid="career-paths-wait-day-unavailable"',
-    );
-    expect(markup).not.toContain("Unavailable here");
-  });
-
-  it("offers an active career task through the approved action control", () => {
-    let world = sought.world;
-    const relationshipId = world.history.workRelationships.at(-1)!.id;
-    world = respondCareerOffer(world, relationshipId, provider, true).world;
-    world = advanceWorld(world, 1, lifePaths2Handlers());
-    world = startCareerWork(world, relationshipId, provider).world;
-
-    const markup = withRunner(
-      stubRunner(false),
-      <CareerPathsPanel world={world} onWorldChange={() => {}} />,
-    );
-    expect(markup).toContain(provider.tasks[0]!.text);
-    expect(markup).toContain(">Continue</button>");
   });
 });
 

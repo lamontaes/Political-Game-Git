@@ -1,5 +1,4 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { renderToStaticMarkup } from "react-dom/server";
 import {
   deserializeWorld,
   serializeWorld,
@@ -23,7 +22,6 @@ import {
   leaveOrdinaryMeeting,
   ordinaryMeetingLeaveOffer,
 } from "./ordinary-meeting-actions";
-import { OrdinaryMeetingPanel } from "../player/OrdinaryMeetingPanel";
 
 // Reuse the three distinct logged random draws, including a county-only place.
 const places = ["3220700", "2537385", "3556810"];
@@ -133,24 +131,6 @@ describe.each(places)(
           "Travel takes",
         );
         const before = serializeWorld(arrived);
-        const html = renderToStaticMarkup(
-          <OrdinaryMeetingPanel
-            world={arrived}
-            personId={viewer}
-            onWorldChange={() => undefined}
-            onOpenEntity={() => undefined}
-            onOutcome={() => undefined}
-          />,
-        );
-        expect(html).toContain("ordinary-meeting-agenda-order");
-        expect(html).toContain("ordinary-meeting-people");
-        expect(html).toContain("ordinary-meeting-roll-call");
-        expect(html).not.toContain("speak-ordinary-meeting");
-        expect(html).not.toContain("meeting-speech-");
-        expect(html).not.toContain("ordinary-meeting-spoken-words");
-        expect(html).toContain(">Stay through the meeting</button>");
-        expect(html).toContain(">Go briefly</button>");
-        expect(html).toContain(">Leave and return home</button>");
         expect(serializeWorld(arrived)).toBe(before);
         expect(
           previewTimeCommand(arrived, viewer, {

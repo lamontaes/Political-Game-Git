@@ -11,8 +11,6 @@
     "src/connectivity/producer-links.ts|Running for office",
     "src/content/adapters/legislative-rule-packs.ts|Session",
     "src/content/content-export.ts|Options",
-    "src/environment/reference/corpus.ts|House",
-    "src/environment/reference/corpus.ts|Senate",
     "src/maps/MapPlaceContext.tsx|About",
     "src/maps/MapPlaceContext.tsx|people",
     "src/maps/PoliticalMap.tsx|Alaska and Hawaii are drawn as insets.",

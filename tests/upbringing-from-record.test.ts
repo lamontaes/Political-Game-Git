@@ -2,8 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import { smallWorld } from "./fixtures/small-world";
 import { composeWorldTimeHandlers } from "../src/simulation/campaigns";
-import { appendChildhoodEntry } from "../src/simulation/childhood-record";
-import { childhoodRecord } from "../src/simulation/childhood-record-queries";
+import {
+  appendChildhoodEntry,
+  childhoodRecordEntries,
+} from "../src/simulation/childhood-record";
 import { addDays, dateAtAge } from "../src/simulation/dates";
 import { resolveFutureDueItemsThrough } from "../src/simulation/future-transitions";
 import { lifePlaceStateIdentities } from "../src/simulation/life-places";
@@ -18,6 +20,13 @@ import {
   assertWorldIntegrity,
   recordWorldEvent,
 } from "../src/simulation/world";
+
+/** A person's childhood record entries, read from the saved records. */
+function entriesOf(world: World, personId: EntityId) {
+  return childhoodRecordEntries(world).filter(
+    (entry) => entry.personId === personId,
+  );
+}
 
 /**
  * LIVES step 1d: for anyone born in play, upbringing is read from the
@@ -113,7 +122,7 @@ describe(`upbringing read from the childhood record in ${PLACE} (seed ${SEED})`,
   });
 
   it("an opening-world person keeps the game profile, since no childhood was recorded", () => {
-    expect(childhoodRecord(small.world, parentId)!.entries).toEqual([]);
+    expect(entriesOf(small.world, parentId)).toEqual([]);
     expect(upbringingFor(small.world, parentId).basis).toBe("game-profile");
   });
 
@@ -128,9 +137,8 @@ describe(`upbringing read from the childhood record in ${PLACE} (seed ${SEED})`,
     ] as const) {
       let next = world;
       for (let n = 0; n < moves; n++) next = moveOf(next, childId, n);
-      const record = childhoodRecord(next, childId)!;
       expect(
-        record.entries.filter((e) => e.kind === "school-year-move"),
+        entriesOf(next, childId).filter((e) => e.kind === "school-year-move"),
       ).toHaveLength(moves);
       const read = upbringingFor(next, childId);
       expect(read.homeStability).toBe(expected);
@@ -157,8 +165,7 @@ describe(`upbringing read from the childhood record in ${PLACE} (seed ${SEED})`,
       composeWorldTimeHandlers(),
     );
     assertWorldIntegrity(grown);
-    const record = childhoodRecord(grown, childId)!;
-    expect(record.entries[0]).toMatchObject({ kind: "birth" });
+    expect(entriesOf(grown, childId)[0]).toMatchObject({ kind: "birth" });
     const upbringing = upbringingFor(grown, childId);
     expect(upbringing.basis).toBe("childhood-record");
     expect(upbringing.homeStability).toBe("some-moves");

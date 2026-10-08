@@ -20,7 +20,6 @@ import {
   localBusinessesIn,
   refreshLocalEconomy,
 } from "../simulation/local-economy";
-import { isPlayableWork } from "../simulation/playable-work";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { createResourcePosition, money } from "../simulation/resources";
 import type {
@@ -119,7 +118,6 @@ describe("the businesses of a town", () => {
           work.kind === BUSINESS_OWNER_WORK_KIND,
       )!;
       expect(owner.economicRisk).toBe("person-borne");
-      expect(isPlayableWork(owner.kind)).toBe(false);
       expect(world.people[owner.personId]!.homeJurisdictionId).toBe(townId);
     }
     assertWorldIntegrity(world);
@@ -250,13 +248,6 @@ describe("the businesses of a town", () => {
     expect(
       refreshLocalEconomy(reloaded, personId).history.resourceTransferOutcomes,
     ).toHaveLength(next.history.resourceTransferOutcomes.length);
-  });
-
-  it("marks only the story routes as playable", () => {
-    expect(isPlayableWork("employment:judicial-office-practice")).toBe(true);
-    expect(isPlayableWork("employment:civil-service")).toBe(true);
-    expect(isPlayableWork("employment:local-business")).toBe(false);
-    expect(isPlayableWork("employment:part-time")).toBe(false);
   });
 
   it("reads a place's recorded employers in every jurisdiction", () => {

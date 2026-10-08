@@ -23,7 +23,6 @@ import {
   currentCompositionDraft,
   saveBillComposition,
 } from "./legislation-composition";
-import { openFiscalAuthorityWork } from "./fiscal-authority-work";
 import { projectLegislativeOfficeContext } from "./legislative-office-context";
 import {
   prepareRecordedLegislativeSitting,
@@ -382,36 +381,5 @@ describe("multiple supported legislative seats with explicit action scope", () =
     ).toThrow(/recorded sitting no longer matches/);
     expect(serializeWorld(changed)).toBe(before);
     expect(activeMemberSeats(changed, fixture.personId)).toEqual(fixture.seats);
-  });
-
-  it("scopes fiscal study to the selected live office without inventing a legal baseline", () => {
-    const fixture = twoSeats();
-    const selected = fixture.seats.find(
-      (seat) => seat.chamberKey === "senate",
-    )!;
-    const request = {
-      personId: fixture.personId,
-      stateUsps: "AK",
-      level: "state",
-      instrument: "selective-excise",
-      asOfDate: fixture.world.currentDate,
-      action: "propose-authority-change" as const,
-    };
-    const unscoped = openFiscalAuthorityWork(fixture.world, [], request);
-    expect(unscoped.kind).toBe("refused");
-    expect(unscoped.world).toBe(fixture.world);
-    const scoped = openFiscalAuthorityWork(fixture.world, [], {
-      ...request,
-      memberSeatStableKey: selected.relationshipStableKey,
-    });
-    expect(scoped.kind).toBe("opened");
-    expect(scoped.authority.state).toBe("UNESTABLISHED");
-    expect(activeMemberSeats(scoped.world, fixture.personId)).toEqual(
-      fixture.seats,
-    );
-    expect(scoped.world.history.decisionTraces).toEqual(
-      fixture.world.history.decisionTraces,
-    );
-    assertWorldIntegrity(scoped.world);
   });
 });

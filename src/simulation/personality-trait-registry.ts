@@ -90,12 +90,12 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "people-mind-v1:conflict",
     kind: "decision",
-    reader: "decidePromiseRenegotiation — src/simulation/people-promise.ts",
+    reader: "lifeCallbackTransitionHandler — src/simulation/life-callbacks.ts",
   },
   {
     trait: "people-mind-v1:reliability",
     kind: "decision",
-    reader: "decidePromiseRenegotiation — src/simulation/people-promise.ts",
+    reader: "answerFamilyPlan — src/simulation/people-family-plan.ts",
   },
   {
     trait: "people-mind-v1:risk",

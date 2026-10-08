@@ -339,21 +339,9 @@
           "file": "src/simulation/campaign-recognition.ts",
           "pattern": "const\\s+(UNKNOWN_RETURN_PERCENT|PER_AFTERNOON_PERCENT|PER_WIN_PERCENT|MOST_FROM_WINS_PERCENT)\\s*=\\s*\\d+",
           "why": "the hand-set door-return curve under 'PLACEHOLDER MAGNITUDES' (campaign-recognition.ts:16 is a comment, so the constants are checked)"
-        },
-        {
-          "kind": "absent",
-          "file": "src/simulation/patronage/following.ts",
-          "pattern": "const\\s+DEBT_VOTE_WEIGHT\\s*=",
-          "why": "the hand-set debt-band weights (following.ts:23)"
-        },
-        {
-          "kind": "absent",
-          "file": "src/simulation/patronage/following.ts",
-          "pattern": "const\\s+MAX_DEBT_SHIFT\\s*=",
-          "why": "the hand-set cap on debt shift (following.ts:25)"
         }
       ],
-      "note": "Not started as verified: all five constants are still hand-set and national-mood.ts reads no support record. covers is part because replacing a constant with another constant would pass the absent checks; the recognition and patronage replacements (E2) have no named function to require."
+      "note": "Not started as verified: the national-mood and door-return constants are still hand-set and national-mood.ts reads no support record. covers is part because replacing a constant with another constant would pass the absent checks; the recognition replacement (E2) has no named function to require. The patronage debt-shift constants went with the deleted src/simulation/patronage/following.ts."
     },
     "A12": {
       "covers": "whole",
@@ -2172,12 +2160,6 @@
         {
           "kind": "present",
           "file": "src/simulation/people-family-plan.ts",
-          "pattern": "isSelectedDecision\\(|outcomeKind",
-          "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
-        },
-        {
-          "kind": "present",
-          "file": "src/simulation/people-promise.ts",
           "pattern": "isSelectedDecision\\(|outcomeKind",
           "why": "a close-choices caller that does not check isSelectedDecision/outcomeKind yet"
         },

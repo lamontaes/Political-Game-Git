@@ -15,7 +15,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectOpeningWorldSnapshot } from "./opening-world-snapshot";
 import { projectPersonDossier } from "./person-dossier";
-import { projectPracticalActivity } from "./practical-activity";
+import { venueActivities } from "./venue-activity";
 import { projectPracticalOpportunities } from "./practical-opportunities";
 import { projectContacts } from "./people-contacts";
 import { askToMeet } from "../../tests/support/contact-fixtures";
@@ -48,9 +48,7 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
     const opening = projectOpeningWorldSnapshot(world, player);
     expect(opening.life.household.household).toEqual([]);
     expect(currentOpeningLifeScene(world, player)).toBeNull();
-    expect(projectPracticalActivity(world, player).current?.setting).toBe(
-      "home",
-    );
+    expect(openingLifeLocation(world, player)?.setting).toBe("home");
     const contacts = projectContacts(world, player);
     const contact = contacts.contacts.find((item) =>
       item.channels.some((channel) => channel.kind === "call"),
@@ -101,9 +99,17 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
     });
     expect(asked.currentMoment).toEqual(restored.currentMoment);
     const ordinary = openOrdinaryLife(asked, player);
-    const meeting = projectPracticalActivity(ordinary, player).activities.find(
+    const found = venueActivities(ordinary, player).find(
       (entry) => entry.activity.title === "Posted public meeting",
     )!;
+    const meeting = {
+      ...found,
+      state: scheduledActivityState(ordinary, found.activity.id),
+      command: {
+        kind: "attend-activity" as const,
+        activityId: found.activity.id,
+      },
+    };
     expect(meeting.refusal).toBeNull();
     // Since #727 the first Attend travels and opens the meeting room at its
     // start; staying through the discussion is the second, which completes it.
@@ -137,8 +143,8 @@ describe("PLAYTEST65 real opening and practical-life readers", () => {
       meeting.activity.location.label,
     );
     const continued = deserializeWorld(serializeWorld(attended.world));
-    expect(projectPracticalActivity(continued, player).current).toEqual(
-      projectPracticalActivity(attended.world, player).current,
+    expect(openingLifeLocation(continued, player)).toEqual(
+      openingLifeLocation(attended.world, player),
     );
   });
   it.each([

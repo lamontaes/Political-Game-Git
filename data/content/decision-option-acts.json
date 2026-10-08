@@ -174,11 +174,6 @@
       "accept": ["commit", "play-safe", "cooperate"],
       "hold-out": ["refuse", "take-risk", "delay"]
     },
-    "people.promise-renegotiation": {
-      "accepts-change": ["concede", "cooperate", "change"],
-      "needs-answer": ["delay", "distrust"],
-      "holds-boundary": ["follow-rules", "refuse", "commit"]
-    },
     "people.raise-family-plan": {
       "raise-it": ["engage", "commit", "take-risk"],
       "leave-it": ["delay", "keep-same"]

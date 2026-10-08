@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import { addDays } from "../dates";
 import { appropriatedAgainst } from "../enacted-appropriations";
-import { fileBundleDraft } from "../../presentation/legislation-bundle-docket";
 import { recordWorldEvent } from "../world";
 import { playerRequiredWorkIds, releasePlayerRequiredWork } from "../time-work";
 import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
@@ -408,71 +407,5 @@ describe("one program identity per named spending target", () => {
     expect(
       appropriationFromEnactedMeasure(noFinalCeiling, funded.measureId),
     ).toBe(noFinalCeiling);
-  });
-
-  it("counts only the exact saved target component, not a sibling with a longer key", () => {
-    const repair = enact(scenario.world, {
-      familyKey: "bridge-maintenance",
-      variantKey: "worst-first-condition",
-    });
-    const hardening = enact(repair.world, {
-      familyKey: "utility-resilience",
-      variantKey: "hardening-grants",
-    });
-    expect(appropriatedAgainst(hardening.world, repair.measureId)).toBe(0);
-    expect(appropriatedAgainst(hardening.world, hardening.measureId)).toBe(0);
-    const controlled = controlForFixture(
-      hardening.world,
-      scenario.playerPersonId,
-      `a80:bundle-filing:${hardening.world.history.nextSequence}`,
-    );
-    const funded = enactFiled(
-      fileBundleDraft(controlled, {
-        scenarioKey: "nebraska",
-        playerPersonId: scenario.playerPersonId,
-        jurisdictionId,
-        subjectRule: "unrestricted",
-        components: [
-          {
-            componentKey: "repair",
-            familyKey: "appropriations",
-            variantKey: "single-programme",
-            subject: "repair",
-            authorityKey: `docket:${repair.docketKey}`,
-          },
-          {
-            componentKey: "repair-extra",
-            familyKey: "appropriations",
-            variantKey: "supplemental",
-            subject: "hardening",
-            authorityKey: `docket:${hardening.docketKey}`,
-          },
-        ],
-      }),
-    );
-    const records = appropriations(funded.world).filter(
-      (r) => r.sourceMeasureId === funded.measureId,
-    );
-    expect(records).toHaveLength(2);
-    expect(records.map((r) => [r.programKey, r.amount.minorUnits])).toEqual([
-      ["bridge-maintenance:ne", 1_200_000_000],
-      ["utility-resilience:ne", 350_000_000],
-    ]);
-    expect(appropriatedAgainst(funded.world, repair.measureId)).toBe(
-      1_200_000_000,
-    );
-    expect(appropriatedAgainst(funded.world, hardening.measureId)).toBe(
-      350_000_000,
-    );
-    const continued = deserializeWorld(serializeWorld(funded.world));
-    const repeated = appropriationFromEnactedMeasure(
-      continued,
-      funded.measureId,
-    );
-    expect(serializeWorld(repeated)).toBe(serializeWorld(continued));
-    expect(appropriatedAgainst(repeated, repair.measureId)).toBe(1_200_000_000);
-    expect(appropriatedAgainst(repeated, hardening.measureId)).toBe(
-      350_000_000,
-    );
   });
 });
