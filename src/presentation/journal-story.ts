@@ -136,10 +136,9 @@ export function composeStoryChapter(
   // Brothers and sisters are on record only when a parent is.
   const siblings = packet.siblings;
   if (siblings) {
-    const { brothers, sisters } = siblings;
-    if (brothers + sisters === 0)
-      told.push(sentence(say("family", {}, "only-child")));
-    else if (brothers >= 2 && sisters === 0)
+    const { brothers, sisters, total } = siblings;
+    if (total === 0) told.push(sentence(say("family", {}, "only-child")));
+    else if (brothers >= 2 && brothers === total)
       told.push(
         sentence(
           say(
@@ -150,7 +149,7 @@ export function composeStoryChapter(
           ),
         ),
       );
-    else if (sisters >= 2 && brothers === 0)
+    else if (sisters >= 2 && sisters === total)
       told.push(
         sentence(
           say(

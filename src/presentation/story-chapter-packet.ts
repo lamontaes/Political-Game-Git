@@ -75,10 +75,14 @@ export interface StoryChapterPacket extends Sourced {
   /** Nothing in the stretch ranked: the story may say so. */
   readonly quiet: boolean;
   readonly raisedBy: readonly StoryRaiser[];
-  /** Brothers and sisters on record, or null when no parent is on record. */
+  /**
+   * Brothers and sisters on record, or null when no parent is on record. The
+   * total also counts those whose gender is not recorded.
+   */
   readonly siblings: {
     readonly brothers: number;
     readonly sisters: number;
+    readonly total: number;
   } | null;
   readonly people: readonly StoryPerson[];
   /** In date order. */

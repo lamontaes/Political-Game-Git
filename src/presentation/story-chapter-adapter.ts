@@ -269,7 +269,11 @@ export function buildStoryChapterPackets(
       raisedBy,
       siblings:
         parentIds.length > 0
-          ? { brothers: genderCount("male"), sisters: genderCount("female") }
+          ? {
+              brothers: genderCount("male"),
+              sisters: genderCount("female"),
+              total: siblings.size,
+            }
           : null,
       people: [],
       moments,
