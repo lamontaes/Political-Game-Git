@@ -5,7 +5,7 @@ import type {
   World,
 } from "../simulation";
 import { moneyText } from "../simulation/money-text";
-import { lawExposureSentence } from "./law-exposure-lines";
+import { lawExposureSentence, startingLawName } from "./law-exposure-lines";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -24,6 +24,11 @@ export interface MoneyLawLine {
   readonly text: string;
   /** "May 7, 2027" for the player's own lines; null for the town's. */
   readonly dateLabel: string | null;
+  /**
+   * Whether the law has a page to open. A law the place began with has no bill,
+   * so it is named but opens nothing.
+   */
+  readonly openable: boolean;
 }
 
 export interface MoneyLaws {
@@ -42,9 +47,11 @@ const MOST_OWN_LINES = 5;
 type Direction = LawExposureRecord["direction"];
 
 /** What a law did through a channel to a group, with or without a sum. */
-const TOWN_WORDS: Record<
-  LawExposureChannel,
-  Record<Direction, (who: string, sum: string) => string>
+const TOWN_WORDS: Partial<
+  Record<
+    LawExposureChannel,
+    Record<Direction, (who: string, sum: string) => string>
+  >
 > = {
   paycheck: {
     gain: (who, sum) => `added ${sum} to the pay of ${who}`,
@@ -102,11 +109,6 @@ const TOWN_WORDS: Record<
     cost: (who, sum) => `raised the rent of ${who} by ${sum}`,
     none: (who) => `changed the rent rules for ${who}`,
   },
-  "environmental-condition": {
-    gain: (who) => `improved conditions around the homes of ${who}`,
-    cost: (who) => `worsened conditions around the homes of ${who}`,
-    none: (who) => `changed conditions around the homes of ${who}`,
-  },
 };
 
 /**
@@ -132,13 +134,18 @@ function totalText(rows: readonly LawExposureRecord[]): string | null {
   return cadence === "monthly" ? `${money} a month` : money;
 }
 
-function lawLabel(world: World, measureId: EntityId): string | null {
+function lawLabel(
+  world: World,
+  measureId: EntityId,
+): { readonly label: string; readonly openable: boolean } | null {
   const measure = (world.history.legislativeMeasures ?? []).find(
     (row) => row.id === measureId,
   );
   const title = measure?.shortTitle?.trim();
-  if (!measure || !title) return null;
-  return `${title} (${measure.designation})`;
+  if (measure && title)
+    return { label: `${title} (${measure.designation})`, openable: true };
+  const starting = startingLawName(world, measureId);
+  return starting ? { label: starting, openable: false } : null;
 }
 
 function leadingThe(label: string): string {
@@ -168,14 +175,15 @@ export function projectMoneyLaws(
   for (const row of mine) {
     if (yours.length >= MOST_OWN_LINES) break;
     const text = lawExposureSentence(world, personId, row);
-    const label = lawLabel(world, row.measureId);
-    if (!text || !label) continue;
+    const named = lawLabel(world, row.measureId);
+    if (!text || !named) continue;
     yours.push({
       key: `yours:${row.id}`,
       measureId: row.measureId,
-      lawLabel: label,
+      lawLabel: named.label,
       text,
       dateLabel: proseDate(row.recordedAt),
+      openable: named.openable,
     });
   }
 
@@ -186,9 +194,7 @@ export function projectMoneyLaws(
     if (row.relation !== "own") continue;
     if (world.people[row.personId]?.homeJurisdictionId !== home) continue;
     const direction: Direction =
-      row.amount === null &&
-      row.channel !== "election-rule" &&
-      row.channel !== "environmental-condition"
+      row.amount === null && row.channel !== "election-rule"
         ? "none"
         : row.direction;
     const key = `${row.measureId}|${row.channel}|${direction}`;
@@ -202,23 +208,21 @@ export function projectMoneyLaws(
     .flatMap(([key, byPerson]) => {
       const rows = [...byPerson.values()];
       const first = rows[0]!;
-      const label = lawLabel(world, first.measureId);
-      if (!label) return [];
+      const named = lawLabel(world, first.measureId);
+      if (!named) return [];
+      const label = named.label;
       const people = rows.length;
       const who = `${people} ${people === 1 ? "person" : "people"} in ${placeName}`;
       const direction: Direction =
-        first.amount === null &&
-        first.channel !== "election-rule" &&
-        first.channel !== "environmental-condition"
+        first.amount === null && first.channel !== "election-rule"
           ? "none"
           : first.direction;
       const sum = direction === "none" ? null : totalText(rows);
-      const words = TOWN_WORDS[first.channel][
-        sum ||
-        first.channel === "election-rule" ||
-        first.channel === "environmental-condition"
-          ? direction
-          : "none"
+      // A channel no wording covers yet is left out of the town's list.
+      const channelWords = TOWN_WORDS[first.channel];
+      if (!channelWords) return [];
+      const words = channelWords[
+        sum || first.channel === "election-rule" ? direction : "none"
       ](who, sum ?? "");
       return [
         {
@@ -229,6 +233,7 @@ export function projectMoneyLaws(
             lawLabel: label,
             text: `${leadingThe(label)} ${words}.`,
             dateLabel: null,
+            openable: named.openable,
           },
         },
       ];

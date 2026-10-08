@@ -690,9 +690,11 @@ function outcomeFacts(
         },
       };
     }
-    // No line in LIVED_OUTCOME_VIEW is written for a county-office outcome, so
-    // there are no facts to say; the speaker stays quiet rather than improvise.
+    // No line in LIVED_OUTCOME_VIEW is written for a county-office or a place
+    // outcome, so there are no facts to say; the speaker stays quiet rather
+    // than improvise.
     case "county-justice":
+    case "place-outcome":
       return null;
   }
 }

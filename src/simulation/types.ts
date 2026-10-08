@@ -116,6 +116,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "legislative-proposal"
+  | "place-outcome-landing"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -1011,6 +1012,8 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A source label for amounts estimated from population-level evidence. */
+  readonly estimatedFrom?: string;
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }

@@ -47,10 +47,23 @@ interface Life {
   readonly personId: EntityId;
 }
 
+/** An adult in a place drawn at random from all 56, named by the seed. */
 function adultLife(seed: string): Life {
+  const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+    }),
   ).game!;
+  console.info("SEAM_MOUNTS_ADULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    worldId: game.world.id,
+  });
   return {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
@@ -153,7 +166,7 @@ describe("Getting in touch", () => {
     }
   });
 
-  it("draws an unavailable channel as its stated reason", () => {
+  it("draws an unavailable channel as blocked, never as a control", () => {
     /*
      * Asking somebody to meet is what closes a channel: until they answer, the
      * seam reports it unavailable and says why. That is a real state reached
@@ -171,8 +184,11 @@ describe("Getting in touch", () => {
       const id = `contact-channel-${contact.personId}-${channel.kind}`;
       expect(html).toContain(`data-testid="${id}"`);
       expect(channel.note).toBeTruthy();
-      expect(html).toContain(channel.note!);
-      // Its reason, not a control that would fail if pressed.
+      // Blocked, with the adapter's reason kept as data (menu reset MR-6),
+      // not a control that would fail if pressed.
+      expect(html).toMatch(
+        new RegExp(`<li data-blocked="true"[^>]*data-testid="${id}"`),
+      );
       expect(html).not.toContain(`<button type="button" data-testid="${id}"`);
     }
   });
@@ -207,9 +223,10 @@ describe("Getting in touch", () => {
     expect(html).toContain(
       `<strong class="pg-contact-name">${first.name}</strong>`,
     );
-    if (first.lastContactSpoken) {
+    if (first.lastContactSpoken && !first.livesWithYou) {
+      // The recorded day under its control name, not a sentence.
       expect(html).toContain(
-        `<p class="pg-contact-line">Last in touch ${first.lastContactSpoken}.`,
+        `<span class="pg-contact-label">Last in touch</span> ${first.lastContactSpoken}</p>`,
       );
     }
   });

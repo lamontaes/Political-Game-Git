@@ -558,7 +558,6 @@ export function WorldOrientationPanel({
               <PlacePeopleLayer
                 people={scenePeople}
                 stageRef={sceneStage}
-                overflowLabel="More illustrated people"
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,

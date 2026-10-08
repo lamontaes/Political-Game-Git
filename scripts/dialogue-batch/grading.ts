@@ -53,6 +53,10 @@ export interface GradingCell {
 
 export interface GradingItem {
   readonly i: number;
+  /** The batch situation the line came from. */
+  readonly id: string;
+  /** The one thing this line varies, the axis being graded. */
+  readonly axis: string;
   readonly situation: string;
   readonly prior: string;
   readonly reply: string;
@@ -62,6 +66,10 @@ export interface GradingItem {
   readonly kind: TextKind;
   readonly cell: GradingCell;
   readonly seed: string;
+  /** For a conversation: the reply choices the game offers next. */
+  readonly choices?: readonly string[];
+  /** For a conversation: whether any offered choice is a deliberate lie. */
+  readonly lieOffered?: boolean;
 }
 
 export interface GradingBatch {
@@ -89,6 +97,21 @@ export interface BinnedExchange {
   readonly item: Omit<GradingItem, "i">;
   readonly rule: string;
 }
+
+/**
+ * Kinds the owner does not grade (CTO 2:20 p.m. Oct 8, from the owner): floor,
+ * hearing and meeting procedure, minutes, bill text and court formulas follow
+ * conventions a player cannot judge by ear. Their wording is checked against
+ * the real records it was mined from instead. Owner batches carry journal
+ * chapters, conversations, news, notices and people's plain speech.
+ */
+export const PROCEDURAL_KINDS: ReadonlySet<TextKind> = new Set([
+  "meeting",
+  "hearing",
+  "minutes",
+  "legislation",
+  "judges",
+]);
 
 /** Batch ids use A to Z, a to z, 0 to 9 and hyphen only. */
 export function gradingBatchId(at: Date): string {
@@ -183,8 +206,9 @@ function voiceLabel(line: BatchLine): string {
 function plainSituation(line: BatchLine): string {
   if (line.id.startsWith("text-"))
     return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
-  // A judge's line needs the case it decides, which the batch line words.
-  if (line.id.startsWith("judge-"))
+  // A judge's line needs the case it decides, and a conversation needs the
+  // scene and what the player said, which the batch line words.
+  if (line.id.startsWith("judge-") || line.id.startsWith("conversation-"))
     return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
   const who = line.speaker.isPlayer
     ? "You"
@@ -243,6 +267,8 @@ export function toGradingBatch(
   for (const line of result.lines) {
     const traitKeys = Object.keys(line.speaker.traits);
     const item: Omit<GradingItem, "i"> = {
+      id: line.id,
+      axis: line.axis,
       situation: plainSituation(line),
       prior:
         line.prior === undefined
@@ -271,12 +297,18 @@ export function toGradingBatch(
         pose: null,
         ageBand: ageBandOf(line.speaker.age),
       },
-      seed: `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
+      seed:
+        line.seed ?? `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
+      ...(line.choices ? { choices: line.choices } : {}),
+      ...(line.lieOffered !== undefined ? { lieOffered: line.lieOffered } : {}),
     };
     // At most two items for any one relationship (CTO 9:03 p.m. Oct 6:
     // "dads carried 9 of 13").
     const voice = `${item.kind}|${voiceLabel(line)}`;
     const rule =
+      (PROCEDURAL_KINDS.has(item.kind)
+        ? "procedural wording: checked against real records, not put to the owner"
+        : null) ??
       binRule(`${line.line}`) ??
       (pairs.has(pairOf(item))
         ? "repeats a situation and relationship already in the batch"

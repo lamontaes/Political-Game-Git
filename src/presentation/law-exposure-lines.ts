@@ -22,9 +22,11 @@ import { proseDate } from "./prose-dates";
  */
 
 /** What the law did through each channel, for a cost and for a gain. */
-const CHANNEL_WORDS: Record<
-  LawExposureRecord["channel"],
-  { readonly cost: string; readonly gain: string; readonly none: string }
+const CHANNEL_WORDS: Partial<
+  Record<
+    LawExposureRecord["channel"],
+    { readonly cost: string; readonly gain: string; readonly none: string }
+  >
 > = {
   paycheck: {
     cost: "took {amount} from {whose} paycheck",
@@ -81,11 +83,6 @@ const CHANNEL_WORDS: Record<
     gain: "lowered {whose} rent by {amount}",
     none: "changed the rules on {whose} rent",
   },
-  "environmental-condition": {
-    cost: "worsened conditions around {whose} home",
-    gain: "improved conditions around {whose} home",
-    none: "changed conditions around {whose} home",
-  },
 };
 
 function amountText(exposure: LawExposureRecord): string {
@@ -107,6 +104,24 @@ function shareOfPay(exposure: LawExposureRecord): string | null {
   const percent = (amount.minorUnits / pay.minorUnits) * 100;
   if (percent < 0.5) return "less than 1% of a month's pay";
   return `about ${Math.round(percent)}% of a month's pay`;
+}
+
+/**
+ * A law the place began with has no bill to carry a short title, so it is
+ * named the way the policy catalog names the question it answers, set in
+ * quotation marks because the catalog names questions as actions
+ * ("Work requirement for assistance", "Limit legislative terms").
+ */
+export function startingLawName(
+  world: World,
+  measureId: EntityId,
+): string | null {
+  const questionKey = /^starting-law:[^:]+:(.+)$/.exec(measureId)?.[1];
+  if (!questionKey) return null;
+  const name = Object.values(world.policyCatalog?.propositions ?? {})
+    .find((row) => row.stableKey === questionKey)
+    ?.name?.trim();
+  return name ? `\u201C${name}\u201D` : null;
 }
 
 /**
@@ -160,7 +175,8 @@ export function lawExposureSentence(
       : recordedPretrialDecision &&
           exposure.measureId.startsWith("starting-law:")
         ? "cash bail law"
-        : null);
+        : null) ||
+    startingLawName(world, exposure.measureId);
   if (!title) return null;
   const via =
     exposure.relation !== "own" && exposure.viaPersonId
@@ -175,12 +191,15 @@ export function lawExposureSentence(
       exposure.channel !== "election-rule" &&
       exposure.channel !== "court-rule" &&
       exposure.channel !== "sentence-rule" &&
-      exposure.channel !== "voting-rule" &&
-      exposure.channel !== "environmental-condition") ||
+      exposure.channel !== "voting-rule") ||
     exposure.direction === "none"
       ? "none"
       : exposure.direction;
-  const words = CHANNEL_WORDS[exposure.channel][direction]
+  // A channel no wording covers yet (an environmental condition) is left out
+  // of the account; the audit lists it as an English gap.
+  const channelWords = CHANNEL_WORDS[exposure.channel];
+  if (!channelWords) return null;
+  const words = channelWords[direction]
     .replace("{whose}", whose)
     .replace("{whom}", whom)
     .replace("{amount}", exposure.amount === null ? "" : amountText(exposure));
