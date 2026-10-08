@@ -2,6 +2,7 @@ import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { principledLeaning } from "../governing/officeholder-principles";
 import { formPrinciplesFromLife } from "../principles-from-life";
+import { hasPoliticalOutcomeFactor } from "./political-reflection-outcomes";
 import type { EntityId, PropositionExposureRecord, World } from "../types";
 
 export const POLITICAL_REFLECTION_TRANSITION_KEY =
@@ -47,7 +48,8 @@ export function schedulePoliticalReflectionForExposure(
   const world = formPrinciplesFromLife(before, [exposure.personId]);
   if (
     principledLeaning(world, exposure.personId, exposure.propositionId)
-      .score === 0
+      .score === 0 &&
+    !hasPoliticalOutcomeFactor(world, exposure.personId, exposure.propositionId)
   )
     return before;
   return scheduleFutureDueItem(world, {

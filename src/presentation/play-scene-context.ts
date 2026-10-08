@@ -67,6 +67,8 @@ export type PlayScenePurpose =
 
 export interface PlaySceneContext {
   readonly purpose: PlayScenePurpose;
+  /** The controlled person is named by the scene's own presence evidence. */
+  readonly controlledPersonPresent: boolean;
   readonly locationKey: string | null;
   readonly sceneId: string | null;
   readonly reason: string;
@@ -112,6 +114,7 @@ export function resolveOpeningPlaySceneContext(
     const plate = venue?.sceneId ? scenes.scenes.get(venue.sceneId) : null;
     return {
       purpose: "activity",
+      controlledPersonPresent: true,
       locationKey: activity.location.locationKey,
       sceneId:
         plate?.raster &&
@@ -176,6 +179,7 @@ export function resolveOpeningPlaySceneContext(
     const sceneId = venue?.sceneId;
     return {
       purpose: "activity",
+      controlledPersonPresent: true,
       locationKey: work.locationKey,
       sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
       reason: work.arrival.summary,
@@ -205,6 +209,7 @@ export function resolveOpeningPlaySceneContext(
     const workplace = selectedWorkplaceForPerson(world, personId);
     return {
       purpose: "activity",
+      controlledPersonPresent: true,
       locationKey: "life-circumstance:covered-shift",
       sceneId: null,
       reason: workArrival.summary,
@@ -217,6 +222,7 @@ export function resolveOpeningPlaySceneContext(
   if (setting === "neighborhood" || setting === null)
     return {
       purpose: "unspecified",
+      controlledPersonPresent: false,
       locationKey: null,
       sceneId: null,
       reason:
@@ -275,6 +281,7 @@ export function resolvePlaySceneContext(
     const home = resolveLifeScene(world, personId, scenes, library);
     return {
       purpose: "recollection",
+      controlledPersonPresent: true,
       locationKey: null,
       sceneId: home.sceneId,
       reason:
@@ -296,6 +303,7 @@ export function resolvePlaySceneContext(
     }
     return {
       purpose: "school",
+      controlledPersonPresent: true,
       locationKey: SCHOOL_CORRIDOR_LOCATION_KEY,
       sceneId: sceneId && libraryHas(scenes, library, sceneId) ? sceneId : null,
       reason:
@@ -311,6 +319,7 @@ export function resolvePlaySceneContext(
   const home = resolveLifeScene(world, personId, scenes, library);
   return {
     purpose: setting === "home" ? "home" : "unspecified",
+    controlledPersonPresent: setting === "home",
     locationKey: null,
     sceneId: home.sceneId,
     reason: home.reason,
@@ -337,6 +346,7 @@ function contextFromActivity(
   );
   return {
     purpose: "activity",
+    controlledPersonPresent: activity !== null,
     locationKey: activity?.location.locationKey ?? null,
     sceneId: venue.sceneId,
     reason: venue.reason,

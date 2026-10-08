@@ -14,7 +14,6 @@ export const facetHostileEffects: readonly TraitEffectDeclaration[] = [
         option: "decline",
         trait: "personality-v1:facet-hostile",
         pole: "high",
-        explanation: "They go into most exchanges looking for a fight.",
       },
     ],
   },

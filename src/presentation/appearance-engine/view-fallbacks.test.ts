@@ -83,7 +83,8 @@ describe("back and side view rendering", () => {
             for (const file of [
               pieces.body.file,
               pieces.outfit!.file,
-              pieces.face.file,
+              // From behind no face is painted.
+              ...(pieces.face ? [pieces.face.file] : []),
               pieces.hair.front,
               pieces.hair.back,
             ])

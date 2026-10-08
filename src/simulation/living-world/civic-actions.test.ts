@@ -56,6 +56,7 @@ describe("recorded civic messages", () => {
       propositionId: proposition.id,
       stance: "no",
       channel: "email",
+      reason: { kind: "general-opinion", sourceRecordIds: [] },
     });
 
     const event = world.history.events.find(
@@ -70,5 +71,6 @@ describe("recorded civic messages", () => {
     );
     expect(event.tags).toContain("message-stance:no");
     expect(event.tags).toContain("message-channel:email");
+    expect(event.tags).toContain("reason:general-opinion");
   });
 });
