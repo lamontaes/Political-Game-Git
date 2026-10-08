@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "estimatedFrom": "BJS NCVS and FBI UCR",
+  "sources": {
+    "ncvsInjury": {
+      "title": "NCVS Dashboard, Injury by Crime Type, 2023",
+      "publisher": "Bureau of Justice Statistics",
+      "url": "https://ncvs.bjs.ojp.gov/data/custom-graphics/person/injury_all.csv",
+      "retrievedAt": "2026-10-08",
+      "filters": {
+        "year": 2023,
+        "characteristic": "Injury",
+        "characteristicValue": "Injured",
+        "population": "Person"
+      },
+      "note": "Assault combines aggravated and simple assault using their 2023 NCVS victimization rates (4.5 and 13.8 per 1,000); the percentages are weighted by those rates. The NCVS injury measure is physical injury, not emotional or psychological harm."
+    },
+    "ucrPropertyLoss": {
+      "title": "Crime in the United States, 2023, Table 23: Offense Analysis",
+      "publisher": "Federal Bureau of Investigation, Uniform Crime Reporting Program",
+      "url": "https://www.fbi.gov/news/press-releases/fbi-releases-2023-crime-in-the-nation-statistics",
+      "reportedIn": "Table 23",
+      "retrievedAt": "2026-10-08",
+      "note": "Reported-offense averages: burglary, robbery, larceny-theft, and motor vehicle theft. The FBI notes that some Table 23 average values may be inflated because of technical system changes and data-quality issues. The table does not include vandalism."
+    }
+  },
+  "severityByOffense": {
+    "assault": {
+      "kind": "injury-rate",
+      "value": 0.168,
+      "estimatedFrom": "BJS NCVS",
+      "source": "ncvsInjury",
+      "components": [
+        {
+          "category": "Aggravated assault",
+          "injuredPercent": 25.6,
+          "ratePer1000": 4.5
+        },
+        {
+          "category": "Simple assault",
+          "injuredPercent": 13.9,
+          "ratePer1000": 13.8
+        }
+      ]
+    },
+    "robbery": {
+      "kind": "injury-rate",
+      "value": 0.314,
+      "estimatedFrom": "BJS NCVS",
+      "source": "ncvsInjury",
+      "components": [{ "category": "Robbery", "injuredPercent": 31.4 }]
+    },
+    "burglary": {
+      "kind": "property-loss-dollars",
+      "value": 5035,
+      "estimatedFrom": "FBI UCR",
+      "source": "ucrPropertyLoss",
+      "components": [{ "category": "Burglary", "averageLossDollars": 5035 }]
+    },
+    "larceny-theft": {
+      "kind": "property-loss-dollars",
+      "value": 2465,
+      "estimatedFrom": "FBI UCR",
+      "source": "ucrPropertyLoss",
+      "components": [
+        {
+          "category": "Larceny-theft (except motor vehicle theft)",
+          "averageLossDollars": 2465
+        }
+      ],
+      "currentlyProduced": false
+    },
+    "motor-vehicle-theft": {
+      "kind": "property-loss-dollars",
+      "value": 12094,
+      "estimatedFrom": "FBI UCR",
+      "source": "ucrPropertyLoss",
+      "components": [
+        { "category": "Motor vehicle theft", "averageLossDollars": 12094 }
+      ],
+      "currentlyProduced": false
+    },
+    "vandalism": {
+      "kind": "unsupported",
+      "value": null,
+      "estimatedFrom": "FBI UCR",
+      "source": "ucrPropertyLoss",
+      "reason": "FBI UCR Table 23 publishes average values for robbery, burglary, larceny-theft, and motor vehicle theft; it does not publish vandalism losses."
+    }
+  }
+}

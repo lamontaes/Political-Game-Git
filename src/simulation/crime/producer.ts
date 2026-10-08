@@ -7,6 +7,7 @@ import {
   spokenDate,
 } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { householdLocationAt, peopleInHouseholdAt } from "../life-queries";
 import { personName } from "../people";
@@ -771,7 +772,13 @@ function recordIncident(
       source: { kind: "direct" },
     });
   }
-  return known;
+  return [...crime.victimPersonIds]
+    .sort()
+    .reduce(
+      (next, personId) =>
+        scheduleLivedOutcomeReflection(next, personId, event.id),
+      known,
+    );
 }
 
 /**

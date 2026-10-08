@@ -1,7 +1,11 @@
 import { schoolYearMovesOf } from "../childhood-record";
 import { currentGovernorOf } from "../crisis/offices";
 import { eventById } from "../event-index";
-import { NON_MONEY_FELT_SIZE, type LawExposureFeltSize } from "../law-exposure";
+import {
+  monthlyPay,
+  NON_MONEY_FELT_SIZE,
+  type LawExposureFeltSize,
+} from "../law-exposure";
 import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
@@ -10,6 +14,8 @@ import type { EntityId, IsoDate, World } from "../types";
 import { childrenOf } from "../people-family";
 import { localHeadOfGovernment } from "./local-government-seats";
 import { jobsLostBy } from "./town-labor-market";
+import { crimesSufferedBy } from "../crime/reporting";
+import severityByOffense from "../../../data/research/crime/lived-outcome-severity.json" with { type: "json" };
 
 /**
  * What happened to a person that an official answers for, read from the
@@ -36,7 +42,7 @@ import { jobsLostBy } from "./town-labor-market";
 export type LivedOutcomeKind = "job-lost" | "school-move" | "county-justice";
 
 export interface LivedOutcome {
-  readonly kind: LivedOutcomeKind;
+  readonly kind: LivedOutcomeKind | CrimeSufferedOutcomeKind;
   readonly at: IsoDate;
   /** The record that shows it happened. */
   readonly sourceRecordId: EntityId;
@@ -58,6 +64,8 @@ export interface LivedOutcome {
  */
 export type AnsweringOffice = "state-executive" | "local-executive";
 
+export type CrimeSufferedOutcomeKind = "crime-suffered";
+
 /**
  * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
  * held against the governor. Voters hold governors to account for their
@@ -67,8 +75,10 @@ export type AnsweringOffice = "state-executive" | "local-executive";
  * office, not how much one person's own lost job moves their view of it.
  */
 export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
-  Record<LivedOutcomeKind, AnsweringOffice>
+  Record<LivedOutcomeKind, AnsweringOffice> &
+    Record<CrimeSufferedOutcomeKind, AnsweringOffice>
 > = {
+  "crime-suffered": "local-executive",
   "job-lost": "state-executive",
   // PLACEHOLDER (same research request): a child pulled out of school in the
   // middle of a year is held against the head of the family's local
@@ -78,7 +88,8 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
 };
 
 /** What the person thought over, in the words of their reflection event. */
-export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
+// prettier-ignore
+export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string> & Partial<Record<CrimeSufferedOutcomeKind, string>>> =
   {
     "job-lost": "losing a job they did not choose to leave",
     "school-move":
@@ -126,6 +137,57 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           felt: { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
         })),
     ),
+  // A recorded offense is a direct lived loss to the victim. Its observed
+  // severity is estimated from the cited public crime data; no record means
+  // no inferred outcome.
+  (world, personId, through) =>
+    crimesSufferedBy(world, personId, through).flatMap((sourceRecordId) => {
+      const event = eventById(world, sourceRecordId);
+      const offenseTag = event?.tags.find((tag) =>
+        tag.startsWith("crime:offense:"),
+      );
+      const offense = offenseTag?.slice("crime:offense:".length) as
+        keyof typeof severityByOffense.severityByOffense | undefined;
+      const severity = offense
+        ? severityByOffense.severityByOffense[offense]
+        : undefined;
+      if (
+        !event ||
+        !severity ||
+        severity.kind === "unsupported" ||
+        typeof severity.value !== "number" ||
+        typeof severity.estimatedFrom !== "string"
+      )
+        return [];
+      const felt: Exclude<LawExposureFeltSize, null> =
+        severity.kind === "injury-rate"
+          ? {
+              share: severity.value * NON_MONEY_FELT_SIZE.monthsOfPay,
+              estimated: true,
+            }
+          : (() => {
+              const pay = monthlyPay(world, personId, event.occurredAt);
+              return pay?.currency === "USD" && pay.minorUnits > 0
+                ? {
+                    share: (severity.value * 100) / pay.minorUnits,
+                    estimated: true,
+                  }
+                : "unmeasured";
+            })();
+      return [
+        {
+          kind: "crime-suffered" as const,
+          at: event.occurredAt,
+          sourceRecordId,
+          direction: "cost" as const,
+          felt,
+          summary: event.summary ?? "",
+          explanationKey:
+            "lived-outcome:crime-suffered:estimated-from:" +
+            severity.estimatedFrom,
+        },
+      ];
+    }),
 ];
 
 /** Everything recorded as happening to `personId`, oldest first. */

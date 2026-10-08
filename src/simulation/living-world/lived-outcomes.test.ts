@@ -4,7 +4,7 @@ import { passOrdinaryDays } from "../../presentation/ordinary-life";
 import { officialViewLine } from "../../presentation/small-talk-english";
 import { schoolYearMovesOf } from "../childhood-record";
 import { currentGovernorOf } from "../crisis/offices";
-import { ageOnDate } from "../dates";
+import { ageOnDate, makeIsoDate } from "../dates";
 import { stableHash } from "../ids";
 import {
   lifePlaceStateIdentities,
@@ -34,6 +34,8 @@ import {
   recordTownJobLoss,
   TOWN_JOB_END_REASONS,
 } from "./town-labor-market";
+import { recordSampledCrime, type SampledCrime } from "../crime/producer";
+import severityByOffense from "../../../data/research/crime/lived-outcome-severity.json" with { type: "json" };
 
 /** A state or territory from all 56, named by its seed. */
 function drawState(seed: string): string {
@@ -59,6 +61,19 @@ function workerIn(seed: string) {
       activeWorkRelationshipsAt(world, id).length > 0,
   );
   return { world, playerId: personId, stateKey, governor, workerId };
+}
+
+function workerInPlace(stateKey: string, seed: string) {
+  const { world, personId } = adultLifeIn(stateKey.slice(3), seed);
+  const governor = currentGovernorOf(world, stateKey.slice(3));
+  const workerId = world.personOrder.find(
+    (id) =>
+      id !== personId &&
+      id !== governor?.personId &&
+      ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18 &&
+      activeWorkRelationshipsAt(world, id).length > 0,
+  );
+  return { world, playerId: personId, governor, workerId };
 }
 
 /** The worker's job ends in a layoff, through the writer every layoff uses. */
@@ -151,6 +166,79 @@ describe(`a resident's lost job shifts their view of the governor (seed ${SEED})
   }, 60_000);
 });
 
+describe("a recorded crime shifts the victim's views of local officials", () => {
+  it.each(lifePlaceStateIdentities())(
+    "$jurisdictionKey has a recorded burglary severity",
+    ({ jurisdictionKey }) => {
+      const severity = severityByOffense.severityByOffense.burglary;
+      expect(severity, jurisdictionKey).toBeDefined();
+      expect(typeof severity.value, jurisdictionKey).toBe("number");
+      expect(severity.value, jurisdictionKey).toBeGreaterThan(0);
+      expect(severity.estimatedFrom, jurisdictionKey).toBeTruthy();
+    },
+  );
+
+  it("a recorded burglary shifts the victim's view and cites the crime event", () => {
+    const jurisdictionKey = lifePlaceStateIdentities()[0]!.jurisdictionKey;
+    const { world, playerId, workerId } = workerInPlace(
+      jurisdictionKey,
+      `crime-view:${jurisdictionKey}`,
+    );
+    expect(workerId, jurisdictionKey).toBeDefined();
+    if (!workerId)
+      throw new Error(`No represented worker in ${jurisdictionKey}`);
+    const town = world.people[workerId]!.homeJurisdictionId;
+    expect(town, jurisdictionKey).toBeDefined();
+    if (!town) throw new Error(`No recorded home for ${jurisdictionKey}`);
+    const executive = officialAnsweringFor(world, workerId, "local-executive");
+    expect(executive, jurisdictionKey).not.toBeNull();
+    if (!executive)
+      throw new Error(`No local executive for ${jurisdictionKey}`);
+    expect(
+      viewOfOfficial(world, workerId, executive).belief,
+      jurisdictionKey,
+    ).toBeNull();
+
+    const monthStart = makeIsoDate(`${world.currentDate.slice(0, 7)}-01`);
+    const crime: SampledCrime = {
+      offense: "burglary",
+      jurisdictionId: town,
+      targetId: workerId,
+      victimPersonIds: [workerId],
+      occurredAt: world.currentDate,
+      reported: false,
+      playerChooses: null,
+    };
+    const suffered = recordSampledCrime(world, monthStart, crime);
+    const source = suffered.history.events.find((event) =>
+      event.tags.includes("crime:offense:burglary"),
+    );
+    expect(source, jurisdictionKey).toBeDefined();
+    const after = passOrdinaryDays(suffered, 4);
+    const view = viewOfOfficial(after, workerId, executive);
+    expect(view.belief, jurisdictionKey).not.toBeNull();
+    expect(view.belief!.position, jurisdictionKey).not.toBe("support");
+    expect(view.points, jurisdictionKey).toBeLessThan(0);
+    const trace = after.history.decisionTraces.find(
+      (row) => row.id === view.belief!.formation.decisionTraceIds[0],
+    )!;
+    expect(
+      trace.context.considerations.some(
+        (row) => row.stableKey === `factor:lived-outcome:${source!.id}`,
+      ),
+    ).toBe(true);
+    const crimeFactor = trace.context.considerations.find(
+      (row) => row.stableKey === `factor:lived-outcome:${source!.id}`,
+    );
+    expect(crimeFactor?.sourceRefs).toContainEqual({
+      kind: "historical-event",
+      eventId: source!.id,
+    });
+
+    expect(workerId).not.toBe(playerId);
+    assertWorldIntegrity(after);
+  });
+});
 /**
  * A pupil in school today, outside the player's household, whose household
  * (with a grown parent of theirs) can move to the state's own jurisdiction.
