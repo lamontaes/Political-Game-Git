@@ -11,7 +11,9 @@ describe("the facet-work-centered trait in a random new game", () => {
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("continue-work");
-    expect(proof.high.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-work-centered|labor.worker-quit|continue-work|high",
+    );
     expect(proof.low.choice).toBeNull();
   });
 });
