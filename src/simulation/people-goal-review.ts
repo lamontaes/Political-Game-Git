@@ -24,6 +24,7 @@ import {
   introducersFor,
   jobOpening,
   latestApplicationStep,
+  openTownListings,
   openWeeklyListings,
   openJobListings,
   expectedStart,
@@ -111,7 +112,8 @@ function goalReviewAnchor(world: World): EntityId | null {
 
 /** Schedules the weekly review around a played or observed life. Idempotent. */
 export function ensurePeopleGoalReview(world: World): World {
-  if (!goalReviewAnchor(world)) return world;
+  const anchorId = goalReviewAnchor(world);
+  if (!anchorId) return world;
   if (
     world.history.futureDueItems.some(
       (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
@@ -119,7 +121,9 @@ export function ensurePeopleGoalReview(world: World): World {
   ) {
     return world;
   }
-  return scheduleFutureDueItem(world, {
+  // The town's employers list their open work from the first day the review
+  // is on the clock, for the played person and every resident alike.
+  return scheduleFutureDueItem(openTownListings(world, anchorId), {
     stableKey: `${REVIEW_KEY_PREFIX}0`,
     dueAt: addDays(world.currentDate, PACE.reviewIntervalDays),
     transitionKey: GOAL_REVIEW_TRANSITION_KEY,
@@ -297,7 +301,10 @@ function reviewPeopleGoalsUnchecked(
     }
   };
   const candidates = pursuitCandidates(world);
-  let next = world;
+  // Every week the town's employers list the work they need filled: the
+  // openings are the town's, whoever is looking at them.
+  const reviewAnchor = goalReviewAnchor(world);
+  let next = reviewAnchor ? openTownListings(world, reviewAnchor) : world;
   // People in the played life who were written out after the world was built
   // never received the ordinary-life preferences and goal every generated
   // person is given (`life-personality.ts`). They resolve here, once, the first

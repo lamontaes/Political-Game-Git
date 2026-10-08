@@ -74,7 +74,6 @@ import type { CauseReader } from "./causes";
 import {
   bestEmployerFor,
   ensureEmployerElsewhere,
-  NO_CREDENTIAL_OCCUPATIONS,
   PAY_ESTIMATE_SPREAD,
   placeToLookFor,
 } from "./employers-elsewhere";
@@ -430,9 +429,6 @@ export function reviewJobSearchElsewhere(
           ? "The place's published wage for the occupation (BLS OEWS, May 2025) at their years in the line of work."
           : `ESTIMATED FROM AVERAGE: BLS publishes no wage there, so the national median for the occupation (BLS OEWS, May 2025), with ${Math.round(100 * PAY_ESTIMATE_SPREAD)} percent spread for each world.`,
       round,
-      needsNoExperience: NO_CREDENTIAL_OCCUPATIONS.has(
-        offer.kind.workerOccupation,
-      ),
     });
     if (offered.ok) next = offered.world;
   }

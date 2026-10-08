@@ -1,4 +1,5 @@
 import { aggregateCustomers } from "./aggregate-customers";
+import { BUSINESS_OWNER_WORK_KIND } from "./living-world/town-hiring";
 export { aggregateCustomers } from "./aggregate-customers";
 import {
   LOCAL_BUSINESS_ESTIMATE,
@@ -241,7 +242,7 @@ export function localBusinessPlansFor(
 export const BUSINESS_REVENUE_BASIS = "custom:business-revenue" as const;
 export const BUSINESS_WAGES_BASIS = "compensation:wages" as const;
 export const OWNER_DRAW_BASIS = "compensation:owner-draw" as const;
-export const BUSINESS_OWNER_WORK_KIND = "independent:business-owner" as const;
+export { BUSINESS_OWNER_WORK_KIND };
 export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
 const CATCH_UP_LIMIT_MONTHS = 240;

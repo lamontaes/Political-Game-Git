@@ -61,6 +61,7 @@ import {
 } from "../local-institutions";
 import { SeededRng } from "../rng";
 import { townBusinessHasRoomToHire } from "./town-business-books";
+import { chooseHire } from "./town-hiring";
 import type {
   EntityId,
   IsoDate,
@@ -1373,9 +1374,12 @@ export function writeTownEmployer(
 /**
  * Hire these residents into the town's jobs: any civic role nobody holds
  * today first, then by the town's own mix. At the opening (`round` null) a
- * hire is backdated as if they had held the job for years; a later round
- * hires on the day it runs, keyed by the round so one person can be hired
- * again after leaving a job.
+ * hire is backdated as if they had held the job for years: the opening writes
+ * who already held which job, it decides nothing. A later round hires on the
+ * day it runs, keyed by the round so one person can be hired again after
+ * leaving a job, and every such hire is the employer's choice among the
+ * residents looking (`chooseHire`, in `town-hiring.ts`): the one decision a
+ * resident's application, the player's and a funded position all end in.
  */
 export function fillTownJobs(
   world: World,
@@ -1392,6 +1396,12 @@ export function fillTownJobs(
       readonly organizationId: EntityId;
       /** Hire everyone into this one role (a funded position), when named. */
       readonly role?: string;
+      /**
+       * With a named role: fill this many of its openings, the employer
+       * choosing among everyone in `open` (`town-hiring.ts`) rather than
+       * hiring all of them.
+       */
+      readonly openings?: number;
     };
   },
 ): World {
@@ -1516,11 +1526,11 @@ export function fillTownJobs(
    */
   const roleFor = (
     workplace: Workplace,
-    resident: Resident,
+    age: number,
     roles: readonly Role[] = workplace.roles,
   ): Role | null => {
     const fits = roles.filter(
-      (entry) => resident.age >= (entry.minAge ?? WORKING_AGE_MIN),
+      (entry) => age >= (entry.minAge ?? WORKING_AGE_MIN),
     );
     const total = fits.reduce((sum, entry) => sum + entry.weight, 0);
     if (total <= 0) return null;
@@ -1578,11 +1588,14 @@ export function fillTownJobs(
   };
 
   /**
-   * The employer a hire at `workplace`, outlet `slot`, works for, or null
-   * when every employer of that kind in town has closed. An outlet that
-   * closed is never written again; a business opened later is another outlet.
+   * The employer a hire at `workplace` works for, or null when every employer
+   * of that kind in town has closed. An outlet that closed is never written
+   * again; a business opened later is another outlet. Nothing is written until
+   * `write` runs, so the employer can be asked about before anybody is hired.
    */
-  const employer = (workplace: Workplace): EntityId | null => {
+  const pickEmployer = (
+    workplace: Workplace,
+  ): { readonly id: EntityId; readonly write: (() => void) | null } | null => {
     if (
       (workplace.key === "bank" ||
         workplace.key === "hospital" ||
@@ -1593,9 +1606,12 @@ export function fillTownJobs(
     const already = existingOf(workplace);
     if (workplace.existing || workplace.governmentOffice)
       return already.length > 0
-        ? [...already].sort(
-            (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),
-          )[0]!
+        ? {
+            id: [...already].sort(
+              (a, b) => staffAt(a) - staffAt(b) || a.localeCompare(b),
+            )[0]!,
+            write: null,
+          }
         : null;
     let outlets = outletsOf.get(workplace.key);
     if (!outlets) {
@@ -1628,11 +1644,57 @@ export function fillTownJobs(
     if (outlet === null) return null;
     const stableKey = `${prefix}:employer:${workplace.key}:${outlet}`;
     const cached = organizations.get(stableKey);
-    if (cached) return cached;
-    next = writeTownEmployer(next, town, workplace, outlet, today);
+    if (cached) return { id: cached, write: null };
     const id = createStableId("organization", `${next.id}:${stableKey}`);
-    organizations.set(stableKey, id);
-    return id;
+    const chosenOutlet = outlet;
+    return {
+      id,
+      write: () => {
+        next = writeTownEmployer(next, town, workplace, chosenOutlet, today);
+        organizations.set(stableKey, id);
+      },
+    };
+  };
+  const employer = (workplace: Workplace): EntityId | null => {
+    const picked = pickEmployer(workplace);
+    picked?.write?.();
+    return picked?.id ?? null;
+  };
+
+  /**
+   * The resident the employer takes on for one opening: its decision-maker's
+   * choice among `candidates` (`chooseHire`, in `town-hiring.ts`), recorded as
+   * their decision. Null when nobody fits well enough, or no employer of that
+   * kind can take anyone on.
+   */
+  const choose = (
+    workplace: Workplace,
+    chosen: Role,
+    at: EntityId | null,
+    candidates: readonly Resident[],
+  ): Resident | null => {
+    if (candidates.length === 0) return null;
+    const organizationId = at ?? pickEmployer(workplace)?.id ?? null;
+    if (!organizationId) return null;
+    const choice = chooseHire(
+      next,
+      {
+        stableKey: `${prefix}:hire:${round}:${workplace.key}:${organizationId}:${chosen.title}:${next.history.nextSequence}`,
+        organizationId,
+        title: chosen.title,
+        occupation: chosen.occupation,
+      },
+      candidates.map((resident) => ({
+        personId: resident.personId,
+        introducerPersonId: null,
+      })),
+    );
+    next = choice.world;
+    return (
+      candidates.find(
+        (resident) => resident.personId === choice.chosenPersonId,
+      ) ?? null
+    );
   };
 
   const jobs: CreateWorkRelationshipInput[] = [];
@@ -1704,10 +1766,30 @@ export function fillTownJobs(
       ? workplace.roles.find((entry) => entry.title === options.into!.role)
       : undefined;
     if (named) {
-      for (const resident of open)
-        if (resident.age >= (named.minAge ?? WORKING_AGE_MIN))
+      const fits = open.filter(
+        (resident) => resident.age >= (named.minAge ?? WORKING_AGE_MIN),
+      );
+      if (options.into.openings === undefined) {
+        for (const resident of fits)
           // A funded position is a full-time one.
           hire(resident, workplace, named, options.into.organizationId, true);
+        return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+      }
+      // The employer fills each opening from everyone looking.
+      let looking = fits;
+      for (let n = 0; n < options.into.openings; n += 1) {
+        const picked = choose(
+          workplace,
+          named,
+          options.into.organizationId,
+          looking,
+        );
+        if (!picked) break;
+        hire(picked, workplace, named, options.into.organizationId, true);
+        looking = looking.filter(
+          (resident) => resident.personId !== picked.personId,
+        );
+      }
       return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
     }
     let lead = workplace.roles.find(
@@ -1722,7 +1804,7 @@ export function fillTownJobs(
           ? lead
           : roleFor(
               workplace,
-              resident,
+              resident.age,
               fits.filter((entry) => entry.authority !== "directs-others"),
             );
       if (!chosen) continue;
@@ -1737,11 +1819,22 @@ export function fillTownJobs(
   const pool = [...open].sort(
     (a, b) => b.age - a.age || a.personId.localeCompare(b.personId),
   );
-  const take = (minAge: number) => {
-    // From the middle of the pool: civic roles are not all held by the oldest.
+  const take = (
+    workplace: Workplace,
+    chosen: Role,
+    at: EntityId | null,
+  ): Resident | null => {
+    const minAge = chosen.minAge ?? WORKING_AGE_MIN;
     const fits = pool.filter((resident) => resident.age >= minAge);
     if (fits.length === 0) return null;
-    const pick = fits[Math.floor(fits.length / 2)]!;
+    // The opening writes who already held the job, from the middle of the
+    // pool: civic roles are not all held by the oldest. Any later round is a
+    // hire, and the employer chooses.
+    const pick =
+      round === null
+        ? fits[Math.floor(fits.length / 2)]!
+        : choose(workplace, chosen, at, fits);
+    if (!pick) return null;
     pool.splice(pool.indexOf(pick), 1);
     return pick;
   };
@@ -1767,7 +1860,7 @@ export function fillTownJobs(
         held.set(heldKey, held.get(heldKey)! - 1);
         continue;
       }
-      const resident = take(chosen.minAge ?? WORKING_AGE_MIN);
+      const resident = take(workplace, chosen, at);
       if (!resident) break;
       if (hire(resident, workplace, chosen, at ?? undefined, true)) continue;
       // Every employer of that kind in town has closed, or none has room:
@@ -1781,44 +1874,91 @@ export function fillTownJobs(
     }
   }
 
-  // Everyone else by the town's own mix, nothing drawn. Each resident, the
-  // oldest first, tries the kinds of work they have done in town before,
-  // then the kinds furthest below their share of the town's jobs. A kind at
-  // or above its share takes nobody more, and a business whose books have
-  // no room hires nobody: a resident no kind takes stays out of work.
+  // Everyone else by the town's own mix, nothing drawn. The kind of work
+  // furthest below its share of the town's jobs opens a role, and the
+  // employer picks from the residents looking; a kind at or above its share
+  // takes nobody more, a business whose books have no room hires nobody, and a
+  // resident no employer takes stays out of work. At the opening, which writes
+  // who already held a job, each resident in turn takes the first kind they
+  // have done before, then the kinds furthest below their share.
   const totalWeight = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  for (const resident of pool) {
-    const census = counted();
-    const short = (key: string, weight: number) =>
-      (weight / totalWeight) * (census.total + 1) -
-      (census.byKind.get(key) ?? 0);
-    const past = census.pastKinds.get(resident.personId);
-    const order = weights
-      .map(([key, weight]) => [key, short(key, weight)] as const)
-      .filter(([, gap]) => gap > 0)
-      .sort(
-        (a, b) =>
-          Number(past?.has(b[0]) ?? false) - Number(past?.has(a[0]) ?? false) ||
-          b[1] - a[1] ||
-          a[0].localeCompare(b[0]),
-      );
-    for (const [key] of order) {
-      const workplace = WORKPLACE.get(key);
-      if (!workplace) continue;
-      // A role a budget staffs is never offered here. A congregation or
-      // school has one pastor or principal, hired above for each one in
-      // town; the mix never adds a second.
-      const chosen = roleFor(
-        workplace,
-        resident,
-        workplace.roles.filter(
-          (entry) =>
-            !budgetStaffed.has(`${workplace.key}|${entry.title}`) &&
-            !(workplace.existing && entry.authority === "directs-others"),
-        ),
-      );
-      if (chosen && hire(resident, workplace, chosen)) break;
+  const shortBy = (key: string, weight: number) =>
+    (weight / totalWeight) * (counted().total + 1) -
+    (counted().byKind.get(key) ?? 0);
+  const offeredRoles = (workplace: Workplace) =>
+    // A role a budget staffs is never offered here. A congregation or
+    // school has one pastor or principal, hired above for each one in
+    // town; the mix never adds a second.
+    workplace.roles.filter(
+      (entry) =>
+        !budgetStaffed.has(`${workplace.key}|${entry.title}`) &&
+        !(workplace.existing && entry.authority === "directs-others"),
+    );
+  if (round === null) {
+    for (const resident of pool) {
+      const census = counted();
+      const past = census.pastKinds.get(resident.personId);
+      const order = weights
+        .map(([key, weight]) => [key, shortBy(key, weight)] as const)
+        .filter(([, gap]) => gap > 0)
+        .sort(
+          (a, b) =>
+            Number(past?.has(b[0]) ?? false) -
+              Number(past?.has(a[0]) ?? false) ||
+            b[1] - a[1] ||
+            a[0].localeCompare(b[0]),
+        );
+      for (const [key] of order) {
+        const workplace = WORKPLACE.get(key);
+        if (!workplace) continue;
+        const chosen = roleFor(
+          workplace,
+          resident.age,
+          offeredRoles(workplace),
+        );
+        if (chosen && hire(resident, workplace, chosen)) break;
+      }
     }
+    return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+  }
+  const closed = new Set<string>();
+  while (pool.length > 0) {
+    const [kind] = weights
+      .map(([key, weight]) => [key, shortBy(key, weight)] as const)
+      .filter(([key, gap]) => gap > 0 && !closed.has(key))
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    if (!kind) break;
+    const workplace = WORKPLACE.get(kind[0]);
+    const employerHere = workplace ? pickEmployer(workplace) : null;
+    const chosen =
+      workplace && employerHere
+        ? roleFor(
+            workplace,
+            Math.max(...pool.map((resident) => resident.age)),
+            offeredRoles(workplace),
+          )
+        : null;
+    const resident =
+      workplace && employerHere && chosen
+        ? choose(
+            workplace,
+            chosen,
+            employerHere.id,
+            pool.filter(
+              (entry) => entry.age >= (chosen.minAge ?? WORKING_AGE_MIN),
+            ),
+          )
+        : null;
+    if (
+      !workplace ||
+      !chosen ||
+      !resident ||
+      !hire(resident, workplace, chosen)
+    ) {
+      closed.add(kind[0]);
+      continue;
+    }
+    pool.splice(pool.indexOf(resident), 1);
   }
   return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
 }

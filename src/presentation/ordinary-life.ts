@@ -1,6 +1,7 @@
 import { composeWorldTimeHandlers } from "../simulation/campaigns";
 import {
   advanceApplications,
+  openTownListings,
   settleHouseholdAdultJobPay,
 } from "../simulation/job-market";
 import { settleCareerOffers } from "../simulation/career-path7";
@@ -228,9 +229,11 @@ export function openOrdinaryLife(world: World, personId: EntityId): World {
   // opens, before anything else reads the week.
   const seated = seatWinnersOwedTheirTerm(world, personId);
   if (!ordinaryLifeAvailableFor(seated, personId)) return seated;
+  // The town's employers list their open work from the day a life opens; the
+  // weekly review keeps them listing from then on.
   const opened = refreshLifeCircumstances(
     refreshLifeOpportunities(
-      openOrdinaryLifeRecords(seated, personId),
+      openTownListings(openOrdinaryLifeRecords(seated, personId), personId),
       personId,
     ),
     personId,

@@ -26,6 +26,7 @@ import {
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { localBusinessWageMinor } from "./recorded-employer";
 import { recordedTownEmployer } from "./living-world/town-businesses";
+import { chooseHire } from "./living-world/town-hiring";
 import { governmentUnit } from "./government-units";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
@@ -1162,21 +1163,15 @@ export interface WorkElsewhere {
   readonly note: string;
   /** Names the review, so the same review writes nothing twice. */
   readonly round: string;
-  /**
-   * Whether the work needs no credential or experience, so the employer
-   * hires somebody who has not done it before. Read from the occupation's
-   * record by the caller.
-   */
-  readonly needsNoExperience: boolean;
 }
 
 /**
  * A resident's search for work elsewhere (A135): the opening at the employer
  * elsewhere, their application, and the employer's answer on the same day.
  *
- * Nothing is drawn. The employer offers when the applicant has done this
- * line of work before (`daysInLine`) or the work needs no credential or
- * experience, and otherwise declines for want of experience. The offer
+ * Nothing is drawn. The employer decides on the applicant's schooling and
+ * work against what the work usually asks of a new hire (`town-hiring.ts`),
+ * and otherwise declines. The offer
  * waits the job market's longest reply window and starts the day it is
  * accepted: somebody who takes it is moving for it. Refuses the played
  * person, who applies for themselves.
@@ -1239,20 +1234,41 @@ export function offerWorkElsewhere(
     decisionAt: today,
   });
   const application = next.history.jobApplications!.at(-1)!;
-  const experienced =
-    daysInLine(next, input.personId, opening, today) > 0 ||
-    input.needsNoExperience;
-  if (!experienced)
+  // The employer decides as any employer does (`town-hiring.ts`). An outside
+  // employer the world holds only by name has no person to decide for it, so
+  // it answers on the same reasons without a recorded decision.
+  const choice = chooseHire(
+    next,
+    {
+      stableKey: `${stableKey}:decision`,
+      organizationId: opening.organizationId,
+      title: input.title,
+      occupation: input.occupationClassification,
+    },
+    [{ personId: input.personId, introducerPersonId: null }],
+  );
+  next = choice.world;
+  if (choice.chosenPersonId === null) {
+    const wantedExperience =
+      choice.shortfalls.get(input.personId) === "experience";
     return {
       world: addStep(next, application, {
         kind: "declined",
         occurredAt: today,
-        reason: "They wanted someone who had done this work before.",
-        summary: `${employer} turned down ${name}: they wanted someone who had done this work before.`,
+        reason: wantedExperience
+          ? "They wanted someone who had done this work before."
+          : null,
+        summary: wantedExperience
+          ? `${employer} turned down ${name}: they wanted someone who had done this work before.`
+          : `${employer} turned down ${name}'s application.`,
+        ...(choice.decisionTraceId
+          ? { decisionTraceId: choice.decisionTraceId }
+          : {}),
       }),
       ok: true,
       message: `${employer} turned ${name} down.`,
     };
+  }
   const replyBy = addDays(today, JOB_TIMING.offerReplyDays.maximum);
   next = addStep(next, application, {
     kind: "offered",
@@ -1316,69 +1332,12 @@ export function holdsWork(world: World, personId: EntityId): boolean {
   );
 }
 
-/**
- * Days the person has done this line of work, from their recorded jobs: the
- * same title, or the same occupation when the opening names one.
- */
-/**
- * Days `personId` has worked, by `on`, in the opening's line of work: a job
- * with the same title or occupation. What an employer reads as experience.
- */
-export function daysInLine(
-  world: World,
-  personId: EntityId,
-  opening: Pick<JobOpeningRecord, "title" | "occupationClassification">,
-  on: IsoDate,
-): number {
-  let days = 0;
-  for (const work of world.history.workRelationships) {
-    if (work.personId !== personId || work.startedAt > on) continue;
-    if (!work.kind.startsWith("employment:")) continue;
-    const inLine = world.history.workRoles.some(
-      (role) =>
-        role.workRelationshipId === work.id &&
-        (role.title === opening.title ||
-          (opening.occupationClassification !== null &&
-            role.occupationClassification ===
-              opening.occupationClassification)),
-    );
-    if (!inLine) continue;
-    const status = workStatusAt(world, work.id);
-    const endedAt =
-      status?.status === "ended" && status.effectiveAt < on
-        ? status.effectiveAt
-        : on;
-    days += Math.max(0, daysBetween(work.startedAt, endedAt));
-  }
-  return days;
-}
-
 const OUT_OF_THE_RUNNING: ReadonlySet<JobApplicationStepKind> = new Set([
   "declined",
   "refused",
   "offer-lapsed",
   "withdrawn",
 ]);
-
-/**
- * Whether `a` is better placed for the opening than `b`. HARDWIRED order:
- * more time in the same line of work first; between equals, the applicant
- * somebody who works there put forward; then whoever applied first.
- */
-function betterPlaced(
-  world: World,
-  opening: JobOpeningRecord,
-  on: IsoDate,
-  a: JobApplicationRecord,
-  b: JobApplicationRecord,
-): boolean {
-  const daysA = daysInLine(world, a.personId, opening, on);
-  const daysB = daysInLine(world, b.personId, opening, on);
-  if (daysA !== daysB) return daysA > daysB;
-  if (a.route !== b.route) return a.route === "introduced";
-  if (a.submittedAt !== b.submittedAt) return a.submittedAt < b.submittedAt;
-  return a.personId < b.personId;
-}
 
 /** The other applications for the same opening, in by `on`. */
 function rivalsFor(
@@ -1420,12 +1379,8 @@ function decide(world: World, application: JobApplicationRecord): World {
     const latest = latestApplicationStep(world, other.id);
     return !latest || !OUT_OF_THE_RUNNING.has(latest.kind);
   });
-  const chosen =
-    rivals.find((other) => latestApplicationStep(world, other.id) !== null) ??
-    rivals.find((other) =>
-      betterPlaced(world, opening, on, other, application),
-    );
-  if (chosen)
+  // Somebody else already has an answer: the job is theirs.
+  if (rivals.some((other) => latestApplicationStep(world, other.id) !== null))
     return addStep(world, application, {
       kind: "declined",
       occurredAt: on,
@@ -1434,6 +1389,48 @@ function decide(world: World, application: JobApplicationRecord): World {
         ? `${employer} chose another applicant for the ${opening.title.toLowerCase()} job.`
         : `${employer} chose another applicant over ${name} for the ${opening.title.toLowerCase()} job.`,
     });
+  // Otherwise the employer decides among everyone still waiting on it, in the
+  // one decision every hire goes through (`living-world/town-hiring.ts`).
+  const choice = chooseHire(
+    world,
+    {
+      stableKey: `${application.stableKey}:decision`,
+      organizationId: opening.organizationId,
+      title: opening.title,
+      occupation: opening.occupationClassification,
+    },
+    [application, ...rivals].map((other) => ({
+      personId: other.personId,
+      introducerPersonId: other.introducerPersonId,
+    })),
+  );
+  const decided = choice.world;
+  const decisionTraceId = choice.decisionTraceId ?? undefined;
+  if (choice.chosenPersonId !== application.personId) {
+    const wantedExperience =
+      choice.shortfalls.get(application.personId) === "experience";
+    if (choice.chosenPersonId !== null)
+      return addStep(decided, application, {
+        kind: "declined",
+        occurredAt: on,
+        reason: "They chose another applicant.",
+        summary: played
+          ? `${employer} chose another applicant for the ${opening.title.toLowerCase()} job.`
+          : `${employer} chose another applicant over ${name} for the ${opening.title.toLowerCase()} job.`,
+        decisionTraceId,
+      });
+    return addStep(decided, application, {
+      kind: "declined",
+      occurredAt: on,
+      reason: wantedExperience
+        ? "They wanted someone who had done this work before."
+        : null,
+      summary: wantedExperience
+        ? `${employer} turned down ${played ? "your application" : name}: they wanted someone who had done this work before.`
+        : `${employer} turned down ${played ? "your" : `${name}'s`} application.`,
+      decisionTraceId,
+    });
+  }
   const leaving = holdsWork(world, application.personId);
   // ESTIMATED FROM AVERAGE (research: job-market-calibration): salaried work gives the
   // long end of the reply window, hourly work the short end.
@@ -1461,9 +1458,10 @@ function decide(world: World, application: JobApplicationRecord): World {
         ? opening.weeklyHours.minimumHours
         : opening.weeklyHours.maximumHours
       : null;
-  return addStep(world, application, {
+  return addStep(decided, application, {
     kind: "offered",
     occurredAt: on,
+    decisionTraceId,
     replyBy,
     startAt,
     agreedWeeklyHours,
@@ -2305,18 +2303,17 @@ export function advanceApplications(world: World, personId: EntityId): World {
 }
 
 /**
- * Everything the job market owes a person when time has passed: the town's
- * public bodies recorded as employers, this week's listings, the employer's
- * answers, lapsed and missed offers, and a held job's weekly pay. Idempotent
- * at the day.
+ * The town's employers list the work they need filled: its public bodies
+ * recorded as employers, then each role a business or office has open. The
+ * listings are facts of the town, not of any one person: the weekly review on
+ * the shared clock calls this for the life the world follows, so the played
+ * person and every resident read the same openings. Idempotent within a week.
  */
-export function advanceJobMarket(world: World, personId: EntityId): World {
-  if (world.control.kind !== "person" || world.control.personId !== personId)
-    return world;
+export function openTownListings(world: World, personId: EntityId): World {
   const person = world.people[personId];
   if (!person) return world;
-  let next = ensureHomeLocalGovernments(world, personId);
-  if (ageOnDate(person.birthDate, next.currentDate) >= MINIMUM_APPLICANT_AGE)
-    next = openWeeklyListings(next, personId);
-  return settleJobPay(advanceApplications(next, personId), personId);
+  const next = ensureHomeLocalGovernments(world, personId);
+  return ageOnDate(person.birthDate, next.currentDate) >= MINIMUM_APPLICANT_AGE
+    ? openWeeklyListings(next, personId)
+    : next;
 }

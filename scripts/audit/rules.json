@@ -3640,15 +3640,9 @@
       "checks": [
         {
           "kind": "present",
-          "file": "src/simulation/job-market.ts",
-          "pattern": "settleJobPay\\(advanceApplications",
-          "why": "the simulation path settles job pay (job-market.ts:2156)"
-        },
-        {
-          "kind": "present",
-          "file": "src/simulation/life-opportunities.ts",
-          "pattern": "advanceJobMarket\\(",
-          "why": "the simulation path is called in production (life-opportunities.ts:453)"
+          "file": "src/simulation/time-work.ts",
+          "pattern": "settleJobPay\\(",
+          "why": "the simulation clock settles job pay at the date boundary (time-work.ts:2088)"
         },
         {
           "kind": "absent",
