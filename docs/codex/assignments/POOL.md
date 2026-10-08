@@ -788,7 +788,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2524 | B21 P1: derive couple interest from recorded time together | PR #2524 (session-b21-p1-interest) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2525 | Add per-place council meeting cadence (b05-p6) | PR #2525 (codex/session50-b05-p6-cadence) | open: rebase on main (conflicts) | |
 | RS-2526 | Add facet-entitled another-term effect row | PR #2526 (codex/session57-t9-facet-entitled) | open: draft: finish it or close it as superseded | |
-| RS-2529 | Make law registration resolution cycle-safe | PR #2529 (codex/session20-cycle-safe-manifest-main68c8) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2529 | Make law registration resolution cycle-safe | PR #2529 (codex/session20-cycle-safe-manifest-main68c8) | ready #2529 | |
 | RS-2530 | b18 p7: add ordinary meeting comment vote source | PR #2530 (session46/b18-7-public-comment) | open: draft: finish it or close it as superseded | |
 | RS-2532 | feat(council): identify agenda items that matter | PR #2532 (codex/session50-b05-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2533 | Add citizen protest attendance records | PR #2533 (session46/b18-p5-protests) | open: draft: finish it or close it as superseded | |
