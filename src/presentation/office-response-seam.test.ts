@@ -6,9 +6,12 @@ import {
   recordedTermFixture,
 } from "../../tests/fixtures/recorded-legislative-term";
 import { recordOfficeConsequence } from "../simulation/governing/office-consequence";
-import { openMatter, recordAllegation } from "../simulation/press";
 import {
-  OFFICE_ANSWER_EVENT,
+  openMatter,
+  pressRecordsOfKind,
+  recordAllegation,
+} from "../simulation/press";
+import {
   answerForOffice,
   officeOutcomeLine,
   projectOfficeMatters,
@@ -59,7 +62,7 @@ describe("B + D: answering for an office, against the real writer", () => {
       {
         personId: player,
         matterId,
-        kind: "cooperation-declined",
+        kind: "decline-comment",
         statement: "I won't be taking part in that.",
       },
       recordOfficeConsequence,
@@ -68,8 +71,9 @@ describe("B + D: answering for an office, against the real writer", () => {
     expect(said.effectiveAt).toBeNull();
     expect(officeOutcomeLine(said)).toBe(said.officeNote);
     // The words are on the record, and they are the ones that were said.
+    const response = pressRecordsOfKind(said.world, "matter-response").at(-1)!;
     const answer = said.world.history.events.find(
-      (event) => event.type === OFFICE_ANSWER_EVENT,
+      (event) => event.id === response.eventId,
     )!;
     expect(answer.summary).toContain("I won't be taking part in that.");
     // The seat is untouched.
@@ -85,7 +89,7 @@ describe("B + D: answering for an office, against the real writer", () => {
     const matterId = projectOfficeMatters(alleged, player)[0]!.matterId;
     const resigned = answerForOffice(
       alleged,
-      { personId: player, matterId, kind: "resignation" },
+      { personId: player, matterId, kind: "resign" },
       recordOfficeConsequence,
     );
     // GOVERNING resolves the seat by the work relationship's own key, ends the
@@ -100,17 +104,15 @@ describe("B + D: answering for an office, against the real writer", () => {
     // The honest limit is GOVERNING's own sentence, not one B invented.
     expect(resigned.officeNote.toLowerCase()).toContain("rules");
     // The player's words are on the record either way.
-    expect(
-      resigned.world.history.events.filter(
-        (event) => event.type === OFFICE_ANSWER_EVENT,
-      ),
-    ).toHaveLength(1);
+    expect(pressRecordsOfKind(resigned.world, "matter-response")).toHaveLength(
+      1,
+    );
     assertWorldIntegrity(resigned.world);
     // Saying it again changes nothing: the matter is answered.
     expect(() =>
       answerForOffice(
         resigned.world,
-        { personId: player, matterId, kind: "resignation" },
+        { personId: player, matterId, kind: "resign" },
         recordOfficeConsequence,
       ),
     ).toThrow(/nothing of yours to answer/);

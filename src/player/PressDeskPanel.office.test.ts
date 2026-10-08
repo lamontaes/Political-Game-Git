@@ -4,13 +4,16 @@ import { describe, expect, it } from "vitest";
 
 import { assertWorldIntegrity } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { openMatter, recordAllegation } from "../simulation/press";
+import {
+  openMatter,
+  pressRecordsOfKind,
+  recordAllegation,
+} from "../simulation/press";
 import {
   enterSupportedTerm,
   recordedTermFixture,
 } from "../../tests/fixtures/recorded-legislative-term";
 import {
-  OFFICE_ANSWER_EVENT,
   answerForOfficeOnDesk,
   projectOfficeMatters,
 } from "../presentation/office-response";
@@ -68,10 +71,10 @@ describe("the press desk lets an officeholder answer for a matter", () => {
     const html = render(world, player);
     expect(html).toContain('data-testid="press-desk-office-answer"');
     for (const label of [
-      "Explain it yourself",
-      "Stand behind your account",
-      "Cooperate with the inquiry",
-      "Decline to cooperate",
+      "Deny",
+      "Apologize",
+      "Attack source",
+      "Go quiet",
       "Resign the office",
     ])
       expect(html).toContain(label);
@@ -81,7 +84,7 @@ describe("the press desk lets an officeholder answer for a matter", () => {
     const said = answerForOfficeOnDesk(world, {
       personId: player,
       matterId,
-      kind: "resignation",
+      kind: "resign",
     });
     expect(said.line).toContain("The office is vacant from");
     expect(
@@ -90,8 +93,8 @@ describe("the press desk lets an officeholder answer for a matter", () => {
       ),
     ).toBe(true);
     expect(
-      said.world.history.events.filter(
-        (event) => event.type === OFFICE_ANSWER_EVENT,
+      pressRecordsOfKind(said.world, "matter-response").filter(
+        (record) => record.matterId === matterId,
       ),
     ).toHaveLength(1);
     assertWorldIntegrity(said.world);
@@ -105,7 +108,7 @@ describe("the press desk lets an officeholder answer for a matter", () => {
     const said = answerForOfficeOnDesk(world, {
       personId: player,
       matterId,
-      kind: "cooperation-agreed",
+      kind: "apologize",
     });
     expect(said.line).not.toContain("vacant");
     expect(said.world.history.workStatuses).toEqual(world.history.workStatuses);

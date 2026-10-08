@@ -1,4 +1,3 @@
-import { personName } from "../simulation";
 import type { EntityId, IsoDate, World } from "../simulation";
 import { activeWorkRelationshipsAt } from "../simulation/life-queries";
 import {
@@ -10,8 +9,10 @@ import {
 import {
   OFFICE_EMPLOYMENT_KINDS,
   recordOfficeConsequence,
+  type OfficeConsequenceKind,
 } from "../simulation/governing/office-consequence";
-import { recordWorldEvent } from "../simulation/world";
+import type { MatterResponse } from "../simulation/press/records";
+import { respondToMatter } from "../simulation/press/responses";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -33,12 +34,10 @@ import { proseDate } from "./prose-dates";
 
 export const OFFICE_ANSWER_EVENT = "office.answered-for-matter";
 
-export type OfficeAnswerKind =
-  | "explanation-requested"
-  | "defense-recorded"
-  | "cooperation-agreed"
-  | "cooperation-declined"
-  | "resignation";
+export type OfficeAnswerKind = Extract<
+  MatterResponse,
+  "deny" | "apologize" | "attack-source" | "decline-comment" | "resign"
+>;
 
 /**
  * GOVERNING's writer, declared structurally so this module compiles and is
@@ -51,7 +50,7 @@ export interface OfficeConsequenceWriter {
       readonly stableKey: string;
       readonly officeKey: string;
       readonly subjectPersonId: EntityId;
-      readonly kind: OfficeAnswerKind;
+      readonly kind: OfficeConsequenceKind;
       readonly effectiveAt: IsoDate;
       readonly statedReason: string;
       readonly evidenceEventIds: readonly EntityId[];
@@ -99,34 +98,31 @@ export interface OfficeMatterView {
 
 const OPTIONS: readonly Omit<OfficeAnswerOption, "statement">[] = [
   {
-    kind: "explanation-requested",
-    label: "Explain it yourself",
-    description:
-      "Say what happened, in your own words. The office is unaffected.",
+    kind: "deny",
+    label: "Deny",
+    description: "Record a denial.",
     endsOffice: false,
   },
   {
-    kind: "defense-recorded",
-    label: "Stand behind your account",
-    description: "Put your account on the record. The office is unaffected.",
+    kind: "apologize",
+    label: "Apologize",
+    description: "Record an apology.",
     endsOffice: false,
   },
   {
-    kind: "cooperation-agreed",
-    label: "Cooperate with the inquiry",
-    description:
-      "Agree to answer what is asked of you. The office is unaffected.",
+    kind: "attack-source",
+    label: "Attack source",
+    description: "Challenge the source on the record.",
     endsOffice: false,
   },
   {
-    kind: "cooperation-declined",
-    label: "Decline to cooperate",
-    description:
-      "Say you will not take part. That is an answer on the record, not an admission.",
+    kind: "decline-comment",
+    label: "Go quiet",
+    description: "Decline to comment on the record.",
     endsOffice: false,
   },
   {
-    kind: "resignation",
+    kind: "resign",
     label: "Resign the office",
     description: "Leave the office. This is the only answer that ends a term.",
     endsOffice: true,
@@ -135,15 +131,12 @@ const OPTIONS: readonly Omit<OfficeAnswerOption, "statement">[] = [
 
 function statementFor(kind: OfficeAnswerKind, officeTitle: string): string {
   switch (kind) {
-    case "explanation-requested":
-      return "I'll explain exactly what happened.";
-    case "defense-recorded":
-      return "My account of this stands.";
-    case "cooperation-agreed":
-      return "I'll answer whatever they ask.";
-    case "cooperation-declined":
-      return "I won't be taking part in that.";
-    case "resignation":
+    case "deny":
+    case "apologize":
+    case "attack-source":
+    case "decline-comment":
+      return kind;
+    case "resign":
       return `I'm resigning as ${officeTitle}.`;
   }
 }
@@ -193,11 +186,17 @@ export function projectOfficeMatters(
         ),
     );
     if (known.length === 0) return [];
-    const answered = world.history.events.some(
-      (event) =>
-        event.type === OFFICE_ANSWER_EVENT &&
-        event.tags.includes(`${PRESS_MATTER_TAG}${matter.id}`),
-    );
+    const answered =
+      world.history.events.some(
+        (event) =>
+          event.type === OFFICE_ANSWER_EVENT &&
+          event.tags.includes(`${PRESS_MATTER_TAG}${matter.id}`),
+      ) ||
+      pressRecordsOfKind(world, "matter-response").some(
+        (response) =>
+          response.matterId === matter.id &&
+          response.actorPersonId === personId,
+      );
     if (answered) return [];
     return [
       {
@@ -264,55 +263,18 @@ export function answerForOffice(
   }
   const statement =
     input.statement?.trim() || statementFor(input.kind, view.officeTitle);
-  const person = world.people[input.personId]!;
-  const evidenceEventIds = view.knownLines.length
-    ? matterEvents(world, input.matterId)
-        .filter((event) => event.visibility === "public")
-        .map((event) => event.id)
-    : [];
-  let next = recordWorldEvent(world, {
-    stableKey: `office-answer:${input.matterId}:${input.personId}`,
-    type: OFFICE_ANSWER_EVENT,
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId: person.homeJurisdictionId,
-    involvedEntityIds: [input.personId],
-    participants: [
-      {
-        personId: input.personId,
-        role: "agency:actor",
-        detail: statement,
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: [
-      `${PRESS_MATTER_TAG}${input.matterId}`,
-      `office.answer:${input.kind}`,
-    ],
-    summary: `${personName(person)} answered for the ${view.officeTitle}: “${statement}”`,
-    context: {
-      location: null,
-      socialContext: "An officeholder answering for something in public.",
-      pressure: null,
-      choice: statement,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const consequence = recordOfficeConsequence(next, {
-    stableKey: `office-consequence:${input.matterId}:${input.personId}:${input.kind}`,
+  const response = respondToMatter(world, {
+    matterId: input.matterId,
+    personId: input.personId,
+    response: input.kind,
+    meaning: statement,
     officeKey: view.officeKey,
-    subjectPersonId: input.personId,
-    kind: input.kind,
-    effectiveAt: next.currentDate,
-    statedReason: statement,
-    evidenceEventIds,
+    officeConsequenceWriter: recordOfficeConsequence,
   });
-  next = consequence.world;
-  const outcome = consequence.outcome;
+  const outcome = response.officeOutcome;
+  if (!outcome) throw new Error("The office response was not recorded.");
   return {
-    world: next,
+    world: response.world,
     officeNote: outcome.note,
     officeChanged: outcome.changed,
     effectiveAt: outcome.changed ? outcome.effectiveAt : null,

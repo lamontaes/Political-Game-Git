@@ -19,6 +19,7 @@ import {
 import type { ClaimAudience, EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { recordStoryLead, recordSubjectResponse } from "./desk";
+import { respondToMatter } from "./responses";
 import { sortedUnique } from "./shared";
 import { reporterIsCurrent, reporterRoles } from "./outlets";
 import {
@@ -473,7 +474,19 @@ export function answerPressRequest(
     pressRecordsOfKind(world, "story-disposition")
       .filter((record) => record.leadId === lead.id)
       .at(-1)?.reporterPersonId ?? null;
-  const recorded = recordSubjectResponse(world, {
+  const responseWorld = lead.matterId
+    ? respondToMatter(world, {
+        matterId: lead.matterId,
+        personId,
+        response: decline
+          ? "decline-comment"
+          : input.stance.asserted === "denies"
+            ? "deny"
+            : "apologize",
+        meaning: input.stance.statement,
+      }).world
+    : world;
+  const recorded = recordSubjectResponse(responseWorld, {
     leadId: lead.id,
     personId,
     kind: decline ? "decline" : "answer",

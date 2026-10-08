@@ -5,9 +5,12 @@ import {
   enterSupportedTerm,
   recordedTermFixture,
 } from "../../tests/fixtures/recorded-legislative-term";
-import { openMatter, recordAllegation } from "../simulation/press";
 import {
-  OFFICE_ANSWER_EVENT,
+  openMatter,
+  pressRecordsOfKind,
+  recordAllegation,
+} from "../simulation/press";
+import {
   answerForOffice,
   officeOutcomeLine,
   projectOfficeMatters,
@@ -90,15 +93,15 @@ describe("PEOPLE B2: answering for your office", () => {
     const [view] = projectOfficeMatters(alleged, player);
     expect(view).toBeTruthy();
     expect(view!.options.map((option) => option.kind)).toEqual([
-      "explanation-requested",
-      "defense-recorded",
-      "cooperation-agreed",
-      "cooperation-declined",
-      "resignation",
+      "deny",
+      "apologize",
+      "attack-source",
+      "decline-comment",
+      "resign",
     ]);
     expect(
       view!.options.filter((option) => option.endsOffice).map((o) => o.kind),
-    ).toEqual(["resignation"]);
+    ).toEqual(["resign"]);
     expect(view!.note).toMatch(/not a body that has found anything/);
     expect(view!.knownLines.length).toBeGreaterThan(0);
     // Reading changes nothing.
@@ -112,23 +115,23 @@ describe("PEOPLE B2: answering for your office", () => {
       {
         personId: player,
         matterId: projectOfficeMatters(alleged, player)[0]!.matterId,
-        kind: "cooperation-declined",
+        kind: "decline-comment",
         statement: "I won't take part in that, and I'll say why later.",
       },
       writer,
     );
     // The refusal is a record of its own, not silence.
+    const response = pressRecordsOfKind(said.world, "matter-response").at(-1)!;
     const answer = said.world.history.events.find(
-      (event) => event.type === OFFICE_ANSWER_EVENT,
+      (event) => event.id === response.eventId,
     )!;
     expect(answer.summary).toContain("I won't take part in that");
-    expect(answer.tags).toContain("office.answer:cooperation-declined");
     // The words reached GOVERNING exactly as they were said.
     expect(calls).toHaveLength(1);
     expect(calls[0]!.statedReason).toBe(
       "I won't take part in that, and I'll say why later.",
     );
-    expect(calls[0]!.kind).toBe("cooperation-declined");
+    expect(calls[0]!.kind).toBe("defense-recorded");
     // And the office's answer is what gets printed.
     expect(said.officeChanged).toBe(false);
     expect(officeOutcomeLine(said)).toBe("Nothing in the office changed.");
@@ -143,7 +146,7 @@ describe("PEOPLE B2: answering for your office", () => {
       {
         personId: player,
         matterId: projectOfficeMatters(alleged, player)[0]!.matterId,
-        kind: "resignation",
+        kind: "resign",
       },
       writer,
     );
@@ -154,11 +157,9 @@ describe("PEOPLE B2: answering for your office", () => {
     expect(resigned.world.history.workStatuses).toEqual(
       alleged.history.workStatuses,
     );
-    expect(
-      resigned.world.history.events.filter(
-        (event) => event.type === OFFICE_ANSWER_EVENT,
-      ),
-    ).toHaveLength(1);
+    expect(pressRecordsOfKind(resigned.world, "matter-response")).toHaveLength(
+      1,
+    );
   });
 
   it("is answered once, and only by the person being played", () => {
@@ -166,14 +167,14 @@ describe("PEOPLE B2: answering for your office", () => {
     const matterId = projectOfficeMatters(alleged, player)[0]!.matterId;
     const answered = answerForOffice(
       alleged,
-      { personId: player, matterId, kind: "explanation-requested" },
+      { personId: player, matterId, kind: "deny" },
       writer,
     ).world;
     expect(projectOfficeMatters(answered, player)).toEqual([]);
     expect(() =>
       answerForOffice(
         answered,
-        { personId: player, matterId, kind: "defense-recorded" },
+        { personId: player, matterId, kind: "attack-source" },
         writer,
       ),
     ).toThrow(/nothing of yours to answer/);
@@ -181,7 +182,7 @@ describe("PEOPLE B2: answering for your office", () => {
     expect(() =>
       answerForOffice(
         observing,
-        { personId: player, matterId, kind: "resignation" },
+        { personId: player, matterId, kind: "resign" },
         writer,
       ),
     ).toThrow(/being played/);
