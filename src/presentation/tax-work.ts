@@ -17,6 +17,10 @@ import {
   taxPowerEvidenceFor,
   TAX_MODEL_NOTE,
 } from "../simulation/tax-policy";
+import {
+  isStateTaxInstrument,
+  stateTaxPowerEvidenceFor,
+} from "../simulation/state-tax-authority";
 import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
 import type { TaxTerms } from "../simulation/tax-types";
@@ -31,13 +35,21 @@ export function fileTaxProposalFromOffice(
 ): { world: World; measureId: EntityId } {
   const entry = resolveLegislativeFilingEntry(world, input.personId);
   if (entry.kind !== "available") throw new Error(entry.reason);
-  const power = taxPowerEvidenceFor(entry.seat.jurisdictionKey);
-  const gameProfile = power
-    ? null
-    : stateTaxServiceProfileForJurisdictionKey(
-        world,
-        entry.seat.jurisdictionKey,
-      );
+  // A state's own sales, property or payroll tax rests on the catalog's state
+  // row for every state; only the original excise path uses a saved profile.
+  const typedInstrument = isStateTaxInstrument(input.terms.instrument)
+    ? input.terms.instrument
+    : null;
+  const power = typedInstrument
+    ? stateTaxPowerEvidenceFor(entry.seat.jurisdictionKey, typedInstrument)
+    : taxPowerEvidenceFor(entry.seat.jurisdictionKey);
+  const gameProfile =
+    power || typedInstrument
+      ? null
+      : stateTaxServiceProfileForJurisdictionKey(
+          world,
+          entry.seat.jurisdictionKey,
+        );
   if (!power && !gameProfile)
     throw new Error(
       "No sourced tax-power contract or fictional game profile supports this office and instrument.",
@@ -61,15 +73,19 @@ export function fileTaxProposalFromOffice(
       throw new Error("An existing tax proposal cannot be overwritten.");
     return { world, measureId: prior.measureId };
   }
-  if (!power || power.instrument !== "selective-excise")
-    throw new Error("This filing requires sourced selective-excise authority.");
+  if (
+    !power ||
+    (power.instrument !== "selective-excise" &&
+      power.instrument !== typedInstrument)
+  )
+    throw new Error("This filing requires sourced tax authority.");
   const level =
     power.level === "STATE"
       ? "state"
       : power.level === "COUNTY"
         ? "county"
         : "city";
-  const questionKey = `us-tax-terms:${level}.excise-tax-terms`;
+  const questionKey = `us-tax-terms:${level}.${typedInstrument ?? "excise"}-tax-terms`;
   const question = Object.values(world.policyCatalog.propositions).find(
     (row) => row.stableKey === questionKey,
   );

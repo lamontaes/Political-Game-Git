@@ -240,8 +240,7 @@ export function stateExecutiveIdentityForOfficeKey(
   return null;
 }
 
-const QUALIFICATION_AT_FILING =
-  "Read from RULES at filing time for this state's executive office; not recorded in this pack.";
+const QUALIFICATION_AT_FILING = "Qualifications: not on record";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, primary, nomination, or ballot-access procedure has been read for this office.";
 

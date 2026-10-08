@@ -5,7 +5,7 @@ import {
   MACRO_MONTHLY_STEP_KEY,
 } from "../../src/simulation/macro-economy";
 import { randomInt } from "node:crypto";
-import startingLaws from "../../data/research/laws/starting-law-2026.json";
+import startingLaws from "../../data/research/laws/starting-law-2026/index";
 import {
   allGovernmentUnits,
   governmentUnitJurisdictionId,
@@ -57,7 +57,6 @@ import {
   RENT_BASIS,
   RENT_DAY_TRANSITION_KEY,
   RENT_LAW_KEYS,
-  renewedMarketRent,
   rentPriceLevel,
   townLeases,
   townRentSnapshot,
@@ -167,30 +166,6 @@ describe("rent arithmetic", () => {
     // debt open for the next home.
     expect(inclusionarySetAsideOpen(0, 2, recordedShare)).toBe(true);
     expect(inclusionarySetAsideOpen(1, 6, recordedShare)).toBe(false);
-  });
-
-  it("caps a stabilized renewal only with an explicit recorded ratio", () => {
-    // Home prices up 9% while prices in general rose 3%.
-    const steep = renewedMarketRent(2000_00, 1.09, 1.03, true, 0.08);
-    expect(steep.capped).toBe(true);
-    expect(steep.cap).toBeCloseTo(0.08);
-    expect(steep.amountMinor).toBe(2160_00);
-    expect(steep.uncappedMinor).toBe(2180_00);
-    // The same renewal without the law follows home prices.
-    const free = renewedMarketRent(2000_00, 1.09, 1.03, false);
-    expect(free.capped).toBe(false);
-    expect(free.amountMinor).toBe(steep.uncappedMinor);
-    expect(renewedMarketRent(2000_00, 1.09, 1.03, true).amountMinor).toBe(
-      2180_00,
-    );
-    // Another explicitly recorded cap.
-    expect(renewedMarketRent(2000_00, 1.12, 1.08, true, 0.1).cap).toBeCloseTo(
-      0.1,
-    );
-    // An ordinary renewal is under the cap and untouched.
-    const ordinary = renewedMarketRent(2000_00, 1.04, 1.03, true, 0.08);
-    expect(ordinary.capped).toBe(false);
-    expect(ordinary.amountMinor).toBe(2080_00);
   });
 
   it("fits a home's bedrooms to who first rents it", () => {

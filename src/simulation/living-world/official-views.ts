@@ -1,4 +1,3 @@
-import { ageOnDate } from "../dates";
 import {
   LIVED_OUTCOME_REFLECTION_PREFIX,
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -36,6 +35,7 @@ import {
   activePartnershipsAt,
   activeWorkRelationshipsAt,
   householdMembershipsAt,
+  kinshipRelationshipsAt,
 } from "../life-queries";
 import { SYNTHETIC_MIND_IDS } from "../mind-catalog";
 import { latestPersonalityTendency } from "../queries";
@@ -56,6 +56,18 @@ import type {
   World,
 } from "../types";
 import { affiliationAt } from "./party-evolution";
+import { newsHabitOf } from "./news-habits";
+import {
+  PRESS_STORY_EVENT_TYPE,
+  PRESS_STORY_LEAD_TAG,
+} from "../public-information-integrity";
+import { pressRecordsOfKind } from "../press/store";
+import { stateCandidacyPack } from "../candidacy-packs";
+import { projectCongress } from "./congress";
+import { nationalOfficeHolder } from "../national-election-consumer";
+import { currentFederalTenure } from "../federal-tenures";
+import { stateLegislators } from "../nationwide-world/state-legislature-opening";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 
 /**
  * People credit or blame the officials behind a law that reached them
@@ -102,8 +114,173 @@ export {
   viewOfOfficial,
 } from "../official-view-reads";
 
-// PLACEHOLDER, approved provisional: executives carry the blame for a visible
-// law they signed; a legislator's single vote carries less.
+/** A reader updates their view of officials whose recorded acts a story reports. */
+export function recordStoryHeardOfficialViews(
+  world: World,
+  knowledgeId: EntityId,
+): World {
+  const knowledge = world.history.knowledge.find(
+    (row) => row.id === knowledgeId,
+  );
+  if (!knowledge || knowledge.source.kind !== "media") return world;
+  const publicationId = knowledge.source.reference;
+  const story = world.history.events.find(
+    (row) => row.id === knowledge.eventId,
+  );
+  if (!story || story.type !== PRESS_STORY_EVENT_TYPE) return world;
+  const publication = world.history.publications?.find(
+    (row) =>
+      row.id === publicationId &&
+      row.sourceEventId === story.id &&
+      row.kind === "press-story",
+  );
+  if (!publication || knowledge.learnedAt < publication.publishedAt)
+    return world;
+  const leadTags = story.tags.filter((tag) =>
+    tag.startsWith(PRESS_STORY_LEAD_TAG),
+  );
+  if (leadTags.length !== 1) return world;
+  const leadId = leadTags[0]!.slice(PRESS_STORY_LEAD_TAG.length);
+  const lead = pressRecordsOfKind(world, "story-lead").find(
+    (row) => row.id === leadId,
+  );
+  if (!lead) return world;
+
+  let next = world;
+  for (const basisEventId of lead.basisEventIds) {
+    const basisEvent = next.history.events.find(
+      (row) => row.id === basisEventId,
+    );
+    if (
+      !basisEvent ||
+      basisEvent.sequence >= knowledge.sequence ||
+      basisEvent.recordedAt > knowledge.learnedAt
+    )
+      continue;
+    for (const act of officialActsInEvent(next, basisEventId, knowledge)) {
+      if (act.officialId === knowledge.personId) continue;
+      const prior = [...next.history.privateBeliefs]
+        .filter(
+          (belief) =>
+            belief.personId === knowledge.personId &&
+            belief.propositionId === act.propositionId &&
+            !belief.subject &&
+            belief.formedAt <= knowledge.learnedAt &&
+            belief.sequence < knowledge.sequence,
+        )
+        .sort((a, b) => b.sequence - a.sequence)[0];
+      if (
+        !prior ||
+        (prior.position !== "support" && prior.position !== "oppose")
+      )
+        continue;
+      const favors = prior.position === act.stance ? "support" : "opposition";
+      const confidenceWeight = { low: 1 / 3, medium: 2 / 3, high: 1 }[
+        knowledge.confidence
+      ];
+      const felt = confidenceWeight * reactionLens(next, knowledge.personId);
+      const importance = IMPORTANCE_FROM.find(([from]) => felt >= from)![1];
+      const factor: PoliticalBeliefFormationFactor = {
+        stableKey: `story-official-act:${knowledge.id}:${basisEventId}:${act.officialId}:${act.propositionId}`,
+        favors,
+        sourceType: "information:published-official-act",
+        importance,
+        confidence: knowledge.confidence,
+        explanation:
+          "A story reports an official act on a question the person already has a view about.",
+        sourceRefs: [
+          { kind: "historical-event", eventId: basisEventId },
+          { kind: "event-knowledge", knowledgeId: knowledge.id },
+        ],
+      };
+      const stableKey = `${V}:story:${knowledge.id}:${basisEventId}:${act.officialId}:${act.propositionId}`;
+      next = formViewFromFactor(
+        next,
+        knowledge.personId,
+        act.officialId,
+        { factor, felt },
+        stableKey,
+        "This reported act runs against the view of this official the person already held.",
+      );
+    }
+  }
+  return next;
+}
+
+function officialActsInEvent(
+  world: World,
+  eventId: EntityId,
+  knowledge: World["history"]["knowledge"][number],
+): {
+  officialId: EntityId;
+  propositionId: EntityId;
+  stance: "support" | "oppose";
+}[] {
+  const acts: {
+    officialId: EntityId;
+    propositionId: EntityId;
+    stance: "support" | "oppose";
+  }[] = [];
+  for (const position of world.history.publicPositions ?? []) {
+    if (
+      position.sourceEventId === eventId &&
+      position.sequence < knowledge.sequence &&
+      position.statedAt <= knowledge.learnedAt &&
+      (position.stance === "support" || position.stance === "oppose")
+    )
+      acts.push({
+        officialId: position.personId,
+        propositionId: position.propositionId,
+        stance: position.stance,
+      });
+  }
+  for (const action of world.history.legislativeActions ?? []) {
+    if (
+      action.eventId !== eventId ||
+      action.sequence >= knowledge.sequence ||
+      action.occurredAt > knowledge.learnedAt ||
+      action.voteId === null
+    )
+      continue;
+    const vote = world.history.legislativeVotes?.find(
+      (row) => row.id === action.voteId,
+    );
+    const measure = world.history.legislativeMeasures?.find(
+      (row) => row.id === action.measureId,
+    );
+    if (
+      !vote ||
+      vote.sequence >= knowledge.sequence ||
+      vote.takenAt > knowledge.learnedAt ||
+      !measure
+    )
+      continue;
+    for (const disposition of vote.dispositions) {
+      if (
+        !disposition.personId ||
+        (disposition.disposition !== "yea" && disposition.disposition !== "nay")
+      )
+        continue;
+      for (const answer of measure.propositionAnswers ?? []) {
+        if (!(measure.propositionIds ?? []).includes(answer.propositionId))
+          continue;
+        const yes =
+          (disposition.disposition === "yea") === (answer.answer === "yes");
+        acts.push({
+          officialId: disposition.personId,
+          propositionId: answer.propositionId,
+          stance: yes ? "support" : "oppose",
+        });
+      }
+    }
+  }
+  return acts;
+}
+
+// DESIGNED (game weight, no survey ratio): reads the signer's office on the
+// law's enactment record. Balances an executive, who signs alone and so carries
+// the blame for a visible law, against a legislator, whose single vote is one
+// of many and carries less.
 const EXECUTIVE_VISIBILITY = 1;
 const LEGISLATOR_VISIBILITY = 0.6;
 // SET BY HAND from the finding that people have about 2 to 4 political
@@ -113,7 +290,6 @@ const DISCUSSION_PARTNERS = 3;
 // SET BY HAND from Pew (2024): 35 percent of people 65 and older follow local
 // news very closely, against 9 percent at 18 to 29. From this age someone with
 // no job to go to has the time and the habit of the older news audience.
-const RETIREMENT_AGE = 65;
 // SET BY HAND: what someone else went through moves a view as much as the
 // hearer cares about the teller. People feel more for those they are closer to
 // (Cialdini and others, 1997), so a strong tie passes on half of it, a marked
@@ -124,17 +300,21 @@ const HEARD_BY_WARMTH: Readonly<Record<StandingBand, number>> = {
   slight: 1 / 8,
   none: 1 / 8,
 };
-// PLACEHOLDER, approved provisional: partisans are anchored. Blame for their
-// own party's official, and credit for the other party's, count half.
+// DESIGNED (game weight, no survey ratio): reads the person's party and the
+// official's party. Balances partisan anchoring: blame for their own party's
+// official, and credit for the other party's, count half.
 const PARTY_ANCHOR = 0.5;
-// PLACEHOLDER (research: who-answers-for-what-happened-to-me): what happened
-// to a person weighs on the official who answers for it at less than a law
-// that official signed; how much less is unmeasured.
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record of
+// what happened to the person and the office that answers for it. Balances that
+// office against a law its official signed: what happened to a person weighs on
+// the official who answers for it at less than a law that official signed.
 const ANSWERING_OFFICE_VISIBILITY = 0.4;
-// PLACEHOLDER: a money effect whose size next to pay is unknown is felt at a
+// DESIGNED (game weight, no survey ratio): reads the law-exposure record's felt
+// size. Balances an effect whose size next to pay is unmeasured: it is felt at a
 // quarter of full weight rather than guessed.
 const UNMEASURED_WEIGHT = 0.25;
-// PLACEHOLDER: how hard a law landed (1 = a law costing a tenth of a month's
+// DESIGNED (game weight, no survey ratio): reads how hard a law landed on the
+// person's law-exposure record. Balances a heavy law against none (1 = a law costing a tenth of a month's
 // pay, felt in full) to the weight the pipeline gives one reason. A law felt
 // at a tenth of that or more outweighs having no view at all, as a law felt
 // enough to round to a point did in the old rows; less leaves no view.
@@ -144,7 +324,8 @@ const IMPORTANCE_FROM: readonly (readonly [number, DecisionImportance])[] = [
   [0.1, "moderate"],
   [0, "slight"],
 ];
-// PLACEHOLDER: and to how much the view matters to the person.
+// DESIGNED (game weight, no survey ratio): reads the same felt size. Balances
+// how much the view matters to the person against everything else they weigh.
 const SALIENCE_FROM: readonly (readonly [number, PoliticalSalience])[] = [
   [1, "high"],
   [0.4, "moderate"],
@@ -156,14 +337,16 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
   "high",
   "central",
 ];
-// PLACEHOLDER: an old save's reflection rows, in the points they were kept
-// in, to the weight they carry as what the person already thought.
+// DESIGNED (game weight, no survey ratio): reads an old save's reflection rows,
+// in the points they were kept in. Balances them against new views: the weight
+// they carry as what the person already thought.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
   readonly officialId: EntityId;
-  readonly act: OfficialViewRecord["act"];
+  readonly act: OfficialViewRecord["act"] | "could-repeal";
   readonly executive: boolean;
+  readonly role?: "could-repeal";
 }
 
 export function officialViewReflectionHandler(
@@ -197,12 +380,14 @@ export function officialViewReflectionHandler(
   const weighed = officialsBehind(world, exposure.measureId).filter(
     (act) =>
       act.officialId !== exposure.personId &&
-      (act.executive || knowsVote(world, exposure, act.officialId)),
+      (act.role === "could-repeal" ||
+        act.executive ||
+        knowsVote(world, exposure, act.officialId)),
   );
   let next = world;
   if (weighed.length > 0) {
     for (const act of weighed) {
-      if (act.executive) continue;
+      if (act.executive || act.role === "could-repeal") continue;
       const event = voteEvent(next, exposure, act.officialId);
       if (!event || voteKnowledge(next, exposure.personId, event.id)) continue;
       next = recordEventKnowledge(next, {
@@ -266,6 +451,59 @@ export function officialsBehind(
   for (const [officialId, act] of latest)
     if (!acts.some((row) => row.officialId === officialId))
       acts.push({ officialId, act, executive: false });
+  if (
+    acts.length === 0 &&
+    measureId.startsWith("starting-law:") &&
+    !world.history.legislativeEnactments?.some(
+      (row) => row.measureId === measureId,
+    )
+  ) {
+    const placeKey = /^starting-law:([^:]+):/.exec(measureId)?.[1];
+    if (placeKey === "US") {
+      const congress = projectCongress(world);
+      for (const seat of [
+        ...(congress?.house.seats ?? []),
+        ...(congress?.senate.seats ?? []),
+      ])
+        if (seat.occupant.kind === "member")
+          acts.push({
+            officialId: seat.occupant.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+      const president =
+        nationalOfficeHolder(world, "president")?.plan.personId ??
+        currentFederalTenure(world, "us-president")?.personId;
+      if (president)
+        acts.push({
+          officialId: president,
+          act: "could-repeal",
+          executive: false,
+          role: "could-repeal",
+        });
+    } else if (placeKey) {
+      const pack = stateCandidacyPack(placeKey);
+      if (pack) {
+        for (const member of stateLegislators(world, pack.packId))
+          acts.push({
+            officialId: member.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+      }
+      const stateUsps = placeKey.startsWith("US-") ? placeKey.slice(3) : "";
+      for (const holder of currentStateExecutiveHolders(world))
+        if (holder.stateUsps === stateUsps)
+          acts.push({
+            officialId: holder.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+    }
+  }
   return acts;
 }
 
@@ -333,18 +571,7 @@ export function knowsVote(
  * news audience.
  */
 export function followsNewsClosely(world: World, personId: EntityId): boolean {
-  const person = world.people[personId];
-  if (!person) return false;
-  const curiosity = latestPersonalityTendency(
-    world,
-    personId,
-    SYNTHETIC_MIND_IDS.tendencies.curiosity,
-  )?.expressionKey;
-  if (curiosity === "curious") return true;
-  return (
-    ageOnDate(person.birthDate, world.currentDate) >= RETIREMENT_AGE &&
-    activeWorkRelationshipsAt(world, personId).length === 0
-  );
+  return newsHabitOf(world, personId).followsClosely;
 }
 
 /**
@@ -412,17 +639,143 @@ function hearersOf(
   world: World,
   exposure: LawExposureRecord,
 ): readonly EntityId[] {
+  return hearersOfPerson(world, exposure.personId);
+}
+
+/** The people one person talks politics with: see `hearersOf`. */
+export function hearersOfPerson(
+  world: World,
+  personId: EntityId,
+): readonly EntityId[] {
   const conflict = latestPersonalityTendency(
     world,
-    exposure.personId,
+    personId,
     SYNTHETIC_MIND_IDS.tendencies.conflictApproach,
   )?.expressionKey;
   if (conflict === "conflict-averse") return [];
   // The player can hear it too; they just decide for themselves what it means.
-  const known = new Set(peopleKnownTo(world, exposure.personId));
-  return confidantsOf(world, exposure.personId)
-    .filter((personId) => known.has(personId))
+  const known = new Set(peopleKnownTo(world, personId));
+  return confidantsOf(world, personId)
+    .filter((id) => known.has(id))
     .slice(0, DISCUSSION_PARTNERS);
+}
+
+/** Whether `other` is the person's kin or lives in their household. */
+export function closeKin(
+  world: World,
+  personId: EntityId,
+  other: EntityId,
+): boolean {
+  return (
+    kinshipRelationshipsAt(world, personId).some((kin) =>
+      kin.personIds.includes(other),
+    ) ||
+    householdMembershipsAt(world, personId).some((entry) =>
+      householdMembershipsAt(world, other).some(
+        (theirs) => theirs.household.id === entry.household.id,
+      ),
+    )
+  );
+}
+
+/**
+ * Word of mouth about an official: a person who has just formed a view of
+ * one, from what happened to them or from what they read, tells the people
+ * they talk politics with (`hearersOfPerson`; someone who avoids conflict
+ * tells no one). Each hearer learns it as told by that person. A hearer who is
+ * the teller's kin or housemate, and not the player, weighs it as one reason
+ * through their own temperament and party, with the view they already hold;
+ * a warm tie further out knows what the person thinks and decides nothing yet
+ * (a friend's word alone does not settle a view). What a hearer was told is
+ * not told again: only a view formed first-hand reaches this function, and a
+ * hearer's own view is written without it.
+ */
+export function tellViewToHearers(
+  world: World,
+  input: {
+    readonly holderId: EntityId;
+    readonly officialId: EntityId;
+    /** The holder's dated thinking-over, which the hearers' knowledge names. */
+    readonly eventId: EntityId;
+    readonly stableKey: string;
+  },
+): World {
+  const held = viewOfOfficial(world, input.holderId, input.officialId).belief;
+  if (!held || (held.position !== "support" && held.position !== "oppose"))
+    return world;
+  const holder = world.people[input.holderId];
+  const official = world.people[input.officialId];
+  if (!holder || !official) return world;
+  const favors = held.position === "support" ? "support" : "opposition";
+  let next = world;
+  for (const hearerId of hearersOfPerson(world, input.holderId)) {
+    const key = `${input.stableKey}:told:${hearerId}`;
+    if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
+    next = recordEventKnowledge(next, {
+      stableKey: key,
+      personId: hearerId,
+      eventId: input.eventId,
+      learnedAt: next.currentDate,
+      // Fields, not a sentence: the English engine composes what is shown.
+      believedSummary: `told-view:${input.holderId}:${input.officialId}:${held.position}`,
+      accuracy: "accurate",
+      confidence: "medium",
+      source: {
+        kind: "told-by",
+        sourcePersonId: input.holderId,
+        claimId: null,
+      },
+    });
+    if (
+      hearerId === input.officialId ||
+      (next.control.kind === "person" && next.control.personId === hearerId)
+    )
+      continue;
+    const knowledge = next.history.knowledge.find(
+      (row) => row.stableKey === key,
+    )!;
+    if (!closeKin(next, input.holderId, hearerId)) continue;
+    // How much it matters to the hearer follows how much it matters to the
+    // person who told them: a view held centrally is passed on as one.
+    let felt =
+      ((SALIENCE_ORDER.indexOf(held.salience) + 1) / SALIENCE_ORDER.length) *
+      reactionLens(next, hearerId);
+    const mine = affiliationAt(next, hearerId).partyOrganizationId;
+    const theirs = affiliationAt(next, input.officialId).partyOrganizationId;
+    // A relative's word against an official of the hearer's own party, or for
+    // one of the other party, is held at arm's length.
+    if (
+      mine !== null &&
+      theirs !== null &&
+      ((mine === theirs && favors === "opposition") ||
+        (mine !== theirs && favors === "support"))
+    )
+      felt *= PARTY_ANCHOR;
+    if (felt <= 0) continue;
+    next = formViewFromFactor(
+      next,
+      hearerId,
+      input.officialId,
+      {
+        felt,
+        factor: {
+          stableKey: `told-view:${key}`,
+          favors,
+          sourceType: "information:told-view",
+          importance: "strong",
+          confidence: "medium",
+          explanation: `told-view:${favors}`,
+          sourceRefs: [
+            { kind: "historical-event", eventId: input.eventId },
+            { kind: "event-knowledge", knowledgeId: knowledge.id },
+          ],
+        },
+      },
+      `${V}:told:${key}`,
+      "What they were told runs against the view of this official the person already held.",
+    );
+  }
+  return next;
 }
 
 /** The dated event of a person thinking over what a law did to them. */
@@ -436,7 +789,10 @@ function recordReflection(world: World, exposure: LawExposureRecord): World {
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [exposure.personId, exposure.measureId],
+    involvedEntityIds: [
+      exposure.personId,
+      ...(measure ? [exposure.measureId] : []),
+    ],
     participants: [
       { personId: exposure.personId, role: "focus:subject", detail: null },
     ],
@@ -625,6 +981,12 @@ function reflectOnLivedOutcome(
     `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
     "What happened to them runs against the view of this official the person already held.",
   );
+  next = tellViewToHearers(next, {
+    holderId: personId,
+    officialId,
+    eventId,
+    stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}`,
+  });
   return done(next, "reflected");
 }
 
@@ -695,7 +1057,11 @@ function lawFactor(
   const credit = exposure.direction === "gain" ? made : !made;
   let felt =
     felt01(world, exposure) *
-    (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
+    (act.role === "could-repeal"
+      ? LEGISLATOR_VISIBILITY / 2
+      : act.executive
+        ? EXECUTIVE_VISIBILITY
+        : LEGISLATOR_VISIBILITY) *
     reactionLens(world, exposure.personId) *
     heardShare(world, exposure);
   const mine = affiliationAt(world, exposure.personId).partyOrganizationId;
@@ -714,28 +1080,33 @@ function lawFactor(
     ? voteKnowledge(world, exposure.personId, vote.id)
     : null;
   const what =
-    act.act === "signed"
-      ? "signed"
-      : act.act === "voted-for"
-        ? "voted for"
-        : "voted against";
+    act.role === "could-repeal"
+      ? "could-repeal"
+      : act.act === "signed"
+        ? "signed"
+        : act.act === "voted-for"
+          ? "voted for"
+          : "voted against";
   return {
     felt,
     factor: {
-      stableKey: `law-exposure:${exposure.id}`,
+      stableKey: `law-exposure:${exposure.id}${act.role ? `:${act.role}` : ""}`,
       favors: credit ? "support" : "opposition",
       sourceType: "information:law-exposure",
       importance,
       confidence: exposure.relation === "friend" ? "medium" : "high",
-      explanation: `This official ${what} a law that ${
-        exposure.direction === "gain" ? "paid" : "cost"
-      } ${
-        exposure.relation === "own"
-          ? "the person"
-          : exposure.relation === "family"
-            ? "the person's household"
-            : "someone the person knows"
-      }${anchored ? "; the person's party loyalty tempers it" : ""}.`,
+      explanation:
+        act.role === "could-repeal"
+          ? "starting-law:could-repeal"
+          : `This official ${what} a law that ${
+              exposure.direction === "gain" ? "paid" : "cost"
+            } ${
+              exposure.relation === "own"
+                ? "the person"
+                : exposure.relation === "family"
+                  ? "the person's household"
+                  : "someone the person knows"
+            }${anchored ? "; the person's party loyalty tempers it" : ""}.`,
       sourceRefs: [
         { kind: "historical-event", eventId },
         ...(knowledge
@@ -835,8 +1206,9 @@ function felt01(world: World, exposure: LawExposureRecord): number {
 /** How hard an effect landed, 0 to 1, from its size next to pay. */
 function feltFromShare(felt: Exclude<LawExposureFeltSize, null>): number {
   if (felt === "unmeasured") return UNMEASURED_WEIGHT;
-  // PLACEHOLDER: a law costing a tenth of a month's pay is felt fully; the
-  // square root keeps small amounts noticeable.
+  // DESIGNED (game weight, no survey ratio): reads the exposure's share of
+  // pay. Balances small against large: a law costing a tenth of a month's pay
+  // is felt fully, and the square root keeps small amounts noticeable.
   return Math.min(1, Math.sqrt(felt.share * 10));
 }
 
@@ -851,7 +1223,10 @@ export function reactionLens(world: World, personId: EntityId): number {
     personId,
     SYNTHETIC_MIND_IDS.tendencies.responseTempo,
   )?.expressionKey;
-  // PLACEHOLDER multipliers.
+  // DESIGNED (game weights, no survey ratio): read the person's response-tempo
+  // and conflict-approach tendency records. Balance a reactive or combative
+  // person, who moves further on the same law, against a patient or
+  // conflict-averse one, who moves less.
   if (tempo === "reactive") factor *= 1.5;
   if (tempo === "patient") factor *= 0.75;
   const conflict = latestPersonalityTendency(

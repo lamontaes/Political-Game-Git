@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { describe, expect, it, vi } from "vitest";
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
+import poseData from "../../../data/content/pose-by-activity.json" with { type: "json" };
 import {
   BODY_BUILDS,
   POSES_BY_PRESENTATION,
@@ -11,7 +12,7 @@ import {
   type PackPostures,
   type PackPresentation,
   type PeoplePackManifest,
-  poseFallbacks,
+  presentationFallbacks,
 } from "./pack";
 import type { Raster } from "./raster";
 import type * as Runtime from "./runtime";
@@ -145,6 +146,15 @@ describe("a conversation once the posed art lands", async () => {
   const x = (person: { leftPercent: number; widthPercent: number }) =>
     person.leftPercent + person.widthPercent / 2;
 
+  // What the pose data lists for a listener, by spot (a man's hand on the hip
+  // is his hands in his pockets).
+  const listened = (spot: "stand" | "sit") =>
+    Object.values(poseData.activities.listening).flatMap((spots) =>
+      (spots[spot as keyof typeof spots] ?? []).map((entry) => entry.pose),
+    );
+  const listeningStanding = [...listened("stand"), "hands-in-pockets"];
+  const listeningSeated = ["seated-hands-folded", ...listened("sit")];
+
   it("has the speaker explain to the player and the listeners turn toward the speaker", () => {
     const engines = planLifeScenePeople(
       world,
@@ -165,20 +175,22 @@ describe("a conversation once the posed art lands", async () => {
         { speakerId },
       ).filter((person) => person.engine);
       const speaker = placed.find((person) => person.personId === speakerId)!;
-      expect(speaker.engine!.pose).toBe("explaining");
+      // The speaker's pose is one the pose data lists for speaking, standing.
+      expect(
+        poseData.activities.speaking.front.stand.map((entry) => entry.pose),
+      ).toContain(speaker.engine!.pose);
       expect(speaker.engine!.view ?? "front").toBe("front");
-      // Explaining faces the viewer, so the speaker is never mirrored.
-      expect(speaker.engine!.mirrored).toBeUndefined();
+      // Explaining faces the viewer, so that speaker is never mirrored.
+      if (speaker.engine!.pose === "explaining")
+        expect(speaker.engine!.mirrored).toBeUndefined();
       for (const listener of placed.filter((person) => person !== speaker)) {
         expect(listener.engine!.view).toBe("three-quarter");
         // Each in their own presentation's poses.
         const own = POSES_BY_PRESENTATION[listener.engine!.presentation];
         expect(own).toContain(listener.engine!.pose);
-        expect(
-          listener.seated
-            ? ["seated-hands-folded", "seated-listening"]
-            : ["arms-folded", "hand-on-hip", "hands-in-pockets"],
-        ).toContain(listener.engine!.pose);
+        expect(listener.seated ? listeningSeated : listeningStanding).toContain(
+          listener.engine!.pose,
+        );
         if (listener.engine!.pose === "arms-folded") folded += 1;
         // Turned right as painted, so mirrored exactly when the speaker is
         // on their left.
@@ -190,7 +202,12 @@ describe("a conversation once the posed art lands", async () => {
         // outfits for each presentation).
         const drawn = composeEnginePerson(LANDED, read, listener.engine!);
         expect(drawn.view).toBe("three-quarter");
-        expect(poseFallbacks(listener.engine!.pose)).toContain(drawn.pose);
+        expect(
+          presentationFallbacks(
+            listener.engine!.pose as NamedBodyPose,
+            listener.engine!.presentation,
+          ),
+        ).toContain(drawn.pose);
       }
     }
     // At least one listener folds their arms in this household.

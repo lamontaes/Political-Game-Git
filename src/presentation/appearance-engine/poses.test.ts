@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
 import { describe, expect, it, vi } from "vitest";
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
+import poseData from "../../../data/content/pose-by-activity.json" with { type: "json" };
 import {
   BODY_BUILDS,
   BODY_POSES,
@@ -11,7 +12,7 @@ import {
   isSeatedPose,
   mirrorToFace,
   posedPieces,
-  poseFallbacks,
+  presentationFallbacks,
   presentationPose,
   type BodyPose,
   type EngineRecipe,
@@ -116,9 +117,9 @@ describe("named poses", () => {
             // of the pose this presentation uses (a woman's hand on the hip
             // for a man's hands in pockets); never nothing and never a layer
             // from another pose.
-            expect(
-              poseFallbacks(presentationPose(pose, presentation)),
-            ).toContain(pieces.pose);
+            expect(presentationFallbacks(pose, presentation)).toContain(
+              pieces.pose,
+            );
             expect(pieces.body.file.length).toBeGreaterThan(0);
             expect(pieces.outfit).toBeDefined();
             const suffix = pieces.pose === "standing" ? "" : `-${pieces.pose}`;
@@ -206,33 +207,127 @@ describe("named poses", () => {
 describe("the pose chooser", () => {
   const seeds = Array.from({ length: 400 }, (_, n) => `person-${n}`);
 
-  it("poses each activity as the scene has it", () => {
+  /** The poses data/content/pose-by-activity.json lists for one situation. */
+  const listed = (
+    activity: string,
+    view: "front" | "three-quarter" | "back",
+    spot: "stand" | "sit" | "podium" | "lean",
+  ): string[] =>
+    (
+      (
+        poseData.activities as unknown as Record<
+          string,
+          Record<string, Record<string, { pose: string }[]>>
+        >
+      )[activity]?.[view]?.[spot] ?? []
+    ).map((entry) => entry.pose);
+
+  it("poses each activity as the scene has it, from the pose data", () => {
+    for (const [activity, views] of Object.entries(poseData.activities))
+      for (const [view, spots] of Object.entries(views))
+        for (const spot of Object.keys(spots)) {
+          const allowed = listed(activity, view as "front", spot as "stand");
+          expect(allowed.length).toBeGreaterThan(0);
+          const chosen = seeds.map((seed) =>
+            chooseBodyPose({
+              activity: activity as "idle",
+              seated: spot === "sit",
+              spot: spot as "stand",
+              view: view as "front",
+              seed,
+            }),
+          );
+          // Only what the data allows, and every pose it allows is used.
+          expect(new Set(chosen)).toEqual(new Set(allowed));
+        }
+    // The core cases the scene relies on.
     for (const seed of seeds) {
-      const pose = (
-        activity: Parameters<typeof chooseBodyPose>[0]["activity"],
-        seated = false,
-      ) => chooseBodyPose({ activity, seated, seed });
-      expect(pose("speaking")).toBe("explaining");
-      expect(pose("speech")).toBe("podium");
-      expect(["arms-folded", "hand-on-hip"]).toContain(pose("listening"));
-      expect(["arms-folded", "hand-on-hip"]).toContain(pose("waiting"));
-      expect(pose("idle")).toBe("standing");
-      expect(pose("desk")).toBe("standing");
-      expect(pose("speaking", true)).toBe("seated-leaning");
+      expect(chooseBodyPose({ activity: "speech", seated: false, seed })).toBe(
+        "podium",
+      );
+      expect(chooseBodyPose({ activity: "speaking", seated: true, seed })).toBe(
+        "seated-leaning",
+      );
       expect(["seated-writing", "seated-reading"]).toContain(
-        pose("desk", true),
-      );
-      expect(["seated-hands-folded", "seated-leaning"]).toContain(
-        pose("meeting", true),
-      );
-      expect(["seated-hands-folded", "seated-listening"]).toContain(
-        pose("listening", true),
+        chooseBodyPose({ activity: "desk", seated: true, seed }),
       );
       expect(["seated-legs-crossed", "seated-phone"]).toContain(
-        pose("waiting", true),
+        chooseBodyPose({ activity: "waiting", seated: true, seed }),
       );
-      expect(["seated", "seated-relaxed"]).toContain(pose("idle", true));
     }
+  });
+
+  it("poses a speaker gesturing, a greeter greeting and a crowd applauding", () => {
+    const chosen = (
+      activity: "speaking" | "greeting" | "crowd",
+      seed: string,
+    ) => chooseBodyPose({ activity, seated: false, seed });
+    expect(new Set(seeds.map((seed) => chosen("speaking", seed)))).toEqual(
+      new Set([
+        "explaining",
+        "arms-wide",
+        "pointing",
+        "hand-on-heart",
+        "hands-on-hips",
+      ]),
+    );
+    expect(new Set(seeds.map((seed) => chosen("greeting", seed)))).toEqual(
+      new Set(["handshake", "waving", "arms-wide", "hand-on-heart"]),
+    );
+    const crowd = seeds.map((seed) => chosen("crowd", seed));
+    expect(crowd.filter((pose) => pose === "clapping").length).toBeGreaterThan(
+      seeds.length * 0.35,
+    );
+  });
+
+  it("poses a face that shows a feeling the way it reads, most of the time", () => {
+    const sad = seeds.map((seed) =>
+      chooseBodyPose({
+        activity: "listening",
+        seated: false,
+        seed,
+        expression: "sad",
+      }),
+    );
+    const reads = sad.filter((pose) =>
+      (poseData.byExpression.sad as string[]).includes(pose),
+    );
+    expect(reads.length).toBeGreaterThan(seeds.length * 0.5);
+    expect(reads.length).toBeLessThan(seeds.length);
+    // Never from a podium, and never someone seated.
+    for (const seed of seeds) {
+      expect(
+        chooseBodyPose({
+          activity: "speech",
+          seated: false,
+          seed,
+          expression: "angry",
+        }),
+      ).toBe("podium");
+      expect(
+        chooseBodyPose({
+          activity: "listening",
+          seated: true,
+          seed,
+          expression: "angry",
+        }),
+      ).toMatch(/^seated/);
+    }
+  });
+
+  it("poses an audience seen from behind in the poses painted from behind", () => {
+    const behind = seeds.map((seed) =>
+      chooseBodyPose({
+        activity: "audience",
+        seated: false,
+        seed,
+        view: "back",
+      }),
+    );
+    expect(new Set(behind)).toEqual(
+      new Set(listed("audience", "back", "stand")),
+    );
+    for (const pose of behind) expect(pose.startsWith("back-")).toBe(true);
   });
 
   it("chooses only from each presentation's own poses", () => {
@@ -245,6 +340,10 @@ describe("the pose chooser", () => {
           "speech",
           "desk",
           "meeting",
+          "greeting",
+          "crowd",
+          "audience",
+          "transit",
           "idle",
         ] as const)
           for (const seated of [false, true])
@@ -261,7 +360,15 @@ describe("the pose chooser", () => {
         presentation: "masculine",
       }),
     );
-    expect(new Set(men)).toEqual(new Set(["arms-folded", "hands-in-pockets"]));
+    expect(new Set(men)).toEqual(
+      new Set(
+        listed("listening", "front", "stand").map((pose) =>
+          presentationPose(pose as BodyPose, "masculine"),
+        ),
+      ),
+    );
+    expect(men).toContain("hands-in-pockets");
+    expect(men).not.toContain("hand-on-hip");
     expect(
       new Set(
         seeds.map((seed) =>
@@ -306,9 +413,11 @@ describe("the pose chooser", () => {
         chooseBodyPose({ activity: "listening", seated: false, seed }),
       ),
     ).toEqual(listening);
+    // A crowd of listeners stands several ways, folded arms most often.
     const folded = listening.filter((pose) => pose === "arms-folded").length;
-    expect(folded).toBeGreaterThan(seeds.length * 0.35);
-    expect(folded).toBeLessThan(seeds.length * 0.65);
+    expect(folded).toBeGreaterThan(seeds.length * 0.15);
+    expect(folded).toBeLessThan(seeds.length * 0.45);
+    expect(new Set(listening).size).toBeGreaterThanOrEqual(5);
   });
 
   it("folds a guarded person's arms more often, and an open person's less", () => {
@@ -342,6 +451,19 @@ describe("the pose chooser", () => {
     expect(at("podium", "b")).toBe("listening");
     expect(at("desk-chair", null, "a", true)).toBe("desk");
     expect(at("seated-person", null, "a", true)).toBe("idle");
+    // A door, a crowd and a street.
+    expect(at("front-doorway", null)).toBe("greeting");
+    expect(at("rally-crowd", null)).toBe("crowd");
+    expect(at("sidewalk", null)).toBe("transit");
+    expect(
+      sceneActivity({
+        personId: "a",
+        speakerId: null,
+        anchorType: "audience",
+        seated: false,
+        facing: "away",
+      }),
+    ).toBe("audience");
   });
 });
 
@@ -525,6 +647,25 @@ describe("turned views", () => {
     expect(engineRecipeKey(turned)).toContain("three-quarter");
   });
 
+  it("falls side and back views through three-quarter before front", () => {
+    expect(posedPieces(pack, { ...turned, view: "side" }).view).toBe(
+      "three-quarter",
+    );
+    expect(posedPieces(pack, { ...turned, view: "back" }).view).toBe(
+      "three-quarter",
+    );
+  });
+
+  it("mirrors three-quarter art to honor an explicit facing", () => {
+    const towardLeft = posedPieces(pack, { ...turned, facing: "left" });
+    const towardRight = posedPieces(pack, { ...turned, facing: "right" });
+    expect([towardLeft.toward, towardLeft.mirrored]).toEqual(["left", false]);
+    expect([towardRight.toward, towardRight.mirrored]).toEqual(["right", true]);
+    expect(engineRecipeKey({ ...turned, facing: "right" })).toContain(
+      "facing:right",
+    );
+  });
+
   it("turns a listener toward the speaker and leaves everyone else facing front", () => {
     expect(chooseBodyView("listening")).toBe("three-quarter");
     for (const activity of [
@@ -536,6 +677,10 @@ describe("turned views", () => {
       "idle",
     ] as const)
       expect(chooseBodyView(activity)).toBe("front");
+    // A spot facing away from the camera is seen from behind.
+    expect(chooseBodyView("audience", "away")).toBe("back");
+    expect(chooseBodyView("idle", "away")).toBe("back");
+    expect(chooseBodyView("listening", "viewer")).toBe("three-quarter");
   });
 });
 
@@ -574,8 +719,16 @@ describe("a conversation in a room", async () => {
     const quiet = standing();
     expect(quiet.length).toBeGreaterThanOrEqual(2);
     // Nobody talking: nobody posed.
+    // (Waiting and idle people may shift their weight, as the pose data has
+    // them do; nobody explains, points or folds their arms in a listening
+    // stance.)
+    const resting = new Set<string>(["standing"]);
+    for (const activity of ["idle", "waiting"] as const)
+      for (const spots of Object.values(poseData.activities[activity]))
+        for (const entries of Object.values(spots))
+          for (const entry of entries) resting.add(entry.pose);
     for (const person of quiet)
-      expect(person.engine!.pose ?? "standing").toBe("standing");
+      expect(resting).toContain(person.engine!.pose ?? "standing");
 
     const speakerId = quiet[0]!.personId;
     const talking = planLifeScenePeople(
@@ -587,13 +740,20 @@ describe("a conversation in a room", async () => {
       { speakerId },
     ).filter((person) => person.engine && !person.seated);
     const speaker = talking.find((person) => person.personId === speakerId)!;
-    expect(speaker.engine!.pose).toBe("explaining");
+    expect(
+      poseData.activities.speaking.front.stand.map((entry) => entry.pose),
+    ).toContain(speaker.engine!.pose);
     const listeners = talking.filter((person) => person !== speaker);
     expect(listeners.length).toBeGreaterThanOrEqual(1);
     for (const listener of listeners) {
-      expect(["arms-folded", "hand-on-hip", "hands-in-pockets"]).toContain(
-        listener.engine!.pose,
-      );
+      expect(
+        poseData.activities.listening["three-quarter"].stand.map((entry) =>
+          presentationPose(
+            entry.pose as BodyPose,
+            listener.engine!.presentation,
+          ),
+        ),
+      ).toContain(listener.engine!.pose);
       expect(listener.engine!.view).toBe("three-quarter");
     }
     // Until the posed art lands everyone is drawn standing in front, and a
@@ -634,13 +794,13 @@ describe("a conversation in a room", async () => {
     ).filter((person) => person.engine && !person.seated);
     for (const person of placed) {
       const drawn = composeEnginePerson(manifest, read, person.engine!);
-      expect(drawn.pose).toBe(
-        manifest.presentations[person.engine!.presentation].poses?.[
-          person.engine!.pose as "explaining"
-        ]
-          ? person.engine!.pose
-          : "standing",
-      );
+      // The chosen pose, or the nearest one painted in this person's outfit.
+      expect(
+        presentationFallbacks(
+          person.engine!.pose as BodyPose,
+          person.engine!.presentation,
+        ),
+      ).toContain(drawn.pose);
       expect([drawn.raster.width, drawn.raster.height]).toEqual([512, 808]);
       const neck =
         (drawn.anchors.neck.row * 512 +

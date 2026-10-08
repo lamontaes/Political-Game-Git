@@ -21,6 +21,8 @@ export interface RecallTargetView {
 export interface RecallView {
   /** Why nobody here can be recalled, when the law gives no recall. */
   readonly unavailable: string | null;
+  /** The state and its recall rule as a label value, when recall is unavailable. */
+  readonly unavailableValue: string | null;
   /** What the law asks of a petition, in one line. */
   readonly rule: string | null;
   readonly targets: readonly RecallTargetView[];
@@ -57,7 +59,15 @@ export function projectRecall(
     .filter((petition) => petition.governmentKey === governmentKey)
     .map((petition) => petitionLine(world, petition));
   if (!rule.available)
-    return { unavailable: rule.reason, rule: null, targets: [], petitions };
+    return {
+      unavailable: rule.reason,
+      unavailableValue: rule.stateName
+        ? `${rule.stateName} · ${rule.doctrine === "prohibited" ? "Not allowed" : "Court removal only"}`
+        : null,
+      rule: null,
+      targets: [],
+      petitions,
+    };
   const targets = municipalSeats(world, governmentKey).flatMap((seat) => {
     const person = world.people[seat.personId];
     if (!person || seat.personId === petitionerPersonId) return [];
@@ -78,6 +88,7 @@ export function projectRecall(
   const days = `A petition circulates for ${rule.circulationDays} days`;
   return {
     unavailable: null,
+    unavailableValue: null,
     rule: rule.groundsRequired
       ? `${days}, and the law requires stated grounds.`
       : `${days}.`,

@@ -13,6 +13,7 @@
     "jsx": "react-jsx",
     "types": ["node", "vite/client"]
   },
+  "files": ["data/research/laws/starting-law-2026/index.ts"],
   "include": [
     "playwright.config.ts",
     "playwright.municipal-load.config.ts",
@@ -23,6 +24,7 @@
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
     "scripts/release/**/*.ts",
+    "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
     "scripts/unwired-laws/**/*.ts",
     "src/authoring/**/*.ts",
@@ -42,6 +44,10 @@
     "tests/e2e/**/*.ts",
     "tests/e2e/support/opening-preparation-fixture.tsx",
     "src/player/LifeStartTransition.tsx",
+    "src/player/observer-run-controller.ts",
+    "src/player/observer-run-protocol.ts",
+    "src/maps/PoliticalMap.tsx",
+    "src/maps/MapPlaceContext.tsx",
     "tests/support/random-place.ts",
     "tests/support/recorded-civic-journalist.ts",
     "tests/fixtures/**/*.ts",

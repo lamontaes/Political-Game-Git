@@ -398,6 +398,10 @@ describe("price-cost reads final enacted terms through G2", () => {
     const changed = applyPriceCostConsequence(world, resolved);
     const terms = resourceFlowTermsAt(changed, flow.id)!;
     expect(terms.amount.minorUnits).toBe(210_000);
+    expect(terms.reason).toContain(
+      "Controlled renewal before applying the adopted legal clause.",
+    );
+    expect(terms.reason).toContain(`The price changed under ${law.measureId}.`);
     expect(terms.lawEffectStamps![0]!.governingLawKey).toBe(law.measureId);
     expect(terms.lawEffectStamps![0]!.sourceRecordIds).toContain(adopted.id);
     expect(changed.history.resourceTransferOutcomes).toBe(

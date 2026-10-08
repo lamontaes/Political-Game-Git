@@ -77,7 +77,7 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   const next = page.getByTestId("creator-continue-character");
   await expect(next).toBeDisabled();
   const years = await optionValues(page.getByTestId("start-birth-year"));
-  expect(years[0]).toBe("2021");
+  expect(years[0]).toBe("2020");
   expect(Number(years[years.length - 1])).toBeGreaterThanOrEqual(1955);
 
   // Gender comes first; the name draw then uses it (CRUNCH46 R7).
@@ -135,16 +135,6 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     .click();
   await page.getByTestId("creator-continue-place").click();
 
-  await expect(page.getByTestId("whoareyou-play")).toHaveText(
-    "Discover through play",
-  );
-  await expect(page.getByTestId("whoareyou-answer")).toHaveText(
-    "Answer a few questions",
-  );
-  await expect(page.getByTestId("whoareyou-deep")).toContainText(
-    "Answer more questions",
-  );
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("begin")).toBeEnabled();
   await shot(page, "03-appearance");
   await page.getByTestId("begin").click();
@@ -152,47 +142,27 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await shot(page, "04-room");
   const openingDate = await shellDate(page);
 
-  // People: the face, by its name label and by the keyboard ring.
+  // People: the index selects its record in the adjacent dossier.
   await goTo(page, "elsewhere-people");
-  const web = page.getByTestId("people-relationship-web");
-  await expect(web).toBeVisible();
-  await expect(page.getByTestId("people-web-connection")).toHaveText(
-    "Choose a face to see how you know them.",
-  );
-  const other = web
-    .locator('[data-testid^="people-web-node-"][data-focus="false"]')
-    .first();
+  const people = page.getByTestId("people-list");
+  const other = people.locator('[data-testid^="people-person-"]').first();
   const otherId = ((await other.getAttribute("data-testid")) ?? "").replace(
-    "people-web-node-",
+    "people-person-",
     "",
   );
   expect(otherId).not.toBe("");
-  await other.locator(".pg-relationship-web-label-hit").click();
-  await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
+  await other.click();
+  await expect(page.getByTestId("people-dossier")).toHaveAttribute(
     "data-person-id",
     otherId,
-  );
-  await expect(
-    web.locator(`[data-testid="people-web-node-${otherId}"]`),
-  ).toHaveAttribute("data-selected", "true");
-  await expect(page.getByTestId("people-web-connection")).toHaveText(
-    /^(How you know .+ — .+\.|No record connects you directly to .+\.)$/,
   );
   await shot(page, "05-people-selected");
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
-  await expect(web).toBeVisible();
-  const ring = web
-    .locator(`[data-testid="people-web-node-${otherId}"] circle`)
-    .first();
-  await ring.focus();
+  await other.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
+  await expect(page.getByTestId("people-dossier")).toHaveAttribute(
     "data-person-id",
     otherId,
   );
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
 
   // Calendar.
   await goTo(page, "nav-calendar");

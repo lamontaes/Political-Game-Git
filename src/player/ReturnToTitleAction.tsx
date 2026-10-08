@@ -38,15 +38,11 @@ export function ReturnToTitleAction({
       data-testid="return-to-title-section"
     >
       <h3>Title screen</h3>
-      <p className="game-note" id="return-to-title-note">
-        Choose whether to save your latest progress before returning.
-      </p>
       <button
         ref={buttonRef}
         type="button"
         className="ui-action"
         data-testid="return-to-title"
-        aria-describedby="return-to-title-note"
         onClick={() => {
           if (needsConfirmation) {
             asked.current = true;

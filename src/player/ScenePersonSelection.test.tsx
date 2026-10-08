@@ -91,6 +91,25 @@ function scene(entry = person, onSelectPerson = vi.fn()) {
 }
 
 describe("the rendered scene recipe selection producer", () => {
+  it("does not render floating nameplates in any place scene", () => {
+    const source = readFileSync(
+      new URL("./PlacePeopleLayer.tsx", import.meta.url),
+      "utf8",
+    );
+    expect(source).not.toContain("nameplates");
+    expect(source).not.toContain("scene-place-nameplate");
+    expect(source).not.toContain("scene-place-nametag");
+  });
+
+  it("does not render floating name cards for officials", () => {
+    const source = readFileSync(
+      new URL("./OfficeScene.tsx", import.meta.url),
+      "utf8",
+    );
+    expect(source).not.toContain("person-nameplate");
+    expect(source).not.toContain("scene-person-nameplate");
+  });
+
   it.each(["scene-person-recorded-person", "scene-name-recorded-person"])(
     "%s passes the exact drawn recipe and colors",
     (testId) => {
@@ -222,6 +241,31 @@ describe("the rendered scene recipe selection producer", () => {
       nodes.find((node) => node.type === PlacePeopleLayer)!.props
         .onSelectPerson,
     ).toBe(onSelectPerson);
+  });
+  it("allows an employer-selected place picture to replace production office art", () => {
+    fixture.painted = true;
+    const nodes = collect(() =>
+      SceneBackdrop({
+        sceneId: null,
+        placeBackdrop: {
+          place: "construction-site",
+          variant: "midday",
+          url: "construction-site.png",
+        },
+        preferPlaceBackdrop: true,
+        children: null,
+      }),
+    );
+    expect(
+      nodes.some(
+        (node) => node.props["data-testid"] === "scene-place-backdrop",
+      ),
+    ).toBe(true);
+    expect(
+      nodes.some(
+        (node) => node.props["data-testid"] === "scene-environment-art",
+      ),
+    ).toBe(false);
   });
   it("a legacy one-argument callback still receives the actual selected person", () => {
     let selected: string | undefined;

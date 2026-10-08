@@ -7,6 +7,7 @@ import type { EntityId, World } from "../simulation";
 import { DIAGNOSTICS } from "./diagnostics-profile";
 import { EconomicContextPanel, EconomicGraph } from "./EconomicContextPanel";
 import { MacroConditionsPanel } from "./MacroConditionsPanel";
+import { ExecutiveBudgetRequestHistory } from "./ExecutiveBudgetRequest";
 import { ModeledAccountHistory } from "./ModeledAccountHistory";
 import "./budget-economy-workspace.css";
 
@@ -14,6 +15,8 @@ export function BudgetEconomyWorkspace({
   world,
   jurisdictionId,
   diagnostics = DIAGNOSTICS,
+  visible,
+  lookItUp = "full",
 }: {
   readonly world: World;
   readonly jurisdictionId: EntityId;
@@ -26,6 +29,8 @@ export function BudgetEconomyWorkspace({
    * still walks "Sources and scope" exactly as it always did.
    */
   readonly diagnostics?: boolean;
+  readonly visible?: ReadonlySet<string>;
+  readonly lookItUp?: "full" | "summary" | "none";
 }) {
   const model = useMemo(
     () => projectBudgetEconomy(world, jurisdictionId),
@@ -37,16 +42,18 @@ export function BudgetEconomyWorkspace({
     () => projectModeledAccountHistory(world, jurisdictionId),
     [jurisdictionId, world],
   );
+  const canSee = (projection: string) =>
+    visible === undefined || visible.has(projection);
 
   return (
     <section
       className="budget-economy-workspace"
       aria-labelledby="budget-economy-title"
       data-testid="budget-economy-workspace"
+      data-look-it-up={lookItUp}
     >
       <header className="budget-economy-header">
         <div>
-          <p className="pg-kicker">Public record</p>
           <h3 id="budget-economy-title">Budget &amp; economy</h3>
         </div>
         <p>
@@ -55,46 +62,113 @@ export function BudgetEconomyWorkspace({
         </p>
       </header>
 
-      <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
+      {(canSee("state-macro-series") || canSee("national-macro-series")) &&
+      lookItUp === "full" ? (
+        <MacroConditionsPanel world={world} jurisdictionId={jurisdictionId} />
+      ) : null}
 
-      <section
-        className="budget-economy-availability"
-        aria-label="Budget record availability"
-        data-status={model.fiscalAvailability.status}
-      >
-        <h4>Budget record</h4>
-        {model.fiscalAvailability.status === "available" ? (
-          <p>
-            {model.fiscalAvailability.graphCount.toLocaleString("en-US")} exact
-            fiscal{" "}
-            {model.fiscalAvailability.graphCount === 1 ? "graph" : "graphs"} for{" "}
-            {model.jurisdictionLabel}.
-          </p>
-        ) : (
-          <p data-testid="budget-history-unavailable">
-            {model.fiscalAvailability.reason}
-          </p>
-        )}
-      </section>
+      {model.federalBudget?.status === "available" && lookItUp === "full" ? (
+        <section
+          aria-label="Federal budget categories"
+          data-testid="federal-budget-categories"
+        >
+          <h4>Federal budget by category</h4>
+          {model.federalBudget.month ? (
+            <p>{proseDate(model.federalBudget.month)}</p>
+          ) : null}
+          <h5>Receipts</h5>
+          <ul>
+            {model.federalBudget.receipts.map((line) => (
+              <li key={line.category}>
+                {line.label}:{" "}
+                {line.amount === null
+                  ? "ESTIMATED FROM AVERAGE"
+                  : formatFederalAmount(line.amount)}
+                {line.estimated ? " (ESTIMATED FROM AVERAGE)" : ""}
+              </li>
+            ))}
+          </ul>
+          <h5>Outlays</h5>
+          <ul>
+            {model.federalBudget.outlays.map((line) => (
+              <li key={line.category}>
+                {line.label}:{" "}
+                {line.amount === null
+                  ? "ESTIMATED FROM AVERAGE"
+                  : formatFederalAmount(line.amount)}
+                {line.estimated ? " (ESTIMATED FROM AVERAGE)" : ""}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
-      {model.economicBinding ? (
+      {canSee("program-lines") &&
+      lookItUp === "full" &&
+      model.programLines?.month ? (
+        <section
+          aria-label="Public budget program lines"
+          data-testid="budget-program-lines"
+        >
+          <h4>Program lines</h4>
+          <p>{proseDate(model.programLines.month)}</p>
+          <ul>
+            {model.programLines.lines.flatMap((line) =>
+              line.amount === null
+                ? []
+                : [
+                    <li key={line.category}>
+                      {line.label}: {formatFederalAmount(line.amount)}
+                    </li>,
+                  ],
+            )}
+          </ul>
+        </section>
+      ) : null}
+
+      {(canSee("public-budget") || canSee("fiscal-notes")) &&
+      lookItUp !== "none" ? (
+        <section
+          className="budget-economy-availability"
+          aria-label="Budget record availability"
+          data-status={model.fiscalAvailability.status}
+        >
+          <h4>Budget record</h4>
+          {model.fiscalAvailability.status === "available" ? (
+            <p>{model.fiscalAvailability.graphCount}</p>
+          ) : (
+            <p
+              data-testid="budget-history-unavailable"
+              data-problem="unavailable"
+            />
+          )}
+        </section>
+      ) : null}
+
+      {(canSee("public-budget") ||
+        canSee("state-macro-series") ||
+        canSee("national-macro-series")) &&
+      lookItUp === "full" &&
+      model.economicBinding ? (
         <EconomicContextPanel
           binding={model.economicBinding}
           simulationDate={model.simulationDate}
           fiscalGraphs={model.fiscalGraphs}
           diagnostics={diagnostics}
         />
-      ) : (
+      ) : lookItUp === "full" &&
+        (canSee("public-budget") ||
+          canSee("state-macro-series") ||
+          canSee("national-macro-series")) ? (
         <section
           className="budget-economy-unavailable"
           aria-label="Economic graph availability"
         >
           <h4>Dated economic graphs</h4>
-          <p data-testid="economic-binding-unavailable">
-            No reviewed economic source binding is available for this exact
-            place. Figures from another city, county, metro, or state have not
-            been substituted.
-          </p>
+          <p
+            data-testid="economic-binding-unavailable"
+            data-problem="no-binding"
+          />
           {model.fiscalGraphs.length > 0 ? (
             <div className="economic-graph-grid">
               {model.fiscalGraphs.map((graph) => (
@@ -103,9 +177,36 @@ export function BudgetEconomyWorkspace({
             </div>
           ) : null}
         </section>
-      )}
+      ) : null}
 
-      <ModeledAccountHistory history={modeledAccount} />
+      <ExecutiveBudgetRequestHistory
+        world={world}
+        jurisdictionId={jurisdictionId}
+      />
+      {canSee("account-history") && lookItUp === "full" ? (
+        <ModeledAccountHistory history={modeledAccount} />
+      ) : null}
+      {lookItUp === "summary" ? (
+        <section aria-label="Budget summary" data-testid="budget-summary">
+          <h4>Budget summary</h4>
+          {model.federalBudget?.status === "available" &&
+          model.federalBudget.month ? (
+            <p>{proseDate(model.federalBudget.month)}</p>
+          ) : model.fiscalAvailability.status === "available" ? (
+            <p>{model.fiscalAvailability.graphCount}</p>
+          ) : (
+            <p data-problem="budget-unavailable" />
+          )}
+        </section>
+      ) : null}
     </section>
   );
+}
+
+function formatFederalAmount(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
+  }).format(amount);
 }

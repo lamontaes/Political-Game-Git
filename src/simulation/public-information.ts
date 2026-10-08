@@ -3,6 +3,7 @@ import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
 import { personName } from "./people";
 import { mediaOutletKey } from "./press/records";
+import { PUBLIC_PROGRAM_EVENT_PREFIX } from "./public-program-integrity";
 import {
   CIVIC_PUBLICATION_OUTLET_KEY,
   CIVIC_PUBLICATION_OUTLET_NAME,
@@ -145,6 +146,32 @@ export function publishPublicEvent(
   return appendPublication(world, publication);
 }
 
+/** Adds the reverse reference when a recorded press story leads to a charge. */
+export function recordJusticeChargeReference(
+  world: World,
+  publicationId: EntityId,
+  chargeEventId: EntityId,
+): World {
+  const publications = world.history.publications ?? [];
+  const index = publications.findIndex(
+    (publication) =>
+      publication.id === publicationId && publication.kind === "press-story",
+  );
+  if (index < 0) return world;
+  const publication = publications[index]!;
+  const justiceChargeEventIds = publication.justiceChargeEventIds ?? [];
+  if (justiceChargeEventIds.includes(chargeEventId)) return world;
+  const nextPublications = [...publications];
+  nextPublications[index] = {
+    ...publication,
+    justiceChargeEventIds: [...justiceChargeEventIds, chargeEventId],
+  };
+  return {
+    ...world,
+    history: { ...world.history, publications: nextPublications },
+  };
+}
+
 /** Appends corrected copy without rewriting any edition the player could know. */
 export function correctPublication(
   world: World,
@@ -215,6 +242,7 @@ export function projectPublicInformationDigest(
     .filter(
       (publication) =>
         publication.correctsPublicationId === null &&
+        !isProgramBookkeepingPublication(world, publication) &&
         (jurisdictionId === undefined ||
           publication.jurisdictionId === jurisdictionId),
     )
@@ -230,6 +258,24 @@ export function projectPublicInformationDigest(
     asOf: world.currentDate,
     items,
   };
+}
+
+/**
+ * A public program's own note to the books ("... may be committed for
+ * <program key> ...") is a record, not copy a reader should see. The program's
+ * record keeps its fields; no news line is composed from them yet. Saves made
+ * before the desk stopped publishing these notes still hold the publication,
+ * so readers skip it here instead of printing the developer's sentence.
+ */
+export function isProgramBookkeepingPublication(
+  world: World,
+  publication: Pick<PublicationRecord, "sourceEventId">,
+): boolean {
+  return (
+    eventById(world, publication.sourceEventId)?.type.startsWith(
+      PUBLIC_PROGRAM_EVENT_PREFIX,
+    ) === true
+  );
 }
 
 function projectDigestItem(
