@@ -46,7 +46,7 @@
     "council": {
       "id": "council-session-game-calendar/v1",
       "basis": "game-profile",
-      "note": "Preserves the prior disclosed 14-day council sittings, quarterly member intake and next-day ordinary reading profile. Actual local and DC sitting calendars remain research gaps. Compiled minimum reading intervals still constrain the reading date independently.",
+      "note": "Preserves the prior disclosed 14-day council sittings, quarterly member intake and next-day ordinary reading profile, with seven-day committee-hearing intervals for a council that refers its measures to committee. Actual local and DC sitting calendars remain research gaps. Compiled minimum reading intervals still constrain the reading date independently.",
       "sitting": {
         "kind": "interval",
         "days": 14
@@ -59,6 +59,10 @@
         "reading": {
           "kind": "interval",
           "days": 1
+        },
+        "hearing": {
+          "kind": "interval",
+          "days": 7
         }
       }
     }

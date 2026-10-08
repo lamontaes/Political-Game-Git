@@ -7,11 +7,11 @@ import { STATES } from "../state-reference";
 import {
   stateSessionEndEstimate,
   stateSessionEnds,
-  stateStatuteOperativeAt,
   statuteEffectiveDateEstimated,
   statuteEffectiveRule,
   statuteEffectiveRuleEstimate,
 } from "./statute-effective-date";
+import { stateStatuteOperativeAt } from "../legislative-effective-date";
 
 const PLACES = new Set([
   ...Object.keys(STATES).map((usps) => `US-${usps}`),

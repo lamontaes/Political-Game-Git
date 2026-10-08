@@ -2,11 +2,11 @@ import { evaluateLawAmount } from "../law-consequence-amount";
 import { readFinalEnactedLawTerm } from "../governing/final-law-term-query";
 import { BUDGET_OBLIGATION_AMOUNT, BUDGET_ALLOCATION_TERM_KEYS } from "./rules";
 import { addDays, makeIsoDate } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
 import {
   type LawInForce,
   lawInForce,
   lawInForceAtStart,
+  operativeDateInWorld,
 } from "../governing/law-in-force";
 import finances from "../../../data/research/money/state-local-finances-2022.json" with { type: "json" };
 import type { SPENDING_QUESTION_EFFECTS } from "./rules";
@@ -222,10 +222,9 @@ function ownOrdinance(
     const answer = measurePropositionAnswer(measure, propositionId);
     if (answer !== "yes" && answer !== "no") continue;
     if (!mayAnswerQuestion(world, jurisdictionId, propositionId)) continue;
-    const operativeAt =
-      enactment.effectiveAt ??
-      addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS);
-    if (operativeAt > onDate) continue;
+    // The one reading every consumer shares (`legislative-effective-date.ts`).
+    const operativeAt = operativeDateInWorld(world, enactment)?.date;
+    if (!operativeAt || operativeAt > onDate) continue;
     if (
       !best ||
       operativeAt > best.operativeAt ||

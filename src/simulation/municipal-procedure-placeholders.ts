@@ -11,8 +11,8 @@
  * Council's vote, quorum, readings, the Mayor's action and congressional
  * review (D.C. Code §§ 1-204.04(e), 1-204.12, 1-206.02(c)(1)), and requires
  * the Council to adopt its own rules of procedure (§ 1-204.04(c)). Those rules
- * were not read, so who introduces an act, whether a committee must report
- * it, and whether the Council votes at first reading are filed as
+ * were not read, so who introduces an act, the committee that hears and
+ * reports it, and whether the Council votes at first reading are filed as
  * `dc-council-rules-of-organization-and-procedure`.
  */
 
@@ -28,6 +28,13 @@ export interface MunicipalProcedurePlaceholder {
    * advance past it.
    */
   readonly everyReadingVoted: boolean;
+  /**
+   * Whether the body refers each measure to a standing committee, which hears
+   * it and reports it before the first reading. Without it a body whose read
+   * instruments set no referral requirement sends a measure straight to the
+   * floor.
+   */
+  readonly committeeReferral: boolean;
   readonly researchQuestionId: string;
   readonly note: string;
 }
@@ -37,8 +44,13 @@ const PLACEHOLDERS: Readonly<Record<string, MunicipalProcedurePlaceholder>> = {
     introductionSponsorship:
       "Any member of the Council may introduce an act. (A placeholder: the Council's own rules were not read.)",
     everyReadingVoted: true,
+    // estimatedFrom: "Council of the District of Columbia, Rules of
+    // Organization and Procedure": the Chairman refers each bill to a
+    // standing committee, which holds a hearing and reports it before the
+    // Committee of the Whole puts it on the legislative agenda.
+    committeeReferral: true,
     researchQuestionId: "dc-council-rules-of-organization-and-procedure",
-    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, no committee stage is modeled, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
+    note: `${MUNICIPAL_PROCEDURE_PLACEHOLDER_VERSION}: any member introduces an act, a standing committee hears it and reports it, and each of the two readings is put to a vote of a majority of the members present and voting. Pending dc-council-rules-of-organization-and-procedure; not the Council's record.`,
   },
 };
 

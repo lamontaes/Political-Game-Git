@@ -32,10 +32,12 @@ import {
   primaryReading,
 } from "./municipal-government";
 import {
-  COUNCIL_ACT_OVERRIDE_DEADLINE,
   actAmendsCriminalCode,
-  actOnCouncilMeasure,
   congressionalReviewEffectiveOn,
+} from "./legislative-effective-date";
+import {
+  COUNCIL_ACT_OVERRIDE_DEADLINE,
+  actOnCouncilMeasure,
   councilActOverrideDeadlineHandler,
   municipalOrdinanceStatus,
   overrideCouncilVeto,

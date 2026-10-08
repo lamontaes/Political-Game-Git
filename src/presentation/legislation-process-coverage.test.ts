@@ -6,10 +6,8 @@ import { ensureStateExecutiveIncumbent } from "../simulation/nationwide-world/st
 import { createLightweightPerson } from "../simulation/people";
 import { governorOfficeForJurisdiction } from "../simulation/governing/state-governing";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
-import {
-  stateStatuteOperativeAt,
-  statuteEffectiveDateEstimated,
-} from "../simulation/governing/statute-effective-date";
+import { statuteEffectiveDateEstimated } from "../simulation/governing/statute-effective-date";
+import { stateStatuteOperativeAt } from "../simulation/legislative-effective-date";
 import { enactmentStatuteDateContext } from "../simulation/enacted-rule-changes";
 import { operativeDateInWorld } from "../simulation/governing/law-in-force";
 import {

@@ -20,7 +20,6 @@ import {
   regularSessionYearForWorld,
 } from "../legislative-procedure-world";
 import { applyEnactedLawEffects } from "../enacted-law-effects";
-import { typedTaxEnactmentDate } from "../tax-policy-activation";
 import {
   scheduleFutureDueItem,
   futureDueItemStateAt,
@@ -96,6 +95,11 @@ import {
   ensureCouncilPrinciples,
 } from "./council-lawmaking";
 import { councilBallotPartisanship } from "./body-partisanship";
+import { mayAnswerQuestion } from "./question-authority";
+import {
+  municipalExecutiveHolder,
+  recordCouncilOverrideVote,
+} from "../municipal-ordinance-procedure";
 import { admitLocalFiscalMeasure } from "../local-fiscal-authority";
 import { currentMeasureProvisions } from "../legislative-politics";
 import { legislativePackForWorkKey } from "../legislative-institutions";
@@ -127,7 +131,7 @@ import type {
   LegislativeVoteDisposition,
   World,
 } from "../types";
-import { hasStableKey, recordByStableKey } from "../history-index";
+import { hasStableKey, recordById, recordByStableKey } from "../history-index";
 
 /**
  * LEGISLATIVE CLOCK — the institution acts while the player is elsewhere.
@@ -707,7 +711,18 @@ export function applyInstitutionStep(
   const blueprint = legislativeBlueprintForMeasure(before, measure);
   const officers = unit ? sittingLocalOfficers(before, unit) : [];
   const councilMembers = officers.filter((seat) => !seat.mayor);
-  const mayorPersonId = officers.find((seat) => seat.mayor)?.personId ?? null;
+  // The executive whose known position members hear: the town's own mayor,
+  // or the holder of a government's state-level executive office (the
+  // District's Mayor), as the compiled government records it.
+  const localGovernmentKey = unit
+    ? (councilRules(unit)?.governmentKey ?? null)
+    : null;
+  const mayorPersonId = localGovernmentKey
+    ? municipalExecutiveHolder(before, localGovernmentKey)
+    : (officers.find((seat) => seat.mayor)?.personId ?? null);
+  const nonpartisan = unit
+    ? councilBallotPartisanship(unit).nonpartisan
+    : blueprint.nonpartisan;
   const councilChamber = blueprint.pack.chambers.find(
     (chamber) => chamber.chamberKey === "council",
   );
@@ -731,6 +746,15 @@ export function applyInstitutionStep(
             personId: member.personId,
             name: personName(before.people[member.personId]!),
             caucusLabel: publicPartyOf(before, member.personId) ?? "No party",
+            // The seat's recorded participation is the member's seating
+            // evidence; a committee's roster is dealt by it.
+            seatingEventId: member.participationId ?? null,
+            tenureStartedAt: member.participationId
+              ? (recordById(
+                  before.history.organizationParticipations,
+                  member.participationId,
+                )?.startedAt ?? null)
+              : null,
           })),
         },
       ]
@@ -846,28 +870,52 @@ export function applyInstitutionStep(
       (entry) => entry.committeeKey === position.committeeKey,
     );
     const stableKey = key(`committee:${chamberKey}`);
+    // The committee's own roster, not whoever happens to be listed first in
+    // the chamber.
+    const roster =
+      committee && body
+        ? committeeRoster(
+            body,
+            chamber.committees,
+            committee.committeeKey,
+            `${pack.packId}:${chamberKey}`,
+          )
+        : [];
+    const question = {
+      measureId,
+      purpose: "committee-report" as const,
+      forumKey: committee?.committeeKey ?? chamberKey,
+      floorStageKey: null,
+    };
     const decided =
       committee && body
-        ? decide(
-            world,
-            blueprint,
-            // The committee's own roster, not whoever happens to be listed
-            // first in the chamber.
-            committeeRoster(
-              body,
-              chamber.committees,
-              committee.committeeKey,
-              `${pack.packId}:${chamberKey}`,
-            ),
-            votePlanKeyForCommittee(committee.committeeKey),
-            {
-              measureId,
-              purpose: "committee-report",
-              forumKey: committee.committeeKey,
-              floorStageKey: null,
-            },
-            stableKey,
-          )
+        ? local
+          ? {
+              // A council's committee members decide as its floor does,
+              // with the place's voters as their constituents.
+              dispositions: decideCouncilVote(world, {
+                stableKey,
+                measureId,
+                jurisdictionId: local.townJurisdictionId,
+                members: roster.flatMap((member) =>
+                  member.personId ? [{ personId: member.personId }] : [],
+                ),
+                playerPersonId: local.playerPersonId,
+                questionLabel: votePlanKeyForCommittee(committee.committeeKey),
+                executivePersonId: mayorPersonId,
+                nonpartisan,
+                question,
+              }),
+              method: "member-decisions" as const,
+            }
+          : decide(
+              world,
+              blueprint,
+              roster,
+              votePlanKeyForCommittee(committee.committeeKey),
+              question,
+              stableKey,
+            )
         : null;
     if (!committee || !decided)
       return {
@@ -903,7 +951,7 @@ export function applyInstitutionStep(
     // Preserve the compiled council writer's fiscal admission before moving
     // its decision into the common driver. A general-policy label cannot
     // bypass the existing local fiscal authority route.
-    const governmentKey = unit ? councilRules(unit)?.governmentKey : null;
+    const governmentKey = localGovernmentKey;
     if (local && governmentKey) {
       if (measure.subjectClass === "general-policy") {
         if (
@@ -939,12 +987,13 @@ export function applyInstitutionStep(
     const stableKey = key(`floor:${chamberKey}:${stage.stageKey}`);
     // Before the question is put, a member may offer an amendment for their
     // own reasons, where this stage takes amendments and the chamber is
-    // seated with people who have reasons (Build 25 step 3).
+    // seated with people who have reasons (Build 25 step 3): a legislature's
+    // seated roll, or a council's recorded members.
     const onFloor =
       body &&
       body.members.length > 0 &&
       body.members.every((member) => member.personId) &&
-      isSeatedChamber(world, blueprint) &&
+      (local !== undefined || isSeatedChamber(world, blueprint)) &&
       floorStageTakesAmendments(chamber, stage)
         ? offerClockAmendment(world, {
             measureId,
@@ -952,9 +1001,16 @@ export function applyInstitutionStep(
             stage,
             members: body.members,
             stableKey,
-            nonpartisan: blueprint.nonpartisan,
-            // Only what the chamber's rules put in order, as they stand now.
+            nonpartisan,
+            // Only what the chamber's rules put in order, as they stand now,
+            // and for a council only a question its own law may answer.
             admissible: (bill, part) =>
+              (!local ||
+                mayAnswerQuestion(
+                  world,
+                  measure.jurisdictionId,
+                  part.propositionId,
+                )) &&
               amendmentAdmissible(world, blueprint.pack, chamberKey, bill, part)
                 .admissible,
           })
@@ -970,7 +1026,7 @@ export function applyInstitutionStep(
               playerPersonId: local.playerPersonId,
               questionLabel: `Adopt ${measure.designation}`,
               executivePersonId: mayorPersonId,
-              nonpartisan: councilBallotPartisanship(unit).nonpartisan,
+              nonpartisan,
             }),
             method: "member-decisions" as const,
           }
@@ -1035,6 +1091,32 @@ export function applyInstitutionStep(
     );
   }
 
+  if (steps.includes("move-veto-override") && local && localGovernmentKey) {
+    // A council reconsiders a returned measure through its own writer, which
+    // holds the reenactment window and records the act as law.
+    const result = recordCouncilOverrideVote(world, {
+      governmentKey: localGovernmentKey,
+      measureId,
+      dispositions: decideCouncilVote(world, {
+        stableKey: `${measure.stableKey}:override:${world.currentDate}`,
+        measureId,
+        jurisdictionId: local.townJurisdictionId,
+        members: councilMembers,
+        playerPersonId: local.playerPersonId,
+        questionLabel: `Reenact ${measure.designation} over the executive return`,
+        executivePersonId: mayorPersonId,
+        nonpartisan,
+      }),
+      provenance: {
+        method: "member-decisions",
+        note: COUNCIL_VOTE_NOTE,
+        sourceEntityIds: [measure.id],
+      },
+    });
+    return result.ok
+      ? applied(result.world, "move-veto-override")
+      : { kind: "blocked", reason: result.reason };
+  }
   if (steps.includes("move-veto-override")) {
     // Every returned bill is reconsidered: whether leadership would bring a
     // given override up at all is not modeled, and the members' own votes
@@ -1177,30 +1259,19 @@ export function applyInstitutionStep(
       }),
       "present-to-executive",
     );
-  if (steps.includes("record-enactment")) {
-    const typedTaxDate = typedTaxEnactmentDate(world, measureId);
+  if (steps.includes("record-enactment"))
     return applied(
       // Enactment is also where the law changes what it governs: an
       // appropriation becomes spending authority the executive can commit, a
       // levy becomes a tax policy. A measure without either writes nothing.
+      // The writer dates the act from its body's rule pack and its own record
+      // (`legislative-effective-date.ts`).
       applyEnactedLawEffects(
-        recordEnactment(world, {
-          stableKey: key("enactment"),
-          measureId,
-          // A federal law takes effect on the day it is enacted unless it
-          // says otherwise (the Congress pack's enactment rule), and no
-          // Congress bill here says otherwise.
-          ...(isCongressMeasure(measure)
-            ? { effectiveAt: world.currentDate }
-            : typedTaxDate
-              ? { effectiveAt: typedTaxDate }
-              : {}),
-        }),
+        recordEnactment(world, { stableKey: key("enactment"), measureId }),
         measureId,
       ),
       "record-enactment",
     );
-  }
   return { kind: "idle" };
 }
 

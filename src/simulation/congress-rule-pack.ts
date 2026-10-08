@@ -504,6 +504,10 @@ const RAW_US_CONGRESS_RULE_PACK: LegislativeRulePack = {
       "A federal law takes effect on the date of its enactment unless the law itself says otherwise.",
       EFFECTIVE_ON_ENACTMENT,
     ),
+    defaultEffectiveSchedule: knownRule(
+      { kind: "days-after-enactment", days: 0 },
+      EFFECTIVE_ON_ENACTMENT,
+    ),
     source: EFFECTIVE_ON_ENACTMENT,
   },
   session: {

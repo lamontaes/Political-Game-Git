@@ -1,7 +1,13 @@
 import { addDays, daysBetween, makeIsoDate, spokenDate } from "./dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { createStableId } from "./ids";
-import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
+import {
+  actAmendsCriminalCode,
+  executableEffectiveDate,
+  gameProfileEffectiveDate,
+  type EffectiveDateContext,
+} from "./legislative-effective-date";
+import { filedLevyTiming } from "./tax-policy-activation";
 import { statuteEffectiveRule } from "./governing/statute-effective-date";
 import { enactingGovernmentForPack } from "./legislation-drafting";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
@@ -3353,7 +3359,11 @@ export function recordEnactment(
     government === "state" || government === "territory"
       ? statuteEffectiveRule(pack.jurisdictionKey)
       : null;
-  const dateContext = {
+  // The one effective-date function dates the act from its body's rule pack
+  // and the act's own record. Where only the game's blanket interval would
+  // date it, nothing is saved and the reader dates it
+  // (`operativeDateForEnactment`); no invented interval is saved.
+  const dateContext: EffectiveDateContext = {
     finalPassageAt: () => finalPassage?.occurredAt ?? null,
     sessionEnds: (year: number) => {
       const adjourned = recordedSessionAdjournment(
@@ -3363,32 +3373,21 @@ export function recordEnactment(
       );
       return adjourned ? [adjourned.adjournedOn] : null;
     },
+    amendsCriminalCode: () => actAmendsCriminalCode(world, measure),
+    statedTiming: filedLevyTiming(world, measure.id),
   };
-  const resolvedDate = resolveLegislativeEffectiveDate(
-    pack,
-    world.currentDate,
-    dateContext,
-  );
-  // A state's canonical default precedes a fictional starting-procedure interval.
-  // Nonstate bodies retain their own executable pack declarations.
-  const distinct = pack.enactment.effectiveDateDistinctFromEnactment;
-  const packDate =
-    stateRule ||
-    pack.enactment.defaultEffectiveSchedule?.kind === "known" ||
-    (distinct.kind === "known" && !distinct.value)
-      ? resolvedDate
+  const dated =
+    input.effectiveAt == null && !input.effectiveDateGameProfile
+      ? executableEffectiveDate(pack, world.currentDate, dateContext)
       : null;
   const profile =
     input.effectiveDateGameProfile ??
-    (input.effectiveAt == null &&
-    packDate?.kind === "game-default" &&
-    packDate.effectiveAt !== null
+    (dated?.kind === "game-default"
       ? {
-          version:
-            stateRule && resolvedDate.kind === "game-default"
-              ? `${pack.packId}:statute-default-estimate`
-              : pack.packId,
-          days: daysBetween(world.currentDate, packDate.effectiveAt),
+          version: stateRule
+            ? `${pack.packId}:statute-default-estimate`
+            : pack.packId,
+          days: daysBetween(world.currentDate, dated.effectiveAt),
         }
       : undefined);
   if (profile) {
@@ -3441,32 +3440,24 @@ export function recordEnactment(
     resolvedAt: next.currentDate,
     outcome: "enacted",
     actDesignation: input.actDesignation ?? null,
-    // An explicit date, an explicit game profile, or an executable pack date
-    // is saved with the act. Otherwise the date stays null
-    // and the state's researched effective-date rule dates it where it is read
-    // (`governing/statute-effective-date.ts`); no invented interval is saved.
-    effectiveAt: input.effectiveDateGameProfile
-      ? addDays(next.currentDate, input.effectiveDateGameProfile.days)
+    // An explicit date, a game profile, a rule's date or the act's own date
+    // is saved with the act; an act's own date is saved as an explicit one.
+    effectiveAt: profile
+      ? gameProfileEffectiveDate(next.currentDate, profile)
       : input.effectiveAt != null
         ? makeIsoDate(input.effectiveAt)
-        : packDate
-          ? packDate.effectiveAt
-          : null,
-    ...(input.effectiveAt == null && (profile || packDate)
+        : (dated?.effectiveAt ?? null),
+    ...(profile
       ? {
-          effectiveDateBasis: profile
-            ? ("game-default" as const)
-            : packDate!.kind,
-          ...(profile
-            ? {
-                effectiveDateGameProfile: {
-                  version: profile.version,
-                  days: profile.days,
-                },
-              }
-            : {}),
+          effectiveDateBasis: "game-default" as const,
+          effectiveDateGameProfile: {
+            version: profile.version,
+            days: profile.days,
+          },
         }
-      : {}),
+      : dated?.kind === "source-default"
+        ? { effectiveDateBasis: "source-default" as const }
+        : {}),
     finalPassageAt: finalPassage?.occurredAt ?? null,
     outcomeEventId: event.id,
   };

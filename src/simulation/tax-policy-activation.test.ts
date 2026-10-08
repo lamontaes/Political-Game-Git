@@ -20,9 +20,14 @@ import {
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { attachTaxProposal } from "./tax-policy";
 import {
+  filedLevyTiming,
   taxActivationReadiness,
-  typedTaxEnactmentDate,
 } from "./tax-policy-activation";
+import {
+  resolveLegislativeEffectiveDate,
+  stateStatuteOperativeAt,
+} from "./legislative-effective-date";
+import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import type { EntityId, World } from "./types";
 import {
   appendWorldConditions,
@@ -111,14 +116,27 @@ function assertAdopted(
 }
 
 describe("typed tax enactment date", () => {
-  it("keeps untyped measures on their ordinary default", () => {
+  it("dates an untyped act carrying its filed levy on the levy's own delay, Alaska's ordinary default", () => {
     const fixture = proposalFixture();
+    const { world } = fixture;
+    const measureId = fixture.procedure.measureId;
+    const timing = filedLevyTiming(world, measureId);
+    expect(timing).toEqual({ delayDays: 90, notBeforeBodyDefault: false });
+    const pack = legislativeRulePackForWorld(
+      world,
+      fixture.procedure.pack.packId,
+    );
     expect(
-      typedTaxEnactmentDate(fixture.world, fixture.procedure.measureId),
-    ).toBeNull();
+      resolveLegislativeEffectiveDate(pack, world.currentDate, {
+        statedTiming: timing,
+      }),
+    ).toEqual({
+      kind: "act-date",
+      effectiveAt: stateStatuteOperativeAt("US-AK", world.currentDate),
+    });
   });
 
-  it("uses the existing fictional tax rule when the saved default is later", () => {
+  it("never dates a fictional authored levy before its state's recorded date", () => {
     const scenario = createLegislativeScenario("kentucky");
     let world = ensureWorldStartingConditions(scenario.world, {
       openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
@@ -171,16 +189,28 @@ describe("typed tax enactment date", () => {
       world.history.taxProposals!.at(-1)!.id,
     );
     expect(profile.taxTerms.effectiveDelayDays).toBe(90);
-    expect(typedTaxEnactmentDate(world, measureId)).toBe(
-      addDays(world.currentDate, 105),
-    );
+    // A fictional authored levy never takes effect before the act itself,
+    // and a state legislature's act takes effect on its state's recorded
+    // rule, ahead of any saved starting-procedure interval.
+    const timing = filedLevyTiming(world, measureId);
+    expect(timing).toEqual({ delayDays: 90, notBeforeBodyDefault: true });
+    const stateDate = stateStatuteOperativeAt("US-KY", world.currentDate)!;
+    expect(stateDate > addDays(world.currentDate, 90)).toBe(true);
+    expect(
+      resolveLegislativeEffectiveDate(
+        legislativeRulePackForWorld(world, scenario.pack.packId),
+        world.currentDate,
+        { statedTiming: timing },
+      ),
+    ).toEqual({ kind: "act-date", effectiveAt: stateDate });
   });
 
   it("records the filed levy date through the player's enactment route", () => {
     const fixture = awaitEnactment();
-    expect(typedTaxEnactmentDate(fixture.world, fixture.measureId)).toBe(
-      addDays(fixture.world.currentDate, 90),
-    );
+    expect(filedLevyTiming(fixture.world, fixture.measureId)).toEqual({
+      delayDays: 90,
+      notBeforeBodyDefault: false,
+    });
     const after = publishLegislativeTransition(
       fixture.world,
       applyLegislativeStep(fixture.procedure, fixture.world, "record-enactment")
@@ -206,7 +236,7 @@ describe("typed tax enactment date", () => {
 
   it("leaves an amended act enacted but refuses its pinned tax effect", () => {
     const fixture = awaitEnactment(true);
-    expect(typedTaxEnactmentDate(fixture.world, fixture.measureId)).toBeNull();
+    expect(filedLevyTiming(fixture.world, fixture.measureId)).toBeNull();
     const after = publishLegislativeTransition(
       fixture.world,
       applyLegislativeStep(fixture.procedure, fixture.world, "record-enactment")

@@ -9,7 +9,7 @@ import {
 } from "../simulation/governing/council-lawmaking";
 import { lawInForce } from "../simulation/governing/law-in-force";
 import { principledLeaning } from "../simulation/governing/officeholder-principles";
-import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "../simulation/governing/ordinance-effective-date";
+import { LOCAL_ORDINANCE_EFFECTIVE_DAYS } from "../simulation/legislature-rules";
 import { postedMeetingOrdinanceKey } from "../simulation/living-world/local-council-meetings";
 import { playerTown } from "../simulation/living-world/town-residents";
 import {
@@ -146,7 +146,7 @@ describe("a town council makes law for its own reasons", () => {
             (row) => row.id === enactment.measureId,
           )!;
           expect(enactment.effectiveAt).toBe(
-            addDays(enactment.resolvedAt, ORDINANCE_EFFECTIVE_AFTER_DAYS),
+            addDays(enactment.resolvedAt, LOCAL_ORDINANCE_EFFECTIVE_DAYS),
           );
           // In force once its day comes, and not before.
           const question = measure.propositionIds![0]!;

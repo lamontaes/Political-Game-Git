@@ -33,7 +33,7 @@ import {
   recordedSessionAdjournment,
   sessionLegalLimit,
 } from "./session-adjournments";
-import { stateStatuteOperativeAt } from "./statute-effective-date";
+import { stateStatuteOperativeAt } from "../legislative-effective-date";
 
 /**
  * A legislature ends its regular session on the day its leaders choose, once

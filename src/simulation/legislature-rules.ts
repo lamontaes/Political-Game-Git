@@ -103,6 +103,52 @@ export function unknownRule(note: string): UnknownRuleValue {
   return { kind: "unknown", note };
 }
 
+/**
+ * When an adopted ordinance takes effect where its body's own rule has not
+ * been read: 30 days after adoption (CTO ruling, October 7, 2026). ESTIMATED
+ * from common municipal charter practice, in the words of the National Civic
+ * League's Model City Charter, 9th edition, § 2.14(c). It is one rule for
+ * every local body in every place, carried in each such body's rule pack; a
+ * body whose own rule was read carries that rule instead.
+ */
+export const LOCAL_ORDINANCE_EFFECTIVE_DAYS = 30;
+
+/** The estimate's rule, in its source's own words. */
+export const LOCAL_ORDINANCE_EFFECTIVE_RULE =
+  "Every adopted ordinance shall become effective at the expiration of 30 days after adoption or at any later date specified therein.";
+
+const LOCAL_ORDINANCE_EFFECTIVE_SOURCE: RuleSourceRef = {
+  authority: "game-profile",
+  citation: "National Civic League, Model City Charter, 9th edition, § 2.14(c)",
+  sourceTitle: "Local ordinance effective date (estimated)",
+  sourceUrl: null,
+  retrievedAt: null,
+  verification: "game-profile",
+  note: 'estimatedFrom: "common municipal charter practice". This body\'s own rule for when an ordinance takes effect has not been read.',
+};
+
+/** The enactment rule of a local body whose own effective-date rule was not read. */
+export function localOrdinanceDefaultEnactment(): EnactmentRule {
+  return {
+    effectiveDateDistinctFromEnactment: knownRule(
+      true,
+      LOCAL_ORDINANCE_EFFECTIVE_SOURCE,
+    ),
+    defaultEffectiveRule: knownRule(
+      LOCAL_ORDINANCE_EFFECTIVE_RULE,
+      LOCAL_ORDINANCE_EFFECTIVE_SOURCE,
+    ),
+    defaultEffectiveSchedule: knownRule(
+      {
+        kind: "days-after-enactment",
+        days: LOCAL_ORDINANCE_EFFECTIVE_DAYS,
+      },
+      LOCAL_ORDINANCE_EFFECTIVE_SOURCE,
+    ),
+    source: LOCAL_ORDINANCE_EFFECTIVE_SOURCE,
+  };
+}
+
 export function notApplicableRule<T>(note: string): RuleValue<T> {
   if (note.trim().length === 0) {
     throw new Error(
