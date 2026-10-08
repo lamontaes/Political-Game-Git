@@ -8,7 +8,10 @@ import {
   fileCandidatePetition,
   reviewCandidatePetition,
 } from "./candidate-petition-review";
-import { candidateFilingTerms, filingTermsCoverage } from "./candidate-filing-terms";
+import {
+  candidateFilingTerms,
+  filingTermsCoverage,
+} from "./candidate-filing-terms";
 import { isEligibleVoterIn } from "./issue-record";
 
 describe("candidate petition review", () => {
@@ -26,12 +29,16 @@ describe("candidate petition review", () => {
         const rule = candidateFilingTerms(place, family);
         expect(typeof rule.signatures).toBe("number");
         const required = rule.signatures as number;
-        expect(candidatePetitionCountDecision(required, required - 1)).toMatchObject({
+        expect(
+          candidatePetitionCountDecision(required, required - 1),
+        ).toMatchObject({
           accepted: false,
           shortfall: 1,
           reasonKeys: ["petition-insufficient-signatures"],
         });
-        expect(candidatePetitionCountDecision(required, required)).toMatchObject({
+        expect(
+          candidatePetitionCountDecision(required, required),
+        ).toMatchObject({
           accepted: true,
           shortfall: 0,
           reasonKeys: [],
@@ -109,9 +116,9 @@ describe("candidate petition review", () => {
       ],
     });
     expect(event?.tags).toContain("reason:petition-insufficient-signatures");
-    expect(fileCandidatePetition(filing.world, campaign.id, clerkId).world).toBe(
-      filing.world,
-    );
+    expect(
+      fileCandidatePetition(filing.world, campaign.id, clerkId).world,
+    ).toBe(filing.world);
   });
 
   it("does not count signatures recorded after the clerk's filing date", () => {
