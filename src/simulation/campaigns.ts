@@ -197,7 +197,8 @@ import {
   createResourcePosition,
   recordResourceTransferOutcome,
 } from "./resources";
-import { recordEventKnowledge } from "./records";
+import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
+import { walkCampaignCanvass } from "./campaign-canvass";
 import {
   CAMPAIGN_ROUTINE_WORK,
   campaignRoutineBlockAt,
@@ -1229,6 +1230,9 @@ function requestedGainBasisPoints(
  * distribution rather than a score that only ever goes up. The shared writer
  * in `campaign-support.ts` does both, for this campaign and for opponents.
  */
+/** A resident met at the door during a campaign's outreach session. */
+export const CAMPAIGN_DOOR_CONTACT_KIND = "contact:campaign-door";
+
 function recordSupportAfterAction(
   world: World,
   campaign: CampaignRecord,
@@ -1566,6 +1570,9 @@ function recordCampaignActionOutcome(
   const outcomeSummary = action.strategy
     ? `${baseOutcomeSummary} The approved geography was ${action.strategy.geographyLabel}.`
     : baseOutcomeSummary;
+  // The doors an outreach session reached, and the residents home to answer.
+  const doors = walkCampaignCanvass(next, campaign, action);
+  const metPersonIds = [...new Set(doors.flatMap((door) => door.metPersonIds))];
   next = recordWorldEvent(next, {
     stableKey: `${action.stableKey}:outcome-event`,
     type: `campaign.${action.kind}-completed`,
@@ -1577,6 +1584,7 @@ function recordCampaignActionOutcome(
       campaign.organizationId,
       campaign.candidatePersonId,
       action.scheduledActivityId,
+      ...metPersonIds,
     ],
     participants: [
       {
@@ -1589,6 +1597,11 @@ function recordCampaignActionOutcome(
               ? "Signed off the advertising buy"
               : "Led the door-knocking",
       },
+      ...metPersonIds.map((personId) => ({
+        personId,
+        role: "presence:participant" as const,
+        detail: null,
+      })),
     ],
     personFactConstraints: [],
     visibility: "limited",
@@ -1621,6 +1634,36 @@ function recordCampaignActionOutcome(
     },
   });
   const outcomeEventId = next.history.events.at(-1)!.id;
+  // Each resident who answered meets the candidate, and knows of the visit.
+  for (const personId of metPersonIds) {
+    const pair = [campaign.candidatePersonId, personId].sort();
+    const knownBefore = next.history.relationshipInteractions.some(
+      (interaction) =>
+        interaction.personIds[0] === pair[0] &&
+        interaction.personIds[1] === pair[1],
+    );
+    next = recordRelationshipInteraction(next, {
+      stableKey: `${action.stableKey}:door:${personId}`,
+      personIds: [campaign.candidatePersonId, personId],
+      eventId: outcomeEventId,
+      occurredAt: next.currentDate,
+      kind: CAMPAIGN_DOOR_CONTACT_KIND,
+      change: knownBefore ? "maintained" : "formed",
+      significance: "minor",
+      summary: outcomeSummary,
+      tags: ["campaign.door"],
+    });
+    next = recordEventKnowledge(next, {
+      stableKey: `${action.stableKey}:door-knowledge:${personId}`,
+      personId,
+      eventId: outcomeEventId,
+      learnedAt: next.currentDate,
+      believedSummary: outcomeSummary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  }
 
   const supportResult = recordSupportAfterAction(
     next,
@@ -1734,6 +1777,14 @@ function recordCampaignActionOutcome(
     observationId: observation.id,
     feedbackEventId,
     feedbackKnowledgeId,
+    ...(action.kind === "outreach"
+      ? {
+          canvass: {
+            householdIds: doors.map((door) => door.householdId),
+            metPersonIds,
+          },
+        }
+      : {}),
   };
   next = {
     ...next,
