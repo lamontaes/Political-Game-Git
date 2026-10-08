@@ -3170,6 +3170,24 @@
       "disposition": "rebuild",
       "rebuildStep": "A166",
       "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
+    },
+    {
+      "file": "src/simulation/crisis/condition-pack.ts",
+      "line": 193,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/simulation/crisis/medicare-drug-negotiation.ts",
+      "line": 15,
+      "text": "* PLACEHOLDER(research: per-person-medicare-drug-negotiation-savings): actual",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     }
   ]
 }
