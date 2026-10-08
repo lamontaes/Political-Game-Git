@@ -302,6 +302,18 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
 };
 
 describe("act kinds, option labels and trait pulls are one consistent table", () => {
+  it("uses shared act kinds for people who know about misconduct speaking up", () => {
+    expect(tables.optionActs.get("press.knower-talk")).toEqual(
+      new Map([
+        ["go-public", new Set(["speak-out", "take-risk"])],
+        ["let-it-go", new Set(["stay-quiet", "withdraw"])],
+        ["raise-internally", new Set(["speak-out", "follow-rules"])],
+        ["report-outside", new Set(["speak-out", "confront", "take-risk"])],
+        ["say-nothing", new Set(["stay-quiet", "play-safe"])],
+      ]),
+    );
+  });
+
   it("holds exactly the twenty kinds the spec names", () => {
     expect([...ACT_KINDS].sort()).toEqual(
       [

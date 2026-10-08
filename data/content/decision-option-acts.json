@@ -260,6 +260,13 @@
       "accept": ["engage", "cooperate", "commit"],
       "decline": ["refuse", "play-safe"]
     },
+    "press.knower-talk": {
+      "raise-internally": ["speak-out", "follow-rules"],
+      "report-outside": ["speak-out", "confront", "take-risk"],
+      "go-public": ["speak-out", "take-risk"],
+      "say-nothing": ["stay-quiet", "play-safe"],
+      "let-it-go": ["stay-quiet", "withdraw"]
+    },
     "press.confirm-account": {
       "confirm": ["speak-out", "confront", "trust"],
       "decline": ["stay-quiet", "withdraw", "play-safe"]

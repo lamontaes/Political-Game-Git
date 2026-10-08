@@ -66,6 +66,7 @@ import { recordWorldEvent } from "./world";
 import { publicAdverseFindingsAgainst } from "./press/findings";
 import {
   fileComplaint,
+  knowerRelationshipConsiderations,
   openMatter,
   procedureForSubject,
   recordMisconductAct,
@@ -1125,9 +1126,29 @@ function reviewAcceptedDeals(world: World): World {
     if (!offer.deliverBy || offer.deliverBy > next.currentDate) continue;
     if (!offer.occurrenceId || !isAlive(next, offer.mogulPersonId)) continue;
     const key = `mogul-broken:${offer.eventId}`;
+    const considerations: DecisionConsideration[] = [
+      {
+        stableKey: `${key}:own-exposure`,
+        optionKey: "let-it-go",
+        sourceType: "context:ethics-risk",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: "Telling the public would expose their own offer.",
+        sourceRefs: [],
+      },
+      ...knowerRelationshipConsiderations(
+        next,
+        offer.mogulPersonId,
+        offer.toPersonId,
+        key,
+        "go-public",
+        "let-it-go",
+      ),
+    ];
     const evaluation = evaluateDecision(next, {
       stableKey: `${key}:decision`,
-      decisionType: "mogul.deal-broken",
+      decisionType: "press.knower-talk",
       actorPersonId: offer.mogulPersonId,
       cutoff: currentHistoricalCutoff(next),
       subject: {
@@ -1149,30 +1170,9 @@ function reviewAcceptedDeals(world: World): World {
         },
       ],
       constraints: [],
-      considerations: [
-        {
-          stableKey: "mogul:paid-for-nothing",
-          optionKey: "go-public",
-          sourceType: "context:unkept-deal",
-          direction: "supports",
-          importance: "strong",
-          confidence: "high",
-          explanation: "They paid for a stance and never got it.",
-          sourceRefs: [],
-        },
-        {
-          stableKey: "mogul:own-exposure",
-          optionKey: "go-public",
-          sourceType: "context:ethics-risk",
-          direction: "opposes",
-          importance: "strong",
-          confidence: "high",
-          explanation: "Saying so admits that they offered the money.",
-          sourceRefs: [],
-        },
-      ],
+      considerations,
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "durable",
     });
     next = recordDurableDecisionTrace(next, evaluation);

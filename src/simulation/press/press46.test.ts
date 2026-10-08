@@ -66,6 +66,7 @@ import {
 import { recordEvidenceDiscovery } from "../evidence";
 import { contradictionFound } from "../claim-stances";
 import { PRESS_DESK_INTERVALS } from "./desk";
+import { PRESS_LEDGER_REVIEW_TRANSITION_KEY } from "./matters";
 
 const KENTUCKY_PACK = "us-ky-general-assembly-v1:candidacy";
 const KY = KENTUCKY_CONTEXT.jurisdiction.id;
@@ -427,6 +428,11 @@ describe("PRESS46 true hidden misuse", () => {
   // the private purpose and the act itself stay the player's alone.
   it("leaves the books unread when nobody keeps them", () => {
     expect(
+      later.futureDueItems.filter((item) =>
+        item.entityIds.includes(misused.occurrence.occurrenceEventId),
+      ),
+    ).toHaveLength(0);
+    expect(
       pressRecordByKey(
         later,
         "matter",
@@ -458,6 +464,32 @@ describe("PRESS46 true hidden misuse", () => {
     const desk = projectPressDesk(fixture.world, fixture.playerId);
     expect(desk.personalUse.available).toBe(true);
     expect(desk.personalUse.label).toMatch(/misuse of campaign funds/);
+  });
+});
+
+describe("PRESS46 ledger reviews for every campaign knower", () => {
+  const fixture = pressFixture("press46-multiple-reviewers", 2);
+  const misused = spendCampaignFundsPersonally(fixture.world, {
+    stableKey: "press46-test:multiple-reviewers",
+    amountMinorUnits: 2_000,
+    purpose: "a personal expense",
+  });
+
+  it("schedules a private review for each active staff member", () => {
+    const reviews = misused.world.futureDueItems.filter(
+      (item) =>
+        item.transitionKey === PRESS_LEDGER_REVIEW_TRANSITION_KEY &&
+        item.entityIds.includes(misused.occurrence.occurrenceEventId),
+    );
+    const reviewerIds = reviews.map((item) =>
+      item.entityIds.find(
+        (id) =>
+          id !== misused.occurrence.occurrenceEventId &&
+          !misused.occurrence.actorPersonIds.includes(id),
+      ),
+    );
+    expect(reviewerIds).toHaveLength(2);
+    expect(new Set(reviewerIds)).toEqual(new Set(fixture.staffIds));
   });
 });
 
@@ -1093,6 +1125,7 @@ describe("PRESS46 a bookkeeper who was ignored", () => {
       trace.stableKey.endsWith(":report-decision:trace"),
     );
     expect(decision).toBeDefined();
+    expect(decision!.context.decisionType).toBe("press.knower-talk");
     const matter = pressRecordByKey(
       later,
       "matter",

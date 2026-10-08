@@ -1,4 +1,5 @@
 import { eventById } from "../event-index";
+import { favorStandingBetween } from "../favors";
 import {
   activeCampaignForCandidate,
   campaignForCandidate,
@@ -32,6 +33,8 @@ import {
 } from "../resources";
 import type {
   CampaignRecord,
+  DecisionConsideration,
+  DecisionImportance,
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
@@ -378,14 +381,29 @@ export function spendCampaignFundsPersonally(
     choice: purpose,
     tags: ["provenance:player-choice"],
   });
-  next = scheduleFutureDueItem(recorded.world, {
-    stableKey: `press46:ledger-review:${recorded.occurrence.id}`,
-    dueAt: addDays(next.currentDate, LEDGER_REVIEW_DAYS),
-    transitionKey: PRESS_LEDGER_REVIEW_TRANSITION_KEY,
-    entityIds: sortedUnique([recorded.event.id, personId]),
-    jurisdictionId: campaign.jurisdictionId,
-    provenance: { kind: "simulated", sourceEntityIds: [recorded.event.id] },
-  });
+  const reviewers = world.history.workRelationships
+    .filter((relationship) =>
+      campaign.staffWorkRelationshipIds.includes(relationship.id),
+    )
+    .map((relationship) => relationship.personId)
+    .filter(
+      (reviewerId) =>
+        reviewerId !== personId &&
+        activeWorkRelationshipsAt(recorded.world, reviewerId).some(
+          (entry) =>
+            entry.relationship.organizationId === campaign.organizationId,
+        ),
+    );
+  for (const reviewerId of sortedUnique(reviewers)) {
+    next = scheduleFutureDueItem(next, {
+      stableKey: `press46:ledger-review:${recorded.occurrence.id}:${reviewerId}`,
+      dueAt: addDays(next.currentDate, LEDGER_REVIEW_DAYS),
+      transitionKey: PRESS_LEDGER_REVIEW_TRANSITION_KEY,
+      entityIds: sortedUnique([recorded.event.id, personId, reviewerId]),
+      jurisdictionId: campaign.jurisdictionId,
+      provenance: { kind: "simulated", sourceEntityIds: [recorded.event.id] },
+    });
+  }
   return { world: next, occurrence: recorded.occurrence };
 }
 
@@ -753,6 +771,53 @@ export function ensureDisbursementRecord(
   return { world: next, artifactId: next.history.evidenceArtifacts.at(-1)!.id };
 }
 
+export function knowerRelationshipConsiderations(
+  world: World,
+  knowerPersonId: EntityId,
+  subjectPersonId: EntityId,
+  key: string,
+  speakOption: string,
+  quietOption: string,
+): DecisionConsideration[] {
+  const standing = favorStandingBetween(world, knowerPersonId, subjectPersonId);
+  const importance = (
+    band: "slight" | "marked" | "strong",
+  ): DecisionImportance =>
+    band === "strong" ? "strong" : band === "marked" ? "moderate" : "slight";
+  return [
+    ...(standing.giverExpectation !== "none"
+      ? [
+          {
+            stableKey: `${key}:expects-return`,
+            optionKey: speakOption,
+            sourceType: "context:relationship" as const,
+            direction: "supports" as const,
+            importance: importance(standing.giverExpectation),
+            confidence: "medium" as const,
+            explanation:
+              "They expected something from the person involved and did not get it.",
+            sourceRefs: [],
+          },
+        ]
+      : []),
+    ...(standing.receiverDebt !== "none"
+      ? [
+          {
+            stableKey: `${key}:personal-obligation`,
+            optionKey: quietOption,
+            sourceType: "context:relationship" as const,
+            direction: "supports" as const,
+            importance: importance(standing.receiverDebt),
+            confidence: "medium" as const,
+            explanation:
+              "They feel a personal obligation to the person involved.",
+            sourceRefs: [],
+          },
+        ]
+      : []),
+  ];
+}
+
 /**
  * Bookkeeping review: a campaign staff member who keeps the books finds the
  * restricted ledger entry, then decides for themselves what to do. With no
@@ -765,11 +830,8 @@ export function pressLedgerReviewHandler(
   if (dueItem.transitionKey !== PRESS_LEDGER_REVIEW_TRANSITION_KEY) {
     throw new Error("The ledger review handler received another transition.");
   }
-  const occurrenceId = dueItem.stableKey.slice(
-    "press46:ledger-review:".length,
-  ) as EntityId;
   const occurrence = pressRecordsOfKind(world, "financial-occurrence").find(
-    (record) => record.id === occurrenceId,
+    (record) => dueItem.entityIds.includes(record.occurrenceEventId),
   );
   const done = (
     reasonKey: `${string}:${string}`,
@@ -794,20 +856,28 @@ export function pressLedgerReviewHandler(
       );
     }),
   );
-  const bookkeeper = campaign
+  const staffReviewers = campaign
     ? world.history.workRelationships
         .filter((relationship) =>
           campaign.staffWorkRelationshipIds.includes(relationship.id),
         )
         .map((relationship) => relationship.personId)
         .filter((personId) => !occurrence.actorPersonIds.includes(personId))
-        .find((personId) =>
+        .filter((personId) =>
           activeWorkRelationshipsAt(world, personId).some(
             (entry) =>
               entry.relationship.organizationId === campaign.organizationId,
           ),
         )
-    : undefined;
+    : [];
+  const designatedReviewer = dueItem.entityIds.find(
+    (personId) =>
+      personId !== occurrence.occurrenceEventId &&
+      !occurrence.actorPersonIds.includes(personId),
+  );
+  const bookkeeper = designatedReviewer
+    ? staffReviewers.find((personId) => personId === designatedReviewer)
+    : staffReviewers[0];
   if (!bookkeeper) return done("press:no-one-reviewed-the-books");
   let next = world;
   occurrence.recordEvidenceArtifactIds.forEach((artifactId, index) => {
@@ -867,7 +937,7 @@ export function pressLedgerReviewHandler(
   }
   const evaluation = evaluateDecision(next, {
     stableKey: `${dueItem.stableKey}:decision`,
-    decisionType: "press.bookkeeper-concern",
+    decisionType: "press.knower-talk",
     actorPersonId: bookkeeper,
     cutoff: currentHistoricalCutoff(next),
     subject: {
@@ -910,9 +980,17 @@ export function pressLedgerReviewHandler(
         explanation: "The bookkeeper works for the candidate.",
         sourceRefs: [],
       },
+      ...knowerRelationshipConsiderations(
+        next,
+        bookkeeper,
+        actor,
+        dueItem.stableKey,
+        "raise-internally",
+        "say-nothing",
+      ),
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) {
@@ -1001,7 +1079,7 @@ function bookkeeperGoesOutside(
 ): FutureTransitionHandlerResult {
   const evaluation = evaluateDecision(world, {
     stableKey: `${dueItem.stableKey}:report-decision`,
-    decisionType: "press.bookkeeper-report",
+    decisionType: "press.knower-talk",
     actorPersonId: bookkeeper,
     cutoff: currentHistoricalCutoff(world),
     subject: {
@@ -1044,9 +1122,17 @@ function bookkeeperGoesOutside(
         explanation: "The bookkeeper works for the candidate.",
         sourceRefs: [],
       },
+      ...knowerRelationshipConsiderations(
+        world,
+        bookkeeper,
+        actor,
+        `${dueItem.stableKey}:report`,
+        "report-outside",
+        "say-nothing",
+      ),
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) {
