@@ -1,3 +1,4 @@
+import { countyOfficeOutcomeForReflection } from "../justice/county-office-reflection";
 import {
   LIVED_OUTCOME_REFLECTION_PREFIX,
   OFFICIAL_VIEW_TRANSITION_KEY,
@@ -20,7 +21,6 @@ import {
   type PoliticalBeliefFormationOutcome,
 } from "../political-belief-formation";
 import { officialOpinionSubject } from "../political-opinion-subjects";
-import { eventById } from "../event-index";
 import { recordWorldEvent } from "../world";
 import { recordEventKnowledge } from "../records";
 import { joinLawInterestGroup } from "./law-interest-groups";
@@ -699,6 +699,8 @@ export function tellViewToHearers(
     /** The holder's dated thinking-over, which the hearers' knowledge names. */
     readonly eventId: EntityId;
     readonly stableKey: string;
+    /** People already reflecting on this same act do not count its retelling again. */
+    readonly informedPersonIds?: readonly EntityId[];
   },
 ): World {
   const held = viewOfOfficial(world, input.holderId, input.officialId).belief;
@@ -710,6 +712,7 @@ export function tellViewToHearers(
   const favors = held.position === "support" ? "support" : "opposition";
   let next = world;
   for (const hearerId of hearersOfPerson(world, input.holderId)) {
+    if (input.informedPersonIds?.includes(hearerId)) continue;
     const key = `${input.stableKey}:told:${hearerId}`;
     if (next.history.knowledge.some((row) => row.stableKey === key)) continue;
     next = recordEventKnowledge(next, {
@@ -931,31 +934,30 @@ function reflectOnLivedOutcome(
     return done(world, "person-not-present");
   if (world.control.kind === "person" && world.control.personId === personId)
     return done(world, "controlled-person");
-  const outcome = livedOutcomesOf(world, personId).find(
-    (row) =>
-      livedOutcomeReflectionKey(personId, row.sourceRecordId) ===
-      dueItem.stableKey,
-  );
+  const outcome =
+    countyOfficeOutcomeForReflection(world, dueItem) ??
+    livedOutcomesOf(world, personId).find(
+      (row) =>
+        livedOutcomeReflectionKey(personId, row.sourceRecordId) ===
+        dueItem.stableKey,
+    );
   if (!outcome) return done(world, "outcome-not-present");
-  const officialIds = [
-    ...new Set(
-      LIVED_OUTCOME_ANSWERED_BY[outcome.kind]
-        .map((office) => officialAnsweringFor(world, personId, office))
-        .filter(
-          (id): id is EntityId =>
-            id !== null && id !== personId && Boolean(world.people[id]),
-        ),
-    ),
-  ];
-  if (officialIds.length === 0) return done(world, "no-official");
-  const sourceEvent = eventById(world, outcome.sourceRecordId);
+  const officialId =
+    outcome.answeringPersonId ??
+    officialAnsweringFor(
+      world,
+      personId,
+      LIVED_OUTCOME_ANSWERED_BY[outcome.kind],
+    );
+  if (!officialId || officialId === personId || !world.people[officialId])
+    return done(world, "no-official");
   let next = recordWorldEvent(world, {
     stableKey: livedOutcomeReflectionEventKey(personId, outcome),
     type: LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [personId, ...officialIds],
+    involvedEntityIds: [personId, officialId],
     participants: [{ personId, role: "focus:subject", detail: null }],
     personFactConstraints: [],
     visibility: "private",
@@ -967,9 +969,8 @@ function reflectOnLivedOutcome(
       `${LIVED_OUTCOME_SOURCE_TAG}${outcome.sourceRecordId}`,
     ],
     summary:
-      outcome.kind === "crime-suffered"
-        ? (sourceEvent?.summary ?? "")
-        : `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
+      outcome.summary ??
+      `Thought over ${LIVED_OUTCOME_SUMMARY[outcome.kind]}, and who answers for it.`,
     context: {
       location: null,
       socialContext: null,
@@ -980,27 +981,24 @@ function reflectOnLivedOutcome(
     },
   });
   const eventId = next.history.events.at(-1)!.id;
-  let reflected = false;
-  for (const officialId of officialIds) {
-    const reason = outcomeFactor(next, personId, officialId, outcome, eventId);
-    if (!reason) continue;
-    reflected = true;
-    next = formViewFromFactor(
-      next,
-      personId,
-      officialId,
-      reason,
-      `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
-      "What happened to them runs against the view of this official the person already held.",
-    );
-    next = tellViewToHearers(next, {
-      holderId: personId,
-      officialId,
-      eventId,
-      stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}:${officialId}`,
-    });
-  }
-  return done(next, reflected ? "reflected" : "not-felt");
+  const reason = outcomeFactor(next, personId, officialId, outcome, eventId);
+  if (!reason) return done(next, "not-felt");
+  next = formViewFromFactor(
+    next,
+    personId,
+    officialId,
+    reason,
+    `${V}:lived-outcome:${outcome.sourceRecordId}:${personId}:${officialId}`,
+    "What happened to them runs against the view of this official the person already held.",
+  );
+  next = tellViewToHearers(next, {
+    holderId: personId,
+    officialId,
+    eventId,
+    stableKey: `${V}:lived-outcome-view:${outcome.sourceRecordId}:${personId}`,
+    informedPersonIds: outcome.informedPersonIds,
+  });
+  return done(next, "reflected");
 }
 
 /**
@@ -1041,14 +1039,28 @@ function outcomeFactor(
       importance: IMPORTANCE_FROM.find(([from]) => felt >= from)![1],
       confidence: "high",
       explanation:
-        outcome.kind === "crime-suffered"
-          ? `lived-outcome:${outcome.kind}:estimated-from:${outcome.estimatedFrom}`
-          : `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
-              anchored ? "; the person's party loyalty tempers it" : ""
-            }.`,
+        outcome.explanationKey ??
+        `This official answers for ${LIVED_OUTCOME_SUMMARY[outcome.kind]}${
+          anchored ? "; the person's party loyalty tempers it" : ""
+        }.`,
       sourceRefs: [
-        { kind: "historical-event", eventId: outcome.sourceRecordId },
         { kind: "historical-event", eventId },
+        ...(outcome.sourceKnowledgeId
+          ? [
+              {
+                kind: "event-knowledge" as const,
+                knowledgeId: outcome.sourceKnowledgeId,
+              },
+            ]
+          : []),
+        ...(outcome.kind === "county-justice"
+          ? [
+              {
+                kind: "historical-event" as const,
+                eventId: outcome.sourceRecordId,
+              },
+            ]
+          : []),
       ],
     },
   };
