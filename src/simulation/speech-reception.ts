@@ -239,6 +239,94 @@ export function speechReactionOf(
   return evaluation.selectedOptionKey as SpeechReaction;
 }
 
+/** One witness's deterministic response as the saved count moves. */
+export function electionReportReactionOf(
+  world: World,
+  reportKey: string,
+  speakerId: EntityId,
+  witnessId: EntityId,
+  leadChange: number,
+): SpeechReaction {
+  const key = `${reportKey}:reaction:${witnessId}`;
+  const considerations: DecisionConsideration[] = [];
+  const standing = readRelationshipStanding(world, witnessId, speakerId);
+  const warmth = standing.readings.warmth;
+  if (warmth.band !== "none" && warmth.basis.length > 0)
+    considerations.push({
+      stableKey: `${key}:warmth`,
+      optionKey: warmth.adverse ? "stayed-quiet" : "cheered",
+      sourceType: "social:warmth",
+      direction: "supports",
+      importance: BAND_IMPORTANCE[warmth.band] ?? "slight",
+      confidence: "high",
+      explanation: warmth.adverse
+        ? "They have little warmth for the speaker."
+        : "They are fond of the speaker.",
+      sourceRefs: warmth.basis.slice(-2).map((interactionId) => ({
+        kind: "relationship-interaction" as const,
+        interactionId,
+      })),
+    });
+  const tension = standing.readings.tension;
+  if (tension.band !== "none" && tension.basis.length > 0)
+    considerations.push({
+      stableKey: `${key}:tension`,
+      optionKey: "stayed-quiet",
+      sourceType: "social:tension",
+      direction: "supports",
+      importance: BAND_IMPORTANCE[tension.band] ?? "slight",
+      confidence: "high",
+      explanation: "Something between them has not been settled.",
+      sourceRefs: tension.basis.slice(-2).map((interactionId) => ({
+        kind: "relationship-interaction" as const,
+        interactionId,
+      })),
+    });
+  if (leadChange !== 0)
+    considerations.push({
+      stableKey: `${key}:lead-change`,
+      optionKey: leadChange > 0 ? "cheered" : "stayed-quiet",
+      sourceType: "context:reported-lead-change",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation:
+        leadChange > 0
+          ? "The reported count improves the speaker's lead."
+          : "The reported count reduces the speaker's lead.",
+      sourceRefs: [],
+    });
+  const evaluation = evaluateDecision(world, {
+    stableKey: key,
+    decisionType: "speech.react",
+    actorPersonId: witnessId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:election-report",
+      key: reportKey,
+      entityId: null,
+    },
+    options: [
+      { key: "cheered", label: "Cheer", description: "Cheer out loud." },
+      { key: "applauded", label: "Applaud", description: "Clap politely." },
+      {
+        key: "stayed-quiet",
+        label: "Stay quiet",
+        description: "Listen without joining in.",
+      },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  return evaluation.selectedOptionKey as SpeechReaction;
+}
+
 /** How the room took a recorded speech, or null when nobody was there. */
 export function speechReception(
   world: World,
