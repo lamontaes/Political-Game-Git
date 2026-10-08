@@ -8,7 +8,7 @@ describe("the approval-seeking difference in a random new game", () => {
       "press.subject-response",
       "l1-proof-facet-approval-seeking-two-person",
     );
-    process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\\n`);
+    process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.high.personId).not.toBe(proof.low.personId);
     expect(proof.high.choice).toBe("dispute");
     expect(proof.high.reason).toEqual(expect.any(String));
