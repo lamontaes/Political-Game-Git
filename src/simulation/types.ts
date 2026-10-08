@@ -4049,6 +4049,10 @@ export interface CampaignComplianceDocumentRecord {
     | "60-day-preelection"
     | "30-day-preelection"
     | "15-day-preelection"
+    | "quarterly"
+    | "pre-election"
+    | "post-election"
+    | "year-end"
     | "30-day-postelection"
     | "correction";
   readonly periodStart: IsoDate | null;
@@ -4056,7 +4060,7 @@ export interface CampaignComplianceDocumentRecord {
   readonly dueOn: IsoDate;
   readonly status: "draft" | "filed";
   readonly visibility: "committee-private" | "public-record";
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly filedAt: IsoDate | null;
   readonly amendsDocumentId: EntityId | null;
   readonly correctionReason: string | null;
