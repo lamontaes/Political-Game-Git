@@ -237,6 +237,13 @@ export interface BatchOptions {
   readonly max: number;
 }
 
+/** What a conversation item varies, taken in turn. */
+const CONVERSATION_AXES: readonly BatchAxis[] = [
+  "relationship",
+  "trait",
+  "age",
+];
+
 export const DEFAULT_AGES: readonly number[] = [28, 34, 42, 50, 58, 64, 68, 70];
 
 // ---------------------------------------------------------------------------
@@ -1365,6 +1372,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
   // Conversations, from the game's own conversation path: what a person in
   // the player's scene says back, and the four or more choices that follow.
   let conversations = 0;
+  let choiceItems = 0;
   for (const ctx of contexts) {
     const reading = readConversations(ctx.world, ctx.playerId);
     for (const exchange of reading.exchanges) {
@@ -1382,12 +1390,23 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
             ? ` Also there: ${others.join(", ")}.`
             : ` Also there: ${others.slice(0, 3).join(", ")} and ${others.length - 3} others.`;
       conversations += 1;
+      // One axis per item, in turn: who the speaker is to the player, their
+      // temperament, or their age. The situation names the fact it varies.
+      const axis =
+        CONVERSATION_AXES[(conversations - 1) % CONVERSATION_AXES.length]!;
+      const traits = Object.values(voiceOf(ctx.world, exchange.personId));
+      const tested =
+        axis === "relationship"
+          ? `relationship (${speaker.relation ?? "no recorded tie to the player"})`
+          : axis === "trait"
+            ? `personality (${traits.length > 0 ? traits.join("; ") : "no recorded temperament"})`
+            : `age (the speaker is ${speaker.age})`;
       lines.push({
         id: `conversation-${conversations}`,
-        axis: "relationship",
+        axis,
         composer:
           "projectLifeConversation and commitLifeConversation in life-conversation.ts",
-        situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}), ${ctx.playerName} (${ctx.playerAge}) talks with ${describeWho(speaker)}.${company} ${ctx.playerName} opens with the choice "${exchange.opened}". This item tests: relationship. ${exchange.lieOffered ? "A Lie choice is offered." : "No Lie choice is offered."}`,
+        situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}), ${ctx.playerName} (${ctx.playerAge}) talks with ${describeWho(speaker)}.${company} ${ctx.playerName} opens with the choice "${exchange.opened}". This item tests: ${tested}. ${exchange.lieOffered ? "A Lie choice is offered." : "No Lie choice is offered."}`,
         speaker: speakerOf(ctx, speaker),
         line: exchange.reply,
         parts: exchange.parts,
@@ -1404,6 +1423,37 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
         choices: exchange.choices,
         lieOffered: exchange.lieOffered,
       });
+      // Each choice worded as the player would say it (CTO 2:46 p.m. Oct 8):
+      // what the talk-choice bank offers for the label the game shows today.
+      const hour = Math.floor(exchange.minuteOfDay / 60);
+      const partOfDay =
+        hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening";
+      for (const choice of exchange.choiceWords) {
+        // A sentence already asked, for any choice, is asked once.
+        if (seenText.has(choice.text)) continue;
+        seenText.add(choice.text);
+        choiceItems += 1;
+        lines.push({
+          id: `text-choice-${choiceItems}`,
+          axis: "register",
+          composer: "composeTalkChoice in talk-choice-english.ts",
+          situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}) in the ${partOfDay}, ${ctx.playerName} (${ctx.playerAge}) is talking with ${describeWho(speaker)}, who has just said "${exchange.reply}". These are the words for the choice the game labels "${choice.label}". This item tests: register, whether the words fit who they are said to and when.`,
+          speaker: speakerOf(
+            ctx,
+            personOf(ctx.world, ctx.playerId, ctx.playerId, null),
+          ),
+          line: choice.text,
+          parts: choice.parts,
+          world: {
+            place: ctx.place,
+            player: ctx.playerName,
+            playerAge: ctx.playerAge,
+            date: ctx.world.currentDate,
+          },
+          harness: [],
+          prior: exchange.reply,
+        });
+      }
     }
     for (const reason of reading.skipped)
       skipped.push({ id: `conversation:${ctx.place}`, reason });
@@ -1431,7 +1481,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
       perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
       lines.push({
         id: `text-${text.kind}-${perKind.get(text.kind)}`,
-        axis: "place",
+        axis: text.axis ?? "place",
         composer: text.composer,
         situation: text.situation,
         speaker: speakerOf(

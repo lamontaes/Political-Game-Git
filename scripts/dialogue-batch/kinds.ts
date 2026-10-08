@@ -7,10 +7,9 @@
  * A development tool. Read-only: it never advances time or writes records.
  */
 import type { EntityId, World } from "../../src/simulation";
-import { electionContestResult } from "../../src/simulation";
+import { ageOnDate, electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
-import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
-import { projectJournalView } from "../../src/presentation/journal-views";
+import { composeLifeStory } from "../../src/presentation/journal-story";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
 import {
   readHearingBank,
@@ -35,6 +34,8 @@ export interface KindText {
   readonly partKey: string;
   /** The engine parts the text was made from, when it was composed from parts. */
   readonly parts?: readonly string[];
+  /** What the item calibrates, when it is not the place. */
+  readonly axis?: "age";
 }
 
 export interface KindReading {
@@ -56,32 +57,26 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     else texts.push(...found.slice(0, PER_KIND));
   };
 
-  // A journal item is a chapter of the life, told by the character from the
-  // record (CTO 9:03 p.m. Oct 6): the section's entries in the first person.
-  // A line that only states where the player is now ("You are at home.") is
-  // the present, not a chapter, and is left out.
-  const journal = projectJournalView(world, playerId, "chapters", null);
+  // A journal item is a chapter of the life told as a story (owner, via CTO
+  // 2:14 p.m. Oct 8): a period of the life in sentences from the life-story
+  // bank, with the person's records filled in. What a chapter tells changes
+  // with how long the person has lived, so the item calibrates age.
+  const age = ageOnDate(
+    world.people[playerId]?.birthDate ?? world.currentDate,
+    world.currentDate,
+  );
   add(
     "journal",
-    journal.sections
-      .map((section) => ({
-        section,
-        told: section.entries
-          .filter((entry) => !/^You are\b/.test(entry.text))
-          .map((entry) => journalInFirstPerson(entry.text)),
-      }))
-      .filter((chapter) => chapter.told.length > 0)
-      .slice(-PER_KIND)
-      .reverse()
-      .map(({ section, told }) => ({
-        kind: "journal",
-        composer:
-          "projectJournalView and journalInFirstPerson in journal-views.ts",
-        situation: `The player's journal, the chapter "${section.heading}"${section.span ? ` (${section.span})` : ""}.`,
-        text: told.join(" "),
-        partKey: `journal:chapter:${section.key}`,
-      })),
-    "the player's journal has no chapter told from the record yet",
+    composeLifeStory(world, playerId).map((chapter) => ({
+      kind: "journal",
+      composer: "composeLifeStory in journal-story.ts",
+      situation: `The player's journal, told as a story, opens the Chapters view. This is the chapter for ${chapter.heading}; the player is ${age}. This item tests: age.`,
+      text: chapter.text,
+      partKey: `journal:story:${chapter.key}`,
+      parts: chapter.parts,
+      axis: "age" as const,
+    })),
+    "the player's records hold nothing the life-story bank can tell",
   );
 
   const bills: KindText[] = [];

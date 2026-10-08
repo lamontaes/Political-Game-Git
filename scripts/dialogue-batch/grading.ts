@@ -27,6 +27,7 @@ export const TEXT_KINDS = [
   "meeting",
   "minutes",
   "notices-and-screens",
+  "choice",
 ] as const;
 export type TextKind = (typeof TEXT_KINDS)[number];
 
@@ -173,6 +174,8 @@ const MISSING_COMPOSER: Readonly<Record<string, string>> = {
   minutes:
     "no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one)",
   "notices-and-screens": "no notices composer or bank exists yet",
+  choice:
+    "no conversation offered a choice the talk-choice bank can word (composeTalkChoice needs a mined sentence for it)",
   legislation:
     "no composer words a bill until a measure with a short title is filed (readLegislationBank needs one)",
   meeting:
@@ -189,6 +192,7 @@ const KIND_VOICE: Readonly<Record<string, string>> = {
   meeting: "A member",
   minutes: "Minutes",
   hearing: "At the hearing",
+  choice: "You could say",
 };
 
 function voiceLabel(line: BatchLine): string {

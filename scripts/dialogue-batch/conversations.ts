@@ -24,6 +24,7 @@ import {
 } from "../../src/presentation/life-conversation";
 import { openNextLifeScene } from "../../src/presentation/life-scene-flow";
 import { currentLifeTalkScene } from "../../src/presentation/life-talk-presence";
+import { composeTalkChoice } from "../../src/presentation/talk-choice-english";
 
 /** The owner judges an exchange only when the player has a real choice. */
 export const MIN_CHOICES = 4;
@@ -46,6 +47,17 @@ export interface ConversationExchange {
   readonly choices: readonly string[];
   /** Whether any offered choice is a deliberate lie. */
   readonly lieOffered: boolean;
+  /**
+   * Each offered choice the talk-choice bank can word, as the player would
+   * say it, beside the label the game shows today.
+   */
+  readonly choiceWords: readonly {
+    readonly label: string;
+    readonly text: string;
+    readonly parts: readonly string[];
+  }[];
+  /** The hour of the exchange, from the world's clock. */
+  readonly minuteOfDay: number;
 }
 
 export interface ConversationReading {
@@ -148,6 +160,13 @@ export function readConversations(
           (intent as { readonly truthIntent?: string }).truthIntent ===
           "deliberate-deception",
       ),
+      choiceWords: next.intents.flatMap((intent) => {
+        const words = composeTalkChoice(after, playerId, personId, intent.key);
+        return words
+          ? [{ label: intent.label, text: words.text, parts: words.parts }]
+          : [];
+      }),
+      minuteOfDay: after.currentMoment.minuteOfDay,
     });
   }
   return { exchanges, skipped };
