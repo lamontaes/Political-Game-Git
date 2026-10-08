@@ -21,6 +21,7 @@ import { resourceFlowTermsAt } from "../resource-queries";
 import {
   cancelFutureDueItem,
   resolveFutureDueItemsThrough,
+  scheduledFutureDueItemsThrough,
 } from "../future-transitions";
 import { createFutureTransitionHandlerRegistry } from "../future-transition-registry";
 import {
@@ -167,6 +168,24 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
         )
         .sort((left, right) => left.dueAt.localeCompare(right.dueAt))[0];
       if (!due) break;
+      for (const unrelated of scheduledFutureDueItemsThrough(
+        opened,
+        opened.currentDate,
+        due.dueAt,
+      )) {
+        if (
+          unrelated.transitionKey === PLACE_OUTCOMES_TRANSITION_KEY ||
+          unrelated.dueAt < opened.currentDate
+        )
+          continue;
+        opened = cancelFutureDueItem(opened, {
+          stableKey: `session52:snap:isolated:${unrelated.id}`,
+          dueItemId: unrelated.id,
+          effectiveAt: opened.currentDate,
+          reasonKey: "snap-proof:limit-to-place-outcomes",
+          context: null,
+        });
+      }
       opened = resolveFutureDueItemsThrough(opened, due.dueAt, handlers);
     }
     const baselineEnrollment = snapParticipationRecords(opened)

@@ -105,8 +105,27 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:self-confidence",
     kind: "decision",
-    reader:
-      "career.consider-another-term — src/simulation/traits/effects/self-confidence.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:patience",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:playful-manner",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:uncertain-outlook",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:voluntary-effort",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-excitable",
@@ -214,7 +233,6 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
  * here. The coverage test below permits no third state.
  */
 export const NOT_YET_CONNECTED_TRAITS = [
-  "personality-v1:truthfulness",
   "personality-v1:facet-smug",
   "personality-v1:facet-shy",
   "personality-v1:facet-charming",
