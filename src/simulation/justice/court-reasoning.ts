@@ -1,7 +1,7 @@
 import { livesInJuryCatchment } from "./jury-catchment";
 import { ageOnDate } from "../dates";
 import { evaluateDecision } from "../decisions";
-import { lawInForce } from "../governing/law-in-force";
+import { lawInForce, type LawInForce } from "../governing/law-in-force";
 import { officesHeldBy } from "../governing/office-consequence";
 import {
   ensureOfficeholderPrinciples,
@@ -9,6 +9,7 @@ import {
 } from "../governing/officeholder-principles";
 import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
+import { judicialOutlookConsideration } from "../judiciary/philosophy";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -507,14 +508,17 @@ const MANDATORY_MINIMUM_QUESTION =
  * yes binds those cases and leaves every other case to the judge. The term's
  * length stays the court's usual one until each state's minimums are read.
  */
-export function mandatoryJailUnderLaw(
+export function mandatoryMinimumBindingAt(
   world: World,
   courtCase: CourtCase,
   floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
-): string | null {
+): { readonly text: string; readonly law: LawInForce } | null {
   if (floor)
     return floor.months > 0
-      ? `The law requires at least ${floor.months} months in custody for this offense.`
+      ? {
+          text: `The law requires at least ${floor.months} months in custody for this offense.`,
+          law: floor.law,
+        }
       : null;
   if (!courtCase.venueJurisdictionId) return null;
   const violent = VIOLENT_OFFENSES.has(courtCase.offenseKey);
@@ -524,9 +528,20 @@ export function mandatoryJailUnderLaw(
   if (!propositionId) return null;
   const law = lawInForce(world, courtCase.venueJurisdictionId, propositionId);
   if (law?.answer !== "yes") return null;
-  return violent
-    ? "The law here sets a jail term for a violent offense that a judge may not go below."
-    : "The law here sets a jail term for someone sentenced before that a judge may not go below.";
+  return {
+    law,
+    text: violent
+      ? "The law here sets a jail term for a violent offense that a judge may not go below."
+      : "The law here sets a jail term for someone sentenced before that a judge may not go below.",
+  };
+}
+
+export function mandatoryJailUnderLaw(
+  world: World,
+  courtCase: CourtCase,
+  floor: ReturnType<typeof custodyFloorAt> = custodyFloorAt(world, courtCase),
+): string | null {
+  return mandatoryMinimumBindingAt(world, courtCase, floor)?.text ?? null;
 }
 
 /** The judge's own view of fixed minimum sentences, when they hold one. */
@@ -653,6 +668,16 @@ export function sentencingConsiderations(
     });
   const principle = judgePrincipleConsideration(world, judgeId, key);
   if (principle) out.push(principle);
+  const rights = judicialOutlookConsideration(
+    world,
+    judgeId,
+    "rights",
+    SENTENCE_SUPERVISION,
+    SENTENCE_JAIL,
+    `${key}:judicial-outlook:rights`,
+    "criminal-procedure",
+  );
+  if (rights) out.push(rights);
   return out;
 }
 
@@ -722,6 +747,16 @@ export function evaluateDetention(
       explanation: "They had been found at fault for the same thing before.",
       sourceRefs: [],
     });
+  const rights = judicialOutlookConsideration(
+    world,
+    judgeId,
+    "rights",
+    PRETRIAL_RELEASE,
+    PRETRIAL_HOLD,
+    `${key}:judicial-outlook:rights`,
+    "criminal-procedure",
+  );
+  if (rights) considerations.push(rights);
   return evaluateDecision(world, {
     stableKey: key,
     decisionType: "justice.pretrial-detention",
@@ -756,7 +791,16 @@ export function evaluateDetention(
             sourceRefs: [],
           },
         ],
-    considerations,
+    considerations: [
+      ...considerations,
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        judgeId,
+        key,
+        "justice.pretrial-detention",
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
@@ -813,6 +857,13 @@ export function evaluateSentence(
       : [],
     considerations: [
       ...sentencingConsiderations(world, judgeId, courtCase, pleaded),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        judgeId,
+        key,
+        "justice.sentence",
+      ),
       ...(bound
         ? [
             {

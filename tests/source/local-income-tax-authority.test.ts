@@ -8,7 +8,7 @@ import {
   type PortableTaxAuthority,
 } from "../../src/fiscal-authority/query";
 import type { ArtifactLock } from "../../src/source/core/index";
-import { adaptFiscalAuthorityRecords } from "../../src/source/adapters/fiscal-authority";
+import { adaptFiscalAuthorityRecords } from "../support/source/fiscal-authority";
 import { sourceDomain } from "../../src/source/domains/state-local-fiscal-authority";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 

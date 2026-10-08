@@ -11,7 +11,7 @@ import {
   conditionOnsetDay,
   conditionPrevalence,
   packCondition,
-  startingConditionKeys,
+  startingConditionAssignments,
 } from "../src/simulation/crisis/condition-pack";
 import {
   conditionStrainInput,
@@ -66,6 +66,20 @@ function conditionEpisodes(
       record.kind === "health-episode" &&
       record.personId === personId &&
       record.label === "condition",
+  );
+}
+
+function startingAssignments(world: World, ids: readonly EntityId[]) {
+  return startingConditionAssignments(
+    ids.map((personId) => ({
+      personId,
+      placeKey: STATE.usps,
+      age:
+        daysBetween(world.people[personId]!.birthDate, world.currentDate) /
+        365.25,
+      category: "equal-mixture" as const,
+      monthlyHouseholdIncomeMinor: null,
+    })),
   );
 }
 
@@ -134,6 +148,40 @@ function cohort(world: World, age: number, count: number) {
 }
 
 describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps}, seed ${SEED})`, () => {
+  it("allocates each age-sex prevalence across all 56 places without a roll", () => {
+    const subjects = STATES.flatMap((place) =>
+      Array.from({ length: 100 }, (_, index) => ({
+        personId:
+          `person_${place.usps}_${String(index).padStart(3, "0")}` as EntityId,
+        placeKey: place.usps,
+        age: 60,
+        category: "equal-mixture" as const,
+        monthlyHouseholdIncomeMinor: index * 100,
+      })),
+    );
+    const first = startingConditionAssignments(subjects);
+    const reversed = startingConditionAssignments([...subjects].reverse());
+    for (const subject of subjects)
+      expect(first.get(subject.personId)).toEqual(
+        reversed.get(subject.personId),
+      );
+    expect(new Set(subjects.map((subject) => subject.placeKey)).size).toBe(56);
+    for (const place of STATES) {
+      const people = subjects.filter(
+        (subject) => subject.placeKey === place.usps,
+      );
+      for (const condition of CONDITION_PACK) {
+        const expected = Math.round(
+          conditionPrevalence(condition, 60, "equal-mixture") * people.length,
+        );
+        const actual = people.filter((person) =>
+          first.get(person.personId)?.includes(condition.key),
+        ).length;
+        expect(actual, `${place.usps} ${condition.key}`).toBe(expected);
+      }
+    }
+  });
+
   it("reads prevalence from the sourced table, sliding between bands", () => {
     const heart = packCondition("heart-disease")!;
     // A band's own figure at its middle age.
@@ -162,22 +210,23 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
     "writes each person's starting conditions once, on their record, at the source's shares",
     () => {
       const { world, ids } = cohort(small.world, 70, 400);
+      const assigned = startingAssignments(world, ids);
       const open = exposed(world);
       let heart = 0;
       for (const personId of ids) {
         const episodes = conditionEpisodes(open, personId);
-        const age =
-          daysBetween(open.people[personId]!.birthDate, open.currentDate) /
-          365.25;
         expect(episodes.map((episode) => episode.conditionKey).sort()).toEqual(
-          [
-            ...startingConditionKeys(open.seed, personId, age, "equal-mixture"),
-          ].sort(),
+          [...(assigned.get(personId) ?? [])].sort(),
         );
         for (const episode of episodes) {
           expect(episode.effectiveAt).toBe(open.currentDate);
           expect(episode.origin.kind).toBe("condition-pack");
-          expect(episode.hazardMultiplierMicros).toBeGreaterThan(1_000_000);
+          // Every condition weighs on mortality except the substance use row,
+          // whose recorded weight is neutral until its deaths have a producer.
+          if (episode.conditionKey === "substance-use-disorder")
+            expect(episode.hazardMultiplierMicros).toBe(1_000_000);
+          else
+            expect(episode.hazardMultiplierMicros).toBeGreaterThan(1_000_000);
         }
         if (
           episodes.some((episode) => episode.conditionKey === "heart-disease")
@@ -194,8 +243,10 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
       // Identical worlds write identical records; a second window adds none.
       const again = exposed(world);
       expect(crisisRecords(again).length).toBe(crisisRecords(open).length);
-      const holder = ids.find(
-        (personId) => conditionEpisodes(open, personId).length > 0,
+      const holder = ids.find((personId) =>
+        conditionEpisodes(open, personId).some(
+          (episode) => episode.conditionKey !== "substance-use-disorder",
+        ),
       )!;
       const nextWindow = open.history.futureDueItems.find(
         (item) =>
@@ -255,8 +306,15 @@ describe(`chronic conditions from recorded health (${STATE.name}, ${STATE.usps},
         });
         const id = world.personOrder.at(-1)!;
         if (
-          startingConditionKeys(world.seed, id, 119.2, "equal-mixture")
-            .length === 0
+          startingConditionAssignments([
+            {
+              personId: id,
+              placeKey: STATE.usps,
+              age: 119.2,
+              category: "equal-mixture",
+              monthlyHouseholdIncomeMinor: null,
+            },
+          ]).get(id)!.length === 0
         )
           personId = id;
       }

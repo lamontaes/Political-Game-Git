@@ -6,7 +6,7 @@ import {
   contactProposals,
   produceReachingOut,
   proposeContact,
-} from "./people-contact";
+} from "./relationship-contact";
 import { personTrait, ensurePeopleTraits } from "./people-traits";
 import { PEOPLE_MIND_VERSION } from "./people-trait-definitions";
 import {

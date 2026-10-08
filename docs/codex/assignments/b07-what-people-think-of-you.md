@@ -52,7 +52,7 @@ Price per completed interview (missing from repo; ONE web search done, Oct 5, 20
 | Web-based, per complete                                | about $46 to $80                                             | same                                                                                                                                  |
 | Whole local-race poll, as quoted by campaign pollsters | $15,000 to $25,000 low end; $30,000 to $40,000 another range | Daily Montanan, 2023-08-22, "Polling experts weigh in on contested Realtors' survey"                                                  |
 
-Judgement for the build: these are thin. Store the per-complete price as ESTIMATED in a data file with this table's range and the sources, scaled by the place's wage level the way other costs in `data/research/money` are, and do one follow-up search (10 min) for a cleaner source before merge if the owner wants it exact. Do not invent a single "real" number.
+Judgment for the build: these are thin. Store the per-complete price as ESTIMATED in a data file with this table's range and the sources, scaled by the place's wage level the way other costs in `data/research/money` are, and do one follow-up search (10 min) for a cleaner source before merge if the owner wants it exact. Do not invent a single "real" number.
 
 ## Done when (played-game proof)
 

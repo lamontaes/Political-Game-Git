@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import type {
@@ -146,9 +146,13 @@ describe("environment and energy laws", () => {
     const price = PLACE_OUTCOME_BASES["energy.electricity-price"]!.places;
     const emissions = PLACE_OUTCOME_BASES["env.emissions"]!.places;
     const litter = PLACE_OUTCOME_BASES["env.litter"]!.places;
+    const particulates = PLACE_OUTCOME_BASES["env.particulates"]!.places;
     expect(Object.keys(price)).toHaveLength(51);
     expect(Object.keys(emissions)).toHaveLength(51);
     expect(Object.keys(litter)).toHaveLength(56);
+    expect(Object.keys(particulates)).toHaveLength(56);
+    for (const territory of ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"])
+      expect(particulates[territory]).toBe(7.9);
     // The territories are outside EIA's state series: unknown, never zero.
     expect(price).not.toHaveProperty("US-PR");
     expect(emissions).not.toHaveProperty("US-GU");

@@ -539,59 +539,6 @@
     {
       "artifacts": [
         {
-          "artifactId": "fec-2024-candidate-master-zip",
-          "sha256": "19b2e3354c4b36195b02887a93eb16796de0aeb0ccbcb5bb67b30e8611bff176",
-          "sliceOfParent": null,
-          "storage": "committed"
-        },
-        {
-          "artifactId": "fec-2024-committee-master-zip",
-          "sha256": "f20f863c90ca69419a4ca941ab885847b7e076144b7189fbb476d2aaf876e94f",
-          "sliceOfParent": null,
-          "storage": "committed"
-        },
-        {
-          "artifactId": "fec-2024-candidate-committee-linkage-zip",
-          "sha256": "756a700d46ae40bc3d656e34241d3cbd2ee02e42ff0a58cefe7cf469ae82d107",
-          "sliceOfParent": null,
-          "storage": "committed"
-        },
-        {
-          "artifactId": "fec-candidate-master-header-csv",
-          "sha256": "86fe00a87b53fb442608ff695a82f321f49e70718bc815a08a070a120412da0c",
-          "sliceOfParent": null,
-          "storage": "committed"
-        },
-        {
-          "artifactId": "fec-committee-master-header-csv",
-          "sha256": "9b5bfd7764a5e07871d4b0bf31d05f9589eda262d02956718b5d2c272e76ab83",
-          "sliceOfParent": null,
-          "storage": "committed"
-        },
-        {
-          "artifactId": "fec-linkage-header-csv",
-          "sha256": "9de902716f8c5086fc91cc7b26b675c49916e43c742693df939278cb7d91c633",
-          "sliceOfParent": null,
-          "storage": "committed"
-        }
-      ],
-      "asOf": "2024-12-31",
-      "boundedSampleReason": null,
-      "canonicalSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
-      "compiler": {
-        "name": "fec",
-        "version": "1.0.0"
-      },
-      "corpusFileSha256": "0756431d5a3d6443e94c5671119191add0a55b4ece829baaaf5d1421553f2c90",
-      "corpusId": "fec",
-      "domain": "fec",
-      "isCompleteUniverse": true,
-      "recordCount": 39355,
-      "universeDescription": "Every row of the Federal Election Commission's 2024 candidate master, committee master and candidate-committee linkage bulk files. No sampling is applied."
-    },
-    {
-      "artifacts": [
-        {
           "artifactId": "uscode-title28-119-102-zip",
           "sha256": "33ac894ae39b3da6236f9feba91b8dfcf4f678e1ca33914df144cc75c9544aa9",
           "sliceOfParent": null,
@@ -2735,7 +2682,7 @@
       "asOf": "2025-06-30",
       "path": "data/research/places/local-institutions.json",
       "recordCount": 12261,
-      "sha256": "1be993de758d18376ec66c234f32a604fd17cbce9ab82b681ed965cbc82cb382"
+      "sha256": "4a5c92365811927a2266a831fdeaf2f189b87305d90d00d59a0c1bccef44cd2e"
     }
   ]
 }

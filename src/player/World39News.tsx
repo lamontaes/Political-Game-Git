@@ -1,6 +1,9 @@
 import type { EntityId, World } from "../simulation";
 import { lawEffectsHere } from "../presentation/law-effects-here";
-import { projectWorld39News } from "../presentation/world39-news";
+import {
+  projectWorld39News,
+  type World39Notice,
+} from "../presentation/world39-news";
 import { readPressPublication } from "../simulation/press/read-publication";
 import "./world39-readers.css";
 
@@ -36,27 +39,8 @@ export function World39News({
     >
       <header>
         <h3>{model.placeName ? `Around ${model.placeName}` : "Around here"}</h3>
-        <p>
-          As of <time dateTime={model.asOf}>{world39Date(model.asOf)}</time>
-        </p>
+        <time dateTime={model.asOf}>{world39Date(model.asOf)}</time>
       </header>
-      {model.standing.length > 0 ? (
-        <section
-          aria-label="Public institutions"
-          data-testid="world39-standing"
-        >
-          {model.standing.map((item) => (
-            <article
-              key={item.key}
-              data-standing-kind={item.kind}
-              data-record-id={item.recordId}
-            >
-              <h5>{item.headline}</h5>
-              <p>{item.sentence}</p>
-            </article>
-          ))}
-        </section>
-      ) : null}
       {model.laws.length > 0 ? (
         <section aria-label="Laws that reach you" data-testid="world39-laws">
           <h4>Laws that reach you</h4>
@@ -74,9 +58,6 @@ export function World39News({
                   {world39Date(law.enactedOn)}
                 </time>
               </p>
-              {law.sentences.map((sentence) => (
-                <p key={sentence}>{sentence}</p>
-              ))}
             </article>
           ))}
         </section>
@@ -94,17 +75,15 @@ export function World39News({
               data-direction={effect.direction}
             >
               <h5>{effect.headline}</h5>
-              <p>{effect.sentence}</p>
             </article>
           ))}
         </section>
       ) : null}
+      <PublicNotices notices={model.notices} />
       <section aria-label="Recent public events">
         <h4>Lately</h4>
         {model.publicEvents.length === 0 ? (
-          <p data-testid="world39-no-events">
-            Nothing has happened in public here lately.
-          </p>
+          <p data-testid="world39-no-events" data-problem="no-public-events" />
         ) : (
           model.publicEvents.map((event) => (
             <article
@@ -113,12 +92,28 @@ export function World39News({
               data-event-id={event.id}
               data-known-to-you={event.known ? "true" : "false"}
             >
-              <p className="world39-meta">
+              <p
+                className="world39-meta"
+                data-known={event.known ? "true" : undefined}
+              >
                 <time dateTime={event.at}>{world39Date(event.at)}</time>
                 {event.jurisdiction ? ` · ${event.jurisdiction}` : ""}
-                {event.known ? " · You already know about this." : ""}
               </p>
-              <p>{event.summary}</p>
+              {event.organizations.length > 0 ? (
+                <p data-testid="world39-event-organizations">
+                  {event.organizations.join(" · ")}
+                </p>
+              ) : null}
+              {event.people.map((person) => (
+                <button
+                  type="button"
+                  key={person.personId}
+                  data-testid="world39-event-person"
+                  onClick={() => onOpenPerson(person.personId)}
+                >
+                  {person.name}
+                </button>
+              ))}
             </article>
           ))
         )}
@@ -171,7 +166,7 @@ export function World39News({
                   {item.jurisdictionName ? ` · ${item.jurisdictionName}` : ""}
                 </p>
                 {model.learnedEventIds.has(item.sourceEventId) ? (
-                  <p>You already know about this event.</p>
+                  <p data-known="true" />
                 ) : null}
                 {item.people.map((person) => (
                   <button
@@ -193,10 +188,29 @@ export function World39News({
           ))}
         </section>
       ) : (
-        <p data-testid="world39-no-reporting">
-          No stories have been published here yet.
-        </p>
+        <p
+          data-testid="world39-no-reporting"
+          data-problem="nothing-published"
+        />
       )}
+    </section>
+  );
+}
+
+/** The notices a place has posted, as the English engine wrote them. */
+export function PublicNotices({
+  notices,
+}: {
+  readonly notices: readonly World39Notice[];
+}) {
+  if (notices.length === 0) return null;
+  return (
+    <section data-testid="world39-notices">
+      {notices.map((notice) => (
+        <article key={notice.key} data-notice={notice.key}>
+          <p className="world39-notice">{notice.text}</p>
+        </article>
+      ))}
     </section>
   );
 }

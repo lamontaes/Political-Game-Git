@@ -22,11 +22,10 @@ test("Money and property says what new laws did to money, and passes no time", a
   await goTo(page, "nav-finances");
   const panel = page.getByTestId("money-laws");
   await expect(panel).toBeVisible();
-  await expect(panel.getByRole("heading", { level: 3 })).toHaveText(
-    "What new laws did to money",
-  );
-  await expect(panel.getByTestId("money-laws-none")).toHaveText(
-    /^No new law has reached anyone's money in .+ yet\.$/,
+  await expect(panel.getByRole("heading", { level: 3 })).toHaveCount(0);
+  await expect(panel.getByTestId("money-laws-none")).toHaveAttribute(
+    "data-problem",
+    "no-new-law-reached-money",
   );
   await expect(page.getByTestId("story-when")).toHaveText(when ?? "");
 });

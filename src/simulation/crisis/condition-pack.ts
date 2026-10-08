@@ -1,7 +1,13 @@
 import pack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
 import { stableHash } from "../ids";
+import { scheduleFutureDueItem } from "../future-transitions";
+import {
+  activeWorkRelationshipsAt,
+  currentLifeCutoff,
+  householdMembershipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
 import { FIXED_LN2 } from "./fixed-point";
 import {
@@ -10,7 +16,11 @@ import {
   thresholdUnits,
   type HazardMultiplierChange,
 } from "./hazard";
-import { annualPovertyLineMinor } from "../household-pay";
+import {
+  annualPovertyLineMinor,
+  recordedMonthlyPayByPerson,
+} from "../household-pay";
+import { residenceStateKey } from "../statutory-tax";
 import type { MortalityCalibrationCategory } from "./mortality-table";
 import { appendCrisisRecords, crisisRecordId } from "./records";
 import { activeHealthEpisodes } from "./health-queries";
@@ -29,9 +39,9 @@ import type {
  * A person's starting conditions are written once, on the day the mortality
  * model first exposes them, from the real prevalence for their age (and sex
  * where the source gives it and their record carries a calibration
- * category). Which people of an age hold a condition is a seeded selection
- * made once at creation, like a job or schooling, so the share matches the
- * source; nothing is rolled while the world runs. A condition that begins
+ * category). The exact prevalence determines the count in each place, age
+ * and sex cell; recorded household income ranks the people, and even spacing
+ * determines who starts with each condition. A condition that begins
  * during life begins on the day its own strain crosses the same fixed
  * threshold as mortality strain, from recorded causes only.
  */
@@ -48,6 +58,8 @@ interface PackCondition {
   readonly infant?: boolean;
   /** A condition of childhood: held at its one band's ages only. */
   readonly childhood?: boolean;
+  /** A condition that takes no severity grade or age factor. */
+  readonly ungraded?: boolean;
   readonly prevalence: readonly PrevalenceBand[];
   readonly bySex?: { readonly male: number; readonly female: number };
   readonly mortalityWeight: { readonly value: number; readonly status: string };
@@ -61,6 +73,14 @@ export const CONDITION_PACK_KEY = pack.packKey;
 export const CONDITION_PACK: readonly PackCondition[] =
   pack.conditions as readonly PackCondition[];
 const ONSET_CAUSES = pack.onsetCauses;
+
+/** Stable severity grading remains tied to the person's condition record. */
+function selectionPlace(seed: string, personId: EntityId, key: string): number {
+  const hex = stableHash(
+    JSON.stringify([CONDITION_PACK_KEY, seed, personId, key]),
+  ).slice(0, 12);
+  return parseInt(hex, 16) / 16 ** 12;
+}
 
 /** The due item for the day a condition's own strain crosses the threshold. */
 export const CONDITION_ONSET_KEY = "crisis:condition-onset" as const;
@@ -120,26 +140,111 @@ export function conditionPrevalence(
   return share * sex;
 }
 
-/** The seeded place, from 0 to 1, of this person among people of their age for a condition. */
-function selectionPlace(seed: string, personId: EntityId, key: string): number {
-  const hex = stableHash(
-    JSON.stringify([CONDITION_PACK_KEY, seed, personId, key]),
-  ).slice(0, 12);
-  return parseInt(hex, 16) / 16 ** 12;
+export interface StartingConditionSubject {
+  readonly personId: EntityId;
+  readonly placeKey: string;
+  readonly age: number;
+  readonly category: MortalityCalibrationCategory;
+  /** Unknown household income sorts after recorded incomes; it is never zero. */
+  readonly monthlyHouseholdIncomeMinor: number | null;
 }
 
-/** The pack conditions this person starts with at `age`. */
-export function startingConditionKeys(
-  seed: string,
+/**
+ * Allocate each condition evenly through the income-ranked age-sex cell.
+ * Prevalence determines the count only. No seed or roll chooses a person.
+ */
+export function startingConditionAssignments(
+  subjects: readonly StartingConditionSubject[],
+): ReadonlyMap<EntityId, readonly string[]> {
+  const assignments = new Map<EntityId, string[]>(
+    subjects.map(({ personId }) => [personId, []]),
+  );
+  const cells = new Map<string, StartingConditionSubject[]>();
+  for (const subject of subjects) {
+    const cellKey = JSON.stringify([
+      subject.placeKey,
+      Math.floor(subject.age),
+      subject.category,
+    ]);
+    const cell = cells.get(cellKey) ?? [];
+    cell.push(subject);
+    cells.set(cellKey, cell);
+  }
+  const conditionCount = CONDITION_PACK.length;
+  for (const cell of cells.values()) {
+    cell.sort((left, right) => {
+      const leftIncome = left.monthlyHouseholdIncomeMinor;
+      const rightIncome = right.monthlyHouseholdIncomeMinor;
+      if (leftIncome === null && rightIncome !== null) return 1;
+      if (leftIncome !== null && rightIncome === null) return -1;
+      if (
+        leftIncome !== null &&
+        rightIncome !== null &&
+        leftIncome !== rightIncome
+      )
+        return leftIncome - rightIncome;
+      return left.personId < right.personId
+        ? -1
+        : left.personId > right.personId
+          ? 1
+          : 0;
+    });
+    for (const [conditionIndex, condition] of CONDITION_PACK.entries()) {
+      // PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
+      // has no condition-specific income gradient; keep even spacing until one
+      // is sourced.
+      const count = Math.min(
+        cell.length,
+        Math.max(
+          0,
+          Math.round(
+            cell.reduce(
+              (total, person) =>
+                total +
+                conditionPrevalence(condition, person.age, person.category),
+              0,
+            ),
+          ),
+        ),
+      );
+      if (count === 0) continue;
+      if (count === cell.length) {
+        for (const person of cell)
+          assignments.get(person.personId)!.push(condition.key);
+        continue;
+      }
+      const offset = conditionIndex / conditionCount;
+      for (let index = 0; index < count; index += 1) {
+        const position = Math.min(
+          cell.length - 1,
+          Math.round(((index + offset) * cell.length) / count),
+        );
+        assignments.get(cell[position]!.personId)!.push(condition.key);
+      }
+    }
+  }
+  return assignments;
+}
+
+function recordedHouseholdIncome(
+  world: World,
   personId: EntityId,
-  age: number,
-  category: MortalityCalibrationCategory,
-): readonly string[] {
-  return CONDITION_PACK.filter(
-    (condition) =>
-      selectionPlace(seed, personId, condition.key) <
-      conditionPrevalence(condition, age, category),
-  ).map((condition) => condition.key);
+  pay: ReadonlyMap<EntityId, number>,
+): number | null {
+  const cutoff = currentLifeCutoff(world);
+  const membership = householdMembershipsAt(world, personId, cutoff)[0];
+  if (!membership) return null;
+  const members = peopleInHouseholdAt(world, membership.household.id, cutoff);
+  if (
+    members.some(
+      (id) =>
+        !pay.has(id) && activeWorkRelationshipsAt(world, id, cutoff).length > 0,
+    )
+  )
+    return null;
+  return Math.round(
+    members.reduce((total, id) => total + (pay.get(id) ?? 0), 0),
+  );
 }
 
 interface SeverityGrade {
@@ -166,7 +271,8 @@ export function conditionGrade(
   key: string,
 ): SeverityGrade | null {
   const condition = packCondition(key);
-  if (condition?.infant || condition?.childhood) return null;
+  if (condition?.infant || condition?.childhood || condition?.ungraded)
+    return null;
   const place = selectionPlace(seed, personId, `${key}:severity`);
   let below = 0;
   for (const grade of SEVERITY_GRADES) {
@@ -210,6 +316,25 @@ export function conditionHazard(
   };
 }
 
+/** The pack condition behind a person's recorded need for substance use services. */
+export const SUBSTANCE_USE_DISORDER_KEY = "substance-use-disorder" as const;
+
+/**
+ * Whether the person's own health record holds this pack condition now. A
+ * pure read of the record; it advances nothing and invents nothing, and a
+ * person the model has not yet exposed holds none.
+ */
+export function holdsPackCondition(
+  world: World,
+  personId: EntityId,
+  key: string,
+): boolean {
+  return activeHealthEpisodes(world, personId).some(
+    (episode) =>
+      episode.conditionKey === key && episode.origin.kind === "condition-pack",
+  );
+}
+
 /** The health-episode stable key a pack condition is recorded under. */
 export function conditionEpisodeKey(personId: EntityId, key: string): string {
   return `crisis:health:condition:${CONDITION_PACK_KEY}:${key}:${personId}`;
@@ -236,7 +361,28 @@ export function recordStartingConditions(
   sourceId: EntityId,
 ): World {
   const inputs: CrisisRecordInput[] = [];
-  for (const { personId, category } of people) {
+  const pay = recordedMonthlyPayByPerson(world, date);
+  const subjects: StartingConditionSubject[] = people.flatMap(
+    ({ personId, category }) => {
+      const person = world.people[personId];
+      if (!person) return [];
+      return [
+        {
+          personId,
+          category,
+          age: daysBetween(person.birthDate, date) / 365.25,
+          placeKey: residenceStateKey(world, personId) ?? "unknown",
+          monthlyHouseholdIncomeMinor: recordedHouseholdIncome(
+            world,
+            personId,
+            pay,
+          ),
+        },
+      ];
+    },
+  );
+  const assignments = startingConditionAssignments(subjects);
+  for (const { personId } of people) {
     const person = world.people[personId];
     if (!person) continue;
     const age = daysBetween(person.birthDate, date) / 365.25;
@@ -245,12 +391,7 @@ export function recordStartingConditions(
         (episode) => episode.conditionKey,
       ),
     );
-    for (const key of startingConditionKeys(
-      world.seed,
-      personId,
-      age,
-      category,
-    )) {
+    for (const key of assignments.get(personId) ?? []) {
       if (held.has(key)) continue;
       const hazard = conditionHazard(world.seed, personId, key, age);
       const stableKey = conditionEpisodeKey(personId, key);

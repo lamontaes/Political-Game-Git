@@ -61,6 +61,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   ElectionContestResultRecord,
+  ElectionPrecinctTally,
   ElectiveOfficeOption,
   EntityId,
   IsoDate,
@@ -69,6 +70,10 @@ import type {
   CampaignAsk,
   World,
 } from "../simulation";
+import {
+  electionNightWitnesses,
+  electionReportReactionOf,
+} from "../simulation/speech-reception";
 import { moneyText } from "../simulation/money-text";
 import {
   campaignManagerCandidates,
@@ -92,6 +97,11 @@ import {
   type CampaignPurchaseKind,
 } from "../simulation/campaign-operating-costs";
 import { campaignSpendingComparison } from "../simulation/campaign-spending-benchmark";
+import { stateExecutiveIdentityForOfficeKey } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 
 /**
  * What a candidate can actually see.
@@ -241,6 +251,126 @@ export interface CampaignTallyLine extends CandidateTally {
   readonly displayedSharePercent: string;
 }
 
+export interface ElectionNightReportingBeat {
+  readonly number: number;
+  readonly precinctKeys: readonly string[];
+  readonly ballotsCast: number;
+  readonly tallies: readonly CampaignTallyLine[];
+  readonly runningTallies: readonly CampaignTallyLine[];
+  readonly reactions: readonly {
+    readonly personId: EntityId;
+    readonly reaction: string;
+  }[];
+}
+
+/** Saved precinct returns and the people already recorded in the room. */
+export interface ElectionNightProjection {
+  readonly participants: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly reportingBeats: readonly ElectionNightReportingBeat[];
+}
+
+function electionNightReportingBeats(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+  precinctTallies: readonly ElectionPrecinctTally[] | undefined,
+): readonly ElectionNightReportingBeat[] {
+  if (!precinctTallies?.length) return [];
+  const precincts = [...precinctTallies].sort(
+    (left, right) =>
+      left.ballotsCast - right.ballotsCast ||
+      left.precinctKey.localeCompare(right.precinctKey) ||
+      left.mapId.localeCompare(right.mapId),
+  );
+  const count = Math.min(6, precincts.length);
+  const running = new Map<string, number>();
+  return Array.from({ length: count }, (_, index) => {
+    const first = Math.floor((index * precincts.length) / count);
+    const after = Math.floor(((index + 1) * precincts.length) / count);
+    const batch = precincts.slice(first, after);
+    const previousLeaderMargin =
+      (running.get(personId) ?? 0) -
+      Math.max(
+        0,
+        ...[...running.entries()]
+          .filter(([candidateId]) => candidateId !== personId)
+          .map(([, votes]) => votes),
+      );
+    const batchVotes = new Map<string, number>();
+    for (const precinct of batch)
+      for (const tally of precinct.tallies)
+        batchVotes.set(
+          tally.candidatePersonId,
+          (batchVotes.get(tally.candidatePersonId) ?? 0) + tally.votes,
+        );
+    for (const [candidateId, votes] of batchVotes)
+      running.set(candidateId, (running.get(candidateId) ?? 0) + votes);
+    const batchTotal = [...batchVotes.values()].reduce(
+      (sum, votes) => sum + votes,
+      0,
+    );
+    const runningTotal = [...running.values()].reduce(
+      (sum, votes) => sum + votes,
+      0,
+    );
+    const candidateIds = [...running.keys()].sort();
+    const currentLeaderMargin =
+      (running.get(personId) ?? 0) -
+      Math.max(
+        0,
+        ...[...running.entries()]
+          .filter(([candidateId]) => candidateId !== personId)
+          .map(([, votes]) => votes),
+      );
+    const batchShares = displayedSharePercents(
+      candidateIds.map((candidateId) =>
+        batchTotal === 0 ? 0 : (batchVotes.get(candidateId) ?? 0) / batchTotal,
+      ),
+    );
+    const runningShares = displayedSharePercents(
+      candidateIds.map((candidateId) =>
+        runningTotal === 0 ? 0 : (running.get(candidateId) ?? 0) / runningTotal,
+      ),
+    );
+    const lines = (values: Map<string, number>, shares: readonly string[]) =>
+      candidateIds.map((candidatePersonId, candidateIndex) => ({
+        candidatePersonId: candidatePersonId as EntityId,
+        votes: values.get(candidatePersonId) ?? 0,
+        voteShare:
+          (values.get(candidatePersonId) ?? 0) /
+          (values === batchVotes ? batchTotal || 1 : runningTotal || 1),
+        candidateName: displayName(world, candidatePersonId as EntityId),
+        isThisCandidate: candidatePersonId === personId,
+        displayedSharePercent: shares[candidateIndex]!,
+      }));
+    return {
+      number: index + 1,
+      precinctKeys: batch.map((precinct) => precinct.precinctKey),
+      ballotsCast: batch.reduce(
+        (sum, precinct) => sum + precinct.ballotsCast,
+        0,
+      ),
+      tallies: lines(batchVotes, batchShares),
+      runningTallies: lines(running, runningShares),
+      reactions: electionNightWitnesses(world, personId, contestId).map(
+        (witnessId) => ({
+          personId: witnessId,
+          reaction: electionReportReactionOf(
+            world,
+            `${contestId}:report:${index + 1}`,
+            personId,
+            witnessId,
+            currentLeaderMargin - previousLeaderMargin,
+          ),
+        }),
+      ),
+    };
+  });
+}
+
 /**
  * Rounds shares for display so that what is printed still adds up.
  *
@@ -364,6 +494,7 @@ export interface CampaignView {
   }[];
   readonly sessions: readonly CampaignSessionRecord[];
   readonly reading: CampaignReading | null;
+  readonly electionNight: ElectionNightProjection | null;
   readonly tallies: readonly CampaignTallyLine[];
   /** After the election: what happened, and that life carries on. */
   readonly afterword: string | null;
@@ -621,24 +752,27 @@ export function projectCampaign(
     comparableSpending: campaignSpendingComparison(world, campaign.id),
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
-    donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
-      personId: ask.residentId,
-      name: world.people[ask.residentId]
-        ? personName(world.people[ask.residentId]!)
-        : "Unknown",
-      outcome: ask.outcome,
-      amountMinorUnits: ask.amountMinorUnits,
-      reasonBeliefId: ask.reasonBeliefId,
-      reason: campaignAskReason(world, campaign, asks, index),
-    })),
+    donors: campaignAsks(world, campaign.id).flatMap((ask, index, asks) => {
+      const person = world.people[ask.residentId];
+      return person
+        ? [
+            {
+              personId: ask.residentId,
+              name: personName(person),
+              outcome: ask.outcome,
+              amountMinorUnits: ask.amountMinorUnits,
+              reasonBeliefId: ask.reasonBeliefId,
+              reason: campaignAskReason(world, campaign, asks, index),
+            },
+          ]
+        : [];
+    }),
     donorCandidates:
       state.status === "active"
-        ? campaignDonorCandidates(world, campaign.id).map((personId) => ({
-            personId,
-            name: world.people[personId]
-              ? personName(world.people[personId]!)
-              : "Unknown",
-          }))
+        ? campaignDonorCandidates(world, campaign.id).flatMap((personId) => {
+            const person = world.people[personId];
+            return person ? [{ personId, name: personName(person) }] : [];
+          })
         : [],
     managerCandidates:
       state.status === "active"
@@ -675,6 +809,26 @@ export function projectCampaign(
         : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
+    electionNight: result
+      ? {
+          participants: electionNightWitnesses(
+            world,
+            personId,
+            contest.id,
+          ).flatMap((witnessId) => {
+            const witness = world.people[witnessId];
+            return witness
+              ? [{ personId: witnessId, name: personName(witness) }]
+              : [];
+          }),
+          reportingBeats: electionNightReportingBeats(
+            world,
+            personId,
+            contest.id,
+            result.precinctTallies,
+          ),
+        }
+      : null,
     // A speech already given stays on the record; one not given is offered
     // only while it is still election night's to give.
     speech:
@@ -924,6 +1078,7 @@ function notYetFiled(
     sessions: [] as readonly CampaignSessionRecord[],
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
+    electionNight: null,
     afterword: null,
     speech: null,
   };
@@ -1151,13 +1306,29 @@ function latestReading(
 export function countyCandidacyUnavailableReason(
   officeKey: string,
 ): string | null {
-  return localGoverningBodyIdentityForOfficeKey(officeKey)?.unit.unitType ===
-    "county"
-    ? "The requirements for this county office have not been established."
+  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
+  // A county's executive and its row offices carry the disclosed age estimate
+  // and county residence, so they are not refused; a county board seat stays
+  // unavailable until its own requirements are read.
+  return office?.unit.unitType === "county" && office.seat === "governing-body"
+    ? "Qualifications: not on record"
     : null;
 }
 
 /** A missing county calendar remains unknown for read-only consumers. */
+export function campaignElectionDateIsEstimated(
+  world: World,
+  officeKey: string,
+): boolean {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" && read.dates.estimated;
+  }
+  if (local) return true;
+  return false;
+}
+
 export function availableCampaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -1204,6 +1375,11 @@ export function campaignElectionDate(
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (executive) {
+    const rule = stateExecutiveTermRule(executive.stateUsps);
+    if (rule) return nextRegularElection(rule, world.currentDate);
+  }
   const pack = stateCandidacyPack(stateKey);
   const matchingSeats =
     pack && districtBinding
@@ -1279,8 +1455,9 @@ export function fileForOffice(
     // want a seat in, rather than the game's own description of the seat. A
     // mayor sits in no body, so the committee is named for the office.
     committeeName:
-      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat ===
-      "chief-executive"
+      localGoverningBodyIdentityForOfficeKey(option.officeKey)?.seat !==
+        "governing-body" &&
+      localGoverningBodyIdentityForOfficeKey(option.officeKey) !== null
         ? `${person.familyName} for ${option.office.title}`
         : `${person.familyName} for the ${option.chamberName}`,
     donorPoolName: "People who might give",

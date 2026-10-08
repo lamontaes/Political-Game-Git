@@ -1,6 +1,6 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
@@ -31,6 +31,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import { mayAnswerQuestion } from "./question-authority";
 import { unincorporatedCountyJurisdictionIds } from "../nationwide-world/local-governments";
 import { constitutionalPolicyProvisions } from "../policy-provisions";
+import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
 
 /**
  * What the law in force says on one policy question, for one place.
@@ -48,8 +49,8 @@ import { constitutionalPolicyProvisions } from "../policy-provisions";
  * "no": the status quo on a question nobody has legislated is unknown, and a
  * caller must say so rather than read it as either answer.
  *
- * What a place's law already said when the game began is read from
- * `data/research/laws/starting-law-2026.json` (researched, for the questions
+ * What a place's law already said when the game began is read through the
+ * `data/research/laws/starting-law-2026/index.ts` loader (researched, for the questions
  * it covers): a state's answer is a state statute, the United States' a
  * federal one, each in force from its operative date. It ranks like any other
  * law, so a law enacted in play at the same or a higher level governs once it
@@ -789,7 +790,19 @@ function governingChain(
   if (jurisdictionId === federal) return chain;
   const state = stateOf(jurisdictionId);
   if (state) chain.set(state, "state-statute");
-  if (state !== jurisdictionId) chain.set(jurisdictionId, "local-ordinance");
+  if (state !== jurisdictionId) {
+    const stateKey =
+      lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey;
+    const isWholeGovernment =
+      stateKey &&
+      chiefExecutiveJurisdictionId(stateKey.slice(3)) === jurisdictionId;
+    // A single government serving both scopes legislates at the state's rank;
+    // its canonical city identity must not make its own starting law outrank it.
+    chain.set(
+      jurisdictionId,
+      isWholeGovernment ? "state-statute" : "local-ordinance",
+    );
+  }
   // A place with no town government lives under its county's ordinances.
   for (const county of unincorporatedCountyJurisdictionIds(jurisdictionId))
     chain.set(county, "local-ordinance");

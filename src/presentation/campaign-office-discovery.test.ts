@@ -44,9 +44,7 @@ describe("deliberate supported office discovery", () => {
     // The office's own calendar, said as a date, with no record-keeping words.
     expect(
       offices.every((office) =>
-        /^The next election is [A-Z][a-z]+ \d{1,2}, \d{4}\.$/.test(
-          office.timing,
-        ),
+        /^Next election: [A-Z][a-z]+ \d{1,2}, \d{4}$/.test(office.timing),
       ),
     ).toBe(true);
     expect(offices.every((office) => office.connections.length === 0)).toBe(
