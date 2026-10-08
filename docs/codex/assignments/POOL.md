@@ -756,7 +756,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2474 | b13-p3: Add source-grounded courtroom situation adapter | PR #2474 (codex/session42-b13-p3-courtroom-scenes) | open: sent back: failed its own changed checks: prettier; rebase on main (conflicts) | |
 | RS-2475 | Fix radial menu spacing at ring boundaries | PR #2475 (session14/bg59-radial-clipping) | open: draft: finish it or close it as superseded | |
 | RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | ready #2477; gates in PR |
-| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | ready #2478 | |
 | RS-2480 | Bind tax terms through one authority table | PR #2480 (session9/generic-tax-term-binding) | open: draft: finish it or close it as superseded | |
 | RS-2481 | LW-07: add city tax term rows | PR #2481 (codex/session30-lw07) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2483 | B06 Part 6: Share the office casework choices | PR #2483 (session28/b06-p6-shared-casework-choices) | open: sent back: failed its own changed checks: eslint | |
