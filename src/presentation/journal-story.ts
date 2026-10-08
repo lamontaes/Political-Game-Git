@@ -12,7 +12,8 @@
  * Salience, from the records alone:
  * - where the person was born, and whether they were raised there or moved
  *   while still a child, and how old they were then;
- * - what each parent did for a living, and whether they were an only child;
+ * - what each parent did for a living while raising them, and whether they
+ *   were an only child;
  * - the high school they finished;
  * - the first job they took after school (a job held while still in school is
  *   left out, unless it is the only one), and a later job they hold now;
@@ -203,7 +204,11 @@ export function composeLifeStory(
     }
     const gender = parent?.identity?.gender;
     if (!parent || (gender !== "female" && gender !== "male")) continue;
-    const work = workRelationshipHistoryForPerson(world, parentId).at(-1);
+    // The work the parent did while raising them: a job begun before the
+    // person turned 18, never one taken up after they grew up.
+    const work = workRelationshipHistoryForPerson(world, parentId)
+      .filter((job) => job.startedAt < adultFrom)
+      .at(-1);
     const title = work ? workRoleAt(world, work.id)?.title : undefined;
     const occupation = title ? grammaticalWorkRolePhrase(title) : null;
     if (!work || !occupation) continue;
