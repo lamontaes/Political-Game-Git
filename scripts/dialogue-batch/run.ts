@@ -162,6 +162,8 @@ export interface BatchLine {
   readonly harness: readonly string[];
   /** The turn this line answers, when the situation records one. */
   readonly prior?: string;
+  /** The seed and world the line came from, when runs were combined. */
+  readonly seed?: string;
 }
 
 export interface BatchSkip {
@@ -1201,6 +1203,17 @@ export const SITUATIONS: readonly Situation[] = [
 // The batch
 // ---------------------------------------------------------------------------
 
+/** The same wording with other figures or places counts once. */
+export function textShape(text: string, place: string): string {
+  return text
+    .replace(place, "@")
+    .replace(
+      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+      "#",
+    )
+    .replace(/[\d$,.]+/g, "#");
+}
+
 export function runDialogueBatch(options: BatchOptions): BatchResult {
   if (options.ages.length < 1 || options.ages.length > 8)
     throw new Error("Use one to eight worlds.");
@@ -1308,22 +1321,24 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
   // The other kinds of text, read from the game's own producers: up to ten
-  // each across the worlds, and a reason for every kind none produced.
+  // each across the worlds, shared out among the worlds so no single life or
+  // body fills a kind, and a reason for every kind none produced.
+  const perWorld = Math.max(2, Math.ceil(10 / contexts.length));
   const perKind = new Map<string, number>();
   const why = new Map<string, string[]>();
   for (const ctx of contexts) {
     const reading = readKinds(ctx.world, ctx.playerId);
+    const fromWorld = new Map<string, number>();
     for (const text of reading.texts) {
-      // The same wording with other figures or places counts once.
-      const shape = text.text
-        .replace(ctx.place, "@")
-        .replace(
-          /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
-          "#",
-        )
-        .replace(/[\d$,.]+/g, "#");
-      if ((perKind.get(text.kind) ?? 0) >= 10 || seenText.has(shape)) continue;
+      const shape = textShape(text.text, ctx.place);
+      if (
+        (perKind.get(text.kind) ?? 0) >= 10 ||
+        (fromWorld.get(text.kind) ?? 0) >= perWorld ||
+        seenText.has(shape)
+      )
+        continue;
       seenText.add(shape);
+      fromWorld.set(text.kind, (fromWorld.get(text.kind) ?? 0) + 1);
       perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
       lines.push({
         id: `text-${text.kind}-${perKind.get(text.kind)}`,

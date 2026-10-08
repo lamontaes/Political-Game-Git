@@ -1,4 +1,9 @@
 import { tagEngineText } from "./runtime-text-origin";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "./english-grades";
 import type { EntityId } from "../simulation/types";
 import type {
   RelationshipDimension,
@@ -126,6 +131,8 @@ export interface CompositionContext {
    * about them. A disclosure may copy only facts sourced wholly from these.
    */
   readonly speakerOwnRecordIds?: readonly EntityId[];
+  /** The owner's grades; a part they held back is not chosen. */
+  readonly partGrades?: PartGradeLedger;
 }
 
 export interface ComposedPart {
@@ -246,6 +253,15 @@ export function composeGroundedLine(
       (part === "reason" && REASONED_ACTS.includes(bank.act));
 
     const conditioned = partBank.variants.filter((variant) => {
+      if (
+        heldByGrades(
+          `${bankKey}:${part}:${variant.key}`,
+          context.partGrades ?? PART_GRADES,
+        )
+      ) {
+        reasons.push(`${part}/${variant.key}: held back by the owner's grade`);
+        return false;
+      }
       const blocked = conditionProblems(variant, context, packet);
       if (blocked.length > 0)
         reasons.push(`${part}/${variant.key}: ${blocked.join(", ")}`);
