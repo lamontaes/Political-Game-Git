@@ -4302,6 +4302,14 @@ function renderWorkspace({
           <OptionsWorkspace
             state={shell}
             dispatch={dispatch}
+            challengeIntensity={
+              playSettingsOf(session.world).challengeIntensity
+            }
+            onChangeChallengeIntensity={(challengeIntensity) =>
+              onWorldChange(
+                setPlaySetting(session.world, "challenge", challengeIntensity),
+              )
+            }
             notesVisibility={playSettingsOf(session.world).notesVisibility}
             onChangeNotesVisibility={(notesVisibility) =>
               onWorldChange(
