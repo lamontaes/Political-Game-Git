@@ -121,13 +121,13 @@ These are about bodies, bills and elections more than people. All are read by at
 
 ### Stores that are not history lists
 
-| Store                                                                          | Shown today                                   | Unseen              |
-| ------------------------------------------------------------------------------ | --------------------------------------------- | ------------------- |
-| `placeOutcomes`                                                                | State conditions page (`place-conditions.ts`) | no                  |
-| `publicBudgets`                                                                | Budget page                                   | no                  |
-| `townFinances` (business books, bank books, bank runs, defaults, market sales) | none                                          | Yes, all of it      |
-| `macroEconomy`                                                                 | Local economy panel                           | no                  |
-| `pressure`                                                                     | Scene and legislative helpers                 | not a person record |
+| Store                                                                          | Shown today                                   | Unseen                                                                                                                                                                   |
+| ------------------------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `placeOutcomes`                                                                | State conditions page (`place-conditions.ts`) | no                                                                                                                                                                       |
+| `publicBudgets`                                                                | Budget page                                   | no                                                                                                                                                                       |
+| `townFinances` (business books, bank books, bank runs, defaults, market sales) | none                                          | Yes, all of it, except that a closed business (a failed bank included) now shows struck through on the town's list, read from its closing profile and not from the books |
+| `macroEconomy`                                                                 | Local economy panel                           | no                                                                                                                                                                       |
+| `pressure`                                                                     | Scene and legislative helpers                 | not a person record                                                                                                                                                      |
 
 ## Findings that change the plan
 
@@ -164,5 +164,5 @@ Updated as each pull request opens.
 | `pool/SEE-IT-journal`       | Starting-law exposures named from the policy question; the defendant's and petitioner's own court events; voting-right suspension; a told view of an official no longer printed as a raw record string |
 | `pool/SEE-IT-news`          | Planned                                                                                                                                                                                                |
 | `pool/SEE-IT-person-record` | Whom a neighbor told you they credit or blame, and who told you they credit or blame an official, on the person's record                                                                               |
-| `pool/SEE-IT-town`          | Planned                                                                                                                                                                                                |
+| `pool/SEE-IT-town`          | A business that closed stays on the town's list, struck through, with the day it closed                                                                                                                |
 | `pool/SEE-IT-personal`      | Income and bills with the last payment; loans with lender, balance, payment, rate and standing; legal permissions under the law's own name; a starting law in the Money laws lists                     |
