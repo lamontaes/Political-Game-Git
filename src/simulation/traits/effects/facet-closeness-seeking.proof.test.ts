@@ -8,14 +8,17 @@ import { stableHash } from "../../ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { personName } from "../../people";
-import { readTrait } from "../../trait-readings";
-import { ANOTHER_TERM_DECISION } from "../../careers/another-term-decision";
-import { loadedTraitRegistry } from "../../trait-registry";
+import { readTrait, registeredTraitConsiderations } from "../../trait-readings";
+import {
+  BUILT_IN_TRAIT_DECISIONS,
+  loadedTraitRegistry,
+} from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import type { DecisionConsideration, EntityId, World } from "../../types";
 
-const TRAIT_ID = "personality-v1:facet-excitable";
-const SEED = "s52-proof-facet-excitable";
+const TRAIT_ID = "personality-v1:facet-closeness-seeking";
+const DECISION_ID = "people.couple-answer";
+const SEED = "s52-proof-facet-closeness-seeking";
 
 function randomPlace(seed: string): { placeKey: string; label: string } {
   const states = lifePlaceStateIdentities();
@@ -38,7 +41,7 @@ function randomPlace(seed: string): { placeKey: string; label: string } {
   throw new Error("No locality was drawn from the 56-place list.");
 }
 
-function recordExcitability(world: World, personId: EntityId): World {
+function recordClosenessSeeking(world: World, personId: EntityId): World {
   const trait = loadedTraitRegistry().traits.get(TRAIT_ID)!;
   const definition = traitDefinitionFromPack(trait);
   const withCatalog: World = {
@@ -62,29 +65,49 @@ function recordExcitability(world: World, personId: EntityId): World {
     expressionKey: trait.poles.high.key,
     strength: "strong",
     confidence: "medium",
-    scopeTags: ["life:ordinary", "career:choice"],
+    scopeTags: ["life:ordinary", "relationship:choice"],
     provenance: createMindProvenance("authored", {
-      note: "Focused proof of the excitable decision reader.",
+      note: "Focused proof of the trait reader.",
     }),
     supersedesTendencyId: null,
   });
 }
 
-function chooseWithSharedContext(world: World, personId: EntityId) {
+function chooseWithSharedContext(
+  world: World,
+  personId: EntityId,
+  targetRecordId?: EntityId,
+) {
+  const declaration = BUILT_IN_TRAIT_DECISIONS.find(
+    ({ id }) => id === DECISION_ID,
+  )!;
   const sharedContext: DecisionConsideration = {
-    stableKey: `proof:shared-office-term:${personId}`,
-    optionKey: "step-down",
-    sourceType: "context:office-term",
+    stableKey: `proof:shared-close-bond:${personId}`,
+    optionKey: "decline",
+    sourceType: "context:observed-relationship",
     direction: "supports",
     importance: "slight",
     confidence: "high",
-    explanation: "The term is ending, and leaving is a real option.",
+    explanation: "They have reason to wait before making a commitment.",
     sourceRefs: [],
   };
-  const considerations = [sharedContext];
+  const traitConsiderations = registeredTraitConsiderations(
+    world,
+    loadedTraitRegistry(),
+    personId,
+    `proof:${DECISION_ID}:${personId}`,
+    DECISION_ID,
+  ).filter(({ sourceRefs }) =>
+    sourceRefs.some(
+      (source) =>
+        source.kind === "personality-tendency" &&
+        source.tendencyRecordId === targetRecordId,
+    ),
+  );
+  const considerations = [sharedContext, ...traitConsiderations];
   const evaluation = evaluateDecision(world, {
-    stableKey: `proof:${ANOTHER_TERM_DECISION.id}:${personId}`,
-    decisionType: ANOTHER_TERM_DECISION.id,
+    stableKey: `proof:${DECISION_ID}:${personId}`,
+    decisionType: DECISION_ID,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
@@ -92,10 +115,10 @@ function chooseWithSharedContext(world: World, personId: EntityId) {
     },
     subject: {
       kind: "context:life",
-      key: "another-term-choice",
+      key: "proof-established-close-bond",
       entityId: null,
     },
-    options: ANOTHER_TERM_DECISION.options.map((key) => ({
+    options: declaration.options.map((key) => ({
       key,
       label: key,
       description: `The person chooses ${key}.`,
@@ -106,19 +129,16 @@ function chooseWithSharedContext(world: World, personId: EntityId) {
     randomness: "none",
     retention: "durable",
   });
-  const chosenReasons = evaluation.context.considerations.filter(
-    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-  );
   return {
     choice: evaluation.selectedOptionKey,
-    reason:
-      chosenReasons.find(({ stableKey }) => stableKey.includes(TRAIT_ID))
-        ?.explanation ?? chosenReasons[0]?.explanation,
+    reason: considerations.find(
+      ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+    )?.explanation,
   };
 }
 
-describe("facet-excitable in a random new game", () => {
-  it("changes one of two people's otherwise shared career choices", () => {
+describe("facet-closeness-seeking in a random new game", () => {
+  it("changes one of two people's otherwise shared relationship choices", () => {
     const place = randomPlace(SEED);
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -136,26 +156,36 @@ describe("facet-excitable in a random new game", () => {
         readTrait(game.world, id, trait).state === "unrecorded",
     );
     expect(candidates.length).toBeGreaterThanOrEqual(2);
-    const [unmarkedPersonId, excitablePersonId] = candidates;
-    const world = recordExcitability(game.world, excitablePersonId!);
+    const [unmarkedPersonId, closenessSeekingPersonId] = candidates;
+    const world = recordClosenessSeeking(game.world, closenessSeekingPersonId!);
+    const tendencyId = traitDefinitionFromPack(trait).id;
+    const record = [...world.history.personalityTendencies]
+      .reverse()
+      .find(
+        (entry) =>
+          entry.personId === closenessSeekingPersonId &&
+          entry.tendencyId === tendencyId,
+      )!;
     const unmarked = chooseWithSharedContext(world, unmarkedPersonId!);
-    const excitable = chooseWithSharedContext(world, excitablePersonId!);
+    const closenessSeeking = chooseWithSharedContext(
+      world,
+      closenessSeekingPersonId!,
+      record.id,
+    );
     const proof = {
       place: place.label,
       seed: SEED,
       people: [
         personName(world.people[unmarkedPersonId!]!),
-        personName(world.people[excitablePersonId!]!),
+        personName(world.people[closenessSeekingPersonId!]!),
       ],
       unmarked,
-      excitable,
+      closenessSeeking,
     };
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
-    expect(proof.unmarked.choice).toBe("step-down");
-    expect(proof.excitable.choice).toBe("seek");
-    expect(proof.unmarked.reason).toContain("term is ending");
-    expect(proof.excitable.reason).toContain(
-      `${TRAIT_ID}|${ANOTHER_TERM_DECISION.id}|seek|high`,
-    );
+    expect(proof.unmarked.choice).toBe("decline");
+    expect(proof.closenessSeeking.choice).toBe("accept");
+    expect(proof.unmarked.reason).toContain("reason to wait");
+    expect(proof.closenessSeeking.reason).toContain("shared time");
   });
 });

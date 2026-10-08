@@ -72,18 +72,35 @@ describe("the one personality trait registry", () => {
 
   it("names real behavior readers and makes every other trait explicit debt", () => {
     expect(traitsWithoutReaderOrDebt()).toEqual([]);
-    expect(PERSONALITY_TRAIT_READERS).toHaveLength(26);
+    expect(PERSONALITY_TRAIT_READERS).toHaveLength(34);
     expect(PERSONALITY_TRAIT_READERS).toContainEqual({
       trait: "personality-v1:facet-excitable",
       kind: "decision",
-      reader:
-        "registeredTraitConsiderations — src/simulation/traits/effects/facet-excitable.ts",
+      reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
     });
     expect(PERSONALITY_TRAIT_READERS).toContainEqual({
       trait: "personality-v1:patience",
       kind: "decision",
       reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
     });
+    expect(
+      PERSONALITY_TRAIT_READERS.filter(({ reader }) =>
+        reader.includes("traitActConsiderations"),
+      ).map(({ trait }) => trait),
+    ).toEqual(
+      expect.arrayContaining([
+        "personality-v1:facet-curious",
+        "personality-v1:facet-defensive",
+        "personality-v1:facet-deferential",
+        "personality-v1:facet-devoted",
+        "personality-v1:facet-dramatic",
+        "personality-v1:facet-duty-bound",
+        "personality-v1:facet-enterprising",
+        "personality-v1:facet-entitled",
+        "personality-v1:facet-envious",
+        "personality-v1:facet-excitable",
+      ]),
+    );
     const effectReaders = loadedTraitRegistry().report.packs.flatMap(
       ({ consumedBy }) =>
         Object.entries(consumedBy)
