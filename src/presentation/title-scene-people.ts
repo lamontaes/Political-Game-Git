@@ -347,14 +347,14 @@ export function titlePeopleInView<
 
 /**
  * The light a picture is painted in, put on the people in it: a person
- * standing in a night picture is darker and cooler than in a midday one,
+ * standing in a night picture is darker and flatter in colour than in a midday one,
  * the same way for every picture, never one scene's own number. Midday,
  * the light the people are drawn in, takes no filter.
  */
 export function titlePeopleTint(variant: string | undefined): string | null {
   switch (variant) {
     case "night":
-      return "brightness(0.55) saturate(0.8) contrast(1.05) sepia(0.2) hue-rotate(185deg)";
+      return "brightness(0.5) saturate(0.7) contrast(1.08)";
     case "morning":
       return "sepia(0.15) saturate(1.1) brightness(1.03)";
     case "rain":
