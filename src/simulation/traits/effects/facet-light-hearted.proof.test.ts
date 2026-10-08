@@ -11,7 +11,8 @@ describe("the light-hearted facet through the shared trait table", () => {
       direction: "supports",
       importance: "slight",
       confidence: "high",
-      explanation: "Saying nothing on the record avoids committing to an account.",
+      explanation:
+        "Saying nothing on the record avoids committing to an account.",
       sourceRefs: [],
     };
     const proof = proveTraitDifference(
@@ -19,6 +20,7 @@ describe("the light-hearted facet through the shared trait table", () => {
       "press.subject-response",
       "m4-proof-facet-light-hearted",
       [baseline],
+      "act-pulls",
     );
     expect(proof.without).toBe("decline");
     expect(proof.high.choice).toBe("no-response");
