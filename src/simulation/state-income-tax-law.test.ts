@@ -541,7 +541,9 @@ describe("a state's income tax law, as enacted in play", () => {
         continue;
       }
       if (read.kind !== "enacted")
-        throw new Error(`${place}: production table was refused`);
+        throw new Error(
+          `${place}: production table was refused (${JSON.stringify(read)})`,
+        );
       expect(read.shape).toBe("graduated");
       expect(read.schedule.standardDeductionMinor).toBe(
         recordedSchedule.schedule.standardDeductionMinor,
