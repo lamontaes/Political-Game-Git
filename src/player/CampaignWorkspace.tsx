@@ -42,6 +42,10 @@ import {
   petitionSignaturesForCampaign,
 } from "../simulation/candidate-petitions";
 import {
+  fileCandidatePetition,
+  reviewCandidatePetition,
+} from "../simulation/candidate-petition-review";
+import {
   campaignPlanningLayout,
   isPrimaryCampaignPlanningSlot,
 } from "./campaign-planning-layout";
@@ -172,6 +176,26 @@ export function CampaignWorkspace({
     if (petitionEvents.length === 0) return null;
     return petitionSignaturesForCampaign(world, view.campaignId).length;
   }, [world, view.campaignId]);
+  const petitionReview = useMemo(
+    () =>
+      view.campaignId
+        ? reviewCandidatePetition(world, view.campaignId)
+        : null,
+    [world, view.campaignId],
+  );
+  const petitionAccepted = useMemo(
+    () =>
+      Boolean(
+        view.campaignId &&
+          world.history.events.some(
+            (event) =>
+              event.type === "campaign.petition-accepted" &&
+              event.tags.includes("campaign:candidate-petition-filing") &&
+              event.tags.includes(`campaign:${view.campaignId}`),
+          ),
+      ),
+    [world, view.campaignId],
+  );
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
   const [donorAskDollars, setDonorAskDollars] = useState(100);
@@ -230,6 +254,19 @@ export function CampaignWorkspace({
     } catch (error) {
       setProblem(error instanceof Error ? error.message : String(error));
     }
+  }
+
+  function filePetition() {
+    run(
+      () => {
+        if (!view.campaignId) throw new Error("There is no petition to file.");
+        const clerkPersonId = world.personOrder.find((id) => id !== personId);
+        if (!clerkPersonId)
+          throw new Error("No recorded person is available to serve as clerk.");
+        return fileCandidatePetition(world, view.campaignId, clerkPersonId).world;
+      },
+      onWorldChange,
+    );
   }
 
   function file() {
@@ -593,6 +630,25 @@ export function CampaignWorkspace({
             <p data-testid="campaign-petition-signatures">
               Signatures you have: {petitionCount}.
             </p>
+          ) : null}
+          {petitionCount !== null && petitionReview ? (
+            <div data-testid="candidate-petition-review">
+              <p>
+                Petition review: {petitionReview.accepted ? "accepted" : "rejected"}.
+                {petitionReview.canCure
+                  ? ` Signatures may be cured by ${readableCampaignDate(petitionReview.filingDeadline)}.`
+                  : ""}
+              </p>
+              {!petitionAccepted ? (
+                <button
+                  type="button"
+                  data-testid="file-candidate-petition"
+                  onClick={filePetition}
+                >
+                  Submit signatures to the clerk
+                </button>
+              ) : null}
+            </div>
           ) : null}
           {view.phase === "active" ? (
             <CampaignOwnMoney
