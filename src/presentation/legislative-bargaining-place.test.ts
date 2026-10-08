@@ -6,7 +6,7 @@ import {
   BENEFICIARY_LABEL,
   PLACE_LABEL,
   REQUESTED_MATCH_PLACE_GEOID,
-} from "./legislative-bargaining-brief";
+} from "./legislative-bargaining-fixture";
 
 /**
  * DIRECTOR42 ROLE B — the place this sitting names is a place the game knows.

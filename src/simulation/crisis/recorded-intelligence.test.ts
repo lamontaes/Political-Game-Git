@@ -20,11 +20,13 @@ import {
   internationalCrisisState,
   internationalCycleOrDecisionHandler,
 } from "./international";
+import { internationalTestActors } from "./international-test-actors";
 import { appendCrisisRecord, crisisRecords } from "./records";
 
 function declare(world: World) {
   const next = declareInternationalCrisis(world, {
     stableKey: "recorded-intelligence-test",
+    ...internationalTestActors(world, "recorded-intelligence-test", []),
     counterpartyLabel: "test counterparty",
     allyLabels: [],
     subject: "test dispute",
