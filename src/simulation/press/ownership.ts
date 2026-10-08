@@ -83,10 +83,6 @@ export function loadedOwnershipRegistry(): OwnershipRegistry {
   return cached;
 }
 
-export function resetLoadedOwnershipRegistry(): void {
-  cached = null;
-}
-
 export const PRESS_OWNER_REVIEW_TRANSITION_KEY = "press:owner-review";
 
 const OWNER_KEY = "press:owner:";

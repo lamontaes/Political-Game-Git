@@ -431,18 +431,6 @@ export function groupsAgainst(
   return result;
 }
 
-/** The measure a law-interest group was formed against. */
-export function lawInterestMeasure(
-  world: World,
-  organizationId: EntityId,
-): EntityId | null {
-  const key = world.history.organizations.find(
-    (row) => row.id === organizationId,
-  )?.stableKey;
-  if (!key?.startsWith(`${G}:`)) return null;
-  return (key.split(":").at(-1) as EntityId | undefined) ?? null;
-}
-
 /** Members of every law-interest group formed against this law. */
 export function membersAgainstLaw(world: World, measureId: EntityId): number {
   let members = 0;

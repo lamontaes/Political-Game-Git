@@ -204,8 +204,3 @@ export function loadedPolicyRegistry(): PolicyRegistry {
   cached ??= loadPolicyPacks(POLICY_PACKS);
   return cached;
 }
-
-/** For a test that wants a registry built from something other than the build's. */
-export function resetLoadedPolicyRegistry(): void {
-  cached = null;
-}

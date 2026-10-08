@@ -530,27 +530,6 @@ export interface StateExecutiveHolderRecord {
 export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";
 export const OFFICE_TERM_CLOSED_TAG = "term-closed:";
 
-/** The date this office was given up, when a resignation is on record. */
-export function stateExecutiveVacatedOn(
-  world: World,
-  officeKey: string,
-): IsoDate | null {
-  for (const event of world.history.events) {
-    if (
-      event.type !== OFFICE_CONSEQUENCE_EVENT_TYPE ||
-      !event.tags.includes(`office:${officeKey}`)
-    )
-      continue;
-    const closed = event.tags.find((tag) =>
-      tag.startsWith(OFFICE_TERM_CLOSED_TAG),
-    );
-    const effectiveAt = closed?.split(":").at(-1);
-    if (effectiveAt && effectiveAt <= world.currentDate)
-      return makeIsoDate(effectiveAt);
-  }
-  return null;
-}
-
 /*
  * A World is never edited in place, so its holders never change. Governing
  * handlers ask for them many times against the same World in one Day.
