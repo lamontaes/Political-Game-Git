@@ -671,10 +671,3 @@ const definitionsByTrait = new WeakMap<
   RegisteredTrait,
   PersonalityTendencyDefinition
 >();
-
-/** Every definition the loaded packs declare, in pack then declaration order. */
-export function traitDefinitions(
-  registry: TraitRegistry,
-): readonly PersonalityTendencyDefinition[] {
-  return [...registry.traits.values()].map(traitDefinitionFromPack);
-}

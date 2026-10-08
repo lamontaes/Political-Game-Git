@@ -132,14 +132,6 @@ export const CHIEF_EXECUTIVE_JURISDICTIONS: readonly string[] = [
   ...(Object.keys(US_TERRITORY_GOVERNED_NAMES) as UsTerritoryUsps[]),
 ];
 
-export function isChiefExecutiveJurisdiction(key: string): boolean {
-  return (
-    isUsState(key) ||
-    isDistrictOfColumbia(key) ||
-    isUsTerritoryWithGovernor(key)
-  );
-}
-
 /** The jurisdiction's own name, for a state, the District or a territory. */
 export function chiefExecutiveJurisdictionName(key: string): string {
   if (isDistrictOfColumbia(key)) return "District of Columbia";

@@ -1,9 +1,4 @@
 import { nationalOfficeRef } from "./national-election-offices";
-import {
-  nationalUnitJurisdiction,
-  ensureJurisdiction,
-} from "./national-election-geography";
-import { scheduleElectionContest } from "./election-contests";
 import { compareSimulationMoments } from "./dates";
 import {
   createFutureTransitionHandlerRegistry,
@@ -30,7 +25,6 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
-  FutureTransitionHandlerRegistry,
   World,
   ElectionContestProvenance,
   TimeDemandProfile,
@@ -155,10 +149,6 @@ export function createNationalElectionTransitionRegistry() {
     [NATIONAL_COUNT_TRANSITION, nationalCountTransitionHandler],
   ]);
 }
-/** Compatibility export, with no registry construction during cold module initialization. */
-export const NATIONAL_ELECTION_HANDLERS: FutureTransitionHandlerRegistry = {
-  get: (key) => createNationalElectionTransitionRegistry().get(key),
-};
 /** Attested qualification/oath is a named receiver input, not inferred from winning. */
 export function planNationalOfficeTerm(
   world: World,
@@ -468,119 +458,4 @@ export function qualifyNationalOfficeEntry(
       effectiveAt: world.currentMoment,
     }),
   );
-}
-
-/** Declared canonical geography enters through the existing contest scheduler. */
-export function scheduleNationalUnitContest(
-  world: World,
-  input: {
-    stableKey: string;
-    electionId: EntityId;
-    unitKey: string;
-    jurisdictionId: EntityId;
-    provenance: ElectionContestProvenance;
-  },
-): World {
-  const election = requireNationalElection(world, input.electionId);
-  const rules = nationalElectionRules(election.cycle);
-  if (!rules.units.some((unit) => unit.key === input.unitKey))
-    throw new Error("Unsupported national election unit.");
-  const jurisdiction = nationalUnitJurisdiction(election.cycle, input.unitKey);
-  if (input.jurisdictionId !== jurisdiction.id)
-    throw new Error(
-      "National unit jurisdiction does not match the selected canonical state/DC.",
-    );
-  const scheduled = scheduleElectionContest(
-    ensureJurisdiction(world, jurisdiction),
-    {
-      stableKey: input.stableKey,
-      jurisdictionId: input.jurisdictionId,
-      office: {
-        officeKey: `electors:${input.unitKey}`,
-        title: `Presidential electors (${input.unitKey})`,
-        seatKey: input.unitKey,
-        occupationClassification: null,
-      },
-      electionDate: rules.electionDate,
-      candidatePersonIds: election.tickets.map(
-        (ticket) => ticket.presidentPersonId,
-      ),
-      provenance: input.provenance,
-    },
-  );
-  const contestId = scheduled.history.electionContests!.at(-1)!.id;
-  return appendNationalRecord(scheduled, {
-    kind: "contest-link",
-    stableKey: `${input.stableKey}:national-link`,
-    electionId: election.id,
-    unitKey: input.unitKey,
-    contestId,
-    provenance: {
-      method: "simulated",
-      sourceEntityIds: [election.id, contestId],
-      note: "Bound canonical elector-unit contest to the national election. No certification or campaign/ballot-access admission inferred.",
-    },
-  });
-}
-/** The current scheduled producer supplies raw results; certification remains external. */
-export function importLinkedNationalContestResult(
-  world: World,
-  contestId: EntityId,
-): World {
-  const link = nationalRecords(world).find(
-    (record) =>
-      record.kind === "contest-link" && record.contestId === contestId,
-  );
-  if (
-    link?.kind !== "contest-link" ||
-    nationalRecords(world, link.electionId).some(
-      (record) =>
-        record.kind === "unit-result" && record.unitKey === link.unitKey,
-    )
-  )
-    return world;
-  const result = (world.history.electionContestResults ?? []).find(
-    (record) => record.contestId === contestId,
-  );
-  return result
-    ? importNationalContestResult(world, {
-        stableKey: `${link.stableKey}:raw-result`,
-        electionId: link.electionId,
-        unitKey: link.unitKey,
-        contestResultId: result.id,
-      })
-    : world;
-}
-
-/** National unit schedules never invoke the legacy seeded popular-vote placeholder. */
-export function linkedNationalUnitTransition(
-  world: World,
-  due: FutureDueItem,
-): FutureTransitionHandlerResult | null {
-  const contestId = due.entityIds[0];
-  const link = nationalRecords(world).find(
-    (record) =>
-      record.kind === "contest-link" && record.contestId === contestId,
-  );
-  if (link?.kind !== "contest-link" || !contestId) return null;
-  const result = (world.history.electionContestResults ?? []).find(
-    (record) => record.contestId === contestId,
-  );
-  if (!result)
-    return {
-      world,
-      status: "blocked",
-      reasonKey: "election:national-unit-result-missing",
-      context:
-        "A supplied canonical state/district result is required. The legacy seeded placeholder is not a national election producer.",
-      outcomeEventId: null,
-    };
-  return {
-    world: importLinkedNationalContestResult(world, contestId),
-    status: "resolved",
-    reasonKey: null,
-    context:
-      "Supplied canonical unit result imported as raw totals; certification and electoral ballots remain separate.",
-    outcomeEventId: result.outcomeEventId,
-  };
 }

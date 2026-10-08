@@ -18,6 +18,7 @@ import {
 } from "./executive-work-entry";
 import { resolveExecutiveOffice } from "./executive-work-context";
 import {
+  composeExecutiveWorkHandlers,
   receiveExecutiveWork,
   synchronizeExecutiveInbox,
 } from "./executive-work";
@@ -32,10 +33,7 @@ import {
   projectPublicInformationDigest,
   publishPublicEvent,
 } from "./public-information";
-import {
-  applyExecutivePlayTransition,
-  executivePlayHandlers,
-} from "../presentation/executive-entry";
+import { applyExecutivePlayTransition } from "../presentation/executive-entry";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { advanceWorld } from "./world";
 import type { World } from "./types";
@@ -267,7 +265,7 @@ describe("ordinary elected executive entry", () => {
     const entered = advanceWorld(
       connected,
       daysBetween(connected.currentDate, addDays(connected.currentDate, 4)),
-      executivePlayHandlers(),
+      composeExecutiveWorkHandlers(),
     );
     expect(resolveExecutiveOffice(entered)?.personId).toBe(
       result.winnerPersonId,
@@ -332,7 +330,7 @@ describe("ordinary elected executive entry", () => {
     const entered = advanceWorld(
       connected.world,
       daysBetween(connected.world.currentDate, connected.startsAt),
-      executivePlayHandlers(),
+      composeExecutiveWorkHandlers(),
     );
     const office = resolveExecutiveOffice(entered)!;
     expect(office.origin).toBe("elected-term");
@@ -383,7 +381,7 @@ describe("ordinary elected executive entry", () => {
     const throughStartUnqualified = passOrdinaryDays(
       unqualified.world,
       daysBetween(unqualified.world.currentDate, unqualified.startsAt),
-      executivePlayHandlers(),
+      composeExecutiveWorkHandlers(),
     );
     expect(resolveExecutiveOffice(throughStartUnqualified)).toBeNull();
 
@@ -401,13 +399,13 @@ describe("ordinary elected executive entry", () => {
     const entered = passOrdinaryDays(
       connected.world,
       daysBetween(connected.world.currentDate, connected.startsAt),
-      executivePlayHandlers(),
+      composeExecutiveWorkHandlers(),
     );
     expect(resolveExecutiveOffice(entered)?.origin).toBe("elected-term");
     const expired = passOrdinaryDays(
       entered,
       daysBetween(entered.currentDate, connected.endsAt),
-      executivePlayHandlers(),
+      composeExecutiveWorkHandlers(),
     );
     expect(resolveExecutiveOffice(expired)).toBeNull();
     expect(() =>

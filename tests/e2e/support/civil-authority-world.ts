@@ -66,7 +66,7 @@ const timeDemand = (jurisdictionId: EntityId) => ({
 
 export function civilAuthorityFixture(
   date = "2026-09-14",
-  stateKey: "US-MN" | "US-AK" = "US-MN",
+  stateKey: string = "US-MN",
   controlled: "director" | "otherDirector" = "director",
   seed = "civil-authority13",
 ): CivilAuthorityFixture {

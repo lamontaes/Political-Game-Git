@@ -603,17 +603,6 @@ export function requireCandidacyPack(packId: string): CandidacyPack {
   return pack;
 }
 
-export function electiveOfficeOption(
-  packId: string,
-  officeKey: string,
-): ElectiveOfficeOption | null {
-  return (
-    candidacyPackById(packId)?.offices.find(
-      (option) => option.officeKey === officeKey,
-    ) ?? null
-  );
-}
-
 export function candidacyCoverage(): CandidacyCoverage {
   const sourcedOfficeCount = CANDIDACY_PACKS.flatMap((pack) =>
     pack.offices.map((office) => ({ pack, office })),

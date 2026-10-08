@@ -58,7 +58,10 @@ import {
 import { composeWorldTimeHandlers } from "./campaigns";
 import { recordsWithFieldValue } from "./history-index";
 import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
-import { reconcileStateLegislatureQueue } from "./nationwide-world/state-legislature-queue";
+import {
+  STATE_LEGISLATURE_WAKE_TRANSITION,
+  reconcileStateLegislatureQueue,
+} from "./nationwide-world/state-legislature-queue";
 import { createCrisisTransitionRegistry } from "./crisis";
 import { ensureCrisisMortality } from "./crisis/mortality";
 import {
@@ -2039,6 +2042,10 @@ function resolveFutureDueItemsWithStateLegislatureQueue(
   throughDate: World["currentDate"],
   transitionHandlers: FutureTransitionHandlerRegistry,
 ): World {
+  // Wakes are only scheduled where the caller's registry can run them; a
+  // narrower registry would otherwise meet work it never asked for.
+  if (!transitionHandlers.get(STATE_LEGISLATURE_WAKE_TRANSITION))
+    return resolveFutureDueItemsThrough(world, throughDate, transitionHandlers);
   const packs = new Set<string>();
   for (const opening of recordsWithFieldValue(
     world.history.events,

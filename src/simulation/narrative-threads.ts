@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { addDays, ageOnDate, daysBetween, spokenDate } from "./dates";
+import { daysBetween, spokenDate } from "./dates";
 import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,
@@ -223,47 +223,6 @@ export function narrativeThreads(
     if (byDate !== 0) return byDate;
     return left.key.localeCompare(right.key);
   });
-}
-
-/** The threads that are still live, in the order a narrator should prefer them. */
-export function liveNarrativeThreads(
-  world: World,
-  personId: EntityId,
-  asOfDate: IsoDate = world.currentDate,
-): readonly NarrativeThread[] {
-  const rank: Readonly<Record<ThreadStanding, number>> = {
-    pressing: 0,
-    running: 1,
-    opening: 2,
-    dormant: 3,
-    settled: 4,
-    moot: 5,
-  };
-  return narrativeThreads(world, personId, asOfDate)
-    .filter(
-      (thread) => thread.standing !== "settled" && thread.standing !== "moot",
-    )
-    .sort((left, right) => {
-      const byStanding = rank[left.standing] - rank[right.standing];
-      if (byStanding !== 0) return byStanding;
-      const byDate = right.lastMovedAt.localeCompare(left.lastMovedAt);
-      if (byDate !== 0) return byDate;
-      return left.key.localeCompare(right.key);
-    });
-}
-
-/** One thread by key, or null. */
-export function narrativeThread(
-  world: World,
-  personId: EntityId,
-  key: string,
-  asOfDate: IsoDate = world.currentDate,
-): NarrativeThread | null {
-  return (
-    narrativeThreads(world, personId, asOfDate).find(
-      (thread) => thread.key === key,
-    ) ?? null
-  );
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1085,19 +1044,4 @@ export function threadPresence(
     families: [...new Set(threads.map((thread) => thread.family))].sort(),
     recurringPersonIds: [...recurring].sort(),
   };
-}
-
-/** How old the subject was when a thread opened, for retrospective surfaces. */
-export function threadOpenedAtAge(
-  world: World,
-  thread: NarrativeThread,
-): number | null {
-  const person = world.people[thread.subjectPersonId];
-  if (!person) return null;
-  return ageOnDate(person.birthDate, thread.openedAt);
-}
-
-/** The date a dormant thread would stop being called running, for tests. */
-export function threadDormantFrom(thread: NarrativeThread): IsoDate {
-  return addDays(thread.lastMovedAt, THREAD_DORMANT_AFTER_DAYS + 1);
 }

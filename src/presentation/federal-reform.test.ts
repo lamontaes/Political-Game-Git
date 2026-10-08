@@ -23,7 +23,7 @@ import {
   FEDERAL_REFORM_STATE_ACTION,
   federalReformCause,
   federalReformReviewHandler,
-  federalReformStateActionHandler,
+  constitutionalStateActionHandler,
   termLimitCount,
 } from "../simulation/living-world/federal-reform";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
@@ -245,7 +245,7 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
       expect(constitutionalPosition(world, id).phase).toBe("ratification");
       let decided = world;
       for (const stateKey of ARTICLE_V_STATE_KEYS)
-        decided = federalReformStateActionHandler(decided, {
+        decided = constitutionalStateActionHandler(decided, {
           ...review(world, 2027),
           stableKey: `federal-reform/v1:US:2027:state:${stateKey}`,
           transitionKey: FEDERAL_REFORM_STATE_ACTION,
