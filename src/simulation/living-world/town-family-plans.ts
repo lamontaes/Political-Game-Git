@@ -86,6 +86,14 @@ export const FAMILY_PLAN_OPTIONS = {
   wait: "leave-it",
 } as const;
 
+/** Where the family-plan weights come from. */
+export const FAMILY_PLAN_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "timingPeakYears rests on the US spacing between births (about 2.5 to 3 years, NCHS interpregnancy and birth-interval reports); the other weights are game assumptions on the decision engine's scale, with no survey behind them",
+} as const;
+
 /**
  * GAME ASSUMPTIONS: how strongly each circumstance argues, in the decision
  * engine's points. Each is the most it can argue; the circumstance itself
@@ -113,8 +121,9 @@ export const FAMILY_PLAN_WEIGHTS = {
    */
   timing: 4,
   /**
-   * PLACEHOLDER near the US spacing between births (about 2.5 to 3 years,
-   * NCHS interpregnancy and birth-interval reports); see the research request.
+   * ESTIMATED FROM AVERAGE near the US spacing between births (about 2.5 to
+   * 3 years, NCHS interpregnancy and birth-interval reports); see
+   * `FAMILY_PLAN_ESTIMATE`.
    */
   timingPeakYears: 2.5,
   /** Being married. */
