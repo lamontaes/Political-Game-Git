@@ -469,8 +469,8 @@ export function projectWorkRole(world: World, personId: EntityId): WorkRole {
   const offer = offerSentence(offers);
   const sentence = [
     roles.length === 0
-      ? "You do not hold a job or an office right now."
-      : `${roles.length === 1 ? "Your role" : "Your roles"}: ${roles.join("; ")}.`,
+      ? "Role: none"
+      : `${roles.length === 1 ? "Role" : "Roles"}: ${roles.join("; ")}`,
     offer,
     congressElect,
     study,

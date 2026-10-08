@@ -7,6 +7,8 @@ import type { IsoDate } from "../types";
 /** Calendar facts only. Neither a filing admission nor a district assignment. */
 export interface CountyElectionDates {
   readonly electionDate: IsoDate;
+  /** True when a county lacks its own calendar and uses the state's rule. */
+  readonly estimated: boolean;
   readonly primaryDate: IsoDate | null;
   readonly qualifyingOpens: IsoDate | null;
   readonly qualifyingCloses: IsoDate | null;
@@ -107,6 +109,7 @@ function stateRowRead(
     status: "read",
     dates: {
       electionDate,
+      estimated: true,
       primaryDate: null,
       qualifyingOpens: null,
       qualifyingCloses: null,
@@ -150,6 +153,7 @@ export function nextCountyElection(
       status: "read",
       dates: {
         electionDate: makeIsoDate(profile.electionDate),
+        estimated: false,
         primaryDate: makeIsoDate(profile.primaryDate),
         qualifyingOpens: profile.qualifyingOpens
           ? makeIsoDate(profile.qualifyingOpens)
@@ -192,6 +196,7 @@ export function nextCountyElection(
           profile.electionWeekday,
           profile.electionWeekdayOrdinal,
         ),
+        estimated: false,
         primaryDate: null,
         qualifyingOpens: null,
         qualifyingCloses: null,

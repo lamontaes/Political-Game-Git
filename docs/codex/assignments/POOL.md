@@ -266,7 +266,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | T11 | Dialogue reads LIVE traits | pool-traits.md T11 | open (stale claim: S4) | S4 |
 | T12 | Registry hygiene | pool-traits.md T12 | open (stale claim: S1) | S1  
 |
-| T13 | Resting face from the record (low priority) | pool-traits.md T13 | open | |
+| T13 | Resting face from the record (low priority) | pool-traits.md T13 | done (#3386) | |
 | AU-01 | One amendment process and Congress as a rule pack | pool-audit-repairs.md AU-01 | ready #3461 | Session 55 |
 | AU-02 | One effects map and one stamp registry | pool-audit-repairs.md AU-02 | open | |
 | AU-03 | Federal laws sized once | pool-audit-repairs.md AU-03 | done (#2632, batch-marked by CTO Oct 7) | |
@@ -752,11 +752,11 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2464 | Reuse person-owned history and household projections | PR #2464 (codex/session5-sp-c-person-history-index) | open: draft: finish it or close it as superseded | |
 | RS-2468 | Add LW-04 state tax consequence rows | PR #2468 (codex/lw04-state-tax-terms-rows) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2471 | BG-57: print filed bills on the painted green sheet | PR #2471 (session14/bg57-filed-bills-board) | open: draft: finish it or close it as superseded | |
-| RS-2472 | B14 Part 6: Add player misconduct offer seam | PR #2472 (codex/session36-b14-part6) | open: draft: finish it or close it as superseded | |
+| RS-2472 | B14 Part 6: Add player misconduct offer seam | PR #2472 (codex/session36-b14-part6) | ready #2472 | |
 | RS-2474 | b13-p3: Add source-grounded courtroom situation adapter | PR #2474 (codex/session42-b13-p3-courtroom-scenes) | open: sent back: failed its own changed checks: prettier; rebase on main (conflicts) | |
 | RS-2475 | Fix radial menu spacing at ring boundaries | PR #2475 (session14/bg59-radial-clipping) | open: draft: finish it or close it as superseded | |
 | RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | ready #2477; gates in PR |
-| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | ready #2478 | |
 | RS-2480 | Bind tax terms through one authority table | PR #2480 (session9/generic-tax-term-binding) | open: draft: finish it or close it as superseded | |
 | RS-2481 | LW-07: add city tax term rows | PR #2481 (codex/session30-lw07) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2483 | B06 Part 6: Share the office casework choices | PR #2483 (session28/b06-p6-shared-casework-choices) | open: sent back: failed its own changed checks: eslint | |
@@ -766,12 +766,12 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2489 | B06 Part 2: Open a case for each office contact | PR #2489 (session28/b06-p2-open-cases) | open: sent back: failed its own changed checks: tests; rebase on main (conflicts) | |
 | RS-2490 | LW06: add county and city tax term rows | PR #2490 (codex/lw06-county-city-tax-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2491 | Add public misconduct record readers | PR #2491 (codex/lw03-federal-tax-terms) | open: draft: finish it or close it as superseded | |
-| RS-2494 | B09 part 3: classify vote readings | PR #2494 (codex/session32-b09-p3-vote-reading) | open: draft: finish it or close it as superseded | |
+| RS-2494 | B09 part 3: classify vote readings | PR #2494 (codex/session32-b09-p3-vote-reading) | ready #2494 | S40 |
 | RS-2496 | LW-13: record the person barred by council term limits | PR #2496 (codex/session13-lw13-local-election-exposure) | open: rebase on main (conflicts); stacked on codex/session13-lw12-state-election-exposure: retarget to main; draft: finish it or close it as superseded | |
 | RS-2497 | Add citizen ballot measures and law in force | PR #2497 (session46/b18-3-ballot-measures) | open: draft: finish it or close it as superseded | |
 | RS-2498 | Add concern for distress trait effect | PR #2498 (session49-t9-concern-distress) | open: draft: finish it or close it as superseded | |
 | RS-2499 | b31-p1: add data-only row sections to runtime content packs | PR #2499 (session55/b31-p1) | open: draft: finish it or close it as superseded | |
-| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | done #3488 | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
@@ -788,14 +788,14 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2524 | B21 P1: derive couple interest from recorded time together | PR #2524 (session-b21-p1-interest) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2525 | Add per-place council meeting cadence (b05-p6) | PR #2525 (codex/session50-b05-p6-cadence) | open: rebase on main (conflicts) | |
 | RS-2526 | Add facet-entitled another-term effect row | PR #2526 (codex/session57-t9-facet-entitled) | open: draft: finish it or close it as superseded | |
-| RS-2529 | Make law registration resolution cycle-safe | PR #2529 (codex/session20-cycle-safe-manifest-main68c8) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2529 | Make law registration resolution cycle-safe | PR #2529 (codex/session20-cycle-safe-manifest-main68c8) | ready #2529 | |
 | RS-2530 | b18 p7: add ordinary meeting comment vote source | PR #2530 (session46/b18-7-public-comment) | open: draft: finish it or close it as superseded | |
 | RS-2532 | feat(council): identify agenda items that matter | PR #2532 (codex/session50-b05-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2533 | Add citizen protest attendance records | PR #2533 (session46/b18-p5-protests) | open: draft: finish it or close it as superseded | |
 | RS-2534 | B01 part 1: add petition terms to candidacy eligibility | PR #2534 (session-26/b01-part1-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2535 | T9: add approval-seeking contact effect | PR #2535 (codex/session57-t9-facet-approval-seeking) | open: draft: finish it or close it as superseded | |
 | RS-2536 | Add B07 player heard views reader | PR #2536 (session29-b07-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | open: draft: finish it or close it as superseded | |
+| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | done #3386 | |
 | RS-2538 | Session 30 B08 P1: One door for every body | PR #2538 (codex/session30-b08-p1-current-main) | open: draft: finish it or close it as superseded | |
 | RS-2539 | Add facet-smug another-term effect row | PR #2539 (codex/session57-t9-facet-smug) | open: draft: finish it or close it as superseded | |
 | RS-2541 | Session 30 B08 P2: Endorsement, warning, and favor moves | PR #2541 (codex/session30-b08-p2-current-rebased) | open: stacked on codex/session30-b08-p1-current-main: retarget to main; draft: finish it or close it as superseded | |
@@ -979,9 +979,9 @@ open: rebase on main (conflicts) | |
 | MR-2  | Strip every authored sentence, helper line, explanation and developer word from the Creator screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2900                              | Builder L3 (anyone if silent 60 min) |
 | MR-3  | Strip every authored sentence, helper line, explanation and developer word from the Options and Difficulty screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game. | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2905                              | Builder L3 (anyone if silent 60 min) |
 | MR-4  | Strip every authored sentence, helper line, explanation and developer word from the Personal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.               | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2908                              | Builder L3 (anyone if silent 60 min) |
-| MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #2910                             | Builder L3 (anyone if silent 60 min) |
 | MR-6  | Strip every authored sentence, helper line, explanation and developer word from the Contact screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2923, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
-| MR-7  | Strip every authored sentence, helper line, explanation and developer word from the Money screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | open                                    | Builder L3 (anyone if silent 60 min) |
+| MR-7  | Strip every authored sentence, helper line, explanation and developer word from the Money screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | draft #2928                             | Builder L3 (anyone if silent 60 min) |
 | MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2990 merged)                     | Builder L3 (anyone if silent 60 min) |
 | MR-9  | Strip every authored sentence, helper line, explanation and developer word from the Calendar screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.               | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done                                    | #3028                                |
 | MR-10 | Strip every authored sentence, helper line, explanation and developer word from the News screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                   | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2997                              | Session 59                           |
