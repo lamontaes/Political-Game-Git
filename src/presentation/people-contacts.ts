@@ -190,8 +190,9 @@ function outstandingWith(
 /**
  * Asking somebody out, asking to be a couple, and ending it, where each is
  * something these two could do. A date is offered only between adults who
- * are not family; becoming a couple only after dates actually kept. A
- * refusal that says why is shown, not hidden, once there has been a date.
+ * are not family; becoming a couple is offered after a date they actually
+ * kept, with the answer decided from saved relationship and personal records
+ * rather than a fixed date count.
  */
 function romanticActions(
   world: World,

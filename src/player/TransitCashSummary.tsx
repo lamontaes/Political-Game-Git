@@ -22,9 +22,7 @@ export function TransitCashSummary({
       ) : (
         <>
           <dl data-testid="transit-cash-periods">
-            <dt>First period</dt>
             <dd>{format(snapshot.firstPeriodAmount)}</dd>
-            <dt>Second period</dt>
             <dd>{format(snapshot.secondPeriodAmount)}</dd>
           </dl>
           {snapshot.kind === "recorded-cash" ? (
