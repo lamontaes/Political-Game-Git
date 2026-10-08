@@ -79,3 +79,23 @@ Next command: npx vitest run src/simulation/petitions.test.ts src/simulation/pet
 Actual #2731 protected squash landed main87f057fe4459eba0b7bd1394c07119bbf4de8193 at16:30:06UTC. Current signer branch receives that actual main and resolves only import/closing/marker conflicts: canonical terms and citizenPetitions retained; shared signed counter replaces the earlier explicit pending generic-close block; player-choice appraisal guard retained. Partial clone failed to fetch blob42401082; canonical GitHub blob API supplied3901 bytes and hash-object verified the exact SHA before composition resumed. No source/artwork edits. Final new-head18 scoped tests/lint/format run next; old22bd receipt does not transfer.
 
 Previous22bd exact18/18 PASS19.32s and lint/format PASS, READY2735 board6020734786. Real human action proof includes actual player-choice appraisal; generated answer after control change unsigned. Full legacy95498/34839 remain OOM and separately reported. Independent b18-p3 claimed6020713204, primary /workspace/Political-Game-Git branchsession-110/b18-p3; law enactment writer seam pending withSession21, independent common ballot/calendar work next.
+
+## Natural handoff 2026-10-08 17:22 UTC — Session 110 / P2-1705
+
+Workspace /workspace/Political-Game-Git, local branch pool/P2-a. Local starting HEAD15867cc0cfa80173b9958bcfba44b4699d35a40c; handoff commit follows this marker (resolve with git rev-parse HEAD). Remote pool/P2-a554ce570b6422884f38f1048dccb300e6f8da21a, draft PRhttps://github.com/lamontaes/Political-Game-Git/pull/3784, open/unmerged/NOT READY. Remote was based on actual main8236d9aa5a45a4c27cd7c362f2b010afb4c70eac; local ancestry remains old and must never be force-pushed onto remote. PR current base at creation6b84d66684e1d6d2162f179d47b52b46237e397f; no current-main acceptance proof.
+
+Saved source: src/simulation/living-world/town-businesses.ts. Original recovery bytes /tmp/session110-handoff-20261008/p2-a-working.patch and town-businesses.ts. Untracked session110-recall-probe.config.ts remains untouched; backup /tmp/session110-handoff-20261008/session110-recall-probe.config.ts. All prior Session110 refs, workspaces and logs retained.
+
+Executed 17:20–17:21 UTC: npx prettier --check src/simulation/living-world/town-businesses.ts PASS; npx eslint same file PASS (handle78717 terminal0). No new tests/typecheck executed. Prior zero-dice old-baseline PASS only means no newly unlisted lines, not zero outcomes. Timer817/818 stopped for idle; no compiler/test live. All old OOM handles remain terminal, never PASS.
+
+Known draft gaps: goal.priority compares medium rather than canonical moderate; durable trace stable-key idempotence unproved; new decision option-act mapping absent; all56 projection/short tests missing; remaining P2-a rolls untouched. No READY, merge or playability claim. P2-b not started. Old2755 protest 5/6 and2750 founder own regression/2746 law-writer21 seam remain separate unresolved drafts; do not transfer receipts.
+
+Publication via connector succeeded554ce570; first update409 used abbreviated blob SHA, corrected with full exact a22005fa46d5ddabaef49bf718bc00afa1250caa. CLI git fetch previously failed proxy:8080 connection; no retry/bypass/reset/stash/clean.
+
+EXACT next command after resuming authorization:
+
+```bash
+cd /workspace/Political-Game-Git && rg -n 'GoalPriority|priority === "medium"|community.found-association' src/simulation/types.ts src/simulation/living-world/town-businesses.ts data/content/decision-option-acts.json
+```
+
+Then repair canonical moderate comparison and prove stable-key idempotence/actual motives with a small focused fixture; receive current-main contracts through connector if CLI remains offline. Do not run long world tests until SPEED FIXED, take new tasks or merge this draft.
