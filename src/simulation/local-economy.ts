@@ -49,7 +49,7 @@ import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
 import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
 import { SeededRng } from "./rng";
-import { writeWithWorldIntegrityOnce } from "./world";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   EntityId,
   IsoDate,
@@ -755,6 +755,9 @@ function recordLocalCorporateIncomeBases(
             immediateReaction: null,
           },
         });
+        const revenueCurrency = resourceFlowTermsAt(world, revenueFlows[0]!.id)
+          ?.amount.currency;
+        if (!revenueCurrency) continue;
         next = recordTaxBase(next, {
           stableKey,
           sourceEventId: next.history.events.at(-1)!.id,
@@ -762,7 +765,7 @@ function recordLocalCorporateIncomeBases(
           payer: { kind: "person", personId: owner.personId },
           baseKey: proposal.terms.baseKey,
           occurredAt: today,
-          amount: money(amountMinor, revenueFlows[0]!.amount.currency),
+          amount: money(amountMinor, revenueCurrency),
           assumptionNote: `Estimated from completed local-business receipts less completed wage transfers for ${period}; nonpay operating costs, deductions, and corporate ownership shares are not separately recorded. Revenue originates from County Business Patterns and Economic Census estimates; wages use saved employer pay records.`,
         });
         next = applyLawConsequences(next, {
@@ -835,10 +838,10 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
     for (const entry of due)
       if (entry.revenue && entry.flow.recipient.kind === "organization")
         corporateOrganizations.add(entry.flow.recipient.organizationId);
-    const months = new Set(
+    const months = new Set<IsoDate>(
       due
         .filter((entry) => entry.revenue)
-        .map((entry) => entry.input.periodStartsAt),
+        .map((entry) => makeIsoDate(entry.input.periodStartsAt)),
     );
     return recordLocalCorporateIncomeBases(
       next,
