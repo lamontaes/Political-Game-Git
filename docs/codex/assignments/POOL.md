@@ -681,12 +681,12 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | blocked: owner closed as superseded by #2229; replacement terms not verified on main; never reopen | Session 50 |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | blocked: owner closed for hand-written player text; never reopen | Session 50 |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: local refresh unpushed; latest main 110460706d1 unavailable over git proxy; draft pending recheck | Session 50 |
-| RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | ready #2291 | |
-| RS-2298 | Use shared hometown records and explicit recorded-bill bargaining | PR #2298 (codex/session12-lexington-removal) | done #2298 | |
+| RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | done: merged #2291 | Session 50 |
+| RS-2298 | Use shared hometown records and explicit recorded-bill bargaining | PR #2298 (codex/session12-lexington-removal) | blocked: closed unmerged; current PR body explicitly makes no main-landing claim; never reopen | Session 50 |
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
 | RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | ready #2307 | S50 |
+| RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | done: merged #2307 | Session 50 |
 | RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2316 | P1 b05 step 2: project council agenda notice | PR #2316 (codex/session8-b05-agenda-notice) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2318 | docs: preserve rejected player-card clock and eleven-destination attempt | PR #2318 (codex/session3-card-redo-main) | open: draft: finish it or close it as superseded | |
