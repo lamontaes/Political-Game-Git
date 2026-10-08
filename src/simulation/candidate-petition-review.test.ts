@@ -50,7 +50,7 @@ describe("candidate petition review", () => {
   it("returns counts and reason keys from the dated signed-event records", () => {
     const small = smallWorld({
       place: "US-KY",
-      date: `2026-${candidateFilingTerms("KY", "stateLegislative").circulationOpens}`,
+      date: "2026-05-20",
       people: 8,
       seed: "petition-review",
     });
