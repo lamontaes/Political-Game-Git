@@ -35,6 +35,7 @@ export type OutcomeRecipientRule =
   | "adult-substance-use-condition-estimate"
   | "youth-cannabis-cohort-estimate"
   | "child-asthma-cohort-estimate"
+  | "jurisdiction-resident-estimate"
   | "household-resident-estimate"
   | "snap-enrolled-household-member-estimate"
   | "recorded-wage-family-member-estimate"
@@ -47,6 +48,7 @@ export type OutcomeRecipientRule =
 type AgeBoundedOutcomeRecipientRule = Exclude<
   OutcomeRecipientRule,
   | "recorded-school-enrollment-or-compulsory-age-estimate"
+  | "jurisdiction-resident-estimate"
   | "household-resident-estimate"
   | "snap-enrolled-household-member-estimate"
   | "recorded-wage-family-member-estimate"
@@ -138,6 +140,8 @@ export function matchesOutcomeRecipientRule(
         person.age >= person.compulsorySchoolAge.minimumAge &&
         person.age <= person.compulsorySchoolAge.maximumAge
       );
+    case "jurisdiction-resident-estimate":
+      return true;
     case "household-resident-estimate":
       return person.hasCurrentHouseholdResidence;
     case "snap-enrolled-household-member-estimate":

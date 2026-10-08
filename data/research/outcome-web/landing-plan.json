@@ -1,7 +1,7 @@
 {
   "source": "data/research/outcome-web/links.json",
   "audit": {
-    "document": "00o AUDIT RESULTS \u2014 Oct 7",
+    "document": "00o AUDIT RESULTS — Oct 7",
     "baselineHead": "8541d8f1",
     "builtLinkCount": 101,
     "statusCounts": {
@@ -401,7 +401,7 @@
       "currentStatus": "person-linked",
       "recipientRule": "youth-cannabis-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
-      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerd\u00e1 et al. 2017 (JAMA Pediatrics)",
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
@@ -431,11 +431,12 @@
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "container-deposit-to-litter",
@@ -489,11 +490,12 @@
       "outcome": "env.container-recycling-pct",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-uninsured",
@@ -524,22 +526,24 @@
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "power-plant-carbon-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "people downwind of coal plants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure; downwind residents are not separately identified",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards; the state-level PM2.5 average is used for modeled residents because the simulation has no individual plant-proximity records",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "tariffs-to-prices",
@@ -913,22 +917,24 @@
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carbon-price-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "retirement-age-to-poverty",
@@ -1205,8 +1211,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 61,
-    "place-number-only": 34,
+    "person-linked": 67,
+    "place-number-only": 28,
     "no-live-consumer": 2,
     "budget-only": 4
   }
