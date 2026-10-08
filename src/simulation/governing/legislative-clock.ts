@@ -1,3 +1,12 @@
+import {
+  municipalExecutiveHolder,
+  recordCouncilReadingVote,
+  recordCouncilOverrideVote,
+} from "../municipal-ordinance-procedure";
+import {
+  municipalGovernmentByKey,
+  municipalRulePackFor,
+} from "../municipal-government";
 import { nextSessionCalendarDate } from "../legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
@@ -513,6 +522,10 @@ function provenance(
 
 /** An existing decision writer may pass its recorded roll call to the driver. */
 export interface InstitutionStepInput {
+  readonly municipalCouncil?: {
+    readonly governmentKey: string;
+    readonly nonpartisan: boolean;
+  };
   readonly localCouncil?: {
     readonly governmentUnitId: string;
     readonly townJurisdictionId: EntityId;
@@ -704,7 +717,17 @@ export function applyInstitutionStep(
       input.recordedFloorVote.seatedMemberPersonIds,
     );
   }
-  const blueprint = legislativeBlueprintForMeasure(before, measure);
+  const municipal = input.municipalCouncil;
+  if (municipal) {
+    const government = municipalGovernmentByKey(municipal.governmentKey);
+    const rules = government ? municipalRulePackFor(government) : null;
+    if (!rules?.ok || rules.pack.packId !== measure.rulePackId)
+      return { kind: "idle" };
+  }
+  const originalBlueprint = legislativeBlueprintForMeasure(before, measure);
+  const blueprint = municipal
+    ? { ...originalBlueprint, nonpartisan: municipal.nonpartisan }
+    : originalBlueprint;
   const officers = unit ? sittingLocalOfficers(before, unit) : [];
   const councilMembers = officers.filter((seat) => !seat.mayor);
   const mayorPersonId = officers.find((seat) => seat.mayor)?.personId ?? null;
@@ -959,6 +982,36 @@ export function applyInstitutionStep(
                 .admissible,
           })
         : world;
+    if (municipal && body) {
+      const result = recordCouncilReadingVote(onFloor, {
+        governmentKey: municipal.governmentKey,
+        measureId,
+        dispositions: decideCouncilVote(onFloor, {
+          stableKey: `${measure.stableKey}:vote:${onFloor.currentDate}`,
+          measureId,
+          jurisdictionId: measure.jurisdictionId,
+          members: body.members.flatMap((member) =>
+            member.personId ? [{ personId: member.personId }] : [],
+          ),
+          playerPersonId:
+            onFloor.control.kind === "person" ? onFloor.control.personId : null,
+          questionLabel: `Pass ${measure.designation}`,
+          executivePersonId: municipalExecutiveHolder(
+            onFloor,
+            municipal.governmentKey,
+          ),
+          nonpartisan: municipal.nonpartisan,
+        }),
+        provenance: {
+          method: "member-decisions",
+          note: COUNCIL_VOTE_NOTE,
+          sourceEntityIds: [measure.id],
+        },
+      });
+      return result.ok
+        ? applied(result.world, "move-floor-vote")
+        : { kind: "blocked", reason: result.reason };
+    }
     const decided =
       local && unit
         ? {
@@ -1036,6 +1089,37 @@ export function applyInstitutionStep(
   }
 
   if (steps.includes("move-veto-override")) {
+    if (municipal && body) {
+      const result = recordCouncilOverrideVote(world, {
+        governmentKey: municipal.governmentKey,
+        measureId,
+        dispositions: decideCouncilVote(world, {
+          stableKey: `${measure.stableKey}:override:${world.currentDate}`,
+          measureId,
+          jurisdictionId: measure.jurisdictionId,
+          members: body.members.flatMap((member) =>
+            member.personId ? [{ personId: member.personId }] : [],
+          ),
+          playerPersonId:
+            world.control.kind === "person" ? world.control.personId : null,
+          questionLabel: `Reenact ${measure.designation} over the executive return`,
+          executivePersonId: municipalExecutiveHolder(
+            world,
+            municipal.governmentKey,
+          ),
+          nonpartisan: municipal.nonpartisan,
+        }),
+        provenance: {
+          method: "member-decisions",
+          note: COUNCIL_VOTE_NOTE,
+          sourceEntityIds: [measure.id],
+        },
+      });
+      return result.ok
+        ? applied(result.world, "move-veto-override")
+        : { kind: "blocked", reason: result.reason };
+    }
+
     // Every returned bill is reconsidered: whether leadership would bring a
     // given override up at all is not modeled, and the members' own votes
     // against the state's threshold decide it (DEPTH2 A09: an override is

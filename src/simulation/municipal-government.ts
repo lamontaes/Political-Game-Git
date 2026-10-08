@@ -1,3 +1,8 @@
+import { standingCommittee } from "./standing-committee";
+import {
+  ORDINANCE_EFFECTIVE_AFTER_DAYS,
+  ORDINANCE_EFFECTIVE_SOURCE,
+} from "./governing/ordinance-effective-date";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
 import {
   COUNCIL_ACT_MEASURE_TITLE,
@@ -941,18 +946,25 @@ export function municipalRulePackFor(
           ),
           // Only an enacted procedure that was read and puts no referral
           // between introduction and passage opens the floor directly.
-          floorWithoutReferral:
-            reading.procedure.committeeReferralState ===
-              "NO_REQUIREMENT_FOUND" &&
-            (reading.procedure.introductionToPassage ||
-              reading.procedure.betweenReadings)
+          floorWithoutReferral: placeholder?.committeeRequired
+            ? knownRule(
+                false,
+                standingCommittee("council", bodySize, reading.displayName)
+                  .reportThreshold.source,
+              )
+            : reading.procedure.committeeReferralState ===
+                  "NO_REQUIREMENT_FOUND" &&
+                (reading.procedure.introductionToPassage ||
+                  reading.procedure.betweenReadings)
               ? knownRule(true, municipalRuleSourceRef(reading, "referral"))
               : unknownRule(
                   "No instrument read establishes that an ordinance reaches the floor without a committee.",
                 ),
           source: municipalRuleSourceRef(reading, "referral"),
         },
-        committees: [],
+        committees: placeholder?.committeeRequired
+          ? [standingCommittee("council", bodySize, reading.displayName)]
+          : [],
         floorStages: buildFloorStages(
           reading,
           passage,
@@ -1122,6 +1134,26 @@ export function municipalRulePackFor(
       source: executiveSource,
     },
     enactment: {
+      defaultEffectiveSchedule: knownRule(
+        {
+          kind: "days-after-enactment",
+          days: reading.procedure.effectivePublication?.includes(
+            "from the date of its passage",
+          )
+            ? 0
+            : ORDINANCE_EFFECTIVE_AFTER_DAYS,
+        },
+        reading.procedure.effectivePublication?.includes(
+          "from the date of its passage",
+        )
+          ? municipalRuleSourceRef(reading, "effective date")
+          : {
+              ...municipalRuleSourceRef(reading, "effective date"),
+              authority: "game-profile",
+              verification: "game-profile",
+              note: `estimatedFrom: ${ORDINANCE_EFFECTIVE_SOURCE}`,
+            },
+      ),
       effectiveDateDistinctFromEnactment:
         reading.procedure.effectivePublication === null
           ? unknownRule(
@@ -1130,9 +1162,12 @@ export function municipalRulePackFor(
           : knownRule(true, municipalRuleSourceRef(reading, "effective date")),
       defaultEffectiveRule:
         reading.procedure.effectivePublication === null
-          ? unknownRule(
-              "No instrument read states when an ordinance takes effect here.",
-            )
+          ? knownRule(ORDINANCE_EFFECTIVE_SOURCE, {
+              ...municipalRuleSourceRef(reading, "effective date"),
+              authority: "game-profile",
+              verification: "game-profile",
+              note: `estimatedFrom: ${ORDINANCE_EFFECTIVE_SOURCE}`,
+            })
           : knownRule(
               reading.procedure.effectivePublication,
               municipalRuleSourceRef(reading, "effective date"),
@@ -1140,7 +1175,12 @@ export function municipalRulePackFor(
       source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
-      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
+      sittingCalendar: placeholder?.committeeRequired
+        ? {
+            ...LEGISLATIVE_SESSION_CALENDARS.council,
+            tasks: { hearing: LEGISLATIVE_SESSION_CALENDARS.council.sitting },
+          }
+        : LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,
       adjournmentRule: unknownRule(
         "No instrument read establishes an adjournment rule for this body.",

@@ -1,3 +1,5 @@
+import { municipalGovernmentForRulePackId } from "../municipal-government";
+import { municipalSeats } from "../municipal-public-work";
 import { stateMemberSeatingEvidence } from "./member-seating";
 import { considerationScore, evaluateDecision } from "../decisions";
 import { decideMemberVote } from "./member-vote-decision";
@@ -122,6 +124,36 @@ export function seatedChamberForPack(
   const pack = legislativeRulePackForWorld(world, rulePackId);
   if (pack.seatRollSource?.kind === "national-election-seats")
     return seatedCongressChamber(world, chamberKey);
+  if (chamberKey === "council") {
+    const government = municipalGovernmentForRulePackId(rulePackId);
+    if (government) {
+      const members = municipalSeats(world, government.key).filter(
+        (seat) => seat.role === "member" || seat.role === "presiding-member",
+      );
+      if (!members.length) return null;
+      const chamber = chamberByKey(pack, chamberKey);
+      return {
+        seats:
+          chamber.seats.kind === "known" ? chamber.seats.value : members.length,
+        body: {
+          chamberKey,
+          chamberName,
+          members: members.map((seat, index) => ({
+            // Municipal officeholding is a dated participation record.
+            tenureStartedAt:
+              world.history.organizationParticipations.find(
+                (record) => record.id === seat.participationId,
+              )?.startedAt ?? null,
+            seatingEventId: seat.participationId,
+            memberKey: `council:${index + 1}`,
+            personId: seat.personId,
+            name: personName(world.people[seat.personId]!),
+            caucusLabel: publicPartyOf(world, seat.personId) ?? "No party",
+          })),
+        },
+      };
+    }
+  }
   const candidacyPackId = `${rulePackId}:candidacy`;
   if (!stateLegislatureEstablished(world, candidacyPackId)) return null;
   const officeKey = `${rulePackId}:${chamberKey}`;
