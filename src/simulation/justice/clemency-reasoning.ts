@@ -6,6 +6,8 @@ import { checkExecutiveTermLimit } from "../nationwide-world/executive-term-limi
 import { eventById } from "../event-index";
 import { feltDebtConsiderations } from "../favors";
 import { readRelationshipStanding } from "../relationship-standing";
+import { registeredTraitConsiderations } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import { answersTo, petitionerOf, tagValue } from "./clemency-records";
 import {
   CLEMENCY_SENTENCE_TAG,
@@ -341,7 +343,16 @@ export function evaluateClemency(
       },
     ],
     constraints: [],
-    considerations: clemencyConsiderations(world, deciderId, question, term),
+    considerations: [
+      ...clemencyConsiderations(world, deciderId, question, term),
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        deciderId,
+        `${question.petition.stableKey}:decider:${deciderId}`,
+        "justice.clemency-decision",
+      ),
+    ],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
