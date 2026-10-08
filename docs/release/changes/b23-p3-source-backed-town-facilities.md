@@ -1,5 +1,5 @@
 ---
-id: source-backed-town-facilities
+id: b23-p3-source-backed-town-facilities
 impact: patch
 section: Fixed
 title: Town banks and care facilities use official names.

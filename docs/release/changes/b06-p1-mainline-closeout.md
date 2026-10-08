@@ -1,8 +1,6 @@
 ---
 id: b06-p1-mainline-closeout
-impact: patch
-section: Changed
-title: Record B06 part 1 mainline completion
+impact: none
 ---
 
-B06 part 1's record-linked contact reasons and official routing are present on main through PR #2482.
+Work-pool status only: the record-linked contact reasons and official routing of this row are already on main.
