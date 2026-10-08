@@ -290,7 +290,12 @@ export function applyEnactedLawEffects(
     // Consequence resolvers apply their own row predicates and jurisdiction
     // checks. Give them the recorded people they can evaluate on the law's
     // effective date instead of suppressing every subject-filtered row.
-    subjectIds: [...next.personOrder],
+    // Permission rows may target organizations as well as people; their
+    // selectors narrow this saved subject list to the eligible class.
+    subjectIds: [
+      ...next.personOrder,
+      ...next.history.organizations.map((organization) => organization.id),
+    ],
     governingLawId: measureId,
   });
 }

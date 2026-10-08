@@ -174,6 +174,7 @@ describe("right permission kind mechanism", () => {
       activity: "renewal" as const,
       activityId,
       subjectIds: [input.subject.id],
+      questionKey: context.questionKey,
     };
     const next = applyLawConsequences(admitted, activity);
     assertWorldIntegrity(next);

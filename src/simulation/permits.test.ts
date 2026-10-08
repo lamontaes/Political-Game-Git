@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "./dates";
 import { lawInForce } from "./governing/law-in-force";
-import { createOrganization } from "./life";
-import { stateJurisdictionForKey } from "./life-places";
+import { latestLawPermission } from "./law-consequences/permission-records";
+import { createOrganization, createOrganizationParticipation } from "./life";
+import { searchLifePlaces, stateJurisdictionForKey } from "./life-places";
+import { countyGovernmentUnitsForPlace } from "./government-units";
+import { ensureLocalGovernmentOrganization } from "./nationwide-world/local-governments";
+import { countyRowOfficeOrganizationId } from "./living-world/local-government-seats";
+import { countyRowOfficeRoleKind } from "./nationwide-world/county-row-offices";
+import { concealedCarryPermitRuleAt } from "./crime/offenders";
 import { createLightweightPerson } from "./people";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import { deserializeWorld, serializeWorld } from "./serialization";
@@ -19,6 +25,7 @@ import {
   applyForPermit,
   assertPermitIntegrity,
   permitApplications,
+  permitReviews,
   permitStatuses,
 } from "./permits";
 
@@ -164,8 +171,7 @@ function fixture(
     },
   };
 }
-// Selection covers all56; only places with a real starting-law yes support the
-// controlled application. No fixture authority/age is promoted to legal data.
+// The controlled application uses each place's actual in-force yes/no answer.
 const supported = selected
   .filter((usps) => fixture(usps).input.law?.answer === "yes")
   .slice(0, 5);
@@ -183,7 +189,19 @@ describe("actual decision-backed permit applications", () => {
         issuingAuthorityOrganizationId: input.decision.subject.entityId,
       });
       expect(permitStatuses(result.world)).toEqual([]);
-      expect(result.world.history.lawPermissionRecords ?? []).toEqual([]);
+      expect(permitReviews(result.world)).toHaveLength(1);
+      expect(
+        latestLawPermission(
+          result.world,
+          { kind: "person", id: person.id },
+          questionKey,
+        ),
+      ).toMatchObject({
+        status: "permitted",
+        lawEffectStamps: [
+          expect.objectContaining({ effectKind: "right-permission" }),
+        ],
+      });
       assertWorldIntegrity(result.world);
       const application = permitApplications(result.world)[0]!;
       const earlyIds = new Set<EntityId>();
@@ -229,6 +247,143 @@ describe("actual decision-backed permit applications", () => {
       expect(result.world).toBe(world);
       expect(permitApplications(result.world)).toEqual([]);
     }
+  });
+  it("uses the same stamped permission path in all56 jurisdictions", () => {
+    expect(selected).toHaveLength(56);
+    for (const usps of selected) {
+      const { world, input, person } = fixture(usps);
+      const result = applyForPermit(world, input);
+      if (input.law?.answer === "yes" || input.law?.answer === "no") {
+        expect(result.status, usps).toBe("applied");
+        const permitted = input.law.answer === "yes";
+        expect(
+          latestLawPermission(
+            result.world,
+            { kind: "person", id: person.id },
+            questionKey,
+          ),
+        ).toMatchObject({
+          status: permitted ? "permitted" : "prohibited",
+          lawEffectStamps: [
+            expect.objectContaining({ effectKind: "right-permission" }),
+          ],
+        });
+        expect(
+          concealedCarryPermitRuleAt(
+            result.world,
+            person.id,
+            input.rule.jurisdictionId,
+          ),
+        ).toBe(permitted ? "permitted" : "prohibited");
+        expect(permitReviews(result.world)).toMatchObject([
+          { outcome: "unavailable", reasonKey: "sheriff-not-recorded" },
+        ]);
+      } else {
+        expect(result.status, usps).toBe("unsupported");
+        expect(
+          latestLawPermission(
+            result.world,
+            { kind: "person", id: person.id },
+            questionKey,
+          ),
+        ).toBeNull();
+      }
+      assertWorldIntegrity(result.world);
+    }
+  });
+
+  it("records a living county sheriff's review against the cited age rule", () => {
+    const usps =
+      supported.find((key) =>
+        searchLifePlaces("", 50000, {
+          stateJurisdictionKey: `US-${key}`,
+          scope: "locality",
+        }).some(
+          (row) =>
+            row.sourceGeoid &&
+            countyGovernmentUnitsForPlace(row.sourceGeoid).length > 0,
+        ),
+      ) ?? "KY";
+    const initial = fixture(usps);
+    const place = searchLifePlaces("", 500, {
+      stateJurisdictionKey: `US-${usps}`,
+      scope: "locality",
+    }).find(
+      (row) =>
+        row.sourceGeoid &&
+        countyGovernmentUnitsForPlace(row.sourceGeoid).length > 0,
+    );
+    expect(place).toBeDefined();
+    if (!place?.sourceGeoid) throw new Error("No county-backed locality.");
+    const unit = countyGovernmentUnitsForPlace(place.sourceGeoid)[0]!.unit;
+    const sheriff = createLightweightPerson({
+      worldId: initial.world.id,
+      worldSeed: `${seed}:${usps}:sheriff`,
+      index: 1,
+      currentDate: initial.world.currentDate,
+      homeJurisdictionId: place.context.jurisdiction.id,
+    });
+    let world = {
+      ...initial.world,
+      people: { ...initial.world.people, [sheriff.id]: sheriff },
+      personOrder: [...initial.world.personOrder, sheriff.id],
+      jurisdictions: {
+        ...initial.world.jurisdictions,
+        [place.context.jurisdiction.id]: place.context.jurisdiction,
+      },
+      jurisdictionOrder: [
+        ...initial.world.jurisdictionOrder,
+        place.context.jurisdiction.id,
+      ],
+    };
+    world = ensureLocalGovernmentOrganization(world, unit);
+    const countyOrganizationId = countyRowOfficeOrganizationId(world, unit)!;
+    world = createOrganizationParticipation(world, {
+      stableKey: `permit-test:sheriff:${unit.id}`,
+      personId: sheriff.id,
+      organizationId: countyOrganizationId,
+      startedAt: world.currentDate,
+      kind: "leadership:municipal-office",
+      roleKind: countyRowOfficeRoleKind("sheriff"),
+      context: "Sheriff",
+      provenance: {
+        kind: "authored",
+        note: "Controlled county-office fixture for permit review.",
+      },
+    });
+    const minimumAgeYears = ageOnDate(
+      initial.world.people[initial.person.id]!.birthDate,
+      initial.world.currentDate,
+    );
+    const input = {
+      ...initial.input,
+      rule: {
+        ...initial.input.rule,
+        jurisdictionId: place.context.jurisdiction.id,
+        minimumAgeYears,
+      },
+      decision: {
+        ...initial.input.decision,
+        cutoff: {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: world.history.nextSequence,
+        },
+      },
+    };
+    const result = applyForPermit(world, input);
+    const lawAllowsPermit = input.law?.answer === "yes";
+    expect(permitReviews(result.world)).toMatchObject([
+      {
+        reviewerPersonId: sheriff.id,
+        outcome: lawAllowsPermit ? "eligible" : "ineligible",
+        reasonKey: lawAllowsPermit
+          ? "meets-recorded-rule"
+          : "law-prohibits-permit",
+        ruleSourceUrl: input.rule.sourceUrl,
+      },
+    ]);
+    expect(permitStatuses(result.world)).toEqual([]);
+    assertWorldIntegrity(result.world);
   });
   it.each(["wait", null] as const)(
     "does not apply when the actual decision is %s",

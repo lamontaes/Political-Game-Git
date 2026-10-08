@@ -22,6 +22,7 @@ import {
 const SELECTORS = [
   "recorded-person-permission",
   "recorded-organization-permission",
+  "recorded-town-retail-permission",
 ] as const;
 const PREDICATES = [
   "permission-minimum-age",
@@ -169,22 +170,35 @@ export function resolveRightPermission(
       if (!scope) continue;
       sourceRecordIds.push(...scope);
       const member = householdMembershipsAt(world, subjectId, cutoff)[0];
-      if (!member) continue;
-      const location = householdLocationAt(
-        world,
-        member.membership.householdId,
-        cutoff,
-      );
-      if (!location?.jurisdictionId) continue;
-      jurisdictionId = location.jurisdictionId;
+      const location = member
+        ? householdLocationAt(world, member.membership.householdId, cutoff)
+        : null;
+      const activityJurisdictionId =
+        typeof activity.jurisdictionId === "string"
+          ? activity.jurisdictionId
+          : undefined;
+      jurisdictionId =
+        location?.jurisdictionId ??
+        activityJurisdictionId ??
+        world.people[subjectId]?.homeJurisdictionId;
+      if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) continue;
       subject = { kind: "person", id: subjectId };
-      sourceRecordIds.push(member.membership.id, location.id);
+      if (member) sourceRecordIds.push(member.membership.id);
+      if (location) sourceRecordIds.push(location.id);
     } else {
       const organization = world.history.organizations.find(
         (org) => org.id === subjectId && org.formedAt <= context.onDate,
       );
       const profile = organizationProfileAt(world, subjectId, cutoff);
       if (!organization || !profile?.locationJurisdictionId || profile.closed)
+        continue;
+      if (
+        row.who.selector === "recorded-town-retail-permission" &&
+        (profile.classification !== "enterprise:retail" ||
+          !/^town-employment-v1:.*:employer:retail:\d+$/.test(
+            organization.stableKey,
+          ))
+      )
         continue;
       jurisdictionId = profile.locationJurisdictionId;
       subject = { kind: "organization", id: subjectId };
