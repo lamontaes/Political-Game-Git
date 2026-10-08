@@ -1,6 +1,6 @@
 ---
 id: b06-p1-mainline-closeout
-impact: none
+impact: patch
 section: Changed
 title: Record B06 part 1 mainline completion
 ---
