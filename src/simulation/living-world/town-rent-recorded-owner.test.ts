@@ -9,7 +9,10 @@ import {
   recordHousingTenureState,
 } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
+import { recordedHouseholdHousingBillsAt } from "../cost-of-living";
+import { lifePlaceStateIdentities } from "../life-places";
 import { hudRentRowFor, startTownLeases, townLeases } from "./town-rent";
+import { startDwellingOccupancy } from "../resources";
 import type { HousingTenureHolder } from "../types";
 
 const seed = "team4-a56-recorded-owners-main";
@@ -84,6 +87,56 @@ function homeWorld(selectedPlace = place) {
 }
 
 describe("A56 leases follow saved title and retain their identities", () => {
+  it("records a rent bill with a sourced row in every state and territory", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const fixture = homeWorld(place.usps);
+      const rentRow = hudRentRowFor(fixture.small.jurisdictionId);
+      expect(rentRow, place.usps).not.toBeNull();
+      expect(
+        rentRow!.rents.every((amount) => amount > 0),
+        place.usps,
+      ).toBe(true);
+      if (place.usps === "AS" || place.usps === "MP")
+        expect(rentRow, place.usps).toMatchObject({
+          area: `state:${place.usps}`,
+          estimated: true,
+        });
+
+      fixture.own(
+        { kind: "person", personId: fixture.world.personOrder[2]! },
+        `fixture:a56:owner:${place.usps}`,
+      );
+      const occupied = startDwellingOccupancy(fixture.world, {
+        stableKey: `fixture:a56:occupancy:${place.usps}`,
+        occupant: { kind: "household", householdId: fixture.householdId },
+        dwellingId: fixture.dwellingId,
+        startedAt: fixture.world.currentDate,
+        residenceRole: "primary",
+        kind: "residence:rented-home",
+        provenance,
+      });
+      const leased = startTownLeases(occupied, occupied.currentDate);
+      const lease = townLeases(leased).find(
+        (row) => row.tenureId === fixture.tenureId,
+      );
+      expect(lease, place.usps).toBeDefined();
+      const bills = recordedHouseholdHousingBillsAt(
+        leased,
+        fixture.small.personId,
+        leased.currentDate,
+      );
+      const bill = bills.find((row) => row.flow.id === lease!.flow.id);
+      expect(bill, place.usps).toBeDefined();
+      expect(bill!.terms.amount.minorUnits, place.usps).toBeGreaterThan(0);
+      expect(
+        bills.every((bill) => bill.terms.amount.minorUnits > 0),
+        place.usps,
+      ).toBe(true);
+    }
+  }, 120_000);
+
   it("uses a published same-territory average and records its estimated rent", () => {
     const fixture = homeWorld("AS");
     const row = hudRentRowFor(fixture.small.jurisdictionId)!;

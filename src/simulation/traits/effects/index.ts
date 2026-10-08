@@ -20,16 +20,6 @@ import { facetComfortingEffects } from "./facet-comforting";
 import { facetCompetitiveEffects } from "./facet-competitive";
 import { facetContentedEffects } from "./facet-contented";
 import { facetCruelEffects } from "./facet-cruel";
-import { facetIntimacyGuardedEffects } from "./facet-intimacy-guarded";
-import { facetInventiveEffects } from "./facet-inventive";
-import { facetManipulativeEffects } from "./facet-manipulative";
-import { facetMeticulousEffects } from "./facet-meticulous";
-import { facetMischievousEffects } from "./facet-mischievous";
-import { facetNurturingEffects } from "./facet-nurturing";
-import { facetObservantEffects } from "./facet-observant";
-import { facetOpenMindedEffects } from "./facet-open-minded";
-import { facetOpportunisticEffects } from "./facet-opportunistic";
-import { facetPersistentEffects } from "./facet-persistent";
 import { facetPhilanthropicEffects } from "./facet-philanthropic";
 import { facetPoliteEffects } from "./facet-polite";
 import { facetPracticalEffects } from "./facet-practical";
@@ -77,16 +67,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCompetitiveEffects,
     ...facetContentedEffects,
     ...facetCruelEffects,
-    ...facetIntimacyGuardedEffects,
-    ...facetInventiveEffects,
-    ...facetManipulativeEffects,
-    ...facetMeticulousEffects,
-    ...facetMischievousEffects,
-    ...facetNurturingEffects,
-    ...facetObservantEffects,
-    ...facetOpenMindedEffects,
-    ...facetOpportunisticEffects,
-    ...facetPersistentEffects,
     ...facetPhilanthropicEffects,
     ...facetPoliteEffects,
     ...facetPracticalEffects,

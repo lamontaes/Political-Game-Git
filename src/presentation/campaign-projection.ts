@@ -600,24 +600,27 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
-    donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
-      personId: ask.residentId,
-      name: world.people[ask.residentId]
-        ? personName(world.people[ask.residentId]!)
-        : "Unknown",
-      outcome: ask.outcome,
-      amountMinorUnits: ask.amountMinorUnits,
-      reasonBeliefId: ask.reasonBeliefId,
-      reason: campaignAskReason(world, campaign, asks, index),
-    })),
+    donors: campaignAsks(world, campaign.id).flatMap((ask, index, asks) => {
+      const person = world.people[ask.residentId];
+      return person
+        ? [
+            {
+              personId: ask.residentId,
+              name: personName(person),
+              outcome: ask.outcome,
+              amountMinorUnits: ask.amountMinorUnits,
+              reasonBeliefId: ask.reasonBeliefId,
+              reason: campaignAskReason(world, campaign, asks, index),
+            },
+          ]
+        : [];
+    }),
     donorCandidates:
       state.status === "active"
-        ? campaignDonorCandidates(world, campaign.id).map((personId) => ({
-            personId,
-            name: world.people[personId]
-              ? personName(world.people[personId]!)
-              : "Unknown",
-          }))
+        ? campaignDonorCandidates(world, campaign.id).flatMap((personId) => {
+            const person = world.people[personId];
+            return person ? [{ personId, name: personName(person) }] : [];
+          })
         : [],
     managerCandidates:
       state.status === "active"

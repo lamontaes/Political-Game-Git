@@ -2,7 +2,7 @@ import process from "node:process";
 import { describe, expect, it } from "vitest";
 
 import { createDemoWorld } from "./demo";
-import { ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import {
@@ -10,18 +10,25 @@ import {
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   buildAdultLifeContext,
   availableAdultSituations,
 } from "./adult-situations";
 import { adultSituationBank } from "./adult-situations";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import { dateRefusal, DATE_OCCASION_TAG } from "./couples";
+import {
+  CONTACT_ANSWER_TRANSITION_KEY,
+  contactProposals,
+} from "./relationship-contact";
 import {
   PUBLIC_MEETING_KEY,
   LIFE_OPPORTUNITY_ANSWERING_KEY,
   LIFE_OPPORTUNITY_KINDS,
   LIFE_OPPORTUNITY_REPEATABLE,
   OPEN_LIFE_OPPORTUNITY_LIMIT,
+  writeDateInvitation,
   lifeOpportunitiesFor,
   lifeOpportunityTag,
   openOrdinaryLifeRecords,
@@ -54,6 +61,51 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
+  it("routes dating invitations to the controlled person through contact in all 56 jurisdictions", () => {
+    const jurisdictions = Object.keys(
+      (nominationRules as { places: Record<string, unknown> }).places,
+    ).sort();
+    expect(jurisdictions).toHaveLength(56);
+
+    for (const jurisdictionKey of jurisdictions) {
+      const fixture = smallWorld({ place: jurisdictionKey, people: 4 });
+      const world = fixture.world;
+      const playerId = fixture.personId;
+      const hostId = world.personOrder.find(
+        (id) => id !== playerId && dateRefusal(world, id, playerId) === null,
+      );
+      expect(hostId, jurisdictionKey).toBeDefined();
+      const on = addDays(world.currentDate, 7);
+      const invited = writeDateInvitation(world, {
+        stableKey: `b21-p2-date-contact:${jurisdictionKey}`,
+        hostPersonId: hostId!,
+        recipientPersonId: playerId,
+        on,
+      });
+      const proposal = contactProposals(invited, playerId).find(
+        (row) => row.fromPersonId === hostId && row.toPersonId === playerId,
+      );
+      expect(proposal, jurisdictionKey).toMatchObject({
+        on,
+        date: true,
+        answered: false,
+      });
+      const event = invited.history.events.find(
+        (row) =>
+          row.stableKey === `b21-p2-date-contact:${jurisdictionKey}:proposed`,
+      );
+      expect(event?.jurisdictionId).toBe(
+        world.people[hostId!]!.homeJurisdictionId,
+      );
+      expect(event?.tags).toContain(DATE_OCCASION_TAG);
+      expect(
+        invited.history.futureDueItems.some(
+          (item) => item.transitionKey === CONTACT_ANSWER_TRANSITION_KEY,
+        ),
+      ).toBe(false);
+    }
+  });
+
   it("does not author an opening meeting in a generated world", () => {
     const adultFixture = createDemoWorld();
     const adult = adultFixture.people[adultFixture.personOrder[0]!]!;
