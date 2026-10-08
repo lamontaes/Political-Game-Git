@@ -346,6 +346,8 @@ export type ResponderRole = (typeof RESPONDER_ROLES)[number];
 
 export const MATTER_RESPONSES = [
   "deny",
+  "apologize",
+  "attack-source",
   "acknowledge",
   "correct-record",
   "decline-comment",
