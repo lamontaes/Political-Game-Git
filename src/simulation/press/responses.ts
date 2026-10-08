@@ -11,6 +11,8 @@ import {
 import {
   officesHeldBy,
   recordOfficeConsequence,
+  type OfficeConsequenceInput,
+  type OfficeConsequenceResult,
 } from "../governing/office-consequence";
 import {
   CHAPTER_MEMBERSHIP_KIND,
@@ -84,6 +86,11 @@ const LABELS: Readonly<Record<MatterResponse, string>> = {
   "no-action": "Do nothing",
 };
 
+export type MatterOfficeConsequenceWriter = (
+  world: World,
+  input: OfficeConsequenceInput,
+) => OfficeConsequenceResult;
+
 /** Records one of the subject's five direct answers to a real matter. */
 export function respondToMatter(
   world: World,
@@ -93,8 +100,13 @@ export function respondToMatter(
     readonly response:
       "deny" | "apologize" | "attack-source" | "decline-comment" | "resign";
     readonly meaning: string;
+    readonly officeKey?: string;
+    readonly officeConsequenceWriter?: MatterOfficeConsequenceWriter;
   },
-): World {
+): {
+  readonly world: World;
+  readonly officeOutcome: OfficeConsequenceResult["outcome"] | null;
+} {
   if (
     world.control.kind !== "person" ||
     world.control.personId !== input.personId
@@ -146,7 +158,7 @@ export function respondToMatter(
     },
   });
   const event = next.history.events.at(-1)!;
-  next = appendPressRecord(next, "matter-response", {
+  const appended = appendPressRecord(next, "matter-response", {
     stableKey,
     matterId: input.matterId,
     actorPersonId: input.personId,
@@ -156,22 +168,30 @@ export function respondToMatter(
     decisionTraceId: null,
     knowledgeIds: [],
     respondedAt: next.currentDate,
-  }).world;
-  if (input.response === "resign") {
-    const office = officesHeldBy(next, input.personId)[0];
+  });
+  next = appended.world;
+  let officeOutcome: OfficeConsequenceResult["outcome"] | null = null;
+  if (input.response === "resign" || input.officeConsequenceWriter) {
+    const office = input.officeKey
+      ? { officeKey: input.officeKey }
+      : officesHeldBy(next, input.personId)[0];
     if (office) {
-      next = recordOfficeConsequence(next, {
+      const consequence = (
+        input.officeConsequenceWriter ?? recordOfficeConsequence
+      )(next, {
         stableKey: `${stableKey}:office-resignation`,
         officeKey: office.officeKey,
         subjectPersonId: input.personId,
-        kind: "resignation",
+        kind: input.response === "resign" ? "resignation" : "defense-recorded",
         effectiveAt: next.currentDate,
         statedReason: meaning,
         evidenceEventIds: [event.id],
-      }).world;
+      });
+      next = consequence.world;
+      officeOutcome = consequence.outcome;
     }
   }
-  return next;
+  return { world: next, officeOutcome };
 }
 
 /** Organizers of party chapters the subject actively belongs to. */
