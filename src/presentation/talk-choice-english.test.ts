@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import talkChoiceFits from "../../data/english/talk-choice-fits.json" with { type: "json" };
 import talkChoiceBank from "../../data/english/parts/talk-choice.json" with { type: "json" };
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
@@ -8,7 +9,11 @@ import { describePersonContext } from "../simulation/person-context";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import type { PartGradeLedger } from "./english-grades";
 import { LIFE_TALK_INTENTS } from "./life-conversation";
-import { composeTalkChoice } from "./talk-choice-english";
+import {
+  composeTalkChoice,
+  lastLineOf,
+  type LastLine,
+} from "./talk-choice-english";
 
 /**
  * A conversation choice is a sentence a real person said, filed under the
@@ -44,10 +49,22 @@ const held = (key: string): PartGradeLedger => ({
 });
 
 describe("conversation choices in the player's own words", () => {
-  it("files every mined sentence under a choice the game offers", () => {
+  it("files every mined sentence where it answers some last line, for a choice the game offers", () => {
     expect(PARTS.length).toBeGreaterThan(0);
-    for (const part of PARTS)
-      expect(Object.keys(LIFE_TALK_INTENTS), part.key).toContain(part.move);
+    const fits = talkChoiceFits.fits as Record<
+      string,
+      Record<string, readonly string[]>
+    >;
+    for (const part of PARTS) {
+      const choices = Object.values(fits).flatMap((byChoice) =>
+        Object.entries(byChoice)
+          .filter(([, moves]) => moves.includes(part.move))
+          .map(([choice]) => choice),
+      );
+      expect(choices.length, part.key).toBeGreaterThan(0);
+      for (const choice of choices)
+        expect(Object.keys(LIFE_TALK_INTENTS), part.key).toContain(choice);
+    }
   });
 
   it("words a greeting in every one of the 56 places, with no blank left", () => {
@@ -121,14 +138,21 @@ describe("conversation choices in the player's own words", () => {
   it("gives way to another sentence when the owner graded one down", () => {
     const { world, personId } = smallWorld({ place: PLACE.key, seed: SEED });
     const other = world.personOrder.find((id) => id !== personId)!;
-    for (const choice of ["greet", "explain", "acceptProposal"]) {
-      const first = composeTalkChoice(world, personId, other, choice)!;
+    const answering: [string, LastLine][] = [
+      ["greet", "opening"],
+      ["explain", "statement"],
+      ["acceptProposal", "invitation"],
+    ];
+    for (const [choice, lastLine] of answering) {
+      const first = composeTalkChoice(world, personId, other, choice, {
+        lastLine,
+      })!;
       const again = composeTalkChoice(
         world,
         personId,
         other,
         choice,
-        {},
+        { lastLine },
         held(first.parts[0]!),
       )!;
       expect(again.parts).not.toEqual(first.parts);
@@ -144,5 +168,79 @@ describe("conversation choices in the player's own words", () => {
     });
     expect(raised?.text).toContain(topic);
     expect(composeTalkChoice(world, personId, other, "matter")).toBeNull();
+  });
+});
+
+/**
+ * The owner's rules from grading batch 2 (October 8): leaving is the screen's
+ * control and a choice names a subject (R1, R2), and a choice answers the
+ * other person's last line (R3).
+ */
+describe("a choice answers the other person's last line", () => {
+  const { world, personId } = smallWorld({ place: PLACE.key, seed: SEED });
+  const others = world.personOrder.filter((id) => id !== personId).slice(0, 8);
+  const morning = at(world, 9 * 60);
+  const say = (choice: string, lastLine: LastLine, other: EntityId) =>
+    composeTalkChoice(morning, personId, other, choice, { lastLine });
+
+  it("reads the last line from what was said", () => {
+    expect(lastLineOf(null, false)).toBe("opening");
+    expect(
+      lastLineOf({ intent: "greet", reply: "Hi, Ana. How are you?" }, false),
+    ).toBe("wellbeing");
+    expect(lastLineOf({ intent: "greet", reply: "Hi, Ana." }, false)).toBe(
+      "greeting",
+    );
+    expect(lastLineOf({ intent: "matter", reply: "Did it pass?" }, false)).toBe(
+      "question",
+    );
+    expect(
+      lastLineOf({ intent: "matter", reply: "I heard about that." }, false),
+    ).toBe("statement");
+    expect(
+      lastLineOf({ intent: "greet", reply: "We could play cards?" }, true),
+    ).toBe("invitation");
+  });
+
+  it('answers "How are you?" with an answer, never another greeting', () => {
+    const answers = new Set(
+      PARTS.filter((part) => part.move === "answer-how").map(
+        (part) => part.text,
+      ),
+    );
+    for (const other of others) {
+      const line = say("greet", "wellbeing", other);
+      expect(line).not.toBeNull();
+      expect(answers).toContain(line!.text);
+      expect(line!.text).not.toMatch(
+        /^Good (?:morning|afternoon|evening)\.$|to see you/,
+      );
+    }
+  });
+
+  it("answers an invitation only with yes or no", () => {
+    for (const other of others) {
+      expect(say("acceptProposal", "invitation", other)).not.toBeNull();
+      expect(say("declineProposal", "invitation", other)).not.toBeNull();
+      for (const choice of ["greet", "explain", "matter", "remember"])
+        expect(say(choice, "invitation", other), choice).toBeNull();
+    }
+  });
+
+  it("offers no words for leaving, acknowledging or a choice with no subject", () => {
+    const lastLines = Object.keys(talkChoiceFits.fits) as LastLine[];
+    for (const choice of [
+      "leave",
+      "acknowledge",
+      "scene",
+      "activity",
+      "share",
+      "nothing",
+    ])
+      for (const lastLine of lastLines)
+        expect(
+          say(choice, lastLine, others[0]!),
+          `${choice} ${lastLine}`,
+        ).toBeNull();
   });
 });

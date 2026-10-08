@@ -25,7 +25,10 @@ import {
 } from "../../src/presentation/life-conversation";
 import { openNextLifeScene } from "../../src/presentation/life-scene-flow";
 import { currentLifeTalkScene } from "../../src/presentation/life-talk-presence";
-import { composeTalkChoice } from "../../src/presentation/talk-choice-english";
+import {
+  composeTalkChoice,
+  lastLineOf,
+} from "../../src/presentation/talk-choice-english";
 
 /** The owner judges an exchange only when the player has a real choice. */
 export const MIN_CHOICES = 4;
@@ -146,6 +149,11 @@ export function readConversations(
       );
       continue;
     }
+    // A choice answers the line it follows (owner rule R3, Oct 8).
+    const lastLine = lastLineOf(
+      { intent: opener.key, reply },
+      next.proposal?.status === "proposed",
+    );
     exchanges.push({
       personId,
       relation:
@@ -167,7 +175,9 @@ export function readConversations(
           "deliberate-deception",
       ),
       choiceWords: next.intents.flatMap((intent) => {
-        const words = composeTalkChoice(after, playerId, personId, intent.key);
+        const words = composeTalkChoice(after, playerId, personId, intent.key, {
+          lastLine,
+        });
         return words
           ? [{ label: intent.label, text: words.text, parts: words.parts }]
           : [];

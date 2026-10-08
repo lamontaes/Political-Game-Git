@@ -11,19 +11,49 @@
  *   night;
  * - by acquaintance: a line that calls the person by name ("Hi, Ana.") only
  *   when a record says how the player knows them;
+ * - by the other person's last line (owner rule R3, Oct 8): a question gets
+ *   an answer ("Good, how are you?"), an invitation gets a yes or no, a
+ *   greeting gets a greeting. Which sentences answer which line is data,
+ *   `data/english/talk-choice-fits.json`; a choice that does not answer the
+ *   last line gets no sentence;
  * - by the owner's grades: a sentence graded down is not chosen.
  * A sentence with a blank the records cannot fill is not chosen either. When
  * no sentence is left, there is no line, and the screen keeps what it shows.
  *
  * Pure: reads the world, never writes or advances time.
  */
+import talkChoiceFits from "../../data/english/talk-choice-fits.json" with { type: "json" };
 import talkChoiceBank from "../../data/english/parts/talk-choice.json" with { type: "json" };
 import type { EntityId, World } from "../simulation";
 import { describePersonContext } from "../simulation/person-context";
-import { composeFromBank, type EnglishBank } from "./bank-english";
+import { composeFromBank, stableHash, type EnglishBank } from "./bank-english";
 import { PART_GRADES, type PartGradeLedger } from "./english-grades";
 
 const BANK = talkChoiceBank as EnglishBank;
+
+/** What the other person's last line was, which the choice must answer. */
+export type LastLine = keyof typeof talkChoiceFits.fits;
+
+const FITS = talkChoiceFits.fits as Record<
+  LastLine,
+  Partial<Record<string, readonly string[]>>
+>;
+
+/**
+ * The kind of the other person's last line, from what the player chose and
+ * what came back: nothing yet, a greeting with or without "How are you?", an
+ * open invitation, another question, or a statement.
+ */
+export function lastLineOf(
+  previous: { readonly intent: string; readonly reply: string } | null,
+  invitationOpen: boolean,
+): LastLine {
+  if (!previous) return "opening";
+  if (invitationOpen) return "invitation";
+  const asks = /\?["”]?\s*$/.test(previous.reply);
+  if (previous.intent === "greet") return asks ? "wellbeing" : "greeting";
+  return asks ? "question" : "statement";
+}
 
 export interface TalkChoiceLine {
   readonly text: string;
@@ -39,6 +69,8 @@ export interface TalkChoiceFacts {
   readonly official?: string;
   /** That official's office, in lower case. */
   readonly office?: string;
+  /** The other person's last line; a conversation not yet begun by default. */
+  readonly lastLine?: LastLine;
 }
 
 /**
@@ -79,15 +111,22 @@ export function composeTalkChoice(
   const filled: Record<string, string> = known
     ? { name: person.givenName }
     : {};
-  for (const [slot, value] of Object.entries(facts))
+  const { lastLine = "opening", ...particulars } = facts;
+  for (const [slot, value] of Object.entries(particulars))
     if (typeof value === "string") filled[slot] = value;
-  const line = composeFromBank(
-    BANK,
-    choice,
-    filled,
-    `talk-choice:${world.id}:${playerPersonId}:${personId}:${choice}:${world.currentDate}`,
-    wrongHour(world.currentMoment.minuteOfDay),
-    grades,
-  );
+  // Only the sentences that answer the other person's last line.
+  const pick = `talk-choice:${world.id}:${playerPersonId}:${personId}:${choice}:${world.currentDate}`;
+  const lines = (FITS[lastLine][choice] ?? []).flatMap((move) => {
+    const line = composeFromBank(
+      BANK,
+      move,
+      filled,
+      pick,
+      wrongHour(world.currentMoment.minuteOfDay),
+      grades,
+    );
+    return line ? [line] : [];
+  });
+  const line = lines[stableHash(`${pick}:move`) % Math.max(1, lines.length)];
   return line ? { text: line.text, parts: [`bank:${line.partKey}`] } : null;
 }
