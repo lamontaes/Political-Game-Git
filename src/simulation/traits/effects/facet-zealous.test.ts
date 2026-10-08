@@ -81,12 +81,7 @@ describe("the zealous trait reader", () => {
       ANOTHER_TERM_DECISION.id,
     );
 
-    expect(zealous).toEqual([
-      expect.objectContaining({
-        optionKey: "seek",
-        explanation: "Zealous",
-      }),
-    ]);
+    expect(zealous).toEqual([]);
     expect(comparison).toEqual([]);
     const decide = (
       personId: EntityId,
@@ -148,6 +143,14 @@ describe("the zealous trait reader", () => {
     );
     expect(zealousDecision.selectedOptionKey).toBe("seek");
     expect(comparisonDecision.selectedOptionKey).toBe("step-down");
+    expect(zealousDecision.context.considerations).toContainEqual(
+      expect.objectContaining({
+        stableKey:
+          "another-term:zealous-proof:act:personality-v1:facet-zealous:seek:supports",
+        explanation:
+          "personality-v1:facet-zealous|career.consider-another-term|seek|high",
+      }),
+    );
     const zealousPerson = world.people[zealousPersonId]!;
     const comparisonPerson = world.people[comparisonPersonId]!;
     expect(personName(zealousPerson)).toBeTruthy();
