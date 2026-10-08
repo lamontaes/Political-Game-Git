@@ -1,0 +1,110 @@
+{
+  "session": 21,
+  "task": "CTO6007193583 A52 retained nonhousing bills",
+  "baseHead": "c11412007488ca254a6c65ff91e4a39a8815664d",
+  "testedCodeHead": "95d650a5793c9c4a4fd28537ca54536c84bbda29",
+  "scope": "Test-only canonical fixture repair; not generated-law-route acceptance or production amount/cash changes",
+  "baseline": {
+    "exitCode": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 12,
+    "durationSeconds": 26.15,
+    "failure": "a: expected null not to be null",
+    "log": "/tmp/session21-a52-main.log"
+  },
+  "measuredInputs": {
+    "seed": "town-rent-month-a",
+    "placeKey": "1714000",
+    "personId": "person_91ba35d1d8639409",
+    "householdId": "household_1013e0dc5f496add",
+    "control": {
+      "kind": "person",
+      "personId": "person_91ba35d1d8639409"
+    },
+    "householdSize": 1,
+    "region": "midwest",
+    "estimatedMonthlyMinor": 82986,
+    "positions": [
+      {
+        "id": "resource-position_8967fbbdf5bd4b6f",
+        "stableKey": "life-paths2:personal-position:person_91ba35d1d8639409:USD",
+        "sequence": 1138,
+        "owner": {
+          "kind": "person",
+          "personId": "person_91ba35d1d8639409"
+        },
+        "openedAt": "2026-01-05",
+        "openingBalance": {
+          "minorUnits": 0,
+          "currency": "USD"
+        },
+        "provenance": {
+          "kind": "authored",
+          "note": "Recorded-money checkpoint only; no initial wealth inferred. Carried transfer outcomes: none."
+        }
+      }
+    ],
+    "log": "/tmp/session21-a52-inputs.log"
+  },
+  "repair": {
+    "authoredInputs": [
+      "Zero-balance household cash account; no pooling or generated funds",
+      "Saved79125USDminor nonhousing whole-basket provider contract"
+    ],
+    "assertions": [
+      "Original bill-nonnull,79125minor,at-least-one-leased assertions retained",
+      "No inferred bill for missing household account",
+      "Current estimate matches existing size/region/spread reader",
+      "Saved provider ID/terms retained; duplicate estimate ended",
+      "Rent leases/terms, personal positions, prior outcomes unchanged",
+      "Full serializeWorld/deserializeWorld and settlement idempotency"
+    ],
+    "clockScope": "Generated opening date with actual rent writer; no manual clock jump or month-advance claim",
+    "batchIntegrity": "Existing writeWithWorldIntegrityOnce; guards unchanged"
+  },
+  "candidate": {
+    "exitCode": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 12,
+    "seeds": [
+      "town-rent-month-a",
+      "town-rent-month-b",
+      "town-rent-month-c",
+      "town-rent-month-d",
+      "town-rent-month-e",
+      "town-rent-month-f"
+    ],
+    "durationSeconds": 208.24,
+    "testDurationSeconds": 186.14,
+    "log": "/tmp/session21-a52-batched.log"
+  },
+  "intermediateResults": [
+    {
+      "log": "/tmp/session21-a52-candidate.log",
+      "failure": "Missing person: undefined; repaired omitted reader argument"
+    },
+    {
+      "log": "/tmp/session21-a52-candidate-final.log",
+      "failure": "Future due item skipped by authoritative time; repaired manual-clock fixture"
+    },
+    {
+      "log": "/tmp/session21-a52-final.log",
+      "result": "Explicitly stopped nonterminal unbatched setup; worker exited unexpectedly,exit1,349.10s; no PASS"
+    }
+  ],
+  "typecheck": {
+    "exitCode": 0,
+    "unresolvedTestImports": 0,
+    "testImportFiles": 794,
+    "log": "/tmp/session21-a52-typecheck.log"
+  },
+  "checks": {
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "diffCheck": "PASS",
+    "releaseCheck": "PASS",
+    "zeroDice": "PASS"
+  }
+}
