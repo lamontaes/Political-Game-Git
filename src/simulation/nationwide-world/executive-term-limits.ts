@@ -143,7 +143,7 @@ export function executiveTermLimitInWorld(
     {
       jurisdiction: identity.jurisdictionKey,
       officeKey: identity.officeKey,
-      field: "executive.term.limit",
+      field: "term.limit",
       onDate: termStartsAt,
     },
     compiled.limit,
