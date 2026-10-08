@@ -2,236 +2,797 @@
   "version": 1,
   "decisions": {
     "campaign.chapter-support-request": {
-      "grant": ["cooperate", "help-others", "commit"],
-      "decline": ["refuse", "play-safe"],
-      "defer": ["delay", "play-safe", "concede"]
+      "grant": [
+        "cooperate",
+        "help-others",
+        "commit"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ],
+      "defer": [
+        "delay",
+        "play-safe",
+        "concede"
+      ]
     },
     "campaign.helper-request": {
-      "help": ["cooperate", "help-others", "take-risk"],
-      "decline": ["refuse", "play-safe"]
+      "help": [
+        "cooperate",
+        "help-others",
+        "take-risk"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ]
     },
     "campaign.opponent-emphasis": {
-      "field": ["engage", "commit"],
-      "communications": ["speak-out", "keep-same", "take-risk"],
-      "relationships": ["concede", "trust"]
+      "field": [
+        "engage",
+        "commit"
+      ],
+      "communications": [
+        "speak-out",
+        "keep-same",
+        "take-risk"
+      ],
+      "relationships": [
+        "concede",
+        "trust"
+      ]
     },
     "campaign.organizer-outreach": {
-      "organization-meeting": ["engage", "cooperate"],
-      "door-canvass": ["engage", "speak-out"],
-      "phone-shift": ["speak-out", "play-safe"],
-      "town-hall": ["engage", "speak-out"],
-      "fundraiser": ["engage", "speak-out"],
-      "support-request": ["engage", "speak-out"],
-      "candidate-guidance": ["help-others", "speak-out", "change"],
-      "not-now": ["delay", "withdraw"]
+      "organization-meeting": [
+        "engage",
+        "cooperate"
+      ],
+      "door-canvass": [
+        "engage",
+        "speak-out"
+      ],
+      "phone-shift": [
+        "speak-out",
+        "play-safe"
+      ],
+      "town-hall": [
+        "engage",
+        "speak-out"
+      ],
+      "fundraiser": [
+        "engage",
+        "speak-out"
+      ],
+      "support-request": [
+        "engage",
+        "speak-out"
+      ],
+      "candidate-guidance": [
+        "help-others",
+        "speak-out",
+        "change"
+      ],
+      "not-now": [
+        "delay",
+        "withdraw"
+      ]
     },
     "campaign.petition-signature": {
-      "sign": ["cooperate", "engage", "commit"],
-      "decline": ["refuse", "withdraw"]
+      "sign": [
+        "cooperate",
+        "engage",
+        "commit"
+      ],
+      "decline": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "campaign.support-request": {
-      "grant": ["cooperate", "help-others", "commit"],
-      "decline": ["refuse", "play-safe"],
-      "defer": ["delay", "play-safe", "concede"]
+      "grant": [
+        "cooperate",
+        "help-others",
+        "commit"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ],
+      "defer": [
+        "delay",
+        "play-safe",
+        "concede"
+      ]
     },
     "career.consider-another-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "crime.report-to-police": {
-      "report": ["engage", "follow-rules", "trust"],
-      "keep-quiet": ["stay-quiet", "withdraw", "distrust"]
+      "report": [
+        "engage",
+        "follow-rules",
+        "trust"
+      ],
+      "keep-quiet": [
+        "stay-quiet",
+        "withdraw",
+        "distrust"
+      ]
     },
     "election.consider-another-congress-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "election.consider-another-governor-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "election.consider-another-local-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "election.consider-another-presidential-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "election.consider-another-state-legislative-term": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "election.consider-congress-run": {
-      "run": ["engage", "take-risk", "speak-out"],
-      "decline": ["withdraw", "play-safe"]
+      "run": [
+        "engage",
+        "take-risk",
+        "speak-out"
+      ],
+      "decline": [
+        "withdraw",
+        "play-safe"
+      ]
     },
     "election.consider-local-run": {
-      "run": ["engage", "take-risk", "speak-out"],
-      "decline": ["withdraw", "play-safe"]
+      "run": [
+        "engage",
+        "take-risk",
+        "speak-out"
+      ],
+      "decline": [
+        "withdraw",
+        "play-safe"
+      ]
     },
     "election.consider-nomination-runoff": {
-      "request": ["engage", "take-risk", "confront"],
-      "concede": ["concede", "play-safe"]
+      "request": [
+        "engage",
+        "take-risk",
+        "confront"
+      ],
+      "concede": [
+        "concede",
+        "play-safe"
+      ]
     },
     "election.consider-state-legislative-run": {
-      "run": ["engage", "take-risk", "speak-out"],
-      "decline": ["withdraw", "play-safe"]
+      "run": [
+        "engage",
+        "take-risk",
+        "speak-out"
+      ],
+      "decline": [
+        "withdraw",
+        "play-safe"
+      ]
     },
     "family.leave-parental-home": {
-      "own-home": ["change", "take-risk", "self-interest"],
-      "at-home": ["keep-same", "play-safe"]
+      "own-home": [
+        "change",
+        "take-risk",
+        "self-interest"
+      ],
+      "at-home": [
+        "keep-same",
+        "play-safe"
+      ]
     },
     "justice.clemency-petition": {
-      "petition": ["engage", "speak-out", "take-risk"],
-      "wait": ["delay", "play-safe"]
+      "petition": [
+        "engage",
+        "speak-out",
+        "take-risk"
+      ],
+      "wait": [
+        "delay",
+        "play-safe"
+      ]
     },
     "justice.jury-vote": {
-      "acquit": ["trust", "delay"],
-      "convict": ["confront", "commit"]
+      "acquit": [
+        "trust",
+        "delay"
+      ],
+      "convict": [
+        "confront",
+        "commit"
+      ]
     },
     "justice.plea": {
-      "plead": ["concede", "play-safe"],
-      "trial": ["confront", "take-risk", "commit"]
+      "plead": [
+        "concede",
+        "play-safe"
+      ],
+      "trial": [
+        "confront",
+        "take-risk",
+        "commit"
+      ]
     },
     "labor.worker-quit": {
-      "continue-work": ["keep-same", "commit", "follow-rules"],
-      "quit": ["withdraw", "change", "take-risk"]
+      "continue-work": [
+        "keep-same",
+        "commit",
+        "follow-rules"
+      ],
+      "quit": [
+        "withdraw",
+        "change",
+        "take-risk"
+      ]
     },
     "legislation.bargaining-response": {
-      "commit": ["commit", "speak-out", "engage"],
-      "hold-off": ["delay", "refuse", "stay-quiet"],
-      "take-the-offer": ["cooperate", "concede", "commit"]
+      "commit": [
+        "commit",
+        "speak-out",
+        "engage"
+      ],
+      "hold-off": [
+        "delay",
+        "refuse",
+        "stay-quiet"
+      ],
+      "take-the-offer": [
+        "cooperate",
+        "concede",
+        "commit"
+      ]
     },
     "legislation.member-vote": {
-      "vote-yea": ["engage", "speak-out"],
-      "vote-nay": ["engage", "speak-out"],
-      "withhold": ["withdraw", "stay-quiet", "delay"]
+      "vote-yea": [
+        "engage",
+        "speak-out"
+      ],
+      "vote-nay": [
+        "engage",
+        "speak-out"
+      ],
+      "withhold": [
+        "withdraw",
+        "stay-quiet",
+        "delay"
+      ]
     },
     "life.raise-earlier-matter": {
-      "raise-it": ["confront", "speak-out", "follow-rules"],
-      "let-it-lie": ["stay-quiet", "withdraw", "keep-same"]
+      "raise-it": [
+        "confront",
+        "speak-out",
+        "follow-rules"
+      ],
+      "let-it-lie": [
+        "stay-quiet",
+        "withdraw",
+        "keep-same"
+      ]
     },
     "migration.leave-town": {
-      "leave": ["change", "take-risk"],
-      "keep-home": ["keep-same", "play-safe"]
+      "leave": [
+        "change",
+        "take-risk"
+      ],
+      "keep-home": [
+        "keep-same",
+        "play-safe"
+      ]
     },
     "mogul.approach": {
-      "donate": ["help-others", "cooperate", "trust"],
-      "deal": ["self-interest", "bend-rules", "engage"],
-      "wait": ["delay", "play-safe"]
+      "donate": [
+        "help-others",
+        "cooperate",
+        "trust"
+      ],
+      "deal": [
+        "self-interest",
+        "bend-rules",
+        "engage"
+      ],
+      "wait": [
+        "delay",
+        "play-safe"
+      ]
     },
     "office.consider-resigning": {
-      "seek": ["engage", "take-risk", "commit"],
-      "step-down": ["withdraw", "play-safe", "change"]
+      "seek": [
+        "engage",
+        "take-risk",
+        "commit"
+      ],
+      "step-down": [
+        "withdraw",
+        "play-safe",
+        "change"
+      ]
     },
     "party-chapter.invite-to-meeting": {
-      "invite": ["engage", "cooperate"],
-      "not-now": ["delay", "withdraw"]
+      "invite": [
+        "engage",
+        "cooperate"
+      ],
+      "not-now": [
+        "delay",
+        "withdraw"
+      ]
     },
     "party.consider-leaving": {
-      "stay": ["keep-same", "cooperate", "play-safe"],
-      "split": ["confront", "change", "commit"],
-      "found": ["change", "take-risk", "commit"]
+      "stay": [
+        "keep-same",
+        "cooperate",
+        "play-safe"
+      ],
+      "split": [
+        "confront",
+        "change",
+        "commit"
+      ],
+      "found": [
+        "change",
+        "take-risk",
+        "commit"
+      ]
     },
     "people.ask-favor-back": {
-      "ask": ["engage", "speak-out", "self-interest"],
-      "leave-it": ["withdraw", "stay-quiet"]
+      "ask": [
+        "engage",
+        "speak-out",
+        "self-interest"
+      ],
+      "leave-it": [
+        "withdraw",
+        "stay-quiet"
+      ]
     },
     "people.contact-answer": {
-      "accept": ["engage", "cooperate"],
-      "counter": ["change", "delay", "speak-out"],
-      "decline": ["refuse", "withdraw"]
+      "accept": [
+        "engage",
+        "cooperate"
+      ],
+      "counter": [
+        "change",
+        "delay",
+        "speak-out"
+      ],
+      "decline": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "people.couple-answer": {
-      "accept": ["engage", "commit", "cooperate"],
-      "decline": ["refuse", "withdraw"]
+      "accept": [
+        "engage",
+        "commit",
+        "cooperate"
+      ],
+      "decline": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "people.couple-stage": {
-      "stay": ["keep-same", "commit", "trust"],
-      "break-up": ["withdraw", "change", "refuse"],
-      "separate": ["withdraw", "change", "refuse"],
-      "move-in": ["commit", "change"],
-      "marry": ["commit", "follow-rules", "change"]
+      "stay": [
+        "keep-same",
+        "commit",
+        "trust"
+      ],
+      "break-up": [
+        "withdraw",
+        "change",
+        "refuse"
+      ],
+      "separate": [
+        "withdraw",
+        "change",
+        "refuse"
+      ],
+      "move-in": [
+        "commit",
+        "change"
+      ],
+      "marry": [
+        "commit",
+        "follow-rules",
+        "change"
+      ]
     },
     "people.date-answer": {
-      "accept": ["engage", "cooperate"],
-      "decline": ["refuse", "withdraw"]
+      "accept": [
+        "engage",
+        "cooperate"
+      ],
+      "decline": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "people.family-plan": {
-      "agree": ["commit", "cooperate", "take-risk"],
-      "not-now": ["delay", "play-safe"]
+      "agree": [
+        "commit",
+        "cooperate",
+        "take-risk"
+      ],
+      "not-now": [
+        "delay",
+        "play-safe"
+      ]
     },
     "people.goal-step": {
-      "act": ["engage", "commit"],
-      "not-this-week": ["delay", "withdraw"]
+      "act": [
+        "engage",
+        "commit"
+      ],
+      "not-this-week": [
+        "delay",
+        "withdraw"
+      ]
     },
     "people.invite-over": {
-      "ask": ["engage", "cooperate"],
-      "keep-it-small": ["withdraw", "keep-same"]
+      "ask": [
+        "engage",
+        "cooperate"
+      ],
+      "keep-it-small": [
+        "withdraw",
+        "keep-same"
+      ]
     },
     "people.job-offer-answer": {
-      "accept": ["commit", "play-safe", "cooperate"],
-      "hold-out": ["refuse", "take-risk", "delay"]
+      "accept": [
+        "commit",
+        "play-safe",
+        "cooperate"
+      ],
+      "hold-out": [
+        "refuse",
+        "take-risk",
+        "delay"
+      ]
     },
     "people.promise-renegotiation": {
-      "accepts-change": ["concede", "cooperate", "change"],
-      "needs-answer": ["delay", "distrust"],
-      "holds-boundary": ["follow-rules", "refuse", "commit"]
+      "accepts-change": [
+        "concede",
+        "cooperate",
+        "change"
+      ],
+      "needs-answer": [
+        "delay",
+        "distrust"
+      ],
+      "holds-boundary": [
+        "follow-rules",
+        "refuse",
+        "commit"
+      ]
     },
     "people.raise-family-plan": {
-      "raise-it": ["engage", "commit", "take-risk"],
-      "leave-it": ["delay", "keep-same"]
+      "raise-it": [
+        "engage",
+        "commit",
+        "take-risk"
+      ],
+      "leave-it": [
+        "delay",
+        "keep-same"
+      ]
     },
     "people.reach-out": {
-      "get-in-touch": ["engage", "cooperate"],
-      "leave-it": ["withdraw", "delay"]
+      "get-in-touch": [
+        "engage",
+        "cooperate"
+      ],
+      "leave-it": [
+        "withdraw",
+        "delay"
+      ]
     },
     "people.session-work-answer": {
-      "accepted": ["cooperate", "commit"],
-      "refused": ["refuse", "take-risk"],
-      "negotiated": ["delay", "speak-out"]
+      "accepted": [
+        "cooperate",
+        "commit"
+      ],
+      "refused": [
+        "refuse",
+        "take-risk"
+      ],
+      "negotiated": [
+        "delay",
+        "speak-out"
+      ]
     },
     "people.study-collaboration": {
-      "agrees": ["cooperate", "engage"],
-      "counterproposes": ["change", "delay"],
-      "declines": ["refuse", "withdraw"]
+      "agrees": [
+        "cooperate",
+        "engage"
+      ],
+      "counterproposes": [
+        "change",
+        "delay"
+      ],
+      "declines": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "people.study-plan-answer": {
-      "agrees": ["concede", "cooperate", "play-safe"],
-      "counterproposes": ["change", "delay", "speak-out"],
-      "unresolved": ["delay", "keep-same", "refuse"]
+      "agrees": [
+        "concede",
+        "cooperate",
+        "play-safe"
+      ],
+      "counterproposes": [
+        "change",
+        "delay",
+        "speak-out"
+      ],
+      "unresolved": [
+        "delay",
+        "keep-same",
+        "refuse"
+      ]
     },
     "people.tell-of-refusal": {
-      "tell": ["speak-out", "engage"],
-      "keep-it": ["stay-quiet", "withdraw"]
+      "tell": [
+        "speak-out",
+        "engage"
+      ],
+      "keep-it": [
+        "stay-quiet",
+        "withdraw"
+      ]
     },
     "press.adviser-assignment-response": {
-      "accept": ["engage", "cooperate", "commit"],
-      "decline": ["refuse", "play-safe"]
+      "accept": [
+        "engage",
+        "cooperate",
+        "commit"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ]
     },
     "press.confirm-account": {
-      "confirm": ["speak-out", "confront", "trust"],
-      "decline": ["stay-quiet", "withdraw", "play-safe"]
+      "confirm": [
+        "speak-out",
+        "confront",
+        "trust"
+      ],
+      "decline": [
+        "stay-quiet",
+        "withdraw",
+        "play-safe"
+      ]
     },
     "press.mention-a-promise": {
-      "mention": ["speak-out", "engage"],
-      "keep-quiet": ["stay-quiet", "withdraw"]
+      "mention": [
+        "speak-out",
+        "engage"
+      ],
+      "keep-quiet": [
+        "stay-quiet",
+        "withdraw"
+      ]
     },
     "press.reporter-request-response": {
-      "accept": ["engage", "cooperate", "speak-out"],
-      "defer": ["delay", "play-safe"],
-      "decline": ["refuse", "withdraw"]
+      "accept": [
+        "engage",
+        "cooperate",
+        "speak-out"
+      ],
+      "defer": [
+        "delay",
+        "play-safe"
+      ],
+      "decline": [
+        "refuse",
+        "withdraw"
+      ]
     },
     "press.subject-response": {
-      "dispute": ["confront", "speak-out"],
-      "decline": ["stay-quiet", "withdraw"],
-      "no-response": ["delay"]
+      "dispute": [
+        "confront",
+        "speak-out"
+      ],
+      "decline": [
+        "stay-quiet",
+        "withdraw"
+      ],
+      "no-response": [
+        "delay"
+      ]
     },
     "speech.react": {
-      "cheered": ["engage", "speak-out"],
-      "applauded": ["follow-rules", "keep-same"],
-      "stayed-quiet": ["withdraw", "stay-quiet"]
+      "cheered": [
+        "engage",
+        "speak-out"
+      ],
+      "applauded": [
+        "follow-rules",
+        "keep-same"
+      ],
+      "stayed-quiet": [
+        "withdraw",
+        "stay-quiet"
+      ]
+    },
+    "campaign.donor-ask": {
+      "give": [
+        "help-others",
+        "cooperate"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ]
+    },
+    "campaign.fundraiser-contribution": {
+      "give": [
+        "help-others",
+        "cooperate"
+      ],
+      "not-attempted": [
+        "withdraw",
+        "play-safe"
+      ]
+    },
+    "campaign.manager-offer": {
+      "accept": [
+        "commit",
+        "cooperate"
+      ],
+      "decline": [
+        "refuse",
+        "play-safe"
+      ]
+    },
+    "campaign.opponent-weekly-step": {
+      "field-event": [
+        "engage",
+        "speak-out"
+      ],
+      "fundraising": [
+        "self-interest"
+      ],
+      "messaging": [
+        "speak-out"
+      ],
+      "support-request": [
+        "cooperate",
+        "help-others"
+      ]
+    },
+    "central-bank.policy-rate": {
+      "cut-half": [
+        "change"
+      ],
+      "cut-quarter": [
+        "change"
+      ],
+      "hold": [
+        "keep-same"
+      ],
+      "raise-quarter": [
+        "change"
+      ],
+      "raise-half": [
+        "change"
+      ]
+    },
+    "civil-personnel.commissioner-settlement": {
+      "settlement-directed": [
+        "confront",
+        "change"
+      ],
+      "settlement-not-directed": [
+        "keep-same",
+        "play-safe"
+      ]
+    },
+    "civil-personnel.discharge-appeal": {
+      "appeal": [
+        "confront",
+        "take-risk"
+      ],
+      "no-appeal": [
+        "play-safe",
+        "withdraw"
+      ]
+    },
+    "civil-personnel.reinstatement-response": {
+      "accept": [
+        "cooperate",
+        "commit"
+      ],
+      "decline": [
+        "refuse",
+        "change"
+      ]
+    },
+    "couple-stage": {
+      "stay": [
+        "keep-same"
+      ],
+      "break-up": [
+        "change",
+        "withdraw"
+      ],
+      "move-in": [
+        "commit",
+        "cooperate"
+      ],
+      "marry": [
+        "commit",
+        "follow-rules"
+      ],
+      "separate": [
+        "change",
+        "withdraw"
+      ]
     }
   },
   "unlabeled": [
@@ -253,6 +814,7 @@
     "people.caregiver-choice",
     "people.date-proposal",
     "people.study-plan",
-    "political-belief-formation"
+    "political-belief-formation",
+    "career.after-office-endorsement"
   ]
 }
