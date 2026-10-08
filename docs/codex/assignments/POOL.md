@@ -557,9 +557,9 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | unsupported: nationwide governor qualification rules are not source-admitted; current corpus covers only MN, MO, NE, NV, and OH | |
-| BG-53 | 'Put your name in' for Governor is a dead gray button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
+| BG-53 | 'Put your name in' for Governor is a dead gray button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | done #3359 (unsupported: no verified historical Nevada qualification source) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | done #3459 | |
-| BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | done #3596 | |
+| BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | done #3596 (verified on main) | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
 | BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | done #3448 | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
@@ -662,7 +662,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2211 | P1: Preserve dated historical inputs and diagnose excessive past processing | PR #2211 (codex/session5-historical-world) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2216 | Record supported 2026 environment law amounts | PR #2216 (codex/session17-environment-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2217 | Record supported 2026 mileage fee amounts | PR #2217 (codex/session17-transportation-amounts) | open: draft: finish it or close it as superseded | |
-| RS-2218 | Clarify 2026 Minnesota groundwater permit rule | PR #2218 (codex/session17-agriculture-amounts) | open: draft: finish it or close it as superseded | |
+| RS-2218 | Clarify 2026 Minnesota groundwater permit rule | PR #2218 (codex/session17-agriculture-amounts) | ready #2218 | |
 | RS-2219 | Close permission writers over the shared kind and preserve legacy saves | PR #2219 (codex/session21-permission-kind) | open: draft: finish it or close it as superseded | |
 | RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | done #2220 | |
 | RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -951,8 +951,8 @@ open: rebase on main (conflicts) | |
 | EN-3f | home scene question is not a stiff therapist question                                                                                                                                                                          | src/presentation/life-reply-english.ts        | open (every PR includes a fresh dialogue-batch run) |            |
 | EN-3g | press reporter question reads as speech, not text                                                                                                                                                                              | src/presentation/press-english.ts             | open (every PR includes a fresh dialogue-batch run) |            |
 | BG-68 | offer-another-day reply grammar ("I can't do on January 15")                                                                                                                                                                   | src/presentation/contextual-scene-families.ts | done #2772                                          |            |
-| BG-69 | conversations far too rare (3 in 56 life-days); fix the cause                                                                                                                                                                  | dialogue report                               | done #3617                                          | Session 49 |
-| BG-71 | reporter question leaks "declined to comment" and a byline                                                                                                                                                                     | src/presentation/press-english.ts             | open #2856                                          | Session 49 |
+| BG-69 | conversations far too rare (3 in 56 life-days); fix the cause                                                                                                                                                                  | dialogue report                               | ready #3617                                         | Session 49 |
+| BG-71 | reporter question leaks "declined to comment" and a byline                                                                                                                                                                     | src/presentation/press-english.ts             | open (every PR includes a fresh dialogue-batch run) |            |
 | DH-1  | dialogue-batch reaches officials' views, greet-again and press answers; hourly batch on fresh seeds after                                                                                                                      | scripts/dialogue-batch                        | ready #3382                                         |            |
 
 ## Art (Oct 6)
