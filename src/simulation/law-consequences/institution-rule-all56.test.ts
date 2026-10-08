@@ -305,6 +305,61 @@ function enactMeasure(
   );
 }
 
+function recordControlledEnactment(
+  start: World,
+  jurisdictionId: string,
+  measureId: string,
+  measureStableKey: string,
+): { world: World; enactmentId: string } {
+  const eventWorld = recordWorldEvent(start, {
+    stableKey: `${measureStableKey}:enacted-event`,
+    type: "legislation.measure-enacted",
+    occurredAt: start.currentDate,
+    recordedAt: start.currentDate,
+    jurisdictionId,
+    involvedEntityIds: [measureId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: ["legislation.enacted", "fixture:territory-rule-boundary"],
+    summary: "Controlled enactment activity for a territory reader fixture.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  const enactment: LegislativeEnactmentRecord = {
+    id: createStableId(
+      "legislative-enactment",
+      `${measureId}:${measureStableKey}:enactment`,
+    ),
+    stableKey: `${measureStableKey}:enactment`,
+    sequence: eventWorld.history.nextSequence,
+    measureId,
+    resolvedAt: start.currentDate,
+    outcome: "enacted",
+    actDesignation: null,
+    effectiveAt: start.currentDate,
+    outcomeEventId: eventWorld.history.events.at(-1)!.id,
+  };
+  const world = {
+    ...eventWorld,
+    history: {
+      ...eventWorld.history,
+      nextSequence: eventWorld.history.nextSequence + 1,
+      legislativeEnactments: [
+        ...(eventWorld.history.legislativeEnactments ?? []),
+        enactment,
+      ],
+    },
+  };
+  return { world, enactmentId: enactment.id };
+}
+
 function directTerritoryRuleFixture(
   start: World,
   usps: string,
@@ -357,58 +412,80 @@ function directTerritoryRuleFixture(
       sourceRecordIds: [organization.id, profile.id, state.id],
     });
 
-  const measureStableKey = `au2-wire-06:${usps}:controlled-enactment`;
-  const measureId = createStableId(
-    "legislative-measure",
-    `${world.id}:${measureStableKey}`,
+  function appendMeasure(
+    stableKey: string,
+    designation: string,
+    shortTitle: string,
+    summary: string,
+    propositionIds: readonly string[],
+    propositionAnswers: LegislativeMeasureRecord["propositionAnswers"],
+  ): string {
+    const id = createStableId(
+      "legislative-measure",
+      `${world.id}:${stableKey}`,
+    );
+    const measure: LegislativeMeasureRecord = {
+      id,
+      stableKey,
+      sequence: world.history.nextSequence,
+      jurisdictionId: state.id,
+      rulePackId: `uncompiled-territory-law:${usps}`,
+      designation,
+      shortTitle,
+      summary,
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: officeKey,
+      sponsorPersonId: personId,
+      introducedAt: world.currentDate,
+      sourceDocumentKey: null,
+      policyAlternativeIds: [],
+      propositionIds,
+      propositionAnswers,
+    };
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + 1,
+        legislativeMeasures: [
+          ...(world.history.legislativeMeasures ?? []),
+          measure,
+        ],
+      },
+    };
+    return id;
+  }
+  const rightsMeasureStableKey = `au2-wire-06:${usps}:controlled-rights-law`;
+  const rightsMeasureId = appendMeasure(
+    rightsMeasureStableKey,
+    `${usps} controlled rights fixture law`,
+    "Controlled rights policy",
+    "A controlled final-rights reader fixture.",
+    rightsAnswers.map((row) => row.propositionId),
+    rightsAnswers,
   );
-  const measure: LegislativeMeasureRecord = {
-    id: measureId,
-    stableKey: measureStableKey,
-    sequence: world.history.nextSequence,
-    jurisdictionId: state.id,
-    rulePackId: `uncompiled-territory-law:${usps}`,
-    designation: `${usps} controlled fixture law`,
-    shortTitle: "Controlled institution rule terms",
-    summary: "A controlled final-term reader fixture.",
-    origin: "member-introduction",
-    subjectClass: "general-policy",
-    originChamberKey: officeKey,
-    sponsorPersonId: personId,
-    introducedAt: DATE,
-    sourceDocumentKey: null,
-    policyAlternativeIds: [],
-    propositionIds: [
-      question,
-      minimumWageQuestion,
-      ...rightsAnswers.map((row) => row.propositionId),
-    ],
-    propositionAnswers: [
+  const ruleMeasureStableKey = `au2-wire-06:${usps}:controlled-rule-change-law`;
+  const ruleMeasureId = appendMeasure(
+    ruleMeasureStableKey,
+    `${usps} controlled rule-change fixture law`,
+    "Controlled institution rule terms",
+    "A controlled final-term reader fixture.",
+    [question, minimumWageQuestion],
+    [
       { propositionId: question, answer: "yes" },
       { propositionId: minimumWageQuestion, answer: "yes" },
-      ...rightsAnswers,
     ],
-  };
-  world = {
-    ...world,
-    history: {
-      ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      legislativeMeasures: [
-        ...(world.history.legislativeMeasures ?? []),
-        measure,
-      ],
-    },
-  };
+  );
   const clauses: RuleChangeProvisionRecord[] = [
     {
       id: createStableId(
         "rule-change-provision",
-        `${world.id}:${measureStableKey}:term`,
+        `${world.id}:${ruleMeasureStableKey}:term`,
       ),
-      stableKey: `${measureStableKey}:term`,
+      stableKey: `${ruleMeasureStableKey}:term`,
       sequence: world.history.nextSequence,
-      measureId,
+      measureId: ruleMeasureId,
       stateUsps: usps,
       officeKey,
       field: "term.years",
@@ -418,11 +495,11 @@ function directTerritoryRuleFixture(
     {
       id: createStableId(
         "rule-change-provision",
-        `${world.id}:${measureStableKey}:minimum-wage`,
+        `${world.id}:${ruleMeasureStableKey}:minimum-wage`,
       ),
-      stableKey: `${measureStableKey}:minimum-wage`,
+      stableKey: `${ruleMeasureStableKey}:minimum-wage`,
       sequence: world.history.nextSequence + 1,
-      measureId,
+      measureId: ruleMeasureId,
       stateUsps: usps,
       officeKey: minimumWageOfficeKey,
       field: "labor.minimumWage.hourlyCents",
@@ -442,8 +519,8 @@ function directTerritoryRuleFixture(
     },
   };
   world = recordFiledProvision(world, {
-    stableKey: `${measureStableKey}:final-terms`,
-    measureId,
+    stableKey: `${ruleMeasureStableKey}:final-terms`,
+    measureId: ruleMeasureId,
     provisionKey: "controlled-institution-terms",
     sectionNumber: 1,
     heading: "Legislative terms",
@@ -468,61 +545,29 @@ function directTerritoryRuleFixture(
       },
     ],
   });
-  const enactmentEvent = recordWorldEvent(world, {
-    stableKey: `${measureStableKey}:enacted-event`,
-    type: "legislation.measure-enacted",
-    occurredAt: DATE,
-    recordedAt: DATE,
-    jurisdictionId: state.id,
-    involvedEntityIds: [measureId],
-    participants: [],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: ["legislation.enacted", "fixture:territory-rule-boundary"],
-    summary: "Controlled enactment activity for a final-term reader fixture.",
-    context: {
-      location: null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const enactment: LegislativeEnactmentRecord = {
-    id: createStableId(
-      "legislative-enactment",
-      `${measureId}:${measureStableKey}:enactment`,
-    ),
-    stableKey: `${measureStableKey}:enactment`,
-    sequence: enactmentEvent.history.nextSequence,
-    measureId,
-    resolvedAt: DATE,
-    outcome: "enacted",
-    actDesignation: null,
-    effectiveAt: DATE,
-    outcomeEventId: enactmentEvent.history.events.at(-1)!.id,
-  };
-  world = {
-    ...enactmentEvent,
-    history: {
-      ...enactmentEvent.history,
-      nextSequence: enactmentEvent.history.nextSequence + 1,
-      legislativeEnactments: [
-        ...(enactmentEvent.history.legislativeEnactments ?? []),
-        enactment,
-      ],
-    },
-  };
-  return {
+  const rightsEnactment = recordControlledEnactment(
     world,
+    state.id,
+    rightsMeasureId,
+    rightsMeasureStableKey,
+  );
+  const ruleEnactment = recordControlledEnactment(
+    rightsEnactment.world,
+    state.id,
+    ruleMeasureId,
+    ruleMeasureStableKey,
+  );
+  return {
+    world: ruleEnactment.world,
     state,
     officeKey,
     minimumWageOfficeKey,
     question,
     minimumWageQuestion,
-    measureId,
-    enactmentId: enactment.id,
+    rightsMeasureId,
+    ruleMeasureId,
+    rightsEnactmentId: rightsEnactment.enactmentId,
+    ruleEnactmentId: ruleEnactment.enactmentId,
     directFixture: true,
     initialRightsAnswers,
     ...rightsSubjects,
@@ -650,7 +695,22 @@ function fixture(usps: string) {
     sourceRecordIds: [organization.id, profile.id, state.id],
   });
   world = introduceMeasure(world, {
-    stableKey: `au2-wire-06:${usps}:bill`,
+    stableKey: `au2-wire-06:${usps}:rights-bill`,
+    jurisdictionId: state.id,
+    rulePackId: pack.packId,
+    designation: `${usps} fictional rights bill`,
+    shortTitle: "Controlled rights policy",
+    summary: "Authored all-jurisdictions permission fixture.",
+    origin: "member-introduction",
+    subjectClass: "general-policy",
+    sponsorPersonId: generated.personId,
+    originChamberKey: chamber.chamberKey,
+    propositionIds: rightsAnswers.map((row) => row.propositionId),
+    propositionAnswers: rightsAnswers,
+  });
+  const rightsMeasureId = world.history.legislativeMeasures!.at(-1)!.id;
+  world = introduceMeasure(world, {
+    stableKey: `au2-wire-06:${usps}:rule-change-bill`,
     jurisdictionId: state.id,
     rulePackId: pack.packId,
     designation: `${usps} fictional term bill`,
@@ -660,35 +720,30 @@ function fixture(usps: string) {
     subjectClass: "general-policy",
     sponsorPersonId: generated.personId,
     originChamberKey: chamber.chamberKey,
-    propositionIds: [
-      question,
-      minimumWageQuestion,
-      ...rightsAnswers.map((row) => row.propositionId),
-    ],
+    propositionIds: [question, minimumWageQuestion],
     propositionAnswers: [
       { propositionId: question, answer: "yes" },
       { propositionId: minimumWageQuestion, answer: "yes" },
-      ...rightsAnswers,
     ],
   });
-  const measureId = world.history.legislativeMeasures!.at(-1)!.id;
+  const ruleMeasureId = world.history.legislativeMeasures!.at(-1)!.id;
   world = fileRuleChangeProvision(world, {
     stableKey: `au2-wire-06:${usps}:rule-clause`,
-    measureId,
+    measureId: ruleMeasureId,
     officeKey,
     field: "term.years",
     value: 4,
   });
   world = fileRuleChangeProvision(world, {
     stableKey: `au2-wire-06:${usps}:minimum-wage-rule-clause`,
-    measureId,
+    measureId: ruleMeasureId,
     officeKey: minimumWageOfficeKey,
     field: "labor.minimumWage.hourlyCents",
     value: 1500,
   });
   world = recordFiledProvision(world, {
     stableKey: `au2-wire-06:${usps}:final-terms`,
-    measureId,
+    measureId: ruleMeasureId,
     provisionKey: "legislative-term-years",
     sectionNumber: 1,
     heading: "Legislative term length",
@@ -715,16 +770,30 @@ function fixture(usps: string) {
   });
   if (
     !(world.history.legislativeMeasures ?? []).some(
-      (measure) => measure.id === measureId,
+      (measure) => measure.id === ruleMeasureId,
     )
   )
     throw new Error(
-      `The measure ${measureId} disappeared while filing final terms for US-${usps}.`,
+      `The rule measure ${ruleMeasureId} disappeared while filing final terms for US-${usps}.`,
     );
-  const context = voteContext(world, measureId, pack, generated.personId);
-  if (context.measureId !== measureId)
+  const rightsContext = voteContext(
+    world,
+    rightsMeasureId,
+    pack,
+    generated.personId,
+  );
+  const ruleContext = voteContext(
+    world,
+    ruleMeasureId,
+    pack,
+    generated.personId,
+  );
+  if (
+    rightsContext.measureId !== rightsMeasureId ||
+    ruleContext.measureId !== ruleMeasureId
+  )
     throw new Error(
-      `The procedure context changed the measure ID for US-${usps}.`,
+      `A procedure context changed its measure ID for US-${usps}.`,
     );
   return {
     world,
@@ -733,9 +802,11 @@ function fixture(usps: string) {
     officeKey,
     question,
     minimumWageQuestion,
-    measureId,
+    rightsMeasureId,
+    ruleMeasureId,
     minimumWageOfficeKey,
-    context,
+    rightsContext,
+    ruleContext,
     directFixture: false,
     initialRightsAnswers,
     voterId: rightsSubjects.voterId,
@@ -751,18 +822,34 @@ describe("final institution-rule terms in all 56 state and territory places", ()
     expect(Object.keys(STATES)).toHaveLength(56);
     for (const usps of Object.keys(STATES).sort()) {
       const f = fixture(usps);
-      const applied = f.directFixture
+      const subjectIds = [
+        ...f.world.personOrder,
+        ...f.world.history.organizations.map((row) => row.id),
+      ];
+      const rightsApplied = f.directFixture
         ? applyLawConsequences(f.world, {
             onDate: f.world.currentDate,
             activity: "effective",
-            activityId: f.enactmentId,
-            subjectIds: [
-              ...f.world.personOrder,
-              ...f.world.history.organizations.map((row) => row.id),
-            ],
-            governingLawId: f.measureId,
+            activityId: f.rightsEnactmentId,
+            subjectIds,
+            governingLawId: f.rightsMeasureId,
           })
-        : applyEnactedLawEffects(enactMeasure(f.world, f.context), f.measureId);
+        : applyEnactedLawEffects(
+            enactMeasure(f.world, f.rightsContext),
+            f.rightsMeasureId,
+          );
+      const applied = f.directFixture
+        ? applyLawConsequences(rightsApplied, {
+            onDate: rightsApplied.currentDate,
+            activity: "effective",
+            activityId: f.ruleEnactmentId,
+            subjectIds,
+            governingLawId: f.ruleMeasureId,
+          })
+        : applyEnactedLawEffects(
+            enactMeasure(rightsApplied, f.ruleContext),
+            f.ruleMeasureId,
+          );
       const effectiveDate = applied.currentDate;
       const votingQuestion = questionIdFor(
         applied,
@@ -776,7 +863,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       );
       expect(votingLaw, usps).toMatchObject({
         origin: "enacted",
-        measureId: f.measureId,
+        measureId: f.rightsMeasureId,
         answer: f.votingAnswer,
       });
       expect(f.votingAnswer, usps).not.toBe(
@@ -800,7 +887,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
             effectKind: "right-permission",
             questionKey: RESTORE_VOTING_QUESTION_KEY,
             jurisdictionId: f.state.id,
-            governingLawKey: f.measureId,
+            governingLawKey: f.rightsMeasureId,
           }),
         ],
       });
@@ -823,7 +910,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       );
       expect(cannabisLaw, usps).toMatchObject({
         origin: "enacted",
-        measureId: f.measureId,
+        measureId: f.rightsMeasureId,
         answer: f.cannabisAnswer,
       });
       expect(
@@ -852,7 +939,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         activityId: f.retailerId,
         subjectIds: [f.retailerId],
         questionKey: CANNABIS_QUESTION_KEY,
-        governingLawId: f.measureId,
+        governingLawId: f.rightsMeasureId,
       });
       expect(
         latestLawPermission(
@@ -894,7 +981,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
         activityId: carryApplication.history.events.at(-1)!.id,
         subjectIds: [f.voterId],
         questionKey: CONCEALED_CARRY_QUESTION_KEY,
-        governingLawId: f.measureId,
+        governingLawId: f.rightsMeasureId,
       });
       expect(
         latestLawPermission(
@@ -910,7 +997,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
             effectKind: "right-permission",
             questionKey: CONCEALED_CARRY_QUESTION_KEY,
             jurisdictionId: f.state.id,
-            governingLawKey: f.measureId,
+            governingLawKey: f.rightsMeasureId,
           }),
         ],
       });
@@ -931,7 +1018,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       );
       expect(law, usps).toMatchObject({
         origin: "enacted",
-        measureId: f.measureId,
+        measureId: f.ruleMeasureId,
         answer: "yes",
       });
       expect(
@@ -942,7 +1029,11 @@ describe("final institution-rule terms in all 56 state and territory places", ()
           onDate: applied.currentDate,
         }),
         usps,
-      ).toMatchObject({ value: 4, unit: "years", measureId: f.measureId });
+      ).toMatchObject({
+        value: 4,
+        unit: "years",
+        measureId: f.ruleMeasureId,
+      });
       expect(
         enactedRuleChangeAt(applied, {
           stateUsps: usps,
@@ -960,7 +1051,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       );
       expect(minimumWageLaw, usps).toMatchObject({
         origin: "enacted",
-        measureId: f.measureId,
+        measureId: f.ruleMeasureId,
         answer: "yes",
       });
       expect(
@@ -974,7 +1065,7 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       ).toMatchObject({
         value: 1500,
         unit: "minor/hour",
-        measureId: f.measureId,
+        measureId: f.ruleMeasureId,
       });
       expect(
         enactedRuleChangeAt(applied, {
@@ -987,7 +1078,8 @@ describe("final institution-rule terms in all 56 state and territory places", ()
       ).toBe(1500);
       const bindings = applied.history.ruleChangeConsequenceBindings!.filter(
         (record) =>
-          record.kind === "law-application" && record.measureId === f.measureId,
+          record.kind === "law-application" &&
+          record.measureId === f.ruleMeasureId,
       );
       expect(bindings, usps).toHaveLength(2);
       expect(bindings, usps).toEqual(
