@@ -145,11 +145,3 @@ export const UNREPORTED_OFFENSE_RECORD: Readonly<Record<CrimeOffense, string>> =
     vandalism:
       "Someone vandalized the {place} home of {names}. No one reported it to police.",
   };
-
-export function crimeRule(offense: CrimeOffense): CrimeOffenseRule {
-  const rule = LOCAL_CRIME_RATES.offenses.find(
-    (candidate) => candidate.offense === offense,
-  );
-  if (!rule) throw new Error(`Unknown offense: ${offense}`);
-  return rule;
-}

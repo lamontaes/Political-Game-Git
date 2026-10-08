@@ -1,4 +1,3 @@
-import { spreadOf, type Spread } from "./sample-spread";
 /**
  * Income tax withheld from one paycheck, federal and state.
  *
@@ -105,20 +104,6 @@ const STATE_PLACES = stateIncomeTax2026.places as Readonly<
 
 export { spreadOf } from "./sample-spread";
 export type { Spread } from "./sample-spread";
-
-/**
- * The single filer's standard deduction, in dollars, across the states with
- * this kind of wage income tax whose deduction was read.
- */
-export function stateDeductionSpread(shape: "flat" | "graduated"): Spread {
-  return spreadOf(
-    Object.values(STATE_PLACES).flatMap((place) =>
-      place.wageIncomeTax === shape && place.standardDeductionSingle !== null
-        ? [place.standardDeductionSingle]
-        : [],
-    ),
-  );
-}
 
 /**
  * The existing similar-state estimator's shared ranking step. Closeness comes
