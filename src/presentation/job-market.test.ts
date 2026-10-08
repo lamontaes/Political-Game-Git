@@ -20,7 +20,7 @@ import { createResourceFlow, money } from "../simulation/resources";
 import {
   JOB_MARKET_WORK_KIND,
   JOB_TIMING,
-  advanceJobMarket,
+  openTownListings,
   answerJobOffer,
   applyForJob,
   applyForJobAsResident,
@@ -208,7 +208,7 @@ describe("jobs in a town", () => {
     expect(jobOpening(reloaded, opening.id)).toEqual(opening);
     // Reading and refreshing the same day writes nothing new.
     expect(
-      advanceJobMarket(reloaded, start.personId).history.jobOpenings,
+      openTownListings(reloaded, start.personId).history.jobOpenings,
     ).toEqual(reloaded.history.jobOpenings);
   });
 

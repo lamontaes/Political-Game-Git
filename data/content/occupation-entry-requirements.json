@@ -1,0 +1,429 @@
+{
+  "version": 1,
+  "about": "What an employer reads as the usual way into each line of work: the typical entry-level education and the work experience in a related occupation. The decision a hiring employer makes reads these against each applicant's recorded education and recorded work.",
+  "estimatedFrom": "BLS typical entry-level education",
+  "source": "U.S. Bureau of Labor Statistics, Employment Projections: education and training assignments by detailed occupation, projections 2023 to 2033. Each game occupation stands for the BLS detailed occupation named in blsOccupation.",
+  "researchQuestionId": "job-market-calibration",
+  "educationLevels": [
+    "none",
+    "high-school",
+    "some-college",
+    "nondegree-award",
+    "associate",
+    "bachelors",
+    "masters",
+    "doctoral"
+  ],
+  "experienceLevels": ["none", "under-5-years", "5-years-or-more"],
+  "fallback": {
+    "education": "high-school",
+    "experience": "none",
+    "basis": "ESTIMATED FROM AVERAGE: an occupation with no row here takes the most common typical entry-level education and work experience among the occupations that have one."
+  },
+  "credentialWords": {
+    "high-school": ["high school", "secondary", "ged", "diploma"],
+    "some-college": ["some college", "college"],
+    "nondegree-award": ["certificate", "trade credential", "apprenticeship"],
+    "associate": ["associate"],
+    "bachelors": ["bachelor"],
+    "masters": ["master", "graduate degree"],
+    "doctoral": [
+      "doctor",
+      "juris",
+      "j.d.",
+      "medical degree",
+      "professional degree"
+    ]
+  },
+  "programWords": {
+    "some-college": ["postsecondary:college"],
+    "high-school": ["schooling:secondary"],
+    "nondegree-award": ["certificate", "apprenticeship", "training:"],
+    "associate": ["associate", "edu-path7-level3"],
+    "bachelors": ["bachelors", "edu-path7-level5"],
+    "masters": ["graduate", "masters", "edu-path7-level7"],
+    "doctoral": ["law-school", "medical-school", "doctoral"]
+  },
+  "occupations": {
+    "occupation:bank-teller": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-3071 Tellers"
+    },
+    "occupation:bus-driver": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "53-3052 Bus drivers, transit and intercity"
+    },
+    "occupation:cashier": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "41-2011 Cashiers"
+    },
+    "occupation:construction-laborer": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "47-2061 Construction laborers"
+    },
+    "occupation:cook": {
+      "education": "none",
+      "experience": "under-5-years",
+      "blsOccupation": "35-2014 Cooks, restaurant"
+    },
+    "occupation:customer-service": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-4051 Customer service representatives"
+    },
+    "occupation:dishwasher": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "35-9021 Dishwashers"
+    },
+    "occupation:dispatcher": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-5032 Dispatchers, except police, fire, and ambulance"
+    },
+    "occupation:extraction-laborer": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "47-5081 Helpers, extraction workers"
+    },
+    "occupation:farm-manager": {
+      "education": "high-school",
+      "experience": "5-years-or-more",
+      "blsOccupation": "11-9013 Farmers, ranchers, and other agricultural managers"
+    },
+    "occupation:farmworker": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "45-2092 Farmworkers and laborers, crop, nursery, and greenhouse"
+    },
+    "occupation:fitness-trainer": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "39-9031 Exercise trainers and group fitness instructors"
+    },
+    "occupation:food-service-manager": {
+      "education": "high-school",
+      "experience": "under-5-years",
+      "blsOccupation": "11-9051 Food service managers"
+    },
+    "occupation:home-health-aide": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "31-1121 Home health aides"
+    },
+    "occupation:hotel-clerk": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-4081 Hotel, motel, and resort desk clerks"
+    },
+    "occupation:housekeeper": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "37-2012 Maids and housekeeping cleaners"
+    },
+    "occupation:janitor": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "37-2011 Janitors and cleaners"
+    },
+    "occupation:landscaper": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "37-3011 Landscaping and groundskeeping workers"
+    },
+    "occupation:mail-carrier": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-5052 Postal service mail carriers"
+    },
+    "occupation:medical-assistant": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "31-9092 Medical assistants"
+    },
+    "occupation:medical-records": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "29-2072 Medical records specialists"
+    },
+    "occupation:nursing-assistant": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "31-1131 Nursing assistants"
+    },
+    "occupation:office-clerk": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-9061 Office clerks, general"
+    },
+    "occupation:office-manager": {
+      "education": "high-school",
+      "experience": "under-5-years",
+      "blsOccupation": "43-1011 First-line supervisors of office and administrative support workers"
+    },
+    "occupation:postal-clerk": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-5051 Postal service clerks"
+    },
+    "occupation:production-supervisor": {
+      "education": "high-school",
+      "experience": "under-5-years",
+      "blsOccupation": "51-1011 First-line supervisors of production and operating workers"
+    },
+    "occupation:production-worker": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "51-2090 Miscellaneous assemblers and fabricators"
+    },
+    "occupation:receptionist": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-4171 Receptionists and information clerks"
+    },
+    "occupation:recreation-attendant": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "39-3091 Amusement and recreation attendants"
+    },
+    "occupation:retail-manager": {
+      "education": "high-school",
+      "experience": "under-5-years",
+      "blsOccupation": "41-1011 First-line supervisors of retail sales workers"
+    },
+    "occupation:retail-sales": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "41-2031 Retail salespersons"
+    },
+    "occupation:sales-representative": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "41-4012 Sales representatives, wholesale and manufacturing, except technical and scientific products"
+    },
+    "occupation:security-guard": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "33-9032 Security guards"
+    },
+    "occupation:stocker": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "53-7065 Stockers and order fillers"
+    },
+    "occupation:teacher-assistant": {
+      "education": "some-college",
+      "experience": "none",
+      "blsOccupation": "25-9045 Teaching assistants, except postsecondary"
+    },
+    "occupation:truck-driver": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "53-3032 Heavy and tractor-trailer truck drivers"
+    },
+    "occupation:warehouse-worker": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "53-7062 Laborers and freight, stock, and material movers, hand"
+    },
+    "profession:accountant": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "13-2011 Accountants and auditors"
+    },
+    "profession:budget-analyst": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "13-2031 Budget analysts"
+    },
+    "profession:business-analyst": {
+      "education": "bachelors",
+      "experience": "under-5-years",
+      "blsOccupation": "13-1111 Management analysts"
+    },
+    "profession:campaign-manager": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "13-1161 Market research analysts and marketing specialists (nearest published occupation)"
+    },
+    "profession:clergy": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "21-2011 Clergy"
+    },
+    "profession:community-organizer": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "21-1099 Community and social service specialists, all other"
+    },
+    "profession:construction-manager": {
+      "education": "bachelors",
+      "experience": "under-5-years",
+      "blsOccupation": "11-9021 Construction managers"
+    },
+    "profession:county-clerk": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-4031 Court, municipal, and license clerks"
+    },
+    "profession:engineer": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "17-2199 Engineers, all other"
+    },
+    "profession:financial-manager": {
+      "education": "bachelors",
+      "experience": "5-years-or-more",
+      "blsOccupation": "11-3031 Financial managers"
+    },
+    "profession:firefighter": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "33-2011 Firefighters"
+    },
+    "profession:insurance-agent": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "41-3021 Insurance sales agents"
+    },
+    "profession:lawyer": {
+      "education": "doctoral",
+      "experience": "none",
+      "blsOccupation": "23-1011 Lawyers"
+    },
+    "profession:legal-assistant": {
+      "education": "associate",
+      "experience": "none",
+      "blsOccupation": "23-2011 Paralegals and legal assistants"
+    },
+    "profession:loan-officer": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "13-2072 Loan officers"
+    },
+    "profession:municipal-clerk": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "43-4031 Court, municipal, and license clerks"
+    },
+    "profession:physician": {
+      "education": "doctoral",
+      "experience": "none",
+      "blsOccupation": "29-1216 General internal medicine physicians"
+    },
+    "profession:police-officer": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "33-3051 Police and sheriff's patrol officers"
+    },
+    "profession:political-organizer": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "21-1099 Community and social service specialists, all other"
+    },
+    "profession:practical-nurse": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "29-2061 Licensed practical and licensed vocational nurses"
+    },
+    "profession:property-manager": {
+      "education": "high-school",
+      "experience": "under-5-years",
+      "blsOccupation": "11-9141 Property, real estate, and community association managers"
+    },
+    "profession:real-estate-agent": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "41-9022 Real estate sales agents"
+    },
+    "profession:registered-nurse": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "29-1141 Registered nurses"
+    },
+    "profession:school-principal": {
+      "education": "masters",
+      "experience": "5-years-or-more",
+      "blsOccupation": "11-9032 Education administrators, kindergarten through secondary"
+    },
+    "profession:social-worker": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "21-1021 Child, family, and school social workers"
+    },
+    "profession:teacher": {
+      "education": "bachelors",
+      "experience": "none",
+      "blsOccupation": "25-2021 Elementary school teachers, except special education"
+    },
+    "profession:union-representative": {
+      "education": "bachelors",
+      "experience": "under-5-years",
+      "blsOccupation": "13-1075 Labor relations specialists"
+    },
+    "profession:urban-planner": {
+      "education": "masters",
+      "experience": "none",
+      "blsOccupation": "19-3051 Urban and regional planners"
+    },
+    "service:barber": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "39-5011 Barbers"
+    },
+    "service:food-server": {
+      "education": "none",
+      "experience": "none",
+      "blsOccupation": "35-3031 Waiters and waitresses"
+    },
+    "service:hairstylist": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "39-5012 Hairdressers, hairstylists, and cosmetologists"
+    },
+    "trade:automotive-mechanic": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "49-3023 Automotive service technicians and mechanics"
+    },
+    "trade:carpenter": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "47-2031 Carpenters"
+    },
+    "trade:electrician": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "47-2111 Electricians"
+    },
+    "trade:equipment-operator": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "47-2073 Construction equipment operators"
+    },
+    "trade:line-worker": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "49-9051 Electrical power-line installers and repairers"
+    },
+    "trade:machinist": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "51-4041 Machinists"
+    },
+    "trade:maintenance-worker": {
+      "education": "high-school",
+      "experience": "none",
+      "blsOccupation": "49-9071 Maintenance and repair workers, general"
+    },
+    "trade:telecom-technician": {
+      "education": "nondegree-award",
+      "experience": "none",
+      "blsOccupation": "49-2022 Telecommunications equipment installers and repairers"
+    }
+  }
+}

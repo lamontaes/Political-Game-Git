@@ -338,25 +338,25 @@ function hire(
         on: row.effectiveAt,
       });
   const working = new Set<EntityId>();
-  // When each person was last laid off by one of these employers.
-  const laidOffHere = new Map<EntityId, string>();
+  for (const relationship of world.history.workRelationships)
+    if (latest.get(relationship.id)?.status === "active")
+      working.add(relationship.personId);
+  // A missing or unfinished education record establishes no credential.
+  // Someone laid off from one of these jobs is still looking: the employer
+  // reads their time in the role like anyone's, not as a place in line.
   const employerSet = new Set(employers);
+  const laidOffHere = new Set<EntityId>();
   for (const relationship of world.history.workRelationships) {
     const state = latest.get(relationship.id);
-    if (state?.status === "active") working.add(relationship.personId);
     if (
       state?.status === "ended" &&
       state.reason === TOWN_JOB_END_REASONS.laidOff &&
       relationship.organizationId &&
       employerSet.has(relationship.organizationId)
-    ) {
-      const before = laidOffHere.get(relationship.personId);
-      if (!before || state.on > before)
-        laidOffHere.set(relationship.personId, state.on);
-    }
+    )
+      laidOffHere.add(relationship.personId);
   }
-  // A missing or unfinished education record establishes no credential.
-  const eligible = townResidents(world, town).filter((resident) => {
+  let looking = townResidents(world, town).filter((resident) => {
     if (resident.personId === playerPersonId) return false;
     if (working.has(resident.personId)) return false;
     if (resident.age < staffed.minAge) return false;
@@ -369,16 +369,8 @@ function hire(
     const status = laborStatus(world, resident);
     return status === "looking-for-work" || status === "employed";
   });
-  // Recall first, the most recently laid off first; then the rest in a fixed
-  // order (HARDWIRED until applicants are compared).
-  const chosen = [...eligible]
-    .sort((a, b) => {
-      const left = laidOffHere.get(a.personId) ?? "";
-      const right = laidOffHere.get(b.personId) ?? "";
-      return right.localeCompare(left) || a.personId.localeCompare(b.personId);
-    })
-    .slice(0, openings);
-  // Each hire goes to the employer with the fewest in the role.
+  // Each hire goes to the employer with the fewest in the role, which then
+  // chooses among everyone looking (`fillTownJobs`, the one hiring decision).
   const staffAt = new Map<EntityId, number>(employers.map((id) => [id, 0]));
   const relationships = new Map(
     world.history.workRelationships.map((row) => [row.id, row]),
@@ -388,18 +380,27 @@ function hire(
     if (at && staffAt.has(at)) staffAt.set(at, staffAt.get(at)! + 1);
   }
   let next = world;
-  for (const resident of chosen) {
+  for (
+    let opening = 0;
+    opening < openings && looking.length > 0;
+    opening += 1
+  ) {
     const [at] = [...staffAt.entries()].sort(
       (a, b) => a[1] - b[1] || a[0].localeCompare(b[0]),
     )[0]!;
-    next = fillTownJobs(next, town, [resident as Resident], {
+    const before = next.history.workRelationships.length;
+    next = fillTownJobs(next, town, looking as Resident[], {
       round,
       into: {
         workplace: staffed.workplace,
         organizationId: at,
         role: staffed.role,
+        openings: 1,
       },
     });
+    const hired = next.history.workRelationships[before]?.personId;
+    if (!hired) break;
+    looking = looking.filter((resident) => resident.personId !== hired);
     staffAt.set(at, staffAt.get(at)! + 1);
   }
   return next;

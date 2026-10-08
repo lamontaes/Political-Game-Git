@@ -18,7 +18,7 @@
  * their years in that line of work.
  */
 
-import { daysInLine } from "../job-market";
+import { daysInLine, needsNothingToEnter } from "../living-world/town-hiring";
 import { createOrganization } from "../life";
 import {
   lifePlaceByJurisdictionId,
@@ -45,21 +45,6 @@ import { SeededRng } from "../rng";
 import type { EntityId, OccupationClassification, World } from "../types";
 
 export const EMPLOYERS_ELSEWHERE_VERSION = "employers-elsewhere-v1" as const;
-
-/**
- * Occupations whose typical entry-level education is "No formal educational
- * credential" with no work experience required (BLS Employment Projections,
- * Education and training assignments by detailed occupation, 2023):
- * cashiers (41-2011), retail salespersons (41-2031), waiters and waitresses
- * (35-3031). Every other kind's worker needs the line of work behind them:
- * the job market asks for it (`offerWorkElsewhere`).
- */
-export const NO_CREDENTIAL_OCCUPATIONS: ReadonlySet<OccupationClassification> =
-  new Set([
-    "occupation:cashier",
-    "occupation:retail-sales",
-    "service:food-server",
-  ]);
 
 /**
  * ESTIMATED FROM AVERAGE: where BLS publishes no wage for the place (American
@@ -224,8 +209,7 @@ export function bestEmployerFor(
       },
       world.currentDate,
     );
-    if (days <= 0 && !NO_CREDENTIAL_OCCUPATIONS.has(kind.workerOccupation))
-      continue;
+    if (days <= 0 && !needsNothingToEnter(kind.workerOccupation)) continue;
     const pay = offeredPay(world, kind, placeId, days);
     if (!pay) continue;
     options.push({

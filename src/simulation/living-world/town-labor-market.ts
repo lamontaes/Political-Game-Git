@@ -44,12 +44,11 @@ import type { EntityId, WorkStatusRecord, World } from "../types";
 import {
   TOWN_EMPLOYMENT_VERSION,
   WORKING_AGE_MAX,
-  WORKING_AGE_MIN,
   fillTownJobs,
   laborStatus,
   townResidents,
 } from "./town-employment";
-import { ageOnDate, dateAtAge } from "../dates";
+import { ageOnDate } from "../dates";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -524,48 +523,9 @@ export function reviewTownJobs(
     const status = laborStatus(next, resident);
     return status === "employed" || status === "looking-for-work";
   });
-  // The allocator reads each person's age and work history and fills the
-  // largest recorded role shortage. The aggregate hiring rate remains a check
-  // on totals; it does not decide which seeker gets work.
+  // The kind of work furthest below its share opens a role and its employer
+  // chooses among the seekers (`chooseHire`, in `town-hiring.ts`). The
+  // aggregate hiring rate remains a check on totals; it does not decide which
+  // seeker gets work.
   return fillTownJobs(next, town, seekers, { round });
-}
-
-/**
- * The date each seeker has been out of work since: their last town job's
- * end, or, with no job on the record, the later of moving into their home
- * and turning 18.
- */
-export function outOfWorkSince(
-  world: World,
-  seekers: readonly EntityId[],
-): ReadonlyMap<EntityId, string> {
-  const today = world.currentDate;
-  const workerOf = new Map<EntityId, EntityId>();
-  for (const relationship of world.history.workRelationships)
-    workerOf.set(relationship.id, relationship.personId);
-  const since = new Map<EntityId, string>();
-  for (const row of world.history.workStatuses) {
-    if (row.status !== "ended" || row.effectiveAt > today) continue;
-    const worker = workerOf.get(row.workRelationshipId);
-    if (worker === undefined) continue;
-    const previous = since.get(worker);
-    if (previous === undefined || row.effectiveAt > previous)
-      since.set(worker, row.effectiveAt);
-  }
-  const seeking = new Set(seekers);
-  const movedIn = new Map<EntityId, string>();
-  for (const membership of world.history.householdMemberships) {
-    if (!seeking.has(membership.personId) || membership.startedAt > today)
-      continue;
-    const previous = movedIn.get(membership.personId);
-    if (previous === undefined || membership.startedAt > previous)
-      movedIn.set(membership.personId, membership.startedAt);
-  }
-  for (const personId of seeking) {
-    if (since.has(personId)) continue;
-    const adult = dateAtAge(world.people[personId]!.birthDate, WORKING_AGE_MIN);
-    const arrived = movedIn.get(personId) ?? "";
-    since.set(personId, arrived > adult ? arrived : adult);
-  }
-  return since;
 }

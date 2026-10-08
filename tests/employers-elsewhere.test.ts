@@ -13,6 +13,7 @@ import {
   searchLifePlaces,
 } from "../src/simulation/life-places";
 import { localBusinessSupplyFor } from "../src/simulation/local-business-counts";
+import { needsNothingToEnter } from "../src/simulation/living-world/town-hiring";
 import {
   townJobRate,
   townPayPercentile,
@@ -20,7 +21,6 @@ import {
 import {
   bestEmployerFor,
   ensureEmployerElsewhere,
-  NO_CREDENTIAL_OCCUPATIONS,
   placeToLookFor,
 } from "../src/simulation/migration/employers-elsewhere";
 import { SeededRng, pickDistinct } from "../src/simulation/rng";
@@ -121,9 +121,7 @@ describe(`job offers elsewhere come from the place's recorded employers (${PLACE
       if (others > 1) expect(place!.stateJurisdictionKey).toBe(jurisdictionKey);
       const offer = bestEmployerFor(small.world, personId, null, place!);
       expect(offer, `${jurisdictionKey}: ${place!.displayName}`).not.toBeNull();
-      expect(NO_CREDENTIAL_OCCUPATIONS.has(offer!.kind.workerOccupation)).toBe(
-        true,
-      );
+      expect(needsNothingToEnter(offer!.kind.workerOccupation)).toBe(true);
       // Only a kind of business the place really has.
       const supply = localBusinessSupplyFor(offer!.placeId);
       if (supply)
@@ -167,9 +165,7 @@ describe(`job offers elsewhere come from the place's recorded employers (${PLACE
     expect(done.daysInLine).toBeGreaterThan(0);
     const fresh = bestEmployerFor(world, second!, null, place)!;
     expect(fresh.kind.workerOccupation).not.toBe(skilled);
-    expect(NO_CREDENTIAL_OCCUPATIONS.has(fresh.kind.workerOccupation)).toBe(
-      true,
-    );
+    expect(needsNothingToEnter(fresh.kind.workerOccupation)).toBe(true);
     // The same record gives the same answer, every time.
     expect(bestEmployerFor(world, first!, skilled!, place)).toEqual(done);
     console.info(
