@@ -4614,11 +4614,7 @@
           },
           "regionalTerms": [
             {
-              "workplaceKeys": [
-                "county:36059",
-                "county:36103",
-                "county:36119"
-              ],
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
               "operativeAt": "2026-01-01",
               "lawTerms": [
                 {
@@ -14375,9 +14371,7 @@
                 "lenderClass": "deferred-deposit-loan-lender",
                 "productClass": "deferred-deposit-payday-loan",
                 "rateBasis": "statutory-apr",
-                "includedChargeKeys": [
-                  "all-authorized-charges"
-                ],
+                "includedChargeKeys": ["all-authorized-charges"],
                 "exceptionSetKey": "none"
               }
             }
@@ -14535,9 +14529,7 @@
                 "lenderClass": "nonbank-lender",
                 "productClass": "short-term-loan-up-to-1300-repayment-test",
                 "rateBasis": "statutory-apr",
-                "includedChargeKeys": [
-                  "charges-in-statutory-apr"
-                ],
+                "includedChargeKeys": ["charges-in-statutory-apr"],
                 "exceptionSetKey": "ability-to-repay-underwriting-required-above-36-percent"
               }
             }
@@ -14610,9 +14602,7 @@
                 "lenderClass": "licensed-small-loan-lender",
                 "productClass": "small-loan-excluding-payday-and-title",
                 "rateBasis": "statutory-apr",
-                "includedChargeKeys": [
-                  "charges-in-statutory-apr"
-                ],
+                "includedChargeKeys": ["charges-in-statutory-apr"],
                 "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
               }
             }
@@ -14635,9 +14625,7 @@
                 "lenderClass": "licensed-small-loan-lender",
                 "productClass": "small-loan-excluding-payday-and-title",
                 "rateBasis": "statutory-apr",
-                "includedChargeKeys": [
-                  "charges-in-statutory-apr"
-                ],
+                "includedChargeKeys": ["charges-in-statutory-apr"],
                 "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
               }
             }
@@ -14737,9 +14725,7 @@
                 "lenderClass": "licensed-small-loan-lender",
                 "productClass": "small-loan-excluding-payday-and-title",
                 "rateBasis": "statutory-apr",
-                "includedChargeKeys": [
-                  "charges-in-statutory-apr"
-                ],
+                "includedChargeKeys": ["charges-in-statutory-apr"],
                 "exceptionSetKey": "exclude-one-application-fee-and-one-annual-participation-or-membership-fee-each-up-to-100"
               }
             }
@@ -21193,7 +21179,6 @@
           "preempts": true,
           "source": "https://www.alabamaachieves.org/wp-content/uploads/2026/06/LEA_ACCT_202665_2027SalarySchedTeachers_v1.pdf",
           "note": "Alabama pays teachers on a state minimum salary schedule set each year in the Education Trust Fund budget; NEA's 2024-25 benchmark report lists Alabama among states with state minimum salaries or salary schedules (statute page not fetched). FY2027 classroom-teacher minimum for a bachelor-degree or nondegree classification with 0–2 years of experience; schedule is based on a 187-day contract, and credentials/experience can raise the floor.",
-          "cite": "Alabama Department of Education, FY2027 Foundation Program State Minimum Salary Schedule",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
@@ -21201,7 +21186,8 @@
               "value": 4855200,
               "unit": "minor"
             }
-          ]
+          ],
+          "cite": "Alabama Department of Education, FY2027 Foundation Program State Minimum Salary Schedule"
         },
         "US-AR": {
           "answer": "yes",
@@ -21273,9 +21259,9 @@
         "US-GA": {
           "answer": "yes",
           "preempts": true,
+          "cite": "O.C.G.A. § 20-2-212; Ga. Comp. R. & Regs. 160-5-2-.05(1)(r), (4)(l)",
           "source": "https://files-backend.assets.thrillshare.com/documents/asset/uploaded_file/239/District/ac3cfa9f-19ec-447b-ba38-289628ce0cf3/SalaryScheduleReport-FY2027.pdf",
           "note": "The FY2027 state salary schedule, Initial Amendment 3 published August 13, 2026, is for ten-month employment. Its lowest annual schedule cell is $41,717 (T1 and BT4); other certification/degree schedules have higher minima, including $43,592 for professional T4 entry with 0–2 creditable years. State rules call the prescribed schedule a minimum; charter and strategic-waiver exceptions remain.",
-          "cite": "O.C.G.A. § 20-2-212; Ga. Comp. R. & Regs. 160-5-2-.05(1)(r), (4)(l)",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
@@ -22464,9 +22450,7 @@
         },
         "US-IA": {
           "answer": "no",
-          "grounds": [
-            "sexual-orientation"
-          ],
+          "grounds": ["sexual-orientation"],
           "note": "Sexual orientation only: Iowa's 2025 SF 418 took gender identity out of the Iowa Civil Rights Act from 7/1/2025."
         },
         "US-ID": {
@@ -22592,9 +22576,7 @@
         },
         "US-WI": {
           "answer": "no",
-          "grounds": [
-            "sexual-orientation"
-          ],
+          "grounds": ["sexual-orientation"],
           "note": "Sexual orientation only, in employment and housing; gender identity is not listed."
         },
         "US-WV": {
