@@ -1,5 +1,5 @@
 ---
-id: campaign-helper-asks-read-recorded-loss-and-thanks
+id: session23-b04-p2-helper-memory
 impact: minor
 section: Added
 title: Later campaign help asks read prior campaign records
