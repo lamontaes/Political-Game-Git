@@ -3,9 +3,12 @@ import { describe, expect, it } from "vitest";
 import { programFamilies } from "../simulation/legislation-program-families";
 import {
   bargainingScenePeople,
-  PLACE_LABEL,
   type BargainingAdvocateCause,
 } from "./legislative-bargaining-brief";
+import {
+  BENEFICIARY_LABEL,
+  PLACE_LABEL,
+} from "./legislative-bargaining-fixture";
 import type { EntityId } from "../simulation";
 
 /**
@@ -27,7 +30,7 @@ import type { EntityId } from "../simulation";
 const ADVOCATE = "person:advocate" as EntityId;
 const GUARDIAN = "person:guardian" as EntityId;
 
-function scene(cause?: BargainingAdvocateCause) {
+function scene(cause: BargainingAdvocateCause) {
   return bargainingScenePeople({
     chamberName: "House of Representatives",
     advocatePersonId: ADVOCATE,
@@ -47,18 +50,22 @@ function causeFor(invitation: {
   };
 }
 
-describe("the authored Kentucky sitting keeps the reads it was accepted with", () => {
-  it("still names Ashland when no cause is supplied", () => {
-    const [advocate] = scene();
-    expect(advocate.role).toBe(
-      `Represents ${PLACE_LABEL} and the counties around it`,
+describe("a fixture-specific cause stays in fixture records", () => {
+  it("uses the supplied section and beneficiary", () => {
+    const [advocate] = scene(
+      causeFor({ sectionNumber: 4, beneficiaryLabel: BENEFICIARY_LABEL }),
     );
-    expect(advocate.inferredRead).toContain(`what ${PLACE_LABEL} needs`);
+    expect(advocate.role).toBe(
+      `Wants Section 4 written for ${BENEFICIARY_LABEL}`,
+    );
+    expect(advocate.inferredRead).not.toContain(PLACE_LABEL);
   });
 
   it("does not put a place into the fiscal member's read either way", () => {
     for (const people of [
-      scene(),
+      scene(
+        causeFor({ sectionNumber: 4, beneficiaryLabel: BENEFICIARY_LABEL }),
+      ),
       scene(
         causeFor({
           sectionNumber: 5,

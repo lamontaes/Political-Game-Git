@@ -24,14 +24,23 @@ export function MoneyLawsPanel({
     <ul className="pg-dossier-laws" data-testid={testid}>
       {lines.map((line) => (
         <li key={line.key} data-testid="money-law-line">
-          <button
-            type="button"
-            className="pg-dossier-law-title"
-            data-testid={`money-law-${line.measureId}`}
-            onClick={() => onOpenMeasure(line.measureId)}
-          >
-            {line.lawLabel}
-          </button>
+          {line.openable ? (
+            <button
+              type="button"
+              className="pg-dossier-law-title"
+              data-testid={`money-law-${line.measureId}`}
+              onClick={() => onOpenMeasure(line.measureId)}
+            >
+              {line.lawLabel}
+            </button>
+          ) : (
+            <strong
+              className="pg-dossier-law-title"
+              data-testid={`money-law-${line.measureId}`}
+            >
+              {line.lawLabel}
+            </strong>
+          )}
           <p className="pg-dossier-law-effect">
             {line.dateLabel ? `${line.dateLabel}: ${line.text}` : line.text}
           </p>
