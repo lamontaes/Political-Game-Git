@@ -23,6 +23,17 @@
       "recordedPlaceCount": 52,
       "estimate": "Use the median of the 52 recorded starting rates; these are estimated territory rates, not measured transit use.",
       "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 6.365 unlinked passenger trips per resident a year, the median of the 52 recorded 2024 state, D.C. and Puerto Rico rates. Source: FTA National Transit Database 2024 (https://data.transportation.gov/d/ekg5-frzt); use the recorded rates because matching 2024 population denominators for these four territories are absent from this calibration."
+    },
+    {
+      "key": "firearm-homicide-resident-context-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": [
+        "stand-your-ground-to-homicide",
+        "concealed-carry-permit-to-firearm-homicide"
+      ],
+      "gap": "The aggregate firearm-homicide measure records no personal exposure or victimization.",
+      "estimate": "Route a changed place rate to resident safety-context estimates; preserve the rate's firearm-share and territory proxy limitations. Do not produce injuries or deaths.",
+      "estimatedFrom": "CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization."
     }
   ]
 }
