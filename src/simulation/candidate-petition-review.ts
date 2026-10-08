@@ -4,7 +4,6 @@ import { districtResidenceSince } from "./district-residence";
 import { requireElectionContest } from "./election-contests";
 import { isEligibleVoterIn } from "./issue-record";
 import { recordWorldEvent } from "./world";
-import { personName } from "./people";
 import type { EntityId, IsoDate, World } from "./types";
 
 export type CandidatePetitionInvalidReason =
@@ -198,10 +197,10 @@ export function fileCandidatePetition(
   if (!campaign) throw new Error(`Campaign not found: ${campaignId}`);
   const clerk = world.people[clerkPersonId];
   const candidate = world.people[campaign.candidatePersonId];
-  if (!clerk) throw new Error("The filing clerk is not recorded in this world.");
-  if (!candidate) throw new Error("The petition candidate is not recorded.");
+  if (!clerk) throw new Error("petition:clerk-not-recorded");
+  if (!candidate) throw new Error("petition:candidate-not-recorded");
   if (clerkPersonId === candidate.id)
-    throw new Error("A candidate cannot serve as their own filing clerk.");
+    throw new Error("petition:candidate-cannot-be-clerk");
 
   const review = reviewCandidatePetition(world, campaignId, filingDate);
   const priorFilings = world.history.events.filter(
@@ -242,16 +241,16 @@ export function fileCandidatePetition(
       `petition:${review.accepted ? "accepted" : "rejected"}`,
       ...review.reasonKeys.map((reason) => `reason:${reason}`),
     ],
-    summary: `${personName(candidate)}'s candidate petition was ${review.accepted ? "accepted" : "rejected"}.`,
+    summary: review.accepted ? "petition-accepted" : "petition-rejected",
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
         label: world.jurisdictions[campaign.jurisdictionId]?.name ?? null,
-        setting: "Candidate petition filing",
+        setting: null,
       },
       socialContext: null,
       pressure: null,
-      choice: review.accepted ? "Petition accepted." : "Petition rejected.",
+      choice: null,
       motivation: null,
       immediateReaction: null,
     },
