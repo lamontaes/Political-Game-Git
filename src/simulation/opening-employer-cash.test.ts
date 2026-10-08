@@ -312,9 +312,11 @@ describe("saved comparable employer cash reader", () => {
       const yearlyPay =
         path.sessionPayMinor * (weeklyHours / (path.sessionMinutes / 60)) * 52;
       const costs = townBusinessKindBooks("retail");
-      const expected = Math.round(
-        (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
-      );
+      // One recorded session's pay is held back as the first-payroll reserve.
+      const expected =
+        Math.round(
+          (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
+        ) + path.sessionPayMinor;
       expect(
         resourcePositionAt(
           opened,
@@ -348,9 +350,11 @@ describe("saved comparable employer cash reader", () => {
     const owner = { kind: "organization" as const, organizationId: target.id };
     const costs = townBusinessKindBooks("retail");
     const yearlyPay = 100_000 * 12;
-    const expected = Math.round(
-      (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
-    );
+    // One recorded monthly pay is held back as the first-payroll reserve.
+    const expected =
+      Math.round(
+        (((yearlyPay / costs.payShare) * (1 - costs.margin)) / 365) * 19,
+      ) + 100_000;
     expect(
       resourcePositionAt(opened, owner, USD)!.liquidBalance.minorUnits,
     ).toBe(expected);
