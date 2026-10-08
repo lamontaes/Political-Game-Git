@@ -119,7 +119,6 @@ export const UNSEATED_BODY_READING = {
  */
 export const NEARLY_SERVED_DAYS = 60;
 
-const OFFENSE_TAG = "justice.offense:";
 const REFERRAL_TAG = "justice.referral:";
 
 export type ClemencyActionResult =
@@ -676,50 +675,6 @@ function produceRequests(world: World): World {
 /* ------------------------------------------------------------------ *
  * Answers
  * ------------------------------------------------------------------ */
-
-/**
- * The case-record answer of a body the game has not seated (PLACEHOLDER; see
- * `UNSEATED_BODY_READING`). Returns the answer and the reason in plain words,
- * or null while the body has not taken the request up.
- */
-export function unseatedBodyReading(
-  world: World,
-  personId: EntityId,
-  sentenced: HistoricalEvent,
-  sentence: Sentence,
-): { readonly favorable: boolean; readonly reason: string } | null {
-  const rule = UNSEATED_BODY_READING;
-  // A life term has no served-share endpoint. No board recommendation is invented.
-  if (sentence.until === null) return null;
-  const total =
-    new Date(`${sentence.until}T00:00:00Z`).getTime() -
-    new Date(`${sentence.from}T00:00:00Z`).getTime();
-  const served =
-    new Date(`${world.currentDate}T00:00:00Z`).getTime() -
-    new Date(`${sentence.from}T00:00:00Z`).getTime();
-  if (total > 0 && served / total < rule.servedShareBeforeTakenUp) return null;
-  const offense = tagValue(sentenced, OFFENSE_TAG) ?? "";
-  if (rule.violentOffenses.includes(offense))
-    return { favorable: false, reason: "The offense was violent." };
-  const later = world.history.events.some(
-    (event) =>
-      event.type === "justice.prosecution-referred" &&
-      event.occurredAt > sentenced.occurredAt &&
-      event.participants.some(
-        (entry) =>
-          entry.role === "focus:subject" && entry.personId === personId,
-      ),
-  );
-  if (later)
-    return {
-      favorable: false,
-      reason: "A new case was opened against them after the sentence.",
-    };
-  return {
-    favorable: true,
-    reason: "Half the sentence has been served with nothing new against them.",
-  };
-}
 
 /** One plain sentence for an answer: a governor agrees, a board votes. */
 function answerSentence(

@@ -5,7 +5,6 @@ import {
   collectJsonChunks,
   JSON_CHUNK_LENGTH,
   parseJsonChunks,
-  sameJsonChunks,
 } from "./json-chunks";
 import { packRollCalls, unpackRollCalls } from "./roll-call-packing";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
@@ -322,19 +321,6 @@ export function worldPayloadMatches(
     offset = 0;
   }
   return same && chunk === payload.length;
-}
-
-/** Whether two stored payloads hold the same text, however each was cut. */
-export function sameWorldPayload(
-  left: WorldPayload,
-  right: WorldPayload,
-): boolean {
-  if (typeof left === "string" && typeof right === "string")
-    return left === right;
-  return sameJsonChunks(
-    typeof left === "string" ? [left] : left,
-    typeof right === "string" ? [right] : right,
-  );
 }
 
 function packRollCallsApplies(world: World): boolean {

@@ -276,22 +276,6 @@ export function evidenceDiscoveryHistory(
     .map((discovery) => structuredClone(discovery));
 }
 
-export function evidenceDiscoveriesForPersonAt(
-  world: World,
-  personId: EntityId,
-  cutoff: HistoricalCutoff,
-): readonly EvidenceDiscoveryRecord[] {
-  return evidenceDiscoveryHistory(world, { personId }, cutoff);
-}
-
-export function evidenceDiscoveryHistoryForArtifactAt(
-  world: World,
-  evidenceArtifactId: EntityId,
-  cutoff: HistoricalCutoff,
-): readonly EvidenceDiscoveryRecord[] {
-  return evidenceDiscoveryHistory(world, { evidenceArtifactId }, cutoff);
-}
-
 function validateCutoff(world: World, cutoff: HistoricalCutoff): void {
   makeIsoDate(cutoff.asOfDate);
   if (
