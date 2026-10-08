@@ -8,7 +8,7 @@ import {
 import type { EntityId, IsoDate, World } from "../types";
 import type { LawTermScope } from "../law-consequence-types";
 import type { LawInForce } from "./law-in-force";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { afterEach, vi } from "vitest";
 import * as lawReader from "./law-in-force";
 import { stateJurisdictionForKey } from "../life-places";
