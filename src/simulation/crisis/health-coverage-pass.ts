@@ -1,4 +1,10 @@
 import { applyLawConsequences } from "../enacted-law-effects";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
+import { lawInForce } from "../governing/law-in-force";
+import {
+  recordMedicareDrugNegotiationSavings,
+  MEDICARE_DRUG_NEGOTIATION_QUESTION_KEY,
+} from "./medicare-drug-negotiation";
 import { COVERAGE_QUESTION_KEYS } from "../law-consequences/coverage-eligibility-rows";
 import type { FutureTransitionHandler } from "../types";
 import {
@@ -25,6 +31,24 @@ export const healthCoveragePassHandler: FutureTransitionHandler = (
       questionKey,
     });
   const changed = healthCoverageRecords(next).slice(before);
+  const drugNegotiation = Object.values(
+    next.policyCatalog?.propositions ?? {},
+  ).find((row) => row.stableKey === MEDICARE_DRUG_NEGOTIATION_QUESTION_KEY);
+  const drugNegotiationLaw = drugNegotiation
+    ? lawInForce(
+        next,
+        NATIONAL_ELECTION_JURISDICTION.id,
+        drugNegotiation.id,
+        item.dueAt,
+      )
+    : null;
+  if (drugNegotiationLaw) {
+    next = recordMedicareDrugNegotiationSavings(next, {
+      measureId: drugNegotiationLaw.measureId,
+      onDate: item.dueAt,
+      sourceRecordId: item.id,
+    });
+  }
   // The registry owns the coverage record writer and exposure update.
   next = scheduleHealthCoveragePass(next, item.dueAt, next.id);
   const gained = changed.filter((record) => record.covered).length;
