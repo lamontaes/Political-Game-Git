@@ -17,6 +17,7 @@ import { spelledCount } from "../simulation/press/story-voice";
 import type { PartGradeLedger } from "./english-grades";
 import { composeLifeStory } from "./journal-story";
 import { projectJournalView } from "./journal-views";
+import { placeFor, rng } from "../../scripts/playtest/mass-play/driver";
 import { createOpeningLifeController } from "./opening-life";
 import { explicitNewGameSetup } from "./new-game-geography";
 
@@ -245,6 +246,36 @@ describe("the journal told as a story", () => {
       provenance,
     });
     expect(told(withSecondChild)).not.toContain("only child");
+  });
+
+  it("tells only the work a parent did while raising the person", () => {
+    // The batch 1 life in West Jordan, Utah (seed p3-batch1a-oct8, world 0):
+    // the mother's only job began in 2016, after the player turned 18.
+    const states = lifePlaceStateIdentities();
+    const random = rng("p3-batch1a-oct8:0");
+    let place: ReturnType<typeof placeFor> = null;
+    while (!place)
+      place = placeFor(
+        states[Math.floor(random() * states.length)]!.usps,
+        random,
+      );
+    const setup = explicitNewGameSetup({
+      placeKey: place.key,
+      seed: "p3-batch1a-oct8-0",
+      startAge: 28 as never,
+      depth: "summarize-earlier-life",
+    });
+    const { world, playerPersonId: personId } =
+      createOpeningLifeController(setup).finishTransition().game!;
+    const person = world.people[personId]!;
+    const grownUp = `${Number(person.birthDate.slice(0, 4)) + 18}${person.birthDate.slice(4)}`;
+    const story = composeLifeStory(world, personId);
+    const told = new Set(story.flatMap((chapter) => chapter.sourceRecordIds));
+    const parentJobs = world.history.workRelationships.filter(
+      (job) => job.personId !== personId && told.has(job.id),
+    );
+    for (const job of parentJobs) expect(job.startedAt < grownUp).toBe(true);
+    expect(story[0]!.text).not.toMatch(/\bmother was\b/);
   });
 
   it("leads the Chapters view, and only Chapters with no year chosen", () => {
