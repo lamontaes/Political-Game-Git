@@ -3450,11 +3450,11 @@
           "id": "convention-hall:spot:172"
         },
         {
-          "x": 42.5,
-          "y": 73,
+          "x": 60.5,
+          "y": 76,
           "pose": "stand",
-          "facing": "right",
-          "depth": 73,
+          "facing": "left",
+          "depth": 76,
           "role": "general",
           "id": "convention-hall:spot:173"
         }
@@ -8663,7 +8663,7 @@
           "id": "rally-stage:spot:0"
         },
         {
-          "x": 42,
+          "x": 44.5,
           "y": 62.2,
           "pose": "stand",
           "facing": "left",
@@ -8691,11 +8691,11 @@
           "id": "rally-stage:spot:3"
         },
         {
-          "x": 38,
-          "y": 90,
+          "x": 91,
+          "y": 93,
           "pose": "stand",
           "facing": "left",
-          "depth": 90,
+          "depth": 93,
           "role": "general",
           "id": "rally-stage:spot:4"
         },
@@ -8787,11 +8787,11 @@
           "id": "rally-stage:spot:11"
         },
         {
-          "x": 46,
-          "y": 69,
+          "x": 50,
+          "y": 68,
           "pose": "stand",
           "facing": "left",
-          "depth": 69,
+          "depth": 68,
           "role": "general",
           "id": "rally-stage:spot:12"
         },
@@ -8805,16 +8805,16 @@
           "id": "rally-stage:spot:13"
         },
         {
-          "x": 82,
-          "y": 83,
+          "x": 80,
+          "y": 80,
           "pose": "stand",
           "facing": "left",
-          "depth": 83,
+          "depth": 80,
           "role": "general",
           "id": "rally-stage:spot:14"
         },
         {
-          "x": 35.5,
+          "x": 34.5,
           "y": 62.5,
           "pose": "stand",
           "facing": "viewer",
