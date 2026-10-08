@@ -1,24 +1,23 @@
 import {
   canPersonAccess,
+  campaignGuidanceRecordText,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
-  electiveOfficesForJurisdiction,
   personName,
+  projectCampaignGuidance,
   projectCampaignLifeActivities,
   scheduledActivityState,
   type EntityId,
-  type CampaignGuidanceOfficeRecord,
-  type CampaignGuidanceRuleRecord,
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
-import type { RuleValue } from "../simulation";
 import { recordEventKnowledge } from "../simulation/records";
 import { recordWorldEvent } from "../simulation/world";
 import { meetingDepartureRoute, meetingHomeRoute } from "./meeting-home-route";
 import { travelToPlace } from "./place-travel";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 import { cancelScheduledActivity } from "../simulation/time-work";
+import { plainCandidateGuidance } from "./candidate-guidance-prose";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
@@ -26,58 +25,18 @@ export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
   readonly key: CandidateGuidanceQuestion;
 }[] = [{ key: "requirements" }, { key: "filing" }];
 
-function recordedAnswer(
-  value: string | undefined,
-): readonly CampaignGuidanceOfficeRecord[] {
-  if (!value) return [];
-  try {
-    const parsed: unknown = JSON.parse(value);
-    return Array.isArray(parsed)
-      ? (parsed as CampaignGuidanceOfficeRecord[])
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function ruleRecord<T extends number | string>(
-  rule: RuleValue<T>,
-): CampaignGuidanceRuleRecord {
-  if (rule.kind === "known") {
-    return {
-      kind: "known",
-      value: rule.value,
-      citation: rule.source.citation,
-      sourceUrl: rule.source.sourceUrl,
-    };
-  }
-  return { kind: rule.kind };
-}
-
-export function candidateGuidanceAnswerRecords(
-  world: World,
-  jurisdictionId: EntityId | null,
-  question: CandidateGuidanceQuestion,
-): readonly CampaignGuidanceOfficeRecord[] {
-  if (!jurisdictionId) return [];
-  return electiveOfficesForJurisdiction(
-    jurisdictionId,
-    world.currentDate,
-    world,
-  ).map((office) => ({
-    officeKey: office.officeKey,
-    officeName: office.office.title,
-    ...(question === "requirements"
-      ? {
-          minimumAge: ruleRecord(office.qualification.minimumAge),
-          residency: ruleRecord(office.qualification.residency),
-        }
-      : { filing: ruleRecord(office.qualification.filing) }),
-  }));
-}
-
 const baseKey = (activityId: EntityId) =>
   `candidate-guidance-scene-v1:${activityId}`;
+
+/** Words the organizer can support with this place's recorded candidacy rules. */
+export function composeCandidateGuidanceAnswer(
+  world: World,
+  personId: EntityId,
+): string {
+  return plainCandidateGuidance(
+    campaignGuidanceRecordText(projectCampaignGuidance(world, personId), 4),
+  );
+}
 
 /** A saved journey and the actual host are prerequisites for the conversation. */
 function guidanceHere(world: World, personId: EntityId, activityId: EntityId) {
@@ -285,7 +244,7 @@ export function projectCandidateGuidanceScene(
     questions,
     turns: turns.map((event) => ({
       question: event.context.choice,
-      answer: recordedAnswer(event.context.campaignGuidanceAnswer),
+      response: event.context.immediateReaction,
       eventId: event.id,
     })),
     availableActions: [
@@ -297,7 +256,7 @@ export function projectCandidateGuidanceScene(
   };
 }
 
-/** A question and its sourced record data are saved together, once per choice. */
+/** A question and the answer heard are saved together, once per choice. */
 export function askCandidateGuidance(
   world: World,
   personId: EntityId,
@@ -307,11 +266,10 @@ export function askCandidateGuidance(
   const scene = projectCandidateGuidanceScene(world, personId);
   const available = scene?.questions.some((choice) => choice.key === question);
   if (!scene || scene.activityId !== activityId || !available) return world;
-  const answer = candidateGuidanceAnswerRecords(
-    world,
-    scene.location.jurisdictionId,
-    question,
-  );
+  // The host's answer comes from the same recorded rule packet used by the
+  // campaign-life journal. The prose renderer only turns that packet into
+  // plain English; it does not add a new rule or filing deadline.
+  const response = composeCandidateGuidanceAnswer(world, personId);
   const host = scene.actors[0]!;
   const key = `${baseKey(activityId)}:question:${question}`;
   const next = recordWorldEvent(world, {
@@ -326,7 +284,7 @@ export function askCandidateGuidance(
       {
         personId: host.personId,
         role: "presence:participant",
-        detail: null,
+        detail: response,
       },
     ],
     personFactConstraints: [],
@@ -343,8 +301,7 @@ export function askCandidateGuidance(
       pressure: null,
       choice: question,
       motivation: null,
-      immediateReaction: null,
-      campaignGuidanceAnswer: JSON.stringify(answer),
+      immediateReaction: response,
     },
   });
   const turn = next.history.events.at(-1)!;
@@ -353,7 +310,7 @@ export function askCandidateGuidance(
     personId,
     eventId: turn.id,
     learnedAt: next.currentDate,
-    believedSummary: turn.context.campaignGuidanceAnswer ?? "[]",
+    believedSummary: response,
     accuracy: "accurate",
     confidence: "high",
     source: { kind: "direct" },
@@ -380,11 +337,11 @@ export function leaveCandidateGuidance(
     jurisdictionId: scene.location.jurisdictionId,
     involvedEntityIds: [activityId, personId, scene.actors[0]!.personId],
     participants: [
-      { personId, role: "agency:actor", detail: "Left before the talk ended" },
+      { personId, role: "agency:actor", detail: null },
       {
         personId: scene.actors[0]!.personId,
         role: "presence:participant",
-        detail: "Present when the player left",
+        detail: null,
       },
     ],
     personFactConstraints: [],

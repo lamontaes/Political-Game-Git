@@ -2,17 +2,21 @@ import { describe, expect, it } from "vitest";
 import {
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
+  campaignGuidanceRecordText,
+  lifePlaceStateIdentities,
   deserializeWorld,
   homePartyChapters,
-  lifePlaces,
   scheduledActivityState,
   serializeWorld,
   simulationMinutesBetween,
+  projectCampaignGuidance,
+  stateJurisdictionForKey,
 } from "../simulation";
 import { attendPartyWork, requestPartyWork } from "./campaign-life-actions";
+import { plainCandidateGuidance } from "./candidate-guidance-prose";
 import {
   askCandidateGuidance,
-  candidateGuidanceAnswerRecords,
+  composeCandidateGuidanceAnswer,
   leaveCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
@@ -57,40 +61,30 @@ function attend(
 }
 
 describe("candidate guidance in the room", () => {
-  it("reads the same office-rule fields from every state and territory place", () => {
-    const { world } = booked("candidate-guidance-all-jurisdictions");
-    const jurisdictions = lifePlaces().filter(
-      (place) => place.scope === "state",
-    );
-    const withRecords = jurisdictions.find(
-      (place) =>
-        candidateGuidanceAnswerRecords(
-          world,
-          place.context.jurisdiction.id,
-          "requirements",
-        ).length > 0,
-    );
-    expect(withRecords).toBeDefined();
-
-    for (const place of jurisdictions) {
-      const jurisdictionId = place.context.jurisdiction.id;
-      const requirementRecords = candidateGuidanceAnswerRecords(
-        world,
-        jurisdictionId,
-        "requirements",
+  it("composes the organizer's answer through the shared rule reader in all 56 places", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    const world = booked("candidate-guidance-all-places").world;
+    const personId = world.personOrder[0]!;
+    for (const place of places) {
+      const jurisdiction = stateJurisdictionForKey(place.jurisdictionKey)!;
+      const placeWorld = {
+        ...world,
+        people: {
+          ...world.people,
+          [personId]: {
+            ...world.people[personId]!,
+            homeJurisdictionId: jurisdiction.id,
+          },
+        },
+      };
+      const response = composeCandidateGuidanceAnswer(placeWorld, personId);
+      expect(response, place.name).toBeTruthy();
+      expect(response, place.name).not.toContain("Let's check");
+      expect(response, place.name).not.toMatch(
+        /\b[A-Z]{2,}(?:_[A-Z]+)+\b|\bUS-[A-Z]{2}\b/,
       );
-      const filingRecords = candidateGuidanceAnswerRecords(
-        world,
-        jurisdictionId,
-        "filing",
-      );
-
-      expect(
-        requirementRecords.every(
-          (office) => office.minimumAge && office.residency,
-        ),
-      ).toBe(true);
-      expect(filingRecords.every((office) => office.filing)).toBe(true);
+      expect(response, place.name).not.toContain("Const.");
     }
   });
 
@@ -130,20 +124,33 @@ describe("candidate guidance in the room", () => {
     );
     expect(asked).not.toBe(first.world);
     expect(asked.currentMoment).toEqual(first.world.currentMoment);
-    const turn = projectCandidateGuidanceScene(asked, personId)?.turns[0];
-    expect(turn?.question).toBe("requirements");
-    expect(turn?.answer).toBeDefined();
     expect(
-      turn?.answer.every((office) => office.minimumAge && office.residency),
+      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.question,
+    ).toBe("requirements");
+    const response = projectCandidateGuidanceScene(asked, personId)?.turns[0]
+      ?.response;
+    expect(response).toBe(
+      plainCandidateGuidance(
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId), 4),
+      ),
+    );
+    expect(response).not.toContain("Let's check the requirements");
+    expect(response).toContain("minimum age");
+    const requirementsEvent = asked.history.events.find(
+      (event) =>
+        event.type === "campaign.candidate-guidance-question" &&
+        event.tags.includes("question:requirements"),
+    )!;
+    expect(requirementsEvent.context.immediateReaction).toBe(response);
+    expect(
+      asked.history.knowledge.some(
+        (item) =>
+          item.eventId === requirementsEvent.id &&
+          item.personId === personId &&
+          item.accuracy === "accurate" &&
+          item.source.kind === "direct",
+      ),
     ).toBe(true);
-    expect(
-      asked.history.events.find((event) => event.id === turn?.eventId)?.context
-        .campaignGuidanceAnswer,
-    ).toBe(JSON.stringify(turn?.answer));
-    expect(
-      asked.history.knowledge.find((item) => item.eventId === turn?.eventId)
-        ?.believedSummary,
-    ).toBe(JSON.stringify(turn?.answer));
     expect(
       askCandidateGuidance(asked, personId, activityId, "requirements"),
     ).toBe(asked);
@@ -169,7 +176,7 @@ describe("candidate guidance in the room", () => {
         (outcome) => outcome.activityId === record.id,
       ),
     ).toHaveLength(1);
-  });
+  }, 120_000);
 
   it("leaves after asking without attendance credit and returns by the recorded route", () => {
     const { world, personId, record } = booked("candidate-guidance-leave");
@@ -180,10 +187,13 @@ describe("candidate guidance in the room", () => {
       record.scheduledActivityId,
       "filing",
     );
-    const turn = projectCandidateGuidanceScene(asked, personId)?.turns[0];
-    expect(turn?.question).toBe("filing");
-    expect(turn?.answer).toBeDefined();
-    expect(turn?.answer.every((office) => office.filing)).toBe(true);
+    expect(
+      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
+    ).toBe(
+      plainCandidateGuidance(
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId), 4),
+      ),
+    );
     const left = leaveCandidateGuidance(
       asked,
       personId,

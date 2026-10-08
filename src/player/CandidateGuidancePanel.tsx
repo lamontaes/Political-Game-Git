@@ -63,37 +63,7 @@ export function CandidateGuidancePanel({
                 <dd>{turn.question}</dd>
               </div>
             ) : null}
-            {turn.answer.map((office) => (
-              <div key={office.officeKey}>
-                <dt>{office.officeName}</dt>
-                {office.minimumAge ? (
-                  <dd>
-                    minimumAge ·{" "}
-                    {office.minimumAge.value ?? office.minimumAge.kind}
-                    {office.minimumAge.citation
-                      ? ` · ${office.minimumAge.citation}`
-                      : ""}
-                  </dd>
-                ) : null}
-                {office.residency ? (
-                  <dd>
-                    residency ·{" "}
-                    {office.residency.value ?? office.residency.kind}
-                    {office.residency.citation
-                      ? ` · ${office.residency.citation}`
-                      : ""}
-                  </dd>
-                ) : null}
-                {office.filing ? (
-                  <dd>
-                    filing · {office.filing.value ?? office.filing.kind}
-                    {office.filing.citation
-                      ? ` · ${office.filing.citation}`
-                      : ""}
-                  </dd>
-                ) : null}
-              </div>
-            ))}
+            {turn.response ? <dd>{turn.response}</dd> : null}
           </dl>
         </div>
       ))}
