@@ -3,12 +3,14 @@ import { governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { knownRule, unknownRule } from "../legislature-rules";
 import {
+  governingBodySeatAgeEstimate,
   municipalMinimumAgeEstimate,
   municipalMinimumAgeSource,
 } from "../municipal-qualification-estimate";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { localChiefExecutiveRules } from "./local-chief-executive-rules";
 import { countyGoverningBodyRules } from "./county-governing-body-rules";
+import { townshipGoverningBodyRules } from "./township-governing-body-rules";
 import { localGoverningBodyName } from "./local-governing-body-names";
 import {
   COUNTY_ROW_OFFICE_KEYS,
@@ -94,15 +96,23 @@ export function localGoverningBodyIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
   if (!unit.functionalActive) return null;
-  if (unit.unitType !== "municipality" && unit.unitType !== "county")
+  if (
+    unit.unitType !== "municipality" &&
+    unit.unitType !== "county" &&
+    unit.unitType !== "township"
+  )
     return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${OFFICE_SUFFIX}`;
   const governmentName = displayName(unit);
-  // Display only: the office key above never depends on the body's name.
+  // Display only: the office key above never depends on the body's name. A
+  // town or township board is seated and meets in play
+  // (`ensureLocalGovernmentSeats`), so its seats can be stood for too.
   const body =
     unit.unitType === "county"
       ? countyGoverningBodyRules(unit)
-      : localGoverningBodyName(unit);
+      : unit.unitType === "township"
+        ? townshipGoverningBodyRules(unit)
+        : localGoverningBodyName(unit);
   if (!body) return null;
   return {
     unit,
@@ -237,12 +247,16 @@ export function localGoverningBodyCandidacyPack(
 ): CandidacyPack {
   const mayor = identity.seat !== "governing-body";
   const county = identity.unit.unitType === "county";
-  // A county board's age stays unread; a county's executive and its row
-  // offices take the same disclosed estimate a town office does, from the
-  // state's other elected offices, so a resident can stand for one.
+  // A seat on a town's or county's governing body takes the qualified-elector
+  // age its state's code most commonly asks; a mayor, a county executive and
+  // the county row offices take the disclosed estimate from the state's other
+  // elected offices. Either way a resident can stand, on a labeled estimate.
   const estimate =
-    county && identity.seat === "governing-body"
-      ? null
+    identity.seat === "governing-body"
+      ? governingBodySeatAgeEstimate(
+          `US-${identity.unit.stateUsps}`,
+          identity.officeKey,
+        )
       : municipalMinimumAgeEstimate(
           `US-${identity.unit.stateUsps}`,
           identity.officeKey,

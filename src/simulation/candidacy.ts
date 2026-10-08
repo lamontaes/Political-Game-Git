@@ -131,7 +131,9 @@ export function localGoverningBodiesForJurisdiction(
 ): readonly LocalGoverningBodyIdentity[] {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   const units = placeLocalGovernmentUnits(place);
-  return [...units.municipal, ...units.counties].flatMap(localElectedOffices);
+  return [...units.municipal, ...units.townships, ...units.counties].flatMap(
+    localElectedOffices,
+  );
 }
 
 /**
