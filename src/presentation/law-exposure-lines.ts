@@ -22,9 +22,11 @@ import { proseDate } from "./prose-dates";
  */
 
 /** What the law did through each channel, for a cost and for a gain. */
-const CHANNEL_WORDS: Record<
-  LawExposureRecord["channel"],
-  { readonly cost: string; readonly gain: string; readonly none: string }
+const CHANNEL_WORDS: Partial<
+  Record<
+    LawExposureRecord["channel"],
+    { readonly cost: string; readonly gain: string; readonly none: string }
+  >
 > = {
   paycheck: {
     cost: "took {amount} from {whose} paycheck",
@@ -193,7 +195,11 @@ export function lawExposureSentence(
     exposure.direction === "none"
       ? "none"
       : exposure.direction;
-  const words = CHANNEL_WORDS[exposure.channel][direction]
+  // A channel no wording covers yet (an environmental condition) is left out
+  // of the account; the audit lists it as an English gap.
+  const channelWords = CHANNEL_WORDS[exposure.channel];
+  if (!channelWords) return null;
+  const words = channelWords[direction]
     .replace("{whose}", whose)
     .replace("{whom}", whom)
     .replace("{amount}", exposure.amount === null ? "" : amountText(exposure));

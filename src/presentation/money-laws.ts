@@ -47,9 +47,11 @@ const MOST_OWN_LINES = 5;
 type Direction = LawExposureRecord["direction"];
 
 /** What a law did through a channel to a group, with or without a sum. */
-const TOWN_WORDS: Record<
-  LawExposureChannel,
-  Record<Direction, (who: string, sum: string) => string>
+const TOWN_WORDS: Partial<
+  Record<
+    LawExposureChannel,
+    Record<Direction, (who: string, sum: string) => string>
+  >
 > = {
   paycheck: {
     gain: (who, sum) => `added ${sum} to the pay of ${who}`,
@@ -216,7 +218,10 @@ export function projectMoneyLaws(
           ? "none"
           : first.direction;
       const sum = direction === "none" ? null : totalText(rows);
-      const words = TOWN_WORDS[first.channel][
+      // A channel no wording covers yet is left out of the town's list.
+      const channelWords = TOWN_WORDS[first.channel];
+      if (!channelWords) return [];
+      const words = channelWords[
         sum || first.channel === "election-rule" ? direction : "none"
       ](who, sum ?? "");
       return [
