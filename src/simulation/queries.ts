@@ -647,16 +647,6 @@ export function privateBeliefHistory(
     .sort(byDateThenSequence);
 }
 
-/** The unified saved opinion family, including canonical non-policy subjects. */
-export function privateOpinionHistory(
-  world: World,
-  personId: EntityId,
-): readonly PrivateBeliefRecord[] {
-  return world.history.privateBeliefs
-    .filter((belief) => belief.personId === personId)
-    .sort(byDateThenSequence);
-}
-
 export function propositionExposureHistory(
   world: World,
   personId: EntityId,

@@ -230,20 +230,6 @@ export function paidOfficeOf(
   return null;
 }
 
-/**
- * The published pay for the office a work relationship holds: a governor from
- * the office's own state, a state legislator from the state whose legislature
- * the seat is in. Null for any other office, and for a state the tables do
- * not carry.
- */
-export function publishedOfficePay(
-  world: World,
-  work: WorkRelationship,
-): OfficePay | null {
-  const held = paidOfficeOf(world, work);
-  return held ? statePayFor(held.office, held.state) : null;
-}
-
 /** The rule field a state's pay law sets for each office it can set. */
 const PAY_LAW_FIELD: Readonly<Partial<Record<PaidOffice, AmendableRuleField>>> =
   {

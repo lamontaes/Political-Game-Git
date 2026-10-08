@@ -59,15 +59,6 @@ export const OFFICE_STAFF_POSITIONS: readonly OfficeStaffPositionProfile[] = [
   },
 ];
 
-export function officeStaffPositionProfile(
-  classKey: string,
-): OfficeStaffPositionProfile | null {
-  return (
-    OFFICE_STAFF_POSITIONS.find((position) => position.classKey === classKey) ??
-    null
-  );
-}
-
 export function officeStaffPositionKey(
   office: Pick<GoverningOffice, "officeKey">,
   classKey: string,

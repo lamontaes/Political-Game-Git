@@ -95,11 +95,12 @@
       "outcome": "traffic.fatality-rate",
       "policyArea": "traffic",
       "sourceArea": "roads.rural-interstate-speed-limit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220"
+      "recipientGroup": "jurisdiction residents (estimated traffic safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220; recipient estimate: IIHS Fatality Facts 2024, using NHTSA FARS deaths over FHWA vehicle miles traveled. A changed place rate supplies a resident safety-context estimate. Personal driving mileage, crashes, injuries, and deaths are unrecorded. The existing national-average territory rates remain estimates.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "particles-to-infant-deaths",
@@ -478,11 +479,12 @@
       "outcome": "energy.electricity-price",
       "policyArea": "energy",
       "sourceArea": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "recipientGroup": "ratepayers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?)"
+      "recipientGroup": "recorded household members (estimated electricity cost context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?); recipient estimate: EIA State Electricity Profiles 2024, average retail price for all customers, with existing uncovered-place proxies. Current household membership supplies an estimated household cost exposure. Personal energy consumption, bills, and payments are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -1016,11 +1018,12 @@
       "outcome": "broadband.home-access",
       "policyArea": "broadband",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.public-broadband",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9)"
+      "recipientGroup": "recorded household members (estimated broadband opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9); recipient estimate: ACS 2024 1-year S2801_C02_014E, share of households with broadband. Current household membership supplies an estimated service opportunity; an individual subscription or connection is unrecorded. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 92.8% of households, the median of the 52 recorded place rates. Source: ACS 2024 1-year S2801_C02_014E, https://data.census.gov/api/access/data/table?id=ACSST1Y2024.S2801. Those four territories are absent from this calibration.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "gas-hookup-ban-to-child-asthma",
@@ -1182,11 +1185,12 @@
       "outcome": "roads.poor-condition-pct",
       "policyArea": "roads",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
+      "recipientGroup": "jurisdiction residents (estimated road condition exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty; recipient estimate: FHWA Highway Statistics 2023 Table HM-47i, measured major-road roughness, with existing territory national-average estimates. A changed place share supplies a resident road-condition estimate. Personal routes, mileage, vehicle damage, and repairs are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "poor-roads-to-prices",
@@ -1205,22 +1209,35 @@
       "outcome": "rail.intercity-ridership",
       "policyArea": "rail",
       "sourceArea": "federal.rail-expansion-pct",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
+      "recipientGroup": "jurisdiction residents (estimated intercity rail opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026; recipient estimate: Amtrak FY2024 state fact sheets, boardings and alightings per 1,000 residents using BEA 2024 population. This estimates service opportunity in places with recorded Amtrak service. Personal trips and tickets are unrecorded. Places without an Amtrak station are explicitly unsupported; a law alone does not create a station.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts",
+      "unsupportedPlaceReasons": {
+        "US-AK": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-AS": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-GU": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-HI": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-MP": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-PR": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-SD": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-VI": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-WY": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction."
+      }
     },
     {
       "key": "parks-spending-to-exercise-access",
       "outcome": "parks.access-to-exercise",
       "policyArea": "parks",
       "sourceArea": "budget.parks-added-pct",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
+      "recipientGroup": "jurisdiction residents (estimated exercise opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident); recipient estimate: County Health Rankings & Roadmaps 2025, access to exercise opportunities. A changed resident-access share supplies an estimated opportunity. The existing territory median estimates remain labeled. Individual visits, exercise, and health changes are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     }
   ],
   "sourceSnapshot": {
@@ -1233,9 +1250,9 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 89,
-    "place-number-only": 6,
-    "no-live-consumer": 2,
-    "budget-only": 4
+    "person-linked": 95,
+    "budget-only": 4,
+    "place-number-only": 0,
+    "no-live-consumer": 2
   }
 }

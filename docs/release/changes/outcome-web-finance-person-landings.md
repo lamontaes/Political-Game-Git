@@ -1,4 +1,9 @@
-# Finance outcomes reach recorded people
+---
+id: outcome-web-finance-person-landings
+impact: minor
+section: Added
+title: Finance outcomes reach recorded people
+---
 
 Three finance outcomes now use the shared person outcome, lived outcome, and
 official-view path. The medical-debt estimate reaches adults ages 19 to 64 with

@@ -50,6 +50,66 @@
       "gap": "Individual farmland parcels, land titles, acreage, and personal valuation are not recorded.",
       "estimate": "Use the named recipient context only; no parcel, title, acreage, wealth change or easement payment is produced.",
       "estimatedFrom": "USDA ERS, Farmland Ownership and Tenure (https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure), and USDA NASS farm real estate values. A current recorded agricultural business owner or directing farm operator in the person's home state supplies an estimated land-value exposure. An operator can lease land; this does not establish a land title, acreage, equity, or a personal wealth change."
+    },
+    {
+      "key": "broadband-home-access-territory-median",
+      "sourceFile": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "measure": "broadband.home-access",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP", "US-VI"],
+      "gap": "Four territories are absent from the recorded ACS 2024 household broadband rates.",
+      "value": 92.8,
+      "unit": "percent of households",
+      "recordedPlaceCount": 52,
+      "estimate": "Use the median of 52 recorded starting rates.",
+      "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 92.8% of households, the median of the 52 recorded place rates. Source: ACS 2024 1-year S2801_C02_014E, https://data.census.gov/api/access/data/table?id=ACSST1Y2024.S2801. Those four territories are absent from this calibration."
+    },
+    {
+      "key": "speed-limit-to-traffic-deaths-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["speed-limit-to-traffic-deaths"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "IIHS Fatality Facts 2024, using NHTSA FARS deaths over FHWA vehicle miles traveled. A changed place rate supplies a resident safety-context estimate. Personal driving mileage, crashes, injuries, and deaths are unrecorded. The existing national-average territory rates remain estimates."
+    },
+    {
+      "key": "clean-electricity-to-price-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["clean-electricity-to-price"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "EIA State Electricity Profiles 2024, average retail price for all customers, with existing uncovered-place proxies. Current household membership supplies an estimated household cost exposure. Personal energy consumption, bills, and payments are unrecorded."
+    },
+    {
+      "key": "public-broadband-to-home-access-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["public-broadband-to-home-access"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "ACS 2024 1-year S2801_C02_014E, share of households with broadband. Current household membership supplies an estimated service opportunity; an individual subscription or connection is unrecorded. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 92.8% of households, the median of the 52 recorded place rates. Source: ACS 2024 1-year S2801_C02_014E, https://data.census.gov/api/access/data/table?id=ACSST1Y2024.S2801. Those four territories are absent from this calibration."
+    },
+    {
+      "key": "fix-it-first-to-poor-roads-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["fix-it-first-to-poor-roads"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "FHWA Highway Statistics 2023 Table HM-47i, measured major-road roughness, with existing territory national-average estimates. A changed place share supplies a resident road-condition estimate. Personal routes, mileage, vehicle damage, and repairs are unrecorded."
+    },
+    {
+      "key": "federal-rail-expansion-to-riders-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["federal-rail-expansion-to-riders"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "Amtrak FY2024 state fact sheets, boardings and alightings per 1,000 residents using BEA 2024 population. This estimates service opportunity in places with recorded Amtrak service. Personal trips and tickets are unrecorded. Places without an Amtrak station are explicitly unsupported; a law alone does not create a station."
+    },
+    {
+      "key": "parks-spending-to-exercise-access-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["parks-spending-to-exercise-access"],
+      "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
+      "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
+      "estimatedFrom": "County Health Rankings & Roadmaps 2025, access to exercise opportunities. A changed resident-access share supplies an estimated opportunity. The existing territory median estimates remain labeled. Individual visits, exercise, and health changes are unrecorded."
     }
   ]
 }

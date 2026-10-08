@@ -761,9 +761,6 @@ export function constitutionalStateActionHandler(
   );
 }
 
-/** @deprecated Use the shared constitutional state-action handler. */
-export const federalReformStateActionHandler = constitutionalStateActionHandler;
-
 export function federalReformHandlers() {
   return [
     [FEDERAL_REFORM_STATE_ACTION, constitutionalStateActionHandler],
