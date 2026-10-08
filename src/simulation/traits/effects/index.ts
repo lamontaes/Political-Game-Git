@@ -59,16 +59,6 @@ import { facetSkepticalEffects } from "./facet-skeptical";
 import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
 import { facetStudiousEffects } from "./facet-studious";
 import { facetSupportiveEffects } from "./facet-supportive";
-import { facetTactfulEffects } from "./facet-tactful";
-import { facetTeasingEffects } from "./facet-teasing";
-import { facetTenderHeartedEffects } from "./facet-tender-hearted";
-import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
-import { facetVindictiveEffects } from "./facet-vindictive";
-import { facetWorkCenteredEffects } from "./facet-work-centered";
-import { facetZealousEffects } from "./facet-zealous";
-import { initialTrustEffects } from "./initial-trust";
-import { methodRevisionEffects } from "./method-revision";
-import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
 import { playfulMannerEffects } from "./playful-manner";
 import { selfConfidenceEffects } from "./self-confidence";
@@ -140,16 +130,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetSlowToWarmUpEffects,
     ...facetStudiousEffects,
     ...facetSupportiveEffects,
-    ...facetTactfulEffects,
-    ...facetTeasingEffects,
-    ...facetTenderHeartedEffects,
-    ...facetThrillSeekingEffects,
-    ...facetVindictiveEffects,
-    ...facetWorkCenteredEffects,
-    ...facetZealousEffects,
-    ...initialTrustEffects,
-    ...methodRevisionEffects,
-    ...outwardEmotionalDisplayEffects,
     ...patienceEffects,
     ...playfulMannerEffects,
     ...selfConfidenceEffects,
