@@ -6,7 +6,7 @@
     ["docs/audits/2026-09-30/dice.md", "favourite", true],
     ["docs/audits/2026-09-30/dice.md", "favourite", true],
     ["docs/audits/2026-09-30/dice.md", "catalogue", true],
-    ["docs/audits/2026-09-30/dice.md", "Honourable", true],
+    ["docs/audits/2026-09-30/dice.md", "Honorable", true],
     ["docs/audits/2026-09-30/engines.md", "behaviour", true],
     ["docs/audits/2026-09-30/golden-rule.md", "behaviour", true],
     [
@@ -25,7 +25,7 @@
     ["docs/release/changes/plain-american-wording.md", "programme", true],
     [
       "docs/release/changes/team2-governing-reports-require-recorded-actions.md",
-      "Cancelled",
+      "Canceled",
       true
     ],
     ["src/presentation/mayor-executive-decision.test.ts", "cancelled", true],

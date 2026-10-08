@@ -207,6 +207,7 @@ interface Hit {
  * A literal with no whitespace and a separator in it (`civic.organise-it`,
  * `source-colour`, a URL), or a single lowercase or all-caps token (`queued`,
  * `WARD`), is a code token or an enum value, not something a player reads.
+ * british-spelling-ok: the test names this British form as an example.
  * A single Capitalized word ("Programme") still counts as a label.
  */
 function isCodeToken(text: string): boolean {
@@ -274,6 +275,7 @@ const ALLOWED_FILES: readonly {
 }[] = [
   {
     file: /^src\/simulation\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
+    // british-spelling-ok: these are real place names used to test exemptions.
     reason:
       "Census place, county and government names: Centre County, Centreville, Grey Eagle, Holiday Island, Flat Rock, Tyre, Seward",
   },
@@ -291,6 +293,7 @@ const ALLOWED_FILES: readonly {
   },
   {
     file: /^data\/research\/places\/local-institutions\.json$/,
+    // british-spelling-ok: these are real place names used to test exemptions.
     reason:
       "real names of schools, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
@@ -445,17 +448,25 @@ describe("The American English rules themselves", () => {
   };
 
   it.each([
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["The councillor spoke.", "councillor"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["We organise a rally.", "organise"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["A new colour scheme.", "colour"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["Your neighbour waves.", "neighbour"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["Cut the programme.", "programme"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["Renew your licence.", "licence"],
     ["Back in a fortnight.", "fortnight"],
     ["You wait in a long queue.", "long queue"],
     ["She rents a flat above the shop.", "flat above"],
     ["He is on holiday.", "on holiday"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["Ask your mum.", "mum"],
+    // british-spelling-ok: the test names a British form so the checker can detect it.
     ["The local authority decides.", "local authority"],
     ["The minister resigned.", "minister"],
     ["Stand for office.", "stand for office"],
