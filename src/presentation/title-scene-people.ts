@@ -248,3 +248,101 @@ export function titleScenePeople(
   }
   return people.sort((a, b) => a.depth - b.depth);
 }
+
+/** A box in percent of the picture (1672 x 941). */
+export interface PictureBox {
+  readonly left: number;
+  readonly top: number;
+  readonly right: number;
+  readonly bottom: number;
+}
+
+/**
+ * How much of a figure's canvas the person fills: the head starts a few rows
+ * below the canvas top (anchors.top 64 of 808) and the shoulders and
+ * elbows span about this share of the canvas width, centred on the foot
+ * point. The rest of the canvas is clear, so only the person is tested
+ * against the menu and the picture's edges.
+ */
+const BODY_HALF_WIDTH_OF_CANVAS = 0.28;
+const BODY_TOP_OF_CANVAS = 64 / 808;
+
+/** The part of a figure's box a person actually covers. */
+export function figureBodyBox(
+  figure: Pick<
+    SpotFigure,
+    "leftPercent" | "topPercent" | "widthPercent" | "heightPercent"
+  > &
+    Partial<Pick<SpotFigure, "clipBelowPercent">>,
+): PictureBox {
+  const centre = figure.leftPercent + figure.widthPercent / 2;
+  const half = figure.widthPercent * BODY_HALF_WIDTH_OF_CANVAS;
+  const bottom = figure.topPercent + figure.heightPercent;
+  return {
+    left: centre - half,
+    right: centre + half,
+    top: figure.topPercent + figure.heightPercent * BODY_TOP_OF_CANVAS,
+    // Behind a desk, bench or lectern only what shows above it is drawn.
+    bottom:
+      figure.clipBelowPercent === null || figure.clipBelowPercent === undefined
+        ? bottom
+        : Math.min(bottom, figure.clipBelowPercent),
+  };
+}
+
+function boxesMeet(a: PictureBox, b: PictureBox): boolean {
+  return (
+    a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+  );
+}
+
+/**
+ * Where the title's own furniture is, in percent of the picture, so nobody
+ * is drawn behind it (the menu's glass panel at the upper left), and how
+ * much of the picture the window shows, so nobody is cut by its edge.
+ */
+export interface TitleSceneRoom {
+  readonly reserved: readonly PictureBox[];
+  /** The picture as the window shows it; absent: the whole picture. */
+  readonly frame?: Pick<PictureBox, "left" | "right">;
+}
+
+/**
+ * The people who can be seen: nobody whose body would be under a reserved
+ * zone (the menu panel), and nobody cut by the left or right edge of the
+ * window. A person who cannot be seen is left out, as a spot with no pose
+ * in the pack is: nobody is drawn where they would be hidden or cut off.
+ */
+export function titlePeopleInView(
+  people: readonly TitleScenePerson[],
+  room: TitleSceneRoom,
+): readonly TitleScenePerson[] {
+  const frame = room.frame ?? { left: 0, right: 100 };
+  return people.filter((person) => {
+    const body = figureBodyBox(person);
+    return (
+      body.left >= frame.left &&
+      body.right <= frame.right &&
+      !room.reserved.some((zone) => boxesMeet(body, zone))
+    );
+  });
+}
+
+/**
+ * The light a picture is painted in, put on the people in it: a person
+ * standing in a night picture is darker and cooler than in a midday one,
+ * the same way for every picture, never one scene's own number. Midday,
+ * the light the people are drawn in, takes no filter.
+ */
+export function titlePeopleTint(variant: string | undefined): string | null {
+  switch (variant) {
+    case "night":
+      return "brightness(0.55) saturate(0.8) contrast(1.05) sepia(0.2) hue-rotate(185deg)";
+    case "morning":
+      return "sepia(0.15) saturate(1.1) brightness(1.03)";
+    case "rain":
+      return "brightness(0.82) saturate(0.85)";
+    default:
+      return null;
+  }
+}

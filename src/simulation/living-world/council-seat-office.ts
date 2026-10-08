@@ -11,12 +11,18 @@ import { COUNTY_BOARD_MEMBER } from "./local-government-seats";
  * voting preference binds to is that participation. Reading it writes nothing.
  */
 
-/** The roles that cast a ballot on the council's floor. A mayor is not one. */
-const COUNCIL_SEAT_ROLES: ReadonlySet<string> = new Set([
-  "leader:municipal-member",
-  "leader:municipal-presiding-member",
-  COUNTY_BOARD_MEMBER,
-]);
+/**
+ * The roles that cast a ballot on the council's floor. A mayor is not one.
+ * Read on first use, not at load: local-government-seats imports back into
+ * this module, and a set built at load reads the county role before it exists.
+ */
+function councilSeatRoles(): ReadonlySet<string> {
+  return new Set([
+    "leader:municipal-member",
+    "leader:municipal-presiding-member",
+    COUNTY_BOARD_MEMBER,
+  ]);
+}
 
 export interface CouncilSeatOffice {
   readonly participationId: EntityId;
@@ -33,7 +39,7 @@ export function councilSeatsHeldBy(
     ({ participation, state }) =>
       participation.kind === "leadership:municipal-office" &&
       state.roleKind !== null &&
-      COUNCIL_SEAT_ROLES.has(state.roleKind)
+      councilSeatRoles().has(state.roleKind)
         ? [
             {
               participationId: participation.id,
