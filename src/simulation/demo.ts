@@ -92,6 +92,11 @@ export interface CreateScenarioWorldOptions {
   readonly peopleCount?: number;
   /** Character catalog generation to pin every generated appearance to. */
   readonly appearanceCatalogGeneration?: number;
+  /**
+   * Fixtures that move the calendar by hand skip the mortality window, which
+   * is due on the opening day and would be left behind by the jump.
+   */
+  readonly withoutCrisisMortality?: boolean;
 }
 
 export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
@@ -650,7 +655,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return ensureCrisisMortality(world);
+  return options?.withoutCrisisMortality ? world : ensureCrisisMortality(world);
 }
 
 /**

@@ -751,6 +751,7 @@ export function createLegislativeScenario(
 
   const baseWorld = createScenarioWorld(blueprint.seed, blueprint.context, {
     peopleCount: 6,
+    withoutCrisisMortality: true,
   });
   const playerPersonId = baseWorld.personOrder[0];
   if (!playerPersonId) {
