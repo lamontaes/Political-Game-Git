@@ -160,8 +160,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-gentle",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-gentle.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-supportive",
@@ -220,8 +219,47 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-independent",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-independent.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-forgiving",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-friendly",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-generous",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-guarded",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-hostile",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-humble",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-imaginative",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-informal",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
 ];
 

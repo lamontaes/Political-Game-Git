@@ -119,12 +119,16 @@ function decisionForPerson(
         )
       : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
+  const runtimeDecisionId =
+    reader === "act-pulls" && decisionId === "contact.answer"
+      ? "people.contact-answer"
+      : decisionId;
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType: runtimeDecisionId,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
