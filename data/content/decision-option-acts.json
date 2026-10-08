@@ -82,6 +82,37 @@
       "own-home": ["change", "take-risk", "self-interest"],
       "at-home": ["keep-same", "play-safe"]
     },
+    "governing.governor-term-limit-vote": {
+      "vote-yea": ["engage", "speak-out"],
+      "vote-nay": ["engage", "speak-out"],
+      "withhold": ["withdraw", "stay-quiet", "delay"]
+    },
+    "governing.presidential-term-limit-vote": {
+      "vote-yea": ["engage", "speak-out"],
+      "vote-nay": ["engage", "speak-out"],
+      "withhold": ["withdraw", "stay-quiet", "delay"]
+    },
+    "governing:executive-order-condition": {
+      "issue": ["engage", "change", "commit"],
+      "pass": ["delay", "keep-same", "withdraw"]
+    },
+    "justice.appeal-filing": {
+      "appeal": ["confront", "speak-out", "take-risk"],
+      "accept-judgment": ["concede", "keep-same"]
+    },
+    "justice.appellate-review": {
+      "affirm": ["follow-rules", "keep-same"],
+      "reverse": ["change", "confront", "speak-out"],
+      "send-back": ["change", "follow-rules", "commit"]
+    },
+    "justice.charge": {
+      "convict": ["confront", "follow-rules", "commit"],
+      "acquit": ["trust", "delay", "withdraw"]
+    },
+    "justice.clemency-decision": {
+      "clemency:grant": ["cooperate", "help-others", "change"],
+      "clemency:deny": ["follow-rules", "keep-same", "refuse"]
+    },
     "justice.clemency-petition": {
       "petition": ["engage", "speak-out", "take-risk"],
       "wait": ["delay", "play-safe"]
@@ -93,6 +124,14 @@
     "justice.plea": {
       "plead": ["concede", "play-safe"],
       "trial": ["confront", "take-risk", "commit"]
+    },
+    "justice.pretrial-detention": {
+      "court:release-before-trial": ["trust", "change", "take-risk"],
+      "court:hold-before-trial": ["follow-rules", "play-safe", "commit"]
+    },
+    "justice.sentence": {
+      "court:community-supervision": ["change", "cooperate", "play-safe"],
+      "court:jail": ["confront", "follow-rules", "commit"]
     },
     "labor.worker-quit": {
       "continue-work": ["keep-same", "commit", "follow-rules"],
@@ -223,10 +262,22 @@
       "defer": ["delay", "play-safe"],
       "decline": ["refuse", "withdraw"]
     },
+    "press.rival-complaint": {
+      "file": ["confront", "speak-out", "follow-rules"],
+      "no-action": ["stay-quiet", "withdraw"]
+    },
+    "press.story-assignment": {
+      "take": ["engage", "speak-out", "commit"],
+      "pass": ["delay", "withdraw"]
+    },
     "press.subject-response": {
       "dispute": ["confront", "speak-out"],
       "decline": ["stay-quiet", "withdraw"],
       "no-response": ["delay"]
+    },
+    "public-service:request": {
+      "ask": ["engage", "speak-out"],
+      "wait": ["delay", "withdraw"]
     },
     "speech.react": {
       "cheered": ["engage", "speak-out"],

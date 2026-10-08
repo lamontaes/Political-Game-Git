@@ -2,7 +2,7 @@ import {
   CONDITION_PACK,
   conditionHazard,
   conditionOnsetDay,
-  startingConditionKeys,
+  startingConditionAssignments,
 } from "../../src/simulation/crisis/condition-pack";
 import { remainingDaysAfterOnset } from "../../src/simulation/crisis/death-causes";
 import {
@@ -18,9 +18,9 @@ import type { EntityId, IsoDate } from "../../src/simulation/types";
 
 /*
  * Ruling 39: a synthetic cohort, with no world, clock or households. Person
- * records with ages and sexes, their starting conditions drawn exactly as
- * world creation draws them (startingConditionKeys and conditionHazard on the
- * same seed), stepped a year at a time with the functions the mortality
+ * records with ages and sexes, their starting conditions assigned exactly as
+ * world creation assigns them (startingConditionAssignments), stepped a year
+ * at a time with the functions the mortality
  * window and the onset handlers call: conditionOnsetDay for each condition not
  * held, firstThresholdDay for the strain crossing, remainingDaysAfterOnset for
  * the serious episode's days. Deaths per person-year by age band are compared
@@ -121,6 +121,15 @@ export function runSyntheticCohort(
   const tablePersonYears = zero();
   let firstYearDeaths = 0;
   let tableFirstYearDeaths = 0;
+  const startingConditions = startingConditionAssignments(
+    people.map((person) => ({
+      personId: person.id,
+      placeKey: "synthetic-cohort",
+      age: daysBetween(person.birthDate, start) / 365.25,
+      category: person.sex,
+      monthlyHouseholdIncomeMinor: null,
+    })),
+  );
   for (const person of people) {
     const ageAt = (date: IsoDate) =>
       daysBetween(person.birthDate, date) / 365.25;
@@ -136,9 +145,7 @@ export function runSyntheticCohort(
       alive -= died;
     }
     // Starting conditions, as the window that first exposes them writes them.
-    const held = new Set(
-      startingConditionKeys(seed, person.id, startAge, person.sex),
-    );
+    const held = new Set(startingConditions.get(person.id) ?? []);
     const factors: { effectiveAt: IsoDate; micros: number }[] = [...held].map(
       (key) => ({
         effectiveAt: start,
