@@ -37,6 +37,7 @@ import {
 import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
 import {
   docketBill,
+  readDocket,
   recompileSavedBill,
   type DocketBill,
 } from "./legislation-docket";
@@ -84,12 +85,10 @@ export type LegislativeBargainingEntry =
 
 export interface OpenLegislativeBargainingInput {
   readonly playerPersonId: EntityId;
-  /**
-   * Which bill on the player's docket the sitting is about.
-   *
-   * Required. The room uses the bill compiled from this docket record.
-   */
+  /** Legacy docket selector; new callers identify the canonical measure. */
   readonly docketKey?: string;
+  /** The canonical agenda measure, including a measure another member filed. */
+  readonly measureStableKey?: string;
 }
 
 export function openLegislativeBargaining(
@@ -127,20 +126,6 @@ export function openLegislativeBargaining(
       reason: "The governing state has no accepted rule-pack surface.",
     };
   }
-  if (scenarioKey.startsWith("institution:"))
-    return {
-      kind: "unavailable",
-      reason:
-        "This institution has no supplied deliberation brief or recorded member decisions for this bill. Its supported procedural actions remain available in the office.",
-    };
-  const docketKey = input.docketKey;
-  if (docketKey === undefined) {
-    return {
-      kind: "unavailable",
-      reason:
-        "Choose a bill from this member's docket to open its bargaining room.",
-    };
-  }
   const blueprint = legislativeBlueprint(scenarioKey);
   const sessionRefusal = regularSessionActionRefusal(
     legislativeRulePackForWorld(world, blueprint.pack.packId),
@@ -148,15 +133,34 @@ export function openLegislativeBargaining(
   );
   if (sessionRefusal) return { kind: "unavailable", reason: sessionRefusal };
 
-  const docket = docketBill(world, {
-    scenarioKey,
-    playerPersonId: input.playerPersonId,
-    docketKey,
-  });
+  const docket = input.measureStableKey
+    ? (readDocket(world, {
+        scenarioKey,
+        playerPersonId: input.playerPersonId,
+      }).find((bill) => bill.measureStableKey === input.measureStableKey) ??
+      null)
+    : input.docketKey !== undefined
+      ? docketBill(world, {
+          scenarioKey,
+          playerPersonId: input.playerPersonId,
+          docketKey: input.docketKey,
+        })
+      : (readDocket(world, {
+          scenarioKey,
+          playerPersonId: input.playerPersonId,
+        }).find((bill) => {
+          if (bill.jurisdictionId !== governingJurisdictionId) return false;
+          const position = measurePosition(world, bill.measureId);
+          return (
+            position.phase === "on-floor" &&
+            position.chamberKey === memberSeat.chamberKey
+          );
+        }) ?? null);
   if (!docket) {
     return {
       kind: "unavailable",
-      reason: "That bill is not on this character's docket.",
+      reason:
+        "The bill has not been taken up in this world; open it through the office first.",
     };
   }
   const measureStableKey = docket.measureStableKey;
