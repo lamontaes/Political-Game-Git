@@ -429,7 +429,7 @@ describe("A chief executive's term, as the executive-term consumer reads it", ()
       stableKey: "three-terms",
       measureId: scenario.measureId,
       officeKey: GOVERNOR,
-      field: "executive.term.limit",
+      field: "term.limit",
       value: {
         maxConsecutiveTerms: 3,
         maxLifetimeTerms: null,
@@ -450,7 +450,7 @@ describe("A chief executive's term, as the executive-term consumer reads it", ()
     const query = {
       jurisdiction: "US-KY",
       officeKey: GOVERNOR,
-      field: "executive.term.limit" as const,
+      field: "term.limit" as const,
       onDate: makeIsoDate("2026-07-15"),
     };
     const compiled = {
@@ -499,7 +499,7 @@ describe("A chief executive's term, as the executive-term consumer reads it", ()
     const base = {
       measureId: scenario.measureId,
       officeKey: GOVERNOR,
-      field: "executive.term.limit",
+      field: "term.limit",
     };
     expect(() =>
       fileRuleChangeProvision(scenario.world, {
@@ -534,6 +534,47 @@ describe("A chief executive's term, as the executive-term consumer reads it", ()
         value: null,
       }),
     ).toThrow(/KY's own offices/);
+  });
+
+  it("uses the same term.limit field for a legislative chamber", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const change = {
+      maxConsecutiveTerms: 4,
+      maxLifetimeTerms: null,
+      lookbackYears: null,
+    };
+    const filed = fileRuleChangeProvision(scenario.world, {
+      stableKey: "house-term-limit",
+      measureId: scenario.measureId,
+      officeKey: HOUSE,
+      field: "term.limit",
+      value: change,
+    });
+    const query = {
+      jurisdiction: "KY",
+      officeKey: HOUSE,
+      field: "term.limit" as const,
+      onDate: makeIsoDate("2026-07-15"),
+    };
+    expect(
+      ruleValueInWorld(filed, query, {
+        maxConsecutiveTerms: 2,
+        maxLifetimeTerms: null,
+        lookbackYears: null,
+      }).value,
+    ).toEqual({
+      maxConsecutiveTerms: 2,
+      maxLifetimeTerms: null,
+      lookbackYears: null,
+    });
+    const enacted = enact(scenario, filed, "2026-07-15");
+    expect(
+      ruleValueInWorld(enacted, query, {
+        maxConsecutiveTerms: 2,
+        maxLifetimeTerms: null,
+        lookbackYears: null,
+      }).value,
+    ).toEqual(change);
   });
 });
 
