@@ -1073,11 +1073,12 @@
       "outcome": "transit.ridership",
       "policyArea": "transit",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9"
+      "recipientGroup": "jurisdiction residents (estimated transit service opportunities)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9; recipient estimate: FTA National Transit Database 2024 service and unlinked passenger trips per jurisdiction resident, using the recorded population denominators. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: service and ridership starting rates use the medians of the 52 recorded FTA 2024 place rates, as documented in the outcome-web placeholder ledger. This estimates a resident's transit service opportunity; individual trips, transit use, fare payments, and geographic access are not recorded by this landing.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "cannabis-sales-to-overdose-deaths",
@@ -1096,11 +1097,12 @@
       "outcome": "transit.service-access",
       "policyArea": "transit",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)"
+      "recipientGroup": "jurisdiction residents (estimated transit service opportunities)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses); recipient estimate: FTA National Transit Database 2024 service and unlinked passenger trips per jurisdiction resident, using the recorded population denominators. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: service and ridership starting rates use the medians of the 52 recorded FTA 2024 place rates, as documented in the outcome-web placeholder ledger. This estimates a resident's transit service opportunity; individual trips, transit use, fare payments, and geographic access are not recorded by this landing.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "farmland-easements-to-farmland-lost",
@@ -1152,11 +1154,12 @@
       "outcome": "transit.ridership",
       "policyArea": "transit",
       "sourceArea": "transit.service-access:pct-moved-by-causes",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
+      "recipientGroup": "jurisdiction residents (estimated transit service opportunities)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf; recipient estimate: FTA National Transit Database 2024 service and unlinked passenger trips per jurisdiction resident, using the recorded population denominators. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: service and ridership starting rates use the medians of the 52 recorded FTA 2024 place rates, as documented in the outcome-web placeholder ledger. This estimates a resident's transit service opportunity; individual trips, transit use, fare payments, and geographic access are not recorded by this landing.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-deficit-to-borrowing-cost",
@@ -1226,8 +1229,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 82,
-    "place-number-only": 13,
+    "person-linked": 85,
+    "place-number-only": 10,
     "no-live-consumer": 2,
     "budget-only": 4
   }
