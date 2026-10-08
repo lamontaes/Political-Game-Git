@@ -1,0 +1,35 @@
+{
+  "version": "b15-subpoena-rules/v1",
+  "researchRequest": "state-and-local-investigative-subpoena-authority",
+  "rows": [
+    {
+      "bodyKind": "congressional-committee",
+      "subpoenaPower": true,
+      "basis": "known",
+      "citation": "2 U.S.C. § 192",
+      "sourceTitle": "Contempt of Congress",
+      "sourceUrl": "https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title2-section192&num=0&edition=prelim",
+      "note": "Federal law provides a criminal penalty for a person who, after summons from either House or a committee, refuses to attend, testify or produce papers. Committee rules set the process and scope."
+    },
+    {
+      "bodyKind": "state-legislature",
+      "subpoenaPower": true,
+      "basis": "estimated",
+      "estimatedFrom": "NCSL, Inside the Legislative Process; median of the researched state legislative bodies",
+      "citation": null,
+      "sourceTitle": "NCSL, Inside the Legislative Process",
+      "sourceUrl": "https://www.ncsl.org/about-state-legislatures/inside-the-legislative-process",
+      "note": "Comparative estimate for a state legislative committee. The current committee rules for the particular state have not been read."
+    },
+    {
+      "bodyKind": "state-ethics-board",
+      "subpoenaPower": true,
+      "basis": "estimated",
+      "estimatedFrom": "NCSL ethics commission comparison; median of researched state ethics bodies",
+      "citation": null,
+      "sourceTitle": "NCSL, State Ethics Commissions",
+      "sourceUrl": "https://www.ncsl.org/ethics/state-ethics-commissions",
+      "note": "Comparative estimate for a state ethics body. The current enabling law for the particular body has not been read."
+    }
+  ]
+}

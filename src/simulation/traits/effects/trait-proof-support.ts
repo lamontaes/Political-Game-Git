@@ -118,7 +118,8 @@ function decisionForPerson(
           loadedTraitRegistry(),
           personId,
           stageId,
-          decisionId,        )
+          decisionId,
+        )
       : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declarationDecisionId =
