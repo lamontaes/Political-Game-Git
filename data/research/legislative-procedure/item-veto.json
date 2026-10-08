@@ -742,6 +742,7 @@
     {
       "place": "District of Columbia",
       "code": "DC",
+      "sourcedExecutiveTitle": "Mayor of the District of Columbia",
       "itemVeto": "yes",
       "scope": "appropriations-only",
       "reduction": "no",
