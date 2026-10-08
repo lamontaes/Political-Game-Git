@@ -50,21 +50,9 @@ export function ModeledAccountHistory({
     >
       <h4 id="modeled-account-history-title">Modeled account history</h4>
       {history.status === "no-account" ? (
-        <p data-testid="modeled-account-none">{history.reason}</p>
+        <p data-testid="modeled-account-none" data-problem="no-account" />
       ) : (
         <>
-          <p>
-            The game&rsquo;s modeled public receipts account for{" "}
-            {history.jurisdictionLabel}: money actually collected from enacted
-            taxes and paid out for authorized services in this life. It is not
-            the state treasury, and it is not added to the budget figures or
-            reference statistics on this page.
-          </p>
-          <p data-testid="modeled-account-coverage">
-            Coverage: {history.openedAt} through {history.asOf}. Currency:{" "}
-            {history.openingBalance.currency}. Each row keeps its recorded
-            settlement period and outcome ID.
-          </p>
           <dl className="modeled-account-totals">
             <div>
               <dt>Opened</dt>
@@ -89,21 +77,21 @@ export function ModeledAccountHistory({
               <dd data-testid="modeled-account-balance">
                 {history.balance.status === "established"
                   ? `${usd(history.balance.balance)} on ${history.balance.asOf}`
-                  : history.balance.reason}
+                  : null}
               </dd>
             </div>
           </dl>
           {history.graph ? (
             <EconomicGraph graph={history.graph} />
           ) : (
-            <p data-testid="modeled-account-no-transfers">Transfers: none</p>
+            <p
+              data-testid="modeled-account-no-transfers"
+              data-problem="no-transfers"
+            />
           )}
           {history.entries.length > 0 ? (
             <div className="modeled-account-records">
               <table>
-                <caption>
-                  Recorded transfers, in the order they happened
-                </caption>
                 <thead>
                   <tr>
                     <th scope="col">Date</th>
