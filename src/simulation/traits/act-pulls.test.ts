@@ -5,6 +5,7 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
+import { RATE_OPTIONS } from "../macro-economy/rate-choice";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -273,6 +274,7 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
