@@ -7,6 +7,8 @@ describe("the opportunistic trait-act table reading", () => {
       "personality-v1:facet-opportunistic",
       "career.consider-another-term",
       "session-81-opportunistic-proof",
+      [],
+      true,
     );
     expect(proof.high.choice).toBe("seek");
     expect(proof.high.reason).toEqual(expect.any(String));

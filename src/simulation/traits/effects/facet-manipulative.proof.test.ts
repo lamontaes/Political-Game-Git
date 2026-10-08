@@ -19,6 +19,7 @@ describe("the manipulative facet difference in a random new game", () => {
       "press.subject-response",
       "s15-proof-facet-manipulative",
       [baseline],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("decline");

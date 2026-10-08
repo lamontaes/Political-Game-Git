@@ -7,6 +7,8 @@ describe("the meticulous trait-act table reading", () => {
       "personality-v1:facet-meticulous",
       "career.consider-another-term",
       "session-80-meticulous-proof",
+      [],
+      true,
     );
     expect(proof.high.choice).toBe("seek");
     expect(proof.high.reason).toEqual(expect.any(String));
