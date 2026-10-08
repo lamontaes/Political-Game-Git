@@ -2,10 +2,10 @@ import { describe, expect, it } from "vitest";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import surfaces from "../../art/backdrops/surfaces.json" with { type: "json" };
 import { BODY_POSES } from "./appearance-engine/pack";
-import { spotView, type SpotFacing } from "./backdrop-people";
+import { spotPose, spotView, type SpotFacing } from "./backdrop-people";
 import { SCENE_REGISTRY } from "./scene-registry";
 
-// The audit records current gaps without supplying art or changing runtime data.
+// Staging is the source of truth for room people and their painted surfaces.
 const expectedViews: Record<SpotFacing, string> = {
   viewer: "front",
   left: "three-quarter",
@@ -14,7 +14,7 @@ const expectedViews: Record<SpotFacing, string> = {
 };
 
 describe("one staging slot contract", () => {
-  it("records facing and pose gaps without changing the runtime contract", () => {
+  it("maps each staging facing to its required view and keeps lean as a pose", () => {
     const facingGaps = Object.entries(expectedViews)
       .map(([facing, expected]) => ({
         facing,
@@ -22,28 +22,27 @@ describe("one staging slot contract", () => {
         actual: spotView({ x: 50, y: 75, facing: facing as SpotFacing }),
       }))
       .filter(({ expected, actual }) => expected !== actual);
-    const leanMissing = !BODY_POSES.includes(
-      "lean" as (typeof BODY_POSES)[number],
-    );
-    process.stdout.write(
-      `Unresolved facing gaps: ${JSON.stringify(facingGaps)}; lean missing: ${leanMissing}.\n`,
-    );
-    // The pack now draws a person seen from behind, so no facing is a gap.
     expect(facingGaps).toEqual([]);
-    expect(leanMissing).toBe(true);
+    expect(BODY_POSES).toContain("lean");
+    expect(
+      spotPose({ x: 50, y: 75, pose: "lean" }, "idle", "slot-contract"),
+    ).toBe("lean");
   });
 
-  it("records staged places without surface declarations", () => {
+  it("declares every staged place in the surface registry", () => {
     const missing = Object.keys(staging.places).filter(
       (place) => !Object.hasOwn(surfaces.places, place),
     );
     process.stdout.write(
       `Slot surface coverage: ${Object.keys(staging.places).length} staged places; ${Object.keys(surfaces.places).length} declarations; missing: ${JSON.stringify(missing)}.\n`,
     );
-    expect(missing.length).toBeGreaterThan(0);
+    expect(missing).toEqual([]);
+    for (const stage of Object.values(staging.places)) {
+      expect(Array.isArray(stage.surfaceSlots)).toBe(true);
+    }
   });
 
-  it("references measured surfaces without inventing new geometry", () => {
+  it("keeps measured surface slots linked to their declarations", () => {
     let checked = 0;
     const declared = surfaces.places as Record<
       string,

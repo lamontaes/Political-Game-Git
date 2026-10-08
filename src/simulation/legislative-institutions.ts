@@ -2,26 +2,14 @@ import {
   DEMO_START_DATE,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
-import {
-  federalRulePackById,
-  US_CONGRESS_RULE_PACK,
-} from "./congress-rule-pack";
+import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import {
-  legislatureForState,
-  legislatureProfilePackById,
-} from "./legislature-game-profile";
-import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
+import { legislatureForState } from "./legislature-game-profile";
+import { LEGISLATIVE_RULE_PACKS, rulePackById } from "./legislature-rule-packs";
 import type { LegislativeRulePack } from "./legislature-rules";
-import {
-  localFiscalGameAuthorityForRulePackId,
-  localOrdinanceGameRulePackById,
-} from "./local-ordinance-game-profile";
 import { withCommitteeStandIns } from "./standing-committee";
-import {
-  localFiscalAuthorityScopeForRulePackId,
-  municipalRulePackById,
-} from "./municipal-government";
+import { municipalRulePackById } from "./municipal-rule-registry";
+import { localFiscalAuthorityScopeForRulePackId } from "./municipal-government";
 import {
   lifePlaceByKey,
   lifePlaceByJurisdictionId,
@@ -67,28 +55,20 @@ export function legislativePackForWorkKey(
   const institutionPackId = key.startsWith("institution:")
     ? key.slice("institution:".length)
     : null;
-  const federalPack = institutionPackId
-    ? federalRulePackById(institutionPackId)
-    : null;
-  if (federalPack?.jurisdictionKey === "US") return federalPack;
+  if (institutionPackId) {
+    // Finding a municipal procedure does not grant fiscal work authority.
+    // Keep that independent eligibility boundary before the shared lookup.
+    if (
+      municipalRulePackById(institutionPackId) &&
+      !localFiscalAuthorityScopeForRulePackId(institutionPackId)
+    )
+      return null;
+    return rulePackById(institutionPackId, false);
+  }
   const compiled = LEGISLATIVE_RULE_PACKS.find(
-    (pack) =>
-      legislativeWorkKey(pack) === key || `institution:${pack.packId}` === key,
+    (pack) => legislativeWorkKey(pack) === key,
   );
-  // A researched chamber whose committees are unread refers its bills to the
-  // stand-in standing committee, as `rulePackById` does.
-  const statePack =
-    (compiled ? withCommitteeStandIns(compiled) : null) ??
-    (institutionPackId
-      ? (legislatureProfilePackById(institutionPackId) ??
-        townCouncilProfilePackById(institutionPackId) ??
-        (localFiscalGameAuthorityForRulePackId(institutionPackId)
-          ? localOrdinanceGameRulePackById(institutionPackId)
-          : localFiscalAuthorityScopeForRulePackId(institutionPackId)
-            ? municipalRulePackById(institutionPackId)
-            : null))
-      : null);
-  return statePack;
+  return compiled ? rulePackById(compiled.packId) : null;
 }
 
 /*

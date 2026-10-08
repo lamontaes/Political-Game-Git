@@ -9,6 +9,11 @@ import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import { MUNICIPAL_RULE_PACKS_JSON } from "./municipal-rule-registry.generated";
 
 describe("synchronous municipal registry on a clean start", () => {
+  it("resolves a saved town council before the municipal inventory loads", () => {
+    const savedPackId = "us-al-town-council-profile-v1:gus2025:100019";
+    expect(rulePackById(savedPackId).packId).toBe(savedPackId);
+    expect(rulePackById(savedPackId)).not.toBeInstanceOf(Promise);
+  });
   it("resolves nonmunicipal rules without inventory or initialization", () => {
     const pack = rulePackById("us-ky-general-assembly-v1");
     expect(pack.packId).toBe("us-ky-general-assembly-v1");

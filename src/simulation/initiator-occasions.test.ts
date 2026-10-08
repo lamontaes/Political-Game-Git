@@ -7,6 +7,7 @@ import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "./people-traits";
 import { peopleTraitId, TRAIT_SHAPES } from "./people-trait-definitions";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import { recordRelationshipInteraction } from "./records";
 
 import {
   createNewGameWorld,
@@ -59,6 +60,62 @@ function hostsWithHomes(world: World, playerId: EntityId): EntityId[] {
 }
 
 describe("a reason to have people over, read from the host's own life", () => {
+  afterEach(() => vi.restoreAllMocks());
+  it("offers a date to a known person through the date proposal evaluator", () => {
+    const { world, personId } = start();
+    const host = hostsWithHomes(world, personId)[0]!;
+    const met = recordRelationshipInteraction(world, {
+      stableKey: "b21-date-invitation:known-person",
+      personIds: [host, personId],
+      eventId: null,
+      occurredAt: world.currentDate,
+      kind: "support:campaign",
+      change: "strengthened",
+      significance: "meaningful",
+      summary: "They spent meaningful time together.",
+      tags: [],
+    });
+    const occasion = initiatorOccasions(met, host).find(
+      (entry) => entry.reason === "date",
+    );
+    expect(occasion).toBeDefined();
+    expect(weekday(occasion!.date)).toBe(6);
+    expect(occasion!.date >= addDays(world.currentDate, 2)).toBe(true);
+    expect(occasion!.sourceRecordId).toBe(
+      met.history.relationshipInteractions.at(-1)!.id,
+    );
+
+    const original = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation((current, input) => {
+        const actual = original(current, input);
+        return input.decisionType === "people.date-proposal"
+          ? {
+              ...actual,
+              outcomeKind: "selected",
+              selectedOptionKey: `date:${personId}`,
+            }
+          : actual;
+      });
+    expect(hostDecidesToAsk(met, host, personId, occasion!)).toBe(met);
+    expect(
+      spy.mock.results.some(
+        (result) =>
+          result.type === "return" &&
+          result.value.context.decisionType === "people.date-proposal",
+      ),
+    ).toBe(true);
+    expect(
+      spy.mock.results.some(
+        (result) =>
+          result.type === "return" &&
+          result.value.context.decisionType === "people.date-answer",
+      ),
+    ).toBe(false);
+    expect(met.history.events).toEqual(world.history.events);
+  });
+
   it("is a birthday only in the days before it, and names the real age and date", () => {
     const { world, personId } = start();
     const hosts = hostsWithHomes(world, personId);
@@ -107,9 +164,11 @@ describe("a reason to have people over, read from the host's own life", () => {
     for (const id of homeless) {
       const birthday =
         `${world.currentDate.slice(0, 4)}${world.people[id]!.birthDate.slice(4)}` as IsoDate;
-      expect(initiatorOccasions(on(world, addDays(birthday, -5)), id)).toEqual(
-        [],
-      );
+      expect(
+        initiatorOccasions(on(world, addDays(birthday, -5)), id).filter(
+          (occasion) => occasion.reason !== "date",
+        ),
+      ).toEqual([]);
     }
   });
 

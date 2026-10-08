@@ -1,5 +1,5 @@
 import { execFileSync } from "child_process";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
@@ -125,7 +125,11 @@ describe("the project is written in American English", () => {
   it("has no British spelling, day-first date or metric player text", () => {
     const findings: string[] = [];
     for (const file of scanned) {
-      const text = readFileSync(path.join(ROOT, file), "utf8");
+      const fullPath = path.join(ROOT, file);
+      // Sparse worktrees list omitted files in `git ls-files`; only scan the
+      // files materialized in this checkout. Full CI checkouts still scan all.
+      if (!existsSync(fullPath)) continue;
+      const text = readFileSync(fullPath, "utf8");
       if (text.includes("\u0000")) continue;
       for (const finding of scan(file, text))
         findings.push(

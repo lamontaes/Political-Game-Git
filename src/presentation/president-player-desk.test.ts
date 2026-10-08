@@ -292,7 +292,7 @@ describe("player President shares the executive desk and legal window", () => {
           effectiveAt: isolated.currentDate,
           reasonKey: "civic:fixture-isolation",
           context:
-            "Scoped executive due-handler fixture; other due families are cancelled, not skipped.",
+            "Scoped executive due-handler fixture; other due families are canceled, not skipped.",
         });
       }
       const late: World = {
@@ -338,7 +338,7 @@ describe("player President shares the executive desk and legal window", () => {
             effectiveAt: oldSave.currentDate,
             reasonKey: "civic:fixture-isolation",
             context:
-              "Old-save executive fixture; all other due families are explicitly cancelled.",
+              "Old-save executive fixture; all other due families are explicitly canceled.",
           });
         }
         oldSave = {
