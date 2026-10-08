@@ -39,8 +39,7 @@ import severityByOffense from "../../../data/research/crime/lived-outcome-severi
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind =
-  "job-lost" | "school-move" | "county-justice" | "crime-suffered";
+export type LivedOutcomeKind = "job-lost" | "school-move" | "county-justice";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind | CrimeSufferedOutcomeKind;
@@ -50,7 +49,6 @@ export interface LivedOutcome {
   readonly direction: "cost" | "gain";
   /** How big it was next to the person's month's pay. */
   readonly felt: Exclude<LawExposureFeltSize, null>;
-  readonly estimatedFrom?: string;
   /** A saved act names its own responsible official, including after turnover. */
   readonly answeringPersonId?: EntityId;
   readonly summary?: string;
@@ -65,6 +63,8 @@ export interface LivedOutcome {
  * the governor where no local government is seated).
  */
 export type AnsweringOffice = "state-executive" | "local-executive";
+
+export type CrimeSufferedOutcomeKind = "crime-suffered";
 
 /**
  * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
@@ -85,19 +85,17 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   // government, where they live now.
   "school-move": "local-executive",
   "county-justice": "local-executive",
-  "crime-suffered": "local-executive",
 };
 
 /** What the person thought over, in the words of their reflection event. */
-export const LIVED_OUTCOME_SUMMARY: Readonly<
-  Record<LivedOutcomeKind, string> & Record<CrimeSufferedOutcomeKind, string>
-> = {
-  "crime-suffered": "",
-  "job-lost": "losing a job they did not choose to leave",
-  "school-move": "their child having to leave school in the middle of the year",
-  "county-justice": "county-office-work",
-  "crime-suffered": "",
-};
+// prettier-ignore
+export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string> & Partial<Record<CrimeSufferedOutcomeKind, string>>> =
+  {
+    "job-lost": "losing a job they did not choose to leave",
+    "school-move":
+      "their child having to leave school in the middle of the year",
+    "county-justice": "county-office-work",
+  };
 
 /**
  * One reader per kind, each a thin adapter over the reader its producer
@@ -183,7 +181,6 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           sourceRecordId,
           direction: "cost" as const,
           felt,
-          estimatedFrom: severity.estimatedFrom,
           summary: event.summary ?? "",
           explanationKey:
             "lived-outcome:crime-suffered:estimated-from:" +
