@@ -14587,10 +14587,199 @@
           "facing": "left",
           "depth": 90,
           "role": "general",
-          "id": "state-legislative-chamber-bicameral:spot:9"
+          "id": "state-legislative-chamber-bicameral:spot:9",
+          "seatY": 84.5
+        },
+        {
+          "x": 50,
+          "y": 50.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 50.5,
+          "seatY": 45.0,
+          "group": "rostrum",
+          "role": "presiding",
+          "id": "state-legislative-chamber-bicameral:spot:10",
+          "floor": "rostrum"
+        },
+        {
+          "x": 8,
+          "y": 82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82,
+          "seatY": 76.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:11"
+        },
+        {
+          "x": 18,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "seatY": 72.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:12"
+        },
+        {
+          "x": 29,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 68.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:13"
+        },
+        {
+          "x": 40,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 64.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:14"
+        },
+        {
+          "x": 8,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 64.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:15"
+        },
+        {
+          "x": 18,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 60.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:16"
+        },
+        {
+          "x": 29,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 56.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:17"
+        },
+        {
+          "x": 40,
+          "y": 59,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 59,
+          "seatY": 53.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:18"
+        },
+        {
+          "x": 92,
+          "y": 82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82,
+          "seatY": 76.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:19"
+        },
+        {
+          "x": 82,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "seatY": 72.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:20"
+        },
+        {
+          "x": 71,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 68.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:21"
+        },
+        {
+          "x": 60,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 64.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:22"
+        },
+        {
+          "x": 92,
+          "y": 70,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 70,
+          "seatY": 64.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:23"
+        },
+        {
+          "x": 82,
+          "y": 66,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 66,
+          "seatY": 60.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:24"
+        },
+        {
+          "x": 71,
+          "y": 62,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 62,
+          "seatY": 56.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:25"
+        },
+        {
+          "x": 60,
+          "y": 59,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 59,
+          "seatY": 53.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-bicameral:spot:26"
         }
       ],
-      "measuredFrom": "two member desks 0.78 m at different depths (x25 foot 76 top 61; x33 foot 68 top 56.5) give horizon 42-44 and 0.58-0.59; nearer-aisle desk (x37 foot 64.5 top 53.5) 0.66; rostrum platform about 0.45 m above the floor (two steps, base 61.5) scaled from the main floor at the same depth gives 0.82",
+      "measuredFrom": "two member desks 0.78 m at different depths (x25 foot 76 top 61; x33 foot 68 top 56.5) give horizon 42-44 and 0.58-0.59; nearer-aisle desk (x37 foot 64.5 top 53.5) 0.66; rostrum platform about 0.45 m above the floor (two steps, base 61.5) scaled from the main floor at the same depth gives 0.82; additional chair contacts visually estimated from the native midday frame for ART-5",
       "surfaceSlots": []
     },
     "state-legislative-chamber-unicameral": {
@@ -14691,9 +14880,185 @@
           "depth": 96,
           "role": "general",
           "id": "state-legislative-chamber-unicameral:spot:8"
+        },
+        {
+          "x": 12,
+          "y": 86,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 86,
+          "seatY": 80.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:9"
+        },
+        {
+          "x": 28,
+          "y": 82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82,
+          "seatY": 76.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:10"
+        },
+        {
+          "x": 42,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 71.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:11"
+        },
+        {
+          "x": 12,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 70.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:12"
+        },
+        {
+          "x": 28,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "seatY": 66.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:13"
+        },
+        {
+          "x": 42,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 61.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:14"
+        },
+        {
+          "x": 12,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 59.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:15"
+        },
+        {
+          "x": 28,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 55.5,
+          "group": "members-left",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:16"
+        },
+        {
+          "x": 88,
+          "y": 86,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 86,
+          "seatY": 80.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:17"
+        },
+        {
+          "x": 72,
+          "y": 82,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82,
+          "seatY": 76.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:18"
+        },
+        {
+          "x": 58,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 71.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:19"
+        },
+        {
+          "x": 88,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 70.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:20"
+        },
+        {
+          "x": 72,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "seatY": 66.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:21"
+        },
+        {
+          "x": 58,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 61.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:22"
+        },
+        {
+          "x": 88,
+          "y": 65,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 65,
+          "seatY": 59.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:23"
+        },
+        {
+          "x": 72,
+          "y": 61,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 61,
+          "seatY": 55.5,
+          "group": "members-right",
+          "role": "member-at-dais",
+          "id": "state-legislative-chamber-unicameral:spot:24"
         }
       ],
-      "measuredFrom": "horizon from the two aisle stripes converging at x50 y40; member desk 0.78 m (x33 foot 78.2 top 61.7) 0.55 and nearer desk (x20 foot 93.8 top 74.7) 0.46-0.6; three rostrum steps 0.54 m (base 53, top 49.3) 0.54; averaged 0.58. Presiding tier from the presiding chair (0.6 m wide spans 75 px = 8 percent of the height, back 1.1 m, top 35.5) puts its floor at y 50.2 (hidden behind the desk), 1.3",
+      "measuredFrom": "horizon from the two aisle stripes converging at x50 y40; member desk 0.78 m (x33 foot 78.2 top 61.7) 0.55 and nearer desk (x20 foot 93.8 top 74.7) 0.46-0.6; three rostrum steps 0.54 m (base 53, top 49.3) 0.54; averaged 0.58. Presiding tier from the presiding chair (0.6 m wide spans 75 px = 8 percent of the height, back 1.1 m, top 35.5) puts its floor at y 50.2 (hidden behind the desk), 1.3; additional member-chair contacts visually estimated from the native midday frame for ART-5",
       "surfaceSlots": []
     },
     "store": {
