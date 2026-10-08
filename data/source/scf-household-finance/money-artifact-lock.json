@@ -1,0 +1,92 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "scf-index",
+      "bytes": {
+        "length": 102594,
+        "sha256": "6e9f7131aa455a087adb4aad2de07dfb4909df8645f9847cf91eceaff8b1b42e"
+      },
+      "localPath": "data/source/scf-household-finance/raw/scf-index.html",
+      "mediaType": "text/html",
+      "provider": "Federal Reserve Board",
+      "publisher": {
+        "documentationUrl": "https://www.federalreserve.gov/econres/scfindex.htm",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2022 SCF"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 102594,
+        "retrievedAt": "2026-09-27T00:06:25.691Z",
+        "url": "https://www.federalreserve.gov/econres/scfindex.htm"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "scf-public-tables",
+      "bytes": {
+        "length": 2549504,
+        "sha256": "d86453504a7e0b6b4717e20257302c5855d0c822d645d2df3e4ea575877a0b9e"
+      },
+      "localPath": "data/source/scf-household-finance/raw/scf2022-public-nominal.xlsx",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "provider": "Federal Reserve Board",
+      "publisher": {
+        "documentationUrl": "https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "1989–2022"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2549504,
+        "retrievedAt": "2026-09-27T00:07:26.870Z",
+        "url": "https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "scf-extract-2022",
+      "bytes": {
+        "length": 2231649,
+        "sha256": "9721aa73ef1df237d0c5a7ce2578ff9a45c8e5a2ef8efc4fab132c6885ace050"
+      },
+      "localPath": "data/source/scf-household-finance/raw/scfp2022excel.zip",
+      "mediaType": "application/zip",
+      "provider": "Federal Reserve Board",
+      "publisher": {
+        "documentationUrl": "https://www.federalreserve.gov/econres/files/scfp2022excel.zip",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2022"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2231649,
+        "retrievedAt": "2026-09-27T00:07:29.533Z",
+        "url": "https://www.federalreserve.gov/econres/files/scfp2022excel.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "scf-household-finance"
+}

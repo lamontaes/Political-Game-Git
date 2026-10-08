@@ -1,0 +1,324 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "cpi-summaries",
+      "bytes": {
+        "length": 12050838,
+        "sha256": "a7933e4c716e49dbcc25d3246c79e80470dfe066bb2fa9471282daae3aeafa4a"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.2.Summaries",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 12050838,
+        "retrievedAt": "2026-09-27T00:06:25.923Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.2.Summaries"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-series",
+      "bytes": {
+        "length": 1339447,
+        "sha256": "f7367ea7851338d4d9165061bfb14051030f07f073dc12d007cdff2becd2320d"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.series",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.series",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1339447,
+        "retrievedAt": "2026-09-27T00:06:26.292Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.series"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-definitions",
+      "bytes": {
+        "length": 14644,
+        "sha256": "1394b7f4210fda3d6dab62437bae5bd3664ed040612dd3df6268bc4e2911a471"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.txt",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.txt",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 14644,
+        "retrievedAt": "2026-09-27T00:06:26.775Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.txt"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-food",
+      "bytes": {
+        "length": 6672868,
+        "sha256": "b408535e87d2a30153032171bd5789026fc61b7f443e7e1f906f4a616bb4720c"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.11.USFoodBeverage",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.11.USFoodBeverage",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 6672868,
+        "retrievedAt": "2026-09-27T00:20:51.439Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.11.USFoodBeverage"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-housing",
+      "bytes": {
+        "length": 2703462,
+        "sha256": "f8d97f2dce4af234f6be7c22a6221ac00d9c30bddb7fee71942128cf31496276"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.12.USHousing",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.12.USHousing",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2703462,
+        "retrievedAt": "2026-09-27T00:20:53.850Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.12.USHousing"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-apparel",
+      "bytes": {
+        "length": 1404085,
+        "sha256": "9e2f5c88595be3e1733a7addc5e076d1c7c8a30d8e5d95dae6c5b7f741f53039"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.13.USApparel",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.13.USApparel",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1404085,
+        "retrievedAt": "2026-09-27T00:20:56.041Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.13.USApparel"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-transportation",
+      "bytes": {
+        "length": 2239806,
+        "sha256": "c124062eeb463405a84ff06d82e5e8a2c47886716b57e07ea859bf8376cfc35e"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.14.USTransportation",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.14.USTransportation",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 2239806,
+        "retrievedAt": "2026-09-27T00:20:58.191Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.14.USTransportation"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-medical",
+      "bytes": {
+        "length": 1012848,
+        "sha256": "3068dcf7cebe3a7b5c5c5526665f29bcd9d26c97e9b546ba5c8a8455d5ef7233"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.15.USMedical",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.15.USMedical",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1012848,
+        "retrievedAt": "2026-09-27T00:21:00.338Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.15.USMedical"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-recreation",
+      "bytes": {
+        "length": 1451074,
+        "sha256": "8e2edd10df8729e17daad71b70f57d899bc3571c7040a80929e8b79ad63c7c9b"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.16.USRecreation",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.16.USRecreation",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1451074,
+        "retrievedAt": "2026-09-27T00:21:02.551Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.16.USRecreation"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-education",
+      "bytes": {
+        "length": 916340,
+        "sha256": "a5cb14c4ebab9fc8a626ddef34327a78a110eb8a8b7aa0006492659a7cd44bab"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.17.USEducationAndCommunication",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.17.USEducationAndCommunication",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 916340,
+        "retrievedAt": "2026-09-27T00:21:04.758Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.17.USEducationAndCommunication"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cpi-other",
+      "bytes": {
+        "length": 1125634,
+        "sha256": "598520470ecf3a330a41c18cb915b137ceb30c209dc2f042ca28336a4f111926"
+      },
+      "localPath": "data/source/bls-cpi/raw/cu.data.18.USOtherGoodsAndServices",
+      "mediaType": "text/plain",
+      "provider": "U.S. Bureau of Labor Statistics",
+      "publisher": {
+        "documentationUrl": "https://download.bls.gov/pub/time.series/cu/cu.data.18.USOtherGoodsAndServices",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1125634,
+        "retrievedAt": "2026-09-27T00:21:06.946Z",
+        "url": "https://download.bls.gov/pub/time.series/cu/cu.data.18.USOtherGoodsAndServices"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "bls-cpi"
+}

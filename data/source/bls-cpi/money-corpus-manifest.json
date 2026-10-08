@@ -1,0 +1,124 @@
+{
+  "canonicalSha256": "f473a022f2a800aef49356eb834f4eb625344d21c60dfbc47b8f56c78bda58d0",
+  "compiler": "scripts/source/regional-money/missing-money-sources.ts",
+  "corpusPath": "data/source/bls-cpi/money-corpus.json.gz",
+  "coverage": {
+    "areaCodes": [
+      "0000",
+      "0100",
+      "0110",
+      "0120",
+      "0200",
+      "0230",
+      "0240",
+      "0300",
+      "0350",
+      "0360",
+      "0370",
+      "0400",
+      "0480",
+      "0490",
+      "A104",
+      "A210",
+      "A212",
+      "A213",
+      "A214",
+      "A311",
+      "A421",
+      "A425",
+      "D000",
+      "D200",
+      "D300",
+      "N000",
+      "N100",
+      "N200",
+      "N300",
+      "N400",
+      "S000",
+      "S100",
+      "S11A",
+      "S12A",
+      "S12B",
+      "S200",
+      "S23A",
+      "S23B",
+      "S24A",
+      "S24B",
+      "S300",
+      "S35A",
+      "S35B",
+      "S35C",
+      "S35D",
+      "S35E",
+      "S37A",
+      "S37B",
+      "S400",
+      "S48A",
+      "S48B",
+      "S49A",
+      "S49B",
+      "S49C",
+      "S49D",
+      "S49E",
+      "S49F",
+      "S49G"
+    ],
+    "series": 1649,
+    "stateSpecific": false,
+    "territories": "No separate territory calibration supplied"
+  },
+  "inputs": [
+    {
+      "artifactId": "cpi-series",
+      "localPath": "data/source/bls-cpi/raw/cu.series",
+      "sha256": "f7367ea7851338d4d9165061bfb14051030f07f073dc12d007cdff2becd2320d"
+    },
+    {
+      "artifactId": "cpi-summaries",
+      "localPath": "data/source/bls-cpi/raw/cu.data.2.Summaries",
+      "sha256": "a7933e4c716e49dbcc25d3246c79e80470dfe066bb2fa9471282daae3aeafa4a"
+    },
+    {
+      "artifactId": "cpi-food",
+      "localPath": "data/source/bls-cpi/raw/cu.data.11.USFoodBeverage",
+      "sha256": "b408535e87d2a30153032171bd5789026fc61b7f443e7e1f906f4a616bb4720c"
+    },
+    {
+      "artifactId": "cpi-housing",
+      "localPath": "data/source/bls-cpi/raw/cu.data.12.USHousing",
+      "sha256": "f8d97f2dce4af234f6be7c22a6221ac00d9c30bddb7fee71942128cf31496276"
+    },
+    {
+      "artifactId": "cpi-apparel",
+      "localPath": "data/source/bls-cpi/raw/cu.data.13.USApparel",
+      "sha256": "9e2f5c88595be3e1733a7addc5e076d1c7c8a30d8e5d95dae6c5b7f741f53039"
+    },
+    {
+      "artifactId": "cpi-transportation",
+      "localPath": "data/source/bls-cpi/raw/cu.data.14.USTransportation",
+      "sha256": "c124062eeb463405a84ff06d82e5e8a2c47886716b57e07ea859bf8376cfc35e"
+    },
+    {
+      "artifactId": "cpi-medical",
+      "localPath": "data/source/bls-cpi/raw/cu.data.15.USMedical",
+      "sha256": "3068dcf7cebe3a7b5c5c5526665f29bcd9d26c97e9b546ba5c8a8455d5ef7233"
+    },
+    {
+      "artifactId": "cpi-recreation",
+      "localPath": "data/source/bls-cpi/raw/cu.data.16.USRecreation",
+      "sha256": "8e2edd10df8729e17daad71b70f57d899bc3571c7040a80929e8b79ad63c7c9b"
+    },
+    {
+      "artifactId": "cpi-education",
+      "localPath": "data/source/bls-cpi/raw/cu.data.17.USEducationAndCommunication",
+      "sha256": "a5cb14c4ebab9fc8a626ddef34327a78a110eb8a8b7aa0006492659a7cd44bab"
+    },
+    {
+      "artifactId": "cpi-other",
+      "localPath": "data/source/bls-cpi/raw/cu.data.18.USOtherGoodsAndServices",
+      "sha256": "598520470ecf3a330a41c18cb915b137ceb30c209dc2f042ca28336a4f111926"
+    }
+  ],
+  "recordCount": 490922,
+  "runtimeWired": false
+}

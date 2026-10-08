@@ -1,0 +1,48 @@
+{
+  "admission": "research-only; not in a production artifact lock or corpus",
+  "artifact": {
+    "localPath": "data/research/federal-student-aid/portfolio-location-current.xls",
+    "mediaType": "application/vnd.ms-excel",
+    "bytes": 51200,
+    "sha256": "d9e8608a82fa1e130c6a80bc5870d25d6f47c626ed200bd33b8f45a43e262dba"
+  },
+  "publisher": "U.S. Department of Education, Federal Student Aid",
+  "sourcePage": "https://studentaid.gov/data-center/student/portfolio",
+  "linkedWorkbookUrl": "https://studentaid.gov/sites/default/files/fsawg/datacenter/library/Portfolio-by-Location.xls",
+  "delivery": {
+    "method": "Codex in-app browser download from the page's Portfolio by Location link",
+    "browserDownloadedFileCreatedAt": "2026-09-27T02:12:52.826Z",
+    "httpStatus": null,
+    "httpResponseTimestamp": null,
+    "responseHeadersObserved": false,
+    "note": "The browser returned a saved file path and bytes but did not expose response headers. The local file creation time approximates download completion; it is not an HTTP response timestamp or publication date. Bounded direct curl attempts did not produce a complete response."
+  },
+  "workbook": {
+    "dataAsOf": "2026-03-31",
+    "dataAsOfSource": "PortfoliobyBorrowerLocation!A4",
+    "publicationDate": null,
+    "balanceColumn": "PortfoliobyBorrowerLocation!B6: Balance (in billions)",
+    "borrowersColumn": "PortfoliobyBorrowerLocation!C6: Borrowers (in thousands)",
+    "inspectionMethod": "Temporary LibreOffice XLS-to-XLSX conversion, then read-only cell inspection; converted file not admitted as a source",
+    "rowExamples": [
+      {
+        "location": "Alabama",
+        "sourceRow": 7,
+        "balanceBillions": 26,
+        "borrowersThousands": 664
+      },
+      {
+        "location": "Puerto Rico",
+        "sourceRow": 46,
+        "balanceBillions": 11.7,
+        "borrowersThousands": 336.9
+      },
+      {
+        "location": "Not Reported",
+        "sourceRow": 60,
+        "balanceBillions": 52.2,
+        "borrowersThousands": 1953.3
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "canonicalSha256": "dd5a2f3c6c511aca567cc4e2734d6693b70dd891362cd13dde61fbe4ddd4fb10",
+  "compiler": "scripts/source/regional-money/missing-money-sources.ts",
+  "corpusPath": "data/source/census-trade/money-corpus.json.gz",
+  "coverage": {
+    "geography": "United States",
+    "stateSpecific": false,
+    "territories": "No separate territory calibration supplied",
+    "years": [
+      2021,
+      2022
+    ]
+  },
+  "inputs": [
+    {
+      "artifactId": "manufacturing-trade-2022-xlsx",
+      "localPath": "data/source/census-trade/raw/manufacturing-trade-2022.xlsx",
+      "sha256": "26026c3eef405a18b59ff3f576eae69222203c6642d2819f6fd89527b6826bb2"
+    }
+  ],
+  "recordCount": 28314,
+  "runtimeWired": false
+}
