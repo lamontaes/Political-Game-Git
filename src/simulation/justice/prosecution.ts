@@ -1,6 +1,7 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
 import { scheduleCountyOfficeReflections } from "./county-office-reflection";
 import {
+  applyStandYourGroundCaseLanding,
   applySentencingLawLandings,
   applyVotingRightLanding,
 } from "../law-consequences/modules/justice-sentencing-landings";
@@ -565,6 +566,7 @@ function recordFollowUp(
     for (const id of detail.basisRecordIds ?? []) {
       next = recordJusticeChargeReference(next, id, chargeEvent.id);
     }
+    next = applyStandYourGroundCaseLanding(next, chargeEvent.id);
     return next;
   }
   if (type === PROSECUTION_ENDED_EVENT)
