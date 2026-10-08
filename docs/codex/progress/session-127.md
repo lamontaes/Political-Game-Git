@@ -6,7 +6,9 @@ Current received origin/main: c6b2f1ec5282c0602b9e1e1da694846c774d72e7.
 The candidate includes an earlier main merge at 8d2d1b348; newest main has not
 been reconciled. All candidate work was committed, with no dirty/untracked files.
 This marker commit will be published without force as a DRAFT, not READY.
-Exact publication head/PR receipt follows on #2424.
+Publication succeeded: draft PR #3788, https://github.com/lamontaes/Political-Game-Git/pull/3788.
+Initial published head: f395f9e3a0152bb32222054cd4aaf2f00bb311cd.
+This receipt update is the final marker commit; exact final head follows on #2424.
 
 Saved logs: /workspace/handoffs/session127-final/p1-b10-*.log, copied intact
 from /tmp. Latest executed focused run began 17:41:08 UTC: 45 PASS, 8 SKIPPED,
