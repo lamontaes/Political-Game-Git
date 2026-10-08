@@ -52,7 +52,7 @@ describe("one sourced item-veto rule for every place", () => {
   it("an unread grant uses only the executive named by its source row", () => {
     const sourced = places.find((row) => "sourcedExecutiveTitle" in row)!;
     expect(sourced).toBeDefined();
-    if (!("sourcedExecutiveTitle" in sourced))
+    if (typeof sourced.sourcedExecutiveTitle !== "string")
       throw new Error("The source row omitted its executive title.");
     admittedPack(
       sourced.code,
@@ -76,7 +76,9 @@ describe("one sourced item-veto rule for every place", () => {
       throw new Error("The controlled grant must have a source.");
     admittedPack(
       row.code,
-      "sourcedExecutiveTitle" in row ? row.sourcedExecutiveTitle : "Governor",
+      typeof row.sourcedExecutiveTitle === "string"
+        ? row.sourcedExecutiveTitle
+        : "Governor",
       { ...grant, value: false },
     );
     expect(itemVetoPower("fixture:admitted-item-veto")).toBeNull();
