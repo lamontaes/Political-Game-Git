@@ -483,6 +483,7 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
   const setAside = damaged?.length ?? 0;
+  const reading = saveListing === "loading";
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
 
@@ -572,6 +573,16 @@ export function TitleScreen({
           </button>
         ) : null}
       </div>
+      {reading ? (
+        <div
+          className="front-door-progress"
+          role="progressbar"
+          aria-label="Progress bar"
+          data-testid="title-save-progress"
+        >
+          <span aria-hidden="true" />
+        </div>
+      ) : null}
       {unread && onRetrySaves ? (
         <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
           Try again

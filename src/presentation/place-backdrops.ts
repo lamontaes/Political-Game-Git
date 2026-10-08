@@ -22,6 +22,7 @@ import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
 import { townWorkplaceFor } from "../simulation/living-world/town-employment";
 import { WORKPLACE_PLACE } from "../simulation/living-world/work-schedules";
+import { placeForJourneyLocationKey } from "./place-journey-backdrop";
 import type {
   DwellingClassification,
   EntityId,
@@ -492,6 +493,8 @@ export function placeForLocationKey(
   if (exact === "home") return homePlaceForPerson(world, personId);
   if (exact) return exact;
   const prefix = locationKey.slice(0, locationKey.indexOf(":"));
+  if (prefix === "journey" || prefix === "journey-to-neighborhood")
+    return placeForJourneyLocationKey(locationKey);
   if (prefix === "work") return workplacePlaceForPerson(world, personId);
   if (prefix === "press-planned")
     return pressInterviewPlace(world, locationKey);
@@ -563,7 +566,6 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
 };
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
-  journey: "main-street",
   // The day the court sat on the player's own case (`courtroomLocationKey`).
   "court-case": "county-courtroom",
   // The day a protest the player organized or attended was held.
