@@ -1,1 +1,8 @@
+---
+id: local-government-seat-role-import-cycle
+impact: patch
+section: Changed
+title: The county board member role now lives in a small shared module, so reading council...
+---
+
 The county board member role now lives in a small shared module, so reading council seats no longer loads the full local government seating engine just to compare a role key. The simulation entry point can import without that initialization cycle.

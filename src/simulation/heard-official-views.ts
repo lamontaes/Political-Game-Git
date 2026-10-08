@@ -24,6 +24,47 @@ export function heardOfficialViews(
   officialId: EntityId = listenerId,
 ): readonly HeardOfficialView[] {
   if (!world.people[listenerId] || !world.people[officialId]) return [];
+  return readHeardViews(world, listenerId, (row, holderId) => {
+    const prefix = `told-view:${holderId}:${officialId}:`;
+    return row.believedSummary.startsWith(prefix)
+      ? { officialId, position: row.believedSummary.slice(prefix.length) }
+      : null;
+  });
+}
+
+/**
+ * Every view one person told the listener, about any official: what a
+ * neighbor says of whom. The summary is `told-view:<holder>:<official>:<position>`,
+ * and the position is the part after the last colon, because IDs contain colons.
+ */
+export function heardViewsHeldBy(
+  world: World,
+  listenerId: EntityId,
+  holderId: EntityId,
+): readonly HeardOfficialView[] {
+  if (!world.people[listenerId] || !world.people[holderId]) return [];
+  const prefix = `told-view:${holderId}:`;
+  return readHeardViews(world, listenerId, (row, sourceId) => {
+    if (sourceId !== holderId || !row.believedSummary.startsWith(prefix))
+      return null;
+    const rest = row.believedSummary.slice(prefix.length);
+    const cut = rest.lastIndexOf(":");
+    if (cut <= 0) return null;
+    const officialId = rest.slice(0, cut) as EntityId;
+    return world.people[officialId]
+      ? { officialId, position: rest.slice(cut + 1) }
+      : null;
+  });
+}
+
+function readHeardViews(
+  world: World,
+  listenerId: EntityId,
+  parse: (
+    row: EventKnowledgeRecord,
+    holderId: EntityId,
+  ) => { readonly officialId: EntityId; readonly position: string } | null,
+): readonly HeardOfficialView[] {
   const events = new Set(
     world.history.events
       .filter(
@@ -46,16 +87,18 @@ export function heardOfficialViews(
     )
       continue;
     const holderId = row.source.sourcePersonId;
-    const prefix = `told-view:${holderId}:${officialId}:`;
-    if (!row.believedSummary.startsWith(prefix)) continue;
-    const position = row.believedSummary.slice(prefix.length);
-    if (position !== "support" && position !== "oppose") continue;
+    const parsed = parse(row, holderId);
+    if (
+      !parsed ||
+      (parsed.position !== "support" && parsed.position !== "oppose")
+    )
+      continue;
     heard.push({
       knowledgeId: row.id,
       eventId: row.eventId,
       holderId,
-      officialId,
-      position,
+      officialId: parsed.officialId,
+      position: parsed.position,
       learnedAt: row.learnedAt,
       accuracy: row.accuracy,
       confidence: row.confidence,
