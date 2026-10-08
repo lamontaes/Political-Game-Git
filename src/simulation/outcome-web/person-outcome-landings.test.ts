@@ -1,4 +1,6 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
+import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
+import agePlaceholderLedger from "../../../data/research/education/placeholder-ledger.json" with { type: "json" };
 import sourceLinks from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
@@ -17,7 +19,6 @@ import type { PlaceOutcomeRecord } from "./place-outcome-store";
 import {
   matchesOutcomeRecipientRule,
   outcomeLandingDirection,
-  outcomeLandingStableKey,
   recordPlannedPersonOutcomeLandings,
   type OutcomeRecipientRule,
 } from "./person-outcome-landings";
@@ -32,6 +33,16 @@ const plannedEducation = landingPlan.links.filter(
     row.landingPath === educationLandingPath &&
     row.recipientRule !== null,
 );
+const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
+  Record<
+    string,
+    {
+      readonly minimumAge: number;
+      readonly maximumAge: number;
+      readonly estimatedFrom: string;
+    }
+  >
+>;
 
 describe("the outcome landing plan", () => {
   it("tracks every built link once from the audit through the candidate status", () => {
@@ -60,34 +71,73 @@ describe("the outcome landing plan", () => {
   });
 
   it.each(lifePlaceStateIdentities())(
-    "uses one education cohort reader for %s",
+    "uses recorded enrollment or sourced attendance ages for %s",
     (place) => {
-      const recipient = {
-        age: 16,
-        activeSchoolEnrollment: true,
-      };
-      const eligible = plannedEducation
-        .filter((row) =>
-          matchesOutcomeRecipientRule(
-            row.recipientRule as OutcomeRecipientRule,
-            recipient,
-          ),
-        )
-        .map((row) => row.key)
-        .sort();
       expect(place.jurisdictionKey).toMatch(/^US-/);
-      const jurisdictionId = stateJurisdictionForKey(place.jurisdictionKey)?.id;
-      expect(jurisdictionId).toBeDefined();
+      const ages = compulsorySchoolAges[place.jurisdictionKey];
+      if (!ages) throw new Error(`No compulsory school age for ${place.name}.`);
+      expect(ages.estimatedFrom).toContain("NCES");
+      const rule = plannedEducation[0]?.recipientRule as OutcomeRecipientRule;
+      const withoutEnrollment = {
+        activeEducationEnrollment: false,
+        hasRecordedEducationEnrollment: false,
+        compulsorySchoolAge: ages,
+      };
       expect(
-        outcomeLandingStableKey(
-          "person:test",
-          "equalized-funding-to-math-proficiency",
-          `place-outcome:${jurisdictionId}:school.math-proficient-pct:2026-01-01`,
-        ),
-      ).toContain(jurisdictionId);
-      expect(eligible).toHaveLength(10);
+        matchesOutcomeRecipientRule(rule, {
+          ...withoutEnrollment,
+          age: ages.minimumAge,
+        }),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(rule, {
+          ...withoutEnrollment,
+          age: ages.minimumAge - 1,
+        }),
+      ).toBe(false);
+      expect(
+        matchesOutcomeRecipientRule(rule, {
+          ...withoutEnrollment,
+          age: ages.maximumAge + 1,
+        }),
+      ).toBe(false);
+      expect(
+        matchesOutcomeRecipientRule(rule, {
+          ...withoutEnrollment,
+          age: ages.maximumAge + 1,
+          activeEducationEnrollment: true,
+          hasRecordedEducationEnrollment: true,
+        }),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(rule, {
+          ...withoutEnrollment,
+          age: ages.minimumAge,
+          hasRecordedEducationEnrollment: true,
+        }),
+      ).toBe(false);
     },
   );
+
+  it("uses one sourced enrollment rule for all 13 education links", () => {
+    expect(plannedEducation).toHaveLength(13);
+    expect(new Set(plannedEducation.map((row) => row.recipientRule))).toEqual(
+      new Set(["recorded-school-enrollment-or-compulsory-age-estimate"]),
+    );
+    expect(
+      plannedEducation.every(
+        (row) => row.estimatedFrom && row.currentStatus === "person-linked",
+      ),
+    ).toBe(true);
+    expect(Object.keys(compulsorySchoolAges)).toHaveLength(56);
+    expect(agePlaceholderLedger.entries[0]?.jurisdictionKeys).toEqual([
+      "US-AS",
+      "US-GU",
+      "US-MP",
+      "US-PR",
+      "US-VI",
+    ]);
+  });
 
   it.each(lifePlaceStateIdentities())(
     "reads gain and cost direction without a place-specific branch for %s",
@@ -157,7 +207,11 @@ describe("a named education outcome landing", () => {
     };
 
     const landed = recordPlannedPersonOutcomeLandings(world, month);
-    const landing = landed.placeOutcomes?.landings?.[0];
+    const landing = landed.placeOutcomes?.landings?.find(
+      (row) =>
+        row.personId === personId &&
+        row.linkKey === "equalized-funding-to-spending",
+    );
     expect(landing).toMatchObject({
       personId,
       linkKey: "equalized-funding-to-spending",

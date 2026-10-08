@@ -309,7 +309,7 @@
       "sourceArea": "law:us-policy-positions:education.universal-preschool",
       "recipientGroup": "4-year-olds, later",
       "currentStatus": "person-linked",
-      "recipientRule": "age-18-to-22-cohort-estimate",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -321,7 +321,7 @@
       "sourceArea": "law:us-policy-positions:education.equalize-school-funding",
       "recipientGroup": "low-income districts",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ: Applied)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -589,7 +589,7 @@
       "sourceArea": "law:us-policy-positions:education.universal-preschool",
       "recipientGroup": "children who enrolled, later",
       "currentStatus": "person-linked",
-      "recipientRule": "age-13-to-15-active-school-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Gray-Lobe, Pathak and Walters 2023; Vanderbilt TN-VPK",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -601,7 +601,7 @@
       "sourceArea": "law:us-policy-positions:education.universal-preschool",
       "recipientGroup": "children who enrolled, as eighth graders",
       "currentStatus": "person-linked",
-      "recipientRule": "age-13-to-15-active-school-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Gray-Lobe, Pathak and Walters 2023 (QJE), Table 6; Cascio and Schanzenbach 2013 (Brookings Papers), Table 7; Durkin, Lipsey, Farran and Wiesen 2022 (Developmental Psychology); Campbell et al. 2002 (Abecedarian); Camilli, Vargas, Ryan and Barnett 2010 meta-analysis (NIEER)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -625,7 +625,7 @@
       "sourceArea": "law:us-policy-positions:education.equalize-school-funding",
       "recipientGroup": "students in low-income districts",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Lafortune, Rothstein and Schanzenbach 2018 (AEJ Applied)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -637,7 +637,7 @@
       "sourceArea": "law:us-policy-positions:education.equalize-school-funding",
       "recipientGroup": "students in low-income districts",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Jackson, Johnson and Persico 2016 (QJE)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -649,7 +649,7 @@
       "sourceArea": "law:us-policy-positions:education.public-funds-for-private-schooling",
       "recipientGroup": "students who use them",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Abdulkadiroglu, Pathak and Walters 2018; Waddington and Berends 2018 (to confirm)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -661,7 +661,7 @@
       "sourceArea": "law:us-policy-positions:education.public-funds-for-private-schooling",
       "recipientGroup": "students who use them",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Wolf et al. 2013 (to confirm)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -673,7 +673,7 @@
       "sourceArea": "household.poverty-pct",
       "recipientGroup": "children",
       "currentStatus": "person-linked",
-      "recipientRule": "age-5-to-17-cohort-estimate",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Dahl and Lochner 2012 (AER)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -685,7 +685,7 @@
       "sourceArea": "health.uninsured-pct",
       "recipientGroup": "children, over their school years",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Cohodes et al. 2016 (JHR)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -790,7 +790,7 @@
       "sourceArea": "law:us-policy-positions:education.raise-teacher-minimum-salary",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Loeb and Page 2000, Review of Economics and Statistics 82(3)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -802,7 +802,7 @@
       "sourceArea": "law:us-policy-positions:fiscal.cap-property-tax-growth",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "active-school-student-proxy",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Figlio 1997, Journal of Public Economics 65(3); Downes and Figlio 1997, IRP DP 1142-97",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
@@ -960,7 +960,7 @@
       "sourceArea": "law:us-policy-positions:civil-family-community.fund-public-libraries",
       "recipientGroup": "place",
       "currentStatus": "person-linked",
-      "recipientRule": "age-5-to-17-cohort-estimate",
+      "recipientRule": "recorded-school-enrollment-or-compulsory-age-estimate",
       "outcomeDirection": "higher-is-better",
       "estimatedFrom": "Gilpin, Karger and Nencka 2024, AEJ: Economic Policy",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"

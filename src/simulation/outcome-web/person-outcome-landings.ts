@@ -1,4 +1,5 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
+import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -12,16 +13,23 @@ import type {
 } from "../types";
 import {
   placeOutcomeAt,
+  placeOutcomeKey,
   placeOutcomeRecordId,
   type PlaceOutcomeLandingRecord,
 } from "./place-outcome-store";
 
 export type OutcomeRecipientRule =
-  | "age-18-to-22-cohort-estimate"
-  | "active-school-student-proxy"
-  | "age-13-to-15-active-school-proxy"
-  | "age-5-to-17-cohort-estimate"
-  | "age-13-to-17-active-school-proxy";
+  "recorded-school-enrollment-or-compulsory-age-estimate";
+
+interface CompulsorySchoolAgeRange {
+  readonly minimumAge: number;
+  readonly maximumAge: number;
+  readonly estimatedFrom: string;
+}
+
+const COMPULSORY_SCHOOL_AGES = schoolAges.agesByJurisdictionKey as Readonly<
+  Record<string, CompulsorySchoolAgeRange>
+>;
 
 interface PlannedLanding {
   readonly key: string;
@@ -49,28 +57,30 @@ export interface OutcomeLandingPerson {
   readonly personId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly age: number;
-  readonly activeSchoolEnrollment: boolean;
+  readonly activeEducationEnrollment: boolean;
+  readonly hasRecordedEducationEnrollment: boolean;
+  readonly compulsorySchoolAge: CompulsorySchoolAgeRange | null;
 }
 
-/** The one cohort rule used by each named person outcome landing. */
+/** Use a recorded enrollment, or the jurisdiction's sourced age estimate. */
 export function matchesOutcomeRecipientRule(
   rule: OutcomeRecipientRule,
-  person: Pick<OutcomeLandingPerson, "age" | "activeSchoolEnrollment">,
+  person: Pick<
+    OutcomeLandingPerson,
+    | "age"
+    | "activeEducationEnrollment"
+    | "hasRecordedEducationEnrollment"
+    | "compulsorySchoolAge"
+  >,
 ): boolean {
   switch (rule) {
-    case "age-18-to-22-cohort-estimate":
-      return person.age >= 18 && person.age <= 22;
-    case "active-school-student-proxy":
-      return person.activeSchoolEnrollment;
-    case "age-13-to-15-active-school-proxy":
+    case "recorded-school-enrollment-or-compulsory-age-estimate":
+      if (person.hasRecordedEducationEnrollment)
+        return person.activeEducationEnrollment;
       return (
-        person.age >= 13 && person.age <= 15 && person.activeSchoolEnrollment
-      );
-    case "age-5-to-17-cohort-estimate":
-      return person.age >= 5 && person.age <= 17;
-    case "age-13-to-17-active-school-proxy":
-      return (
-        person.age >= 13 && person.age <= 17 && person.activeSchoolEnrollment
+        person.compulsorySchoolAge !== null &&
+        person.age >= person.compulsorySchoolAge.minimumAge &&
+        person.age <= person.compulsorySchoolAge.maximumAge
       );
   }
 }
@@ -96,9 +106,9 @@ export function outcomeLandingStableKey(
 }
 
 /**
- * Route school measures to the people represented by them. The link's named
- * evidence is retained because a place-level estimate is not a personal test
- * score, diploma or enrollment fact.
+ * Route school measures through recorded enrollments where available, then
+ * use the state's sourced compulsory-attendance ages for unrecorded residents.
+ * The place estimate is not a personal test score, diploma or enrollment fact.
  */
 export function recordPlannedPersonOutcomeLandings(
   world: World,
@@ -108,7 +118,7 @@ export function recordPlannedPersonOutcomeLandings(
   const previousMonth = world.placeOutcomes.months
     .filter((entry) => entry.month < month)
     .at(-1)?.month;
-  const activeStudents = activeSchoolStudentsAt(world, month);
+  const education = educationEnrollmentsAt(world, month);
   const alreadyLanded = new Set(
     (world.placeOutcomes.landings ?? []).map(
       (row) => `${row.personId}|${row.linkKey}`,
@@ -122,11 +132,16 @@ export function recordPlannedPersonOutcomeLandings(
   for (const personId of world.personOrder) {
     const person = world.people[personId];
     if (!person) continue;
+    const stateKey = placeOutcomeKey(person.homeJurisdictionId);
     const recipient: OutcomeLandingPerson = {
       personId,
       jurisdictionId: person.homeJurisdictionId,
       age: ageOnDate(person.birthDate, month),
-      activeSchoolEnrollment: activeStudents.has(personId),
+      activeEducationEnrollment: education.active.has(personId),
+      hasRecordedEducationEnrollment: education.recorded.has(personId),
+      compulsorySchoolAge: stateKey
+        ? (COMPULSORY_SCHOOL_AGES[stateKey] ?? null)
+        : null,
     };
     for (const row of EDUCATION_LANDINGS) {
       if (
@@ -213,10 +228,13 @@ export function recordPlannedPersonOutcomeLandings(
   return next;
 }
 
-function activeSchoolStudentsAt(
+function educationEnrollmentsAt(
   world: World,
   through: IsoDate,
-): ReadonlySet<EntityId> {
+): {
+  readonly active: ReadonlySet<EntityId>;
+  readonly recorded: ReadonlySet<EntityId>;
+} {
   const latest = new Map<EntityId, EducationEnrollmentStateRecord>();
   for (const state of world.history.educationEnrollmentStates) {
     if (state.effectiveAt > through) continue;
@@ -230,14 +248,20 @@ function activeSchoolStudentsAt(
       latest.set(state.enrollmentId, state);
   }
   const active = new Set<EntityId>();
+  const recorded = new Set<EntityId>();
   for (const enrollment of world.history.educationEnrollments) {
     if (
-      !enrollment.programKind.startsWith("schooling:") ||
-      enrollment.startedAt > through ||
-      latest.get(enrollment.id)?.status !== "active"
+      (!enrollment.programKind.startsWith("schooling:") &&
+        !enrollment.programKind.startsWith("postsecondary:")) ||
+      enrollment.recordedAt > through
     )
       continue;
-    active.add(enrollment.personId);
+    recorded.add(enrollment.personId);
+    if (
+      enrollment.startedAt <= through &&
+      latest.get(enrollment.id)?.status === "active"
+    )
+      active.add(enrollment.personId);
   }
-  return active;
+  return { active, recorded };
 }

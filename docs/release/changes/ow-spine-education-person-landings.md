@@ -5,4 +5,4 @@ section: Added
 title: Education policy outcomes reach affected students
 ---
 
-Education outcome records now reach enrolled students and relevant age cohorts through the shared person landing path. The existing place estimate and school outcome rules are unchanged; each person record carries its estimate source and can feed an official-view reflection.
+Education outcome records now reach recorded students through the shared person landing path. Where a person has no recorded enrollment, a sourced jurisdiction attendance-age row supplies the estimated cohort. Each person record carries the outcome source and can feed an official-view reflection.
