@@ -37,10 +37,10 @@ ROWS = [
   ("response", "I want you to send me the name and address of the original creditor.", B1),
   ("response", "I enclosed this amount: {amount}", B1),
   ("response", "Make your check payable to {collector}.", B1),
-  ("delinquency", "You are late on your {loan} payments.", H30),
-  ("delinquency", "As of {date}, you are {days} days delinquent on your {loan} loan.", H30),
-  ("delinquency", "Total: {amount} due. You must pay this amount to bring your loan current.", H30),
-  ("foreclosure-warning", "Failure to bring your loan current may result in fees and foreclosure—the loss of your home.", H30),
+  ("mortgage-delinquency", "You are late on your mortgage payments.", H30),
+  ("mortgage-delinquency", "As of {date}, you are {days} days delinquent on your mortgage loan.", H30),
+  ("mortgage-delinquency", "Total: {amount} due. You must pay this amount to bring your loan current.", H30),
+  ("mortgage-foreclosure-warning", "Failure to bring your loan current may result in fees and foreclosure—the loss of your home.", H30),
   ("payment-history", "Payment due {date}: Fully paid on time", H30),
   ("payment-history", "Payment due {date}: Fully paid on {paidDate}", H30),
   ("payment-history", "Payment due {date}: Unpaid balance of {amount}", H30),
@@ -67,7 +67,7 @@ for move, text, src in ROWS:
 bank = {
   "schema": "english-parts/1",
   "register": "debt-notice",
-  "description": "What a debt collector's validation notice and a lender's late-payment statement say, copied word for word from two federal model forms (public domain): Regulation F Model Form B-1, which most collection letters follow, and Regulation Z Form H-30(B), the sample mortgage statement with its delinquency box. Only names, dates and amounts are slots, filled from a loan's records. The foreclosure warning is its own move, said only of a loan secured by a home.",
+  "description": "What a debt collector's validation notice and a lender's late-payment statement say, copied word for word from two federal model forms (public domain): Regulation F Model Form B-1, which most collection letters follow, and Regulation Z Form H-30(B), the sample mortgage statement with its delinquency box. Only names, dates and amounts are slots, filled from a loan's records. Form H-30(B) is a mortgage statement, so its delinquency lines name a mortgage and are for a loan on a home only.",
   "slots": {
     "collector": "The name of the debt collector recorded as collecting the debt.",
     "creditor": "The name of the lender the debt is owed to, from the loan's records.",
@@ -77,8 +77,7 @@ bank = {
     "paidDate": "The date a payment was made, from the loan's records.",
     "deadline": "The last day to dispute the debt, from the notice's records.",
     "amount": "A dollar amount from the loan's records, such as $2,234.56.",
-    "days": "How many days the payment is late, from the loan's records.",
-    "loan": "The kind of loan as one word before 'loan' or 'payments', such as mortgage or car."
+    "days": "How many days the payment is late, from the loan's records."
   },
   "maxWords": 30,
   "mining": {
