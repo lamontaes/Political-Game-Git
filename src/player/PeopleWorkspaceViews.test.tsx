@@ -40,7 +40,7 @@ describe("People's two presentation views", () => {
     expect(markup).not.toContain('data-testid="people-web-expand"');
     expect(markup).not.toContain('data-testid="people-view-categories"');
     expect(markup).toContain('data-testid="people-search"');
-    expect(markup).toContain('data-testid="people-category-all"');
+    expect(markup).toContain('data-testid="people-category-family"');
     expect(JSON.stringify(fixture.world)).toBe(before);
   });
 

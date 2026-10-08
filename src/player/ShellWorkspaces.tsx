@@ -568,7 +568,7 @@ export function PeopleWorkspace({
           role="group"
           aria-label="Categories"
         >
-          {(["all", ...PERSON_CATEGORIES] as const).map((key) => (
+          {PERSON_CATEGORIES.map((key) => (
             <button
               key={key}
               type="button"
@@ -576,10 +576,13 @@ export function PeopleWorkspace({
               aria-pressed={category === key}
               data-testid={`people-category-${key}`}
               onClick={() =>
-                dispatch({ type: "set-people-category", category: key })
+                dispatch({
+                  type: "set-people-category",
+                  category: category === key ? "all" : key,
+                })
               }
             >
-              {key === "all" ? "Everyone" : CATEGORY_LABELS[key]}
+              {CATEGORY_LABELS[key]}
               <small>{directory.counts[key]}</small>
             </button>
           ))}
