@@ -183,18 +183,21 @@ describe(`Making Laws session-end caller boundaries (seed ${SEED})`, () => {
       );
     },
   );
-  it("D.C. invokes the actual open-session guard before advancing its real nonplayer bill", () => {
+  it("D.C. advances its real nonplayer bill through the shared driver, whose open-session guard admits it", () => {
     const fixture = dcFixture();
     expect(
       clock.applyInstitutionSessionEnd(fixture.world, fixture.measure.id),
     ).toBeNull();
-    const spy = vi.spyOn(clock, "applyInstitutionSessionEnd");
+    // The session guard runs inside the shared driver every legislature
+    // uses; the Council's sitting reaches it through that driver.
+    const spy = vi.spyOn(clock, "applyInstitutionStep");
     const result = dcCouncilSittingHandler(fixture.world);
     expect(
       spy.mock.calls.some(([, measureId]) => measureId === fixture.measure.id),
     ).toBe(true);
+    // The open session admits the first step: referral to committee.
     expect(measurePosition(result.world, fixture.measure.id).phase).toBe(
-      "on-floor",
+      "in-committee",
     );
     expect(municipalSeats(result.world, DC_GOVERNMENT_KEY)).toEqual(
       fixture.members,
@@ -203,20 +206,20 @@ describe(`Making Laws session-end caller boundaries (seed ${SEED})`, () => {
       deserializeWorld(serializeWorld(result.world)).history.legislativeActions,
     ).toEqual(result.world.history.legislativeActions);
   });
-  it("HARDWIRED contract control: D.C. honors a fictional blocked guard without attempting referral or reading", () => {
+  it("HARDWIRED contract control: D.C. honors a fictional blocked step without attempting referral or reading", () => {
     const fixture = dcFixture();
     // D.C. has no established session cutoff in this fixture. This explicit
     // boundary control proves dispatch only; it is not evidence of a legal end.
-    const original = clock.applyInstitutionSessionEnd;
+    const original = clock.applyInstitutionStep;
     const spy = vi
-      .spyOn(clock, "applyInstitutionSessionEnd")
-      .mockImplementation((world, measureId) =>
+      .spyOn(clock, "applyInstitutionStep")
+      .mockImplementation((world, measureId, desk, input) =>
         measureId === fixture.measure.id
           ? {
               kind: "blocked",
               reason: "Explicit fictional blocked-guard boundary control.",
             }
-          : original(world, measureId),
+          : original(world, measureId, desk, input),
       );
     const result = dcCouncilSittingHandler(fixture.world);
     expect(

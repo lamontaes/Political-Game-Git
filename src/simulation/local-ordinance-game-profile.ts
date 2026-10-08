@@ -17,6 +17,8 @@ import { typicalCouncilSeats } from "./nationwide-world/typical-council-size";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 import {
   knownRule,
+  LOCAL_ORDINANCE_EFFECTIVE_RULE,
+  localOrdinanceDefaultEnactment,
   majorityOf,
   notApplicableRule,
   unknownRule,
@@ -245,14 +247,8 @@ export function localOrdinanceGameRulePack(
       },
       source,
     },
-    enactment: {
-      effectiveDateDistinctFromEnactment: knownRule(false, source),
-      defaultEffectiveRule: knownRule(
-        "Effective on passage (game profile).",
-        source,
-      ),
-      source,
-    },
+    // The local ordinance estimate every unread local body carries.
+    enactment: localOrdinanceDefaultEnactment(),
     session: {
       sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${unit.name} local legislative year (game profile)`,
@@ -390,8 +386,7 @@ export function localGovernmentGameProfile(
       override: null,
       overrideState: "NOT_APPLICABLE",
       overrideAbsence: "The game profile has no executive veto.",
-      effectivePublication:
-        "Takes effect from the date of its passage (game profile).",
+      effectivePublication: LOCAL_ORDINANCE_EFFECTIVE_RULE,
       committeeReferral: null,
       committeeReferralState: "NO_REQUIREMENT_FOUND",
       introductionToPassage: {

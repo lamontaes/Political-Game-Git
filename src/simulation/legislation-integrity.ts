@@ -1,8 +1,12 @@
-import { addDays, makeIsoDate } from "./dates";
+import { makeIsoDate } from "./dates";
 import { eventById } from "./event-index";
 import { historyIndex } from "./history-index";
 import { recordedSessionAdjournment } from "./governing/session-adjournments";
-import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
+import {
+  actAmendsCriminalCode,
+  gameProfileEffectiveDate,
+  resolveLegislativeEffectiveDate,
+} from "./legislative-effective-date";
 import {
   assertOriginationPermitted,
   chamberByKey,
@@ -558,7 +562,8 @@ export function assertLegislationIntegrity(
         !profile.version.trim() ||
         !Number.isSafeInteger(profile.days) ||
         profile.days < 0 ||
-        enactment.effectiveAt !== addDays(enactment.resolvedAt, profile.days)
+        enactment.effectiveAt !==
+          gameProfileEffectiveDate(enactment.resolvedAt, profile)
       ) {
         throw new Error(
           `Enactment game effective date does not match its profile: ${enactment.id}`,
@@ -587,6 +592,7 @@ export function assertLegislationIntegrity(
             );
             return adjourned ? [adjourned.adjournedOn] : null;
           },
+          amendsCriminalCode: () => actAmendsCriminalCode(world, measure),
         },
       );
       if (

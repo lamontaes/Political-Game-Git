@@ -103,9 +103,11 @@ export function decideCouncilVote(
     readonly executivePersonId: EntityId | null;
     /** Members are elected without party labels (`body-partisanship.ts`). */
     readonly nonpartisan: boolean;
+    /** The question put, where it is not the floor's (a committee's report). */
+    readonly question?: ChamberQuestion;
   },
 ): readonly LegislativeVoteDisposition[] {
-  const question = councilFloorQuestion(input.measureId);
+  const question = input.question ?? councilFloorQuestion(input.measureId);
   const decided = decideChamberVote(world, {
     stableKey: input.stableKey,
     question: {

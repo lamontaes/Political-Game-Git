@@ -1,21 +1,18 @@
 import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
-import {
-  addDays,
-  daysBetween,
-  isoDateFromParts,
-  makeIsoDate,
-  yearOf,
-} from "../dates";
+import { addDays, isoDateFromParts, makeIsoDate, yearOf } from "../dates";
 import type { IsoDate } from "../types";
 
 /**
- * When a state statute takes effect if the act names no date of its own, by
- * the state's own rule (`effectiveDates` in the starting-law file, read from
- * each state's constitution or code). A rule marked `estimated` was not read
- * for that place: it is the most common rule among places like it, and says
- * which (ESTIMATED FROM AVERAGE). A place the file leaves out keeps the
- * caller's blanket default, which says so.
+ * The rule data for when a state statute takes effect if the act names no
+ * date of its own: the state's own rule (`effectiveDates` in the starting-law
+ * file, read from each state's constitution or code). The date itself is
+ * computed in one place for every body, `legislative-effective-date.ts`;
+ * this module only reads the rules and the session-end table they count from.
+ * A rule marked `estimated` was not read for that place: it is the most
+ * common rule among places like it, and says which (ESTIMATED FROM AVERAGE).
+ * A place the file leaves out keeps the caller's blanket default, which says
+ * so.
  *
  * A rule that counts from a session's end reads that end from one table for
  * every state (`sessionEnds`). For a year whose session has adjourned, that
@@ -278,88 +275,6 @@ function medianSessionEnd(year: number): readonly IsoDate[] {
   return median ? [median] : [];
 }
 
-/**
- * The date a state statute enacted on `enactedAt` takes effect under its
- * state's rule, or null where the file has no rule for the state, where the
- * rule does not reach the act (an act enacted after the date its regular
- * session's rule gives, which only a special session can do), or where the
- * rule counts from a date the act's record does not carry.
- */
-export function stateStatuteOperativeAt(
-  jurisdictionKey: string,
-  enactedAt: IsoDate,
-  context: StatuteDateContext = {},
-): IsoDate | null {
-  const rule = statuteEffectiveRule(jurisdictionKey);
-  if (!rule) return null;
-  const year = yearOf(enactedAt);
-  switch (rule.kind) {
-    case "days-after-enactment":
-      return addDays(enactedAt, rule.days);
-    case "next-date":
-      // The first such date after the act: "the first day of June next".
-      return nextYearlyDate(enactedAt, rule.month, rule.day);
-    case "next-of-dates": {
-      const candidates = rule.dates.map((date) =>
-        nextYearlyDate(enactedAt, date.month, date.day),
-      );
-      return candidates.reduce((earliest, date) =>
-        date < earliest ? date : earliest,
-      );
-    }
-    case "date-in-year-else-days": {
-      const thisYear = isoDateFromParts(year, rule.month, rule.day);
-      return enactedAt < thisYear
-        ? thisYear
-        : addDays(enactedAt, rule.lateDays);
-    }
-    case "days-after-session-end": {
-      // The regular session of the act's year whose end is nearest the act:
-      // it passed during that session or was signed in the days after it.
-      // GAME ASSUMPTION: an act the rule would date on or before the day it
-      // became law (signed long after the session's limit, a year with no
-      // regular session, a special session, or a legislature that sits all
-      // year) shows its session ran at least that long, so the count starts
-      // from the act instead.
-      const counted = (end: IsoDate): IsoDate => {
-        const operative = addDays(addMonths(end, rule.months ?? 0), rule.days);
-        return rule.notBefore
-          ? latest(
-              operative,
-              isoDateFromParts(year, rule.notBefore.month, rule.notBefore.day),
-            )
-          : operative;
-      };
-      const sessionEnd = nearest(
-        context.sessionEnds?.(year) ?? stateSessionEnds(jurisdictionKey, year),
-        enactedAt,
-      );
-      const operative = sessionEnd ? counted(sessionEnd) : null;
-      return operative && operative > enactedAt
-        ? operative
-        : counted(enactedAt);
-    }
-    case "next-year-date-by-passage": {
-      const passedAt = context.finalPassageAt?.();
-      if (!passedAt) return null;
-      const passedYear = yearOf(passedAt);
-      const date =
-        passedAt <
-        isoDateFromParts(passedYear, rule.cutoff.month, rule.cutoff.day)
-          ? rule.early
-          : rule.late;
-      return latest(
-        isoDateFromParts(passedYear + 1, date.month, date.day),
-        enactedAt,
-      );
-    }
-    case "january-after-days":
-      return rule.oddYearsNextJanuary && year % 2 === 1
-        ? nextYearlyDate(enactedAt, 1, 1)
-        : nextYearlyDate(addDays(enactedAt, rule.days), 1, 1);
-  }
-}
-
 /** A fixed date, or the nth (or last, -1) weekday of the month. */
 function dayInYear(year: number, day: YearlyDay): IsoDate {
   if ("day" in day) return isoDateFromParts(year, day.month, day.day);
@@ -373,42 +288,4 @@ function dayInYear(year: number, day: YearlyDay): IsoDate {
     date = lastDate - ((last - day.weekday + 7) % 7);
   }
   return addDays(isoDateFromParts(year, day.month, date), day.plusDays ?? 0);
-}
-
-function nearest(dates: readonly IsoDate[], to: IsoDate): IsoDate | null {
-  let best: IsoDate | null = null;
-  for (const date of dates)
-    if (
-      best === null ||
-      Math.abs(daysBetween(date, to)) < Math.abs(daysBetween(best, to))
-    )
-      best = date;
-  return best;
-}
-
-/** The same day of the month `months` later, or the month's last day. */
-function addMonths(date: IsoDate, months: number): IsoDate {
-  if (months === 0) return date;
-  const [year, month, day] = date.split("-").map(Number) as [
-    number,
-    number,
-    number,
-  ];
-  const index = month - 1 + months;
-  const targetYear = year + Math.floor(index / 12);
-  const targetMonth = (index % 12) + 1;
-  const lastDay = new Date(Date.UTC(targetYear, targetMonth, 0)).getUTCDate();
-  return isoDateFromParts(targetYear, targetMonth, Math.min(day, lastDay));
-}
-
-function latest(a: IsoDate, b: IsoDate): IsoDate {
-  return a > b ? a : b;
-}
-
-/** The first `month`/`day` strictly after `from`. */
-function nextYearlyDate(from: IsoDate, month: number, day: number): IsoDate {
-  const thisYear = isoDateFromParts(yearOf(from), month, day);
-  return thisYear > from
-    ? thisYear
-    : isoDateFromParts(yearOf(from) + 1, month, day);
 }

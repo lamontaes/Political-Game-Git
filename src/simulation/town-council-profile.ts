@@ -3,6 +3,7 @@ import { governmentUnit } from "./government-units";
 import type { GovernmentUnitIdentity } from "./government-units";
 import {
   knownRule,
+  localOrdinanceDefaultEnactment,
   majorityOf,
   notApplicableRule,
   unknownRule,
@@ -70,10 +71,6 @@ const EXECUTIVE = source(
   "The mayor",
   "An adopted ordinance is not presented to the mayor. Whether a town's mayor may veto has not been read.",
 );
-const EFFECT = source(
-  "Effective date",
-  "An ordinance takes effect when it is adopted. No town's publication rule has been read.",
-);
 
 export function townCouncilProfilePackId(unit: GovernmentUnitIdentity): string {
   return `us-${unit.stateUsps.toLowerCase()}-town-council-profile-v1:${unit.id}`;
@@ -135,6 +132,7 @@ export function townCouncilProfilePack(
   if (!identity) return null;
   const seats = { value: identity.seats };
   const seatSource = source("Seats", identity.seatNote);
+  const enactment = localOrdinanceDefaultEnactment();
   return {
     packId: townCouncilProfilePackId(unit),
     titleTemplate: ORDINANCE_MEASURE_TITLE,
@@ -230,11 +228,9 @@ export function townCouncilProfilePack(
       },
       source: EXECUTIVE,
     },
-    enactment: {
-      effectiveDateDistinctFromEnactment: knownRule(false, EFFECT),
-      defaultEffectiveRule: knownRule("on adoption", EFFECT),
-      source: EFFECT,
-    },
+    // No town's own publication rule has been read: the local ordinance
+    // estimate every unread local body carries.
+    enactment,
     session: {
       sessionLabel: `${identity.governmentName} council year`,
       adjournmentRule: unknownRule(
@@ -245,7 +241,7 @@ export function townCouncilProfilePack(
       ),
       source: ORIGIN,
     },
-    sources: [seatSource, PASSAGE, QUORUM, ORIGIN, EXECUTIVE, EFFECT],
+    sources: [seatSource, PASSAGE, QUORUM, ORIGIN, EXECUTIVE, enactment.source],
     unresolvedGaps: [
       "This council has not been compiled from its town's own charter or ordinances. Only its name and seat count come from the game's research; its procedure is the game's own.",
       "Committees, readings, public hearings, notice periods and the mayor's role are not yet part of this council's procedure.",

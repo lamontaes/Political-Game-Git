@@ -11,7 +11,9 @@ import {
 } from "../living-world/local-government-seats";
 import { councilRules } from "../living-world/local-council-binding";
 import { legislativePackForWorkKey } from "../legislative-institutions";
-import { measurePosition } from "../legislation";
+import { measureEnactment, measurePosition } from "../legislation";
+import { daysBetween } from "../dates";
+import { advanceWorld } from "../world";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { personName } from "../people";
@@ -160,7 +162,10 @@ describe("one title policy and the common support/repeal filer", () => {
         );
         next = completeCouncilPassage(next, bill, null);
         expect(measurePosition(next, bill.id).phase).toBe("enacted");
-        return next;
+        // The ordinance takes effect on its own date (the local default, 30
+        // days after adoption); the World clock runs to it.
+        const effectiveAt = measureEnactment(next, bill.id)!.effectiveAt!;
+        return advanceWorld(next, daysBetween(next.currentDate, effectiveAt));
       };
 
       // Opposition to a question with no law files nothing to repeal.

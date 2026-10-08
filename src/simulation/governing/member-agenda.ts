@@ -18,8 +18,6 @@ export {
   LOCAL_MEMBER_AGENDA_VERSION,
 } from "./member-agenda-settings";
 import { addDays } from "../dates";
-import { STATUTE_EFFECTIVE_DEFAULT_DAYS } from "../enacted-rule-changes";
-import { operativeDateForEnactment } from "../legislative-effective-date";
 import { outranks } from "../law-hierarchy";
 import { ensureNationalElectionJurisdiction } from "../national-election-geography";
 import { recordWorldEvent } from "../world";
@@ -77,7 +75,12 @@ import type {
 } from "../types";
 import { seatedChamberForPack } from "./chamber-votes";
 import { agendaCaucus, majorityAgendaChoice } from "./majority-agenda";
-import { lawInForce, ownLawLevel, statuteAnswer } from "./law-in-force";
+import {
+  lawInForce,
+  operativeDateInWorld,
+  ownLawLevel,
+  statuteAnswer,
+} from "./law-in-force";
 import { mayAnswerQuestion } from "./question-authority";
 import {
   ensureOfficeholderPrinciples,
@@ -169,20 +172,10 @@ function councilQuestionClosed(
       "measureId",
       measure.id,
     ).some((enactment) => {
-      // Read an admitted saved fictional profile through the shared date reader.
-      if (
-        enactment.effectiveDateBasis === "game-default" &&
-        enactment.effectiveDateGameProfile
-      ) {
-        const operative = operativeDateForEnactment(enactment);
-        if (operative) return operative.date > world.currentDate;
-      }
-      // General legacy/source-default handling awaits its separate contract.
-      return (
-        (enactment.effectiveAt ??
-          addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS)) >
-        world.currentDate
-      );
+      // The one reading every consumer shares (`legislative-effective-date.ts`).
+      // An act no rule dates never takes effect, so nothing is pending.
+      const operative = operativeDateInWorld(world, enactment);
+      return operative !== null && operative.date > world.currentDate;
     }),
   );
 }

@@ -4,6 +4,7 @@ import { makeIsoDate } from "./dates";
 import {
   operativeDateForEnactment,
   resolveLegislativeEffectiveDate,
+  stateStatuteOperativeAt,
 } from "./legislative-effective-date";
 import {
   ALASKA_RULE_PACK,
@@ -11,10 +12,7 @@ import {
   MARYLAND_RULE_PACK,
 } from "./legislature-rule-packs";
 import type { LegislativeEnactmentRecord } from "./types";
-import {
-  stateStatuteOperativeAt,
-  statuteEffectiveDateEstimated,
-} from "./governing/statute-effective-date";
+import { statuteEffectiveDateEstimated } from "./governing/statute-effective-date";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executive-candidacy-packs";
 import { legislativePackForJurisdiction } from "./legislative-institutions";
 import { stateJurisdictionForKey } from "./life-places";
@@ -32,8 +30,11 @@ const datePacks = CHIEF_EXECUTIVE_JURISDICTIONS.flatMap((usps) => {
 describe("legislative effective dates", () => {
   it("uses the declared on-adoption date without parsing a prose rule", () => {
     const enacted = makeIsoDate("2026-01-20");
+    // A body that is not its state's legislature dates its acts by its own
+    // pack, never by the surrounding state's statute rule.
     const pack: LegislativeRulePack = {
       ...MARYLAND_RULE_PACK,
+      packId: "fixture-local-body-v1",
       enactment: {
         ...MARYLAND_RULE_PACK.enactment,
         defaultEffectiveSchedule: undefined,
@@ -76,23 +77,25 @@ describe("legislative effective dates", () => {
       effectiveAt: makeIsoDate("2026-04-20"),
     });
   });
-  it("computes Alaska's sourced default and labels Maryland's fallback as fictional", () => {
+  it("dates a state legislature's act by its state's recorded rule, with or without the act's context", () => {
     const enacted = makeIsoDate("2026-01-20");
     expect(resolveLegislativeEffectiveDate(ALASKA_RULE_PACK, enacted)).toEqual({
       kind: "source-default",
       effectiveAt: makeIsoDate("2026-04-20"),
     });
+    // Md. Const. art. XVI, § 2: the first day of June after passage.
     expect(
       resolveLegislativeEffectiveDate(MARYLAND_RULE_PACK, enacted),
     ).toEqual({
-      kind: "game-default",
-      effectiveAt: makeIsoDate("2026-04-20"),
+      kind: "source-default",
+      effectiveAt: makeIsoDate("2026-06-01"),
     });
+    // Kentucky: the 91st day after its 2026 regular session's end.
     expect(
       resolveLegislativeEffectiveDate(KENTUCKY_RULE_PACK, enacted),
     ).toEqual({
-      kind: "game-default",
-      effectiveAt: makeIsoDate("2026-04-20"),
+      kind: "source-default",
+      effectiveAt: makeIsoDate("2026-07-15"),
     });
   });
 

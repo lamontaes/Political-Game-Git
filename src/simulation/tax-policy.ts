@@ -23,6 +23,10 @@ import {
 } from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
 import { addDays, makeIsoDate } from "./dates";
+import {
+  statedEffectiveDate,
+  type ActStatedTiming,
+} from "./legislative-effective-date";
 import { createStableId } from "./ids";
 import {
   currentMeasureProvisions,
@@ -601,27 +605,33 @@ export function taxLevyText(terms: TaxTerms): string {
   return `An authored ${kind} at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
 }
 
-/** A profile delay cannot make the modeled tax effective before the enacted
- * law itself. Alaska retains its existing ninety-day source-backed date rule.
+/**
+ * The timing a filed levy states for its act: its delay after enactment, and
+ * for a fictional authored state profile never before the date the enacted
+ * law itself takes effect. The date is computed by the one effective-date
+ * function (`legislative-effective-date.ts`).
  */
-export function taxPolicyEffectiveDate(
+export function taxStatedTiming(terms: TaxTerms): ActStatedTiming {
+  return {
+    delayDays: terms.effectiveDelayDays ?? 90,
+    notBeforeBodyDefault:
+      terms.legalBaselineAssumption === "authored-state-game-profile",
+  };
+}
+
+/** The date the levy filed with an enacted act takes effect. */
+export function levyEffectiveDate(
   enactment: {
     readonly resolvedAt: IsoDate;
     readonly effectiveAt: IsoDate | null;
   },
   terms: TaxTerms,
 ): IsoDate {
-  const profileDate = addDays(
+  return statedEffectiveDate(
     enactment.resolvedAt,
-    terms.effectiveDelayDays ?? 90,
+    taxStatedTiming(terms),
+    enactment.effectiveAt,
   );
-  if (
-    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
-    !enactment.effectiveAt ||
-    enactment.effectiveAt <= profileDate
-  )
-    return profileDate;
-  return enactment.effectiveAt;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.
@@ -655,7 +665,7 @@ export function adoptEnactedTaxPolicy(
     throw new Error(
       "The adopted tax text changed; its effects require an explicit supported revision.",
     );
-  const effectiveAt = taxPolicyEffectiveDate(enactment, proposal.terms);
+  const effectiveAt = levyEffectiveDate(enactment, proposal.terms);
   if (
     proposal.terms.legalBaselineAssumption !== "authored-state-game-profile" &&
     enactment.effectiveAt !== null &&
@@ -1911,8 +1921,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       enactment.sequence >= policy.sequence ||
       enactment.outcome !== "enacted" ||
       enactment.measureId !== proposal.measureId ||
-      policy.effectiveAt !==
-        taxPolicyEffectiveDate(enactment, proposal.terms) ||
+      policy.effectiveAt !== levyEffectiveDate(enactment, proposal.terms) ||
       (enactment.effectiveAt !== null &&
         enactment.effectiveAt !== policy.effectiveAt) ||
       policy.recordedAt > policy.effectiveAt ||

@@ -40,7 +40,6 @@ import { daysBetween, spokenDate } from "../simulation/dates";
 import { enactingGovernmentForPack } from "../simulation/legislation-drafting";
 import { nextSessionCalendarDate } from "../simulation/legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
-import { typedTaxEnactmentDate } from "../simulation/tax-policy-activation";
 import type {
   LegislativeQuestionIdentity,
   LegislativeVoteDisposition,
@@ -645,11 +644,9 @@ export function applyLegislativeStep(
       };
     }
     case "record-enactment": {
-      const typedTaxDate = typedTaxEnactmentDate(world, measureId);
       const next = recordEnactment(world, {
         stableKey: key("enactment"),
         measureId,
-        ...(typedTaxDate ? { effectiveAt: typedTaxDate } : {}),
       });
       return { world: next, message: "Your bill is now law." };
     }

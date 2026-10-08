@@ -17,14 +17,10 @@ import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
  * time it is read.
  */
 
-import { addDays } from "./dates";
-import {
-  laborLawOfficeKey,
-  ruleValueInWorld,
-  STATUTE_EFFECTIVE_DEFAULT_DAYS,
-} from "./enacted-rule-changes";
+import { laborLawOfficeKey, ruleValueInWorld } from "./enacted-rule-changes";
 import {
   lawInForce,
+  operativeDateInWorld,
   startingLawInForce,
   startingLawScope,
 } from "./governing/law-in-force";
@@ -103,10 +99,9 @@ export function federalMinimumSchedule(
       );
       if (!measure || !measurePropositionAnswer(measure, proposition.id))
         continue;
-      dates.add(
-        enactment.effectiveAt ??
-          addDays(enactment.resolvedAt, STATUTE_EFFECTIVE_DEFAULT_DAYS),
-      );
+      // The one reading every consumer shares (`legislative-effective-date.ts`).
+      const operative = operativeDateInWorld(world, enactment);
+      if (operative) dates.add(operative.date);
     }
     for (const from of [...dates].sort()) {
       if (from > world.currentDate) continue;

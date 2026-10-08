@@ -1,39 +1,52 @@
-import { resolveLegislativeEffectiveDate } from "./legislative-effective-date";
-import { legislativeRulePackForWorld } from "./legislative-procedure-world";
+import type { ActStatedTiming } from "./legislative-effective-date";
 import { readFiledTaxContentIdentity } from "./legislation-tax-identity";
 import { draftLineageForMeasure } from "./legislation-draft-lineage";
 import { currentMeasureProvisions } from "./legislative-politics";
-import { taxLevyText, taxPolicyEffectiveDate } from "./tax-policy";
-import type { World, EntityId, IsoDate } from "./types";
+import { levyEffectiveDate, taxLevyText, taxStatedTiming } from "./tax-policy";
+import type { TaxProposalRecord } from "./tax-types";
+import type { World, EntityId } from "./types";
 
-/** An unchanged typed levy states its own date in the filed act. Both the
- * player and institutional enactment routes must record that date before tax
- * activation checks it. An amended or untyped act keeps its ordinary default;
- * neither route may adopt the old proposal's tax effect from changed text.
+/**
+ * Why an enacted act no longer carries the levy filed with it, or null where
+ * it carries it unchanged. A pinned typed draft loses its supported effect if
+ * any adopted section differs, including an added section beside an
+ * unchanged levy; a legacy proposal without a compiler identity keeps its
+ * levy-level check.
  */
-export function typedTaxEnactmentDate(
+function filedLevyChanged(
+  world: World,
+  proposal: TaxProposalRecord,
+): string | null {
+  if (draftLineageForMeasure(world, proposal.measureId)) {
+    const identity = readFiledTaxContentIdentity(world, proposal.measureId);
+    if (identity.kind === "unavailable") return identity.reason;
+  }
+  const provision = currentMeasureProvisions(world, proposal.measureId).find(
+    (row) => row.provisionKey === "tax-levy",
+  );
+  return provision?.id !== proposal.levyProvisionId ||
+    provision.text !== taxLevyText(proposal.terms)
+    ? "Enacted text changed; supported typed tax effects have not been authored for the revision."
+    : null;
+}
+
+/**
+ * The timing an act states for itself through the levy filed with it, read by
+ * the enactment writer on every route (the player's, the institution's and a
+ * council's). An act that no longer carries its filed levy unchanged states
+ * none and keeps its body's own date; no route may adopt the old proposal's
+ * timing from changed text.
+ */
+export function filedLevyTiming(
   world: World,
   measureId: EntityId,
-): IsoDate | null {
-  if (readFiledTaxContentIdentity(world, measureId).kind !== "available")
-    return null;
+): ActStatedTiming | null {
   const proposal = world.history.taxProposals?.find(
     (row) => row.measureId === measureId,
   );
-  const measure = world.history.legislativeMeasures?.find(
-    (row) => row.id === measureId,
-  );
-  if (!proposal || !measure) return null;
-  const defaultDate = resolveLegislativeEffectiveDate(
-    legislativeRulePackForWorld(world, measure.rulePackId),
-    world.currentDate,
-  );
-  // This one date function already implements the filed source delay and the
-  // fictional profile's later-of rule. No timing assumption is duplicated.
-  return taxPolicyEffectiveDate(
-    { resolvedAt: world.currentDate, effectiveAt: defaultDate.effectiveAt },
-    proposal.terms,
-  );
+  return proposal && !filedLevyChanged(world, proposal)
+    ? taxStatedTiming(proposal.terms)
+    : null;
 }
 
 export function taxActivationReadiness(
@@ -58,26 +71,9 @@ export function taxActivationReadiness(
       kind: "unavailable",
       reason: "This proposal has not completed enactment.",
     };
-  // A pinned typed draft loses its supported effect if any adopted section
-  // differs, including an added section beside an unchanged levy. Legacy tax
-  // saves without a compiler identity keep their existing levy-level check.
-  if (draftLineageForMeasure(world, proposal.measureId)) {
-    const identity = readFiledTaxContentIdentity(world, proposal.measureId);
-    if (identity.kind === "unavailable") return identity;
-  }
-  const provision = currentMeasureProvisions(world, proposal.measureId).find(
-    (row) => row.provisionKey === "tax-levy",
-  );
-  if (
-    provision?.id !== proposal.levyProvisionId ||
-    provision.text !== taxLevyText(proposal.terms)
-  )
-    return {
-      kind: "unavailable",
-      reason:
-        "Enacted text changed; supported typed tax effects have not been authored for the revision.",
-    };
-  const effectiveAt = taxPolicyEffectiveDate(enactment, proposal.terms);
+  const changed = filedLevyChanged(world, proposal);
+  if (changed) return { kind: "unavailable", reason: changed };
+  const effectiveAt = levyEffectiveDate(enactment, proposal.terms);
   if (
     proposal.terms.legalBaselineAssumption !== "authored-state-game-profile" &&
     enactment.effectiveAt !== null &&

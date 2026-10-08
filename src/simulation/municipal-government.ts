@@ -35,6 +35,7 @@ import {
  */
 
 import { municipalProcedurePlaceholder } from "./municipal-procedure-placeholders";
+import { standingCommittee } from "./standing-committee";
 import type {
   LegalInstrument,
   LocalAuthorityNarrowing,
@@ -64,11 +65,13 @@ import {
 import {
   fractionOf,
   knownRule,
+  localOrdinanceDefaultEnactment,
   majorityOf,
   notApplicableRule,
   unknownRule,
 } from "./legislature-rules";
 import type {
+  EnactmentRule,
   FloorStageRule,
   LegislativeRulePack,
   RuleSourceRef,
@@ -442,7 +445,7 @@ export function primaryReading(
 }
 
 /** A source body's catalog identity, only when the publisher or place binds it. */
-function catalogUnitFor(
+export function catalogUnitFor(
   government: MunicipalGovernment,
 ): GovernmentUnitIdentity | null {
   const publisherId = government.identity?.publisherId;
@@ -457,6 +460,32 @@ function catalogUnitFor(
     if (units.length === 1) return units[0]!;
   }
   return null;
+}
+
+/**
+ * When the council's ordinances take effect, as pack data. A read rule that
+ * dates an ordinance from its passage is the one the engine executes; a
+ * council whose rule was not read carries the local ordinance estimate every
+ * unread local body carries. Congressional review (the District's acts) is
+ * carried in `councilActions` and dates the act there.
+ */
+function councilEnactmentRule(reading: MunicipalReading): EnactmentRule {
+  const text = reading.procedure.effectivePublication;
+  if (text === null) return localOrdinanceDefaultEnactment();
+  const source = municipalRuleSourceRef(reading, "effective date");
+  return {
+    effectiveDateDistinctFromEnactment: knownRule(true, source),
+    defaultEffectiveRule: knownRule(text, source),
+    ...(text.includes("from the date of its passage")
+      ? {
+          defaultEffectiveSchedule: knownRule(
+            { kind: "days-after-enactment" as const, days: 0 },
+            source,
+          ),
+        }
+      : {}),
+    source,
+  };
 }
 
 /** A game rule may fill a gap; it may not skip a sourced hearing or desk. */
@@ -951,7 +980,12 @@ export function municipalRulePackFor(
                 ),
           source: municipalRuleSourceRef(reading, "referral"),
         },
-        committees: [],
+        // A body whose placeholder refers each measure to committee hears it
+        // in the game's standing committee until its own committee rules
+        // are read (municipal-procedure-placeholders.ts).
+        committees: placeholder?.committeeReferral
+          ? [standingCommittee("council", bodySize, bodyName)]
+          : [],
         floorStages: buildFloorStages(
           reading,
           passage,
@@ -1120,24 +1154,7 @@ export function municipalRulePackFor(
       override,
       source: executiveSource,
     },
-    enactment: {
-      effectiveDateDistinctFromEnactment:
-        reading.procedure.effectivePublication === null
-          ? unknownRule(
-              "No instrument read separates adoption from taking effect here.",
-            )
-          : knownRule(true, municipalRuleSourceRef(reading, "effective date")),
-      defaultEffectiveRule:
-        reading.procedure.effectivePublication === null
-          ? unknownRule(
-              "No instrument read states when an ordinance takes effect here.",
-            )
-          : knownRule(
-              reading.procedure.effectivePublication,
-              municipalRuleSourceRef(reading, "effective date"),
-            ),
-      source: municipalRuleSourceRef(reading, "effective date"),
-    },
+    enactment: councilEnactmentRule(reading),
     session: {
       sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,

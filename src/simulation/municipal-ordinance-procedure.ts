@@ -36,7 +36,6 @@ import { addDays } from "./dates";
 import { applyEnactedLawEffects } from "./enacted-law-effects";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { admitLocalFiscalMeasure } from "./local-fiscal-authority";
-import { taxPolicyEffectiveDate } from "./tax-policy";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import {
@@ -55,7 +54,6 @@ import { legislativeRulePackForWorld } from "./legislative-procedure-world";
 import { decideChamberVote } from "./governing/chamber-votes";
 import { memberBallotOn } from "./governing/member-ballots";
 import type { ChamberQuestion } from "./governing/member-ballots";
-import { ORDINANCE_EFFECTIVE_AFTER_DAYS } from "./governing/ordinance-effective-date";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 
@@ -692,83 +690,6 @@ export const COUNCIL_ACT_EXECUTIVE_DEADLINE =
 export const COUNCIL_ACT_OVERRIDE_DEADLINE =
   "civic:council-act-override-deadline" as const;
 
-/**
- * Congressional review of the District's acts, D.C. Code § 1-206.02(c)(1):
- * the Chairman transmits the act to the Speaker and the President of the
- * Senate, and it takes effect when a 30-day period (excluding Saturdays,
- * Sundays, holidays and days neither House sits) expires, unless a joint
- * resolution disapproving it is enacted first.
- *
- * RECORDED GAME PROFILE: the days counted
- * here skip Saturdays and Sundays only. Holidays are not excluded, because no
- * holiday calendar is read, and both Houses are taken to be sitting, because
- * no congressional sitting calendar is read. No joint resolution of
- * disapproval is ever enacted in play.
- */
-/**
- * Questions whose acts the game treats as codified in Title 22 (criminal
- * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
- * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
- *
- * RECORDED GAME PROFILE: an act in play
- * records the policy question it answers, not the Code title it amends, so
- * this mapping from question to title is the game's own inference. A
- * councilmember's own act names no question and takes the ordinary period.
- * The 60 days are counted like the 30, skipping weekends only.
- */
-const CRIMINAL_CODE_ISSUE_KEYS: ReadonlySet<string> = new Set([
-  "us-state-and-local:justice-public-safety.criminal-law-and-sentencing",
-  "us-state-and-local:justice-public-safety.prosecution-and-defense",
-  "us-state-and-local:justice-public-safety.corrections-and-prisons",
-  "us-state-and-local:justice-public-safety.reentry",
-]);
-
-/** Whether an act answers a question the game places in Titles 22 to 24. */
-export function actAmendsCriminalCode(
-  world: World,
-  measure: LegislativeMeasureRecord,
-): boolean {
-  const catalog = world.policyCatalog;
-  return (measure.propositionIds ?? []).some((id) => {
-    const issueId = catalog.propositions[id]?.issueId;
-    const issue = issueId ? catalog.issues[issueId] : undefined;
-    return issue !== undefined && CRIMINAL_CODE_ISSUE_KEYS.has(issue.stableKey);
-  });
-}
-
-function isWeekend(date: IsoDate): boolean {
-  const day = new Date(`${date}T00:00:00Z`).getUTCDay();
-  return day === 0 || day === 6;
-}
-
-/** The date `count` weekdays after `from`, not counting `from` itself. */
-export function addWeekdays(from: IsoDate, count: number): IsoDate {
-  let date = from;
-  let counted = 0;
-  while (counted < count) {
-    date = addDays(date, 1);
-    if (!isWeekend(date)) counted += 1;
-  }
-  return date;
-}
-
-/**
- * The date an act transmitted on `transmittedOn` takes effect: the day after
- * the last day of the review period, counting the day of transmittal when it
- * is a weekday (the period begins on that day).
- */
-export function congressionalReviewEffectiveOn(
-  transmittedOn: IsoDate,
-  days: number,
-): IsoDate {
-  const firstCounted = isWeekend(transmittedOn) ? 0 : 1;
-  const lastDay =
-    firstCounted === 1 && days === 1
-      ? transmittedOn
-      : addWeekdays(transmittedOn, days - firstCounted);
-  return addDays(lastDay, 1);
-}
-
 /** Whoever holds this government's executive office today, if anyone does. */
 export function municipalExecutiveHolder(
   world: World,
@@ -802,7 +723,6 @@ export function completeCouncilPassage(
   const government = governmentKey
     ? municipalGovernmentByKey(governmentKey)
     : null;
-  const reading = government ? municipalProcedureReading(government) : null;
   const pack = legislativeRulePackForWorld(world, measure.rulePackId);
   const presentment = pack.executive.presentmentRequired;
   let next = enrollMeasure(world, {
@@ -831,26 +751,12 @@ export function completeCouncilPassage(
         immediateReaction: null,
       },
     });
-    const effectiveFromPassage =
-      reading?.procedure.effectivePublication?.includes(
-        "from the date of its passage",
-      ) === true;
+    // The writer dates the act from the council's own rule pack and the
+    // act's record (`legislative-effective-date.ts`).
     next = recordEnactment(next, {
       stableKey: `${measure.stableKey}:enactment`,
       measureId: measure.id,
       actDesignation: measure.designation,
-      // The admitted town profile's executable date is saved by the writer.
-      // Compiled publication rules retain their existing adapter until typed.
-      ...(governmentKey
-        ? {
-            // A filed typed levy states its own delay; the later date rules.
-            effectiveAt:
-              filedTaxEffectiveDate(next, measure.id) ??
-              (effectiveFromPassage
-                ? next.currentDate
-                : addDays(next.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS)),
-          }
-        : {}),
     });
     // Every enactment passes through the one effects step, a council's too.
     return applyEnactedLawEffects(next, measure.id);
@@ -887,8 +793,7 @@ export function completeCouncilPassage(
 function councilActionDays(
   world: World,
   measure: LegislativeMeasureRecord,
-  field:
-    "overrideWindowDays" | "congressionalReviewDays" | "criminalCodeReviewDays",
+  field: "overrideWindowDays",
 ): number | null {
   const rule = legislativeRulePackForWorld(world, measure.rulePackId)
     .councilActions?.[field];
@@ -898,37 +803,14 @@ function councilActionDays(
 /** Record a measure the executive approved, or the council reenacted, as law. */
 function enactCouncilMeasure(
   world: World,
-  governmentKey: string,
   measure: LegislativeMeasureRecord,
 ): World {
-  const review = councilActionDays(world, measure, "congressionalReviewDays");
-  const criminalReview = councilActionDays(
-    world,
-    measure,
-    "criminalCodeReviewDays",
-  );
-  const government = municipalGovernmentByKey(governmentKey)!;
-  const reading = municipalProcedureReading(government);
-  const reviewDays = actAmendsCriminalCode(world, measure)
-    ? criminalReview
-    : review;
-  const effectiveAt =
-    review === null && filedTaxEffectiveDate(world, measure.id)
-      ? filedTaxEffectiveDate(world, measure.id)
-      : review !== null
-        ? reviewDays !== null
-          ? congressionalReviewEffectiveOn(world.currentDate, reviewDays)
-          : null
-        : reading.procedure.effectivePublication?.includes(
-              "from the date of its passage",
-            )
-          ? world.currentDate
-          : addDays(world.currentDate, ORDINANCE_EFFECTIVE_AFTER_DAYS);
+  // The writer dates the act: congressional review, the act's own levy, or
+  // the council's rule (`legislative-effective-date.ts`).
   const next = recordEnactment(world, {
     stableKey: `${measure.stableKey}:enactment`,
     measureId: measure.id,
     actDesignation: measure.designation,
-    effectiveAt,
   });
   return applyEnactedLawEffects(next, measure.id);
 }
@@ -967,7 +849,7 @@ export function recordCouncilExecutiveDecision(
   });
   if (action === "signed") {
     next = applyItemVetoes(next, measure.id, actorPersonId, itemSelection);
-    return enactCouncilMeasure(next, governmentKey, measure);
+    return enactCouncilMeasure(next, measure);
   }
   const days = councilActionDays(world, measure, "overrideWindowDays");
   if (days)
@@ -1007,7 +889,6 @@ export function recordCouncilExecutiveInaction(
       rationale:
         "The recorded executive action window ended without a return, so the council act is approved without a signature.",
     }),
-    governmentKey,
     measure,
   );
 }
@@ -1156,7 +1037,7 @@ export function recordCouncilOverrideVote(
     return refuse(world, (error as Error).message);
   }
   if (measurePosition(next, measure.id).phase === "awaiting-enactment") {
-    next = enactCouncilMeasure(next, input.governmentKey, measure);
+    next = enactCouncilMeasure(next, measure);
   }
   return { ok: true, world: next };
 }
@@ -1186,24 +1067,6 @@ function councilOfMeasure(measure: LegislativeMeasureRecord): string | null {
   } catch {
     return null;
   }
-}
-
-/** A filed typed levy takes effect on its own delay from passage, not from the
- * ordinance's default publication date; the same date function the tax policy
- * uses decides it, and a measure with no filed levy has none. */
-function filedTaxEffectiveDate(
-  world: World,
-  measureId: EntityId,
-): IsoDate | null {
-  const proposal = world.history.taxProposals?.find(
-    (row) => row.measureId === measureId,
-  );
-  return proposal
-    ? taxPolicyEffectiveDate(
-        { resolvedAt: world.currentDate, effectiveAt: null },
-        proposal.terms,
-      )
-    : null;
 }
 
 /** A scheduled ordinary council reading uses the seated roll and saved ballot. */
