@@ -4,7 +4,6 @@ import {
   fileAtClerk,
   leaveFilingVisit,
   projectClerkFilingScene,
-  type ClerkQuestion,
   type ClerkRuleRecord,
 } from "../presentation/clerk-filing-scene";
 import { proseDate, proseMonthDay } from "../presentation/prose-dates";
@@ -23,8 +22,9 @@ function rule(record: ClerkRuleRecord | undefined): string | null {
 
 /**
  * The clerk's counter, from its saved entry, questions and answers. Every
- * word shown is a record: the clerk's name and title, the seats' names, and
- * the values the counter read out for them.
+ * word shown is a record (the clerk's name and title, the seats' names, the
+ * values the counter read out for them) or an approved control: Continue asks
+ * the counter's next question in its order, and Back leaves.
  */
 export function ClerkFilingPanel({
   world,
@@ -109,22 +109,26 @@ export function ClerkFilingPanel({
           ))}
         </dl>
       ))}
-      {scene.questions.map((question: ClerkQuestion) => (
+      {scene.questions[0] ? (
         <button
-          key={question}
           type="button"
           className="ui-action"
           disabled={runner.pending}
-          data-testid={`clerk-filing-question-${question}`}
+          data-testid="clerk-filing-continue"
           onClick={() =>
             perform((current) =>
-              askClerk(current, personId, scene.activityId, question),
+              askClerk(
+                current,
+                personId,
+                scene.activityId,
+                scene.questions[0]!,
+              ),
             )
           }
         >
-          {question}
+          Continue
         </button>
-      ))}
+      ) : null}
       {scene.seats
         .filter((seat) =>
           scene.availableActions.includes(`file:${seat.officeKey}`),
