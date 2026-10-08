@@ -688,7 +688,7 @@ const firstCampaignWeek: GoldenPathStep = {
               : note(
                   { ...state, world },
                   "campaign-week",
-                  "spent an afternoon on outreach",
+                  `spent an afternoon on outreach; ${canvassNote(world)}`,
                 );
         } catch (error) {
           state = brk(state, "campaign-week", "crash", "Outreach threw.", [
@@ -733,6 +733,19 @@ const firstCampaignWeek: GoldenPathStep = {
     return state;
   },
 };
+
+/** The doors the latest outreach session knocked on, and who answered. */
+function canvassNote(world: World): string {
+  const canvass = world.history.campaignActionResults?.at(-1)?.canvass;
+  if (!canvass) return "no doors recorded";
+  return `${canvass.householdIds.length} doors, ${canvass.metPersonIds.length} met${
+    canvass.metPersonIds.length
+      ? `: ${canvass.metPersonIds
+          .map((id) => personName(world.people[id]!))
+          .join(", ")}`
+      : ""
+  }`;
+}
 
 /** The candidate's recorded support in their own race, in percent. */
 function supportPercent(state: GoldenPathState): number | null {

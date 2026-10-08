@@ -1568,7 +1568,9 @@ function recordCampaignActionOutcome(
     ? `${baseOutcomeSummary} The approved geography was ${action.strategy.geographyLabel}.`
     : baseOutcomeSummary;
   // The doors an outreach session reached, and the residents home to answer.
-  const doors = walkCampaignCanvass(next, campaign, action);
+  const walk = walkCampaignCanvass(next, campaign, action);
+  next = walk.world;
+  const doors = walk.doors;
   const metPersonIds = [...new Set(doors.flatMap((door) => door.metPersonIds))];
   next = recordWorldEvent(next, {
     stableKey: `${action.stableKey}:outcome-event`,

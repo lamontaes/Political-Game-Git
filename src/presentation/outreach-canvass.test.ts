@@ -128,7 +128,8 @@ describe(`a candidate's afternoon on the doors in a generated world (${place.dis
       }
 
       // The next session picks up at the next door, not the same ones.
-      const next = walkCampaignCanvass(world, campaign, action);
+      const next = walkCampaignCanvass(world, campaign, action).doors;
+      expect(next.length).toBeGreaterThan(0);
       expect(
         next.some((door) => canvass.householdIds.includes(door.householdId)),
       ).toBe(false);
