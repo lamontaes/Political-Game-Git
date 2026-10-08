@@ -19084,6 +19084,7 @@
     "walking": ["stand"],
     "waving": ["stand"],
     "weight-shift": ["stand"],
+    "lean": ["lean"],
     "back-addressing": ["stand"],
     "back-arms-folded": ["stand"],
     "back-hands-in-pockets": ["stand"],

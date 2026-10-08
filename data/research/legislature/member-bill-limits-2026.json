@@ -542,7 +542,7 @@
         }
       ],
       "applied": false,
-      "notAppliedReason": "limit not applied: which row applies is not recorded: first annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
+      "notAppliedReason": "limit not applied: session selector pending: first annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-TN",
@@ -584,7 +584,7 @@
         }
       ],
       "applied": false,
-      "notAppliedReason": "limit not applied: which row applies is not recorded: second annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
+      "notAppliedReason": "limit not applied: session selector pending: second annual session of a General Assembly; exemption unread: 11 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-VA",
@@ -665,7 +665,7 @@
         }
       ],
       "applied": false,
-      "notAppliedReason": "limit not applied: which row applies is not recorded: general session (not a budget session); exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
+      "notAppliedReason": "limit not applied: session selector pending: general session (not a budget session); exemption unread: 2 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-WY",
@@ -692,7 +692,7 @@
         }
       ],
       "applied": false,
-      "notAppliedReason": "limit not applied: which row applies is not recorded: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
+      "notAppliedReason": "limit not applied: session selector pending: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-WY",
@@ -719,7 +719,7 @@
         }
       ],
       "applied": false,
-      "notAppliedReason": "limit not applied: which row applies is not recorded: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
+      "notAppliedReason": "limit not applied: session selector pending: budget session; exemption unread: 1 exemption(s) cannot be bound to a recorded timing, subject, sponsor or period field"
     },
     {
       "place": "US-AL",
@@ -1044,7 +1044,7 @@
       "citation": "Rules of the Kansas Senate, 2025-2026 biennium",
       "url": "https://www.kslegislature.gov/li/b2025_26/chamber/senate/rules/",
       "quote": null,
-      "note": "No cap on bills found. The Senate rules do cap commemorative and honorary resolutions: no Senator may be the primary sponsor of more than three such resolutions in a session. That is a resolution cap, not a bill cap, so it is not recorded as a limit."
+      "note": "No cap on bills found. The Senate rules do cap commemorative and honorary resolutions: no Senator may be the primary sponsor of more than three such resolutions in a session. That recorded resolution cap is outside this table’s bill-limit scope."
     },
     {
       "place": "US-KY",
@@ -1161,7 +1161,7 @@
       "citation": "Standing Rules of the Michigan House of Representatives, 103rd Legislature (revised 2/25/2026)",
       "url": "https://www.legislature.mi.gov/documents/publications/rules/house_rules.pdf",
       "quote": null,
-      "note": "No cap on bills found. House Rule (Chapter V) limits each member to two commemorative resolutions per calendar year; that is a resolution cap, not a bill cap, so it is not recorded as a limit."
+      "note": "No cap on bills found. House Rule (Chapter V) records a limit of two commemorative resolutions per member per calendar year; that resolution cap is outside this table’s bill-limit scope."
     },
     {
       "place": "US-MI",
