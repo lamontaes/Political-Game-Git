@@ -125,8 +125,8 @@ describe("candidate guidance in the room", () => {
     expect(asked).not.toBe(first.world);
     expect(asked.currentMoment).toEqual(first.world.currentMoment);
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.words,
-    ).toBe("What are the requirements to run here?");
+      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.question,
+    ).toBe("requirements");
     const response = projectCandidateGuidanceScene(asked, personId)?.turns[0]
       ?.response;
     expect(response).toBe(

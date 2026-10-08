@@ -87,8 +87,11 @@ describe("candidate guidance as reached by the player", () => {
       "requirements",
     );
     const html = render(asked);
+    const response = asked.history.events.at(-1)!.context.immediateReaction;
     expect(html).toContain('data-testid="candidate-guidance-turn"');
     expect(html).toContain("question");
+    expect(response).toBeTruthy();
+    if (response) expect(html).toContain(response);
     expect(html).not.toContain("Let's check the requirements");
     expect(html).not.toContain("What are the requirements to run here?");
     expect(html).not.toContain(

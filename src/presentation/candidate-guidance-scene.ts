@@ -21,17 +21,9 @@ import { plainCandidateGuidance } from "./candidate-guidance-prose";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
-// COPY-PENDING(wave2): Claude English will review these spoken lines against
-// the saved scene packet. No filing rule or host knowledge is asserted.
-export const CANDIDATE_GUIDANCE_OPENING =
-  "We can talk about running for office. What would you like to ask?";
 export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
   readonly key: CandidateGuidanceQuestion;
-  readonly words: string;
-}[] = [
-  { key: "requirements", words: "What are the requirements to run here?" },
-  { key: "filing", words: "Who takes the paperwork, and when is it due?" },
-];
+}[] = [{ key: "requirements" }, { key: "filing" }];
 
 const baseKey = (activityId: EntityId) =>
   `candidate-guidance-scene-v1:${activityId}`;
@@ -106,7 +98,6 @@ export function enterCandidateGuidance(
   const key = `${baseKey(activityId)}:entry`;
   if (!here || world.history.events.some((event) => event.stableKey === key))
     return world;
-  const hostName = personName(world.people[here.view.hostPersonId]!);
   const next = recordWorldEvent(world, {
     stableKey: key,
     type: "campaign.candidate-guidance-entered",
@@ -120,16 +111,16 @@ export function enterCandidateGuidance(
       here.view.hostOrganizationId,
     ],
     participants: [
-      { personId, role: "presence:participant", detail: "Came to talk" },
+      { personId, role: "presence:participant", detail: null },
       {
         personId: here.view.hostPersonId,
         role: "coordination:host",
-        detail: CANDIDATE_GUIDANCE_OPENING,
+        detail: null,
       },
       {
         personId: here.view.hostPersonId,
         role: "presence:participant",
-        detail: "Present for the conversation",
+        detail: null,
       },
     ],
     personFactConstraints: [],
@@ -139,10 +130,10 @@ export function enterCandidateGuidance(
       `arrival:${here.arrival.id}`,
       `minute:${world.currentMoment.minuteOfDay}`,
     ],
-    summary: `You met ${hostName} in the community room to talk about running for office.`,
+    summary: "campaign.candidate-guidance-entered",
     context: {
       location: here.arrival.context.location,
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
       choice: null,
       motivation: null,
@@ -245,14 +236,14 @@ export function projectCandidateGuidanceScene(
       {
         personId: view.hostPersonId,
         name: personName(world.people[view.hostPersonId]!),
-        role: "Conversation host",
+        role: "host",
         recordIds: [entry.id],
-        spokenLine: entry.context.socialContext,
+        spokenLine: null,
       },
     ],
     questions,
     turns: turns.map((event) => ({
-      words: event.context.choice,
+      question: event.context.choice,
       response: event.context.immediateReaction,
       eventId: event.id,
     })),
@@ -261,7 +252,7 @@ export function projectCandidateGuidanceScene(
       "stay",
       "leave",
     ] as readonly (CandidateGuidanceQuestion | "stay" | "leave")[],
-    caption: `${personName(world.people[view.hostPersonId]!)} is here to talk about running for office.`,
+    caption: "",
   };
 }
 
@@ -273,10 +264,8 @@ export function askCandidateGuidance(
   question: CandidateGuidanceQuestion,
 ): World {
   const scene = projectCandidateGuidanceScene(world, personId);
-  const words = scene?.questions.find(
-    (choice) => choice.key === question,
-  )?.words;
-  if (!scene || scene.activityId !== activityId || !words) return world;
+  const available = scene?.questions.some((choice) => choice.key === question);
+  if (!scene || scene.activityId !== activityId || !available) return world;
   // The host's answer comes from the same recorded rule packet used by the
   // campaign-life journal. The prose renderer only turns that packet into
   // plain English; it does not add a new rule or filing deadline.
@@ -291,7 +280,7 @@ export function askCandidateGuidance(
     jurisdictionId: scene.location.jurisdictionId,
     involvedEntityIds: [activityId, personId, host.personId],
     participants: [
-      { personId, role: "agency:actor", detail: words },
+      { personId, role: "agency:actor", detail: question },
       {
         personId: host.personId,
         role: "presence:participant",
@@ -301,16 +290,16 @@ export function askCandidateGuidance(
     personFactConstraints: [],
     visibility: "private",
     tags: [`entry:${scene.eventId}`, `question:${question}`],
-    summary: `You asked ${host.name}: “${words}”`,
+    summary: question,
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,
         label: scene.location.label,
         setting: "community room",
       },
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
-      choice: words,
+      choice: question,
       motivation: null,
       immediateReaction: response,
     },
@@ -321,7 +310,7 @@ export function askCandidateGuidance(
     personId,
     eventId: turn.id,
     learnedAt: next.currentDate,
-    believedSummary: `${turn.summary} ${response}`,
+    believedSummary: response,
     accuracy: "accurate",
     confidence: "high",
     source: { kind: "direct" },
@@ -348,24 +337,24 @@ export function leaveCandidateGuidance(
     jurisdictionId: scene.location.jurisdictionId,
     involvedEntityIds: [activityId, personId, scene.actors[0]!.personId],
     participants: [
-      { personId, role: "agency:actor", detail: "Left before the talk ended" },
+      { personId, role: "agency:actor", detail: null },
       {
         personId: scene.actors[0]!.personId,
         role: "presence:participant",
-        detail: "Present when the player left",
+        detail: null,
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: [`entry:${scene.eventId}`, "attendance:not-completed"],
-    summary: "You left the conversation before it ended.",
+    summary: "campaign.candidate-guidance-left",
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,
         label: scene.location.label,
         setting: "community room",
       },
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
       choice: "Leave and return home",
       motivation: null,
