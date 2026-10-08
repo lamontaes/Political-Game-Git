@@ -1,5 +1,5 @@
 import { afterEach, expect, it, vi } from "vitest";
-import lawData from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import lawData from "../../../data/research/laws/starting-law-2026/index";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { ensureJurisdiction } from "../national-election-geography";
 import { createOrganization, createWorkRelationship } from "../life";

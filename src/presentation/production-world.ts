@@ -13,6 +13,10 @@ import { COUPLE_KIND } from "../simulation/couples";
 import { recordPartnershipState } from "../simulation/life";
 import { partnershipStateHistory } from "../simulation/life-queries";
 import { residentNameForJurisdiction } from "../simulation/life-places";
+import {
+  localInstitutionProvenance,
+  localSchoolInstitutionFor,
+} from "../simulation/local-institutions";
 import { defaultPronounsForGender } from "../simulation/person-identity";
 import {
   SCHOOL_STAGES_V1,
@@ -75,8 +79,12 @@ import { hireAtAdultStart } from "../simulation/job-market";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureTownHomes } from "../simulation/living-world/town-homes";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
+import { establishVotingPrecinctMembership } from "../simulation/living-world/town-wards";
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
+import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
+import { recordEarlierConditionOnsets } from "../simulation/crisis/condition-onset";
+import { historicalWorldInputs } from "../simulation/historical-world-inputs";
 import type {
   CharacterHistoryTransition,
   DistrictHomeJoinVersion,
@@ -139,6 +147,8 @@ export const OTHER_PARENT_MINIMUM_AGE = 5;
 export type OpeningFamilyShape = "one-parent" | "two-parents" | "guardian";
 
 export interface ProductionWorldInput {
+  /** Observe immutable canonical build checkpoints; never advances the clock. */
+  readonly onCharacterCheckpoint?: (world: World, personId: EntityId) => void;
   /** The full world seed, already derived from the player's setup. */
   readonly seed: string;
   /** World identity seed, before calibration; topology is not a shaped age range. */
@@ -369,6 +379,9 @@ export function buildProductionWorld(
     },
     jurisdictions: [jurisdiction],
     people: [player],
+    ...(input.preStartYear
+      ? { preStartLife: { personId: player.id, targetStartDate: currentDate } }
+      : {}),
     setupPriors: input.priors,
   });
 
@@ -401,8 +414,28 @@ export function buildProductionWorld(
     nameCorpusVersion,
     input.preStartYear !== undefined,
     input.otherParent ?? null,
-    input.familyShape ?? null,
+    input.familyShape ?? (input.preStartYear ? "two-parents" : null),
   );
+  if (input.preStartYear) {
+    const parentPersonIds = parentsOf(world, player.id);
+    if (parentPersonIds.length === 0)
+      throw new Error(
+        "A pre-start character needs recorded living parents at birth.",
+      );
+    world = recordFamilyAddition(world, {
+      kind: "birth",
+      stableKey: "production:character-birth",
+      occurredAt: player.birthDate,
+      parentPersonIds,
+      childPersonId: player.id,
+    }).world;
+    const birth = world.history.events.find(
+      (event) => event.stableKey === "production:character-birth:event",
+    );
+    if (!birth) throw new Error("The character's birth event was not written.");
+    world = recordEarlierConditionOnsets(world, player.id, birth.id);
+    input.onCharacterCheckpoint?.(world, player.id);
+  }
   // Early family evidence seated the town before the player's caregivers existed.
   // Complete their employment and home through the existing opening writers.
   if (estimateOpeningFamily)
@@ -448,11 +481,21 @@ export function buildProductionWorld(
     if (!employerName)
       throw new Error("A local employer needs a recorded name.");
     world = establishPreStartAdultHistory(world, {
+      onCheckpoint: input.onCharacterCheckpoint,
       personId: player.id,
       jurisdictionId: jurisdiction.id,
       employerId: employer.organization.id,
       employerName,
       employerFormedAt: employer.organization.formedAt,
+      workTitle: employer.kind.workerTitle,
+      occupationClassification: employer.kind.workerOccupation,
+      monthlyWageAtDate: (onDate) =>
+        Math.round(
+          (localBusinessWageMinor(employer.kind, jurisdiction.id, world)
+            .monthlyMinor *
+            historicalWorldInputs(onDate).nominalFactor) /
+            historicalWorldInputs(world.currentDate).nominalFactor,
+        ),
       monthlyWageMinor: localBusinessWageMinor(
         employer.kind,
         jurisdiction.id,
@@ -491,8 +534,26 @@ export function buildProductionWorld(
     player.id,
     input.districtHomeJoinVersion,
   );
+  world = establishVotingPrecinctMembership(world, jurisdiction.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
+}
+
+/** Admit the character before the past runs; their ordinary writers act on this World. */
+export function buildPreStartCharacterWorld(
+  input: PreStartProductionWorldInput,
+): ProductionWorld {
+  const built = buildProductionWorld(input);
+  const world: World = {
+    ...built.world,
+    control: { kind: "observer" },
+    preStartLife: {
+      personId: built.playerPersonId,
+      targetStartDate: input.preStartYear.targetStartDate,
+    },
+  };
+  assertWorldIntegrity(world);
+  return { ...built, world };
 }
 
 /**
@@ -537,6 +598,36 @@ export function finalizePreStartPlayer(
   background: World,
   input: PreStartProductionWorldInput,
 ): ProductionWorld {
+  if (background.preStartLife) {
+    const { preStartLife, ...preserved } = background;
+    const { personId, targetStartDate } = preStartLife;
+    if (
+      targetStartDate !== input.preStartYear.targetStartDate ||
+      background.id !== createWorldId(input.seed, "production") ||
+      !background.jurisdictions[input.place.context.jurisdiction.id]
+    )
+      throw new Error("The character's World has not reached Begin.");
+    const player = background.people[personId];
+    if (!player) throw new Error("The character is missing from their World.");
+    if (
+      background.history.personDeaths.some(
+        (death) =>
+          death.personId === personId && death.diedAt <= targetStartDate,
+      )
+    )
+      throw new Error(`${personName(player)} died before Begin.`);
+    if (
+      background.currentDate !== targetStartDate ||
+      background.currentMoment.date !== targetStartDate
+    )
+      throw new Error("The character's World has not reached Begin.");
+    const world: World = {
+      ...preserved,
+      control: { kind: "person", personId },
+    };
+    assertWorldIntegrity(world);
+    return { world, playerPersonId: personId, player };
+  }
   if (input.startingLife === "legislative-office")
     throw new Error(
       "A pre-start legislative staff job needs an office work path before player finalization.",
@@ -658,6 +749,7 @@ export function finalizePreStartPlayer(
     player.id,
     input.districtHomeJoinVersion,
   );
+  world = establishVotingPrecinctMembership(world, jurisdiction.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
@@ -791,7 +883,8 @@ function establishAgeEligibleState(
       kind: "household",
       input: {
         stableKey: householdKey,
-        formedAt: world.currentDate,
+        formedAt:
+          preStartDates && dependent ? player.birthDate : world.currentDate,
         label: dependent
           ? `${player.familyName} household`
           : `${personName(player)}'s household`,
@@ -803,7 +896,8 @@ function establishAgeEligibleState(
       input: {
         stableKey: `${householdKey}:location`,
         householdStableKey: householdKey,
-        effectiveAt: world.currentDate,
+        effectiveAt:
+          preStartDates && dependent ? player.birthDate : world.currentDate,
         jurisdictionId,
         label: place.displayName,
         kind: "residence:home",
@@ -1053,7 +1147,7 @@ function establishAgeEligibleState(
         stableKey: `${stableKey}:membership:guardian`,
         personId: guardianId,
         householdId,
-        startedAt: world.currentDate,
+        startedAt: preStartDates ? player.birthDate : world.currentDate,
         residenceRole: "primary",
         kind: "resident:member",
         provenance: PROVENANCE,
@@ -1065,7 +1159,7 @@ function establishAgeEligibleState(
         stableKey: `${stableKey}:membership:player`,
         personId: player.id,
         householdId,
-        startedAt: world.currentDate,
+        startedAt: preStartDates ? player.birthDate : world.currentDate,
         residenceRole: "primary",
         kind: "resident:child",
         provenance: PROVENANCE,
@@ -1155,7 +1249,11 @@ function establishAgeEligibleState(
           stableKey: `${stableKey}:membership:sibling`,
           personId: siblingId,
           householdId,
-          startedAt: world.currentDate,
+          startedAt: preStartDates
+            ? siblingBirthDate > player.birthDate
+              ? siblingBirthDate
+              : player.birthDate
+            : world.currentDate,
           residenceRole: "primary",
           kind: "resident:child",
           provenance: PROVENANCE,
@@ -1230,7 +1328,7 @@ function establishAgeEligibleState(
           stableKey: `${otherKey}:membership`,
           personId: otherId,
           householdId,
-          startedAt: world.currentDate,
+          startedAt: preStartDates ? player.birthDate : world.currentDate,
           residenceRole: "primary",
           kind: "resident:member",
           provenance: PROVENANCE,
@@ -1342,7 +1440,6 @@ function establishAgeEligibleState(
       place,
       jurisdictionId,
       calendarStage === "after" ? age : STAGE_ENTRY_AGE[calendarStage],
-      childhoodGenerationVersion,
       schoolNameVersion,
     );
     // The world does not know when the school was founded, and does not
@@ -1373,7 +1470,12 @@ function establishAgeEligibleState(
         input: {
           stableKey: schoolKey,
           formedAt: waiting ? world.currentDate : enrolledOn,
-          provenance: PROVENANCE,
+          provenance: schooling.current.row
+            ? localInstitutionProvenance(
+                schooling.current.row,
+                waiting ? world.currentDate : enrolledOn,
+              )
+            : PROVENANCE,
           initialProfile: {
             name: schooling.current.name,
             classification: "service:school",
@@ -1408,7 +1510,9 @@ function establishAgeEligibleState(
           input: {
             stableKey: `${schoolKey}:${stage.key}`,
             formedAt: world.currentDate,
-            provenance: PROVENANCE,
+            provenance: stage.row
+              ? localInstitutionProvenance(stage.row, world.currentDate)
+              : PROVENANCE,
             initialProfile: {
               name: stage.name,
               classification: "service:school",
@@ -1730,6 +1834,7 @@ function summarizeEarlierLife(
 interface ChildSchoolStage {
   readonly key: SchoolStageKey;
   readonly name: string;
+  readonly row: ReturnType<typeof localSchoolInstitutionFor>;
   readonly entryAge: number;
 }
 
@@ -1738,7 +1843,6 @@ function childSchooling(
   place: LifePlace,
   jurisdictionId: EntityId,
   age: number,
-  version: ChildhoodGenerationVersion | undefined,
   schoolNameVersion: SchoolNameVersion | undefined,
 ): {
   readonly current: ChildSchoolStage;
@@ -1746,17 +1850,6 @@ function childSchooling(
   /** The stages still ahead, whose schools a child moves on to in play. */
   readonly later: readonly ChildSchoolStage[];
 } {
-  if (version !== CHILDHOOD_GENERATION_V2) {
-    return {
-      current: {
-        key: "elementary",
-        name: `${place.displayName} public school`,
-        entryAge: SCHOOL_ENTRY_AGE,
-      },
-      finished: [],
-      later: [],
-    };
-  }
   const jurisdiction = world.jurisdictions[jurisdictionId];
   const names = generateSchoolNames(
     new SeededRng(world.seed).fork("production-world-v1:child-school"),
@@ -1767,11 +1860,21 @@ function childSchooling(
     schoolNameVersion,
     { state: stateUsps(place.stateJurisdictionKey) },
   );
-  const stages: readonly ChildSchoolStage[] = [
-    { key: "elementary", name: names.elementary, entryAge: SCHOOL_ENTRY_AGE },
-    { key: "middle", name: names.middle, entryAge: 11 },
-    { key: "high", name: names.high, entryAge: 14 },
-  ];
+  const stages: readonly ChildSchoolStage[] = (
+    [
+      ["elementary", SCHOOL_ENTRY_AGE],
+      ["middle", 11],
+      ["high", 14],
+    ] as const
+  ).map(([key, entryAge]) => {
+    const row = localSchoolInstitutionFor(world, jurisdictionId, key);
+    return {
+      key,
+      name: row?.name ?? names[key],
+      row,
+      entryAge,
+    };
+  });
   const reached = stages.filter((stage) => age >= stage.entryAge);
   return {
     current: reached.at(-1)!,
@@ -1805,7 +1908,9 @@ function earlierSchooling(
         input: {
           stableKey: schoolKey,
           formedAt: startedAt,
-          provenance: PROVENANCE,
+          provenance: stage.row
+            ? localInstitutionProvenance(stage.row, startedAt)
+            : PROVENANCE,
           initialProfile: {
             name: stage.name,
             classification: "service:school",

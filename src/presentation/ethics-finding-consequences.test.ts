@@ -31,8 +31,8 @@ import {
   pressRecordsOfKind,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
-  UNRESEARCHED_FINDING_EFFECTS,
-  UNRESEARCHED_REPEAT_OFFENSE,
+  RECORDED_FINDING_EFFECTS,
+  RECORDED_REPEAT_OFFENSE,
   STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
@@ -44,7 +44,6 @@ import {
   PROSECUTION_REFERRED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   referForProsecution,
-  regulatorRefers,
   UNRESEARCHED_PROSECUTION,
 } from "../simulation/justice/prosecution";
 import { successorCandidates } from "../simulation/people-continuation";
@@ -255,7 +254,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       justBefore,
       run.campaign,
       run.personId,
-      UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding,
+      RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding,
     );
     const [playerState, rivalState] = [run.personId, run.rivalId].map((id) =>
       lossStates.find((state) => state.stableKey.endsWith(`:support:${id}`))!,
@@ -270,7 +269,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     expect(
       canonicalSupportBasisPoints(justBefore, run.campaign, run.personId) -
         share(playerState),
-    ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
+    ).toBe(RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
   it("orders both payments paid to the state, not back to the committee", () => {
@@ -484,7 +483,7 @@ describe("a Washington candidate who keeps taking after a finding", () => {
       body.civilPenaltyPerPaymentMinorUnits * 2,
       body.civilPenaltyPerPaymentMinorUnits *
         3 *
-        (1 + UNRESEARCHED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
+        (1 + RECORDED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
     ]);
     const notices = world.history.events.filter(
       (event) => event.type === "matter.civil-penalty-imposed",
@@ -520,19 +519,16 @@ describe("a Washington candidate who keeps taking after a finding", () => {
     expect(leads.length).toBeGreaterThan(0);
   });
 
-  it("goes to prosecutors once a finding shows they knew, and people decide the case", () => {
-    // The first finding settles itself; the second, taken after the first
-    // told them the rule, is knowing and willful and goes to prosecutors.
+  it("sends each supported finding to a prosecutor, who decides the case", () => {
+    // Each finding reaches a prosecutor. The prosecutor's recorded decision
+    // determines whether a charge follows.
     const events = (w: World, type: string) =>
       w.history.events.filter(
         (event) =>
           event.type === type &&
           event.participants.some((entry) => entry.personId === run.personId),
       );
-    const expected = findings.filter((_, index) =>
-      regulatorRefers({ standingFindings: index + 1, deniedIt: false }),
-    );
-    expect(expected).toHaveLength(findings.length - 1);
+    const expected = findings;
     const referrals = events(world, PROSECUTION_REFERRED_EVENT);
     expect(referrals.map((event) => event.occurredAt)).toEqual(
       expected.map((step) => step.at),
@@ -667,7 +663,7 @@ describe("a Washington candidate who lies to reporters about the money", () => {
     ).toBe(true);
   });
 
-  it("goes to prosecutors on the first finding, because the denial shows they knew", () => {
+  it("sends a first finding to prosecutors for an individual charging decision", () => {
     const referrals = run.after.history.events.filter(
       (event) =>
         event.type === PROSECUTION_REFERRED_EVENT &&

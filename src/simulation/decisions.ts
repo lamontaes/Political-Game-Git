@@ -22,6 +22,13 @@ import {
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
 import { validateCutoff } from "./perception";
+import { traitRegistryFor } from "./trait-registry";
+import {
+  decisionHasActLabels,
+  isActConsideration,
+  traitActConsiderations,
+  traitIdsAlreadyReasoned,
+} from "./traits/act-pulls";
 import {
   assertOpenTaxonomyKey,
   decisionSourceRequiresReference,
@@ -108,6 +115,10 @@ export function evaluateDecision(
     assertNonEmpty(option.label, "Decision option label");
     assertNonEmpty(option.description, "Decision option description");
   }
+  // The general trait system: one call, here, for every decision whose
+  // options carry act kinds. Placed after the options are known to be valid so
+  // a malformed decision still fails on its own error.
+  if (context.traitActs !== "off") context = withTraitActs(world, context);
 
   const constraintKeys = new Set<string>();
   for (const constraint of context.constraints) {
@@ -346,7 +357,8 @@ export function assertNpcAutonomousApplication(
   }
   if (
     world.control.kind === "person" &&
-    world.control.personId === actorPersonId
+    world.control.personId === actorPersonId &&
+    world.preStartLife?.personId !== actorPersonId
   ) {
     throw new Error(
       "Autonomous application cannot make a major choice for the controlled person.",
@@ -407,6 +419,39 @@ function validateConsideration(
     consideration.sourceRefs,
     context.cutoff.historySequenceExclusive,
   );
+}
+
+/**
+ * Adds the reasons the person's recorded traits give for each option, from
+ * what kind of act the option is (`traits/act-pulls.ts`). A trait this
+ * decision already got through the older per-decision paths is skipped, so it
+ * is never counted twice. A context that already carries these reasons, such as
+ * a recorded one being replayed, is returned as it is.
+ */
+function withTraitActs(
+  world: World,
+  context: DecisionContext,
+): DecisionContext {
+  if (!decisionHasActLabels(context.decisionType)) return context;
+  if (context.considerations.some(isActConsideration)) return context;
+  const registry = traitRegistryFor(world);
+  const acts = traitActConsiderations(
+    world,
+    registry,
+    context.actorPersonId,
+    context.stableKey,
+    context.decisionType,
+    context.options,
+    traitIdsAlreadyReasoned(registry, context.considerations),
+    context.cutoff,
+  );
+  if (acts.length === 0) return context;
+  return {
+    ...context,
+    considerations: [...context.considerations, ...acts].sort((left, right) =>
+      left.stableKey.localeCompare(right.stableKey),
+    ),
+  };
 }
 
 function canonicalDecisionContext(input: DecisionContext): DecisionContext {
@@ -734,6 +779,8 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||

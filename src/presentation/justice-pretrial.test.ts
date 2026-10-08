@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { searchLifePlaces } from "../simulation";
 import { OFFICE_EMPLOYMENT_KINDS } from "../simulation/governing/office-consequence";
 import { workStatusAt } from "../simulation/life-queries";
@@ -18,7 +18,7 @@ import {
 import { pretrialLawAt } from "../simulation/justice/pretrial";
 import {
   referForProsecution,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
 } from "../simulation/justice/prosecution";
 import { SeededRng } from "../simulation/rng";
 import type { EntityId, HistoricalEvent, World } from "../simulation/types";
@@ -119,11 +119,11 @@ function watch(seed: string, placeKey: string) {
   }
   const charged = passOrdinaryDays(
     world,
-    UNRESEARCHED_PROSECUTION.chargeDecisionDays + 14,
+    PROSECUTION_ESTIMATE.chargeDecisionDays + 14,
   );
   const ended = passOrdinaryDays(
     charged,
-    UNRESEARCHED_PROSECUTION.resolveAfterDays + 14,
+    PROSECUTION_ESTIMATE.resolveAfterDays + 14,
   );
   return { workers, referrals, charged, ended };
 }

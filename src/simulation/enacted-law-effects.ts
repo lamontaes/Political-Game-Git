@@ -2,6 +2,7 @@ import {
   createLawConsequenceRegistry,
   LAW_CONSEQUENCE_REGISTRATIONS,
 } from "./law-consequence-registry";
+import { isCountyServiceProgram } from "./law-consequences/service-delivered-data";
 import { validateLawConsequences } from "./law-consequence-validation";
 import { MissingLawConsequenceTerm } from "./law-consequence-integrity-gap";
 import { createStableId } from "./ids";
@@ -37,6 +38,7 @@ import { programFamilies } from "./legislation-program-families";
 import type { ClauseDimension } from "./legislation-content-contracts";
 import { currentMeasureProvisions } from "./legislative-politics";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { rulePackById } from "./legislature-rule-packs";
 import { stateKeyForJurisdictionSlug } from "./life-places";
 import { isTerritoryUsps } from "./state-reference";
 import { adoptEnactedTaxPolicy } from "./tax-policy";
@@ -285,7 +287,10 @@ export function applyEnactedLawEffects(
     onDate: next.currentDate,
     activity: "effective",
     activityId: enactment.id,
-    subjectIds: [],
+    // Consequence resolvers apply their own row predicates and jurisdiction
+    // checks. Give them the recorded people they can evaluate on the law's
+    // effective date instead of suppressing every subject-filtered row.
+    subjectIds: [...next.personOrder],
     governingLawId: measureId,
   });
 }
@@ -781,7 +786,8 @@ function levelOfGovernment(
   world: World,
   measure: { readonly jurisdictionId: EntityId; readonly rulePackId: string },
 ): LawLevelOfGovernment {
-  if (measure.rulePackId === "us-congress-v1") return "federal";
+  if (rulePackById(measure.rulePackId)?.institution?.government === "federal")
+    return "federal";
   if (municipalRulePackById(measure.rulePackId)) return "local";
   const jurisdiction = world.jurisdictions[measure.jurisdictionId];
   if (!jurisdiction) return "local";
@@ -798,7 +804,12 @@ export function applyLawConsequences(
   context: LawConsequenceContext,
   registrations: readonly AnyLawConsequenceKindRegistration[] = LAW_CONSEQUENCE_REGISTRATIONS,
 ): World {
-  const registry = createLawConsequenceRegistry(registrations);
+  const registry = createLawConsequenceRegistry([
+    ...LAW_CONSEQUENCE_REGISTRATIONS,
+    ...registrations.filter(
+      (entry) => !LAW_CONSEQUENCE_REGISTRATIONS.includes(entry),
+    ),
+  ]);
   let next = world;
   for (const id of world.policyCatalog.propositionOrder) {
     const proposition = world.policyCatalog.propositions[id];
@@ -808,11 +819,12 @@ export function applyLawConsequences(
       (context.questionKey && proposition.stableKey !== context.questionKey)
     )
       continue;
-    const rows = proposition.consequences ?? [];
+    const rows = (proposition.consequences ?? []).filter(
+      (row) => row.when === context.activity,
+    );
     const errors = validateLawConsequences(rows, registry.capabilities);
     if (errors.length) throw new Error(errors.join("; "));
     for (const row of rows) {
-      if (row.when !== context.activity) continue;
       if (row.onward?.length)
         throw new Error(
           `Consequence ${row.id}: missing saved-parent onward dispatch capability`,
@@ -963,8 +975,12 @@ export function applyLawConsequences(
           row.kind !== "service-delivered" ||
           context.activity !== "service" ||
           saved?.kind !== "appropriation" ||
-          saved.sourceMeasureId != null ||
-          saved.basis.kind !== "sourced" ||
+          // A county's service line carries its board's measure, and the
+          // board's vote is its basis; a standing program has a sourced one.
+          (isCountyServiceProgram(saved.programKey)
+            ? saved.sourceMeasureId == null
+            : saved.sourceMeasureId != null ||
+              saved.basis.kind !== "sourced") ||
           !saved.basis.note.trim() ||
           saved.recordedAt > context.onDate ||
           authority.programKey !== saved.programKey ||

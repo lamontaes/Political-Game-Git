@@ -1,13 +1,17 @@
 import { recordById, recordByStableKey } from "../history-index";
 import { operativeDateForEnactment } from "../legislative-effective-date";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import {
   enactmentStatuteDateContext,
   stateRuleBasis,
 } from "../enacted-rule-changes";
 import { type PropositionAnswer } from "../issue-record";
-import { lawLevelRank, type LawLevel } from "../law-hierarchy";
+import {
+  lawLevelForInstrument,
+  lawLevelRank,
+  type LawLevel,
+} from "../law-hierarchy";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,
@@ -44,8 +48,8 @@ import { constitutionalPolicyProvisions } from "../policy-provisions";
  * "no": the status quo on a question nobody has legislated is unknown, and a
  * caller must say so rather than read it as either answer.
  *
- * What a place's law already said when the game began is read from
- * `data/research/laws/starting-law-2026.json` (researched, for the questions
+ * What a place's law already said when the game began is read through the
+ * `data/research/laws/starting-law-2026/index.ts` loader (researched, for the questions
  * it covers): a state's answer is a state statute, the United States' a
  * federal one, each in force from its operative date. It ranks like any other
  * law, so a law enacted in play at the same or a higher level governs once it
@@ -139,8 +143,12 @@ export function lawInForce(
         enactment.resolvedAt > cutoff.asOfDate)
     )
       continue;
-    const level = chain.get(measure.jurisdictionId);
-    if (!level) continue;
+    const baseLevel = chain.get(measure.jurisdictionId);
+    if (!baseLevel) continue;
+    const level = lawLevelForInstrument(
+      baseLevel,
+      measure.governmentInstrument ?? "statute",
+    );
     // The law as enacted, sections an amendment or a rider put in included.
     const answer =
       measureAnswersAt(world, measure.id, enactment.sequence).find(
@@ -164,6 +172,13 @@ export function lawInForce(
     if (!operative) continue;
     const { operativeAt, operativeBasis } = operative;
     if (operativeAt > onDate) continue;
+    if (
+      measure.governmentInstrument &&
+      measure.governmentInstrument !== "statute" &&
+      (!enactment.publishedAt || enactment.publishedAt > onDate)
+    )
+      continue;
+    if (enactment.expiresAt && enactment.expiresAt < onDate) continue;
     // Struck down by a court before this day: on the record, and governing
     // nothing (judiciary/judicial-review.ts).
     if (struckDownBy(world, enactment.id, propositionId, onDate, cutoff))
@@ -343,7 +358,7 @@ export interface StartingLawScope {
   }[];
 }
 
-interface StartingLawRow {
+export interface StartingLawRow {
   /** Exact recorded workplace identities; no name or county-containment guess. */
   readonly regionalTerms?: readonly {
     readonly workplaceKeys: readonly string[];
@@ -502,6 +517,17 @@ export function startingLawTerms(
   );
   const active = matches.filter((region) => region.operativeAt === latest);
   return active.length === 1 ? active[0]!.lawTerms : [];
+}
+
+/** Whether starting numeric terms are statewide or explicitly workplace-scoped. */
+export function startingLawTermScope(
+  law: LawInForce,
+  questionKey: string,
+  onDate: IsoDate,
+): "statewide" | "regional" | null {
+  const row = selectedStartingLawRow(law, questionKey, onDate);
+  if (!row) return null;
+  return row.regionalTerms === undefined ? "statewide" : "regional";
 }
 
 export function startingLawCategories(

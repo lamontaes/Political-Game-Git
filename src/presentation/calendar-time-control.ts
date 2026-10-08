@@ -12,7 +12,7 @@ import {
 import {
   callOffContactMeeting,
   CONTACT_LOCATION_KEY,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { interruptionHandlers } from "./interruption-policy";
 import {
   arriveAtCandidateGuidance,

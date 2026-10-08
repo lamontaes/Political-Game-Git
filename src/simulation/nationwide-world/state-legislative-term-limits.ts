@@ -61,7 +61,7 @@ const CONSECUTIVE_EIGHT_PER_CHAMBER = (
 
 /**
  * The limits the 16 term-limited states had on 1/1/2026, from the citations
- * in `data/research/laws/starting-law-2026.json`.
+ * in `data/research/laws/starting-law-2026/government-operations.json`.
  */
 export const RESEARCHED_LEGISLATIVE_TERM_LIMITS: Readonly<
   Record<string, LegislativeTermLimitRule>

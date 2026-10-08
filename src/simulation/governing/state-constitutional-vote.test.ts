@@ -530,6 +530,107 @@ describe("A79 shared saved state policy proposal votes", () => {
     );
   });
 
+  function endMembersForQuorum(count: number): World {
+    const { seated } = actualBodies(world)[0]!;
+    let at = world;
+    for (const [index, member] of seated.body.members
+      .slice(0, count)
+      .entries()) {
+      const tenure = stateLegislators(
+        at,
+        stateCandidacyPack(state.jurisdictionKey)!.packId,
+      ).find((row) => row.personId === member.personId)!;
+      const prior = at.history.workStatuses
+        .filter((row) => row.workRelationshipId === tenure.workRelationshipId)
+        .at(-1)!;
+      at = recordWorkStatus(at, {
+        stableKey: `constitutional-quorum:ended:${index}`,
+        workRelationshipId: tenure.workRelationshipId,
+        effectiveAt: at.currentDate,
+        status: "ended",
+        reason:
+          "Authored dated tenure endings for a quorum boundary, not benchmark attendees.",
+        provenance: {
+          kind: "authored",
+          note: "Controlled vacancy boundary on actual saved legislators.",
+        },
+        supersedesStatusId: prior.id,
+      });
+    }
+    return at;
+  }
+
+  it("keeps a proposal pending when all actual proposing-body tenures have ended", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const at = endMembersForQuorum(seated.seats);
+    expect(
+      ballotInput(at, body.bodyKey).members.every(
+        (member) => member.personId === null,
+      ),
+    ).toBe(true);
+    const saved = recordStatePolicyProposalVotes(at, measureId);
+    expect(saved).toBe(at);
+    expect(constitutionalPosition(saved, measureId).phase).toBe(
+      "consideration",
+    );
+    expect(
+      constitutionalActions(saved, measureId).some(
+        (action) => action.detail.kind === "proposal-vote",
+      ),
+    ).toBe(false);
+    const loaded = deserializeWorld(serializeWorld(saved));
+    expect(recordStatePolicyProposalVotes(loaded, measureId)).toBe(loaded);
+  });
+
+  it("does not submit a rollcall at or below half while the canonical quorum guard stays strict", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const at = endMembersForQuorum(seated.seats - Math.floor(seated.seats / 2));
+    const input = ballotInput(at, body.bodyKey);
+    const dispositions = memberBallot(at, input);
+    expect(
+      dispositions.filter((row) => row.disposition !== "absent"),
+    ).toHaveLength(Math.floor(seated.seats / 2));
+    expect(() =>
+      recordConstitutionalProposalVote(
+        at,
+        measureId,
+        body.bodyKey,
+        dispositions,
+        seated.seats,
+        {
+          method: "member-decisions",
+          note: "Authored quorum boundary; canonical guard must refuse.",
+          sourceEntityIds: [],
+        },
+      ),
+    ).toThrow("The rollcall must record actual presence and a quorum.");
+    expect(recordStatePolicyProposalVotes(at, measureId)).toBe(at);
+    expect(constitutionalPosition(at, measureId).phase).toBe("consideration");
+  });
+
+  it("records a real quorum just above half and retains the ended seats as absences", () => {
+    const { body, seated } = actualBodies(world)[0]!;
+    const present = Math.floor(seated.seats / 2) + 1;
+    const at = endMembersForQuorum(seated.seats - present);
+    const saved = recordStatePolicyProposalVotes(at, measureId);
+    const action = constitutionalActions(saved, measureId).find(
+      (row) =>
+        row.detail.kind === "proposal-vote" &&
+        row.detail.bodyKey === body.bodyKey,
+    )!;
+    expect(action).toBeDefined();
+    if (action.detail.kind !== "proposal-vote")
+      throw Error("Missing quorum vote.");
+    expect(action.detail.vote.presentMembers).toBe(present);
+    expect(action.detail.vote.eligibleMembers).toBe(seated.seats);
+    expect(
+      action.detail.vote.dispositions.filter(
+        (row) => row.personId === null && row.disposition === "absent",
+      ),
+    ).toHaveLength(seated.seats - present);
+    expect(recordStatePolicyProposalVotes(saved, measureId)).toBe(saved);
+  });
+
   it("records an actual ended seat as absent with no replacement person", () => {
     const { body, seated } = actualBodies(world)[0]!;
     const member = seated.body.members[0]!;

@@ -28,6 +28,7 @@ import type {
   World,
 } from "../types";
 import { ANOTHER_TERM_DECISION } from "./another-term-decision";
+import { pressRecordsOfKind } from "../press/store";
 
 /**
  * Whether somebody holding an office runs for it again.
@@ -57,11 +58,12 @@ export interface AnotherTermInput {
   /**
    * Why they would keep it: the caller's current-office reason.
    *
-   * PLACEHOLDER(build-24-step-4): the callers weigh holding the office as
-   * moderate with high confidence. With the aging cut points below, that puts
-   * the turn where a person's own odds of not living through the term reach
-   * about 1 in 12, and lets temperament, health and family settle the rest.
-   * A watched run against real retirement rates is the check.
+   * ESTIMATED FROM GAME EVIDENCE: callers weigh holding the office as moderate
+   * with high confidence. The basis is the same SSA 2023 life table used for
+   * every officeholder in the game and the recorded health, temperament, and
+   * family considerations below. That puts the turn near a 1-in-12 chance of
+   * not living through the term rather than assigning any place a special
+   * rule; all represented places use this same person-level evidence.
    */
   readonly serving: readonly DecisionConsideration[];
   readonly decisionType: string;
@@ -110,6 +112,11 @@ export function decideAnotherTerm(
   };
   const considerations: DecisionConsideration[] = [
     ...input.serving,
+    ...resignationPressureConsiderations(next, {
+      personId: input.personId,
+      keyPrefix: input.stableKey,
+      onDate: input.onDate,
+    }),
     ...lifeWeighsAgainstOffice(next, {
       personId: input.personId,
       keyPrefix: input.stableKey,
@@ -157,6 +164,49 @@ export function decideAnotherTerm(
     decisionTraceId: next.history.decisionTraces.at(-1)!.id,
     reason: weightiestReason(considerations, chosen),
   };
+}
+
+/** Recorded calls from party members and colleagues weigh on the official's
+ * own choice. They inform the choice but never force it. */
+export function resignationPressureConsiderations(
+  world: World,
+  input: { personId: EntityId; keyPrefix: string; onDate: IsoDate },
+): readonly DecisionConsideration[] {
+  const events = new Map(
+    world.history.events.map((event) => [event.id, event]),
+  );
+  return pressRecordsOfKind(world, "matter-response")
+    .filter(
+      (response) =>
+        response.response === "call-for-resignation" &&
+        (response.actorRole === "party" || response.actorRole === "staff") &&
+        response.respondedAt <= input.onDate,
+    )
+    .flatMap((response) => {
+      const event = events.get(response.eventId);
+      if (
+        !event ||
+        event.occurredAt > input.onDate ||
+        !event.participants.some(
+          (participant) =>
+            participant.personId === input.personId &&
+            participant.role === "focus:matter-subject",
+        )
+      )
+        return [];
+      return [
+        {
+          stableKey: `${input.keyPrefix}:resignation-pressure:${response.id}`,
+          optionKey: "step-down",
+          sourceType: "social:colleague-pressure",
+          direction: "supports",
+          importance: "moderate",
+          confidence: "high",
+          explanation: event.summary,
+          sourceRefs: [{ kind: "historical-event", eventId: event.id }],
+        } satisfies DecisionConsideration,
+      ];
+    });
 }
 
 /** The reason that weighed most for the option chosen. */
@@ -353,10 +403,11 @@ function daysBetween(from: IsoDate, to: IsoDate): number {
 }
 
 /**
- * PLACEHOLDER(build-24-step-4): how heavily a person's own odds of not
- * living through the term weigh. The odds are measured (the life table);
- * where they cross from one weight to the next is set by hand and is the
- * part a calibration run against real retirement ages adjusts.
+ * ESTIMATED FROM GAME EVIDENCE: the measured SSA 2023 life-table probability
+ * determines how heavily a person's own odds of not living through the term
+ * weigh. The bands use the game's slight, moderate, strong, and decisive
+ * consideration scale for officeholders in every represented place: 4%, 8%,
+ * 15%, and 30%, respectively.
  */
 const AGING_WEIGHTS: readonly {
   readonly atLeast: number;

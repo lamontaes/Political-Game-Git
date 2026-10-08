@@ -26,6 +26,7 @@ import {
 } from "./candidate-guidance-scene";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { playSettingsOf } from "../simulation/play-settings";
 import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import {
@@ -480,6 +481,7 @@ export function traceStorySelection(
     candidates: candidates.map((entry) => entry.candidate),
     recentKeys: history.slice(-6),
     recentStakes: history.slice(-6).map(stakesOfKey),
+    challenge: playSettingsOf(world).challengeIntensity,
   });
   if (!selection) {
     return {
@@ -526,6 +528,7 @@ function chooseStoryScene(
       candidates: candidates.map((entry) => entry.candidate),
       recentKeys: history.slice(-6),
       recentStakes: history.slice(-6).map(stakesOfKey),
+      challenge: playSettingsOf(world).challengeIntensity,
     });
     const winner = selection
       ? candidates.find(
@@ -909,6 +912,8 @@ export interface ChooseStoryOptionInput {
   readonly personId: EntityId;
   readonly scene: StoryScene;
   readonly optionKey: string;
+  /** A faith choice only when the player made faith part of this scene. */
+  readonly faithChoice?: EntityId | null;
 }
 
 /**
@@ -995,6 +1000,7 @@ export function chooseStoryOption(
         choiceLabel:
           scene.options.find((option) => option.key === input.optionKey)
             ?.label ?? input.optionKey,
+        faithChoice: input.faithChoice,
       });
     }
     case "adult":

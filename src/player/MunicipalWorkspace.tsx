@@ -18,6 +18,7 @@ import type {
   World,
 } from "../simulation/types";
 import {
+  ENACTED_TEXT_REQUIRED,
   attendMunicipalPublicMeeting,
   municipalManagerDecisionRuleSource,
   performMunicipalMeetingNotes,
@@ -27,16 +28,17 @@ import { measureActions } from "../simulation/legislation";
 import { councilSitsOnAuthoredCalendar } from "../simulation/municipal-seat-identity";
 import { nextMeasureNumbering } from "../simulation/measure-numbering";
 import {
-  introduceProjectedOrdinance,
+  introduceProjectedProposal,
+  proposeProjectedOrdinance,
   municipalMeasureNumberingInput,
   placeProjectedOrdinanceOnAgenda,
   previewAuthoredCouncilBallots,
   saveProjectedOrdinanceBallot,
   takeProjectedOrdinanceVote,
   takeProjectedOverrideVote,
-  actOnProjectedCouncilMeasure,
   type OwnOrdinanceBallot,
 } from "../presentation/municipal-governing";
+import { projectMunicipalOrdinancePaper } from "../presentation/municipal-ordinance-paper";
 import {
   createAuthoredMunicipalPublicSession,
   municipalWorkspaceFor,
@@ -61,10 +63,10 @@ function humanLabel(value: string): string {
 }
 
 const ORDINANCE_PHASE_LABELS: Readonly<Record<string, string>> = {
-  "awaiting-referral": "Introduced; not yet on the council agenda.",
-  "on-floor": "On the council agenda.",
-  "awaiting-executive": "Passed by the council.",
-  "awaiting-override": "Passed by the council and returned without approval.",
+  "awaiting-referral": "Introduced",
+  "on-floor": "On the agenda",
+  "awaiting-executive": "Passed",
+  "awaiting-override": "Passed · returned",
   "awaiting-enactment": "Passed and approved.",
   enacted: "Passed and recorded.",
   failed: "Not passed.",
@@ -117,6 +119,7 @@ export function MunicipalWorkspace({
   const [userOverride, setUserOverride] = useState(false);
   const [selectedSeriesKey, setSelectedSeriesKey] = useState("");
   const [ordinanceTitle, setOrdinanceTitle] = useState("");
+  const [ordinanceText, setOrdinanceText] = useState("");
   const [ballots, setBallots] = useState<Record<string, OwnOrdinanceBallot>>(
     {},
   );
@@ -187,7 +190,7 @@ export function MunicipalWorkspace({
           className="municipal-search-empty"
           data-testid="municipal-search-empty"
         >
-          {"No supported government matches that search."}
+          {"0 matches"}
         </p>
       ) : null}
       <label>
@@ -232,7 +235,7 @@ export function MunicipalWorkspace({
   }) => {
     if (result.ok) {
       onWorldChange(result.world);
-      setMessage("Recorded in your calendar and history.");
+      setMessage("Recorded");
     } else setMessage(result.reason ?? "No change recorded.");
   };
   const canWork =
@@ -259,18 +262,15 @@ export function MunicipalWorkspace({
         <h2>{"Local government"}</h2>
         {homeContext.homePlaceLabel ? (
           <p data-testid="municipal-home-context">
-            {"You live in "}
+            {"Home: "}
             <strong>{homeContext.homePlaceLabel}</strong>
-            {"."}
           </p>
         ) : null}
       </header>
       {directory}
       {!view ? (
         <p data-testid="municipal-missing-home-link">
-          {
-            "Your town's own government is not in this build yet, so there is nothing to attend or work on here. The governments the game does support are listed above; reading them changes nothing about where you live."
-          }
+          {"Your town: not supported"}
         </p>
       ) : (
         <>
@@ -318,11 +318,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-standing">
             <h3>{"Your standing here"}</h3>
-            <p>
-              {view.isHomeGovernment
-                ? "Linked to your saved home place."
-                : "Library inspection. This does not change your residence or grant a role."}
-            </p>
+            <p>{view.isHomeGovernment ? "Home" : "Viewing"}</p>
             <p>{standingLabel}</p>
             {view.standing.seatContext ? (
               <p>
@@ -342,27 +338,20 @@ export function MunicipalWorkspace({
                 <p data-testid="municipal-manager-result">
                   {governing.managerAppointment.summary}
                 </p>
-              ) : (
-                <p>
-                  No manager election is recorded for this government in this
-                  save.
-                </p>
+              ) : null}
+              {/* No enacted text: the appointment is not offered at all. */}
+              {governing.appointment.ok ? (
+                <p>Seat recorded</p>
+              ) : governing.appointment.reason ===
+                ENACTED_TEXT_REQUIRED ? null : (
+                <p>{governing.appointment.reason}</p>
               )}
-              <p>
-                {governing.appointment.ok
-                  ? "Your council seat is recorded. Electing a manager also requires the council's recorded votes; this screen cannot supply other members' decisions."
-                  : governing.appointment.reason}
-              </p>
               {managerRule ? (
                 <details>
                   <summary>Election rule and remaining actions</summary>
                   <p>
                     {managerRule.label}, with the body's{" "}
                     <GuideTerm semanticKey="quorum">quorum</GuideTerm> required.
-                  </p>
-                  <p>
-                    Recording a new council election through ordinary play still
-                    needs its member-decision producer.
                   </p>
                 </details>
               ) : null}
@@ -379,56 +368,139 @@ export function MunicipalWorkspace({
               <h3>Council {governing.measureNoun}s</h3>
               {governing.procedureBasis === "game-profile" ? (
                 <p data-testid="municipal-game-procedure-label">
-                  Ordinance procedure uses a fictional game rule profile. The
-                  government record and any retrieved local law remain separate
-                  from these play rules.
+                  Game rule profile
                 </p>
               ) : null}
               {governing.ordinanceIntroduction.ok ? (
                 <form
+                  data-testid="municipal-ordinance-proposal-form"
                   onSubmit={(event) => {
                     event.preventDefault();
                     const title = ordinanceTitle.trim();
-                    if (!title) return;
-                    const numberingInput = municipalMeasureNumberingInput(
+                    const operativeText = ordinanceText.trim();
+                    if (!title || !operativeText) return;
+                    const result = proposeProjectedOrdinance(
                       world,
                       governing.governmentKey,
+                      title,
+                      operativeText,
                     );
-                    if (!numberingInput) return;
-                    const numbering = nextMeasureNumbering(
-                      world,
-                      numberingInput,
-                    );
-                    act(
-                      introduceProjectedOrdinance(
-                        world,
-                        governing.governmentKey,
-                        numbering.designation,
-                        title,
-                        numbering.numberingSession,
-                      ),
-                    );
-                    setOrdinanceTitle("");
+                    if (result.ok) {
+                      onWorldChange(result.world);
+                      setMessage("Saved to the bill paper");
+                      setOrdinanceTitle("");
+                      setOrdinanceText("");
+                    } else setMessage(result.reason);
                   }}
                 >
+                  <h4>Write a proposal on the bill paper</h4>
                   <label>
-                    Title of a new {governing.measureNoun}
+                    Proposed title
                     <input
                       type="text"
                       value={ordinanceTitle}
                       onChange={(event) =>
                         setOrdinanceTitle(event.target.value)
                       }
-                      data-testid="municipal-ordinance-title"
+                      data-testid="municipal-proposal-title"
                     />
                   </label>
-                  <button type="submit" disabled={!ordinanceTitle.trim()}>
-                    Introduce {governing.measureNoun}
+                  <label>
+                    What the ordinance would do
+                    <textarea
+                      value={ordinanceText}
+                      onChange={(event) => setOrdinanceText(event.target.value)}
+                      rows={5}
+                      data-testid="municipal-proposal-text"
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={!ordinanceTitle.trim() || !ordinanceText.trim()}
+                    data-testid="propose-municipal-ordinance"
+                  >
+                    Propose on the bill paper
                   </button>
                 </form>
-              ) : (
+              ) : null}
+              {governing.proposals.length > 0 ? (
+                <section data-testid="municipal-proposals">
+                  <h4>Proposals on the bill paper</h4>
+                  {governing.proposals.map((proposal) => {
+                    const paper = projectMunicipalOrdinancePaper(
+                      world,
+                      proposal.id,
+                    );
+                    if (!paper) return null;
+                    return (
+                      <article
+                        key={paper.proposalId}
+                        className="measure-paper bill-paper"
+                        data-testid="municipal-proposal-paper"
+                        data-proposal-id={paper.proposalId}
+                      >
+                        <p className="measure-paper-stamp">{paper.stamp}</p>
+                        <div className="bill-paper-masthead">
+                          <p>
+                            {paper.governmentName}
+                            {paper.bodyName ? (
+                              <>
+                                <br />
+                                {paper.bodyName}
+                              </>
+                            ) : null}
+                          </p>
+                          <p className="bill-paper-designation">
+                            {paper.designation ?? "ORDINANCE PROPOSAL"}
+                          </p>
+                        </div>
+                        <p className="bill-paper-chamber">{paper.title}</p>
+                        <p className="bill-paper-introduction">
+                          {paper.sponsor} proposed this draft {paper.proposedAt}
+                          .
+                        </p>
+                        <section className="measure-section">
+                          <h3>WHAT IT WOULD DO.</h3>
+                          <p>{paper.operativeText}</p>
+                        </section>
+                        {!paper.designation &&
+                        governing.ordinanceIntroduction.ok ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const numberingInput =
+                                municipalMeasureNumberingInput(
+                                  world,
+                                  governing.governmentKey,
+                                );
+                              if (!numberingInput) return;
+                              const numbering = nextMeasureNumbering(
+                                world,
+                                numberingInput,
+                              );
+                              act(
+                                introduceProjectedProposal(
+                                  world,
+                                  governing.governmentKey,
+                                  proposal.id,
+                                  numbering.designation,
+                                  numbering.numberingSession,
+                                ),
+                              );
+                            }}
+                          >
+                            Introduce this proposal
+                          </button>
+                        ) : null}
+                      </article>
+                    );
+                  })}
+                </section>
+              ) : null}
+              {!governing.ordinanceIntroduction.ok &&
+              governing.proposals.length === 0 ? (
                 <p>{governing.ordinanceIntroduction.reason}</p>
-              )}
+              ) : null}
               {governing.ordinances.length === 0 ? (
                 <p>
                   No {governing.measureNoun} is before the council in this save.
@@ -509,17 +581,12 @@ export function MunicipalWorkspace({
                                 {ordinance.earliestPassageOn}.
                               </p>
                             ) : ordinance.earliestPassageOn && tooEarly ? (
-                              <p>
-                                The next reading may not be taken before{" "}
-                                {ordinance.earliestPassageOn}.
-                              </p>
+                              <p>Next reading: {ordinance.earliestPassageOn}</p>
                             ) : null}
                             {ordinary && ordinance.scheduledReadingOn ? (
                               <p data-testid="municipal-reading-due">
-                                The council reading is scheduled for{" "}
-                                {proseDate(ordinance.scheduledReadingOn)}. The
-                                calendar will record the members' decisions
-                                then.
+                                Council reading:{" "}
+                                {proseDate(ordinance.scheduledReadingOn)}
                               </p>
                             ) : null}
                             {governing.ordinanceVote.ok ? (
@@ -566,13 +633,6 @@ export function MunicipalWorkspace({
                                   <p data-testid="municipal-saved-ballot">
                                     Saved ballot:{" "}
                                     {humanLabel(ordinance.savedBallot)}.
-                                  </p>
-                                ) : null}
-                                {ordinary && ballot === null ? (
-                                  <p>
-                                    Choose a ballot to record your decision. If
-                                    the reading arrives without one, the roll
-                                    call records you absent.
                                   </p>
                                 ) : null}
                                 {preview ? (
@@ -640,7 +700,7 @@ export function MunicipalWorkspace({
                                 ) : null}
                               </>
                             ) : (
-                              <p>Only a seated councilor votes on it.</p>
+                              <p>Councilors only</p>
                             )}
                           </div>
                         ) : null}
@@ -652,38 +712,7 @@ export function MunicipalWorkspace({
                               to sign it or return it to the council.
                             </p>
                             {ordinance.playerIsExecutive ? (
-                              <>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    act(
-                                      actOnProjectedCouncilMeasure(
-                                        world,
-                                        governing.governmentKey,
-                                        ordinance.measureId,
-                                        "sign",
-                                      ),
-                                    )
-                                  }
-                                >
-                                  Sign it
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    act(
-                                      actOnProjectedCouncilMeasure(
-                                        world,
-                                        governing.governmentKey,
-                                        ordinance.measureId,
-                                        "return",
-                                      ),
-                                    )
-                                  }
-                                >
-                                  Return it unsigned
-                                </button>
-                              </>
+                              <p>Decide this act in Your office.</p>
                             ) : null}
                           </div>
                         ) : null}
@@ -765,8 +794,8 @@ export function MunicipalWorkspace({
                         {ordinance.phase === "failed" ? (
                           <p data-testid="municipal-ordinance-outcome">
                             {ordinance.executiveAction === "returned"
-                              ? `${governing.executiveName.charAt(0).toUpperCase() + governing.executiveName.slice(1)} returned it, and it was not reenacted.`
-                              : "The council did not pass it."}
+                              ? `Returned by ${governing.executiveName}`
+                              : "Not passed"}
                           </p>
                         ) : null}
                       </li>
@@ -779,9 +808,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-people">
             <h3>{"Known people"}</h3>
-            {knownPeople.length === 0 ? (
-              <p>{"Nobody who holds office here is known to you yet."}</p>
-            ) : (
+            {knownPeople.length === 0 ? null : (
               <ul className="municipal-people-list">
                 {knownPeople.map((person) => (
                   <li
@@ -825,13 +852,13 @@ export function MunicipalWorkspace({
                   >
                     <h3>{"Recall"}</h3>
                     {recall.unavailable ? (
-                      <p>{recall.unavailable}</p>
+                      <p data-testid="municipal-recall-unavailable">
+                        {recall.unavailableValue ?? "Not available"}
+                      </p>
                     ) : (
                       <>
                         <p>{recall.rule}</p>
-                        {recall.targets.length === 0 ? (
-                          <p>{"No seated official here is known to you."}</p>
-                        ) : (
+                        {recall.targets.length === 0 ? null : (
                           <ul className="municipal-people-list">
                             {recall.targets.map((target) => (
                               <li key={target.personId}>
@@ -856,7 +883,7 @@ export function MunicipalWorkspace({
                                           ),
                                         );
                                         setMessage(
-                                          `A petition to recall ${target.name} is now circulating.`,
+                                          `Recall petition: ${target.name}`,
                                         );
                                       }}
                                     >
@@ -887,17 +914,9 @@ export function MunicipalWorkspace({
             data-testid="municipal-activities"
           >
             <h3>{"Public meetings"}</h3>
-            {view.meetings.length === 0 && (
-              <p>{"No public meeting is on the calendar yet."}</p>
-            )}
             {view.isHomeGovernment &&
               view.availableMeetingSeries.length > 0 && (
                 <div className="municipal-authored-session">
-                  <p>
-                    {
-                      "Put a public session on the calendar: a game-authored 90-minute session starting in an hour, or tomorrow if this series already met today. Closed and executive sessions are not offered."
-                    }
-                  </p>
                   <label>
                     {"Public session type"}
                     <GameSelect
@@ -934,11 +953,8 @@ export function MunicipalWorkspace({
                       );
                       if (next !== world) {
                         onWorldChange(next);
-                        setMessage("Public session added to your calendar.");
-                      } else
-                        setMessage(
-                          "A session of this type is already on your calendar.",
-                        );
+                        setMessage("Added");
+                      } else setMessage("Already on your calendar");
                     }}
                   >
                     {"Add public session to this world"}
@@ -960,11 +976,6 @@ export function MunicipalWorkspace({
                     {proseDate(state!.start.date)}
                     {" · "}
                     {formatMinute(state!.start.minuteOfDay)}
-                  </p>
-                  <p>
-                    {
-                      "Agenda: no published agenda has been attached to this session. Recorded measures appear below."
-                    }
                   </p>
                   <button
                     type="button"
@@ -1031,13 +1042,6 @@ export function MunicipalWorkspace({
                 </article>
               );
             })}
-            {!canWork && (
-              <p>
-                {
-                  "Public attendance grants no office powers. Meeting preparation requires a current role in this government."
-                }
-              </p>
-            )}
           </section>
 
           {view.meetingNotes.length > 0 && (
@@ -1063,9 +1067,7 @@ export function MunicipalWorkspace({
 
           <section className="municipal-panel" data-testid="municipal-measures">
             <h3>{"Measures and history"}</h3>
-            {view.measures.length === 0 ? (
-              <p>{"No municipal measure has been recorded."}</p>
-            ) : (
+            {view.measures.length === 0 ? null : (
               <ul>
                 {view.measures.map((measure) => (
                   <li key={measure.id}>
@@ -1091,21 +1093,15 @@ export function MunicipalWorkspace({
             data-testid="municipal-attendance-history"
           >
             <h3>{"Attendance history"}</h3>
-            {attendanceHistory.length === 0 ? (
-              <p>
-                {
-                  "No public meeting attendance is recorded for this government."
-                }
-              </p>
-            ) : (
-              attendanceHistory.map((event) => (
-                <p key={event.id}>
-                  {event.occurredAt}
-                  {": "}
-                  {event.summary}
-                </p>
-              ))
-            )}
+            {attendanceHistory.length === 0
+              ? null
+              : attendanceHistory.map((event) => (
+                  <p key={event.id}>
+                    {event.occurredAt}
+                    {": "}
+                    {event.summary}
+                  </p>
+                ))}
           </section>
 
           {/*
@@ -1121,11 +1117,6 @@ export function MunicipalWorkspace({
               data-testid="municipal-source-review"
             >
               <summary>{"Source review"}</summary>
-              <p>
-                {
-                  "Publisher observations, research references, and capacity records for this government. These are not the normal gameplay screen."
-                }
-              </p>
               <p>
                 {"Census place: "}
                 {view.government.placeGeoid ?? "Unknown"}
@@ -1172,7 +1163,7 @@ export function MunicipalWorkspace({
                   </p>
                 </details>
               ) : (
-                <p>{"No verified Census government-unit link is available."}</p>
+                <p>{"Census link: none"}</p>
               )}
               {view.government.readings.map((reading) => (
                 <details
@@ -1275,11 +1266,6 @@ export function MunicipalWorkspace({
               ))}
               <details>
                 <summary>{"Cited public records and meeting material"}</summary>
-                <p>
-                  {
-                    "These are references in this government's source readings. They are not attached agendas or notices for an authored session in this world."
-                  }
-                </p>
                 <ul>
                   {view.publicReferences.map((url) => (
                     <li key={url}>
@@ -1291,17 +1277,8 @@ export function MunicipalWorkspace({
                 </ul>
               </details>
               <h4>{"Historical finance and employment"}</h4>
-              <p>
-                {
-                  "These observations do not establish current cash, staffing, or legal powers."
-                }
-              </p>
               {view.capacity.finance.length === 0 && (
-                <p>
-                  {
-                    "No finance observation is available for this exact government ID in the accepted corpus. Missing data is not zero."
-                  }
-                </p>
+                <p>{"Finance: none on file"}</p>
               )}
               {view.capacity.finance.map((row) => (
                 <p key={row.recordId}>
@@ -1324,11 +1301,7 @@ export function MunicipalWorkspace({
                 </p>
               ))}
               {view.capacity.employment.length === 0 && (
-                <p>
-                  {
-                    "No employment observation is available for this exact government ID in the accepted corpus."
-                  }
-                </p>
+                <p>{"Employment: none on file"}</p>
               )}
               {view.capacity.employment.map((row) => (
                 <p key={row.recordId}>
@@ -1343,7 +1316,9 @@ export function MunicipalWorkspace({
                     : "Unknown"}{" "}
                   {"part-time employees; observed "}
                   {proseDate(row.referenceDate)}
-                  {". Full-time equivalent: unknown."}{" "}
+                  {
+                    ". The publisher does not report full-time equivalents, and headcount cannot establish them."
+                  }{" "}
                   {municipalCapacitySourceUrl(row.evidence.artifactId) && (
                     <a
                       href={municipalCapacitySourceUrl(

@@ -1,3 +1,4 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
 import {
   addDays,
   ageOnDate,
@@ -349,19 +350,23 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     },
   ];
 
-  return {
-    id,
-    generationKey,
-    generatorVersion,
-    corpusVersion,
-    givenName,
-    familyName,
-    birthDate,
-    homeJurisdictionId: input.homeJurisdictionId,
-    appearance,
-    detailLevel: "lightweight",
-    establishedFacts,
-  };
+  return initializePersonCitizenship(
+    {
+      id,
+      generationKey,
+      generatorVersion,
+      corpusVersion,
+      givenName,
+      familyName,
+      birthDate,
+      homeJurisdictionId: input.homeJurisdictionId,
+      appearance,
+      detailLevel: "lightweight",
+      establishedFacts,
+    },
+    input.worldSeed,
+    input.currentDate,
+  );
 }
 
 export function materializePersonRecord(
@@ -649,20 +654,26 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     },
   ];
 
-  return {
-    id,
-    generationKey,
-    generatorVersion: STARTING_PERSON_GENERATOR_VERSION,
-    corpusVersion,
-    givenName,
-    familyName,
-    birthDate,
-    homeJurisdictionId: input.homeJurisdictionId,
-    appearance,
-    ...(input.identity === undefined ? {} : { identity: input.identity }),
-    detailLevel: "lightweight",
-    establishedFacts,
-  };
+  return initializePersonCitizenship(
+    {
+      id,
+      generationKey,
+      generatorVersion: STARTING_PERSON_GENERATOR_VERSION,
+      corpusVersion,
+      givenName,
+      familyName,
+      birthDate,
+      homeJurisdictionId: input.homeJurisdictionId,
+      appearance,
+      ...(input.identity === undefined ? {} : { identity: input.identity }),
+      detailLevel: "lightweight",
+      establishedFacts,
+    },
+    input.worldSeed,
+    // Recorded when the person enters the World, which for a life built into
+    // a prior-year World is that earlier date, not the later start date.
+    input.initialResidenceDate ?? input.currentDate,
+  );
 }
 
 /**

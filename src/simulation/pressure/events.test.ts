@@ -5,22 +5,34 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { passOrdinaryDays } from "../../presentation/ordinary-life";
+import {
+  scheduleFutureDueItem,
+  scheduledFutureDueItemsThrough,
+  setFutureDueItemTerminalState,
+} from "../future-transitions";
+import { simulationMomentOnLocalDate } from "../dates";
+import { MIGRATION_REVIEW_TRANSITION_KEY } from "../migration";
 import {
   currentGovernorOf,
   decideStateDisasterRequest,
   declareHazardEpisode,
+  recordPoliticalAttackIntent,
 } from "../crisis";
 import { crisisRecords } from "../crisis/records";
 import { addDays } from "../dates";
 import { householdLocationAt } from "../life-queries";
-import { searchLifePlaces } from "../life-places";
+import { lifePlaces, searchLifePlaces } from "../life-places";
+import { SeededRng } from "../rng";
 import type { World } from "../types";
 import {
-  BLANKET_POLITICAL_VIOLENCE,
+  advanceWithWorldIntegrityAtEnd,
+  recordWorldEvent,
+  writeWithWorldIntegrityOnce,
+} from "../world";
+import {
+  POLITICAL_VIOLENCE_ESTIMATE,
   POLITICAL_THREAT_EVENT,
   PRESSURE_CONTRACT_VERSION,
-  THREAT_ATTEMPTED_PHASE,
   UNREST_CALMED_PHASE,
   UNREST_EVENT,
   UNREST_LASTING_PHASE,
@@ -30,8 +42,6 @@ import {
   stepPressure,
   stepInternationalFriction,
   stepPressureEvents,
-  threatAttemptLine,
-  threatStrain,
   worldStates,
 } from ".";
 
@@ -40,9 +50,9 @@ const LONG = 900_000;
 /** Salem, Oregon's state; Kentucky is deliberately not the test place. */
 const STATE = "OR";
 
-function openLife(seed: string) {
+function openLife(seed: string, stateUsps = STATE) {
   const place = searchLifePlaces("", 1, {
-    stateJurisdictionKey: `US-${STATE}`,
+    stateJurisdictionKey: `US-${stateUsps}`,
     scope: "locality",
   })[0]!;
   const game = generateOpeningLife(
@@ -64,15 +74,78 @@ function eventsOf(world: World, tag: string) {
   );
 }
 
-/** Steps quarters by date alone, as the pressure layer's own test does. */
+/**
+ * Advances the pressure ladder one real quarter at a time. The whole-world
+ * day clock on this 10,000-person opening costs many seconds a day, and a
+ * 91-day quarter of it, run 13 times in one case, kept this file past 20
+ * minutes; the ladder's own review is what these cases read.
+ */
 function quarters(world: World, count: number): World {
+  return watchedPressureQuarters(world, count);
+}
+
+/** Advances only the pressure clock; other scheduled systems are blocked. */
+function watchedPressureQuarters(world: World, count: number): World {
+  // One integrity check for the run, not one per due item: each single write
+  // otherwise re-checks the whole 10,000-person world.
+  return advanceWithWorldIntegrityAtEnd(
+    () => watchedPressureQuartersUnchecked(world, count),
+    world,
+  );
+}
+
+function watchedPressureQuartersUnchecked(world: World, count: number): World {
   let next = world;
-  for (let n = 0; n < count; n += 1) {
-    const stepped = stepPressure({
-      ...next,
-      currentDate: addDays(next.currentDate, 91),
-    });
-    next = stepPressureEvents(stepped);
+  for (let quarter = 0; quarter < count; quarter += 1) {
+    const candidates = scheduledFutureDueItemsThrough(
+      next,
+      next.currentDate,
+      addDays(next.currentDate, 365),
+    );
+    const review = candidates.find(
+      (item) => item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY,
+    );
+    if (!review) throw new Error("The pressure watch has no next review.");
+    const dueThroughReview = scheduledFutureDueItemsThrough(
+      next,
+      next.currentDate,
+      review.dueAt,
+    );
+    for (const item of dueThroughReview) {
+      next = {
+        ...next,
+        currentDate: item.dueAt,
+        currentMoment: simulationMomentOnLocalDate(
+          next.currentMoment,
+          item.dueAt,
+        ),
+      };
+      const pressureReview =
+        item.transitionKey === MIGRATION_REVIEW_TRANSITION_KEY;
+      if (pressureReview) next = stepPressureEvents(stepPressure(next));
+      next = setFutureDueItemTerminalState(next, {
+        stableKey: `pressure-watch:${item.stableKey}:${next.history.nextSequence}`,
+        dueItemId: item.id,
+        effectiveAt: item.dueAt,
+        status: pressureReview ? "resolved" : "blocked",
+        reasonKey: pressureReview
+          ? "pressure-watch:quarter-stepped"
+          : "pressure-watch:other-system-isolated",
+        context: pressureReview
+          ? "The watched run stepped the recorded pressure ladder."
+          : "The watched run isolates the pressure ladder from other systems.",
+        outcomeEventId: null,
+      });
+      if (pressureReview)
+        next = scheduleFutureDueItem(next, {
+          stableKey: `pressure-watch:next:${next.pressure?.quartersStepped ?? quarter + 1}`,
+          dueAt: addDays(next.currentDate, 91),
+          transitionKey: MIGRATION_REVIEW_TRANSITION_KEY,
+          entityIds: [next.id],
+          jurisdictionId: null,
+          provenance: { kind: "simulated", sourceEntityIds: [next.id] },
+        });
+    }
   }
   return next;
 }
@@ -101,9 +174,20 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     expect(new Set(people).size).toBe(people.length);
   });
 
-  it("turns a governor's repeated failures into unrest, then a threat, then an attempt", () => {
-    const game = openLife("pressure-events-governor");
-    const governor = currentGovernorOf(game.world, STATE)!;
+  it("turns repeated failures into unrest and a threat without inventing an attacker", () => {
+    const seed = "pressure-events-governor";
+    const statesWithLocalities = lifePlaces().filter(
+      (place) =>
+        place.scope === "state" &&
+        searchLifePlaces("", 1, {
+          stateJurisdictionKey: place.stateJurisdictionKey!,
+          scope: "locality",
+        }).length > 0,
+    );
+    const statePlace = new SeededRng(seed).pick(statesWithLocalities);
+    const stateUsps = statePlace.stateJurisdictionKey!.replace("US-", "");
+    const game = openLife(seed, stateUsps);
+    const governor = currentGovernorOf(game.world, stateUsps)!;
     let world: World = {
       ...game.world,
       control: { kind: "person", personId: governor.personId },
@@ -117,30 +201,36 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     // floods come the day after the quarter's pressure step: a cause recorded
     // later on the step's own day is not counted yet (reported to the
     // pressure layer's owner).
-    for (let quarter = 0; quarter < 10; quarter += 1) {
-      world = passOrdinaryDays(world, 1);
-      for (let flood = 0; flood < 3; flood += 1) {
-        world = declareHazardEpisode(world, {
-          stableKey: `oregon-flood-${quarter}-${flood}`,
-          family: "flood",
-          magnitude: "catastrophic",
-          stateUsps: STATE,
-          jurisdictionIds: [home],
-          durationDays: 2,
-          basis: "Declared test episode; not a local hazard prediction.",
-          sourceReference: null,
-        });
-        const episode = crisisRecords(world)
-          .filter((record) => record.kind === "hazard-episode")
-          .at(-1)!;
-        if (currentGovernorOf(world, STATE)?.personId === governor.personId)
-          world = decideStateDisasterRequest(world, episode.id, "decline");
-      }
-      world = passOrdinaryDays(world, 90);
+    for (let quarter = 0; quarter < 5; quarter += 1) {
+      // The quarter's three episodes and answers are one batch, checked once.
+      world = writeWithWorldIntegrityOnce(world, () => {
+        let next = world;
+        for (let flood = 0; flood < 3; flood += 1) {
+          next = declareHazardEpisode(next, {
+            stableKey: `oregon-flood-${quarter}-${flood}`,
+            family: "flood",
+            magnitude: "catastrophic",
+            stateUsps,
+            jurisdictionIds: [home],
+            durationDays: 2,
+            basis: "Declared test episode; not a local hazard prediction.",
+            sourceReference: null,
+          });
+          const episode = crisisRecords(next)
+            .filter((record) => record.kind === "hazard-episode")
+            .at(-1)!;
+          if (
+            currentGovernorOf(next, stateUsps)?.personId === governor.personId
+          )
+            next = decideStateDisasterRequest(next, episode.id, "decline");
+        }
+        return next;
+      });
+      world = watchedPressureQuarters(world, 1);
     }
 
     const readings = world.pressure!.readings.filter(
-      (reading) => reading.stateKey === `US-${STATE}`,
+      (reading) => reading.stateKey === `US-${stateUsps}`,
     );
     expect(
       readings.some((reading) =>
@@ -153,12 +243,13 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     // Every step happened in order, and each rests on what came before.
     const unrest = eventsOf(world, UNREST_EVENT);
     const threats = eventsOf(world, POLITICAL_THREAT_EVENT);
-    const attempts = crisisRecords(world).filter(
-      (record) => record.kind === "violence-attempt",
-    );
     expect(unrest.length).toBeGreaterThan(0);
     expect(threats.length).toBeGreaterThan(0);
-    expect(attempts.length).toBeGreaterThan(0);
+    expect(
+      crisisRecords(world).filter(
+        (record) => record.kind === "violence-attempt",
+      ),
+    ).toEqual([]);
     const incidentOf = (eventId: string) =>
       world.history.incidents.find((row) => row.onsetEventId === eventId)!;
     const statesOf = (eventId: string) =>
@@ -181,35 +272,22 @@ describe("what pressure sets off", { timeout: LONG }, () => {
         threat.participants.some((row) => row.role === "impact:threatened"),
       ).toBe(true);
     }
-    for (const attempt of attempts) {
-      if (attempt.kind !== "violence-attempt") continue;
-      const threat = threats.find((event) =>
-        attempt.threatEvidenceIds.includes(event.id),
-      )!;
-      expect(threat).toBeDefined();
-      expect(threat.involvedEntityIds).toContain(attempt.targetPersonId);
-      expect(threat.occurredAt < attempt.effectiveAt).toBe(true);
-      // The attempt came when the threat's strain crossed its own line, and
-      // the threat is resolved by it.
-      const threatRecord = incidentOf(threat.id);
-      expect(
-        threatStrain(world.pressure!.readings, threatRecord),
-      ).toBeGreaterThanOrEqual(threatAttemptLine());
-      expect(statesOf(threat.id).at(-1)).toMatchObject({
-        status: "resolved",
-        phaseKey: THREAT_ATTEMPTED_PHASE,
-      });
-    }
     // No state that never crossed the anger line saw anything.
     const crossed = new Set(
       world.pressure!.readings.flatMap((reading) =>
-        reading.levels.anger > BLANKET_POLITICAL_VIOLENCE.angerLine
+        reading.levels.anger > POLITICAL_VIOLENCE_ESTIMATE.angerLine
           ? [reading.jurisdictionId]
           : [],
       ),
     );
     for (const event of [...unrest, ...threats])
       expect(crossed.has(event.jurisdictionId!)).toBe(true);
+    const placeName = world.jurisdictions[threats[0]!.jurisdictionId!]!.name;
+    const firstThreat = threats[0]!;
+    console.info(
+      `WATCHED RUN P2 — ${placeName} (seed ${seed}): repeated recorded flood-handling failures raised anger; sustained anger produced unrest and a threat against the governor; no named person's own recorded intent existed, so no attempt followed.`,
+    );
+    console.info(`NEWS/JOURNAL — ${firstThreat.summary}`);
   });
 
   it("calms unrest once anger falls back, with no roll deciding it", () => {
@@ -252,10 +330,92 @@ describe("what pressure sets off", { timeout: LONG }, () => {
     let world: World = seedAnger(game.world, [state.stateKey], anger);
     for (let n = 0; n < 12; n += 1)
       world = holdAnger(world, [state.stateKey], anger);
+    const threat = eventsOf(world, POLITICAL_THREAT_EVENT).at(-1)!;
+    const targetPersonId = threat.participants.find(
+      (row) => row.role === "impact:threatened",
+    )!.personId;
+    const actor = Object.values(world.people).find((person) => {
+      const controlled =
+        world.control.kind === "person" && world.control.personId === person.id;
+      return (
+        person.id !== targetPersonId &&
+        !controlled &&
+        world.history.events.some((event) =>
+          event.involvedEntityIds.includes(person.id),
+        )
+      );
+    })!;
+    const observedThreat = recordWorldEvent(world, {
+      stableKey: `pressure-events-feedback:observed:${threat.id}`,
+      type: "crisis.political-threat-observed",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: threat.jurisdictionId,
+      involvedEntityIds: [actor.id, targetPersonId].sort(),
+      participants: [
+        { personId: actor.id, role: "observation:witness", detail: null },
+        { personId: targetPersonId, role: "impact:threatened", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["crisis", "test:attack-intent-source"],
+      summary: "The named actor observed the saved threat against its target.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    world = observedThreat;
+    const evidenceEventId = world.history.events.at(-1)!.id;
+    const intent = recordPoliticalAttackIntent(world, {
+      stableKey: `pressure-events-feedback:${actor.id}:${threat.id}`,
+      actorPersonId: actor.id,
+      targetPersonId,
+      threatEventId: threat.id,
+      actorStrain: {
+        explanation: "The recorded actor evidence supports strain.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      actorMeans: {
+        explanation: "The recorded actor evidence supports means.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      targetSecurity: {
+        explanation: "The recorded threat provides slight security evidence.",
+        importance: "slight",
+        confidence: "low",
+        sourceEventIds: [evidenceEventId],
+      },
+      targetExposure: {
+        explanation: "The recorded threat supports exposure.",
+        importance: "decisive",
+        confidence: "high",
+        sourceEventIds: [evidenceEventId],
+      },
+      basis:
+        "The actor weighs their saved circumstances against the target's threat and exposure.",
+    });
+    expect(intent.intentId).not.toBeNull();
+    world = holdAnger(intent.world, [state.stateKey], anger);
     const attempt = crisisRecords(world).find(
       (record) => record.kind === "violence-attempt",
     );
     expect(attempt).toBeDefined();
+    const recordedIntent = crisisRecords(world).find(
+      (record) =>
+        record.kind === "political-attack-intent" &&
+        record.threatEventId === threat.id,
+    );
+    expect(recordedIntent?.eventId).toBeDefined();
+    expect(recordedIntent!.sequence).toBeLessThan(attempt!.sequence);
     const causes = causesInPeriod(
       world,
       attempt!.effectiveAt,
@@ -332,5 +492,5 @@ function holdAnger(
   states: readonly string[],
   anger: number,
 ): World {
-  return passOrdinaryDays(seedAnger(world, states, anger), 91);
+  return watchedPressureQuarters(seedAnger(world, states, anger), 1);
 }

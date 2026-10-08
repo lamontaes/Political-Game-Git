@@ -1,4 +1,5 @@
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import {
   addDays,
   daysBetween,
@@ -173,8 +174,11 @@ const EFFECTIVE_DATES = (
 ).effectiveDates;
 
 const RULES: Readonly<Record<string, RuleRow>> = EFFECTIVE_DATES?.rules ?? {};
-const SESSION_ENDS: Readonly<Record<string, SessionEndRow>> =
-  EFFECTIVE_DATES?.sessionEnds ?? {};
+const SESSION_ENDS: Readonly<Record<string, SessionEndRow>> = (
+  stateSessionCalendar as unknown as {
+    readonly sessionEnds: Readonly<Record<string, SessionEndRow>>;
+  }
+).sessionEnds;
 
 /** The rule for a state (`US-XX`), read or estimated, or null where the
  * file has none. */

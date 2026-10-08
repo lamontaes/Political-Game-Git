@@ -20,6 +20,7 @@ import {
   municipalOrganizationFor,
   municipalSeats,
 } from "./municipal-public-work";
+import { countyGoverningBodyRules } from "./nationwide-world/county-governing-body-rules";
 import { deserializeWorld, serializeWorld } from "./serialization";
 
 describe("current county board opening", () => {
@@ -61,8 +62,11 @@ describe("current county board opening", () => {
     const seats = municipalSeats(world, county.id).filter(
       (seat) => seat.role === "member" || seat.role === "presiding-member",
     );
-    expect(seats).toHaveLength(5);
-    expect(new Set(seats.map((seat) => seat.personId)).size).toBe(5);
+    // The board seats the size its county's law sets, the same count its pack
+    // allows (CO-5 follow-up), not a fixed five.
+    const boardSize = countyGoverningBodyRules(county)!.seats;
+    expect(seats).toHaveLength(boardSize);
+    expect(new Set(seats.map((seat) => seat.personId)).size).toBe(boardSize);
     expect(
       seats.every((seat) => {
         const participation = world.history.organizationParticipations.find(

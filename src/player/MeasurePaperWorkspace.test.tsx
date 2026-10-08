@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { createLegislativeBargainingFixture } from "../presentation/legislative-bargaining-fixture";
@@ -50,10 +52,27 @@ describe("measure paper negotiation record", () => {
       eventId: fixture.world.history.events[0]!.id,
     });
     const html = render(world);
-    expect(html).toContain("What was asked for");
+    expect(html).not.toContain("What was asked for");
     expect(html).toContain('data-testid="record-negotiations"');
     expect(html).toContain(request);
     expect(html).toContain('data-testid="call-the-vote"');
     expect(html).not.toContain("Nobody has asked you for anything yet");
+  });
+});
+
+describe("the measure paper carries no authored sentence", () => {
+  it("has no sentence literal in its file", () => {
+    const text = readFileSync(
+      join(__dirname, "MeasurePaperWorkspace.tsx"),
+      "utf8",
+    )
+      .split("\n")
+      .filter((line) => !/^\s*(\/\/|\*|\/\*)/.test(line))
+      .join("\n");
+    expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
+    expect(text.match(/`[A-Z][^`]{25,}[.?!]`/g) ?? []).toEqual([]);
+    expect(
+      text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{20,}[.?!]\s*</g) ?? [],
+    ).toEqual([]);
   });
 });
