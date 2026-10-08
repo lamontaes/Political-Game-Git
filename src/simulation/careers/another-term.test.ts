@@ -8,8 +8,14 @@ import { requireLocalityInState } from "../../presentation/new-game-geography";
 import { beginHealthEpisode, changeHealthState } from "../crisis/health";
 import { crisisRecords } from "../crisis/records";
 import { addDays } from "../dates";
+import type { MatterResponseRecord } from "../press/records";
+import { recordWorldEvent } from "../world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "../types";
-import { chanceOfDyingBefore, decideAnotherTerm } from "./another-term";
+import {
+  chanceOfDyingBefore,
+  decideAnotherTerm,
+  resignationPressureConsiderations,
+} from "./another-term";
 
 const SLOW = 60_000;
 
@@ -154,4 +160,64 @@ describe("whether somebody runs for another term", () => {
     },
     SLOW,
   );
+
+  it("weighs recorded resignation calls from party and colleagues", () => {
+    const { world, playerId } = openIn("another-term-resignation-pressure");
+    const id = someoneElse(world, playerId);
+    const event = recordWorldEvent(world, {
+      stableKey: "test:resignation-call:event",
+      type: "matter.party-response",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [playerId, id],
+      participants: [
+        { personId: playerId, role: "agency:party-responder", detail: "Party" },
+        { personId: id, role: "focus:matter-subject", detail: "Official" },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["test.fixture"],
+      summary: "A party colleague called on the official to resign.",
+      context: {
+        location: null,
+        socialContext: "Synthetic test fixture.",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const response: MatterResponseRecord = {
+      id: "test:resignation-call:record",
+      stableKey: "test:resignation-call:record",
+      sequence: 1,
+      recordedAt: world.currentDate,
+      kind: "matter-response",
+      matterId: "test:matter",
+      actorPersonId: playerId,
+      actorRole: "party",
+      response: "call-for-resignation",
+      eventId: event.history.events.at(-1)!.id,
+      decisionTraceId: null,
+      knowledgeIds: [],
+      respondedAt: world.currentDate,
+    };
+    const pressured = {
+      ...event,
+      history: { ...event.history, pressRecords: [response] },
+    };
+    const pressure = resignationPressureConsiderations(pressured, {
+      personId: id,
+      keyPrefix: "test:another-term:pressure",
+      onDate: world.currentDate,
+    });
+    expect(pressure).toEqual([
+      expect.objectContaining({
+        optionKey: "step-down",
+        explanation: "A party colleague called on the official to resign.",
+        sourceRefs: [{ kind: "historical-event", eventId: response.eventId }],
+      }),
+    ]);
+  });
 });
