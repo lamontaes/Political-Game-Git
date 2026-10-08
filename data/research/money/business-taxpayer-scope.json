@@ -1,5 +1,6 @@
 {
   "ownerWorkKind": "independent:business-owner",
+  "corporateOrganizationClassifications": ["enterprise:corporation"],
   "payerControlLabel": "Payer",
   "chooseControlLabel": "Choose",
   "declarationControlLabel": "Declare company occurrence",

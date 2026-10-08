@@ -33,6 +33,7 @@ import { recordsByStringField } from "./history-index";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { taxReachesPlace } from "./property-tax-bases";
 import { effectiveTaxPolicy, recordTaxBase } from "./tax-policy";
+import { recordedCorporateTaxpayerAt } from "./business-tax-payers";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -677,6 +678,7 @@ function recordLocalCorporateIncomeBases(
   const today = world.currentDate;
   let next = world;
   for (const organizationId of organizations) {
+    if (!recordedCorporateTaxpayerAt(world, organizationId)) continue;
     const revenueFlows = businessFlows(world, organizationId).filter(
       (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
     );

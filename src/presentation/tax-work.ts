@@ -26,7 +26,10 @@ import { resolveLegislativeFilingEntry } from "./legislative-filing-entry";
 import type { EntityId, PublicGovernmentIdentity, World } from "../simulation";
 import { type TaxTerms, type TaxQuantity } from "../simulation/tax-types";
 import { MILEAGE_FEE_QUESTION } from "../simulation/public-budgets/road-usage-charge-constants";
-import { businessTaxOwnersAt } from "../simulation/business-tax-payers";
+import {
+  businessTaxOwnersAt,
+  recordedCorporateTaxpayerAt,
+} from "../simulation/business-tax-payers";
 
 /** Exact entered quantity; a blank entry never silently becomes zero. */
 export function exactTaxQuantityInput(value: string): number {
@@ -240,6 +243,17 @@ export function declarePersonalTaxOccurrence(
       canonicalJson({
         status: "corporate-payer-required",
         proposalId: proposal.id,
+      }),
+    );
+  if (
+    proposal.terms.instrument === "corporate-income" &&
+    input.organizationId &&
+    !recordedCorporateTaxpayerAt(world, input.organizationId)
+  )
+    throw new Error(
+      canonicalJson({
+        status: "corporate-form-not-recorded",
+        organizationId: input.organizationId,
       }),
     );
   const active = effectiveTaxPolicy(

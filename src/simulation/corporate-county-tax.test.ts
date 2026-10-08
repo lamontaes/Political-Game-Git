@@ -1,13 +1,30 @@
 import { expect, it } from "vitest";
 import { createMileageLevyWorld } from "../../tests/fixtures/mileage-levy-world";
 import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
-import { createOrganization, createWorkRelationship } from "./life";
-import { businessTaxOwnersAt } from "./business-tax-payers";
+import {
+  createOrganization,
+  createWorkRelationship,
+  recordOrganizationProfile,
+} from "./life";
+import {
+  businessTaxOwnersAt,
+  recordedCorporateTaxpayerAt,
+} from "./business-tax-payers";
+import { organizationProfileAt } from "./life-queries";
 import { lifePlaceStateIdentities } from "./life-places";
 import { localTaxAuthority } from "./local-tax-authority";
 import { stateTaxPowerEvidenceFor } from "./state-tax-authority";
 import { createProductionPolicyCatalog } from "./production-catalog";
-import { createResourcePosition, money } from "./resources";
+import {
+  createResourceFlows,
+  createResourcePosition,
+  money,
+} from "./resources";
+import {
+  BUSINESS_REVENUE_BASIS,
+  BUSINESS_WAGES_BASIS,
+  settleBusinessMoney,
+} from "./local-economy";
 import { resourcePositionAt } from "./resource-queries";
 import { createTaxTransitionHandlerRegistry, previewTax } from "./tax-policy";
 import { lawExposuresOf } from "./law-exposure";
@@ -175,6 +192,23 @@ it("charges a recorded company once, preserves its owner's money, and saves the 
   expect(
     businessTaxOwnersAt(world, organizationId).map((owner) => owner.personId),
   ).toEqual([f.personId]);
+  expect(recordedCorporateTaxpayerAt(world, organizationId)).toBe(true);
+  const corporateProfile = organizationProfileAt(world, organizationId)!;
+  const nonCorporate = recordOrganizationProfile(world, {
+    stableKey: "fixture:noncorporate-profile",
+    organizationId,
+    effectiveAt: world.currentDate,
+    name: corporateProfile.name,
+    classification: "enterprise:retail",
+    locationJurisdictionId: corporateProfile.locationJurisdictionId,
+    provenance: PROVENANCE,
+    supersedesProfileId: corporateProfile.id,
+  });
+  expect(businessTaxOwnersAt(nonCorporate, organizationId)).toHaveLength(1);
+  expect(recordedCorporateTaxpayerAt(nonCorporate, organizationId)).toBe(false);
+  expect(() => declarePersonalTaxOccurrence(nonCorporate, declaration)).toThrow(
+    /corporate-form-not-recorded/,
+  );
   world = createResourcePosition(world, {
     stableKey: "fixture:company-cash",
     owner: { kind: "organization", organizationId },
@@ -420,3 +454,115 @@ it("a county income levy reaches the named payer through the same council and du
   assertWorldIntegrity(world);
   expect(deserializeWorld(serializeWorld(world))).toEqual(world);
 });
+
+it.each(["enterprise:corporation", "enterprise:retail"] as const)(
+  "completed receipts and wages assess only a recorded corporate payer: %s",
+  (classification) => {
+    const f = createMileageLevyWorld(
+      TERMS,
+      "us-tax-terms:state.corporate-tax-terms",
+    );
+    let world = f.world;
+    const jurisdictionId = world.history.taxProposals![0]!.jurisdictionId;
+    const organizations = [];
+    for (const [key, form, cash] of [
+      ["customers", "enterprise:retail", 50000],
+      ["company", classification, 10000],
+    ] as const) {
+      world = createOrganization(world, {
+        stableKey: `fixture:completed-income:${key}`,
+        formedAt: world.currentDate,
+        provenance: PROVENANCE,
+        initialProfile: {
+          name: `Recorded ${key}`,
+          classification: form,
+          locationJurisdictionId: jurisdictionId,
+        },
+      });
+      const organizationId = world.history.organizations.at(-1)!.id;
+      organizations.push(organizationId);
+      world = createResourcePosition(world, {
+        stableKey: `fixture:completed-income:${key}:cash`,
+        owner: { kind: "organization", organizationId },
+        openedAt: world.currentDate,
+        openingBalance: money(cash, "USD"),
+        provenance: PROVENANCE,
+      });
+    }
+    const customers = organizations[0]!;
+    const company = organizations[1]!;
+    world = createResourceFlows(
+      world,
+      [
+        {
+          stableKey: "fixture:completed-company-receipts",
+          source: { kind: "organization" as const, organizationId: customers },
+          recipient: { kind: "organization" as const, organizationId: company },
+          amount: money(30000, "USD"),
+          basisKind: BUSINESS_REVENUE_BASIS,
+        },
+        {
+          stableKey: "fixture:completed-company-wages",
+          source: { kind: "organization" as const, organizationId: company },
+          recipient: { kind: "person" as const, personId: f.personId },
+          amount: money(10000, "USD"),
+          basisKind: BUSINESS_WAGES_BASIS,
+        },
+      ].map((flow) => ({
+        ...flow,
+        startsAt: world.currentDate,
+        cadenceKind: "schedule:monthly",
+        basisReference: { kind: "general" as const },
+        restrictionKind: null,
+        jurisdictionId,
+        provenance: PROVENANCE,
+      })),
+    );
+    const [year, month] = world.currentDate.split("-").map(Number);
+    const dueAt = makeIsoDate(
+      `${year! + (month === 12 ? 1 : 0)}-${String((month! % 12) + 1).padStart(2, "0")}-01`,
+    );
+    // Controlled servicing frontier; no ordinary month of life is advanced.
+    world = {
+      ...world,
+      currentDate: dueAt,
+      currentMoment: makeSimulationMoment({
+        ...world.currentMoment,
+        date: dueAt,
+      }),
+    };
+    world = settleBusinessMoney(world, company);
+    expect(world.history.resourceTransferOutcomes).toHaveLength(2);
+    expect(
+      world.history.resourceTransferOutcomes.map((row) => row.status),
+    ).toEqual(["completed", "completed"]);
+    const corporate = classification === "enterprise:corporation";
+    expect(world.history.taxBases ?? []).toHaveLength(corporate ? 1 : 0);
+    expect(world.history.taxAssessments ?? []).toHaveLength(corporate ? 1 : 0);
+    if (corporate) {
+      expect(world.history.taxBases![0]).toMatchObject({
+        payer: { kind: "organization", organizationId: company },
+        amount: money(20000, "USD"),
+      });
+      expect(world.history.taxAssessments![0]!.taxAmount).toEqual(
+        money(1000, "USD"),
+      );
+    }
+    expect(settleBusinessMoney(world, company)).toEqual(world);
+    world = advanceWorld(
+      deserializeWorld(serializeWorld(world)),
+      2,
+      createTaxTransitionHandlerRegistry(),
+    );
+    expect(
+      resourcePositionAt(
+        world,
+        { kind: "organization", organizationId: company },
+        TERMS.currency,
+      )!.liquidBalance,
+    ).toEqual(money(corporate ? 29000 : 30000, "USD"));
+    expect(world.history.taxCollections ?? []).toHaveLength(corporate ? 1 : 0);
+    assertWorldIntegrity(world);
+    expect(deserializeWorld(serializeWorld(world))).toEqual(world);
+  },
+);

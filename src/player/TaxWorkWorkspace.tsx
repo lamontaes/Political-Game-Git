@@ -1,7 +1,10 @@
 import "./tax-work.css";
 import taxBaseUnits from "../../data/research/money/tax-base-units.json" with { type: "json" };
 import businessPayerScope from "../../data/research/money/business-taxpayer-scope.json" with { type: "json" };
-import { businessTaxOwnersAt } from "../simulation/business-tax-payers";
+import {
+  businessTaxOwnersAt,
+  recordedCorporateTaxpayerAt,
+} from "../simulation/business-tax-payers";
 import { organizationProfileAt } from "../simulation/life-queries";
 import { isTaxQuantity } from "../simulation/tax-types";
 import { useEffect, useRef, useState } from "react";
@@ -221,7 +224,7 @@ export function TaxWorkWorkspace({
     (company) =>
       businessTaxOwnersAt(world, company.id).some(
         (owner) => owner.personId === personId,
-      ) && !organizationProfileAt(world, company.id)?.closed,
+      ) && recordedCorporateTaxpayerAt(world, company.id),
   );
   return (
     <section
