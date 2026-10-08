@@ -1,5 +1,3 @@
-import { nextSessionCalendarDate } from "../legislative-session-calendar";
-import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import { applyInstitutionStep } from "../governing/legislative-clock";
 import { mayAnswerQuestion } from "../governing/question-authority";
 import { legislativeSittingHandler } from "../governing/legislative-sittings";
@@ -11,6 +9,7 @@ import {
   lawJurisdiction,
   type CouncilRules,
 } from "./local-council-binding";
+import { addDays } from "../dates";
 import { fileMemberAgendaBills } from "../governing/member-agenda";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
@@ -29,6 +28,7 @@ import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  IsoDate,
   LegislativeMeasureRecord,
   LegislativeVoteRecord,
   PolicyPropositionDefinition,
@@ -41,6 +41,11 @@ import {
 } from "./local-government-seats";
 import { playerTown } from "./town-residents";
 import { epidemicCouncilMeetingDecision } from "../crisis/epidemic";
+import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  councilMeetingCadenceFor,
+  type CouncilMeetingCadenceRow,
+} from "../nationwide-world/council-meeting-cadence";
 import { peopleKnownTo } from "./official-views";
 import { settleQuietCouncilItems } from "./council-quiet-items";
 
@@ -64,9 +69,8 @@ import { settleQuietCouncilItems } from "./council-quiet-items";
  * answer (`townQuestions`); what it does beyond being recorded goes through
  * the one enacted-law effects step.
  *
- * DESIGNED, pending `local-council-legislative-volume`: reads the shared
- * council calendar and balances every town on one timetable; it is not any
- * town's sourced schedule.
+ * Meeting intervals come from a recorded place schedule or the median of
+ * readable schedules for the same government type and population band.
  */
 
 export const LOCAL_COUNCIL_MEETINGS_VERSION = "local-council-meetings/v1";
@@ -261,13 +265,9 @@ function scheduleMeeting(
   unit: GovernmentUnitIdentity,
   town: EntityId,
   player: EntityId,
-  dueAt: string,
+  dueAt: IsoDate,
+  cadence: CouncilMeetingCadenceRow,
 ): World {
-  const rules = councilRules(unit);
-  const calendar = rules
-    ? (rulePackById(rules.packId).session.sittingCalendar ??
-      LEGISLATIVE_SESSION_CALENDARS.council)
-    : LEGISLATIVE_SESSION_CALENDARS.council;
   const stableKey = meetingKey(unit.id, dueAt);
   if (world.history.futureDueItems.some((item) => item.stableKey === stableKey))
     return world;
@@ -279,7 +279,7 @@ function scheduleMeeting(
     jurisdictionId: town,
     provenance: {
       kind: "authored",
-      note: calendar.note,
+      note: `councilMeetingIntervalDays=${cadence.councilMeetingIntervalDays}; ${cadence.estimated ? "estimated" : "recorded"}; ${cadence.note}`,
     },
   });
 }
@@ -445,16 +445,18 @@ export function ensureLocalCouncilMeetings(
 ): World {
   const council = seatedCouncil(world, playerPersonId);
   if (!council) return world;
+  const placeGeoid =
+    lifePlaceByJurisdictionId(council.town)?.sourceGeoid ??
+    council.unit.placeGeoid;
+  const cadence = councilMeetingCadenceFor(council.unit, placeGeoid);
+  if (!cadence) return world;
   return scheduleMeeting(
     world,
     council.unit,
     council.town,
     playerPersonId,
-    nextSessionCalendarDate(
-      rulePackById(council.rules.packId).session.sittingCalendar ??
-        LEGISLATIVE_SESSION_CALENDARS.council,
-      world.currentDate,
-    ),
+    addDays(world.currentDate, Math.round(cadence.councilMeetingIntervalDays)),
+    cadence,
   );
 }
 
@@ -562,18 +564,21 @@ export function localCouncilMeetingHandler(
         });
   if (decision.canceled) {
     let next = decision.world;
-    if (player)
-      next = scheduleMeeting(
-        next,
+    if (player) {
+      const cadence = councilMeetingCadenceFor(
         unit,
-        town,
-        player,
-        nextSessionCalendarDate(
-          rulePackById(rules.packId).session.sittingCalendar ??
-            LEGISLATIVE_SESSION_CALENDARS.council,
-          due.dueAt,
-        ),
+        lifePlaceByJurisdictionId(town)?.sourceGeoid,
       );
+      if (cadence)
+        next = scheduleMeeting(
+          next,
+          unit,
+          town,
+          player,
+          addDays(due.dueAt, Math.round(cadence.councilMeetingIntervalDays)),
+          cadence,
+        );
+    }
     return done(next, `The ${identity.bodyName} did not meet.`);
   }
   const votesBefore = (world.history.legislativeVotes ?? []).length;
@@ -631,18 +636,21 @@ export function localCouncilMeetingHandler(
     },
   });
   // The posted meeting is an extra one; only a regular meeting sets the next.
-  if (player && match![2] === "meeting")
-    next = scheduleMeeting(
-      next,
+  if (player && match![2] === "meeting") {
+    const cadence = councilMeetingCadenceFor(
       unit,
-      town,
-      player,
-      nextSessionCalendarDate(
-        rulePackById(rules.packId).session.sittingCalendar ??
-          LEGISLATIVE_SESSION_CALENDARS.council,
-        due.dueAt,
-      ),
+      lifePlaceByJurisdictionId(town)?.sourceGeoid,
     );
+    if (cadence)
+      next = scheduleMeeting(
+        next,
+        unit,
+        town,
+        player,
+        addDays(due.dueAt, Math.round(cadence.councilMeetingIntervalDays)),
+        cadence,
+      );
+  }
   return done(next, `The ${identity.bodyName} met.`);
 }
 
