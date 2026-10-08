@@ -1,0 +1,28 @@
+{
+  "entries": [
+    {
+      "key": "transit.service-access-territory-median",
+      "sourceFile": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "measure": "transit.service-access",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP", "US-VI"],
+      "gap": "This calibration has no matching 2024 population denominator for American Samoa, Guam, the Northern Mariana Islands or the U.S. Virgin Islands.",
+      "value": 8.85,
+      "unit": "vehicle revenue miles per resident a year",
+      "recordedPlaceCount": 52,
+      "estimate": "Use the median of the 52 recorded starting rates; these are estimated territory rates, not measured transit use.",
+      "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 8.85 vehicle revenue miles per resident a year, the median of the 52 recorded 2024 state, D.C. and Puerto Rico rates. Source: FTA National Transit Database 2024 (https://data.transportation.gov/d/ekg5-frzt); use the recorded rates because matching 2024 population denominators for these four territories are absent from this calibration."
+    },
+    {
+      "key": "transit.ridership-territory-median",
+      "sourceFile": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "measure": "transit.ridership",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP", "US-VI"],
+      "gap": "This calibration has no matching 2024 population denominator for American Samoa, Guam, the Northern Mariana Islands or the U.S. Virgin Islands.",
+      "value": 6.365,
+      "unit": "unlinked passenger trips per resident a year",
+      "recordedPlaceCount": 52,
+      "estimate": "Use the median of the 52 recorded starting rates; these are estimated territory rates, not measured transit use.",
+      "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 6.365 unlinked passenger trips per resident a year, the median of the 52 recorded 2024 state, D.C. and Puerto Rico rates. Source: FTA National Transit Database 2024 (https://data.transportation.gov/d/ekg5-frzt); use the recorded rates because matching 2024 population denominators for these four territories are absent from this calibration."
+    }
+  ]
+}

@@ -100,8 +100,14 @@ describe("the officeholder's desk", () => {
     expect(desk.officeTitle).toBe("Governor of Colorado");
     // American dates, from the office's own term record.
     expect(desk.termLine).toBe("Your term runs until January 4, 2027.");
-    expect(desk.programs).toEqual([]);
-    expect(desk.programsNote).toContain("No program of this government");
+    // Sourced state appropriations are recorded for the office's government, so
+    // a program may be listed; with no capacity declaration or decision put
+    // to the office, it names no service, no capacity and no commitment.
+    for (const program of desk.programs) {
+      expect(program.serviceLabel).toBeNull();
+      expect(program.capacity).toBeNull();
+      expect(program.commitments).toEqual([]);
+    }
     expect(desk.staff).toEqual([]);
     expect(desk.staffNote).toContain("Nobody is recorded");
     expect(desk.measures).toEqual([]);
@@ -125,7 +131,9 @@ describe("the officeholder's desk", () => {
     const desk = projectGoverningOfficeDesk(seeded, office.holderPersonId)!;
 
     expect(desk.programsNote).toBeNull();
-    const program = desk.programs[0]!;
+    const program = desk.programs.find(
+      (row) => row.programKey === "transit:state-bus",
+    )!;
     expect(program.serviceLabel).toBe("State bus service");
     expect(program.objectiveLines).toEqual([
       "8 of 10 buses are in service.",
@@ -166,8 +174,9 @@ describe("the officeholder's desk", () => {
     );
     const desk = projectGoverningOfficeDesk(seeded, office.holderPersonId)!;
 
-    expect(desk.programs).toEqual([]);
-    expect(desk.programsNote).toContain("No program of this government");
+    expect(
+      desk.programs.some((row) => row.programKey === "transit:state-bus"),
+    ).toBe(false);
   }, 120_000);
 });
 
@@ -276,7 +285,9 @@ describe("the desk once the office has decided and the work is done", () => {
     ).world;
 
     const desk = projectGoverningOfficeDesk(settled, office.holderPersonId)!;
-    const program = desk.programs[0]!;
+    const program = desk.programs.find(
+      (row) => row.programKey === "transit:state-bus",
+    )!;
     // The declared record still says 8; two buses have since come back.
     expect(program.objectiveLines[0]).toBe("10 of 10 buses are in service.");
     expect(program.outturnLines).toHaveLength(1);

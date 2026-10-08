@@ -46,7 +46,12 @@ import {
 import { resolveNationwideRuleCapability } from "./nationwide-world/rule-capability-port";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, Jurisdiction, World } from "./types";
-import { advanceWorld, assertWorldIntegrity, createWorld } from "./world";
+import {
+  advanceWorld,
+  assertWorldIntegrity,
+  assertWorldIntegrityFully,
+  createWorld,
+} from "./world";
 import { localInstrumentMayChange, outranks } from "./law-hierarchy";
 
 const AUTHORED = {
@@ -225,10 +230,10 @@ describe("A Kentucky bill changing the House's rules", () => {
     const world = enact(scenario, filed);
     const enactment = world.history.legislativeEnactments!.at(-1)!;
     expect(enactment.outcome).toBe("enacted");
-    // Nothing in play dates an act, so Kentucky's own rule does: the day
+    // Nothing in play dates an act, so the one effective-date rule does: the day
     // after ninety full days from the session's close, which the rule pack
     // records as April 15 in an even year (Ky. Const. sec. 55; OAG 26-03).
-    expect(enactment.effectiveAt).toBeNull();
+    expect(enactment.effectiveAt).toBe("2026-07-15");
     // The Senate's last floor vote is the final passage the record keeps.
     const senateVotes = world.history.legislativeActions!.filter(
       (action) =>
@@ -240,7 +245,7 @@ describe("A Kentucky bill changing the House's rules", () => {
     const effectiveAt = makeIsoDate("2026-07-15");
     expect(enactedRuleChanges(world)[0]).toMatchObject({
       operativeAt: effectiveAt,
-      operativeBasis: "state-rule",
+      operativeBasis: "enacted-date",
     });
 
     const seats = houseRule(world, "body.seats", effectiveAt);
@@ -250,9 +255,9 @@ describe("A Kentucky bill changing the House's rules", () => {
       ruleScope: "state-statute",
       validFrom: effectiveAt,
     });
-    // An act dated by the game's own interval says so in its citation.
+    // An act dated when it was enacted says so in its citation.
     expect(seats.source?.citation).toContain("2026 Ky. Acts ch. 40");
-    expect(seats.source?.citation).toContain("the date this state's law sets");
+    expect(seats.source?.citation).toContain("enacted in this game");
     expect(houseRule(world, "term.years", effectiveAt).value).toBe(4);
     // A term's end is derived from its length, so it follows.
     expect(houseRule(world, "term.expiry", effectiveAt).value).toEqual({
@@ -417,7 +422,10 @@ describe("A Kentucky bill changing the House's rules", () => {
         ],
       },
     };
-    expect(() => assertWorldIntegrity(forged)).toThrow(/after a chamber voted/);
+    // A forged save is refused at the audit boundary a loaded save passes.
+    expect(() => assertWorldIntegrityFully(forged)).toThrow(
+      /after a chamber voted/,
+    );
   });
 });
 

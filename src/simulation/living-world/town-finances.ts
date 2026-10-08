@@ -572,37 +572,6 @@ export type TownUnemploymentReader = (
 ) => number | null;
 
 /**
- * How many workers' worth of each kind's spending in town its open
- * businesses cannot serve, by kind: the kind's sales less what its members
- * can sell, over what one worker's pay brings in sales at the town's
- * average pay. A kind whose every business has closed leaves all of its
- * spending unserved. Kinds with no market yet are absent.
- */
-export function townUnservedJobs(
-  world: World,
-  town: EntityId,
-): Map<string, number> {
-  const store = world.townFinances;
-  const unserved = new Map<string, number>();
-  if (!store) return unserved;
-  for (const market of Object.values(store.markets)) {
-    if (market.town !== town) continue;
-    const perJob =
-      market.townPay !== undefined && market.townJobs > 0
-        ? market.townPay /
-          market.townJobs /
-          townBusinessKindBooks(market.kind).payShare
-        : 0;
-    if (perJob <= 0) continue;
-    const capacity = market.members
-      .filter((id) => !organizationClosingAt(world, id))
-      .reduce((sum, id) => sum + (store.businesses[id]?.capacity ?? 0), 0);
-    unserved.set(market.kind, (market.annualSales - capacity) / perJob);
-  }
-  return unserved;
-}
-
-/**
  * GAME ASSUMPTION, from how general sales taxes are written: the kinds of
  * business whose sales are retail sales a town's general sales tax reaches
  * (goods, meals, lodging, admissions, repairs and personal services). Sales

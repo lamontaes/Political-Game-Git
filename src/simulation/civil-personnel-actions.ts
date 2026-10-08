@@ -51,7 +51,6 @@ import type {
   PersonnelAuthorityBasis,
   PersonnelAuthorityDesignationRecord,
   PersonnelCivilClass,
-  PersonnelDisciplinaryActionRecord,
   PersonnelIncumbencyRecord,
   PersonnelJustCauseGround,
   PersonnelOfferResponseRecord,
@@ -168,17 +167,6 @@ export function personnelPositions(
   world: World,
 ): readonly PersonnelPositionRecord[] {
   return recordsOf(world, "position");
-}
-
-export function personnelIncumbencyForWork(
-  world: World,
-  workRelationshipId: EntityId,
-): PersonnelIncumbencyRecord | null {
-  return (
-    recordsOf(world, "incumbency").find(
-      (i) => i.workRelationshipId === workRelationshipId,
-    ) ?? null
-  );
 }
 
 /** An incumbency is current only while its LIFE work relationship is active. */
@@ -2212,12 +2200,6 @@ export function personnelAppealsFor(
   world: World,
 ): readonly PersonnelAppealRecord[] {
   return recordsOf(world, "appeal");
-}
-
-export function personnelDisciplinaryActions(
-  world: World,
-): readonly PersonnelDisciplinaryActionRecord[] {
-  return recordsOf(world, "disciplinary-action");
 }
 
 export function personnelOfferResponses(
