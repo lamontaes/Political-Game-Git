@@ -5267,9 +5267,10 @@ function TodayView({
         </section>
       ) : null}
 
-      <section className="pg-today-block" aria-labelledby="pg-today-next">
-        <h3 id="pg-today-next">Next</h3>
-        {today.next ? (
+      {/* Only a commitment that exists; an empty calendar shows no line. */}
+      {today.next ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-next">
+          <h3 id="pg-today-next">Next</h3>
           <button
             type="button"
             className="ui-action ui-action--subtle pg-today-link"
@@ -5280,12 +5281,8 @@ function TodayView({
             {today.next.when} · {today.next.title}
             <small>{today.next.locationLabel} · Read it in the calendar</small>
           </button>
-        ) : (
-          <p className="game-note" data-testid="day-next-none">
-            Nothing else of yours is on the calendar.
-          </p>
-        )}
-      </section>
+        </section>
+      ) : null}
 
       {today.waiting.length > 0 ? (
         <section className="pg-today-block" aria-labelledby="pg-today-waiting">
