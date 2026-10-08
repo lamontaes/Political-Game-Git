@@ -1,3 +1,4 @@
+import { recordById } from "../history-index";
 import { municipalGovernmentForRulePackId } from "../municipal-government";
 import { municipalSeats } from "../municipal-public-work";
 import { stateMemberSeatingEvidence } from "./member-seating";
@@ -141,8 +142,9 @@ export function seatedChamberForPack(
           members: members.map((seat, index) => ({
             // Municipal officeholding is a dated participation record.
             tenureStartedAt:
-              world.history.organizationParticipations.find(
-                (record) => record.id === seat.participationId,
+              recordById(
+                world.history.organizationParticipations,
+                seat.participationId,
               )?.startedAt ?? null,
             seatingEventId: seat.participationId,
             memberKey: `council:${index + 1}`,
