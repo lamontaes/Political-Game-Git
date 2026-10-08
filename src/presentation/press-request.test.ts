@@ -90,12 +90,7 @@ describe("ordinary press structured statements", () => {
     });
     expect(question.ok).toBe(true);
     if (!question.ok) return;
-    expect(question.statement).toContain(
-      "The council published the hearing notice.",
-    );
-    expect(question.statement).toContain(
-      "What is established, and what is still open?",
-    );
+    expect(question.statement).toBe("Can you address that?");
   });
 
   it("composes an exact answer from recorded facts before commit", () => {
@@ -189,7 +184,7 @@ describe("ordinary press structured statements", () => {
         terms: "on-record",
         grounding: fixturePacket([]),
       }),
-    ).toEqual({ ok: true, statement: "What happened?" });
+    ).toEqual({ ok: true, statement: "Can you address that?" });
   });
 
   it("composes attribution and arrangement labels from recorded titles and channel", () => {

@@ -13,42 +13,10 @@ import type {
   GroundedEnglishPacket,
 } from "./grounded-english";
 import { speakerTraits } from "./speaker-traits";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
+import { composeFromBank, type EnglishBank } from "./bank-english";
 
 export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
-  "reporter-known-topic": {
-    key: "press.reporter-known-topic",
-    version: "1",
-    surface: "dialogue",
-    act: "ask",
-    parts: {
-      opener: {
-        required: true,
-        variants: [
-          { key: "development", kind: "template", text: "{{subject}}" },
-        ],
-      },
-      core: {
-        variants: [
-          {
-            key: "question",
-            kind: "template",
-            text: "What is established, and what is still open?",
-          },
-        ],
-      },
-    },
-  },
-  "reporter-unknown-topic": {
-    key: "press.reporter-unknown-topic",
-    version: "1",
-    surface: "dialogue",
-    act: "ask",
-    parts: {
-      core: {
-        variants: [{ key: "ask", kind: "template", text: "What happened?" }],
-      },
-    },
-  },
   "answer-directly": {
     key: "press.answer-directly",
     version: "1",
@@ -286,6 +254,18 @@ export function composePressLine(
   key: string,
   slots: Readonly<Record<string, string>> = {},
 ) {
+  if (key === "reporter-known-topic" || key === "reporter-unknown-topic") {
+    const subject = slots.subject;
+    if (key === "reporter-known-topic" && !subject) return null;
+    const line = composeFromBank(
+      pressParts as EnglishBank,
+      "reporter-question",
+      {},
+      packet.momentKey,
+      /^(?!.*\?).*$/,
+    );
+    return line ? { kind: "rendered" as const, ...line } : null;
+  }
   const facts: Record<string, GroundedEnglishFact> = {};
   for (const [slot, text] of Object.entries(slots)) {
     const found = Object.entries(packet.facts).find(

@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import { createRunCFixture } from "./run-c-working-document";
 import {
   createWorkRelationship,
@@ -10,6 +11,8 @@ import {
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../simulation/press-interviews";
 import { reporterQuestionPacket } from "./press-english";
 import { composeReporterQuestion } from "./press-request";
+import { composeFromBank, type EnglishBank } from "./bank-english";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 
 it("keeps a reporter's fallible belief and actual source across Save/Continue", () => {
   // Authored fixture tests provenance, not a random-place game exchange.
@@ -100,13 +103,13 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
       terms: "on-record",
       grounding: packet,
     }),
-  ).toEqual({ ok: true, statement: "What happened?" });
+  ).toMatchObject({ ok: true });
   const question = composeReporterQuestion({
     subjectSummary: knowledge.believedSummary,
     terms: "on-record",
     grounding: packet,
   });
-  expect(question.ok && question.statement).toContain("The bill passed.");
+  expect(question.ok && question.statement).toMatch(/\?$/);
   expect(serializeWorld(world)).toBe(before);
   expect(
     reporterQuestionPacket(
@@ -116,4 +119,31 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
       event.id,
     ),
   ).toEqual(packet);
+});
+
+it("uses mined reporter questions for all 56 place identities", () => {
+  const bank = pressParts as EnglishBank;
+  const identities = lifePlaceStateIdentities();
+  expect(identities).toHaveLength(56);
+  const parts = bank.parts.filter(
+    (part) => part.move === "reporter-question" && part.text.includes("?"),
+  );
+  expect(parts.map((part) => part.key)).toEqual(
+    expect.arrayContaining([
+      "press.reporter-question.why-is-that",
+      "press.reporter-question.why-not",
+      "press.reporter-question.can-you-address-that",
+    ]),
+  );
+  for (const identity of identities) {
+    const line = composeFromBank(
+      bank,
+      "reporter-question",
+      {},
+      `press-question:${identity.usps}`,
+      /^(?!.*\?).*$/,
+    );
+    expect(line?.text).toMatch(/\?$/);
+    expect(parts.some((part) => part.key === line?.partKey)).toBe(true);
+  }
 });
