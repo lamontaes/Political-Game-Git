@@ -36,6 +36,7 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
+import { scheduleCountyOfficeReflections } from "../justice/county-office-reflection";
 import {
   worldOpeningRecord,
   worldOpeningVersionOf,
@@ -1059,6 +1060,7 @@ function recordArrests(
       context: EMPTY_CONTEXT,
     });
     const arrest = next.history.events.at(-1)!;
+    next = scheduleCountyOfficeReflections(next, arrest.id);
     for (const participant of incident.participants) {
       next = recordEventKnowledge(next, {
         stableKey: `${arrest.stableKey}:knows:${participant.personId}`,
