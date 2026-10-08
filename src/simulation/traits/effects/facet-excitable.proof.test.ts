@@ -8,7 +8,7 @@ import { stableHash } from "../../ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { personName } from "../../people";
-import { readTrait, registeredTraitConsiderations } from "../../trait-readings";
+import { readTrait } from "../../trait-readings";
 import { ANOTHER_TERM_DECISION } from "../../careers/another-term-decision";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
@@ -70,11 +70,7 @@ function recordExcitability(world: World, personId: EntityId): World {
   });
 }
 
-function chooseWithSharedContext(
-  world: World,
-  personId: EntityId,
-  targetTendencyRecordId?: EntityId,
-) {
+function chooseWithSharedContext(world: World, personId: EntityId) {
   const sharedContext: DecisionConsideration = {
     stableKey: `proof:shared-office-term:${personId}`,
     optionKey: "step-down",
@@ -85,20 +81,7 @@ function chooseWithSharedContext(
     explanation: "The term is ending, and leaving is a real option.",
     sourceRefs: [],
   };
-  const traitConsiderations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${ANOTHER_TERM_DECISION.id}:${personId}`,
-    ANOTHER_TERM_DECISION.id,
-  ).filter(({ sourceRefs }) =>
-    sourceRefs.some(
-      (source) =>
-        source.kind === "personality-tendency" &&
-        source.tendencyRecordId === targetTendencyRecordId,
-    ),
-  );
-  const considerations = [sharedContext, ...traitConsiderations];
+  const considerations = [sharedContext];
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${ANOTHER_TERM_DECISION.id}:${personId}`,
     decisionType: ANOTHER_TERM_DECISION.id,
@@ -123,11 +106,14 @@ function chooseWithSharedContext(
     randomness: "none",
     retention: "durable",
   });
+  const chosenReasons = evaluation.context.considerations.filter(
+    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+  );
   return {
     choice: evaluation.selectedOptionKey,
-    reason: considerations.find(
-      ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-    )?.explanation,
+    reason:
+      chosenReasons.find(({ stableKey }) => stableKey.includes(TRAIT_ID))
+        ?.explanation ?? chosenReasons[0]?.explanation,
   };
 }
 
@@ -152,20 +138,8 @@ describe("facet-excitable in a random new game", () => {
     expect(candidates.length).toBeGreaterThanOrEqual(2);
     const [unmarkedPersonId, excitablePersonId] = candidates;
     const world = recordExcitability(game.world, excitablePersonId!);
-    const tendencyId = traitDefinitionFromPack(trait).id;
-    const tendency = [...world.history.personalityTendencies]
-      .reverse()
-      .find(
-        (record) =>
-          record.personId === excitablePersonId &&
-          record.tendencyId === tendencyId,
-      )!;
     const unmarked = chooseWithSharedContext(world, unmarkedPersonId!);
-    const excitable = chooseWithSharedContext(
-      world,
-      excitablePersonId!,
-      tendency.id,
-    );
+    const excitable = chooseWithSharedContext(world, excitablePersonId!);
     const proof = {
       place: place.label,
       seed: SEED,
@@ -180,6 +154,8 @@ describe("facet-excitable in a random new game", () => {
     expect(proof.unmarked.choice).toBe("step-down");
     expect(proof.excitable.choice).toBe("seek");
     expect(proof.unmarked.reason).toContain("term is ending");
-    expect(proof.excitable.reason).toContain("enthusiasm");
+    expect(proof.excitable.reason).toContain(
+      `${TRAIT_ID}|${ANOTHER_TERM_DECISION.id}|seek|high`,
+    );
   });
 });

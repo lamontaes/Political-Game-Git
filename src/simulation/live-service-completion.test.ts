@@ -57,8 +57,13 @@ function homeIn(world: World, personId: EntityId, jurisdictionId: EntityId) {
 const deliveries = (world: World) =>
   world.history.events.filter((e) => e.type === "service.delivery-recorded");
 
-function requested(seed: string, key: string, minutes: number) {
-  const funded = fundedServiceFixture(drawPlace(seed), key);
+function requested(
+  seed: string,
+  key: string,
+  minutes: number,
+  place = drawPlace(seed),
+) {
+  const funded = fundedServiceFixture(place, key);
   const world = homeIn(funded.world, funded.personId, funded.jurisdiction.id);
   const start = addSimulationMinutes(world.currentMoment, 30);
   const asked = requestPublicService(world, {
@@ -78,6 +83,39 @@ const CASES = [
 ] as const;
 
 describe("a completed activity records delivered service on its own", () => {
+  it.each(
+    lifePlaceStateIdentities().flatMap(({ jurisdictionKey }) =>
+      [
+        CRISIS,
+        "us-policy-positions:health-human-services.harm-reduction-services",
+        "us-policy-positions:health-human-services.housing-first-homelessness",
+      ].map((key) => ({ jurisdictionKey, key })),
+    ),
+  )(
+    "LW-16 records a named recipient in $jurisdictionKey: $key",
+    ({ jurisdictionKey, key }) => {
+      const f = requested("lw16-service-landings", key, 60, jurisdictionKey);
+      expect(deliveries(f.asked.world)).toEqual([]);
+      const world = performScheduledActivity(f.asked.world, f.asked.activityId);
+      const [receipt] = deliveries(world);
+      expect(deliveries(world)).toHaveLength(1);
+      expect(receipt!.participants.map((entry) => entry.personId)).toContain(
+        f.personId,
+      );
+      expect(receipt!.lawEffectStamps![0]).toMatchObject({
+        questionKey: key,
+        jurisdictionId: f.jurisdiction.id,
+        effectKind: "service-delivered",
+      });
+      expect(
+        world.history.lawExposures?.some(
+          (exposure) => exposure.personId === f.personId,
+        ),
+      ).toBe(true);
+    },
+    30_000,
+  );
+
   for (const c of CASES) {
     const place = drawPlace(c.seed);
     it(`taking part records it once, and Save/Continue keeps it once (${place}, seed ${c.seed}, ${c.key.split(".").at(-1)})`, () => {

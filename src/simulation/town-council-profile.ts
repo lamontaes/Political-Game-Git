@@ -1,6 +1,5 @@
 import { ORDINANCE_MEASURE_TITLE } from "./measure-title";
 import { governmentUnit } from "./government-units";
-import { registerRulePackResolver } from "./legislature-rule-packs";
 import type { GovernmentUnitIdentity } from "./government-units";
 import {
   knownRule,
@@ -10,9 +9,13 @@ import {
   type LegislativeRulePack,
   type RuleSourceRef,
 } from "./legislature-rules";
-import { localGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "./nationwide-world/local-governing-body-rules";
-import { municipioUnit } from "./nationwide-world/county-governing-body-rules";
+import { localGoverningBodyName } from "./nationwide-world/local-governing-body-names";
+import { typicalCouncilSeats } from "./nationwide-world/typical-council-size";
+import { townCouncilProfileReading } from "./town-council-profile-inputs";
+import {
+  countyGoverningBodyRules,
+  municipioUnit,
+} from "./nationwide-world/county-governing-body-rules";
 import { boardGoverningBodyRules } from "./nationwide-world/township-governing-body-rules";
 import { governmentUnitDisplayName } from "./nationwide-world/government-unit-names";
 
@@ -89,18 +92,25 @@ function profileBody(unit: GovernmentUnitIdentity): {
   readonly seats: number;
   readonly seatNote: string;
 } | null {
-  const identity = localGoverningBodyIdentity(unit);
-  const seats = localGoverningBodyRules(unit)?.seats;
-  if (identity && seats)
+  const body = unit.functionalActive
+    ? unit.unitType === "municipality"
+      ? localGoverningBodyName(unit)
+      : unit.unitType === "county"
+        ? countyGoverningBodyRules(unit)
+        : null
+    : null;
+  const readSeats = townCouncilProfileReading(unit.id)?.bodySize ?? null;
+  const seats = readSeats ?? typicalCouncilSeats();
+  if (body && seats)
     return {
-      governmentName: identity.governmentName,
-      bodyName: identity.bodyName,
+      governmentName: governmentUnitDisplayName(unit),
+      bodyName: body.bodyName,
       executiveTitle: "Mayor",
-      seats: seats.value,
+      seats,
       seatNote:
-        seats.basis === "read"
-          ? `The body seats ${seats.value} members, as the game's reading of this town records.`
-          : `The body seats ${seats.value} members, the typical size for a town of this kind in the ICMA survey.`,
+        readSeats !== null
+          ? `The body seats ${seats} members, as the game's reading of this town records.`
+          : `The body seats ${seats} members, the typical size for a town of this kind in the ICMA survey.`,
     };
   const board = boardGoverningBodyRules(unit);
   if (!board) return null;
@@ -259,5 +269,3 @@ export function townCouncilProfilePackById(
     ? townCouncilProfilePack(unit)
     : null;
 }
-
-registerRulePackResolver(townCouncilProfilePackById);
