@@ -148,7 +148,7 @@ export function availablePlayerConversations(
     return [
       {
         subject: wiring.subject,
-        topicLabel: conversationTopicLabel(progress),
+        topicLabel: conversationTopicLabel(progress, world, room),
         room,
         progress,
         settled: "phase" in progress && progress.phase === "settled",
