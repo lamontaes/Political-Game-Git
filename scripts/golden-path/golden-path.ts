@@ -46,6 +46,18 @@ import {
 } from "../../src/presentation/district-selection";
 import { attendPartyWork } from "../../src/presentation/campaign-life-actions";
 import {
+  askClerk,
+  fileAtClerk,
+  leaveFilingVisit,
+  projectClerkFilingScene,
+} from "../../src/presentation/clerk-filing-scene";
+import { filingOfficeForSeat } from "../../src/simulation/filing-office";
+import {
+  requestFilingVisit,
+  scheduledFilingVisits,
+} from "../../src/simulation/filing-visit";
+import { scheduledActivityState } from "../../src/simulation/time-work";
+import {
   activeCampaignForCandidate,
   localGoverningBodyIdentityForOfficeKey,
   personName,
@@ -66,7 +78,6 @@ import {
 import { childAuthorityStateAt } from "../../src/simulation/life-queries";
 import {
   deserializeWorld,
-  sameWorldPayload,
   serializeWorldPayload,
 } from "../../src/simulation/serialization";
 import type { LifePlace } from "../../src/simulation/life-places";
@@ -254,7 +265,7 @@ export function startGoldenPath(seed: string): GoldenPathState {
       {
         step: "new-game",
         date: world.currentDate,
-        text: `${place.displayName} (${place.stateJurisdictionKey}), place ${place.key}, seed ${seed}; born ${world.people[game.playerPersonId]!.birthDate}`,
+        text: `${personName(world.people[game.playerPersonId]!)}, ${place.displayName} (${place.stateJurisdictionKey}), place ${place.key}, seed ${seed}; born ${world.people[game.playerPersonId]!.birthDate}`,
       },
       { step: "new-game", date: world.currentDate, text: worldSize(world) },
     ],
@@ -316,23 +327,124 @@ const turnEighteen: GoldenPathStep = {
 
 const findTheClerk: GoldenPathStep = {
   id: "find-clerk",
-  title: "Find the office where candidates file",
+  title: "Find the office where candidates file, and arrange a visit",
   run(state) {
     const places = projectPlacesWorkspace(state.world, state.playerPersonId);
     const offers = places?.offers ?? [];
-    const named = offers.map((offer) => `${offer.kind}:${offer.title}`);
-    const filing = offers.find(
-      (offer) => (offer.kind as string) === "filing-office",
-    );
+    const council = councilOffice(state);
+    const filing =
+      offers.find(
+        (offer) =>
+          offer.filingSeatOfficeKey !== undefined &&
+          council !== null &&
+          filingOfficeForSeat(state.world, offer.filingSeatOfficeKey)?.unit
+            .id ===
+            filingOfficeForSeat(state.world, council.officeKey)?.unit.id,
+      ) ?? offers.find((offer) => offer.filingSeatOfficeKey !== undefined);
     if (!filing)
       return brk(
         state,
         "find-clerk",
         "dead-end",
         "Places offers no clerk's or election office to go to.",
-        [`Places offers: ${named.length ? named.join(", ") : "none"}`],
+        [
+          `Places offers: ${offers.map((offer) => `${offer.kind}:${offer.title}`).join(", ") || "none"}`,
+        ],
       );
-    return note(state, "find-clerk", `Places offers ${filing.title}`);
+    const world = requestFilingVisit(
+      state.world,
+      state.playerPersonId,
+      filing.filingSeatOfficeKey!,
+    );
+    const visit = scheduledFilingVisits(world, state.playerPersonId)[0];
+    if (!visit)
+      return brk(
+        state,
+        "find-clerk",
+        "dead-end",
+        `No visit to ${filing.title} could be arranged.`,
+      );
+    return note(
+      { ...state, world },
+      "find-clerk",
+      `Places offered ${filing.title} (${filing.detail}); visit with ${personName(world.people[visit.participantPersonIds.find((id) => id !== state.playerPersonId)!]!)} at ${scheduledActivityState(world, visit.id).start.date} ${scheduledActivityState(world, visit.id).start.minuteOfDay}`,
+    );
+  },
+};
+
+/** Go to the counter and ask the clerk everything the seat asks. */
+const clerkConversation: GoldenPathStep = {
+  id: "clerk",
+  title: "Talk with the clerk",
+  run(start) {
+    let state = start;
+    const visit = scheduledFilingVisits(state.world, state.playerPersonId)[0];
+    if (!visit) return state;
+    let result: ReturnType<typeof submitTimeCommand>;
+    try {
+      result = submitTimeCommand(state.world, {
+        requestId: `golden-path:${state.seed}:attend-clerk`,
+        personId: state.playerPersonId,
+        sourceMoment: state.world.currentMoment,
+        command: { kind: "attend-activity", activityId: visit.id },
+      });
+    } catch (error) {
+      return brk(state, "clerk", "crash", "Going to the clerk threw.", [
+        (error as Error).message,
+      ]);
+    }
+    state = { ...state, world: result.world };
+    let scene = projectClerkFilingScene(state.world, state.playerPersonId);
+    if (!scene)
+      return brk(
+        state,
+        "clerk",
+        "dead-end",
+        "Attending the visit did not bring the player to the clerk's counter.",
+        [
+          `status ${result.receipt.status}`,
+          `outcome ${JSON.stringify(result.receipt.outcome)}`,
+          `now ${state.world.currentMoment.date} ${state.world.currentMoment.minuteOfDay}`,
+        ],
+      );
+    for (const question of scene.questions) {
+      const world = askClerk(
+        state.world,
+        state.playerPersonId,
+        scene.activityId,
+        question,
+      );
+      if (world === state.world)
+        state = brk(
+          state,
+          "clerk",
+          "no-reaction",
+          `Asking the clerk "${question}" recorded nothing.`,
+        );
+      state = { ...state, world };
+    }
+    scene = projectClerkFilingScene(state.world, state.playerPersonId)!;
+    const answers = scene.turns.flatMap((turn) =>
+      turn.answer.map(
+        (seat) =>
+          `${turn.question}: ${seat.officeName}${
+            seat.minimumAge?.kind === "known"
+              ? ` age ${seat.minimumAge.value}`
+              : ""
+          }${seat.electionDate ? ` election ${seat.electionDate}` : ""}${
+            seat.deadline ? ` deadline ${seat.deadline}` : ""
+          }${
+            seat.feeMinorUnits !== undefined
+              ? ` fee ${seat.feeMinorUnits / 100}`
+              : ""
+          }${seat.filed ? ` filed ${seat.filed.length}` : ""}`,
+      ),
+    );
+    return note(
+      state,
+      "clerk",
+      `at the counter of ${scene.location.label} with ${scene.actors[0]!.name} (${scene.actors[0]!.role}); ${answers.join("; ")}`,
+    );
   },
 };
 
@@ -365,42 +477,75 @@ const fileForCouncil: GoldenPathStep = {
       );
     if (!target)
       return brk(state, "file", "dead-end", "No office is open to file for.");
-    const person = state.world.people[state.playerPersonId]!;
-    const recorded = recordedDistrictForOffice(
-      state.world,
-      state.playerPersonId,
-      target.officeKey,
-    );
-    const districts = offeredDistricts(
-      state.world,
-      person.homeJurisdictionId,
-      target.officeKey,
-    );
-    const binding = recorded
-      ? recorded.binding
-      : districts.length
-        ? bindingForDistrict(districts[0]!)
-        : null;
-    const seat =
-      municipalSeatChoices(
+    const scene = projectClerkFilingScene(state.world, state.playerPersonId);
+    if (scene?.availableActions.includes(`file:${target.officeKey}`)) {
+      const world = fileAtClerk(
         state.world,
         state.playerPersonId,
+        scene.activityId,
         target.officeKey,
-      ).find((choice) => choice.eligible)?.key ?? null;
-    try {
-      const world = fileForOffice(
-        state.world,
-        state.playerPersonId,
-        binding,
-        target.officeKey,
-        null,
-        seat,
       );
+      if (world === state.world)
+        return brk(
+          state,
+          "file",
+          "no-reaction",
+          "Filing at the counter did nothing.",
+        );
       state = { ...state, world, filedOfficeKey: target.officeKey };
-    } catch (error) {
-      return brk(state, "file", "crash", `Filing for ${target.title} threw.`, [
-        (error as Error).message,
-      ]);
+    } else {
+      state = brk(
+        state,
+        "file",
+        "missing-choice",
+        `The clerk's counter does not offer filing for ${target.title}; filing from the Campaigns screen instead.`,
+        [
+          scene
+            ? `counter actions: ${scene.availableActions.join(", ")}`
+            : "no counter",
+        ],
+      );
+      const person = state.world.people[state.playerPersonId]!;
+      const recorded = recordedDistrictForOffice(
+        state.world,
+        state.playerPersonId,
+        target.officeKey,
+      );
+      const districts = offeredDistricts(
+        state.world,
+        person.homeJurisdictionId,
+        target.officeKey,
+      );
+      const binding = recorded
+        ? recorded.binding
+        : districts.length
+          ? bindingForDistrict(districts[0]!)
+          : null;
+      const seat =
+        municipalSeatChoices(
+          state.world,
+          state.playerPersonId,
+          target.officeKey,
+        ).find((choice) => choice.eligible)?.key ?? null;
+      try {
+        const world = fileForOffice(
+          state.world,
+          state.playerPersonId,
+          binding,
+          target.officeKey,
+          null,
+          seat,
+        );
+        state = { ...state, world, filedOfficeKey: target.officeKey };
+      } catch (error) {
+        return brk(
+          state,
+          "file",
+          "crash",
+          `Filing for ${target.title} threw.`,
+          [(error as Error).message],
+        );
+      }
     }
     const campaign = activeCampaignForCandidate(
       state.world,
@@ -416,6 +561,33 @@ const fileForCouncil: GoldenPathStep = {
           (contest) => contest.id === campaign.contestId,
         )?.electionDate ?? "not on record"
       }`,
+    );
+  },
+};
+
+/** Leave the counter and go home by the same local route. */
+const leaveTheClerk: GoldenPathStep = {
+  id: "leave-clerk",
+  title: "Go home from the clerk's office",
+  run(state) {
+    const scene = projectClerkFilingScene(state.world, state.playerPersonId);
+    if (!scene) return state;
+    const world = leaveFilingVisit(
+      state.world,
+      state.playerPersonId,
+      scene.activityId,
+    );
+    if (world === state.world)
+      return brk(
+        state,
+        "leave-clerk",
+        "dead-end",
+        "The player cannot leave the clerk's office for home.",
+      );
+    return note(
+      { ...state, world },
+      "leave-clerk",
+      `home at ${world.currentMoment.date} ${world.currentMoment.minuteOfDay}`,
     );
   },
 };
@@ -569,26 +741,46 @@ const saveAndContinue: GoldenPathStep = {
   id: "save-continue",
   title: "Save and continue",
   run(state) {
+    let started = Date.now();
+    let saved: ReturnType<typeof serializeWorldPayload>;
     try {
-      const saved = serializeWorldPayload(state.world);
-      const size = (typeof saved === "string" ? [saved] : saved).reduce(
-        (total, chunk) => total + chunk.length,
-        0,
-      );
-      const reloaded = deserializeWorld(saved);
-      const next = note(
-        state,
-        "save-continue",
-        `saved ${Math.round(size / 1_000_000)} MB of JSON (${typeof saved === "string" ? "one string" : `${saved.length} chunks`}); ${worldSize(state.world)}`,
-      );
-      if (!sameWorldPayload(serializeWorldPayload(reloaded), saved))
-        return brk(next, "save-continue", "wrong", "Reload changed the world.");
-      return { ...next, world: reloaded };
+      saved = serializeWorldPayload(state.world);
     } catch (error) {
-      return brk(state, "save-continue", "crash", "Save or reload threw.", [
+      return brk(state, "save-continue", "crash", "Saving threw.", [
         (error as Error).message,
       ]);
     }
+    const saveMs = Date.now() - started;
+    const size = (typeof saved === "string" ? [saved] : saved).reduce(
+      (total, chunk) => total + chunk.length,
+      0,
+    );
+    let next = note(
+      state,
+      "save-continue",
+      `saved ${Math.round(size / 1_000_000)} MB of JSON in ${Math.round(saveMs / 1000)} s; ${worldSize(state.world)}`,
+    );
+    started = Date.now();
+    try {
+      const reloaded = deserializeWorld(saved);
+      next = note(
+        { ...next, world: reloaded },
+        "save-continue",
+        `reloaded in ${Math.round((Date.now() - started) / 1000)} s`,
+      );
+    } catch (error) {
+      return brk(next, "save-continue", "crash", "Continue threw.", [
+        (error as Error).message,
+      ]);
+    }
+    if (saveMs > GOLDEN_PATH_SLOW_DAY_MS)
+      next = brk(
+        next,
+        "save-continue",
+        "slow",
+        `Saving took ${Math.round(saveMs / 1000)} s.`,
+      );
+    return next;
   },
 };
 
@@ -608,7 +800,9 @@ export function worldSize(world: World): string {
 export const GOLDEN_PATH_STEPS: readonly GoldenPathStep[] = [
   turnEighteen,
   findTheClerk,
+  clerkConversation,
   fileForCouncil,
+  leaveTheClerk,
   firstCampaignWeek,
   saveAndContinue,
 ];

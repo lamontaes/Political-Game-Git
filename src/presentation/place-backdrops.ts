@@ -573,6 +573,8 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   // Election night, and a town hall a school or civic group hosts.
   "campaign-election-night": "election-night-venue",
   "campaign-life:town-hall-school-gym": "school-gym-town-hall",
+  // A filing visit: the counter where the clerk takes declarations.
+  "civic:filing-office": "clerk-counter",
 };
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
