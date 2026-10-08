@@ -7,6 +7,7 @@ import { declarePersonalTaxOccurrence } from "../presentation/tax-work";
 import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { daysBetween, makeIsoDate } from "./dates";
 import { createPartnership } from "./life";
+import { introduceMeasure } from "./legislation";
 import {
   assertLawExposureIntegrity,
   NON_MONEY_FELT_SIZE,
@@ -32,6 +33,10 @@ import {
   membersAgainstLaw,
   officialViewReflectionEventKey,
 } from "./official-view-reads";
+import {
+  decideChamberVote,
+  type ChamberVoteMemberEvaluation,
+} from "./governing/chamber-votes";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
@@ -227,6 +232,115 @@ describe("a law reaches a person", () => {
     }
     assertWorldIntegrity(reloaded);
     assertWorldIntegrity(later);
+  });
+
+  it("carries one named legislator's saved law experience into their later ballot", () => {
+    const { world, spouseId, procedure, personId } = collected(true);
+    const later = advanceWorld(
+      world,
+      3,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const existingLaw = later.history.legislativeMeasures!.find(
+      (row) => row.id === later.history.taxProposals![0]!.measureId,
+    )!;
+    const knownOfficialViews = officialViewsOf(later, spouseId);
+    const target = procedure.bodies
+      .flatMap((body) => body.members.map((member) => ({ body, member })))
+      .find(
+        ({ member }) =>
+          member.personId !== null &&
+          member.personId !== personId &&
+          knownOfficialViews.some(
+            (belief) => officialOf(belief) === member.personId,
+          ),
+      );
+    expect(target).toBeDefined();
+    if (!target?.member.personId)
+      throw new Error(
+        "A named legislator with a saved resident view is required.",
+      );
+
+    const propositionId = existingLaw.propositionIds?.[0];
+    if (!propositionId)
+      throw new Error("The enacted tax law must name its policy question.");
+    const next = introduceMeasure(later, {
+      stableKey: "law-exposure-test:later-reconsideration",
+      jurisdictionId: existingLaw.jurisdictionId,
+      rulePackId: existingLaw.rulePackId,
+      designation: "HB 2 (authored proof)",
+      shortTitle: "Reconsider the recorded tax policy",
+      summary: "An authored ballot question used to follow the saved outcome.",
+      origin: "member-introduction",
+      subjectClass: "revenue",
+      sponsorPersonId: personId,
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "no" }],
+    });
+    const laterMeasure = next.history.legislativeMeasures!.at(-1)!;
+    const savedBelief = knownOfficialViews.find(
+      (belief) => officialOf(belief) === target.member.personId,
+    )!;
+    expect(savedBelief.position).toBe("oppose");
+    expect(savedBelief.formation.relevantEventIds).toContain(
+      later.history.events.find(
+        (event) =>
+          event.stableKey ===
+          officialViewReflectionEventKey(lawExposuresOf(later, spouseId)[0]!),
+      )?.id,
+    );
+
+    const evaluations: ChamberVoteMemberEvaluation[] = [];
+    const ballots = decideChamberVote(
+      next,
+      {
+        stableKey: laterMeasure.stableKey,
+        members: target.body.members,
+        only: new Set([target.member.memberKey]),
+        question: {
+          question: {
+            measureId: laterMeasure.id,
+            purpose: "floor-stage",
+            forumKey: target.body.chamberKey,
+            floorStageKey: null,
+            amendmentStableKey: null,
+            provisionKey: null,
+          },
+          questionLabel: "Pass this measure?",
+        },
+      },
+      { onMemberEvaluation: (row) => evaluations.push(row) },
+    );
+    expect(ballots).toHaveLength(1);
+    expect(ballots[0]).toMatchObject({
+      memberKey: target.member.memberKey,
+      personId: target.member.personId,
+      disposition: expect.any(String),
+    });
+    expect(evaluations).toHaveLength(1);
+    expect(evaluations[0]!.evaluation?.context.considerations).toContainEqual(
+      expect.objectContaining({
+        stableKey: `member:constituents:${existingLaw.id}:${propositionId}`,
+        sourceType: "context:constituents-view",
+        optionKey: "vote-yea",
+      }),
+    );
+    expect(next.history.knowledge).toEqual(later.history.knowledge);
+    console.info(
+      "Saved law outcome to actual member ballot",
+      JSON.stringify({
+        scenario: procedure.scenarioKey,
+        place: world.people[personId]!.homeJurisdictionId,
+        lawMeasureId: existingLaw.id,
+        exposureId: lawExposuresOf(later, spouseId)[0]!.id,
+        reflectionId: savedBelief.formation.relevantEventIds[0],
+        member: target.member.name,
+        memberId: target.member.personId,
+        ballot: ballots[0]!.disposition,
+        reason: ballots[0]!.reason,
+        evaluationCount: evaluations.length,
+      }),
+    );
   });
 
   it("a town count reads what residents think of a candidate", () => {
