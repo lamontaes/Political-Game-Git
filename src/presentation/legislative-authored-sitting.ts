@@ -129,12 +129,12 @@ function stateProfileSittingContent(
     (panel) => panel.sizeBasis === "compiled-formal-seat-count",
   )
     ? `${panelCounts} use compiled formal seat counts; the votes remain authored.`
-    : `${panelCounts} are game-profile stand-ins, not formal chamber seat counts.`;
+    : "";
   return {
     votePlan,
     governorAction: "signed",
     governorRationale: `Fictional ${state} game-profile signature. This authored outcome does not describe an actual official or forecast.`,
-    notice: `In ${state} (${panelDisclosure}), committee and floor votes and the governor’s signature are authored game outcomes, not forecasts or actual official actions; your ballot is separate, and the profile’s tax, appropriation, and service assumptions are fictional, not current state law or source evidence.`,
+    notice: `In ${state}${panelDisclosure ? ` (${panelDisclosure})` : ""}, committee and floor votes and the governor’s signature are authored game outcomes, not forecasts or actual official actions; your ballot is separate, and the profile’s tax, appropriation, and service assumptions are fictional, not current state law or source evidence.`,
   };
 }
 

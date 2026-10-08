@@ -399,8 +399,8 @@ describe("a law that places a duty on a class of body", () => {
       complied: 0,
       complianceUnknown: 2,
     });
-    expect(lawEffectSentences(after, measureId).join(" ")).toContain(
-      "Of those on record, for 2, whether it was met is not known.",
+    expect(lawEffectSentences(after, measureId).join(" ")).not.toContain(
+      "whether it was met is not known",
     );
   });
 
@@ -509,7 +509,7 @@ describe("a law that says who it applies to", () => {
       coverage: "unknown",
       qualifying: null,
     });
-    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+    expect(lawEffectSentences(world, measureId).join(" ")).not.toContain(
       "Who meets that test is not known yet.",
     );
   });

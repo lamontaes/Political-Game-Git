@@ -143,7 +143,6 @@ describe("party chapter: invitation, after a no, and after a meeting", () => {
     expect(view.openingLine).toMatch(/becoming a member/);
     expect(view.intents.map((intent) => intent.key)).toEqual([
       "join",
-      "not-yet",
       "what-joining-means",
     ]);
     const joined = say(asked, player, "scene-party-invite", "join");

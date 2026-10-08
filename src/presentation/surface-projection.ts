@@ -223,16 +223,12 @@ function projectMeasureFacts(
   facts.set("bill-number", {
     text: briefing.designation,
     channel: identityChannel,
-    provenance: filed
-      ? "legislative measure record, filed"
-      : "legislative measure record, not yet filed",
+    provenance: "legislative measure record",
   });
   facts.set("bill-title", {
     text: briefing.shortTitle,
     channel: identityChannel,
-    provenance: filed
-      ? "legislative measure record, filed"
-      : "legislative measure record, not yet filed",
+    provenance: "legislative measure record",
   });
 
   // Where the bill stands and who decides next: the same two sentences the
