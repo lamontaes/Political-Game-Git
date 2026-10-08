@@ -347,7 +347,7 @@ function ReporterExchange({
         </>
       ) : (
         <p data-testid={`press-no-agreement-${contact.reporterPersonId}`}>
-          Nothing is said until the terms are agreed.
+          Terms not yet agreed
         </p>
       )}
     </div>

@@ -214,3 +214,44 @@ export function ensureStartingPersonalMoney(
     payFlowId: currentPay.flow.id,
   };
 }
+
+export const ESTIMATED_PERSONAL_MONEY_VERSION =
+  "estimated-from-average:personal-money-v1";
+
+export interface EstimatedPersonalMoney {
+  readonly minorUnits: number;
+  /** Where the figure comes from, for a record and a reader of the record. */
+  readonly basis: string;
+}
+
+/**
+ * What a person the game holds no money record for would keep in checking,
+ * savings and money market accounts. ESTIMATED FROM AVERAGE: a person with a
+ * current pay on record takes the Survey of Consumer Finances 2022 median for
+ * families at that pay, as starting money does; a person with none takes the
+ * median for the middle fifth of family income, the group the survey's overall
+ * median falls in. Read-only: it opens nothing in the saved world, and it is
+ * not a balance until a choice spends from it.
+ */
+export function estimatedPersonalBalance(
+  world: World,
+  personId: EntityId,
+): EstimatedPersonalMoney {
+  const { annualPayMinorUnits } = ensureStartingPersonalMoney(world, personId);
+  if (annualPayMinorUnits !== null) {
+    return {
+      minorUnits: Math.round(
+        medianTransactionBalance(annualPayMinorUnits / 100) * 100,
+      ),
+      basis:
+        "ESTIMATED FROM AVERAGE: the Survey of Consumer Finances 2022 median held in transaction accounts by families at this pay.",
+    };
+  }
+  const middle = scf.groups.find(
+    (group) => group.incomePercentile === "40–59.9",
+  )!;
+  return {
+    minorUnits: middle.medianTransactionAccounts * 100,
+    basis: `ESTIMATED FROM AVERAGE: the Survey of Consumer Finances 2022 median held in transaction accounts by families in the ${middle.incomePercentile} income percentile group.`,
+  };
+}

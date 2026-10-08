@@ -5,6 +5,7 @@ import {
 import { describePlacesOutcome } from "./player-places";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import { projectCandidateGuidanceScene } from "./candidate-guidance-scene";
+import { isFilingVisit, projectClerkFilingScene } from "./clerk-filing-scene";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import {
@@ -241,6 +242,10 @@ export function previewTimeCommand(
         ?.form === "candidate-guidance" &&
       projectCandidateGuidanceScene(world, personId)?.activityId !==
         entry.activity.id;
+    const openingFilingVisit =
+      isFilingVisit(world, entry.activity.id) &&
+      projectClerkFilingScene(world, personId)?.activityId !==
+        entry.activity.id;
     const lateMeetingJourney =
       openingMeeting &&
       !entry.journey &&
@@ -269,7 +274,8 @@ export function previewTimeCommand(
             ? world.currentMoment
             : openingMeeting && !entry.journey
               ? scheduledActivityState(world, entry.activity.id).start
-              : (openingMeeting || openingGuidance) && entry.journey
+              : (openingMeeting || openingGuidance || openingFilingVisit) &&
+                  entry.journey
                 ? scheduledActivityState(world, entry.journey.activity.id).end
                 : scheduledActivityState(world, entry.activity.id).end;
     return {
