@@ -1,8 +1,8 @@
 import type {
   PortableFiscalAuthorityRecord,
   PortableFiscalSource,
-} from "../../fiscal-authority/query";
-import type { FiscalAuthorityRecord } from "../domains/state-local-fiscal-authority";
+} from "../../../src/fiscal-authority/query";
+import type { FiscalAuthorityRecord } from "../../../src/source/domains/state-local-fiscal-authority";
 
 function sourceFor(record: FiscalAuthorityRecord): PortableFiscalSource {
   const locator = record.evidence.locator;

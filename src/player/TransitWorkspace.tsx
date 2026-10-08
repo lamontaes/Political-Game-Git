@@ -16,8 +16,8 @@ import { dollarsText, serviceHoursText } from "../simulation/transit-service";
 import { money } from "../simulation/resources";
 import type { EntityId, World, WorldMetricValue } from "../simulation/types";
 
-function serviceUnits(value: WorldMetricValue | null) {
-  if (!value || value.kind !== "quantity") return "—";
+function serviceUnits(value: WorldMetricValue | null): string | null {
+  if (!value || value.kind !== "quantity") return null;
   const q = value.quantity;
   // Recorded hours are paid cents over the contract price, so they convert
   // back exactly; the shared wording then gets "1 hour" and partial hours right.
@@ -215,8 +215,12 @@ export function TransitWorkspace({
                           {p.state.status}
                         </span>
                       </p>
-                      <p>{serviceUnits(p.forecast)}</p>
-                      <p>{serviceUnits(p.delivered)}</p>
+                      {serviceUnits(p.forecast) !== null ? (
+                        <p>{serviceUnits(p.forecast)}</p>
+                      ) : null}
+                      {serviceUnits(p.delivered) !== null ? (
+                        <p>{serviceUnits(p.delivered)}</p>
+                      ) : null}
                       {p.state.status !== "resolved" && p.state.context && (
                         <p data-reason={p.state.context} />
                       )}
@@ -244,23 +248,11 @@ export function TransitWorkspace({
                   data-testid="transit-outcome"
                 >
                   <dl>
-                    <dd data-problem={paidMinorUnits > 0 ? undefined : "none"}>
-                      {paidMinorUnits > 0
-                        ? serviceHoursText(paidMinorUnits)
-                        : "—"}
-                    </dd>
+                    <dd>{serviceHoursText(paidMinorUnits)}</dd>
                     <dd>{usd(paidMinorUnits)}</dd>
-                    <dd
-                      data-problem={
-                        publicCashMinorUnits === null
-                          ? "no-balance-on-record"
-                          : undefined
-                      }
-                    >
-                      {publicCashMinorUnits === null
-                        ? "—"
-                        : usd(publicCashMinorUnits)}
-                    </dd>
+                    {publicCashMinorUnits !== null ? (
+                      <dd>{usd(publicCashMinorUnits)}</dd>
+                    ) : null}
                   </dl>
                 </section>
               )}
