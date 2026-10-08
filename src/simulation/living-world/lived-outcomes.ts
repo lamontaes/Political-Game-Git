@@ -43,7 +43,7 @@ export type LivedOutcomeKind =
   "job-lost" | "school-move" | "county-justice" | "crime-suffered";
 
 export interface LivedOutcome {
-  readonly kind: LivedOutcomeKind;
+  readonly kind: LivedOutcomeKind | CrimeSufferedOutcomeKind;
   readonly at: IsoDate;
   /** The record that shows it happened. */
   readonly sourceRecordId: EntityId;
@@ -75,8 +75,10 @@ export type AnsweringOffice = "state-executive" | "local-executive";
  * office, not how much one person's own lost job moves their view of it.
  */
 export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
-  Record<LivedOutcomeKind, AnsweringOffice>
+  Record<LivedOutcomeKind, AnsweringOffice> &
+    Record<CrimeSufferedOutcomeKind, AnsweringOffice>
 > = {
+  "crime-suffered": "local-executive",
   "job-lost": "state-executive",
   // PLACEHOLDER (same research request): a child pulled out of school in the
   // middle of a year is held against the head of the family's local
@@ -87,14 +89,15 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
 };
 
 /** What the person thought over, in the words of their reflection event. */
-export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
-  {
-    "job-lost": "losing a job they did not choose to leave",
-    "school-move":
-      "their child having to leave school in the middle of the year",
-    "county-justice": "county-office-work",
-    "crime-suffered": "",
-  };
+export const LIVED_OUTCOME_SUMMARY: Readonly<
+  Record<LivedOutcomeKind, string> & Record<CrimeSufferedOutcomeKind, string>
+> = {
+  "crime-suffered": "",
+  "job-lost": "losing a job they did not choose to leave",
+  "school-move": "their child having to leave school in the middle of the year",
+  "county-justice": "county-office-work",
+  "crime-suffered": "",
+};
 
 /**
  * One reader per kind, each a thin adapter over the reader its producer
