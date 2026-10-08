@@ -38,6 +38,10 @@ import { eventById } from "../event-index";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import { evaluateDecision } from "../decisions";
 import {
+  judicialOutlookConsideration,
+  judicialPrecedentImportance,
+} from "./philosophy";
+import {
   enactmentOperative,
   enactmentsAnswering,
   judicialRulingKey,
@@ -291,7 +295,11 @@ function considerationsFor(
               optionKey: ruling.holding === "strike" ? LAW_STRUCK : LAW_STANDS,
               sourceType: "context:precedent",
               direction: "supports",
-              importance: ruling.weight,
+              importance: judicialPrecedentImportance(
+                world,
+                justiceId,
+                ruling.weight,
+              ),
               confidence: "high",
               explanation: `${ruling.cite}: ${ruling.held}.`,
               sourceRefs: [],
@@ -324,6 +332,15 @@ function considerationsFor(
         : "The justice reads the law as cutting against what they hold right.",
     });
   }
+  const deference = judicialOutlookConsideration(
+    world,
+    justiceId,
+    "deference",
+    LAW_STRUCK,
+    LAW_STANDS,
+    "justice:outlook:deference",
+  );
+  if (deference) reasons.push(deference);
   return reasons;
 }
 

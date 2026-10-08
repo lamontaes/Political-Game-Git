@@ -429,7 +429,32 @@
           "preempts": true,
           "cite": "Cal. Pub. Res. Code § 14560",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PRC&sectionNum=14560.",
-          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more; the program dates from the 1986 act."
+          "note": "California sets a refund value of 5 cents under 24 fluid ounces and 10 cents at 24 fluid ounces or more. Effective January 1, 2024, covered wine and distilled spirits in boxes, bladders and pouches carry a 25-cent refund value.",
+          "lawSchedules": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "kind": "tiers",
+              "tiers": [
+                {
+                  "threshold": 0,
+                  "unit": "fluid-ounces",
+                  "amount": {
+                    "value": 5,
+                    "unit": "minor/container"
+                  }
+                },
+                {
+                  "threshold": 24,
+                  "unit": "fluid-ounces",
+                  "amount": {
+                    "value": 10,
+                    "unit": "minor/container"
+                  }
+                }
+              ]
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -442,7 +467,15 @@
           "preempts": true,
           "cite": "Conn. Gen. Stat. § 22a-244",
           "source": "https://portal.ct.gov/deep/reduce-reuse-recycle/bottles/connecticut-bottle-bill",
-          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation."
+          "note": "The deposit rose from 5 to 10 cents on 1/1/2024; the statute site cga.ct.gov could not be fetched, so the cite rests on the DEEP page and common citation.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-DC": {
           "answer": "no",
@@ -483,14 +516,30 @@
           "preempts": true,
           "cite": "Haw. Rev. Stat. ch. 342G, pt. VIII",
           "source": "https://health.hawaii.gov/hi5/",
-          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here."
+          "note": "The Department of Health says the Deposit Beverage Container program has run since January 2005 under the 2002 law; the HRS site returned 403, so the chapter cite is unverified here.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-IA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Iowa Code § 455C.2",
           "source": "https://www.legis.iowa.gov/docs/code/455C.pdf",
-          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container."
+          "note": "A refund value of 5 cents is paid by the consumer on each covered beverage container.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-ID": {
           "answer": "no",
@@ -531,9 +580,17 @@
         "US-MA": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Mass. Gen. Laws ch. 94, § 323",
-          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section323",
-          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed."
+          "cite": "Mass. Gen. Laws ch. 94, § 322",
+          "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section322",
+          "note": "The 1982 law covers carbonated beverages only; the 2014 ballot expansion failed.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-MD": {
           "answer": "no",
@@ -546,14 +603,42 @@
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 38, § 3103",
           "source": "https://legislature.maine.gov/statutes/38/title38sec3103.html",
-          "note": "The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed."
+          "note": "Refund value is at least 5 cents for general covered containers; wine and spirits have separate size-based rules (up to 5 cents at 50 ml or less, at least 15 cents above 50 ml). The bottle law now sits in Title 38, chapter 33; the old Title 32, chapter 28 sections are repealed.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "liquor-deposit",
+              "value": 15,
+              "unit": "minor/container"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "liquor-size-threshold",
+              "value": 50,
+              "unit": "milliliters"
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mich. Comp. Laws § 445.572",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-445-572",
-          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit."
+          "note": "Initiated Law 1 of 1976 sets a 10-cent deposit.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-MN": {
           "answer": "no",
@@ -632,7 +717,15 @@
           "preempts": true,
           "cite": "N.Y. Envtl. Conserv. Law art. 27, tit. 10",
           "source": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
-          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403."
+          "note": "The Returnable Container Act requires a deposit of at least 5 cents; the nysenate.gov statute page returned 403.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-OH": {
           "answer": "no",
@@ -651,7 +744,15 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. § 459A.705",
           "source": "https://oregon.public.law/statutes/ors_459a.705",
-          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx)."
+          "note": "The refund value is 10 cents since 2017; canned wine was added on 7/1/2025 (OLCC page https://www.oregon.gov/olcc/pages/bottle_bill.aspx).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 10,
+              "unit": "minor/container"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -718,7 +819,27 @@
           "preempts": true,
           "cite": "Vt. Stat. Ann. tit. 10, § 1522",
           "source": "https://legislature.vermont.gov/statutes/section/10/053/01522",
-          "note": "A 2025 overhaul keeps the deposit and phases in a producer responsibility organization, with labeling changes on 7/1/2026 and PRO participation required from 7/1/2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill)."
+          "note": "A deposit of at least 5 cents applies generally; containers over 50 ml containing liquor carry 15 cents. The 2025 overhaul phases in a producer responsibility organization, with labeling changes from July 1, 2026, and participation required from July 1, 2027 (DEC page https://dec.vermont.gov/waste-management/solid/product-stewardship/bottle-bill).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "deposit",
+              "value": 5,
+              "unit": "minor/container"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "liquor-deposit",
+              "value": 15,
+              "unit": "minor/container"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.bottle-deposit",
+              "key": "liquor-size-threshold",
+              "value": 50,
+              "unit": "milliliters"
+            }
+          ]
         },
         "US-WA": {
           "answer": "no",
@@ -770,50 +891,118 @@
         },
         "US-AS": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+          "estimated": "ESTIMATED FROM AVERAGE: uses Guam's reported 25% renewable target by 2035 as the closest documented territorial benchmark; Guam's code was not directly verified (secondary source: https://en.wikipedia.org/wiki/Energy_in_Guam). American Samoa's territory-specific code could not be verified.",
+          "note": "Tried: American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.25,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2035,
+              "unit": "year"
+            }
+          ]
         },
         "US-AZ": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ariz. Admin. Code R14-2-1801 et seq. (Renewable Energy Standard and Tariff)",
           "source": "https://azcc.gov/utilities/electric/renewable-energy-standard-and-tariff",
-          "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force."
+          "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Cal. Pub. Util. Code §§ 399.15, 454.53",
           "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=399.15",
-          "note": "Mandatory: 60% renewable by 2030, 90% renewable-plus-zero-carbon by 2035, and 100% clean by 2045."
+          "note": "Mandatory: 60% renewable by 2030, 90% renewable-plus-zero-carbon by 2035, and 100% clean by 2045.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.6,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-CO": {
           "answer": "yes",
           "preempts": true,
           "cite": "Colo. Rev. Stat. §§ 40-2-124, 40-2-125.5",
           "source": "https://leg.colorado.gov/bills/sb19-236",
-          "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries."
+          "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.3,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CT": {
           "answer": "yes",
           "preempts": true,
           "cite": "Conn. Gen. Stat. § 16-245a",
           "source": "https://portal.ct.gov/pura/rps/renewable-portfolio-standards-overview",
-          "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes)."
+          "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.37,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DC": {
           "answer": "yes",
           "preempts": true,
           "cite": "D.C. Code § 34-1432",
           "source": "https://code.dccouncil.gov/us/dc/council/code/sections/34-1432",
-          "note": "Mandatory: 100% renewable by 2032, with the solar share rising to 15% by 2041."
+          "note": "In 2026 the statutory minimum is 59% Tier 1 renewable sources, with at least 5% from solar; the Tier 1 requirement reaches 100% in 2032.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.59,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-DE": {
           "answer": "yes",
           "preempts": true,
           "cite": "Del. Code tit. 26, § 354",
           "source": "https://delcode.delaware.gov/title26/c001/sc03a/index.html",
-          "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share."
+          "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.255,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -831,14 +1020,42 @@
           "answer": "yes",
           "preempts": true,
           "source": "https://en.wikipedia.org/wiki/Energy_in_Guam",
-          "note": "Guam law requires rising renewable shares (5% in 2015 up to 25% by 2035 per this page); the utility now commits to 50% by 2030 and 100% by 2040, but the Guam Code page did not load, so any later statutory increase was not verified."
+          "note": "Guam law requires rising renewable shares (5% in 2015 up to 25% by 2035 per this page); the utility now commits to 50% by 2030 and 100% by 2040, but the Guam Code page did not load, so any later statutory increase was not verified.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.25,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2035,
+              "unit": "year"
+            }
+          ]
         },
         "US-HI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Haw. Rev. Stat. § 269-92",
           "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0269/HRS_0269-0092.htm",
-          "note": "Mandatory: 40% renewable by 2030, 70% by 2040, 100% by 2045."
+          "note": "Mandatory: 40% renewable by 2030, 70% by 2040, 100% by 2045.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.4,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-IA": {
           "answer": "no",
@@ -858,7 +1075,21 @@
           "preempts": true,
           "cite": "20 ILCS 3855/1-75(c)",
           "source": "https://ipa.illinois.gov/renewable-resources.html",
-          "note": "Mandatory renewable portfolio standard, updated by the 2021 Climate and Equitable Jobs Act to 40% renewable by the 2030 delivery year and 50% by 2040; the agency page confirms the standard, but the statute page (ilga.gov) did not load, so the target figures are from the Act as known."
+          "note": "Mandatory renewable portfolio standard, updated by the 2021 Climate and Equitable Jobs Act to 40% renewable by the 2030 delivery year and 50% by 2040; the agency page confirms the standard, but the statute page (ilga.gov) did not load, so the target figures are from the Act as known.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.4,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-IN": {
           "answer": "no",
@@ -891,42 +1122,138 @@
           "preempts": true,
           "cite": "Mass. Gen. Laws ch. 25A, § 11F",
           "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter25A/Section11F",
-          "note": "Mandatory: Class I rises 3 points a year through 2029 (about 40% by 2030), then 1 point a year indefinitely."
+          "note": "Class I minimum reaches 30% for 2026 under the statutory schedule: it rises 3 percentage points each year through 2029 and 1 point a year thereafter. Retail sales served under supply contracts executed or extended by December 31, 2018, are exempt from incremental obligations imposed after January 1, 2019.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.3,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "preempts": true,
           "cite": "Md. Code, Pub. Util. § 7-703",
           "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&section=7-703&enactments=false",
-          "note": "Mandatory: 50% Tier 1 renewable by 2030, including 14.5% solar."
+          "note": "The statute requires 38% Tier 1 renewable sources in 2026, including at least 8% solar and 0.5% post-2022 geothermal, with a separate offshore-wind requirement; the Tier 1 target reaches 50% in 2030.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.38,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 35-A, § 3210",
           "source": "https://legislature.maine.gov/statutes/35-A/title35-Asec3210.html",
-          "note": "Mandatory: the new-renewable requirement rises to 40% in 2030 and 50% by 2040, under a statutory goal of 90% renewable plus 10% clean by 2040 (amended by P.L. 2025, c. 386)."
+          "note": "Mandatory: the new-renewable requirement rises to 40% in 2030 and 50% by 2040, under a statutory goal of 90% renewable plus 10% clean by 2040 (amended by P.L. 2025, c. 386).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.4,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "long-term-target",
+              "value": 0.9,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "long-term-target-year",
+              "value": 2040,
+              "unit": "year"
+            }
+          ]
         },
         "US-MI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mich. Comp. Laws § 460.1028",
           "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1028",
-          "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040)."
+          "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MN": {
           "answer": "yes",
           "preempts": true,
           "cite": "Minn. Stat. § 216B.1691",
           "source": "https://www.revisor.mn.gov/statutes/cite/216B.1691",
-          "note": "Mandatory: 80% carbon-free by 2030 for public utilities, 90% by 2035, 100% carbon-free by 2040."
+          "note": "Mandatory: 80% carbon-free by 2030 for public utilities, 90% by 2035, 100% carbon-free by 2040.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.8,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "later-target",
+              "value": 0.9,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "later-target-year",
+              "value": 2035,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target-year",
+              "value": 2040,
+              "unit": "year"
+            }
+          ]
         },
         "US-MO": {
           "answer": "yes",
           "preempts": true,
           "cite": "Mo. Rev. Stat. § 393.1030",
           "source": "https://revisor.mo.gov/main/OneSection.aspx?section=393.1030",
-          "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled."
+          "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MP": {
           "answer": "yes",
@@ -934,7 +1261,15 @@
           "operativeAt": "2006-08-10",
           "cite": "4 CMC §§ 8522-8524",
           "source": "https://cnmilaw.gov/docs/cmc_section/T4/8522.pdf",
-          "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder."
+          "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.2,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-MS": {
           "answer": "no",
@@ -954,7 +1289,15 @@
           "preempts": true,
           "cite": "N.C. Gen. Stat. §§ 62-133.8, 62-110.9",
           "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-133.8.html",
-          "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050."
+          "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.125,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-ND": {
           "answer": "no",
@@ -974,42 +1317,126 @@
           "preempts": true,
           "cite": "N.H. Rev. Stat. § 362-F:3",
           "source": "https://gc.nh.gov/rsa/html/XXXIV/362-F/362-F-3.htm",
-          "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled."
+          "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.J. Stat. § 48:3-87",
           "source": "https://pub.njleg.gov/bills/2018/PL18/17_.HTM",
-          "note": "Mandatory: 35% Class I renewable by 2025 and 50% by 2030 (P.L. 2018, c. 17)."
+          "note": "Mandatory: 35% Class I renewable by 2025 and 50% by 2030 (P.L. 2018, c. 17).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.5,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-NM": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.M. Stat. § 62-16-4",
           "source": "https://www.nmlegis.gov/Sessions/19%20Regular/final/SB0489.pdf",
-          "note": "Mandatory: 50% renewable by 2030, 80% by 2040, and 100% zero-carbon by 2045 for public utilities (2050 for co-ops), per the 2019 Energy Transition Act."
+          "note": "Mandatory: 50% renewable by 2030, 80% by 2040, and 100% zero-carbon by 2045 for public utilities (2050 for co-ops), per the 2019 Energy Transition Act.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.5,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-NV": {
           "answer": "yes",
           "preempts": true,
           "cite": "Nev. Rev. Stat. § 704.7821",
           "source": "https://www.leg.state.nv.us/nrs/nrs-704.html",
-          "note": "Mandatory: 42% for 2027-2029 and 50% renewable from 2030."
+          "note": "Mandatory: 42% for 2027-2029 and 50% renewable from 2030.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.42,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2027,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "later-target",
+              "value": 0.5,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "later-target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.Y. Pub. Serv. Law § 66-p",
           "source": "https://newyork.public.law/laws/n.y._public_service_law_section_66-p",
-          "note": "Mandatory: 70% renewable by 2030 and zero-emission electricity by 2040 (2019 climate law); the official state pages refused the fetch, so this uses a statute mirror."
+          "note": "Mandatory: 70% renewable by 2030 and zero-emission electricity by 2040 (2019 climate law); the official state pages refused the fetch, so this uses a statute mirror.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.7,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-OH": {
           "answer": "yes",
           "preempts": true,
           "cite": "Ohio Rev. Code § 4928.64",
           "source": "https://codes.ohio.gov/ohio-revised-code/section-4928.64",
-          "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement."
+          "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.085,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-OK": {
           "answer": "no",
@@ -1022,7 +1449,45 @@
           "preempts": true,
           "cite": "Or. Rev. Stat. §§ 469A.052, 469A.410",
           "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors469a.html",
-          "note": "Mandatory: 50% renewable by 2040 for large utilities, plus clean-energy targets of 80% below baseline emissions by 2030 and 100% clean by 2040."
+          "note": "Mandatory: 50% renewable by 2040 for large utilities, plus clean-energy targets of 80% below baseline emissions by 2030 and 100% clean by 2040.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.8,
+              "unit": "ratio-below-baseline"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "renewable-target",
+              "value": 0.5,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "renewable-target-year",
+              "value": 2040,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target-year",
+              "value": 2040,
+              "unit": "year"
+            }
+          ]
         },
         "US-PA": {
           "answer": "yes",
@@ -1030,7 +1495,15 @@
           "preempts": true,
           "cite": "73 P.S. § 1648.3",
           "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=2004&ActNum=0213.&SessInd=0",
-          "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled."
+          "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.18,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PR": {
           "answer": "yes",
@@ -1038,14 +1511,54 @@
           "preempts": true,
           "cite": "P.R. Laws, Act 82-2010, art. 2.3 (as amended by Act 17-2019 and Act 1-2025)",
           "source": "https://www.lexjuris.com/lexlex/Leyes2025/lexl2025001.htm",
-          "note": "Mandatory portfolio for each retail provider of 100% renewable by 2050; Act 1-2025 (March 19, 2025) removed the interim 40%-by-2025 and 60%-by-2040 steps set by Act 17-2019 and pushed the coal phase-out to 2032."
+          "note": "Mandatory portfolio for each retail provider of 100% renewable by 2050; Act 1-2025 (March 19, 2025) removed the interim 40%-by-2025 and 60%-by-2040 steps set by Act 17-2019 and pushed the coal phase-out to 2032.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2050,
+              "unit": "year"
+            }
+          ]
         },
         "US-RI": {
           "answer": "yes",
           "preempts": true,
           "cite": "R.I. Gen. Laws § 39-26-4",
           "source": "https://webserver.rilegislature.gov/Statutes/TITLE39/39-26/39-26-4.htm",
-          "note": "Mandatory: rising yearly to 100% renewable by 2033."
+          "note": "The 2026 increment is an additional 7% of retail electricity sales from eligible renewable energy resources, on top of prior-year requirements; the statutory increments rise toward 100% in 2033.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "annual-increment",
+              "value": 0.07,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "increment-year",
+              "value": 2026,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "final-target-year",
+              "value": 2033,
+              "unit": "year"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no",
@@ -1086,33 +1599,133 @@
           "preempts": true,
           "cite": "Va. Code § 56-585.5",
           "source": "https://law.lis.virginia.gov/vacode/title56/chapter23/section56-585.5/",
-          "note": "Mandatory: 100% renewable by 2045 for Dominion and by 2050 for Appalachian Power (Virginia Clean Economy Act, 2020)."
+          "note": "Mandatory: 100% renewable by 2045 for Dominion and by 2050 for Appalachian Power (Virginia Clean Economy Act, 2020).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "dominion-target-year",
+              "value": 2045,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "appalachian-power-target-year",
+              "value": 2050,
+              "unit": "year"
+            }
+          ]
         },
         "US-VI": {
           "answer": "yes",
-          "estimated": "ESTIMATED FROM AVERAGE: the most common answer among the 3 territories read for this question (3 answer yes), because this place's own law could not be read.",
-          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found)."
+          "estimated": "ESTIMATED FROM AVERAGE: uses Guam's reported 25% renewable target by 2035 as the closest documented territorial benchmark; Guam's code was not directly verified (secondary source: https://en.wikipedia.org/wiki/Energy_in_Guam). The Virgin Islands' territory-specific code could not be verified.",
+          "note": "Tried: V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.25,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2035,
+              "unit": "year"
+            }
+          ]
         },
         "US-VT": {
           "answer": "yes",
           "preempts": true,
           "cite": "Vt. Stat. tit. 30, § 8005",
           "source": "https://legislature.vermont.gov/statutes/section/30/089/08005",
-          "note": "Mandatory: 100% renewable by 2030 for most providers (2035 for municipal utilities), with a new-renewable requirement rising to 20% by 2035."
+          "note": "Mandatory: 100% renewable by 2030 for most providers (2035 for municipal utilities), with a new-renewable requirement rising to 20% by 2035.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2030,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "municipal-target-year",
+              "value": 2035,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "new-renewable-target",
+              "value": 0.2,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "new-renewable-target-year",
+              "value": 2035,
+              "unit": "year"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "preempts": true,
           "cite": "Wash. Rev. Code §§ 19.405.040, 19.405.050",
           "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=19.405.050",
-          "note": "Mandatory: greenhouse-gas-neutral by 2030 and 100% clean by 2045 (Clean Energy Transformation Act)."
+          "note": "Mandatory: greenhouse-gas-neutral by 2030 and 100% clean by 2045 (Clean Energy Transformation Act).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 1,
+              "unit": "ratio"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2045,
+              "unit": "year"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "neutrality-year",
+              "value": 2030,
+              "unit": "year"
+            }
+          ]
         },
         "US-WI": {
           "answer": "yes",
           "preempts": true,
           "cite": "Wis. Stat. § 196.378",
           "source": "https://docs.legis.wisconsin.gov/statutes/statutes/196/378",
-          "note": "Mandatory: each utility had to rise 6 points above its baseline by 2015 (statewide goal 10%) and may not fall below that level; no further increase is scheduled."
+          "note": "Mandatory: each utility had to rise 6 points above its baseline by 2015 (statewide goal 10%) and may not fall below that level; no further increase is scheduled.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target",
+              "value": 0.06,
+              "unit": "ratio-above-baseline"
+            },
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-electricity-standard",
+              "key": "target-year",
+              "value": 2015,
+              "unit": "year"
+            }
+          ]
         },
         "US-WV": {
           "answer": "no",
@@ -1167,8 +1780,16 @@
           "answer": "yes",
           "preempts": true,
           "cite": "Cal. Health & Safety Code § 38562; Cal. Code Regs. tit. 17, § 95800 et seq.",
-          "source": "https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program",
-          "note": "Economy-wide cap-and-trade (renamed Cap-and-Invest after the 2025 extension, Stats. 2025, ch. 117) covering power, industry and transportation fuels; start date not stated on the fetched pages."
+          "source": "https://wci-inc.org/our-work/results-and-impacts",
+          "note": "Economy-wide cap-and-trade (renamed Cap-and-Invest after the 2025 extension, Stats. 2025, ch. 117) covering power, industry and transportation fuels; start date not stated on the fetched pages. 2026-08 California-Quebec joint auction current-vintage settlement price: $32.48 per metric tonne CO2e (WCI auction results).",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 32.48,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -1181,8 +1802,16 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "Conn. Gen. Stat. § 22a-200c; R.C.S.A. § 22a-174-31",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-DC": {
           "answer": "no",
@@ -1196,8 +1825,16 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "Del. Code tit. 7, ch. 60, § 6043; 7 DE Admin. Code 1147",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-FL": {
           "answer": "no",
@@ -1271,24 +1908,48 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "M.G.L. c. 21A, § 22; 310 CMR 7.70",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. Massachusetts also caps power-plant CO2 under 310 CMR 7.74."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. Massachusetts also caps power-plant CO2 under 310 CMR 7.74. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-MD": {
           "answer": "yes",
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "COMAR 26.09 (Maryland CO2 Budget Trading Program)",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-ME": {
           "answer": "yes",
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "Me. Rev. Stat. tit. 38, ch. 3-B; DEP ch. 156",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-MI": {
           "answer": "no",
@@ -1349,15 +2010,31 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "RSA 125-O:20 to 125-O:29; N.H. Admin. R. Env-A 4600",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-NJ": {
           "answer": "yes",
           "preempts": true,
           "cite": "N.J.A.C. 7:27C",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New Jersey left RGGI after 2011 and reentered under a 1/29/2018 executive order; its current participation date was not found on a fetched page."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New Jersey left RGGI after 2011 and reentered under a 1/29/2018 executive order; its current participation date was not found on a fetched page. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-NM": {
           "answer": "no",
@@ -1376,8 +2053,16 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "6 NYCRR Part 242; 21 NYCRR Part 507",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New York's economy-wide cap-and-invest program had not launched on 1/1/2026 and does not count."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New York's economy-wide cap-and-invest program had not launched on 1/1/2026 and does not count. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-OH": {
           "answer": "no",
@@ -1415,8 +2100,16 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "R.I. Gen. Laws §§ 23-82-1 et seq.; Air Pollution Control Reg. No. 46",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-SC": {
           "answer": "no",
@@ -1466,16 +2159,32 @@
           "operativeAt": "2009-01-01",
           "preempts": true,
           "cite": "Vermont CO2 Budget Trading Program Regulations",
-          "source": "https://www.rggi.org/program-overview-and-design/elements",
-          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger."
+          "source": "https://www.rggi.org/auctions/auction-results/prices-volumes",
+          "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. 2026-09-09 RGGI Auction 73 cleared at $37.65 per short-ton allowance, equivalent to $41.50 per metric tonne CO2e.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 41.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-WA": {
           "answer": "yes",
           "operativeAt": "2023-01-01",
           "preempts": true,
           "cite": "RCW 70A.65.060–70A.65.100 (Climate Commitment Act)",
-          "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=70A.65.060",
-          "note": "Economy-wide cap-and-invest program launched in 2023; Initiative 2117 to repeal it failed in November 2024 with about 62% voting no."
+          "source": "https://wci-inc.org/our-work/results-and-impacts",
+          "note": "Economy-wide cap-and-invest program launched in 2023; Initiative 2117 to repeal it failed in November 2024 with about 62% voting no. September 2026 Washington ECR auction clearing price was $39.50 per metric-ton allowance.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.price-carbon",
+              "key": "price",
+              "value": 39.5,
+              "unit": "usd-per-tonne-co2-equivalent"
+            }
+          ]
         },
         "US-WI": {
           "answer": "no",
@@ -1512,14 +2221,30 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Fairbanks North Star Borough. The state must carry an EPA-approved clean-up plan for it."
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Fairbanks North Star Borough. The state must carry an EPA-approved clean-up plan for it.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 1,
+              "unit": "counties"
+            }
+          ]
         },
         "US-AZ": {
           "answer": "yes",
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 7 counties here as nonattainment for particulates (PM-10, PM-2.5): Cochise County, Gila County, Maricopa County, Pima County, Pinal County, Santa Cruz County, Yuma County. The state must carry an EPA-approved clean-up plan for them."
+          "note": "The EPA Green Book lists 7 counties here as nonattainment for particulates (PM-10, PM-2.5): Cochise County, Gila County, Maricopa County, Pima County, Pinal County, Santa Cruz County, Yuma County. The state must carry an EPA-approved clean-up plan for them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 7,
+              "unit": "counties"
+            }
+          ]
         },
         "US-AR": {
           "answer": "no",
@@ -1532,7 +2257,15 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 29 counties here as nonattainment for particulates (PM-10, PM-2.5): 29 counties including Alameda, Contra Costa, El Dorado, Fresno and Yolo. The state must carry an EPA-approved clean-up plan for them."
+          "note": "The EPA Green Book lists 29 counties here as nonattainment for particulates (PM-10, PM-2.5): 29 counties including Alameda, Contra Costa, El Dorado, Fresno and Yolo. The state must carry an EPA-approved clean-up plan for them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 29,
+              "unit": "counties"
+            }
+          ]
         },
         "US-CO": {
           "answer": "no",
@@ -1575,7 +2308,15 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Bannock County, Power County. The state must carry an EPA-approved clean-up plan for them."
+          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Bannock County, Power County. The state must carry an EPA-approved clean-up plan for them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 2,
+              "unit": "counties"
+            }
+          ]
         },
         "US-IL": {
           "answer": "no",
@@ -1660,7 +2401,15 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Lake County, Rosebud County. The state must carry an EPA-approved clean-up plan for them."
+          "note": "The EPA Green Book lists 2 counties here as nonattainment for particulates (PM-10): Lake County, Rosebud County. The state must carry an EPA-approved clean-up plan for them.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 2,
+              "unit": "counties"
+            }
+          ]
         },
         "US-NE": {
           "answer": "no",
@@ -1691,14 +2440,30 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): Dona Ana County. The state must carry an EPA-approved clean-up plan for it."
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): Dona Ana County. The state must carry an EPA-approved clean-up plan for it.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 1,
+              "unit": "counties"
+            }
+          ]
         },
         "US-NY": {
           "answer": "yes",
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): New York County. The state must carry an EPA-approved clean-up plan for it."
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): New York County. The state must carry an EPA-approved clean-up plan for it.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 1,
+              "unit": "counties"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -1729,7 +2494,15 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Klamath County. The state must carry an EPA-approved clean-up plan for it."
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-2.5): Klamath County. The state must carry an EPA-approved clean-up plan for it.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 1,
+              "unit": "counties"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -1766,7 +2539,15 @@
           "preempts": true,
           "cite": "42 U.S.C. §§ 7407(d), 7502",
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
-          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): El Paso County. The state must carry an EPA-approved clean-up plan for it."
+          "note": "The EPA Green Book lists 1 county here as nonattainment for particulates (PM-10): El Paso County. The state must carry an EPA-approved clean-up plan for it.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "key": "nonattainment-county-count",
+              "value": 1,
+              "unit": "counties"
+            }
+          ]
         },
         "US-UT": {
           "answer": "no",

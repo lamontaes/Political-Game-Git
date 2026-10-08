@@ -956,6 +956,7 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
