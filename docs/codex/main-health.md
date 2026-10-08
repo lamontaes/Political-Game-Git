@@ -6,13 +6,13 @@ Written October 8, 2026 by SONNET-CLEAN-1518. This file lists what was red on ma
 
 - Type check: `tsc -b` on the app and node projects, plus the test-import check, on main at the start (`58ba8cb`) and again on October 8, 2026 after other work merged.
 - Patch notes: every note in `docs/release/changes` through `parseDeclaration` in `scripts/release/declarations.ts`.
-- Tests: every test file run in chunks, one chunk at a time, with a streaming reporter; a chunk that failed or timed out was re-run file by file with a cap per file. First pass on `58ba8cb` (803 files scanned). Second pass on `8ec8fcef`: 131 files so far, starting with the files that failed in the first pass.
+- Tests: every test file run in chunks, one chunk at a time, with a streaming reporter; a chunk that failed or timed out was re-run file by file with a cap per file. First pass on `58ba8cb` (803 files scanned). Second pass on `8ec8fcef`: 132 files so far, starting with the files that failed in the first pass.
 - A file that ran past the cap is recorded as a timeout, not a pass. One test file was skipped for being slow, the campaign spending reports (in #3882); no other file was known to run past 5 minutes.
 
 ## Totals
 
 - First pass (`58ba8cb`): 803 files scanned; 220 failed, 492 failing tests.
-- Second pass (`8ec8fcef`): 131 files re-run; 56 still fail, 133 failing tests.
+- Second pass (`8ec8fcef`): 132 files re-run; 56 still fail, 133 failing tests.
 - First-pass failures not yet re-run on the newer main: 172 files. They are listed with their first-pass message and may already be fixed.
 
 ## Type errors
@@ -309,15 +309,17 @@ Seconds are wall time for the file on a shared four-core machine, so they overst
 - `src/presentation/congressional-home-join.test.ts`
 - `src/presentation/constitutional-reform.test.ts`
 - `src/presentation/constitutional-subjects.test.ts`
+- `src/presentation/contextual-scene-variants.test.ts`
 - `tests/nationwide/city-minimum-wage-bill-terms.test.ts`
+- `tests/nationwide/county-executive.test.ts`
 
 ## Test files not yet scanned
 
-1077 test files have not been run on either pass. The first pass stopped before them. They are counted by folder; the scan is still going, starting with `tests/nationwide`.
+1076 test files have not been run on either pass. The first pass stopped before them. They are counted by folder; the scan is still going, starting with `tests/nationwide`.
 
 | Folder                                                               | Files |
 | -------------------------------------------------------------------- | ----- |
-| `tests/nationwide`                                                   | 68    |
+| `tests/nationwide`                                                   | 67    |
 | `src/simulation/living-world`                                        | 48    |
 | `tests/source`                                                       | 47    |
 | `src/simulation/outcome-web`                                         | 34    |
@@ -984,7 +986,7 @@ A read-only helper listed 43 existing source files that only tests reach, on mai
 
 ## Findings that are not test failures
 
-- **The opening posts no public meeting, on purpose.** The code says an opening cannot post a meeting without a dated notice from an actual organizer, so new worlds leave the meeting history empty (`src/simulation/life-opportunities.ts:288-295`, read from the comment). No source file carries the title "Posted public meeting" (measured by search). Ten unit test files and five browser specs still look for that title. They are outdated tests and need a meeting from an actual organizer; `scheduleMunicipalMeeting` (`src/simulation/municipal-public-work.ts:878`) is one existing producer. The unit test files are campaign projection, team-d until-needed route, team-d three-day route, practical life journey, quiet stretch, live meeting flow, offer deadline stop, time command, next-24 routine route and shell projections. The browser specs are campaign party life, next-24 personal routine, playtest 65-u, session 4 shared scene and team-5 live meeting flow.
+- **The opening posts no public meeting, on purpose, and the flow built on one has no producer.** The code comment says an opening cannot post a meeting "without a dated notice from an actual organizer", so new worlds leave the meeting history empty (`src/simulation/life-opportunities.ts:288-295`). Twelve other source files still read an activity with the stable key `ordinary-life:public-meeting:activity`, among them the attend, plan, scene and conversation code (for example the ordinary meeting actions), and nothing writes one (measured by searching the source). Ten unit test files and five browser specs look for the title "Posted public meeting". Real meeting producers exist (the municipal meeting scheduler called from the municipal workspace), but they do not use this key, so a new life cannot reach the ordinary meeting flow (inferred). Wiring it to a real organizer's meeting, or deleting the flow with its tests, is the owner's call. The unit test files are campaign projection, team-d until-needed route, team-d three-day route, practical life journey, quiet stretch, live meeting flow, offer deadline stop, time command, next-24 routine route and shell projections. The browser specs are campaign party life, next-24 personal routine, playtest 65-u, session 4 shared scene and team-5 live meeting flow.
 - **Writers that rely on the full World check.** The full World check reads every record at once and runs on opening or saving a game and in tests; play checks only what a write changed (`src/simulation/world-integrity-changed.ts`). The household membership writer accepts a second overlapping primary residence unless the full check runs. That is why the test at `src/simulation/life-foundation.test.ts:653-719` only throws under the full check (measured). #3838 made the tests that prove the engine refuses such a World run under the full check; it did not change the writers. I did not trace other writers.
 - **A screen state the tests can no longer reach.** The campaign own-money screen has an "Own money: not on record" state for a candidate the game tracks no money for. The test that pins it builds a North Dakota governor race and expects the record of the candidate's own money to be absent, and the record reads 0 (measured, `src/presentation/campaign-own-money.test.ts:152`). I did not trace why, so I cannot say whether the game or the test setup changed. The project rule is that unknown facts are not zero.
 - **A city's public account and its state's are one organization.** The public program test expects them to differ (`src/simulation/governing/public-program.test.ts:76`) and finds the same organization id for both (measured). The cause is not traced. It belongs to the simulation lane.
@@ -996,6 +998,7 @@ A read-only helper listed 43 existing source files that only tests reach, on mai
 
 ## Questions for the owner
 
-1. Should writers refuse their own rule-breaking writes, so play catches them too, or is the full check at save and open enough?
-2. Should the "Own money: not on record" screen state stay? The test that pins it fails because the record reads 0, not absent.
-3. For each of the source files that only tests reach, mark wire, keep or delete in the table above. I deleted 2 and left the rest.
+1. Should a new life reach the ordinary meeting flow through a real organizer's meeting (my recommendation: wire the municipal meeting to the flow's key, so the flow is live), or should the flow and its tests be deleted?
+2. Should writers refuse their own rule-breaking writes, so play catches them too, or is the full check at save and open enough?
+3. Should the "Own money: not on record" screen state stay? The test that pins it fails because the record reads 0, not absent.
+4. For each of the source files that only tests reach, mark wire, keep or delete in the table above. I deleted 2 and left the rest.
