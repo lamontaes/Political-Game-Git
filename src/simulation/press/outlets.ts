@@ -15,6 +15,7 @@ import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import type { EntityId, World } from "../types";
+import { playSettingsOf } from "../play-settings";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -719,6 +720,7 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
+    editorialStandard: playSettingsOf(world).pressPremise,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,

@@ -32,7 +32,11 @@ import type { JudiciaryState } from "./judiciary/types";
 import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
-import type { MediaOutletKey, PressRecord } from "./press/records";
+import type {
+  EditorialStandard,
+  MediaOutletKey,
+  PressRecord,
+} from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -5911,6 +5915,8 @@ export interface PlaySettings {
   readonly challengeIntensity: ChallengeIntensity;
   /** Controls when player-known reminders appear on person cards. */
   readonly notesVisibility: NotesVisibility;
+  /** New-game-only outlet standard, copied to outlets when they are founded. */
+  readonly pressPremise: EditorialStandard;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }
