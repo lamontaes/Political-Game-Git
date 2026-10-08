@@ -41,6 +41,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { createOrganization, createWorkRelationships } from "../life";
 import type { CreateWorkRelationshipInput } from "../life";
+import { applyLW27AgricultureWorkLanding } from "../law-consequences/lw27-agriculture-landings";
 import {
   activeCareResponsibilitiesAt,
   activeEducationEnrollmentsAt,
@@ -395,6 +396,21 @@ const role = (
 ): Role => ({ title, occupation, weight, ...extra });
 
 const LEAD = { authority: "directs-others" as const, minAge: 28 };
+function recordTownWorkRelationships(
+  world: World,
+  jobs: readonly CreateWorkRelationshipInput[],
+): World {
+  const next = createWorkRelationships(world, jobs);
+  const newRelationships = next.history.workRelationships.slice(
+    world.history.workRelationships.length,
+  );
+  return newRelationships.reduce(
+    (current, relationship) =>
+      applyLW27AgricultureWorkLanding(current, relationship.id),
+    next,
+  );
+}
+
 
 export const TOWN_WORKPLACES: readonly Workplace[] = [
   {
@@ -1708,7 +1724,7 @@ export function fillTownJobs(
         if (resident.age >= (named.minAge ?? WORKING_AGE_MIN))
           // A funded position is a full-time one.
           hire(resident, workplace, named, options.into.organizationId, true);
-      return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+      return jobs.length === 0 ? next : recordTownWorkRelationships(next, jobs);
     }
     let lead = workplace.roles.find(
       (entry) => entry.authority === "directs-others",
@@ -1729,7 +1745,7 @@ export function fillTownJobs(
       if (chosen === lead) lead = undefined;
       hire(resident, workplace, chosen, options.into.organizationId);
     }
-    return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+    return jobs.length === 0 ? next : recordTownWorkRelationships(next, jobs);
   }
 
   // Civic roles nobody in town holds today come first, so a town always has
@@ -1820,7 +1836,7 @@ export function fillTownJobs(
       if (chosen && hire(resident, workplace, chosen)) break;
     }
   }
-  return jobs.length === 0 ? next : createWorkRelationships(next, jobs);
+  return jobs.length === 0 ? next : recordTownWorkRelationships(next, jobs);
 }
 
 /**
