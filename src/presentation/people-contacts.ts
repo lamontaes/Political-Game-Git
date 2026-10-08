@@ -19,6 +19,8 @@ import {
   describeRelationshipStanding,
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
+import { favorRecords } from "../simulation/favors";
+import { relationshipHistory } from "../simulation/queries";
 import {
   introducedPeople,
   introductionCandidates,
@@ -63,6 +65,14 @@ export interface OutstandingProposal {
   readonly purpose: string;
 }
 
+export interface ContactLookBackEntry {
+  readonly id: EntityId;
+  readonly at: IsoDate;
+  readonly sequence: number;
+  readonly kind: "favor" | "unsettled-friction";
+  readonly text: string;
+}
+
 export interface ContactEntry {
   readonly personId: EntityId;
   readonly name: string;
@@ -84,6 +94,8 @@ export interface ContactEntry {
    * there is nothing past the ordinary to say.
    */
   readonly standing: string | null;
+  /** Dated favors, plus recorded conflict still present in today's standing. */
+  readonly lookBack: readonly ContactLookBackEntry[];
   /**
    * What became of the last time one of them asked the other, while it still
    * matters: the day has not come yet, or the answer is under a week old.
@@ -113,9 +125,62 @@ export function projectContacts(
   const proposals = contactProposals(world, personId).filter(
     (proposal) => !proposal.answered,
   );
+  const favorsByContact = new Map<
+    EntityId,
+    ReturnType<typeof favorRecords>[number][]
+  >();
+  for (const favor of favorRecords(world)) {
+    const otherPersonId =
+      favor.giverPersonId === personId
+        ? favor.receiverPersonId
+        : favor.receiverPersonId === personId
+          ? favor.giverPersonId
+          : null;
+    if (otherPersonId === null) continue;
+    const records = favorsByContact.get(otherPersonId) ?? [];
+    records.push(favor);
+    favorsByContact.set(otherPersonId, records);
+  }
+  const interactionsByContact = new Map<
+    EntityId,
+    ReturnType<typeof relationshipHistory>[number][]
+  >();
+  for (const interaction of relationshipHistory(world, personId)) {
+    for (const otherPersonId of interaction.personIds) {
+      if (otherPersonId === personId) continue;
+      const records = interactionsByContact.get(otherPersonId) ?? [];
+      records.push(interaction);
+      interactionsByContact.set(otherPersonId, records);
+    }
+  }
   const contacts = contactBases(world, personId).map((basis): ContactEntry => {
     const outstanding = outstandingWith(proposals, personId, basis.personId);
     const standing = readRelationshipStanding(world, personId, basis.personId);
+    const currentTension = new Set(standing.readings.tension.basis);
+    const lookBack: ContactLookBackEntry[] = [
+      ...(favorsByContact.get(basis.personId) ?? []).map((favor) => ({
+        id: favor.id,
+        at: favor.givenAt,
+        sequence: favor.sequence,
+        kind: "favor" as const,
+        text:
+          favor.giverPersonId === personId
+            ? `You ${favor.description}.`
+            : `${basis.name} ${favor.description}.`,
+      })),
+      ...(interactionsByContact.get(basis.personId) ?? [])
+        .filter((interaction) => currentTension.has(interaction.id))
+        .map((interaction) => ({
+          id: interaction.id,
+          at: interaction.occurredAt,
+          sequence: interaction.sequence,
+          kind: "unsettled-friction" as const,
+          text: `Still unsettled: ${interaction.summary}`,
+        })),
+    ].sort(
+      (left, right) =>
+        left.at.localeCompare(right.at) || left.sequence - right.sequence,
+    );
     const livesWithYou = standing.absence.sharesHome;
     return {
       personId: basis.personId,
@@ -135,6 +200,7 @@ export function projectContacts(
         standing,
         world.people[basis.personId]?.givenName ?? basis.name,
       ),
+      lookBack,
       channels: basis.channels,
       actions: [
         ...romanticActions(world, personId, basis.personId, basis.name),
