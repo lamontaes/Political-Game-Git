@@ -19,16 +19,6 @@ import { facetComfortingEffects } from "./facet-comforting";
 import { facetCompetitiveEffects } from "./facet-competitive";
 import { facetContentedEffects } from "./facet-contented";
 import { facetCruelEffects } from "./facet-cruel";
-import { facetCuriousEffects } from "./facet-curious";
-import { facetDefensiveEffects } from "./facet-defensive";
-import { facetDeferentialEffects } from "./facet-deferential";
-import { facetDevotedEffects } from "./facet-devoted";
-import { facetDramaticEffects } from "./facet-dramatic";
-import { facetDutyBoundEffects } from "./facet-duty-bound";
-import { facetEnterprisingEffects } from "./facet-enterprising";
-import { facetEntitledEffects } from "./facet-entitled";
-import { facetEnviousEffects } from "./facet-envious";
-import { facetExcitableEffects } from "./facet-excitable";
 import { facetForgivingEffects } from "./facet-forgiving";
 import { facetFriendlyEffects } from "./facet-friendly";
 import { facetGenerousEffects } from "./facet-generous";
@@ -100,16 +90,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetCompetitiveEffects,
     ...facetContentedEffects,
     ...facetCruelEffects,
-    ...facetCuriousEffects,
-    ...facetDefensiveEffects,
-    ...facetDeferentialEffects,
-    ...facetDevotedEffects,
-    ...facetDramaticEffects,
-    ...facetDutyBoundEffects,
-    ...facetEnterprisingEffects,
-    ...facetEntitledEffects,
-    ...facetEnviousEffects,
-    ...facetExcitableEffects,
     ...facetForgivingEffects,
     ...facetFriendlyEffects,
     ...facetGenerousEffects,
