@@ -273,6 +273,13 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  // Fixture decisions used by query and source-cutoff tests name their options here.
+  "query-fixture": () => ["act", "wait"],
+  "run-a-life-source": () => ["mention", "omit"],
+  "run-a-source-cutoff": () => ["use", "omit"],
+  // Term-limit rollcalls use the shared yes/no/withhold options.
+  "governing.governor-term-limit-vote": () => ["vote-yea", "vote-nay", "withhold"],
+  "governing.presidential-term-limit-vote": () => ["vote-yea", "vote-nay", "withhold"],
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
