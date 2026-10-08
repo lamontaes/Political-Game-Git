@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { beforeAll, expect, it } from "vitest";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import {
   advanceObservedWorld,
   observerPlace,

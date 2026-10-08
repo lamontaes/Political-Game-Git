@@ -72,6 +72,12 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   await expect(page.getByTestId("personal-workspace")).toContainText(
     "Money and property",
   );
+  await expect(
+    page.getByTestId("personal-household-cost-estimate"),
+  ).toBeVisible();
+  await expect(
+    page.getByTestId("personal-household-cost-estimate"),
+  ).toHaveAttribute("data-estimate", "ESTIMATED FROM AVERAGE");
   await page.getByTestId("personal-workspace-close").click();
 
   await goTo(page, "nav-personal");
