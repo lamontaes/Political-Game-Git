@@ -5,6 +5,7 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
+import { RATE_OPTIONS } from "../macro-economy/rate-choice";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -273,6 +274,7 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
@@ -861,6 +863,47 @@ describe(`one person in ${place!.jurisdictionKey} (seed ${SEED}) decides differe
     );
     expect(actReasons(none.context.considerations)).toEqual([]);
     expect(hot.selectedOptionKey).toBe("dispute");
+  });
+
+  it("proves recorded truthfulness changes a live response in all 56 places", () => {
+    const traitId = "personality-v1:truthfulness";
+    for (const place of lifePlaceStateIdentities()) {
+      const { world, personId } = seededPerson(place.jurisdictionKey);
+      const highWorld = recordTrait(world, personId, traitId, 2);
+      const high = evaluateDecision(
+        highWorld,
+        decisionFor(
+          highWorld,
+          personId,
+          "press.subject-response",
+          `proof:truthfulness:high:${place.jurisdictionKey}`,
+        ),
+      );
+      const lowWorld = recordTrait(world, personId, traitId, -2);
+      const low = evaluateDecision(
+        lowWorld,
+        decisionFor(
+          lowWorld,
+          personId,
+          "press.subject-response",
+          `proof:truthfulness:low:${place.jurisdictionKey}`,
+        ),
+      );
+
+      expect(isSelectedDecision(high), place.jurisdictionKey).toBe(true);
+      expect(isSelectedDecision(low), place.jurisdictionKey).toBe(true);
+      expect(high.selectedOptionKey, place.jurisdictionKey).not.toBe(
+        low.selectedOptionKey,
+      );
+      expect(
+        actReasons(high.context.considerations, traitId).length,
+        place.jurisdictionKey,
+      ).toBeGreaterThan(0);
+      expect(
+        actReasons(low.context.considerations, traitId).length,
+        place.jurisdictionKey,
+      ).toBeGreaterThan(0);
+    }
   });
 });
 
