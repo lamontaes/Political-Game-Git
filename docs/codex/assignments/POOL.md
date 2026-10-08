@@ -756,7 +756,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2474 | b13-p3: Add source-grounded courtroom situation adapter | PR #2474 (codex/session42-b13-p3-courtroom-scenes) | open: sent back: failed its own changed checks: prettier; rebase on main (conflicts) | |
 | RS-2475 | Fix radial menu spacing at ring boundaries | PR #2475 (session14/bg59-radial-clipping) | open: draft: finish it or close it as superseded | |
 | RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | ready #2477; gates in PR |
-| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2478 | Kit 13: Show progress while saved lives load | PR #2478 (codex/session2-kit13-loading) | ready #2478 | |
 | RS-2480 | Bind tax terms through one authority table | PR #2480 (session9/generic-tax-term-binding) | open: draft: finish it or close it as superseded | |
 | RS-2481 | LW-07: add city tax term rows | PR #2481 (codex/session30-lw07) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2483 | B06 Part 6: Share the office casework choices | PR #2483 (session28/b06-p6-shared-casework-choices) | open: sent back: failed its own changed checks: eslint | |
@@ -771,7 +771,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2497 | Add citizen ballot measures and law in force | PR #2497 (session46/b18-3-ballot-measures) | open: draft: finish it or close it as superseded | |
 | RS-2498 | Add concern for distress trait effect | PR #2498 (session49-t9-concern-distress) | open: draft: finish it or close it as superseded | |
 | RS-2499 | b31-p1: add data-only row sections to runtime content packs | PR #2499 (session55/b31-p1) | open: draft: finish it or close it as superseded | |
-| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | done #3488 | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
@@ -795,7 +795,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2534 | B01 part 1: add petition terms to candidacy eligibility | PR #2534 (session-26/b01-part1-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2535 | T9: add approval-seeking contact effect | PR #2535 (codex/session57-t9-facet-approval-seeking) | open: draft: finish it or close it as superseded | |
 | RS-2536 | Add B07 player heard views reader | PR #2536 (session29-b07-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | open: draft: finish it or close it as superseded | |
+| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | done #3386 | |
 | RS-2538 | Session 30 B08 P1: One door for every body | PR #2538 (codex/session30-b08-p1-current-main) | open: draft: finish it or close it as superseded | |
 | RS-2539 | Add facet-smug another-term effect row | PR #2539 (codex/session57-t9-facet-smug) | open: draft: finish it or close it as superseded | |
 | RS-2541 | Session 30 B08 P2: Endorsement, warning, and favor moves | PR #2541 (codex/session30-b08-p2-current-rebased) | open: stacked on codex/session30-b08-p1-current-main: retarget to main; draft: finish it or close it as superseded | |
