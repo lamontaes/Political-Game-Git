@@ -25,7 +25,7 @@
       "source": "docs/research/requests/local-income-tax-authority-56-places.json; src/simulation/local-tax-authority.ts; src/simulation/paycheck-tax-consumer.test.ts",
       "blockers": [
         "The checked-in 56-place authority request says national coverage is open; the cited examples cover Ohio municipalities and Philadelphia, not county authority nationwide.",
-        "The shared local authority matrix combines income and payroll categories and does not provide a complete place-level authority record for county personal income taxes.",
+        "The shared local government tax matrix combines income and payroll categories and does not provide a complete place-level tax record for county personal income taxes.",
         "The paycheck consumer keeps unresolved local income authority as rule-unknown and creates no taxable base or liability; there is no checked-in county income-tax producer to reach a named payer."
       ]
     }

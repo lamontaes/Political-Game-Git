@@ -61,14 +61,13 @@ export interface QuickDossierProjection {
 }
 
 export const EPISTEMIC_ACCESS_LABELS: Readonly<
-  Record<EpistemicAccess, string>
+  Partial<Record<EpistemicAccess, string>>
 > = {
   "personally-known": "Known directly",
   "institutionally-accessible": "Office record",
   "publicly-discoverable": "Public",
   reported: "Reported",
   "inferred-uncertain": "Uncertain read",
-  unknown: "Unknown",
 };
 
 function requireScenePerson(world: World, personId: EntityId) {
