@@ -13,7 +13,7 @@ import {
 import { scheduleFutureDueItem } from "./future-transitions";
 import { eventById } from "./event-index";
 import { dwellingOccupancyStateAt } from "./resource-queries";
-import housingFirstService from "../../data/research/health/housing-first-service.json";
+import housingFirstService from "../../data/research/health/housing-first-service.json" with { type: "json" };
 import { hasStableKey, recordById, recordByStableKey } from "./history-index";
 import {
   activeEducationEnrollmentsAt,
