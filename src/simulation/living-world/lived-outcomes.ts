@@ -15,7 +15,6 @@ import { childrenOf } from "../people-family";
 import { localHeadOfGovernment } from "./local-government-seats";
 import { jobsLostBy } from "./town-labor-market";
 import { crimesSufferedBy } from "../crime/reporting";
-import { countyRowOfficerForJurisdiction } from "../justice/county-offices";
 import severityByOffense from "../../../data/research/crime/lived-outcome-severity.json" with { type: "json" };
 
 /**
@@ -40,7 +39,8 @@ import severityByOffense from "../../../data/research/crime/lived-outcome-severi
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost" | "school-move" | "crime-suffered";
+export type LivedOutcomeKind =
+  "job-lost" | "school-move" | "county-justice" | "crime-suffered";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -51,6 +51,12 @@ export interface LivedOutcome {
   /** How big it was next to the person's month's pay. */
   readonly felt: Exclude<LawExposureFeltSize, null>;
   readonly estimatedFrom?: string;
+  /** A saved act names its own responsible official, including after turnover. */
+  readonly answeringPersonId?: EntityId;
+  readonly summary?: string;
+  readonly explanationKey?: string;
+  readonly sourceKnowledgeId?: EntityId;
+  readonly informedPersonIds?: readonly EntityId[];
 }
 
 /**
@@ -58,8 +64,7 @@ export interface LivedOutcome {
  * person's state or territory, or the head of their local government (with
  * the governor where no local government is seated).
  */
-export type AnsweringOffice =
-  "state-executive" | "local-executive" | "county-sheriff";
+export type AnsweringOffice = "state-executive" | "local-executive";
 
 /**
  * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
@@ -70,14 +75,15 @@ export type AnsweringOffice =
  * office, not how much one person's own lost job moves their view of it.
  */
 export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
-  Record<LivedOutcomeKind, readonly AnsweringOffice[]>
+  Record<LivedOutcomeKind, AnsweringOffice>
 > = {
-  "job-lost": ["state-executive"],
+  "job-lost": "state-executive",
   // PLACEHOLDER (same research request): a child pulled out of school in the
   // middle of a year is held against the head of the family's local
   // government, where they live now.
-  "school-move": ["local-executive"],
-  "crime-suffered": ["local-executive", "county-sheriff"],
+  "school-move": "local-executive",
+  "county-justice": "local-executive",
+  "crime-suffered": "local-executive",
 };
 
 /** What the person thought over, in the words of their reflection event. */
@@ -86,6 +92,7 @@ export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
     "job-lost": "losing a job they did not choose to leave",
     "school-move":
       "their child having to leave school in the middle of the year",
+    "county-justice": "county-office-work",
     "crime-suffered": "",
   };
 
@@ -129,6 +136,9 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           felt: { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
         })),
     ),
+  // A recorded offense is a direct lived loss to the victim. Its observed
+  // severity is estimated from the cited public crime data; no record means
+  // no inferred outcome.
   (world, personId, through) =>
     crimesSufferedBy(world, personId, through).flatMap((sourceRecordId) => {
       const event = eventById(world, sourceRecordId);
@@ -171,6 +181,10 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           direction: "cost" as const,
           felt,
           estimatedFrom: severity.estimatedFrom,
+          summary: event.summary ?? "",
+          explanationKey:
+            "lived-outcome:crime-suffered:estimated-from:" +
+            severity.estimatedFrom,
         },
       ];
     }),
@@ -208,10 +222,5 @@ export function officialAnsweringFor(
       return governor;
     case "local-executive":
       return localHeadOfGovernment(world, personId) ?? governor;
-    case "county-sheriff":
-      return home
-        ? (countyRowOfficerForJurisdiction(world, home, "sheriff")?.personId ??
-            null)
-        : null;
   }
 }
