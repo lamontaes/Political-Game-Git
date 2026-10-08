@@ -348,7 +348,9 @@ function DocketWorkspaceBody({
                         {bill.instrumentLabel}
                       </span>
                     ) : null}
-                    <span className="docket-stage">{stageLabel(bill)}</span>
+                    {bill.stage === "drafting" ? null : (
+                      <span className="docket-stage">{stageLabel(bill)}</span>
+                    )}
                   </button>
                 </li>
               ))}
@@ -593,7 +595,7 @@ function FiledBillPanel({
         </div>
         <div>
           <dt>Before</dt>
-          <dd>{bill.chamberName ?? "Not yet before a chamber"}</dd>
+          {bill.chamberName ? <dd>{bill.chamberName}</dd> : null}
         </div>
         <div>
           <dt>Filed</dt>
@@ -2174,7 +2176,7 @@ function FiscalNoteView({
 function stageLabel(bill: DocketBill): string {
   switch (bill.stage) {
     case "drafting":
-      return "Being drafted, not yet filed";
+      return "";
     case "filed":
       return "Filed, awaiting referral";
     case "in-committee":

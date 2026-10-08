@@ -150,11 +150,9 @@ export function projectBillPaper(
   const introduction = [
     `${proseDate(measure.introducedAt)}.`,
     cosponsors.length > 0
-      ? `${sponsor} (for ${reflexive} and ${joined(cosponsors)}) introduced the following bill;`
-      : `${sponsor} introduced the following bill;`,
-    referredTo
-      ? `which was referred to the ${referredTo}.`
-      : "which has not yet been referred to a committee.",
+      ? `${sponsor} (for ${reflexive} and ${joined(cosponsors)}) introduced the following bill.`
+      : `${sponsor} introduced the following bill.`,
+    ...(referredTo ? [`which was referred to the ${referredTo}.`] : []),
   ].join(" ");
 
   const passedOrigin = actions.some(
@@ -180,14 +178,6 @@ export function projectBillPaper(
       missing: false,
     })),
   ];
-  if (provisions.length === 0)
-    sections.push({
-      label: "SEC. 2.",
-      heading: "WHAT IT CHANGES.",
-      text: "The operative text of this bill is not written yet. The game does not yet model what a federal law on this subject does, so it prints nothing rather than invent it.",
-      missing: true,
-    });
-
   const executive = pack.executive.titleLabel;
   const record: string[] = [];
   const chamberName = (action: LegislativeActionRecord): string =>

@@ -726,17 +726,6 @@ function partyJoinAnswers(context: SceneContext): SceneAnswer[] {
           `${playerName} joined the chapter ${otherName} organizes.`,
       },
     },
-    {
-      key: "not-yet",
-      label: "Say not yet",
-      description: "Keep coming without joining.",
-      statement: "Not yet. I’d like to come to a few more meetings first.",
-      replies: says(context, [
-        "“That’s fine. You’re welcome either way,” {name} says.",
-        "“Take your time,” {name} says.",
-      ]),
-      record: `The player told ${context.name}, “Not yet. I’d like to come to a few more meetings first.”`,
-    },
     question,
   ];
 }
@@ -912,7 +901,7 @@ const campaignReaction: SceneFamilyDefinition = {
     }
     return context.has("termStart")
       ? `You won the election for ${office}. The term begins on ${proseDate(context.fact("termStart"))}.`
-      : `You won the election for ${office}. The record does not yet give a start date for the term.`;
+      : `You won the election for ${office}.`;
   },
   opening(context) {
     if (context.binding.variant === "filed") {
