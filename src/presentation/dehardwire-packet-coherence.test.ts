@@ -138,82 +138,86 @@ function measureIn(world: World, measureId: string) {
 
 describe("the sitting and the bill are the same bill", () => {
   it("describes one measure, in one institution, from the record outwards", () => {
-    const played = wonSeatedAndOnTheFloor("p85c-owner-0");
-    const entry = openLegislativeBargaining(played.world, {
-      playerPersonId: played.personId,
-      measureStableKey: played.bill.measureStableKey,
-    });
-    expect(entry.kind, entry.kind === "unavailable" ? entry.reason : "").toBe(
-      "available",
-    );
-    if (entry.kind !== "available") return;
+    const generatedSeeds = ["p85c-owner-0", "p85c-owner-1", "p85c-owner-2"];
+    for (const seed of generatedSeeds) {
+      const played = wonSeatedAndOnTheFloor(seed);
+      const entry = openLegislativeBargaining(played.world, {
+        playerPersonId: played.personId,
+        measureStableKey: played.bill.measureStableKey,
+      });
+      expect(entry.kind, entry.kind === "unavailable" ? entry.reason : "").toBe(
+        "available",
+      );
+      if (entry.kind !== "available") return;
 
-    const seat = entry.seat;
-    const record = measureIn(entry.world, seat.measureId);
+      const seat = entry.seat;
+      const record = measureIn(entry.world, seat.measureId);
 
-    // 1. The record's own number, from this world's numbering — not a literal.
-    expect(record.designation.trim().length).toBeGreaterThan(0);
+      // 1. The record's own number, from this world's numbering — not a literal.
+      expect(record.designation.trim().length).toBeGreaterThan(0);
 
-    // 2. The conversation is about that record, by number and by title.
-    const facts = seat.progress.subjectFacts;
-    expect(facts.measureId).toBe(record.id);
-    expect(facts.designation).toBe(record.designation);
-    expect(facts.shortTitle).toBe(record.shortTitle);
+      // 2. The conversation is about that record, by number and by title.
+      const facts = seat.progress.subjectFacts;
+      expect(facts.measureId).toBe(record.id);
+      expect(facts.designation).toBe(record.designation);
+      expect(facts.shortTitle).toBe(record.shortTitle);
 
-    // 3. The current institution: the chamber named in the room is the chamber
-    //    the bill is actually before, in the seat's own rule pack.
-    expect(seat.scenario.pack.packId).toBe(record.rulePackId);
-    expect(seat.openedChamberKey).toBeDefined();
-    expect(facts.chamberName.length).toBeGreaterThan(0);
+      // 3. The current institution: the chamber named in the room is the chamber
+      //    the bill is actually before, in the seat's own rule pack.
+      expect(seat.scenario.pack.packId).toBe(record.rulePackId);
+      expect(seat.openedChamberKey).toBeDefined();
+      expect(facts.chamberName.length).toBeGreaterThan(0);
 
-    // 4. The filed sections were seeded against this measure, not another,
-    //    and the record each one wrote names this bill.
-    const provisions = measureProvisions(entry.world, record.id);
-    expect(provisions.length).toBeGreaterThan(0);
-    for (const provision of provisions) {
-      expect(provision.measureId).toBe(record.id);
+      // 4. The filed sections were seeded against this measure, not another,
+      //    and the record each one wrote names this bill.
+      const provisions = measureProvisions(entry.world, record.id);
+      expect(provisions.length).toBeGreaterThan(0);
+      for (const provision of provisions) {
+        expect(provision.measureId).toBe(record.id);
+      }
+
+      // 5. The fiscal note is recorded against this measure and names it, and
+      //    the amount it states is the amount the bill actually commits.
+      const fiscalNote = (entry.world.history.events ?? []).find(
+        (event) =>
+          event.stableKey ===
+          seat.progress.subjectFacts.fiscalNoteEventStableKey,
+      );
+      expect(fiscalNote).toBeDefined();
+      expect(fiscalNote!.summary).toContain(record.designation);
+      const compiled = recompileSavedBill(entry.world, played.bill);
+      expect("unavailable" in compiled).toBe(false);
+      if ("unavailable" in compiled) return;
+      expect(facts.billAmountLabel).toBe(
+        compiled.appropriatedLabel ??
+          compiled.authorizedCeilingLabel ??
+          "nothing; this Act appropriates no money",
+      );
+
+      // 6. Beneficiary and place belong to the same authored measure as the
+      //    sections, so the ask in the room is about this bill's program.
+      expect(facts.requestedBeneficiaryLabel).toBe(
+        compiled.amendmentInvitation.beneficiaryLabel,
+      );
+      expect(facts.requestedPlaceLabel).toBe(
+        compiled.amendmentInvitation.placeLabel,
+      );
+      expect(JSON.stringify(seat)).not.toContain("Kentucky");
+
+      // 7. The participants are people this world contains.
+      for (const personId of [
+        seat.playerPersonId,
+        seat.advocatePersonId,
+        seat.guardianPersonId,
+        seat.analystPersonId,
+      ]) {
+        expect(entry.world.people[personId]).toBeDefined();
+      }
+
+      // 8. Supported outcomes are the institution's, and every intent offered
+      //    is about this measure.
+      expect(seat.floorIntents.length).toBeGreaterThan(0);
     }
-
-    // 5. The fiscal note is recorded against this measure and names it, and
-    //    the amount it states is the amount the bill actually commits.
-    const fiscalNote = (entry.world.history.events ?? []).find(
-      (event) =>
-        event.stableKey === seat.progress.subjectFacts.fiscalNoteEventStableKey,
-    );
-    expect(fiscalNote).toBeDefined();
-    expect(fiscalNote!.summary).toContain(record.designation);
-    const compiled = recompileSavedBill(entry.world, played.bill);
-    expect("unavailable" in compiled).toBe(false);
-    if ("unavailable" in compiled) return;
-    expect(facts.billAmountLabel).toBe(
-      compiled.appropriatedLabel ??
-        compiled.authorizedCeilingLabel ??
-        "nothing; this Act appropriates no money",
-    );
-
-    // 6. Beneficiary and place belong to the same authored measure as the
-    //    sections, so the ask in the room is about this bill's program.
-    expect(facts.requestedBeneficiaryLabel).toBe(
-      compiled.amendmentInvitation.beneficiaryLabel,
-    );
-    expect(facts.requestedPlaceLabel).toBe(
-      compiled.amendmentInvitation.placeLabel,
-    );
-    expect(JSON.stringify(seat)).not.toContain("Kentucky");
-
-    // 7. The participants are people this world contains.
-    for (const personId of [
-      seat.playerPersonId,
-      seat.advocatePersonId,
-      seat.guardianPersonId,
-      seat.analystPersonId,
-    ]) {
-      expect(entry.world.people[personId]).toBeDefined();
-    }
-
-    // 8. Supported outcomes are the institution's, and every intent offered
-    //    is about this measure.
-    expect(seat.floorIntents.length).toBeGreaterThan(0);
   });
 
   it("spends no game time to walk in and read", () => {
