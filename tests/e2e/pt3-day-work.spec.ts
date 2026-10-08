@@ -70,9 +70,7 @@ test("Today links into Work instead of carrying it, and reading them costs no ti
   await page.keyboard.press("Enter");
   const work = page.getByRole("region", { name: "Work", exact: true });
   await expect(work).toBeVisible();
-  await expect(page.getByTestId("work-role")).toContainText(
-    "You do not hold a job or an office",
-  );
+  await expect(page.getByTestId("work-role")).toContainText("Role: none");
   // Each panel is mounted exactly once in the whole page.
   await expect(page.getByTestId("work-section-campaign")).toHaveCount(1);
   await expect(page.getByTestId("work-section-paths")).toHaveCount(1);

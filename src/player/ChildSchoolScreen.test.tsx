@@ -157,7 +157,7 @@ describe("School names the school a child attends, and their grade", () => {
       kindergartenFall(person.birthDate);
     const sentence = projectWorkRole(world, personId).sentence;
     expect(sentence).toBe(
-      `You do not hold a job or an office right now. You're in ${GRADES[expected]} at ${schoolNow(world, personId)}.`,
+      `Role: none You're in ${GRADES[expected]} at ${schoolNow(world, personId)}.`,
     );
   });
 
