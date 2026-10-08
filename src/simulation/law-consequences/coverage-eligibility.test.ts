@@ -50,10 +50,12 @@ import {
 } from "../world";
 import {
   healthCoverageRecords,
+  HEALTH_COVERAGE_KEY,
   recordHealthCoverage,
   scheduleHealthCoveragePass,
 } from "../crisis/health-coverage";
 import { healthCoveragePassHandler } from "../crisis/health-coverage-pass";
+import { exposeCoverageChanges } from "../crisis/health-coverage-exposure";
 import {
   COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
   COVERAGE_ELIGIBILITY_ROWS,
@@ -144,7 +146,28 @@ describe("coverage kind reuses the existing saved-record writer", () => {
         world,
         1,
         createFutureTransitionHandlerRegistry([
-          ["crisis:health-coverage", healthCoveragePassHandler],
+          [
+            HEALTH_COVERAGE_KEY,
+            (input, item) => {
+              const beforeCount = healthCoverageRecords(input).length;
+              let output = recordHealthCoverage(input, item.dueAt, item.id);
+              const changed = healthCoverageRecords(output).slice(beforeCount);
+              output = exposeCoverageChanges(output, changed);
+              output = scheduleHealthCoveragePass(
+                output,
+                item.dueAt,
+                output.id,
+              );
+              const gained = changed.filter((record) => record.covered).length;
+              return {
+                world: output,
+                status: "resolved",
+                reasonKey: "crisis:health-coverage",
+                context: `${gained} gained coverage, ${changed.length - gained} lost it.`,
+                outcomeEventId: null,
+              };
+            },
+          ],
         ]),
       );
       const next = advanceWorld(
@@ -217,8 +240,16 @@ describe("coverage kind reuses the existing saved-record writer", () => {
           ],
         ]),
       );
+      const actual = advanceWorld(
+        world,
+        1,
+        createFutureTransitionHandlerRegistry([
+          [HEALTH_COVERAGE_KEY, healthCoveragePassHandler],
+        ]),
+      );
+      expect(serializeWorld(actual)).toBe(serializeWorld(next));
       expect(serializeWorld(world)).toBe(before);
-      const records = healthCoverageRecords(next);
+      const records = healthCoverageRecords(actual);
       expect(
         records.map((r) => ({
           id: r.id,
@@ -261,6 +292,17 @@ describe("coverage kind reuses the existing saved-record writer", () => {
             activityId,
             subjectIds: [person.id],
             questionKey,
+          }),
+        ).toEqual([]);
+      for (const row of Object.values(COVERAGE_ELIGIBILITY_ROWS))
+        expect(
+          resolveCoverageEligibility(continued, row, {
+            onDate: reviewDate,
+            activity: "renewal",
+            activityId,
+            subjectIds: [person.id],
+            questionKey:
+              "us-policy-positions:housing-land-use.rent-stabilization",
           }),
         ).toEqual([]);
       expect(recordHealthCoverage(continued, reviewDate, activityId)).toBe(
