@@ -41,7 +41,7 @@ import { assessPaychecksTaxes } from "./statutory-tax";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { withholdingForPaycheck } from "./income-tax-withholding";
 import { lawInForce } from "./governing/law-in-force";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import stateIncomeTax2026 from "../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 
 import {
