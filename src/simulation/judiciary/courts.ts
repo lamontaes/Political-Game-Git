@@ -9,6 +9,7 @@ import { assertWorldIntegrity } from "../world";
 import { FEDERAL_COURTS_PROJECTION } from "./generated/federal-courts";
 import { FEDERAL_SEAT_COUNT_ROWS } from "./generated/federal-seat-counts";
 import { JUDICIAL_SELECTION_PROFILES } from "./generated/selection-profiles";
+import { recordJudicialPhilosophyAtSeating } from "./philosophy";
 import type { JudicialSelectionProfile, ReportedField } from "./profiles";
 import type {
   JudicialCourt,
@@ -1015,9 +1016,19 @@ export function seatJudge(
     ...previous,
     seatTenures: [...previous.seatTenures, tenure],
   });
-  return requireCourt(seated, seat.courtId).level === "local-general-trial"
-    ? recoverProsecutionsAfterBenchChange(seated, seat.courtId, tenure.tenureId)
-    : seated;
+  const withOutlook = recordJudicialPhilosophyAtSeating(
+    seated,
+    input.personId,
+    tenure.tenureId,
+    input.startedAt,
+  );
+  return requireCourt(withOutlook, seat.courtId).level === "local-general-trial"
+    ? recoverProsecutionsAfterBenchChange(
+        withOutlook,
+        seat.courtId,
+        tenure.tenureId,
+      )
+    : withOutlook;
 }
 
 export function vacateJudicialSeat(

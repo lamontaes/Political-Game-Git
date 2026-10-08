@@ -2,17 +2,33 @@ import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld, makeCurrencyCode } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 import { pressRecordsOfKind } from "./store";
-import { MISCONDUCT_FAMILIES, MISCONDUCT_FAMILY_ROWS } from "./records";
+import {
+  MISCONDUCT_FAMILIES,
+  MISCONDUCT_FAMILY_ROWS,
+  PUBLIC_MISCONDUCT_RECORD_KINDS,
+} from "./records";
 import { recordMisconductAct } from "./matters";
 
 describe("recordMisconductAct", () => {
-  it.each(MISCONDUCT_FAMILIES)(
-    "%s writes one occurrence and knowledge for exactly its participants",
-    (family) => {
+  it.each(
+    lifePlaceStateIdentities().flatMap(({ jurisdictionKey }) =>
+      MISCONDUCT_FAMILIES.map((family) => ({ family, jurisdictionKey })),
+    ),
+  )(
+    "$family in $jurisdictionKey writes one occurrence and knowledge for exactly its participants",
+    ({ family, jurisdictionKey }) => {
+      const context = {
+        ...KENTUCKY_CONTEXT,
+        jurisdiction: stateJurisdictionForKey(jurisdictionKey)!,
+      };
       const world = createScenarioWorld(
-        `misconduct-act:${family}`,
-        KENTUCKY_CONTEXT,
+        `misconduct-act:${family}:${jurisdictionKey}`,
+        context,
         { peopleCount: 3 },
       );
       const actorPersonId = world.personOrder[0]!;
@@ -44,7 +60,7 @@ describe("recordMisconductAct", () => {
                     basisKind: "custom:campaign-expenditure",
                     basisReference: { kind: "general" },
                     restrictionKind: null,
-                    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+                    jurisdictionId: context.jurisdiction.id,
                   },
                   outcome: null,
                 },
@@ -58,7 +74,7 @@ describe("recordMisconductAct", () => {
           access: "restricted",
           description: `${row.label} record left by the act.`,
         })),
-        jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        jurisdictionId: context.jurisdiction.id,
         summary: `${row.label} was carried out.`,
         choice: row.label,
       });
@@ -81,6 +97,17 @@ describe("recordMisconductAct", () => {
           .map((artifact) => artifact.evidenceKind)
           .sort(),
       ).toEqual([...row.actArtifactKinds].sort());
+      expect(
+        result.world.history.evidenceArtifacts
+          .filter((artifact) => artifactIds.has(artifact.id))
+          .every(
+            (artifact) =>
+              artifact.access ===
+              (PUBLIC_MISCONDUCT_RECORD_KINDS.has(artifact.evidenceKind)
+                ? "public"
+                : "restricted"),
+          ),
+      ).toBe(true);
       expect(
         result.world.history.knowledge
           .filter((knowledge) => knowledge.eventId === result.event.id)
