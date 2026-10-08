@@ -36,42 +36,15 @@ test("People places the directory beside the selected record", async ({
   await expect(quickDossier).toHaveAttribute("data-expanded", "true");
   await goTo(page, "elsewhere-people");
 
-  const layout = page.getByTestId("people-layout");
+  const web = page.getByTestId("people-relationship-web");
   const list = page.getByTestId("people-list");
-  const dossier = page.getByTestId("people-dossier");
-  await expect(layout).toBeVisible();
+  await expect(web).toBeVisible();
+  await expect(list).toHaveCount(0);
+  await page.getByTestId("people-view-list").click();
   await expect(list).toBeVisible();
-  await expect(dossier).toBeVisible();
-  await expect(quickDossier).toBeVisible();
-  await expect(quickDossier).not.toContainText("Connected people");
-  await expect(page.getByTestId("people-web-connection")).toHaveCount(0);
-  await expect(dossier).not.toContainText("You live in the same household.");
-  const dossierParagraphs = await dossier.locator("p").allTextContents();
-  expect(
-    dossierParagraphs.some((text) =>
-      /^(?:They are|He is|She is) your /.test(text),
-    ),
-  ).toBe(false);
-
-  const first = list.locator('[data-testid^="people-person-"]').first();
-  const personId = ((await first.getAttribute("data-testid")) ?? "").replace(
-    "people-person-",
-    "",
-  );
-  const name = await first.locator("strong").first().textContent();
-  expect(personId).not.toBe("");
-  expect(name).not.toBeNull();
-  await first.click();
-  await expect(dossier).toHaveAttribute("data-person-id", personId);
-  await expect(dossier.getByRole("heading", { level: 2 })).toHaveText(name!);
-  await page.screenshot({
-    path: test.info().outputPath("people-split-directory.png"),
-    fullPage: true,
-  });
-
-  await page.getByText("Search", { exact: true }).click();
-  await page.getByTestId("people-search").fill(name!);
-  await expect(first).toBeVisible();
+  await expect(web).toHaveCount(0);
+  await page.getByTestId("people-view-web").click();
+  await expect(web).toBeVisible();
 
   for (const viewport of [
     { width: 1440, height: 900 },

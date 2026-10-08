@@ -27,7 +27,7 @@ test("a person record shows age in a random-place new game", async ({
   });
   await enterLife(page);
   await goTo(page, "elsewhere-people");
-  await page.getByTestId("people-web-expand").click();
+  await page.getByTestId("people-view-list").click();
   const person = page.locator('[data-testid^="people-person-"]').first();
   await expect(person).toBeVisible();
   await person.click();
