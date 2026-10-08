@@ -1686,6 +1686,80 @@ function closeOrganization(
 }
 
 /**
+ * Closes a business nobody works at any more: whoever ran it retired, died
+ * or left, and nobody took their place. Its closing names who left last and
+ * why, and records `ownerRetired` when they retired or died.
+ */
+export function closeBusinessWithNobodyLeft(
+  world: World,
+  town: EntityId,
+  organizationId: EntityId,
+  prefix: string,
+  closingReasons: {
+    readonly ownerRetired: string;
+    readonly nobodyLeft: string;
+  },
+): World {
+  const latest = new Map<EntityId, WorkStatusRecord>();
+  for (const status of world.history.workStatuses)
+    if (status.effectiveAt <= world.currentDate)
+      latest.set(status.workRelationshipId, status);
+  const [last] = world.history.workRelationships
+    .filter((row) => row.organizationId === organizationId)
+    .map((row) => ({ row, status: latest.get(row.id) }))
+    .filter(({ status }) => status?.status === "ended")
+    .sort(
+      (a, b) =>
+        b.status!.effectiveAt.localeCompare(a.status!.effectiveAt) ||
+        a.row.id.localeCompare(b.row.id),
+    );
+  const why = last?.status?.reason ?? null;
+  const retired =
+    why === TOWN_JOB_END_REASONS.retired || why === TOWN_JOB_END_REASONS.died;
+  const stableKey = `${prefix}close:${organizationId}`;
+  const name =
+    organizationProfileAt(world, organizationId)?.name ?? "A business";
+  const closed = closeOrganization(
+    world,
+    organizationId,
+    stableKey,
+    retired ? closingReasons.ownerRetired : closingReasons.nobodyLeft,
+    TOWN_JOB_END_REASONS.businessClosed,
+  );
+  const person = last ? world.people[last.row.personId] : undefined;
+  const who = person ? `${person.givenName} ${person.familyName}` : null;
+  const left =
+    why === TOWN_JOB_END_REASONS.retired
+      ? "retired"
+      : why === TOWN_JOB_END_REASONS.died
+        ? "died"
+        : why === "labor:moved-away"
+          ? "moved away"
+          : "left";
+  return recordWorldEvent(closed.world, {
+    stableKey: `${stableKey}:event`,
+    type: BUSINESS_CLOSED_EVENT,
+    occurredAt: closed.world.currentDate,
+    recordedAt: closed.world.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: [organizationId],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      TOWN_FINANCES_VERSION,
+      `cause:${retired ? "owner-retired" : "nobody-left"}`,
+      `organization:${organizationId}`,
+      ...(why ? [`last-left:${why}`] : []),
+    ],
+    summary: who
+      ? `${name} closed: nobody was left to run it after ${who} ${left}.`
+      : `${name} closed: nobody was left to run it.`,
+    context: CONTEXT,
+  });
+}
+
+/**
  * What each bank's household borrowers owe that is charged off this
  * quarter. GAME ASSUMPTION: the part of a bank's loans that is not to the
  * town's businesses is lent to the town's households, an equal part to each

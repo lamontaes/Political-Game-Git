@@ -1,5 +1,4 @@
 import inputs from "../../data/research/money/historical-world-inputs.json" with { type: "json" };
-import wageMatrix from "../../data/research/money/minimum-wage-dated-matrix-2026.json" with { type: "json" };
 import { makeIsoDate } from "./dates";
 import type { IsoDate } from "./types";
 
@@ -55,72 +54,4 @@ export function historicalWorldInputs(onDate: IsoDate) {
     yearInputs.set(key, context);
   }
   return context;
-}
-
-/** Dated wage evidence; absent years drift from this place's own recorded floor. */
-export function historicalMinimumWage(placeKey: string, onDate: IsoDate) {
-  const context = historicalWorldInputs(onDate);
-  const years = (
-    inputs.minimumHourlyMinorByPlaceAndYear as Readonly<
-      Record<string, Readonly<Record<string, number>>>
-    >
-  )[placeKey];
-  const rows =
-    (
-      wageMatrix.places as Readonly<
-        Record<
-          string,
-          {
-            rows: readonly {
-              value: number;
-              operativeAt: string;
-              source: string;
-            }[];
-          }
-        >
-      >
-    )[placeKey]?.rows ?? [];
-  const known = rows
-    .filter((row) => row.operativeAt <= onDate)
-    .sort((a, b) => b.operativeAt.localeCompare(a.operativeAt));
-  const annual = years?.[context.year];
-  const latestDate = known[0]?.operativeAt;
-  const latest = known.filter((row) => row.operativeAt === latestDate);
-  if (
-    latest.length &&
-    (Number(latestDate!.slice(0, 4)) === context.year || !years)
-  ) {
-    return {
-      value: Math.round(
-        latest.reduce((sum, row) => sum + row.value, 0) / latest.length,
-      ),
-      operativeAt: makeIsoDate(latestDate!),
-      source: latest.map((row) => row.source).join("; "),
-      estimated: latest.length > 1,
-    };
-  }
-  if (annual !== undefined)
-    return {
-      value: annual,
-      operativeAt: makeIsoDate(`${context.year}-01-01`),
-      source: `${inputs.sources.wages}; ${inputs.minimumWageSnapshotBasis}`,
-      estimated: true,
-    };
-  const baseYear = years
-    ? Math.max(...Object.keys(years).map(Number))
-    : Number(rows[0]!.operativeAt.slice(0, 4));
-  const baseDate = rows.map((row) => row.operativeAt).sort()[0];
-  const peers = rows.filter((row) => row.operativeAt === baseDate);
-  const base =
-    years?.[baseYear] ??
-    peers.reduce((sum, row) => sum + row.value, 0) / peers.length;
-  const factor =
-    context.priceIndex /
-    historicalWorldInputs(makeIsoDate(`${baseYear}-01-01`)).priceIndex;
-  return {
-    value: Math.round(base * factor),
-    operativeAt: makeIsoDate(`${context.year}-01-01`),
-    source: `ESTIMATED FROM AVERAGE: same-place recorded wage with ${inputs.sources.prices} drift`,
-    estimated: true,
-  };
 }
