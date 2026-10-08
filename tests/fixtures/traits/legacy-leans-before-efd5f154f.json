@@ -1,0 +1,86 @@
+{
+  "sourceCommit": "6d4a64645992ffbb2dd7a7915242ebecb63d1a06",
+  "removedByCommit": "efd5f154fb601a9c14e4d456f92ed5653eebbd31",
+  "rows": [
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-intimacy-guarded.ts",
+      "sourceExport": "facetIntimacyGuardedEffects",
+      "decisionId": "press.subject-response",
+      "option": "decline",
+      "trait": "personality-v1:facet-intimacy-guarded",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-inventive.ts",
+      "sourceExport": "facetInventiveEffects",
+      "decisionId": "contact.answer",
+      "option": "counter",
+      "trait": "personality-v1:facet-inventive",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-manipulative.ts",
+      "sourceExport": "facetManipulativeEffects",
+      "decisionId": "press.subject-response",
+      "option": "dispute",
+      "trait": "personality-v1:facet-manipulative",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-meticulous.ts",
+      "sourceExport": "facetMeticulousEffects",
+      "decisionId": "career.consider-another-term",
+      "option": "seek",
+      "trait": "personality-v1:facet-meticulous",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-mischievous.ts",
+      "sourceExport": "facetMischievousEffects",
+      "decisionId": "press.subject-response",
+      "option": "dispute",
+      "trait": "personality-v1:facet-mischievous",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-nurturing.ts",
+      "sourceExport": "facetNurturingEffects",
+      "decisionId": "contact.answer",
+      "option": "accept",
+      "trait": "personality-v1:facet-nurturing",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-observant.ts",
+      "sourceExport": "facetObservantEffects",
+      "decisionId": "press.subject-response",
+      "option": "dispute",
+      "trait": "personality-v1:facet-observant",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-open-minded.ts",
+      "sourceExport": "facetOpenMindedEffects",
+      "decisionId": "court.jury-vote",
+      "option": "acquit",
+      "trait": "personality-v1:facet-open-minded",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-opportunistic.ts",
+      "sourceExport": "facetOpportunisticEffects",
+      "decisionId": "career.consider-another-term",
+      "option": "seek",
+      "trait": "personality-v1:facet-opportunistic",
+      "pole": "high"
+    },
+    {
+      "sourceFile": "src/simulation/traits/effects/facet-persistent.ts",
+      "sourceExport": "facetPersistentEffects",
+      "decisionId": "labor.worker-quit",
+      "option": "continue-work",
+      "trait": "personality-v1:facet-persistent",
+      "pole": "high"
+    }
+  ]
+}
