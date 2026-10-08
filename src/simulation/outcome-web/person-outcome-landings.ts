@@ -1,10 +1,19 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
+import recipientAgeCohorts from "../../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { recordedMonthlyPayByPerson } from "../household-pay";
+import { householdMembershipsAt } from "../life-queries";
+import {
+  holdsPackCondition,
+  SUBSTANCE_USE_DISORDER_KEY,
+} from "../crisis/condition-pack";
+import { snapParticipationRecords } from "../crisis/snap-participation";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { officialAnsweringFor } from "../living-world/lived-outcomes";
+import { RENT_EVENTS } from "../living-world/town-rent";
 import type {
   EducationEnrollmentStateRecord,
   EntityId,
@@ -19,7 +28,34 @@ import {
 } from "./place-outcome-store";
 
 export type OutcomeRecipientRule =
-  "recorded-school-enrollment-or-compulsory-age-estimate";
+  | "recorded-school-enrollment-or-compulsory-age-estimate"
+  | "infant-mortality-cohort-estimate"
+  | "working-age-adult-cohort-estimate"
+  | "older-adult-medicare-cohort-estimate"
+  | "adult-substance-use-condition-estimate"
+  | "youth-cannabis-cohort-estimate"
+  | "child-asthma-cohort-estimate"
+  | "jurisdiction-resident-estimate"
+  | "household-resident-estimate"
+  | "snap-enrolled-household-member-estimate"
+  | "recorded-wage-family-member-estimate"
+  | "adult-school-completer-estimate"
+  | "retirement-age-adult-cohort-estimate"
+  | "active-renter-household-member-estimate"
+  | "snap-enrolled-renter-household-member-estimate"
+  | "evicted-household-without-home-member-estimate";
+
+type AgeBoundedOutcomeRecipientRule = Exclude<
+  OutcomeRecipientRule,
+  | "recorded-school-enrollment-or-compulsory-age-estimate"
+  | "jurisdiction-resident-estimate"
+  | "household-resident-estimate"
+  | "snap-enrolled-household-member-estimate"
+  | "recorded-wage-family-member-estimate"
+  | "active-renter-household-member-estimate"
+  | "snap-enrolled-renter-household-member-estimate"
+  | "evicted-household-without-home-member-estimate"
+>;
 
 interface CompulsorySchoolAgeRange {
   readonly minimumAge: number;
@@ -29,6 +65,16 @@ interface CompulsorySchoolAgeRange {
 
 const COMPULSORY_SCHOOL_AGES = schoolAges.agesByJurisdictionKey as Readonly<
   Record<string, CompulsorySchoolAgeRange>
+>;
+
+interface RecipientAgeCohort {
+  readonly minimumAge: number;
+  readonly maximumAge: number | null;
+  readonly estimatedFrom: string;
+}
+
+const RECIPIENT_AGE_COHORTS = recipientAgeCohorts.cohortsByRule as Readonly<
+  Record<AgeBoundedOutcomeRecipientRule, RecipientAgeCohort>
 >;
 
 interface PlannedLanding {
@@ -42,15 +88,11 @@ interface PlannedLanding {
   readonly estimatedFrom: string | null;
 }
 
-const EDUCATION_LANDING_PATH =
+const PERSON_LANDING_PATH =
   "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts";
-const EDUCATION_LANDINGS = (
-  landingPlan.links as readonly PlannedLanding[]
-).filter(
+const PERSON_LANDINGS = (landingPlan.links as readonly PlannedLanding[]).filter(
   (row) =>
-    row.policyArea === "education" &&
-    row.landingPath === EDUCATION_LANDING_PATH &&
-    row.recipientRule !== null,
+    row.landingPath === PERSON_LANDING_PATH && row.recipientRule !== null,
 );
 
 export interface OutcomeLandingPerson {
@@ -60,9 +102,17 @@ export interface OutcomeLandingPerson {
   readonly activeEducationEnrollment: boolean;
   readonly hasRecordedEducationEnrollment: boolean;
   readonly compulsorySchoolAge: CompulsorySchoolAgeRange | null;
+  readonly activeSubstanceUseCondition: boolean;
+  readonly hasCurrentHouseholdResidence: boolean;
+  readonly hasSnapEnrolledHousehold: boolean;
+  readonly hasRecordedWageHousehold: boolean;
+  readonly completedSchooling: boolean;
+  readonly hasActiveRenterHousehold: boolean;
+  readonly hasSnapEnrolledRenterHousehold: boolean;
+  readonly hasEvictedHouseholdWithoutHome: boolean;
 }
 
-/** Use a recorded enrollment, or the jurisdiction's sourced age estimate. */
+/** Match a person to the estimate's cohort, using recorded facts when present. */
 export function matchesOutcomeRecipientRule(
   rule: OutcomeRecipientRule,
   person: Pick<
@@ -71,6 +121,14 @@ export function matchesOutcomeRecipientRule(
     | "activeEducationEnrollment"
     | "hasRecordedEducationEnrollment"
     | "compulsorySchoolAge"
+    | "activeSubstanceUseCondition"
+    | "hasCurrentHouseholdResidence"
+    | "hasSnapEnrolledHousehold"
+    | "hasRecordedWageHousehold"
+    | "completedSchooling"
+    | "hasActiveRenterHousehold"
+    | "hasSnapEnrolledRenterHousehold"
+    | "hasEvictedHouseholdWithoutHome"
   >,
 ): boolean {
   switch (rule) {
@@ -82,7 +140,37 @@ export function matchesOutcomeRecipientRule(
         person.age >= person.compulsorySchoolAge.minimumAge &&
         person.age <= person.compulsorySchoolAge.maximumAge
       );
+    case "jurisdiction-resident-estimate":
+      return true;
+    case "household-resident-estimate":
+      return person.hasCurrentHouseholdResidence;
+    case "snap-enrolled-household-member-estimate":
+      return person.hasSnapEnrolledHousehold;
+    case "recorded-wage-family-member-estimate":
+      return person.hasRecordedWageHousehold;
+    case "active-renter-household-member-estimate":
+      return person.hasActiveRenterHousehold;
+    case "snap-enrolled-renter-household-member-estimate":
+      return person.hasSnapEnrolledRenterHousehold;
+    case "evicted-household-without-home-member-estimate":
+      return person.hasEvictedHouseholdWithoutHome;
+    case "adult-school-completer-estimate": {
+      const cohort = RECIPIENT_AGE_COHORTS[rule];
+      return (
+        person.completedSchooling &&
+        person.age >= cohort.minimumAge &&
+        (cohort.maximumAge === null || person.age <= cohort.maximumAge)
+      );
+    }
   }
+  const ageRange = RECIPIENT_AGE_COHORTS[rule];
+  return (
+    person.age >= ageRange.minimumAge &&
+    (ageRange.maximumAge === null || person.age <= ageRange.maximumAge) &&
+    (rule === "adult-substance-use-condition-estimate"
+      ? person.activeSubstanceUseCondition
+      : true)
+  );
 }
 
 /** A metric movement as a named person's estimated gain or cost. */
@@ -106,19 +194,158 @@ export function outcomeLandingStableKey(
 }
 
 /**
- * Route school measures through recorded enrollments where available, then
- * use the state's sourced compulsory-attendance ages for unrecorded residents.
- * The place estimate is not a personal test score, diploma or enrollment fact.
+ * Route each place measure to the people represented by its recipient rule.
+ * Place estimates remain estimates, not personal test scores, diagnoses,
+ * coverage decisions, or enrollment facts.
  */
 export function recordPlannedPersonOutcomeLandings(
   world: World,
   month: IsoDate,
 ): World {
-  if (EDUCATION_LANDINGS.length === 0 || !world.placeOutcomes) return world;
+  if (PERSON_LANDINGS.length === 0 || !world.placeOutcomes) return world;
   const previousMonth = world.placeOutcomes.months
     .filter((entry) => entry.month < month)
     .at(-1)?.month;
-  const education = educationEnrollmentsAt(world, month);
+  const needsEducationEnrollment = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule ===
+      "recorded-school-enrollment-or-compulsory-age-estimate",
+  );
+  const needsSubstanceUseCondition = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "adult-substance-use-condition-estimate",
+  );
+  const needsHouseholdMemberships = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "household-resident-estimate" ||
+      row.recipientRule === "snap-enrolled-household-member-estimate" ||
+      row.recipientRule === "recorded-wage-family-member-estimate" ||
+      row.recipientRule === "active-renter-household-member-estimate" ||
+      row.recipientRule === "snap-enrolled-renter-household-member-estimate" ||
+      row.recipientRule === "evicted-household-without-home-member-estimate",
+  );
+  const needsSnapParticipation = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "snap-enrolled-household-member-estimate" ||
+      row.recipientRule === "snap-enrolled-renter-household-member-estimate",
+  );
+  const needsRecordedWage = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "recorded-wage-family-member-estimate",
+  );
+  const adultConditionMinimumAge =
+    RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
+  const education = needsEducationEnrollment
+    ? educationEnrollmentsAt(world, month)
+    : {
+        active: new Set<EntityId>(),
+        recorded: new Set<EntityId>(),
+        completedSchooling: new Set<EntityId>(),
+      };
+  const membershipsByPerson = new Map(
+    needsHouseholdMemberships
+      ? world.personOrder.map((personId) => [
+          personId,
+          householdMembershipsAt(world, personId, {
+            asOfDate: month,
+            historySequenceExclusive: world.history.nextSequence,
+          }),
+        ])
+      : [],
+  );
+  const snapHouseholds = new Set<EntityId>();
+  if (needsSnapParticipation) {
+    const latestSnapByHousehold = new Map<
+      EntityId,
+      ReturnType<typeof snapParticipationRecords>[number]
+    >();
+    for (const record of snapParticipationRecords(world)) {
+      if (record.effectiveAt > month) continue;
+      const prior = latestSnapByHousehold.get(record.householdId);
+      if (
+        !prior ||
+        record.effectiveAt > prior.effectiveAt ||
+        (record.effectiveAt === prior.effectiveAt &&
+          record.sequence > prior.sequence)
+      )
+        latestSnapByHousehold.set(record.householdId, record);
+    }
+    for (const [householdId, record] of latestSnapByHousehold)
+      if (record.enrolled) snapHouseholds.add(householdId);
+  }
+  const wageHouseholds = new Set<EntityId>();
+  if (needsRecordedWage) {
+    const workers = recordedMonthlyPayByPerson(world, month, "work");
+    for (const personId of workers.keys())
+      for (const membership of membershipsByPerson.get(personId) ?? [])
+        wageHouseholds.add(membership.membership.householdId);
+  }
+  const renterHouseholds = new Set<EntityId>();
+  if (
+    PERSON_LANDINGS.some(
+      (row) =>
+        row.recipientRule === "active-renter-household-member-estimate" ||
+        row.recipientRule === "snap-enrolled-renter-household-member-estimate",
+    )
+  ) {
+    const latestTenureStates = new Map<
+      EntityId,
+      (typeof world.history.housingTenureStates)[number]
+    >();
+    for (const state of world.history.housingTenureStates) {
+      if (state.effectiveAt > month) continue;
+      const prior = latestTenureStates.get(state.housingTenureId);
+      if (!prior || state.sequence > prior.sequence)
+        latestTenureStates.set(state.housingTenureId, state);
+    }
+    for (const tenure of world.history.housingTenures) {
+      if (
+        tenure.startedAt <= month &&
+        tenure.holder.kind === "household" &&
+        tenure.kind.startsWith("lease:") &&
+        latestTenureStates.get(tenure.id)?.status === "active"
+      )
+        renterHouseholds.add(tenure.holder.householdId);
+    }
+  }
+  const evictedHouseholdsWithoutHome = new Set<EntityId>();
+  if (
+    PERSON_LANDINGS.some(
+      (row) =>
+        row.recipientRule === "evicted-household-without-home-member-estimate",
+    )
+  ) {
+    const householdIds = new Set(world.history.households.map((row) => row.id));
+    const activePrimaryHomes = new Set<EntityId>();
+    const latestOccupancyStates = new Map<
+      EntityId,
+      (typeof world.history.dwellingOccupancyStates)[number]
+    >();
+    for (const state of world.history.dwellingOccupancyStates) {
+      if (state.effectiveAt > month) continue;
+      const prior = latestOccupancyStates.get(state.dwellingOccupancyId);
+      if (!prior || state.sequence > prior.sequence)
+        latestOccupancyStates.set(state.dwellingOccupancyId, state);
+    }
+    for (const occupancy of world.history.dwellingOccupancies) {
+      const state = latestOccupancyStates.get(occupancy.id);
+      if (
+        occupancy.startedAt <= month &&
+        occupancy.occupant.kind === "household" &&
+        state?.status === "active" &&
+        state.residenceRole === "primary"
+      )
+        activePrimaryHomes.add(occupancy.occupant.householdId);
+    }
+    for (const event of world.history.events) {
+      if (event.type !== RENT_EVENTS.evicted || event.occurredAt > month)
+        continue;
+      for (const householdId of event.involvedEntityIds)
+        if (
+          householdIds.has(householdId) &&
+          !activePrimaryHomes.has(householdId)
+        )
+          evictedHouseholdsWithoutHome.add(householdId);
+    }
+  }
   const alreadyLanded = new Set(
     (world.placeOutcomes.landings ?? []).map(
       (row) => `${row.personId}|${row.linkKey}`,
@@ -128,22 +355,67 @@ export function recordPlannedPersonOutcomeLandings(
     (world.placeOutcomes.landings ?? []).map((row) => row.stableKey),
   );
   const pending: PlaceOutcomeLandingRecord[] = [];
+  const currentOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const priorOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const outcomeFor = (
+    cache: Map<string, ReturnType<typeof placeOutcomeAt>>,
+    jurisdictionId: EntityId,
+    outcomeMonth: IsoDate,
+    measure: string,
+  ) => {
+    const key = `${jurisdictionId}|${measure}|${outcomeMonth}`;
+    if (!cache.has(key))
+      cache.set(
+        key,
+        placeOutcomeAt(world, measure, jurisdictionId, outcomeMonth),
+      );
+    return cache.get(key) ?? null;
+  };
 
   for (const personId of world.personOrder) {
     const person = world.people[personId];
     if (!person) continue;
     const stateKey = placeOutcomeKey(person.homeJurisdictionId);
+    const age = ageOnDate(person.birthDate, month);
     const recipient: OutcomeLandingPerson = {
       personId,
       jurisdictionId: person.homeJurisdictionId,
-      age: ageOnDate(person.birthDate, month),
+      age,
       activeEducationEnrollment: education.active.has(personId),
       hasRecordedEducationEnrollment: education.recorded.has(personId),
       compulsorySchoolAge: stateKey
         ? (COMPULSORY_SCHOOL_AGES[stateKey] ?? null)
         : null,
+      activeSubstanceUseCondition:
+        needsSubstanceUseCondition && age >= adultConditionMinimumAge
+          ? holdsPackCondition(world, personId, SUBSTANCE_USE_DISORDER_KEY)
+          : false,
+      hasCurrentHouseholdResidence:
+        (membershipsByPerson.get(personId)?.length ?? 0) > 0,
+      hasSnapEnrolledHousehold: (membershipsByPerson.get(personId) ?? []).some(
+        (membership) => snapHouseholds.has(membership.membership.householdId),
+      ),
+      hasRecordedWageHousehold: (membershipsByPerson.get(personId) ?? []).some(
+        (membership) => wageHouseholds.has(membership.membership.householdId),
+      ),
+      completedSchooling: education.completedSchooling.has(personId),
+      hasActiveRenterHousehold: (membershipsByPerson.get(personId) ?? []).some(
+        (membership) => renterHouseholds.has(membership.membership.householdId),
+      ),
+      hasSnapEnrolledRenterHousehold: (
+        membershipsByPerson.get(personId) ?? []
+      ).some(
+        (membership) =>
+          renterHouseholds.has(membership.membership.householdId) &&
+          snapHouseholds.has(membership.membership.householdId),
+      ),
+      hasEvictedHouseholdWithoutHome: (
+        membershipsByPerson.get(personId) ?? []
+      ).some((membership) =>
+        evictedHouseholdsWithoutHome.has(membership.membership.householdId),
+      ),
     };
-    for (const row of EDUCATION_LANDINGS) {
+    for (const row of PERSON_LANDINGS) {
       if (
         !row.recipientRule ||
         !row.outcomeDirection ||
@@ -151,21 +423,21 @@ export function recordPlannedPersonOutcomeLandings(
         !matchesOutcomeRecipientRule(row.recipientRule, recipient)
       )
         continue;
-      const outcome = placeOutcomeAt(
-        world,
-        row.outcome,
+      const outcome = outcomeFor(
+        currentOutcomes,
         recipient.jurisdictionId,
         month,
+        row.outcome,
       );
       if (!outcome) continue;
       const currentFactor =
         outcome.causes.find((cause) => cause.key === row.key)?.factor ?? 1;
       const prior = previousMonth
-        ? placeOutcomeAt(
-            world,
-            row.outcome,
+        ? outcomeFor(
+            priorOutcomes,
             recipient.jurisdictionId,
             previousMonth,
+            row.outcome,
           )
         : null;
       const previousFactor =
@@ -234,6 +506,7 @@ function educationEnrollmentsAt(
 ): {
   readonly active: ReadonlySet<EntityId>;
   readonly recorded: ReadonlySet<EntityId>;
+  readonly completedSchooling: ReadonlySet<EntityId>;
 } {
   const latest = new Map<EntityId, EducationEnrollmentStateRecord>();
   for (const state of world.history.educationEnrollmentStates) {
@@ -249,6 +522,7 @@ function educationEnrollmentsAt(
   }
   const active = new Set<EntityId>();
   const recorded = new Set<EntityId>();
+  const completedSchooling = new Set<EntityId>();
   for (const enrollment of world.history.educationEnrollments) {
     if (
       (!enrollment.programKind.startsWith("schooling:") &&
@@ -258,10 +532,15 @@ function educationEnrollmentsAt(
       continue;
     recorded.add(enrollment.personId);
     if (
+      enrollment.programKind.startsWith("schooling:") &&
+      latest.get(enrollment.id)?.status === "completed"
+    )
+      completedSchooling.add(enrollment.personId);
+    if (
       enrollment.startedAt <= through &&
       latest.get(enrollment.id)?.status === "active"
     )
       active.add(enrollment.personId);
   }
-  return { active, recorded };
+  return { active, recorded, completedSchooling };
 }

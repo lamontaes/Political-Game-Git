@@ -106,10 +106,11 @@
       "policyArea": "health",
       "sourceArea": "env.particulates:pct-of-start",
       "recipientGroup": "infants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "infant-mortality-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "emission-rules-to-particulates",
@@ -129,10 +130,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
       "recipientGroup": "expansion adults 19 to 64",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)"
+      "currentStatus": "person-linked",
+      "recipientRule": "working-age-adult-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "snap-to-food-insecurity",
@@ -140,10 +142,11 @@
       "policyArea": "household",
       "sourceArea": "program.snap-receipt:moved-by-causes",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024"
+      "currentStatus": "person-linked",
+      "recipientRule": "snap-enrolled-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -151,10 +154,11 @@
       "policyArea": "household",
       "sourceArea": "labor.minimum-wage-change-pct",
       "recipientGroup": "families at the bottom",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Dube 2019 (AEJ Applied)"
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-wage-family-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Dube 2019 (AEJ Applied)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-poverty",
@@ -162,10 +166,11 @@
       "policyArea": "household",
       "sourceArea": "labor.unemployment-pct",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Hoynes, Page and Stevens 2006 (JEP)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Hoynes, Page and Stevens 2006 (JEP)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "graduation-to-turnout",
@@ -184,10 +189,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "recipientGroup": "covered buildings",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)"
+      "currentStatus": "person-linked",
+      "recipientRule": "active-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -195,10 +201,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "recipientGroup": "covered tenants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)"
+      "currentStatus": "person-linked",
+      "recipientRule": "active-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "broadband-to-married-women-work",
@@ -241,10 +248,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:civil-family-community.restrict-abortion",
       "recipientGroup": "infants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Gemmill et al. 2025 (JAMA)"
+      "currentStatus": "person-linked",
+      "recipientRule": "infant-mortality-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Gemmill et al. 2025 (JAMA)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "universal-childcare-to-mothers-work",
@@ -274,10 +282,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
       "recipientGroup": "low-income adults",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)"
+      "currentStatus": "person-linked",
+      "recipientRule": "working-age-adult-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -365,10 +374,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-first-to-homelessness",
@@ -376,10 +386,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:health-human-services.housing-first-homelessness",
       "recipientGroup": "people experiencing homelessness",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial"
+      "currentStatus": "person-linked",
+      "recipientRule": "evicted-household-without-home-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -387,10 +398,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "teens",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)"
+      "currentStatus": "person-linked",
+      "recipientRule": "youth-cannabis-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -419,11 +431,12 @@
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "container-deposit-to-litter",
@@ -477,11 +490,12 @@
       "outcome": "env.container-recycling-pct",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-uninsured",
@@ -489,10 +503,11 @@
       "policyArea": "health",
       "sourceArea": "labor.unemployment-pct",
       "recipientGroup": "working-age men; women and children shielded by public insurance",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Cawley, Moriya and Simon 2015"
+      "currentStatus": "person-linked",
+      "recipientRule": "working-age-adult-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Cawley, Moriya and Simon 2015",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-minimum-wage-to-poverty",
@@ -500,32 +515,35 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "recipientGroup": "families at the bottom",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage"
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-wage-family-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "power-plant-carbon-to-emissions",
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "power-plant-carbon-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "people downwind of coal plants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure; downwind residents are not separately identified",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards; the state-level PM2.5 average is used for modeled residents because the simulation has no individual plant-proximity records",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "tariffs-to-prices",
@@ -533,10 +551,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:trade.raise-tariffs",
       "recipientGroup": "households",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -544,10 +563,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "recipientGroup": "families who qualify",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "HUD Family Options Study, three-year impacts (2016)"
+      "currentStatus": "person-linked",
+      "recipientRule": "snap-enrolled-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "HUD Family Options Study, three-year impacts (2016)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "retirement-age-to-older-work",
@@ -566,10 +586,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-federal-positions:health.medicare-drug-price-negotiation",
       "recipientGroup": "Medicare enrollees",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)"
+      "currentStatus": "person-linked",
+      "recipientRule": "older-adult-medicare-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -696,10 +717,11 @@
       "policyArea": "household",
       "sourceArea": "school.graduation-pct",
       "recipientGroup": "adults, years later",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Jackson, Johnson and Persico 2016 (QJE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "adult-school-completer-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Jackson, Johnson and Persico 2016 (QJE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "crime-level-to-burglary",
@@ -825,10 +847,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Kleiner and Soltas 2019; Institute for Justice, License to Work"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Kleiner and Soltas 2019; Institute for Justice, License to Work",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "independent-redistricting-to-turnout",
@@ -859,10 +882,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.by-right-permitting",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-preemption-to-homelessness",
@@ -870,10 +894,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carry-permit-to-violent-crime",
@@ -892,22 +917,24 @@
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carbon-price-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "retirement-age-to-poverty",
@@ -915,10 +942,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "recipientGroup": "people 65 and older",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+      "currentStatus": "person-linked",
+      "recipientRule": "retirement-age-adult-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "grocery-exemption-to-food-insecurity",
@@ -926,10 +954,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
@@ -937,10 +966,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)"
+      "currentStatus": "person-linked",
+      "recipientRule": "adult-substance-use-condition-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "public-bargaining-to-earnings",
@@ -982,10 +1012,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
+      "currentStatus": "person-linked",
+      "recipientRule": "child-asthma-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
@@ -1040,10 +1071,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug"
+      "currentStatus": "person-linked",
+      "recipientRule": "adult-substance-use-condition-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "highway-money-for-transit-to-service",
@@ -1140,10 +1172,11 @@
       "policyArea": "household",
       "sourceArea": "roads.poor-condition-pct:moved-by-causes",
       "recipientGroup": "households",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-rail-expansion-to-riders",
@@ -1178,9 +1211,9 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 34,
-    "budget-only": 4,
-    "place-number-only": 61,
-    "no-live-consumer": 2
+    "person-linked": 67,
+    "place-number-only": 28,
+    "no-live-consumer": 2,
+    "budget-only": 4
   }
 }
