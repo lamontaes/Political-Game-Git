@@ -143,6 +143,14 @@ describe("combining batch runs", () => {
     );
   });
 
+  it("leaves out a kind on purpose and says so among the absent kinds", () => {
+    const without = combineResults([a, b], new Set(), new Set(["journal"]));
+    expect(without.lines.map((row) => row.id)).not.toContain("text-journal-1");
+    expect(without.lines).toHaveLength(combined.lines.length - 1);
+    expect(without.absent?.map((row) => row.kind)).toEqual(["news", "journal"]);
+    expect(without.absent?.[1]?.reason).toMatch(/--leave-out/);
+  });
+
   it("numbers the owner's items with their axis and seed, and keeps procedure off them", () => {
     const busy = run("seed-c", "Nome, Alaska", [
       line("text-journal-1", "I moved in 2001.", "Nome, Alaska"),
