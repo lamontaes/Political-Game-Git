@@ -24,7 +24,7 @@ import { createOrganization, createWorkRelationship } from "./life";
 import { lifePlaceStateIdentities } from "./life-places";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import { personName } from "./people";
-import { attributePaycheckTaxLaws } from "./paycheck-law-attribution";
+import { recordPaycheckTaxBases } from "./paycheck-tax-bases";
 import {
   createResourcePosition,
   createWorkCompensation,
@@ -367,11 +367,31 @@ describe("A33 saved statutory attribution without another assessment", () => {
           applyLawConsequences(f.world, activityContext(f.assessment)),
         ),
       ).toBe(serializeWorld(assessment));
-      const attributed = attributePaycheckTaxLaws(f.world, [
-        f.outcomeId,
-        f.outcomeId,
-      ]);
+      const attributed = dispatch(
+        dispatch(f.world, f.assessment),
+        f.collection,
+      );
       expect(attributed).not.toBe(f.world);
+      const integrated = recordPaycheckTaxBases(f.world, [f.outcomeId]);
+      const integratedLiability =
+        integrated.history.statutoryTaxLiabilities!.find(
+          (row) => row.id === f.liability.id,
+        )!;
+      const integratedPayment = integrated.history.statutoryTaxPayments!.find(
+        (row) => row.id === f.payment.id,
+      )!;
+      expect(integratedLiability.lawEffectStamps).toEqual(
+        attributed.history.statutoryTaxLiabilities!.find(
+          (row) => row.id === f.liability.id,
+        )!.lawEffectStamps,
+      );
+      expect(integratedLiability.liability).toEqual(f.liability.liability);
+      expect(integratedPayment.amount).toEqual(f.payment.amount);
+      expect(
+        integratedLiability.lawEffectStamps?.filter(
+          (stamp) => stamp.questionKey === f.assessment.questionKey,
+        ),
+      ).toHaveLength(1);
       expect(serializeWorld(dispatch(assessment, f.collection))).toBe(
         serializeWorld(attributed),
       );
@@ -425,11 +445,9 @@ describe("A33 saved statutory attribution without another assessment", () => {
         },
       };
       expect(serializeWorld(attributed)).toBe(serializeWorld(expected));
-      expect(attributePaycheckTaxLaws(attributed, [f.outcomeId])).toBe(
-        attributed,
-      );
+      expect(dispatch(attributed, f.assessment)).toBe(attributed);
       const loaded = deserializeWorld(serializeWorld(attributed));
-      expect(attributePaycheckTaxLaws(loaded, [f.outcomeId])).toBe(loaded);
+      expect(dispatch(loaded, f.assessment)).toBe(loaded);
       expect(assessPaychecksTaxes(loaded, [f.outcomeId])).toBe(loaded);
       assertWorldIntegrity(loaded);
       stdout.write(
@@ -490,7 +508,10 @@ describe("A33 saved statutory attribution without another assessment", () => {
     if (f.kind !== "supported")
       throw new Error("Expected supported sampled fixture.");
     const later = advanceWorld(f.world, 1);
-    const attributed = attributePaycheckTaxLaws(later, [f.outcomeId]);
+    const attributed = applyLawConsequences(
+      later,
+      activityContext(f.assessment),
+    );
     expect(attributed.currentDate).toBe(later.currentDate);
     expect(attributed.history.nextSequence).toBe(later.history.nextSequence);
     expect(
