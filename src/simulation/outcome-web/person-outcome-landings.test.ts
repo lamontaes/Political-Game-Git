@@ -57,6 +57,9 @@ const plannedHousehold = landingPlan.links.filter(
 const plannedHousing = landingPlan.links.filter(
   (row) => row.policyArea === "housing" && row.recipientRule !== null,
 );
+const plannedEnvironment = landingPlan.links.filter(
+  (row) => row.policyArea === "env" && row.recipientRule !== null,
+);
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
     string,
@@ -72,6 +75,7 @@ const recipientAgeRanges = recipientAgeCohorts.cohortsByRule as Readonly<
     Exclude<
       OutcomeRecipientRule,
       | "recorded-school-enrollment-or-compulsory-age-estimate"
+      | "jurisdiction-resident-estimate"
       | "household-resident-estimate"
       | "snap-enrolled-household-member-estimate"
       | "recorded-wage-family-member-estimate"
@@ -138,9 +142,9 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 61,
+      "person-linked": 67,
       "budget-only": 4,
-      "place-number-only": 34,
+      "place-number-only": 28,
       "no-live-consumer": 2,
     });
   });
@@ -225,6 +229,44 @@ describe("the outcome landing plan", () => {
       "housing-preemption-to-homelessness": "higher-is-worse",
     });
   });
+
+  it("routes all six environmental place estimates through the shared person path", () => {
+    expect(plannedEnvironment).toHaveLength(6);
+    expect(
+      plannedEnvironment.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          row.recipientRule === "jurisdiction-resident-estimate" &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    const directions = new Map(
+      plannedEnvironment.map((row) => [row.key, row.outcomeDirection]),
+    );
+    expect(Object.fromEntries(directions)).toEqual({
+      "carbon-price-to-emissions": "higher-is-worse",
+      "container-deposit-to-recycling": "higher-is-better",
+      "power-plant-carbon-to-emissions": "higher-is-worse",
+      "power-plant-carbon-to-particulates": "higher-is-worse",
+      "clean-electricity-to-particulates": "higher-is-worse",
+      "carbon-price-to-particulates": "higher-is-worse",
+    });
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "applies the jurisdiction-average environmental recipient rule in %s",
+    (place) => {
+      expect(place.jurisdictionKey).toBeTruthy();
+      expect(
+        matchesOutcomeRecipientRule(
+          "jurisdiction-resident-estimate",
+          recipientAtAge(0),
+        ),
+      ).toBe(true);
+    },
+  );
 
   it.each(
     Object.entries(recipientAgeRanges) as [
@@ -1053,6 +1095,89 @@ describe("a named housing outcome landing", () => {
         "The recorded housing crisis did not reach the resident.",
       );
     const reflectionKey = livedOutcomeReflectionKey(personId, housingFirst.id);
+    expect(
+      landed.history.futureDueItems.some(
+        (row) => row.stableKey === reflectionKey,
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named environmental outcome landing", () => {
+  it("records place-average changes for a resident and schedules the official view", () => {
+    const fixture = smallWorld({
+      place: "OH",
+      date: "2026-01-01",
+      offices: ["governor"],
+      seed: "ow-spine-environment-place-resident",
+    });
+    const month = makeIsoDate("2026-01-01");
+    const state = stateJurisdictionForKey("US-OH");
+    if (!state) throw new Error("Ohio's state jurisdiction must be present.");
+    const personId = fixture.world.personOrder.find(
+      (id) => id !== fixture.personId,
+    );
+    if (!personId) throw new Error("The small world needs another resident.");
+    const factors: Readonly<Record<string, number>> = {
+      "carbon-price-to-emissions": 0.97,
+      "container-deposit-to-recycling": 1.1,
+      "power-plant-carbon-to-emissions": 0.98,
+      "power-plant-carbon-to-particulates": 0.995,
+      "clean-electricity-to-particulates": 0.99,
+      "carbon-price-to-particulates": 0.995,
+    };
+    const causesByMeasure = new Map<
+      string,
+      { key: string; factor: number }[]
+    >();
+    for (const row of plannedEnvironment) {
+      const causes = causesByMeasure.get(row.outcome) ?? [];
+      causes.push({ key: row.key, factor: factors[row.key]! });
+      causesByMeasure.set(row.outcome, causes);
+    }
+    const records: PlaceOutcomeRecord[] = [...causesByMeasure].map(
+      ([measure, causes]) => {
+        const multiplier = causes.reduce(
+          (product, row) => product * row.factor,
+          1,
+        );
+        return {
+          measure,
+          placeKey: "US-OH",
+          jurisdictionId: state.id,
+          month,
+          base: 100,
+          structural: 100,
+          multiplier,
+          value: 100 * multiplier,
+          causes,
+        };
+      },
+    );
+    const world = {
+      ...fixture.world,
+      placeOutcomes: { months: [{ month, records }] },
+    };
+
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const landings = landed.placeOutcomes?.landings?.filter(
+      (row) => row.personId === personId,
+    );
+    expect(landings?.map((row) => row.linkKey).sort()).toEqual(
+      plannedEnvironment.map((row) => row.key).sort(),
+    );
+    expect(landings?.every((row) => row.direction === "gain")).toBe(true);
+    expect(
+      landings?.every(
+        (row) => row.recipientRule === "jurisdiction-resident-estimate",
+      ),
+    ).toBe(true);
+    const landing = landings?.[0];
+    if (!landing)
+      throw new Error(
+        "The environmental place outcome did not reach a person.",
+      );
+    const reflectionKey = livedOutcomeReflectionKey(personId, landing.id);
     expect(
       landed.history.futureDueItems.some(
         (row) => row.stableKey === reflectionKey,
