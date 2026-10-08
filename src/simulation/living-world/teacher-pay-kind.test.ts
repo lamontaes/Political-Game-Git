@@ -1,5 +1,3 @@
-import { writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { expect, it } from "vitest";
 import { createScenarioWorld } from "../demo";
 import { createPolicyCatalog, createSyntheticPolicyCatalog } from "../policy";
@@ -209,28 +207,4 @@ it("raises a controlled below-floor teacher through the recorded law, stamps pay
       serializeWorld(paid),
     ).history.resourceTransferOutcomes.find((r) => r.id === payment.id),
   ).toEqual(payment);
-  const receipt = {
-    testedHead: execFileSync("git", ["rev-parse", "HEAD"], {
-      encoding: "utf8",
-    }).trim(),
-    receipt: "Session21 controlled teacher raise",
-    seed: world.seed,
-    place: place.displayName,
-    initialMinor: initial,
-    raisedMinor: expected,
-    governingLawKey: raised.lawEffectStamps![0]!.governingLawKey,
-    termsId: raised.id,
-    paymentId: payment.id,
-    effectKind: raised.lawEffectStamps![0]!.effectKind,
-    lawTermFloorAnnual: floor.annual,
-    sourceRecordIds: raised.lawEffectStamps![0]!.sourceRecordIds,
-    raisedAt: raised.effectiveAt,
-    paidAt: payment.occurredAt,
-    transferredMinor: payment.transferredAmount.minorUnits,
-    reload: true,
-  };
-  writeFileSync(
-    "/tmp/session21-teacher-pay-proof.json",
-    JSON.stringify(receipt, null, 2),
-  );
 }, 60_000);
