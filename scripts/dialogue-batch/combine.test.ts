@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { askedKeys, combineResults } from "./combine";
+import { askedKeys, combineResults, leastGradedFirst } from "./combine";
+import { gradedCoverage } from "./apply-grades";
 import { toGradingBatch } from "./grading";
 import type { BatchLine, BatchResult } from "./run";
 
@@ -161,5 +162,43 @@ describe("combining batch runs", () => {
       ["meeting", expect.stringMatching(/^procedural wording/)],
       ["hearing", expect.stringMatching(/^procedural wording/)],
     ]);
+  });
+
+  it("counts graded items by axis and kind, and fills the least-graded cells first", () => {
+    const table = gradedCoverage([
+      {
+        batch: {
+          id: "batch-x",
+          items: [
+            { i: 0, parts: ["p0"], axis: "place", kind: "journal" },
+            { i: 1, parts: ["p1"], axis: "place", kind: "journal" },
+            { i: 2, parts: ["p2"], axis: "relationship", kind: "conversation" },
+          ] as never,
+        },
+        grades: {
+          grades: [
+            { i: 0, grade: "kill" },
+            { i: 1, grade: "good" },
+            { i: 2, grade: "rewrite" },
+          ],
+        },
+      },
+    ]);
+    expect(table).toEqual({
+      place: { journal: 2 },
+      relationship: { conversation: 1 },
+    });
+    const journal = line("text-journal-1", "I moved in 2001.", "Nome, Alaska");
+    const talk = {
+      ...line("conversation-1", "Hi, Pat.", "Nome, Alaska"),
+      axis: "relationship" as const,
+    };
+    const lie = {
+      ...line("conversation-2", "I was home all night.", "Nome, Alaska"),
+      axis: "lie" as const,
+    };
+    expect(
+      leastGradedFirst([journal, talk, lie], table).map((row) => row.id),
+    ).toEqual(["conversation-2", "conversation-1", "text-journal-1"]);
   });
 });

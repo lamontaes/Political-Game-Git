@@ -123,6 +123,45 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
   return { schema: "english-part-grades/1", batches, parts: sorted };
 }
 
+export const COVERAGE_FILE = "data/english/coverage.json";
+
+/** How many graded items each axis has in each kind of text (CTO 2:23 p.m. Oct 8). */
+export type GradedCoverage = Readonly<
+  Record<string, Readonly<Record<string, number>>>
+>;
+
+export interface CoverageBatchItem extends BatchFileItem {
+  readonly axis?: string;
+  readonly kind?: string;
+}
+
+/**
+ * The graded count for every axis and kind. A grade counts toward its batch
+ * item's axis and kind; a grade file without its batch reads them from the
+ * grade row, and a row that names neither counts under "unknown".
+ */
+export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
+  const table: Record<string, Record<string, number>> = {};
+  for (const { batch, grades } of graded) {
+    const items = new Map(
+      (batch?.items as readonly CoverageBatchItem[] | undefined)?.map(
+        (item) => [item.i, item],
+      ),
+    );
+    for (const row of grades.grades ?? grades.items ?? []) {
+      const item = items.get(row.i ?? row.n ?? -1);
+      const fromRow = row as GradeFileRow & {
+        readonly axis?: string;
+        readonly kind?: string;
+      };
+      const axis = item?.axis ?? fromRow.axis ?? "unknown";
+      const kind = item?.kind ?? fromRow.kind ?? "unknown";
+      table[axis] = { ...table[axis], [kind]: (table[axis]?.[kind] ?? 0) + 1 };
+    }
+  }
+  return table;
+}
+
 /** The graded batches on disk, in batch order (batch-2 before batch-10). */
 export function readGradedBatches(
   batchDir = BATCH_DIR,
@@ -154,7 +193,21 @@ export function readGradedBatches(
 }
 
 function main() {
-  const ledger = foldGrades(readGradedBatches());
+  const graded = readGradedBatches();
+  const ledger = foldGrades(graded);
+  // The coverage file keeps what batches asked (byKind, cells) beside what the
+  // owner has graded, axis by kind.
+  const coverage = existsSync(COVERAGE_FILE)
+    ? (JSON.parse(readFileSync(COVERAGE_FILE, "utf8")) as Record<
+        string,
+        unknown
+      >)
+    : {};
+  writeFileSync(
+    COVERAGE_FILE,
+    `${JSON.stringify({ ...coverage, graded: gradedCoverage(graded) }, null, 2)}\n`,
+  );
+  execSync(`npx prettier --write ${COVERAGE_FILE}`, { stdio: "ignore" });
   writeFileSync(LEDGER_FILE, `${JSON.stringify(ledger, null, 2)}\n`);
   // A committed data file, written in the repository's JSON style.
   execSync(`npx prettier --write ${LEDGER_FILE}`, { stdio: "ignore" });

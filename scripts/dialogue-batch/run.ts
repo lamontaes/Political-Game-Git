@@ -118,6 +118,12 @@ import {
   recordPressRequest,
 } from "../../src/simulation";
 
+/**
+ * The one thing an item varies, so the owner's grade calibrates it (CTO 2:23
+ * p.m. Oct 8: lies, personality, mood, relationship, age and generation,
+ * region and word choice, register, belief and party, what the person knows).
+ * "trait" is personality.
+ */
 export type BatchAxis =
   | "pose"
   | "place"
@@ -126,7 +132,28 @@ export type BatchAxis =
   | "experience"
   | "belief"
   | "relationship"
-  | "mood";
+  | "mood"
+  | "lie"
+  | "age"
+  | "region"
+  | "register"
+  | "knowledge";
+
+export const BATCH_AXES: readonly BatchAxis[] = [
+  "lie",
+  "trait",
+  "mood",
+  "relationship",
+  "age",
+  "region",
+  "register",
+  "belief",
+  "knowledge",
+  "place",
+  "interaction",
+  "experience",
+  "pose",
+];
 
 export interface BatchLine {
   readonly id: string;
