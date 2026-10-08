@@ -253,26 +253,41 @@ export function composeGroundedLine(
       (part === "reason" && REASONED_ACTS.includes(bank.act));
 
     const conditioned = partBank.variants.filter((variant) => {
-      if (
-        heldByGrades(
-          `${bankKey}:${part}:${variant.key}`,
-          context.partGrades ?? PART_GRADES,
-        )
-      ) {
-        reasons.push(`${part}/${variant.key}: held back by the owner's grade`);
-        return false;
-      }
       const blocked = conditionProblems(variant, context, packet);
       if (blocked.length > 0)
         reasons.push(`${part}/${variant.key}: ${blocked.join(", ")}`);
       return blocked.length === 0;
     });
-    // Prefer parts this speaker has not used with the player lately; fall
-    // back to the recent ones rather than refuse a line that can be said.
-    const fresh = conditioned.filter(
-      (variant) => !recent.has(`${bankKey}:${part}:${variant.key}`),
+    // Prefer parts the owner has not held back, then parts this speaker has
+    // not used with the player lately. A held or recent part is said only
+    // when nothing else can say the line, because a conversation that
+    // cannot word its reply cannot go on.
+    const unheld = conditioned.filter(
+      (variant) =>
+        !heldByGrades(
+          `${bankKey}:${part}:${variant.key}`,
+          context.partGrades ?? PART_GRADES,
+        ),
     );
-    const attempts = fresh.length > 0 ? [fresh, conditioned] : [conditioned];
+    const isFresh = (variant: LinePartVariant) =>
+      !recent.has(`${bankKey}:${part}:${variant.key}`);
+    const tiers = [
+      unheld.filter(isFresh),
+      unheld,
+      conditioned.filter(isFresh),
+      conditioned,
+    ];
+    const attempts = tiers.filter(
+      (tier, at) =>
+        tier.length > 0 &&
+        !tiers
+          .slice(0, at)
+          .some(
+            (earlier) =>
+              earlier.length === tier.length &&
+              earlier.every((variant) => tier.includes(variant)),
+          ),
+    );
 
     let rendered: ReturnType<typeof renderGroundedEnglish> | null = null;
     let chosen: LinePartVariant | null = null;

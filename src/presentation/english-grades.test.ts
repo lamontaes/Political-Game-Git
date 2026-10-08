@@ -207,7 +207,9 @@ describe("the line composer reads the grades", () => {
     }
   });
 
-  it("refuses the line, with the reason, when its only core is held", () => {
+  it("says a held part only when nothing else can say the line", () => {
+    // A conversation that cannot word its reply cannot go on, so when every
+    // core is held the line is still said, from a held part.
     const ledger = ledgerOf(
       [
         { i: 0, grade: "BAD" },
@@ -216,8 +218,12 @@ describe("the line composer reads the grades", () => {
       coreOnly,
     );
     const line = composeGroundedLine(packet, greet, { partGrades: ledger });
-    expect(line.kind).toBe("missing-context");
-    if (line.kind !== "missing-context") return;
-    expect(line.reasons.join(" ")).toContain("held back by the owner's grade");
+    expect(line.kind).toBe("rendered");
+    const unheld = composeGroundedLine(packet, greet, {
+      partGrades: ledgerOf([{ i: 0, grade: "BAD" }], coreOnly),
+    });
+    expect(unheld.kind === "rendered" && unheld.parts[0]!.variantKey).toBe(
+      "hello",
+    );
   });
 });
