@@ -1,7 +1,7 @@
 ---
 id: session127-slot-contract-audit
 impact: patch
-section: Maintenance
+section: Changed
 title: Record remaining slot contract gaps
 ---
 

@@ -68,5 +68,12 @@
     "notices-and-screens|everyday|notices-and-screens|self|adult": 3,
     "winning-and-losing|everyday|winning-and-losing|self|young-adult": 1,
     "minutes|everyday|minutes|self|young-adult": 1
+  },
+  "graded": {
+    "place": {
+      "journal": 9,
+      "meeting": 3,
+      "hearing": 6
+    }
   }
 }

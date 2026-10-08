@@ -51,7 +51,7 @@ import type {
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { recordedRoomPresence } from "./recorded-room-presence";
 import { shortPersonName } from "./conversation-subjects";
-import { dayOpeningLine } from "./day-opening-english";
+import { composeDayOpening } from "./day-opening-english";
 import {
   lapseVenueActivity,
   releaseMissedHolds,
@@ -189,6 +189,8 @@ export interface OrdinaryDay {
   readonly timeLabel: string;
   /** The scene, before anything is listed. */
   readonly opening: string;
+  /** The wording parts the opening was made from, for the owner's grades. */
+  readonly openingParts: readonly string[];
   readonly pending: readonly PendingThing[];
   /** Who is around to talk to, if anyone is. */
   readonly companionPersonId: EntityId | null;
@@ -296,6 +298,15 @@ export function projectOrdinaryDay(
     };
   });
 
+  const opening = composeDayOpening(world, personId, {
+    placeName,
+    placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
+    waitingIds: pendingIds,
+    housemateName: companion ? shortPersonName(world, companion.id) : null,
+    housemateSourceIds: companion
+      ? [companion.id, ...householdSourceIds(world, personId)]
+      : [],
+  });
   return {
     personName: personName(person),
     age: ageOnDate(person.birthDate, world.currentDate),
@@ -305,15 +316,8 @@ export function projectOrdinaryDay(
     // The same name the conversation below uses. Calling one person "Emmanuel"
     // on one line and "Day" on the next leaves a player unable to tell they
     // are the same person.
-    opening: dayOpeningLine(world, personId, {
-      placeName,
-      placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
-      waitingIds: pendingIds,
-      housemateName: companion ? shortPersonName(world, companion.id) : null,
-      housemateSourceIds: companion
-        ? [companion.id, ...householdSourceIds(world, personId)]
-        : [],
-    }),
+    opening: opening.text,
+    openingParts: opening.parts,
     pending,
     companionPersonId,
     companionName: companion ? personName(companion) : null,
