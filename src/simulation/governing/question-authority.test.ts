@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import catalog from "../../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import questionPowers from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import {
   lifePlaceByKey,

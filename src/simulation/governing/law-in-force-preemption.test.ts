@@ -19,7 +19,7 @@ import { lawInForce } from "./law-in-force";
  */
 const KEY = "us-policy-positions:housing-land-use.rent-stabilization";
 
-vi.mock("../../../data/research/laws/starting-law-2026.json", () => ({
+vi.mock("../../../data/research/laws/starting-law-2026/index", () => ({
   default: {
     defaultOperativeAt: "2000-01-01",
     questions: {
