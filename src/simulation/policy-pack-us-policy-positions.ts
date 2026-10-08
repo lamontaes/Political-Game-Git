@@ -9,7 +9,7 @@ import {
 import {
   juvenileJurisdictionRow,
   minimumCustodyRow,
-} from "./law-consequences/legal-outcome";
+} from "./law-consequences/legal-outcome-rows";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
