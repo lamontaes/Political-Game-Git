@@ -1,5 +1,5 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
-import { makeIsoDate } from "./dates";
+import type { IsoDate } from "./types";
 import type { TaxPowerEvidence } from "./tax-types";
 
 /**
@@ -10,9 +10,6 @@ import type { TaxPowerEvidence } from "./tax-types";
  * constitution and federal preemption leave open; it carries no rate caps, so
  * the evidence says that plainly.
  */
-
-/** The opening every new game shares; state authority is read as of then. */
-const STATE_TAX_BASELINE_AS_OF = makeIsoDate("2026-01-01");
 
 export type StateTaxInstrument = "sales" | "property" | "payroll";
 
@@ -40,6 +37,7 @@ export function isStateTaxInstrument(
 export function stateTaxPowerEvidenceFor(
   jurisdictionKey: string,
   instrument: StateTaxInstrument,
+  asOf: IsoDate,
 ): TaxPowerEvidence | null {
   if (!/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
   const dial = powers.dials.find(
@@ -53,7 +51,7 @@ export function stateTaxPowerEvidenceFor(
     jurisdictionKey,
     level: "STATE",
     instrument,
-    asOf: STATE_TAX_BASELINE_AS_OF,
+    asOf,
     sourceArtifactId: `powers-catalog:${dial.id}.state`,
     sourceSha256: "",
     sourceUrl: level.source ?? dial.id,

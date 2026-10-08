@@ -8,7 +8,7 @@ import {
   appealDecisionFor,
   appealDecisionKey,
   fileNoticeWithCommissioner,
-  issueMinnesotaDiscipline,
+  issuePersonnelDiscipline,
   personnelAppealsFor,
   personnelMatters,
   recordInformalResolutionAttempt,
@@ -79,7 +79,7 @@ function controlAnswer(answer: ControlledAnswer) {
 }
 
 function discharge(world: World) {
-  return issueMinnesotaDiscipline(world, {
+  return issuePersonnelDiscipline(world, {
     incumbencyId,
     action: "discharge",
     ground: "insubordination",

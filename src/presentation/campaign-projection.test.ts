@@ -38,7 +38,10 @@ import {
   projectCampaign,
   spendAnAfternoon,
 } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  fundCommitteeFromCandidate,
+} from "../../tests/fixtures/campaign-fixture";
 import { declineVenueActivity } from "./venue-activity";
 
 function adultLife(seed: string, placeKey: string) {
@@ -379,7 +382,7 @@ describe("the campaign a player can see", () => {
   it("spends the committee's money once it has some", () => {
     const life = adultLife("player-money", "kentucky");
     let world = fileForOffice(life.world, life.personId);
-    world = spendAnAfternoon(world, life.personId, "fundraising");
+    world = fundCommitteeFromCandidate(world, life.personId, 500_000);
     const raised = projectCampaign(world, life.personId).treasury;
     expect(raised.minorUnits).toBeGreaterThan(0);
 

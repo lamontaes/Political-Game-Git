@@ -21,40 +21,51 @@ import stateSessionCalendar from "../../../data/research/laws/state-session-cale
 
 const STATE_GOVERNING_VERSION = "state-governing/v1";
 
-type SessionWindow2026 = {
+type SessionWindow = {
   readonly conveneAt: string;
   readonly adjournAt: string | "full-year";
 };
 
-const REGULAR_SESSIONS_2026 = (
+const REGULAR_SESSIONS = (
   stateSessionCalendar as unknown as {
     readonly regularSessions: Readonly<
-      Record<string, readonly SessionWindow2026[]>
+      Record<string, readonly SessionWindow[]>
     >;
   }
 ).regularSessions;
+const RECORDED_SESSION_YEAR = Number(stateSessionCalendar.asOf.slice(0, 4));
 
 export const GOVERNING_SEASON = "governing:season" as const;
 
 export type SeasonKind = "budget" | "bill";
 
-/** The 2026 per-jurisdiction record is authoritative when it has a row. */
+/** Read only the calendar year the source actually records. */
+export function recordedStateSessionWindows(
+  jurisdictionKey: string,
+  onDate: IsoDate,
+): readonly SessionWindow[] | null {
+  if (Number(onDate.slice(0, 4)) !== RECORDED_SESSION_YEAR) return null;
+  return REGULAR_SESSIONS[jurisdictionKey] ?? null;
+}
+
+/** A per-jurisdiction session record applies to its recorded year. */
 function recordedStateBillDate(
   world: World,
   jurisdictionId: EntityId,
 ):
   | { readonly covered: false }
   | { readonly covered: true; readonly dueAt: IsoDate | null } {
-  if (Number(world.currentDate.slice(0, 4)) > 2026) return { covered: false };
   const jurisdiction = world.jurisdictions[jurisdictionId];
   const key = jurisdiction && stateKeyForJurisdiction(jurisdiction);
-  if (!key || !Object.hasOwn(REGULAR_SESSIONS_2026, key))
-    return { covered: false };
-  for (const session of REGULAR_SESSIONS_2026[key]!) {
+  const sessions = key
+    ? recordedStateSessionWindows(key, world.currentDate)
+    : null;
+  if (sessions === null) return { covered: false };
+  for (const session of sessions) {
     const opensAt = makeIsoDate(session.conveneAt);
     const closesAt =
       session.adjournAt === "full-year"
-        ? makeIsoDate("2026-12-31")
+        ? makeIsoDate(`${session.conveneAt.slice(0, 4)}-12-31`)
         : makeIsoDate(session.adjournAt);
     const nextAt =
       world.currentDate < opensAt
@@ -72,7 +83,7 @@ function recordedStateBillDate(
       world.currentDate,
       "bill",
       {
-        notBefore: makeIsoDate("2027-01-01"),
+        notBefore: makeIsoDate(`${RECORDED_SESSION_YEAR + 1}-01-01`),
         eligibleYear: (year) =>
           regularSessionYearForWorld(world, jurisdictionId, year),
       },

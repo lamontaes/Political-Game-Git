@@ -11,6 +11,11 @@
       "maximumAge": 64,
       "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM); Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM); Cawley, Moriya and Simon 2015"
     },
+    "recorded-medicaid-expansion-recipient-estimate": {
+      "minimumAge": 19,
+      "maximumAge": 64,
+      "estimatedFrom": "42 C.F.R. § 435.119, Medicaid adult group ages 19 through 64; recipient identity and coverage come from recorded Medicaid expansion coverage, not an age estimate alone"
+    },
     "older-adult-medicare-cohort-estimate": {
       "minimumAge": 65,
       "maximumAge": null,
@@ -45,6 +50,11 @@
       "minimumAge": 62,
       "maximumAge": 67,
       "estimatedFrom": "Mastrobuoni 2009 (JPubE); the outcome link estimates employment among ages 62 to 67 as the Social Security full retirement age rises"
+    },
+    "voting-age-resident-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "U.S. Constitution, Amendment XXVI (age 18 minimum for voting in U.S. elections); U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded."
     }
   },
   "childCohortsByRule": {

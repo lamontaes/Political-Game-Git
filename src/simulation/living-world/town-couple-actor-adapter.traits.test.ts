@@ -8,6 +8,7 @@ import { personName } from "../people";
 import { loadedTraitRegistry } from "../trait-registry";
 import { traitDefinitionFromPack } from "../trait-packs";
 import { drawRandomPlace } from "../../../tests/support/random-place";
+import type { EntityId } from "../types";
 import { evaluateTownCoupleActors } from "./town-couple-actor-adapter";
 
 describe("town couple actor producer reads registered traits", () => {
@@ -24,7 +25,7 @@ describe("town couple actor producer reads registered traits", () => {
     });
     const personIds = game.world.personOrder
       .filter((id) => id !== game.playerPersonId)
-      .slice(0, 2) as [string, string];
+      .slice(0, 2) as [EntityId, EntityId];
     const actorId = personIds[0]!;
     const trait = loadedTraitRegistry().traits.get(
       "personality-v1:facet-affectionate",
@@ -81,7 +82,7 @@ describe("town couple actor producer reads registered traits", () => {
     ).toBe(true);
     process.stderr.write(
       `T4 COUPLE TRACE ${JSON.stringify({
-        place: place.label,
+        place: place.displayName,
         seed,
         person: personName(world.people[actorId]!),
         decisionType: trace?.context.decisionType,

@@ -29,7 +29,6 @@ import {
   startingLawScope,
 } from "./governing/law-in-force";
 import { measurePropositionAnswer } from "./issue-record";
-import { measureAnswersAt } from "./vote-bundle";
 import {
   FEDERAL_MINIMUM_HOURLY,
   TOWN_MINIMUM_WAGES,
@@ -142,19 +141,6 @@ export function federalMinimumSchedule(
   return steps;
 }
 
-/** The step of the federal minimum in force on `onDate`, or null before any. */
-export function federalMinimumStepAt(
-  world: World,
-  onDate: IsoDate,
-): FederalMinimumStep | null {
-  let found: FederalMinimumStep | null = null;
-  for (const step of federalMinimumSchedule(world)) {
-    if (step.from > onDate) break;
-    found = step;
-  }
-  return found;
-}
-
 /** The federal minimum wage in force on `onDate`, in cents an hour. */
 export function federalMinimumHourlyMinorAt(
   world: World,
@@ -225,39 +211,6 @@ export function startingStateMinimumHourly(
   const state = TOWN_MINIMUM_WAGES[stateKey];
   if (state === null || state === undefined) return null;
   return Math.max(FEDERAL_MINIMUM_HOURLY, state);
-}
-
-const minimumWageQuestionLaws = new WeakMap<object, boolean>();
-
-/**
- * Whether any law enacted in play answers a minimum wage question of a state
- * or a city, yes or no: the cheap test before reading each rate law by law.
- */
-export function anyMinimumWageQuestionEnacted(world: World): boolean {
-  const enactments = world.history.legislativeEnactments;
-  if (!enactments?.length) return false;
-  const cached = minimumWageQuestionLaws.get(enactments);
-  if (cached !== undefined) return cached;
-  const ids = new Set(
-    Object.values(world.policyCatalog?.propositions ?? {})
-      .filter(
-        (definition) =>
-          definition.stableKey === STATE_MINIMUM_WAGE_QUESTION_KEY ||
-          definition.stableKey === CITY_MINIMUM_WAGE_QUESTION_KEY,
-      )
-      .map((definition) => definition.id),
-  );
-  const found =
-    ids.size > 0 &&
-    enactments.some(
-      (enactment) =>
-        enactment.outcome === "enacted" &&
-        measureAnswersAt(world, enactment.measureId, enactment.sequence).some(
-          (row) => ids.has(row.propositionId),
-        ),
-    );
-  minimumWageQuestionLaws.set(enactments, found);
-  return found;
 }
 
 /** The state's own minimum in force at a date and the law or rate behind it. */
@@ -604,15 +557,4 @@ export function minimumHourlyAt(
 ): number | null {
   const setting = minimumWageSettingAt(world, jurisdictionId, onDate);
   return setting === null ? null : setting.hourlyMinor / 100;
-}
-
-/** The minimum wage in cents an hour; null if unknown. */
-export function minimumHourlyMinorAt(
-  world: World,
-  jurisdictionId: EntityId | null,
-  onDate: IsoDate,
-): number | null {
-  return (
-    minimumWageSettingAt(world, jurisdictionId, onDate)?.hourlyMinor ?? null
-  );
 }

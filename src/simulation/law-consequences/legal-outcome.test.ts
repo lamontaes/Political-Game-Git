@@ -327,7 +327,9 @@ describe("recorded floors reach saved sentences", () => {
       expect(event, `${seed}, person ${personId}`).toBeDefined();
       const sharedStepOutcome =
         sentenced.history.legalOutcomeConsequences?.find(
-          (record) => record.sentenceEventId === event!.id,
+          (record) =>
+            record.effectKind === "minimum-custody-months" &&
+            record.sentenceEventId === event!.id,
         );
       expect(sharedStepOutcome).toMatchObject({
         subjectPersonId: personId,

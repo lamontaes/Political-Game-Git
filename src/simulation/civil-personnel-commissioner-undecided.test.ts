@@ -7,7 +7,7 @@ import { assertWorldIntegrity } from "./world";
 import {
   appealDecisionFor,
   fileNoticeWithCommissioner,
-  issueMinnesotaDiscipline,
+  issuePersonnelDiscipline,
   personnelAppealsFor,
   personnelMatters,
   recordInformalResolutionAttempt,
@@ -94,7 +94,7 @@ function controlAnswer(answer: ControlledAnswer) {
     });
 }
 function discharge() {
-  return issueMinnesotaDiscipline(ready, {
+  return issuePersonnelDiscipline(ready, {
     incumbencyId,
     action: "discharge",
     ground: "insubordination",

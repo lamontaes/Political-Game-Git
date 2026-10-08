@@ -63,6 +63,8 @@ import { recordWorldEvent } from "./world";
 
 export const INTRODUCTION_EVENT = "life.introduction";
 export const INTRODUCTION_KIND = "contact:introduced";
+/** The contact an introduction gives the person with whoever introduced them. */
+export const INTRODUCER_CONTACT_KIND = "contact:introducer";
 
 export type IntroductionSetting =
   "work" | "study" | "group" | "friend-of-friend";
@@ -513,6 +515,22 @@ export function recordIntroduction(
     summary,
     tags: [`introduction.setting:${candidate.setting}`],
   });
+  // The introducer was there too: the meeting puts them back in touch with
+  // the person they introduced, which the absence reader needs to see. Minor
+  // contact moves none of the five lines; it only ends the time apart.
+  if (candidate.viaPersonId && next.people[candidate.viaPersonId]) {
+    next = recordRelationshipInteraction(next, {
+      stableKey: `${stableKey}:introducer`,
+      personIds: [input.personId, candidate.viaPersonId],
+      eventId,
+      occurredAt: next.currentDate,
+      kind: INTRODUCER_CONTACT_KIND,
+      change: "maintained",
+      significance: "minor",
+      summary,
+      tags: [`introduction.setting:${candidate.setting}`],
+    });
+  }
   return next;
 }
 
