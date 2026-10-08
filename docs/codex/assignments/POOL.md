@@ -523,7 +523,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done              | #2872        |
 | BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done              | #844         |
 
-| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | ready #3202 | |
+| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | done #3202 | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | done #2949 | |
 | BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
@@ -569,7 +569,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
-| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | ready #3536 | Session 11 |
+| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | done #3536 | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | done #3553 | Session 44 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
