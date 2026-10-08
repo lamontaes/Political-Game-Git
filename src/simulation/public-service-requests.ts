@@ -13,7 +13,11 @@ import {
 import { isPersonAliveAt } from "./vitality-integrity";
 import { personName } from "./people";
 import { scheduleFutureDueItem } from "./future-transitions";
-import { stateKeyForJurisdiction } from "./life-places";
+import {
+  lifePlaceStateIdentities,
+  stateKeyForJurisdiction,
+} from "./life-places";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import {
   activeOrganizationParticipationsAt,
   activeEducationEnrollmentsAt,
@@ -205,6 +209,20 @@ export function eligibleServiceOperator(
 }
 
 /** The person's recorded home is in the place the program serves. */
+export function serviceAreaIncludesState(
+  world: World,
+  jurisdictionId: EntityId,
+  stateKey: string | null,
+): boolean {
+  if (!stateKey) return false;
+  if (jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id)
+    return lifePlaceStateIdentities().some(
+      (place) => place.jurisdictionKey === stateKey,
+    );
+  const served = world.jurisdictions[jurisdictionId];
+  return !!served && stateKeyForJurisdiction(served) === stateKey;
+}
+
 export function livesInServiceArea(
   world: World,
   personId: EntityId,
@@ -217,9 +235,11 @@ export function livesInServiceArea(
   if (programKey && isCountyServiceProgram(programKey))
     return residentOfCounty(world, personId, programKey);
   if (person.homeJurisdictionId === jurisdictionId) return true;
-  const served = world.jurisdictions[jurisdictionId];
-  const servedState = served ? stateKeyForJurisdiction(served) : null;
-  return !!servedState && residenceStateKey(world, personId) === servedState;
+  return serviceAreaIncludesState(
+    world,
+    jurisdictionId,
+    residenceStateKey(world, personId),
+  );
 }
 
 function operatingPaymentPosted(

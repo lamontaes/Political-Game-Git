@@ -3,14 +3,14 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 302,
+    "markers": 304,
     "byKind": {
       "unresearched": 99,
-      "placeholder": 180,
+      "placeholder": 182,
       "blanket": 30
     },
     "byPath": {
-      "other": 166,
+      "other": 168,
       "law": 86,
       "government": 48,
       "money": 2
@@ -748,6 +748,24 @@
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/federal-carbon-person-landings.ts",
+      "line": 1,
+      "text": "// PLACEHOLDER(research: federal-person-law-estimates): Area PM2.5 is an estimated resident exposure, with median recorded area where measurements are absent.",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "federal-person-law-estimates",
+      "researchQuestionFiled": true
+    },
+    {
+      "file": "src/simulation/federal-housing-vouchers.ts",
+      "line": 1,
+      "text": "// PLACEHOLDER(research: federal-person-law-estimates): HUD payment standard and 30% gross recorded income approximate the adjusted-income benefit.",
+      "kinds": ["placeholder"],
+      "path": "other",
+      "researchQuestionId": "federal-person-law-estimates",
+      "researchQuestionFiled": true
     },
     {
       "file": "src/simulation/governing/amendment-authors.ts",

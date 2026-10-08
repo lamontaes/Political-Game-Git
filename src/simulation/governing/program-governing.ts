@@ -1208,6 +1208,27 @@ export function programOperatorOrganization(
   if (identity && identity.jurisdictionId !== jurisdictionId)
     throw new Error("A program operator must match the program jurisdiction.");
   if (identity) assertPublicGovernmentIdentity(world, identity);
+  if (programKey.split(":")[0] === "farm") {
+    const farm = world.history.organizations
+      .filter((organization) => {
+        const profile = organizationProfileAt(world, organization.id);
+        return (
+          profile?.classification === "enterprise:agriculture" &&
+          (jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id ||
+            profile.locationJurisdictionId === jurisdictionId)
+        );
+      })
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (farm)
+      return {
+        world: ensureProgramOperatorResourcePosition(
+          world,
+          `farm:${farm.id}`,
+          farm.id,
+        ),
+        organizationId: farm.id,
+      };
+  }
   const providerClasses = federalStateProgramProviderClasses(
     world,
     programKey,

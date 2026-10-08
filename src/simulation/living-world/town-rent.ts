@@ -1,5 +1,6 @@
 import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
 import { recordedMonthlyPayByPerson } from "../household-pay";
+import { payFederalHousingVoucher } from "../federal-housing-vouchers";
 /**
  * Rent day: every renting household in town pays rent on the first of the
  * month, to a landlord on record.
@@ -71,8 +72,7 @@ import { recordedMonthlyPayByPerson } from "../household-pay";
  * NOT MODELED, labeled: prorated first months; security deposits; a lease's
  * rent split among the household's adults (the leaseholder pays); utilities
  * (the rent is HUD's gross rent, which includes them); income verification
- * beyond recorded pay; exemptions in rent stabilization laws; housing
- * vouchers; the played person's case when someone else in the household
+ * beyond recorded pay; exemptions in rent stabilization laws; the played person's case when someone else in the household
  * holds the lease (it is decided like anyone's); an evicted household may be
  * rehoused in the home it
  * left, since the town's vacant homes do not remember who left them.
@@ -1904,6 +1904,19 @@ export function payTownRent(world: World, dueOn: IsoDate): World {
   }
 
   let next = world;
+  const voucherMembers = householdMembers(world, dueOn);
+  const voucherPay = monthlyPayByPerson(world, dueOn);
+  const knownHouseholdPay = [...voucherMembers.values()]
+    .map((members) => householdMonthlyIncome(members, voucherPay))
+    .filter((value): value is number => value !== null)
+    .sort((a, b) => a - b);
+  const medianPay = knownHouseholdPay.length
+    ? Math.round(
+        (knownHouseholdPay[Math.floor((knownHouseholdPay.length - 1) / 2)]! +
+          knownHouseholdPay[Math.floor(knownHouseholdPay.length / 2)]!) /
+          2,
+      )
+    : null;
   const inputs: RecordResourceTransferOutcomeInput[] = [];
   const owedAfter = new Map<EntityId, { owed: number; rent: number }>();
   for (const lease of leases) {
@@ -1915,6 +1928,33 @@ export function payTownRent(world: World, dueOn: IsoDate): World {
     if (!current || current.status !== "active") continue;
     const currency = current.amount.currency;
     const rent = current.amount.minorUnits;
+    if (lease.regime !== "public" && currency === "USD") {
+      const hud = hudRentRowFor(lease.town);
+      const members = voucherMembers.get(lease.householdId) ?? [];
+      const income = householdMonthlyIncome(members, voucherPay);
+      const limit = hud && veryLowIncomeLimit(hud, members.length);
+      if (hud && limit !== null) {
+        next = payFederalHousingVoucher(next, {
+          onDate: dueOn,
+          tenancyId: lease.tenureId,
+          leaseholderId: lease.leaseholderId,
+          jurisdictionId: lease.town,
+          grossRentMinor: rent,
+          paymentStandardMinor: Math.round(hud.rents[lease.bedrooms]! * 100),
+          monthlyIncomeMinor:
+            income ?? medianPay ?? Math.round((limit * 100) / 12),
+          ...(income === null
+            ? {
+                incomeEstimatedFrom:
+                  medianPay !== null
+                    ? "Median recorded household monthly pay in this world"
+                    : "HUD very-low-income eligibility ceiling divided by 12",
+              }
+            : {}),
+          annualIncomeLimitMinor: Math.round(limit * 100),
+        });
+      }
+    }
     const position = resourcePositionAt(
       next,
       { kind: "person", personId: lease.leaseholderId },

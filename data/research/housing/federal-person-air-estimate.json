@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "estimatedFrom": "EPA population-weighted PM2.5; Henneman et al. 2023, Science 382; area mean used for resident exposure; missing areas use the median recorded area",
+  "scope": "A resident receives the existing outcome web's area concentration and power-plant carbon-law factor after its recorded lag. This is estimated ambient exposure, not a measured personal dose or an illness."
+}

@@ -1,6 +1,9 @@
 import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
-import { farmProgramPaymentAt } from "../federal-farm-payments";
+import {
+  exposeFarmPaymentCap,
+  farmProgramPaymentAt,
+} from "../federal-farm-payments";
 import { createStableId } from "../ids";
 import { addDays, daysBetween, spokenDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
@@ -1112,6 +1115,7 @@ export function settleProgramInstallment(
   const installment = publicProgramRecords(next).at(
     -1,
   ) as PublicProgramInstallmentRecord;
+  next = exposeFarmPaymentCap(next, commitment, installment);
   if (installment.status === "posted") {
     next = recordProgramOutlaysForDate(
       next,

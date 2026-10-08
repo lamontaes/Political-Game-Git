@@ -1,0 +1,24 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "federal-person-law-estimates",
+  "filedAt": "2026-10-08T04:00:00.000Z",
+  "requestedBy": "Session P2341-kvx, LW-31",
+  "lane": "law wiring",
+  "priority": "P2",
+  "impact": "shapes-design",
+  "title": "Individual voucher and ambient-air estimates",
+  "question": "Which adjusted-income deductions, assets, payment standards and personal exposure modifiers should replace the current gross-income voucher and area-mean PM2.5 estimates?",
+  "whyItMatters": "The voucher uses recorded household wages, HUD FMR and the HUD very-low-income limit. Missing income uses the world's median recorded household pay, or the HUD eligibility ceiling when no pay is recorded. Personal ambient PM2.5 uses the existing outcome-web area value, with the median recorded area when local measurements are absent. These are labeled estimates and do not create diagnoses.",
+  "sourcesChecked": [
+    {
+      "source": "HUD Housing Choice Voucher Guidebook; 24 CFR 982.505 and 5.628",
+      "whatItDidNotSettle": "The game does not yet record all household assets, deductions and local payment-standard choices."
+    },
+    {
+      "source": "EPA population-weighted PM2.5; Henneman et al. 2023, Science 382; EPA 2024 Carbon Pollution Standards RIA",
+      "whatItDidNotSettle": "Area concentration does not establish individual dose or every territory's measured baseline."
+    }
+  ],
+  "usableAnswer": "Supported fields and source-backed transformations for recorded households and residents in all 56 places.",
+  "notes": []
+}

@@ -1,4 +1,6 @@
 import { evaluateLawAmount } from "./law-consequence-amount";
+import { recordLawExposure } from "./law-exposure";
+import { workStatusAt } from "./life-queries";
 import { lawInForce } from "./governing/law-in-force";
 import { readFinalEnactedLawTerm } from "./governing/final-law-term-query";
 import { lawEffectStamp, type LawEffectStamp } from "./law-effect-stamp";
@@ -13,6 +15,7 @@ import type {
   PublicProgramAppropriationRecord,
   PublicProgramCommitmentRecord,
   MoneyAmount,
+  PublicProgramInstallmentRecord,
 } from "./types";
 
 export { FARM_PAYMENT_QUESTION } from "./law-consequences/service-delivered-data";
@@ -34,6 +37,81 @@ function farmAuthority(
           FARM_PAYMENT_QUESTION,
     )
   );
+}
+
+/** The cap changes the rule administered by the recorded farm operator, not their personal cash. */
+export function exposeFarmPaymentCap(
+  world: World,
+  commitment: PublicProgramCommitmentRecord,
+  installment: PublicProgramInstallmentRecord,
+): World {
+  const read = recordedFarmCapAt(world, installment.recordedAt);
+  if (!read.law || read.law.answer !== "yes" || !read.term) return world;
+  const appropriation = (world.history.publicProgramRecords ?? []).find(
+    (row) =>
+      row.kind === "appropriation" && row.id === commitment.appropriationId,
+  );
+  if (
+    appropriation?.kind !== "appropriation" ||
+    !farmAuthority(world, appropriation)
+  )
+    return world;
+  const planned = commitment.installments[installment.installmentIndex]?.amount;
+  if (!planned) return world;
+  const payment = world.history.resourceTransferOutcomes.find(
+    (row) => row.resourceFlowId === installment.resourceFlowId,
+  );
+  const capApplied = payment?.lawEffectStamps?.some(
+    (stamp) =>
+      stamp.questionKey === FARM_PAYMENT_QUESTION &&
+      stamp.governingLawKey === read.law!.measureId,
+  );
+  // Cash shortages, expired appropriations and unrelated failures are not effects of this cap.
+  const remaining = farmProgramPaymentAt(
+    world,
+    appropriation,
+    commitment,
+    planned,
+  );
+  const exhausted =
+    installment.status === "failed" &&
+    remaining.amount.minorUnits === 0 &&
+    installment.reason === remaining.reason &&
+    remaining.lawEffectStamps.length > 0 &&
+    read.term.value >= 0;
+  if (
+    (!capApplied ||
+      payment!.transferredAmount.minorUnits >= planned.minorUnits) &&
+    !exhausted
+  )
+    return world;
+  const worker = world.history.workRelationships
+    .filter(
+      (row) =>
+        row.organizationId === commitment.recipientOrganizationId &&
+        row.startedAt <= installment.recordedAt &&
+        workStatusAt(world, row.id)?.status === "active",
+    )
+    .sort(
+      (a, b) =>
+        Number(b.authority === "directs-others") -
+          Number(a.authority === "directs-others") ||
+        a.startedAt.localeCompare(b.startedAt) ||
+        a.id.localeCompare(b.id),
+    )[0];
+  if (!worker) return world;
+  return recordLawExposure(world, {
+    stableKey: `${installment.stableKey}:recipient-cap:${worker.personId}`,
+    personId: worker.personId,
+    measureId: read.law.measureId,
+    sectionKey: FARM_PAYMENT_QUESTION,
+    channel: "business-rule",
+    direction: "cost",
+    amount: null,
+    cadence: null,
+    sourceRecordId: installment.eventId,
+    includeFamily: false,
+  });
 }
 
 /** Adopted annual dollars per recipient; missing numeric text remains unsupported. */

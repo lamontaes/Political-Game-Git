@@ -193,6 +193,7 @@ const TRANSIT_TRIP: ServiceRequestForm = {
 export const SERVICE_REQUEST_FORMS: Readonly<
   Record<string, ServiceRequestForm>
 > = {
+  "us-federal-positions:transport-water.expand-passenger-rail": TRANSIT_TRIP,
   "us-policy-positions:education.universal-preschool": {
     asked: "a pre-K spot",
     activityTitle: "Pre-K at {operator}",

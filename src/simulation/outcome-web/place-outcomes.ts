@@ -13,6 +13,7 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor, outcomeRangeViolations } from ".";
 import { settleSnapParticipationForMonth } from "../crisis/snap-participation-producer";
 import { recordMonthlyServiceReceipts } from "../monthly-service-receipts";
+import { recordCarbonLawPersonalExposure } from "../federal-carbon-person-landings";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   localOutcomeKey,
@@ -301,6 +302,7 @@ export function placeOutcomesHandler(
   if (!already) {
     next = settleSnapParticipationForMonth(next, month, dueItem.id);
     next = recordMonthlyServiceReceipts(next, dueItem.dueAt);
+    next = recordCarbonLawPersonalExposure(next, dueItem.dueAt);
   }
   const following = firstOfNextMonth(addDays(month, 1));
   next = scheduleFutureDueItem(next, {

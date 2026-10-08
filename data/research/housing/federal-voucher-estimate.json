@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "tenantIncomeShare": 0.3,
+  "estimatedFrom": "HUD Housing Choice Voucher Guidebook, payment standard and total tenant payment (24 CFR 982.505 and 5.628)",
+  "scope": "Gross rent up to the area's recorded HUD Fair Market Rent, less 30 percent of recorded monthly household income. Eligibility uses the recorded HUD very-low-income limit. Asset and deduction adjustments remain unmodeled."
+}

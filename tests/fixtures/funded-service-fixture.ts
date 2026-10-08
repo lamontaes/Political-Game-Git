@@ -31,6 +31,7 @@ import { SERVICE_DELIVERED_LAW_ROWS } from "../../src/simulation/law-consequence
 import type {
   EntityId,
   PublicProgramRecord,
+  Jurisdiction,
   World,
 } from "../../src/simulation/types";
 
@@ -237,13 +238,19 @@ export function appendProgram(
 export function fundedServiceFixture(
   stateKey: string,
   keyOfQuestion = questionKey,
+  servedJurisdiction?: Jurisdiction,
 ) {
-  const jurisdiction = stateJurisdictionForKey(stateKey)!;
+  const state = stateJurisdictionForKey(stateKey)!;
+  const jurisdiction = servedJurisdiction ?? state;
   let world: World = {
     ...base,
-    jurisdictions: { ...base.jurisdictions, [jurisdiction.id]: jurisdiction },
+    jurisdictions: {
+      ...base.jurisdictions,
+      [state.id]: state,
+      [jurisdiction.id]: jurisdiction,
+    },
     jurisdictionOrder: [
-      ...new Set([...base.jurisdictionOrder, jurisdiction.id]),
+      ...new Set([...base.jurisdictionOrder, state.id, jurisdiction.id]),
     ],
   };
   const personId = procedure.playerPersonId;

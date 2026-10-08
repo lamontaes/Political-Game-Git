@@ -40,6 +40,7 @@ import { publicProgramRecords } from "./public-program-integrity";
 import { residentOfCounty } from "./county-service-authority";
 import {
   livesInServiceArea,
+  serviceAreaIncludesState,
   requestPublicService,
   eligibleHouseholdServiceChildren,
   scheduleRequestedServiceAttendance,
@@ -459,8 +460,6 @@ function needConsiderations(
   });
   // The same reach as the rider's home: the served place itself, or any
   // place in the state when a state runs the service.
-  const served = world.jurisdictions[servedJurisdictionId];
-  const servedState = served ? stateKeyForJurisdiction(served) : null;
   const inServedPlace = (jurisdictionId: EntityId | null | undefined) => {
     if (!jurisdictionId) return false;
     if (jurisdictionId === servedJurisdictionId) return true;
@@ -468,7 +467,7 @@ function needConsiderations(
     const state =
       lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey ??
       (place ? stateKeyForJurisdiction(place) : null);
-    return !!servedState && state === servedState;
+    return serviceAreaIncludesState(world, servedJurisdictionId, state);
   };
 
   if (form.need === "clinic") {
