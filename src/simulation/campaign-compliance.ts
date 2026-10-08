@@ -12,24 +12,31 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
-import { KENTUCKY_COMPLIANCE_REVIEW } from "./campaign-compliance.generated";
+import reviewedPacksByPlace from "../../data/research/campaign-compliance/pack-records-by-place.json" with { type: "json" };
 
 export type ComplianceValue<T> =
   | {
       readonly state: "KNOWN";
       readonly value: T;
-      readonly source: ComplianceSourceRef;
+      readonly source?: ComplianceSourceRef;
+      readonly estimatedFrom?: string;
     }
   | {
       readonly state: "UNKNOWN";
       readonly reason: string;
       readonly source?: ComplianceSourceRef;
+      readonly estimatedFrom?: string;
     }
   | {
       readonly state: "NO_REQUIREMENT_FOUND";
       readonly source: ComplianceSourceRef;
+      readonly estimatedFrom?: string;
     }
-  | { readonly state: "NOT_APPLICABLE"; readonly reason: string };
+  | {
+      readonly state: "NOT_APPLICABLE";
+      readonly reason: string;
+      readonly estimatedFrom?: string;
+    };
 
 export interface ComplianceSourceRef {
   readonly sourceTitle: string;
@@ -66,18 +73,21 @@ export interface CampaignComplianceRulePack {
     readonly CampaignComplianceDocumentRecord["schedule"][]
   >;
   readonly reportReceiptWithinBusinessDays: ComplianceValue<number>;
-  readonly electronicFilingSystem: ComplianceValue<"KEFMS">;
+  readonly electronicFilingSystem: ComplianceValue<"FEC" | "KEFMS">;
   readonly publicUponReceipt: ComplianceValue<boolean>;
-  readonly amendmentTransport: ComplianceValue<"KEFMS">;
+  readonly amendmentTransport: ComplianceValue<"FEC" | "KEFMS">;
   readonly itemizationThresholdMinorUnits: ComplianceValue<number>;
   readonly noComminglingWithPersonalFunds: ComplianceValue<boolean>;
   readonly contributionLimitMinorUnits: ComplianceValue<number>;
 }
 
-type ReviewedField =
-  (typeof KENTUCKY_COMPLIANCE_REVIEW.records)[number]["field"];
+type ReviewedField = Exclude<
+  keyof CampaignComplianceRulePack,
+  "packId" | "jurisdictionKey"
+>;
 interface ReviewedRecord {
   readonly field: ReviewedField;
+  readonly sourceTitle?: string;
   readonly status:
     "KNOWN" | "UNKNOWN" | "NO_REQUIREMENT_FOUND" | "NOT_APPLICABLE";
   readonly value: unknown;
@@ -102,16 +112,29 @@ interface ReviewedRecord {
   readonly reason?: string;
 }
 
-function reviewedRecord(field: ReviewedField): ReviewedRecord {
-  const record = KENTUCKY_COMPLIANCE_REVIEW.records.find(
+function reviewedRecord(
+  jurisdictionKey: string,
+  field: ReviewedField,
+): ReviewedRecord {
+  const reviewedPack =
+    reviewedPacksByPlace[jurisdictionKey as keyof typeof reviewedPacksByPlace];
+  const record = reviewedPack?.records.find(
     (candidate) => candidate.field === field,
   );
   if (!record)
-    throw new Error(`Kentucky reviewed transport is missing ${field}.`);
-  return record as ReviewedRecord;
+    throw new Error(
+      `${jurisdictionKey} reviewed transport is missing ${field}.`,
+    );
+  return {
+    ...(record as ReviewedRecord),
+    sourceTitle: reviewedPack?.sourceTitle,
+  };
 }
 
-function sourceFor(record: ReviewedRecord): ComplianceSourceRef {
+function sourceFor(
+  record: ReviewedRecord,
+  reviewedPack: (typeof reviewedPacksByPlace)[keyof typeof reviewedPacksByPlace],
+): ComplianceSourceRef {
   if (
     record.sourceUrl === null ||
     record.legalLocator === null ||
@@ -124,10 +147,7 @@ function sourceFor(record: ReviewedRecord): ComplianceSourceRef {
     throw new Error(`${record.field} has no reviewed source transport.`);
   }
   return {
-    sourceTitle:
-      record.artifactId === "ky-kref-kefms-faq-2025"
-        ? "Kentucky Registry of Election Finance — KEFMS FAQ"
-        : "Kentucky Revised Statutes § 121.180",
+    sourceTitle: record.sourceTitle ?? "Reviewed campaign-finance source",
     sourceUrl: record.sourceUrl,
     legalLocator: record.legalLocator,
     sourceArtifactId: record.artifactId,
@@ -149,18 +169,26 @@ function sourceFor(record: ReviewedRecord): ComplianceSourceRef {
     amendmentEvidenceExcerpt: record.amendmentEvidenceExcerpt ?? null,
     supportCoverageFrom: record.supportCoverageFrom as IsoDate,
     transportKind: "reviewed-transcription",
-    reviewId: KENTUCKY_COMPLIANCE_REVIEW.reviewId,
-    reviewedOn: KENTUCKY_COMPLIANCE_REVIEW.reviewedOn as IsoDate,
+    reviewId: reviewedPack.reviewId,
+    reviewedOn: reviewedPack.reviewedOn as IsoDate,
     researchLineage:
-      "Recovered 92M/45 claim, field-reviewed against the hash-locked first-party artifact; no date is inferred from amendment history.",
+      "Field-reviewed against the hash-locked first-party artifact; no date is inferred from amendment history.",
   };
 }
 
 function reviewedValue<T>(
+  jurisdictionKey: string,
   field: ReviewedField,
   onDate: IsoDate,
 ): ComplianceValue<T> {
-  const record = reviewedRecord(field);
+  const record = reviewedRecord(jurisdictionKey, field);
+  const reviewedPack =
+    reviewedPacksByPlace[jurisdictionKey as keyof typeof reviewedPacksByPlace];
+  if (!reviewedPack) {
+    throw new Error(
+      `No reviewed campaign-compliance row for ${jurisdictionKey}.`,
+    );
+  }
   if (record.status === "UNKNOWN") {
     return { state: "UNKNOWN", reason: record.reason ?? "Unknown." };
   }
@@ -171,7 +199,7 @@ function reviewedValue<T>(
     };
   }
   if (record.status === "NO_REQUIREMENT_FOUND") {
-    const source = sourceFor(record);
+    const source = sourceFor(record, reviewedPack);
     return onDate < source.supportCoverageFrom
       ? {
           state: "UNKNOWN",
@@ -180,7 +208,7 @@ function reviewedValue<T>(
         }
       : { state: "NO_REQUIREMENT_FOUND", source };
   }
-  const source = sourceFor(record);
+  const source = sourceFor(record, reviewedPack);
   if (onDate < source.supportCoverageFrom) {
     return {
       state: "UNKNOWN",
@@ -191,51 +219,99 @@ function reviewedValue<T>(
   return { state: "KNOWN", value: record.value as T, source };
 }
 
-function kentuckyCampaignCompliancePack(
+function reviewedCampaignCompliancePack(
+  jurisdictionKey: string,
   onDate: IsoDate,
 ): CampaignComplianceRulePack {
+  const reviewedPack =
+    reviewedPacksByPlace[jurisdictionKey as keyof typeof reviewedPacksByPlace];
+  if (!reviewedPack) {
+    throw new Error(
+      `No reviewed campaign-compliance row for ${jurisdictionKey}.`,
+    );
+  }
+  const value = <T>(field: ReviewedField) =>
+    reviewedValue<T>(jurisdictionKey, field, onDate);
   return {
-    packId: "us-ky-candidate-campaign-compliance-v1",
-    jurisdictionKey: "US-KY",
-    statementOfIntentWithinDays: reviewedValue<number>(
-      "statementOfIntentWithinDays",
-      onDate,
-    ),
-    reportingThresholdMinorUnits: reviewedValue<number>(
-      "reportingThresholdMinorUnits",
-      onDate,
-    ),
-    reportSchedules: reviewedValue<
-      readonly CampaignComplianceDocumentRecord["schedule"][]
-    >("reportSchedules", onDate),
-    reportReceiptWithinBusinessDays: reviewedValue<number>(
+    packId: reviewedPack.packId,
+    jurisdictionKey,
+    statementOfIntentWithinDays: value<number>("statementOfIntentWithinDays"),
+    reportingThresholdMinorUnits: value<number>("reportingThresholdMinorUnits"),
+    reportSchedules:
+      value<readonly CampaignComplianceDocumentRecord["schedule"][]>(
+        "reportSchedules",
+      ),
+    reportReceiptWithinBusinessDays: value<number>(
       "reportReceiptWithinBusinessDays",
-      onDate,
     ),
-    electronicFilingSystem: reviewedValue<"KEFMS">(
-      "electronicFilingSystem",
-      onDate,
-    ),
-    publicUponReceipt: reviewedValue<boolean>("publicUponReceipt", onDate),
-    amendmentTransport: reviewedValue<"KEFMS">("amendmentTransport", onDate),
-    itemizationThresholdMinorUnits: reviewedValue<number>(
+    electronicFilingSystem: value<"FEC" | "KEFMS">("electronicFilingSystem"),
+    publicUponReceipt: value<boolean>("publicUponReceipt"),
+    amendmentTransport: value<"FEC" | "KEFMS">("amendmentTransport"),
+    itemizationThresholdMinorUnits: value<number>(
       "itemizationThresholdMinorUnits",
-      onDate,
     ),
-    noComminglingWithPersonalFunds: reviewedValue<boolean>(
+    noComminglingWithPersonalFunds: value<boolean>(
       "noComminglingWithPersonalFunds",
-      onDate,
     ),
-    contributionLimitMinorUnits: reviewedValue<number>(
-      "contributionLimitMinorUnits",
-      onDate,
-    ),
+    contributionLimitMinorUnits: value<number>("contributionLimitMinorUnits"),
   };
 }
 
-export const KENTUCKY_CAMPAIGN_COMPLIANCE_PACK = kentuckyCampaignCompliancePack(
-  KENTUCKY_COMPLIANCE_REVIEW.reviewedOn as IsoDate,
-);
+export function campaignCompliancePackIdForPlace(
+  jurisdictionKey: string,
+): string {
+  return (
+    reviewedPacksByPlace[jurisdictionKey as keyof typeof reviewedPacksByPlace]
+      ?.packId ?? "federal-campaign-compliance-estimated-v1"
+  );
+}
+
+const FEDERAL_BASELINE_ESTIMATE = "federal campaign finance rules";
+
+function federalCampaignCompliancePack(
+  jurisdictionKey: string,
+): CampaignComplianceRulePack {
+  const estimate = <T>(value: T): ComplianceValue<T> => ({
+    state: "KNOWN",
+    value,
+    estimatedFrom: FEDERAL_BASELINE_ESTIMATE,
+  });
+  return {
+    packId: campaignCompliancePackIdForPlace(jurisdictionKey),
+    jurisdictionKey,
+    statementOfIntentWithinDays: {
+      state: "KNOWN",
+      value: 10,
+      estimatedFrom: FEDERAL_BASELINE_ESTIMATE,
+    },
+    reportingThresholdMinorUnits: estimate(500_000),
+    reportSchedules: estimate([
+      "quarterly",
+      "pre-election",
+      "post-election",
+      "year-end",
+    ] as const),
+    reportReceiptWithinBusinessDays: estimate(15),
+    electronicFilingSystem: estimate("FEC"),
+    publicUponReceipt: estimate(true),
+    amendmentTransport: estimate("FEC"),
+    itemizationThresholdMinorUnits: estimate(20_000),
+    noComminglingWithPersonalFunds: estimate(true),
+    contributionLimitMinorUnits: estimate(350_000),
+  };
+}
+
+/** Resolve the reviewed place row or the declared federal estimate for a place. */
+export function compliancePackFor(
+  jurisdictionKey: string,
+  onDate: IsoDate,
+): CampaignComplianceRulePack {
+  return reviewedPacksByPlace[
+    jurisdictionKey as keyof typeof reviewedPacksByPlace
+  ]
+    ? reviewedCampaignCompliancePack(jurisdictionKey, onDate)
+    : federalCampaignCompliancePack(jurisdictionKey);
+}
 
 export function campaignCompliancePackFor(
   world: World,
@@ -245,10 +321,15 @@ export function campaignCompliancePackFor(
   const stateKey = lifePlaceByJurisdictionId(
     campaign.jurisdictionId,
   )?.stateJurisdictionKey;
-  return stateKey === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.jurisdictionKey &&
-    campaign.compliancePackId === KENTUCKY_CAMPAIGN_COMPLIANCE_PACK.packId
-    ? kentuckyCampaignCompliancePack(world.currentDate)
-    : null;
+  if (!stateKey) return null;
+  const packId = campaignCompliancePackIdForPlace(stateKey);
+  if (
+    campaign.compliancePackId !== null &&
+    campaign.compliancePackId !== packId
+  ) {
+    return null;
+  }
+  return compliancePackFor(stateKey, world.currentDate);
 }
 
 export function campaignComplianceDocuments(
@@ -289,7 +370,7 @@ export interface RecordCampaignComplianceDocumentInput {
   readonly periodEnd: IsoDate | null;
   readonly dueOn: IsoDate;
   readonly status: CampaignComplianceDocumentRecord["status"];
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly amendsDocumentId: EntityId | null;
   readonly correctionReason: string | null;
 }
@@ -346,7 +427,7 @@ export function recordCampaignComplianceDocument(
     }
     if (input.transport !== pack.electronicFilingSystem.value) {
       throw new Error(
-        `Kentucky campaign-compliance filings must use ${pack.electronicFilingSystem.value}.`,
+        `${pack.jurisdictionKey} campaign-compliance filings must use ${pack.electronicFilingSystem.value}.`,
       );
     }
     if (
@@ -379,7 +460,7 @@ export function recordCampaignComplianceDocument(
       );
     }
     throw new Error(
-      `This pack measures timely receipt ${pack.reportReceiptWithinBusinessDays.value} business days after the reporting period ends. The simulation has no Kentucky business-day calendar, so it will preserve a private draft but will not guess an exact filing deadline.`,
+      `This pack measures timely receipt ${pack.reportReceiptWithinBusinessDays.value} business days after the reporting period ends. The simulation has no jurisdiction-specific business-day calendar, so it will preserve a private draft but will not guess an exact filing deadline.`,
     );
   }
   if (input.kind === "statement-of-spending-intent") {
@@ -513,7 +594,7 @@ export function assessCampaignContributionForPack(
   const threshold = input.pack.itemizationThresholdMinorUnits;
   const thresholdKnown =
     threshold.state === "KNOWN" &&
-    input.onDate >= threshold.source.supportCoverageFrom;
+    (!threshold.source || input.onDate >= threshold.source.supportCoverageFrom);
   if (
     !Number.isSafeInteger(input.amountMinorUnits) ||
     input.amountMinorUnits <= 0
@@ -609,7 +690,7 @@ export interface CampaignStatementRule {
     "statement-of-spending-intent" | "statement-of-organization";
   readonly withinDays: number;
   readonly rulePackId: string;
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly placeholder: boolean;
 }
 
@@ -625,12 +706,22 @@ export function campaignStatementRule(
   const campaign = requireCampaign(world, campaignId);
   const pack = campaignCompliancePackFor(world, campaign.id);
   if (pack) {
-    if (
-      pack.statementOfIntentWithinDays.state !== "KNOWN" ||
-      pack.electronicFilingSystem.state !== "KNOWN"
-    ) {
+    if (pack.statementOfIntentWithinDays.state !== "KNOWN") {
       return null;
     }
+    if (
+      pack.electronicFilingSystem.state !== "KNOWN" &&
+      pack.statementOfIntentWithinDays.estimatedFrom
+    ) {
+      return {
+        documentKind: "statement-of-organization",
+        withinDays: pack.statementOfIntentWithinDays.value,
+        rulePackId: pack.packId,
+        transport: null,
+        placeholder: true,
+      };
+    }
+    if (pack.electronicFilingSystem.state !== "KNOWN") return null;
     return {
       documentKind: "statement-of-spending-intent",
       withinDays: pack.statementOfIntentWithinDays.value,
