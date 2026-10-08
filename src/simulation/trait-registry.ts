@@ -15,6 +15,8 @@ import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
 import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
+import { CANDIDATE_RUN_DECISIONS } from "./candidate-run-decisions";
+import { CAMPAIGN_DONOR_ASK_DECISION } from "./campaign-donor-decisions";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
@@ -41,6 +43,8 @@ export const BUILT_IN_TRAIT_DECISIONS = [
   ANOTHER_TERM_DECISION,
   MOGUL_APPROACH_DECISION,
   SUBJECT_RESPONSE_DECISION,
+  ...CANDIDATE_RUN_DECISIONS,
+  CAMPAIGN_DONOR_ASK_DECISION,
   ...FACET_AFFECTIONATE_DECISIONS,
   ...JOB_TRAIT_DECISION_DECLARATIONS,
   ...VOTES_AND_OUTREACH_DECISIONS,

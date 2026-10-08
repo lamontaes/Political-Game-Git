@@ -16,6 +16,9 @@ import { generatePoliticalStartingConditions } from "./world-setup/political-sta
 import { recordRelationshipInteraction } from "./records";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import { createResourcePosition } from "./resources";
+import { createMindProvenance, recordPersonalityTendency } from "./mind";
+import { loadedTraitRegistry } from "./trait-registry";
+import { traitDefinitionFromPack } from "./trait-packs";
 import {
   askCampaignDonor,
   assessCampaignContribution,
@@ -151,6 +154,59 @@ describe("campaign contributions from named people", () => {
     });
     expect(result.ask.outcome).toBe("declined");
     expect(result.ask.reasonBeliefId).not.toBeNull();
+  });
+
+  it("records the donor's philanthropic reason in the individual ask", () => {
+    const f = fixture();
+    const trait = loadedTraitRegistry().traits.get(
+      "personality-v1:facet-philanthropic",
+    )!;
+    const definition = traitDefinitionFromPack(trait);
+    const prepared: World = {
+      ...f.world,
+      mindCatalog: {
+        ...f.world.mindCatalog,
+        tendencies: {
+          ...f.world.mindCatalog.tendencies,
+          [definition.id]: definition,
+        },
+        tendencyOrder: f.world.mindCatalog.tendencyOrder.includes(definition.id)
+          ? f.world.mindCatalog.tendencyOrder
+          : [...f.world.mindCatalog.tendencyOrder, definition.id],
+      },
+    };
+    const world = recordPersonalityTendency(prepared, {
+      stableKey: `campaign-donor-philanthropic:${f.donorId}`,
+      personId: f.donorId,
+      tendencyId: definition.id,
+      recordedAt: prepared.currentDate,
+      expressionKey: trait.poles.high.key,
+      strength: "strong",
+      confidence: "high",
+      scopeTags: ["life:ordinary"],
+      provenance: createMindProvenance("authored", {
+        note: "Focused proof of the donor's recorded philanthropic tendency.",
+      }),
+      supersedesTendencyId: null,
+    });
+    const result = askCampaignDonor(world, {
+      campaignId: f.campaignId,
+      personId: f.donorId,
+      amountMinorUnits: 100_000,
+    });
+    const trace = result.world.history.decisionTraces.find(
+      (row) =>
+        row.context.decisionType === "campaign.donor-ask" &&
+        row.context.actorPersonId === f.donorId,
+    );
+    expect(
+      trace?.context.considerations.some(
+        (row) =>
+          row.sourceType === "mind:personality" &&
+          row.optionKey === "give" &&
+          row.explanation.includes("material support"),
+      ),
+    ).toBe(true);
   });
 
   it("runs unanswered donor calls in a stable order and does not ask twice", () => {
