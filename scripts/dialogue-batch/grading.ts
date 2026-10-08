@@ -94,6 +94,21 @@ export interface BinnedExchange {
   readonly rule: string;
 }
 
+/**
+ * Kinds the owner does not grade (CTO 2:20 p.m. Oct 8, from the owner): floor,
+ * hearing and meeting procedure, minutes, bill text and court formulas follow
+ * conventions a player cannot judge by ear. Their wording is checked against
+ * the real records it was mined from instead. Owner batches carry journal
+ * chapters, conversations, news, notices and people's plain speech.
+ */
+export const PROCEDURAL_KINDS: ReadonlySet<TextKind> = new Set([
+  "meeting",
+  "hearing",
+  "minutes",
+  "legislation",
+  "judges",
+]);
+
 /** Batch ids use A to Z, a to z, 0 to 9 and hyphen only. */
 export function gradingBatchId(at: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -284,6 +299,9 @@ export function toGradingBatch(
     // "dads carried 9 of 13").
     const voice = `${item.kind}|${voiceLabel(line)}`;
     const rule =
+      (PROCEDURAL_KINDS.has(item.kind)
+        ? "procedural wording: checked against real records, not put to the owner"
+        : null) ??
       binRule(`${line.line}`) ??
       (pairs.has(pairOf(item))
         ? "repeats a situation and relationship already in the batch"

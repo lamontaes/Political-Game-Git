@@ -74,7 +74,9 @@ describe("the dialogue batch avoids menu prompts and composes news from records"
       });
 
       expect(batch.items.length).toBeGreaterThanOrEqual(1);
-      expect(bin).toHaveLength(0);
+      // Only procedure, which the owner does not grade, goes to the bin.
+      for (const entry of bin)
+        expect(entry.rule).toMatch(/^procedural wording/);
       expect(batch.items.every((item) => item.parts.length > 0)).toBe(true);
       expect(result.lines.every((line) => line.id.startsWith("text-"))).toBe(
         true,

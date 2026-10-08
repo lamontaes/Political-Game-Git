@@ -105,9 +105,23 @@ describe("combining batch runs", () => {
       head: "test-head",
       at: new Date("2026-10-08T17:00:00.000Z"),
     });
-    const later = combineResults([b], askedKeys([earlier]));
-    // b's meeting line is a's bank part with another town's name in it.
-    expect(later.lines.map((row) => row.line)).toEqual(["Good morning."]);
+    // A news lede from the same bank part, with another town in it, was
+    // asked already.
+    const asked = run("seed-e", "Ames, Iowa", [
+      line("text-news-1", "Ames, Iowa passes a budget.", "Ames, Iowa"),
+    ]);
+    const { batch: news } = toGradingBatch(combineResults([asked]), {
+      id: "batch-news",
+      head: "test-head",
+      at: new Date("2026-10-08T17:00:00.000Z"),
+    });
+    const later = run("seed-f", "Hilo, Hawaii", [
+      line("text-news-1", "Hilo, Hawaii passes a budget.", "Hilo, Hawaii"),
+      line("text-news-2", "Hilo, Hawaii closes a road.", "Hilo, Hawaii"),
+    ]);
+    expect(
+      combineResults([later], askedKeys([news])).lines.map((row) => row.line),
+    ).toEqual(["Hilo, Hawaii closes a road."]);
     // A journal chapter that opens its sentences the same way, with other
     // figures, was asked already too.
     const journal = run("seed-d", "Nome, Alaska", [
@@ -128,17 +142,24 @@ describe("combining batch runs", () => {
     );
   });
 
-  it("numbers the grading items in order with their axis and seed", () => {
-    const { batch } = toGradingBatch(combined, {
+  it("numbers the owner's items with their axis and seed, and keeps procedure off them", () => {
+    const busy = run("seed-c", "Nome, Alaska", [
+      line("text-journal-1", "I moved in 2001.", "Nome, Alaska"),
+    ]);
+    const { batch, bin } = toGradingBatch(combineResults([a, b, busy]), {
       id: "batch-test",
       head: "test-head",
       at: new Date("2026-10-08T17:00:00.000Z"),
     });
     expect(batch.items.map((item) => [item.i, item.id, item.axis])).toEqual([
-      [0, "text-meeting-1", "place"],
-      [1, "text-journal-1", "place"],
-      [2, "text-hearing-1", "place"],
+      [0, "text-journal-1", "place"],
+      [1, "text-journal-2", "place"],
     ]);
-    expect(batch.items[2]!.seed).toBe("seed-b:0");
+    expect(batch.items[1]!.seed).toBe("seed-c:0");
+    // Meeting and hearing procedure is checked against records instead.
+    expect(bin.map((entry) => [entry.item.kind, entry.rule])).toEqual([
+      ["meeting", expect.stringMatching(/^procedural wording/)],
+      ["hearing", expect.stringMatching(/^procedural wording/)],
+    ]);
   });
 });
