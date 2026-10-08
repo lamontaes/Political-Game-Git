@@ -441,20 +441,22 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
       );
     }
   });
-  it("retains deferred groundwater evidence but does not advertise an active consumer", () => {
+  it("retains groundwater evidence and advertises the active operator estimate", () => {
     const link = OUTCOME_LINKS.find(
       (row) => row.key === "groundwater-limits-to-irrigation-pumping",
     )!;
-    expect(link.consumed).toBe(false);
+    expect(link.consumed).toBe(true);
     expect(link.range).toEqual([-0.4, -0.21]);
     expect(link.source).toContain("Deines");
     expect(outcomeLinkStatus(link)).toBe("built");
     expect(
       outcomeWebStatus().find((row) => row.key === link.key)?.consumed,
-    ).toBe(false);
-    expect(outcomeLinksFedByQuestion(link.from.slice("law:".length))).toEqual(
-      [],
-    );
+    ).toBe(true);
+    expect(
+      outcomeLinksFedByQuestion(link.from.slice("law:".length)).map(
+        (row) => row.key,
+      ),
+    ).toEqual([link.key]);
   });
 
   const places = Object.keys(STATES).flatMap((usps) => {
@@ -514,7 +516,7 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
     } as unknown as World;
   }
 
-  it("does not apply a deferred groundwater law in either direction across places", () => {
+  it("applies a changed groundwater law in either direction across places", () => {
     const link = OUTCOME_LINKS.find(
       (row) => row.key === "groundwater-limits-to-irrigation-pumping",
     )!;
@@ -533,9 +535,18 @@ describe("every state policy question has researched effects (F-cloud rows)", ()
           link.to,
           makeIsoDate("2028-07-01"),
         );
-        expect(reading.multiplier, `${place.key}:${answer}`).toBe(1);
+        const startingAnswer = lawInForceAtStart(
+          world,
+          place.id,
+          `proposition:${link.from.slice("law:".length)}` as EntityId,
+          OUTCOME_WEB_CALIBRATED_AT,
+        );
+        expect(reading.multiplier, `${place.key}:${answer}`).toBeCloseTo(
+          answer === startingAnswer ? 1 : answer === "yes" ? 0.69 : 1.31,
+          10,
+        );
         expect(reading.causes.some((cause) => cause.key === link.key)).toBe(
-          false,
+          true,
         );
       }
   });
