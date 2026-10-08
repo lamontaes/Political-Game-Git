@@ -34,6 +34,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import { recordWorldEvent, withWorldIntegrityDeferred } from "../world";
+import { recordJudicialPhilosophy } from "./philosophy";
 import type {
   EntityId,
   IsoDate,
@@ -555,6 +556,70 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     });
     expect(onlyUphold[0]!.optionKey).toBe("law:stands");
     expect(court).not.toBeNull();
+  });
+
+  it("reads a justice's recorded deference outlook when weighing a law", () => {
+    const base = openedWorld();
+    const { world, propositionId: pid } = withLaw(base, lawState, GAS);
+    const gas = REVIEWED_QUESTIONS.find((row) => row.question === GAS)!;
+    const justiceId = world.judiciary!.seatTenures.find(
+      (tenure) => tenure.endedAt === null && world.people[tenure.personId],
+    )!.personId;
+    const without = justiceVotes(world, {
+      stableKey: "test:outlook:before",
+      justiceIds: [justiceId],
+      reviewed: { ...gas, rulings: [] },
+      propositionId: pid,
+      ruledAt: world.currentDate,
+    });
+    const eventWorld = recordWorldEvent(world, {
+      stableKey: "test:outlook:recorded-view",
+      type: "judiciary.outlook-evidence",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.people[justiceId]!.homeJurisdictionId,
+      involvedEntityIds: [justiceId],
+      participants: [
+        { personId: justiceId, role: "agency:speaker", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["judiciary.outlook"],
+      summary: "A judge's recorded institutional view.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: "The judge recorded an institutional view.",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const eventId = eventWorld.history.events.at(-1)!.id;
+    const recorded = withWorldIntegrityDeferred(() =>
+      recordJudicialPhilosophy(eventWorld, {
+        stableKey: "test:deference-outlook",
+        personId: justiceId,
+        formedAt: eventWorld.currentDate,
+        dimensions: {
+          deference: {
+            strength: 2,
+            evidence: [{ kind: "historical-event", id: eventId }],
+            reason: "judicial.outlook.deference.willing-to-strike",
+          },
+        },
+        reason: "judicial.outlook.recorded-at-seating",
+      }),
+    );
+    const withOutlook = justiceVotes(recorded, {
+      stableKey: "test:outlook:after",
+      justiceIds: [justiceId],
+      reviewed: { ...gas, rulings: [] },
+      propositionId: pid,
+      ruledAt: recorded.currentDate,
+    });
+    expect(without[0]?.optionKey).toBe("law:stands");
+    expect(withOutlook[0]?.optionKey).toBe(LAW_STRUCK);
   });
 
   it("upholds a law the U.S. Supreme Court has held valid", () => {
