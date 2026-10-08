@@ -5,10 +5,22 @@ import {
   deserializeWorld,
   measureProvisions,
   serializeWorld,
+  legislativeBlueprint,
+  seatBodyForPack,
+  authoredScenarioSeatCount,
+  personName,
+  votePlanKeyForCommittee,
+  votePlanKeyForFloor,
 } from "../simulation";
 import type { World } from "../simulation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { ensureWorldStartingConditions } from "../simulation/world-setup/conditions";
+import { generatePoliticalStartingConditions } from "../simulation/world-setup/political-start";
+import { CRUNCH46_WORLD_OPENING_VERSION } from "../simulation/world-setup/types";
+import { fileDraft, recompileSavedBill } from "./legislation-docket";
+import { applyLegislativeStep } from "./legislation-session";
 import { projectCampaign } from "./campaign-projection";
 import {
   campaignUntilDecided,
@@ -16,16 +28,7 @@ import {
 } from "../../tests/fixtures/campaign-fixture";
 
 import { resolvePlayerCapabilities } from "./player-capabilities";
-import {
-  applyLegislativeCommand,
-  openLegislativeWork,
-} from "./legislation-world";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
-import {
-  BENEFICIARY_LABEL,
-  PLACE_LABEL,
-  PROGRAM_AMOUNT_MINOR_UNITS,
-} from "./legislative-bargaining-brief";
 
 /**
  * DIRECTOR42 ROLE B — one bill, described the same way everywhere.
@@ -43,42 +46,86 @@ import {
  */
 
 function wonSeatedAndOnTheFloor(seed: string) {
-  // The accepted route, reused rather than reinvented: a life in Lexington, a
-  // candidacy filed, the campaign played until the election decides.
+  // Each run starts in a seeded place selected from the 56 jurisdictions, then
+  // follows the same ordinary election and floor route.
+  const place = drawRandomPlace(seed);
   const built = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed,
     startAge: 34,
-    placeKey: "lexington-fayette",
+    placeKey: place.key,
     gender: "male",
     pronouns: "he-him",
     questionnaire: "skipped",
   });
   const personId = built.playerPersonId;
-  let world = fileForOffice(openOrdinaryLife(built.world, personId), personId);
+  let world = ensureWorldStartingConditions(built.world, {
+    openingVersion: CRUNCH46_WORLD_OPENING_VERSION,
+    political: generatePoliticalStartingConditions,
+  });
+  world = fileForOffice(openOrdinaryLife(world, personId), personId);
   world = campaignUntilDecided(world, personId);
   expect(projectCampaign(world, personId).phase).toBe("won");
   world = enterSupportedTerm(world, personId);
 
   const capabilities = resolvePlayerCapabilities(world);
-  const opened = openLegislativeWork(world, {
+  const scenarioKey = capabilities.legislativeScenarioKey!;
+  const jurisdictionId = capabilities.legislativeJurisdictionId!;
+  const filed = fileDraft(world, {
+    scenarioKey,
     playerPersonId: personId,
-    scenarioKey: capabilities.legislativeScenarioKey!,
-    jurisdictionId: capabilities.legislativeJurisdictionId!,
+    jurisdictionId,
+    familyKey: "transit-access",
+    variantKey: "enrollment-fare-relief",
   });
-  world = opened.world;
+  world = filed.world;
+  const blueprint = legislativeBlueprint(scenarioKey);
+  const votePlan: Record<string, { readonly yea: number }> = {};
+  for (const chamber of blueprint.pack.chambers) {
+    const seatCount = authoredScenarioSeatCount(
+      blueprint.pack,
+      chamber.chamberKey,
+    );
+    for (const committee of chamber.committees) {
+      votePlan[votePlanKeyForCommittee(committee.committeeKey)] = {
+        yea: committee.appointedMembers ?? 7,
+      };
+    }
+    for (const stage of chamber.floorStages) {
+      votePlan[votePlanKeyForFloor(chamber.chamberKey, stage.stageKey)] = {
+        yea: seatCount,
+      };
+    }
+  }
+  const procedure = {
+    pack: blueprint.pack,
+    measureId: filed.bill.measureId,
+    bodies: blueprint.pack.chambers.map((chamber, index) =>
+      seatBodyForPack(
+        chamber.chamberKey,
+        chamber.name,
+        authoredScenarioSeatCount(blueprint.pack, chamber.chamberKey),
+        index === 0
+          ? [{ personId, name: personName(world.people[personId]!) }]
+          : [],
+        blueprint.nonpartisan,
+      ),
+    ),
+    committeeMemberCount:
+      blueprint.pack.chambers[0]?.committees[0]?.appointedMembers ?? 7,
+    votePlan,
+    governorAction: blueprint.governorAction,
+    governorRationale: blueprint.governorRationale,
+  };
   for (const step of [
     "request-referral",
     "request-committee-hearing",
     "move-committee-report",
     "request-calendar-placement",
   ] as const) {
-    world = applyLegislativeCommand(world, opened.assignment, {
-      kind: "take-step",
-      step,
-    }).world;
+    world = applyLegislativeStep(procedure, world, step).world;
   }
-  return { world, personId, assignment: opened.assignment };
+  return { world, personId, bill: filed.bill, place };
 }
 
 function measureIn(world: World, measureId: string) {
@@ -90,72 +137,97 @@ function measureIn(world: World, measureId: string) {
 }
 
 describe("the sitting and the bill are the same bill", () => {
-  it("describes one measure, in one institution, from the record outwards", () => {
-    const played = wonSeatedAndOnTheFloor("p85c-owner-0");
-    const entry = openLegislativeBargaining(played.world, {
-      playerPersonId: played.personId,
+  const generatedSeeds = ["p85c-owner-0", "p85c-owner-1", "p85c-owner-3"];
+  for (const seed of generatedSeeds) {
+    it(`describes one measure from its record in generated world ${seed}`, () => {
+      const played = wonSeatedAndOnTheFloor(seed);
+      const entry = openLegislativeBargaining(played.world, {
+        playerPersonId: played.personId,
+        measureStableKey: played.bill.measureStableKey,
+      });
+      expect(entry.kind, entry.kind === "unavailable" ? entry.reason : "").toBe(
+        "available",
+      );
+      if (entry.kind !== "available") return;
+
+      const seat = entry.seat;
+      const record = measureIn(entry.world, seat.measureId);
+
+      // 1. The record's own number, from this world's numbering — not a literal.
+      expect(record.designation.trim().length).toBeGreaterThan(0);
+
+      // 2. The conversation is about that record, by number and by title.
+      const facts = seat.progress.subjectFacts;
+      expect(facts.measureId).toBe(record.id);
+      expect(facts.designation).toBe(record.designation);
+      expect(facts.shortTitle).toBe(record.shortTitle);
+
+      // 3. The current institution: the chamber named in the room is the chamber
+      //    the bill is actually before, in the seat's own rule pack.
+      expect(seat.scenario.pack.packId).toBe(record.rulePackId);
+      expect(seat.openedChamberKey).toBeDefined();
+      expect(facts.chamberName.length).toBeGreaterThan(0);
+
+      // 4. The filed sections were seeded against this measure, not another,
+      //    and the record each one wrote names this bill.
+      const provisions = measureProvisions(entry.world, record.id);
+      expect(provisions.length).toBeGreaterThan(0);
+      for (const provision of provisions) {
+        expect(provision.measureId).toBe(record.id);
+      }
+
+      // 5. The fiscal note is recorded against this measure and names it, and
+      //    the amount it states is the amount the bill actually commits.
+      const fiscalNote = (entry.world.history.events ?? []).find(
+        (event) =>
+          event.stableKey ===
+          seat.progress.subjectFacts.fiscalNoteEventStableKey,
+      );
+      expect(fiscalNote).toBeDefined();
+      expect(fiscalNote!.summary).toContain(record.designation);
+      const compiled = recompileSavedBill(entry.world, played.bill);
+      expect("unavailable" in compiled).toBe(false);
+      if ("unavailable" in compiled) return;
+      expect(facts.billAmountLabel).toBe(
+        compiled.appropriatedLabel ??
+          compiled.authorizedCeilingLabel ??
+          "nothing; this Act appropriates no money",
+      );
+
+      // 6. Beneficiary and place belong to the same authored measure as the
+      //    sections, so the ask in the room is about this bill's program.
+      expect(facts.requestedBeneficiaryLabel).toBe(
+        compiled.amendmentInvitation.beneficiaryLabel,
+      );
+      expect(facts.requestedPlaceLabel).toBe(
+        compiled.amendmentInvitation.placeLabel,
+      );
+      expect(JSON.stringify(seat)).not.toContain("Kentucky");
+
+      // 7. The participants are people this world contains.
+      for (const personId of [
+        seat.playerPersonId,
+        seat.advocatePersonId,
+        seat.guardianPersonId,
+        seat.analystPersonId,
+      ]) {
+        expect(entry.world.people[personId]).toBeDefined();
+      }
+
+      // 8. Supported outcomes are the institution's, and every intent offered
+      //    is about this measure.
+      expect(seat.floorIntents.length).toBeGreaterThan(0);
     });
-    expect(entry.kind, entry.kind === "unavailable" ? entry.reason : "").toBe(
-      "available",
-    );
-    if (entry.kind !== "available") return;
+  }
 
-    const seat = entry.seat;
-    const record = measureIn(entry.world, seat.measureId);
-
-    // 1. The record's own number, from this world's numbering — not a literal.
-    expect(record.designation).toMatch(/^[A-Z]{2} \d+$/);
-
-    // 2. The conversation is about that record, by number and by title.
-    const facts = seat.progress.subjectFacts;
-    expect(facts.measureId).toBe(record.id);
-    expect(facts.designation).toBe(record.designation);
-    expect(facts.shortTitle).toBe(record.shortTitle);
-
-    // 3. The current institution: the chamber named in the room is the chamber
-    //    the bill is actually before, in the seat's own rule pack.
-    expect(seat.scenario.pack.packId).toBe(record.rulePackId);
-    expect(seat.openedChamberKey).toBeDefined();
-    expect(facts.chamberName.length).toBeGreaterThan(0);
-
-    // 4. The filed sections were seeded against this measure, not another,
-    //    and the record each one wrote names this bill.
-    const provisions = measureProvisions(entry.world, record.id);
-    expect(provisions.length).toBeGreaterThan(0);
-    for (const provision of provisions) {
-      expect(provision.measureId).toBe(record.id);
-    }
-
-    // 5. The fiscal note is recorded against this measure and names it, and
-    //    the amount it states is the amount the bill actually commits.
-    const fiscalNote = (entry.world.history.events ?? []).find(
-      (event) =>
-        event.stableKey === seat.progress.subjectFacts.fiscalNoteEventStableKey,
-    );
-    expect(fiscalNote).toBeDefined();
-    expect(fiscalNote!.summary).toContain(record.designation);
-    expect(facts.billAmountLabel).toContain(
-      (PROGRAM_AMOUNT_MINOR_UNITS / 100).toLocaleString("en-US"),
-    );
-
-    // 6. Beneficiary and place belong to the same authored measure as the
-    //    sections, so the ask in the room is about this bill's program.
-    expect(facts.requestedBeneficiaryLabel).toBe(BENEFICIARY_LABEL);
-    expect(facts.requestedPlaceLabel).toBe(PLACE_LABEL);
-
-    // 7. The participants are people this world contains.
-    for (const personId of [
-      seat.playerPersonId,
-      seat.advocatePersonId,
-      seat.guardianPersonId,
-      seat.analystPersonId,
-    ]) {
-      expect(entry.world.people[personId]).toBeDefined();
-    }
-
-    // 8. Supported outcomes are the institution's, and every intent offered
-    //    is about this measure.
-    expect(seat.floorIntents.length).toBeGreaterThan(0);
+  it("draws the generated routes in at least three jurisdictions", () => {
+    expect(
+      new Set(
+        generatedSeeds.map(
+          (seed) => drawRandomPlace(seed).stateJurisdictionKey,
+        ),
+      ).size,
+    ).toBeGreaterThanOrEqual(3);
   });
 
   it("spends no game time to walk in and read", () => {
@@ -169,6 +241,7 @@ describe("the sitting and the bill are the same bill", () => {
     };
     const entry = openLegislativeBargaining(played.world, {
       playerPersonId: played.personId,
+      measureStableKey: played.bill.measureStableKey,
     });
     expect(entry.kind).toBe("available");
     if (entry.kind !== "available") return;
@@ -180,6 +253,7 @@ describe("the sitting and the bill are the same bill", () => {
     const played = wonSeatedAndOnTheFloor("p85c-owner-0");
     const first = openLegislativeBargaining(played.world, {
       playerPersonId: played.personId,
+      measureStableKey: played.bill.measureStableKey,
     });
     expect(first.kind).toBe("available");
     if (first.kind !== "available") return;
@@ -188,6 +262,7 @@ describe("the sitting and the bill are the same bill", () => {
     const reloaded = deserializeWorld(serializeWorld(first.world));
     const again = openLegislativeBargaining(reloaded, {
       playerPersonId: played.personId,
+      measureStableKey: played.bill.measureStableKey,
     });
     expect(again.kind).toBe("available");
     if (again.kind !== "available") return;
