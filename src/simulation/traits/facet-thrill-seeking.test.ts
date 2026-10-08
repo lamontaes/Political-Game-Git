@@ -96,8 +96,7 @@ describe("the thrill-seeking decision reader", () => {
       expect.objectContaining({
         optionKey: "seek",
         sourceType: "mind:personality",
-        explanation:
-          "The uncertainty and intensity of another contest appeal to them.",
+        explanation: "Thrill-seeking",
       }),
     ]);
     expect(considerationsFor(comparison)).toEqual([]);

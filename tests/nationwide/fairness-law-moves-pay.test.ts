@@ -5,7 +5,7 @@ import {
   prepareOpeningLife,
 } from "../../src/presentation/opening-life";
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../../src/simulation/dates";
 import {
   FAIRNESS_STATE_QUESTION,

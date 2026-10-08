@@ -52,6 +52,35 @@ describe("people anchors on every place picture", () => {
     }
   });
 
+  it("anchors every visible council chamber seat", () => {
+    const seats = STAGES["council-chamber"]!.spots.filter(
+      (spot) => spot.pose === "sit",
+    );
+    expect(seats).toHaveLength(81);
+    expect(new Set(seats.map((spot) => spot.id)).size).toBe(81);
+    expect(seats.filter((spot) => spot.group === "dais")).toHaveLength(7);
+    expect(
+      seats.filter((spot) => spot.group?.startsWith("audience-row-")).length,
+    ).toBe(72);
+    expect(
+      seats.filter((spot) => spot.group === "public-comment-table"),
+    ).toHaveLength(2);
+    expect(seats.filter((spot) => spot.facing === "away")).toHaveLength(74);
+  });
+
+  it("stages both visible Arizona capitol plaza benches", () => {
+    const stage = backdropStaging("state-capitol-az")!;
+    const benches = stage.spots.filter(
+      (spot) => spot.group === "plaza-bench" && spot.pose === "sit",
+    );
+
+    expect(benches).toHaveLength(2);
+    expect(benches.map((spot) => spot.id)).toEqual([
+      "state-capitol-az:spot:6",
+      "state-capitol-az:spot:7",
+    ]);
+  });
+
   it("anchors each visible barbershop barber chair", () => {
     const seats = STAGES["barbershop"]!.spots.filter(
       (spot) => spot.group === "barber-chair",

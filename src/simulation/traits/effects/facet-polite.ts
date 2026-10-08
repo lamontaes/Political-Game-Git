@@ -13,7 +13,6 @@ export const facetPoliteEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-polite",
         pole: "high",
-        explanation: "They answer a request courteously and agree.",
       },
     ],
   },
