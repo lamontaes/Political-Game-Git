@@ -28,9 +28,11 @@ import {
 } from "../municipal-government";
 import type { PrincipleRecordInput } from "../history";
 import {
+  enrollMeasure,
   introduceMeasure,
   measurePosition,
   placeMeasureOnCalendar,
+  recordEnactment,
   takeFloorVote,
 } from "../legislation";
 import {
@@ -60,7 +62,6 @@ import { municipalSeats } from "../municipal-public-work";
 import {
   councilActHandlers,
   COUNCIL_READING_DUE,
-  completeCouncilPassage,
 } from "../municipal-ordinance-procedure";
 import { createFormationContext, recordPrinciples } from "../politics";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -354,7 +355,22 @@ function withRecordedFiscalReferences(
         sourceEntityIds: [measure.id],
       },
     });
-    world = completeCouncilPassage(world, measure, governmentKey);
+    // The authored references are standing law when the clock starts: each
+    // act names its own effective date, the day it passed, rather than the
+    // council's 30-day default.
+    world = enrollMeasure(world, {
+      stableKey: `${key}:enrolled`,
+      measureId: measure.id,
+    });
+    world = applyEnactedLawEffects(
+      recordEnactment(world, {
+        stableKey: `${key}:enactment`,
+        measureId: measure.id,
+        actDesignation: measure.designation,
+        effectiveAt: world.currentDate,
+      }),
+      measure.id,
+    );
     expect(measurePosition(world, measure.id).outcome).toBe("enacted");
   }
   expect(world.control).toEqual(start.control);
