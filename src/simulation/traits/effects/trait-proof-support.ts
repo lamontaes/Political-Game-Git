@@ -335,6 +335,10 @@ export function proveTwoPersonTraitDifference(
         lowPersonId,
         decisionId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
   };
