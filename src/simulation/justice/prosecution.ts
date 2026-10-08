@@ -1,4 +1,5 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import { scheduleCountyOfficeReflections } from "./county-office-reflection";
 import {
   applySentencingLawLandings,
   applyVotingRightLanding,
@@ -622,14 +623,17 @@ function followUp(
   if (recorded === world) return world;
   const activity = recorded.history.events.at(-1);
   if (!activity || activity.type !== type) return recorded;
-  return applyLawConsequences(recorded, {
-    onDate: activity.occurredAt,
-    activity: "case-stage",
-    activityId: activity.id,
-    subjectIds: activity.participants
-      .filter((participant) => participant.role === "focus:defendant")
-      .map((participant) => participant.personId),
-  });
+  return applyLawConsequences(
+    scheduleCountyOfficeReflections(recorded, activity.id),
+    {
+      onDate: activity.occurredAt,
+      activity: "case-stage",
+      activityId: activity.id,
+      subjectIds: activity.participants
+        .filter((participant) => participant.role === "focus:defendant")
+        .map((participant) => participant.personId),
+    },
+  );
 }
 
 function outcomeLine(
