@@ -95,6 +95,9 @@ function main() {
     out,
     `${JSON.stringify(batch satisfies GradingBatch, null, 2)}\n`,
   );
+  // The batch is a committed data file, so it is written in the repository's
+  // JSON style.
+  execSync(`npx prettier --write ${out}`, { stdio: "ignore" });
   const binOut = `test-results/dialogue-batch/${id}.bin.json`;
   mkdirSync(dirname(binOut), { recursive: true });
   writeFileSync(binOut, `${JSON.stringify(bin, null, 2)}\n`);
