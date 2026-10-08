@@ -7,6 +7,7 @@ import {
   SUBJECT_SETTLED,
 } from "./subject-reply-english";
 import { standingTone } from "./reply-meaning";
+import { neighborhoodMeetingEnglish } from "./neighborhood-meeting-english";
 import { personName, SeededRng } from "../simulation";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import type {
@@ -111,7 +112,7 @@ export interface ConversationSubjectPresentation<
     },
   ): ConversationResolvedResponse;
   /** The heading the player sees over the exchange. */
-  topicLabel(progress: P): string;
+  topicLabel(progress: P, world: World, room: ConversationRoomContext): string;
   /** What is on the table, in one paragraph. */
   describeBriefing(
     world: World,
@@ -491,15 +492,10 @@ export function advanceSchoolProject(
 const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMeetingConversationProgress> =
   {
     subject: "neighborhood-meeting-notice",
-    topicLabel: () => "The posted public meeting",
-    describeBriefing(world, room, progress) {
-      const other = shortPersonName(
-        world,
-        conversationRole(room, "the-other-person"),
-      );
-      return progress.phase === "settled"
-        ? `You and ${other} have said what you are each doing about the meeting.`
-        : progress.subjectFacts.notice;
+    topicLabel: (_progress, world, room) =>
+      neighborhoodMeetingEnglish(world, room.playerPersonId, "topic"),
+    describeBriefing(world, room) {
+      return neighborhoodMeetingEnglish(world, room.playerPersonId, "briefing");
     },
     availableIntents(world, room, addressee, progress, silenceIsUseful) {
       if (progress.phase === "settled") return [];
@@ -508,27 +504,59 @@ const neighborhoodMeetingSubject: ConversationSubjectPresentation<NeighborhoodMe
           ? [
               {
                 key: "mention-meeting",
-                label: "Mention the notice",
-                description: "Ask about the posted meeting.",
+                label: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "mention-label",
+                ),
+                description: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "mention-description",
+                ),
               },
             ]
           : [
               {
                 key: "say-you-will-go",
-                label: "Say you will go",
-                description: "Say you plan to attend the meeting.",
+                label: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "going-label",
+                ),
+                description: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "going-description",
+                ),
               },
               {
                 key: "ask-them-to-go",
-                label: "Ask whether they will go",
-                description: "Invite them to attend the meeting.",
+                label: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "ask-label",
+                ),
+                description: neighborhoodMeetingEnglish(
+                  world,
+                  room.playerPersonId,
+                  "ask-description",
+                ),
               },
             ];
       if (silenceIsUseful) {
         options.push({
           key: "listen",
-          label: "Leave it there",
-          description: "Say nothing more about the meeting.",
+          label: neighborhoodMeetingEnglish(
+            world,
+            room.playerPersonId,
+            "listen-label",
+          ),
+          description: neighborhoodMeetingEnglish(
+            world,
+            room.playerPersonId,
+            "listen-description",
+          ),
         });
       }
       return options;

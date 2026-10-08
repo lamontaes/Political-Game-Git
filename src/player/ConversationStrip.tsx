@@ -239,7 +239,7 @@ export function ConversationStrip({
           <h2 id="conversation-strip-title">Office conversation</h2>
         </div>
         <p className="conversation-topic-context">
-          <strong>{conversationTopicLabel(progress)} ·</strong>{" "}
+          <strong>{conversationTopicLabel(progress, world, room)} ·</strong>{" "}
           {describeConversationBriefingContext(world, room, progress)}
         </p>
         <div className="conversation-window-actions">

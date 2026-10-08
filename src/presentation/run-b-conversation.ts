@@ -216,8 +216,16 @@ export function describeConversationBriefingContext(
   );
 }
 
-export function conversationTopicLabel(progress: ConversationProgress): string {
-  return conversationSubjectPresentation(progress).topicLabel(progress);
+export function conversationTopicLabel(
+  progress: ConversationProgress,
+  world: World,
+  room: ConversationRoomContext,
+): string {
+  return conversationSubjectPresentation(progress).topicLabel(
+    progress,
+    world,
+    room,
+  );
 }
 
 export interface ConversationRoomContext {

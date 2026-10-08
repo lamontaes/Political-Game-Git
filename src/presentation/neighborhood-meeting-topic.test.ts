@@ -40,6 +40,26 @@ function offered(world: typeof opened): boolean {
 }
 
 describe("the posted meeting's conversation topic", () => {
+  it("uses the recorded notice and grounded English for the topic and choices", () => {
+    const notice = opened.history.workItems.find(
+      (item) => item.stableKey === "ordinary-life:public-meeting",
+    );
+    const view = projectPlayerConversation(opened, player, subject);
+    const replay = projectPlayerConversation(opened, player, subject);
+
+    expect(notice).toBeDefined();
+    expect(view?.topicLabel).toBe("The posted public meeting");
+    expect(view?.briefing).toBe(notice?.summary);
+    expect(view?.intents[0]).toEqual({
+      key: "mention-meeting",
+      label: "Mention the notice",
+      description: "Ask about the posted meeting.",
+    });
+    expect(replay?.topicLabel).toBe(view?.topicLabel);
+    expect(replay?.briefing).toBe(view?.briefing);
+    expect(replay?.intents).toEqual(view?.intents);
+  });
+
   it("closes after real attendance and stays closed after a saved reload", () => {
     expect(scheduledActivityState(opened, meeting.id).status).toBe("scheduled");
     expect(offered(opened)).toBe(true);
