@@ -13,15 +13,11 @@ export const uncertainOutlookEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:uncertain-outlook",
         pole: "high",
-        explanation:
-          "They expect the next campaign to go well even though the outcome is not certain.",
       },
       {
         option: "step-down",
         trait: "personality-v1:uncertain-outlook",
         pole: "low",
-        explanation:
-          "They expect the worst from another campaign and step aside.",
       },
     ],
   },

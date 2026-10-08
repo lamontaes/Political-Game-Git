@@ -8,7 +8,6 @@ export const facetGentleEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-gentle",
         pole: "high",
-        explanation: "They look for a gentler way to answer.",
       },
     ],
   },

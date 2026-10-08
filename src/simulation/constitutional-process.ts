@@ -44,10 +44,7 @@ import {
 import type { ConstitutionalProcessKind } from "./constitutional-types";
 import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 import { assertPolicyProvisionDelta } from "./policy-provisions";
-import {
-  legislatureForState,
-  seatsForChamber,
-} from "./legislature-game-profile";
+import stateAmendmentProfiles from "../../data/research/legislature/state-amendment-profiles.json" with { type: "json" };
 
 /**
  * The federal jurisdiction's canonical slugs: `us-federal` is the one every
@@ -149,38 +146,25 @@ const GAME_PROFILE_AMENDMENT_SOURCE: RuleSourceRef = {
 export function stateAmendmentProfile(
   jurisdictionKey: string,
 ): StateAmendmentProfile | null {
-  if (jurisdictionKey === "US-CA")
-    return {
-      jurisdictionKey: "US-CA",
-      bodies: [
-        { bodyKey: "assembly", members: 80 },
-        { bodyKey: "senate", members: 40 },
-      ],
-      base: CALIFORNIA_BASE,
-      effectiveDaysAfterStatement: 5,
-      basis: "sourced",
-    };
-  if (!/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
-  const pack = legislatureForState(jurisdictionKey);
-  if (!pack) return null;
-  const bodies = pack.chamberOrder.map((bodyKey) => ({
-    bodyKey,
-    members: seatsForChamber(pack, bodyKey)?.seats ?? 0,
-  }));
-  if (bodies.length === 0 || bodies.some((body) => body.members < 1))
-    return null;
+  const profile = stateAmendmentProfiles.find(
+    (candidate) => candidate.jurisdictionKey === jurisdictionKey,
+  );
+  if (!profile || profile.basis === "not-applicable") return null;
   return {
-    jurisdictionKey: jurisdictionKey as `US-${string}`,
-    bodies,
-    base: fractionOf(
-      2,
-      3,
-      "members-elected",
-      "Two-thirds of each chamber's membership (game default)",
-      GAME_PROFILE_AMENDMENT_SOURCE,
-    ),
-    effectiveDaysAfterStatement: 0,
-    basis: "game-profile",
+    jurisdictionKey: profile.jurisdictionKey as `US-${string}`,
+    bodies: profile.bodies,
+    base:
+      profile.basis === "sourced"
+        ? CALIFORNIA_BASE
+        : fractionOf(
+            2,
+            3,
+            "members-elected",
+            "Two-thirds of each chamber's membership (game default)",
+            GAME_PROFILE_AMENDMENT_SOURCE,
+          ),
+    effectiveDaysAfterStatement: profile.effectiveDaysAfterStatement!,
+    basis: profile.basis,
   };
 }
 
