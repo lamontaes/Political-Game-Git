@@ -19,12 +19,17 @@ describe("the imaginative facet difference in a random new game", () => {
       "campaign.organizer-outreach",
       "l1-proof-facet-imaginative",
       [baseline],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("organization-meeting");
     expect(proof.high.choice).toBe("candidate-guidance");
     expect(proof.low.choice).toBe("organization-meeting");
-    expect(proof.high.reason).toContain("explore new possibilities");
-    expect(proof.low.reason).toContain("group meeting");
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-imaginative|campaign.organizer-outreach|candidate-guidance|high",
+    );
+    expect(proof.low.reason).toBe(
+      "They usually favor a group meeting for outreach.",
+    );
   });
 });

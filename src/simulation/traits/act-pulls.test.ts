@@ -5,6 +5,8 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
+import { PROPOSABLE_APPROACHES } from "../people-study-plan";
+import { RATE_OPTIONS } from "../macro-economy/rate-choice";
 import {
   evaluateDecision,
   isSelectedDecision,
@@ -273,6 +275,12 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
+  "people.study-plan": () => PROPOSABLE_APPROACHES,
+  // Fixture decisions used by query and source-cutoff tests name their options here.
+  "query-fixture": () => ["act", "wait"],
+  "run-a-life-source": () => ["mention", "omit"],
+  "run-a-source-cutoff": () => ["use", "omit"],
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
@@ -290,6 +298,11 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   ],
   // Offered only when a revision was authored; the keys are fixed.
   "people.study-plan-answer": () => ["agrees", "counterproposes", "unresolved"],
+  "people.study-plan-compromise-answer": () => [
+    "agrees",
+    "counterproposes",
+    "unresolved",
+  ],
 };
 
 describe("act kinds, option labels and trait pulls are one consistent table", () => {
@@ -502,7 +515,6 @@ const DECISIONS_OF_INLINE_CALLER: Readonly<
   ],
   decideOnOffer: ["people.job-offer-answer"],
   decidesToAct: ["people.goal-step"],
-  decideStudyPlanOutcome: ["people.study-plan-answer"],
   helperAskConsiderations: ["campaign.helper-request"],
   speechReactionOf: ["speech.react"],
   askToSign: ["campaign.petition-signature"],
@@ -863,6 +875,47 @@ describe(`one person in ${place!.jurisdictionKey} (seed ${SEED}) decides differe
     expect(actReasons(none.context.considerations)).toEqual([]);
     expect(hot.selectedOptionKey).toBe("dispute");
   });
+
+  it("proves recorded truthfulness changes a live response in all 56 places", () => {
+    const traitId = "personality-v1:truthfulness";
+    for (const place of lifePlaceStateIdentities()) {
+      const { world, personId } = seededPerson(place.jurisdictionKey);
+      const highWorld = recordTrait(world, personId, traitId, 2);
+      const high = evaluateDecision(
+        highWorld,
+        decisionFor(
+          highWorld,
+          personId,
+          "press.subject-response",
+          `proof:truthfulness:high:${place.jurisdictionKey}`,
+        ),
+      );
+      const lowWorld = recordTrait(world, personId, traitId, -2);
+      const low = evaluateDecision(
+        lowWorld,
+        decisionFor(
+          lowWorld,
+          personId,
+          "press.subject-response",
+          `proof:truthfulness:low:${place.jurisdictionKey}`,
+        ),
+      );
+
+      expect(isSelectedDecision(high), place.jurisdictionKey).toBe(true);
+      expect(isSelectedDecision(low), place.jurisdictionKey).toBe(true);
+      expect(high.selectedOptionKey, place.jurisdictionKey).not.toBe(
+        low.selectedOptionKey,
+      );
+      expect(
+        actReasons(high.context.considerations, traitId).length,
+        place.jurisdictionKey,
+      ).toBeGreaterThan(0);
+      expect(
+        actReasons(low.context.considerations, traitId).length,
+        place.jurisdictionKey,
+      ).toBeGreaterThan(0);
+    }
+  });
 });
 
 function tendencyOf(traitId: string): EntityId {
@@ -1095,6 +1148,31 @@ describe("the table runs the same in every one of the 56 places", () => {
           `sweep:${state.jurisdictionKey}`,
         ),
       );
+      const withStudyPlanTraits = recordTrait(
+        recordTrait(withTraits, personId, "people-mind-v1:deliberation", 2),
+        personId,
+        "people-mind-v1:conflict",
+        2,
+      );
+      for (const decisionType of [
+        "people.study-plan",
+        "people.study-plan-answer",
+        "people.study-plan-compromise-answer",
+      ]) {
+        const studyPlanDecision = evaluateDecision(
+          withStudyPlanTraits,
+          decisionFor(
+            withStudyPlanTraits,
+            personId,
+            decisionType,
+            `sweep:${state.jurisdictionKey}:${decisionType}`,
+          ),
+        );
+        expect(isSelectedDecision(studyPlanDecision)).toBe(true);
+        expect(
+          studyPlanDecision.context.options.map((option) => option.key).sort(),
+        ).toEqual([...tables.optionActs.get(decisionType)!.keys()].sort());
+      }
       if (actReasons(evaluation.context.considerations).length === 0) {
         withoutReason.push(state.jurisdictionKey);
       }

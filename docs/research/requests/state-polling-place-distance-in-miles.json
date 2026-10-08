@@ -22,7 +22,7 @@
     },
     {
       "source": "Survey of the Performance of American Elections (MIT Election Data and Science Lab)",
-      "whatItDidNotSettle": "Asks about waiting time in line, not the distance travelled, and state samples are small."
+      "whatItDidNotSettle": "Asks about waiting time in line, not the distance traveled, and state samples are small."
     }
   ],
   "title": "How far voters travel to their polling place, state by state",
