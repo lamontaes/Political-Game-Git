@@ -6,8 +6,9 @@
  * Every choice is a whole sentence from the talk-choice bank, mined from what
  * people said to each other in federal oral histories and testimony. The
  * composer only chooses among the sentences filed under the choice:
- * - by the clock: "Good morning." only before noon, "Good afternoon." from
- *   noon until five, "Good evening." from five on;
+ * - by the clock: "Good morning." from 5 a.m. until noon, "Good afternoon."
+ *   until 5 p.m., "Good evening." until 10 p.m., and none of them late at
+ *   night;
  * - by acquaintance: a line that calls the person by name ("Hi, Ana.") only
  *   when a record says how the player knows them;
  * - by the owner's grades: a sentence graded down is not chosen.
@@ -40,12 +41,23 @@ export interface TalkChoiceFacts {
   readonly office?: string;
 }
 
-/** The greetings that name a time of day, kept to the hour that fits. */
+/**
+ * The greetings that name a time of day, kept to the hour that fits: morning
+ * from 5 a.m., afternoon from noon, evening from 5 p.m. until 10 p.m. Late at
+ * night none of them fits.
+ */
 function wrongHour(minuteOfDay: number): RegExp {
   const hour = Math.floor(minuteOfDay / 60);
-  const allowed = hour < 12 ? "morning" : hour < 17 ? "afternoon" : "evening";
+  const fits =
+    hour >= 5 && hour < 12
+      ? "morning"
+      : hour >= 12 && hour < 17
+        ? "afternoon"
+        : hour >= 17 && hour < 22
+          ? "evening"
+          : null;
   const wrong = ["morning", "afternoon", "evening"].filter(
-    (part) => part !== allowed,
+    (part) => part !== fits,
   );
   return new RegExp(`\\bGood (?:${wrong.join("|")})\\b`);
 }

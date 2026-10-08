@@ -63,13 +63,15 @@ describe("conversation choices in the player's own words", () => {
     }
   });
 
-  it("says good morning, afternoon or evening only at that hour", () => {
+  it("says good morning, afternoon or evening only at that hour, and none late at night", () => {
     const { world, personId } = smallWorld({ place: PLACE.key, seed: SEED });
     const others = world.personOrder.filter((id) => id !== personId);
     const hours: [number, RegExp][] = [
       [9 * 60, /Good (?:afternoon|evening)/],
       [14 * 60, /Good (?:morning|evening)/],
       [19 * 60, /Good (?:morning|afternoon)/],
+      [2 * 60, /Good (?:morning|afternoon|evening)/],
+      [23 * 60, /Good (?:morning|afternoon|evening)/],
     ];
     for (const [minute, wrong] of hours)
       for (let day = 0; day < 40; day += 1)
