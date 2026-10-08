@@ -352,6 +352,10 @@
     "run-a-source-cutoff": {
       "use": ["trust", "engage"],
       "omit": ["keep-same", "stay-quiet"]
+    },
+    "community.found-association": {
+      "found": ["engage", "cooperate", "commit"],
+      "defer": ["delay", "keep-same"]
     }
   },
   "unlabeled": [

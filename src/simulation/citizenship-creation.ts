@@ -1,18 +1,21 @@
 import { citizenshipSharesForJurisdiction } from "./county-citizenship";
-import { SeededRng } from "./rng";
+import rules from "../../data/research/birth-citizenship-rules.json" with { type: "json" };
+import { lifePlaceByJurisdictionId } from "./life-places";
 import type {
   CitizenshipStatus,
   CitizenshipStatusRecord,
 } from "./citizenship-types";
 import type { IsoDate, Person } from "./types";
 
-/** CTO6011713499: a generated starting attribute, never a gameplay decision.
- * It uses only seed, canonical person identity, and actual place shares.
- */
+/** Actual birthplace and documented parental transmission govern birth status. */
 export function initializePersonCitizenship(
   person: Person,
-  worldSeed: string,
+  _worldSeed: string,
   createdAt: IsoDate,
+  parents: readonly {
+    readonly person: Person;
+    readonly transmissionEligibilityRecorded: boolean;
+  }[] = [],
 ): Person {
   if (person.citizenshipStatuses?.length) return person;
   const source = citizenshipSharesForJurisdiction(person.homeJurisdictionId);
@@ -26,19 +29,55 @@ export function initializePersonCitizenship(
     throw new Error(
       "Citizenship starting estimates require published population counts.",
     );
-  let position = new SeededRng(worldSeed)
-    .fork(`citizenship-at-creation-v1:${person.id}`)
-    .integer(0, total);
-  let selected: CitizenshipStatus | null = null;
-  for (const [status, count] of options) {
-    position -= count;
-    if (position < 0) {
-      selected = status;
-      break;
-    }
-  }
-  if (!selected)
-    throw new Error("No citizenship starting population category.");
+  const birthplace = person.establishedFacts.find(
+    (fact) => fact.kind === "birthplace",
+  );
+  const place = birthplace
+    ? lifePlaceByJurisdictionId(birthplace.jurisdictionId!)
+    : null;
+  const rows: Readonly<
+    Record<
+      string,
+      {
+        nativeStatus: string;
+        source: string;
+        birthrightFrom: string;
+        estimatedFrom: string | null;
+      }
+    >
+  > = rules.places;
+  const rule = place?.stateJurisdictionKey
+    ? rows[place.stateJurisdictionKey]
+    : undefined;
+  if (
+    rule &&
+    rule.nativeStatus !== "citizen-by-birth" &&
+    rule.nativeStatus !== "noncitizen-national"
+  )
+    throw new Error("A birth-law row must record its actual birth status.");
+  const qualifyingParent = parents.find(
+    ({ person: parent, transmissionEligibilityRecorded }) =>
+      transmissionEligibilityRecorded &&
+      parent.citizenshipStatuses?.some(
+        (status) =>
+          (status.citizenSince ?? status.effectiveAt) <= person.birthDate &&
+          (status.status === "citizen-by-birth" ||
+            status.status === "naturalized-citizen"),
+      ),
+  );
+  const nativeStatus = rule?.nativeStatus;
+  const legalStatus: CitizenshipStatus | null = qualifyingParent
+    ? "citizen-by-birth"
+    : rule &&
+        person.birthDate >= rule.birthrightFrom &&
+        (nativeStatus === "citizen-by-birth" ||
+          nativeStatus === "noncitizen-national")
+      ? nativeStatus
+      : null;
+  // Historical or unread birth evidence receives the source's modal estimate;
+  // it does not acquire undocumented parent residence or a naturalization date.
+  const selected =
+    legalStatus ?? [...options].sort((a, b) => b[1] - a[1])[0]![0];
   const record: CitizenshipStatusRecord = {
     stableKey: "citizenship:creation:v1",
     status: selected,
@@ -49,13 +88,21 @@ export function initializePersonCitizenship(
     sourceEventId: null,
     visibility: "private",
     provenance: {
-      method: "estimated-from-population-share",
+      method: legalStatus ? "birth-law" : "estimated-from-population-share",
       basis: source.basis,
       countyGeoids: source.countyGeoids,
       sourceVintage: source.sourceVintage,
       sourceArtifactSha256s: source.sourceArtifactSha256s,
-      sourceEntityIds: [],
-      note: "Estimated starting attribute from Census county citizenship counts. No individual legal document, immigration category, naturalization date, or historical applicability is asserted.",
+      sourceEntityIds: qualifyingParent
+        ? [qualifyingParent.person.id, ...(birthplace ? [birthplace.id] : [])]
+        : birthplace
+          ? [birthplace.id]
+          : [],
+      note: legalStatus
+        ? qualifyingParent
+          ? rules.foreignBirthParentSource
+          : rule!.source
+        : "Estimated starting attribute from Census county citizenship counts. No individual legal document, immigration category, naturalization date, or historical applicability is asserted.",
     },
   };
   // Keep the actual counts in the corpus, rather than repeating them per person.

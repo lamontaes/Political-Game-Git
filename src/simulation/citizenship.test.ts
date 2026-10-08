@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json";
+import birthRules from "../../data/research/birth-citizenship-rules.json";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { createCharacterHistoryContextPerson } from "./character-history";
@@ -63,12 +64,18 @@ describe("canonical private citizenship", () => {
       expect(person.citizenshipStatuses).toHaveLength(1);
       const status = person.citizenshipStatuses![0]!;
       const shares = citizenshipSharesForJurisdiction(input.homeJurisdictionId);
+      const birthRule =
+        birthRules.places[jurisdiction as keyof typeof birthRules.places];
       expect(status.provenance).toMatchObject({
-        method: "estimated-from-population-share",
+        method:
+          person.birthDate >= birthRule.birthrightFrom
+            ? "birth-law"
+            : "estimated-from-population-share",
         basis: shares.basis,
         countyGeoids: shares.countyGeoids,
       });
       expect(status.visibility).toBe("private");
+      expect(status.provenance.note.trim()).not.toBe("");
       expect(status.sourceEventId).toBeNull();
       expect(createLightweightPerson(input).citizenshipStatuses).toEqual(
         person.citizenshipStatuses,
@@ -114,7 +121,7 @@ describe("canonical private citizenship", () => {
     });
     const added = appended.personOrder.at(-1)!;
     expect(citizenshipStatusOf(appended, added)?.provenance.method).toBe(
-      "estimated-from-population-share",
+      "birth-law",
     );
     expect(appended.history.events).toEqual(f.world.history.events);
     const restored = deserializeWorld(serializeWorld(appended));

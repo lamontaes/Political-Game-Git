@@ -1,4 +1,4 @@
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween, ageOnDate } from "../dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
@@ -8,7 +8,19 @@ import {
 } from "../life-queries";
 import { FLOOD_DAMAGE_OUTCOME, outcomeFactor } from "../outcome-web";
 import { activeDwellingOccupanciesAt } from "../resource-queries";
-import { SeededRng } from "../rng";
+import { onShiftAt, workSchedulesFor } from "../living-world/work-schedules";
+import { personFunctionalCapacityAt } from "../vitality-integrity";
+import {
+  PHYSICAL_DISASTER_REFERENCE,
+  estimatedPhysicalConditions,
+  estimatedAssetProtection,
+  physicalDamage,
+  physicalInjury,
+  validatePhysicalConditions,
+  validateAssetProtection,
+  type HazardPhysicalConditions,
+  type HazardAssetProtection,
+} from "./disaster-mechanism";
 import type {
   EntityId,
   FutureDueItem,
@@ -59,62 +71,15 @@ export const DISASTER_FEDERAL_REVIEW_KEY =
 export const DISASTER_REPAIR_CYCLE_KEY =
   "crisis:disaster-repair-cycle" as const;
 
-const MICRO = 1_000_000;
-
-/**
- * crunch46-provisional-v1 authored disaster policy. First-playable balancing
- * values, not empirical damage curves or FEMA thresholds.
- */
+/** Response and repair references; physical load determines damage and harm. */
 export const PROVISIONAL_DISASTER_POLICY = Object.freeze({
   version: CRISIS_PROVISIONAL_POLICY,
-  /** Share of exposed homes damaged, and destroyed given damaged (millionths). */
-  homeDamage: {
-    minor: { damaged: 50_000, destroyedGivenDamaged: 0 },
-    moderate: { damaged: 150_000, destroyedGivenDamaged: 50_000 },
-    major: { damaged: 350_000, destroyedGivenDamaged: 150_000 },
-    catastrophic: { damaged: 600_000, destroyedGivenDamaged: 300_000 },
-  } satisfies Record<
-    HazardMagnitude,
-    { damaged: number; destroyedGivenDamaged: number }
-  >,
-  /** Share of located organizations interrupted, and for how many days. */
-  serviceInterruption: {
-    minor: { share: 100_000, days: 1 },
-    moderate: { share: 300_000, days: 3 },
-    major: { share: 600_000, days: 10 },
-    catastrophic: { share: 900_000, days: 30 },
-  } satisfies Record<HazardMagnitude, { share: number; days: number }>,
-  /** Chance a resident of a damaged home is injured; doubled if destroyed. */
-  injuryGivenDamagedHome: {
-    minor: 0,
-    moderate: 30_000,
-    major: 80_000,
-    catastrophic: 150_000,
-  } satisfies Record<HazardMagnitude, number>,
-  /** Chance a resident of a destroyed home dies. */
-  deathGivenDestroyedHome: {
-    minor: 0,
-    moderate: 0,
-    major: 10_000,
-    catastrophic: 40_000,
-  } satisfies Record<HazardMagnitude, number>,
-  repairUnits: { damaged: 2, destroyed: 8 },
-  /** Repair effort units completed per weekly cycle for one episode. */
-  weeklyCapacity: { local: 2, federalAssisted: 6 },
-  stateReviewAfterDays: 3,
-  federalReviewAfterDays: 10,
-  /** Governor request window: 44 CFR 206.36(a), 30 days from the incident. */
-  stateRequestWindowDays: 30,
-  federalPrograms: {
-    minor: ["public-assistance"],
-    moderate: ["public-assistance"],
-    major: ["public-assistance", "individual-assistance"],
-    catastrophic: [
-      "public-assistance",
-      "individual-assistance",
-      "hazard-mitigation",
-    ],
-  } satisfies Record<HazardMagnitude, readonly string[]>,
+  repairUnits: PHYSICAL_DISASTER_REFERENCE.repairUnits,
+  weeklyCapacity: PHYSICAL_DISASTER_REFERENCE.weeklyCapacity,
+  stateReviewAfterDays: PHYSICAL_DISASTER_REFERENCE.stateReviewAfterDays,
+  federalReviewAfterDays: PHYSICAL_DISASTER_REFERENCE.federalReviewAfterDays,
+  stateRequestWindowDays: PHYSICAL_DISASTER_REFERENCE.stateRequestWindowDays,
+  federalPrograms: PHYSICAL_DISASTER_REFERENCE.federalPrograms,
 });
 
 export interface DeclareHazardEpisodeInput {
@@ -127,6 +92,10 @@ export interface DeclareHazardEpisodeInput {
   /** Why this episode exists: a declared scenario, a sourced template, a test. */
   readonly basis: string;
   readonly sourceReference: string | null;
+  readonly physicalConditions?: HazardPhysicalConditions;
+  readonly assetProtections?: readonly HazardAssetProtection[];
+  readonly evacuatedPersonIds?: readonly EntityId[];
+  readonly estimatedFrom?: string | null;
 }
 
 const EMPTY_CONTEXT = {
@@ -143,12 +112,6 @@ function episodeOf(world: World, episodeId: EntityId): HazardEpisodeRecord {
   if (!record || record.kind !== "hazard-episode")
     throw new Error(`Unknown hazard episode: ${episodeId}`);
   return record;
-}
-
-function draw(world: World, episode: HazardEpisodeRecord, key: string): number {
-  return new SeededRng("crisis-disaster-v1")
-    .fork(JSON.stringify(["crisis-disaster-v1", world.seed, episode.id, key]))
-    .integer(0, MICRO);
 }
 
 function crisisEvent(
@@ -255,41 +218,40 @@ function householdDwellings(
   return homes;
 }
 
-/**
- * One home's damage, settled once per home by applyDamage. Still a seeded
- * draw against a share by magnitude: a dwelling records no structure type,
- * year built or flood zone, and a hazard no measured intensity, so nothing on
- * record can decide it yet (research question
- * home-damage-from-housing-stock-and-hazard-intensity; the shares are
- * disaster-damage-casualties-and-declarations).
- */
+function damageMechanism(
+  world: World,
+  episode: HazardEpisodeRecord,
+  targetId: EntityId,
+  jurisdictionId: EntityId,
+) {
+  const conditions =
+    episode.physicalConditions ??
+    estimatedPhysicalConditions(episode.family, episode.magnitude);
+  const protection =
+    episode.assetProtections?.find((row) => row.targetId === targetId) ??
+    estimatedAssetProtection(targetId);
+  const mitigation =
+    episode.family === "flood"
+      ? outcomeFactor(
+          world,
+          jurisdictionId,
+          FLOOD_DAMAGE_OUTCOME,
+          world.currentDate,
+        ).multiplier
+      : 1;
+  return {
+    ...physicalDamage(episode.family, conditions, protection, mitigation),
+    conditions,
+    protection,
+  };
+}
 function homeLevel(
   world: World,
   episode: HazardEpisodeRecord,
-  key: string,
+  targetId: EntityId,
   jurisdictionId: EntityId,
 ): DisasterDamageLevel | null {
-  const sourced = PROVISIONAL_DISASTER_POLICY.homeDamage[episode.magnitude];
-  // A flood reaches fewer homes where the law has kept new building out of
-  // the flood zone (the outcome web's flood damage links).
-  const policy =
-    episode.family === "flood"
-      ? {
-          ...sourced,
-          damaged:
-            sourced.damaged *
-            outcomeFactor(
-              world,
-              jurisdictionId,
-              FLOOD_DAMAGE_OUTCOME,
-              world.currentDate,
-            ).multiplier,
-        }
-      : sourced;
-  if (draw(world, episode, `${key}:damaged`) >= policy.damaged) return null;
-  return draw(world, episode, `${key}:destroyed`) < policy.destroyedGivenDamaged
-    ? "destroyed"
-    : "damaged";
+  return damageMechanism(world, episode, targetId, jurisdictionId).level;
 }
 
 /**
@@ -311,6 +273,27 @@ export function declareHazardEpisode(
     throw new Error("A hazard episode lasts at least one day.");
   if (!input.basis.trim())
     throw new Error("A hazard episode must state why it exists.");
+  const physicalConditions =
+    input.physicalConditions ??
+    estimatedPhysicalConditions(input.family, input.magnitude);
+  validatePhysicalConditions(physicalConditions);
+  const exposure = hazardExposure(world, input.jurisdictionIds);
+  const targets = new Set(
+    [
+      ...exposure.households,
+      ...exposure.dwellings,
+      ...exposure.organizations,
+    ].map((row) => row.id),
+  );
+  for (const protection of input.assetProtections ?? []) {
+    validateAssetProtection(protection);
+    if (!targets.has(protection.targetId))
+      throw new Error("Hazard protection must name an exposed asset.");
+  }
+  for (const personId of input.evacuatedPersonIds ?? []) {
+    if (!world.people[personId])
+      throw new Error("Evacuation must name a recorded person.");
+  }
   const key = `crisis:disaster:${input.stableKey}`;
   const jurisdictionIds = [...input.jurisdictionIds].sort();
   const occurred = crisisEvent(world, {
@@ -338,6 +321,10 @@ export function declareHazardEpisode(
     endsAt: addDays(world.currentDate, input.durationDays),
     basis: input.basis,
     sourceReference: input.sourceReference,
+    physicalConditions,
+    assetProtections: input.assetProtections ?? [],
+    evacuatedPersonIds: input.evacuatedPersonIds ?? [],
+    estimatedFrom: input.estimatedFrom ?? physicalConditions.estimatedFrom,
   });
   const episode = episodeOf(next, crisisRecordId(next, key));
   next = applyDamage(next, episode);
@@ -401,6 +388,7 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     target: { id: EntityId; jurisdictionId: EntityId },
     level: DisasterDamageLevel,
     units: number,
+    protectionTargetId: EntityId = target.id,
   ): EntityId => {
     const stableKey = `${episode.stableKey}:damage:${target.id}`;
     next = appendCrisisRecord(next, {
@@ -416,6 +404,19 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
       jurisdictionId: target.jurisdictionId,
       level,
       repairUnits: units,
+      physicalLoad: damageMechanism(
+        world,
+        episode,
+        protectionTargetId,
+        target.jurisdictionId,
+      ).load,
+      protectionTargetId,
+      estimatedFrom: damageMechanism(
+        world,
+        episode,
+        protectionTargetId,
+        target.jurisdictionId,
+      ).protection.estimatedFrom,
     });
     if (level === "destroyed") destroyed[targetKind] += 1;
     else damaged[targetKind] += 1;
@@ -439,12 +440,7 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     if (!dwellingLevels.has(dwelling.id))
       dwellingLevels.set(
         dwelling.id,
-        homeLevel(
-          world,
-          episode,
-          `dwelling:${dwelling.id}`,
-          dwelling.jurisdictionId,
-        ),
+        homeLevel(world, episode, dwelling.id, dwelling.jurisdictionId),
       );
     return dwellingLevels.get(dwelling.id)!;
   };
@@ -457,14 +453,22 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     const dwelling = dwellingOfHousehold.get(household.id);
     const level = dwelling
       ? levelOfDwelling(dwelling)
-      : homeLevel(
-          world,
-          episode,
-          `household:${household.id}`,
-          household.jurisdictionId,
-        );
+      : homeLevel(world, episode, household.id, household.jurisdictionId);
     if (!level) continue;
-    const damageId = addDamage("household", household, level, homeUnits(level));
+    const protectionTargetId = dwelling?.id ?? household.id;
+    const mechanism = damageMechanism(
+      world,
+      episode,
+      protectionTargetId,
+      household.jurisdictionId,
+    );
+    const damageId = addDamage(
+      "household",
+      household,
+      level,
+      homeUnits(level),
+      protectionTargetId,
+    );
     const cutoff = {
       asOfDate: next.currentDate,
       historySequenceExclusive: next.history.nextSequence,
@@ -473,11 +477,19 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
       (personId) => isPersonAliveAt(next, personId, cutoff),
     );
     for (const personId of residents) {
-      const deathChance =
-        level === "destroyed"
-          ? policy.deathGivenDestroyedHome[episode.magnitude]
-          : 0;
-      if (draw(next, episode, `death:${personId}`) < deathChance) {
+      const present =
+        !(episode.evacuatedPersonIds ?? []).includes(personId) &&
+        !workSchedulesFor(next, personId).some((schedule) =>
+          onShiftAt(schedule, next.currentMoment),
+        );
+      const injury = physicalInjury(
+        episode.family,
+        mechanism.load,
+        personFunctionalCapacityAt(next, personId, cutoff) ?? "capable",
+        ageOnDate(next.people[personId]!.birthDate, next.currentDate),
+        present,
+      );
+      if (injury === "fatal") {
         const before = next;
         next = recordPersonDeath(next, {
           stableKey: `${episode.stableKey}:death:${personId}`,
@@ -496,12 +508,8 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
         deceased.push(personId);
         continue;
       }
-      const injuryChance =
-        policy.injuryGivenDamagedHome[episode.magnitude] *
-        (level === "destroyed" ? 2 : 1);
-      if (draw(next, episode, `injury:${personId}`) < injuryChance) {
-        const serious =
-          draw(next, episode, `injury-severity:${personId}`) < MICRO / 3;
+      if (injury !== null) {
+        const serious = injury === "serious";
         next = beginHealthEpisode(next, {
           stableKey: `${episode.stableKey}:injury:${personId}`,
           personId,
@@ -517,13 +525,18 @@ function applyDamage(world: World, episode: HazardEpisodeRecord): World {
     }
   }
   for (const organization of exposure.organizations) {
-    const service = policy.serviceInterruption[episode.magnitude];
-    if (draw(next, episode, `organization:${organization.id}`) < service.share)
+    const service = damageMechanism(
+      world,
+      episode,
+      organization.id,
+      organization.jurisdictionId,
+    );
+    if (service.serviceDays > 0)
       addDamage(
         "organization",
         organization,
         "service-interrupted",
-        service.days,
+        service.serviceDays,
       );
   }
   return appendCrisisRecord(next, {

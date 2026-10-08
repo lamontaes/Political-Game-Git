@@ -1,0 +1,342 @@
+{
+  "schema": "birth-citizenship-v1",
+  "foreignBirthParentSource": "8 U.S.C. 1401(c)\u2013(g) and 1409; documented parent physical-presence eligibility is required",
+  "places": {
+    "US-AK": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-AL": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-AR": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-AS": {
+      "nativeStatus": "noncitizen-national",
+      "source": "8 U.S.C. 1408(1); 8 U.S.C. 1401 for citizenship transmitted by qualifying parents",
+      "birthrightFrom": "1900-04-17",
+      "estimatedFrom": null
+    },
+    "US-AZ": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-CA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-CO": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-CT": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-DC": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-DE": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-FL": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-GA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-GU": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "8 U.S.C. 1407",
+      "birthrightFrom": "1950-08-01",
+      "estimatedFrom": null
+    },
+    "US-HI": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-IA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-ID": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-IL": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-IN": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-KS": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-KY": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-LA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MD": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-ME": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MI": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MN": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MO": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MP": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "Northern Mariana Islands Covenant, sections 301\u2013303; 8 U.S.C. 1401",
+      "birthrightFrom": "1986-11-04",
+      "estimatedFrom": null
+    },
+    "US-MS": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-MT": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NC": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-ND": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NE": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NH": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NJ": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NM": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NV": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-NY": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-OH": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-OK": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-OR": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-PA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-PR": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "8 U.S.C. 1402",
+      "birthrightFrom": "1941-01-13",
+      "estimatedFrom": null
+    },
+    "US-RI": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-SC": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-SD": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-TN": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-TX": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-UT": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-VA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-VI": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "8 U.S.C. 1406",
+      "birthrightFrom": "1927-02-25",
+      "estimatedFrom": null
+    },
+    "US-VT": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-WA": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-WI": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-WV": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    },
+    "US-WY": {
+      "nativeStatus": "citizen-by-birth",
+      "source": "U.S. Constitution, Amendment XIV; 8 U.S.C. 1401(a)",
+      "birthrightFrom": "1868-07-09",
+      "estimatedFrom": null
+    }
+  }
+}

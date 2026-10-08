@@ -1,3 +1,6 @@
+import COHORT_REFERENCE from "../../data/research/starting-cohorts.json" with { type: "json" };
+import { cohortCategoryAt } from "./cohort-allocation";
+import type { InventedPersonRole } from "./invented-person-age";
 import { initializePersonCitizenship } from "./citizenship-creation";
 import {
   addDays,
@@ -40,73 +43,8 @@ import type {
 export const DEFAULT_PERSON_GENERATOR_VERSION = "person-v5";
 export const LEGACY_DEMO_PERSON_GENERATOR_VERSION = "demo-person-v4";
 
-const EDUCATION_PATHS = [
-  {
-    institution: "a synthetic local high school",
-    field: null,
-    credential: "high school diploma",
-    startAge: 14,
-    endAge: 18,
-    subjectTags: [] as readonly string[],
-  },
-  {
-    institution: "a synthetic regional trade program",
-    field: "skilled trades",
-    credential: "trade credential",
-    startAge: 18,
-    endAge: 19,
-    subjectTags: ["background.education.skilled-trades"],
-  },
-  {
-    institution: "a synthetic community college",
-    field: "general studies",
-    credential: "associate degree",
-    startAge: 18,
-    endAge: 20,
-    subjectTags: ["background.education.general-studies"],
-  },
-  {
-    institution: "a synthetic four-year college",
-    field: "public administration",
-    credential: "bachelor's degree",
-    startAge: 18,
-    endAge: 22,
-    subjectTags: ["background.education.public-administration"],
-  },
-] as const;
-
-const OCCUPATION_PROFILES = [
-  {
-    employer: "a synthetic neighborhood business",
-    title: "small-business bookkeeper",
-    subjectTags: ["background.occupation.local-finance"],
-  },
-  {
-    employer: "a synthetic community health nonprofit",
-    title: "community health coordinator",
-    subjectTags: ["background.occupation.community-health"],
-  },
-  {
-    employer: "a synthetic construction firm",
-    title: "construction supervisor",
-    subjectTags: ["background.occupation.construction"],
-  },
-  {
-    employer: "a synthetic hospitality company",
-    title: "hospitality manager",
-    subjectTags: ["background.occupation.hospitality"],
-  },
-  {
-    employer: "a synthetic insurance office",
-    title: "insurance claims specialist",
-    subjectTags: ["background.occupation.insurance"],
-  },
-  {
-    employer: "a synthetic public library",
-    title: "library program assistant",
-    subjectTags: ["background.occupation.public-programs"],
-  },
-] as const;
+const EDUCATION_PATHS = COHORT_REFERENCE.educationPaths;
+const OCCUPATION_PROFILES = COHORT_REFERENCE.occupationProfiles;
 
 const PROCEDURAL_PROVENANCE = {
   method: "procedural-placeholder",
@@ -118,6 +56,8 @@ export interface LightweightPersonInput {
   readonly worldId: EntityId;
   readonly worldSeed: string;
   readonly index: number;
+  /** The actual generation cohort, when the caller is creating a roster. */
+  readonly cohortSize?: number;
   readonly currentDate: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
@@ -159,17 +99,19 @@ export function factsForPerson(person: Person): readonly PersonFact[] {
  * stage, and the one age-window table (`invented-person-age.ts`) holds each
  * stage's ages.
  */
-function generateProductionAge(rng: SeededRng): number {
-  const roll = rng.next();
-  if (roll < 0.15) {
-    return inventedPersonAge(rng, "scenario-young-adult");
-  } else if (roll < 0.7) {
-    return inventedPersonAge(rng, "scenario-mid-career");
-  } else if (roll < 0.9) {
-    return inventedPersonAge(rng, "scenario-senior-career");
-  } else {
-    return inventedPersonAge(rng, "scenario-elder");
-  }
+function generateProductionAge(
+  rng: SeededRng,
+  ordinal: number,
+  population: number,
+): number {
+  const role = cohortCategoryAt(
+    COHORT_REFERENCE.ageRoles.map(
+      ([role, weight]) => [String(role), Number(weight)] as const,
+    ),
+    population,
+    ordinal % population,
+  );
+  return inventedPersonAge(rng, role as InventedPersonRole);
 }
 
 function generateProductionBirthDate(
@@ -301,7 +243,11 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     if (profile === "stress") {
       birthDate = generateStressBirthDate(input.index, input.currentDate, rng);
     } else {
-      const targetAge = generateProductionAge(rng);
+      const targetAge = generateProductionAge(
+        rng,
+        input.index,
+        input.cohortSize ?? COHORT_REFERENCE.cohortSlots,
+      );
       birthDate = generateProductionBirthDate(
         input.currentDate,
         targetAge,
@@ -371,18 +317,21 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
 
 export function materializePersonRecord(
   person: Person,
-  worldSeed: string,
+  _worldSeed: string,
   backgroundAnchorDate: IsoDate,
   personHistory: readonly HistoricalEvent[],
   availableSubjects: Readonly<Record<string, KnowledgeSubjectDefinition>>,
+  cohortOrdinal: number,
 ): Person {
   if (person.detailLevel === "materialized") {
     return person;
   }
 
-  const rng = new SeededRng(worldSeed).fork(
-    `person-materialization-v4:${person.id}`,
-  );
+  if (!Number.isSafeInteger(cohortOrdinal) || cohortOrdinal < 0)
+    throw new Error(
+      "Materialization needs the person's actual cohort position.",
+    );
+  const ordinal = cohortOrdinal % COHORT_REFERENCE.cohortSlots;
   const ageAtAnchor = ageOnDate(person.birthDate, backgroundAnchorDate);
   const constrainedFactKinds = new Set(
     personHistory.flatMap((event) =>
@@ -398,21 +347,46 @@ export function materializePersonRecord(
   const hasOccupationFact = existingFacts.some(
     (fact) => fact.kind === "occupation",
   );
-  const eligibleEducationPaths = EDUCATION_PATHS.filter(
-    (path) => path.endAge <= ageAtAnchor,
-  );
+  const eligibleEducationPaths = EDUCATION_PATHS.map((path, index) => ({
+    path,
+    index,
+  })).filter(({ path }) => path.endAge <= ageAtAnchor);
+  const allocatedEducation =
+    eligibleEducationPaths.length > 0
+      ? cohortCategoryAt(
+          eligibleEducationPaths.map(
+            ({ index }) =>
+              [
+                String(index),
+                COHORT_REFERENCE.educationWeights[index]!,
+              ] as const,
+          ),
+          COHORT_REFERENCE.cohortSlots,
+          ordinal,
+        )
+      : null;
   const educationPath =
     !hasEducationFact &&
     !constrainedFactKinds.has("education") &&
     eligibleEducationPaths.length > 0
-      ? rng.pick(eligibleEducationPaths)
+      ? EDUCATION_PATHS[Number(allocatedEducation)]!
       : null;
   const earliestWorkAge = Math.max(18, (educationPath?.endAge ?? 17) + 1);
   const occupationProfile =
     !hasOccupationFact &&
     !constrainedFactKinds.has("occupation") &&
     ageAtAnchor >= earliestWorkAge
-      ? rng.pick(OCCUPATION_PROFILES)
+      ? OCCUPATION_PROFILES[
+          Number(
+            cohortCategoryAt(
+              COHORT_REFERENCE.occupationWeights.map(
+                (weight, index) => [String(index), weight] as const,
+              ),
+              COHORT_REFERENCE.cohortSlots,
+              ordinal,
+            ),
+          )
+        ]!
       : null;
   const name = personName(person);
   const generatedFacts: PersonFact[] = [];
@@ -441,7 +415,10 @@ export function materializePersonRecord(
 
   if (occupationProfile) {
     const latestWorkAge = Math.min(ageAtAnchor, earliestWorkAge + 3);
-    const workAge = rng.integer(earliestWorkAge, latestWorkAge + 1);
+    const workAge = Math.min(
+      latestWorkAge,
+      earliestWorkAge + COHORT_REFERENCE.workStartOffsetYears,
+    );
     const occupation: OccupationFact = {
       id: createStableId("fact", `${person.id}:occupation:v4`),
       stableKey: "occupation:v4",

@@ -12,7 +12,6 @@ import {
   detExp,
   detLog,
   logistic,
-  openUniform,
   roundTo,
   standardNormal,
 } from "./deterministic-math";
@@ -45,15 +44,15 @@ export function worldSetupRng(world: World, purpose: string): SeededRng {
 }
 
 export function drawStartingRegime(world: World): StartingRegime {
-  const u = openUniform(worldSetupRng(world, "regime"));
-  let cumulative = 0;
-  for (const regime of CRUNCH46_POLICY.regimes.order) {
-    cumulative += CRUNCH46_POLICY.regimes.frequency[regime];
-    if (u < cumulative) return regime;
-  }
-  return CRUNCH46_POLICY.regimes.order[
-    CRUNCH46_POLICY.regimes.order.length - 1
-  ]!;
+  const recorded = worldOpeningRecord(world);
+  if (recorded) return recorded.regime;
+  // The most common installed reference regime applies before a world has
+  // recorded conditions. A seed cannot choose its economic or political law.
+  return [...CRUNCH46_POLICY.regimes.order].sort(
+    (left, right) =>
+      CRUNCH46_POLICY.regimes.frequency[right] -
+      CRUNCH46_POLICY.regimes.frequency[left],
+  )[0]!;
 }
 
 type Draft<T extends WorldConditionRecord> = T extends WorldConditionRecord

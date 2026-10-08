@@ -1480,6 +1480,7 @@ export function materializePerson(world: World, personId: EntityId): World {
     world.startedAt,
     eventsInvolving(world.history, personId),
     world.policyCatalog.subjects,
+    world.personOrder.indexOf(personId),
   );
 
   if (materialized === existing) {

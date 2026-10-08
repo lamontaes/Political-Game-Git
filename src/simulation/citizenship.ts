@@ -272,9 +272,11 @@ export function assertPersonCitizenshipIntegrity(
         "noncitizen-national",
       ].includes(record.status) ||
       record.visibility !== "private" ||
-      !["estimated-from-population-share", "recorded-event"].includes(
-        record.provenance.method,
-      ) ||
+      ![
+        "estimated-from-population-share",
+        "recorded-event",
+        "birth-law",
+      ].includes(record.provenance.method) ||
       !record.provenance.note.trim() ||
       (record.sequence !== null &&
         (!Number.isSafeInteger(record.sequence) || record.sequence < 0)) ||

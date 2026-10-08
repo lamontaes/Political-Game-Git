@@ -16,10 +16,19 @@ import {
   kinshipRelationshipsAt,
   workRoleAt,
 } from "../life-queries";
-import { SeededRng } from "../rng";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
+import { recordsWithFieldValue } from "../history-index";
+import { isPersonAliveAt } from "../vitality";
+import type { DecisionConsideration, DecisionContext } from "../types";
 import { localBusinessWageMinor } from "../recorded-employer";
 import type {
   EntityId,
+  GoalStateRecord,
+  IsoDate,
   OrganizationClassification,
   OccupationClassification,
   Organization,
@@ -743,7 +752,6 @@ function reviewTownGroupsOf(
   )
     return world;
   const groups = townGroups(world, town, profile);
-  const rng = new SeededRng(world.seed).fork(prefix);
   const provenance = {
     kind: "generated" as const,
     generatorKey: TOWN_BUSINESSES_VERSION,
@@ -755,10 +763,9 @@ function reviewTownGroupsOf(
       latestWork.set(status.workRelationshipId, status);
 
   for (const group of groups) {
-    const chance =
-      (profile.closingPerYear / 4) *
-      (group.members.length < profile.smallMembership ? 2 : 1);
-    if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;
+    // An association remains while named residents belong to it. Population
+    // closure rates do not decide whether this particular group disbands.
+    if (group.members.length > 0) continue;
     const current = organizationProfileAt(next, group.organizationId)!;
     next = recordOrganizationProfile(next, {
       stableKey: `${prefix}close:${group.organizationId}`,
@@ -798,14 +805,8 @@ function reviewTownGroupsOf(
     }
   }
 
-  // A founding, where enough adults belong to none of this kind.
+  // Unaffiliated adults decide from their own recorded association motives.
   const still = townGroups(next, town, profile);
-  if (still.length >= profile.most) return next;
-  const expected =
-    profile.openingBasis === "per-group"
-      ? Math.max(1, groups.length) * (profile.openingPerYear / 4)
-      : profile.openingPerYear / 4;
-  if (rng.fork("found").next() >= expected) return next;
   const belonging = new Set(
     still.flatMap((entry) => entry.members.map((member) => member.personId)),
   );
@@ -816,7 +817,19 @@ function reviewTownGroupsOf(
         !belonging.has(resident.personId),
     )
     .sort((a, b) => a.personId.localeCompare(b.personId));
-  if (unaffiliated.length < profile.smallMembership) return next;
+  const founders = [];
+  for (const resident of unaffiliated) {
+    const decided = decideTownGroupFounding(
+      next,
+      resident.personId,
+      town,
+      profile,
+      `${prefix}found:${resident.personId}`,
+    );
+    next = decided.world;
+    if (decided.found) founders.push(resident);
+  }
+  if (founders.length === 0) return next;
   const place = lifePlaceByJurisdictionId(town);
   const townName = place?.displayName.split(",")[0]!.trim() ?? "Town";
   const taken = new Set(
@@ -843,32 +856,6 @@ function reviewTownGroupsOf(
     "organization",
     `${next.id}:${stableKey}`,
   );
-  // Who founds it: first the people who belonged to one of this kind that
-  // has since ended for them (a disbanded congregation's members are the
-  // ones who start the next), then the eldest, then by id.
-  const kindIds = new Set(
-    next.history.organizations
-      .filter(
-        (organization) =>
-          organizationProfileAt(next, organization.id)?.classification ===
-          profile.classification,
-      )
-      .map((organization) => organization.id),
-  );
-  const belongedBefore = new Set(
-    next.history.organizationParticipations
-      .filter((participation) => kindIds.has(participation.organizationId))
-      .map((participation) => participation.personId),
-  );
-  const founders = [...unaffiliated]
-    .sort(
-      (a, b) =>
-        Number(belongedBefore.has(b.personId)) -
-          Number(belongedBefore.has(a.personId)) ||
-        b.age - a.age ||
-        a.personId.localeCompare(b.personId),
-    )
-    .slice(0, profile.smallMembership);
   for (const founder of founders)
     next = createOrganizationParticipation(next, {
       stableKey: `${prefix}member:${founder.personId}`,
@@ -900,4 +887,151 @@ function reviewTownGroupsOf(
       into: { workplace: profile.staff.workplace, organizationId },
     });
   return next;
+}
+
+/** A resident's recorded association goal or past membership supplies the
+ * reason to consider founding. No recorded motive means no invented founder. */
+export function decideTownGroupFounding(
+  world: World,
+  personId: EntityId,
+  town: EntityId,
+  profile: TownGroupProfile,
+  stableKey: string,
+): { readonly world: World; readonly found: boolean } {
+  if (world.control.kind === "person" && world.control.personId === personId)
+    return { world, found: false };
+  const prior = recordsWithFieldValue(
+    world.history.decisionTraces,
+    "stableKey",
+    `${stableKey}:trace`,
+  )[0];
+  if (prior)
+    return {
+      world,
+      found: isSelectedDecision(prior) && prior.selectedOptionKey === "found",
+    };
+  const person = world.people[personId];
+  if (
+    !person ||
+    person.homeJurisdictionId !== town ||
+    !isPersonAliveAt(world, personId, {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    })
+  )
+    return { world, found: false };
+  const goal = townGroupFoundingGoal(
+    recordsWithFieldValue(world.history.goalStates, "personId", personId),
+    town,
+    profile,
+    world.currentDate,
+  );
+  const memberships = recordsWithFieldValue(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
+    (row) =>
+      row.kind === profile.participationKind &&
+      row.startedAt <= world.currentDate &&
+      organizationProfileAt(world, row.organizationId)
+        ?.locationJurisdictionId === town,
+  );
+  const considerations: DecisionConsideration[] = [];
+  if (goal?.status === "active")
+    considerations.push({
+      stableKey: `${stableKey}:goal`,
+      optionKey: "found",
+      sourceType: "mind:association-goal",
+      direction: "supports",
+      importance:
+        goal.priority === "critical"
+          ? "decisive"
+          : goal.priority === "high"
+            ? "strong"
+            : goal.priority === "moderate"
+              ? "moderate"
+              : "slight",
+      confidence: "high",
+      explanation: goal.objective,
+      sourceRefs: [{ kind: "goal-state", goalStateId: goal.id }],
+    });
+  if (memberships.length > 0)
+    considerations.push({
+      stableKey: `${stableKey}:membership`,
+      optionKey: "found",
+      sourceType: "context:association",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: profile.participationKind,
+      sourceRefs: memberships.map((row) => ({
+        kind: "life-history",
+        reference: { family: "organization-participation", recordId: row.id },
+      })),
+    });
+  if (considerations.length === 0) return { world, found: false };
+  const employment = activeWorkRelationshipsAt(world, personId);
+  if (employment.length > 0)
+    considerations.push({
+      stableKey: `${stableKey}:work`,
+      optionKey: "found",
+      sourceType: "context:work",
+      direction: "opposes",
+      importance: "slight",
+      confidence: "high",
+      explanation: employment[0]!.relationship.kind,
+      sourceRefs: employment.map((row) => ({
+        kind: "life-history",
+        reference: {
+          family: "work-relationship",
+          recordId: row.relationship.id,
+        },
+      })),
+    });
+  const context: DecisionContext = {
+    stableKey,
+    decisionType: "community.found-association",
+    actorPersonId: personId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: { kind: "context:association", key: profile.key, entityId: town },
+    options: [
+      {
+        key: "found",
+        label: goal?.objective ?? profile.participationKind,
+        description: goal?.objective ?? profile.participationKind,
+      },
+      { key: "defer", label: profile.roleKind, description: profile.roleKind },
+    ],
+    constraints: [],
+    considerations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  };
+  const result = evaluateDecision(world, context);
+  return {
+    world: recordDurableDecisionTrace(world, result),
+    found: isSelectedDecision(result) && result.selectedOptionKey === "found",
+  };
+}
+
+/** The latest goal on this association in this place, including its end. */
+export function townGroupFoundingGoal(
+  goals: readonly GoalStateRecord[],
+  town: EntityId,
+  profile: TownGroupProfile,
+  date: IsoDate,
+): GoalStateRecord | undefined {
+  return goals
+    .filter(
+      (row) =>
+        row.recordedAt <= date &&
+        row.scope === profile.key &&
+        row.targetEntityId === town,
+    )
+    .at(-1);
 }

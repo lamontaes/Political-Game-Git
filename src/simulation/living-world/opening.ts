@@ -1,3 +1,4 @@
+import cohortReference from "../../../data/research/starting-cohorts.json" with { type: "json" };
 import {
   inventedPersonAge,
   inventedPersonBirthDate,
@@ -11,7 +12,7 @@ import type {
   CharacterHistoryContextPersonInput,
   CharacterHistoryTransition,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_NAMES } from "../nationwide-world/state-executive-candidacy-packs";
@@ -24,7 +25,7 @@ import {
 } from "../people";
 import { birthCohortGivenName } from "../given-name-cohorts";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng } from "../rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -42,9 +43,14 @@ import type { CongressSeat, SeatTermWindow } from "./congress-seats";
 import { seatHouseDelegates } from "./house-delegates";
 import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 import { SETTING_PARTY_NAMES } from "./party-registry";
-import { politicalStartingConditions } from "../world-setup/conditions";
+import {
+  politicalStartingConditions,
+  drawStartingRegime,
+  appendWorldConditions,
+} from "../world-setup/conditions";
 import {
   generateStateExecutiveAffiliation,
+  generatePoliticalStartingConditions,
   latentsFromRecord,
 } from "../world-setup/political-start";
 import { appendPartyRecords } from "../world-setup/party-store";
@@ -181,12 +187,16 @@ export function ensureLivingWorldOpening(
   if (!world.people[subjectPersonId]) {
     throw new Error("The living-world opening needs an existing subject.");
   }
+  if (!politicalStartingConditions(world)) {
+    world = appendWorldConditions(world, [
+      generatePoliticalStartingConditions(world, drawStartingRegime(world)),
+    ]);
+  }
   const date = world.currentDate;
   const rng = new SeededRng(world.seed).fork(LIVING_WORLD_OPENING_KEY);
   const plans: SeatPlan[] = [];
   const scenarioTags: string[] = [];
-  // A current opening reads the save's generated conditions; a legacy save or
-  // replay keeps the authored alive43 profile draw it always had.
+  // Opening affiliations come from the canonical recorded seat conditions.
   const political = politicalStartingConditions(world);
   const generatedSeats = new Map(
     (political?.seats ?? []).map((seat) => [seat.seatKey, seat]),
@@ -195,92 +205,22 @@ export function ensureLivingWorldOpening(
     affiliation === "democratic" || affiliation === "republican";
 
   for (const chamberKey of ["us-house", "us-senate"] as const) {
-    const chamberRng = rng.fork(`chamber:${chamberKey}`);
     const seats = congressSeats().filter(
       (seat) => seat.chamberKey === chamberKey,
     );
-    const [vacancyMin, vacancyMax] = PROFILE.vacancies[chamberKey];
-    const [independentMin, independentMax] = PROFILE.independents[chamberKey];
-    // A current opening seats a member in every seat: a seat is vacant only
-    // when a record says so (a death, a resignation), never by a draw. A
-    // legacy save or replay keeps the authored vacancy draw it always had.
-    const vacant = new Set(
-      political
-        ? []
-        : pickDistinct(
-            chamberRng.fork("vacancies"),
-            seats,
-            chamberRng.integer(vacancyMin, vacancyMax + 1),
-          ).map((seat) => seat.seatKey),
-    );
-    const filled = seats.filter((seat) => !vacant.has(seat.seatKey));
-    if (political) {
-      for (const seat of seats) {
-        if (!generatedSeats.has(seat.seatKey)) {
-          throw new Error(`No generated condition for ${seat.seatKey}.`);
-        }
-      }
-    }
-    const independent = new Set(
-      pickDistinct(
-        chamberRng.fork("independents"),
-        filled,
-        chamberRng.integer(independentMin, independentMax + 1),
-      ).map((seat) => seat.seatKey),
-    );
-    const affiliated = filled.filter((seat) => !independent.has(seat.seatKey));
-    const permille = chamberRng.integer(
-      PROFILE.firstPartySharePermille.min,
-      PROFILE.firstPartySharePermille.max + 1,
-    );
-    const firstParty = new Set(
-      pickDistinct(
-        chamberRng.fork("first-party"),
-        affiliated,
-        Math.round((affiliated.length * permille) / 1000),
-      ).map((seat) => seat.seatKey),
-    );
-    if (!political) {
-      scenarioTags.push(
-        `scenario:${chamberKey}:first-party-permille:${permille}`,
-      );
+    for (const seat of seats) {
+      if (!generatedSeats.has(seat.seatKey))
+        throw new Error(`No recorded condition for ${seat.seatKey}.`);
     }
 
     for (const seat of seats) {
       const window = seatTermWindow(seat, date);
       const seatRng = rng.fork(`seat:${seat.seatKey}`);
-      if (vacant.has(seat.seatKey)) {
-        const [minDays, maxDays] = PROFILE.vacancyAgeDays;
-        const drawn = addDays(date, -seatRng.integer(minDays, maxDays + 1));
-        plans.push({
-          kind: "vacancy",
-          seat,
-          window,
-          since: drawn < window.startsAt ? window.startsAt : drawn,
-        });
-        continue;
-      }
-      const generated = generatedSeats.get(seat.seatKey);
-      let party: MajorPartyKey | null;
-      let caucus: MajorPartyKey | null;
-      if (generated) {
-        // Non-major affiliations keep their own identity: no party record,
-        // and the caucus the certified record gives them.
-        party = majorParty(generated.affiliation)
-          ? generated.affiliation
-          : null;
-        caucus = generated.caucus;
-      } else {
-        party = independent.has(seat.seatKey)
-          ? null
-          : firstParty.has(seat.seatKey)
-            ? PROFILE.majorParties[0].key
-            : PROFILE.majorParties[1].key;
-        // An independent's caucus is a modeled circumstance of this save.
-        caucus =
-          party ??
-          seatRng.fork("caucus").pick(PROFILE.majorParties.map((p) => p.key));
-      }
+      const generated = generatedSeats.get(seat.seatKey)!;
+      const party: MajorPartyKey | null = majorParty(generated.affiliation)
+        ? generated.affiliation
+        : null;
+      const caucus = generated.caucus;
       const minimumAge = MINIMUM_AGE[seat.chamberKey];
       const termStartYear = Number(window.startsAt.slice(0, 4));
       const ageAtTermStart = inventedPersonAge(
@@ -288,9 +228,9 @@ export function ensureLivingWorldOpening(
         "sitting-legislator-at-opening",
         { legalMinimumAge: minimumAge },
       );
-      let priorTerms = seatRng.integer(
-        0,
-        PROFILE.priorTermsMax[seat.chamberKey] + 1,
+      let priorTerms = Math.floor(
+        cohortReference.congressPriorServiceYears[seat.chamberKey] /
+          window.years,
       );
       while (
         priorTerms > 0 &&
@@ -438,11 +378,7 @@ export function ensureLivingWorldOpening(
   }
 
   for (const holder of executives) {
-    const party = political
-      ? executiveAffiliation(world, political, holder)
-      : rng
-          .fork(`executive:${holder.personId}`)
-          .pick(PROFILE.majorParties.map((p) => p.key));
+    const party = executiveAffiliation(world, political!, holder);
     if (party === null || !partyKeys.includes(party)) continue;
     transitions.push({
       kind: "participation",

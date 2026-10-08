@@ -25,8 +25,9 @@ import {
 } from "./political-start";
 import type { StartingRegime } from "./types";
 
-/** Only the seed feeds these generators; no other World field is read. */
-const seedWorld = (seed: string) => ({ seed }) as unknown as World;
+/** Bounded projections: no residents, calendar advance or ordinary opening. */
+const seedWorld = (seed: string) =>
+  ({ seed, history: { worldConditions: [] } }) as unknown as World;
 
 describe("deterministic math", () => {
   it("matches the platform functions closely without depending on them", () => {
@@ -53,7 +54,7 @@ describe("deterministic math", () => {
 });
 
 describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
-  it("draws regimes at the authored frequencies", () => {
+  it("uses the modal reference regime when no opening is recorded", () => {
     const counts: Record<StartingRegime, number> = {
       "near-reference": 0,
       modest: 0,
@@ -63,10 +64,13 @@ describe("starting regime and macro kernel (crunch46-provisional-v1)", () => {
     for (let i = 0; i < n; i += 1) {
       counts[drawStartingRegime(seedWorld(`regime-${i}`))] += 1;
     }
-    for (const regime of CRUNCH46_POLICY.regimes.order) {
-      const expected = CRUNCH46_POLICY.regimes.frequency[regime];
-      expect(Math.abs(counts[regime] / n - expected)).toBeLessThan(0.02);
-    }
+    const modal = [...CRUNCH46_POLICY.regimes.order].sort(
+      (a, b) =>
+        CRUNCH46_POLICY.regimes.frequency[b] -
+        CRUNCH46_POLICY.regimes.frequency[a],
+    )[0]!;
+    for (const regime of CRUNCH46_POLICY.regimes.order)
+      expect(counts[regime]).toBe(regime === modal ? n : 0);
   });
 
   it("applies the section 13 startup equations exactly", () => {

@@ -1,6 +1,5 @@
 import pack from "../../../data/research/health/chronic-condition-pack-2026.json" with { type: "json" };
 import { addDays, daysBetween } from "../dates";
-import { stableHash } from "../ids";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   activeWorkRelationshipsAt,
@@ -75,12 +74,6 @@ export const CONDITION_PACK: readonly PackCondition[] =
 const ONSET_CAUSES = pack.onsetCauses;
 
 /** Stable severity grading remains tied to the person's condition record. */
-function selectionPlace(seed: string, personId: EntityId, key: string): number {
-  const hex = stableHash(
-    JSON.stringify([CONDITION_PACK_KEY, seed, personId, key]),
-  ).slice(0, 12);
-  return parseInt(hex, 16) / 16 ** 12;
-}
 
 /** The due item for the day a condition's own strain crosses the threshold. */
 export const CONDITION_ONSET_KEY = "crisis:condition-onset" as const;
@@ -261,25 +254,20 @@ const AGE_FACTOR = pack.ageFactor;
 export const BASE_RATE_SCALE: number = pack.baseRateScale.value;
 
 /**
- * The grade this person holds a condition at: their seeded place among the
- * people holding it, against the grades' shares, chosen once when the
- * condition is recorded. A condition of birth or childhood carries no grade.
+ * The installed pack's most common severity grade when the condition has no
+ * individual severity observation. Birth and childhood conditions carry none.
  */
 export function conditionGrade(
-  seed: string,
-  personId: EntityId,
+  _seed: string,
+  _personId: EntityId,
   key: string,
 ): SeverityGrade | null {
   const condition = packCondition(key);
   if (condition?.infant || condition?.childhood || condition?.ungraded)
     return null;
-  const place = selectionPlace(seed, personId, `${key}:severity`);
-  let below = 0;
-  for (const grade of SEVERITY_GRADES) {
-    below += grade.share;
-    if (place < below) return grade;
-  }
-  return SEVERITY_GRADES.at(-1)!;
+  // With no individual severity observation, the pack's modal grade is the
+  // common reference estimate. Identity and the seed are not medical causes.
+  return [...SEVERITY_GRADES].sort((a, b) => b.share - a.share)[0]!;
 }
 
 /**

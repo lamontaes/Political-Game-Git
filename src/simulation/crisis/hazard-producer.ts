@@ -1,7 +1,8 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { lifePlaceByJurisdictionId, lifePlaceSearch } from "../life-places";
-import { SeededRng } from "../rng";
+import mechanism from "../../../data/research/hazard-catalog-mechanism.json" with { type: "json" };
+import { countyGeoidsForPlace } from "../government-units";
 import type {
   EntityId,
   FutureDueItem,
@@ -16,17 +17,15 @@ import catalogJson from "./storm-catalog.generated.json" with { type: "json" };
 import type { HazardFamily, HazardMagnitude } from "./types";
 
 /**
- * Automatic hazard production, resampled from recorded history.
+ * Automatic hazard production, replayed from recorded seasons and geography.
  *
- * CRUNCH47 C2: one versioned national stream samples fictional episodes from
+ * CRUNCH47 C2: one versioned national stream replays historical episodes from
  * the compiled NOAA/NCEI Storm Events catalog, rather than rolling a storm per
  * household. Every rate comes from that catalog's own declared window; the
  * catalog counts REPORTED events, so a rate here is a recorded-report rate for
  * 2000–2024 and not a claim about the chance of a hazard in any future year.
- * A sampled episode's footprint size is resampled from an actual recorded
- * episode of the same state, family and month; the places it actually touches
- * are the represented places of this World, because damage is bounded by what
- * the World represents.
+ * An episode touches represented places in its recorded county footprint.
+ * Unread catalogs use an explicitly marked median seasonal reference.
  *
  * Mitigation, response and damage stay where they already are: this module
  * only decides that an episode occurs, where, and how wide.
@@ -39,7 +38,7 @@ export const HAZARD_PRODUCER_VERSION = "crisis-hazard-producer-v1";
 /** The authored sampling law, stated so nobody has to infer it from code. */
 export const HAZARD_SAMPLING_CONTRACT = {
   version: HAZARD_PRODUCER_VERSION,
-  countLaw: "poisson-at-the-catalog-recorded-monthly-rate",
+  countLaw: "recorded-season-and-county-footprint",
   /**
    * The catalog records episodes for a whole state; it has no per-county rate.
    * A represented place is thinned out of that state rate by the state's
@@ -49,9 +48,9 @@ export const HAZARD_SAMPLING_CONTRACT = {
    * only step in this module that is not read straight from the catalog.
    */
   countyThinning: "recorded-median-footprint-over-counties-in-state",
-  footprintSource: "resampled-recorded-episode-of-the-same-state-family-month",
+  footprintSource: "recorded-episode-of-the-replayed-season-and-county",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
-  label: "historical-report-resampling",
+  label: "historical-report-replay",
 } as const;
 
 interface StormEpisode {
@@ -64,6 +63,7 @@ interface StormEpisode {
   readonly affectedAreas: readonly {
     readonly stateFips: string;
     readonly countyFips: string;
+    readonly czType?: string;
   }[];
 }
 
@@ -98,33 +98,12 @@ interface StormCatalog {
 export const STORM_CATALOG = catalogJson as unknown as StormCatalog;
 
 /** Source families map onto the two families CRISIS represents. */
-const FAMILY_OF: Readonly<Record<string, HazardFamily>> = {
-  flood: "flood",
-  "flash-flood": "flood",
-  "thunderstorm-wind": "severe-storm",
-};
-
-/**
- * A sampled report becomes a lived disaster when the catalog-derived
- * magnitude ladder calls it major or catastrophic. Minor and moderate reports
- * remain samples but do not create an episode. This uses each report's area
- * and event counts uniformly in every represented place; no named demo place
- * or additional chance chooses the outcome.
- */
-const FELT_AS_DISASTER: ReadonlySet<HazardMagnitude> = new Set([
-  "major",
-  "catastrophic",
-]);
-
-/**
- * Authored magnitude ladder over the recorded episode's own size. Not a
- * damage estimate: the damage model reads represented assets separately.
- */
+const FAMILY_OF = mechanism.familyOf as Readonly<Record<string, HazardFamily>>;
+const FELT_AS_DISASTER = new Set<string>(mechanism.feltMagnitudes);
 function magnitudeFor(areaCount: number, eventCount: number): HazardMagnitude {
-  if (areaCount >= 12 || eventCount >= 40) return "catastrophic";
-  if (areaCount >= 5 || eventCount >= 12) return "major";
-  if (areaCount >= 2 || eventCount >= 4) return "moderate";
-  return "minor";
+  return (mechanism.magnitudes.find(
+    (row) => areaCount >= row.areaCount || eventCount >= row.eventCount,
+  )?.magnitude ?? mechanism.minorMagnitude) as HazardMagnitude;
 }
 
 function monthKeyOf(date: IsoDate): string {
@@ -238,7 +217,7 @@ function countyCount(stateUsps: string): number {
  * month. The state rate is the catalog's; the thinning is the declared
  * assumption in HAZARD_SAMPLING_CONTRACT.
  */
-export function representedRate(
+function recordedRepresentedRate(
   stateUsps: string,
   family: string,
   month: number,
@@ -254,17 +233,16 @@ export function representedRate(
   return rate * share;
 }
 
-/** Knuth's method, on the shared deterministic stream. */
-function poisson(rng: SeededRng, mean: number): number {
-  if (mean <= 0) return 0;
-  const limit = Math.exp(-mean);
-  let count = 0;
-  let product = rng.next();
-  while (product > limit && count < 25) {
-    count += 1;
-    product *= rng.next();
-  }
-  return count;
+/** Unread places share the median recorded seasonal rate. */
+export function representedRate(
+  stateUsps: string,
+  family: string,
+  month: number,
+): number {
+  return (
+    recordedRepresentedRate(stateUsps, family, month) ??
+    medianRepresentedRate(family, month)
+  );
 }
 
 export interface SampledHazard {
@@ -289,68 +267,127 @@ export function sampleMonthlyHazards(
 ): readonly SampledHazard[] {
   const areas = representedHazardAreas(world);
   if (areas.length === 0) return [];
-  const month = monthOf(monthStart);
-  const byState = new Map<string, EntityId[]>();
-  for (const area of areas) {
-    byState.set(area.stateUsps, [
-      ...(byState.get(area.stateUsps) ?? []),
-      area.jurisdictionId,
-    ]);
-  }
+  return hazardsForRepresentedAreas(areas, monthStart);
+}
+
+/** Replay the recorded season; only its actual county footprints select assets. */
+export function hazardsForRepresentedAreas(
+  areas: readonly RepresentedArea[],
+  monthStart: IsoDate,
+): readonly SampledHazard[] {
   const sampled: SampledHazard[] = [];
-  for (const [stateUsps, jurisdictionIds] of [...byState].sort((a, b) =>
-    a[0].localeCompare(b[0]),
-  )) {
-    for (const sourceFamily of Object.keys(FAMILY_OF).sort()) {
-      const perPlace = representedRate(stateUsps, sourceFamily, month);
-      if (perPlace === null || perPlace <= 0) continue;
-      // One draw for the represented places of this state together.
-      const rate = perPlace * jurisdictionIds.length;
-      const stream = new SeededRng(HAZARD_PRODUCER_VERSION).fork(
-        JSON.stringify([
-          HAZARD_PRODUCER_VERSION,
-          world.seed,
-          monthKeyOf(monthStart),
-          stateUsps,
-          sourceFamily,
-        ]),
-      );
-      const count = poisson(stream.fork("count"), rate);
+  const month = monthOf(monthStart);
+  const years = STORM_CATALOG.episodeDetailPolicy?.episodeRowYears;
+  if (!years)
+    throw new Error("A hazard catalog needs its recorded detail years.");
+  const year = Number(monthStart.slice(0, 4));
+  const replayYear =
+    years.firstYear +
+    ((((year - years.firstYear) % (years.lastYear - years.firstYear + 1)) +
+      (years.lastYear - years.firstYear + 1)) %
+      (years.lastYear - years.firstYear + 1));
+  const byState = new Map<string, RepresentedArea[]>();
+  for (const area of areas)
+    byState.set(area.stateUsps, [...(byState.get(area.stateUsps) ?? []), area]);
+  for (const [stateUsps, represented] of byState) {
+    for (const sourceFamily of Object.keys(FAMILY_OF)) {
       const candidates = episodesFor(
         stateFipsOf(stateUsps),
         sourceFamily,
         month,
+      ).filter(
+        (episode) => Number(episode.startDate.slice(0, 4)) === replayYear,
       );
-      if (candidates.length === 0) continue;
-      for (let index = 0; index < count; index += 1) {
-        const draw = stream.fork(`episode:${index}`);
-        const recorded = draw.pick([...candidates]);
-        const recordedAreaCount = recorded.affectedAreas.filter(
+      const append = (
+        recorded: StormEpisode,
+        jurisdictionIds: readonly EntityId[],
+      ) => {
+        const footprint = recorded.affectedAreas.filter(
           (area) => area.stateFips === stateFipsOf(stateUsps),
-        ).length;
-        // The footprint's SIZE is resampled; the places are this World's own.
-        const width = Math.max(
-          1,
-          Math.min(jurisdictionIds.length, recordedAreaCount),
         );
-        const chosen = [...jurisdictionIds].sort().slice(0, width);
         sampled.push({
           stateUsps,
           sourceFamily,
           family: FAMILY_OF[sourceFamily]!,
-          magnitude: magnitudeFor(recordedAreaCount, recorded.eventCount),
-          jurisdictionIds: chosen,
-          // The recorded episode's own span, bounded to what the response
-          // chain represents.
+          magnitude: magnitudeFor(
+            footprint.length || recorded.affectedAreas.length,
+            recorded.eventCount,
+          ),
+          jurisdictionIds,
           durationDays: recordedDurationDays(recorded),
           recordedEpisodeId: recorded.episodeId,
-          recordedAreaCount,
-          dayOfMonth: Number(recorded.startDate.slice(8, 10)) || 1,
+          recordedAreaCount: footprint.length || recorded.affectedAreas.length,
+          dayOfMonth: Number(recorded.startDate.slice(8, 10)),
         });
+      };
+      for (const recorded of candidates) {
+        const jurisdictions = represented
+          .filter((area) => {
+            const place = lifePlaceByJurisdictionId(area.jurisdictionId);
+            const counties = place?.sourceGeoid
+              ? countyGeoidsForPlace(place.sourceGeoid)
+              : [];
+            return recorded.affectedAreas.some(
+              (footprint) =>
+                footprint.czType !== "Z" &&
+                counties.includes(
+                  `${footprint.stateFips}${footprint.countyFips}`,
+                ),
+            );
+          })
+          .map((area) => area.jurisdictionId);
+        if (jurisdictions.length > 0) append(recorded, jurisdictions);
+      }
+      // Missing local catalog/geography uses a marked median reference. Its
+      // accumulated seasonal exposure determines dates/counts, never a roll.
+      if (recordedRepresentedRate(stateUsps, sourceFamily, month) === null) {
+        const rate = representedRate(stateUsps, sourceFamily, month);
+        const before = year * 12 + month - 1;
+        const count =
+          Math.floor((before + 1) * rate * represented.length) -
+          Math.floor(before * rate * represented.length);
+        const reference = STORM_CATALOG.episodes
+          .filter(
+            (row) =>
+              row.family === sourceFamily &&
+              row.month === month &&
+              Number(row.startDate.slice(0, 4)) === replayYear,
+          )
+          .sort(
+            (a, b) =>
+              a.affectedAreas.length - b.affectedAreas.length ||
+              a.episodeId.localeCompare(b.episodeId),
+          );
+        const median = reference[Math.floor(reference.length / 2)];
+        if (median)
+          for (let i = 0; i < count; i++)
+            append(
+              median,
+              represented.map((area) => area.jurisdictionId),
+            );
       }
     }
   }
   return sampled;
+}
+
+export function medianRepresentedRate(family: string, month: number): number {
+  const recorded = (STORM_CATALOG.stateMonthlyCatalog ?? [])
+    .filter(
+      (row) =>
+        row.family === family &&
+        row.month === month &&
+        row.episodesPerExposureYear !== null,
+    )
+    .map((row) => recordedRepresentedRate(row.stateUsps, family, month))
+    .filter((rate): rate is number => rate !== null)
+    .sort((a, b) => a - b);
+  if (recorded.length === 0)
+    throw new Error("No recorded seasonal hazard rates.");
+  const mid = Math.floor(recorded.length / 2);
+  return recorded.length % 2
+    ? recorded[mid]!
+    : (recorded[mid - 1]! + recorded[mid]!) / 2;
 }
 
 function recordedDurationDays(episode: StormEpisode): number {
@@ -358,67 +395,13 @@ function recordedDurationDays(episode: StormEpisode): number {
     makeIsoDate(episode.startDate),
     makeIsoDate(episode.endDate),
   );
-  return Math.max(1, Math.min(14, days + 1));
+  return Math.max(1, Math.min(mechanism.maximumEpisodeDays, days + 1));
 }
 
 function stateFipsOf(usps: string): string {
-  return STATE_FIPS[usps] ?? "";
+  const rows: Readonly<Record<string, string>> = mechanism.stateFips;
+  return rows[usps] ?? "";
 }
-
-/** Census state FIPS codes, the join key the storm catalog uses. */
-const STATE_FIPS: Readonly<Record<string, string>> = {
-  AL: "01",
-  AK: "02",
-  AZ: "04",
-  AR: "05",
-  CA: "06",
-  CO: "08",
-  CT: "09",
-  DE: "10",
-  DC: "11",
-  FL: "12",
-  GA: "13",
-  HI: "15",
-  ID: "16",
-  IL: "17",
-  IN: "18",
-  IA: "19",
-  KS: "20",
-  KY: "21",
-  LA: "22",
-  ME: "23",
-  MD: "24",
-  MA: "25",
-  MI: "26",
-  MN: "27",
-  MS: "28",
-  MO: "29",
-  MT: "30",
-  NE: "31",
-  NV: "32",
-  NH: "33",
-  NJ: "34",
-  NM: "35",
-  NY: "36",
-  NC: "37",
-  ND: "38",
-  OH: "39",
-  OK: "40",
-  OR: "41",
-  PA: "42",
-  RI: "44",
-  SC: "45",
-  SD: "46",
-  TN: "47",
-  TX: "48",
-  UT: "49",
-  VT: "50",
-  VA: "51",
-  WA: "53",
-  WV: "54",
-  WI: "55",
-  WY: "56",
-};
 
 /** Schedules the first monthly sample for a current opening. */
 export function ensureHazardProduction(world: World): World {
@@ -534,8 +517,9 @@ function episodeInput(
     stateUsps: sample.stateUsps,
     jurisdictionIds: sample.jurisdictionIds,
     durationDays: sample.durationDays,
-    basis: `${HAZARD_SAMPLING_CONTRACT.label}: resampled from NCEI Storm Events episode ${sample.recordedEpisodeId} (${sample.sourceFamily}, ${sample.recordedAreaCount} source county area(s)); count drawn ${HAZARD_SAMPLING_CONTRACT.countLaw}.`,
+    basis: sample.recordedEpisodeId,
     sourceReference: `ncei-storm-events:${sample.recordedEpisodeId}`,
+    estimatedFrom: mechanism.estimatedFrom,
   };
 }
 

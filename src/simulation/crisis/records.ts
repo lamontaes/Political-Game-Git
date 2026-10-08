@@ -1,3 +1,7 @@
+import {
+  validatePhysicalConditions,
+  validateAssetProtection,
+} from "./disaster-mechanism";
 import { MULTIPLIER_ONE } from "./hazard";
 import { makeIsoDate } from "../dates";
 import {
@@ -379,6 +383,10 @@ function validateCrisisRecords(
           fail(record, "malformed household SNAP participation record");
         break;
       case "hazard-episode":
+        if (record.physicalConditions)
+          validatePhysicalConditions(record.physicalConditions);
+        for (const protection of record.assetProtections ?? [])
+          validateAssetProtection(protection);
         if (
           record.jurisdictionIds.length === 0 ||
           record.jurisdictionIds.some((id) => !world.jurisdictions[id]) ||

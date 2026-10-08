@@ -6,7 +6,8 @@ import {
 } from "../constitutional-process";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { SeededRng } from "../rng";
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import type {
   EntityId,
   FutureDueItem,
@@ -102,14 +103,16 @@ export function proposeAndVoteAmendment(
     return next;
 
   const schedule = input.stateSchedule;
-  const spread = new SeededRng(next.seed).fork(input.proposal.stableKey);
   for (const stateKey of ARTICLE_V_STATE_KEYS) {
-    const days = spread
-      .fork(`state:${stateKey}:day`)
-      .integer(schedule.minimumDays, schedule.maximumDays);
+    const dueAt = nextSessionCalendarDate(
+      LEGISLATIVE_SESSION_CALENDARS.state,
+      next.currentDate,
+      "sitting",
+      { notBefore: addDays(next.currentDate, schedule.minimumDays) },
+    );
     next = scheduleFutureDueItem(next, {
       stableKey: `${input.proposal.stableKey}:state:${stateKey}`,
-      dueAt: addDays(next.currentDate, days),
+      dueAt,
       transitionKey: schedule.transitionKey,
       entityIds: [schedule.jurisdictionId],
       jurisdictionId: schedule.jurisdictionId,
