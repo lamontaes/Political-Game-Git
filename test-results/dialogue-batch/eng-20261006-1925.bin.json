@@ -1,0 +1,58 @@
+[
+  {
+    "item": {
+      "situation": "Your mom, Melissa Saunders (46), in Grainola, Oklahoma, on 2026-01-05. You are 6.",
+      "prior": "You: Talk about an earlier conversation",
+      "reply": "Your mom: I remember you bringing up “$7,000,000 may be committed for behavioral-health-crisis-response:us-wi from 2025-07-01 through 2027-06-30. Authority to spend is not cash.” What happened after that?",
+      "part": "life-reply.remembered-topic:core:core",
+      "parts": [
+        "life-reply.remembered-topic:core:core",
+        "life-reply.remembered-topic:closer:ask-followup"
+      ],
+      "composer": "lifeReplyLine (remembered-topic) in life-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "remembered-topic",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "remember-news-topic",
+        "belief": null,
+        "place": "Grainola, Oklahoma",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:0"
+    },
+    "rule": "raw record key"
+  },
+  {
+    "item": {
+      "situation": "Reporter, Mark Savage (61), in Susupe, Northern Mariana Islands, on 2026-01-05. You are 52.",
+      "prior": "",
+      "reply": "Reporter: $750,000 may be committed for behavioral-health-crisis-response:us-ak from 2025-07-01 through 2026-06-30. Authority to spend is not cash. What is established, and what is still open?",
+      "part": "press.reporter-known-topic:opener:development",
+      "parts": [
+        "press.reporter-known-topic:opener:development",
+        "press.reporter-known-topic:core:question"
+      ],
+      "composer": "composePressLine (reporter question) in press-english.ts",
+      "kind": "press",
+      "cell": {
+        "register": "press",
+        "kind": "interview-question",
+        "relationship": "stranger",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Susupe, Northern Mariana Islands",
+        "pose": null,
+        "ageBand": "adult"
+      },
+      "seed": "ep1-first:3"
+    },
+    "rule": "raw record key"
+  }
+]

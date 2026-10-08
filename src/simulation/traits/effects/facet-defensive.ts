@@ -15,7 +15,6 @@ export const facetDefensiveEffects: readonly TraitEffectDeclaration[] = [
         option: "trial",
         trait: "personality-v1:facet-defensive",
         pole: "high",
-        explanation: "They do not want to stand in court and admit the charge.",
       },
     ],
   },

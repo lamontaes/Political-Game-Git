@@ -641,6 +641,7 @@ describe("recalling a town official", () => {
       projectRecall(indiana.world, indiana.governmentKey, indiana.player),
     ).toEqual({
       unavailable: "Towns in Indiana cannot recall their officials.",
+      unavailableValue: "Indiana · Not allowed",
       rule: null,
       targets: [],
       petitions: [],

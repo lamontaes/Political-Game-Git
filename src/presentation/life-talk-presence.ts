@@ -1,3 +1,4 @@
+import { workplacePresence } from "./workplace-presence";
 import type { EntityId, World } from "../simulation";
 import {
   currentOpeningLifeScene,
@@ -12,6 +13,16 @@ import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 export function currentLifeTalkScene(world: World, personId: EntityId) {
   const opening = currentOpeningLifeScene(world, personId);
   if (opening) return opening;
+  const work = workplacePresence(world, personId);
+  if (work)
+    return {
+      eventId: work.eventId,
+      definition: {
+        setting: "work" as const,
+        key: `workplace:${work.workRelationshipId}`,
+      },
+      presentPersonIds: work.personIds,
+    };
   const context = resolveOpeningPlaySceneContext(world, personId);
   if (context.purpose !== "home") return null;
   const location = openingLifeLocation(world, personId);

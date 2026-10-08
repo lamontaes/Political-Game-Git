@@ -295,7 +295,7 @@ export function CampaignWorkspace({
           : spendAnAfternoon(world, personId, kind),
       (next) => {
         if (next === world) {
-          setProblem("Something already on the calendar has to happen first.");
+          setProblem("Calendar conflict");
           return;
         }
         setSelectedSpending(null);
@@ -368,10 +368,6 @@ export function CampaignWorkspace({
           data-testid="campaign-office-browser"
         >
           <h3>Offices you could run for</h3>
-          <p>
-            Looking at an office, or selecting one, does not start a campaign or
-            spend money.
-          </p>
           {[...new Set(offices.map((office) => office.governmentLevel))].map(
             (level) => (
               <fieldset key={level}>
@@ -382,10 +378,10 @@ export function CampaignWorkspace({
                     const status = office.eligible
                       ? { reasons: [office.eligibility] }
                       : splitEligibilityText(office.eligibility);
-                    const [electionOn, ...timingDetail] = office.timing
+                    const [electionOn, ...timingDetail] = (office.timing ?? "")
                       .split(" — ")
                       .map((part) => part.trim());
-                    const hasElection = ISO_DATE.test(office.timing);
+                    const hasElection = ISO_DATE.test(office.timing ?? "");
                     /*
                      * What is left to say about the office, beyond its status
                      * and its date. The unresolved research gaps are notes to
@@ -429,11 +425,11 @@ export function CampaignWorkspace({
                               ? office.eligibility
                               : status.reasons.length > 0
                                 ? status.reasons.join(" ")
-                                : "You can't file for this office right now."}
+                                : "Not available"}
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
-                              ? `Election: ${readableCampaignDate(electionOn ?? "")}`
+                              ? readableCampaignDate(electionOn ?? "")
                               : office.timing}
                           </span>
                           {office.connections.map((line) => (
@@ -480,7 +476,7 @@ export function CampaignWorkspace({
           <p>
             {unavailable.reasons.length > 0
               ? unavailable.reasons.join(" ")
-              : "There is no office here you can file for right now."}
+              : "No office open"}
           </p>
         </div>
       ) : null}
@@ -489,8 +485,8 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is an election for ${runForPhrase(selectedOffice.title)}${view.placeName ? ` in ${view.placeName}` : ""}.`
-              : "Choose one of the offices above to see whether you can file for it."}
+              ? `Election: ${selectedOffice.title}${view.placeName ? ` · ${view.placeName}` : ""}`
+              : "Choose an office"}
           </p>
           {needsDistrict && selectedOffice ? (
             <DistrictResidencePanel
@@ -752,10 +748,6 @@ export function CampaignWorkspace({
                     ))}
                   </fieldset>
                 ) : null}
-                <p className="game-hint">
-                  Changing the plan does not use any time. The work happens when
-                  you choose it below.
-                </p>
               </section>
             ) : null}
 
@@ -879,10 +871,7 @@ export function CampaignWorkspace({
                           Offer manager job to {candidate.name}
                         </button>
                       ) : (
-                        <span>
-                          The treasury cannot cover the salary through election
-                          day.
-                        </span>
+                        <span>Treasury short</span>
                       )}
                     </li>
                   ))}
@@ -900,7 +889,7 @@ export function CampaignWorkspace({
                 <p>
                   {view.helpers.length
                     ? view.helpers.map((helper) => helper.name).join(", ")
-                    : "You are running this campaign alone."}
+                    : "None"}
                 </p>
                 {view.helperCandidates.length ? (
                   <ul aria-label="People you know who could help">

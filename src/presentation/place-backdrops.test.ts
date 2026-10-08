@@ -121,6 +121,13 @@ describe("place backdrops", () => {
     }
   });
 
+  it("tags every backdrop kind and shared-location use", () => {
+    for (const record of manifest.backdrops) {
+      expect(record.tags).toContain(`kind:${record.place}`);
+      expect(record.tags).toContain("uses:shared-location");
+    }
+  });
+
   it("shows every state, D.C. and each territory its own capitol", () => {
     for (const usps of PLACES_WITH_A_CAPITOL) {
       expect(capitolPlaceFor(usps)).toBe(`state-capitol-${usps.toLowerCase()}`);

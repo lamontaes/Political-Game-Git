@@ -68,17 +68,14 @@ function markupFor(
   );
 }
 
-describe("News says what the laws changed", () => {
-  it("shows the section once a law has moved a condition, with both values", () => {
+describe("News lists law effects without authored summaries", () => {
+  it("shows the section once a law has moved a condition", () => {
     const { world, playerPersonId } = nevadaLife("news-law-effects");
     const markup = markupFor(withRecords(world, true), playerPersonId);
     expect(markup).toContain('data-testid="world39-law-effects"');
     expect(markup).toContain("What the laws changed");
     expect(markup).toContain("because of a change in the law");
-    expect(markup).toContain("The game’s model estimates");
-    expect(markup).toContain(
-      "The game’s model estimates that without this change it would stand at",
-    );
+    expect(markup).not.toContain("The game’s model estimates");
   });
 
   it("shows no section before any law differs from where the place began", () => {

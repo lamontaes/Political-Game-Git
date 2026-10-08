@@ -97,6 +97,11 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain('data-listing="loading"');
     expect(markup).not.toContain("<small>");
     expect(markup).not.toContain('<p class="game-');
+    expect(markup).toContain('data-testid="title-save-progress"');
+    expect(markup).toContain('role="progressbar"');
+    expect(markup).toContain('aria-label="Progress bar"');
+    expect(markup).not.toContain("aria-valuenow");
+    expect(markup).not.toContain("aria-valuetext");
   });
 
   it("offers only Try again for a failed read", () => {
@@ -145,6 +150,7 @@ describe("Observer Mode on the title screen", () => {
     );
     expect(markup).toContain('data-testid="watch-world"');
     expect(markup).toContain("Watch the world");
+    expect(markup).not.toMatch(/runs on its own|Nobody play/i);
   });
 
   it("does not present a watched world's resident as a played life", () => {

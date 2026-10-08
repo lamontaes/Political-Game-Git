@@ -27,6 +27,7 @@
     {
       "key": "minutes.attendance.attended-days-session-only",
       "move": "attendance",
+      "kind": "written",
       "text": "Attended {day}'s session only.",
       "minutesUsing": 33,
       "shippable": true,
@@ -39,6 +40,7 @@
     {
       "key": "minutes.attendance.attended-through-the-discussion-of-topic",
       "move": "attendance",
+      "kind": "written",
       "text": "Attended through the discussion of {topic}.",
       "minutesUsing": 45,
       "shippable": true,
@@ -51,6 +53,7 @@
     {
       "key": "minutes.attendance.attended-opening-remarks-for-session-only",
       "move": "attendance",
+      "kind": "written",
       "text": "Attended opening remarks for {session} only.",
       "minutesUsing": 9,
       "shippable": true,
@@ -63,6 +66,7 @@
     {
       "key": "minutes.attendance.member-voted-as-an-alternate-member-at-this-meeting",
       "move": "attendance",
+      "kind": "written",
       "text": "{member} voted as an alternate member at this meeting.",
       "minutesUsing": 6,
       "shippable": true,
@@ -75,6 +79,7 @@
     {
       "key": "minutes.discussion.the-manager-turned-first-to-topic",
       "move": "discussion",
+      "kind": "written",
       "text": "The manager turned first to {topic}.",
       "minutesUsing": 36,
       "shippable": true,
@@ -87,6 +92,7 @@
     {
       "key": "minutes.discussion.the-manager-then-turned-to-topic",
       "move": "discussion",
+      "kind": "written",
       "text": "The manager then turned to {topic}.",
       "minutesUsing": 11,
       "shippable": true,
@@ -99,6 +105,7 @@
     {
       "key": "minutes.discussion.the-manager-turned-next-to-topic",
       "move": "discussion",
+      "kind": "written",
       "text": "The manager turned next to {topic}.",
       "minutesUsing": 22,
       "shippable": true,
@@ -111,6 +118,7 @@
     {
       "key": "minutes.discussion.the-staff-provided-an-update-on-topic",
       "move": "discussion",
+      "kind": "written",
       "text": "The staff provided an update on {topic}.",
       "minutesUsing": 17,
       "shippable": true,
@@ -123,6 +131,7 @@
     {
       "key": "minutes.discussion.participants-discussed-topic",
       "move": "discussion",
+      "kind": "written",
       "text": "Participants discussed {topic}.",
       "minutesUsing": 24,
       "shippable": true,
@@ -135,6 +144,7 @@
     {
       "key": "minutes.discussion.in-their-discussion-of-topic-participants-view",
       "move": "discussion",
+      "kind": "written",
       "text": "In their discussion of {topic}, participants {view}.",
       "minutesUsing": 39,
       "shippable": true,
@@ -147,6 +157,7 @@
     {
       "key": "minutes.discussion.in-their-consideration-of-topic-participants-noted-that-view",
       "move": "discussion",
+      "kind": "written",
       "text": "In their consideration of {topic}, participants noted that {view}.",
       "minutesUsing": 15,
       "shippable": true,
@@ -159,6 +170,7 @@
     {
       "key": "minutes.discussion.against-this-background-view",
       "move": "discussion",
+      "kind": "written",
       "text": "Against this background, {view}.",
       "minutesUsing": 11,
       "shippable": true,
@@ -171,6 +183,7 @@
     {
       "key": "minutes.discussion.the-staff-judged-that-view",
       "move": "discussion",
+      "kind": "written",
       "text": "The staff judged that {view}.",
       "minutesUsing": 21,
       "shippable": true,
@@ -183,6 +196,7 @@
     {
       "key": "minutes.agreement.members-concurred-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Members concurred that {view}.",
       "minutesUsing": 24,
       "shippable": true,
@@ -195,6 +209,7 @@
     {
       "key": "minutes.agreement.members-also-concurred-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Members also concurred that {view}.",
       "minutesUsing": 9,
       "shippable": true,
@@ -207,6 +222,7 @@
     {
       "key": "minutes.agreement.participants-agreed-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Participants agreed that {view}.",
       "minutesUsing": 26,
       "shippable": true,
@@ -219,6 +235,7 @@
     {
       "key": "minutes.agreement.members-agreed-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Members agreed that {view}.",
       "minutesUsing": 35,
       "shippable": true,
@@ -231,6 +248,7 @@
     {
       "key": "minutes.agreement.almost-all-members-agreed-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Almost all members agreed that {view}.",
       "minutesUsing": 6,
       "shippable": true,
@@ -243,6 +261,7 @@
     {
       "key": "minutes.agreement.all-participants-judged-it-appropriate-to-action",
       "move": "agreement",
+      "kind": "written",
       "text": "All participants judged it appropriate to {action}.",
       "minutesUsing": 3,
       "shippable": true,
@@ -255,6 +274,7 @@
     {
       "key": "minutes.agreement.participants-judged-that-it-was-appropriate-to-action",
       "move": "agreement",
+      "kind": "written",
       "text": "Participants judged that it was appropriate to {action}.",
       "minutesUsing": 4,
       "shippable": true,
@@ -267,6 +287,7 @@
     {
       "key": "minutes.agreement.members-also-acknowledged-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "Members also acknowledged that {view}.",
       "minutesUsing": 5,
       "shippable": true,
@@ -279,6 +300,7 @@
     {
       "key": "minutes.agreement.they-also-agreed-that-view",
       "move": "agreement",
+      "kind": "written",
       "text": "They also agreed that {view}.",
       "minutesUsing": 14,
       "shippable": true,
@@ -291,6 +313,7 @@
     {
       "key": "minutes.agreement.members-viewed-subject-as-judgment",
       "move": "agreement",
+      "kind": "written",
       "text": "Members viewed {subject} as {judgment}.",
       "minutesUsing": 9,
       "shippable": true,
@@ -303,6 +326,7 @@
     {
       "key": "minutes.weighing.many-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "Many participants noted that {view}.",
       "minutesUsing": 31,
       "shippable": true,
@@ -315,6 +339,7 @@
     {
       "key": "minutes.weighing.several-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "Several participants noted that {view}.",
       "minutesUsing": 38,
       "shippable": true,
@@ -327,6 +352,7 @@
     {
       "key": "minutes.weighing.some-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "Some participants noted that {view}.",
       "minutesUsing": 37,
       "shippable": true,
@@ -339,6 +365,7 @@
     {
       "key": "minutes.weighing.a-few-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "A few participants noted that {view}.",
       "minutesUsing": 33,
       "shippable": true,
@@ -351,6 +378,7 @@
     {
       "key": "minutes.weighing.a-couple-of-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "A couple of participants noted that {view}.",
       "minutesUsing": 29,
       "shippable": true,
@@ -363,6 +391,7 @@
     {
       "key": "minutes.weighing.most-participants-noted-that-view",
       "move": "weighing",
+      "kind": "written",
       "text": "Most participants noted that {view}.",
       "minutesUsing": 14,
       "shippable": true,
@@ -375,6 +404,7 @@
     {
       "key": "minutes.weighing.the-extent-of-these-effects-remains-uncertain",
       "move": "weighing",
+      "kind": "written",
       "text": "The extent of these effects remains uncertain.",
       "minutesUsing": 6,
       "shippable": true,
@@ -387,6 +417,7 @@
     {
       "key": "minutes.vote.by-unanimous-vote-the-body-action",
       "move": "vote",
+      "kind": "written",
       "text": "By unanimous vote, the {body} {action}.",
       "minutesUsing": 44,
       "shippable": true,
@@ -399,6 +430,7 @@
     {
       "key": "minutes.vote.voting-for-this-action-members",
       "move": "vote",
+      "kind": "written",
       "text": "Voting for this action: {members}.",
       "minutesUsing": 43,
       "shippable": true,
@@ -411,6 +443,7 @@
     {
       "key": "minutes.vote.voting-against-this-action-members",
       "move": "vote",
+      "kind": "written",
       "text": "Voting against this action: {members}.",
       "minutesUsing": 41,
       "shippable": true,
@@ -423,6 +456,7 @@
     {
       "key": "minutes.vote.member-dissented-because-reason",
       "move": "vote",
+      "kind": "written",
       "text": "{member} dissented because {reason}.",
       "minutesUsing": 2,
       "shippable": true,
@@ -435,6 +469,7 @@
     {
       "key": "minutes.vote.member-preferred-to-alternative",
       "move": "vote",
+      "kind": "written",
       "text": "{member} preferred to {alternative}.",
       "minutesUsing": 15,
       "shippable": true,
@@ -447,6 +482,7 @@
     {
       "key": "minutes.vote.it-was-agreed-that-the-next-meeting-of-the-body-would-be-held-on-date",
       "move": "vote",
+      "kind": "written",
       "text": "It was agreed that the next meeting of the {body} would be held on {date}.",
       "minutesUsing": 45,
       "shippable": true,
@@ -459,6 +495,7 @@
     {
       "key": "minutes.vote.the-meeting-adjourned-at-time",
       "move": "vote",
+      "kind": "written",
       "text": "The meeting adjourned at {time}.",
       "minutesUsing": 45,
       "shippable": true,

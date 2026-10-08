@@ -21,7 +21,10 @@
  *
  * This is a development tool for reviewing wording. It is never part of play.
  */
+import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
+import { readKinds } from "./kinds";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -36,6 +39,15 @@ import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
 import { describePersonContext } from "../../src/simulation/person-context";
+import {
+  chosenReasons,
+  evaluateSentence,
+  prepareJudge,
+  sentencingJudge,
+  type CourtCase,
+} from "../../src/simulation/justice/court-reasoning";
+import { householdMembershipsAt } from "../../src/simulation/life-queries";
+import { stateKeyForJurisdiction } from "../../src/simulation/state-jurisdiction-id";
 import {
   latestPersonalValue,
   latestPersonalityTendency,
@@ -79,7 +91,12 @@ import {
 import {
   matterUninformedLine,
   officialViewLine,
+  greetAgainLine,
 } from "../../src/presentation/small-talk-english";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "../../src/presentation/life-conversation";
 import {
   currentKnownMatter,
   matterAwareness,
@@ -94,6 +111,20 @@ import {
 } from "../../src/presentation/life-talk-running";
 import { speakerTraits } from "../../src/presentation/speaker-traits";
 import { placeFor, rng } from "../playtest/mass-play/driver";
+import {
+  composePressRequestPitch,
+  composeReporterQuestion,
+  plannedPressArrangementPlace,
+} from "../../src/presentation/press-request";
+import { pressAnswerPacket } from "../../src/presentation/press-english";
+import {
+  addSimulationMinutes,
+  arrangeAcceptedPressInterview,
+  producePressRequestResponse,
+  projectEligiblePressReporters,
+  projectPitchablePressBases,
+  recordPressRequest,
+} from "../../src/simulation";
 
 export type BatchAxis =
   | "pose"
@@ -116,6 +147,10 @@ export interface BatchLine {
   readonly speaker: {
     readonly name: string;
     readonly age: number;
+    /** How the player knows them ("your mom"), or null for a stranger. */
+    readonly relation: string | null;
+    /** True when the line is the player's own. */
+    readonly isPlayer: boolean;
     /** The recorded voice cues the engine reads for this person. */
     readonly traits: Readonly<Record<string, string>>;
     /** The temperament words the person card shows, when any were recorded. */
@@ -158,6 +193,11 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** Kinds of text no world produced, each with why. */
+  readonly absent?: readonly {
+    readonly kind: string;
+    readonly reason: string;
+  }[];
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];
 }
@@ -278,6 +318,8 @@ function speakerOf(ctx: WorldContext, person: Person): BatchLine["speaker"] {
   return {
     name: person.name,
     age: person.age,
+    relation: person.relation,
+    isPlayer: person.id === ctx.playerId,
     traits: voiceOf(ctx.world, person.id),
     observed: observedTraitLabels(ctx.world, person.id),
   };
@@ -925,6 +967,252 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+function greetAgain(ctx: WorldContext): Produced {
+  for (const person of ctx.cast) {
+    const conversation = projectLifeConversation(
+      ctx.world,
+      ctx.playerId,
+      person.id,
+    );
+    if (!conversation?.intents.some((intent) => intent.key === "greet"))
+      continue;
+    let greeted: World;
+    try {
+      greeted = commitLifeConversation(ctx.world, {
+        playerPersonId: ctx.playerId,
+        personId: person.id,
+        intent: "greet",
+        revision: conversation.revision,
+      });
+    } catch {
+      continue;
+    }
+    const history = greeted.history.events.filter(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === ctx.playerId &&
+            participant.role === "focus:subject",
+        ) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === person.id &&
+            participant.role === "coordination:counterpart",
+        ) &&
+        event.occurredAt <= greeted.currentDate,
+    );
+    const line = greetAgainLine(greeted, person.id, ctx.playerId, history);
+    if (!line) continue;
+    return {
+      axis: "interaction",
+      composer: "greetAgainLine in small-talk-english.ts",
+      situation: `${ctx.playerName} says hello again to ${describeWho(person)} after their saved conversation.`,
+      prior: LIFE_TALK_INTENTS.greet,
+      speaker: personOf(greeted, ctx.playerId, person.id, person.relation),
+      line: line.text,
+      parts: line.parts,
+      harness: [
+        "The batch records a first ordinary greeting in the current scene, then reads the next greeting from that saved conversation.",
+      ],
+    };
+  }
+  return skip(
+    "no present person has a current scene where a greeting can be recorded",
+  );
+}
+
+/**
+ * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
+ * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
+ * sitting trial judge for the player's home court, drawn by the court's own
+ * docket rule; the case is the harness's, and the judge decides it through
+ * the shared decision engine. The line is exactly the reasons the code gives
+ * for the sentence the judge chose.
+ */
+function judgeSentence(
+  offenseKey: string,
+  offenseLabel: string,
+  pleaded: boolean,
+  standingFindings: number,
+) {
+  return (ctx: WorldContext): Produced => {
+    const home = householdMembershipsAt(ctx.world, ctx.playerId).find(
+      (row) => row.location,
+    )?.location;
+    if (!home) return skip("the player has no recorded home");
+    const defendant = findLocal(ctx, () => true);
+    if (!defendant) return skip("no adult outside the player's circle");
+    const jurisdiction = ctx.world.jurisdictions[home.jurisdictionId];
+    const courtCase: CourtCase = {
+      caseKey: `dialogue-batch:case:${offenseKey}:${pleaded ? "plea" : "trial"}:${standingFindings}`,
+      defendantId: defendant.id,
+      offenseKey,
+      offenseLabel,
+      evidence: "documentary",
+      standingFindings,
+      venueJurisdictionId: home.jurisdictionId,
+      stateKey: jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null,
+    };
+    const judgeId = sentencingJudge(ctx.world, courtCase, 0);
+    if (!judgeId) return skip("the home court has no sitting judge");
+    const world = prepareJudge(ctx.world, judgeId);
+    const decision = evaluateSentence(world, judgeId, courtCase, pleaded);
+    const line = chosenReasons(decision);
+    if (!line) return skip("the judge's sentence gave no reasons");
+    const chosen = decision.selectedOptionKey.endsWith("jail")
+      ? "jail"
+      : "probation";
+    return {
+      axis: "interaction",
+      composer: "chosenReasons (evaluateSentence) in court-reasoning.ts",
+      situation: `Judge ${personName(world.people[judgeId]!)} sentences ${defendant.name} (${defendant.age}) for ${offenseLabel}${pleaded ? " after a guilty plea" : " after a trial"}. The judge chose ${chosen}.`,
+      speaker: personOf(world, ctx.playerId, judgeId, "judge"),
+      line,
+      // Each reason is a fixed sentence in the justice code, keyed by the
+      // consideration it explains, so a grade points at the sentence.
+      parts: decision.context.considerations
+        .filter(
+          (row) =>
+            row.optionKey === decision.selectedOptionKey &&
+            row.direction === "supports",
+        )
+        .map((row) => {
+          const variant = row.stableKey.split(":sentence:")[1] ?? row.stableKey;
+          return {
+            part: "core" as const,
+            partKey: `justice.sentence:core:${variant}`,
+            variantKey: variant,
+            text: row.explanation,
+            usedFactKeys: [],
+          };
+        }),
+      harness: [
+        `The case (${offenseLabel}, ${pleaded ? "plea" : "trial"}, ${standingFindings} standing findings) is the harness's; the judge and defendant are real people in this world.`,
+      ],
+    };
+  };
+}
+
+/**
+ * A press interview answer: the player asks a reporter for an exchange through
+ * the press desk's own writers, the reporter decides from their record, and
+ * if they accept the exchange is arranged and the player answers the
+ * reporter's question with the answer banks.
+ */
+function pressAnswer(ctx: WorldContext): Produced {
+  const reasons: string[] = [];
+  for (const topic of projectPitchablePressBases(ctx.world, ctx.playerId)) {
+    const reporters = projectEligiblePressReporters(ctx.world, {
+      sourcePersonId: ctx.playerId,
+      questionBasisEventIds: [topic.eventId],
+    });
+    for (const reporter of reporters) {
+      const pitch = composePressRequestPitch({
+        subjectSummary: topic.summary,
+        intent: "request-exchange",
+        stance: "report-what-is-recorded",
+        channel: "spoken",
+        terms: "on-record",
+        backgroundAttribution: null,
+      });
+      const question = composeReporterQuestion({
+        subjectSummary: topic.summary,
+        terms: "on-record",
+        grounding: reporterQuestionPacket(
+          ctx.world,
+          ctx.playerId,
+          reporter.personId,
+          topic.eventId,
+        ),
+      });
+      if (!pitch.ok || !question.ok) {
+        reasons.push(
+          !pitch.ok ? pitch.reason : (question as { reason: string }).reason,
+        );
+        continue;
+      }
+      try {
+        const asked = recordPressRequest(ctx.world, {
+          stableKey: `dialogue-batch:press:${topic.eventId}:${reporter.personId}`,
+          reporterPersonId: reporter.personId,
+          reporterWorkRoleId: reporter.workRoleId,
+          jurisdictionId: topic.jurisdictionId,
+          channel: "spoken",
+          terms: "on-record",
+          backgroundAttribution: null,
+          pitch: pitch.statement,
+          primaryQuestion: question.statement,
+          questionBasisEventIds: [topic.eventId],
+        });
+        const answered = producePressRequestResponse(asked.world, {
+          stableKey: `${asked.requestEventId}:reporter-response`,
+          requestEventId: asked.requestEventId,
+        });
+        const response = answered.world.history.events.find(
+          (event) => event.id === answered.responseEventId,
+        );
+        if (response?.context.choice !== "accepted") {
+          reasons.push(`${reporter.personName} declined`);
+          continue;
+        }
+        const start = addSimulationMinutes(answered.world.currentMoment, 60);
+        const arranged = arrangeAcceptedPressInterview(answered.world, {
+          stableKey: `${asked.requestEventId}:arrangement`,
+          requestEventId: asked.requestEventId,
+          reporterResponseEventId: answered.responseEventId,
+          adviserResponseEventId: null,
+          start,
+          end: addSimulationMinutes(start, 30),
+          preparationMinutes: 0,
+          location: {
+            locationKey: `press-planned:${asked.requestEventId}`,
+            label: plannedPressArrangementPlace("spoken").label,
+          },
+        });
+        // With no preparation the player holds no recorded fact, so the
+        // answer bank composePressAnswer uses is answer-unknown.
+        const packet = pressAnswerPacket(arranged.world, arranged.activityId);
+        const answer = packet
+          ? composePressLine(packet, "answer-unknown", {
+              question: question.statement,
+            })
+          : null;
+        if (!answer) {
+          reasons.push("the answer bank could not word it from the record");
+          continue;
+        }
+        const speaker = personOf(
+          arranged.world,
+          ctx.playerId,
+          ctx.playerId,
+          null,
+        );
+        return {
+          axis: "interaction",
+          composer: "composePressLine (answer-unknown) in press-english.ts",
+          situation: `In an arranged spoken interview with ${reporter.personName} about "${topic.summary}", ${ctx.playerName} answers the reporter's question with no preparation.`,
+          prior: question.statement,
+          speaker,
+          line: answer.text,
+          parts: answer.parts,
+          harness: [
+            "Key answer-unknown is the one composePressAnswer picks when the player holds no recorded fact.",
+            "The request, the reporter's own decision and the arrangement were written through the press desk's producers; the world they wrote is discarded after this line.",
+          ],
+        };
+      } catch (error) {
+        reasons.push(error instanceof Error ? error.message : String(error));
+      }
+    }
+  }
+  return skip(
+    reasons.length
+      ? reasons.slice(0, 3).join("; ")
+      : "no development a reporter knows",
+  );
+}
+
 function privacyMood(ctx: WorldContext): Produced {
   const speaker =
     ctx.cast.find(
@@ -994,6 +1282,7 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
+  { id: "greet-again", run: greetAgain },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
   { id: "remember-news-topic", run: rememberTopic },
@@ -1006,6 +1295,23 @@ const SITUATIONS: readonly Situation[] = [
   { id: "press-reporter-question", run: pressQuestion },
   { id: "matter-uninformed", run: matterUninformed },
   { id: "officials-view", run: officialsView },
+  { id: "press-answer", run: pressAnswer },
+  {
+    id: "judge-sentence-vandalism-plea",
+    run: judgeSentence("crime:vandalism", "vandalism", true, 1),
+  },
+  {
+    id: "judge-sentence-assault-trial",
+    run: judgeSentence("crime:assault", "assault", false, 1),
+  },
+  {
+    id: "judge-sentence-burglary-repeat",
+    run: judgeSentence("crime:burglary", "burglary", false, 3),
+  },
+  {
+    id: "judge-sentence-bribery-plea",
+    run: judgeSentence("public-bribery", "public bribery", true, 1),
+  },
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
@@ -1143,11 +1449,62 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
+  // The other kinds of text, read from the game's own producers: up to three
+  // each across the worlds, and a reason for every kind none produced.
+  const perKind = new Map<string, number>();
+  const why = new Map<string, string[]>();
+  for (const ctx of contexts) {
+    const reading = readKinds(ctx.world, ctx.playerId);
+    for (const text of reading.texts) {
+      // The same wording with other figures or places counts once.
+      const shape = text.text
+        .replace(ctx.place, "@")
+        .replace(
+          /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+          "#",
+        )
+        .replace(/[\d$,.]+/g, "#");
+      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      seenText.add(shape);
+      perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
+      lines.push({
+        id: `text-${text.kind}-${perKind.get(text.kind)}`,
+        axis: "place",
+        composer: text.composer,
+        situation: text.situation,
+        speaker: speakerOf(
+          ctx,
+          personOf(ctx.world, ctx.playerId, ctx.playerId, null),
+        ),
+        line: text.text,
+        parts: [text.partKey],
+        world: {
+          place: ctx.place,
+          player: ctx.playerName,
+          playerAge: ctx.playerAge,
+          date: ctx.world.currentDate,
+        },
+        harness: [],
+      });
+    }
+    for (const row of reading.absent)
+      why.set(row.kind, [
+        ...(why.get(row.kind) ?? []),
+        `${ctx.place}: ${row.reason}`,
+      ]);
+  }
+  const absent = [...why]
+    .filter(([kind]) => !perKind.has(kind))
+    .map(([kind, reasons]) => ({
+      kind,
+      reason: [...new Set(reasons)].join("; "),
+    }));
   return {
     seed: options.seed,
     worlds: summaries,
     lines,
     skipped,
+    absent,
     stats: batchStats(lines),
   };
 }
@@ -1210,6 +1567,26 @@ function main() {
   writeFileSync(out, `${JSON.stringify(result, null, 2)}\n`);
   console.log(batchSummary(result));
   console.log(`\nWrote ${out}.`);
+  // The grading page's file: only exchanges that pass the rules; the rest go
+  // to the bin beside it.
+  const at = new Date();
+  const batchId = opt("batch-id", gradingBatchId(at));
+  const head = execSync("git rev-parse HEAD").toString().trim();
+  const { batch, bin } = toGradingBatch(result, { id: batchId, head, at });
+  const gradingOut = `test-results/dialogue-batch/${batchId}.json`;
+  mkdirSync(dirname(gradingOut), { recursive: true });
+  writeFileSync(gradingOut, `${JSON.stringify(batch, null, 2)}\n`);
+  writeFileSync(
+    `test-results/dialogue-batch/${batchId}.bin.json`,
+    `${JSON.stringify(bin, null, 2)}\n`,
+  );
+  console.log(
+    `Wrote ${gradingOut}: ${batch.items.length} exchanges to grade, ${bin.length} in the bin.`,
+  );
+  if (args.includes("--write-ledger")) {
+    writeCoverageLedger(batch);
+    console.log("Updated data/english/coverage.json.");
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

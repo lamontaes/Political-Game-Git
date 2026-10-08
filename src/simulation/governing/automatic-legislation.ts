@@ -492,7 +492,7 @@ export function stateTransitAutomaticLawContext(
 export const AUTOMATIC_LAW_QUESTION_COOLDOWN_DAYS = 365;
 
 /**
- * Prevents an automatic producer from repeatedly toggling the same supported
+ * Prevents one automatic sponsor from repeatedly toggling the same supported
  * question. Only explicitly answered measures in that producer's persisted
  * key namespace count, and the window starts at a terminal legislative action.
  */
@@ -501,6 +501,7 @@ export function automaticLawQuestionOnCooldown(
   input: {
     readonly jurisdictionId: EntityId;
     readonly propositionId: EntityId;
+    readonly sponsorPersonId: EntityId;
     readonly stableKeyPrefix: string;
     readonly asOf?: IsoDate;
     readonly cooldownDays?: number;
@@ -519,6 +520,7 @@ export function automaticLawQuestionOnCooldown(
     if (
       measure.origin !== "member-introduction" ||
       measure.jurisdictionId !== input.jurisdictionId ||
+      measure.sponsorPersonId !== input.sponsorPersonId ||
       !measure.stableKey.startsWith(input.stableKeyPrefix) ||
       !(measure.propositionAnswers ?? []).some(
         (row) => row.propositionId === input.propositionId,

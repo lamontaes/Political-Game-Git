@@ -17,10 +17,14 @@ import {
 } from "../presentation/title-ambient";
 import {
   civicTitlePictures,
+  pictureForChosenState,
+  pictureForChosenTown,
   rotationForSave,
   type TitlePicture,
 } from "../presentation/title-civic-rotation";
 import { titlePictureHero } from "../presentation/title-picture-hero";
+import { middayBackdropUrl } from "../presentation/place-backdrops";
+import staging from "../../art/backdrops/staging.json" with { type: "json" };
 import backdropManifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { backdropUrl } from "../presentation/backdrop-urls";
 import {
@@ -152,6 +156,8 @@ export function AmbientTableau({
   hero = null,
   recent = null,
   still = false,
+  chosenState = null,
+  chosenTown = false,
   children,
 }: {
   readonly resolved?: TitlePresentation | null;
@@ -177,6 +183,13 @@ export function AmbientTableau({
    * form is the ghosting the owner saw, and it reads as an error.
    */
   readonly still?: boolean;
+  /**
+   * The postal code of the state a new life is being made in (OW-4). Once the
+   * creator has one, the backdrop is that place's own, never the White House.
+   */
+  readonly chosenState?: string | null;
+  /** A town is chosen too: its own main street or city hall leads instead. */
+  readonly chosenTown?: boolean;
   readonly children: (roomDescription: string) => ReactNode;
 }) {
   const pictures = useMemo(() => titlePictures(), []);
@@ -187,6 +200,21 @@ export function AmbientTableau({
       PRODUCTION_VISUAL_LIBRARY,
       pictures,
     );
+    if (chosenState) {
+      const own =
+        (chosenTown
+          ? pictureForChosenTown(STAGED_PLACES, middayBackdropUrl)
+          : null) ?? pictureForChosenState(pictures, chosenState);
+      const placeFree = ambient.filter(
+        (room) => room.sceneId !== "picture:white-house-exterior",
+      );
+      if (!own) return placeFree;
+      const lead = pictureRoom(own);
+      return [
+        lead,
+        ...placeFree.filter((room) => room.sceneId !== lead.sceneId),
+      ];
+    }
     if (recent) {
       const { first } = rotationForSave(pictures, recent.playerRole);
       if (!first) return ambient;
@@ -203,7 +231,7 @@ export function AmbientTableau({
       label: tableau.label,
     };
     return [first, ...ambient.filter((room) => room.sceneId !== first.sceneId)];
-  }, [resolved, recent, pictures]);
+  }, [resolved, recent, pictures, chosenState, chosenTown]);
 
   /**
    * The returning player in front of their place. Only on the title itself:
@@ -212,9 +240,9 @@ export function AmbientTableau({
    */
   const leadHero = useMemo(() => {
     const lead = cycle[0]?.picture;
-    if (!recent || !lead || !peoplePackAvailable()) return null;
+    if (chosenState || !recent || !lead || !peoplePackAvailable()) return null;
     return titlePictureHero(recent, lead.place);
-  }, [cycle, recent]);
+  }, [cycle, recent, chosenState]);
 
   const reducedMotion = usePrefersReducedMotion();
   const step = useAmbientStep(cycle.length > 1 && !still);
@@ -324,6 +352,9 @@ function titlePictures(): readonly TitlePicture[] {
       ]
     : pictures;
 }
+
+/** Places the staging table can put people in. */
+const STAGED_PLACES: ReadonlySet<string> = new Set(Object.keys(staging.places));
 
 /** What the wrapper paints when there is no art and no save: nothing at all. */
 const TYPOGRAPHIC_ONLY: TitlePresentation = {
@@ -452,6 +483,7 @@ export function TitleScreen({
 }) {
   const recent = saves[0];
   const setAside = damaged?.length ?? 0;
+  const reading = saveListing === "loading";
   const unread = saveListing === "failed";
   const outdated = saveListing === "outdated";
 
@@ -541,6 +573,16 @@ export function TitleScreen({
           </button>
         ) : null}
       </div>
+      {reading ? (
+        <div
+          className="front-door-progress"
+          role="progressbar"
+          aria-label="Progress bar"
+          data-testid="title-save-progress"
+        >
+          <span aria-hidden="true" />
+        </div>
+      ) : null}
       {unread && onRetrySaves ? (
         <button type="button" data-testid="saves-unread" onClick={onRetrySaves}>
           Try again

@@ -27,11 +27,6 @@ import {
   type ComposedPart,
 } from "./english-composition";
 import {
-  invitationAgreeLine,
-  invitationDeclineLine,
-  type InvitationKind,
-} from "./refusal-english";
-import {
   greetAgainLine,
   matterUninformedLine,
   officialViewLine,
@@ -54,13 +49,28 @@ import {
   recordEventKnowledge,
   recordWorldEvent,
   advanceWorldMinutes,
-  kinshipRelationshipsAt,
   simulationMinutesBetween,
   controlledCommitmentsBlockingMinuteAdvance,
   addSimulationMinutes,
   compareSimulationMoments,
 } from "../simulation";
 import { LIFE_MIND_IDS } from "../simulation/life-mind-content";
+import {
+  projectPlayedSceneExchange,
+  playedSceneEnglishPacket,
+} from "./scene-conversation";
+import type { StorySceneSnapshot } from "./story-scene-resolver";
+import { composePlayedSceneLine } from "./small-talk-english";
+import { evaluateReplyMeaning } from "./reply-meaning";
+import { conversationStanding } from "./conversation-consequences";
+import { recordDurableDecisionTrace } from "../simulation/decisions";
+import {
+  claimStanceTag,
+  recordPlayerClaim,
+  type ClaimStance,
+} from "../simulation/claim-stances";
+import { scheduleContradictionCheck } from "../simulation/claim-contradictions";
+import { speakerTraits } from "./speaker-traits";
 import {
   latestPersonalValue,
   latestPersonalityTendency,
@@ -77,15 +87,12 @@ export const LIFE_TALK_INTENTS = {
   scene: "Talk about what is happening here",
   activity: "Ask what they would like to do",
   explain: "Ask why",
-  suggestGame: "Suggest playing a game together",
-  suggestQuiet: "Suggest sitting and talking together",
   share: "Ask if you can tell them something",
   matter: "Mention something in the news",
   officials: "Ask what they think of the people in office",
   remember: "Talk about an earlier conversation",
   acknowledge: "Let them know you heard",
   leave: "Say goodbye",
-  date: "Ask if they would like this to be a date",
   spendTime: "Spend half an hour together",
   acceptProposal: "Agree to their suggestion",
   declineProposal: "Decline their suggestion",
@@ -132,8 +139,9 @@ export const MATTER_CHOICE_PREFIX = "Mention the news: ";
 export interface LifeTalkContext {
   readonly playerPersonId: EntityId;
   readonly personId: EntityId;
-  readonly setting: "home" | "school" | "neighborhood";
+  readonly setting: "home" | "school" | "neighborhood" | "work";
   readonly placeLabel: string;
+  readonly jurisdictionId: EntityId;
 }
 
 /** Exact relation + shared context, never the first person in a list. */
@@ -157,6 +165,9 @@ export function lifeTalkContext(
     personId,
     setting: scene.definition.setting,
     placeLabel: event?.context.location?.label ?? "Home",
+    jurisdictionId:
+      event?.context.location?.jurisdictionId ??
+      world.people[playerPersonId]!.homeJurisdictionId,
   };
 }
 
@@ -235,41 +246,9 @@ export function projectLifeConversation(
       ...topics.map((topic) => topic.key as LifeTalkIntent),
       "nothing",
     );
-  if (previousIntent === "activity")
-    intents.push("suggestGame", "suggestQuiet");
-  if (
-    ["activity", "share", "suggestGame", "suggestQuiet"].includes(
-      previousIntent ?? "",
-    )
-  )
+  if (["activity", "share"].includes(previousIntent ?? ""))
     intents.push("explain");
   if (history.length > 0) intents.push("remember", "acknowledge");
-  const adults = [playerPersonId, personId].every(
-    (id) => ageOnDate(world.people[id]!.birthDate, world.currentDate) >= 18,
-  );
-  const kin = kinshipRelationshipsAt(world, playerPersonId).some((record) =>
-    record.personIds.includes(personId),
-  );
-  const care = world.history.childAuthorities.some(
-    (record) =>
-      (record.childPersonId === playerPersonId &&
-        record.holder.kind === "person" &&
-        record.holder.personId === personId) ||
-      (record.childPersonId === personId &&
-        record.holder.kind === "person" &&
-        record.holder.personId === playerPersonId),
-  );
-  if (
-    adults &&
-    !kin &&
-    !care &&
-    !history.some(
-      (event) =>
-        event.occurredAt === world.currentDate &&
-        event.tags.includes("life.talk:date"),
-    )
-  )
-    intents.push("date");
   const currentSceneId = currentLifeTalkScene(world, playerPersonId)!.eventId;
   const proposal = currentTalkProposal(
     world,
@@ -280,30 +259,13 @@ export function projectLifeConversation(
   if (proposal?.status === "proposed")
     intents.push("acceptProposal", "declineProposal");
   if (proposal?.status === "accepted") intents.push("cancelProposal");
-  const latestProposal = history
-    .filter(
-      (event) =>
-        event.occurredAt === world.currentDate &&
-        event.tags.includes(`scene:${currentSceneId}`) &&
-        ["date", "suggestGame", "suggestQuiet", "spendTime", "leave"].some(
-          (intent) => event.tags.includes(`life.talk:${intent}`),
-        ),
-    )
-    .at(-1);
   if (
     !history.some(
       (event) =>
         event.tags.includes(`scene:${currentSceneId}`) &&
         event.tags.includes("life.talk:spendTime"),
     ) &&
-    (proposal?.status === "accepted" ||
-      (!proposal &&
-        latestProposal &&
-        ((adults &&
-          !kin &&
-          !care &&
-          latestProposal.tags.includes("life.answer:date-accepted")) ||
-          latestProposal.tags.includes("life.answer:company-accepted"))))
+    proposal?.status === "accepted"
   )
     intents.push("spendTime");
   intents.push("leave");
@@ -357,25 +319,6 @@ function parentOfYoungPlayer(
     ) &&
     ageOnDate(world.people[playerPersonId]!.birthDate, world.currentDate) < 13
   );
-}
-
-function willingToDate(world: World, personId: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, personId, "privacy") &&
-    latestPersonalValue(world, personId, LIFE_MIND_IDS.connection)
-      ?.orientation === "embraces"
-  );
-}
-
-function acceptsActivity(
-  world: World,
-  personId: EntityId,
-  intent: LifeTalkIntent,
-): boolean {
-  if (activeOrdinaryGoal(world, personId, "privacy")) return false;
-  return intent === "suggestGame"
-    ? activityPreference(world, personId) !== "explore"
-    : activityPreference(world, personId) !== "familiar";
 }
 
 function activityPreference(world: World, personId: EntityId): string {
@@ -453,10 +396,7 @@ function replyFor(
     currentLifeTalkScene(world, playerPersonId)!.eventId,
   );
   const matchesProposal =
-    proposal?.status === "proposed" &&
-    (intent === "acceptProposal" ||
-      (intent === "suggestGame" && proposal.terms.activity !== "quiet") ||
-      (intent === "suggestQuiet" && proposal.terms.activity === "quiet"));
+    proposal?.status === "proposed" && intent === "acceptProposal";
   if (matchesProposal)
     return activeOrdinaryGoal(world, personId, "privacy")
       ? say("i-need-some-time-alone-now-lets")
@@ -473,30 +413,6 @@ function replyFor(
     throw new Error(
       "A step of the talk about running is answered by answerRunning.",
     );
-  // Yes is short and no comes with its reason (design D-3, step 2); the
-  // plain line stays for a moment the record cannot word.
-  const invitationLine = (kind: InvitationKind, yes: boolean) => {
-    const sceneKey = currentLifeTalkScene(world, playerPersonId)!.eventId;
-    const line =
-      yes && kind !== "date"
-        ? invitationAgreeLine(
-            world,
-            personId,
-            playerPersonId,
-            history,
-            sceneKey,
-            kind,
-          )
-        : invitationDeclineLine(
-            world,
-            personId,
-            playerPersonId,
-            history,
-            sceneKey,
-            kind,
-          );
-    return line ? worded(line) : null;
-  };
   if (isTellIntent(intent)) {
     const topic = findTellTopic(world, playerPersonId, personId, intent);
     if (!topic) return say("what-were-you-going-to-say");
@@ -511,21 +427,6 @@ function replyFor(
       // worry or a fabricated past exchange attributed to this person.
       return say("what-would-you-like-to-do");
     }
-    case "date":
-      return willingToDate(world, personId)
-        ? say("yes-id-like-that-we-could-sit")
-        : (invitationLine("date", false) ??
-            say("no-thank-you-id-like-to-keep"));
-    case "suggestGame":
-      return acceptsActivity(world, personId, intent)
-        ? (invitationLine("game", true) ?? say("yes-id-like-to-play-a-game"))
-        : (invitationLine("game", false) ??
-            say("not-a-game-right-now-thanks-id"));
-    case "suggestQuiet":
-      return acceptsActivity(world, personId, intent)
-        ? (invitationLine("quiet", true) ?? say("yes-lets-sit-and-talk-for-a"))
-        : (invitationLine("quiet", false) ??
-            say("id-rather-not-sit-and-talk-right"));
     case "spendTime":
       return proposal
         ? say("time-spent-on-proposal", {
@@ -586,13 +487,6 @@ function replyFor(
       if (approach === "listen") return say("im-listening-go-ahead");
       return say("yes-tell-me-whats-on-your-mind");
     case "explain":
-      if (
-        previous?.tags.includes("life.talk:suggestGame") ||
-        previous?.tags.includes("life.talk:suggestQuiet")
-      )
-        return previous.tags.includes("life.answer:company-accepted")
-          ? say("that-sounds-like-a-way-id-enjoy")
-          : say("it-isnt-what-i-feel-like-doing");
       if (previous?.tags.includes("life.talk:share"))
         return previous.tags.includes("life.answer:private")
           ? say("im-not-ready-to-talk-about-it")
@@ -789,14 +683,10 @@ export function commitLifeConversation(
     : null;
   const proposal = view.proposal;
   const matchingOffer =
-    proposal?.status === "proposed" &&
-    (input.intent === "acceptProposal" ||
-      (input.intent === "suggestGame" && proposal.terms.activity !== "quiet") ||
-      (input.intent === "suggestQuiet" && proposal.terms.activity === "quiet"));
+    proposal?.status === "proposed" && input.intent === "acceptProposal";
   const accepted = matchingOffer
     ? !activeOrdinaryGoal(world, input.personId, "privacy")
-    : (input.intent === "suggestGame" || input.intent === "suggestQuiet") &&
-      acceptsActivity(world, input.personId, input.intent);
+    : false;
   const responseStatus = matchingOffer
     ? accepted
       ? "accepted"
@@ -809,63 +699,49 @@ export function commitLifeConversation(
           ? "performed"
           : null;
   const newOffer =
-    (input.intent === "activity" &&
-      !activeOrdinaryGoal(world, input.personId, "privacy")) ||
-    (!matchingOffer && accepted);
+    input.intent === "activity" &&
+    !activeOrdinaryGoal(world, input.personId, "privacy");
   const leisure = activityPreference(world, input.personId);
   const terms: TalkProposalTerms | null = newOffer
     ? {
         actorPersonId: input.personId,
         activity:
-          input.intent === "suggestGame"
-            ? "game"
-            : input.intent === "suggestQuiet"
-              ? "quiet"
-              : leisure === "explore"
-                ? "new-game"
-                : leisure === "company"
-                  ? ageOnDate(
-                      world.people[input.playerPersonId]!.birthDate,
-                      world.currentDate,
-                    ) < 13 ||
-                    ageOnDate(
-                      world.people[input.personId]!.birthDate,
-                      world.currentDate,
-                    ) < 13
-                    ? "game"
-                    : "quiet"
-                  : "familiar-game",
+          leisure === "explore"
+            ? "new-game"
+            : leisure === "company"
+              ? ageOnDate(
+                  world.people[input.playerPersonId]!.birthDate,
+                  world.currentDate,
+                ) < 13 ||
+                ageOnDate(
+                  world.people[input.personId]!.birthDate,
+                  world.currentDate,
+                ) < 13
+                ? "game"
+                : "quiet"
+              : "familiar-game",
         minutes: 30,
         condition: null,
       }
     : null;
   const answer = running
     ? running.answer
-    : input.intent === "suggestGame" ||
-        input.intent === "suggestQuiet" ||
-        input.intent === "acceptProposal"
+    : input.intent === "acceptProposal"
       ? accepted
         ? "company-accepted"
         : "company-declined"
-      : input.intent === "date"
-        ? willingToDate(world, input.personId)
-          ? "date-accepted"
-          : "date-declined"
-        : input.intent === "activity"
-          ? leisure
-          : input.intent === "matter" && view.matter
-            ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
-            : told
-              ? told.heard
-                ? "told"
-                : "not-now"
-              : latestPersonalValue(
-                    world,
-                    input.personId,
-                    LIFE_MIND_IDS.privacy,
-                  )?.orientation === "embraces"
-                ? "private"
-                : "open";
+      : input.intent === "activity"
+        ? leisure
+        : input.intent === "matter" && view.matter
+          ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
+          : told
+            ? told.heard
+              ? "told"
+              : "not-now"
+            : latestPersonalValue(world, input.personId, LIFE_MIND_IDS.privacy)
+                  ?.orientation === "embraces"
+              ? "private"
+              : "open";
   const intentLabel = lifeTalkIntentLabel(
     world,
     input.playerPersonId,
@@ -877,7 +753,7 @@ export function commitLifeConversation(
     type: "life.conversation",
     occurredAt: advanced.currentDate,
     recordedAt: advanced.currentDate,
-    jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
+    jurisdictionId: view.context.jurisdictionId,
     involvedEntityIds: heardPersonIds,
     participants: [
       {
@@ -927,7 +803,7 @@ export function commitLifeConversation(
     summary: `${personName(world.people[input.playerPersonId]!)}: ${intentLabel}${/[.?!]$/.test(intentLabel) ? "" : "."} ${personName(world.people[input.personId]!)}: ${reply}`,
     context: {
       location: {
-        jurisdictionId: world.people[input.playerPersonId]!.homeJurisdictionId,
+        jurisdictionId: view.context.jurisdictionId,
         label: view.context.placeLabel,
         setting: view.context.setting,
       },
@@ -972,9 +848,7 @@ export function commitLifeConversation(
     personId: input.personId,
     eventId: event.id,
     occurredAt: advanced.currentDate,
-    // Agreeing to a game is a plan; the half hour is the time together.
     timeTogether: input.intent === "spendTime",
-    date: input.intent === "date" && answer === "date-accepted",
   });
   if (input.intent === "spendTime") {
     next = completeOrdinaryGoal(
@@ -986,4 +860,264 @@ export function commitLifeConversation(
     next = completeOrdinaryGoal(next, input.personId, "connection", event.id);
   }
   return next;
+}
+
+/** The existing central recorder accepts only a freshly re-read scene offer.
+ * Caller-supplied prose, people, evidence and effects are never admitted. */
+export function commitPlayedSceneTurn(
+  world: World,
+  input: {
+    readonly playerPersonId: EntityId;
+    readonly addresseePersonId: EntityId;
+    readonly replyKey: string;
+    readonly snapshot: StorySceneSnapshot;
+  },
+): World {
+  const scene = projectPlayedSceneExchange(
+    world,
+    input.playerPersonId,
+    input.addresseePersonId,
+  );
+  if (
+    !scene ||
+    JSON.stringify(scene.snapshot) !== JSON.stringify(input.snapshot)
+  )
+    throw new Error("This scene offer is no longer current.");
+  const offer = scene.replies.find((reply) => reply.key === input.replyKey);
+  if (!offer)
+    throw new Error("This reply is unavailable in the current recorded scene.");
+  const presence = world.history.events.find(
+    (event) => event.id === scene.presenceEventId,
+  )!;
+  const key = `played-scene:${scene.presenceEventId}:${world.history.nextSequence}:${input.playerPersonId}`;
+  let next = world;
+  let reply = "";
+  let replyParts: readonly ComposedPart[] = [];
+  let reason: string | null = null;
+  if (offer.primitive === "ask-record") {
+    const decided = evaluateReplyMeaning(world, {
+      turnKey: key,
+      actorPersonId: input.addresseePersonId,
+      playerPersonId: input.playerPersonId,
+      decisionType: "life-talk.recorded-matter",
+      subjectKind: "context:recorded-matter",
+      subjectKey: `${offer.sourceEventId}:${input.playerPersonId}:${input.addresseePersonId}`,
+      standing: conversationStanding(
+        world,
+        input.playerPersonId,
+        input.addresseePersonId,
+        `scene.matter:${offer.sourceEventId}:${input.playerPersonId}:${input.addresseePersonId}`,
+      ),
+      meanings: {
+        agree: {
+          key: "listen",
+          description: "Hear this person's recorded matter.",
+        },
+        decline: {
+          key: "decline",
+          description: "Decline to discuss this matter.",
+        },
+        undecided: {
+          key: "undecided",
+          description: "Leave the discussion undecided.",
+        },
+      },
+      traitLeans: [
+        {
+          meaning: "agree",
+          trait: "sociability",
+          pole: "high",
+          explanation: "I prefer talking things through with people.",
+        },
+        {
+          meaning: "decline",
+          trait: "sociability",
+          pole: "low",
+          explanation: "I prefer to keep to myself.",
+        },
+        {
+          meaning: "undecided",
+          trait: "deliberation",
+          pole: "low",
+          explanation: "I'd rather think before I answer.",
+        },
+      ],
+      playerLeans: [],
+    });
+    next = recordDurableDecisionTrace(decided.world, decided.evaluation);
+    const trace = next.history.decisionTraces.at(-1)!;
+    const supporting = decided.evaluation.context.considerations.filter(
+      (row) =>
+        row.optionKey === decided.evaluation.selectedOptionKey &&
+        row.direction === "supports",
+    );
+    const wordedReasons: Record<string, string> = {
+      "social:warmth": "I'm not comfortable talking with you about this.",
+      "social:trust": "I'm not sure I can rely on what you tell me.",
+      "social:tension": "There's still something unsettled between us.",
+      "social:existing-commitments": "I already have something to attend to.",
+      "mind:appraisal": "Something between us went badly before.",
+      "context:raised-before": "We've already discussed this more than once.",
+    };
+    reason = supporting
+      .map((row) => wordedReasons[row.sourceType] ?? row.explanation)
+      .join(" ");
+    if (decided.evaluation.outcomeKind === "undecided")
+      reason = "I have not settled what to do with the reasons on either side.";
+    const packet = {
+      surface: "dialogue" as const,
+      momentKey: key,
+      worldSeed: next.seed,
+      bankVersion: "1",
+      stage: "current",
+      sourceRecordIds: [presence.id, trace.id],
+      facts: { reason: { text: reason, sourceRecordIds: [trace.id] } },
+      speaker: {
+        personId: input.addresseePersonId,
+        traits: speakerTraits(next, input.addresseePersonId),
+      },
+      viewer: {
+        personId: input.playerPersonId,
+        traits: speakerTraits(next, input.playerPersonId),
+      },
+      knowledge: [
+        {
+          personId: input.addresseePersonId,
+          factKey: "reason",
+          sourceRecordIds: [trace.id],
+        },
+      ],
+    };
+    const line = composePlayedSceneLine(
+      packet,
+      decided.meaning === "counter" ? "undecided" : decided.meaning,
+    );
+    if (line.kind !== "rendered")
+      throw new Error(
+        "The recorded answer cannot be worded from its evidence.",
+      );
+    reply = line.text;
+    replyParts = line.parts;
+  } else if (offer.primitive !== "depart") {
+    const packet = playedSceneEnglishPacket(
+      next,
+      input.playerPersonId,
+      input.addresseePersonId,
+      presence.id,
+      presence.summary,
+    )!;
+    const line = composePlayedSceneLine(packet, "acknowledge");
+    if (line.kind !== "rendered")
+      throw new Error("The recorded hearing cannot be worded.");
+    reply = line.text;
+    replyParts = line.parts;
+  }
+  const listeners = scene.participantPersonIds.filter(
+    (id) => id !== input.playerPersonId,
+  );
+  const stance: ClaimStance | null =
+    offer.primitive === "tell-record" || offer.primitive === "deny-record"
+      ? {
+          version: 1,
+          propositionKey: `recorded-event:${offer.sourceEventId}`,
+          proposition: world.history.knowledge.find(
+            (row) => row.id === offer.knowledgeId,
+          )!.believedSummary,
+          asserted: offer.primitive === "deny-record" ? "denies" : "affirms",
+          speakerBelief: "believes-true",
+          intent: offer.primitive === "deny-record" ? "deceive" : "truthful",
+          statement: offer.line.text,
+          beliefEvidenceIds: [offer.sourceEventId, offer.knowledgeId!],
+          recipientPersonIds: listeners,
+          audibility: "normal",
+          sourceEntityIds: [offer.sourceEventId],
+        }
+      : null;
+  next = recordWorldEvent(next, {
+    stableKey: key,
+    type: "life.conversation",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: presence.context.location!.jurisdictionId,
+    involvedEntityIds: scene.participantPersonIds,
+    participants: [
+      {
+        personId: input.playerPersonId,
+        role: "agency:initiator",
+        detail: offer.line.text,
+      },
+      {
+        personId: input.playerPersonId,
+        role: "focus:subject",
+        detail: "Spoke in the recorded room",
+      },
+      {
+        personId: input.addresseePersonId,
+        role: "coordination:counterpart",
+        detail: reply || "Present as the player left the exchange",
+      },
+      ...listeners
+        .filter((id) => id !== input.addresseePersonId)
+        .map((personId) => ({
+          personId,
+          role: "observation:witness" as const,
+          detail: "Heard normal speech in the recorded room",
+        })),
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      "life.conversation",
+      "scene.composed-turn",
+      `scene:${presence.id}`,
+      `scene.matter:${offer.sourceEventId}:${input.playerPersonId}:${input.addresseePersonId}`,
+      `english.source-records.v1:${JSON.stringify([...new Set([...offer.line.sourceRecordIds, presence.id])])}`,
+      linePartsTag([...offer.line.parts, ...replyParts]),
+      ...(stance ? [claimStanceTag(stance)] : []),
+    ],
+    summary: `${personName(next.people[input.playerPersonId]!)}: ${offer.line.text}${reply ? ` ${personName(next.people[input.addresseePersonId]!)}: ${reply}` : ""}`,
+    context: {
+      ...presence.context,
+      socialContext: "A direct exchange among recorded participants",
+      pressure: null,
+      choice: offer.line.text,
+      motivation: reason,
+      immediateReaction: reply || null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  for (const personId of scene.participantPersonIds)
+    next = recordEventKnowledge(next, {
+      stableKey: `${key}:heard:${personId}`,
+      personId,
+      eventId: event.id,
+      learnedAt: next.currentDate,
+      believedSummary: event.summary,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct" },
+    });
+  if (stance) {
+    next = recordPlayerClaim(next, {
+      stableKey: key,
+      eventId: event.id,
+      speakerPersonId: input.playerPersonId,
+      audience: listeners.length > 1 ? "limited" : "private",
+      stance,
+      worldTruth: "true",
+    });
+    next = scheduleContradictionCheck(next, {
+      stanceEventId: event.id,
+      speakerPersonId: input.playerPersonId,
+      stance,
+      jurisdictionId: presence.context.location!.jurisdictionId,
+    });
+  }
+  return recordConversationContact(next, {
+    playerPersonId: input.playerPersonId,
+    personId: input.addresseePersonId,
+    eventId: event.id,
+    occurredAt: next.currentDate,
+    timeTogether: false,
+  });
 }
