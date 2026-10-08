@@ -20,9 +20,9 @@ import { pressRecordsOfKind } from "./store";
  * they get one law exposure with the relation "news". Everything is read from
  * the records: the person from their knowledge of the story, the story from
  * the publication it names, the lead from the story, and the law, section and
- * channel from the law-effect event the lead reported. It carries no money and
- * no opinion weight (law-exposure.ts writes it without a reflection), and
- * keeps the knowledge, publication, story lead and basis event ids.
+ * channel from the law-effect event the lead reported. It carries no money
+ * and keeps the knowledge, publication, story lead and basis event ids. A
+ * direction recorded on an outcome story schedules the shared reflection.
  *
  * Nothing is written when the records do not say what the law did in a way an
  * exposure can name: a story that is not about a law's effect, or one whose
@@ -32,6 +32,12 @@ import { pressRecordsOfKind } from "./store";
 const REACH_TAG = "law-effect:reach:";
 const SOURCE_TAG = "law-effect:source:";
 const SECTION_TAG = "law-effect:section:";
+const DIRECTION_TAG = "law-effect:direction:";
+
+function recordedDirection(tags: readonly string[]) {
+  const direction = tagged(tags, DIRECTION_TAG)[0];
+  return direction === "cost" || direction === "gain" ? direction : undefined;
+}
 
 /** Reaches that are already exposure channels (law-effect-news.ts `Reach`). */
 const CHANNEL_REACHES: ReadonlySet<string> = new Set<LawExposureChannel>([
@@ -116,6 +122,7 @@ export function recordStoryHeardExposure(
     sectionKey:
       drawnFrom?.sectionKey ?? tagged(basis.tags, SECTION_TAG)[0] ?? null,
     channel,
+    direction: recordedDirection(basis.tags),
     news: {
       knowledgeId: knowledge.id,
       publicationId: publication.id,
