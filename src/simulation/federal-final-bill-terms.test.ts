@@ -2,7 +2,7 @@ import outlayTerms from "../../data/research/federal/federal-outlay-terms-fy2025
 import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { buildProductionWorld } from "../presentation/production-world";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { createHistoryStore } from "./history";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { makeIsoDate } from "./dates";
