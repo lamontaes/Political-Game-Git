@@ -14,8 +14,6 @@ export const facetSkepticalEffects: readonly TraitEffectDeclaration[] = [
         option: "acquit",
         trait: "personality-v1:facet-skeptical",
         pole: "high",
-        explanation:
-          "They want to know what supports the charge before relying on it.",
       },
     ],
   },
