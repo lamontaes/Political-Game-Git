@@ -12,9 +12,9 @@ import {
 } from "../simulation/filing-visit";
 import { sittingLocalClerk } from "../simulation/living-world/local-government-seats";
 import {
-  deserializeWorld,
-  sameWorldPayload,
+  readWorldSnapshot,
   serializeWorldPayload,
+  worldPayloadMatches,
 } from "../simulation/serialization";
 import { scheduledActivityState } from "../simulation/time-work";
 import type { World } from "../simulation/types";
@@ -181,8 +181,9 @@ describe(`the clerk's counter in a generated world (${place.displayName}, seed $
 
       // Save and continue keeps every answer and the campaign.
       const saved = serializeWorldPayload(world);
-      const reloaded = deserializeWorld(saved);
-      expect(sameWorldPayload(serializeWorldPayload(reloaded), saved)).toBe(
+      const read = readWorldSnapshot(saved);
+      const reloaded = read.world;
+      expect(worldPayloadMatches(saved, reloaded, read.formatVersion)).toBe(
         true,
       );
       expect(activeCampaignForCandidate(reloaded, personId)?.id).toBe(
