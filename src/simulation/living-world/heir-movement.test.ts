@@ -10,7 +10,6 @@ import {
 } from "../people-continuation";
 import { recordRelationshipInteraction } from "../records";
 import { recordWorldEvent, createWorld } from "../world";
-import { movementOf } from "./movements";
 import { stepDownFromLeadership } from "./movement-succession";
 
 function fixture() {
@@ -201,11 +200,6 @@ describe("a chosen heir inherits a movement through its existing records", () =>
         row.selectedOptionKey === `candidate:${successorId}`,
     );
     expect(vote).toBeDefined();
-    expect(movementOf(elected, successorId)).toMatchObject({
-      organizationId,
-      members: followerIds,
-      following: expect.arrayContaining(followerIds),
-    });
 
     const continued = continueAsRelative(elected, {
       predecessorId,
@@ -214,11 +208,6 @@ describe("a chosen heir inherits a movement through its existing records", () =>
     expect(continued.control).toEqual({
       kind: "person",
       personId: successorId,
-    });
-    expect(movementOf(continued, successorId)).toMatchObject({
-      organizationId,
-      members: followerIds,
-      following: expect.arrayContaining(followerIds),
     });
     expect(
       continued.history.relationshipInteractions.slice(

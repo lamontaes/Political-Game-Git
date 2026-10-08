@@ -289,8 +289,7 @@ export interface Occluder {
  * for a wall map, `roll-call-scoreboard` for a tally board). Two vocabularies
  * for one concept is how a slot ends up valid in the spec and unknown to the
  * component binder, so the finer names that meant something new were folded in
- * here and the rest were retired as aliases — see
- * `DONOR_SURFACE_KIND_ALIASES` in `src/authoring/dynamic-components.ts`.
+ * here and the rest were retired as aliases.
  *
  * The seven kinds below the first nine came from that fold. Each describes an
  * object the original list could not name without lying about it: notes lying
@@ -330,11 +329,9 @@ export function isSceneSurfaceKind(value: string): value is SceneSurfaceKind {
  *
  * This vocabulary lives here, at the bottom of the stack, because two layers
  * need it and neither may own a private copy. The scene spec holds it so a
- * surface slot can be validated against it; `src/authoring/dynamic-surfaces.ts`
- * re-exports it unchanged so an author still finds it where the authoring
- * contract is written. The graphics convergence found the two layers had grown
- * separate lists — `working-draft` here against `document-body` there, for the
- * same piece of paper — which is how a slot ends up legal in the spec and
+ * surface slot can be validated against it. The graphics convergence found the
+ * two layers had grown separate lists — `working-draft` here against
+ * `document-body` there, for the same piece of paper — which is how a slot ends up legal in the spec and
  * unrecognized by the component binder that has to fill it.
  */
 export type SemanticContentClass =

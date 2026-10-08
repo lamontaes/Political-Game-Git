@@ -64,7 +64,7 @@ function withTrait(
   });
 }
 
-/** The exact lean table people-promise.ts uses. */
+/** The lean table the retired promise renegotiation (people-promise.ts) used. */
 const PROMISE_LEANS = [
   {
     optionKey: "holds-boundary",

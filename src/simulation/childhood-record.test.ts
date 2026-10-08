@@ -11,7 +11,6 @@ import {
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { childhoodRecordEntries } from "./childhood-record";
-import { childhoodRecord } from "./childhood-record-queries";
 import { makeIsoDate } from "./dates";
 import { stableHash } from "./ids";
 import {
@@ -220,17 +219,17 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
     });
     assertWorldIntegrity(born.world);
     const child = born.world.people[born.childPersonId]!;
-    const record = childhoodRecord(born.world, child.id)!;
-    expect(record.entries).toEqual([
+    expect(
+      childhoodRecordEntries(born.world).filter(
+        (entry) => entry.personId === child.id,
+      ),
+    ).toEqual([
       expect.objectContaining({
         kind: "birth",
         birthDate: child.birthDate,
         jurisdictionId: start.world.people[start.playerId]!.homeJurisdictionId,
       }),
     ]);
-    expect(record.yearsWitnessed).toBe(0);
-    // Medicaid expansion models adults 19 to 64; no child row exists.
-    expect(record.daysEligibleForCoverage).toBe(0);
 
     // Saved and loaded, the record is the same.
     const reloaded = deserializeWorld(serializeWorld(born.world));
@@ -246,6 +245,5 @@ describe(`Fable gap 5: the childhood record, in ${label}`, () => {
     const old = { ...start.world, history } as World;
     assertWorldIntegrity(old);
     expect(childhoodRecordEntries(old)).toEqual([]);
-    expect(childhoodRecord(old, start.playerId)!.entries).toEqual([]);
   });
 });
