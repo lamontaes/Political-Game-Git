@@ -1,3 +1,4 @@
+import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import {
   createOrganizationParticipation,
   recordOrganizationParticipationState,
@@ -881,4 +882,115 @@ export function ensureLocalGovernmentSeats(
     next = ensureCountyRowOfficersForUnit(next, unit, town, housemates);
   }
   return next;
+}
+
+/** The role a town's or township's clerk holds in its government. */
+export const LOCAL_CLERK_ROLE = "leader:municipal-clerk";
+
+/** The clerk's title where the place's own has not been read. */
+export function localClerkTitle(unit: GovernmentUnitIdentity): string {
+  const titles = filingOffice.clerkTitles as Readonly<Record<string, string>>;
+  return titles[unit.unitType] ?? titles.municipality!;
+}
+
+function countyKeepsClerkRow(unit: GovernmentUnitIdentity): boolean {
+  return countyElectedRowOffices(unit).some((rule) => rule.office === "clerk");
+}
+
+/**
+ * Who keeps this government's records and takes its candidates' filings
+ * today: a county's elected clerk where the county elects one, otherwise the
+ * clerk seated in the town's, township's or county's own organization. Null
+ * when nobody holds the office.
+ */
+export function sittingLocalClerk(
+  world: World,
+  unit: GovernmentUnitIdentity,
+): { readonly personId: EntityId; readonly title: string } | null {
+  if (countyKeepsClerkRow(unit)) {
+    const row = sittingCountyRowOfficers(world, unit).find(
+      (officer) => officer.office === "clerk",
+    );
+    return row ? { personId: row.personId, title: row.title } : null;
+  }
+  const organizationId = organizationIdFor(world, unit);
+  if (!organizationId) return null;
+  for (const participation of world.history.organizationParticipations) {
+    if (participation.organizationId !== organizationId) continue;
+    const state = organizationParticipationStateAt(world, participation.id);
+    if (state?.status !== "active" || state.roleKind !== LOCAL_CLERK_ROLE)
+      continue;
+    if (
+      !isPersonAliveAt(world, participation.personId, {
+        asOfDate: world.currentDate,
+        historySequenceExclusive: world.history.nextSequence,
+      })
+    )
+      continue;
+    return {
+      personId: participation.personId,
+      title: state.context ?? localClerkTitle(unit),
+    };
+  }
+  return null;
+}
+
+/**
+ * Seat a clerk where this government has none: a grown resident of the town,
+ * drawn from the same roster its board is seated from. A county that elects
+ * its clerk seats its row officers; any other government seats one clerk in
+ * its own organization. Unchanged when a clerk already sits or nobody on the
+ * roster can serve.
+ */
+export function ensureLocalClerkForUnit(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+  excludePersonIds: readonly EntityId[] = [],
+): World {
+  if (sittingLocalClerk(world, unit)) return world;
+  if (countyKeepsClerkRow(unit))
+    return ensureCountyRowOfficersForUnit(world, unit, town, excludePersonIds);
+  const excluded = new Set([
+    ...excludePersonIds,
+    ...sittingLocalOfficers(world, unit).map((seat) => seat.personId),
+  ]);
+  const found = drawTownResident(
+    world,
+    town,
+    `local-government:${unit.id}:clerk`,
+    0,
+    MINIMUM_AGE,
+    excluded,
+  );
+  if (!found.personId) return found.world;
+  const title = localClerkTitle(unit);
+  const compiled = municipalWorkspaceGovernmentForUnit(unit);
+  if (compiled) {
+    const installed = installMunicipalGovernment(found.world, {
+      governmentKey: compiled.key,
+      jurisdictionId: town,
+      formedAt: found.world.currentDate,
+    });
+    return seatMunicipalMember(installed, {
+      governmentKey: compiled.key,
+      personId: found.personId,
+      startedAt: installed.currentDate,
+      role: "clerk",
+      seatLabel: title,
+    });
+  }
+  const next = ensureLocalGovernmentOrganization(found.world, unit);
+  const organizationId = organizationIdFor(next, unit);
+  if (!organizationId) return next;
+  return createOrganizationParticipation(next, {
+    stableKey: `local-government-clerk:${unit.id}:${found.personId}`,
+    personId: found.personId,
+    organizationId,
+    startedAt: next.currentDate,
+    kind: "leadership:municipal-office",
+    roleKind: LOCAL_CLERK_ROLE,
+    context: title,
+    provenance: { kind: "generated", generatorKey: V },
+  });
 }

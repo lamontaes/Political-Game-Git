@@ -16,4 +16,14 @@ export const facetPoliteEffects: readonly TraitEffectDeclaration[] = [
       },
     ],
   },
+  {
+    decision: "campaign.door-answer",
+    leans: [
+      {
+        option: "talk",
+        trait: "personality-v1:facet-polite",
+        pole: "high",
+      },
+    ],
+  },
 ];
