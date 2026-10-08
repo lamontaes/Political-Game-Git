@@ -1205,17 +1205,22 @@ export const SITUATIONS: readonly Situation[] = [
 
 /**
  * When two texts are the same thing to grade. A bank line is its part, filled
- * with other facts; any other text is its sentences' openings, so "I lived in
- * Ames. I began working at a store." and the same chapter in another life
- * count once.
+ * with other facts; any other text is its sentences' openings with names and
+ * figures set aside, so "I lived in Ames. I began working at a store." and the
+ * same chapter in another life count once.
  */
 export function repeatKey(kind: string, text: string, partKey: string): string {
   if (partKey.startsWith("bank:")) return partKey;
-  const openings = text
-    .split(/(?<=[.?!])\s+/)
-    .map((sentence) =>
-      sentence.toLowerCase().split(/\s+/).slice(0, 3).join(" "),
-    );
+  // Names and figures are the facts that differ, not the shape.
+  const openings = text.split(/(?<=[.?!])\s+/).map((sentence) =>
+    sentence
+      .split(/\s+/)
+      .slice(0, 3)
+      .map((word) =>
+        word === "I" ? "i" : /^[A-Z\d]/.test(word) ? "@" : word.toLowerCase(),
+      )
+      .join(" "),
+  );
   return `${kind}|${openings.join("|")}`;
 }
 
