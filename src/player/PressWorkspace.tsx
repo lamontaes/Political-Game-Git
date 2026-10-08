@@ -232,6 +232,9 @@ export function PressWorkspace({
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
+          {reporters.length === 0 ? (
+            <p data-testid="press-reporters-count">Reporters: 0</p>
+          ) : null}
           <form
             onSubmit={(event) => {
               event.preventDefault();
