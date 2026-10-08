@@ -139,6 +139,7 @@ These are about bodies, bills and elections more than people. All are read by at
 6. Town finances (business books, bank runs, defaults) have no screen.
 7. A view a friend tells the player is saved as the fields `told-view:<teller>:<official>:<position>`, and the Journal printed those fields as "As I heard it". The Journal now leaves them out until an English bank words them. The People screen's heard-views list still shows them (about the player only).
 8. A resident's environmental exposure (`environmental-condition`, written to every resident by `environment-energy-landings.ts`) has no wording in the Journal or the money page. Reading it threw `Cannot read properties of undefined (reading 'none')`, so any Journal projection or Money laws list for a resident with one would fail. Both now leave it out.
+9. Some public events save a raw key as their summary. In a seeded Wyoming world (Mountain View, place 5655345, seed `see-it-news-2`) the event `local.county-row-officers-seated` reads "county-row-officers-seated:gus2025:177841:sheriff,prosecutor,clerk,treasurer,…". The News "Lately" list cannot print event summaries for this reason and shows a date and a place. This is a record-text defect, not a screen one.
 
 ## ENGLISH gaps
 
