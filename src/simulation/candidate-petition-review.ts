@@ -17,6 +17,34 @@ export interface CandidatePetitionSignatureReview {
   readonly reason: CandidatePetitionInvalidReason | null;
 }
 
+export interface CandidatePetitionCountDecision {
+  readonly accepted: boolean;
+  readonly shortfall: number;
+  readonly reasonKeys: readonly ("petition-insufficient-signatures")[];
+}
+
+/** Apply the filing threshold uniformly to every place and office family. */
+export function candidatePetitionCountDecision(
+  requiredSignatures: number,
+  validSignatures: number,
+): CandidatePetitionCountDecision {
+  if (
+    !Number.isInteger(requiredSignatures) ||
+    requiredSignatures < 0 ||
+    !Number.isInteger(validSignatures) ||
+    validSignatures < 0
+  ) {
+    throw new Error("Candidate petition counts must be non-negative integers.");
+  }
+  const shortfall = Math.max(0, requiredSignatures - validSignatures);
+  return {
+    accepted: shortfall === 0,
+    shortfall,
+    reasonKeys:
+      shortfall > 0 ? ["petition-insufficient-signatures"] : [],
+  };
+}
+
 export interface CandidatePetitionReview {
   readonly campaignId: EntityId;
   readonly filingDate: IsoDate;
@@ -124,11 +152,13 @@ export function reviewCandidatePetition(
     (signature) => signature.valid,
   ).length;
   const deadlinePassed = filingDate > filingDeadline;
+  const countDecision = candidatePetitionCountDecision(
+    requiredSignatures,
+    validSignatures,
+  );
   const reasonKeys = [
     ...(deadlinePassed ? (["petition-deadline-passed"] as const) : []),
-    ...(validSignatures < requiredSignatures
-      ? (["petition-insufficient-signatures"] as const)
-      : []),
+    ...countDecision.reasonKeys,
   ];
   return {
     campaignId,
@@ -141,7 +171,7 @@ export function reviewCandidatePetition(
     requiredSignatures,
     validSignatures,
     invalidSignatures: signatures.length - validSignatures,
-    shortfall: Math.max(0, requiredSignatures - validSignatures),
+    shortfall: countDecision.shortfall,
     signatures,
   };
 }
