@@ -1396,12 +1396,13 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
       // temperament, or their age. The situation names the fact it varies.
       const axis =
         CONVERSATION_AXES[(conversations - 1) % CONVERSATION_AXES.length]!;
-      const traits = Object.values(voiceOf(ctx.world, exchange.personId));
+      // The temperament words the person card shows for the speaker.
+      const traits = observedTraitLabels(ctx.world, exchange.personId);
       const tested =
         axis === "relationship"
           ? `relationship (${speaker.relation ?? "no recorded tie to the player"})`
           : axis === "trait"
-            ? `personality (${traits.length > 0 ? traits.join("; ") : "no recorded temperament"})`
+            ? `personality (${traits.length > 0 ? traits.join(", ") : "no recorded temperament"})`
             : `age (the speaker is ${speaker.age})`;
       lines.push({
         id: `conversation-${conversations}`,
