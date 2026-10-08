@@ -445,11 +445,22 @@ describe("a law that places a duty on a class of body", () => {
       expect(duty.coverage.kind).toBe("conditional");
       expect(findings).toHaveLength(0);
     }
-    const lines = enactedLawEffects(world, measureId)!.lines.filter(
+    // The Act takes effect after it passes; "none has come under it" is only
+    // true of a duty already in effect, so the clock runs to that date first.
+    const inEffect = advanceWorld(
+      world,
+      Math.round(
+        (Date.parse(entries[0]!.duty.complyBy) -
+          Date.parse(world.currentDate)) /
+          86_400_000,
+      ),
+      createCampaignElectionTransitionRegistry(),
+    );
+    const lines = enactedLawEffects(inEffect, measureId)!.lines.filter(
       (row) => row.kind === "duty",
     );
     expect(lines).toHaveLength(2);
-    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+    expect(lawEffectSentences(inEffect, measureId).join(" ")).toContain(
       "None has come under it yet.",
     );
   });
