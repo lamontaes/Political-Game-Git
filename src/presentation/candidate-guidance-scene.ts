@@ -26,6 +26,20 @@ export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
   readonly key: CandidateGuidanceQuestion;
 }[] = [{ key: "requirements" }, { key: "filing" }];
 
+function recordedAnswer(
+  value: string | undefined,
+): readonly CampaignGuidanceOfficeRecord[] {
+  if (!value) return [];
+  try {
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed)
+      ? (parsed as CampaignGuidanceOfficeRecord[])
+      : [];
+  } catch {
+    return [];
+  }
+}
+
 function ruleRecord<T extends number | string>(
   rule: RuleValue<T>,
 ): CampaignGuidanceRuleRecord {
@@ -271,7 +285,7 @@ export function projectCandidateGuidanceScene(
     questions,
     turns: turns.map((event) => ({
       question: event.context.choice,
-      answer: event.context.campaignGuidanceAnswer ?? [],
+      answer: recordedAnswer(event.context.campaignGuidanceAnswer),
       eventId: event.id,
     })),
     availableActions: [
@@ -330,7 +344,7 @@ export function askCandidateGuidance(
       choice: question,
       motivation: null,
       immediateReaction: null,
-      campaignGuidanceAnswer: answer,
+      campaignGuidanceAnswer: JSON.stringify(answer),
     },
   });
   const turn = next.history.events.at(-1)!;
@@ -339,7 +353,7 @@ export function askCandidateGuidance(
     personId,
     eventId: turn.id,
     learnedAt: next.currentDate,
-    believedSummary: JSON.stringify(turn.context.campaignGuidanceAnswer ?? []),
+    believedSummary: turn.context.campaignGuidanceAnswer ?? "[]",
     accuracy: "accurate",
     confidence: "high",
     source: { kind: "direct" },

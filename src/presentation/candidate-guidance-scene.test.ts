@@ -139,7 +139,7 @@ describe("candidate guidance in the room", () => {
     expect(
       asked.history.events.find((event) => event.id === turn?.eventId)?.context
         .campaignGuidanceAnswer,
-    ).toEqual(turn?.answer);
+    ).toBe(JSON.stringify(turn?.answer));
     expect(
       asked.history.knowledge.find((item) => item.eventId === turn?.eventId)
         ?.believedSummary,

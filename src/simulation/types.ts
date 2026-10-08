@@ -746,7 +746,7 @@ export interface EventContext {
   readonly choice: string | null;
   readonly motivation: string | null;
   readonly immediateReaction: string | null;
-  readonly campaignGuidanceAnswer?: readonly CampaignGuidanceOfficeRecord[];
+  readonly campaignGuidanceAnswer?: string;
 }
 
 export interface HistoricalEvent extends LawEffectStampedRecord {

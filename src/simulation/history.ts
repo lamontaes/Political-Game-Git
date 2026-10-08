@@ -905,22 +905,6 @@ function cloneEventContext(context: EventContext): EventContext {
   return {
     ...context,
     location: context.location ? { ...context.location } : null,
-    ...(context.campaignGuidanceAnswer
-      ? {
-          campaignGuidanceAnswer: context.campaignGuidanceAnswer.map(
-            (office) => ({
-              ...office,
-              ...(office.minimumAge
-                ? { minimumAge: { ...office.minimumAge } }
-                : {}),
-              ...(office.residency
-                ? { residency: { ...office.residency } }
-                : {}),
-              ...(office.filing ? { filing: { ...office.filing } } : {}),
-            }),
-          ),
-        }
-      : {}),
   };
 }
 
