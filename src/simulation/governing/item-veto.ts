@@ -70,6 +70,7 @@ export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
   const knownGrant =
     pack.executive.lineItemVeto.kind === "known" &&
     pack.executive.lineItemVeto.value;
+  if (pack.executive.lineItemVeto.kind === "known" && !knownGrant) return null;
   const row = PLACES.find((candidate) => candidate.code === code);
   // A row may name the executive whose sourced grant it records, for a pack
   // whose own flag is unknown. Other profiles in the same place stay unknown.
