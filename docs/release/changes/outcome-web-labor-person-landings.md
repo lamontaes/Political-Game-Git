@@ -1,4 +1,9 @@
-# Labor outcomes reach recorded people
+---
+id: outcome-web-labor-person-landings
+impact: minor
+section: Added
+title: Labor outcomes reach recorded people
+---
 
 Six labor outcome estimates now use the shared person outcome, lived outcome,
 and official-view path. The married-women estimate requires an active recorded

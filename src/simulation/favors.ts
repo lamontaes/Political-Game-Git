@@ -435,21 +435,6 @@ export function favorStandingBetween(
   return { ...direct, receiverDebt: shared };
 }
 
-/** Every favor one person has given another, either way, oldest first. */
-export function favorsBetween(
-  world: World,
-  firstPersonId: EntityId,
-  secondPersonId: EntityId,
-): readonly FavorRecord[] {
-  return favorRecords(world).filter(
-    (record) =>
-      (record.giverPersonId === firstPersonId &&
-        record.receiverPersonId === secondPersonId) ||
-      (record.giverPersonId === secondPersonId &&
-        record.receiverPersonId === firstPersonId),
-  );
-}
-
 const FELT_IMPORTANCE: Readonly<
   Record<Exclude<StandingBand, "none">, DecisionImportance>
 > = {
