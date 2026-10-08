@@ -276,6 +276,10 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  "life.housing-choice": () => ["move", "wait"],
+  "movement.membership-review": () => ["remain", "leave"],
+  "life.housing-choice": () => ["move", "wait"],
+  "movement.membership-review": () => ["remain", "leave"],
   "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
   "people.study-plan": () => PROPOSABLE_APPROACHES,
   // Fixture decisions used by query and source-cutoff tests name their options here.

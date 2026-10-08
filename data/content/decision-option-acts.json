@@ -295,9 +295,9 @@
       "stand-aside": ["play-safe", "self-interest", "keep-same"]
     },
     "crisis.international-response": {
-      "de-escalate": ["withdraw", "concede", "cooperate", "delay"],
+      "de-escalate": ["withdraw", "concede", "cooperate"],
       "hold": ["keep-same", "play-safe"],
-      "escalate": ["confront", "speak-out", "take-risk", "bend-rules"]
+      "escalate": ["confront", "speak-out", "take-risk"]
     },
     "speech.react": {
       "cheered": ["engage", "speak-out"],
@@ -352,6 +352,38 @@
     "run-a-source-cutoff": {
       "use": ["trust", "engage"],
       "omit": ["keep-same", "stay-quiet"]
+    },
+    "legislation.floor-hold": {
+      "hold-floor": ["engage", "confront", "commit"],
+      "release-floor": ["concede", "withdraw", "follow-rules"]
+    },
+    "legislation.quorum-attendance": {
+      "stay": ["engage", "commit", "follow-rules"],
+      "walk-out": ["withdraw", "confront", "take-risk"]
+    },
+    "life.housing-choice": {
+      "move": ["change", "take-risk", "commit"],
+      "wait": ["play-safe", "delay", "keep-same"]
+    },
+    "media.owner-practice": {
+      "apply": ["change", "commit", "follow-rules"],
+      "wait": ["keep-same", "delay", "play-safe"]
+    },
+    "migration.search-elsewhere": {
+      "home-only": ["keep-same", "play-safe"],
+      "search-elsewhere": ["change", "take-risk", "engage"]
+    },
+    "mogul.answer": {
+      "accept": ["cooperate", "trust", "take-risk"],
+      "decline": ["refuse", "play-safe"]
+    },
+    "mogul.deal-broken": {
+      "go-public": ["speak-out", "confront", "take-risk"],
+      "let-it-go": ["stay-quiet", "withdraw", "play-safe"]
+    },
+    "movement.membership-review": {
+      "remain": ["cooperate", "commit", "keep-same"],
+      "leave": ["withdraw", "change", "take-risk"]
     }
   },
   "unlabeled": [
@@ -369,7 +401,6 @@
     "life-talk.recorded-matter",
     "life.scene.person-reason",
     "movement.leadership-succession",
-    "movement.membership-review",
     "people.caregiver-choice",
     "people.date-proposal",
     "political-belief-formation",
