@@ -1,6 +1,6 @@
 import inputs from "../../data/research/money/historical-world-inputs.json" with { type: "json" };
 import wageMatrix from "../../data/research/money/minimum-wage-dated-matrix-2026.json" with { type: "json" };
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "./dates";
 import type { StartingLawRow } from "./governing/law-in-force";
 import type { IsoDate } from "./types";
