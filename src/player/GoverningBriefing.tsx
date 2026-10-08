@@ -212,14 +212,15 @@ function MatterCard({
   return (
     <li className="governing-matter" data-testid="governing-matter">
       <h5>{matter.title}</h5>
-      <p
-        className="game-note"
-        data-testid="governing-deadline"
-        data-problem={matter.deadline ? undefined : "no-deadline"}
-        data-days-left={matter.daysLeft ?? undefined}
-      >
-        {matter.deadline ?? "—"}
-      </p>
+      {matter.deadline ? (
+        <p
+          className="game-note"
+          data-testid="governing-deadline"
+          data-days-left={matter.daysLeft ?? undefined}
+        >
+          {matter.deadline}
+        </p>
+      ) : null}
       {matter.recommendation ? (
         <p
           data-testid="governing-recommendation"

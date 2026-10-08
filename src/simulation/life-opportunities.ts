@@ -22,6 +22,7 @@ import { advanceJobMarket } from "./job-market";
 import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
+import { proposeContact } from "./relationship-contact";
 import {
   hostDecidesToAsk,
   occasionDetailsForRecipient,
@@ -479,8 +480,16 @@ function eligibleOpportunities(
     push({
       kind: "social-occasion",
       counterpartPersonId: host,
-      write: (current, stableKey) =>
-        writeAsk(ensurePeopleTraits(current, [host]), {
+      write: (current, stableKey) => {
+        if (occasion.reason === "date") {
+          return writeDateInvitation(current, {
+            stableKey: `${stableKey}:date`,
+            hostPersonId: host,
+            recipientPersonId: personId,
+            on: occasion.date,
+          });
+        }
+        return writeAsk(ensurePeopleTraits(current, [host]), {
           stableKey,
           kind: "social-occasion",
           personId,
@@ -500,7 +509,8 @@ function eligibleOpportunities(
             endHour: 18,
             label: occasion.homeLabel,
           },
-        }),
+        });
+      },
     });
   }
 
@@ -778,6 +788,29 @@ function writeAsk(world: World, input: AskInput): World {
       claimId: null,
     },
   });
+}
+
+/** Write a date request through the canonical contact record and answer path. */
+export function writeDateInvitation(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly hostPersonId: EntityId;
+    readonly recipientPersonId: EntityId;
+    readonly on: IsoDate;
+  },
+): World {
+  return proposeContact(world, {
+    stableKey: input.stableKey,
+    fromPersonId: input.hostPersonId,
+    toPersonId: input.recipientPersonId,
+    on: input.on,
+    purpose: "date",
+    date: true,
+    answerInPerson:
+      world.control.kind === "person" &&
+      world.control.personId === input.recipientPersonId,
+  }).world;
 }
 
 interface NoticeInput {
