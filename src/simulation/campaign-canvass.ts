@@ -4,6 +4,8 @@ import {
   ageOnDate,
   simulationMinutesBetween,
 } from "./dates";
+import { evaluateDecision, isSelectedDecision } from "./decisions";
+import { feltDebtConsiderations } from "./favors";
 import {
   currentLifeCutoff,
   householdMembershipsAt,
@@ -17,6 +19,8 @@ import {
 } from "./living-world/town-residents";
 import { whereaboutsAt } from "./living-world/work-schedules";
 import { scheduledActivityState } from "./time-work";
+import { traitRegistryFor } from "./trait-registry";
+import { registeredTraitConsiderations } from "./trait-readings";
 import type {
   CampaignActionRecord,
   CampaignRecord,
@@ -31,6 +35,53 @@ export interface CampaignCanvassDoor {
   readonly householdId: EntityId;
   readonly knockedAt: SimulationMoment;
   readonly metPersonIds: readonly EntityId[];
+}
+
+/** The decision a resident at home makes when the candidate knocks. */
+export const DOOR_ANSWER_DECISION_ID = "campaign.door-answer";
+
+/**
+ * Whether a resident at home comes to the door and talks. A knock at home is
+ * answered unless the resident decides not to: the decision is theirs,
+ * weighed from their recorded traits and what they feel they owe the
+ * candidate, and only a decision to decline keeps them inside. Nothing is
+ * rolled, and only the result is kept.
+ */
+export function residentComesToTheDoor(
+  world: World,
+  residentId: EntityId,
+  candidateId: EntityId,
+  key: string,
+): boolean {
+  const evaluation = evaluateDecision(world, {
+    stableKey: key,
+    decisionType: DOOR_ANSWER_DECISION_ID,
+    actorPersonId: residentId,
+    cutoff: currentLifeCutoff(world),
+    subject: { kind: "context:life", key: "campaign-door", entityId: null },
+    options: [
+      { key: "talk", label: "talk", description: "talk" },
+      { key: "decline", label: "decline", description: "decline" },
+    ],
+    constraints: [],
+    considerations: [
+      ...registeredTraitConsiderations(
+        world,
+        traitRegistryFor(world),
+        residentId,
+        key,
+        DOOR_ANSWER_DECISION_ID,
+        candidateId,
+      ),
+      ...feltDebtConsiderations(world, residentId, candidateId, key, "talk"),
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "ephemeral",
+  });
+  return !(
+    isSelectedDecision(evaluation) && evaluation.selectedOptionKey === "decline"
+  );
 }
 
 /** The adults a candidate meets at the door are those who vote there. */
@@ -139,8 +190,9 @@ function nextDoors(
  * Walk a completed outreach session door to door. How many doors the session
  * reaches comes from its minutes, its workers and the sourced pace; who
  * answers is whoever the world has at home at the minute of the knock (not at
- * work, not at another recorded activity, not away), so nobody is met by
- * chance and a door with nobody home meets nobody. Returns the world with any
+ * work, not at another recorded activity, not away) and decides to come to
+ * the door, so nobody is met by chance and a door with nobody home meets
+ * nobody. Returns the world with any
  * household reached for the first time written out.
  */
 export function walkCampaignCanvass(
@@ -182,7 +234,13 @@ export function walkCampaignCanvass(
             ...cutoff,
             asOfDate: knockedAt.date,
           }) &&
-          whereaboutsAt(next, personId, knockedAt).kind === "home",
+          whereaboutsAt(next, personId, knockedAt).kind === "home" &&
+          residentComesToTheDoor(
+            next,
+            personId,
+            campaign.candidatePersonId,
+            `${action.stableKey}:door:${householdId}:${personId}`,
+          ),
       );
       return { householdId, knockedAt, metPersonIds };
     }),
