@@ -43,6 +43,7 @@ import type {
   DecisionConsideration,
   DecisionContext,
   DecisionEvaluation,
+  DecisionImportance,
   DecisionOptionEvaluation,
   DecisionPreference,
   DecisionSourceSnapshot,
@@ -52,7 +53,13 @@ import type {
 } from "./types";
 import { assertWorldIntegrity, resolveEntityLabel } from "./world";
 
-const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
+export const DECISION_IMPORTANCE_ORDER: readonly DecisionImportance[] = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+];
+const IMPORTANCES = DECISION_IMPORTANCE_ORDER;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
