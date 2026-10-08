@@ -83,7 +83,7 @@ function fixture(cash: number | null, workers = 1, placeKey = place) {
       stableKey: `a60:work:${index}`,
       personId,
       organizationId,
-      startedAt: world.currentDate,
+      startedAt: index === 1 ? "2025-12-01" : world.currentDate,
       kind: "employment:staff",
       compensation: "paid",
       authority: "directed",
@@ -372,6 +372,27 @@ describe(`town payroll uses saved employer cash in ${place}, seed ${seed}`, () =
     ).toBe(0);
     const reopened = deserializeWorld(serializeWorld(paid));
     expect(settleTownCompensations(reopened, periods)).toBe(reopened);
+  });
+
+  it("pays the longest-serving worker first when cash cannot cover both", () => {
+    const { world, owner, periods } = fixture(100_000, 2);
+    const paid = settleTownCompensations(world, [...periods].reverse());
+    const outcomes = paid.history.resourceTransferOutcomes.filter((row) =>
+      periods.some((period) => period.stableKey === row.stableKey),
+    );
+    expect(outcomes).toHaveLength(2);
+    expect(
+      outcomes.find((row) => row.stableKey === periods[1]!.stableKey)
+        ?.transferredAmount.minorUnits,
+    ).toBe(100_000);
+    expect(
+      outcomes.find((row) => row.stableKey === periods[0]!.stableKey)
+        ?.transferredAmount.minorUnits,
+    ).toBe(0);
+    expect(
+      resourcePositionAt(paid, owner, money(0, "USD").currency)!.liquidBalance
+        .minorUnits,
+    ).toBe(0);
   });
 
   it("pays the full recorded contract when employer cash covers it", () => {
