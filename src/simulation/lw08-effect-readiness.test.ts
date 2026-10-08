@@ -11,9 +11,7 @@ const UNSUPPORTED_QUESTIONS = [
 describe("LW-08 effect readiness", () => {
   it("records supported curriculum and library paths without claiming their linked outcomes", () => {
     expect(readiness.batch).toBe("LW-08");
-    expect(readiness.status).toBe(
-      "partial-with-unsupported-outcomes-recorded",
-    );
+    expect(readiness.status).toBe("partial-with-unsupported-outcomes-recorded");
     expect(readiness.runtimeActivation).toBe(false);
     for (const questionKey of readiness.supportedQuestionKeys) {
       const proposition = loadedPolicyRegistry().propositions.find(
@@ -28,10 +26,9 @@ describe("LW-08 effect readiness", () => {
     const terms = termsBatch.laws.find(
       (entry) => entry.questionKey === questionKey,
     );
-    expect(terms?.parameters.map((parameter) => parameter.selectableRange.status)).toEqual([
-      "needs-research",
-      "needs-research",
-    ]);
+    expect(
+      terms?.parameters.map((parameter) => parameter.selectableRange.status),
+    ).toEqual(["needs-research", "needs-research"]);
     expect(terms?.currentLawSource.status).toBe(
       "missing-starting-row-research-required",
     );
