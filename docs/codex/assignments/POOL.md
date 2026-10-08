@@ -717,7 +717,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2383 | b22 part 3: materialize press coverage from office and travel | PR #2383 (session48/b22-part3-press-coverage) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2384 | b22 part 4: tag nationally significant state events | PR #2384 (session48/b22-part4-national-scale) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2385 | b22 part 5: filter news by reader habit | PR #2385 (session48/b22-part5-reader-news) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2386 | b22 part 6: record local reader knowledge on publication | PR #2386 (session48/b22-part6-reader-knowledge) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2386 | b22 part 6: record local reader knowledge on publication | PR #3592 (session40/rs2386-reader-learning); prior PR #2386 closed | ready #3592 | |
 | RS-2387 | Reveal saved precinct returns in election-night reporting order | PR #2387 (codex/session13-election-night-reporting) | open: draft: finish it or close it as superseded | |
 | RS-2389 | Session 30 Part 4: Record constituent pressure in shared vote reasons | PR #2389 (codex/session30-vote-bargaining-part-4) | open: draft: finish it or close it as superseded | |
 | RS-2397 | Session 30 B08 P5: Resolve recorded promises after roll call | PR #2397 (codex/session30-vote-bargaining-part-5) | open: stacked on codex/session30-b08-p4-current-rebased: retarget to main; draft: finish it or close it as superseded | |
