@@ -24,7 +24,9 @@ describe("the tactful facet difference in a random new game", () => {
     expect(proof.without).toBe("door-canvass");
     expect(proof.high.choice).toBe("phone-shift");
     expect(proof.low.choice).toBe("door-canvass");
-    expect(proof.high.reason).toContain("private call");
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-tactful|campaign.organizer-outreach|phone-shift|high",
+    );
     expect(proof.low.reason).toContain("direct door canvass");
   });
 });
