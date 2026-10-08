@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import archivedTraitLeans from "../../../tests/fixtures/traits/legacy-leans-before-efd5f154f.json" with { type: "json" };
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
 import { PROPOSABLE_APPROACHES } from "../people-study-plan";
 import { RATE_OPTIONS } from "../macro-economy/rate-choice";
@@ -647,6 +648,21 @@ function registeredLeans(): readonly LeanRow[] {
   return rows;
 }
 
+/** Retain deleted effects in the proof without restoring their runtime readers. */
+function archivedLeans(): readonly LeanRow[] {
+  return archivedTraitLeans.rows.flatMap((row) =>
+    (DECISION_TYPES_OF_ID[row.decisionId] ?? [row.decisionId]).map(
+      (decisionType) => ({
+        decisionType,
+        option: row.option,
+        trait: row.trait,
+        pole: row.pole as LeanRow["pole"],
+        source: `${row.sourceFile} (${row.sourceExport}) at ${archivedTraitLeans.sourceCommit}`,
+      }),
+    ),
+  );
+}
+
 describe("the table reproduces what the old per-decision files chose", () => {
   it("reads every lean row and reports the ones the table does not yet reproduce", () => {
     const inline = inlineLeans();
@@ -655,7 +671,9 @@ describe("the table reproduces what the old per-decision files chose", () => {
     );
     expect(unmapped).toEqual([]);
 
-    const rows = [...registeredLeans(), ...inline.rows];
+    const archived = archivedLeans();
+    expect(archived).toHaveLength(22);
+    const rows = [...registeredLeans(), ...archived, ...inline.rows];
     const misses: string[] = [];
     const notYetLabeled = new Set<string>();
     let reproduced = 0;
