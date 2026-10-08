@@ -1779,11 +1779,7 @@
           },
           "regionalTerms": [
             {
-              "workplaceKeys": [
-                "county:36059",
-                "county:36103",
-                "county:36119"
-              ],
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
               "operativeAt": "2026-01-01",
               "lawTerms": [
                 {
