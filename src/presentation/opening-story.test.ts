@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { ageOnDate } from "../simulation";
+
 import { stateNameForUsps } from "../player/useWorldOrientation";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -233,5 +236,33 @@ describe("Your family", () => {
     const parents = new Set(child.parents.map((member) => member.personId));
     for (const member of child.household)
       expect(parents.has(member.personId)).toBe(false);
+  });
+
+  const drawn = drawRandomPlace("opening-story-family");
+  it(`gives each parent the age their birth record holds (${drawn.displayName}, seed opening-story-family)`, () => {
+    // A child's opening in a place drawn from all 56, beside the two above.
+    const life = opening(drawn.key, 12);
+    for (const [world, personId] of [
+      [LEXINGTON.world, LEXINGTON.personId],
+      [MINNEAPOLIS.world, MINNEAPOLIS.personId],
+      [life.world, life.personId],
+    ] as const) {
+      const family = projectOpeningFamily(world, personId);
+      expect(family.parents.length).toBeGreaterThan(0);
+      const own = ageOnDate(
+        world.people[personId]!.birthDate,
+        world.currentDate,
+      );
+      for (const member of [...family.parents, ...family.household])
+        expect(member.age).toBe(
+          ageOnDate(
+            world.people[member.personId]!.birthDate,
+            world.currentDate,
+          ),
+        );
+      // A parent is older than the child they raised.
+      for (const parent of family.parents)
+        expect(parent.age).toBeGreaterThan(own);
+    }
   });
 });

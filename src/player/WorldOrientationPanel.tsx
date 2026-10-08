@@ -855,9 +855,14 @@ export function WorldOrientationPanel({
                         >
                           {member.introduction}
                         </button>
-                        <span className="pg-opening-family-detail">
-                          {familyDetail(member)}
-                        </span>
+                        {familyDetail(member).map((detail) => (
+                          <span
+                            key={detail}
+                            className="pg-opening-family-detail"
+                          >
+                            {detail}
+                          </span>
+                        ))}
                       </li>
                     ))}
                   </ul>
@@ -984,12 +989,16 @@ function stepFacts(step: {
 
 /**
  * What the records hold about a parent or guardian (menu reset: values, not
- * sentences): that they have died, or their work. Who lives with you is the
- * household list on the next screen.
+ * sentences): that they have died, or their age and work, the age in the
+ * person card's form. Who lives with you is the household list on the next
+ * screen.
  */
-function familyDetail(member: OpeningFamilyMember): string {
-  if (member.died) return "Died";
-  return member.work ? recordedWork(member.work) : "";
+function familyDetail(member: OpeningFamilyMember): readonly string[] {
+  if (member.died) return ["Died"];
+  return [
+    `Age · ${member.age}`,
+    ...(member.work ? [recordedWork(member.work)] : []),
+  ];
 }
 
 /** A recorded job as a value: "a cook at Moss's Cafe" reads "Cook at Moss's Cafe". */

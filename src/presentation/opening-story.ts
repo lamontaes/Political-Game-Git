@@ -1,5 +1,6 @@
 import {
   activeWorkRelationshipsAt,
+  ageOnDate,
   describePersonContext,
   kinshipRelationshipsAt,
   organizationProfileAt,
@@ -297,6 +298,8 @@ export interface OpeningFamilyMember {
   readonly introduction: string;
   /** "a nurse at Minneapolis Family Clinic", or null when no work is recorded. */
   readonly work: string | null;
+  /** Age on the world's date, from the birth record. */
+  readonly age: number;
   readonly livesWithYou: boolean;
   readonly died: boolean;
 }
@@ -346,6 +349,7 @@ export function projectOpeningFamily(
         ? `${personName(person)}, ${relationship}`
         : personName(person),
       work: workLine(world, otherId),
+      age: ageOnDate(person.birthDate, world.currentDate),
       livesWithYou: living.has(otherId),
       died: world.history.personDeaths.some(
         (death) =>
