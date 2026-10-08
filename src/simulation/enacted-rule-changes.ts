@@ -76,19 +76,19 @@ export const AMENDABLE_RULE_FIELDS = {
     kind: "integer",
     min: 18,
     max: 100,
-    family: "legislature",
+    family: "qualification",
   },
   "qualification.stateResidenceYears": {
     kind: "integer",
     min: 0,
     max: 30,
-    family: "legislature",
+    family: "qualification",
   },
   "qualification.districtResidenceYears": {
     kind: "integer",
     min: 0,
     max: 30,
-    family: "legislature",
+    family: "qualification",
   },
   /** A chief executive's term length. Read by the executive-term consumer. */
   "executive.term.years": {
@@ -899,6 +899,17 @@ function officeBelongsToState(
   // No state's own law reaches how the Senate is chosen.
   if (AMENDABLE_RULE_FIELDS[field].family === "senate") return false;
   if (AMENDABLE_RULE_FIELDS[field].family === "term" && rulePackId) {
+    const [packId, chamberKey] = officeKey.split(":");
+    if (
+      packId === rulePackId &&
+      chamberKey &&
+      rulePackById(rulePackId).chambers.some(
+        (chamber) => chamber.chamberKey === chamberKey,
+      )
+    )
+      return true;
+  }
+  if (AMENDABLE_RULE_FIELDS[field].family === "qualification" && rulePackId) {
     const [packId, chamberKey] = officeKey.split(":");
     if (
       packId === rulePackId &&
