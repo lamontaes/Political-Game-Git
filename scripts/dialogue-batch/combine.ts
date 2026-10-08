@@ -41,7 +41,7 @@ export function askedKeys(batches: readonly GradingBatch[]): Set<string> {
       // A reply is "Voice: line"; the key reads the line the engine wrote.
       const line = item.reply.slice(item.reply.indexOf(": ") + 2);
       asked.add(
-        repeatKey(item.id.replace(/-\d+$/, ""), line, item.parts[0] ?? ""),
+        repeatKey(item.id.replace(/-\d+$/, ""), line, item.parts.join("+")),
       );
     }
   return asked;
@@ -93,7 +93,7 @@ export function combineResults(
       worlds.push({ ...world, index: worlds.length });
     for (const line of result.lines) {
       const kind = line.id.replace(/-\d+$/, "");
-      const shape = repeatKey(kind, line.line, line.parts[0] ?? "");
+      const shape = repeatKey(kind, line.line, line.parts.join("+"));
       const index =
         result.worlds.find((world) => world.place === line.world.place)
           ?.index ?? 0;

@@ -1249,6 +1249,8 @@ export const SITUATIONS: readonly Situation[] = [
  * same chapter in another life count once.
  */
 export function repeatKey(kind: string, text: string, partKey: string): string {
+  // A line built from bank parts repeats only when it uses the same parts: a
+  // story chapter is several parts joined with "+".
   if (partKey.startsWith("bank:")) return partKey;
   // Names and figures are the facts that differ, not the shape.
   const openings = text.split(/(?<=[.?!])\s+/).map((sentence) =>
@@ -1374,7 +1376,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
   let conversations = 0;
   let choiceItems = 0;
   for (const ctx of contexts) {
-    const reading = readConversations(ctx.world, ctx.playerId);
+    const reading = readConversations(ctx.world, ctx.playerId, 2, ctx.index);
     for (const exchange of reading.exchanges) {
       const speaker = personOf(
         ctx.world,
@@ -1417,7 +1419,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           date: ctx.world.currentDate,
         },
         harness: [
-          "The harness picks the opening choice: hello when the game offers it.",
+          "The harness picks the opening choice, a different offered choice in each world and for each person, so a batch hears replies to different choices.",
         ],
         prior: exchange.opened,
         choices: exchange.choices,
@@ -1437,7 +1439,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           id: `text-choice-${choiceItems}`,
           axis: "register",
           composer: "composeTalkChoice in talk-choice-english.ts",
-          situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}) in the ${partOfDay}, ${ctx.playerName} (${ctx.playerAge}) is talking with ${describeWho(speaker)}, who has just said "${exchange.reply}". These are the words for the choice the game labels "${choice.label}". This item tests: register, whether the words fit who they are said to and when.`,
+          situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}) in the ${partOfDay}, ${ctx.playerName} (${ctx.playerAge}) is talking with ${describeWho(speaker)}, who has just said, "${exchange.reply}" The line below is what ${ctx.playerName} would say for the choice the game labels "${choice.label}". This item tests: register, whether the words fit who they are said to and when.`,
           speaker: speakerOf(
             ctx,
             personOf(ctx.world, ctx.playerId, ctx.playerId, null),
@@ -1469,7 +1471,11 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     const reading = readKinds(ctx.world, ctx.playerId);
     const fromWorld = new Map<string, number>();
     for (const text of reading.texts) {
-      const shape = repeatKey(text.kind, text.text, text.partKey);
+      const shape = repeatKey(
+        text.kind,
+        text.text,
+        text.parts?.join("+") ?? text.partKey,
+      );
       if (
         (perKind.get(text.kind) ?? 0) >= 10 ||
         (fromWorld.get(text.kind) ?? 0) >= perWorld ||

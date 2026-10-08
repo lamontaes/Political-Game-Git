@@ -8,7 +8,8 @@
  * player is in, the people the scene records as present, the choices
  * `projectLifeConversation` offers, and the reply `commitLifeConversation`
  * saves. Nothing here words anything. The harness chooses only which offered
- * choice the player opens with, and says so in the item.
+ * choice the player opens with, taking the offered choices in turn so a batch
+ * hears replies to different choices, and says so in the item.
  *
  * A development tool. It writes to its own copy of a generated world, never
  * to a save.
@@ -85,6 +86,8 @@ export function readConversations(
   start: World,
   playerId: EntityId,
   limit = 2,
+  /** Which offered choice to open with first; the next person gets the next. */
+  turn = 0,
 ): ConversationReading {
   const world = inScene(start, playerId);
   const scene = currentLifeTalkScene(world, playerId);
@@ -107,10 +110,13 @@ export function readConversations(
       skipped.push(`${name}: the game offers no conversation`);
       continue;
     }
-    // Open the way a player most often does: with hello, when it is offered.
+    // Each exchange opens with the next offered choice in turn; leaving is
+    // not a way to open.
+    const openers = first.intents.filter((intent) => intent.key !== "leave");
     const opener =
-      first.intents.find((intent) => intent.key === "greet") ??
-      first.intents.find((intent) => intent.key !== "leave");
+      openers[
+        (turn + exchanges.length + skipped.length) % Math.max(1, openers.length)
+      ];
     if (!opener) {
       skipped.push(`${name}: the only choice is to leave`);
       continue;
