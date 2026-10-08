@@ -60,6 +60,7 @@ import {
   reporterIsCurrent,
   reporterRoles,
   stateOfJurisdiction,
+  ensurePressExposureCoverage,
 } from "./outlets";
 import { sharingSiblings } from "./ownership";
 import {
@@ -1552,7 +1553,7 @@ export function pressDeskSweepHandler(
     (event) =>
       event.sequence > frontier && eventIsNewsCandidate(reported, event),
   );
-  let next = reported;
+  let next = ensurePressExposureCoverage(reported);
   const personalMatterEvents: HistoricalEvent[] = [];
   const ensurePersonalMatter = (
     event: HistoricalEvent,
@@ -1642,7 +1643,7 @@ export function pressDeskSweepHandler(
       );
     }
   }
-  for (const outlet of mediaOutlets(world)) {
+  for (const outlet of mediaOutlets(next)) {
     next = sweepOutlet(next, outlet, candidates);
   }
   next = issueDueCorrections(next);

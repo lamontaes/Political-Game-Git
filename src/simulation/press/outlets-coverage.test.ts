@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import nominationRules from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
@@ -14,13 +15,12 @@ import {
   outletCovers,
   storyLeads,
   ensurePressDeskSchedule,
+  pressDeskSweepHandler,
+  PRESS_DESK_SWEEP_TRANSITION_KEY,
 } from "./desk";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import {
-  ensurePressExposureCoverage,
-  ensurePressHomeCoverage,
-  mediaOutlets,
-} from "./outlets";
+import { drawRandomPlace } from "../../../tests/support/random-place";
+import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
 import { advanceWorld, recordWorldEvent } from "../world";
 
 /**
@@ -44,53 +44,67 @@ function opening(placeKey: string, seed: string) {
 
 describe("press coverage", () => {
   it("opens a state paper after the controlled person attends an out-of-state event", () => {
-    const game = opening("3918000", "press-coverage-attendance");
-    const kentucky = stateJurisdictionForKey("US-KY")!;
-    let world = ensureStateJurisdictionForKey(game.world, "US-KY");
-    world = recordWorldEvent(world, {
-      stableKey: "press-coverage-attendance:kentucky-event",
-      type: "civic.public-event-attended",
-      occurredAt: world.currentDate,
-      recordedAt: world.currentDate,
-      jurisdictionId: kentucky.id,
-      involvedEntityIds: [game.playerPersonId],
-      participants: [
-        {
-          personId: game.playerPersonId,
-          role: "presence:attendee",
-          detail: null,
+    const seed = "press-coverage-attendance-all56";
+    const game = opening(drawRandomPlace(seed).key, seed);
+    const stateKeys = Object.keys(nominationRules.places).sort();
+    expect(stateKeys).toHaveLength(56);
+    let world = game.world;
+    const exposedStates = stateKeys.map((key) => {
+      world = ensureStateJurisdictionForKey(world, key);
+      const state = stateJurisdictionForKey(key)!;
+      world = recordWorldEvent(world, {
+        stableKey: `${seed}:event:${key}`,
+        type: "civic.public-event-attended",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: state.id,
+        involvedEntityIds: [game.playerPersonId],
+        participants: [
+          {
+            personId: game.playerPersonId,
+            role: "presence:attendee",
+            detail: null,
+          },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [],
+        summary: "Attended a public event.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
         },
-      ],
-      personFactConstraints: [],
-      visibility: "public",
-      tags: [],
-      summary: "Attended a public event in Kentucky.",
-      context: {
-        location: null,
-        socialContext: null,
-        pressure: null,
-        choice: null,
-        motivation: null,
-        immediateReaction: null,
-      },
+      });
+      return state.id;
     });
     const before = mediaOutlets(world).filter(
       (outlet) => outlet.scope === "state",
     );
-    const after = mediaOutlets(ensurePressExposureCoverage(world)).filter(
-      (outlet) => outlet.scope === "state",
-    );
+    world = ensurePressDeskSchedule(world);
+    const sweep = world.history.futureDueItems.find(
+      (item) => item.transitionKey === PRESS_DESK_SWEEP_TRANSITION_KEY,
+    )!;
+    const after = mediaOutlets(
+      pressDeskSweepHandler(world, sweep).world,
+    ).filter((outlet) => outlet.scope === "state");
 
     expect(
-      before.some((outlet) =>
-        outlet.primaryJurisdictionIds.includes(kentucky.id),
-      ),
-    ).toBe(false);
-    expect(
-      after.some((outlet) =>
-        outlet.primaryJurisdictionIds.includes(kentucky.id),
+      exposedStates.some(
+        (stateId) =>
+          !before.some((outlet) =>
+            outlet.primaryJurisdictionIds.includes(stateId),
+          ),
       ),
     ).toBe(true);
+    for (const stateId of exposedStates) {
+      expect(
+        after.some((outlet) => outlet.primaryJurisdictionIds.includes(stateId)),
+      ).toBe(true);
+    }
   }, 120_000);
 
   it("covers San Juan with its own local and commonwealth press, with no city government on record", () => {
