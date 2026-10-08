@@ -4,7 +4,9 @@ import { fileURLToPath } from "node:url";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
+import archivedTraitLeans from "../../../tests/fixtures/traits/legacy-leans-before-efd5f154f.json" with { type: "json" };
 import { COUPLE_STAGE_CHOICES } from "../couple-stage-data";
+import { PROPOSABLE_APPROACHES } from "../people-study-plan";
 import { RATE_OPTIONS } from "../macro-economy/rate-choice";
 import {
   evaluateDecision,
@@ -275,6 +277,11 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
     ),
   ],
   "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
+  "people.study-plan": () => PROPOSABLE_APPROACHES,
+  // Fixture decisions used by query and source-cutoff tests name their options here.
+  "query-fixture": () => ["act", "wait"],
+  "run-a-life-source": () => ["mention", "omit"],
+  "run-a-source-cutoff": () => ["use", "omit"],
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
@@ -292,6 +299,11 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   ],
   // Offered only when a revision was authored; the keys are fixed.
   "people.study-plan-answer": () => ["agrees", "counterproposes", "unresolved"],
+  "people.study-plan-compromise-answer": () => [
+    "agrees",
+    "counterproposes",
+    "unresolved",
+  ],
 };
 
 describe("act kinds, option labels and trait pulls are one consistent table", () => {
@@ -504,7 +516,6 @@ const DECISIONS_OF_INLINE_CALLER: Readonly<
   ],
   decideOnOffer: ["people.job-offer-answer"],
   decidesToAct: ["people.goal-step"],
-  decideStudyPlanOutcome: ["people.study-plan-answer"],
   helperAskConsiderations: ["campaign.helper-request"],
   speechReactionOf: ["speech.react"],
   askToSign: ["campaign.petition-signature"],
@@ -637,6 +648,21 @@ function registeredLeans(): readonly LeanRow[] {
   return rows;
 }
 
+/** Retain deleted effects in the proof without restoring their runtime readers. */
+function archivedLeans(): readonly LeanRow[] {
+  return archivedTraitLeans.rows.flatMap((row) =>
+    (DECISION_TYPES_OF_ID[row.decisionId] ?? [row.decisionId]).map(
+      (decisionType) => ({
+        decisionType,
+        option: row.option,
+        trait: row.trait,
+        pole: row.pole as LeanRow["pole"],
+        source: `${row.sourceFile} (${row.sourceExport}) at ${archivedTraitLeans.sourceCommit}`,
+      }),
+    ),
+  );
+}
+
 describe("the table reproduces what the old per-decision files chose", () => {
   it("reads every lean row and reports the ones the table does not yet reproduce", () => {
     const inline = inlineLeans();
@@ -645,7 +671,9 @@ describe("the table reproduces what the old per-decision files chose", () => {
     );
     expect(unmapped).toEqual([]);
 
-    const rows = [...registeredLeans(), ...inline.rows];
+    const archived = archivedLeans();
+    expect(archived).toHaveLength(22);
+    const rows = [...registeredLeans(), ...archived, ...inline.rows];
     const misses: string[] = [];
     const notYetLabeled = new Set<string>();
     let reproduced = 0;
@@ -1138,6 +1166,31 @@ describe("the table runs the same in every one of the 56 places", () => {
           `sweep:${state.jurisdictionKey}`,
         ),
       );
+      const withStudyPlanTraits = recordTrait(
+        recordTrait(withTraits, personId, "people-mind-v1:deliberation", 2),
+        personId,
+        "people-mind-v1:conflict",
+        2,
+      );
+      for (const decisionType of [
+        "people.study-plan",
+        "people.study-plan-answer",
+        "people.study-plan-compromise-answer",
+      ]) {
+        const studyPlanDecision = evaluateDecision(
+          withStudyPlanTraits,
+          decisionFor(
+            withStudyPlanTraits,
+            personId,
+            decisionType,
+            `sweep:${state.jurisdictionKey}:${decisionType}`,
+          ),
+        );
+        expect(isSelectedDecision(studyPlanDecision)).toBe(true);
+        expect(
+          studyPlanDecision.context.options.map((option) => option.key).sort(),
+        ).toEqual([...tables.optionActs.get(decisionType)!.keys()].sort());
+      }
       if (actReasons(evaluation.context.considerations).length === 0) {
         withoutReason.push(state.jurisdictionKey);
       }

@@ -865,6 +865,21 @@ export const TOWN_WORKPLACES: readonly Workplace[] = [
 
 const WORKPLACE = new Map(TOWN_WORKPLACES.map((place) => [place.key, place]));
 
+/** Public facilities get a real source name, or they do not enter the world. */
+export function sourcedTownInstitution(
+  world: World,
+  town: EntityId,
+  key: string,
+) {
+  const institutions = localInstitutionsFor(world, town);
+  if (key === "bank") return institutions.banks[0];
+  if (key === "hospital")
+    return institutions.hospitals.find((row) => row.kind === "hospital");
+  if (key === "clinic")
+    return institutions.hospitals.find((row) => row.kind === "clinic");
+  return undefined;
+}
+
 const FULL_TIME_HOURS = [35, 45] as const;
 const PART_TIME_HOURS = [16, 29] as const;
 
@@ -1285,17 +1300,19 @@ export function writeTownEmployer(
   const countyName = countyUnit ? countyDisplayName(countyUnit.name) : null;
   const institutions = localInstitutionsFor(world, town);
   const institution =
-    workplace.key === "bank"
-      ? institutions.banks[0]
-      : workplace.key === "hospital"
-        ? institutions.hospitals[0]
-        : workplace.key === "clinic"
-          ? institutions.hospitals.find((row) => row.kind === "clinic")
-          : workplace.key === "public-school"
-            ? institutions.largeEmployers.find(
-                (row) => row.kind === "school-district",
-              )
-            : undefined;
+    sourcedTownInstitution(world, town, workplace.key) ??
+    (workplace.key === "public-school"
+      ? institutions.largeEmployers.find(
+          (row) => row.kind === "school-district",
+        )
+      : undefined);
+  if (
+    (workplace.key === "bank" ||
+      workplace.key === "hospital" ||
+      workplace.key === "clinic") &&
+    !institution
+  )
+    return world;
   const rng = new SeededRng(world.seed).fork(stableKey);
   // Named for its founder's family, or for the family of one of the town's
   // residents, so a family with more members in town is on more doors. A
@@ -1566,6 +1583,13 @@ export function fillTownJobs(
    * closed is never written again; a business opened later is another outlet.
    */
   const employer = (workplace: Workplace): EntityId | null => {
+    if (
+      (workplace.key === "bank" ||
+        workplace.key === "hospital" ||
+        workplace.key === "clinic") &&
+      !sourcedTownInstitution(next, town, workplace.key)
+    )
+      return null;
     const already = existingOf(workplace);
     if (workplace.existing || workplace.governmentOffice)
       return already.length > 0

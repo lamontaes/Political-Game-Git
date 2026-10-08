@@ -10,6 +10,8 @@ import type { EntityId, World } from "../../../types";
 
 const QUESTION_KEY =
   "us-policy-positions:justice-public-safety.mandatory-minimum-sentences";
+const STAND_YOUR_GROUND_QUESTION_KEY =
+  "us-policy-positions:justice-public-safety.stand-your-ground";
 
 /**
  * Records that the mandatory-minimum law bound the judge's sentence for a
@@ -105,6 +107,58 @@ export function applyVotingRightLanding(
     personId,
     measureId: law.measureId,
     channel: "voting-rule",
+    direction: law.answer === "yes" ? "gain" : "cost",
+    amount: null,
+    cadence: null,
+    sourceRecordId: event.id,
+    includeFamily: false,
+  });
+}
+
+/**
+ * Records the stand-your-ground rule available to a named defendant in a
+ * violent-force case. The record is the operative rule, not a finding that
+ * the defendant used force or that the defense succeeds.
+ */
+export function applyStandYourGroundCaseLanding(
+  world: World,
+  chargeEventId: EntityId,
+): World {
+  const event = world.history.events.find((row) => row.id === chargeEventId);
+  if (!event)
+    throw new Error("Stand-your-ground landing needs a saved charge.");
+  const offense = event.tags
+    .find((tag) => tag.startsWith("justice.offense:"))
+    ?.slice("justice.offense:".length);
+  const personId = event.participants.find(
+    (row) => row.role === "focus:defendant",
+  )?.personId;
+  if (
+    event.type !== "justice.charged" ||
+    event.recordedAt !== world.currentDate ||
+    event.occurredAt > world.currentDate ||
+    !event.jurisdictionId ||
+    !personId ||
+    !world.people[personId] ||
+    (offense !== "crime:assault" && offense !== "crime:robbery")
+  )
+    return world;
+  const proposition = Object.values(world.policyCatalog.propositions).find(
+    (candidate) => candidate.stableKey === STAND_YOUR_GROUND_QUESTION_KEY,
+  );
+  if (!proposition) return world;
+  const law = lawInForce(
+    world,
+    event.jurisdictionId,
+    proposition.id,
+    event.occurredAt,
+  );
+  if (!law) return world;
+  return recordLawExposure(world, {
+    stableKey: `justice-stand-your-ground:${event.id}`,
+    personId,
+    measureId: law.measureId,
+    channel: "court-rule",
     direction: law.answer === "yes" ? "gain" : "cost",
     amount: null,
     cadence: null,
