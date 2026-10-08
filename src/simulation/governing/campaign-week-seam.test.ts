@@ -1,6 +1,9 @@
 import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
-import { namedSeatForFixture } from "../../../tests/fixtures/campaign-fixture";
+import {
+  namedSeatForFixture,
+  withRecordedStartingConditions,
+} from "../../../tests/fixtures/campaign-fixture";
 
 import {
   addDays,
@@ -67,7 +70,10 @@ function fundedCampaign(seed: string): Filed {
   const personId = created.personOrder.find((candidate) =>
     fixtureMeetsRecordedCandidacyAge(created, candidate),
   )!;
-  const base: World = { ...created, control: { kind: "person", personId } };
+  const base: World = withRecordedStartingConditions({
+    ...created,
+    control: { kind: "person", personId },
+  });
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "week-seam",
     jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
