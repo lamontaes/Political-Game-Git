@@ -131,7 +131,7 @@
 - [State Oct 2 overnight](state-2026-10-02-overnight.md) — read cto-notes/handoff-2026-10-02-0255.md first after compaction: gates in flight, main-green owners, CI endgame
 - [Redeploy at 80%](redeploy-at-80.md) — the moment a slice hits 80% (or a team says idle), move it to the biggest gap at once; reply in 1–2 lines, never 'you're right' or long messages (Oct 2)
 - [Finish over perfect](finish-over-perfect.md) — Oct 2 9:08: finish in hours; gates = typecheck + changed tests + LOAD + zero-dice only; merge on READY; nits become follow-ups; no extra research; finish times only from the measured audit pace
-- [Claude checks, Codex builds](claude-checks-codex-builds.md) — Claude cloud sessions only gate; all building goes to Codex; every check-in: the coordinator's session count + each session's item + acknowledgement; none idle (Oct 2 9:15)
+- [Claude checks, Codex builds](claude-checks-codex-builds.md) — Claude cloud sessions only gate; all building goes to Codex; every check-in: the coordinator's session count + each session's item + acknowledgment; none idle (Oct 2 9:15)
 - [Deadline 1 p.m. Oct 2](deadline-1pm-oct2.md) — every slice at 80% of audit checks by 13:00 (owner's reset); timer set; research = quick Google
 - [Logo uses the game font](logo-uses-game-font.md) — lettering = kit12 title font Cinzel 800 gold #d6bd84; read kit12.css, never guess; Firefly blank + typeset (Oct 2)
 - [Approve everything as it comes](approve-everything-as-it-comes.md) — Oct 2 4:00: all code at once, nobody waits on me; checkers still check (no slop); I order READY PRs, assign checks instantly, merge on PASS; I decide at review
@@ -156,7 +156,7 @@ ALIVE44 = ChatGPT director's consolidated research authority (Sept 15–22). Rea
 - **Acceptance standard "world feels alive"** (9 bullets): change w/o player; quiet intervals; background event later actionable; NPC initiates contact for recorded reason; same matter coherent across News/people/Calendar/conversation/Work; events can fail/matter little; severe outcomes possible not quota; save/reopen preserves; progressive materialization never rewrites exposed facts.
 - **Gold-standard delivery brief** (owner accepted 9/15): before dispatching a system, tell owner: what goes in, what player can do, background behavior, what other systems it affects, what the player sees change (graphs spec'd), how completion is proved in ordinary play.
 - Owner-approved 9/22: 5 asymmetric relationship dimensions (warmth, trust, respect, commitment/obligation, tension), NO passive decay ("passive decay, not a number" later queued note conflicts — treat per Register); personality change from sustained distinct lived evidence (months–years), not clicks; setup may suggest temperament (confirm/change/skip); broad modding of content AND rules; party facts reach outsiders only via news/records/disclosure.
-- 121-trait catalogue in 14 families + 29 separate concepts (cocky/brazen/studious etc.); leisure 3-way switch should not be core personality.
+- 121-trait catalog in 14 families + 29 separate concepts (cocky/brazen/studious etc.); leisure 3-way switch should not be core personality.
 - Law layers: each tax own base/payer/rate/collector/beneficiary; appropriation ≠ spending ≠ delivered service; one cause many effects never duplicated; transfers not double counted.
 - 14-domain state/local policy vocabulary (92 issues) + proposed (unapproved) attention weights by level; authority separate from subject; capability gate before generation.
 - Chunks: economy-v1 (7 groups, 7 sectors, monthly/quarterly), party/campaign P1–P10, scandal M1–M8 w/ occurrence/evidence/allegation/institutional status never collapsed, media ecology R1–R8 + ground rules, severe events (life tables, 25th Amendment, War Powers, disasters), deception contract (Lie/From memory/Avoid), E/L/J/G background governing families on due items.
@@ -484,7 +484,7 @@ Oct 2, about 9:15 a.m., furious: "Claude does not have builders. They only have 
 
 - Claude cloud sessions only GATE (fast gate: typecheck, changed tests, LOAD, zero-dice).
 - Every build task goes to a named Codex session through the coordinator doc (00f or its successor).
-- At EVERY check-in, demand from the coordinator: (1) how many Codex sessions it can reach, with names; (2) each session's current audit item or PR; (3) an acknowledgement from each. A session at STOP, hold or idle gets the next failing audit check at once. Name the non-acknowledgers.
+- At EVERY check-in, demand from the coordinator: (1) how many Codex sessions it can reach, with names; (2) each session's current audit item or PR; (3) an acknowledgment from each. A session at STOP, hold or idle gets the next failing audit check at once. Name the non-acknowledgers.
   Related: [[finish-over-perfect]], [[redeploy-at-80]], [[coordinator-gets-work-every-update]].
 
 ## claude-owns-the-project
@@ -527,10 +527,10 @@ Routinely clear the Actions backlog on lamontaes/Political-Game-Git: cancel unfi
 
 **2026-09-27 learning — the version number depends on this.** The app's version (0.4.0) only advances when the Release workflow (`.github/workflows/release.yml`, concurrency group `release-main`, runs on every push to main) completes. One release run queued at 07:54 sat stuck all day and held the group, so every newer release sat "pending" with no jobs, and two validation runs sat "in_progress" for 9 hours. Check with `gh run list --workflow release.yml` (anything not completed older than an hour) and `gh api "repos/lamontaes/Political-Game-Git/actions/runs?status=in_progress"`; force-cancel stuck ones. When he says "still v0.4.0", this is the first place to look.
 
-**12:55 p.m. same day:** the queue was 302 with only frozen 6 a.m. runs "in progress". Fix that worked: force-cancel in_progress runs older than ~2 h, then cancel every queued run that is (a) superseded by a newer run of the same workflow on the same branch or (b) on a branch with no open PR (kept main and Release). 155 cancelled; runners resumed (7 in progress). Do this whenever the queue passes ~50.
+**12:55 p.m. same day:** the queue was 302 with only frozen 6 a.m. runs "in progress". Fix that worked: force-cancel in_progress runs older than ~2 h, then cancel every queued run that is (a) superseded by a newer run of the same workflow on the same branch or (b) on a branch with no open PR (kept main and Release). 155 canceled; runners resumed (7 in progress). Do this whenever the queue passes ~50.
 
 - Oct 1 2026 (#1551, owner-approved): CI runs ONLY changed test files (unit job), on PRs + main only, cancel-in-progress everywhere; browser suite workflow_dispatch only. Never reintroduce full-suite runs per push.
-- Oct 2, 2:55 a.m.: no main run had finished in 27 hours. Run 7218 (id 36887839100), stuck "queued" since Oct 1, held main's concurrency group, so every main run sat "pending" until the next merge cancelled it. The queue held 969 live runs. I force-cancelled 7218 and 713 stale runs (superseded, or on branches without an open PR), keeping 256. With ~200 open PRs the queue refills, and main runs wait behind PR runs. ENDGAME for main green: stop merging, cancel ALL queued PR runs, and let main's validate, browser and release runs take the runners.
+- Oct 2, 2:55 a.m.: no main run had finished in 27 hours. Run 7218 (id 36887839100), stuck "queued" since Oct 1, held main's concurrency group, so every main run sat "pending" until the next merge canceled it. The queue held 969 live runs. I force-canceled 7218 and 713 stale runs (superseded, or on branches without an open PR), keeping 256. With ~200 open PRs the queue refills, and main runs wait behind PR runs. ENDGAME for main green: stop merging, cancel ALL queued PR runs, and let main's validate, browser and release runs take the runners.
 
 ## cloud-credits-and-standby
 
@@ -1136,7 +1136,7 @@ Lamontae's tip (Sept 29): generating too many images at once also throws "Someth
 
 _When a shared system (GitHub CI, tooling) is broken, diagnose and fix the cause the same day; never route around it for days_
 
-On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run the game's tests since about Sept 27. The cause: every push ran the full suite, about 1,600 runs piled up in the queue, and I worked around it with local checks for days instead of reading the workflow file. The fix took one morning: #1551 (changed tests only), plus cancelling the queue.
+On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run the game's tests since about Sept 27. The cause: every push ran the full suite, about 1,600 runs piled up in the queue, and I worked around it with local checks for days instead of reading the workflow file. The fix took one morning: #1551 (changed tests only), plus canceling the queue.
 
 **Why:** He has been trying to get away from the full suite for weeks. A broken shared system slows every team and the merge rate, and workarounds hide that.
 
@@ -1144,7 +1144,7 @@ On Oct 1, 2026, Lamontae called it "an abject failure" that GitHub had not run t
 
 - When any shared system misbehaves, spend the first check-in finding the cause. Read the config, count the queue, check the rate limits. Then propose the fix to him the same day.
 - Never let "it's an account or billing thing" stand without checking.
-- Bulk GitHub API actions, like cancelling runs, hit the secondary limit (about 80 writes a minute and 500 an hour). Throttle them to about 1 every 9 seconds with backoff, or they lock out every team's gh calls.
+- Bulk GitHub API actions, like canceling runs, hit the secondary limit (about 80 writes a minute and 500 an hour). Throttle them to about 1 every 9 seconds with backoff, or they lock out every team's gh calls.
 - On queued runs, plain `/cancel` returns OK but does nothing. Use `/force-cancel`, and check that the status turns to completed/cancelled.
 - Branches that haven't merged main still carry the old workflow, so their pushes queue full-suite runs. Teams must merge main into their branches.
 
@@ -1290,7 +1290,7 @@ From "CHATGPT REPLIES TO CLAUDE — CURRENT" (Drive 1vlgDEUqGySnfb5xFEUNC-yrDJ29
 
 **English engine (2026-09-26 ~5:45pm):** owner assigned it to a Claude cloud session ("English engine lead"); brief Drive 1ZzZ0SZsoVpZzU0Opeb3hkSN8wRTfBQHjWGdYLFrCZ1E. Decisions: no in-game AI ever (dev-time bulk drafting + grounding review); BG3-style knowledge/skill-unlocked player options that reward extra work; memory cue ("Good thing you read section 4"); light regional words (y'all, yinz); dialogue report from sim runs for owner feedback; ever-growing engine; split #688 (keep engine/journal/bargaining, no life-content deletions until replaced). Meaning layer builds on #697 reply-meaning.ts. Claude CTO reviews its PRs.
 
-**Personality catalogue (2026-09-26 evening):** 98 named qualities (ChatGPT Sep 22 research, personality-catalogue.generated.ts) are assigned 1–2 per adult at random and read by NOTHING ("Nothing argues yet"). Only the five core traits drive anything. Owner: qualities should come from each person's generated history plus a little randomness. He is deciding keep/cut/rename/merge on all 98 in Sheet 1-vVvRt36KEruor2Ni_ABHgy4Am1Iad5t5IEJ9VP3iL4; then decisions → people session, speech → English engine session.
+**Personality catalog (2026-09-26 evening):** 98 named qualities (ChatGPT Sep 22 research, personality-catalogue.generated.ts) are assigned 1–2 per adult at random and read by NOTHING ("Nothing argues yet"). Only the five core traits drive anything. Owner: qualities should come from each person's generated history plus a little randomness. He is deciding keep/cut/rename/merge on all 98 in Sheet 1-vVvRt36KEruor2Ni_ABHgy4Am1Iad5t5IEJ9VP3iL4; then decisions → people session, speech → English engine session.
 
 **Traits final (2026-09-26 evening, Register "Personality traits" paragraph in the laws-reach-people section):** one list of 97 (5 universal core + 92 notable), 5 strength levels (faint/lean/clearly/strongly/defining), 1–3 inborn random per person (strong 1 in 8) + rest from generated upbringing/life, for EVERYONE; traits = weighted reasons (level × situation), domain-scoped allowed; change via accumulated pushes + resistance, rare severe events at once, no timed fading, records why; learned by observation, public figures known; encounters depend on both people; player picks 2–3 or emerges; unlock options; same system for legislators/executives; build check: no unread trait. Assigned to a new Claude cloud session ("traits").
 Correction (same evening): traits go to **Codex Cloud**, not Claude cloud; brief renamed 'CLAUDE TO CODEX CLOUD 2026-09-26 | Traits lead: brief', branches codex/traits-*.
@@ -1845,7 +1845,7 @@ Owner, Oct 2, about 9:20 a.m., yelling after a week of repeating himself: "Put t
 
 THE ORDERS:
 
-1. EVERY Codex session works on the 80% (the audit checks), all the time. At every check-in, confirm the session count, each session's item and its acknowledgement. Nobody idles.
+1. EVERY Codex session works on the 80% (the audit checks), all the time. At every check-in, confirm the session count, each session's item and its acknowledgment. Nobody idles.
 2. CLAUDE ONLY CHECKS work that's FINISHED (a READY PR). Claude never builds.
 3. TEST ONLY THE CHANGED FILES: typecheck, the PR's changed tests, LOAD and zero-dice. Nothing else.
 4. SMALL FIXES NEVER GO BACK. Note them in cto-notes/followups-<date>.md and MERGE. Only a real break (a crash, a stopped clock, a failing changed test, a type error) blocks a merge.
@@ -2123,7 +2123,7 @@ Related: [[claude-standby-team]], [[owners-docket-living-page]].
 
 **Oct 2, 1:50 a.m. standing (audit checks, current main):** 369/684 = 54% overall (the docket's 45.6% is a weighted item score, not checks). No slice is finished yet. Closest: Lives (Team 5 + Standby Claude), 5 checks short, but its browser play failed earlier (no visible births, moves or deaths). Furthest: Elections 3/47. Your money (Team 3, meant to finish first) is at 36%. About 190 checks across slices to reach 80% everywhere. The check pace stalled at ~2.5/hr after the 11:30 reset; the AUDIT-line rule and new assignments aim for 10–15/hr, which puts the finish around Friday late afternoon or evening.
 
-**Oct 2, 2:45 a.m.:** ALL of the last 200 GitHub runs on main were CANCELLED. Validate uses cancel-in-progress, and merges land every few minutes against runs of up to 45 minutes, so GitHub never reports main green while merging continues. Endgame: when the slices hit 80%, STOP merging for about an hour so Deterministic validation, Browser proofs and Release finish on one main SHA, then post GOAL COMPLETE. Checker 4's full-sweep timing (on #1607) says how long that pause must be.
+**Oct 2, 2:45 a.m.:** ALL of the last 200 GitHub runs on main were CANCELED. Validate uses cancel-in-progress, and merges land every few minutes against runs of up to 45 minutes, so GitHub never reports main green while merging continues. Endgame: when the slices hit 80%, STOP merging for about an hour so Deterministic validation, Browser proofs and Release finish on one main SHA, then post GOAL COMPLETE. Checker 4's full-sweep timing (on #1607) says how long that pause must be.
 
 ## redeploy-at-80
 
@@ -2672,7 +2672,7 @@ Oct 2, ~12:30 a.m.: no opaque. He wants BETWEEN translucent and transparent (tra
 **Full UI package (Oct 2, ~2:05 a.m.):** kit12/gen_screens.py builds 8 screens in the locked look: s1-title (menu + hero figure), s2-play (diner conversation, radial ring row, player card, journal), s3-lying, s4-dossier (tabs, facts, prose, relationships), s5-ledger, s6-paper (County Ledger), s7-options (text choices with gold underline, brass sliders), s8-payday (toast). Overview: package-sheet.png. Awaiting his notes.
 **Owner notes on the package (Oct 2, ~2:10 a.m.):** (1) NEVER put a payday notice/toast in mockups ("that's never been a thing for me"). (2) Lying answers glow TOO red; tone them down. (3) Logo "Our Civic Duty" needs work. (4) He LIKES the home screen. (5) Hover: things glow WHITE smoothly on hover; RED if hovering a lie. (6) Menus such as the dossier must show the game's REAL tabs and submenus filling the space; he asked why I left them out.
 **Package round 2 (Oct 2, ~2:30 a.m.):** kit12/gen_screens2.py (it runs gen_screens.py first) builds 7 screens: title, play, lying, People (person card), Money and property, News, Options. Menu screens use the game's REAL side menu (11 entries with hints, from PlayerGame.tsx) and real tabs: PersonCard sections (Public career, Laws they wrote, What you know, Your shared history, Connected people, Also connected); Money (Yours / The household's / The committee's); Options (Settings / Patch notes). The game's only real setting is Date format, and motion follows the system setting. The hover glow and the softer lying red are in kit12.css. Extra figures were pulled from the game by POSTing canvas dataURLs to a local python receiver (127.0.0.1:8765, CORS *); never return dataURLs inline, it wastes context. Logo work is still to do.
-**Oct 2, ~2:00 a.m.: the kit12 look stays QUEUED (P45). He briefly said to apply it, then: "Sorry, no, don't apply it now. Go ahead and queue it." I cancelled Team 7's assignment in 00e within two minutes. He'll keep adjusting the look tomorrow and wants to PLAY the game tomorrow.
+**Oct 2, ~2:00 a.m.: the kit12 look stays QUEUED (P45). He briefly said to apply it, then: "Sorry, no, don't apply it now. Go ahead and queue it." I canceled Team 7's assignment in 00e within two minutes. He'll keep adjusting the look tomorrow and wants to PLAY the game tomorrow.
 
 ## ui-mockup-picks-sept29
 
