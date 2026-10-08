@@ -4389,6 +4389,7 @@ export type PersonnelJustCauseGround =
   | "serious-policy-violation";
 
 interface PersonnelRecordBase {
+  readonly estimatedFrom?: string | null;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
