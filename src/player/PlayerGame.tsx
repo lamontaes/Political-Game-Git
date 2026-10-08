@@ -2247,6 +2247,7 @@ function PlayingScreen({
   const dossierFor = useCallback(
     (personId: EntityId) =>
       projectPersonDossier(session.world, session.personId, personId, {
+        observer: observing,
         presentNow: moment.scene.presentPeople.some(
           (person) => person.personId === personId,
         ),
