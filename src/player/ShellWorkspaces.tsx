@@ -60,6 +60,12 @@ import {
 } from "../presentation/shell-navigation";
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { pathForRelationship } from "../simulation/life-paths2";
+import { CAREER_PROVIDERS } from "../presentation/career-path7-provider";
+import {
+  careerEligibility,
+  scheduleCareerTask,
+} from "../simulation/career-path7";
+import { workRoleAt, workStatusAt } from "../simulation/life-queries";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
@@ -1642,10 +1648,12 @@ export function PersonalFinancesWorkspace({
 export function WorkWorkspace({
   world,
   personId,
+  onWorldChange,
   children,
 }: {
   readonly world: World;
   readonly personId: EntityId;
+  readonly onWorldChange: (world: World) => void;
   readonly children: ReactNode;
 }) {
   const pending = useMemo(
@@ -1659,10 +1667,32 @@ export function WorkWorkspace({
       entry.group === "needs-you" &&
       !workItemOccasionHasPassed(world, entry.item),
   );
+  const activeCareers =
+    world.control.kind === "person" && world.control.personId === personId
+      ? world.history.workRelationships.flatMap((relationship) => {
+          if (
+            relationship.personId !== personId ||
+            workStatusAt(world, relationship.id)?.status !== "active"
+          )
+            return [];
+          const path = pathForRelationship(world, relationship.id);
+          const provider = CAREER_PROVIDERS.find(
+            (item) => item.pathId === path?.id,
+          );
+          const role = workRoleAt(world, relationship.id);
+          if (!provider || !role) return [];
+          const scheduled = world.history.scheduledActivities.some(
+            (activity) =>
+              activity.sourceEntityIds.includes(relationship.id) &&
+              scheduledActivityState(world, activity.id).status === "scheduled",
+          );
+          return [{ relationship, provider, role, scheduled }];
+        })
+      : [];
 
   return (
     <>
-      {pending.length === 0 ? (
+      {pending.length === 0 && activeCareers.length === 0 ? (
         <p
           className="game-note"
           data-testid="work-empty"
@@ -1677,8 +1707,68 @@ export function WorkWorkspace({
           </ul>
         </section>
       ) : null}
+      {activeCareers.map(({ relationship, provider, role, scheduled }) => (
+        <CareerTaskActivity
+          key={relationship.id}
+          world={world}
+          relationshipId={relationship.id}
+          provider={provider}
+          roleTitle={role.title}
+          scheduled={scheduled}
+          onWorldChange={onWorldChange}
+        />
+      ))}
       {children}
     </>
+  );
+}
+
+function CareerTaskActivity({
+  world,
+  relationshipId,
+  provider,
+  roleTitle,
+  scheduled,
+  onWorldChange,
+}: {
+  readonly world: World;
+  readonly relationshipId: EntityId;
+  readonly provider: (typeof CAREER_PROVIDERS)[number];
+  readonly roleTitle: string;
+  readonly scheduled: boolean;
+  readonly onWorldChange: (world: World) => void;
+}) {
+  const [taskId, setTaskId] = useState(provider.tasks[0]?.id ?? "");
+  const reason = careerEligibility(world, provider);
+  const schedule = () => {
+    if (!taskId) return;
+    const result = scheduleCareerTask(world, relationshipId, provider, taskId);
+    if (result.ok) onWorldChange(result.world);
+  };
+  return (
+    <section className="pg-personal-section">
+      <select
+        aria-label={roleTitle}
+        value={taskId}
+        disabled={!!reason || scheduled}
+        onChange={(event) => setTaskId(event.target.value)}
+      >
+        {provider.tasks.map((task) => (
+          <option key={task.id} value={task.id}>
+            {task.text}
+          </option>
+        ))}
+      </select>
+      <button
+        type="button"
+        className="ui-action"
+        data-testid="schedule-career-task"
+        disabled={!!reason || scheduled || !taskId}
+        onClick={schedule}
+      >
+        Continue
+      </button>
+    </section>
   );
 }
 
