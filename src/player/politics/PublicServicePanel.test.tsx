@@ -21,17 +21,16 @@ function render() {
     <PublicServicePanel
       world={{} as World}
       jurisdictionId={"place:x" as EntityId}
-      placeLabel="Anchorage, Alaska"
     />,
   );
 }
 
 describe("PublicServicePanel", () => {
-  it("says plainly when the place keeps no service records", () => {
+  it("shows no explanatory sentence when no service records exist", () => {
     views.length = 0;
     const html = render();
-    expect(html).toContain('data-testid="public-services-none"');
-    expect(html).toContain("No public service records are kept for Anchorage");
+    expect(html).not.toContain("No public service records are kept");
+    expect(html).not.toContain('data-testid="public-services-none"');
   });
 
   it("shows recorded capacity, backlog and funding in American dates", () => {

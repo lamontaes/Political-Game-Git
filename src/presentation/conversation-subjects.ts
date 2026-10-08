@@ -1529,10 +1529,6 @@ const COMMIT_CONTRACTS: Readonly<
       activity: ({ addresseeName }) =>
         `The player asked ${addresseeName} what they would like to do.`,
       explain: ({ addresseeName }) => `The player asked ${addresseeName} why.`,
-      suggestGame: ({ addresseeName }) =>
-        `The player suggested playing a game with ${addresseeName}.`,
-      suggestQuiet: ({ addresseeName }) =>
-        `The player suggested sitting and talking with ${addresseeName}.`,
       share: ({ addresseeName }) =>
         `The player asked ${addresseeName} if they wanted to talk.`,
       remember: ({ addresseeName }) =>
@@ -1541,8 +1537,6 @@ const COMMIT_CONTRACTS: Readonly<
         `The player let ${addresseeName} know they had been heard.`,
       leave: ({ addresseeName }) =>
         `The player said goodbye to ${addresseeName}.`,
-      date: ({ addresseeName }) =>
-        `The player asked ${addresseeName} if this should be a date.`,
       spendTime: ({ addresseeName }) =>
         `The player spent time with ${addresseeName}.`,
       acceptProposal: ({ addresseeName }) =>
