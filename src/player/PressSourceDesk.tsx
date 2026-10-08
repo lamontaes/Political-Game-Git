@@ -9,7 +9,7 @@ import type {
   DisclosableRecord,
   ReporterContact,
 } from "../presentation/press-disclosure";
-import type { SourceTerms } from "../simulation/press";
+import type { MediaBeat, SourceTerms } from "../simulation/press";
 
 /**
  * Taking something to a reporter, from the player's side.
@@ -65,14 +65,8 @@ export function PressSourceDesk({
       aria-labelledby="press-source-title"
     >
       <h3 id="press-source-title">Talking to a reporter</h3>
-      <p className="game-note">{view.note}</p>
-      <p className="game-note">
-        These are reporters at outlets, not people you know.
-      </p>
       {view.contacts.length === 0 ? (
-        <p data-testid="press-source-empty">
-          No reporter here is covering anything you could take to them.
-        </p>
+        <p data-testid="press-source-empty" />
       ) : (
         <ul className="pg-press-source-list">
           {view.contacts.map((contact) => (
@@ -84,7 +78,7 @@ export function PressSourceDesk({
               <span className="pg-press-source-line">
                 {contact.outletName}
                 {contact.beats.length > 0
-                  ? ` · covers ${contact.beats.join(", ")}`
+                  ? ` · ${contact.beats.map(beatName).join(", ")}`
                   : ""}
               </span>
               <button
@@ -163,6 +157,22 @@ interface TellInput {
   readonly eventIds?: readonly EntityId[];
   readonly evidenceArtifactIds?: readonly EntityId[];
   readonly openLead?: boolean;
+}
+
+const BEAT_NAMES: Readonly<Record<MediaBeat, string>> = {
+  "general-assignment": "General assignment",
+  congress: "Congress",
+  statehouse: "Statehouse",
+  "local-government": "Local government",
+  campaigns: "Campaigns",
+  "business-economy": "Business and economy",
+  "public-safety": "Public safety",
+  investigations: "Investigations",
+  international: "International",
+};
+
+function beatName(beat: string): string {
+  return BEAT_NAMES[beat as MediaBeat] ?? beat;
 }
 
 function ReporterExchange({

@@ -38,6 +38,20 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("anchors the visible chairs in both legislative chambers", () => {
+    const minimumSeats = {
+      "state-legislative-chamber-bicameral": 21,
+      "state-legislative-chamber-unicameral": 19,
+    } as const;
+
+    for (const [place, minimum] of Object.entries(minimumSeats)) {
+      const seats = STAGES[place]!.spots.filter((spot) => spot.pose === "sit");
+      expect(seats.length).toBeGreaterThanOrEqual(minimum);
+      expect(new Set(seats.map((spot) => spot.id)).size).toBe(seats.length);
+      expect(seats.every((spot) => spot.seatY !== undefined)).toBe(true);
+    }
+  });
+
   it("records dense desk seating in both state legislature chambers", () => {
     const expectedSeats = new Map([
       ["state-legislative-chamber-bicameral", 40],
@@ -490,6 +504,14 @@ describe("people anchors on every place picture", () => {
       }
     },
   );
+
+  it("gives each visible DMV foreground-right waiting chair a sit spot", () => {
+    const rowSeats = STAGES["dmv-office"]!.spots.filter(
+      (spot) => spot.group === "waiting-right-foreground",
+    );
+    expect(rowSeats).toHaveLength(4);
+    expect(rowSeats.every((spot) => spot.pose === "sit")).toBe(true);
+  });
 
   it.each(PLACES)("%s: seats, podiums and the hero spot", (place) => {
     const stage = backdropStaging(place)!;
