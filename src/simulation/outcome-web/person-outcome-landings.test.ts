@@ -215,7 +215,8 @@ describe("the outcome landing plan", () => {
       "person-linked": 100,
       "budget-only": 0,
       "place-number-only": 0,
-      "no-live-consumer": 1,
+      "no-live-consumer": 0,
+      unsupported: 1,
     });
   });
 

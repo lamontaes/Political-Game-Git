@@ -3876,7 +3876,9 @@
       "anchor": "The place's drifting birth level scales births one for one.",
       "source": "Spec part 6: the entire world changes",
       "evidence": "researched",
-      "range": [0.01, 0.01]
+      "range": [0.01, 0.01],
+      "consumed": false,
+      "consumptionNote": "The aggregate birth-rate index is calibration, not a personal cause. The standing no-dice rule makes real rates checks on totals. Births follow recorded family plans, and town-family-plans explicitly excludes births-level-to-births from actor considerations. No personal birth or official-view consequence can be inferred from this aggregate index alone."
     },
     {
       "key": "right-to-work-to-turnout",

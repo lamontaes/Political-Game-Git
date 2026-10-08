@@ -15,7 +15,8 @@
     "person-linked": "a current producer writes a record tied to a named person",
     "budget-only": "a current consumer changes a state budget record without a named person",
     "place-number-only": "a place measure changes without a current person reader",
-    "no-live-consumer": "the built cause has no live reader at the audited head"
+    "no-live-consumer": "the built cause has no live reader at the audited head",
+    "unsupported": "a personal causal landing is unsupported by the recorded mechanism; the reason is explicit"
   },
   "links": [
     {
@@ -791,11 +792,13 @@
       "outcome": "births.rate",
       "policyArea": "births",
       "sourceArea": "births.rate-index",
-      "recipientGroup": "place",
-      "currentStatus": "no-live-consumer",
+      "recipientGroup": "aggregate birth-rate calibration; no personal recipient",
+      "currentStatus": "unsupported",
       "recipientRule": null,
       "outcomeDirection": null,
-      "estimatedFrom": null
+      "estimatedFrom": null,
+      "unsupportedReason": "The aggregate birth-rate index is calibration, not a personal cause. The standing no-dice rule makes real rates checks on totals. Births follow recorded family plans, and town-family-plans explicitly excludes births-level-to-births from actor considerations. No personal birth or official-view consequence can be inferred from this aggregate index alone.",
+      "landingPath": "src/simulation/living-world/town-family-plans.ts (aggregate link excluded)"
     },
     {
       "key": "right-to-work-to-turnout",
@@ -1258,6 +1261,7 @@
     "person-linked": 100,
     "budget-only": 0,
     "place-number-only": 0,
-    "no-live-consumer": 1
+    "no-live-consumer": 0,
+    "unsupported": 1
   }
 }

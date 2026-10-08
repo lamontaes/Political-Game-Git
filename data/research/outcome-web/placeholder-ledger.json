@@ -143,6 +143,14 @@
       "gap": "Individual irrigated parcels, wells, water rights, and pumping allocations are unrecorded.",
       "estimate": "Use current recorded agricultural operators as an estimated irrigation-resource cohort; record no personal pumping, permission, crop, or income change.",
       "estimatedFrom": "USGS 2015 irrigation groundwater withdrawals and USDA NASS 2023 Irrigation and Water Management Survey (https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Farm_and_Ranch_Irrigation/). Current recorded agricultural owners or directing operators in their home state supply an estimated irrigation-resource context. Their existing work cohort is inferred exposure; it does not establish an irrigated parcel, well, water right, pumping allocation, personal withdrawal, crop yield, or income change. Lower pumping is estimated groundwater conservation, not a measured operator benefit. ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration."
+    },
+    {
+      "key": "births-level-personal-cause-unsupported",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["births-level-to-births"],
+      "gap": "An aggregate birth-rate calibration has no personal causal meaning by itself.",
+      "unsupportedReason": "The aggregate birth-rate index is calibration, not a personal cause. The standing no-dice rule makes real rates checks on totals. Births follow recorded family plans, and town-family-plans explicitly excludes births-level-to-births from actor considerations. No personal birth or official-view consequence can be inferred from this aggregate index alone.",
+      "estimatedFrom": "Owner standing no-dice rule (.claude/skills/no-dice/SKILL.md): real rates check totals rather than decide an actor; canonical family planning at src/simulation/living-world/town-family-plans.ts and src/simulation/people-family-plan.ts."
     }
   ]
 }
