@@ -1,7 +1,7 @@
 ---
 id: tr3-favor-collection
 impact: minor
-section: Simulation
+section: Changed
 title: Favor choices use the shared trait system
 ---
 

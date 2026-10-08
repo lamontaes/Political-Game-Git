@@ -2299,6 +2299,8 @@ function PlayingScreen({
     if (!assignment) return;
     const entry = openLegislativeBargaining(session.world, {
       playerPersonId: session.personId,
+      measureStableKey: measureById(session.world, assignment.measureId)
+        ?.stableKey,
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);
@@ -2313,7 +2315,7 @@ function PlayingScreen({
   function goToTheFloorFor(bill: DocketBill) {
     const entry = openLegislativeBargaining(session.world, {
       playerPersonId: session.personId,
-      docketKey: bill.docketKey,
+      measureStableKey: bill.measureStableKey,
     });
     if (entry.kind === "unavailable") {
       setFloorNote(entry.reason);
