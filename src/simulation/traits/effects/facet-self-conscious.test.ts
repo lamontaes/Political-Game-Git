@@ -56,7 +56,7 @@ function confer(world: World, personId: EntityId, marked: boolean): World {
 }
 
 describe("facet-self-conscious's public-life reader", () => {
-  it("changes one generated person's production vote, preserves evidence and reloads the reason", () => {
+  it("changes one generated person's production vote while a second peer stays unchanged", () => {
     const rng = new SeededRng(SEED);
     const state = rng.pick(lifePlaceStateIdentities());
     const place = rng.pick(
@@ -73,9 +73,12 @@ describe("facet-self-conscious's public-life reader", () => {
       questionnaire: "skipped",
       placeKey: place.key,
     });
-    const person = Object.values(game.world.people).find(
+    const candidates = Object.values(game.world.people).filter(
       ({ id }) => id !== game.playerPersonId,
-    )!;
+    );
+    const person = candidates[0]!;
+    const peer = candidates[1]!;
+    expect(person.id).not.toBe(peer.id);
     expect(personName(person)).not.toBe("");
     const context: DecisionContext = {
       stableKey: `${SEED}:vote`,
@@ -153,6 +156,20 @@ describe("facet-self-conscious's public-life reader", () => {
     });
     expect(before.disposition).toBe("yea");
     expect(after.disposition).toBe("present-not-voting");
+    const peerContext = {
+      ...context,
+      stableKey: `${SEED}:peer-vote`,
+      actorPersonId: peer.id,
+    };
+    const peerBefore = decideMemberVote(game.world, peerContext);
+    const peerAfter = decideMemberVote(selfConscious, {
+      ...peerContext,
+      cutoff: {
+        asOfDate: selfConscious.currentDate,
+        historySequenceExclusive: selfConscious.history.nextSequence,
+      },
+    });
+    expect(peerAfter.disposition).toBe(peerBefore.disposition);
     expect(
       after.evaluation.context.considerations.filter(
         ({ sourceType }) => sourceType === "mind:personality",
@@ -225,6 +242,8 @@ describe("facet-self-conscious's public-life reader", () => {
         place: place.displayName,
         person: personName(person),
         personId: person.id,
+        peer: personName(peer),
+        peerId: peer.id,
         before: before.disposition,
         after: after.disposition,
         decisionId: after.evaluation.decisionId,
