@@ -7,6 +7,7 @@ import {
 } from "./native-session-bridge";
 
 import { MeetingStopActions } from "./MeetingStopActions";
+import { ClerkFilingPanel } from "./ClerkFilingPanel";
 import { SetupScreen } from "./SetupScreen";
 import { QuestionnaireScreenView } from "./QuestionnaireScreenView";
 import { SavesScreen } from "./SavesScreen";
@@ -2979,6 +2980,15 @@ function PlayingScreen({
                   personId={session.personId}
                   runner={timeRunner}
                   onReport={(report) => setPassOutcome(report.outcome)}
+                />
+              ) : null}
+              {!shellReadOnly(session.world) ? (
+                <ClerkFilingPanel
+                  world={session.world}
+                  personId={session.personId}
+                  runner={timeRunner}
+                  onReport={(report) => setPassOutcome(report.outcome)}
+                  onOpenEntity={openEntity}
                 />
               ) : null}
               {crisisStop.stop ? (

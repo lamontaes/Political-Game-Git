@@ -1,4 +1,5 @@
 import "./PlacesWorkspace.css";
+import { requestFilingVisit } from "../simulation/filing-visit";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { attendMunicipalPublicMeeting } from "../simulation/municipal-public-work";
@@ -137,6 +138,12 @@ export function PlacesWorkspace({
         return;
       }
       onOpenEntity({ kind: "government", id: fresh.inspectGovernmentKey });
+      return;
+    }
+    if (fresh.filingSeatOfficeKey) {
+      commit(() =>
+        requestFilingVisit(world, personId, fresh.filingSeatOfficeKey!),
+      );
       return;
     }
     if (fresh.walkDestination) {

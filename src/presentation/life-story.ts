@@ -24,6 +24,11 @@ import {
   arriveAtCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
+import {
+  arriveAtFilingVisit,
+  isFilingVisit,
+  projectClerkFilingScene,
+} from "./clerk-filing-scene";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
 import { playSettingsOf } from "../simulation/play-settings";
@@ -699,6 +704,16 @@ export function chooseTodayCalendarOption(
         activity.id
     )
       return arriveAtCandidateGuidance(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
+    if (
+      isFilingVisit(world, activity.id) &&
+      projectClerkFilingScene(world, input.personId)?.activityId !== activity.id
+    )
+      return arriveAtFilingVisit(
         world,
         input.personId,
         activity.id,
