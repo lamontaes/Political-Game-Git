@@ -380,7 +380,7 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | PH-simulation-root-11 | Replace about 20 placeholders in simulation / root / 11 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-12 | Replace about 20 placeholders in simulation / root / 12 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-simulation-root-13 | Replace about 20 placeholders in simulation / root / 13 with recorded or estimated-and-marked values | placeholders.md | open | |
-| PH-simulation-root-14 | Replace about 20 placeholders in simulation / root / 14 with recorded or estimated-and-marked values | placeholders.md | open | |
+| PH-simulation-root-14 | Replace about 20 placeholders in simulation / root / 14 with recorded or estimated-and-marked values | placeholders.md | ready #3316 | Session 42 |
 | PH-simulation-root-15 | Replace about 20 placeholders in simulation / root / 15 with recorded or estimated-and-marked values | placeholders.md | open | |
 | PH-source-domains-1 | Replace about 20 placeholders in source / domains / 1 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
 | PH-source-domains-2 | Replace about 20 placeholders in source / domains / 2 with recorded or estimated-and-marked values | placeholders.md | done #2625 | Session 42 |
@@ -523,7 +523,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-17 | Newspaper says 'Nothing has been published yet' after a day with 50+ filings                                            | BUGS.md BG-17 | done              | #2872        |
 | BG-18 | Title screen has no character hero figure in the civic scene (owner rule)                                               | BUGS.md BG-18 | done              | #844         |
 
-| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | ready #3202 | |
+| BG-19 | Resolute desk on the title Oval Office needs more detail | BUGS.md BG-19 | done #3202 | |
 | BG-20 | Creator: an extra 'Continue to questions' step | BUGS.md BG-20 | done #2949 | |
 | BG-21 | Creator: helper lines remain (e.g. 'Next waits until you choose a place in this state') | BUGS.md BG-21 | done #2290 | |
 | BG-22 | Creator: birth-year list starts at 2021, with no sense of playable ages | BUGS.md BG-22 | done #2637 | |
@@ -561,7 +561,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | done #3459 | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | ready #3596 | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
-| BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | ready #3448 | |
+| BG-57 | 'Bills filed' board looks like a white sheet over a green post-it | BUGS.md BG-57 | done #3448 | |
 | BG-58 | Pins show as an Excel row of buttons | BUGS.md BG-58 | done (verified on current main) | |
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #3445 | Session 59 |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | done #3517 | |
@@ -569,7 +569,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
-| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | ready #3536 | Session 11 |
+| BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | done #3536 | Session 11 |
 | BG-66 | American-English guard: a test scanning every engine output path and every data bank for British forms (councillor, -ise, -our, stand for council, elected member, local authority, whilst, fortnight, queue up, ward as a default) that fails with the US substitution; runs in the unit suite on every PR | BUGS.md BG-66 | done #2752 (verified on current main) | |
 | BG-67 | Council seat word comes from the place's recorded government structure (district, ward, at-large, seat number), fallback district, never a fixed ward; batch generator and every template read that field | BUGS.md BG-67 | done #3553 | Session 44 |
 | OWN-public-program | src/simulation/governing/public-program.ts writer = Session 20; post-outturn hook is a registration point | #2424 CTO OWNERSHIP 06:12 | claimed | S20 |
@@ -643,7 +643,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | ready #2127 | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
-| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | open: draft: finish it or close it as superseded | |
+| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | ready #2156 | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -654,8 +654,8 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2201 | Teacher salary-floor raises use the shared pay consequence kind | PR #2201 (codex/session21-pay-kind) | open: draft: finish it or close it as superseded | |
-| RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | ready #2202 | |
-| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | done #2202 | |
+| RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | done #2203 | |
 | RS-2206 | Add sourced paid leave terms | PR #2206 (codex/session19-labor-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | open: draft: finish it or close it as superseded | |
 | RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -979,7 +979,7 @@ open: rebase on main (conflicts) | |
 | MR-2  | Strip every authored sentence, helper line, explanation and developer word from the Creator screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2900                              | Builder L3 (anyone if silent 60 min) |
 | MR-3  | Strip every authored sentence, helper line, explanation and developer word from the Options and Difficulty screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game. | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2905                              | Builder L3 (anyone if silent 60 min) |
 | MR-4  | Strip every authored sentence, helper line, explanation and developer word from the Personal screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.               | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2908                              | Builder L3 (anyone if silent 60 min) |
-| MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | ready #2910                             | Builder L3 (anyone if silent 60 min) |
+| MR-5  | Strip every authored sentence, helper line, explanation and developer word from the People screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                 | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done #2910 merged                       | Builder L3 (anyone if silent 60 min) |
 | MR-6  | Strip every authored sentence, helper line, explanation and developer word from the Contact screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2923, batch-marked by CTO Oct 7) | Builder L3 (anyone if silent 60 min) |
 | MR-7  | Strip every authored sentence, helper line, explanation and developer word from the Money screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.                  | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | draft #2928                             | Builder L3 (anyone if silent 60 min) |
 | MR-8  | Strip every authored sentence, helper line, explanation and developer word from the Governing screen; keep record data and Kit 13 control names; rebuild layout to the owner's picks; before/after screenshot from a played new game.              | docs/ui/kit13/APPROVED-2026-10-04.md; brief on #2424 (3:47 p.m.) | done (#2990 merged)                     | Builder L3 (anyone if silent 60 min) |
