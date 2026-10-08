@@ -212,11 +212,12 @@
       "outcome": "labor.married-women-participation",
       "policyArea": "labor",
       "sourceArea": "broadband.home-access",
-      "recipientGroup": "married women",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Dettling 2017 (ILR Review)"
+      "recipientGroup": "recorded married women; estimates use the cited population relationship",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-married-woman-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Dettling 2017 (ILR Review)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-births",
@@ -259,11 +260,12 @@
       "outcome": "labor.mothers-participation",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:education.universal-preschool",
-      "recipientGroup": "mothers of young children",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Malik 2018; Baker, Gruber and Milligan 2008"
+      "recipientGroup": "recorded parents of children under six; maternal participation studies are estimates, not individual enrollment findings",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-parent-of-young-child-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Malik 2018; Baker, Gruber and Milligan 2008; U.S. Census Bureau ACS table B23008",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -420,11 +422,12 @@
       "outcome": "labor.mothers-participation",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:labor-workforce.paid-family-leave",
-      "recipientGroup": "new mothers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM); Baum and Ruhm 2016 (JPAM); Bailey, Byker, Patel and Ramnath 2019 (NBER w26416)"
+      "recipientGroup": "recorded parents of infants; the cited estimate studies new mothers and is not a personal leave or employment finding",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-parent-of-infant-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM); Baum and Ruhm 2016 (JPAM); Bailey, Byker, Patel and Ramnath 2019 (NBER w26416)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carbon-price-to-emissions",
@@ -575,10 +578,11 @@
       "policyArea": "labor",
       "sourceArea": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "recipientGroup": "people 62 to 67",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Mastrobuoni 2009 (JPubE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "retirement-policy-age-cohort-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Mastrobuoni 2009 (JPubE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -977,11 +981,12 @@
       "outcome": "labor.median-earnings",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
+      "recipientGroup": "jurisdiction residents represented by the place-level earnings measure; historic schooling exposure is not identified for individuals",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3); historic student exposure is not individually recorded",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "library-funding-to-reading",
@@ -1115,11 +1120,12 @@
       "outcome": "labor.median-earnings",
       "policyArea": "labor",
       "sourceArea": "federal.defense-boost-pct",
-      "recipientGroup": "workers in the states that get the contracts",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
+      "recipientGroup": "jurisdiction residents represented by the place-level earnings measure; individual contract employment is not recorded",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026; individual contract employment is not recorded",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "farm-payments-cut-to-land-values",
@@ -1211,8 +1217,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 67,
-    "place-number-only": 28,
+    "person-linked": 73,
+    "place-number-only": 22,
     "no-live-consumer": 2,
     "budget-only": 4
   }
