@@ -178,21 +178,19 @@ export function CampaignWorkspace({
   }, [world, view.campaignId]);
   const petitionReview = useMemo(
     () =>
-      view.campaignId
-        ? reviewCandidatePetition(world, view.campaignId)
-        : null,
+      view.campaignId ? reviewCandidatePetition(world, view.campaignId) : null,
     [world, view.campaignId],
   );
   const petitionAccepted = useMemo(
     () =>
       Boolean(
         view.campaignId &&
-          world.history.events.some(
-            (event) =>
-              event.type === "campaign.petition-accepted" &&
-              event.tags.includes("campaign:candidate-petition-filing") &&
-              event.tags.includes(`campaign:${view.campaignId}`),
-          ),
+        world.history.events.some(
+          (event) =>
+            event.type === "campaign.petition-accepted" &&
+            event.tags.includes("campaign:candidate-petition-filing") &&
+            event.tags.includes(`campaign:${view.campaignId}`),
+        ),
       ),
     [world, view.campaignId],
   );
@@ -257,16 +255,13 @@ export function CampaignWorkspace({
   }
 
   function filePetition() {
-    run(
-      () => {
-        if (!view.campaignId) throw new Error("There is no petition to file.");
-        const clerkPersonId = world.personOrder.find((id) => id !== personId);
-        if (!clerkPersonId)
-          throw new Error("No recorded person is available to serve as clerk.");
-        return fileCandidatePetition(world, view.campaignId, clerkPersonId).world;
-      },
-      onWorldChange,
-    );
+    run(() => {
+      if (!view.campaignId) throw new Error("There is no petition to file.");
+      const clerkPersonId = world.personOrder.find((id) => id !== personId);
+      if (!clerkPersonId)
+        throw new Error("No recorded person is available to serve as clerk.");
+      return fileCandidatePetition(world, view.campaignId, clerkPersonId).world;
+    }, onWorldChange);
   }
 
   function file() {
