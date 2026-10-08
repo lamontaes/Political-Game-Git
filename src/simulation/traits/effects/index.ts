@@ -62,12 +62,12 @@ import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
 import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
+import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
 import { facetVindictiveEffects } from "./facet-vindictive";
 import { facetWorkCenteredEffects } from "./facet-work-centered";
 import { facetZealousEffects } from "./facet-zealous";
 import { initialTrustEffects } from "./initial-trust";
 import { methodRevisionEffects } from "./method-revision";
-import { nostalgicEffects } from "./nostalgic";
 import { outwardEmotionalDisplayEffects } from "./outward-emotional-display";
 import { patienceEffects } from "./patience";
 import { playfulMannerEffects } from "./playful-manner";
@@ -143,12 +143,12 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetTactfulEffects,
     ...facetTeasingEffects,
     ...facetTenderHeartedEffects,
+    ...facetThrillSeekingEffects,
     ...facetVindictiveEffects,
     ...facetWorkCenteredEffects,
     ...facetZealousEffects,
     ...initialTrustEffects,
     ...methodRevisionEffects,
-    ...nostalgicEffects,
     ...outwardEmotionalDisplayEffects,
     ...patienceEffects,
     ...playfulMannerEffects,

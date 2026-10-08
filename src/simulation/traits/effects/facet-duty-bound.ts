@@ -13,7 +13,6 @@ export const facetDutyBoundEffects: readonly TraitEffectDeclaration[] = [
         option: "continue-work",
         trait: "personality-v1:facet-duty-bound",
         pole: "high",
-        explanation: "They feel bound to the job they took on and stay in it.",
       },
     ],
   },

@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { globSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
@@ -293,6 +293,242 @@ export async function runArtDemand(
   return report;
 }
 
+export interface VenueSource {
+  path: string;
+  text: string;
+}
+
+/** Exact literal targets only. Dynamic world-dependent keys remain visible gaps. */
+export function placeDemand(
+  paintedPlaces: readonly string[],
+  mapper: VenueSource,
+  producers: readonly VenueSource[],
+) {
+  const parse = (source: VenueSource) =>
+    ts.createSourceFile(source.path, source.text, ts.ScriptTarget.Latest, true);
+  const mapperAst = parse(mapper);
+  const tables: Record<string, Record<string, string>> = {};
+  const tableLines = new Map<string, number>();
+  const readTables = (node: ts.Node) => {
+    if (
+      ts.isVariableDeclaration(node) &&
+      ts.isIdentifier(node.name) &&
+      node.initializer &&
+      ts.isObjectLiteralExpression(node.initializer)
+    ) {
+      for (const entry of node.initializer.properties) {
+        if (
+          ts.isPropertyAssignment(entry) &&
+          (ts.isIdentifier(entry.name) || ts.isStringLiteral(entry.name))
+        )
+          tableLines.set(
+            `${node.name.text}:${entry.name.text}`,
+            mapperAst.getLineAndCharacterOfPosition(entry.getStart(mapperAst))
+              .line + 1,
+          );
+      }
+      tables[node.name.text] = Object.fromEntries(
+        node.initializer.properties.flatMap((entry) =>
+          ts.isPropertyAssignment(entry) &&
+          (ts.isIdentifier(entry.name) || ts.isStringLiteral(entry.name)) &&
+          ts.isStringLiteral(entry.initializer)
+            ? [[entry.name.text, entry.initializer.text]]
+            : [],
+        ),
+      );
+    }
+    ts.forEachChild(node, readTables);
+  };
+  readTables(mapperAst);
+  const exact = tables.LOCATION_PLACE;
+  const prefixes = tables.LOCATION_PREFIX_PLACE;
+  if (!exact || !prefixes)
+    throw new Error(
+      "Place reader has no literal location tables; reconcile its data contract",
+    );
+  const locations = new Map<string, { source: string; line: number }[]>();
+  const add = (key: string, source: string, line: number) => {
+    locations.set(key, [...(locations.get(key) ?? []), { source, line }]);
+  };
+  for (const key of Object.keys(exact))
+    add(key, mapper.path, tableLines.get(`LOCATION_PLACE:${key}`)!);
+  const dynamic: { source: string; line: number; expression: string }[] = [];
+  const constants = new Map<string, Map<string, string>>();
+  const parsed = producers.map((source) => ({ source, ast: parse(source) }));
+  for (const { source, ast } of parsed) {
+    const values = new Map<string, string>();
+    const visit = (node: ts.Node) => {
+      if (
+        ts.isVariableDeclaration(node) &&
+        ts.isIdentifier(node.name) &&
+        ts.isSourceFile(node.parent.parent.parent) &&
+        (node.parent.flags & ts.NodeFlags.Const) !== 0 &&
+        node.initializer &&
+        ts.isStringLiteral(node.initializer)
+      ) {
+        values.set(node.name.text, node.initializer.text);
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+    constants.set(source.path, values);
+  }
+  for (const { source, ast } of parsed) {
+    const bindingHas = (name: ts.BindingName, id: string): boolean =>
+      ts.isIdentifier(name)
+        ? name.text === id
+        : name.elements.some(
+            (element) =>
+              ts.isBindingElement(element) && bindingHas(element.name, id),
+          );
+    const shadowed = (node: ts.Node, id: string): boolean => {
+      for (
+        let parent = node.parent;
+        parent && !ts.isSourceFile(parent);
+        parent = parent.parent
+      ) {
+        if (
+          ts.isFunctionLike(parent) &&
+          parent.parameters.some((parameter) => bindingHas(parameter.name, id))
+        )
+          return true;
+        if (
+          ts.isBlock(parent) &&
+          parent.statements.some(
+            (statement) =>
+              ts.isVariableStatement(statement) &&
+              statement.declarationList.declarations.some((declaration) =>
+                bindingHas(declaration.name, id),
+              ),
+          )
+        )
+          return true;
+      }
+      return false;
+    };
+    const visit = (node: ts.Node) => {
+      if (
+        ts.isPropertyAssignment(node) &&
+        (ts.isIdentifier(node.name) || ts.isStringLiteral(node.name)) &&
+        node.name.text === "locationKey"
+      ) {
+        const line =
+          ast.getLineAndCharacterOfPosition(node.getStart(ast)).line + 1;
+        const value = node.initializer;
+        if (
+          ts.isStringLiteral(value) ||
+          ts.isNoSubstitutionTemplateLiteral(value)
+        )
+          add(value.text, source.path, line);
+        else if (
+          ts.isIdentifier(value) &&
+          constants.get(source.path)?.has(value.text) &&
+          !shadowed(node, value.text)
+        )
+          add(constants.get(source.path)!.get(value.text)!, source.path, line);
+        else
+          dynamic.push({
+            source: source.path,
+            line,
+            expression: value.getText(ast),
+          });
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(ast);
+  }
+  const painted = new Set(paintedPlaces);
+  const unresolved: {
+    locationKey: string;
+    target: string | null;
+    sources: { source: string; line: number }[];
+  }[] = [];
+  const inventory: {
+    locationKey: string;
+    place: string;
+    sources: { source: string; line: number }[];
+  }[] = [];
+  // These are the reader's world-dependent dispatch cases, not painted places.
+  const worldDependent = new Set(["home", "doors", "workplace"]);
+  for (const [locationKey, sources] of [...locations.entries()].sort(
+    ([a], [b]) => a.localeCompare(b),
+  )) {
+    const direct = exact[locationKey];
+    const target = direct ?? prefixes[locationKey.split(":")[0]!];
+    // Prefix dispatch can have conditional overrides; a default is no proof.
+    if (!direct || !target || worldDependent.has(target))
+      unresolved.push({ locationKey, target: target ?? null, sources });
+    else inventory.push({ locationKey, place: target, sources });
+  }
+  return {
+    inventory,
+    missing: inventory.filter((entry) => !painted.has(entry.place)),
+    unresolved,
+    dynamic,
+  };
+}
+
+export async function runPlaceDemand(
+  root: string,
+  output = resolve(root, "art/coverage/missing-places.json"),
+) {
+  const mapper = {
+    path: "src/presentation/place-backdrops.ts",
+    text: readFileSync(
+      resolve(root, "src/presentation/place-backdrops.ts"),
+      "utf8",
+    ),
+  };
+  const paths = [
+    "src/presentation/scene-venues.ts",
+    ...globSync("src/simulation/**/*.ts", { cwd: root }).filter(
+      (path) => !path.includes(".test.") && !path.includes(".generated."),
+    ),
+  ].sort();
+  const producers = paths
+    .map((path) => ({ path, text: readFileSync(resolve(root, path), "utf8") }))
+    .filter(
+      (source) =>
+        source.text.includes("locationKey") ||
+        source.text.includes("LOCATION_KEY"),
+    );
+  const manifestPath = "art/backdrops/manifest.json";
+  const manifestText = readFileSync(resolve(root, manifestPath), "utf8");
+  const manifest = JSON.parse(manifestText) as {
+    backdrops: { place: string }[];
+  };
+  const demand = placeDemand(
+    [...new Set(manifest.backdrops.map((row) => row.place))],
+    mapper,
+    producers,
+  );
+  const report = {
+    schema: "ocd-place-demand-audit/v1",
+    basis:
+      "Independent source inventory: missing lists only known literal location targets absent from the painted manifest. Unresolved dispatch and dynamic expressions prevent a complete venue coverage claim. No wiring, tags, painting, or art acceptance.",
+    sources: [
+      { path: manifestPath, text: manifestText },
+      mapper,
+      ...producers,
+    ].map((source) => ({
+      path: source.path,
+      sha256: createHash("sha256").update(source.text).digest("hex"),
+    })),
+    ...demand,
+  };
+  mkdirSync(dirname(output), { recursive: true });
+  writeFileSync(
+    output,
+    await format(JSON.stringify(report), { parser: "json" }),
+  );
+  for (const entry of report.inventory)
+    process.stdout.write(`${JSON.stringify(entry)}\n`);
+  process.stdout.write(
+    `Place audit: ${report.inventory.length} literal targets; ${report.missing.length} missing; ${report.unresolved.length} unresolved keys; ${report.dynamic.length} dynamic expressions.\n`,
+  );
+  return report;
+}
+
 if (
   process.argv[1] &&
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
@@ -301,8 +537,8 @@ if (
   const index = process.argv.indexOf("--output");
   if (index >= 0 && !process.argv[index + 1])
     throw new Error("--output needs a path");
-  await runArtDemand(
-    root,
-    index >= 0 ? resolve(process.argv[index + 1]!) : undefined,
-  );
+  const output = index >= 0 ? resolve(process.argv[index + 1]!) : undefined;
+  if (process.argv.includes("--places-only"))
+    await runPlaceDemand(root, output);
+  else await runArtDemand(root, output);
 }

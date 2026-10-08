@@ -9,6 +9,7 @@ import {
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
+import { locationKeyForJourney } from "./place-journey-backdrop";
 
 /** Versioned route-provider result. Durations are explicit scenario authoring
  * or sourced observations, never distance estimates or defaults. A provider
@@ -130,7 +131,7 @@ export function travelToPlace(
       participantPersonIds: [...route.participantPersonIds],
       responsiblePersonId: personId,
       location: {
-        locationKey: `journey:${route.id}`,
+        locationKey: locationKeyForJourney(route.destination.setting, route.id),
         label: `${route.origin.label} to ${route.destination.label}`,
         jurisdictionId: route.origin.jurisdictionId,
       },

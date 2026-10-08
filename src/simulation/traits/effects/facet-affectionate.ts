@@ -39,8 +39,6 @@ export const FACET_AFFECTIONATE_EFFECTS: TraitPack = {
           option: "accept",
           trait: "personality-v1:facet-affectionate",
           pole: "high",
-          explanation:
-            "They readily express warmth when this relationship draws closer.",
         },
       ],
     },
@@ -51,8 +49,6 @@ export const FACET_AFFECTIONATE_EFFECTS: TraitPack = {
           option: "accept",
           trait: "personality-v1:facet-affectionate",
           pole: "high",
-          explanation:
-            "They want to express the warmth already growing between them.",
         },
       ],
     },
@@ -63,8 +59,6 @@ export const FACET_AFFECTIONATE_EFFECTS: TraitPack = {
           option: "stay",
           trait: "personality-v1:facet-affectionate",
           pole: "high",
-          explanation:
-            "They keep expressing warmth toward the person they love.",
         },
       ],
     },

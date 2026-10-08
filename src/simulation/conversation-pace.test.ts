@@ -10,7 +10,7 @@ import { createMindProvenance, recordPersonalityTendency } from "./mind";
 import { latestPersonalityTendency } from "./queries";
 import { ensurePeopleTraitCatalog } from "./people-traits";
 import { peopleTraitId, TRAIT_SHAPES } from "./people-trait-definitions";
-import { contactBases } from "./relationship-contact";
+import { contactBases, produceReachingOut } from "./relationship-contact";
 import { introductionSpacingDays } from "./social-introductions";
 import type { EntityId, World } from "./types";
 
@@ -25,20 +25,23 @@ import type { EntityId, World } from "./types";
  */
 const SEED = "bg69-conversation-pace-1";
 
-function drawnPlace(seed: string) {
+function drawnPlace(seed: string, stateIndex?: number) {
   const states = lifePlaceStateIdentities();
   let h = 0;
   for (const c of seed) h = (h * 31 + c.charCodeAt(0)) >>> 0;
-  const state = states[h % states.length]!;
+  const state = states[stateIndex ?? h % states.length]!;
   const places = searchLifePlaces("", 5000, {
     stateJurisdictionKey: state.jurisdictionKey,
     scope: "locality",
   });
+  if (places.length === 0) {
+    throw new Error(`No startable locality for ${state.jurisdictionKey}`);
+  }
   return { state, place: places[(h >>> 3) % places.length]! };
 }
 
-function newAdult(seed: string) {
-  const { state, place } = drawnPlace(seed);
+function newAdult(seed: string, stateIndex?: number) {
+  const { state, place } = drawnPlace(seed, stateIndex);
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     startKind: "custom",
@@ -84,23 +87,54 @@ function withSociability(
 }
 
 describe("how often a life starts a conversation (BG-69)", () => {
-  it("meets new people sooner when more sociable, on one smooth scale", () => {
-    const { world, personId, label } = newAdult(SEED);
-    // The player's own mind is only written by the player's choices, so the
-    // same scale is checked on somebody else in the life.
-    const other = world.personOrder.find((id) => id !== personId)!;
-    const reserved = introductionSpacingDays(
-      withSociability(world, other, "low"),
-      other,
-    );
-    const outgoing = introductionSpacingDays(
-      withSociability(world, other, "high"),
-      other,
-    );
-    expect(outgoing, label).toBeLessThan(reserved);
-    // Never the old single fourteen-day pace for everybody.
-    expect(reserved, label).toBeLessThan(14);
-  });
+  it("uses the same conversation pace across all 56 jurisdictions", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
+    for (const [stateIndex, state] of states.entries()) {
+      const seed = `${SEED}:${state.usps}`;
+      const { world, personId, label } = newAdult(seed, stateIndex);
+      // The player's own mind is only written by player choices, so check the
+      // same record-based scale on another person in each jurisdiction.
+      const other = world.personOrder.find((id) => id !== personId)!;
+      const reserved = introductionSpacingDays(
+        withSociability(world, other, "low"),
+        other,
+      );
+      const outgoing = introductionSpacingDays(
+        withSociability(world, other, "high"),
+        other,
+      );
+      expect(outgoing, `${label} (${state.jurisdictionKey})`).toBeLessThan(
+        reserved,
+      );
+      // No fixed fourteen-day pace remains for more reserved people either.
+      expect(reserved, `${label} (${state.jurisdictionKey})`).toBeLessThan(14);
+
+      // Run the recorded contact path wherever this life has a real basis.
+      // A missing family contact record is never filled in by the test.
+      const start = world.history.events.length;
+      const after = produceReachingOut(world, personId);
+      const recordedProposals = after.history.events
+        .slice(start)
+        .filter(
+          (event) =>
+            event.type === "life.meeting-proposed" &&
+            event.involvedEntityIds.includes(personId),
+        );
+      const realCallers = new Set(
+        contactBases(world, personId).map((basis) => basis.personId),
+      );
+      for (const event of recordedProposals) {
+        expect(
+          event.participants.some(
+            (entry) =>
+              entry.role === "agency:asked" && realCallers.has(entry.personId),
+          ),
+          `${label} (${state.jurisdictionKey})`,
+        ).toBe(true);
+      }
+    }
+  }, 30_000);
 
   it("lets family with no recorded contact be the ones who ring", () => {
     const { world: opened, personId, label } = newAdult(SEED);
@@ -113,8 +147,12 @@ describe("how often a life starts a conversation (BG-69)", () => {
     // The drawn life must actually have such kin, or the control proves nothing.
     expect(kinWithoutRecord.length, label).toBeGreaterThan(0);
     const kinIds = new Set(kinWithoutRecord.map((basis) => basis.personId));
-    const start = opened.history.events.length;
+    // When they are strongly sociable, their recorded tendencies should make
+    // contact more likely; the test does not assume a reserved relative calls.
     let world = opened;
+    for (const personId of kinIds)
+      world = withSociability(world, personId, "high");
+    const start = world.history.events.length;
     for (let day = 0; day < 56; day += 1) world = letAdultTimePass(world, 1);
     const proposals = world.history.events
       .slice(start)

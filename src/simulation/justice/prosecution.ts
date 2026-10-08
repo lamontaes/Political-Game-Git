@@ -26,6 +26,7 @@ import {
 import { considerClemencyAfterSentence } from "./clemency";
 import { chiefExecutiveJurisdiction } from "../nationwide-world/government-jurisdiction";
 import { eventById } from "../event-index";
+import { recordJusticeChargeReference } from "../public-information";
 import { ensureProsecutionStageSchedule } from "./prosecution-transitions";
 import { countyRowOfficerForJurisdiction } from "./county-offices";
 import { ensureStartingPersonalMoney } from "../starting-money";
@@ -54,6 +55,8 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { isControlledPerson } from "../judiciary/court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import { personName } from "../people";
 import { ensurePeopleTraits } from "../people-traits";
 import { favorStandingBetween } from "../favors";
@@ -183,6 +186,7 @@ export const PROSECUTION_DECLINED_EVENT = "justice.charges-declined";
 const OFFENSE_TAG = "justice.offense:";
 const EVIDENCE_TAG = "justice.evidence:";
 const STANDING_TAG = "justice.standing-findings:";
+const BASIS_RECORD_TAG = "justice.basis-record:";
 const OUTCOME_TAG = "justice.outcome:";
 
 export type CaseOutcome = "dismissed" | "acquitted" | "plea" | "convicted";
@@ -202,6 +206,8 @@ export interface ProsecutionReferralInput {
   };
   /** The recorded events the case rests on: a finding, a report, an arrest. */
   readonly basisEventIds: readonly EntityId[];
+  /** Recorded evidence artifacts or press-story publications behind the case. */
+  readonly basisRecordIds?: readonly EntityId[];
   readonly evidence: EvidenceStrength;
   /** Findings standing against the person, which lengthen a jail term. */
   readonly standingFindings: number;
@@ -245,11 +251,12 @@ function sentenceDecisionForCase(
   // Preserve the published replay guard: a pending unsupported range never
   // re-appends the already saved judge's sentence-kind decision.
   if (
-    saved &&
-    (saved.context.actorPersonId !== judgeId ||
-      saved.context.decisionType !== "justice.sentence" ||
-      saved.context.subject?.kind !== "context:criminal-case" ||
-      saved.context.subject.key !== courtCase.caseKey)
+    playerHandlesJudicialCase(world, judgeId, "criminal") ||
+    (saved &&
+      (saved.context.actorPersonId !== judgeId ||
+        saved.context.decisionType !== "justice.sentence" ||
+        saved.context.subject?.kind !== "context:criminal-case" ||
+        saved.context.subject.key !== courtCase.caseKey))
   )
     return null;
   const sentence =
@@ -294,7 +301,7 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
       relationship.personId === courtCase.defendantId ||
       !world.people[relationship.personId] ||
       !isPersonAliveAt(world, relationship.personId, cutoff) ||
-      isPlayer(world, relationship.personId)
+      isControlledPerson(world, relationship.personId)
     )
       continue;
     const active = activeWorkRelationshipsAt(
@@ -351,7 +358,7 @@ function countyProsecutorForCase(
     holder.personId === courtCase.defendantId ||
     !world.people[holder.personId] ||
     !isPersonAliveAt(world, holder.personId, cutoff) ||
-    isPlayer(world, holder.personId)
+    isControlledPerson(world, holder.personId)
   )
     return null;
   return {
@@ -420,6 +427,7 @@ export function referForProsecution(
       `${EVIDENCE_TAG}${input.evidence}`,
       `${STANDING_TAG}${input.standingFindings}`,
       `justice.referred-by:${input.referredBy.kind}`,
+      ...(input.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`),
       // Events are not entities, so what the case rests on rides as tags.
       ...input.basisEventIds.map((id) => `justice.basis-event:${id}`),
       ...sentencingApplicabilityTags(
@@ -453,10 +461,6 @@ export function referForProsecution(
   };
 }
 
-function isPlayer(world: World, personId: EntityId): boolean {
-  return world.control.kind === "person" && world.control.personId === personId;
-}
-
 export const PROSECUTION_MISTRIAL_EVENT = "justice.mistrial";
 /** A plea the defendant entered themselves, ahead of the hearing. */
 export const PROSECUTION_PLEA_ENTERED_EVENT = "justice.plea-entered";
@@ -485,6 +489,8 @@ interface FollowUpDetail {
     readonly personId: EntityId;
     readonly role: string;
   } | null;
+  /** Evidence artifacts or press-story publications named by a charge. */
+  readonly basisRecordIds?: readonly EntityId[];
   /** Distinguishes repeats of one type, such as a second mistrial. */
   readonly ordinal?: number;
 }
@@ -508,6 +514,9 @@ function recordFollowUp(
     jurisdictionId: referral.jurisdictionId,
     involvedEntityIds: [
       subjectId,
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? [])
+        : []),
       ...(decidedBy && decidedBy.personId !== subjectId
         ? [decidedBy.personId]
         : []),
@@ -531,6 +540,9 @@ function recordFollowUp(
       `${REFERRAL_TAG}${referral.id}`,
       `justice.follows-event:${after.id}`,
       ...referral.tags.filter((tag) => tag.startsWith(OFFENSE_TAG)),
+      ...(type === PROSECUTION_CHARGED_EVENT
+        ? (detail.basisRecordIds ?? []).map((id) => `${BASIS_RECORD_TAG}${id}`)
+        : []),
       ...(detail.extraTags ?? []),
     ],
     summary: detail.summary,
@@ -546,6 +558,14 @@ function recordFollowUp(
       immediateReaction: null,
     },
   });
+  if (type === PROSECUTION_CHARGED_EVENT) {
+    const chargeEvent = recorded.history.events.at(-1)!;
+    let next = recorded;
+    for (const id of detail.basisRecordIds ?? []) {
+      next = recordJusticeChargeReference(next, id, chargeEvent.id);
+    }
+    return next;
+  }
   if (type === PROSECUTION_ENDED_EVENT)
     return refundCashBailAtCaseClose(
       recorded,
@@ -1007,6 +1027,9 @@ export function advanceProsecutions(
       }
       if (decision.selectedOptionKey !== CONVICT) continue;
       next = followUp(next, referral, referral, PROSECUTION_CHARGED_EVENT, {
+        basisRecordIds: referral.tags
+          .filter((tag) => tag.startsWith(BASIS_RECORD_TAG))
+          .map((tag) => tag.slice(BASIS_RECORD_TAG.length) as EntityId),
         extraTags: (() => {
           const courtId = savedTrialCourtForCase(next, courtCase);
           const amount = courtId
@@ -1071,7 +1094,7 @@ export function advanceProsecutions(
             motivation: "They chose to plead guilty.",
             decidedBy: { personId: subjectId, role: "Defendant" },
           });
-      } else if (!isPlayer(next, subjectId)) {
+      } else if (!isControlledPerson(next, subjectId)) {
         next = ensurePeopleTraits(next, [subjectId]);
         const savedPlea = recordByStableKey(
           next.history.decisionTraces,
@@ -1146,6 +1169,7 @@ export function advanceProsecutions(
     pleaded = pleaded || ended.tags.includes(`${OUTCOME_TAG}plea`);
 
     // The sitting judge who allowed this case to proceed chooses the sentence.
+    if (playerHandlesJudicialCase(next, judgeId, "criminal")) continue;
     next = prepareJudge(next, judgeId);
     const decision = sentenceDecisionForCase(next, judgeId, courtCase, pleaded);
     if (!decision) continue;
@@ -1300,6 +1324,7 @@ function decideBeforeTrial(
       motivation:
         "The law presumes release before trial, and no judge on the state's trial court could hear a request to hold them.",
     });
+  if (playerHandlesJudicialCase(next, judgeId, "criminal")) return next;
   next = prepareJudge(next, judgeId);
   const decision = evaluateDetention(next, judgeId, courtCase);
   next = recordDurableDecisionTrace(next, decision);

@@ -17,13 +17,6 @@
       "code": "export const COLLAR_BAND_SHARE = 0.03;"
     },
     {
-      "file": "src/presentation/appearance-engine/expression-chooser.ts",
-      "kind": "roll",
-      "build": "Build 6",
-      "count": 1,
-      "code": "rest: draw(seed, \"face:guarded\") < 0.5 ? \"neutral\" : \"skeptical\","
-    },
-    {
       "file": "src/presentation/appearance-engine/extract.ts",
       "kind": "fixed-share",
       "build": "Build 6",
@@ -449,20 +442,6 @@
       "build": "Build 21",
       "count": 1,
       "code": "roll(world, [crisisId, state.cycle, \"allies\"]) <"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": "outcomeRoll < policy.killed"
-    },
-    {
-      "file": "src/simulation/crisis/international.ts",
-      "kind": "roll",
-      "build": "Build 21",
-      "count": 1,
-      "code": ": outcomeRoll < policy.killed + policy.injured"
     },
     {
       "file": "src/simulation/given-name-cohorts.ts",

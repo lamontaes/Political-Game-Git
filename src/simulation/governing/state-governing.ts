@@ -614,6 +614,7 @@ function isSittingChief(
 
 /** Qualitative assessment read from the person's saved record. */
 import { staffAssessment } from "./staff-evidence";
+import { resourcePositionAt } from "../resource-queries";
 import { isCountyServiceProgram } from "../law-consequences/service-delivered-data";
 import type { StaffAssessment } from "./staff-evidence";
 import { PROGRAM_FAMILIES, programFamilyTitle } from "./program-families";
@@ -2593,6 +2594,7 @@ function applyConsequence(
                     ? "The executive signed the council act."
                     : "The executive returned the council act with reasons for disapproval."),
                 office.holderPersonId,
+                itemSelection,
               )
             : world;
         }
@@ -3432,24 +3434,44 @@ export function governingNpcDecisionHandler(
       "No recorded advice or candidate assessment selects a choice; the matter remains open.",
     );
   // A county's own service line was voted by its board for that service, so
-  // the executive without a chief of staff commits it as voted and keeps the
-  // reason on the record; nothing here is drawn.
-  const countyVoted =
+  // the executive without a chief of staff commits it as voted once the
+  // county's account holds the cash for it; an appropriation is not cash.
+  // Short of cash, the executive commits nothing and the money comes back to
+  // the office a month later. Nothing here is drawn.
+  const countyLine =
     !recommended && matter.family === "program"
-      ? (world.history.publicProgramRecords ?? []).some(
-          (record) =>
+      ? (world.history.publicProgramRecords ?? []).find(
+          (record): record is PublicProgramAppropriationRecord =>
             record.id === matter.appropriationId &&
             record.kind === "appropriation" &&
             record.sourceMeasureId != null &&
             isCountyServiceProgram(record.programKey),
         )
-      : false;
-  const option =
-    recommended ??
-    steadiest ??
-    (countyVoted
-      ? matter.options.find((o) => o.key === "program:operate-three-months")
-      : undefined);
+      : undefined;
+  const countyChoice = (() => {
+    if (!countyLine) return undefined;
+    const spread = matter.options.find(
+      (o) => o.key === "program:operate-three-months",
+    );
+    const plan = programAlternativesFor(world, countyLine).find(
+      (alternative) => `program:${alternative.key}` === spread?.key,
+    );
+    const due =
+      plan?.installments.reduce((sum, row) => sum + row.amount.minorUnits, 0) ??
+      0;
+    const cash = resourcePositionAt(
+      world,
+      {
+        kind: "organization",
+        organizationId: countyLine.accountOrganizationId,
+      },
+      countyLine.amount.currency,
+    );
+    return spread && cash && cash.liquidBalance.minorUnits >= due
+      ? spread
+      : matter.options.find((o) => o.key === "program:no-action");
+  })();
+  const option = recommended ?? steadiest ?? countyChoice;
   if (!option)
     return resolved(
       next,

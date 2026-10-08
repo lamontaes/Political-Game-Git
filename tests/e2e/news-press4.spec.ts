@@ -13,9 +13,7 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
 
   await page.getByRole("button", { name: "Condensed" }).focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("condensed-explanation")).toContainText(
-    "not a refusal",
-  );
+  await expect(page.getByTestId("condensed-explanation")).toHaveCount(0);
   await page.getByRole("button", { name: /Add context/u }).click();
   await expectChosen(
     page.getByLabel("Reporter question being answered"),
@@ -44,9 +42,7 @@ test("keyboard route preserves condensed intent and exact confirmed wording", as
   );
 });
 
-test("terms help and typed people support touch, focus return and Escape", async ({
-  browser,
-}) => {
+test("typed people support touch and Escape", async ({ browser }) => {
   const context = await browser.newContext({
     hasTouch: true,
     viewport: { width: 390, height: 844 },
@@ -54,16 +50,7 @@ test("terms help and typed people support touch, focus return and Escape", async
   const page = await context.newPage();
   await page.goto("/tests/e2e/fixtures/news-press4.html");
 
-  const terms = page.getByRole("button", { name: "Explain On background" });
-  await terms.tap();
-  const help = page.getByTestId("press-terms-help");
-  await expect(help).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Close On background explanation" }),
-  ).toBeFocused();
-  await page.keyboard.press("Escape");
-  await expect(help).toHaveCount(0);
-  await expect(terms).toBeFocused();
+  await expect(page.getByTestId("press-terms-help")).toHaveCount(0);
 
   const reporter = page.locator('[data-person-id="person_press_reporter"]');
   await reporter.tap();
