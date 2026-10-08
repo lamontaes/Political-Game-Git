@@ -43,8 +43,11 @@ export interface CalendarCampaignLifeEntry {
   readonly lifeActivityId: EntityId;
   /** True when the venue route cannot play this entry, so this route must. */
   readonly needsLaneRoute: boolean;
-  /** The lane's state label, already in player words. */
-  readonly stateLabel: string;
+  /**
+   * The lane's state label, already in player words. Null when the lane has
+   * no sentence for this state, and then nothing is shown in its place.
+   */
+  readonly stateLabel: string | null;
   /** Why it cannot be worked right now, from the lane. Null when it can. */
   readonly blockedReason: string | null;
   readonly blockingActivityId: EntityId | null;

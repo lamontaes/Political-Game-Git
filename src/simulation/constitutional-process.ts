@@ -149,7 +149,14 @@ export function stateAmendmentProfile(
   const profile = stateAmendmentProfiles.find(
     (candidate) => candidate.jurisdictionKey === jurisdictionKey,
   );
-  if (!profile || profile.basis === "not-applicable") return null;
+  // The data file's basis is plain text to the compiler. A territory or the
+  // District has no state amendment route ("not-applicable"), and only the two
+  // recorded kinds make a profile.
+  if (
+    !profile ||
+    (profile.basis !== "sourced" && profile.basis !== "game-profile")
+  )
+    return null;
   return {
     jurisdictionKey: profile.jurisdictionKey as `US-${string}`,
     bodies: profile.bodies,

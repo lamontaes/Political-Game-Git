@@ -342,9 +342,15 @@ const SALIENCE_ORDER: readonly PoliticalSalience[] = [
 // they carry as what the person already thought.
 const LEGACY_POINTS_FOR_STRONG = 20;
 
+/**
+ * What an official answers for on a law: a recorded vote or signature, or,
+ * for a law already on the books at the start, the power to repeal it.
+ */
+export type OfficialActKind = OfficialViewRecord["act"] | "could-repeal";
+
 interface OfficialAct {
   readonly officialId: EntityId;
-  readonly act: OfficialViewRecord["act"] | "could-repeal";
+  readonly act: OfficialActKind;
   readonly executive: boolean;
   readonly role?: "could-repeal";
 }
@@ -467,7 +473,7 @@ export function officialsBehind(
       ])
         if (seat.occupant.kind === "member")
           acts.push({
-            officialId: seat.occupant.personId,
+            officialId: seat.occupant.member.personId,
             act: "could-repeal",
             executive: false,
             role: "could-repeal",

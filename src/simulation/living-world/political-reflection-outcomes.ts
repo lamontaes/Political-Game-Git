@@ -10,7 +10,8 @@ export function politicalOutcomeFactors(
   world: World,
   personId: EntityId,
   propositionId: EntityId,
-  exposureId: EntityId,
+  /** The exposure these factors belong to, or a label such as "eligibility" when only their existence is asked. */
+  exposureId: string,
 ): readonly PoliticalBeliefFormationFactor[] {
   const person = world.people[personId];
   const proposition = world.policyCatalog.propositions[propositionId];

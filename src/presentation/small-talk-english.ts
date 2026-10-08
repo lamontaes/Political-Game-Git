@@ -10,6 +10,7 @@ import {
   LIVED_OUTCOME_REFLECTION_EVENT_TYPE,
   LIVED_OUTCOME_SOURCE_TAG,
   officialsBehind,
+  type OfficialActKind,
 } from "../simulation/living-world/official-views";
 import {
   livedOutcomesOf,
@@ -19,7 +20,6 @@ import { TOWN_JOB_END_REASONS } from "../simulation/living-world/town-labor-mark
 import { childhoodRecordEntries } from "../simulation/childhood-record";
 import type {
   LawExposureRecord,
-  OfficialViewRecord,
   PrivateBeliefRecord,
 } from "../simulation/types";
 import type { EntityId, HistoricalEvent, World } from "../simulation";
@@ -759,7 +759,7 @@ export function strongestOfficialView(
   readonly points: number;
   readonly belief: PrivateBeliefRecord | null;
   readonly measureId: EntityId;
-  readonly act: OfficialViewRecord["act"];
+  readonly act: OfficialActKind;
   readonly exposure: LawExposureRecord;
   /** The saved view, or the old reflection row, the line speaks from. */
   readonly sourceRecordId: EntityId;

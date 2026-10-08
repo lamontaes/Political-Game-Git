@@ -46,8 +46,15 @@ export function readableDatesIn(text: string): string {
   return text.replace(ISO_DATE, (iso: string) => proseDate(iso));
 }
 
-/** "$1,234.50" for dollars; other currencies keep their code. */
-export function dollars(amount: MoneyAmount): string {
+/**
+ * "$1,234.50" for dollars; other currencies keep their code. Reads only the
+ * amount and the currency text, so a screen that computes a per-month figure
+ * from a monthly total can pass it without minting a currency record.
+ */
+export function dollars(amount: {
+  readonly minorUnits: number;
+  readonly currency: string;
+}): string {
   return moneyText(amount);
 }
 

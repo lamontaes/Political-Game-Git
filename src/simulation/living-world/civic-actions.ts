@@ -608,11 +608,11 @@ export function reviewTownCivicActions(
         // Preserve the existing contact count when no saved issue view can
         // support a truthful topic and position. This event is not read as
         // a substantive constituent message.
-        const officeRelationshipId = officeRelationshipForContact(
-          next,
-          officialId,
-          officers,
-        );
+        // With no official to reach there is no office relationship to name.
+        const officeRelationshipId =
+          officialId === null
+            ? null
+            : officeRelationshipForContact(next, officialId, officers);
         next = record(
           next,
           town,
@@ -644,7 +644,7 @@ function officeRelationshipForContact(
   const councilSeat = officers.find(
     (officer) => officer.personId === officialId,
   );
-  if (councilSeat) return councilSeat.participationId;
+  if (councilSeat) return councilSeat.participationId ?? null;
 
   const publicOffices = activeWorkRelationshipsAt(world, officialId)
     .map(({ relationship }) => relationship)

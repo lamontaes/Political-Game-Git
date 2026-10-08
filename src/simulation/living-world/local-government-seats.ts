@@ -136,7 +136,7 @@ export function recordLocalGovernmentSeatGap(
     context: {
       location: {
         jurisdictionId: town,
-        label: world.jurisdictions[town]?.name ?? null,
+        label: world.jurisdictions[town]?.name ?? unit.name,
         setting: null,
       },
       socialContext: null,
