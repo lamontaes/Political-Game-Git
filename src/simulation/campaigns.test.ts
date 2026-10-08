@@ -7,6 +7,9 @@ import { describe, expect, it } from "vitest";
 import { recordWorldEvent } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { doorKnockingReturn } from "./campaign-recognition";
+import { viewOfOfficial } from "./official-view-reads";
+import { createFormationContext, recordPrivateBelief } from "./politics";
+import { officialOpinionSubject } from "./political-opinion-subjects";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 
 import {
@@ -45,7 +48,11 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
-import { contributeOwnMoneyToCampaign } from "./campaign-money-sources";
+import {
+  contributeOwnMoneyToCampaign,
+  leftoverCampaignBalance,
+  leftoverFundsRuleForState,
+} from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
 import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
@@ -296,6 +303,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     expect(eligibility.blocks.map((block) => block.kind)).toContain(
       "no-sourced-office",
     );
+    expect(
+      eligibility.blocks.find((block) => block.kind === "no-sourced-office")
+        ?.reason,
+    ).toBe("Qualifications: not on record");
   });
 
   it("reaches its own state's pack, and never a different state's", () => {
@@ -1125,6 +1136,166 @@ function playToElection(seed: string, outreachSessions: number) {
 }
 
 describe("election day", () => {
+  it("records a new-game campaign loss in a randomly drawn place without spending the committee balance", () => {
+    const seed = "b04-p1-newgame-0";
+    const place = drawRandomPlace(seed);
+    const game = createExplicitGeographyLife({
+      placeKey: place.key,
+      seed,
+      startAge: 30,
+    }).game;
+    const candidatePersonId = game.playerPersonId;
+    const jurisdictionId =
+      game.world.people[candidatePersonId]!.homeJurisdictionId;
+    const office = candidacyAuthority(jurisdictionId).pack?.offices[0];
+    if (!office)
+      throw new Error("The random place has no recorded state office.");
+    const opponents = ensureCampaignOpponents(game.world, {
+      stableKey: "b04-p1-random-game",
+      jurisdictionId,
+      count: 1,
+      excludePersonIds: [candidatePersonId],
+    });
+    const filed = fileCampaign(opponents.world, {
+      stableKey: "b04-p1-random-game",
+      candidatePersonId,
+      jurisdictionId,
+      officeKey: office.officeKey,
+      districtBinding: namedSeatForFixture(
+        game.world,
+        candidatePersonId,
+        office.officeKey,
+      ),
+      electionDate: addDays(game.world.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: `${place.formalName} campaign committee`,
+      donorPoolName: "Campaign supporters",
+      advertisingVendorName: "Local advertising",
+      staffPersonIds: [],
+      treasuryCurrency: makeCurrencyCode("USD"),
+    });
+    const afterElection = advanceWorld(
+      filed.world,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const balance =
+      campaignTreasuryPosition(afterElection, filed.campaign)?.liquidBalance
+        .minorUnits ?? null;
+    console.info("b04-p1 random-place loss proof", {
+      seed,
+      place: place.displayName,
+      campaignId: filed.campaign.id,
+      outcome: campaignState(afterElection, filed.campaign.id).status,
+      committeeBalanceMinorUnits: balance,
+    });
+    expect(campaignState(afterElection, filed.campaign.id).status).toBe("lost");
+    expect(balance).toBe(0);
+    expect(
+      leftoverFundsRuleForState(place.stateJurisdictionKey ?? "")?.allowedUses,
+    ).toContain("keep-for-future-race");
+  });
+
+  it("keeps a losing campaign's balance in its committee for an allowed later use", () => {
+    const filed = fileKentuckyCampaign("probe-3");
+    const cash = createResourcePosition(filed.world, {
+      stableKey: "leftover-funds:recorded-candidate-cash",
+      owner: { kind: "person", personId: filed.candidatePersonId },
+      openedAt: filed.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: filed.campaign.treasuryCurrency,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      cash,
+      filed.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      campaignTreasuryPosition(lost, filed.campaign)?.liquidBalance.minorUnits,
+    ).toBe(50_000);
+    expect(leftoverCampaignBalance(lost, filed.campaign.id)?.minorUnits).toBe(
+      50_000,
+    );
+    expect(leftoverFundsRuleForState("US-KY")?.allowedUses).toContain(
+      "keep-for-future-race",
+    );
+  });
+
+  it("moves leftover funds into the same candidate's next campaign only on explicit choice", () => {
+    const first = fileKentuckyCampaign("leftover-explicit-carry");
+    const candidateCash = createResourcePosition(first.world, {
+      stableKey: "leftover-funds:explicit-carry-candidate-cash",
+      owner: { kind: "person", personId: first.candidatePersonId },
+      openedAt: first.world.currentDate,
+      openingBalance: {
+        minorUnits: 50_000,
+        currency: first.campaign.treasuryCurrency,
+      },
+      provenance: {
+        kind: "authored",
+        note: "Recorded campaign balance fixture",
+      },
+    });
+    const funded = contributeOwnMoneyToCampaign(
+      candidateCash,
+      first.candidatePersonId,
+      50_000,
+    );
+    const lost = advanceWorld(
+      funded,
+      25,
+      createCampaignElectionTransitionRegistry(),
+    );
+    const opponents = ensureCampaignOpponents(lost, {
+      stableKey: "leftover-explicit-carry-next-race",
+      jurisdictionId: first.campaign.jurisdictionId,
+      count: 1,
+      excludePersonIds: [first.candidatePersonId],
+    });
+    const next = fileCampaign(opponents.world, {
+      stableKey: "leftover-explicit-carry-next-race",
+      candidatePersonId: first.candidatePersonId,
+      jurisdictionId: first.campaign.jurisdictionId,
+      officeKey: first.campaign.officeKey,
+      districtBinding: namedSeatForFixture(
+        lost,
+        first.candidatePersonId,
+        first.campaign.officeKey,
+      ),
+      electionDate: addDays(lost.currentDate, 21),
+      rivalPersonIds: opponents.personIds,
+      existingContestId: null,
+      committeeName: "A later committee for the test fixture",
+      donorPoolName: "Supporters, in aggregate",
+      advertisingVendorName: "Advertising, in aggregate",
+      staffPersonIds: [],
+      treasuryCurrency: first.campaign.treasuryCurrency,
+      carryForwardFromCampaignId: first.campaign.id,
+    });
+
+    expect(
+      campaignTreasuryPosition(next.world, first.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(0);
+    expect(
+      campaignTreasuryPosition(next.world, next.campaign)?.liquidBalance
+        .minorUnits,
+    ).toBe(50_000);
+  });
+
   it("resolves through the ordinary time advance", () => {
     const played = playToElection("probe-3", 3);
     const result = electionContestResult(
@@ -1201,6 +1372,126 @@ describe("election day", () => {
     expect(campaignState(later, played.campaign.id).status).toBe("lost");
     // And the life can be lived further still.
     expect(advanceWorld(later, 90).currentDate > later.currentDate).toBe(true);
+  });
+
+  it("keeps recorded contacts and views through a loss without a recovery bonus", () => {
+    const filed = fileKentuckyCampaign("b04-p5-preserve-records", 0);
+    const contest = requireElectionContest(
+      filed.world,
+      filed.campaign.contestId,
+    );
+    const otherPersonId = doorKnockingReturn(
+      filed.world,
+      filed.campaign,
+    ).adultResidentIds.find((id) => !contest.candidatePersonIds.includes(id))!;
+    let beforeLoss = recordWorldEvent(filed.world, {
+      stableKey: "b04-p5-preserve-records:contact:event",
+      type: "campaign.fixture-contact",
+      occurredAt: filed.world.currentDate,
+      recordedAt: filed.world.currentDate,
+      jurisdictionId: filed.campaign.jurisdictionId,
+      involvedEntityIds: [filed.candidatePersonId, otherPersonId],
+      participants: [filed.candidatePersonId, otherPersonId].map(
+        (personId) => ({
+          personId,
+          role: "presence:participant",
+          detail: "Recorded encounter used to check loss carry-forward.",
+        }),
+      ),
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["fixture:authored-contact"],
+      summary: "Recorded encounter used to check loss carry-forward.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    beforeLoss = recordRelationshipInteraction(beforeLoss, {
+      stableKey: "b04-p5-preserve-records:contact",
+      personIds: [filed.candidatePersonId, otherPersonId],
+      eventId: beforeLoss.history.events.at(-1)!.id,
+      occurredAt: beforeLoss.currentDate,
+      kind: "contact:met-at-party-event",
+      change: "formed",
+      significance: "minor",
+      summary: "Recorded encounter used to check loss carry-forward.",
+      tags: ["campaign.contact"],
+    });
+    beforeLoss = recordPrivateBelief(beforeLoss, {
+      stableKey: "b04-p5-preserve-records:official-view",
+      personId: otherPersonId,
+      propositionId: null,
+      subject: officialOpinionSubject(filed.candidatePersonId),
+      formedAt: beforeLoss.currentDate,
+      position: "support",
+      conviction: "moderate",
+      salience: "moderate",
+      flexibility: "open",
+      rationale: null,
+      formation: createFormationContext("reflection:initial"),
+      supersedesBeliefId: null,
+    });
+    const daysUntilElection = Math.floor(
+      (Date.parse(`${contest.electionDate}T00:00:00.000Z`) -
+        Date.parse(`${beforeLoss.currentDate}T00:00:00.000Z`)) /
+        86_400_000,
+    );
+    beforeLoss = advanceWorld(
+      beforeLoss,
+      daysUntilElection - 1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(beforeLoss, filed.campaign.id).status).toBe("active");
+
+    const priorInteractions = beforeLoss.history.relationshipInteractions;
+    const priorBeliefs = beforeLoss.history.privateBeliefs;
+    const priorViews = beforeLoss.history.officialViews ?? [];
+    const priorSupport = supportSnapshot(
+      beforeLoss,
+      filed.campaign,
+      contest.candidatePersonIds,
+    );
+    const priorRecognition = doorKnockingReturn(
+      beforeLoss,
+      filed.campaign,
+    ).recognizedPersonIds;
+    const priorView = viewOfOfficial(
+      beforeLoss,
+      otherPersonId,
+      filed.candidatePersonId,
+    );
+    expect(priorRecognition).toContain(otherPersonId);
+    expect(priorView.points).toBeGreaterThan(0);
+
+    const lost = advanceWorld(
+      beforeLoss,
+      1,
+      createCampaignElectionTransitionRegistry(),
+    );
+    expect(campaignState(lost, filed.campaign.id).status).toBe("lost");
+    expect(
+      supportSnapshot(lost, filed.campaign, contest.candidatePersonIds),
+    ).toEqual(priorSupport);
+    expect(
+      viewOfOfficial(lost, otherPersonId, filed.candidatePersonId).points,
+    ).toBe(priorView.points);
+    expect(lost.history.relationshipInteractions).toEqual(
+      expect.arrayContaining([...priorInteractions]),
+    );
+    expect(lost.history.privateBeliefs).toEqual(
+      expect.arrayContaining([...priorBeliefs]),
+    );
+    expect(lost.history.officialViews ?? []).toEqual(
+      expect.arrayContaining([...priorViews]),
+    );
+    expect(
+      doorKnockingReturn(lost, filed.campaign).recognizedPersonIds,
+    ).toContain(otherPersonId);
   });
 
   it("lets the same seed answer differently depending on the campaign run", () => {

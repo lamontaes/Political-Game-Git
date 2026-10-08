@@ -167,6 +167,8 @@ export interface EngineRecipeOptions {
   readonly pose?: BodyPose;
   /** Turned toward something in the scene, rather than facing front. */
   readonly view?: BodyView;
+  /** The side of the scene the person faces after resolving available view art. */
+  readonly facing?: "left" | "right";
   /** The face they make (expression-chooser.ts); neutral when absent. */
   readonly expression?: FaceExpression;
   /**
@@ -174,6 +176,8 @@ export interface EngineRecipeOptions {
    * job (src/presentation/work-uniform.ts). It replaces the outfit.
    */
   readonly uniform?: string;
+  /** Other non-uniform outfits already assigned in this room. */
+  readonly avoidOutfits?: readonly string[];
   /**
    * They are reading or working at a desk, so someone who wears glasses only
    * to read has them on.
@@ -201,14 +205,23 @@ function outfitFor(
   seed: string,
   chosen: string | undefined,
   wear: Exclude<OutfitTag, "uniform"> | undefined,
+  avoidOutfits: readonly string[] = [],
 ): PackOutfit {
+  const avoided = new Set(avoidOutfits);
   const choice = pack.outfits.find((outfit) => outfit.id === chosen);
   const wanted = wear ?? "casual";
-  if (choice && (!wear || choice.tags.includes(wear))) return choice;
-  const kind = pack.outfits.filter(
-    (outfit) =>
-      outfit.tags.includes(wanted) && !outfit.tags.includes("uniform"),
-  );
+  if (
+    choice &&
+    !avoided.has(choice.id) &&
+    (!wear || choice.tags.includes(wear))
+  )
+    return choice;
+  const kind = pack.outfits
+    .filter(
+      (outfit) =>
+        outfit.tags.includes(wanted) && !outfit.tags.includes("uniform"),
+    )
+    .filter((outfit) => !avoided.has(outfit.id));
   if (kind.length === 0) return choice ?? pack.outfits[0]!;
   return kind[Math.floor(draw(seed, `outfit:${wanted}`) * kind.length)]!;
 }
@@ -232,7 +245,7 @@ export function engineRecipeFor(
     items[Math.floor(draw(seed, question) * items.length)]!;
   const outfit =
     pack.outfits.find((o) => o.id === options.uniform) ??
-    outfitFor(pack, seed, choice?.outfit, options.wear);
+    outfitFor(pack, seed, choice?.outfit, options.wear, options.avoidOutfits);
   const age =
     Number(onDate.slice(0, 4)) - Number(String(person.birthDate).slice(0, 4));
   const shade =
@@ -263,6 +276,7 @@ export function engineRecipeFor(
       ? { pose: presentationPose(options.pose, presentation) }
       : {}),
     ...(options.view && options.view !== "front" ? { view: options.view } : {}),
+    ...(options.facing ? { facing: options.facing } : {}),
     ...(options.expression && options.expression !== "neutral"
       ? { expression: options.expression }
       : {}),

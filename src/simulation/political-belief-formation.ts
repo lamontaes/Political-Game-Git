@@ -46,6 +46,7 @@ export interface PoliticalBeliefFormationFactor {
   readonly sourceType: DecisionSourceType;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -157,6 +158,9 @@ export function evaluatePoliticalBeliefFormation(
         direction: "supports" as const,
         importance: factor.importance,
         confidence: factor.confidence,
+        ...(factor.weightScale === undefined
+          ? {}
+          : { weightScale: factor.weightScale }),
         explanation: factor.explanation,
         sourceRefs: factor.sourceRefs,
       };

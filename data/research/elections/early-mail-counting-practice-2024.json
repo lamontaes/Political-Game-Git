@@ -1,0 +1,26 @@
+{
+  "asOf": "2024-11-04",
+  "sourceNote": "2024 practice summary, not a statement of current law: 10tv Verify, 'These states can count votes before Election Day 2024' (summarizing NCSL and Brennan Center research), and NPR, 'When will mail-in and absentee ballots be counted?' (2024-11-04). The source distinguishes states that may begin processing and counting before Election Day from states that may process, but not count, ballots before polls close. Omitted jurisdictions are unknown here; callers must not infer a zero or an early-mail-first rule.",
+  "places": {
+    "US-AZ": { "practice": "count-before-election-day" },
+    "US-CO": { "practice": "count-before-election-day" },
+    "US-DE": { "practice": "count-before-election-day" },
+    "US-FL": { "practice": "count-before-election-day" },
+    "US-HI": { "practice": "count-before-election-day" },
+    "US-KS": { "practice": "count-before-election-day" },
+    "US-MT": { "practice": "count-before-election-day" },
+    "US-NE": { "practice": "count-before-election-day" },
+    "US-NV": { "practice": "count-before-election-day" },
+    "US-NJ": { "practice": "count-before-election-day" },
+    "US-VA": { "practice": "count-before-election-day" },
+    "US-UT": { "practice": "count-before-election-day" },
+    "US-AL": { "practice": "process-before-close-only" },
+    "US-MS": { "practice": "process-before-close-only" },
+    "US-NH": { "practice": "process-before-close-only" },
+    "US-PA": { "practice": "process-before-close-only" },
+    "US-SD": { "practice": "process-before-close-only" },
+    "US-WV": { "practice": "process-before-close-only" },
+    "US-WI": { "practice": "process-before-close-only" },
+    "US-DC": { "practice": "process-before-close-only" }
+  }
+}

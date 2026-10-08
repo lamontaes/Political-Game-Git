@@ -12,6 +12,29 @@ describe("the work screen carries no authored sentence", () => {
         .join("\n");
       expect(text.match(/"[A-Z][^"]{25,}[.?!]"/g) ?? []).toEqual([]);
       expect(text.match(/`[A-Z][^`]{25,}[.?!]`/g) ?? []).toEqual([]);
+      for (const helper of [
+        "Office catch-up",
+        "What actually needs me?",
+        "Transit Access Pilot working document",
+        "Linked to the community meeting",
+        "Follow up with",
+        "Nothing here right now.",
+        "Return to office",
+        "Meets the listed entry requirements",
+        "No matching work is listed.",
+        "nationalMedianWageSentence",
+        "Offer awaiting your response",
+        "Engagement ended",
+        "Starts ",
+        "Handled by",
+        "office colleague",
+        "item.summary",
+        "e.summary",
+        "state.blocker",
+        "work-feedback",
+      ]) {
+        expect(text).not.toContain(helper);
+      }
     },
   );
 });
