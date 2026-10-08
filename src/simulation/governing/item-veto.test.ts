@@ -34,6 +34,7 @@ import {
 } from "../vote-bundle.fixture";
 import { measureAnswersAt, voteBundle } from "../vote-bundle";
 import { assertWorldIntegrity } from "../world";
+import { jumpToDate } from "../../../tests/fixtures/due-item-clock";
 import { recordGovernorDecisionOnMeasure } from "./legislative-clock";
 import { applyItemVetoes, itemVetoPower, itemsToStrike } from "./item-veto";
 
@@ -45,11 +46,7 @@ function toTheGovernor(setup: Setup, world: World): World {
     if (phase === "awaiting-executive") return next;
     // Each stage on its own legislative day.
     const date = addDays(next.currentDate, 1);
-    next = {
-      ...next,
-      currentDate: date,
-      currentMoment: { ...next.currentMoment, date },
-    };
+    next = jumpToDate(next, date);
     if (phase === "on-floor")
       next = takeFloorVote(next, {
         stableKey: `item-veto:floor:${step}`,

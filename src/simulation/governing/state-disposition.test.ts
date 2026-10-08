@@ -32,12 +32,8 @@ describe("all-fifty-state governing disposition", () => {
     };
     console.info(`[governing disposition] ${JSON.stringify(summary)}`);
     expect(summary.verifiedCalendar).toEqual(["WA"]);
-    expect([...summary.executivePacks].sort()).toEqual([
-      "AK",
-      "IL",
-      "KY",
-      "MN",
-      "NE",
-    ]);
+    // Every state now has its governor's legal powers on record. A state that
+    // loses its pack would have to say so in `unfinished` (checked above).
+    expect(new Set(summary.executivePacks).size).toBe(50);
   });
 });

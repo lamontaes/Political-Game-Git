@@ -135,11 +135,9 @@ export function advanceInquiry(
     asOfDate: at,
     historySequenceExclusive: world.history.nextSequence,
   };
-  const artifacts = evidenceArtifactsRelatedToEntity(
-    world,
-    inquiry.subjectEntityId,
-    cutoff,
-  ).sort((a, b) => a.sequence - b.sequence);
+  const artifacts = [
+    ...evidenceArtifactsRelatedToEntity(world, inquiry.subjectEntityId, cutoff),
+  ].sort((a, b) => a.sequence - b.sequence);
   let remaining = input.hours;
   let working = world;
   const artifactIdsRead: EntityId[] = [];

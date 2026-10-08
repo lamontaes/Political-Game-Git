@@ -41,7 +41,11 @@ export function fileTaxProposalFromOffice(
     ? input.terms.instrument
     : null;
   const power = typedInstrument
-    ? stateTaxPowerEvidenceFor(entry.seat.jurisdictionKey, typedInstrument)
+    ? stateTaxPowerEvidenceFor(
+        entry.seat.jurisdictionKey,
+        typedInstrument,
+        world.currentDate,
+      )
     : taxPowerEvidenceFor(entry.seat.jurisdictionKey);
   const gameProfile =
     power || typedInstrument

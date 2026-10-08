@@ -184,6 +184,8 @@ function mindSourceTarget(reference: MindSourceReference): EntityId {
       return reference.lifeLoadResolutionId;
     case "life-history":
       return reference.reference.recordId;
+    case "place-outcome":
+      return reference.outcomeRecordId;
   }
 }
 

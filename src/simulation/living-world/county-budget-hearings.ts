@@ -403,6 +403,7 @@ export function countyBudgetHearingHandler(
       jurisdictionId: granted.jurisdictionId,
     },
     power: localTaxPowerEvidenceFor({
+      asOf: next.currentDate,
       ...government_,
       governmentKey: unit.id,
       instrument: "property",

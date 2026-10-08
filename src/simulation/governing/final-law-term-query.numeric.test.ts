@@ -570,7 +570,9 @@ describe("source-first modeled starting-law amount adapter", () => {
   });
 
   it("models only from source terms carrying the exact declared scope", () => {
-    const { world, targetLaw, targetJurisdictionId } = lawTermWorld("CA");
+    const targetState: string = "CA";
+    const { world, targetLaw, targetJurisdictionId } =
+      lawTermWorld(targetState);
     startingLawTermsMock.mockImplementation((law: LawInForce) => {
       const state = /^starting-law:US-([A-Z]{2}):/.exec(law.measureId)?.[1];
       const source = SOURCE_TERM_STATES.find(([key]) => key === state);
@@ -620,7 +622,7 @@ describe("source-first modeled starting-law amount adapter", () => {
       Array.from({ length: first.evidence.donors.length }, () => CLEAN_SCOPE),
     );
     const targetExcludedValues = SOURCE_TERM_STATES.filter(
-      ([state]) => state !== "CA",
+      ([state]) => state !== targetState,
     )
       .map(([, value]) => value)
       .sort((a, b) => a - b);
