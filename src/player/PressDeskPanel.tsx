@@ -603,12 +603,26 @@ function OutletPurchase({
       terms.status !== "savings-not-on-record"
     )
       return null;
-    return <p className="game-note">{dollars(terms.priceMinorUnits)}</p>;
+    return (
+      <dl
+        className="pg-press-desk-terms"
+        data-testid={`press-desk-terms-${outlet.outletId}`}
+      >
+        <dt>Asking price</dt>
+        <dd>{dollars(terms.priceMinorUnits)}</dd>
+        <dt>Your money</dt>
+        <dd>
+          {terms.buyerMoneyMinorUnits === undefined
+            ? "Not on record"
+            : dollars(terms.buyerMoneyMinorUnits)}
+        </dd>
+      </dl>
+    );
   }
   return (
     <p className="pg-press-desk-line">
       <span className="game-note">
-        {terms.sellerName} · {dollars(terms.priceMinorUnits)}{" "}
+        Asking price: {dollars(terms.priceMinorUnits)}{" "}
       </span>
       <button
         type="button"
