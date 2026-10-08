@@ -3,6 +3,8 @@ import { campaignById } from "./campaign-queries";
 import { districtResidenceSince } from "./district-residence";
 import { requireElectionContest } from "./election-contests";
 import { isEligibleVoterIn } from "./issue-record";
+import { recordWorldEvent } from "./world";
+import { personName } from "./people";
 import type { EntityId, IsoDate, World } from "./types";
 
 export type CandidatePetitionInvalidReason =
@@ -142,4 +144,87 @@ export function reviewCandidatePetition(
     shortfall: Math.max(0, requiredSignatures - validSignatures),
     signatures,
   };
+}
+
+
+export interface FiledCandidatePetition {
+  readonly world: World;
+  readonly review: CandidatePetitionReview;
+  readonly eventId: EntityId;
+}
+
+/**
+ * Record the clerk's decision as a public filing event. A rejected packet may
+ * be resubmitted after signatures are cured while its recorded deadline remains
+ * open. The clerk must already be a person in this world.
+ */
+export function fileCandidatePetition(
+  world: World,
+  campaignId: EntityId,
+  clerkPersonId: EntityId,
+  filingDate: IsoDate = world.currentDate,
+): FiledCandidatePetition {
+  const campaign = campaignById(world, campaignId);
+  if (!campaign) throw new Error(`Campaign not found: ${campaignId}`);
+  const clerk = world.people[clerkPersonId];
+  const candidate = world.people[campaign.candidatePersonId];
+  if (!clerk) throw new Error("The filing clerk is not recorded in this world.");
+  if (!candidate) throw new Error("The petition candidate is not recorded.");
+  if (clerkPersonId === candidate.id)
+    throw new Error("A candidate cannot serve as their own filing clerk.");
+
+  const review = reviewCandidatePetition(world, campaignId, filingDate);
+  const priorFilings = world.history.events.filter(
+    (event) =>
+      event.tags.includes("campaign:candidate-petition-filing") &&
+      event.tags.includes(`campaign:${campaignId}`),
+  );
+  if (priorFilings.some((event) => event.type === "campaign.petition-accepted"))
+    throw new Error("This candidate petition has already been accepted.");
+
+  const signatureIds = review.signatures.map((signature) => signature.eventId);
+  const stableKey = `candidate-petition-filing:${campaignId}:${filingDate}:${signatureIds.join(",")}`;
+  const prior = priorFilings.find((event) => event.stableKey === stableKey);
+  if (prior) return { world, review, eventId: prior.id };
+
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: review.accepted
+      ? "campaign.petition-accepted"
+      : "campaign.petition-rejected",
+    occurredAt: filingDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: campaign.jurisdictionId,
+    involvedEntityIds: [
+      campaign.candidatePersonId,
+      clerkPersonId,
+      campaign.jurisdictionId,
+    ],
+    participants: [
+      { personId: clerkPersonId, role: "agency:clerk" },
+      { personId: campaign.candidatePersonId, role: "agency:candidate" },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      "campaign:candidate-petition-filing",
+      `campaign:${campaignId}`,
+      `petition:${review.accepted ? "accepted" : "rejected"}`,
+      ...review.reasonKeys.map((reason) => `reason:${reason}`),
+    ],
+    summary: `${personName(world, candidate.id)}'s candidate petition was ${review.accepted ? "accepted" : "rejected"}.`,
+    context: {
+      location: {
+        jurisdictionId: campaign.jurisdictionId,
+        label: world.jurisdictions[campaign.jurisdictionId]?.name ?? null,
+        setting: "Candidate petition filing",
+      },
+      socialContext: null,
+      pressure: null,
+      choice: review.accepted ? "Petition accepted." : "Petition rejected.",
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+  return { world: next, review, eventId: next.history.events.at(-1)!.id };
 }
