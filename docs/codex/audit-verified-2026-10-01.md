@@ -266,7 +266,7 @@ Checked item by item against main 44918cd48 (code, not PR claims): 11 done, 38 p
   - Next: In people-traits.ts (:438-454) derive traits only from upbringingTraitTendencies and give middle values otherwise; prove in people-traits.test.ts that two seeds give identical traits for the same upbringing.
   - Now: src/simulation/people-traits.ts:315 spread pick; :438-479 trait count, choice, magnitude and sign drawn
 - **A139** [not-started] The 48/48/4 gender split is unmarked and wrong.
-  - Next: Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labelled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.
+  - Next: Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labeled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.
   - Now: src/simulation/person-identity.ts:208 still `roll < 48 ? 'female' : roll < 96 ? 'male' : 'nonbinary'`, uncited (0 commits)
 - **A140** [not-started] — STILL ROLLS DICE School term dates should be one calendar per school, not drawn per child.
   - Next: In school-stages.ts onCalendar (:109) key the term date on the school (district) and year instead of the person, so classmates share one calendar; prove in src/presentation/school-stages.test.ts that two classmates get the same start and end.
