@@ -106,7 +106,7 @@ import {
 import { createDatedCashPaymentReader } from "../resource-payments";
 import { writeWithWorldIntegrityOnce } from "../world";
 import { hasLifePathCredential } from "../life-paths2";
-import { SeededRng } from "../rng";
+import { recordOrganizationProfile } from "../life";
 import {
   createResourceFlows,
   money,
@@ -444,22 +444,13 @@ function sizeGroup(staff: number): string {
 }
 
 /**
- * An employer's pay period. Governments: every two weeks. A private employer:
- * drawn once, seeded by the organization, from the BLS shares for its
- * industry and its size combined as if independent (each share over the
- * all-private share), a labeled simplification.
+ * Estimate the private employer's period weights from the recorded industry
+ * and size shares, combining the published marginal shares as if independent.
  */
-export function townPayPeriod(
-  world: World,
-  organizationId: EntityId,
+function townPayPeriodWeights(
   classification: OrganizationClassification | string,
   staff: number,
-): TownPayPeriod {
-  if (
-    GOVERNMENT_CLASSIFICATIONS.has(classification) ||
-    organizationProfileAt(world, organizationId)?.publicGovernmentIdentity
-  )
-    return "biweekly";
+): Readonly<Record<TownPayPeriod, number>> {
   const overall = TOWN_PAY_PERIOD_SHARES["overall|all private establishments"]!;
   const industry = INDUSTRY_OF[classification];
   const byIndustry = industry
@@ -476,15 +467,154 @@ export function townPayPeriod(
     return [name, weight] as const;
   });
   const total = weights.reduce((sum, [, weight]) => sum + weight, 0);
-  let roll =
-    new SeededRng(world.seed)
-      .fork(`${TOWN_PAY_VERSION}:period:${organizationId}`)
-      .next() * total;
-  for (const [name, weight] of weights) {
-    roll -= weight;
-    if (roll < 0) return PERIOD_OF_BLS[name]!;
+  return Object.fromEntries(
+    weights.map(([name, weight]) => [PERIOD_OF_BLS[name]!, weight / total]),
+  ) as Record<TownPayPeriod, number>;
+}
+
+/** Largest-remainder cadence counts, placed on employers by their own expected shares. */
+export function allocateTownPayPeriods(
+  expected: readonly Readonly<Record<TownPayPeriod, number>>[],
+): readonly TownPayPeriod[] {
+  const totals = {
+    weekly: 0,
+    biweekly: 0,
+    semimonthly: 0,
+    monthly: 0,
+  } as Record<TownPayPeriod, number>;
+  for (const share of expected)
+    for (const period of Object.keys(totals) as TownPayPeriod[])
+      totals[period] += share[period];
+  const allocated = Object.fromEntries(
+    (Object.keys(totals) as TownPayPeriod[]).map((period) => [
+      period,
+      Math.floor(totals[period]),
+    ]),
+  ) as Record<TownPayPeriod, number>;
+  const remaining =
+    expected.length - Object.values(allocated).reduce((a, b) => a + b, 0);
+  const byRemainder = (
+    ["weekly", "biweekly", "semimonthly", "monthly"] as const
+  ).sort(
+    (a, b) =>
+      totals[b] - allocated[b] - (totals[a] - allocated[a]) ||
+      a.localeCompare(b),
+  );
+  for (let i = 0; i < remaining; i += 1) allocated[byRemainder[i]!] += 1;
+  // The shares decide how many employers take each cadence; each employer's own
+  // industry and size decide which ones. Walk every (employer, cadence) pair
+  // from the strongest expected share down, so an employer whose industry is
+  // mostly weekly is placed in the weekly quota before one that is not.
+  const order = ["weekly", "biweekly", "semimonthly", "monthly"] as const;
+  const pairs = expected.flatMap((share, index) =>
+    order.map((period) => ({ index, period, weight: share[period] })),
+  );
+  pairs.sort(
+    (a, b) =>
+      b.weight - a.weight ||
+      order.indexOf(a.period) - order.indexOf(b.period) ||
+      a.index - b.index,
+  );
+  const placed: TownPayPeriod[] = Array.from({ length: expected.length });
+  const filled = new Set<number>();
+  for (const { index, period } of pairs) {
+    if (filled.has(index) || allocated[period] === 0) continue;
+    placed[index] = period;
+    filled.add(index);
+    allocated[period] -= 1;
   }
-  return "biweekly";
+  return placed;
+}
+
+/** Assign recorded cadence counts by largest remainder within each town. */
+function recordEmployerPayPeriods(
+  world: World,
+  staff: ReadonlyMap<EntityId, number>,
+): World {
+  return writeWithWorldIntegrityOnce(world, () =>
+    withHistoryAppendTransaction(world, ["organizationProfiles"], () => {
+      let next = world;
+      const organizations = world.history.organizations
+        .map((organization) => {
+          const profile = organizationProfileAt(world, organization.id);
+          return profile && staff.has(organization.id)
+            ? { organization, profile, staff: staff.get(organization.id)! }
+            : null;
+        })
+        .filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+      const groups = new Map<EntityId | null, typeof organizations>();
+      for (const entry of organizations) {
+        if (entry.profile.payPeriod) continue;
+        const group = groups.get(entry.profile.locationJurisdictionId) ?? [];
+        group.push(entry);
+        groups.set(entry.profile.locationJurisdictionId, group);
+      }
+      for (const group of groups.values()) {
+        group.sort(
+          (a, b) =>
+            a.organization.formedAt.localeCompare(b.organization.formedAt) ||
+            a.organization.stableKey.localeCompare(b.organization.stableKey),
+        );
+        const assignments = new Map<EntityId, TownPayPeriod>();
+        const privateEmployers = group.filter(
+          ({ profile }) =>
+            !GOVERNMENT_CLASSIFICATIONS.has(profile.classification) &&
+            !profile.publicGovernmentIdentity,
+        );
+        for (const { organization } of group)
+          if (
+            !privateEmployers.some(
+              (entry) => entry.organization.id === organization.id,
+            )
+          )
+            assignments.set(organization.id, "biweekly");
+        if (privateEmployers.length) {
+          const expected = privateEmployers.map(({ profile, staff: n }) =>
+            townPayPeriodWeights(profile.classification, n),
+          );
+          const cadenceList = allocateTownPayPeriods(expected);
+          privateEmployers.forEach((entry, index) =>
+            assignments.set(entry.organization.id, cadenceList[index]!),
+          );
+        }
+        group.forEach((entry) => {
+          const profile = organizationProfileAt(next, entry.organization.id)!;
+          const period =
+            profile.payPeriod ?? assignments.get(entry.organization.id)!;
+          next = recordOrganizationProfile(next, {
+            stableKey: `${TOWN_PAY_VERSION}:employer-period:${entry.organization.id}`,
+            organizationId: entry.organization.id,
+            effectiveAt: world.currentDate,
+            name: profile.name,
+            classification: profile.classification,
+            locationJurisdictionId: profile.locationJurisdictionId,
+            ...(profile.publicGovernmentIdentity
+              ? { publicGovernmentIdentity: profile.publicGovernmentIdentity }
+              : {}),
+            ...(profile.collegePlace
+              ? { collegePlace: profile.collegePlace }
+              : {}),
+            payPeriod: period,
+            provenance: profile.publicGovernmentIdentity
+              ? profile.provenance
+              : {
+                  kind: "authored",
+                  note: "BLS pay-period shares, largest remainder within town",
+                },
+            supersedesProfileId: profile.id,
+          });
+        });
+      }
+      return next;
+    }),
+  );
+}
+
+export function openingPaydayPhase(openedAt: IsoDate): number {
+  const anchor = makeIsoDate("2000-01-07");
+  const firstFriday = addDays(openedAt, (5 - weekday(openedAt) + 7) % 7);
+  const week = Math.floor(daysBetween(anchor, firstFriday) / 7);
+  return ((week % 2) + 2) % 2;
 }
 
 function weekday(date: IsoDate): number {
@@ -935,6 +1065,7 @@ export function startTownJobPay(
       continue;
     candidates.push(work);
   }
+  next = recordEmployerPayPeriods(world, staff);
   const inputs: CreateResourceFlowInput[] = [];
   const floorLaws = anyTeacherFloorLawEnacted(world);
   let coveredMen: ReadonlySet<EntityId> | null = null;
@@ -1027,21 +1158,15 @@ export function startTownJobPay(
     const hourlyMinor = Math.max(rate.hourlyMinor, floorHourlyMinor);
     let period = periods.get(organizationId);
     if (!period) {
-      const profile = organizationProfileAt(world, organizationId);
-      period = townPayPeriod(
-        world,
-        organizationId,
-        profile?.classification ?? "",
-        staff.get(organizationId) ?? 1,
-      );
+      period =
+        organizationProfileAt(next, organizationId)?.payPeriod ?? "biweekly";
       periods.set(organizationId, period);
     }
     const phase =
       period === "biweekly"
-        ? Math.floor(
-            new SeededRng(world.seed)
-              .fork(`${TOWN_PAY_VERSION}:phase:${organizationId}`)
-              .next() * 2,
+        ? openingPaydayPhase(
+            recordById(next.history.organizations, organizationId)?.formedAt ??
+              work.startedAt,
           )
         : 0;
     const weeklyHours = weeklyHoursOf(role);
