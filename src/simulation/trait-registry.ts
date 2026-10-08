@@ -23,10 +23,7 @@ import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
 import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
 import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
-import {
-  FACET_AFFECTIONATE_DECISIONS,
-  FACET_AFFECTIONATE_EFFECTS,
-} from "./traits/effects/facet-affectionate";
+import { PEOPLE_COUPLE_DECISIONS } from "./people-couple-decisions";
 
 /**
  * The packs and decisions this build loads.
@@ -52,13 +49,13 @@ export const BUILT_IN_TRAIT_DECISIONS = [
   ANOTHER_TERM_DECISION,
   MOGUL_APPROACH_DECISION,
   SUBJECT_RESPONSE_DECISION,
-  ...FACET_AFFECTIONATE_DECISIONS,
+  ...PEOPLE_COUPLE_DECISIONS,
   ...JOB_TRAIT_DECISION_DECLARATIONS,
   ...VOTES_AND_OUTREACH_DECISIONS,
 ];
 
 /** Effect readers are separate packs so each trait can be added independently. */
-const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS] as const;
+const EFFECT_PACKS = [] as const;
 
 let cached: TraitRegistry | null = null;
 
