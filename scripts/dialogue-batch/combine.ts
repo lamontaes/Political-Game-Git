@@ -25,7 +25,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { dirname, join } from "node:path";
-import { counted, toGradingBatch, type GradingBatch } from "./grading";
+import { toGradingBatch, type GradingBatch } from "./grading";
 import { repeatKey, type BatchLine, type BatchResult } from "./run";
 import { batchStats } from "./stats";
 import { BATCH_DIR, COVERAGE_FILE, type GradedCoverage } from "./apply-grades";
@@ -96,8 +96,8 @@ export function combineResults(
   const numbered = new Map<string, number>();
   const worlds: BatchResult["worlds"][number][] = [];
   const absent = new Map<string, string[]>();
-  // Lines a kind lost before the batch, by why: a kind with none left is
-  // listed as absent with these counts, not as one no situation reached.
+  // Lines each kind lost before the batch, by why, so a kind with none left
+  // says where they went rather than reading as one no situation reached.
   const dropped = new Map<string, { repeated: number; overLimit: number }>();
   const drop = (line: BatchLine, why: "repeated" | "overLimit") => {
     const kind = kindOfLine(line);
@@ -137,24 +137,6 @@ export function combineResults(
       absent.set(row.kind, [...(absent.get(row.kind) ?? []), row.reason]);
   }
   const produced = new Set(lines.map(kindOfLine));
-  const lost = [...dropped]
-    .filter(([kind]) => !produced.has(kind) && !leaveOut.has(kind))
-    .map(([kind, { repeated, overLimit }]) => ({
-      kind,
-      reason: [
-        ...(repeated > 0
-          ? [
-              `${counted(repeated, "line")} repeated one already put to the owner`,
-            ]
-          : []),
-        ...(overLimit > 0
-          ? [
-              `${counted(overLimit, "line")} went over the limit of ${PER_WORLD_KIND} from one life`,
-            ]
-          : []),
-      ].join("; "),
-      dropped: true,
-    }));
   return {
     seed: results.map((result) => result.seed).join("+"),
     worlds,
@@ -162,20 +144,15 @@ export function combineResults(
     skipped: results.flatMap((result) => result.skipped),
     absent: [
       ...[...absent]
-        .filter(
-          ([kind]) =>
-            !produced.has(kind) &&
-            !leaveOut.has(kind) &&
-            !lost.some((row) => row.kind === kind),
-        )
+        .filter(([kind]) => !produced.has(kind) && !leaveOut.has(kind))
         .map(([kind, reasons]) => ({ kind, reason: reasons.join("; ") })),
-      ...lost,
       ...[...leaveOut].map((kind) => ({
         kind,
         reason: "it was left out of this batch by its builder (--leave-out)",
-        dropped: true,
+        leftOut: true,
       })),
     ],
+    dropped: Object.fromEntries(dropped),
     stats: batchStats(lines),
   };
 }

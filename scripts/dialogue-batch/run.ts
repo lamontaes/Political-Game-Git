@@ -222,12 +222,16 @@ export interface BatchResult {
   readonly absent?: readonly {
     readonly kind: string;
     readonly reason: string;
-    /**
-     * The runs produced lines of this kind, but none reached the batch: each
-     * was left out, repeated a line already asked, or was over a life's limit.
-     */
-    readonly dropped?: boolean;
+    /** The batch's builder left this kind out on purpose (--leave-out). */
+    readonly leftOut?: boolean;
   }[];
+  /**
+   * Lines a combined batch dropped, by kind: repeats of a line already put to
+   * the owner, and lines over the limit from one life.
+   */
+  readonly dropped?: Readonly<
+    Record<string, { readonly repeated: number; readonly overLimit: number }>
+  >;
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];
 }

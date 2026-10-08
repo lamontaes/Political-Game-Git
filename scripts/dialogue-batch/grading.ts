@@ -342,19 +342,29 @@ export function toGradingBatch(
   const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => {
     const row = result.absent?.find((entry) => entry.kind === kind);
     const binned = bin.filter((entry) => entry.item.kind === kind);
+    if (row?.leftOut)
+      return { kind, reason: `no output, because ${row.reason}` };
     // Lines were made but none reached the owner: say where they went.
-    if (row?.dropped || binned.length > 0)
-      return {
-        kind,
-        reason: `no output, because ${[
-          ...(binned.length > 0
-            ? [
-                `${counted(binned.length, "line")} went to the bin (${[...new Set(binned.map((entry) => entry.rule))].join("; ")})`,
-              ]
-            : []),
-          ...(row?.dropped ? [row.reason] : []),
-        ].join("; ")}`,
-      };
+    const lost = result.dropped?.[kind];
+    const went = [
+      ...(binned.length > 0
+        ? [
+            `${counted(binned.length, "line")} went to the bin (${[...new Set(binned.map((entry) => entry.rule))].join("; ")})`,
+          ]
+        : []),
+      ...(lost && lost.repeated > 0
+        ? [
+            `${counted(lost.repeated, "line")} repeated one already put to the owner`,
+          ]
+        : []),
+      ...(lost && lost.overLimit > 0
+        ? [
+            `${counted(lost.overLimit, "line")} went over the limit from one life`,
+          ]
+        : []),
+    ];
+    if (went.length > 0)
+      return { kind, reason: `no output, because ${went.join("; ")}` };
     const seen =
       row?.reason ?? "no situation in the batch reaches this kind yet";
     return {

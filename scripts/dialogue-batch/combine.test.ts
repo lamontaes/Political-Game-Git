@@ -178,13 +178,10 @@ describe("combining batch runs", () => {
       repeatKey("text-hearing", "Good morning.", "bank:text-hearing-1"),
     ]);
     const combinedAgain = combineResults([a, b], asked);
-    expect(combinedAgain.absent?.find((row) => row.kind === "hearing")).toEqual(
-      {
-        kind: "hearing",
-        reason: "1 line repeated one already put to the owner",
-        dropped: true,
-      },
-    );
+    expect(combinedAgain.dropped?.hearing).toEqual({
+      repeated: 1,
+      overLimit: 0,
+    });
     const { batch } = toGradingBatch(combinedAgain, {
       id: "batch-test",
       head: "test-head",
