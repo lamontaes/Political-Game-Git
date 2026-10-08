@@ -214,8 +214,8 @@ it.each([100_000, 300_000])(
           "Authored favorable votes for the numeric terms fixture.",
       },
     });
-    // The canonical procedure spends fourteen days before enactment. Start
-    // before the tax year rather than backdating the law or its occurrence.
+    // Start before the tax year so this procedure reaches the January 1
+    // withholding table without backdating the law or its occurrence.
     expect(world.currentDate).toBe("2026-01-01");
     // Keep the actual signer in control while their required desk work is open.
     // The paycheck is for the actual resident, not a fabricated controller.
