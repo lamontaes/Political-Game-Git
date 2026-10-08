@@ -342,6 +342,10 @@ function peopleSeenFromBehind(): boolean {
  * or null when that drawing cannot be there (a standing body in a seat, a
  * pose the spot's kind does not take, a turned view the pack has not
  * painted for these clothes).
+ *
+ * A place to lean takes a lean, or the standing pose the pose data draws a
+ * lean as (pose-by-activity.json `standIn`) while the pack has no lean
+ * painted: the person stands at the wall instead of the spot staying empty.
  */
 export function drawnAtSpot(
   at: StagingSpot,
@@ -353,15 +357,32 @@ export function drawnAtSpot(
     recipe,
     peoplePackFileAvailable,
   );
+  const kinds = PEOPLE_PACK.slotKindsByPose?.[resolved.pose] ?? [];
+  const kind = at.pose ?? "stand";
   if (
-    !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
-      at.pose ?? "stand",
-    ) ||
+    !(kinds.includes(kind) || (kind === "lean" && kinds.includes("stand"))) ||
     (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
     resolved.view !== view
   )
     return null;
   return resolved;
+}
+
+/**
+ * The views a person at a spot can be drawn in, in the order to try them:
+ * the spot's own (spotView), then, at a spot turned to one side, facing the
+ * room, for clothes or faces the pack has not painted turned.
+ * A spot facing away takes someone seen from behind, or, in a scene of
+ * people facing the room (`faceRoom`), someone facing it.
+ */
+export function spotViews(
+  spot: StagingSpot,
+  faceRoom = false,
+): readonly BodyView[] {
+  const own = spotView(spot);
+  if (own === "front") return ["front"];
+  if (spot.facing === "away") return faceRoom ? ["front"] : [own];
+  return [own, "front"];
 }
 
 /**
@@ -626,13 +647,6 @@ export function placeBackdropPeople(
       .filter(({ spot }) => Boolean(spot && stage))
       .map(({ worker }) => worker.personId),
   );
-  /**
-   * The view a spot draws a person in: turned or seen from behind as the
-   * spot faces; a scene of people facing the room (faceRoom) has no one with
-   * their back to it.
-   */
-  const viewOf = (at: StagingSpot): BodyView =>
-    options.faceRoom && at.facing === "away" ? "front" : spotView(at);
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
   for (const { worker, onShift, spot: assignedSpot } of assigned) {
@@ -649,10 +663,11 @@ export function placeBackdropPeople(
       unplaced("no-spot");
       continue;
     }
-    // The assigned spot first; when the person's art cannot stand there (no
-    // drawing for that view or pose), any other free spot the role accepts,
+    // The assigned spot first, in each view it can be drawn in (spotViews);
+    // when the person's art cannot stand there at all (no drawing for that
+    // pose in any of them), any other free spot the role accepts,
     // front-facing first, rather than leaving them out of the room.
-    const tryAt = (at: StagingSpot, view: BodyView = viewOf(at)) => {
+    const tryView = (at: StagingSpot, view: BodyView) => {
       const recipe = personDayRecipeWithOutfitExclusions(world, record, {
         pose: spotPose(
           at,
@@ -676,6 +691,13 @@ export function placeBackdropPeople(
       const resolved = drawnAtSpot(at, recipe, view);
       return resolved ? { recipe, resolved } : null;
     };
+    const tryAt = (at: StagingSpot) => {
+      for (const view of spotViews(at, options.faceRoom)) {
+        const attempt = tryView(at, view);
+        if (attempt) return attempt;
+      }
+      return null;
+    };
     let spot = assignedSpot;
     let fit = tryAt(spot);
     if (!fit) {
@@ -688,18 +710,11 @@ export function placeBackdropPeople(
         )
         .sort(
           (a, b) =>
-            Number(viewOf(a) !== "front") - Number(viewOf(b) !== "front"),
+            Number(spotViews(a, options.faceRoom)[0] !== "front") -
+            Number(spotViews(b, options.faceRoom)[0] !== "front"),
         );
-      // Last, a turned spot with the person facing the room, when their
-      // clothes have no turned drawing.
-      for (const [candidate, view] of [
-        ...alternatives.map((at) => [at, viewOf(at)] as const),
-        // Their own spot first: it is already theirs, so it is not free.
-        ...[spot, ...alternatives]
-          .filter((at) => options.faceRoom && viewOf(at) !== "front")
-          .map((at) => [at, "front" as const] as const),
-      ]) {
-        const attempt = tryAt(candidate, view);
+      for (const candidate of alternatives) {
+        const attempt = tryAt(candidate);
         if (!attempt) continue;
         taken.delete(spot);
         taken.add(candidate);

@@ -18,7 +18,7 @@ import {
   drawnAtSpot,
   spotDepth,
   spotFigure,
-  spotView,
+  spotViews,
   turnedToSpot,
   type PlaceStaging,
   type SpotFigure,
@@ -182,9 +182,11 @@ function heroRecipe(
  * Everyone in a title picture, farthest first. The speaker is whoever stands
  * at a lectern (a rally, a convention, an election night, a debate); where
  * the picture has none, whoever stands at its hero spot speaks to the rest
- * (the Oval Office desk, the Senate well). Spots facing away from the camera
- * wait for people drawn from behind, and a spot no pose in the pack can fill
- * (a wall to lean on) stays empty: nobody is drawn where they cannot stand.
+ * (the Oval Office desk, the Senate well). Each spot is filled in the views
+ * it can be drawn in (spotViews): a spot facing away holds someone seen from
+ * behind, and a spot nobody in the pack can be drawn at (a seat facing away,
+ * with no seated back painting) stays empty: nobody is drawn where they
+ * cannot be.
  */
 export function titleScenePeople(
   picture: Pick<TitlePicture, "place" | "variant">,
@@ -197,7 +199,6 @@ export function titleScenePeople(
   // lectern gives no speech: the speaker is whoever can be seen giving it.
   const spots = stage.spots.filter(
     (spot) =>
-      spot.facing !== "away" &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!room || titlePeopleInView([spotBox(stage, spot)], room).length > 0),
   );
@@ -228,10 +229,10 @@ export function titleScenePeople(
         ? "podium"
         : chooseBodyPose({ activity, seated, seed });
     const isHero = hero !== null && spot.hero === true;
-    // Turned the way the spot faces; facing the room instead when these
-    // clothes have no turned painting.
+    // Turned the way the spot faces; facing the room instead when the pack
+    // has no turned painting of these clothes or this face.
     let fit: { recipe: EngineRecipe; view: BodyView } | null = null;
-    for (const view of new Set<BodyView>([spotView(spot), "front"])) {
+    for (const view of spotViews(spot)) {
       const recipe = isHero
         ? heroRecipe(hero, picture.place, spot, pose, view)
         : generatedRecipe(seed, picture.place, spot, pose, view);
