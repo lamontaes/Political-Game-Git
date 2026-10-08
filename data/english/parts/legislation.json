@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "legislation",
-  "description": "Sourced legislation-wording parts: the enacting clause, short and long titles, generic section headings and drafting clauses, mined from bills of the 119th Congress (public domain). Each text is a recurring drafting shape with its particulars replaced by slots; billsUsing counts how many of the 150 bills read use it.",
+  "description": "Sourced legislation-wording parts: the enacting clause, short and long titles, generic section headings and drafting clauses, mined from bills of the 119th Congress (public domain). Each text is a recurring drafting shape with its particulars replaced by slots; billsUsing counts how many of the 150 bills read use it. Local ordinance title and section forms are sourced from the Baltimore City Council public bill text.",
   "slots": {
     "act": "The full short title of an act, in quotation marks.",
     "shortAct": "A second, shorter popular name for the same act.",
@@ -24,7 +24,11 @@
     "subject": "What the report or rule covers.",
     "amount": "A dollar amount or such sums as may be necessary.",
     "limit": "What the law is not read to do.",
-    "view": "The view Congress states."
+    "view": "The view Congress states.",
+    "title": "The title of a local ordinance, from its filed measure record.",
+    "number": "The section number recorded on a local ordinance provision.",
+    "body": "The name of the local legislative body that filed the ordinance.",
+    "text": "The operative words recorded in a local ordinance provision."
   },
   "maxWords": 20,
   "mining": {
@@ -825,7 +829,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2030-09-30",
+        "date": "2025-09-20",
         "granule": "BILLS-119hr2483enr",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr2483enr"
       }
@@ -1077,7 +1081,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }
@@ -1189,7 +1193,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }
@@ -1203,7 +1207,7 @@
       "shippable": true,
       "source": {
         "document": "Congressional bill text",
-        "date": "2034-03-30",
+        "date": "2025-01-21",
         "granule": "BILLS-119hr187eh",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr187eh"
       }
@@ -1276,6 +1280,45 @@
         "date": "2025-03-27",
         "granule": "BILLS-119hr2444ih",
         "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
+      }
+    },
+    {
+      "key": "legislation.local-title.an-ordinance-concerning",
+      "move": "local-title",
+      "kind": "written",
+      "text": "An Ordinance concerning {title}",
+      "billsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
+        "date": "2024-03-04",
+        "url": "https://baltimore.legistar.com/LegislationDetail.aspx?FullText=1&GUID=F2017B3A-5C51-485B-AFFD-C37188001C9E&ID=6563364&Options=&Search="
+      }
+    },
+    {
+      "key": "legislation.local-section-first.be-it-ordained",
+      "move": "local-section-first",
+      "kind": "written",
+      "text": "Section {number}. Be it ordained by the {body}, That {text}",
+      "billsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
+        "date": "2024-03-04",
+        "url": "https://baltimore.legistar.com/LegislationDetail.aspx?FullText=1&GUID=F2017B3A-5C51-485B-AFFD-C37188001C9E&ID=6563364&Options=&Search="
+      }
+    },
+    {
+      "key": "legislation.local-section-further.and-be-it-further-ordained",
+      "move": "local-section-further",
+      "kind": "written",
+      "text": "Section {number}. And be it further ordained, That {text}",
+      "billsUsing": 1,
+      "shippable": true,
+      "source": {
+        "document": "Baltimore City Council Bill 24-0501, Ordinance concerning vacant structures",
+        "date": "2024-03-04",
+        "url": "https://baltimore.legistar.com/LegislationDetail.aspx?FullText=1&GUID=F2017B3A-5C51-485B-AFFD-C37188001C9E&ID=6563364&Options=&Search="
       }
     }
   ]

@@ -18,6 +18,7 @@ import type {
   World,
 } from "../simulation/types";
 import {
+  ENACTED_TEXT_REQUIRED,
   attendMunicipalPublicMeeting,
   municipalManagerDecisionRuleSource,
   performMunicipalMeetingNotes,
@@ -261,9 +262,8 @@ export function MunicipalWorkspace({
         <h2>{"Local government"}</h2>
         {homeContext.homePlaceLabel ? (
           <p data-testid="municipal-home-context">
-            {"You live in "}
+            {"Home: "}
             <strong>{homeContext.homePlaceLabel}</strong>
-            {"."}
           </p>
         ) : null}
       </header>
@@ -339,11 +339,13 @@ export function MunicipalWorkspace({
                   {governing.managerAppointment.summary}
                 </p>
               ) : null}
-              <p>
-                {governing.appointment.ok
-                  ? "Seat recorded"
-                  : governing.appointment.reason}
-              </p>
+              {/* No enacted text: the appointment is not offered at all. */}
+              {governing.appointment.ok ? (
+                <p>Seat recorded</p>
+              ) : governing.appointment.reason ===
+                ENACTED_TEXT_REQUIRED ? null : (
+                <p>{governing.appointment.reason}</p>
+              )}
               {managerRule ? (
                 <details>
                   <summary>Election rule and remaining actions</summary>
@@ -850,7 +852,9 @@ export function MunicipalWorkspace({
                   >
                     <h3>{"Recall"}</h3>
                     {recall.unavailable ? (
-                      <p>{recall.unavailable}</p>
+                      <p data-testid="municipal-recall-unavailable">
+                        {recall.unavailableValue ?? "Not available"}
+                      </p>
                     ) : (
                       <>
                         <p>{recall.rule}</p>

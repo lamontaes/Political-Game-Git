@@ -24,6 +24,7 @@
 import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
+import { readKinds } from "./kinds";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -90,7 +91,12 @@ import {
 import {
   matterUninformedLine,
   officialViewLine,
+  greetAgainLine,
 } from "../../src/presentation/small-talk-english";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "../../src/presentation/life-conversation";
 import {
   currentKnownMatter,
   matterAwareness,
@@ -187,6 +193,11 @@ export interface BatchResult {
   readonly worlds: readonly BatchWorldSummary[];
   readonly lines: readonly BatchLine[];
   readonly skipped: readonly BatchSkip[];
+  /** Kinds of text no world produced, each with why. */
+  readonly absent?: readonly {
+    readonly kind: string;
+    readonly reason: string;
+  }[];
   /** The lines measured against the everyday register card. */
   readonly stats: readonly BatchStat[];
 }
@@ -956,6 +967,61 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+function greetAgain(ctx: WorldContext): Produced {
+  for (const person of ctx.cast) {
+    const conversation = projectLifeConversation(
+      ctx.world,
+      ctx.playerId,
+      person.id,
+    );
+    if (!conversation?.intents.some((intent) => intent.key === "greet"))
+      continue;
+    let greeted: World;
+    try {
+      greeted = commitLifeConversation(ctx.world, {
+        playerPersonId: ctx.playerId,
+        personId: person.id,
+        intent: "greet",
+        revision: conversation.revision,
+      });
+    } catch {
+      continue;
+    }
+    const history = greeted.history.events.filter(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === ctx.playerId &&
+            participant.role === "focus:subject",
+        ) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === person.id &&
+            participant.role === "coordination:counterpart",
+        ) &&
+        event.occurredAt <= greeted.currentDate,
+    );
+    const line = greetAgainLine(greeted, person.id, ctx.playerId, history);
+    if (!line) continue;
+    return {
+      axis: "interaction",
+      composer: "greetAgainLine in small-talk-english.ts",
+      situation: `${ctx.playerName} says hello again to ${describeWho(person)} after their saved conversation.`,
+      prior: LIFE_TALK_INTENTS.greet,
+      speaker: personOf(greeted, ctx.playerId, person.id, person.relation),
+      line: line.text,
+      parts: line.parts,
+      harness: [
+        "The batch records a first ordinary greeting in the current scene, then reads the next greeting from that saved conversation.",
+      ],
+    };
+  }
+  return skip(
+    "no present person has a current scene where a greeting can be recorded",
+  );
+}
+
 /**
  * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
  * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
@@ -1216,6 +1282,7 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
+  { id: "greet-again", run: greetAgain },
   { id: "invite-game-accept", run: invitationAccept },
   { id: "invite-game-decline", run: invitationDecline },
   { id: "remember-news-topic", run: rememberTopic },
@@ -1382,11 +1449,62 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
+  // The other kinds of text, read from the game's own producers: up to three
+  // each across the worlds, and a reason for every kind none produced.
+  const perKind = new Map<string, number>();
+  const why = new Map<string, string[]>();
+  for (const ctx of contexts) {
+    const reading = readKinds(ctx.world, ctx.playerId);
+    for (const text of reading.texts) {
+      // The same wording with other figures or places counts once.
+      const shape = text.text
+        .replace(ctx.place, "@")
+        .replace(
+          /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
+          "#",
+        )
+        .replace(/[\d$,.]+/g, "#");
+      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      seenText.add(shape);
+      perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
+      lines.push({
+        id: `text-${text.kind}-${perKind.get(text.kind)}`,
+        axis: "place",
+        composer: text.composer,
+        situation: text.situation,
+        speaker: speakerOf(
+          ctx,
+          personOf(ctx.world, ctx.playerId, ctx.playerId, null),
+        ),
+        line: text.text,
+        parts: [text.partKey],
+        world: {
+          place: ctx.place,
+          player: ctx.playerName,
+          playerAge: ctx.playerAge,
+          date: ctx.world.currentDate,
+        },
+        harness: [],
+      });
+    }
+    for (const row of reading.absent)
+      why.set(row.kind, [
+        ...(why.get(row.kind) ?? []),
+        `${ctx.place}: ${row.reason}`,
+      ]);
+  }
+  const absent = [...why]
+    .filter(([kind]) => !perKind.has(kind))
+    .map(([kind, reasons]) => ({
+      kind,
+      reason: [...new Set(reasons)].join("; "),
+    }));
   return {
     seed: options.seed,
     worlds: summaries,
     lines,
     skipped,
+    absent,
     stats: batchStats(lines),
   };
 }

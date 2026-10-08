@@ -1,0 +1,975 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-03-23",
+  "sources": {
+    "ncsl": {
+      "title": "2026 State Legislative Session Calendar",
+      "publisher": "National Conference of State Legislatures",
+      "url": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf",
+      "retrievedAt": "2026-10-07",
+      "note": "The PDF's asterisk means the legislature meets throughout the year. Dates and comments preserve the NCSL table as updated March 23, 2026."
+    },
+    "guam": {
+      "title": "Guam Code Annotated, Title 2, Chapter 1, § 1101",
+      "publisher": "Guam Legislature",
+      "url": "https://www.guamcourts.org/CompilerofLaws/GCA/02gca/2gc001.PDF",
+      "note": "The regular session begins in January and may continue until the day before the next regular session."
+    },
+    "americanSamoa": {
+      "title": "Revised Constitution of American Samoa, art. II, § 8",
+      "publisher": "American Samoa Bar Association",
+      "url": "https://asbar.org/revised-constitution-of-american-samoa/",
+      "note": "Two regular sessions begin on the second Monday in January and July and last 45 legislative days; calendar adjournment dates are not specified in the source."
+    },
+    "northernMarianaIslands": {
+      "title": "Constitution of the Commonwealth of the Northern Mariana Islands, art. II, § 13",
+      "publisher": "Commonwealth of the Northern Mariana Islands Law Revision Commission",
+      "url": "https://cnmilaw.gov/constitution/",
+      "note": "The Legislature is a continuous body for the two years between its organizational meetings on the second Monday of January following a general election."
+    },
+    "puertoRico": {
+      "title": "Laws of Puerto Rico, tit. 2, § 1a",
+      "publisher": "Puerto Rico Office of Legislative Services (compiled text)",
+      "url": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/",
+      "note": "The first annual regular session begins the second Monday in January and adjourns June 30; the second begins the third Monday in August and adjourns on the date set in the statute."
+    }
+  },
+  "regularSessions": {
+    "US-AL": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-04-27",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-AK": [
+      {
+        "conveneAt": "2026-01-20",
+        "adjournAt": "2026-05-20",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-AZ": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-04-25",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-AR": [
+      {
+        "conveneAt": "2026-04-08",
+        "adjournAt": "2026-05-07",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-CA": [
+      {
+        "conveneAt": "2026-01-05",
+        "adjournAt": "2026-08-31",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-CO": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "2026-05-13",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-CT": [
+      {
+        "conveneAt": "2026-02-04",
+        "adjournAt": "2026-05-06",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-DE": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-06-30",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-FL": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-03-13",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-GA": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-04-06",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-HI": [
+      {
+        "conveneAt": "2026-01-21",
+        "adjournAt": "2026-05-08",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-ID": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-04-10",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-IL": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "comments": ["Organizational Day 2025-11-18."],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-IN": [
+      {
+        "conveneAt": "2025-12-01",
+        "reconvenesAt": "2026-01-05",
+        "adjournAt": "2026-02-27",
+        "source": "ncsl",
+        "comments": [
+          "The 2026 regular session started early on 2025-12-01 and reconvened 2026-01-05."
+        ],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-IA": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-04-21",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-KS": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-04-10",
+        "source": "ncsl",
+        "comments": [
+          "First adjournment March 27; reconvenes April 9 for veto session."
+        ],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-KY": [
+      {
+        "conveneAt": "2026-01-06",
+        "adjournAt": "2026-04-15",
+        "source": "ncsl",
+        "comments": ["Veto recess April 1–13."],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-LA": [
+      {
+        "conveneAt": "2026-03-09",
+        "adjournAt": "2026-06-01",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-ME": [
+      {
+        "conveneAt": "2026-01-07",
+        "adjournAt": "2026-04-15",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MD": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "2026-04-13",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MA": [
+      {
+        "conveneAt": "2026-01-01",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MI": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MN": [
+      {
+        "conveneAt": "2026-02-17",
+        "adjournAt": "2026-05-18",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MS": [
+      {
+        "conveneAt": "2026-01-06",
+        "adjournAt": "2026-04-05",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MO": [
+      {
+        "conveneAt": "2026-01-07",
+        "adjournAt": "2026-05-15",
+        "source": "ncsl",
+        "comments": ["Veto session September 16."],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-MT": [],
+    "US-NE": [
+      {
+        "conveneAt": "2026-01-07",
+        "adjournAt": "2026-04-17",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-NV": [],
+    "US-NH": [
+      {
+        "conveneAt": "2026-01-07",
+        "adjournAt": "2026-06-30",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-NJ": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-NM": [
+      {
+        "conveneAt": "2026-01-20",
+        "adjournAt": "2026-02-19",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-NY": [
+      {
+        "conveneAt": "2026-01-07",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-NC": [
+      {
+        "conveneAt": "2026-04-21",
+        "adjournAt": "2026-07-31",
+        "source": "ncsl",
+        "comments": [
+          "The 2026 session begins April 21; prior 2025 dates in the table are not 2026 convening dates."
+        ],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-ND": [],
+    "US-OH": [
+      {
+        "conveneAt": "2026-01-05",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-OK": [
+      {
+        "conveneAt": "2026-02-02",
+        "adjournAt": "2026-05-29",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-OR": [
+      {
+        "conveneAt": "2026-02-02",
+        "adjournAt": "2026-03-06",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-PA": [
+      {
+        "conveneAt": "2026-01-06",
+        "adjournAt": "2026-11-30",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-RI": [
+      {
+        "conveneAt": "2026-01-06",
+        "adjournAt": "2026-06-30",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-SC": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-05-07",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-SD": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-03-30",
+        "source": "ncsl",
+        "comments": ["Veto day March 30."],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-TN": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "2026-04-24",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-TX": [],
+    "US-UT": [
+      {
+        "conveneAt": "2026-01-20",
+        "adjournAt": "2026-03-06",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-VT": [
+      {
+        "conveneAt": "2026-01-06",
+        "adjournAt": "2026-05-08",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-VA": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "2026-03-14",
+        "source": "ncsl",
+        "comments": [
+          "Veto session April 22 is separate from the regular session."
+        ],
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-WA": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-03-12",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-WV": [
+      {
+        "conveneAt": "2026-01-14",
+        "adjournAt": "2026-03-14",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-WI": [
+      {
+        "conveneAt": "2026-01-13",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-WY": [
+      {
+        "conveneAt": "2026-02-09",
+        "adjournAt": "2026-03-11",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-AS": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-03-16",
+        "source": "americanSamoa",
+        "estimatedFrom": "constitution",
+        "comments": [
+          "Estimated from the constitutional limit of 45 legislative days; the calendar-day adjournment is not reported by NCSL."
+        ],
+        "sourceUrl": "https://asbar.org/revised-constitution-of-american-samoa/"
+      },
+      {
+        "conveneAt": "2026-07-13",
+        "adjournAt": "2026-09-14",
+        "source": "americanSamoa",
+        "estimatedFrom": "constitution",
+        "comments": [
+          "Estimated from the constitutional limit of 45 legislative days; the calendar-day adjournment is not reported by NCSL."
+        ],
+        "sourceUrl": "https://asbar.org/revised-constitution-of-american-samoa/"
+      }
+    ],
+    "US-DC": [
+      {
+        "conveneAt": "2026-01-02",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ],
+    "US-GU": [
+      {
+        "conveneAt": "2026-01-05",
+        "adjournAt": "full-year",
+        "source": "guam",
+        "estimatedFrom": "constitution",
+        "sourceUrl": "https://www.guamcourts.org/CompilerofLaws/GCA/02gca/2gc001.PDF"
+      }
+    ],
+    "US-MP": [
+      {
+        "conveneAt": "2025-01-13",
+        "adjournAt": "full-year",
+        "source": "northernMarianaIslands",
+        "sourceUrl": "https://cnmilaw.gov/constitution/",
+        "estimatedFrom": "constitution",
+        "comments": [
+          "NCSL lists both 2026 dates as TBD. The constitution makes the Legislature a continuous body for the two-year term; this row carries the 25th Legislature organized after the 2024 election into 2026."
+        ]
+      }
+    ],
+    "US-PR": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "2026-06-30",
+        "source": "puertoRico",
+        "sourceUrl": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/"
+      },
+      {
+        "conveneAt": "2026-08-17",
+        "adjournAt": "2026-11-17",
+        "source": "puertoRico",
+        "comments": [
+          "The second session adjourns on the Tuesday before the third Thursday in November, from 2 L.P.R.A. § 1a."
+        ],
+        "sourceUrl": "https://law.justia.com/codes/puerto-rico/title-two/chapter-1/1a/"
+      }
+    ],
+    "US-VI": [
+      {
+        "conveneAt": "2026-01-12",
+        "adjournAt": "full-year",
+        "source": "ncsl",
+        "sourceUrl": "https://documents.ncsl.org/wwwncsl/About-State-Legislatures/session-calendar-2026mar23.pdf"
+      }
+    ]
+  },
+  "sessionEnds": {
+    "US-AL": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-09"],
+          "sourceUrl": "https://www.legislature.state.al.us/",
+          "quote": "2026 Regular Session adjourned on April 9th, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-AR": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 4,
+            "weekday": 3,
+            "nth": 2
+          },
+          "lastDayAfterStart": 29
+        }
+      ],
+      "cite": "Ark. Const. art. 5, §§ 5, 17",
+      "source": "https://codes.findlaw.com/ar/arkansas-constitution-of-1874/ar-const-art-5-sect-17/",
+      "note": "A regular session in odd years opens on the second Monday in January and may not exceed 60 calendar days unless two-thirds extend it; real sessions usually run longer (2023 ended May 1). The even-year fiscal session is limited to 30 days; the constitution opens it in February, but the legislature has moved it to April by law (2024 opened April 10, 2026 April 8), which is the date used.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-29"],
+          "sourceUrl": "https://www.arkleg.state.ar.us/",
+          "quote": "The Fiscal Session of the 95th General Assembly convened on Wednesday, April 8, 2026 and adjourned sine die on Wednesday, April 29, 2026.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-AS": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        },
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 7,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        },
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 7,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 44
+        }
+      ],
+      "cite": "Rev. Const. of American Samoa art. II, § 8",
+      "source": "https://asbar.org/revised-constitution-of-american-samoa/",
+      "note": "Two regular sessions a year, opening on the second Monday in January and in July, each to last 45 days. Whether those are calendar days was not read; the game counts calendar days."
+    },
+    "US-AZ": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Ariz. Const. art. 4, pt. 2, § 3",
+      "source": "https://www.azleg.gov/const/4/3.p2.htm",
+      "note": "Sets only the opening day; no limit on length (2025 ran 169 days).",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-06-13"],
+          "sourceUrl": "https://www.azleg.gov/alispdfs/57leg/2R/House/SummaryComplete.pdf",
+          "quote": "Adjourned Sine Die: June 13, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-DC": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "The Council meets year-round; this date only anchors the estimated rule."
+    },
+    "US-FL": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 3,
+            "weekday": 1,
+            "nth": 1,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 1,
+            "plusDays": 8
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "cite": "Fla. Const. art. III, § 3(b), (d)",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "note": "The session opens on the first Tuesday after the first Monday in March in odd years and the second Tuesday after the first Monday in January in even years, and may not exceed 60 consecutive days unless three-fifths extend it.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-03-13"],
+          "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2026/2026-sj-bound-vII.pdf",
+          "quote": "On motion by Senator Passidomo, the Senate adjourned sine die at 3:14 p.m.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-HI": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-05-08"],
+          "sourceUrl": "https://www.capitol.hawaii.gov/sessions/session2026/OrderOfTheDay/SOD_05-08-26_.HTM",
+          "quote": "INFORMING THE HOUSE AND GOVERNOR THAT THE SENATE IS READY TO ADJOURN SINE DIE.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-ID": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Idaho Const. art. III, § 8(1)",
+      "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtIII/Sect8/",
+      "note": "Sets only the opening day; no limit on length was found.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-02"],
+          "sourceUrl": "https://legislature.idaho.gov/wp-content/uploads/sessioninfo/2026/sinedie.pdf",
+          "quote": "adjourned Sine Die on April 02, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-KS": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "note": "Its rule was not read in days after a session, so its session end was not read either.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-10"],
+          "sourceUrl": "https://www.kslegislature.gov/b2025_26/bills/download/?apn=b2025_26/year2/ready_for_publication/journal/daily_journal_house_20260410135117.pdf",
+          "quote": "The Legislature having adjourned sine die on April 10, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-KY": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 3,
+            "day": 30
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 4,
+            "day": 15
+          }
+        }
+      ],
+      "cite": "Ky. Const. § 42",
+      "source": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=46",
+      "note": "Even-year sessions adjourn by April 15 and odd-year sessions by March 30, the same limit Kentucky's legislative rule pack holds.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-15"],
+          "sourceUrl": "https://apps.legislature.ky.gov/record/26rs/record.html",
+          "quote": "Adjourned Wednesday, April 15, 2026, Sine Die.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-ME": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 6,
+            "weekday": 3,
+            "nth": 3
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 4,
+            "weekday": 3,
+            "nth": 3
+          }
+        }
+      ],
+      "cite": "3 M.R.S. § 2 (required by Me. Const. art. IV, pt. 3, § 1)",
+      "source": "https://legislature.maine.gov/statutes/3/title3sec2.html",
+      "note": "The first regular session adjourns no later than the third Wednesday in June and the second no later than the third Wednesday in April; two-thirds may extend either.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-29"],
+          "sourceUrl": "https://legislature.maine.gov/house/",
+          "quote": "The Second Regular Session of the 132nd Legislature adjourned SINE DIE on Wednesday, April 29, 2026 at 8:32 PM.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-MI": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Mich. Const. art. IV, § 13",
+      "source": "https://legislature.mi.gov/doc.aspx?mcl-Article-IV-13",
+      "note": "The session adjourns on a day set by concurrent resolution; its sessions customarily run into December, later than this estimate."
+    },
+    "US-MO": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "day": 30
+          }
+        }
+      ],
+      "cite": "Mo. Const. art. III, § 20(a)",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2020(a)",
+      "note": "The regular session adjourns on May 30 each year."
+    },
+    "US-NC": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "N.C. Const. art. II, § 11(1)",
+      "source": "https://www.ncleg.gov/Laws/Constitution/Article2",
+      "note": "The session adjourns by resolution; no end date or limit on length."
+    },
+    "US-NE": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Neb. Const. art. III, § 10",
+      "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
+      "note": "The limit is 90 legislative days in odd years and 60 in even years, which are not calendar days (2025 adjourned June 2).",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-04-17"],
+          "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Journal/r2day60.pdf",
+          "quote": "Senator Hansen moved that the One Hundred Ninth Legislature, Second Session, 2026 Session of the Nebraska Legislature, having finished all business before it, now at 2:57 p.m., adjourn sine die.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-NM": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 3
+          },
+          "lastDayAfterStart": 60
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 3
+          },
+          "lastDayAfterStart": 30
+        }
+      ],
+      "cite": "N.M. Const. art. IV, § 5(A)",
+      "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-5/",
+      "note": "The session opens on the third Tuesday in January and may not exceed 60 days in odd years and 30 in even years; it ends at noon on that day (2025: January 21 to March 22).",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-02-19"],
+          "sourceUrl": "https://www.nmlegis.gov/Publications/Session_Dates.pdf",
+          "quote": "2026 ... February 19 Session ends (noon)",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-OK": {
+      "oddYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "weekday": 5,
+            "nth": -1
+          }
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "on",
+          "day": {
+            "month": 5,
+            "weekday": 5,
+            "nth": -1
+          }
+        }
+      ],
+      "cite": "Okla. Const. art. V, § 26",
+      "source": "https://law.justia.com/constitution/oklahoma/V-26.html",
+      "note": "The session adjourns sine die no later than 5 p.m. on the last Friday in May.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-05-14"],
+          "sourceUrl": "https://oksenate.gov/sites/default/files/2026-08/sj20260514.pdf",
+          "quote": "Pursuant to the Howard declaration, the Senate adjourned sine die at 4:15 p.m.",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-TX": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 2,
+            "nth": 2
+          },
+          "lastDayAfterStart": 139
+        }
+      ],
+      "evenYear": [],
+      "cite": "Tex. Const. art. III, § 24(b); Tex. Gov't Code § 301.001",
+      "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+      "note": "The regular session opens on the second Tuesday in January of odd years and may not exceed 140 days (2025: January 14 to June 2). Even years hold no regular session."
+    },
+    "US-UT": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 3,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 45
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 3,
+            "plusDays": 1
+          },
+          "lastDayAfterStart": 45
+        }
+      ],
+      "cite": "Utah Const. art. VI, § 16(1); Utah Code § 36-3-201",
+      "source": "https://le.utah.gov/xcode/ArticleVI/UC_AVI_1800010118000101.pdf",
+      "note": "The session opens on the first Tuesday after the third Monday in January and may not exceed 45 calendar days, not counting holidays; Presidents' Day always falls inside it, so the last day is 45 days after the first (2025: January 21 to March 7).",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-03-06"],
+          "sourceUrl": "https://le.utah.gov/",
+          "quote": "2026 General Session January 20, 2026 to March 6, 2026",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-WA": {
+      "oddYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 104
+        }
+      ],
+      "evenYear": [
+        {
+          "kind": "after-start",
+          "start": {
+            "month": 1,
+            "weekday": 1,
+            "nth": 2
+          },
+          "lastDayAfterStart": 59
+        }
+      ],
+      "cite": "Wash. Const. art. II, § 12(1); RCW 44.04.010",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=44.04.010",
+      "note": "The session opens on the second Monday in January and may not exceed 105 consecutive days in odd years and 60 in even years (2026: January 12 to March 12).",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-03-12"],
+          "sourceUrl": "https://leg.wa.gov/",
+          "quote": "The 2026 Regular Session adjourned sine die on March 12",
+          "readAt": "2026-09-29"
+        }
+      }
+    },
+    "US-WY": {
+      "estimated": "ESTIMATED FROM AVERAGE: the place's law sets no calendar limit on its session, so the session ends on the median last day of the places whose limit was read, for the same year.",
+      "cite": "Wyo. Const. art. 3, § 6",
+      "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+      "note": "The limit is 40 legislative working days a year, which are not calendar days.",
+      "adjourned": {
+        "2026": {
+          "dates": ["2026-03-11"],
+          "sourceUrl": "https://wyoleg.gov/MediaRoomDocs/2026%20End%20of%20Session%20Release_03.11.26.pdf",
+          "quote": "The Wyoming Legislature concluded the 2026 Budget Session and adjourned sine die on Wednesday at the State Capitol in Cheyenne",
+          "readAt": "2026-09-29"
+        }
+      }
+    }
+  }
+}

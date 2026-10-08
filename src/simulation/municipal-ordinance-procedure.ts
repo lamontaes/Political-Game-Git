@@ -1,5 +1,9 @@
 import { nextSessionCalendarDate } from "./legislative-session-calendar";
 import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import {
+  applyItemVetoes,
+  type ExecutiveItemVetoSelection,
+} from "./governing/item-veto";
 /**
  * A municipal ordinance from introduction to a recorded effective outcome.
  *
@@ -944,6 +948,7 @@ export function recordCouncilExecutiveDecision(
   action: "signed" | "vetoed",
   rationale: string,
   actorPersonId: EntityId,
+  itemSelection?: ExecutiveItemVetoSelection,
 ): World {
   if (
     !measureOfThisCouncil(world, governmentKey, measure.id) ||
@@ -960,8 +965,10 @@ export function recordCouncilExecutiveDecision(
     rationale,
     actorPersonId,
   });
-  if (action === "signed")
+  if (action === "signed") {
+    next = applyItemVetoes(next, measure.id, actorPersonId, itemSelection);
     return enactCouncilMeasure(next, governmentKey, measure);
+  }
   const days = councilActionDays(world, measure, "overrideWindowDays");
   if (days)
     next = scheduleFutureDueItem(next, {
@@ -1225,7 +1232,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:no-seated-councilors",
       context: "No seated councilors can decide the scheduled reading.",
       outcomeEventId: null,
     };
@@ -1266,7 +1273,7 @@ export function councilReadingDueHandler(
     return {
       world,
       status: "blocked",
-      reasonKey: null,
+      reasonKey: "council:reading-refused",
       context: taken.reason,
       outcomeEventId: null,
     };

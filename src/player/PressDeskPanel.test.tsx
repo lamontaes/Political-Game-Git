@@ -194,16 +194,18 @@ beforeAll(() => {
 }, 600_000);
 
 describe("PressDeskPanel", () => {
-  it("says plainly that nothing is waiting when the life has no press yet", () => {
+  it("keeps empty desk groups free of helper copy", () => {
     const html = render(fresh.world, fresh.playerId);
     expect(html).toContain('data-testid="press-desk-panel"');
-    expect(html).toContain("No reporter is waiting on an answer from you.");
-    expect(html).toContain("Nothing has been published about you yet.");
-    expect(html).toContain(
+    expect(html).not.toContain("No reporter is waiting on an answer from you.");
+    expect(html).not.toContain("Nothing has been published about you yet.");
+    expect(html).not.toContain(
       "Nobody has raised anything about you that you know of.",
     );
-    expect(html).toContain("You have no ground rules agreed with a reporter.");
-    expect(html).toContain("No news outlet is recorded here.");
+    expect(html).not.toContain(
+      "You have no ground rules agreed with a reporter.",
+    );
+    expect(html).not.toContain("No news outlet is recorded here.");
     expect(html).not.toContain('data-testid="press-desk-story"');
   });
 

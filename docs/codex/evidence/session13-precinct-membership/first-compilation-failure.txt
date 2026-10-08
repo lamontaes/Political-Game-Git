@@ -1,0 +1,27 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run build -- python scripts/source/compile-place-precinct-population.py
+
+[storage-guard] OVERRIDDEN for build: CTO6009033958 verified cloud-only exemption; b03 canonical Census precinct population source compilation; no annual simulation, deletion or global policy change
+AL: 593 place joins, 1837 populated VTDs
+AK: 355 place joins, 448 populated VTDs
+AZ: 467 place joins, 1530 populated VTDs
+AR: 626 place joins, 2726 populated VTDs
+Traceback (most recent call last):
+  File "/workspace/session13-federal-reader/scripts/source/compile-place-precinct-population.py", line 102, in <module>
+    main()
+  File "/workspace/session13-federal-reader/scripts/source/compile-place-precinct-population.py", line 86, in main
+    counts, average = join_precinct_populations(archive, prefix, recorded)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/session13-federal-reader/scripts/source/compile-place-precinct-population.py", line 41, in join_precinct_populations
+    for block, county, district in table(archive, prefix + "_VTD.txt", "BLOCKID|COUNTYFP|DISTRICT"):
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/session13-federal-reader/scripts/source/compile-place-precinct-population.py", line 22, in table
+    with archive.open(member) as source:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py", line 1622, in open
+    zinfo = self.getinfo(name)
+            ^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py", line 1550, in getinfo
+    raise KeyError(
+KeyError: "There is no item named 'BlockAssign_ST06_CA_VTD.txt' in the archive"

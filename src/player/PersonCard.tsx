@@ -11,6 +11,7 @@ import type { PersonDossier } from "../presentation/person-dossier";
 import { labelForRef } from "../presentation/person-dossier";
 import type { ShellRef } from "../presentation/shell-navigation";
 import type { EntityId, World } from "../simulation";
+import { playSettingsOf } from "../simulation/play-settings";
 import { pinKindLabel } from "./ShellPinRail";
 import { PersonPortrait } from "./PersonPortrait";
 import { SavedPersonFigure } from "./SavedPersonFigure";
@@ -127,7 +128,6 @@ export function PersonCard({
   onTogglePin,
   onOpenPerson,
   onTalk,
-  onContact,
   onMeet,
   onTravel,
   onFullRecord,
@@ -150,7 +150,6 @@ export function PersonCard({
   readonly onTogglePin: () => void;
   readonly onOpenPerson?: (personId: EntityId) => void;
   readonly onTalk?: () => void;
-  readonly onContact?: () => void;
   readonly onMeet?: () => void;
   readonly onTravel?: () => void;
   /** The full record page, with appearance controls for your own character. */
@@ -229,10 +228,16 @@ export function PersonCard({
     ...(contactPresence ? { presentPersonIds: contactPresence } : {}),
   });
   const facts = dossier.details;
+  const notesVisibility = playSettingsOf(world).notesVisibility;
+  const showReminders =
+    notesVisibility === "full" || (notesVisibility === "light" && expanded);
   const testId =
     mode === "overlay" && !expanded ? "quick-dossier" : "full-dossier";
   const role =
-    dossier.details.find((fact) => fact.attribution === "record")?.text ?? null;
+    dossier.details.find(
+      (fact) =>
+        fact.key.startsWith("public-role-") || fact.key.startsWith("position-"),
+    )?.text ?? null;
   const isYou = dossier.personId === playerId;
   const alive =
     web.nodes.find((node) => node.personId === dossier.personId)?.alive !==
@@ -320,6 +325,11 @@ export function PersonCard({
           />
           <div className="pg-person-card-titles">
             <h2 data-testid="dossier-name">{dossier.name}</h2>
+            {dossier.age !== null ? (
+              <p className="pg-person-card-age" data-testid="dossier-age">
+                Age · {dossier.age}
+              </p>
+            ) : null}
             {role ? (
               <p className="pg-person-card-role" data-testid="dossier-role">
                 {role}
@@ -362,7 +372,12 @@ export function PersonCard({
               </p>
             ) : isYou || !expanded ? null : presentNow ? (
               <p className="pg-right-now" data-testid="person-card-present">
-                Here in the room with you.
+                <span className="pg-right-now-label">Present</span>
+                {dossier.presentRoom ? (
+                  <span data-testid="person-card-present-room">
+                    {dossier.presentRoom}
+                  </span>
+                ) : null}
               </p>
             ) : (
               <p
@@ -406,7 +421,7 @@ export function PersonCard({
         ) : null}
         <div className="pg-person-card-reading">
           <section className="pg-dossier-section" aria-label="What you know">
-            {dossier.reminders.length > 0 ? (
+            {showReminders && dossier.reminders.length > 0 ? (
               <div data-testid="dossier-reminders">
                 <h3>What you may need to remember</h3>
                 <FactList facts={dossier.reminders} testId="dossier-reminder" />
@@ -631,16 +646,6 @@ export function PersonCard({
             onClick={onMeet}
           >
             Meet
-          </button>
-        ) : null}
-        {reachable && contact.contact.available && onContact ? (
-          <button
-            type="button"
-            className="ui-action"
-            data-testid="person-contact"
-            onClick={onContact}
-          >
-            Contact
           </button>
         ) : null}
         {onFullRecord ? (

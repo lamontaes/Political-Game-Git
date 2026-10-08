@@ -9,6 +9,7 @@ import {
 } from "../simulation/living-world/town-rent";
 import { reportOffenseToPolice } from "../simulation/crime/producer";
 import { refreshLifeCircumstances } from "../simulation/life-circumstances";
+import { playSettingsOf } from "../simulation/play-settings";
 import {
   adaptiveSelectionSeed,
   applyCharacterHistoryPlan,
@@ -222,6 +223,7 @@ export function selectAdultSituation(
     candidates,
     recentKeys: history.slice(-6),
     recentStakes: history.slice(-6).map((key) => situationProfile(key).stakes),
+    challenge: playSettingsOf(world).challengeIntensity,
   });
   if (!selection) return null;
   // Every candidate this surface offered came from the adult bank, so the
