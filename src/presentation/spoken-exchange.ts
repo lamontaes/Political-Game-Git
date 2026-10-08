@@ -73,7 +73,6 @@ export function recordSpokenExchange(
       eventId: event.id,
       occurredAt: event.occurredAt,
       timeTogether: false,
-      date: false,
     });
   return next;
 }
