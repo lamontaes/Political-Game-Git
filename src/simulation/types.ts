@@ -724,6 +724,21 @@ export interface EventLocation {
   readonly setting: string | null;
 }
 
+export interface CampaignGuidanceRuleRecord {
+  readonly kind: "known" | "unknown" | "not-applicable";
+  readonly value?: number | string;
+  readonly citation?: string | null;
+  readonly sourceUrl?: string | null;
+}
+
+export interface CampaignGuidanceOfficeRecord {
+  readonly officeKey: string;
+  readonly officeName: string;
+  readonly minimumAge?: CampaignGuidanceRuleRecord;
+  readonly residency?: CampaignGuidanceRuleRecord;
+  readonly filing?: CampaignGuidanceRuleRecord;
+}
+
 export interface EventContext {
   readonly location: EventLocation | null;
   readonly socialContext: string | null;
@@ -731,6 +746,7 @@ export interface EventContext {
   readonly choice: string | null;
   readonly motivation: string | null;
   readonly immediateReaction: string | null;
+  readonly campaignGuidanceAnswer?: readonly CampaignGuidanceOfficeRecord[];
 }
 
 export interface HistoricalEvent extends LawEffectStampedRecord {

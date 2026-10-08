@@ -4,6 +4,7 @@ import {
   campaignLifeOutcomeRecords,
   deserializeWorld,
   homePartyChapters,
+  lifePlaces,
   scheduledActivityState,
   serializeWorld,
   simulationMinutesBetween,
@@ -11,6 +12,7 @@ import {
 import { attendPartyWork, requestPartyWork } from "./campaign-life-actions";
 import {
   askCandidateGuidance,
+  candidateGuidanceAnswerRecords,
   leaveCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
@@ -55,6 +57,43 @@ function attend(
 }
 
 describe("candidate guidance in the room", () => {
+  it("reads the same office-rule fields from every state and territory place", () => {
+    const { world } = booked("candidate-guidance-all-jurisdictions");
+    const jurisdictions = lifePlaces().filter(
+      (place) => place.scope === "state",
+    );
+    const withRecords = jurisdictions.find(
+      (place) =>
+        candidateGuidanceAnswerRecords(
+          world,
+          place.context.jurisdiction.id,
+          "requirements",
+        ).length > 0,
+    );
+    expect(withRecords).toBeDefined();
+
+    for (const place of jurisdictions) {
+      const jurisdictionId = place.context.jurisdiction.id;
+      const requirementRecords = candidateGuidanceAnswerRecords(
+        world,
+        jurisdictionId,
+        "requirements",
+      );
+      const filingRecords = candidateGuidanceAnswerRecords(
+        world,
+        jurisdictionId,
+        "filing",
+      );
+
+      expect(
+        requirementRecords.every(
+          (office) => office.minimumAge && office.residency,
+        ),
+      ).toBe(true);
+      expect(filingRecords.every((office) => office.filing)).toBe(true);
+    }
+  });
+
   it("opens through the normal Attend route, saves the organizer and questions, then finishes on Stay", () => {
     const { world, personId, record } = booked("candidate-guidance-room");
     const activityId = record.scheduledActivityId;
@@ -91,12 +130,20 @@ describe("candidate guidance in the room", () => {
     );
     expect(asked).not.toBe(first.world);
     expect(asked.currentMoment).toEqual(first.world.currentMoment);
+    const turn = projectCandidateGuidanceScene(asked, personId)?.turns[0];
+    expect(turn?.question).toBe("requirements");
+    expect(turn?.answer).toBeDefined();
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.words,
-    ).toBe("What are the requirements to run here?");
+      turn?.answer.every((office) => office.minimumAge && office.residency),
+    ).toBe(true);
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the requirements before you decide to run.");
+      asked.history.events.find((event) => event.id === turn?.eventId)?.context
+        .campaignGuidanceAnswer,
+    ).toEqual(turn?.answer);
+    expect(
+      asked.history.knowledge.find((item) => item.eventId === turn?.eventId)
+        ?.believedSummary,
+    ).toBe(JSON.stringify(turn?.answer));
     expect(
       askCandidateGuidance(asked, personId, activityId, "requirements"),
     ).toBe(asked);
@@ -133,9 +180,10 @@ describe("candidate guidance in the room", () => {
       record.scheduledActivityId,
       "filing",
     );
-    expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the filing steps before you act.");
+    const turn = projectCandidateGuidanceScene(asked, personId)?.turns[0];
+    expect(turn?.question).toBe("filing");
+    expect(turn?.answer).toBeDefined();
+    expect(turn?.answer.every((office) => office.filing)).toBe(true);
     const left = leaveCandidateGuidance(
       asked,
       personId,

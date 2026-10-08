@@ -2,13 +2,17 @@ import {
   canPersonAccess,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
+  electiveOfficesForJurisdiction,
   personName,
   projectCampaignLifeActivities,
   scheduledActivityState,
   type EntityId,
+  type CampaignGuidanceOfficeRecord,
+  type CampaignGuidanceRuleRecord,
   type FutureTransitionHandlerRegistry,
   type World,
 } from "../simulation";
+import type { RuleValue } from "../simulation";
 import { recordEventKnowledge } from "../simulation/records";
 import { recordWorldEvent } from "../simulation/world";
 import { meetingDepartureRoute, meetingHomeRoute } from "./meeting-home-route";
@@ -18,17 +22,45 @@ import { cancelScheduledActivity } from "../simulation/time-work";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
-// COPY-PENDING(wave2): Claude English will review these spoken lines against
-// the saved scene packet. No filing rule or host knowledge is asserted.
-export const CANDIDATE_GUIDANCE_OPENING =
-  "We can talk about running for office. What would you like to ask?";
 export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
   readonly key: CandidateGuidanceQuestion;
-  readonly words: string;
-}[] = [
-  { key: "requirements", words: "What are the requirements to run here?" },
-  { key: "filing", words: "Who takes the paperwork, and when is it due?" },
-];
+}[] = [{ key: "requirements" }, { key: "filing" }];
+
+function ruleRecord<T extends number | string>(
+  rule: RuleValue<T>,
+): CampaignGuidanceRuleRecord {
+  if (rule.kind === "known") {
+    return {
+      kind: "known",
+      value: rule.value,
+      citation: rule.source.citation,
+      sourceUrl: rule.source.sourceUrl,
+    };
+  }
+  return { kind: rule.kind };
+}
+
+export function candidateGuidanceAnswerRecords(
+  world: World,
+  jurisdictionId: EntityId | null,
+  question: CandidateGuidanceQuestion,
+): readonly CampaignGuidanceOfficeRecord[] {
+  if (!jurisdictionId) return [];
+  return electiveOfficesForJurisdiction(
+    jurisdictionId,
+    world.currentDate,
+    world,
+  ).map((office) => ({
+    officeKey: office.officeKey,
+    officeName: office.office.title,
+    ...(question === "requirements"
+      ? {
+          minimumAge: ruleRecord(office.qualification.minimumAge),
+          residency: ruleRecord(office.qualification.residency),
+        }
+      : { filing: ruleRecord(office.qualification.filing) }),
+  }));
+}
 
 const baseKey = (activityId: EntityId) =>
   `candidate-guidance-scene-v1:${activityId}`;
@@ -93,7 +125,6 @@ export function enterCandidateGuidance(
   const key = `${baseKey(activityId)}:entry`;
   if (!here || world.history.events.some((event) => event.stableKey === key))
     return world;
-  const hostName = personName(world.people[here.view.hostPersonId]!);
   const next = recordWorldEvent(world, {
     stableKey: key,
     type: "campaign.candidate-guidance-entered",
@@ -107,16 +138,16 @@ export function enterCandidateGuidance(
       here.view.hostOrganizationId,
     ],
     participants: [
-      { personId, role: "presence:participant", detail: "Came to talk" },
+      { personId, role: "presence:participant", detail: null },
       {
         personId: here.view.hostPersonId,
         role: "coordination:host",
-        detail: CANDIDATE_GUIDANCE_OPENING,
+        detail: null,
       },
       {
         personId: here.view.hostPersonId,
         role: "presence:participant",
-        detail: "Present for the conversation",
+        detail: null,
       },
     ],
     personFactConstraints: [],
@@ -126,10 +157,10 @@ export function enterCandidateGuidance(
       `arrival:${here.arrival.id}`,
       `minute:${world.currentMoment.minuteOfDay}`,
     ],
-    summary: `You met ${hostName} in the community room to talk about running for office.`,
+    summary: "campaign.candidate-guidance-entered",
     context: {
       location: here.arrival.context.location,
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
       choice: null,
       motivation: null,
@@ -232,15 +263,15 @@ export function projectCandidateGuidanceScene(
       {
         personId: view.hostPersonId,
         name: personName(world.people[view.hostPersonId]!),
-        role: "Conversation host",
+        role: "host",
         recordIds: [entry.id],
-        spokenLine: entry.context.socialContext,
+        spokenLine: null,
       },
     ],
     questions,
     turns: turns.map((event) => ({
-      words: event.context.choice,
-      response: event.context.immediateReaction,
+      question: event.context.choice,
+      answer: event.context.campaignGuidanceAnswer ?? [],
       eventId: event.id,
     })),
     availableActions: [
@@ -248,11 +279,11 @@ export function projectCandidateGuidanceScene(
       "stay",
       "leave",
     ] as readonly (CandidateGuidanceQuestion | "stay" | "leave")[],
-    caption: `${personName(world.people[view.hostPersonId]!)} is here to talk about running for office.`,
+    caption: "",
   };
 }
 
-/** A question and the answer heard are saved together, once per choice. */
+/** A question and its sourced record data are saved together, once per choice. */
 export function askCandidateGuidance(
   world: World,
   personId: EntityId,
@@ -260,16 +291,13 @@ export function askCandidateGuidance(
   question: CandidateGuidanceQuestion,
 ): World {
   const scene = projectCandidateGuidanceScene(world, personId);
-  const words = scene?.questions.find(
-    (choice) => choice.key === question,
-  )?.words;
-  if (!scene || scene.activityId !== activityId || !words) return world;
-  // COPY-PENDING(wave2): Claude English will replace these short lines from
-  // the recorded scene packet. No filing rule or host knowledge is asserted.
-  const response =
-    question === "requirements"
-      ? "Let's check the requirements before you decide to run."
-      : "Let's check the filing steps before you act.";
+  const available = scene?.questions.some((choice) => choice.key === question);
+  if (!scene || scene.activityId !== activityId || !available) return world;
+  const answer = candidateGuidanceAnswerRecords(
+    world,
+    scene.location.jurisdictionId,
+    question,
+  );
   const host = scene.actors[0]!;
   const key = `${baseKey(activityId)}:question:${question}`;
   const next = recordWorldEvent(world, {
@@ -280,28 +308,29 @@ export function askCandidateGuidance(
     jurisdictionId: scene.location.jurisdictionId,
     involvedEntityIds: [activityId, personId, host.personId],
     participants: [
-      { personId, role: "agency:actor", detail: words },
+      { personId, role: "agency:actor", detail: question },
       {
         personId: host.personId,
         role: "presence:participant",
-        detail: response,
+        detail: null,
       },
     ],
     personFactConstraints: [],
     visibility: "private",
     tags: [`entry:${scene.eventId}`, `question:${question}`],
-    summary: `You asked ${host.name}: “${words}”`,
+    summary: question,
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,
         label: scene.location.label,
         setting: "community room",
       },
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
-      choice: words,
+      choice: question,
       motivation: null,
-      immediateReaction: response,
+      immediateReaction: null,
+      campaignGuidanceAnswer: answer,
     },
   });
   const turn = next.history.events.at(-1)!;
@@ -310,7 +339,7 @@ export function askCandidateGuidance(
     personId,
     eventId: turn.id,
     learnedAt: next.currentDate,
-    believedSummary: `${turn.summary} ${response}`,
+    believedSummary: JSON.stringify(turn.context.campaignGuidanceAnswer ?? []),
     accuracy: "accurate",
     confidence: "high",
     source: { kind: "direct" },
@@ -347,14 +376,14 @@ export function leaveCandidateGuidance(
     personFactConstraints: [],
     visibility: "private",
     tags: [`entry:${scene.eventId}`, "attendance:not-completed"],
-    summary: "You left the conversation before it ended.",
+    summary: "campaign.candidate-guidance-left",
     context: {
       location: {
         jurisdictionId: scene.location.jurisdictionId,
         label: scene.location.label,
         setting: "community room",
       },
-      socialContext: CANDIDATE_GUIDANCE_OPENING,
+      socialContext: null,
       pressure: null,
       choice: "Leave and return home",
       motivation: null,
