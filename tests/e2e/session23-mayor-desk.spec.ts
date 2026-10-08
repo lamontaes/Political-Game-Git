@@ -74,7 +74,7 @@ test("a new life obeys the recorded mayor filing qualifications", async ({
     const status = page.getByTestId(
       `campaign-office-status-${office.officeKey}`,
     );
-    await expect(status).toContainText("Read from RULES at filing time");
+    await expect(status).toContainText("Qualifications: not on record");
     await testInfo.attach("actual-filing-refusal", {
       body: await browser.innerText(),
       contentType: "text/plain",
