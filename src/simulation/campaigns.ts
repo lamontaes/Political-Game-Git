@@ -3,6 +3,7 @@ import {
   recordCampaignFundraiserReceipts,
 } from "./campaign-money-sources";
 import { addCampaignHelper } from "./campaign-helpers";
+import { campaignCompliancePackIdForPlace } from "./campaign-compliance";
 import { inventedPersonBirthDate } from "./invented-person-age";
 import { createProsecutionTransitionRegistry } from "./justice/prosecution-transitions";
 import {
@@ -886,11 +887,14 @@ export function fileCampaign(
     jurisdictionId: input.jurisdictionId,
     officeKey: option.officeKey,
     candidacyPackId: packId,
-    compliancePackId:
-      lifePlaceByJurisdictionId(input.jurisdictionId)?.stateJurisdictionKey ===
-      "US-KY"
-        ? "us-ky-candidate-campaign-compliance-v1"
-        : null,
+    compliancePackId: (() => {
+      const jurisdictionKey = lifePlaceByJurisdictionId(
+        input.jurisdictionId,
+      )?.stateJurisdictionKey;
+      return jurisdictionKey
+        ? campaignCompliancePackIdForPlace(jurisdictionKey)
+        : null;
+    })(),
     organizationId,
     donorPoolOrganizationId,
     advertisingVendorOrganizationId,

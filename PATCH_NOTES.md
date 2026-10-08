@@ -2,6 +2,25 @@
 
 Newest release first.
 
+## UNRELEASED — A petition signature follows shared choices
+
+Signing a candidate's petition no longer adds a separate personality note to
+the choice. The shared trait system now handles that influence through the
+same option labels used by other decisions.
+
+## UNRELEASED — A speech reaction uses shared trait pulls
+
+People who hear a speech still react according to their recorded personality,
+but the reaction now comes from the shared option labels instead of a separate
+inline lean.
+
+## UNRELEASED — Starting law estimates use recorded state medians
+
+When a place has no recorded starting-law amount, the Observer view now uses the
+median of matching recorded state terms. D.C. and territories use that same
+median, labeled as an estimate from recorded states. Results no longer depend
+on the world seed.
+
 ## UNRELEASED — Tomorrow is actually a new day
 
 Getting on with the day used to move the date and leave the clock alone. If you
@@ -7644,7 +7663,7 @@ _Released October 7, 2026._
 
 - **Governing follow-ups report recorded actions and delivery** Governing work
   counts as completed only when its completion cites the matter's saved
-  decision. Cancelled or lapsed work does not qualify. Budget and agency
+  decision. Canceled or lapsed work does not qualify. Budget and agency
   follow-ups now require a linked enacted appropriation or saved delivery
   outturn; party, staff skill, a spending decision, and a payment alone do not
   create results.
@@ -10986,7 +11005,8 @@ _Released October 7, 2026._
   says where you are going, such as "Go to the public meeting", instead of "Make
   the journey", and other activities say "Start now". Trips on the calendar read
   "Trip to the public meeting". The game's wording check now catches British
-  spellings and words (favour, neighbour, whilst, fortnight, queue, programme
+  spellings and words (`favour`, `neighbour`, `whilst`, `fortnight`, `queue`,
+  `programme`
   and others) and stiff phrases (make the journey, proceed to, commence), so new
   ones can't come back.
 

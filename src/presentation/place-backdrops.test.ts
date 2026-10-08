@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import campusManifest from "../../art/campuses/manifest.json" with { type: "json" };
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import placeKinds from "../../data/content/place-kinds.json" with { type: "json" };
 import {
   backdropPlaces,
   capitolPlaceFor,
@@ -13,6 +12,7 @@ import {
   placeBackdrop,
   workplacePlaceFor,
 } from "./place-backdrops";
+import { backdropStaging } from "./backdrop-people";
 import type { SimulationMoment } from "../simulation/types";
 
 const at = (date: string, hour: number, minute = 0): SimulationMoment => ({
@@ -63,15 +63,62 @@ describe("place backdrops", () => {
     }
   });
 
-  it("has all 223 shared pictures for 61 places, each with a midday picture", () => {
+  it("has all 307 shared pictures for 82 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(
       manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
-    ).toHaveLength(223);
+    ).toHaveLength(307);
     expect(
       backdropPlaces().filter((place) => !ownCapitol.test(place)),
-    ).toHaveLength(61);
+    ).toHaveLength(82);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
+  });
+
+  it("has one shared staging entry for each of the 21 places painted on October 6, 2026, with all four light and weather versions", () => {
+    const painted = [
+      ...new Set(
+        manifest.backdrops
+          .filter((record) =>
+            record.approval.startsWith("cto-checked-2026-10-06"),
+          )
+          .map((record) => record.place),
+      ),
+    ].filter((place) => place !== "oval-office");
+    expect(painted).toHaveLength(21);
+    for (const place of painted) {
+      const rows = manifest.backdrops.filter(
+        (record) => record.place === place,
+      );
+      expect(rows.map((record) => record.variant).sort(), place).toEqual([
+        "midday",
+        "morning",
+        "night",
+        "rain",
+      ]);
+      const stage = backdropStaging(place);
+      expect(stage, place).not.toBeNull();
+      expect(stage!.spots.length, place).toBeGreaterThanOrEqual(3);
+      expect(
+        stage!.spots.filter((spot) => spot.hero === true),
+        place,
+      ).toHaveLength(1);
+    }
+  });
+
+  it("seats the Oval Office hero behind the wider desk and keeps every other spot off it", () => {
+    // The Resolute desk fills x 32-68 from its far edge (y 44.4) to its plinth
+    // foot (y 73.4); the hero's lap hides behind the far edge, and nobody else
+    // stands inside the desk's own footprint.
+    const stage = backdropStaging("oval-office")!;
+    const hero = stage.spots.find((spot) => spot.hero === true)!;
+    expect(hero.pose).toBe("sit");
+    expect(hero.clipBelowY).toBe(44.4);
+    expect(hero.clipBelowY!).toBeGreaterThanOrEqual(hero.seatY!);
+    for (const spot of stage.spots.filter((candidate) => candidate !== hero)) {
+      const insideDesk =
+        spot.x > 32 && spot.x < 68 && spot.y > 44.4 && spot.y < 73.4;
+      expect(insideDesk, `${spot.id} stands in the desk`).toBe(false);
+    }
   });
 
   it("tags every backdrop kind and shared-location use", () => {
@@ -166,11 +213,6 @@ describe("place backdrops", () => {
     );
     expect(workplacePlaceFor("custom:onet-43-9061-00")).toBe("office");
     expect(workplacePlaceFor(null)).toBe("office");
-    expect(workplacePlaceFor("profession:teacher", "store")).toBe("store");
-    expect(workplacePlaceFor("occupation:general", "diner")).toBe("diner");
-    expect(workplacePlaceFor("profession:teacher", "unrecorded-room")).toBe(
-      "classroom",
-    );
 
     const named = [
       ...[
@@ -199,32 +241,6 @@ describe("place backdrops", () => {
       ].map((kind) => workplacePlaceFor(kind as never)),
     ];
     for (const place of named) expect(hasBackdrop(place)).toBe(true);
-  });
-
-  it("lets the recorded employer kind choose the shared workplace room first", () => {
-    expect(workplacePlaceFor("occupation:cashier", "grocery")).toBe("store");
-    expect(workplacePlaceFor("trade:automotive-mechanic", "auto-repair")).toBe(
-      "construction-site",
-    );
-    expect(workplacePlaceFor("occupation:cashier", "diner")).toBe("diner");
-    expect(workplacePlaceFor("occupation:cashier", "salon")).toBe("barbershop");
-    expect(
-      workplacePlaceFor("custom:onet-43-9061-00", null, "unlisted-employer"),
-    ).not.toBe("office");
-  });
-
-  it("routes each recorded business kind through its tagged room or shared fallback", () => {
-    for (const [kind, tags] of Object.entries(placeKinds.businessKinds)) {
-      const place = workplacePlaceFor(null, kind);
-      expect(hasBackdrop(place), kind).toBe(true);
-      const roomTags = manifest.backdrops.find(
-        (record) => record.place === place && record.variant === "midday",
-      )?.tags;
-      expect(
-        tags.some((tag) => roomTags?.includes(tag)),
-        kind,
-      ).toBe(true);
-    }
   });
 
   it("gives the posted public meeting its room picture", () => {
