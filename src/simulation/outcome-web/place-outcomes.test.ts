@@ -539,7 +539,7 @@ describe("environment, public safety and homelessness", () => {
   const HOMELESS = "housing.homelessness";
   const PERMIT = "proposition_carry_permit" as EntityId;
 
-  it("each state, D.C. and the territories where measured start at their real levels, and the rest are unknown", () => {
+  it("records every place, including median particulate estimates for territories", () => {
     const records = placeOutcomesForMonth(
       worldAt("2026-01-01"),
       makeIsoDate("2026-01-01"),
@@ -548,11 +548,16 @@ describe("environment, public safety and homelessness", () => {
       records.filter((record) => record.measure === measure).length;
     expect(count(CRIME)).toBe(52);
     expect(count(HOMELESS)).toBe(54);
-    expect(count("env.particulates")).toBe(51);
+    expect(count("env.particulates")).toBe(56);
     expect(count("env.drinking-water-violations")).toBe(51);
     expect(valueFor(records, CRIME, "US-TX").value).toBe(397.9);
     expect(valueFor(records, HOMELESS, "US-NY").value).toBe(81);
     expect(valueFor(records, "env.particulates", "US-CA").value).toBe(11.7);
+    for (const territory of ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"])
+      expect(
+        valueFor(records, "env.particulates", territory).value,
+        territory,
+      ).toBe(7.9);
     // Unknown is never zero: no record at all.
     expect(
       records.some((r) => r.measure === CRIME && r.placeKey === "US-PR"),

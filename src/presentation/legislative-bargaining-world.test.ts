@@ -6,26 +6,21 @@ vi.mock("./player-capabilities", () => ({
 }));
 vi.mock("./legislative-member-seat", () => ({
   resolveActiveMemberSeat: () => ({
-    kind: "seated",
-    seat: {
-      governingJurisdictionId:
-        requireLifePlace("kentucky").context.jurisdiction.id,
-    },
+    kind: "not-seated",
+    reason: "This character does not hold a legislative seat.",
   }),
 }));
 
-import { requireLifePlace } from "../simulation";
 import { openLegislativeBargaining } from "./legislative-bargaining-world";
 
 describe("legislative bargaining entry", () => {
-  it("requires a filed docket bill instead of opening an authored Kentucky sitting", () => {
+  it("keeps the members' room unavailable to a character without a seat", () => {
     const entry = openLegislativeBargaining({} as never, {
       playerPersonId: "person-1" as never,
     });
-    expect(entry).toMatchObject({
+    expect(entry).toEqual({
       kind: "unavailable",
-      reason:
-        "Choose a bill from this member's docket to open its bargaining room.",
+      reason: "This character does not hold a legislative seat.",
     });
   });
 });
