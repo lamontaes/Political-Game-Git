@@ -363,35 +363,17 @@
       "disposition": "re-homed",
       "basis": ["technical", "authority"],
       "verified_by": "measured-in-repository",
-      "reason": "Four contracts this branch had no equivalent of, re-homed with their tests and fixtures: the 188-entry civic-symbol registry, in which no value meaning 'generated' is representable and every symbol is honestly not-acquired; external-pack intake, which settles the three archives above; the generation queue, which says where missing art actually is rather than asking for more; and the twelve dynamic component families with their empty states and prohibited inferences. The component families were rewritten onto this branch's surface-kind vocabulary rather than admitted with their own, so there is one registry and not two.",
-      "rehomed_modules": [
-        "src/authoring/civic-symbols.ts",
-        "src/authoring/civic-symbols.test.ts",
-        "art/manifest/civic_symbols.json",
-        "src/authoring/external-packs.ts",
-        "src/authoring/external-packs.test.ts",
-        "src/authoring/fixtures/external-packs.ts",
-        "src/authoring/generation-queue.ts",
-        "src/authoring/fixtures/generation-queue.ts",
-        "src/authoring/dynamic-components.ts",
-        "src/authoring/fixtures/dynamic-surface-authoring.ts"
-      ]
+      "reason": "Four contracts this branch had no equivalent of, re-homed with their tests and fixtures: the 188-entry civic-symbol registry, in which no value meaning 'generated' is representable and every symbol is honestly not-acquired; external-pack intake, which settles the three archives above; the generation queue, which says where missing art actually is rather than asking for more; and the twelve dynamic component families with their empty states and prohibited inferences. The component families were rewritten onto this branch's surface-kind vocabulary rather than admitted with their own, so there is one registry and not two. The TypeScript contracts, fixtures and tests were later deleted as dead code with no importer; the civic-symbol registry data stays.",
+      "rehomed_modules": ["art/manifest/civic_symbols.json"]
     },
     {
       "entry_id": "pr80-production-authoring-records",
       "source_id": "pr-80",
       "label": "Six approved environment families as authoring scaffolds",
-      "disposition": "re-homed",
+      "disposition": "archive",
       "basis": ["technical"],
       "verified_by": "measured-in-repository",
-      "reason": "The approved environment library as typed scaffolds rather than research notes. Every one is deliberately incomplete and refuses to project into a runtime spec while a blocking gap remains: no raster, because the plates are Drive-only and committing them would put unapproved bytes in the tree; no camera or safe area, because nobody has decided what a cover-fit crop may lose from these rooms; no seat boxes, because only the seat PLANE can be read off a picture. They are authoring cargo, not scenes.",
-      "rehomed_modules": [
-        "src/authoring/fixtures/production-scenes.ts",
-        "src/authoring/fixtures/production-scene-families.ts",
-        "src/authoring/fixtures/production-asset-bank.ts",
-        "src/authoring/production-library.test.ts",
-        "src/authoring/asset-inventory.test.ts"
-      ]
+      "reason": "The approved environment library as typed scaffolds rather than research notes. Every one is deliberately incomplete and refuses to project into a runtime spec while a blocking gap remains: no raster, because the plates are Drive-only and committing them would put unapproved bytes in the tree; no camera or safe area, because nobody has decided what a cover-fit crop may lose from these rooms; no seat boxes, because only the seat PLANE can be read off a picture. They are authoring cargo, not scenes. The scaffolds, fixtures and tests were later deleted as dead code with no importer, so this is now recorded as archive rather than re-homed."
     },
     {
       "entry_id": "pr80-scene-composition",
