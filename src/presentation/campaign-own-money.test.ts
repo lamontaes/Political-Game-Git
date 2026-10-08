@@ -23,7 +23,11 @@ import { CampaignOwnMoney } from "../player/CampaignOwnMoney";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
-import { createResourcePosition } from "../simulation/resources";
+import {
+  tracksPersonalMoney,
+  withMoneyTrackedForSomeoneElse,
+  withPersonalSavings,
+} from "../../tests/fixtures/personal-money";
 
 /** An ordinary 40-year-old life in a town in the state, filed for governor. */
 function governorRace(usps: string, seed: string) {
@@ -73,16 +77,7 @@ function governorRace(usps: string, seed: string) {
 /** The same race, with $20,000 of the candidate's own money on record. */
 function fundedRace(usps: string, seed: string) {
   const race = governorRace(usps, seed);
-  const world = createResourcePosition(race.world, {
-    stableKey: `own-money-${usps}:savings`,
-    owner: { kind: "person", personId: race.personId },
-    openedAt: race.world.currentDate,
-    openingBalance: {
-      minorUnits: 2_000_000,
-      currency: makeCurrencyCode("USD"),
-    },
-    provenance: { kind: "authored", note: "Test savings." },
-  });
+  const world = withPersonalSavings(race.world, race.personId, 2_000_000);
   return { world, personId: race.personId };
 }
 
@@ -157,7 +152,12 @@ describe("a candidate's own money", () => {
   }, 300_000);
 
   it("says so, rather than showing $0, when the game is not tracking the money", () => {
-    const race = governorRace("ND", "own-money-nd");
+    const drawn = governorRace("ND", "own-money-nd");
+    const race = {
+      personId: drawn.personId,
+      world: withMoneyTrackedForSomeoneElse(drawn.world, drawn.personId),
+    };
+    expect(tracksPersonalMoney(race.world, race.personId)).toBe(false);
     expect(candidatePersonalBalance(race.world, race.personId)).toBeNull();
     const html = renderToStaticMarkup(
       createElement(CampaignOwnMoney, {

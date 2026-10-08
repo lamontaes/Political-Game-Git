@@ -13,6 +13,8 @@ import {
 } from "../simulation";
 import { spendCampaignFundsPersonally } from "../simulation/press";
 import { spendAnAfternoon } from "../presentation/campaign-projection";
+import { fundCommitteeFromCandidate } from "../../tests/fixtures/campaign-fixture";
+import { withPersonalSavings } from "../../tests/fixtures/personal-money";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,
@@ -66,7 +68,17 @@ function oregonCampaignAMonthLater() {
     staffPersonIds: [],
     treasuryCurrency: makeCurrencyCode("USD"),
   });
-  const funded = spendAnAfternoon(filed.world, personId, "fundraising");
+  // A fundraising session raises money only with a recorded monetary ask, so
+  // the committee is funded from the candidate's own savings.
+  const funded = fundCommitteeFromCandidate(
+    withPersonalSavings(
+      spendAnAfternoon(filed.world, personId, "fundraising"),
+      personId,
+      1_000_000,
+    ),
+    personId,
+    200_000,
+  );
   const taken = spendCampaignFundsPersonally(funded, {
     stableKey: "spending-reports:misuse",
     amountMinorUnits: 12_345,

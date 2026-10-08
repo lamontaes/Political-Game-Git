@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import { withRecordedStartingConditions } from "../../tests/fixtures/campaign-fixture";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -57,10 +58,10 @@ function campaignFixture(seed: string): CampaignFixture {
   const playerId = created.personOrder.find((id) =>
     fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
-  const base: World = {
+  const base: World = withRecordedStartingConditions({
     ...created,
     control: { kind: "person", personId: playerId },
-  };
+  });
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "press-desk-mount",
     jurisdictionId: KY,

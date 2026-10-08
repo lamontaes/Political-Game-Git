@@ -37,69 +37,91 @@ let world: World;
 let unhostedWorld: World;
 let personId: EntityId;
 
-beforeAll(() => {
+/**
+ * A candidate a party chapter's organizer has backed. The organizer decides
+ * from their own recorded temperament, so seeds are searched for a chapter
+ * that grants the request instead of one being assumed.
+ */
+function chapterBackedCandidate(seed: string) {
   const opening = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed: "campaign-week-recorded-backing",
+      seed,
       startAge: 34,
       placeKey: "kentucky",
     }),
   ).game!;
-  personId = opening.playerPersonId;
+  const candidateId = opening.playerPersonId;
   const office = candidacyPackForJurisdiction(
-    opening.world.people[personId]!.homeJurisdictionId,
+    opening.world.people[candidateId]!.homeJurisdictionId,
   )!.offices[0]!;
-  const homeJurisdictionId = opening.world.people[personId]!.homeJurisdictionId;
+  const homeJurisdictionId =
+    opening.world.people[candidateId]!.homeJurisdictionId;
   // A numbered chamber seat is filed against a recorded Gazetteer district.
   const district =
-    recordedDistrictForOffice(opening.world, personId, office.officeKey)
+    recordedDistrictForOffice(opening.world, candidateId, office.officeKey)
       ?.binding ??
     bindingForDistrict(
       offeredDistricts(opening.world, homeJurisdictionId, office.officeKey)[0]!,
     );
-  unhostedWorld = fileForOffice(
+  const unhosted = fileForOffice(
     opening.world,
-    personId,
+    candidateId,
     district,
     office.officeKey,
     addDays(opening.world.currentDate, 28),
   );
-  const chapter = homePartyChapters(unhostedWorld)[0]!;
-  world = joinPartyChapter(unhostedWorld, personId, chapter.organizationId);
-  world = requestPartyWork(
-    world,
-    personId,
+  const chapter = homePartyChapters(unhosted)[0]!;
+  let backed = joinPartyChapter(unhosted, candidateId, chapter.organizationId);
+  backed = requestPartyWork(
+    backed,
+    candidateId,
     "organization-meeting",
     chapter.organizationId,
   );
-  world = attendPartyWork(
-    world,
-    personId,
-    campaignLifeActivityRecords(world).at(-1)!.id,
+  backed = attendPartyWork(
+    backed,
+    candidateId,
+    campaignLifeActivityRecords(backed).at(-1)!.id,
     "attended",
   );
-  world = requestPartyWork(
-    world,
-    personId,
+  backed = requestPartyWork(
+    backed,
+    candidateId,
     "support-request",
     chapter.organizationId,
   );
-  world = attendPartyWork(
-    world,
-    personId,
-    campaignLifeActivityRecords(world).at(-1)!.id,
+  backed = attendPartyWork(
+    backed,
+    candidateId,
+    campaignLifeActivityRecords(backed).at(-1)!.id,
     "attended",
   );
   if (
-    campaignLifeOutcomeRecords(world).at(-1)?.supportDecision?.decision !==
+    campaignLifeOutcomeRecords(backed).at(-1)?.supportDecision?.decision !==
     "granted"
   ) {
-    throw new Error(
-      "The seeded chapter support fixture did not grant support.",
-    );
+    return null;
   }
-}, 300_000);
+  return { world: backed, unhostedWorld: unhosted, personId: candidateId };
+}
+
+beforeAll(() => {
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    const found = chapterBackedCandidate(
+      attempt === 1
+        ? "campaign-week-recorded-backing"
+        : `campaign-week-recorded-backing-${attempt}`,
+    );
+    if (found) {
+      world = found.world;
+      unhostedWorld = found.unhostedWorld;
+      personId = found.personId;
+      return;
+    }
+  }
+  throw new Error("No seed gave a chapter that granted support.");
+}, 600_000);
 
 function renderChoices(current: World) {
   return renderToStaticMarkup(
