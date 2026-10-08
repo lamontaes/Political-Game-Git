@@ -8,6 +8,7 @@ import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { personName } from "../../people";
 import { registeredTraitConsiderations } from "../../trait-readings";
+import { traitActConsiderations } from "../act-pulls";
 import {
   BUILT_IN_TRAIT_DECISIONS,
   loadedTraitRegistry,
@@ -266,23 +267,56 @@ export function proveTwoPersonTraitDifference(
     questionnaire: "skipped",
   });
   const registry = loadedTraitRegistry();
-  const nonTargetTraitSignature = (personId: EntityId) =>
-    reader === "registered"
-      ? registeredTraitConsiderations(
-          game.world,
-          registry,
-          personId,
-          stageId,
-          decisionId,
-        )
-          .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
-          .map(
-            ({ stableKey, optionKey, direction, importance, confidence }) =>
-              `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
+  const declarationDecisionId =
+    ({
+      "people.contact-answer": "contact.answer",
+      "justice.plea": "court.plea",
+    } as Readonly<Record<string, string>>)[decisionId] ?? decisionId;
+  const declaration = BUILT_IN_TRAIT_DECISIONS.find(
+    ({ id }) => id === declarationDecisionId,
+  )!;
+  const options = declaration.options.map((key) => ({
+    key,
+    label: key,
+    description: `The person chooses ${key}.`,
+  }));
+  const runtimeDecisionType =
+    ({
+      "contact.answer": "people.contact-answer",
+      "court.plea": "justice.plea",
+    } as Readonly<Record<string, string>>)[decisionId] ?? decisionId;
+  const nonTargetTraitSignature = (personId: EntityId) => {
+    const considerations =
+      reader === "registered"
+        ? registeredTraitConsiderations(
+            game.world,
+            registry,
+            personId,
+            stageId,
+            decisionId,
           )
-          .sort()
-          .join("\n")
-      : "";
+        : traitActConsiderations(
+            game.world,
+            registry,
+            personId,
+            stageId,
+            runtimeDecisionType,
+            options,
+            new Set(),
+            {
+              asOfDate: game.world.currentDate,
+              historySequenceExclusive: game.world.history.nextSequence,
+            },
+          );
+    return considerations
+      .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
+      .map(
+        ({ stableKey, optionKey, direction, importance, confidence }) =>
+          `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
+      )
+      .sort()
+      .join("\n");
+  };
   const candidates = game.world.personOrder.filter(
     (id) => id !== game.playerPersonId,
   );
@@ -321,6 +355,7 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         highPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
         reader === "act-pulls",
         undefined,
@@ -335,7 +370,12 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         lowPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
   };
