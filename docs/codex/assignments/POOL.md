@@ -643,13 +643,13 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2127 | Checkpoint sourced Missouri Ohio and New Jersey teacher floors | PR #2127 (codex/standby1-teacher-missouri-terms) | ready #2127 | |
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
-| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | ready #2156 | |
+| RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | done #2156 | |
 | RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
 | RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: finish it or close it as superseded | |
-| RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | done #2173 | |
 | RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | done #2194 | |
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
@@ -657,42 +657,42 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2202 | Add sourced teacher salary floors | PR #2202 (codex/session19-education-law-terms) | done #2202 | |
 | RS-2203 | Add sourced eviction counsel and multifamily housing terms | PR #2203 (codex/session19-housing-law-terms) | done #2203 | |
 | RS-2206 | Add sourced paid leave terms | PR #2206 (codex/session19-labor-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | open: draft: finish it or close it as superseded | |
-| RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2208 | Read crime evidence at the month and incident cutoff | PR #2208 (codex/session20-crime-dated-inputs) | done #2402 | |
+| RS-2209 | Add sourced territorial juvenile jurisdiction ages | PR #2209 (codex/session19-justice-law-terms) | done #3029 | |
 | RS-2211 | P1: Preserve dated historical inputs and diagnose excessive past processing | PR #2211 (codex/session5-historical-world) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2216 | Record supported 2026 environment law amounts | PR #2216 (codex/session17-environment-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2217 | Record supported 2026 mileage fee amounts | PR #2217 (codex/session17-transportation-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2218 | Clarify 2026 Minnesota groundwater permit rule | PR #2218 (codex/session17-agriculture-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2219 | Close permission writers over the shared kind and preserve legacy saves | PR #2219 (codex/session21-permission-kind) | open: draft: finish it or close it as superseded | |
-| RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | done #2220 | |
 | RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2222 | Use coverage-eligibility stamps in both existing coverage writers | PR #2222 (codex/session21-coverage-kind) | open: draft: finish it or close it as superseded | |
 | RS-2223 | Use legal-outcome stamps while preserving pretrial and custody records | PR #2223 (codex/session21-legal-kind) | open: draft: finish it or close it as superseded | |
-| RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | done #2227 | |
 | RS-2229 | Add sourced Session 18 starting law terms | PR #2229 (codex/session18-law-amounts) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2232 | Use price-cost stamps for existing rent consequences | PR #2232 (codex/session21-price-kind) | open: draft: finish it or close it as superseded | |
-| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | open: draft: finish it or close it as superseded | |
-| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
+| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | done #2197 | |
+| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | done #2295 | |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
-| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | done #2295 | |
 | RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | ready #3568 | Session 35 |
 | RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | done #2264 | |
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | open: sent back: failed its own changed checks: tests | |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: draft: finish it or close it as superseded | |
-| RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | ready #2291 | |
+| RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | done #2291 | |
 | RS-2298 | Use shared hometown records and explicit recorded-bill bargaining | PR #2298 (codex/session12-lexington-removal) | done #2298 | |
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
-| RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | done #2574 | |
 | RS-2307 | P1: Read EIA electricity mix as place outcomes | PR #2307 (session17/eia-electricity-generation-outcomes) | ready #2307 | S50 |
-| RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2308 | P1: dispatch state legislature work through dated clock queue | PR #2308 (codex/session1-state-queue-consumer) | done #2308 | |
 | RS-2316 | P1 b05 step 2: project council agenda notice | PR #2316 (codex/session8-b05-agenda-notice) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2318 | docs: preserve rejected player-card clock and eleven-destination attempt | PR #2318 (codex/session3-card-redo-main) | open: draft: finish it or close it as superseded | |
 | RS-2324 | P1 b10: add chamber leadership profile data | PR #2324 (codex/session-33-b10-p1) | open: draft: finish it or close it as superseded | |
 | RS-2326 | P1 b05 step 5: summarize quiet council roll calls | PR #2326 (codex/session8-b05-after-meeting-summary) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2331 | b12 Part 1: add per body minority procedure rows | PR #2331 (session35/b12-minority-party-tools) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2331 | b12 Part 1: add per body minority procedure rows | PR #2331 (session35/b12-minority-party-tools) | done #2523 | |
 | RS-2332 | P1.1: open bargaining for recorded measures across bodies | PR #2332 (codex/session30-vote-bargaining) | open: draft: finish it or close it as superseded | |
 | RS-2336 | B23 Part 2: Use local institution names for school histories | PR #2336 (codex/session41-b23-part2) | open: rebase on main (conflicts) | |
 | RS-2338 | B01 Part 4: run petition circulation on candidate campaign routines | PR #2338 (session-26/b01-part4-background) | open: draft: finish it or close it as superseded | |
