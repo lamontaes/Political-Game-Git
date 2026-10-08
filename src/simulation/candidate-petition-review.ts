@@ -212,7 +212,7 @@ export function fileCandidatePetition(
       `petition:${review.accepted ? "accepted" : "rejected"}`,
       ...review.reasonKeys.map((reason) => `reason:${reason}`),
     ],
-    summary: `${personName(world, candidate.id)}'s candidate petition was ${review.accepted ? "accepted" : "rejected"}.`,
+    summary: `${personName(candidate)}'s candidate petition was ${review.accepted ? "accepted" : "rejected"}.`,
     context: {
       location: {
         jurisdictionId: campaign.jurisdictionId,
