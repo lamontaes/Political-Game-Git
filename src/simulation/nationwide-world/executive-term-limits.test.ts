@@ -165,7 +165,7 @@ function enactNebraskaBill(
 
 /** A Nebraska bill carrying one change to the Governor's office, made law. */
 function nebraskaLaw(
-  field: "executive.term.limit" | "executive.term.years",
+  field: "term.limit" | "executive.term.years",
   value: RuleChangeValue,
   options: {
     readonly world?: (scenario: LegislativeScenario) => World;
@@ -292,7 +292,7 @@ describe("A governor's term limit, state by state and under this World's law", (
 
   it("lets the same governor stand once a law allows three terms instead of two", () => {
     const { before, world } = nebraskaLaw(
-      "executive.term.limit",
+      "term.limit",
       { maxConsecutiveTerms: 3, maxLifetimeTerms: null, lookbackYears: null },
       { world: twoTermGovernor },
     );
@@ -324,14 +324,14 @@ describe("A governor's term limit, state by state and under this World's law", (
       maxLifetimeTerms: null,
       lookbackYears: null,
     };
-    const counting = nebraskaLaw("executive.term.limit", one, {
+    const counting = nebraskaLaw("term.limit", one, {
       world: twoTermGovernor,
       applicability: { appliesTo: null, countsPriorService: true },
     });
     expect(checkNextTerm(counting.world).barredReason).toContain(
       "one term in a row",
     );
-    const fresh = nebraskaLaw("executive.term.limit", one, {
+    const fresh = nebraskaLaw("term.limit", one, {
       world: twoTermGovernor,
       applicability: { appliesTo: null, countsPriorService: false },
     });
@@ -359,7 +359,7 @@ describe("A governor's term limit, state by state and under this World's law", (
     expect(unchanged.barredReason).toBeNull();
 
     const { world } = nebraskaLaw(
-      "executive.term.limit",
+      "term.limit",
       { maxConsecutiveTerms: null, maxLifetimeTerms: 2, lookbackYears: null },
       { world: brokenService },
     );
@@ -371,7 +371,7 @@ describe("A governor's term limit, state by state and under this World's law", (
   });
 
   it("lifts the limit entirely when a law says there is none", () => {
-    const { world } = nebraskaLaw("executive.term.limit", null, {
+    const { world } = nebraskaLaw("term.limit", null, {
       world: twoTermGovernor,
     });
     const check = checkNextTerm(world);

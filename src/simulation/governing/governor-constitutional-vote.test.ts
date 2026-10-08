@@ -140,7 +140,7 @@ function proposal(direction: "extend" | "restore" = "restore") {
       kind: "rule-field",
       officeKey: stateExecutiveOffice(state.jurisdictionKey.slice(3))!
         .officeKey,
-      field: "executive.term.limit",
+      field: "term.limit",
       value: cause.value,
       applicability: {
         appliesTo: "terms-beginning-after",
@@ -293,7 +293,7 @@ describe("A79 governor term-limit actual-member rollcall", () => {
     expect(measure.ruleDelta).toMatchObject({
       kind: "rule-field",
       officeKey: office.officeKey,
-      field: "executive.term.limit",
+      field: "term.limit",
       value: cause.value,
       applicability: {
         appliesTo: "terms-beginning-after",

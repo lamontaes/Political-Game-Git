@@ -348,7 +348,7 @@ export function presidentialTermLimitAt(
     {
       jurisdiction: FEDERAL_JURISDICTION_KEY,
       officeKey: PRESIDENT_OFFICE_KEY,
-      field: "executive.term.limit",
+      field: "term.limit",
       onDate: termStartsAt,
     },
     TWENTY_SECOND_AMENDMENT_LIMIT as TermLimitRule | null,

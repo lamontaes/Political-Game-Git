@@ -419,7 +419,7 @@ export function decideArticleVStateMemberVotes(
       (!holder ||
         delta?.kind !== "rule-field" ||
         delta.officeKey !== PRESIDENT_OFFICE_KEY ||
-        delta.field !== "executive.term.limit"))
+        delta.field !== "term.limit"))
   )
     return null;
   const rosters = pack.chambers.map((body) => ({
@@ -682,7 +682,7 @@ function proposeTermLimitMeasure(
     ruleDelta: {
       kind: "rule-field",
       officeKey: PRESIDENT_OFFICE_KEY,
-      field: "executive.term.limit",
+      field: "term.limit",
       value: cause.value,
       applicability:
         cause.direction === "extend"

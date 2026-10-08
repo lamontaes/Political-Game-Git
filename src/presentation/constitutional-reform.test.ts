@@ -79,7 +79,7 @@ function ratifyOneTermLimit(world: World): World {
     ruleDelta: {
       kind: "rule-field",
       officeKey: "us-ne-governor",
-      field: "executive.term.limit",
+      field: "term.limit",
       value: {
         maxConsecutiveTerms: 1,
         maxLifetimeTerms: null,
@@ -120,7 +120,7 @@ function termLimitMeasures(world: World) {
   return (world.history.constitutionalMeasures ?? []).filter(
     (measure) =>
       measure.ruleDelta.kind === "rule-field" &&
-      measure.ruleDelta.field === "executive.term.limit",
+      measure.ruleDelta.field === "term.limit",
   );
 }
 
@@ -206,7 +206,7 @@ describe("a state amending its governor's term limit on its own", () => {
       const measure = termLimitMeasures(proposed).at(-1)!;
       expect(measure.ruleDelta).toMatchObject({
         kind: "rule-field",
-        field: "executive.term.limit",
+        field: "term.limit",
         value: { maxConsecutiveTerms: 2 },
       });
       // One chamber in Nebraska, voted under the profile's own membership.
