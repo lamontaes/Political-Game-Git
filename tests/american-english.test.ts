@@ -446,15 +446,21 @@ describe("The American English rules themselves", () => {
 
   it.each([
     ["The councillor spoke.", "councillor"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["We organise a rally.", "organise"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["A new colour scheme.", "colour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Your neighbour waves.", "neighbour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Cut the programme.", "programme"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Renew your licence.", "licence"],
     ["Back in a fortnight.", "fortnight"],
     ["You wait in a long queue.", "long queue"],
     ["She rents a flat above the shop.", "flat above"],
     ["He is on holiday.", "on holiday"],
+    // british-spelling-ok: this is the deliberately wrong form the guard rejects.
     ["Ask your mum.", "mum"],
     ["The local authority decides.", "local authority"],
     ["The minister resigned.", "minister"],
