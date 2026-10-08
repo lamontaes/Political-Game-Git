@@ -284,20 +284,80 @@ describe("CRISIS K5 international crisis, first depth", () => {
     "requires a named actor's earlier recorded intent before an attempt",
     () => {
       const president = currentPresidentOf(opening)!.personId;
-      const { world } = declare(opening, "threat-context", "high");
+      const actor = Object.values(opening.people).find(
+        (person) => person.id !== president,
+      )!.id;
+      let world: World = { ...opening, control: { kind: "observer" } };
+      world = recordWorldEvent(world, {
+        stableKey: "missing-intent-prior-threat",
+        type: "pressure.political-threat",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: world.people[president]!.homeJurisdictionId,
+        involvedEntityIds: [actor, president],
+        participants: [
+          { personId: actor, role: "agency:threatener", detail: null },
+          { personId: president, role: "impact:threatened", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "limited",
+        tags: ["crisis", "crisis.political-threat"],
+        summary: "A prior threat was recorded against the President.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
       const evidence = world.history.events.at(-1)!.id;
+      const intent = recordPoliticalAttackIntent(world, {
+        stableKey: "mismatched-intent-decision",
+        actorPersonId: actor,
+        targetPersonId: president,
+        threatEventId: evidence,
+        actorStrain: {
+          explanation: "Recorded strain supports acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        actorMeans: {
+          explanation: "Recorded means support acting on the threat.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        targetSecurity: {
+          explanation: "Recorded security weighs against an attempt.",
+          importance: "slight",
+          confidence: "low",
+          sourceEventIds: [evidence],
+        },
+        targetExposure: {
+          explanation: "Recorded exposure supports an attempt.",
+          importance: "decisive",
+          confidence: "high",
+          sourceEventIds: [evidence],
+        },
+        basis:
+          "The actor weighed the recorded strain, means, security and exposure.",
+      });
+      const intentEventId = intent.world.history.events.at(-1)!.id;
       expect(() =>
-        recordViolenceAttempt(world, {
-          stableKey: "no-intent",
+        recordViolenceAttempt(intent.world, {
+          stableKey: "intent-for-different-actor",
           actorPersonId: president,
-          targetPersonId: president,
-          intentEventId: evidence,
+          targetPersonId: actor,
+          intentEventId,
           threatEvidenceIds: [evidence],
           basis: "Test.",
         }),
       ).toThrow(/earlier intent/);
       expect(
-        crisisRecords(world).filter(
+        crisisRecords(intent.world).filter(
           (record) => record.kind === "violence-attempt",
         ),
       ).toEqual([]);
