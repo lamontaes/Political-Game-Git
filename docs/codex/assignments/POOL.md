@@ -795,7 +795,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2534 | B01 part 1: add petition terms to candidacy eligibility | PR #2534 (session-26/b01-part1-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2535 | T9: add approval-seeking contact effect | PR #2535 (codex/session57-t9-facet-approval-seeking) | open: draft: finish it or close it as superseded | |
 | RS-2536 | Add B07 player heard views reader | PR #2536 (session29-b07-p3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | open: draft: finish it or close it as superseded | |
+| RS-2537 | Use recorded events for guarded resting faces | PR #2537 (codex/t13-resting-face) | done #3386 | |
 | RS-2538 | Session 30 B08 P1: One door for every body | PR #2538 (codex/session30-b08-p1-current-main) | open: draft: finish it or close it as superseded | |
 | RS-2539 | Add facet-smug another-term effect row | PR #2539 (codex/session57-t9-facet-smug) | open: draft: finish it or close it as superseded | |
 | RS-2541 | Session 30 B08 P2: Endorsement, warning, and favor moves | PR #2541 (codex/session30-b08-p2-current-rebased) | open: stacked on codex/session30-b08-p1-current-main: retarget to main; draft: finish it or close it as superseded | |
