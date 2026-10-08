@@ -1,0 +1,25 @@
+{
+  "questions": {
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+      "note": "The question asks whether to raise the federal floor, so no preserves its existing sourced amount.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "operativeAt": "2009-07-24",
+          "source": "https://www.dol.gov/agencies/whd/minimum-wage/history/chart",
+          "quote": "Jul 24, 2009 $7.25 for all covered, nonexempt workers",
+          "lawTerms": [
+            {
+              "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+              "key": "floor",
+              "value": 725,
+              "unit": "minor/hour"
+            }
+          ],
+          "note": "Federal covered-nonexempt standard. Territory-specific industry schedules and actual saved exceptions must be resolved before applying this standard; no state statute is inferred."
+        }
+      }
+    }
+  }
+}
