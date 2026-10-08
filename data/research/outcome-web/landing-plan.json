@@ -189,10 +189,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "recipientGroup": "covered buildings",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)"
+      "currentStatus": "person-linked",
+      "recipientRule": "active-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -200,10 +201,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "recipientGroup": "covered tenants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)"
+      "currentStatus": "person-linked",
+      "recipientRule": "active-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Diamond, McQuade and Qian 2019 (AER)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "broadband-to-married-women-work",
@@ -372,10 +374,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Pew Charitable Trusts, January 4, 2024; Terner Center, 2022; Anagol, Ferreira and Rexer 2021, NBER w29440",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-first-to-homelessness",
@@ -383,10 +386,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:health-human-services.housing-first-homelessness",
       "recipientGroup": "people experiencing homelessness",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial"
+      "currentStatus": "person-linked",
+      "recipientRule": "evicted-household-without-home-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Corinth 2017, Journal of Housing Economics 35; At Home/Chez Soi trial",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "cannabis-sales-to-youth-use",
@@ -555,10 +559,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
       "recipientGroup": "families who qualify",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "HUD Family Options Study, three-year impacts (2016)"
+      "currentStatus": "person-linked",
+      "recipientRule": "snap-enrolled-renter-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "HUD Family Options Study, three-year impacts (2016)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "retirement-age-to-older-work",
@@ -873,10 +878,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.by-right-permitting",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-preemption-to-homelessness",
@@ -884,10 +890,11 @@
       "policyArea": "housing",
       "sourceArea": "law:us-policy-positions:housing-land-use.preempt-local-housing-limits",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenaway-McGrevy 2025, Economic Inquiry; Byrne, Munley, Fargo, Montgomery and Culhane 2013, Journal of Urban Affairs 35(5)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carry-permit-to-violent-crime",
@@ -1198,8 +1205,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 54,
-    "place-number-only": 41,
+    "person-linked": 61,
+    "place-number-only": 34,
     "no-live-consumer": 2,
     "budget-only": 4
   }
