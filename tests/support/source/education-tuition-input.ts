@@ -4,8 +4,8 @@ import {
   readXlsxSheet,
   readZipMember,
   type ArtifactLock,
-} from "../../core/index";
-import type { SchoolTuitionInput } from "../../../education/tuition-prices";
+} from "../../../src/source/core/index";
+import type { SchoolTuitionInput } from "../../../src/education/tuition-prices";
 
 /** Replay the acquired rows and their dictionary; never supply absent amounts. */
 export function compileSchoolTuitionInput(
