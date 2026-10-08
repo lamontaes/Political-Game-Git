@@ -49,6 +49,7 @@
     "src/maps/PoliticalMap.tsx",
     "src/maps/MapPlaceContext.tsx",
     "tests/support/random-place.ts",
+    "tests/support/source/**/*.ts",
     "tests/support/recorded-civic-journalist.ts",
     "tests/fixtures/**/*.ts",
     "tests/release/**/*.ts",

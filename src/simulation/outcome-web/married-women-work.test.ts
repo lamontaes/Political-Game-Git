@@ -67,12 +67,12 @@ const factor = (world: World, placeKey: string) =>
   ).causes.find((cause) => cause.key === LINK)?.factor;
 
 describe("married women at work as a place outcome", () => {
-  it("starts every state, D.C. and Puerto Rico at the 2024 ACS share, and the other territories are unknown", () => {
+  it("starts all 56 places at their recorded or estimated participation share", () => {
     const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
-    expect(Object.keys(places)).toHaveLength(52);
+    expect(Object.keys(places)).toHaveLength(56);
     expect(places).toHaveProperty("US-DC");
     expect(places).toHaveProperty("US-PR");
-    expect(places).not.toHaveProperty("US-GU");
+    expect(places).toHaveProperty("US-GU");
     for (const [key, value] of Object.entries(places)) {
       expect(value, key).toBeGreaterThan(30);
       expect(value, key).toBeLessThan(85);

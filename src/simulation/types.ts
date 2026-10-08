@@ -118,6 +118,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "legislative-proposal"
+  | "place-outcome-landing"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -4391,6 +4392,7 @@ export type PersonnelJustCauseGround =
   | "serious-policy-violation";
 
 interface PersonnelRecordBase {
+  readonly estimatedFrom?: string | null;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;

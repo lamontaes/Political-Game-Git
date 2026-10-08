@@ -220,7 +220,11 @@ export function taxPowerEvidenceFor(
     };
   }
   if (selection && isStateTaxInstrument(selection.instrument))
-    return stateTaxPowerEvidenceFor(jurisdictionKey, selection.instrument);
+    return stateTaxPowerEvidenceFor(
+      jurisdictionKey,
+      selection.instrument,
+      selection.asOf,
+    );
   if (selection && selection.instrument !== "selective-excise") return null;
   const source = powerProjection.powers.find(
     (row) => row.jurisdictionKey === jurisdictionKey,
@@ -434,6 +438,7 @@ export function attachTaxProposal(
         `The state does not let this level of local government levy this tax (${authority.status}).`,
       );
     const expectedLocal = localTaxPowerEvidenceFor({
+      asOf: input.power?.asOf ?? world.currentDate,
       ...localGovernment,
       governmentKey: (
         input.publicGovernmentIdentity as Extract<
@@ -1786,6 +1791,7 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       ? publicGovernmentIdentity.kind === "local-government"
         ? localGovernment && proposal.terms.instrument
           ? localTaxPowerEvidenceFor({
+              asOf: sourcePower.asOf,
               ...localGovernment,
               governmentKey: publicGovernmentIdentity.governmentKey,
               instrument: proposal.terms.instrument,

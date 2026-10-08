@@ -11,12 +11,12 @@ import {
   internationalCrisisState,
 } from "./index";
 import { internationalTestActors } from "./international-test-actors";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 
 const HOT_HEADED = "personality-v1:facet-hot-headed";
 const CALM = "personality-v1:facet-calm";
 
-function giveTrait(world: World, personId: string, traitId: string): World {
+function giveTrait(world: World, personId: EntityId, traitId: string): World {
   const trait = loadedTraitRegistry().traits.get(traitId);
   if (!trait) throw new Error(`Missing trait fixture: ${traitId}`);
   const definition = traitDefinitionFromPack(trait);
