@@ -12,6 +12,7 @@ import {
 import { projectOpeningFamily } from "../presentation/opening-story";
 import {
   chamberFloorPeople,
+  openingChamberMembers,
   openingHouseholdPeople,
   openingLegislaturePeople,
   openingTourStagedPeople,
@@ -100,6 +101,30 @@ describe("chambers seat their members", { timeout: 300_000 }, () => {
           members.length,
         );
       }
+      // OW-14: the state chamber seats its lawmakers, the desks facing away
+      // included (front on until their back view is drawn).
+      const room = "state-legislative-chamber-bicameral";
+      const seats = backdropStaging(room)!.spots.filter((spot) =>
+        ["general", "member-at-dais"].includes(spot.role ?? "general"),
+      ).length;
+      const lawmakers = openingChamberMembers(world, playerPersonId, seats);
+      expect(lawmakers.length).toBe(seats);
+      const seated = openingTourStagedPeople(
+        world,
+        playerPersonId,
+        room,
+        lawmakers,
+        {
+          furniture: true,
+          faceRoom: true,
+          memberIds: new Set(lawmakers.map((person) => person.personId)),
+        },
+      );
+      expect(seated.length).toBeGreaterThanOrEqual(seats - 1);
+      expect(
+        seated.some((person) => /:spot:[45]$/.test(person.slotId ?? "")),
+        "a member sits at a desk that faces away",
+      ).toBe(true);
       const living = projectOpeningFamily(world, playerPersonId);
       const expected = [
         ...living.parents.filter((m) => m.livesWithYou && !m.died),
