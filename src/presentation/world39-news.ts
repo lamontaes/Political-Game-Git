@@ -9,6 +9,7 @@ import {
   type World,
 } from "../simulation";
 import { supportedCivicOfficesFor } from "../simulation/civic-office-definitions";
+import { canonicalSavedPublicGovernmentAccountKey } from "../simulation/public-government-identity";
 import {
   municipalGovernmentForLifePlace,
   primaryReading,
@@ -303,18 +304,8 @@ function projectStanding(
   officeOrganizations: ReadonlySet<EntityId>,
 ): readonly World39StandingItem[] {
   const items: World39StandingItem[] = [];
-  if (place) {
-    const government = municipalGovernmentForLifePlace(place);
-    if (government) {
-      items.push({
-        key: `government:${government.key}`,
-        kind: "government",
-        name: government.displayName,
-        bodyName: primaryReading(government).bodyName ?? null,
-        recordId: government.key,
-      });
-    }
-  }
+  const government = place ? municipalGovernmentForLifePlace(place) : null;
+  let governmentRecordId = government?.key ?? null;
   const cutoff = currentLifeCutoff(world);
   for (const organization of organizationsAt(world, cutoff)) {
     // An office's own organization is told through its holder, not twice.
@@ -329,6 +320,18 @@ function projectStanding(
       continue;
     }
     if (!isPublicInstitutionClassification(profile.classification)) continue;
+    // A government's own accounts and its organization are the government,
+    // told once above the institutions, never listed beside it.
+    if (
+      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) !== null
+    )
+      continue;
+    if (government && profile.name === government.displayName) {
+      governmentRecordId = organization.id;
+      continue;
+    }
+    // Two records under one name read as one line, not the same line twice.
+    if (items.some((item) => item.name === profile.name)) continue;
     items.push({
       key: `institution:${organization.id}`,
       kind: "institution",
@@ -337,7 +340,18 @@ function projectStanding(
       recordId: organization.id,
     });
   }
-  return items;
+  return government && governmentRecordId
+    ? [
+        {
+          key: `government:${government.key}`,
+          kind: "government",
+          name: government.displayName,
+          bodyName: primaryReading(government).bodyName ?? null,
+          recordId: governmentRecordId,
+        },
+        ...items,
+      ]
+    : items;
 }
 
 function isPublicInstitutionClassification(classification: string): boolean {

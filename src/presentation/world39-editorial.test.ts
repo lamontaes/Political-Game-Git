@@ -10,6 +10,9 @@ import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { projectStoryMoment, chooseStoryOption } from "./life-story";
 import { institutionRestatesTitle, projectWorld39News } from "./world39-news";
+import { canonicalSavedPublicGovernmentAccountKey } from "../simulation/public-government-identity";
+import { ensureTaxPublicAccount } from "../simulation/tax-policy";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { projectWorld39Journal } from "./world39-journal";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 
@@ -165,6 +168,44 @@ describe("WORLD39 News editorial pass", () => {
     expect(government?.name).toBe("Lexington-Fayette Urban County Government");
     expect(government?.bodyName).toBe("Urban County Council");
     expect(newsText(model)).not.toMatch(DATABASE_WORDING);
+  });
+
+  const drawn = drawRandomPlace(
+    "p4-8-news",
+    (place) => place.scope === "locality",
+  );
+  it(`tells the town's government once and lists no account or repeated name (${drawn.displayName}, seed p4-8-news)`, () => {
+    const created = ordinaryLife("p4-8-news", drawn.key);
+    // The town's public account, opened by the writer town payrolls use.
+    const opened = ensureTaxPublicAccount(
+      establishOpeningOfficeholders(created.world, created.playerPersonId),
+      created.world.people[created.playerPersonId]!.homeJurisdictionId!,
+    );
+    expect(
+      opened.history.organizations.some(
+        (row) =>
+          canonicalSavedPublicGovernmentAccountKey(row.stableKey) !== null,
+      ),
+    ).toBe(true);
+    const model = projectWorld39News(opened, created.playerPersonId);
+    const names = model.standing.map((item) => item.name);
+    expect(new Set(names).size).toBe(names.length);
+    expect(
+      model.standing.filter((item) => item.kind === "government").length,
+    ).toBeLessThanOrEqual(1);
+    // A government's own public account is the government, not a listing.
+    for (const item of model.standing) {
+      const organization = opened.history.organizations.find(
+        (row) => row.id === item.recordId,
+      );
+      expect(
+        organization &&
+          canonicalSavedPublicGovernmentAccountKey(organization.stableKey),
+        item.name,
+      ).toBeFalsy();
+    }
+    expect(names.join("\n")).not.toMatch(/public government/);
+    expect(names.join("\n")).not.toMatch(DATABASE_WORDING);
   });
 
   it("lists a public event plainly, marks personal knowledge, and keeps private events out", () => {
