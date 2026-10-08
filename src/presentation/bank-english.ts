@@ -21,6 +21,11 @@ import {
   sittingLocalOfficers,
 } from "../simulation/living-world/local-government-seats";
 import { organizationNameAt } from "../simulation/living-world/party-registry";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "./english-grades";
 
 export interface EnglishPart {
   readonly key: string;
@@ -66,10 +71,14 @@ export function composeFromBank(
   pickKey: string,
   /** Parts whose words claim something the records do not hold. */
   excludes?: RegExp,
+  /** The owner's grades; a part they held back is not chosen. */
+  grades: PartGradeLedger = PART_GRADES,
 ): { text: string; partKey: string } | null {
   const fits = bank.parts.filter(
     (part) =>
       part.shippable &&
+      !heldByGrades(part.key, grades) &&
+      !heldByGrades(`bank:${part.key}`, grades) &&
       !excludes?.test(part.text) &&
       part.move === move &&
       slotsOf(part.text).every((slot) => (facts[slot] ?? "").trim() !== ""),

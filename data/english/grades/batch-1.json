@@ -1,0 +1,263 @@
+{
+  "batch": "batch-1",
+  "gradedBy": "owner",
+  "submittedVia": "docket Grade tab",
+  "grades": [
+    {
+      "i": 0,
+      "grade": "rewrite",
+      "note": "I mean English wise this is fine. I assume it’s part of the journal. Remember I I said I want this to be like a story so you know you could say like I was born in West Jordan, Utah and live there for the first 12 years of my life. Nothing of note happened but I did meet someone who eventually became my best friend or I did meet someone who became important to my life, but that would be updated when that person became important to your life so if you met this person at five years old, they might not be in your journal. Your journal might be pretty blank, but if they end up being your vice president, you know 50 years later, then that part gets rewritten and then maybe it’ll say who who would’ve known that that kid from you know West Jordan elementary school will become my vice president",
+      "part": "journal:chapter:year:2026",
+      "parts": ["journal:chapter:year:2026"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I lived in West Jordan, Utah. I began working as a sales associate at Salt Lake County Market.",
+        "situation": "The player's journal, the chapter \"2026\" (2026). In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 1,
+      "grade": "rewrite",
+      "note": "see first",
+      "part": "journal:chapter:year:2015",
+      "parts": ["journal:chapter:year:2015"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I finished at Itineris Early College High in February 2015. My work as a store assistant at West Jordan Market ended.",
+        "situation": "The player's journal, the chapter \"2015\" (2015). In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 2,
+      "grade": "good",
+      "note": "I guess this is fine, but this is missing context",
+      "part": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+      "parts": [
+        "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "exchange": {
+        "prior": "",
+        "reply": "A member: Mr. Chair, I rise to speak briefly in gratitude today.",
+        "situation": "What a member says to the chair of City of West Jordan, from its recorded seats. Move: opener. In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 3,
+      "grade": "rewrite",
+      "note": "doesn’t sound natural",
+      "part": "bank:meeting.procedural.may-i-inquire-about-how-much-time-is-remaining",
+      "parts": [
+        "bank:meeting.procedural.may-i-inquire-about-how-much-time-is-remaining"
+      ],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "exchange": {
+        "prior": "",
+        "reply": "A member: Mr. Chair, may I inquire about how much time is remaining.",
+        "situation": "What a member says to the chair of City of West Jordan, from its recorded seats. Move: procedural. In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 4,
+      "grade": "good",
+      "note": "",
+      "part": "bank:hearing.thanks.thank-you-mr-chairman",
+      "parts": ["bank:hearing.thanks.thank-you-mr-chairman"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Thank you, Mr. Chairman.",
+        "situation": "A hearing exchange before City of West Jordan, from its recorded seats. Move: thanks. In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 5,
+      "grade": "kill",
+      "note": "",
+      "part": "bank:hearing.answer.thank-you-for-the-question",
+      "parts": ["bank:hearing.answer.thank-you-for-the-question"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Thank you for the question.",
+        "situation": "A hearing exchange before City of West Jordan, from its recorded seats. Move: answer. In West Jordan, Utah, on January 5, 2026."
+      }
+    },
+    {
+      "i": 6,
+      "grade": "rewrite",
+      "note": "this would be more notable if he started working as a law clerk or something not at a grocery store",
+      "part": "journal:chapter:year:2007",
+      "parts": ["journal:chapter:year:2007"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I began working as a store assistant at Amboy Market.",
+        "situation": "The player's journal, the chapter \"2007\" (2007). In Amboy, Indiana, on January 5, 2026."
+      }
+    },
+    {
+      "i": 7,
+      "grade": "kill",
+      "note": "",
+      "part": "journal:chapter:year:2005",
+      "parts": ["journal:chapter:year:2005"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I finished at Amboy Middle School in May 2005. I was enrolled at Birch Hollow High School.",
+        "situation": "The player's journal, the chapter \"2005\" (2005). In Amboy, Indiana, on January 5, 2026."
+      }
+    },
+    {
+      "i": 8,
+      "grade": "good",
+      "note": "",
+      "part": "bank:meeting.procedural.reserving-the-right-to-object",
+      "parts": ["bank:meeting.procedural.reserving-the-right-to-object"],
+      "composer": "readMeetingBank in bank-english.ts",
+      "kind": "meeting",
+      "exchange": {
+        "prior": "",
+        "reply": "A member: Mr. Chair, reserving the right to object.",
+        "situation": "What a member says to the chair of Town of Amboy, from its recorded seats. Move: procedural. In Amboy, Indiana, on January 5, 2026."
+      }
+    },
+    {
+      "i": 13,
+      "grade": "kill",
+      "note": "",
+      "part": "journal:chapter:year:1994",
+      "parts": ["journal:chapter:year:1994"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I was enrolled at Hiko Middle School.",
+        "situation": "The player's journal, the chapter \"1994\" (1994). In Hiko, Nevada, on January 5, 2026."
+      }
+    },
+    {
+      "i": 14,
+      "grade": "good",
+      "note": "",
+      "part": "bank:hearing.thanks.thank-you-all",
+      "parts": ["bank:hearing.thanks.thank-you-all"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Thank you all.",
+        "situation": "A hearing exchange before County of Lincoln, from its recorded seats. Move: thanks. In Hiko, Nevada, on January 5, 2026."
+      }
+    },
+    {
+      "i": 15,
+      "grade": "good",
+      "note": "",
+      "part": "bank:hearing.answer.yes-thank-you",
+      "parts": ["bank:hearing.answer.yes-thank-you"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Yes, thank you.",
+        "situation": "A hearing exchange before County of Lincoln, from its recorded seats. Move: answer. In Hiko, Nevada, on January 5, 2026."
+      }
+    },
+    {
+      "i": 17,
+      "grade": "kill",
+      "note": "",
+      "part": "journal:chapter:year:1982",
+      "parts": ["journal:chapter:year:1982"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I transferred out of Quonochontaug Elementary School because household move changed school context.",
+        "situation": "The player's journal, the chapter \"1982\" (1982). In Quonochontaug, Rhode Island, on January 5, 2026."
+      }
+    },
+    {
+      "i": 18,
+      "grade": "kill",
+      "note": "",
+      "part": "journal:chapter:phase:chapter:6",
+      "parts": ["journal:chapter:phase:chapter:6"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: A household move changed the child's local routine.",
+        "situation": "The player's journal, the chapter \"At 6\" (1973). In Barceloneta, Puerto Rico, on January 5, 2026."
+      }
+    },
+    {
+      "i": 19,
+      "grade": "rewrite",
+      "note": "just listing facts not a story",
+      "part": "journal:chapter:year:1967",
+      "parts": ["journal:chapter:year:1967"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: I was born on August 22, 1967. I was born in Barceloneta, Puerto Rico. Antonio Rodríguez Colón is my parent. Rosa Rodríguez García is my parent. Manuela Rodríguez García is my relative. Mariano Rodríguez García is my relative. Adela Santos López is my relative. Manuel Santos López is my relative.",
+        "situation": "The player's journal, the chapter \"1967\" (1967). In Barceloneta, Puerto Rico, on January 5, 2026."
+      }
+    },
+    {
+      "i": 30,
+      "grade": "kill",
+      "note": "",
+      "part": "journal:chapter:year:1990",
+      "parts": ["journal:chapter:year:1990"],
+      "composer": "projectJournalView and journalInFirstPerson in journal-views.ts",
+      "kind": "journal",
+      "exchange": {
+        "prior": "",
+        "reply": "Your journal: Holly Sanders is my sibling.",
+        "situation": "The player's journal, the chapter \"1990\" (1990). In Americus, Kansas, on January 5, 2026."
+      }
+    },
+    {
+      "i": 65,
+      "grade": "good",
+      "note": "",
+      "part": "bank:hearing.thanks.thank-you-chairman",
+      "parts": ["bank:hearing.thanks.thank-you-chairman"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Thank you, Chairman.",
+        "situation": "A hearing exchange before County of Hernando, from its recorded seats. Move: thanks. In Hernando Beach, Florida, on January 5, 2026."
+      }
+    },
+    {
+      "i": 66,
+      "grade": "good",
+      "note": "",
+      "part": "bank:hearing.chair-procedure.good-afternoon",
+      "parts": ["bank:hearing.chair-procedure.good-afternoon"],
+      "composer": "readHearingBank in bank-english.ts",
+      "kind": "hearing",
+      "exchange": {
+        "prior": "",
+        "reply": "At the hearing: Good afternoon.",
+        "situation": "A hearing exchange before County of Navajo, from its recorded seats. Move: chair procedure. In Shongopovi, Arizona, on January 5, 2026."
+      }
+    }
+  ]
+}
