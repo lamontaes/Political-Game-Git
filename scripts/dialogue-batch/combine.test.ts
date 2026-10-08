@@ -172,6 +172,23 @@ describe("combining batch runs", () => {
     ]);
   });
 
+  it("labels the line a choice answers with the person who said it", () => {
+    const choice = {
+      ...line("text-choice-1", "Good morning.", "Ames, Iowa"),
+      prior: "Hi, Pat. How are you?",
+      priorVoice: "Your coworker",
+    };
+    const { batch } = toGradingBatch(
+      combineResults([run("seed-d", "Ames, Iowa", [choice])]),
+      {
+        id: "batch-test",
+        head: "test-head",
+        at: new Date("2026-10-08T17:00:00.000Z"),
+      },
+    );
+    expect(batch.items[0]!.prior).toBe("Your coworker: Hi, Pat. How are you?");
+  });
+
   it("says where a kind's lines went when none reached the owner", () => {
     // The hearing line was already asked, and the meeting lines are procedure.
     const asked = new Set([

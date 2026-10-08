@@ -285,7 +285,7 @@ export function toGradingBatch(
       prior:
         line.prior === undefined
           ? ""
-          : `${line.speaker.isPlayer ? "Reporter" : "You"}: ${line.prior}`,
+          : `${line.priorVoice ?? (line.speaker.isPlayer ? "Reporter" : "You")}: ${line.prior}`,
       reply: `${voiceLabel(line)}: ${line.line}`,
       part: line.parts[0] ?? null,
       parts: line.parts,

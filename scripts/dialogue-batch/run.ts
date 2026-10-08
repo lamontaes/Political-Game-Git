@@ -190,6 +190,8 @@ export interface BatchLine {
   readonly harness: readonly string[];
   /** The turn this line answers, when the situation records one. */
   readonly prior?: string;
+  /** Who said the prior turn, when it was neither the player nor a reporter. */
+  readonly priorVoice?: string;
   /** The seed and world the line came from, when runs were combined. */
   readonly seed?: string;
   /** For a conversation: the reply choices the game offers next. */
@@ -1464,6 +1466,10 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           },
           harness: [],
           prior: exchange.reply,
+          // The other person said the line this choice answers.
+          priorVoice: speaker.relation
+            ? speaker.relation[0]!.toUpperCase() + speaker.relation.slice(1)
+            : "Someone in town",
         });
       }
     }
