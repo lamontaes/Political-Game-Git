@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   TEST_TAX_TERMS,
   enactedTaxFixture,
@@ -33,11 +33,17 @@ import {
   officialViewReflectionEventKey,
 } from "./official-view-reads";
 import { joinLawInterestGroup } from "./living-world/law-interest-groups";
+import * as lawQuery from "./governing/law-in-force";
+import type { LawInForce } from "./governing/law-in-force";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { money } from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
 import { advanceWorld, assertWorldIntegrity } from "./world";
+import { lifePlaceStateIdentities } from "./life-places";
+import { smallWorld } from "../../tests/fixtures/small-world";
+
+afterEach(() => vi.restoreAllMocks());
 
 /** A person's saved views of officials, latest per official. */
 function officialViewsOf(world: World, personId: EntityId) {
@@ -92,6 +98,86 @@ function collected(married = false) {
 }
 
 describe("a law reaches a person", () => {
+  it("finds the current officials who could repeal a starting law in every jurisdiction", () => {
+    for (const place of lifePlaceStateIdentities()) {
+      const { world } = smallWorld({
+        place: place.jurisdictionKey,
+        seed: `starting-law:${place.jurisdictionKey}`,
+        offices: ["governor", "state-legislature"],
+      });
+      const acts = officialsBehind(
+        world,
+        `starting-law:${place.jurisdictionKey}:us-tax-terms:state.excise-tax-terms` as EntityId,
+      );
+      expect(
+        acts.some((act) => act.role === "could-repeal"),
+        place.jurisdictionKey,
+      ).toBe(true);
+      expect(acts.every((act) => act.role === "could-repeal")).toBe(true);
+    }
+  });
+
+  it("forms an official view from a starting law and records could-repeal in its trace", () => {
+    const small = smallWorld({
+      place: "US-AK",
+      seed: "starting-law-role-trace",
+      offices: ["governor", "state-legislature"],
+    });
+    const personId = small.world.personOrder.find(
+      (id) => id !== small.personId,
+    )!;
+    const questionKey = "us-tax-terms:state.excise-tax-terms";
+    const measureId = `starting-law:US-AK:${questionKey}` as EntityId;
+    const proposition = Object.values(
+      small.world.policyCatalog!.propositions,
+    ).find((row) => row.stableKey === questionKey)!;
+    const startingLaw: LawInForce = {
+      answer: "yes",
+      measureId,
+      origin: "in-force-at-start",
+      level: "state-statute",
+      operativeAt: small.world.currentDate,
+      operativeBasis: "enacted-date",
+    };
+    const actualLawInForce = lawQuery.lawInForce;
+    vi.spyOn(lawQuery, "lawInForce").mockImplementation(
+      (world, jurisdictionId, propositionId, at) =>
+        jurisdictionId === small.stateJurisdictionId &&
+        propositionId === proposition.id
+          ? startingLaw
+          : actualLawInForce(world, jurisdictionId, propositionId, at),
+    );
+    let world = recordLawExposure(small.world, {
+      stableKey: "starting-law-role-trace:exposure",
+      personId,
+      measureId,
+      channel: "public-service",
+      direction: "cost",
+      amount: null,
+      cadence: null,
+      sourceRecordId: small.world.history.events[0]!.id,
+      includeFamily: false,
+    });
+    const exposure = lawExposuresOf(world, personId)[0]!;
+    world = advanceWorld(world, 3, createCampaignElectionTransitionRegistry());
+    const views = officialViewsOf(world, personId);
+    expect(views.length).toBeGreaterThan(0);
+    const traceIds = views.flatMap((view) => view.formation.decisionTraceIds);
+    const traces = world.history.decisionTraces.filter((row) =>
+      traceIds.includes(row.id),
+    );
+    expect(
+      traces.some((trace) =>
+        trace.context.considerations.some(
+          (row) =>
+            row.stableKey ===
+              `factor:law-exposure:${exposure.id}:could-repeal` &&
+            row.explanation === "starting-law:could-repeal",
+        ),
+      ),
+    ).toBe(true);
+  });
+
   it("records the tax a person paid under an enacted law, on the day it was collected", () => {
     const { world, personId } = collected();
     const collection = world.history.taxCollections![0]!;
