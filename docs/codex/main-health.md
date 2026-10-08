@@ -6,13 +6,13 @@ Written October 8, 2026 by SONNET-CLEAN-1518. This file lists what was red on ma
 
 - Type check: `tsc -b` on the app and node projects, plus the test-import check, on main at the start (`58ba8cb`) and again on October 8, 2026 after other work merged.
 - Patch notes: every note in `docs/release/changes` through `parseDeclaration` in `scripts/release/declarations.ts`.
-- Tests: every test file run in chunks, one chunk at a time, with a streaming reporter; a chunk that failed or timed out was re-run file by file with a cap per file. First pass on `58ba8cb` (803 files scanned). Second pass on `8ec8fcef`: 130 files so far, starting with the files that failed in the first pass.
+- Tests: every test file run in chunks, one chunk at a time, with a streaming reporter; a chunk that failed or timed out was re-run file by file with a cap per file. First pass on `58ba8cb` (803 files scanned). Second pass on `8ec8fcef`: 131 files so far, starting with the files that failed in the first pass.
 - A file that ran past the cap is recorded as a timeout, not a pass. One test file was skipped for being slow, the campaign spending reports (in #3882); no other file was known to run past 5 minutes.
 
 ## Totals
 
 - First pass (`58ba8cb`): 803 files scanned; 220 failed, 492 failing tests.
-- Second pass (`8ec8fcef`): 130 files re-run; 56 still fail, 133 failing tests.
+- Second pass (`8ec8fcef`): 131 files re-run; 56 still fail, 133 failing tests.
 - First-pass failures not yet re-run on the newer main: 172 files. They are listed with their first-pass message and may already be fixed.
 
 ## Type errors
@@ -313,11 +313,11 @@ Seconds are wall time for the file on a shared four-core machine, so they overst
 
 ## Test files not yet scanned
 
-1078 test files have not been run on either pass. The first pass stopped before them. They are counted by folder; the scan is still going, starting with `tests/nationwide`.
+1077 test files have not been run on either pass. The first pass stopped before them. They are counted by folder; the scan is still going, starting with `tests/nationwide`.
 
 | Folder                                                               | Files |
 | -------------------------------------------------------------------- | ----- |
-| `tests/nationwide`                                                   | 69    |
+| `tests/nationwide`                                                   | 68    |
 | `src/simulation/living-world`                                        | 48    |
 | `tests/source`                                                       | 47    |
 | `src/simulation/outcome-web`                                         | 34    |
@@ -984,16 +984,18 @@ A read-only helper listed 43 existing source files that only tests reach, on mai
 
 ## Findings that are not test failures
 
-- **The opening no longer posts a public meeting.** The function that used to write it now returns the world unchanged (`src/simulation/life-opportunities.ts:296`), and no source file carries the title "Posted public meeting". Ten unit test files and five browser specs still look for that title, among them the campaign projection, the quiet stretch, the live meeting flow, the time command and the shell projections tests. Whether a real town meeting should be on a new life's calendar is a product call, and the tests cannot be repaired until it is made.
-- **Writers that rely on the full World check.** Play checks only what a write changed (`src/simulation/world-integrity-changed.ts`). At least the household membership writer accepts a second overlapping primary residence unless the full check runs. #3838 made the tests that prove the engine refuses such a World run under the full check; it did not change the writers.
-- **A screen state the tests can no longer reach.** The campaign own-money screen has an "Own money: not on record" state for a candidate the game tracks no money for. The test that pins it builds a North Dakota governor race and expects the record of the candidate's own money to be absent, and the record reads 0 (measured, `src/presentation/campaign-own-money.test.ts:152`). I did not trace why, so I cannot say whether the game or the test setup changed.
-- **Standing-rule items on clean main, not touched here.** The zero-dice guard reports 4 new lines against its ledger: a seeded pose roll in the appearance engine and a Washington, D.C. branch in item veto. The event summary that `closeBusinessWithNobodyLeft` writes in `src/simulation/living-world/town-finances.ts` is a hand-written sentence, which the project's rules forbid for player text.
+- **The opening posts no public meeting, on purpose.** The code says an opening cannot post a meeting without a dated notice from an actual organizer, so new worlds leave the meeting history empty (`src/simulation/life-opportunities.ts:288-295`, read from the comment). No source file carries the title "Posted public meeting" (measured by search). Ten unit test files and five browser specs still look for that title. They are outdated tests and need a meeting from an actual organizer; `scheduleMunicipalMeeting` (`src/simulation/municipal-public-work.ts:878`) is one existing producer. The unit test files are campaign projection, team-d until-needed route, team-d three-day route, practical life journey, quiet stretch, live meeting flow, offer deadline stop, time command, next-24 routine route and shell projections. The browser specs are campaign party life, next-24 personal routine, playtest 65-u, session 4 shared scene and team-5 live meeting flow.
+- **Writers that rely on the full World check.** The full World check reads every record at once and runs on opening or saving a game and in tests; play checks only what a write changed (`src/simulation/world-integrity-changed.ts`). The household membership writer accepts a second overlapping primary residence unless the full check runs. That is why the test at `src/simulation/life-foundation.test.ts:653-719` only throws under the full check (measured). #3838 made the tests that prove the engine refuses such a World run under the full check; it did not change the writers. I did not trace other writers.
+- **A screen state the tests can no longer reach.** The campaign own-money screen has an "Own money: not on record" state for a candidate the game tracks no money for. The test that pins it builds a North Dakota governor race and expects the record of the candidate's own money to be absent, and the record reads 0 (measured, `src/presentation/campaign-own-money.test.ts:152`). I did not trace why, so I cannot say whether the game or the test setup changed. The project rule is that unknown facts are not zero.
+- **A city's public account and its state's are one organization.** The public program test expects them to differ (`src/simulation/governing/public-program.test.ts:76`) and finds the same organization id for both (measured). The cause is not traced. It belongs to the simulation lane.
+- **Standing-rule items on clean main, not touched here.** The zero-dice guard reports 4 new lines against its ledger (measured by `npm run zero-dice`):
+  - Two are in the appearance engine's pose chooser, where a seeded draw picks a pose (`src/presentation/appearance-engine/pose-chooser.ts`, lines 117 and 153).
+  - Two are in item veto, which names Washington, D.C. in logic (`src/simulation/governing/item-veto.ts`, lines 71 and 72).
+  - A fifth item is outside the guard. The summary that a business closure writes is a hand-written sentence of the form "… closed: nobody was left to run it after …" (`src/simulation/living-world/town-finances.ts:1756`). The project's rules forbid hand-written player text.
 - **New problems keep arriving on main.** While these pull requests were open, 12 type errors and 22 unreadable patch notes landed from other work. A type check and a patch-note check on every pull request would stop that; neither is added here.
 
 ## Questions for the owner
 
-1. Should a new life start with a posted town meeting on its calendar? (See the first finding; fifteen test files wait on the answer.)
-2. Should writers refuse their own rule-breaking writes, so play catches them too, or is the full check at save and open enough?
-3. Should a city's account and its government's account be one treasury? A public-program test pins them as two, and the code joins them.
-4. Why does a started state legislature no longer file its first bills? Three governing tests wait on them.
-5. Is the "Own money: not on record" state meant to stay as a screen state? The test that pins it fails because the record reads 0, not absent.
+1. Should writers refuse their own rule-breaking writes, so play catches them too, or is the full check at save and open enough?
+2. Should the "Own money: not on record" screen state stay? The test that pins it fails because the record reads 0, not absent.
+3. For each of the source files that only tests reach, mark wire, keep or delete in the table above. I deleted 2 and left the rest.
