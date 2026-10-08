@@ -17,6 +17,9 @@ import {
   recordWorldEvent,
   withWorldIntegrityDeferred,
 } from "./world";
+import { useFullWorldIntegrity } from "../../tests/fixtures/full-world-integrity";
+
+useFullWorldIntegrity();
 
 /**
  * Writers inside a scheduled transition no longer re-check the whole World
