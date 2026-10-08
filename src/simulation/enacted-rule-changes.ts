@@ -98,10 +98,10 @@ export const AMENDABLE_RULE_FIELDS = {
     family: "executive",
   },
   /**
-   * A chief executive's term limit: a `TermLimitRule`, or null for "no limit".
-   * Read by the executive-term consumer, which owns what the limit means.
+   * A public office's term limit: a `TermLimitRule`, or null for "no limit".
+   * The office's term-limit reader owns how the limit is counted.
    */
-  "executive.term.limit": { kind: "term-limit", family: "executive" },
+  "term.limit": { kind: "term-limit", family: "term" },
   /**
    * Whether and how a state lets its towns' voters recall an official, as a
    * `MunicipalRecallDoctrine`. The office key is the state's municipal law,
@@ -298,7 +298,7 @@ const AMENDABLE_RULE_FIELD_LABELS: Readonly<
   "qualification.districtResidenceYears":
     "the years of district residence required to serve",
   "executive.term.years": "the length of the chief executive's term in years",
-  "executive.term.limit": "the chief executive's term limit",
+  "term.limit": "the office's term limit",
   "municipal.recall.doctrine": "how towns' voters may recall an official",
   "labor.minimumWage.hourlyCents": "state minimum wage",
   "court.seats": "the number of judges on the court",
@@ -898,6 +898,17 @@ function officeBelongsToState(
   }
   // No state's own law reaches how the Senate is chosen.
   if (AMENDABLE_RULE_FIELDS[field].family === "senate") return false;
+  if (AMENDABLE_RULE_FIELDS[field].family === "term" && rulePackId) {
+    const [packId, chamberKey] = officeKey.split(":");
+    if (
+      packId === rulePackId &&
+      chamberKey &&
+      rulePackById(rulePackId).chambers.some(
+        (chamber) => chamber.chamberKey === chamberKey,
+      )
+    )
+      return true;
+  }
   if (AMENDABLE_RULE_FIELDS[field].family === "legislature" && rulePackId) {
     // A statute names a chamber its own legislature actually has.
     const [packId, chamberKey] = officeKey.split(":");
@@ -1414,7 +1425,7 @@ export function assertConstitutionalRuleFieldDelta(
     // An Article V amendment reaches the national offices only. NOT MODELED:
     // any other federal rule (House size, Senate terms, qualifications).
     if (
-      delta.field !== "executive.term.limit" ||
+      delta.field !== "term.limit" ||
       !FEDERAL_AMENDABLE_OFFICES.includes(delta.officeKey)
     )
       throw new Error(
