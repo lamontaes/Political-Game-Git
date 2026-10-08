@@ -36,6 +36,7 @@
     ]
   },
   "programWords": {
+    "some-college": ["postsecondary:college"],
     "high-school": ["schooling:secondary"],
     "nondegree-award": ["certificate", "apprenticeship", "training:"],
     "associate": ["associate", "edu-path7-level3"],

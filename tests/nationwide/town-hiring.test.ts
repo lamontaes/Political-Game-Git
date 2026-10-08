@@ -2,11 +2,16 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../fixtures/small-world";
 import { addDays, ageOnDate } from "../../src/simulation/dates";
 import {
+  createEducationEnrollment,
   createOrganization,
   createWorkRelationship,
+  recordEducationEnrollmentState,
   recordWorkStatus,
 } from "../../src/simulation/life";
-import { workStatusAt } from "../../src/simulation/life-queries";
+import {
+  educationEnrollmentStateAt,
+  workStatusAt,
+} from "../../src/simulation/life-queries";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
 import {
   TOWN_WORKPLACES,
@@ -17,6 +22,7 @@ import {
   BUSINESS_OWNER_WORK_KIND,
   chooseHire,
   entryRequirementFor,
+  heldEducation,
   hiringDecisionMaker,
 } from "../../src/simulation/living-world/town-hiring";
 import { recordTraitChange } from "../../src/simulation/people-traits";
@@ -376,5 +382,118 @@ describe("the employer's own temperament shapes the choice", () => {
     // Either way the person with the work behind them is the one hired.
     expect(thoughtful.chosen).toBe(experienced);
     expect(impulsive.chosen).toBe(experienced);
+  });
+});
+
+describe("schooling on record against what the work usually asks", () => {
+  function schooled(
+    world: World,
+    personId: EntityId,
+    organizationId: EntityId,
+    programKind: `${string}:${string}`,
+    completed: boolean,
+  ): World {
+    const next = createEducationEnrollment(world, {
+      stableKey: `au2-dup-07:school:${personId}:${programKind}`,
+      personId,
+      organizationId,
+      startedAt: addDays(world.currentDate, -2_000),
+      programKind: programKind as `schooling:${string}`,
+      contextKind: "program:fixture",
+      provenance,
+    });
+    if (!completed) return next;
+    const enrollment = next.history.educationEnrollments.at(-1)!;
+    return recordEducationEnrollmentState(next, {
+      stableKey: `au2-dup-07:school:${personId}:${programKind}:done`,
+      enrollmentId: enrollment.id,
+      effectiveAt: addDays(world.currentDate, -400),
+      status: "completed",
+      contextKind: "program:fixture",
+      reason: "Finished the program.",
+      provenance,
+      supersedesStateId: educationEnrollmentStateAt(next, enrollment.id)!.id,
+    });
+  }
+
+  it("reads the highest completed schooling, and leaves a person with no record unknown", () => {
+    const { world, organizationId, experienced, newcomer } = fixture("OH");
+    expect(heldEducation(world, newcomer)).toEqual({
+      known: false,
+      level: "none",
+    });
+    const degree = schooled(
+      world,
+      newcomer,
+      organizationId,
+      "postsecondary:bachelors-degree",
+      true,
+    );
+    expect(heldEducation(degree, newcomer)).toEqual({
+      known: true,
+      level: "bachelors",
+    });
+    // Schooling begun and never finished is a record, and holds no credential.
+    const unfinished = schooled(
+      world,
+      experienced,
+      organizationId,
+      "schooling:secondary",
+      false,
+    );
+    expect(heldEducation(unfinished, experienced)).toEqual({
+      known: true,
+      level: "none",
+    });
+  });
+
+  it("hires the applicant with the degree for work that asks for one, over one with schooling unfinished", () => {
+    const { world, organizationId, owner, experienced, newcomer } =
+      fixture("OH");
+    const prepared = schooled(
+      schooled(
+        world,
+        newcomer,
+        organizationId,
+        "postsecondary:bachelors-degree",
+        true,
+      ),
+      experienced,
+      organizationId,
+      "schooling:secondary",
+      false,
+    );
+    const choice = chooseHire(
+      prepared,
+      {
+        stableKey: "au2-dup-07:teacher",
+        organizationId,
+        title: "Teacher",
+        occupation: "profession:teacher",
+      },
+      [
+        { personId: experienced, introducerPersonId: null },
+        { personId: newcomer, introducerPersonId: null },
+      ],
+    );
+    expect(choice.decisionMakerPersonId).toBe(owner);
+    expect(choice.chosenPersonId).toBe(newcomer);
+    expect(choice.shortfalls.get(experienced)).toBe("education");
+  });
+
+  it("does not hold an unknown education against an applicant", () => {
+    const { world, organizationId, newcomer } = fixture("OH");
+    const choice = chooseHire(
+      world,
+      {
+        stableKey: "au2-dup-07:teacher-unknown",
+        organizationId,
+        title: "Teacher",
+        occupation: "profession:teacher",
+      },
+      [{ personId: newcomer, introducerPersonId: null }],
+    );
+    expect(choice.chosenPersonId).toBe(newcomer);
+    expect(choice.shortfalls.get(newcomer)).toBeNull();
   });
 });
