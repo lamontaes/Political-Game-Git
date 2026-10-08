@@ -45,6 +45,11 @@
       "minimumAge": 62,
       "maximumAge": 67,
       "estimatedFrom": "Mastrobuoni 2009 (JPubE); the outcome link estimates employment among ages 62 to 67 as the Social Security full retirement age rises"
+    },
+    "voting-age-resident-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "U.S. Constitution, Amendment XXVI (age 18 minimum for voting in U.S. elections); U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded."
     }
   },
   "childCohortsByRule": {

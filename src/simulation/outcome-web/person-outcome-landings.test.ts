@@ -7,6 +7,20 @@ import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../dates";
 import { createStableId } from "../ids";
 import {
+  CLEMENCY_GRANTED_EVENT,
+  CLEMENCY_KIND_TAG,
+  CLEMENCY_SENTENCE_TAG,
+  PROSECUTION_SENTENCED_EVENT,
+  SENTENCE_KIND_TAG,
+  SENTENCE_MONTHS_TAG,
+  sentencedPersonOf,
+} from "../justice/jail-terms";
+import {
+  recordVotingRightForSentence,
+  RESTORE_VOTING_QUESTION_KEY,
+  votingStandingOn,
+} from "../justice/voting-standing";
+import {
   CONDITION_PACK_ORIGIN,
   holdsPackCondition,
   SUBSTANCE_USE_DISORDER_KEY,
@@ -32,9 +46,14 @@ import {
 import { livedOutcomeReflectionKey } from "../law-exposure";
 import { createWorkCompensation } from "../resources";
 import { RENT_EVENTS } from "../living-world/town-rent";
+import { recordWorldEvent } from "../world";
 import { type PlaceOutcomeRecord } from "./place-outcome-store";
-import type { World } from "../types";
-import type { EntityId } from "../types";
+import type {
+  EntityId,
+  LegislativeEnactmentRecord,
+  LegislativeMeasureRecord,
+  World,
+} from "../types";
 import {
   matchesOutcomeRecipientRule,
   outcomeLandingDirection,
@@ -67,6 +86,17 @@ const plannedEnvironment = landingPlan.links.filter(
 const plannedLabor = landingPlan.links.filter(
   (row) => row.policyArea === "labor" && row.recipientRule !== null,
 );
+const votingLinkKeys = [
+  "graduation-to-turnout",
+  "all-mail-voting-to-turnout",
+  "automatic-registration-to-turnout",
+  "restore-voting-to-turnout",
+  "right-to-work-to-turnout",
+  "independent-redistricting-to-turnout",
+];
+const plannedVoting = landingPlan.links.filter((row) =>
+  votingLinkKeys.includes(row.key),
+);
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
     string,
@@ -92,6 +122,7 @@ const recipientAgeRanges = recipientAgeCohorts.cohortsByRule as Readonly<
       | "recorded-married-woman-estimate"
       | "recorded-parent-of-young-child-estimate"
       | "recorded-parent-of-infant-estimate"
+      | "recorded-restored-voting-right-estimate"
     >,
     {
       readonly minimumAge: number;
@@ -116,6 +147,7 @@ function recipientAtAge(
     readonly hasRecordedFemaleIdentity?: boolean;
     readonly hasActiveParentOfYoungChild?: boolean;
     readonly hasActiveParentOfInfant?: boolean;
+    readonly hasPolicyRestoredVotingRight?: boolean;
   } = {},
 ) {
   return {
@@ -140,6 +172,8 @@ function recipientAtAge(
     hasActiveParentOfYoungChild:
       householdFacts.hasActiveParentOfYoungChild ?? false,
     hasActiveParentOfInfant: householdFacts.hasActiveParentOfInfant ?? false,
+    hasPolicyRestoredVotingRight:
+      householdFacts.hasPolicyRestoredVotingRight ?? false,
   };
 }
 
@@ -162,9 +196,9 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 73,
+      "person-linked": 79,
       "budget-only": 4,
-      "place-number-only": 22,
+      "place-number-only": 16,
       "no-live-consumer": 2,
     });
   });
@@ -310,6 +344,95 @@ describe("the outcome landing plan", () => {
       "defense-contracts-to-earnings": "higher-is-better",
     });
   });
+
+  it("routes all six voting estimates through the shared person path", () => {
+    expect(plannedVoting).toHaveLength(6);
+    expect(plannedVoting.map((row) => row.key).sort()).toEqual(
+      [...votingLinkKeys].sort(),
+    );
+    expect(
+      plannedVoting.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    const rules = new Map(
+      plannedVoting.map((row) => [row.key, row.recipientRule]),
+    );
+    expect(Object.fromEntries(rules)).toEqual({
+      "graduation-to-turnout": "adult-school-completer-estimate",
+      "all-mail-voting-to-turnout": "voting-age-resident-estimate",
+      "automatic-registration-to-turnout": "voting-age-resident-estimate",
+      "restore-voting-to-turnout": "recorded-restored-voting-right-estimate",
+      "right-to-work-to-turnout": "voting-age-resident-estimate",
+      "independent-redistricting-to-turnout": "voting-age-resident-estimate",
+    });
+    expect(
+      Object.fromEntries(
+        plannedVoting.map((row) => [row.key, row.outcomeDirection]),
+      ),
+    ).toEqual({
+      "graduation-to-turnout": "higher-is-better",
+      "all-mail-voting-to-turnout": "higher-is-better",
+      "automatic-registration-to-turnout": "higher-is-better",
+      "restore-voting-to-turnout": "higher-is-better",
+      "right-to-work-to-turnout": "higher-is-better",
+      "independent-redistricting-to-turnout": "higher-is-better",
+    });
+    expect(
+      recipientAgeRanges["voting-age-resident-estimate"].estimatedFrom,
+    ).toContain("Amendment XXVI");
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "uses the same voting recipients in %s",
+    (place) => {
+      expect(place.jurisdictionKey).toMatch(/^US-/);
+      const adult = recipientAgeRanges["voting-age-resident-estimate"];
+      expect(
+        matchesOutcomeRecipientRule(
+          "voting-age-resident-estimate",
+          recipientAtAge(adult.minimumAge),
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          "voting-age-resident-estimate",
+          recipientAtAge(adult.minimumAge - 1),
+        ),
+      ).toBe(false);
+      const graduate = plannedVoting.find(
+        (row) => row.key === "graduation-to-turnout",
+      )?.recipientRule as OutcomeRecipientRule;
+      expect(
+        matchesOutcomeRecipientRule(
+          graduate,
+          recipientAtAge(
+            recipientAgeRanges["adult-school-completer-estimate"].minimumAge,
+            false,
+            { completedSchooling: true },
+          ),
+        ),
+      ).toBe(true);
+      const restoration = plannedVoting.find(
+        (row) => row.key === "restore-voting-to-turnout",
+      )?.recipientRule as OutcomeRecipientRule;
+      expect(
+        matchesOutcomeRecipientRule(
+          restoration,
+          recipientAtAge(30, false, {
+            hasPolicyRestoredVotingRight: true,
+          }),
+        ),
+      ).toBe(true);
+      expect(matchesOutcomeRecipientRule(restoration, recipientAtAge(30))).toBe(
+        false,
+      );
+    },
+  );
 
   it.each(lifePlaceStateIdentities())(
     "uses recorded family facts and the same labor estimates in %s",
@@ -473,6 +596,11 @@ describe("the outcome landing plan", () => {
         hasActiveRenterHousehold: false,
         hasSnapEnrolledRenterHousehold: false,
         hasEvictedHouseholdWithoutHome: false,
+        hasActiveLegalMarriage: false,
+        hasRecordedFemaleIdentity: false,
+        hasActiveParentOfYoungChild: false,
+        hasActiveParentOfInfant: false,
+        hasPolicyRestoredVotingRight: false,
       };
       expect(
         matchesOutcomeRecipientRule(rule, {
@@ -888,6 +1016,303 @@ describe("a named education outcome landing", () => {
               reference.outcomeRecordId === healthLanding!.outcomeRecordId,
           ),
         ),
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named voting outcome landing", () => {
+  it("routes graduates and policy-restored voters through official reflection", () => {
+    const fixture = smallWorld({
+      place: "TN",
+      date: "2026-01-01",
+      people: 12,
+      offices: ["governor"],
+      laws: [RESTORE_VOTING_QUESTION_KEY],
+      seed: "ow-spine-voting-recorded-recipients",
+    });
+    const month = makeIsoDate("2026-01-01");
+    const state = stateJurisdictionForKey("US-TN");
+    if (!state) throw new Error("Tennessee's state jurisdiction must exist.");
+    const adultMinimumAge =
+      recipientAgeRanges["voting-age-resident-estimate"].minimumAge;
+    const restoredVoterId = fixture.world.personOrder.find((personId) => {
+      if (personId === fixture.personId) return false;
+      const person = fixture.world.people[personId];
+      return person && ageOnDate(person.birthDate, month) >= adultMinimumAge;
+    });
+    if (!restoredVoterId)
+      throw new Error("The seeded world needs an adult resident.");
+    const pardonedResidentId = fixture.world.personOrder.find((personId) => {
+      if (personId === fixture.personId || personId === restoredVoterId)
+        return false;
+      const person = fixture.world.people[personId];
+      return person && ageOnDate(person.birthDate, month) >= adultMinimumAge;
+    });
+    if (!pardonedResidentId)
+      throw new Error("The seeded world needs a second adult resident.");
+
+    const provenance = {
+      kind: "authored" as const,
+      note: "A seeded voting landing test record.",
+    };
+    const enrollmentStart = makeIsoDate("2025-01-01");
+    let world = fixture.world;
+    const school = createOrganization(world, {
+      stableKey: "ow-spine-voting-test:school",
+      formedAt: enrollmentStart,
+      provenance,
+      initialProfile: {
+        name: "Voting outcome test school",
+        classification: "service:school",
+        locationJurisdictionId: fixture.jurisdictionId,
+      },
+    });
+    world = createEducationEnrollment(school, {
+      stableKey: "ow-spine-voting-test:graduation",
+      personId: restoredVoterId,
+      organizationId: school.history.organizations.at(-1)!.id,
+      startedAt: enrollmentStart,
+      programKind: "schooling:general",
+      contextKind: "stage:school",
+      provenance,
+    });
+    const enrollmentId = world.history.educationEnrollments.at(-1)!.id;
+    const initialEnrollmentState =
+      world.history.educationEnrollmentStates.at(-1)!;
+    world = recordEducationEnrollmentState(world, {
+      stableKey: "ow-spine-voting-test:graduation:completed",
+      enrollmentId,
+      supersedesStateId: initialEnrollmentState.id,
+      effectiveAt: month,
+      status: "completed",
+      contextKind: "stage:school",
+      reason: "The seeded resident completed the recorded program.",
+      provenance,
+    });
+
+    const propositionId = fixture.propositionIds[RESTORE_VOTING_QUESTION_KEY];
+    if (!propositionId)
+      throw new Error("The restore-voting policy question must be loaded.");
+    const measureId = "measure_ow_spine_voting_restore" as EntityId;
+    const sequence = world.history.nextSequence;
+    const measure: LegislativeMeasureRecord = {
+      id: measureId,
+      stableKey: "ow-spine-voting-test:restoration-law",
+      sequence,
+      jurisdictionId: state.id,
+      rulePackId: "test",
+      designation: "Act 1",
+      shortTitle: "Voting Rights Restoration Act",
+      summary: "A seeded restoration law.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+      sponsorPersonId: null,
+      introducedAt: makeIsoDate("2025-01-01"),
+      sourceDocumentKey: null,
+      policyAlternativeIds: [],
+      propositionIds: [propositionId],
+      propositionAnswers: [{ propositionId, answer: "yes" }],
+    };
+    const enactment: LegislativeEnactmentRecord = {
+      id: "enactment_ow_spine_voting_restore" as EntityId,
+      stableKey: "ow-spine-voting-test:restoration-law:enactment",
+      sequence: sequence + 1,
+      measureId,
+      resolvedAt: makeIsoDate("2025-06-01"),
+      outcome: "enacted",
+      actDesignation: null,
+      effectiveAt: makeIsoDate("2025-07-05"),
+      outcomeEventId: "event_ow_spine_voting_restore" as EntityId,
+    };
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: sequence + 2,
+        legislativeMeasures: [
+          ...(world.history.legislativeMeasures ?? []),
+          measure,
+        ],
+        legislativeEnactments: [
+          ...(world.history.legislativeEnactments ?? []),
+          enactment,
+        ],
+      },
+    };
+    const recordExpiredSentence = (
+      source: World,
+      personId: EntityId,
+      stableKey: string,
+      occurredAt: string,
+    ) => {
+      const sentenced = recordWorldEvent(source, {
+        stableKey,
+        type: PROSECUTION_SENTENCED_EVENT,
+        occurredAt: makeIsoDate(occurredAt),
+        recordedAt: month,
+        jurisdictionId: state.id,
+        involvedEntityIds: [personId],
+        participants: [{ personId, role: "focus:defendant", detail: null }],
+        personFactConstraints: [],
+        visibility: "public",
+        tags: [`${SENTENCE_KIND_TAG}jail`, `${SENTENCE_MONTHS_TAG}18`],
+        summary: "A seeded felony sentence ended before the current month.",
+        context: {
+          location: null,
+          socialContext: "Controlled voting fixture",
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      const sentence = sentenced.history.events.at(-1)!;
+      expect(sentencedPersonOf(sentence)).toBe(personId);
+      return recordVotingRightForSentence(sentenced, sentence.id);
+    };
+    world = recordExpiredSentence(
+      world,
+      restoredVoterId,
+      "ow-spine-voting-test:expired-felony-sentence",
+      "2024-01-05",
+    );
+    world = recordExpiredSentence(
+      world,
+      pardonedResidentId,
+      "ow-spine-voting-test:pardoned-felony-sentence",
+      "2024-01-10",
+    );
+    const pardonSentenceId = world.history.events.find(
+      (event) =>
+        event.type === PROSECUTION_SENTENCED_EVENT &&
+        event.participants.some(
+          (participant) => participant.personId === pardonedResidentId,
+        ),
+    )!.id;
+    world = recordWorldEvent(world, {
+      stableKey: "ow-spine-voting-test:pardon",
+      type: CLEMENCY_GRANTED_EVENT,
+      occurredAt: makeIsoDate("2025-01-10"),
+      recordedAt: month,
+      jurisdictionId: state.id,
+      involvedEntityIds: [pardonedResidentId],
+      participants: [
+        {
+          personId: pardonedResidentId,
+          role: "impact:recipient",
+          detail: null,
+        },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [
+        `${CLEMENCY_SENTENCE_TAG}${pardonSentenceId}`,
+        `${CLEMENCY_KIND_TAG}pardon`,
+      ],
+      summary: "A seeded pardon returned voting rights.",
+      context: {
+        location: null,
+        socialContext: "Controlled voting fixture",
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    expect(votingStandingOn(world, pardonedResidentId, month).standing).toBe(
+      "restored",
+    );
+
+    const factors = new Map(
+      sourceLinks.links
+        .filter((row) => votingLinkKeys.includes(row.key))
+        .map((row) => [
+          row.key,
+          1 + (row.sizeByPlace?.["US-TN"]?.size ?? row.size!),
+        ]),
+    );
+    const causes = votingLinkKeys.map((key) => ({
+      key,
+      factor: factors.get(key)!,
+    }));
+    const multiplier = causes.reduce(
+      (product, cause) => product * cause.factor,
+      1,
+    );
+    world = {
+      ...world,
+      placeOutcomes: {
+        months: [
+          {
+            month,
+            records: [
+              {
+                measure: "voting.turnout-pct",
+                placeKey: "US-TN",
+                jurisdictionId: state.id,
+                month,
+                base: 60,
+                structural: 60,
+                multiplier,
+                value: 60 * multiplier,
+                causes,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const linksFor = (personId: EntityId) =>
+      landed.placeOutcomes?.landings
+        ?.filter((row) => row.personId === personId)
+        .map((row) => row.linkKey)
+        .sort() ?? [];
+    expect(linksFor(restoredVoterId)).toEqual([...votingLinkKeys].sort());
+    expect(linksFor(pardonedResidentId)).toEqual(
+      [
+        "all-mail-voting-to-turnout",
+        "automatic-registration-to-turnout",
+        "independent-redistricting-to-turnout",
+        "right-to-work-to-turnout",
+      ].sort(),
+    );
+
+    const restoreLanding = landed.placeOutcomes?.landings?.find(
+      (row) =>
+        row.personId === restoredVoterId &&
+        row.linkKey === "restore-voting-to-turnout",
+    );
+    expect(restoreLanding).toMatchObject({
+      recipientRule: "recorded-restored-voting-right-estimate",
+      direction: "cost",
+      estimatedFrom: expect.stringContaining("denominator"),
+    });
+    expect(
+      landed.placeOutcomes?.landings?.some(
+        (row) =>
+          row.personId === pardonedResidentId &&
+          row.linkKey === "restore-voting-to-turnout",
+      ),
+    ).toBe(false);
+
+    const reflectionKey = livedOutcomeReflectionKey(
+      restoredVoterId,
+      restoreLanding!.id,
+    );
+    const due = landed.history.futureDueItems.find(
+      (row) => row.stableKey === reflectionKey,
+    );
+    expect(due).toBeDefined();
+    const reflected = officialViewReflectionHandler(landed, due!).world;
+    expect(
+      reflected.history.events.some(
+        (event) =>
+          event.type === LIVED_OUTCOME_REFLECTION_EVENT_TYPE &&
+          event.tags.includes(`lived-outcome-source:${restoreLanding!.id}`),
       ),
     ).toBe(true);
   });

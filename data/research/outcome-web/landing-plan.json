@@ -178,10 +178,11 @@
       "policyArea": "voting",
       "sourceArea": "school.graduation-pct",
       "recipientGroup": "graduates",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Sondheimer and Green 2010; Berinsky and Lenz 2011"
+      "currentStatus": "person-linked",
+      "recipientRule": "adult-school-completer-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Sondheimer and Green 2010; Berinsky and Lenz 2011; adult recorded school completers are an estimated cohort, not proof of voter registration or eligibility.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "rent-control-to-rental-supply",
@@ -272,11 +273,12 @@
       "outcome": "voting.turnout-pct",
       "policyArea": "voting",
       "sourceArea": "law:us-policy-positions:government-operations.all-mail-voting",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3"
+      "recipientGroup": "voting-age residents",
+      "currentStatus": "person-linked",
+      "recipientRule": "voting-age-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Thompson, Wu, Yoder and Hall 2020 (PNAS), table 3; estimated voting-age resident cohort. U.S. Constitution, Amendment XXVI; U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "medicaid-expansion-to-coverage",
@@ -353,22 +355,24 @@
       "outcome": "voting.turnout-pct",
       "policyArea": "voting",
       "sourceArea": "law:us-policy-positions:government-operations.automatic-voter-registration",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh)"
+      "recipientGroup": "voting-age residents",
+      "currentStatus": "person-linked",
+      "recipientRule": "voting-age-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "McGhee, Hill and Romero 2021, The Registration and Turnout Effects of Automatic Voter Registration (SSRN 3933442); Kim 2021, APSA preprint (doi 10.33774/apsa-2021-3wzbh); estimated voting-age resident cohort. U.S. Constitution, Amendment XXVI; U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "restore-voting-to-turnout",
       "outcome": "voting.turnout-pct",
       "policyArea": "voting",
       "sourceArea": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "recipientGroup": "people barred from voting after their sentence",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json."
+      "recipientGroup": "people with a recorded policy-restored voting right after sentence",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-restored-voting-right-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "The Sentencing Project, Locked Out 2024 (post-sentence shares by state); Meredith and Morse, Florida restorations 2007 to 2011 (12 to 16% voted); Burch 2011 (about 22%); University of Florida Election Lab 2024 VEP turnout. Sized by Research 3, 9/29/2026, /mnt/project-files/research/law-effect-sizes/justice.json. The turnout percentage falls because the eligible-voter denominator expands while ballots rise; this is not a finding of lower personal participation.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -791,11 +795,12 @@
       "outcome": "voting.turnout-pct",
       "policyArea": "voting",
       "sourceArea": "law:us-policy-positions:labor-workforce.right-to-work",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259)"
+      "recipientGroup": "voting-age residents",
+      "currentStatus": "person-linked",
+      "recipientRule": "voting-age-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Feigenbaum, Hertel-Fernandez and Williamson 2018, From the Bargaining Table to the Ballot Box (NBER w24259); estimated voting-age resident cohort. U.S. Constitution, Amendment XXVI; U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "crisis-response-to-crime",
@@ -862,11 +867,12 @@
       "outcome": "voting.turnout-pct",
       "policyArea": "voting",
       "sourceArea": "law:us-policy-positions:government-operations.independent-redistricting",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023 (commissions and competitive elections)"
+      "recipientGroup": "voting-age residents",
+      "currentStatus": "person-linked",
+      "recipientRule": "voting-age-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Brennan Center, The Turnout Effects of Redistricting Institutions; PS: Political Science and Politics 2023; estimated voting-age resident cohort. U.S. Constitution, Amendment XXVI; U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "facial-recognition-limit-to-crime",
@@ -1217,8 +1223,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 73,
-    "place-number-only": 22,
+    "person-linked": 79,
+    "place-number-only": 16,
     "no-live-consumer": 2,
     "budget-only": 4
   }
