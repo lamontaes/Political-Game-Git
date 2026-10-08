@@ -687,6 +687,19 @@ describe("Stage 5.1 households, kinship, partnership, and care", () => {
     if (!secondaryMembership || !secondaryState) {
       throw new Error("Missing secondary membership history.");
     }
+    expect(() =>
+      recordHouseholdMembershipState(world, {
+        stableKey: "membership:secondary:invalid-primary",
+        membershipId: secondaryMembership.id,
+        effectiveAt: "2020-01-01",
+        status: "resident",
+        residenceRole: "primary",
+        kind: "resident:second-primary",
+        provenance: AUTHORED,
+        supersedesStateId: secondaryState.id,
+      }),
+    ).toThrow(/overlapping primary/i);
+    expect(householdMembershipsAt(world, person)).toHaveLength(2);
     world = recordHouseholdMembershipState(world, {
       stableKey: "membership:secondary:ended",
       membershipId: secondaryMembership.id,

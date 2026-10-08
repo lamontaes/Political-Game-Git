@@ -7,6 +7,7 @@ import {
   appendedList,
   hasStableKey,
   recordById,
+  recordsByStringField,
   stableKeysOf,
 } from "./history-index";
 import { createStableId } from "./ids";
@@ -18,6 +19,7 @@ import {
   fatigueAt,
   householdLocationHistory,
   householdMembershipStateHistory,
+  householdMembershipsAt,
   organizationProfileHistory,
   organizationParticipationStateHistory,
   partnershipStateHistory,
@@ -44,6 +46,7 @@ import {
   WORK_RELATIONSHIP_NAMESPACES,
 } from "./taxonomy";
 import type {
+  IsoDate,
   ChildAuthority,
   ChildAuthorityBasisKind,
   ChildAuthorityHolder,
@@ -1450,6 +1453,50 @@ export function buildHouseholdLocationRecord(
   };
 }
 
+/** Validate only this person's dated residence intervals at the write boundary.
+ * Trusted-world fast integrity checks still require each writer to reject an
+ * overlapping primary or duplicate household membership before appending it.
+ */
+function assertResidenceInterval(
+  world: World,
+  personId: EntityId,
+  householdId: EntityId,
+  effectiveAt: IsoDate,
+  residenceRole: HouseholdMembershipStateRecord["residenceRole"],
+  changedMembershipId: EntityId | null,
+): void {
+  const dates = new Set<IsoDate>([effectiveAt]);
+  for (const membership of recordsByStringField(
+    world.history.householdMemberships,
+    "personId",
+    personId,
+  )) {
+    if (membership.id === changedMembershipId) continue;
+    for (const state of householdMembershipStateHistory(world, membership.id)) {
+      if (state.effectiveAt >= effectiveAt) dates.add(state.effectiveAt);
+    }
+  }
+  for (const date of dates) {
+    const active = householdMembershipsAt(world, personId, {
+      asOfDate: date,
+      historySequenceExclusive: world.history.nextSequence,
+    }).filter((item) => item.membership.id !== changedMembershipId);
+    if (active.some((item) => item.household.id === householdId)) {
+      throw new Error(
+        `Person has duplicate active membership in one household: ${personId}`,
+      );
+    }
+    if (
+      residenceRole === "primary" &&
+      active.some((item) => item.state.residenceRole === "primary")
+    ) {
+      throw new Error(
+        `Person has overlapping primary household memberships: ${personId}`,
+      );
+    }
+  }
+}
+
 export function startHouseholdMembership(
   world: World,
   input: StartHouseholdMembershipInput,
@@ -1471,6 +1518,14 @@ export function startHouseholdMembership(
   }
   validateMembership(input.residenceRole, input.kind);
   validateLifeProvenance(world, input.provenance, startedAt);
+  assertResidenceInterval(
+    world,
+    person.id,
+    household.id,
+    startedAt,
+    input.residenceRole,
+    null,
+  );
   const membership: HouseholdMembership = {
     id: createStableId(
       "household-membership",
@@ -1537,6 +1592,16 @@ export function recordHouseholdMembershipState(
   }
   validateMembership(input.residenceRole, input.kind);
   validateLifeProvenance(world, input.provenance, effectiveAt);
+  if (input.status === "resident") {
+    assertResidenceInterval(
+      world,
+      membership.personId,
+      membership.householdId,
+      effectiveAt,
+      input.residenceRole,
+      membership.id,
+    );
+  }
   const record: HouseholdMembershipStateRecord = {
     ...input,
     id: createStableId(
