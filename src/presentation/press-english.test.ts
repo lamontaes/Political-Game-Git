@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import { createRunCFixture } from "./run-c-working-document";
 import {
   createWorkRelationship,
@@ -8,12 +9,23 @@ import {
   deserializeWorld,
 } from "../simulation";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../simulation/press-interviews";
+import { CHIEF_EXECUTIVE_JURISDICTIONS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import { lifePlaceSearch } from "../simulation/life-places";
 import { reporterQuestionPacket } from "./press-english";
 import { composeReporterQuestion } from "./press-request";
 
-it("keeps a reporter's fallible belief and actual source across Save/Continue", () => {
-  // Authored fixture tests provenance, not a random-place game exchange.
-  const fixture = createRunCFixture("session4-press-provenance");
+const SOURCED_REPORTER_QUESTIONS = pressParts.parts
+  .filter(
+    (part) =>
+      part.move === "reporter-question" &&
+      part.kind === "spoken" &&
+      part.shippable &&
+      part.text.endsWith("?"),
+  )
+  .map((part) => part.text);
+
+function createReporterQuestionFixture(seed: string) {
+  const fixture = createRunCFixture(seed);
   const source = fixture.playerPersonId;
   const reporter = fixture.world.personOrder.find((id) => id !== source)!;
   let world = createWorkRelationship(fixture.world, {
@@ -88,6 +100,13 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     source: { kind: "direct" },
   });
   const knowledge = world.history.knowledge.at(-1)!;
+  return { source, reporter, world, event, knowledge };
+}
+
+it("keeps a reporter's fallible belief and actual source across Save/Continue", () => {
+  // Authored fixture tests provenance, not a random-place game exchange.
+  const { source, reporter, world, event, knowledge } =
+    createReporterQuestionFixture("session4-press-provenance");
   const before = serializeWorld(world);
   const packet = reporterQuestionPacket(world, source, reporter, event.id)!;
   expect(packet.facts.subject).toEqual({
@@ -106,7 +125,9 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
     terms: "on-record",
     grounding: packet,
   });
-  expect(question.ok && question.statement).toContain("The bill passed.");
+  expect(SOURCED_REPORTER_QUESTIONS).toContain(
+    question.ok ? question.statement : "",
+  );
   expect(serializeWorld(world)).toBe(before);
   expect(
     reporterQuestionPacket(
@@ -116,4 +137,59 @@ it("keeps a reporter's fallible belief and actual source across Save/Continue", 
       event.id,
     ),
   ).toEqual(packet);
+});
+
+it("uses the recorded place name in reporter questions across all 56 jurisdictions", () => {
+  const { source, reporter, world, event } = createReporterQuestionFixture(
+    "session49-bg71-all-jurisdictions",
+  );
+  expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+  for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
+    const place = lifePlaceSearch("", 1, {
+      scope: "locality",
+      stateJurisdictionKey: `US-${usps}`,
+    })[0];
+    expect(place, `a modeled locality for US-${usps}`).toBeDefined();
+    if (!place) throw new Error(`No modeled locality for US-${usps}`);
+
+    const jurisdiction = place.context.jurisdiction;
+    expect(jurisdiction.id).toBeTruthy();
+    expect(jurisdiction.name).toBe(place.displayName);
+    expect(jurisdiction.parentName).toBe(place.withinName);
+    expect(jurisdiction.provenance.jurisdiction).toBe(jurisdiction.id);
+    const placeWorld = {
+      ...world,
+      jurisdictions: {
+        ...world.jurisdictions,
+        [jurisdiction.id]: jurisdiction,
+      },
+      jurisdictionOrder: [...world.jurisdictionOrder, jurisdiction.id],
+      history: {
+        ...world.history,
+        events: world.history.events.map((entry) =>
+          entry.id === event.id
+            ? { ...entry, jurisdictionId: jurisdiction.id }
+            : entry,
+        ),
+      },
+    };
+    const packet = reporterQuestionPacket(
+      placeWorld,
+      source,
+      reporter,
+      event.id,
+    );
+
+    expect(packet?.sourceRecordIds).toContain(event.id);
+    const question = composeReporterQuestion({
+      subjectSummary: packet?.facts.subject?.text ?? "",
+      terms: "on-record",
+      grounding: packet,
+    });
+    expect(question.ok).toBe(true);
+    if (!question.ok) throw new Error(question.reason);
+    expect(SOURCED_REPORTER_QUESTIONS).toContain(question.statement);
+    expect(question.statement).not.toContain("Reported by");
+    expect(question.statement).not.toContain("declined to comment");
+  }
 });

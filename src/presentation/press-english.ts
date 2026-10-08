@@ -8,6 +8,7 @@ import {
   composeGroundedLine,
   type ComposedLineBank,
 } from "./english-composition";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
 import type {
   GroundedEnglishFact,
   GroundedEnglishPacket,
@@ -21,20 +22,21 @@ export const PRESS_BANKS: Readonly<Record<string, ComposedLineBank>> = {
     surface: "dialogue",
     act: "ask",
     parts: {
-      opener: {
-        required: true,
-        variants: [
-          { key: "development", kind: "template", text: "{{subject}}" },
-        ],
-      },
       core: {
-        variants: [
-          {
-            key: "question",
-            kind: "template",
-            text: "What is established, and what is still open?",
-          },
-        ],
+        variants: pressParts.parts
+          .filter(
+            (part) =>
+              part.move === "reporter-question" &&
+              part.kind === "spoken" &&
+              part.shippable &&
+              part.text.endsWith("?"),
+          )
+          .map((part) => ({
+            key: part.key,
+            kind: "template" as const,
+            text: part.text,
+            requiresFacts: ["subject"],
+          })),
       },
     },
   },

@@ -1,4 +1,9 @@
 import { describe, expect, it } from "vitest";
+import pressParts from "../../data/english/parts/press.json" with { type: "json" };
+import {
+  CHIEF_EXECUTIVE_JURISDICTIONS,
+  chiefExecutiveJurisdictionName,
+} from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import {
   composePressAnswer as renderPressAnswer,
   composePressRequestPitch,
@@ -8,6 +13,16 @@ import {
 } from "./press-request";
 
 import type { GroundedEnglishPacket } from "./grounded-english";
+
+const SOURCED_REPORTER_QUESTIONS = pressParts.parts
+  .filter(
+    (part) =>
+      part.move === "reporter-question" &&
+      part.kind === "spoken" &&
+      part.shippable &&
+      part.text.endsWith("?"),
+  )
+  .map((part) => part.text);
 // Authored test packets are explicit fixtures, never a production fallback.
 function fixturePacket(texts: readonly string[]): GroundedEnglishPacket {
   const facts = Object.fromEntries(
@@ -82,20 +97,24 @@ describe("ordinary press structured statements", () => {
     ).toBe(false);
   });
 
-  it("keeps the reporter question owned by the reporter", () => {
-    const question = composeReporterQuestion({
-      subjectSummary: "The council published the hearing notice.",
-      terms: "on-record",
-      grounding: fixturePacket(["The council published the hearing notice."]),
-    });
-    expect(question.ok).toBe(true);
-    if (!question.ok) return;
-    expect(question.statement).toContain(
-      "The council published the hearing notice.",
-    );
-    expect(question.statement).toContain(
-      "What is established, and what is still open?",
-    );
+  it("keeps the reporter question owned by the reporter across all 56 jurisdictions", () => {
+    expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
+    for (const usps of CHIEF_EXECUTIVE_JURISDICTIONS) {
+      const name = chiefExecutiveJurisdictionName(usps);
+      const subject = `The council published the hearing notice in ${name}.`;
+      const question = composeReporterQuestion({
+        subjectSummary: subject,
+        terms: "on-record",
+        grounding: fixturePacket([subject]),
+      });
+      expect(question.ok).toBe(true);
+      if (!question.ok) throw new Error(question.reason);
+      expect(SOURCED_REPORTER_QUESTIONS).toContain(question.statement);
+      expect(question.ok && question.statement).not.toContain("Reported by");
+      expect(question.ok && question.statement).not.toContain(
+        "declined to comment",
+      );
+    }
   });
 
   it("composes an exact answer from recorded facts before commit", () => {
