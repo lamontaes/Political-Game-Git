@@ -354,7 +354,7 @@ export function titlePeopleInView<
 export function titlePeopleTint(variant: string | undefined): string | null {
   switch (variant) {
     case "night":
-      return "brightness(0.5) saturate(0.7) contrast(1.08)";
+      return "brightness(0.45) saturate(0.75) contrast(1.08)";
     case "morning":
       return "sepia(0.15) saturate(1.1) brightness(1.03)";
     case "rain":

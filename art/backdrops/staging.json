@@ -3450,11 +3450,11 @@
           "id": "convention-hall:spot:172"
         },
         {
-          "x": 38,
-          "y": 72,
+          "x": 42.5,
+          "y": 73,
           "pose": "stand",
           "facing": "right",
-          "depth": 72,
+          "depth": 73,
           "role": "general",
           "id": "convention-hall:spot:173"
         }
