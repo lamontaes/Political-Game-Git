@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { isSeatedPose, type EngineRecipe } from "./appearance-engine/pack";
+import poseData from "../../data/content/pose-by-activity.json" with { type: "json" };
+import {
+  isSeatedPose,
+  presentationFallbacks,
+  type BodyPose,
+  type BodyPresentation,
+  type EngineRecipe,
+} from "./appearance-engine/pack";
 import { PEOPLE_PACK } from "./appearance-engine/runtime";
 import { backdropStaging } from "./backdrop-people";
 import type { BrowserWorldSummary } from "./browser-world-repository";
@@ -36,6 +43,40 @@ const poseOf = (person: TitleScenePerson) => person.engine.pose ?? "standing";
 const spotOf = (place: string, person: TitleScenePerson) =>
   backdropStaging(place)!.spots.find((spot) => spot.id === person.spotId)!;
 
+/**
+ * Every pose the pose data (data/content/pose-by-activity.json) lets a
+ * person strike while doing these things, as the engine draws it for either
+ * presentation, stand-ins included: the pack's poses are data, so the test
+ * reads the same lists the chooser does.
+ */
+function posesFor(...activities: readonly string[]): readonly BodyPose[] {
+  const lists = poseData.activities as Readonly<
+    Record<
+      string,
+      Readonly<
+        Record<string, Readonly<Record<string, readonly { pose: string }[]>>>
+      >
+    >
+  >;
+  const listed = activities.flatMap((activity) =>
+    Object.values(lists[activity] ?? {}).flatMap((bySpot) =>
+      Object.values(bySpot).flatMap((entries) =>
+        entries.map((entry) => entry.pose as BodyPose),
+      ),
+    ),
+  );
+  const presentations: readonly BodyPresentation[] = ["feminine", "masculine"];
+  return [
+    ...new Set(
+      listed.flatMap((pose) =>
+        presentations.flatMap((presentation) =>
+          presentationFallbacks(pose, presentation),
+        ),
+      ),
+    ),
+  ];
+}
+
 describe("the people in each title picture", () => {
   it("puts several people in every picture of the rotation", () => {
     for (const picture of PICTURES) {
@@ -58,15 +99,16 @@ describe("the people in each title picture", () => {
     expect(spotOf("rally-stage", speakers[0]!).pose).toBe("podium");
     const crowd = people.filter((person) => poseOf(person) !== "podium");
     expect(crowd.length).toBeGreaterThanOrEqual(4);
-    // The floor stands and the bleachers sit, listening.
-    for (const person of crowd)
-      expect([
-        "arms-folded",
-        "hand-on-hip",
-        "hands-in-pockets",
-        "seated-hands-folded",
-        "seated-listening",
-      ]).toContain(poseOf(person));
+    // The floor stands and the bleachers sit, listening: each in a pose the
+    // pose data gives a listener, none in one only a speaker strikes.
+    const listening = posesFor("listening");
+    const speakingOnly = posesFor("speaking", "speech").filter(
+      (pose) => !listening.includes(pose),
+    );
+    for (const person of crowd) {
+      expect(listening).toContain(poseOf(person));
+      expect(speakingOnly).not.toContain(poseOf(person));
+    }
   });
 
   it("seats members at their desks on the Senate floor and stands others", () => {
@@ -189,7 +231,8 @@ describe("a returning player in the first picture", () => {
     expect(isSeatedPose(poseOf(player))).toBe(false);
     const seen = titleScenePeople(day("rally-stage"), hero, MENU);
     const speaking = seen.find((person) => person.personId === "person-1")!;
-    expect(["explaining", "podium"]).toContain(poseOf(speaking));
+    expect(posesFor("speaking", "speech")).toContain(poseOf(speaking));
+    expect(isSeatedPose(poseOf(speaking))).toBe(false);
     // Everyone else in the picture is still there.
     expect(rally.length).toBe(titleScenePeople(day("rally-stage")).length);
     const oval = titleScenePeople(day("oval-office"), hero);
