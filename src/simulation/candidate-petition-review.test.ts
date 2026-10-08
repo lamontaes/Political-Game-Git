@@ -3,10 +3,42 @@ import { smallWorld } from "../../tests/fixtures/small-world";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { campaigns } from "./campaign-queries";
 import { askToSign } from "./candidate-petitions";
-import { reviewCandidatePetition } from "./candidate-petition-review";
+import {
+  candidatePetitionCountDecision,
+  reviewCandidatePetition,
+} from "./candidate-petition-review";
+import { candidateFilingTerms, filingTermsCoverage } from "./candidate-filing-terms";
 import { isEligibleVoterIn } from "./issue-record";
 
 describe("candidate petition review", () => {
+  it("rejects one signature short and accepts the exact threshold in all 56 places", () => {
+    const families = [
+      "statewideExecutive",
+      "stateLegislative",
+      "federalLegislative",
+      "local",
+    ] as const;
+    const places = filingTermsCoverage();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      for (const family of families) {
+        const rule = candidateFilingTerms(place, family);
+        expect(typeof rule.signatures).toBe("number");
+        const required = rule.signatures as number;
+        expect(candidatePetitionCountDecision(required, required - 1)).toMatchObject({
+          accepted: false,
+          shortfall: 1,
+          reasonKeys: ["petition-insufficient-signatures"],
+        });
+        expect(candidatePetitionCountDecision(required, required)).toMatchObject({
+          accepted: true,
+          shortfall: 0,
+          reasonKeys: [],
+        });
+      }
+    }
+  });
+
   it("returns counts and reason keys from the dated signed-event records", () => {
     const small = smallWorld({
       place: "US-KY",
