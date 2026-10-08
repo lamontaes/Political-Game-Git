@@ -120,11 +120,16 @@ describe("an unanswered couple request reaches the actual contact consumer", () 
       supersedesTendencyId: null,
     });
     const evaluate = decisions.evaluateDecision;
+    let evaluatedConsiderations: DecisionContext["considerations"] = [];
     const spy = vi
       .spyOn(decisions, "evaluateDecision")
-      .mockImplementation((current: World, context: DecisionContext) =>
-        evaluate(current, context),
-      );
+      .mockImplementation((current: World, context: DecisionContext) => {
+        const result = evaluate(current, context);
+        if (context.decisionType === "people.couple-answer") {
+          evaluatedConsiderations = result.context.considerations;
+        }
+        return result;
+      });
 
     askToBeTogether(world, fixture.pair);
 
@@ -133,14 +138,21 @@ describe("an unanswered couple request reaches the actual contact consumer", () 
       expect.objectContaining({
         decisionType: "people.couple-answer",
         actorPersonId: fixture.pair.otherPersonId,
-        considerations: expect.arrayContaining([
-          expect.objectContaining({
-            sourceType: "mind:personality",
-            optionKey: "accept",
-            explanation: expect.stringContaining("warmth"),
-          }),
-        ]),
       }),
+    );
+    expect(evaluatedConsiderations).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sourceType: "mind:personality",
+          optionKey: "accept",
+          stableKey: expect.stringContaining(
+            ":act:personality-v1:facet-affectionate:",
+          ),
+          explanation: expect.stringContaining(
+            "personality-v1:facet-affectionate|people.couple-answer|",
+          ),
+        }),
+      ]),
     );
   });
 
