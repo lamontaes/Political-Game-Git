@@ -103,30 +103,40 @@ function withTendency(
 function decisionForPerson(
   world: World,
   personId: EntityId,
+  traitId: string,
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
+  source: "registered" | "table",
+  tableOptions?: readonly string[],
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
+  const actDecisionType =
+    decisionId === "clemency.petition"
+      ? "justice.clemency-petition"
+      : decisionId;
+  const considerations =
+    source === "table"
+      ? []
+      : registeredTraitConsiderations(
+          world,
+          loadedTraitRegistry(),
+          personId,
+          `proof:${decisionId}`,
+          decisionId,
+        );
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType: source === "table" ? actDecisionType : decisionId,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
       historySequenceExclusive: world.history.nextSequence,
     },
     subject: { kind: "context:life", key: "proof-subject", entityId: null },
-    options: declaration.options.map((key) => ({
+    options: (tableOptions ?? declaration.options).map((key) => ({
       key,
       label: key,
       description: `The person chooses ${key}.`,
@@ -136,13 +146,21 @@ function decisionForPerson(
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
+    traitActs: "on",
   });
+  const reasonSource = evaluation.context.considerations.filter(
+    ({ stableKey }) =>
+      source !== "table" || stableKey.includes(`:act:${traitId}:`),
+  );
+  const reason = reasonSource.find(
+    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+  );
+  const baselineReason = baselineConsiderations.find(
+    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+  );
   return {
     choice: evaluation.selectedOptionKey,
-    reason:
-      allConsiderations.find(
-        ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-      )?.explanation ?? null,
+    reason: reason?.explanation ?? baselineReason?.explanation ?? null,
   };
 }
 
@@ -157,6 +175,8 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  source: "registered" | "table" = "registered",
+  tableOptions?: readonly string[],
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -177,20 +197,29 @@ export function proveTraitDifference(
     without: decisionForPerson(
       game.world,
       personId,
+      traitId,
       decisionId,
       baselineConsiderations,
+      source,
+      tableOptions,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
+      traitId,
       decisionId,
       baselineConsiderations,
+      source,
+      tableOptions,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
+      traitId,
       decisionId,
       baselineConsiderations,
+      source,
+      tableOptions,
     ),
   };
 }
