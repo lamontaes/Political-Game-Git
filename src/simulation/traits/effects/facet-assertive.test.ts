@@ -7,6 +7,8 @@ describe("the facet-assertive trait in a random new game", () => {
       "personality-v1:facet-assertive",
       "contact.answer",
       "l1-proof-facet-assertive",
+      [],
+      "act-table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
