@@ -20,6 +20,7 @@ import {
   SNAP_PARTICIPATION_ROW,
   SNAP_WORK_REQUIREMENT_QUESTION,
 } from "./law-consequences/modules/snap-participation/rows";
+import { LW17_PERSON_LANDING_ROWS } from "./law-consequences/lw17-person-landing-rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -116,6 +117,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         COVERAGE_ELIGIBILITY_ROWS[key],
         COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[key],
       ].filter((consequence) => consequence !== undefined);
+      const justice = LW17_PERSON_LANDING_ROWS[key] ?? [];
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
@@ -129,6 +131,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
         "us-policy-positions:business-commerce.cap-development-incentives";
       if (
         coverage.length === 0 &&
+        justice.length === 0 &&
         !pay &&
         service.length === 0 &&
         !rent &&
@@ -155,6 +158,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
           ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
           ...coverage,
+          ...justice,
           ...(pay ? [pay] : []),
           ...service,
         ],
