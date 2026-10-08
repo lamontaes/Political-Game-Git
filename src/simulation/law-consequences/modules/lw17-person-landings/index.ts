@@ -11,7 +11,11 @@ import {
   PRETRIAL_HELD_EVENT,
   PRETRIAL_RELEASED_EVENT,
 } from "../../../justice/jail-terms";
-import type { EntityId, World } from "../../../types";
+import type {
+  EntityId,
+  LegalOutcomeConsequenceRecord,
+  World,
+} from "../../../types";
 import { applyPretrialLawLandings } from "../justice-pretrial-landings";
 import { applySentencingLawLandings } from "../justice-sentencing-landings";
 
@@ -176,10 +180,15 @@ function minimumOutcome(
   )?.personId;
   if (!personId || !context.subjectIds.includes(personId)) return [];
   const consequence = (world.history.legalOutcomeConsequences ?? []).find(
-    (record) =>
+    (
+      record,
+    ): record is Extract<
+      LegalOutcomeConsequenceRecord,
+      { readonly effectKind: "minimum-custody-months" }
+    > =>
+      record.effectKind === "minimum-custody-months" &&
       record.sentenceEventId === event.id &&
       record.subjectPersonId === personId &&
-      record.effectKind === "minimum-custody-months" &&
       record.appliedAt === event.occurredAt &&
       record.minimumMonths > 0 &&
       Number.isSafeInteger(record.minimumMonths),

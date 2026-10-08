@@ -76,13 +76,6 @@ export function crisisEntityAvailableAt(
   );
 }
 
-export function findCrisisRecord(
-  world: World,
-  stableKey: string,
-): CrisisRecord | undefined {
-  return crisisRecords(world).find((record) => record.stableKey === stableKey);
-}
-
 /**
  * Appends one record at the next history sequence. Callers validate the
  * whole World afterwards through their ordinary writer.

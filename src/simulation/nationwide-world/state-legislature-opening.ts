@@ -17,7 +17,6 @@ import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { legislativeTermLimitInForce } from "./state-legislative-term-limits";
 import type { CandidacyPack, ElectiveOfficeOption } from "../candidacy-packs";
 import { addDays } from "../dates";
-import { scheduleFutureDueItem } from "../future-transitions";
 import { createStableId } from "../ids";
 import { stateJurisdictionForKey } from "../life-places";
 import {
@@ -165,51 +164,15 @@ export function recordedChamberParties(
 export const STATE_LEGISLATURE_OPENING_VERSION =
   "state-legislature-opening/v1" as const;
 const V = STATE_LEGISLATURE_OPENING_VERSION;
+/**
+ * Saves made before opening preparation seated every state carry their own
+ * due items under this transition key, and the handler resolves them.
+ * Nothing schedules new ones: current new games seat all states during
+ * opening preparation, so no later clock work is needed.
+ */
 export const STATE_LEGISLATURE_OPENING_TRANSITION =
   "legislature:state-opening" as const;
 const NATIONWIDE_OPENING_CALENDAR = "state-legislature-opening-calendar/v1";
-
-/**
- * Older saves still use two due states per day until their initial rosters
- * exist. Current new games seat all states during opening preparation, so no
- * later clock work is scheduled for them. This makes no claim about a state's
- * convening day.
- */
-export function scheduleNationwideStateLegislatureOpenings(
-  world: World,
-): World {
-  // New-game preparation has already seated every state roster at the
-  // opening date. The old calendar is still needed by saves that predate that
-  // preparation, but must not put completed new-game work back on the clock.
-  if (
-    US_STATE_USPS.every((usps) => {
-      const pack = stateCandidacyPack(`US-${usps}`);
-      return !!pack && stateLegislatureEstablished(world, pack.packId);
-    })
-  ) {
-    return world;
-  }
-  let next = world;
-  for (const [index, usps] of US_STATE_USPS.entries()) {
-    const stableKey = `${NATIONWIDE_OPENING_CALENDAR}:${usps}`;
-    if (next.history.futureDueItems.some((due) => due.stableKey === stableKey))
-      continue;
-    const jurisdiction = stateJurisdictionForKey(`US-${usps}`);
-    if (!jurisdiction) continue;
-    next = scheduleFutureDueItem(next, {
-      stableKey,
-      dueAt: addDays(world.currentDate, 1 + Math.floor(index / 2)),
-      transitionKey: STATE_LEGISLATURE_OPENING_TRANSITION,
-      entityIds: [jurisdiction.id],
-      jurisdictionId: jurisdiction.id,
-      provenance: {
-        kind: "authored",
-        note: `${NATIONWIDE_OPENING_CALENDAR}: spreading initial state roster construction across clock days; this is not a state's session rule.`,
-      },
-    });
-  }
-  return next;
-}
 
 export interface NationwideStateLegislatureOpeningChunk {
   readonly world: World;

@@ -19,7 +19,7 @@ describe("sourced parks revenue shares", () => {
         place,
         date: "2026-01-01",
         seed: `parks-starting-share:${place}`,
-        questions: [questionKey],
+        laws: [questionKey],
       });
       const proposition = game.world.policyCatalog.propositionOrder.find(
         (id) =>

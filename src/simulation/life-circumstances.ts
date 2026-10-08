@@ -21,7 +21,6 @@ import {
 } from "./time-work";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
-import type { ThreadAnchor } from "./narrative-threads";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -309,36 +308,6 @@ function premiseStillHolds(
     default:
       return true;
   }
-}
-
-/**
- * The circumstances this life is in, as thread anchors an episode fact can use.
- *
- * Returned as a map from kind so `episodeFacts` can turn each into the fact it
- * gates without this module knowing the fact vocabulary. Every anchor points at
- * the event that established the circumstance, so a stage offered because of
- * one can always be traced back to the record that made it true.
- */
-export function lifeCircumstanceAnchors(
-  world: World,
-  personId: EntityId,
-  cutoff: HistoricalCutoff = currentLifeCutoff(world),
-): ReadonlyMap<LifeCircumstanceKind, readonly ThreadAnchor[]> {
-  const byKind = new Map<LifeCircumstanceKind, ThreadAnchor[]>();
-  for (const circumstance of lifeCircumstancesFor(world, personId, cutoff)) {
-    const anchors = byKind.get(circumstance.kind) ?? [];
-    anchors.push({
-      store: "events",
-      recordId: circumstance.eventId,
-      stableKey: circumstance.stableKey,
-      at: circumstance.openedAt,
-      sequence: circumstance.sequence,
-      role: "context",
-      note: `The record that established this circumstance.`,
-    });
-    byKind.set(circumstance.kind, anchors);
-  }
-  return byKind;
 }
 
 /* -------------------------------------------------------------------------- */

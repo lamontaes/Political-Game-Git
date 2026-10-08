@@ -78,7 +78,6 @@ function lifeTurn(
   const event = eventsById.get(entry.sourceId);
   if (
     event?.tags.includes("vitality.death") ||
-    event?.type === "person-death" ||
     /\b(?:died|death|lost|loss|grief)\b/i.test(entry.text)
   )
     return "loss";
@@ -141,8 +140,10 @@ export function composeChapters(
     const relativeId = relationship.personIds.find((id) => id !== personId);
     const relative = relativeId ? world.people[relativeId] : null;
     if (!relativeId || !relative || firstMentionKin.has(relativeId)) continue;
+    // A parent-child record keeps its two people in identifier order, not
+    // parent first; the parent is the one born first (as `family-shape.ts`).
     const relationKind = relationship.kind.includes("parent-child")
-      ? relationship.personIds[0] === personId
+      ? relative.birthDate > world.people[personId]!.birthDate
         ? "child"
         : "parent"
       : relationship.kind.includes("sibling")

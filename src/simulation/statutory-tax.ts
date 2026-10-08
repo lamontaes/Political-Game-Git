@@ -839,13 +839,6 @@ export function statutoryTaxBalances(
     });
 }
 
-export function statutoryTaxHistoryRecords(world: World) {
-  return [
-    ...(world.history.statutoryTaxLiabilities ?? []),
-    ...(world.history.statutoryTaxPayments ?? []),
-  ];
-}
-
 /**
  * Saved records must reconcile: each liability comes after the pay it
  * assesses, a priced row's arithmetic holds, an unknown row carries no amount,

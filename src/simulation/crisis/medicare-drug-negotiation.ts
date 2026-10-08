@@ -1,5 +1,6 @@
 import { ageOnDate } from "../dates";
 import { recordedLawAt, recordLawExposure } from "../law-exposure";
+import { makeCurrencyCode } from "../resources";
 import { isPersonAliveAt } from "../vitality-integrity";
 import type { EntityId, IsoDate, World } from "../types";
 
@@ -52,7 +53,7 @@ export function recordMedicareDrugNegotiationSavings(
       direction: "gain",
       amount: {
         minorUnits: MEDICARE_DRUG_NEGOTIATION_MONTHLY_SAVINGS_MINOR,
-        currency: "USD",
+        currency: makeCurrencyCode("USD"),
       },
       cadence: "monthly",
       sourceRecordId: input.sourceRecordId,

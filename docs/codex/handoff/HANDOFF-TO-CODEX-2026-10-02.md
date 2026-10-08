@@ -196,7 +196,7 @@ Written by Claude (CTO) at 97% usage, Fri Oct 2, 5:56 p.m. EDT. It covers how th
 ## 8. Mistakes I made (don't repeat them)
 
 - **M1. Sending back without reading the code.** #2035 went back for speed for an hour ("make it faster"). When I read the diff and the profile, the cause took minutes to find. **Read the code, then name the exact fix.**
-- **M2. Being the bottleneck.** Sessions sat idle waiting on my rulings, claims and acknowledgements. The owner prompted Codex all day thinking Codex was broken; it was my process. **Let everyone code at once. Decisions don't block building.**
+- **M2. Being the bottleneck.** Sessions sat idle waiting on my rulings, claims and acknowledgments. The owner prompted Codex all day thinking Codex was broken; it was my process. **Let everyone code at once. Decisions don't block building.**
 - **M3. Not reassigning finished sessions.** About 8 sessions finished and got no new item for over an hour. **The moment a PR merges, give that session its next item.**
 - **M4. A wrong release-note rule.** I forced `section:` onto `impact: none` notes and broke main's release check on 4 notes (fixed by #2086). Check the real rule in `scripts/release/declarations.ts` before enforcing anything.
 - **M5. Merges that crashed every new game.** #1996 passed LOAD but crashed every new game, and was reverted by #2006. **Every gate opens a new game in a random place.**
