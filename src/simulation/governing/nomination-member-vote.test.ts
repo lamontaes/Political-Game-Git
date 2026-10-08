@@ -25,6 +25,7 @@ import {
   futureDueItemStateAt,
 } from "../future-transitions";
 import { currentLifeCutoff } from "../life-queries";
+import { composeWorldTimeHandlers } from "../campaigns";
 import { advanceWorld } from "../world";
 import { createDemoWorld } from "../demo";
 import { FEDERAL_TENURE_EVENT } from "../federal-tenures";
@@ -728,12 +729,20 @@ describe("recorded nominations use the member vote survivor", () => {
       },
     });
     const due = input.history.futureDueItems.at(-1)!;
-    const handlers = createFutureTransitionHandlerRegistry([
-      [
-        CHIEF_JUSTICE_CONFIRMATION,
-        (next, item) => confirmChiefJustice(next, item, (same) => same),
-      ],
-    ]);
+    // The clock also schedules Congress's own intake, so the isolated handler
+    // rides on the registry a passed day composes.
+    const handlers = composeWorldTimeHandlers(
+      createFutureTransitionHandlerRegistry([
+        [
+          CHIEF_JUSTICE_CONFIRMATION,
+          (next, item) => confirmChiefJustice(next, item, (same) => same),
+        ],
+      ]),
+    );
+    const confirmationItems = (candidate: World) =>
+      candidate.history.futureDueItems.filter(
+        (item) => item.transitionKey === CHIEF_JUSTICE_CONFIRMATION,
+      );
     const output = advanceWorld(input, 1, handlers);
     const roll = output.history.events.find(
       (event) => event.stableKey === `${due.stableKey}:senate-vote`,
@@ -780,8 +789,6 @@ describe("recorded nominations use the member vote survivor", () => {
       ),
     ).toEqual([roll]);
     expect(currentFederalTenure(repeated, "us-chief-justice")).toBeNull();
-    expect(repeated.history.futureDueItems).toEqual(
-      continued.history.futureDueItems,
-    );
+    expect(confirmationItems(repeated)).toEqual(confirmationItems(continued));
   });
 });

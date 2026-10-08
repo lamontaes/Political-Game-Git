@@ -83,22 +83,24 @@
       "outcome": "crime.firearm-homicide",
       "policyArea": "crime",
       "sourceArea": "law:us-policy-positions:justice-public-safety.stand-your-ground",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/"
+      "recipientGroup": "jurisdiction residents (estimated firearm-homicide safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/; recipient estimate: CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "speed-limit-to-traffic-deaths",
       "outcome": "traffic.fatality-rate",
       "policyArea": "traffic",
       "sourceArea": "roads.rural-interstate-speed-limit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220"
+      "recipientGroup": "jurisdiction residents (estimated traffic safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Farmer 2019 (Traffic Injury Prevention; IIHS); Ashenfelter and Greenstone 2004 (JPE); FHWA Highway Statistics 2022, Table FI-220; recipient estimate: IIHS Fatality Facts 2024, using NHTSA FARS deaths over FHWA vehicle miles traveled. A changed place rate supplies a resident safety-context estimate. Personal driving mileage, crashes, injuries, and deaths are unrecorded. The existing national-average territory rates remain estimates.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "particles-to-infant-deaths",
@@ -345,11 +347,12 @@
       "outcome": "crime.firearm-homicide",
       "policyArea": "crime",
       "sourceArea": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Siegel et al. 2017 (AJPH); RAND Science of Gun Policy, 5th ed."
+      "recipientGroup": "jurisdiction residents (estimated firearm-homicide safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Siegel et al. 2017 (AJPH); RAND Science of Gun Policy, 5th ed.; recipient estimate: CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "automatic-registration-to-turnout",
@@ -476,11 +479,12 @@
       "outcome": "energy.electricity-price",
       "policyArea": "energy",
       "sourceArea": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "recipientGroup": "ratepayers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?)"
+      "recipientGroup": "recorded household members (estimated electricity cost context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Greenstone and Nath 2019, Becker Friedman Institute Working Paper 2019-62 (Do Renewable Portfolio Standards Deliver?); recipient estimate: EIA State Electricity Profiles 2024, average retail price for all customers, with existing uncovered-place proxies. Current household membership supplies an estimated household cost exposure. Personal energy consumption, bills, and payments are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "flood-zone-limits-to-damage",
@@ -1014,11 +1018,12 @@
       "outcome": "broadband.home-access",
       "policyArea": "broadband",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.public-broadband",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9)"
+      "recipientGroup": "recorded household members (estimated broadband opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Whitacre and Gallardo 2020, Telecommunications Policy 44(9); recipient estimate: ACS 2024 1-year S2801_C02_014E, share of households with broadband. Current household membership supplies an estimated service opportunity; an individual subscription or connection is unrecorded. ESTIMATED FROM MEDIAN for American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands: 92.8% of households, the median of the 52 recorded place rates. Source: ACS 2024 1-year S2801_C02_014E, https://data.census.gov/api/access/data/table?id=ACSST1Y2024.S2801. Those four territories are absent from this calibration.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "gas-hookup-ban-to-child-asthma",
@@ -1037,36 +1042,36 @@
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.balanced-operating-budget",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "pension-funding-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.minimum-reserve-balance",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Pew Charitable Trusts 2017; Wagner 2004; recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "fare-free-transit-to-ridership",
@@ -1109,22 +1114,28 @@
       "outcome": "farmland.developed-acres",
       "policyArea": "farmland",
       "sourceArea": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
+      "recipientGroup": "jurisdiction residents (estimated farmland preservation exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014); recipient estimate: American Farmland Trust, Farms Under Threat: The State of the States (2020), Appendix III, agricultural land converted from 2001 to 2016 divided by 15 years. This is an estimated resident exposure to local farmland preservation, with the existing uncovered-place proxies retained in the place measure. Individual parcels, acreage, easement contracts, and compensation remain unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
       "outcome": "water.irrigation-groundwater",
       "policyArea": "water",
       "sourceArea": "law:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
-      "recipientGroup": "place",
-      "currentStatus": "no-live-consumer",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null
+      "recipientGroup": "recorded agricultural operators (estimated groundwater conservation context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-farm-operator-resource-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39); recipient estimate: USGS 2015 irrigation groundwater withdrawals and USDA NASS 2023 Irrigation and Water Management Survey (https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Farm_and_Ranch_Irrigation/). Current recorded agricultural owners or directing operators in their home state supply an estimated irrigation-resource context. Their existing work cohort is inferred exposure; it does not establish an irrigated parcel, well, water right, pumping allocation, personal withdrawal, crop yield, or income change. Lower pumping is estimated groundwater conservation, not a measured operator benefit. ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts",
+      "unsupportedPlaceReasons": {
+        "US-DC": "USGS 2015 calibration records zero groundwater withdrawal for irrigation; there is no pumping effect to assign.",
+        "US-VI": "USGS 2015 calibration records zero groundwater withdrawal for irrigation; there is no pumping effect to assign."
+      }
     },
     {
       "key": "defense-contracts-to-earnings",
@@ -1143,11 +1154,12 @@
       "outcome": "farmland.value-per-acre",
       "policyArea": "farmland",
       "sourceArea": "federal.farm-payments-cut-pct-of-land-value",
-      "recipientGroup": "farmland owners",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
+      "recipientGroup": "recorded agricultural operators (estimated land-value exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-farm-operator-land-value-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026; recipient estimate: USDA ERS, Farmland Ownership and Tenure (https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure), and USDA NASS farm real estate values. A current recorded agricultural business owner or directing farm operator in the person's home state supplies an estimated land-value exposure. An operator can lease land; this does not establish a land title, acreage, equity, or a personal wealth change.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "transit-service-to-ridership",
@@ -1166,23 +1178,24 @@
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "federal.deficit-change-pct-of-gdp",
-      "recipientGroup": "state governments",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "fix-it-first-to-poor-roads",
       "outcome": "roads.poor-condition-pct",
       "policyArea": "roads",
       "sourceArea": "law:us-policy-positions:transportation-infrastructure.fix-it-first",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
+      "recipientGroup": "jurisdiction residents (estimated road condition exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty; recipient estimate: FHWA Highway Statistics 2023 Table HM-47i, measured major-road roughness, with existing territory national-average estimates. A changed place share supplies a resident road-condition estimate. Personal routes, mileage, vehicle damage, and repairs are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "poor-roads-to-prices",
@@ -1201,22 +1214,35 @@
       "outcome": "rail.intercity-ridership",
       "policyArea": "rail",
       "sourceArea": "federal.rail-expansion-pct",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
+      "recipientGroup": "jurisdiction residents (estimated intercity rail opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026; recipient estimate: Amtrak FY2024 state fact sheets, boardings and alightings per 1,000 residents using BEA 2024 population. This estimates service opportunity in places with recorded Amtrak service. Personal trips and tickets are unrecorded. Places without an Amtrak station are explicitly unsupported; a law alone does not create a station.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts",
+      "unsupportedPlaceReasons": {
+        "US-AK": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-AS": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-GU": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-HI": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-MP": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-PR": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-SD": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-VI": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction.",
+        "US-WY": "Amtrak FY2024 state fact sheets: no Amtrak station or service in this jurisdiction."
+      }
     },
     {
       "key": "parks-spending-to-exercise-access",
       "outcome": "parks.access-to-exercise",
       "policyArea": "parks",
       "sourceArea": "budget.parks-added-pct",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
+      "recipientGroup": "jurisdiction residents (estimated exercise opportunity)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident); recipient estimate: County Health Rankings & Roadmaps 2025, access to exercise opportunities. A changed resident-access share supplies an estimated opportunity. The existing territory median estimates remain labeled. Individual visits, exercise, and health changes are unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     }
   ],
   "sourceSnapshot": {
@@ -1229,9 +1255,9 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 85,
-    "place-number-only": 10,
-    "no-live-consumer": 2,
-    "budget-only": 4
+    "person-linked": 100,
+    "budget-only": 0,
+    "place-number-only": 0,
+    "no-live-consumer": 1
   }
 }

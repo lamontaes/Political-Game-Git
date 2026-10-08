@@ -68,11 +68,6 @@ export function typicalCouncilSeats(): number | null {
   return modalShare(COUNCIL_SIZE_SHARES)?.value ?? null;
 }
 
-/** The typical council term, in years, for a town with no read term. */
-export function typicalCouncilTermYears(): number | null {
-  return modalShare(COUNCIL_TERM_SHARES)?.value ?? null;
-}
-
 /** The national share tables, for the spread that reads the inventory. */
 export function typicalCouncilTables(): {
   readonly seats: readonly Share[];
