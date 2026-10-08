@@ -682,7 +682,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | open: sent back: failed its own changed checks: tests | |
 | RS-2277 | Forward shared inclusionary term provenance into lease stamps | PR #2277 (codex/session21-inclusionary-provenance) | open: draft: finish it or close it as superseded | |
 | RS-2291 | P1: Split starting law data by area | PR #2291 (codex/session19-starting-law-area-split) | ready #2291 | |
-| RS-2298 | Use shared hometown records and explicit recorded-bill bargaining | PR #2298 (codex/session12-lexington-removal) | open: rebase on main (conflicts) | |
+| RS-2298 | Use shared hometown records and explicit recorded-bill bargaining | PR #2298 (codex/session12-lexington-removal) | done #2298 | |
 | RS-2299 | P1: Compose meeting speech from recorded council facts | PR #2299 (codex/session4-english-source-repair) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2304 | P3: Use recorded stances for international crisis responses | PR #2304 (session25/p3-recorded-diplomacy) | open: sent back: failed its own changed checks: tests | |
 | RS-2305 | P1 b05 step 1: classify council matters from recorded reasons | PR #2305 (codex/session8-b05-council-meetings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
