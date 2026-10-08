@@ -4,6 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import type { EntityId, World } from "../simulation/types";
 import type { PersonDossier } from "../presentation/person-dossier";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 
 vi.mock("../presentation/relationship-web", () => ({
   projectRelationshipWeb: () => ({ nodes: [], edges: [] }),
@@ -94,10 +95,23 @@ function dossier(personId: EntityId = selfId): PersonDossier {
     laws: [],
   };
 }
-const render = (entry: PersonDossier, expanded = true) =>
+const render = (
+  entry: PersonDossier,
+  expanded = true,
+  notesVisibility: "full" | "light" | "none" = "full",
+) =>
   renderToStaticMarkup(
     <PersonCard
-      world={world}
+      world={
+        {
+          ...world,
+          playSettings: {
+            saves: "free",
+            notesVisibility,
+            personalLifeDepiction: "full",
+          },
+        } as unknown as World
+      }
       playerId={selfId}
       dossier={entry}
       pinned={false}
@@ -169,6 +183,33 @@ it("retains another person's recorded relationship and makes no time or knowledg
   expect(JSON.stringify({ world, entry })).toBe(before);
 });
 
+it("shows known reminders according to the selected notes setting in all 56 places", () => {
+  const places = lifePlaceStateIdentities();
+  expect(places).toHaveLength(56);
+  const reminder = {
+    key: "recorded-reminder",
+    attribution: "known" as const,
+    text: "Recorded reminder detail.",
+  };
+
+  for (const place of places) {
+    const entry = {
+      ...dossier(place.jurisdictionKey as EntityId),
+      reminders: [reminder],
+    };
+    const full = render(entry, false, "full");
+    const lightClosed = render(entry, false, "light");
+    const lightOpen = render(entry, true, "light");
+    const none = render(entry, true, "none");
+
+    expect(full, place.usps).toContain(reminder.text);
+    expect(lightClosed, place.usps).not.toContain(reminder.text);
+    expect(lightOpen, place.usps).toContain(reminder.text);
+    expect(none, place.usps).not.toContain(reminder.text);
+    expect(none, place.usps).toContain("A fact you learned.");
+  }
+});
+
 it("recognizes a person whose card was opened from their figure as present in the room", () => {
   const entry = {
     ...dossier("person-other" as EntityId),
@@ -233,4 +274,24 @@ it("keeps no hidden screen-reader sentence on the card", () => {
   const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
   expect(text.match(/className="sr-only"[^>]*>\s*\{/g) ?? []).toEqual([]);
   expect(text).not.toMatch(/aria-describedby=\{`person-\w+-reason-/);
+});
+
+it("does not add an authored heading above connected records", () => {
+  const text = readFileSync(join(__dirname, "PersonCard.tsx"), "utf8");
+  expect(text).not.toContain("Connected people");
+});
+
+it("does not show explanatory relationship-web captions", () => {
+  const text = readFileSync(
+    join(__dirname, "PeopleRelationshipWeb.tsx"),
+    "utf8",
+  );
+  for (const sentence of [
+    "How you know",
+    "No record connects you directly",
+    "are shown in full color",
+    "do not fit in the web",
+  ]) {
+    expect(text).not.toContain(sentence);
+  }
 });

@@ -33,6 +33,14 @@
     {
       "source": "src/source/domains/state-local-fiscal-authority (home rule, Dillon's rule, preemption fields)",
       "whatItDidNotSettle": "The fields exist as source data for fiscal authority only; no answer for non-fiscal subjects and no rule for what a lower level's overreach does."
+    },
+    {
+      "source": "LawAtlas, State Preemption Laws dataset page (https://lawatlas.org/index.php/datasets/preemption-project; checked 2026-10-08)",
+      "whatItDidNotSettle": "The current dataset covers 10 selected domains in 50 states from 2019-08-01 through 2024-12-31 and discusses local governments including counties, but it does not cover D.C. or territories or the catalog's full subject list. Its downloadable data requires a free LawAtlas account, so the export is still needed before any state cells can be transcribed and checked."
+    },
+    {
+      "source": "National Association of Counties, County Governance Project (https://www.naco.org/program/county-governance-project; checked 2026-10-08)",
+      "whatItDidNotSettle": "The project compares structure, broad authority, services and finances across the 48 states with county governments and offers a full data download. It does not provide the dated subject-by-subject county legislative authority and preemption inventory for all 56 places."
     }
   ],
   "title": "What laws each level of government may pass, and what stops it",

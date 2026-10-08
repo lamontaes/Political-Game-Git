@@ -24,6 +24,7 @@ import {
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
+import { scheduledActivityState } from "./time-work";
 import {
   JOB_MARKET_TIMING_ESTIMATE,
   JOB_TIMING,
@@ -73,6 +74,7 @@ function event(
   type: string,
   ids: readonly EntityId[],
   summary: string,
+  tags: readonly string[] = [],
 ): World {
   return recordWorldEvent(w, {
     stableKey: key(w, type),
@@ -86,7 +88,7 @@ function event(
     ),
     personFactConstraints: [],
     visibility: "private",
-    tags: ["career-path7"],
+    tags: ["career-path7", ...tags],
     summary,
     context: {
       location: null,
@@ -370,6 +372,7 @@ export function scheduleCareerTask(
       "task-planned",
       [r.personId, id, activity.id],
       `Planned for your next shift: ${task.text}`,
+      [`provider:${p.id}`, `task:${task.id}`],
     ),
     true,
     "The responsibility is scheduled within your next shift.",
@@ -399,26 +402,103 @@ export function completeCareerTask(
     );
   if (!r || !planned)
     return result(w, false, "This responsibility is not scheduled for you.");
+  const taskId = planned.tags
+    .find((tag) => tag.startsWith("task:"))
+    ?.slice("task:".length);
+  if (!taskId || !p.tasks.some((task) => task.id === taskId))
+    return result(w, false, "This responsibility is not scheduled for you.");
   const reason = careerEligibility(w, p);
   if (reason) return result(w, false, reason);
-  const performed = performLifePathSession(w, activityId, handlers);
-  if (!performed.ok) return performed;
-  let n = performed.world;
-  if (text.length > 0)
+  const state = scheduledActivityState(w, activityId).status;
+  let n = w;
+  if (state === "scheduled") {
+    const performed = performLifePathSession(w, activityId, handlers);
+    if (!performed.ok) return performed;
+    n = performed.world;
+  } else if (
+    state !== "completed" ||
+    !w.history.events.some(
+      (e) =>
+        e.type === "life-paths2.work-session" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  ) {
+    return result(w, false, "This responsibility is not scheduled for you.");
+  }
+  if (
+    text.length > 0 &&
+    !n.history.events.some(
+      (e) =>
+        e.type === "career-path7.deliverable" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  )
     n = event(n, "deliverable", [r.personId, id, activityId], text);
-  n = event(
-    n,
-    "work-record",
-    [r.personId, id, activityId],
-    text.length > 0
-      ? `Your completed responsibility and submission are retained in your work record. ${planned.summary}`
-      : `Completed shift recorded. No written submission was required. ${planned.summary}`,
-  );
+  if (
+    !n.history.events.some(
+      (e) =>
+        e.type === "career-path7.work-record" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  )
+    n = event(
+      n,
+      "work-record",
+      [r.personId, id, activityId],
+      text.length > 0
+        ? `Your completed responsibility and submission are retained in your work record. ${planned.summary}`
+        : `Completed shift recorded. No written submission was required. ${planned.summary}`,
+      planned.tags.filter(
+        (tag) => tag.startsWith("task:") || tag.startsWith("provider:"),
+      ),
+    );
   return result(
     n,
     true,
     "Your work is recorded. The completed shift is payable on the following day.",
   );
+}
+
+/** Records the selected task after LIFE's shared activity-completion writer. */
+export function completeScheduledCareerTask(
+  world: World,
+  activityId: EntityId,
+): World {
+  const planned = world.history.events.find(
+    (event) =>
+      event.type === "career-path7.task-planned" &&
+      event.involvedEntityIds.includes(activityId),
+  );
+  if (!planned) return world;
+  if (world.control.kind !== "person") return world;
+  const relationship = world.history.workRelationships.find((work) =>
+    planned.involvedEntityIds.includes(work.id),
+  );
+  const providerId = planned.tags
+    .find((tag) => tag.startsWith("provider:"))
+    ?.slice("provider:".length);
+  const taskId = planned.tags
+    .find((tag) => tag.startsWith("task:"))
+    ?.slice("task:".length);
+  const path = relationship
+    ? pathForRelationship(world, relationship.id)
+    : undefined;
+  if (
+    !relationship ||
+    relationship.personId !== world.control.personId ||
+    !providerId ||
+    !taskId ||
+    !path
+  )
+    return world;
+  const provider: CareerProvider = {
+    id: providerId,
+    pathId: path.id,
+    occupationCode: "",
+    sourceVersion: "",
+    tasks: [{ id: taskId, text: "", type: "" }],
+  };
+  return completeCareerTask(world, relationship.id, provider, activityId).world;
 }
 
 export function acceptCareerResponsibilities(
