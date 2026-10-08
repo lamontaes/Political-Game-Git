@@ -33,7 +33,7 @@ import { jobsLostBy } from "./town-labor-market";
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost" | "school-move";
+export type LivedOutcomeKind = "job-lost" | "school-move" | "county-justice";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -43,6 +43,12 @@ export interface LivedOutcome {
   readonly direction: "cost" | "gain";
   /** How big it was next to the person's month's pay. */
   readonly felt: Exclude<LawExposureFeltSize, null>;
+  /** A saved act names its own responsible official, including after turnover. */
+  readonly answeringPersonId?: EntityId;
+  readonly summary?: string;
+  readonly explanationKey?: string;
+  readonly sourceKnowledgeId?: EntityId;
+  readonly informedPersonIds?: readonly EntityId[];
 }
 
 /**
@@ -68,6 +74,7 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   // middle of a year is held against the head of the family's local
   // government, where they live now.
   "school-move": "local-executive",
+  "county-justice": "local-executive",
 };
 
 /** What the person thought over, in the words of their reflection event. */
@@ -76,6 +83,7 @@ export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
     "job-lost": "losing a job they did not choose to leave",
     "school-move":
       "their child having to leave school in the middle of the year",
+    "county-justice": "county-office-work",
   };
 
 /**

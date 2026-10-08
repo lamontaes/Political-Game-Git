@@ -1,7 +1,6 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { SeededRng } from "../rng";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import type {
   DecisionConsideration,
@@ -28,6 +27,7 @@ import {
   type CrisisOptionKey,
   type CrisisOptionsRecord,
   type IntelligenceAssessmentRecord,
+  type InternationalAllianceRecord,
   type InternationalCrisisRecord,
   type PoliticalAttackIntentRecord,
   type TensionLevel,
@@ -52,7 +52,6 @@ export const INTERNATIONAL_RESPONSE_KEY =
   "crisis:international-response" as const;
 export const WAR_POWERS_KEY = "crisis:war-powers" as const;
 
-const MICRO = 1_000_000;
 const TENSIONS: readonly TensionLevel[] = ["low", "elevated", "high", "severe"];
 
 /** crunch46-provisional-v1 authored balancing, not empirical frequencies. */
@@ -99,12 +98,6 @@ const EMPTY_CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-function roll(world: World, key: readonly unknown[]): number {
-  return new SeededRng("crisis-international-v1")
-    .fork(JSON.stringify(["crisis-international-v1", world.seed, ...key]))
-    .integer(0, MICRO);
-}
 
 function nationalJurisdiction(world: World): EntityId {
   return world.jurisdictionOrder[0]!;
@@ -215,7 +208,9 @@ export function internationalCrisisState(world: World, crisisId: EntityId) {
 export interface DeclareInternationalCrisisInput {
   readonly stableKey: string;
   readonly counterpartyLabel: string;
+  readonly counterpartyLeaderPersonId: EntityId;
   readonly allyLabels: readonly string[];
+  readonly allianceRecords: readonly InternationalAllianceRecord[];
   readonly subject: string;
   readonly tension: TensionLevel;
   readonly basis: string;
@@ -226,13 +221,33 @@ export function declareInternationalCrisis(
   world: World,
   input: DeclareInternationalCrisisInput,
 ): World {
+  if (!world.people[input.counterpartyLeaderPersonId])
+    throw new Error(
+      "An international crisis needs a recorded counterparty leader.",
+    );
+  const allianceKeys = new Set<string>();
+  for (const alliance of input.allianceRecords) {
+    if (!world.people[alliance.allyPersonId])
+      throw new Error(
+        `Unknown allied decision-maker: ${alliance.allyPersonId}`,
+      );
+    if (!alliance.stableKey.trim() || !alliance.source.trim())
+      throw new Error("An alliance record needs a stable key and source.");
+    if (allianceKeys.has(alliance.stableKey))
+      throw new Error(`Duplicate alliance record: ${alliance.stableKey}`);
+    allianceKeys.add(alliance.stableKey);
+  }
   for (const text of [input.counterpartyLabel, input.subject, input.basis])
     if (!text.trim()) throw new Error("An international crisis needs text.");
   const key = `crisis:international:${input.stableKey}`;
   const occurred = event(world, {
     stableKey: `${key}:event`,
     type: "crisis.international-incident",
-    involvedEntityIds: [world.id],
+    involvedEntityIds: [
+      world.id,
+      input.counterpartyLeaderPersonId,
+      ...input.allianceRecords.map((record) => record.allyPersonId),
+    ],
     visibility: "public",
     tags: [`tension:${input.tension}`],
     summary: `Tension rose with ${input.counterpartyLabel} over ${input.subject}.`,
@@ -245,7 +260,12 @@ export function declareInternationalCrisis(
     visibility: "public",
     eventId: occurred.eventId,
     counterpartyLabel: input.counterpartyLabel,
+    counterpartyLeaderPersonId: input.counterpartyLeaderPersonId,
     allyLabels: [...input.allyLabels],
+    allianceRecords: input.allianceRecords.map((record) => ({
+      ...record,
+      supportOptions: [...record.supportOptions],
+    })),
     subject: input.subject,
     tension: input.tension,
     basis: input.basis,
@@ -576,6 +596,25 @@ export const internationalDecisionHandler: FutureTransitionHandler = (
   );
 };
 
+function responseConsideration(
+  stableKey: string,
+  optionKey: string,
+  sourceType: DecisionSourceType,
+  importance: DecisionConsideration["importance"],
+  explanation: string,
+): DecisionConsideration {
+  return {
+    stableKey,
+    optionKey,
+    sourceType,
+    direction: "supports",
+    importance,
+    confidence: "high",
+    explanation,
+    sourceRefs: [],
+  };
+}
+
 export const internationalResponseHandler: FutureTransitionHandler = (
   world,
   item,
@@ -586,18 +625,160 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   if (state.ended || !decision)
     return settled(world, "cancelled", "Nothing to answer.");
   const policy = PROVISIONAL_INTERNATIONAL_POLICY;
-  const shares = policy.counterparty[decision.option];
-  const shift = state.tension === "severe" ? policy.severeShift : 0;
-  const counterRoll = roll(world, [crisisId, state.cycle, "counterparty"]);
+  const lawText =
+    state.options
+      .at(-1)
+      ?.options.find((option) => option.key === decision.option)?.legal ??
+    "No legal assessment was recorded for the U.S. response.";
+  const reportSubmitted = state.warPowers.some(
+    (record) => record.stage === "report-submitted",
+  );
+  const availableAlliedSupport = state.crisis.allianceRecords.filter((record) =>
+    record.supportOptions.includes(decision.option),
+  );
+  const responseConsiderations: DecisionConsideration[] = [
+    responseConsideration(
+      `${state.crisis.stableKey}:tension:${state.cycle}`,
+      state.tension === "low"
+        ? "de-escalate"
+        : state.tension === "elevated"
+          ? "hold"
+          : "escalate",
+      "context:recorded-tension",
+      state.tension === "severe"
+        ? "decisive"
+        : state.tension === "high"
+          ? "strong"
+          : state.tension === "elevated"
+            ? "moderate"
+            : "slight",
+      `The recorded ${state.tension} tension informs the counterparty's response.`,
+    ),
+    responseConsideration(
+      `${state.crisis.stableKey}:us-law:${state.cycle}`,
+      decision.option === "force-posture" && !reportSubmitted
+        ? "escalate"
+        : decision.option === "diplomatic" || reportSubmitted
+          ? "de-escalate"
+          : "hold",
+      "context:us-law",
+      decision.option === "force-posture" && !reportSubmitted
+        ? "strong"
+        : "slight",
+      decision.option === "force-posture" && !reportSubmitted
+        ? `The recorded U.S. response has no War Powers report under 50 U.S.C. §1543(a): ${lawText}`
+        : `The U.S. response was assessed under its recorded legal basis: ${lawText}`,
+    ),
+    ...(availableAlliedSupport.length > 0
+      ? [
+          responseConsideration(
+            `${state.crisis.stableKey}:alliance:${state.cycle}`,
+            "de-escalate",
+            "context:alliance-record",
+            "moderate",
+            `Recorded alliance commitments support the U.S. ${decision.option} response (${availableAlliedSupport.map((record) => record.allyLabel).join(", ")}).`,
+          ),
+        ]
+      : []),
+  ];
+  const responseEvaluation = evaluateDecision(world, {
+    stableKey: `${state.crisis.stableKey}:counterparty-choice:${state.cycle}`,
+    decisionType: "crisis.international-response",
+    actorPersonId: state.crisis.counterpartyLeaderPersonId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:domain",
+      key: "international-crisis-response",
+      entityId: null,
+    },
+    options: [
+      { key: "de-escalate", label: "de-escalate", description: "de-escalate" },
+      { key: "hold", label: "hold", description: "hold" },
+      { key: "escalate", label: "escalate", description: "escalate" },
+    ],
+    constraints: [],
+    considerations: responseConsiderations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  let next = recordDurableDecisionTrace(world, responseEvaluation);
+  const responseTraceIds = [next.history.decisionTraces.at(-1)!.id];
+  if (responseEvaluation.outcomeKind !== "selected")
+    return settled(
+      next,
+      "cancelled",
+      "The counterparty leader has no recorded response preference.",
+    );
   const counterparty =
-    counterRoll < shares.deEscalate - shift
+    responseEvaluation.selectedOptionKey === "de-escalate"
       ? "de-escalated"
-      : counterRoll < shares.deEscalate - shift + shares.hold
+      : responseEvaluation.selectedOptionKey === "hold"
         ? "held"
         : "escalated";
+  const alliedPositions = state.crisis.allianceRecords.map((record) => {
+    const treatySupports = record.supportOptions.includes(decision.option);
+    const legalSupports =
+      decision.option !== "force-posture" || reportSubmitted;
+    const alliedConsiderations: DecisionConsideration[] = [
+      responseConsideration(
+        `${record.stableKey}:treaty:${state.cycle}`,
+        treatySupports && legalSupports ? "support" : "stand-aside",
+        "context:alliance-record",
+        treatySupports ? "decisive" : "strong",
+        treatySupports
+          ? `The recorded ${record.source} commitment covers the U.S. ${decision.option} response.`
+          : `The recorded ${record.source} commitment does not cover the U.S. ${decision.option} response.`,
+      ),
+      responseConsideration(
+        `${record.stableKey}:us-law:${state.cycle}`,
+        legalSupports ? "support" : "stand-aside",
+        "context:us-law",
+        "moderate",
+        legalSupports
+          ? `The U.S. response is within its recorded legal basis: ${lawText}`
+          : `The required U.S. War Powers report is absent under 50 U.S.C. §1543(a): ${lawText}`,
+      ),
+    ];
+    const evaluation = evaluateDecision(next, {
+      stableKey: `${record.stableKey}:response:${state.cycle}`,
+      decisionType: "crisis.international-ally-support",
+      actorPersonId: record.allyPersonId,
+      cutoff: {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      },
+      subject: {
+        kind: "context:domain",
+        key: "international-alliance-response",
+        entityId: null,
+      },
+      options: [
+        { key: "support", label: "support", description: "support" },
+        {
+          key: "stand-aside",
+          label: "stand aside",
+          description: "stand aside",
+        },
+      ],
+      constraints: [],
+      considerations: alliedConsiderations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    next = recordDurableDecisionTrace(next, evaluation);
+    responseTraceIds.push(next.history.decisionTraces.at(-1)!.id);
+    return (
+      evaluation.outcomeKind === "selected" &&
+      evaluation.selectedOptionKey === "support"
+    );
+  });
   const allies =
-    roll(world, [crisisId, state.cycle, "allies"]) <
-    policy.allySupport[decision.option]
+    alliedPositions.filter(Boolean).length > alliedPositions.length / 2
       ? "supported"
       : "stood-aside";
   const rank = TENSIONS.indexOf(state.tension);
@@ -615,7 +796,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   const pastCheckpoint = state.cycle + 1 >= policy.maxCycles;
   const ended = counterparty === "de-escalated";
   const key = `${state.crisis.stableKey}:response:${state.cycle}`;
-  const responded = event(world, {
+  const responded = event(next, {
     stableKey: `${key}:event`,
     type: "crisis.international-response",
     involvedEntityIds: [crisisId],
@@ -638,10 +819,10 @@ export const internationalResponseHandler: FutureTransitionHandler = (
         ? " The dispute settled into a standoff, still unresolved."
         : ""),
   });
-  let next = appendCrisisRecord(responded.world, {
+  next = appendCrisisRecord(responded.world, {
     kind: "counterparty-response",
     stableKey: key,
-    effectiveAt: world.currentDate,
+    effectiveAt: next.currentDate,
     causalParentIds: [decision.id],
     visibility: "public",
     eventId: responded.eventId,
@@ -651,6 +832,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
     allies,
     tensionAfter,
     ended,
+    decisionTraceIds: responseTraceIds,
   });
   const responseId = crisisRecordId(next, key);
   if (ended && state.forcesIn)
@@ -711,6 +893,7 @@ function lapse(
     allies: "stood-aside",
     tensionAfter: state.tension,
     ended: true,
+    decisionTraceIds: [],
   });
   if (state.forcesIn)
     next = warPowersStage(
