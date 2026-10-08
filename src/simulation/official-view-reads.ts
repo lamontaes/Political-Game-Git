@@ -1,4 +1,5 @@
 import { addDays } from "./dates";
+import { growingIndex, type GrowingIndexKind } from "./history-index";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -69,47 +70,48 @@ interface StandingIndex {
   >;
 }
 
-// History lists are replaced, never changed in place, so an index built for
-// one pair of lists stays right for as long as both are the world's.
-const indexes = new WeakMap<
-  readonly PrivateBeliefRecord[],
-  {
-    readonly rows: readonly OfficialViewRecord[] | undefined;
-    readonly index: StandingIndex;
-  }
->();
-
-function standingIndex(world: World): StandingIndex {
-  const beliefList = world.history.privateBeliefs;
-  const rows = world.history.officialViews;
-  const cached = indexes.get(beliefList);
-  if (cached && cached.rows === rows) return cached.index;
-  const beliefs = new Map<EntityId, Map<EntityId, PrivateBeliefRecord[]>>();
-  for (const belief of beliefList) {
-    if (belief.subject?.kind !== "official") continue;
+// Follow immutable history appends instead of rebuilding every official's
+// standing after each new belief. Groups are copied before adding a record.
+const BELIEF_STANDINGS: GrowingIndexKind<
+  Map<EntityId, Map<EntityId, readonly PrivateBeliefRecord[]>>
+> = {
+  create: () => new Map(),
+  add: (beliefs, record) => {
+    const belief = record as PrivateBeliefRecord;
+    if (belief.subject?.kind !== "official") return;
     const officialId = belief.subject.personId;
     const byPerson = beliefs.get(officialId) ?? new Map();
     beliefs.set(officialId, byPerson);
-    byPerson.set(belief.personId, [
-      ...(byPerson.get(belief.personId) ?? []),
-      belief,
-    ]);
-  }
-  for (const byPerson of beliefs.values())
-    for (const list of byPerson.values())
-      list.sort(
+    byPerson.set(
+      belief.personId,
+      [...(byPerson.get(belief.personId) ?? []), belief].sort(
         (a, b) =>
           a.formedAt.localeCompare(b.formedAt) || a.sequence - b.sequence,
-      );
-  const legacy = new Map<EntityId, Map<EntityId, OfficialViewRecord[]>>();
-  for (const row of rows ?? []) {
+      ),
+    );
+  },
+};
+const LEGACY_STANDINGS: GrowingIndexKind<
+  Map<EntityId, Map<EntityId, readonly OfficialViewRecord[]>>
+> = {
+  create: () => new Map(),
+  add: (legacy, record) => {
+    const row = record as OfficialViewRecord;
     const byPerson = legacy.get(row.officialId) ?? new Map();
     legacy.set(row.officialId, byPerson);
     byPerson.set(row.personId, [...(byPerson.get(row.personId) ?? []), row]);
-  }
-  const index = { beliefs, legacy };
-  indexes.set(beliefList, { rows, index });
-  return index;
+  },
+};
+const NO_LEGACY_VIEWS: readonly OfficialViewRecord[] = [];
+
+function standingIndex(world: World): StandingIndex {
+  return {
+    beliefs: growingIndex(BELIEF_STANDINGS, world.history.privateBeliefs),
+    legacy: growingIndex(
+      LEGACY_STANDINGS,
+      world.history.officialViews ?? NO_LEGACY_VIEWS,
+    ),
+  };
 }
 
 function latestOn(

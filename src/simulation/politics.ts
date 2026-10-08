@@ -3,6 +3,7 @@ import {
   validatePrivateBeliefSubject,
 } from "./political-opinion-subjects";
 import { eventById } from "./event-index";
+import { recordById } from "./history-index";
 import { makeIsoDate } from "./dates";
 import {
   appendCampaignCommitmentRecord,
@@ -469,9 +470,7 @@ function validateFormation(
     }
   }
   for (const traceId of formation.decisionTraceIds) {
-    const trace = world.history.decisionTraces.find(
-      (candidate) => candidate.id === traceId,
-    );
+    const trace = recordById(world.history.decisionTraces, traceId);
     if (
       !trace ||
       trace.context.actorPersonId !== personId ||
@@ -856,6 +855,10 @@ function runtimeKind(value: never): string {
 }
 
 function validateNext(previous: World, next: World): World {
+  transferPoliticalIndex(
+    previous.history.privateBeliefs,
+    next.history.privateBeliefs,
+  );
   transferPoliticalIndex(previous.history.principles, next.history.principles);
   transferPoliticalIndex(
     previous.history.publicPositions,
