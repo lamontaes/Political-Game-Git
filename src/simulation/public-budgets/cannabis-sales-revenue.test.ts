@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import {
   lifePlaceStateIdentities,

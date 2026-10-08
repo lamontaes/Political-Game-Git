@@ -1130,6 +1130,36 @@ export function recordConstitutionalProposalVote(
   });
   return append(world, m, { kind: "proposal-vote", bodyKey, vote });
 }
+
+export interface ConstitutionalProposalRollcall {
+  readonly bodyKey: string;
+  readonly dispositions: readonly LegislativeVoteDisposition[];
+  readonly eligibleMembers: number;
+  readonly provenance: LegislativeVoteProvenance;
+}
+
+/** Records each chamber's proposal vote in order, stopping after rejection. */
+export function recordConstitutionalProposalRollcalls(
+  world: World,
+  measureId: EntityId,
+  rollcalls: readonly ConstitutionalProposalRollcall[],
+): World {
+  let next = world;
+  for (const rollcall of rollcalls) {
+    if (constitutionalPosition(next, measureId).phase !== "consideration")
+      break;
+    next = recordConstitutionalProposalVote(
+      next,
+      measureId,
+      rollcall.bodyKey,
+      rollcall.dispositions,
+      rollcall.eligibleMembers,
+      rollcall.provenance,
+    );
+  }
+  return next;
+}
+
 /** Completed authenticated state action, not invented state voting procedure. */
 export function recordArticleVRatification(
   world: World,

@@ -5,6 +5,8 @@ import { createStableId } from "../ids";
 import type { EntityId, IsoDate, World } from "../types";
 import {
   EVIDENCE_BEARINGS,
+  INQUIRY_BODY_KINDS,
+  INQUIRY_CAUSES,
   LEAD_ROUTES,
   MATTER_RESPONSES,
   MEDIA_BEATS,
@@ -146,6 +148,7 @@ export function validatePressRecords(
   note(world.history.claims);
   note(world.history.knowledge);
   note(world.history.evidenceArtifacts);
+  note(world.history.evidenceDiscoveries);
   note(world.history.resourceFlows);
   note(world.history.decisionTraces);
   note(world.history.organizations);
@@ -175,6 +178,7 @@ export function validatePressRecords(
   const outletActive = new Map<EntityId, Set<EntityId>>();
   const leadDecision = new Map<EntityId, StoryDecision>();
   const closedProceedings = new Set<EntityId>();
+  const inquiryHours = new Map<EntityId, number>();
   const reporterRoles: ReporterRoleRecord[] = [];
   const currentOwnership = new Map<EntityId, EntityId>();
   let previousSequence = -1;
@@ -675,6 +679,83 @@ export function validatePressRecords(
           if (knowledge?.personId !== record.actorPersonId) {
             throw new Error(
               `A response may rest only on the responder's knowledge: ${record.id}`,
+            );
+          }
+        }
+        break;
+      }
+      case "inquiry": {
+        person(record.investigatorPersonId, "inquiry investigator");
+        member(INQUIRY_CAUSES, record.cause, "inquiry cause");
+        member(
+          INQUIRY_BODY_KINDS,
+          record.authorityScope.bodyKind,
+          "inquiry body kind",
+        );
+        text(record.authorityScope.basis, "inquiry authority basis");
+        text(record.budgetBasis, "inquiry work-time basis");
+        if (
+          !Number.isFinite(record.hoursBudget.minimum) ||
+          !Number.isFinite(record.hoursBudget.maximum) ||
+          record.hoursBudget.minimum < 0 ||
+          record.hoursBudget.maximum < record.hoursBudget.minimum
+        ) {
+          throw new Error(`Inquiry has an invalid hours budget: ${record.id}`);
+        }
+        if (
+          record.authorityScope.records === "public-only" &&
+          record.authorityScope.compelledEvidenceKinds.length > 0
+        ) {
+          throw new Error(
+            `Public-only inquiry claims compelled records: ${record.id}`,
+          );
+        }
+        if (
+          (record.cause === "investigator-goal") !==
+          (record.causeRecordId === null)
+        ) {
+          throw new Error(
+            `Inquiry cause record does not match its cause: ${record.id}`,
+          );
+        }
+        if (record.causeRecordId !== null) {
+          earlier(record.causeRecordId, seq, "inquiry cause");
+        }
+        break;
+      }
+      case "inquiry-step": {
+        const inquiry = prior(record.inquiryId, "inquiry", "inquiry step");
+        if (record.at < inquiry.openedAt || record.at > world.currentDate) {
+          throw new Error(
+            `Inquiry step has impossible chronology: ${record.id}`,
+          );
+        }
+        if (!Number.isFinite(record.hoursUsed) || record.hoursUsed <= 0) {
+          throw new Error(`Inquiry step has invalid hours: ${record.id}`);
+        }
+        const totalHours =
+          (inquiryHours.get(inquiry.id) ?? 0) + record.hoursUsed;
+        if (totalHours > inquiry.hoursBudget.maximum) {
+          throw new Error(
+            `Inquiry steps exceed their work-time budget: ${record.id}`,
+          );
+        }
+        inquiryHours.set(inquiry.id, totalHours);
+        for (const id of record.artifactIdsRead) {
+          earlier(id, seq, "inquiry artifact");
+        }
+        for (const id of record.discoveryIds) {
+          earlier(id, seq, "inquiry discovery");
+          const discovery = world.history.evidenceDiscoveries.find(
+            (candidate) => candidate.id === id,
+          );
+          if (
+            !discovery ||
+            discovery.personId !== inquiry.investigatorPersonId ||
+            !record.artifactIdsRead.includes(discovery.evidenceArtifactId)
+          ) {
+            throw new Error(
+              `Inquiry step discovery does not belong to its investigator and artifact: ${record.id}`,
             );
           }
         }
