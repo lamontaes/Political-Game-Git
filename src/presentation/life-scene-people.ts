@@ -399,6 +399,8 @@ function posedFor(
   activity: SceneActivity,
   seated: boolean,
   turns: readonly ConversationExchangeTurn[],
+  /** Which way the anchor faces, when the registry says. */
+  facing?: "viewer" | "away",
 ): {
   readonly pose: BodyPose;
   readonly view: BodyView;
@@ -406,17 +408,22 @@ function posedFor(
   readonly reading: boolean;
 } {
   const record = world.people[personId]!;
+  const seed = record.appearance?.seed ?? record.id;
+  const expression = conversationExpression(world, personId, turns);
+  const view = chooseBodyView(activity, facing);
   return {
     // At a desk or table: anyone who wears glasses to read has them on.
     reading: activity === "desk",
-    expression: conversationExpression(world, personId, turns),
+    expression,
     pose: chooseBodyPose({
       activity,
       seated,
-      seed: record.appearance?.seed ?? record.id,
+      seed,
+      view,
+      expression,
       ...recordedGuardedness(world, personId),
     }),
-    view: chooseBodyView(activity),
+    view,
   };
 }
 
@@ -775,6 +782,10 @@ export function planLifeScenePeople(
               }),
               seated,
               activity?.turns ?? [],
+              anchor.permittedFacings?.includes("away") &&
+                !anchor.permittedFacings.includes("front")
+                ? "away"
+                : "viewer",
             ),
           })
         : null;
