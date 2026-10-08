@@ -1,32 +1,8 @@
+import environmentalLawLandings from "../../../data/research/outcome-web/environment-law-landings.json" with { type: "json" };
 import { lawInForce } from "../governing/law-in-force";
 import { recordLawExposure } from "../law-exposure";
 import type { EntityId, World } from "../types";
 import { outcomeFactor } from ".";
-
-const ENVIRONMENTAL_LAW_LANDINGS = [
-  {
-    questionKey:
-      "us-policy-positions:environment-energy.restrict-building-in-flood-zones",
-    outcome: "disaster.flood-damage",
-    causeKey: "flood-zone-limits-to-damage",
-  },
-  {
-    questionKey: "us-policy-positions:environment-energy.bottle-deposit",
-    outcome: "env.litter",
-    causeKey: "container-deposit-to-litter",
-  },
-  {
-    questionKey: "us-policy-positions:environment-energy.bottle-deposit",
-    outcome: "household.prices",
-    causeKey: "container-deposit-to-prices",
-  },
-  {
-    questionKey:
-      "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-    outcome: "env.particulates",
-    causeKey: "emission-rules-to-particulates",
-  },
-] as const;
 
 /**
  * Give each resident one record when a place's measured environmental outcome
@@ -54,7 +30,7 @@ export function recordEnvironmentEnergyLandings(
     ]),
   );
   for (const [jurisdictionId, residents] of peopleByJurisdiction) {
-    for (const landing of ENVIRONMENTAL_LAW_LANDINGS) {
+    for (const landing of environmentalLawLandings.rows) {
       const proposition = propositions.get(landing.questionKey);
       if (!proposition) continue;
       const cause = outcomeFactor(
