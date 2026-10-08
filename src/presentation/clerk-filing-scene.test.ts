@@ -75,13 +75,13 @@ describe(`the clerk's counter in a generated world (${place.displayName}, seed $
       )!;
       expect(offer, place.key).toBeDefined();
       expect(offer.title).toBe(office.governmentName);
-      expect(offer.detail).toBe(office.clerkTitle);
+      expect(offer.detail).toBe(office.officeTitle);
 
       world = requestFilingVisit(world, personId, offer.filingSeatOfficeKey!);
       const visit = scheduledFilingVisits(world, personId)[0]!;
       expect(visit.location.locationKey).toBe(FILING_OFFICE_LOCATION_KEY);
       // The clerk is a resident who holds the office, and is on the visit.
-      const clerk = sittingLocalClerk(world, office.unit)!;
+      const clerk = sittingLocalClerk(world, office.unit, office.clerkTitle)!;
       expect(clerk).not.toBeNull();
       expect(visit.participantPersonIds).toContain(clerk.personId);
       // Only one visit at a time; asking again writes nothing.
@@ -99,6 +99,7 @@ describe(`the clerk's counter in a generated world (${place.displayName}, seed $
       let scene = projectClerkFilingScene(world, personId)!;
       expect(scene, "the player reached the counter").not.toBeNull();
       expect(scene.actors[0]!.personId).toBe(clerk.personId);
+      expect(scene.actors[0]!.role).toBe(office.clerkTitle);
       expect(scene.location.label).toBe(office.governmentName);
 
       for (const question of CLERK_QUESTIONS) {
