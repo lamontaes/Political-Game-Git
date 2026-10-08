@@ -60,7 +60,7 @@ function build(jurisdictionKey: string) {
   const f = smallWorld({
     place: jurisdictionKey,
     seed: `a33-attribution:${jurisdictionKey}`,
-    date: "2025-12-18",
+    date: "2025-12-28",
     people: 3,
     offices: ["governor"],
     laws: [
