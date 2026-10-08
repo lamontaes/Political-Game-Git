@@ -1,9 +1,24 @@
 import { EngineFigure } from "./EnginePerson";
 import { MaterialImage } from "./ModularCharacter";
 import { scenePlateClips } from "../presentation/scene-occlusion";
+import { figureClip } from "../presentation/backdrop-people";
+import { titlePictureId } from "../presentation/title-civic-rotation";
+import {
+  titlePeopleTint,
+  titleScenePeople,
+  type PictureBox,
+} from "../presentation/title-scene-people";
 import type { PlacedScenePerson } from "../presentation/life-scene-people";
 import type { RuntimeVisualLibrary } from "../presentation/visual-integration";
-import { useMemo, useRef, type CSSProperties, type ReactNode } from "react";
+import {
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 import { requireSceneAnchor } from "../presentation/scene-registry";
 import type { TitlePresentation } from "../presentation/title-tableau";
@@ -258,9 +273,87 @@ const PICTURE_CAMERA = {
 } as const;
 
 /**
+ * How far past the menu's glass a person must stay: the camera drifts a
+ * little, and the panel's border and shadow are part of what hides them.
+ */
+const MENU_MARGIN_PERCENT = 1.5;
+
+/**
+ * Where the title's menu panel is, in percent of the picture as the camera
+ * has framed it, and which part of the picture the window shows. Measured
+ * from the laid-out panel (it is wider or narrower, higher or lower with the
+ * window and its type size), never assumed, so the people are kept out from
+ * under it on every window.
+ */
+function useMenuAndFrame(
+  viewportRef: RefObject<HTMLElement | null>,
+  transform: ReturnType<typeof useSceneCoverTransform>,
+): { reserved: readonly PictureBox[]; frame: { left: number; right: number } } {
+  const [panels, setPanels] = useState<readonly DOMRect[]>([]);
+  useLayoutEffect(() => {
+    const viewport = viewportRef.current;
+    const root = viewport?.closest(".title-tableau");
+    if (!viewport || !root) return;
+    const measure = () => {
+      const found = [...root.querySelectorAll(".game-title")].map((panel) =>
+        panel.getBoundingClientRect(),
+      );
+      setPanels((current) =>
+        current.length === found.length &&
+        current.every(
+          (rect, index) =>
+            rect.left === found[index]!.left &&
+            rect.top === found[index]!.top &&
+            rect.right === found[index]!.right &&
+            rect.bottom === found[index]!.bottom,
+        )
+          ? current
+          : found,
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(root);
+    for (const panel of root.querySelectorAll(".game-title"))
+      observer.observe(panel);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, [viewportRef, transform.viewport.width, transform.viewport.height]);
+  return useMemo(() => {
+    const origin = viewportRef.current?.getBoundingClientRect();
+    const toPictureX = (x: number) =>
+      ((x - (origin?.left ?? 0) - transform.xOffset) /
+        transform.uniformScale /
+        PICTURE_PLATE.width) *
+      100;
+    const toPictureY = (y: number) =>
+      ((y - (origin?.top ?? 0) - transform.yOffset) /
+        transform.uniformScale /
+        PICTURE_PLATE.height) *
+      100;
+    return {
+      reserved: panels.map((rect) => ({
+        left: toPictureX(rect.left) - MENU_MARGIN_PERCENT,
+        right: toPictureX(rect.right) + MENU_MARGIN_PERCENT,
+        top: toPictureY(rect.top) - MENU_MARGIN_PERCENT,
+        bottom: toPictureY(rect.bottom) + MENU_MARGIN_PERCENT,
+      })),
+      frame: {
+        left: toPictureX(origin?.left ?? 0),
+        right: toPictureX(origin?.right ?? transform.viewport.width),
+      },
+    };
+  }, [panels, transform, viewportRef]);
+}
+
+/**
  * One place picture from the civic rotation, covering the window the same way
- * a registered room does, with the returning player standing in front of it
- * when the resolver put them there. Nothing here chooses the picture.
+ * a registered room does, with its people standing, sitting and speaking at
+ * the picture's own spots (the returning player among them when the resolver
+ * put them there). Nothing here chooses the picture or the people.
  */
 function PictureStage({
   presentation,
@@ -272,13 +365,23 @@ function PictureStage({
   readonly drifting: boolean;
 }) {
   const picture = presentation.picture!;
-  const hero = presentation.pictureHero ?? null;
   const viewportRef = useRef<HTMLDivElement>(null);
   const transform = useSceneCoverTransform(
     viewportRef,
     PICTURE_PLATE,
     PICTURE_CAMERA,
   );
+  // Nobody stands under the menu's glass or is cut by the window's edge, and
+  // everyone is lit as the picture is (a night picture darkens its people).
+  const room = useMenuAndFrame(viewportRef, transform);
+  const people = useMemo(
+    () =>
+      presentation.picturePeople
+        ? titleScenePeople(picture, presentation.pictureHero ?? null, room)
+        : [],
+    [picture, presentation.picturePeople, presentation.pictureHero, room],
+  );
+  const tint = titlePeopleTint(picture.variant);
   return (
     <div
       ref={viewportRef}
@@ -288,11 +391,14 @@ function PictureStage({
           ? "title-tableau-stage-leaving"
           : "title-tableau-stage"
       }
-      data-title-kind={hero ? "hero-in-tableau" : presentation.kind}
-      data-scene-id={`picture:${picture.place}`}
+      data-title-kind={presentation.kind}
+      data-scene-id={titlePictureId(picture)}
       data-place={picture.place}
+      data-light={picture.variant}
       data-civic-kind={picture.kind}
-      data-tableau-id={`picture:${picture.place}`}
+      data-tableau-id={titlePictureId(picture)}
+      data-people={people.length}
+      data-people-planned={presentation.picturePeople?.length ?? 0}
       data-drifting={drifting ? "true" : "false"}
       aria-hidden="true"
     >
@@ -322,25 +428,68 @@ function PictureStage({
               objectFit: "cover",
             }}
           />
-          {hero ? (
-            <div
-              data-testid="title-hero"
-              data-person-id={hero.personId}
-              style={{
-                position: "absolute",
-                left: `${hero.leftPercent}%`,
-                top: `${hero.topPercent}%`,
-                width: `${hero.widthPercent}%`,
-                height: `${hero.heightPercent}%`,
-              }}
-            >
-              <EngineFigure
-                recipe={hero.engine}
-                className="title-hero-art title-hero-engine"
-                testId="title-hero-engine"
-              />
-            </div>
-          ) : null}
+          <div
+            data-testid="title-scene-people"
+            data-tint={tint ?? ""}
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              ...(tint ? { filter: tint } : {}),
+            }}
+          >
+            {people.map((person) => {
+              // Behind a desk, bench or lectern only what shows above it is
+              // drawn; behind open furniture a band is cut out of the figure.
+              const { visibleHeightPercent, band } = figureClip(person);
+              return (
+                <div
+                  key={person.spotId}
+                  data-testid={
+                    person.personId ? "title-hero" : "title-scene-person"
+                  }
+                  data-person-id={person.personId ?? ""}
+                  data-spot-id={person.spotId}
+                  data-pose-id={person.engine.pose ?? "standing"}
+                  style={{
+                    position: "absolute",
+                    left: `${person.leftPercent}%`,
+                    top: `${person.topPercent}%`,
+                    width: `${person.widthPercent}%`,
+                    height: `${visibleHeightPercent}%`,
+                    overflow: "hidden",
+                    pointerEvents: "none",
+                    ...(band
+                      ? {
+                          clipPath: `polygon(0 0, 100% 0, 100% ${band.from}%, 0 ${band.from}%, 0 ${band.to}%, 100% ${band.to}%, 100% 100%, 0 100%)`,
+                        }
+                      : {}),
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      width: "100%",
+                      height: `${(person.heightPercent / visibleHeightPercent) * 100}%`,
+                    }}
+                  >
+                    <EngineFigure
+                      canvas
+                      recipe={person.engine}
+                      className="title-scene-person-art"
+                      testId={
+                        person.personId
+                          ? "title-hero-engine"
+                          : "title-scene-person-engine"
+                      }
+                    />
+                  </span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

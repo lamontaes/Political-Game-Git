@@ -50,7 +50,11 @@ describe("people at work in place pictures", { timeout: 180_000 }, () => {
       for (const spot of stage.spots) {
         expect(spot.x).toBeGreaterThan(0);
         expect(spot.x).toBeLessThan(100);
-        expect(spot.y).toBeGreaterThan(stage.horizonY);
+        // A raised tier (bleacher rows, a dais) can have its own horizon.
+        expect(spot.y).toBeGreaterThan(
+          ("floorHorizonY" in spot ? spot.floorHorizonY : undefined) ??
+            stage.horizonY,
+        );
         expect(spot.y).toBeLessThanOrEqual(100);
       }
     }

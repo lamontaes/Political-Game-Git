@@ -61,7 +61,17 @@ function draw(seed: string, question: string): number {
   );
 }
 
-function presentationFor(person: Person, seed: string): BodyPresentation {
+/**
+ * What the recipe reads of a person: who they are, when they were born, the
+ * look they chose and their recorded gender. A person the title screen
+ * stands in a crowd has only these.
+ */
+export type RecipePerson = Pick<
+  Person,
+  "id" | "birthDate" | "appearance" | "identity"
+>;
+
+function presentationFor(person: RecipePerson, seed: string): BodyPresentation {
   const chosen = person.appearance?.engine?.presentation;
   if (chosen) return chosen;
   // The person's own recorded gender, never a guess from a name.
@@ -231,7 +241,7 @@ function outfitFor(
  * (children: the engine has adult bodies only).
  */
 export function engineRecipeFor(
-  person: Person,
+  person: RecipePerson,
   onDate: string,
   manifest: PeoplePackManifest,
   options: EngineRecipeOptions = {},

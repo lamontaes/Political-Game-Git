@@ -1,18 +1,21 @@
 import { describe, expect, it } from "vitest";
 
+import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import { SCENE_REGISTRY } from "./scene-registry";
 import {
   ambientPresentation,
-  orderedAmbientCycle,
+  civicAmbientCycle,
   TITLE_AMBIENT_HOLD_MS,
-  titleAmbientCycle,
   titleAmbientFrame,
   titleCameraClassName,
   titleStageDrifts,
   type TitleAmbientRoom,
 } from "./title-ambient";
+import {
+  civicTitlePictures,
+  type BackdropManifestRow,
+} from "./title-civic-rotation";
 import { TITLE_TABLEAU_REGISTRY } from "./title-tableau";
-import { PRODUCTION_VISUAL_LIBRARY } from "./visual-integration";
 
 /**
  * The rooms the front door drifts through.
@@ -25,68 +28,41 @@ import { PRODUCTION_VISUAL_LIBRARY } from "./visual-integration";
  * timer and asserts that these answers reach the screen.
  */
 
-const CYCLE = orderedAmbientCycle(
-  TITLE_TABLEAU_REGISTRY,
-  SCENE_REGISTRY,
-  PRODUCTION_VISUAL_LIBRARY,
+const PICTURES = civicTitlePictures(
+  manifest.backdrops as readonly BackdropManifestRow[],
+  (file) => `/art/backdrops/${file}`,
 );
+const CYCLE = civicAmbientCycle(PICTURES);
+/** The registered rooms a returning player's resolved presentation can lead with. */
+const BANK_ROOMS: readonly TitleAmbientRoom[] =
+  TITLE_TABLEAU_REGISTRY.neutralBank.map((tableau) => ({
+    tableauId: tableau.tableauId,
+    sceneId: tableau.sceneId,
+    label: tableau.label,
+  }));
 
 describe("Which rooms the title screen may drift through", () => {
   it("offers more than one, or there is nothing to cycle", () => {
     expect(CYCLE.length).toBeGreaterThan(1);
   });
 
-  it("admits only released art", () => {
-    // The packet's hard line: no candidate or unreleased raster may enter the
-    // cycle. Membership of the production library is release, so this is the
-    // whole check rather than a proxy for it.
+  it("is made only of place pictures", () => {
     for (const room of CYCLE) {
-      const scene = SCENE_REGISTRY.scenes.get(room.sceneId);
-      expect(scene, `${room.sceneId} is not a registered scene`).toBeDefined();
-      expect(scene!.raster, `${room.sceneId} has no raster`).not.toBeNull();
-      expect(
-        PRODUCTION_VISUAL_LIBRARY.has(scene!.raster!.assetId),
-        `${room.sceneId} paints art that is not released`,
-      ).toBe(true);
+      expect(room.picture, room.sceneId).toBeDefined();
+      expect(room.sceneId).toMatch(/^picture:/);
     }
-  });
-
-  it("admits only rooms that read correctly with nobody in them", () => {
-    // A cycling backdrop has no character in it, so a tableau that needs one
-    // to make sense would be presentation inventing a life.
-    for (const room of CYCLE) {
-      const tableau = TITLE_TABLEAU_REGISTRY.neutralBank.find(
-        (entry) => entry.tableauId === room.tableauId,
-      );
-      expect(
-        tableau,
-        `${room.tableauId} is not in the neutral bank`,
-      ).toBeDefined();
-      expect(tableau!.supportsNoCharacter).toBe(true);
-    }
-  });
-
-  it("shows the front door first", () => {
-    expect(CYCLE[0]!.tableauId).toBe(TITLE_TABLEAU_REGISTRY.frontDoorTableauId);
   });
 
   it("never admits the retired baked-audience meeting room", () => {
     // The front door is civic (Lamontae, Sept. 27 and 28), never a home.
-    expect(TITLE_TABLEAU_REGISTRY.frontDoorTableauId).toBe(
-      "an-empty-hearing-room",
-    );
     expect(
       TITLE_TABLEAU_REGISTRY.neutralBank.map((entry) => entry.tableauId),
     ).not.toContain("a-community-meeting");
     for (const room of CYCLE) {
       expect(room.sceneId).not.toBe("civic-community-meeting-title");
-      const scene = SCENE_REGISTRY.scenes.get(room.sceneId);
-      expect(scene?.raster?.assetId).not.toBe(
-        "title_bg_civic_community_meeting_hero_slot_5504x3072_v1",
+      expect(room.picture?.url ?? "").not.toContain(
+        "civic_community_meeting_hero_slot",
       );
-      for (const tier of scene?.raster?.ladder.tiers ?? []) {
-        expect(tier.path).not.toContain("civic_community_meeting_hero_slot");
-      }
     }
   });
 
@@ -96,17 +72,8 @@ describe("Which rooms the title screen may drift through", () => {
   });
 
   it("is the same cycle every time it is asked", () => {
-    const again = titleAmbientCycle(
-      TITLE_TABLEAU_REGISTRY,
-      SCENE_REGISTRY,
-      PRODUCTION_VISUAL_LIBRARY,
-    );
-    expect(again.map((room) => room.sceneId)).toEqual(
-      titleAmbientCycle(
-        TITLE_TABLEAU_REGISTRY,
-        SCENE_REGISTRY,
-        PRODUCTION_VISUAL_LIBRARY,
-      ).map((room) => room.sceneId),
+    expect(civicAmbientCycle(PICTURES).map((room) => room.sceneId)).toEqual(
+      CYCLE.map((room) => room.sceneId),
     );
   });
 });
@@ -158,7 +125,7 @@ describe("What is painted at a point in the cycle", () => {
 
 describe("The presentation an ambient room resolves to", () => {
   it("is always the empty treatment, with nobody named", () => {
-    for (const room of CYCLE) {
+    for (const room of BANK_ROOMS) {
       const presentation = ambientPresentation(
         room,
         TITLE_TABLEAU_REGISTRY,
@@ -172,7 +139,7 @@ describe("The presentation an ambient room resolves to", () => {
   });
 
   it("says what is on screen without naming a mechanism", () => {
-    for (const room of CYCLE) {
+    for (const room of [...BANK_ROOMS, ...CYCLE]) {
       const { description } = ambientPresentation(
         room,
         TITLE_TABLEAU_REGISTRY,

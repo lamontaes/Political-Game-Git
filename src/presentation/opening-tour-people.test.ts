@@ -215,12 +215,17 @@ it(
       "oval-office",
       executives.map((a) => a.person),
     );
-    // Existing turned head/hair source is unavailable: the proof must expose it.
-    expect(oval).toHaveLength(0);
-    expect(oval.overflow).toHaveLength(executives.length);
-    expect(oval.overflow.every((p) => p.reason === "missing-art")).toBe(true);
+    // The Oval Office's standing spots are turned toward the desk, and the
+    // pack has no turned head or hair painted: the executives stand there
+    // facing the room (spotViews) instead of being left out.
+    expect(oval).toHaveLength(executives.length);
+    expect(oval.overflow).toHaveLength(0);
+    expect(oval.every((p) => p.resolvedView === "front")).toBe(true);
+    expect(oval.every((p) => p.facing === "left" || p.facing === "right")).toBe(
+      true,
+    );
     expect(introPlacementTrace(oval, executives).unstagedActors).toHaveLength(
-      executives.length,
+      0,
     );
     const actors = chapters.find((c) => c.key === "congress")!.actors;
     const placements = openingTourStagedPeople(

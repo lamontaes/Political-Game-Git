@@ -128,6 +128,19 @@ export interface PlaceStaging {
   /** Raised floors: the same horizon, each with its own scale. */
   readonly floors?: Readonly<Record<string, number>>;
   readonly spots: readonly StagingSpot[];
+  /**
+   * Furniture whose front face a person can be drawn against but not stand
+   * on: a desk, a table, a counter. A box in percent of the picture, from
+   * the top edge down to the foot of its front (`baseY`); a standing spot's
+   * foot point is on open floor, never inside one.
+   */
+  readonly furniture?: readonly {
+    readonly id: string;
+    readonly left: number;
+    readonly right: number;
+    readonly top: number;
+    readonly baseY: number;
+  }[];
   readonly surfaceSlots?: readonly {
     readonly surfaceId: string;
     readonly kind: string;
@@ -233,6 +246,44 @@ export function spotFigure(
   };
 }
 
+/**
+ * How much of a figure at a spot shows: behind a counter, desk or podium
+ * front everything below `clipBelowPercent` is cut off (the visible height
+ * ends there); behind open furniture only the band down to
+ * `clipBandEndPercent` is cut out and the legs show underneath. Percentages
+ * of the figure's own box, for a clip path.
+ */
+export function figureClip(
+  figure: Pick<
+    SpotFigure,
+    "topPercent" | "heightPercent" | "clipBelowPercent" | "clipBandEndPercent"
+  >,
+): {
+  readonly visibleHeightPercent: number;
+  readonly band: { readonly from: number; readonly to: number } | null;
+} {
+  const band =
+    figure.clipBelowPercent !== null && figure.clipBandEndPercent !== null
+      ? {
+          from:
+            ((figure.clipBelowPercent - figure.topPercent) /
+              figure.heightPercent) *
+            100,
+          to:
+            ((figure.clipBandEndPercent - figure.topPercent) /
+              figure.heightPercent) *
+            100,
+        }
+      : null;
+  return {
+    visibleHeightPercent:
+      figure.clipBelowPercent === null || band
+        ? figure.heightPercent
+        : Math.max(0, figure.clipBelowPercent - figure.topPercent),
+    band,
+  };
+}
+
 /** The draw order of a spot: its own, or its foot line when unmarked. */
 export function spotDepth(spot: StagingSpot): number {
   return spot.depth ?? spot.y;
@@ -284,6 +335,77 @@ export function spotPose(
 /** Whether the pack has people seen from behind to stand at a spot facing away. */
 function peopleSeenFromBehind(): boolean {
   return PEOPLE_PACK.presentations.feminine.views?.back !== undefined;
+}
+
+/**
+ * A recipe as the pack draws it at a spot: the pose and view it resolves to,
+ * or null when that drawing cannot be there (a standing body in a seat, a
+ * pose the spot's kind does not take, a turned view the pack has not
+ * painted for these clothes).
+ *
+ * A place to lean takes a lean, or the standing pose the pose data draws a
+ * lean as (pose-by-activity.json `standIn`) while the pack has no lean
+ * painted: the person stands at the wall instead of the spot staying empty.
+ */
+export function drawnAtSpot(
+  at: StagingSpot,
+  recipe: EngineRecipe,
+  view: BodyView,
+): ReturnType<typeof posedPieces> | null {
+  const resolved = posedPieces(
+    PEOPLE_PACK.presentations[recipe.presentation],
+    recipe,
+    peoplePackFileAvailable,
+  );
+  const kinds = PEOPLE_PACK.slotKindsByPose?.[resolved.pose] ?? [];
+  const kind = at.pose ?? "stand";
+  if (
+    !(kinds.includes(kind) || (kind === "lean" && kinds.includes("stand"))) ||
+    (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
+    resolved.view !== view
+  )
+    return null;
+  return resolved;
+}
+
+/**
+ * The views a person at a spot can be drawn in, in the order to try them:
+ * the spot's own (spotView), then, at a spot turned to one side, facing the
+ * room, for clothes or faces the pack has not painted turned.
+ * A spot facing away takes someone seen from behind, or, in a scene of
+ * people facing the room (`faceRoom`), someone facing it.
+ */
+export function spotViews(
+  spot: StagingSpot,
+  faceRoom = false,
+): readonly BodyView[] {
+  const own = spotView(spot);
+  if (own === "front") return ["front"];
+  if (spot.facing === "away") return faceRoom ? ["front"] : [own];
+  return [own, "front"];
+}
+
+/**
+ * Turned toward the side the spot faces: mirrored when the painting turns
+ * the other way. A front view is drawn as it is.
+ */
+export function turnedToSpot(
+  spot: StagingSpot,
+  recipe: EngineRecipe,
+  view: BodyView,
+): EngineRecipe {
+  return (spot.facing === "left" || spot.facing === "right") && view !== "front"
+    ? {
+        ...recipe,
+        mirrored: mirrorToFace(
+          PEOPLE_PACK.presentations[recipe.presentation],
+          recipe,
+          spot.x,
+          spot.facing === "left" ? spot.x - 10 : spot.x + 10,
+          peoplePackFileAvailable,
+        ),
+      }
+    : recipe;
 }
 
 /** People present who need another measured spot or compatible artwork. */
@@ -525,13 +647,6 @@ export function placeBackdropPeople(
       .filter(({ spot }) => Boolean(spot && stage))
       .map(({ worker }) => worker.personId),
   );
-  /**
-   * The view a spot draws a person in: turned or seen from behind as the
-   * spot faces; a scene of people facing the room (faceRoom) has no one with
-   * their back to it.
-   */
-  const viewOf = (at: StagingSpot): BodyView =>
-    options.faceRoom && at.facing === "away" ? "front" : spotView(at);
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
   for (const { worker, onShift, spot: assignedSpot } of assigned) {
@@ -548,10 +663,11 @@ export function placeBackdropPeople(
       unplaced("no-spot");
       continue;
     }
-    // The assigned spot first; when the person's art cannot stand there (no
-    // drawing for that view or pose), any other free spot the role accepts,
+    // The assigned spot first, in each view it can be drawn in (spotViews);
+    // when the person's art cannot stand there at all (no drawing for that
+    // pose in any of them), any other free spot the role accepts,
     // front-facing first, rather than leaving them out of the room.
-    const tryAt = (at: StagingSpot, view: BodyView = viewOf(at)) => {
+    const tryView = (at: StagingSpot, view: BodyView) => {
       const recipe = personDayRecipeWithOutfitExclusions(world, record, {
         pose: spotPose(
           at,
@@ -572,20 +688,15 @@ export function placeBackdropPeople(
         avoidOutfits: outfitExclusions.get(record.id),
       });
       if (!recipe) return null;
-      const resolved = posedPieces(
-        PEOPLE_PACK.presentations[recipe.presentation],
-        recipe,
-        peoplePackFileAvailable,
-      );
-      if (
-        !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
-          at.pose ?? "stand",
-        ) ||
-        (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
-        resolved.view !== view
-      )
-        return null;
-      return { recipe, resolved };
+      const resolved = drawnAtSpot(at, recipe, view);
+      return resolved ? { recipe, resolved } : null;
+    };
+    const tryAt = (at: StagingSpot) => {
+      for (const view of spotViews(at, options.faceRoom)) {
+        const attempt = tryView(at, view);
+        if (attempt) return attempt;
+      }
+      return null;
     };
     let spot = assignedSpot;
     let fit = tryAt(spot);
@@ -599,18 +710,11 @@ export function placeBackdropPeople(
         )
         .sort(
           (a, b) =>
-            Number(viewOf(a) !== "front") - Number(viewOf(b) !== "front"),
+            Number(spotViews(a, options.faceRoom)[0] !== "front") -
+            Number(spotViews(b, options.faceRoom)[0] !== "front"),
         );
-      // Last, a turned spot with the person facing the room, when their
-      // clothes have no turned drawing.
-      for (const [candidate, view] of [
-        ...alternatives.map((at) => [at, viewOf(at)] as const),
-        // Their own spot first: it is already theirs, so it is not free.
-        ...[spot, ...alternatives]
-          .filter((at) => options.faceRoom && viewOf(at) !== "front")
-          .map((at) => [at, "front" as const] as const),
-      ]) {
-        const attempt = tryAt(candidate, view);
+      for (const candidate of alternatives) {
+        const attempt = tryAt(candidate);
         if (!attempt) continue;
         taken.delete(spot);
         taken.add(candidate);
@@ -624,22 +728,7 @@ export function placeBackdropPeople(
       continue;
     }
     const { recipe, resolved } = fit;
-    // Turned toward the side the spot faces: mirrored when the painting
-    // turns the other way.
-    const engine =
-      (spot.facing === "left" || spot.facing === "right") &&
-      resolved.view !== "front"
-        ? {
-            ...recipe,
-            mirrored: mirrorToFace(
-              PEOPLE_PACK.presentations[recipe.presentation],
-              recipe,
-              spot.x,
-              spot.facing === "left" ? spot.x - 10 : spot.x + 10,
-              peoplePackFileAvailable,
-            ),
-          }
-        : recipe;
+    const engine = turnedToSpot(spot, recipe, resolved.view);
     placed.push({
       personId: worker.personId,
       resolvedPose: resolved.pose,

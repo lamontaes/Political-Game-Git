@@ -292,11 +292,13 @@ describe("people anchors on every place picture", () => {
   });
 
   it("anchors convention hall and debate stage audience chairs", () => {
+    // Besides the audience: the stage, the lectern and the floor spots (the
+    // convention hall's three aisle spots for the title's people).
     const rooms = [
-      ["convention-hall", 164, 20],
-      ["debate-stage", 22, 3],
+      ["convention-hall", 164, 20, 10],
+      ["debate-stage", 22, 3, 7],
     ] as const;
-    for (const [place, expectedSeats, expectedRows] of rooms) {
+    for (const [place, expectedSeats, expectedRows, otherSpots] of rooms) {
       const spots = STAGES[place]!.spots;
       const seats = spots.filter((spot) => spot.pose === "sit");
       const audience = seats.filter((spot) => spot.role === "audience");
@@ -308,7 +310,7 @@ describe("people anchors on every place picture", () => {
       );
       const rowGroups = new Set(audience.map((spot) => spot.group));
       expect(rowGroups.size).toBe(expectedRows);
-      expect(spots).toHaveLength(7 + expectedSeats);
+      expect(spots).toHaveLength(otherSpots + expectedSeats);
     }
   });
 

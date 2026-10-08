@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import manifestJson from "../../../art/people-engine/v1/manifest.json" with { type: "json" };
-import { heroRecipe } from "./hero-posture";
 import {
   FACE_EXPRESSIONS,
   engineRecipeKey,
@@ -103,38 +102,5 @@ describe("expressions", () => {
     expect(engineRecipeKey(recipe(pack, { expression: "smile" }))).not.toBe(
       plain,
     );
-  });
-});
-
-describe("the title screen's hero", () => {
-  const pack = manifest.presentations.feminine;
-  const look = recipe(pack);
-
-  it("puts speaking officials and candidates at the podium, turned", () => {
-    for (const kind of [
-      "president",
-      "member-of-congress",
-      "governor",
-      "state-executive",
-      "state-legislator",
-      "mayor",
-      "council-member",
-      "county-commissioner",
-      "candidate",
-    ]) {
-      const hero = heroRecipe(look, kind, manifest);
-      expect([hero.pose, hero.view]).toEqual(["podium", "three-quarter"]);
-    }
-  });
-
-  it("seats a judge in the robe, has an organizer explain, and everyone else fold their arms", () => {
-    const judge = heroRecipe(look, "judge", manifest);
-    expect(judge.pose).toBe("seated");
-    expect(judge.outfit).toBe("judge-robe");
-    expect(heroRecipe(look, "organizer", manifest).pose).toBe("explaining");
-    for (const kind of ["public-servant", null, undefined, "unknown-kind"])
-      expect(heroRecipe(look, kind, manifest).pose).toBe("arms-folded");
-    // The look itself is kept: the same person, only posed.
-    expect(heroRecipe(look, "mayor", manifest).face).toBe(look.face);
   });
 });

@@ -32,13 +32,16 @@ interface PlaceRule extends PlaceDressCode {
 const PLACE_RULES: readonly PlaceRule[] = [
   {
     match:
-      /legislative-chamber|chamber|capitol|senate|assembly|statehouse|courtroom|court|oval|governor|mayor|executive-office|press-briefing|civic-hearing-room|hearing|committee-room/,
+      /legislative-chamber|chamber|capitol|senate|house-floor|assembly|statehouse|courtroom|court|oval|governor|mayor|executive-office|press-briefing|civic-hearing-room|hearing|committee-room/,
     dress: "formal",
     outdoors: false,
     why: "Government done in public: floor sessions, hearings, courts, briefings and the offices of elected executives.",
   },
   {
-    match: /office|workroom|city-hall|campaign-storefront|newsroom|bank/,
+    // The stages a campaign is seen on (a convention, a debate, an election
+    // night, a television studio) are dressed for as an office is.
+    match:
+      /office|workroom|city-hall|campaign-storefront|newsroom|bank|convention-hall|debate-stage|election-night|tv-studio/,
     dress: "business",
     outdoors: false,
     why: "Offices where staff, aides and campaign workers spend the working day.",
