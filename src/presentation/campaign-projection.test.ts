@@ -20,6 +20,11 @@ import type { LifePlace } from "../simulation";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { planStateChambers } from "../simulation/nationwide-world/state-legislature-opening";
+import { stateExecutiveIdentity } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 import { bindingFromIdentity } from "../districts/query";
 import { buildProductionWorld } from "./production-world";
 import {
@@ -271,6 +276,16 @@ describe("what the game will and will not offer", () => {
 });
 
 describe("player filing follows the recorded regular seat cohort", () => {
+  it("uses the chief executive election cycle for a governor's campaign date", () => {
+    const life = adultLife("governor-campaign-date", "kentucky");
+    const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;
+    const identity = stateExecutiveIdentity("KY")!;
+    const rule = stateExecutiveTermRule("KY")!;
+    expect(
+      campaignElectionDate(life.world, jurisdictionId, identity.officeKey),
+    ).toBe(nextRegularElection(rule, life.world.currentDate));
+  });
+
   it("offers Kansas Senate's 2028 race instead of a false 2026 regular election", () => {
     const life = adultLife("ks-player-regular-date", "2055225");
     const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;

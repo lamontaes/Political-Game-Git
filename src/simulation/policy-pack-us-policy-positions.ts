@@ -5,7 +5,10 @@ import {
   GOVERNMENT_OPERATIONS_LAW_ROWS,
   GOVERNMENT_OPERATIONS_QUESTION_KEYS,
 } from "./law-consequences/government-operations-rows";
-import { minimumCustodyRow } from "./law-consequences/legal-outcome";
+import {
+  juvenileJurisdictionRow,
+  minimumCustodyRow,
+} from "./law-consequences/legal-outcome";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -1401,6 +1404,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should older teenagers be handled in juvenile rather than adult court?",
       parameters: [{ key: "age", value: "upper-age-of-juvenile-jurisdiction" }],
+      consequences: [juvenileJurisdictionRow],
       principles: [
         {
           principle: "equal-opportunity",
@@ -3188,7 +3192,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     // (data/research/outcome-web/links.json) but no question asked about, so
     // nobody could pass them and no effect could run. Each question's key is
     // the one its links read as `law:us-policy-positions:<key>`; each place's
-    // law on it is in data/research/laws/starting-law-2026.json; the reason
+    // law on it is in data/research/laws/starting-law-2026/<area>.json; the reason
     // behind each bearing is in
     // docs/codex/effect-batches/claude-new-questions/ideology.json.
     {
