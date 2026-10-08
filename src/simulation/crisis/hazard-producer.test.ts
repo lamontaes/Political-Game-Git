@@ -8,7 +8,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
 import type { RepresentedArea } from "./hazard-producer";
 import {
   HAZARD_EPISODE_TRANSITION_KEY,
@@ -49,10 +49,22 @@ const peebles = lifePlaceSearch("Peebles", 20, {
 describe("automatic hazard production", () => {
   it("allocates recorded footprints to the places with the most exposure", () => {
     const areas = [
-      { jurisdictionId: "area-c", stateUsps: "KY", exposureWeight: 2 },
-      { jurisdictionId: "area-a", stateUsps: "KY", exposureWeight: 9 },
-      { jurisdictionId: "area-b", stateUsps: "KY", exposureWeight: 5 },
-    ] as unknown as RepresentedArea[];
+      {
+        jurisdictionId: "area-c" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 2,
+      },
+      {
+        jurisdictionId: "area-a" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 9,
+      },
+      {
+        jurisdictionId: "area-b" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 5,
+      },
+    ] satisfies RepresentedArea[];
     expect(chooseFootprintAreas(areas, 2)).toEqual(["area-a", "area-b"]);
     expect(chooseFootprintAreas(areas, 1)).toEqual(["area-a"]);
   });
