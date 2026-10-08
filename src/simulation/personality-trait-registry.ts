@@ -87,6 +87,11 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
     reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
+    trait: "personality-v1:truthfulness",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
     trait: "personality-v1:facet-manipulative",
     kind: "decision",
     reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
