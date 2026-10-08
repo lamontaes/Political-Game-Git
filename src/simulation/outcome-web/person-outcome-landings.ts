@@ -3,6 +3,10 @@ import schoolAges from "../../../data/research/education/compulsory-school-ages-
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  holdsPackCondition,
+  SUBSTANCE_USE_DISORDER_KEY,
+} from "../crisis/condition-pack";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { officialAnsweringFor } from "../living-world/lived-outcomes";
 import type {
@@ -19,7 +23,13 @@ import {
 } from "./place-outcome-store";
 
 export type OutcomeRecipientRule =
-  "recorded-school-enrollment-or-compulsory-age-estimate";
+  | "recorded-school-enrollment-or-compulsory-age-estimate"
+  | "age-0-infant-cohort-estimate"
+  | "age-19-to-64-cohort-estimate"
+  | "age-65-plus-cohort-estimate"
+  | "age-18-plus-substance-use-condition-estimate"
+  | "age-13-to-17-cohort-estimate"
+  | "age-5-to-17-cohort-estimate";
 
 interface CompulsorySchoolAgeRange {
   readonly minimumAge: number;
@@ -42,15 +52,11 @@ interface PlannedLanding {
   readonly estimatedFrom: string | null;
 }
 
-const EDUCATION_LANDING_PATH =
+const PERSON_LANDING_PATH =
   "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts";
-const EDUCATION_LANDINGS = (
-  landingPlan.links as readonly PlannedLanding[]
-).filter(
+const PERSON_LANDINGS = (landingPlan.links as readonly PlannedLanding[]).filter(
   (row) =>
-    row.policyArea === "education" &&
-    row.landingPath === EDUCATION_LANDING_PATH &&
-    row.recipientRule !== null,
+    row.landingPath === PERSON_LANDING_PATH && row.recipientRule !== null,
 );
 
 export interface OutcomeLandingPerson {
@@ -60,9 +66,10 @@ export interface OutcomeLandingPerson {
   readonly activeEducationEnrollment: boolean;
   readonly hasRecordedEducationEnrollment: boolean;
   readonly compulsorySchoolAge: CompulsorySchoolAgeRange | null;
+  readonly activeSubstanceUseCondition: boolean;
 }
 
-/** Use a recorded enrollment, or the jurisdiction's sourced age estimate. */
+/** Match a person to the estimate's cohort, using recorded facts when present. */
 export function matchesOutcomeRecipientRule(
   rule: OutcomeRecipientRule,
   person: Pick<
@@ -71,6 +78,7 @@ export function matchesOutcomeRecipientRule(
     | "activeEducationEnrollment"
     | "hasRecordedEducationEnrollment"
     | "compulsorySchoolAge"
+    | "activeSubstanceUseCondition"
   >,
 ): boolean {
   switch (rule) {
@@ -82,6 +90,18 @@ export function matchesOutcomeRecipientRule(
         person.age >= person.compulsorySchoolAge.minimumAge &&
         person.age <= person.compulsorySchoolAge.maximumAge
       );
+    case "age-0-infant-cohort-estimate":
+      return person.age === 0;
+    case "age-19-to-64-cohort-estimate":
+      return person.age >= 19 && person.age <= 64;
+    case "age-65-plus-cohort-estimate":
+      return person.age >= 65;
+    case "age-18-plus-substance-use-condition-estimate":
+      return person.age >= 18 && person.activeSubstanceUseCondition;
+    case "age-13-to-17-cohort-estimate":
+      return person.age >= 13 && person.age <= 17;
+    case "age-5-to-17-cohort-estimate":
+      return person.age >= 5 && person.age <= 17;
   }
 }
 
@@ -106,19 +126,30 @@ export function outcomeLandingStableKey(
 }
 
 /**
- * Route school measures through recorded enrollments where available, then
- * use the state's sourced compulsory-attendance ages for unrecorded residents.
- * The place estimate is not a personal test score, diploma or enrollment fact.
+ * Route each place measure to the people represented by its recipient rule.
+ * Place estimates remain estimates, not personal test scores, diagnoses,
+ * coverage decisions, or enrollment facts.
  */
 export function recordPlannedPersonOutcomeLandings(
   world: World,
   month: IsoDate,
 ): World {
-  if (EDUCATION_LANDINGS.length === 0 || !world.placeOutcomes) return world;
+  if (PERSON_LANDINGS.length === 0 || !world.placeOutcomes) return world;
   const previousMonth = world.placeOutcomes.months
     .filter((entry) => entry.month < month)
     .at(-1)?.month;
-  const education = educationEnrollmentsAt(world, month);
+  const needsEducationEnrollment = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule ===
+      "recorded-school-enrollment-or-compulsory-age-estimate",
+  );
+  const needsSubstanceUseCondition = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "age-18-plus-substance-use-condition-estimate",
+  );
+  const education = needsEducationEnrollment
+    ? educationEnrollmentsAt(world, month)
+    : { active: new Set<EntityId>(), recorded: new Set<EntityId>() };
   const alreadyLanded = new Set(
     (world.placeOutcomes.landings ?? []).map(
       (row) => `${row.personId}|${row.linkKey}`,
@@ -128,22 +159,43 @@ export function recordPlannedPersonOutcomeLandings(
     (world.placeOutcomes.landings ?? []).map((row) => row.stableKey),
   );
   const pending: PlaceOutcomeLandingRecord[] = [];
+  const currentOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const priorOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const outcomeFor = (
+    cache: Map<string, ReturnType<typeof placeOutcomeAt>>,
+    jurisdictionId: EntityId,
+    outcomeMonth: IsoDate,
+    measure: string,
+  ) => {
+    const key = `${jurisdictionId}|${measure}|${outcomeMonth}`;
+    if (!cache.has(key))
+      cache.set(
+        key,
+        placeOutcomeAt(world, measure, jurisdictionId, outcomeMonth),
+      );
+    return cache.get(key) ?? null;
+  };
 
   for (const personId of world.personOrder) {
     const person = world.people[personId];
     if (!person) continue;
     const stateKey = placeOutcomeKey(person.homeJurisdictionId);
+    const age = ageOnDate(person.birthDate, month);
     const recipient: OutcomeLandingPerson = {
       personId,
       jurisdictionId: person.homeJurisdictionId,
-      age: ageOnDate(person.birthDate, month),
+      age,
       activeEducationEnrollment: education.active.has(personId),
       hasRecordedEducationEnrollment: education.recorded.has(personId),
       compulsorySchoolAge: stateKey
         ? (COMPULSORY_SCHOOL_AGES[stateKey] ?? null)
         : null,
+      activeSubstanceUseCondition:
+        needsSubstanceUseCondition && age >= 18
+          ? holdsPackCondition(world, personId, SUBSTANCE_USE_DISORDER_KEY)
+          : false,
     };
-    for (const row of EDUCATION_LANDINGS) {
+    for (const row of PERSON_LANDINGS) {
       if (
         !row.recipientRule ||
         !row.outcomeDirection ||
@@ -151,21 +203,21 @@ export function recordPlannedPersonOutcomeLandings(
         !matchesOutcomeRecipientRule(row.recipientRule, recipient)
       )
         continue;
-      const outcome = placeOutcomeAt(
-        world,
-        row.outcome,
+      const outcome = outcomeFor(
+        currentOutcomes,
         recipient.jurisdictionId,
         month,
+        row.outcome,
       );
       if (!outcome) continue;
       const currentFactor =
         outcome.causes.find((cause) => cause.key === row.key)?.factor ?? 1;
       const prior = previousMonth
-        ? placeOutcomeAt(
-            world,
-            row.outcome,
+        ? outcomeFor(
+            priorOutcomes,
             recipient.jurisdictionId,
             previousMonth,
+            row.outcome,
           )
         : null;
       const previousFactor =

@@ -3,7 +3,13 @@ import schoolAges from "../../../data/research/education/compulsory-school-ages-
 import agePlaceholderLedger from "../../../data/research/education/placeholder-ledger.json" with { type: "json" };
 import sourceLinks from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "../dates";
+import { ageOnDate, makeIsoDate } from "../dates";
+import {
+  CONDITION_PACK_ORIGIN,
+  holdsPackCondition,
+  SUBSTANCE_USE_DISORDER_KEY,
+} from "../crisis/condition-pack";
+import { appendCrisisRecord } from "../crisis/records";
 import { currentGovernorOf } from "../crisis/offices";
 import { createEducationEnrollment, createOrganization } from "../life";
 import {
@@ -32,6 +38,9 @@ const plannedEducation = landingPlan.links.filter(
     row.policyArea === "education" &&
     row.landingPath === educationLandingPath &&
     row.recipientRule !== null,
+);
+const plannedHealth = landingPlan.links.filter(
+  (row) => row.policyArea === "health" && row.recipientRule !== null,
 );
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
@@ -63,12 +72,74 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 34,
+      "person-linked": 44,
       "budget-only": 4,
-      "place-number-only": 61,
+      "place-number-only": 51,
       "no-live-consumer": 2,
     });
   });
+
+  it("routes every health link through the shared person path with evidence", () => {
+    expect(plannedHealth).toHaveLength(10);
+    expect(
+      plannedHealth.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          row.outcomeDirection === "higher-is-worse" &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    expect(plannedHealth.map((row) => row.key).sort()).toEqual(
+      [
+        "abortion-ban-to-infant-deaths",
+        "cannabis-sales-to-overdose-deaths",
+        "cannabis-sales-to-youth-use",
+        "drug-negotiation-to-out-of-pocket",
+        "gas-hookup-ban-to-child-asthma",
+        "harm-reduction-to-overdose-deaths",
+        "medicaid-expansion-to-coverage",
+        "particles-to-infant-deaths",
+        "unemployment-to-uninsured",
+        "work-requirement-to-coverage",
+      ].sort(),
+    );
+  });
+
+  it.each([
+    ["age-0-infant-cohort-estimate", 0, false, true],
+    ["age-0-infant-cohort-estimate", 1, false, false],
+    ["age-19-to-64-cohort-estimate", 18, false, false],
+    ["age-19-to-64-cohort-estimate", 19, false, true],
+    ["age-19-to-64-cohort-estimate", 64, false, true],
+    ["age-19-to-64-cohort-estimate", 65, false, false],
+    ["age-65-plus-cohort-estimate", 64, false, false],
+    ["age-65-plus-cohort-estimate", 65, false, true],
+    ["age-18-plus-substance-use-condition-estimate", 18, false, false],
+    ["age-18-plus-substance-use-condition-estimate", 18, true, true],
+    ["age-18-plus-substance-use-condition-estimate", 17, true, false],
+    ["age-13-to-17-cohort-estimate", 13, false, true],
+    ["age-13-to-17-cohort-estimate", 17, false, true],
+    ["age-13-to-17-cohort-estimate", 18, false, false],
+    ["age-5-to-17-cohort-estimate", 4, false, false],
+    ["age-5-to-17-cohort-estimate", 5, false, true],
+    ["age-5-to-17-cohort-estimate", 17, false, true],
+    ["age-5-to-17-cohort-estimate", 18, false, false],
+  ] as const)(
+    "matches %s at age %i with condition=%s => %s",
+    (rule, age, active, expected) => {
+      expect(
+        matchesOutcomeRecipientRule(rule, {
+          age,
+          activeEducationEnrollment: false,
+          hasRecordedEducationEnrollment: false,
+          compulsorySchoolAge: null,
+          activeSubstanceUseCondition: active,
+        }),
+      ).toBe(expected);
+    },
+  );
 
   it.each(lifePlaceStateIdentities())(
     "uses recorded enrollment or sourced attendance ages for %s",
@@ -82,6 +153,7 @@ describe("the outcome landing plan", () => {
         activeEducationEnrollment: false,
         hasRecordedEducationEnrollment: false,
         compulsorySchoolAge: ages,
+        activeSubstanceUseCondition: false,
       };
       expect(
         matchesOutcomeRecipientRule(rule, {
@@ -140,9 +212,29 @@ describe("the outcome landing plan", () => {
   });
 
   it.each(lifePlaceStateIdentities())(
-    "reads gain and cost direction without a place-specific branch for %s",
+    "uses the same health cohorts and gain-cost rules for %s",
     (place) => {
       expect(place.jurisdictionKey).toMatch(/^US-/);
+      const youth = {
+        age: 16,
+        activeEducationEnrollment: false,
+        hasRecordedEducationEnrollment: false,
+        compulsorySchoolAge: null,
+        activeSubstanceUseCondition: false,
+      };
+      const eligibleHealthLinks = plannedHealth
+        .filter((row) =>
+          matchesOutcomeRecipientRule(
+            row.recipientRule as OutcomeRecipientRule,
+            youth,
+          ),
+        )
+        .map((row) => row.key)
+        .sort();
+      expect(eligibleHealthLinks).toEqual([
+        "cannabis-sales-to-youth-use",
+        "gas-hookup-ban-to-child-asthma",
+      ]);
       expect(outcomeLandingDirection(1, 1.01, "higher-is-better")).toBe("gain");
       expect(outcomeLandingDirection(1, 0.99, "higher-is-better")).toBe("cost");
       expect(outcomeLandingDirection(1, 1.01, "higher-is-worse")).toBe("cost");
@@ -163,6 +255,32 @@ describe("a named education outcome landing", () => {
       (id) => id !== fixture.personId,
     );
     if (!personId) throw new Error("The seeded world needs another resident.");
+    const healthPersonId = fixture.world.personOrder.find((id) => {
+      if (id === fixture.personId || id === personId) return false;
+      const resident = fixture.world.people[id];
+      if (!resident) return false;
+      const age = ageOnDate(resident.birthDate, fixture.world.currentDate);
+      return (
+        age >= 19 &&
+        age <= 64 &&
+        !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
+      );
+    });
+    if (!healthPersonId)
+      throw new Error("The seeded world needs a working-age adult.");
+    const unconditionedAdultId = fixture.world.personOrder.find((id) => {
+      if (id === healthPersonId) return false;
+      const resident = fixture.world.people[id];
+      if (!resident) return false;
+      const age = ageOnDate(resident.birthDate, fixture.world.currentDate);
+      return (
+        age >= 19 &&
+        age <= 64 &&
+        !holdsPackCondition(fixture.world, id, SUBSTANCE_USE_DISORDER_KEY)
+      );
+    });
+    if (!unconditionedAdultId)
+      throw new Error("The seeded world needs another working-age adult.");
     const state = stateJurisdictionForKey("US-OH");
     if (!state) throw new Error("Ohio's state jurisdiction must be present.");
     const month = makeIsoDate("2026-01-01");
@@ -201,9 +319,52 @@ describe("a named education outcome landing", () => {
       value: 11770,
       causes: [{ key: "equalized-funding-to-spending", factor: 1.07 }],
     };
+    const healthOutcome: PlaceOutcomeRecord = {
+      measure: "health.uninsured-pct",
+      placeKey: "US-OH",
+      jurisdictionId: state.id,
+      month,
+      base: 8,
+      structural: 8,
+      multiplier: 1.04,
+      value: 8.32,
+      causes: [{ key: "work-requirement-to-coverage", factor: 1.04 }],
+    };
+    const overdoseOutcome: PlaceOutcomeRecord = {
+      measure: "health.overdose-deaths",
+      placeKey: "US-OH",
+      jurisdictionId: state.id,
+      month,
+      base: 18,
+      structural: 18,
+      multiplier: 1.05,
+      value: 18.9,
+      causes: [
+        { key: "harm-reduction-to-overdose-deaths", factor: 1.04 },
+        { key: "cannabis-sales-to-overdose-deaths", factor: 1.05 },
+      ],
+    };
+    const withSubstanceUseCondition = appendCrisisRecord(enrolled, {
+      kind: "health-episode",
+      stableKey: "ow-spine-health-test:substance-use-condition",
+      effectiveAt: month,
+      causalParentIds: [],
+      visibility: "private",
+      eventId: null,
+      personId: healthPersonId,
+      label: "condition",
+      conditionKey: SUBSTANCE_USE_DISORDER_KEY,
+      severity: "chronic",
+      origin: CONDITION_PACK_ORIGIN,
+      hazardMultiplierMicros: 1_000_000,
+      hazardBasis: "Seeded test condition.",
+      course: [],
+    });
     const world = {
-      ...enrolled,
-      placeOutcomes: { months: [{ month, records: [outcome] }] },
+      ...withSubstanceUseCondition,
+      placeOutcomes: {
+        months: [{ month, records: [outcome, healthOutcome, overdoseOutcome] }],
+      },
     };
 
     const landed = recordPlannedPersonOutcomeLandings(world, month);
@@ -222,18 +383,67 @@ describe("a named education outcome landing", () => {
     });
     const governor = currentGovernorOf(landed, "OH");
     expect(landing?.answeringPersonId).toBe(governor?.personId);
+    const healthLanding = landed.placeOutcomes?.landings?.find(
+      (row) =>
+        row.personId === healthPersonId &&
+        row.linkKey === "work-requirement-to-coverage",
+    );
+    expect(healthLanding).toMatchObject({
+      measure: "health.uninsured-pct",
+      recipientRule: "age-19-to-64-cohort-estimate",
+      direction: "cost",
+      estimatedFrom: expect.any(String),
+    });
+    const substanceUseLandings = landed.placeOutcomes?.landings?.filter(
+      (row) =>
+        row.personId === healthPersonId &&
+        [
+          "harm-reduction-to-overdose-deaths",
+          "cannabis-sales-to-overdose-deaths",
+        ].includes(row.linkKey),
+    );
+    expect(substanceUseLandings).toHaveLength(2);
+    expect(
+      landed.placeOutcomes?.landings?.some(
+        (row) =>
+          row.personId === unconditionedAdultId &&
+          [
+            "harm-reduction-to-overdose-deaths",
+            "cannabis-sales-to-overdose-deaths",
+          ].includes(row.linkKey),
+      ),
+    ).toBe(false);
 
     const reflectionKey = livedOutcomeReflectionKey(personId, landing!.id);
     const due = landed.history.futureDueItems.find(
       (row) => row.stableKey === reflectionKey,
     );
     expect(due).toBeDefined();
+    const healthReflectionKey = livedOutcomeReflectionKey(
+      healthPersonId,
+      healthLanding!.id,
+    );
+    const healthDue = landed.history.futureDueItems.find(
+      (row) => row.stableKey === healthReflectionKey,
+    );
+    expect(healthDue).toBeDefined();
     const reflected = officialViewReflectionHandler(landed, due!).world;
     expect(
       reflected.history.events.some(
         (event) =>
           event.type === LIVED_OUTCOME_REFLECTION_EVENT_TYPE &&
           event.tags.includes(`lived-outcome-source:${landing!.id}`),
+      ),
+    ).toBe(true);
+    const healthReflected = officialViewReflectionHandler(
+      reflected,
+      healthDue!,
+    ).world;
+    expect(
+      healthReflected.history.events.some(
+        (event) =>
+          event.type === LIVED_OUTCOME_REFLECTION_EVENT_TYPE &&
+          event.tags.includes(`lived-outcome-source:${healthLanding!.id}`),
       ),
     ).toBe(true);
     expect(
@@ -243,6 +453,17 @@ describe("a named education outcome landing", () => {
             (reference) =>
               reference.kind === "place-outcome" &&
               reference.outcomeRecordId === landing!.outcomeRecordId,
+          ),
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      healthReflected.history.decisionTraces.some((trace) =>
+        trace.context.considerations.some((consideration) =>
+          consideration.sourceRefs.some(
+            (reference) =>
+              reference.kind === "place-outcome" &&
+              reference.outcomeRecordId === healthLanding!.outcomeRecordId,
           ),
         ),
       ),

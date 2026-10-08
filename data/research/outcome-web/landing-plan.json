@@ -106,10 +106,11 @@
       "policyArea": "health",
       "sourceArea": "env.particulates:pct-of-start",
       "recipientGroup": "infants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-0-infant-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "emission-rules-to-particulates",
@@ -129,10 +130,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.medicaid-work-requirement",
       "recipientGroup": "expansion adults 19 to 64",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-19-to-64-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "snap-to-food-insecurity",
@@ -241,10 +243,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:civil-family-community.restrict-abortion",
       "recipientGroup": "infants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Gemmill et al. 2025 (JAMA)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-0-infant-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Gemmill et al. 2025 (JAMA)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "universal-childcare-to-mothers-work",
@@ -274,10 +277,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
       "recipientGroup": "low-income adults",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-19-to-64-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -387,10 +391,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "teens",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-13-to-17-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -489,10 +494,11 @@
       "policyArea": "health",
       "sourceArea": "labor.unemployment-pct",
       "recipientGroup": "working-age men; women and children shielded by public insurance",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Cawley, Moriya and Simon 2015"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-19-to-64-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Cawley, Moriya and Simon 2015",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-minimum-wage-to-poverty",
@@ -566,10 +572,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-federal-positions:health.medicare-drug-price-negotiation",
       "recipientGroup": "Medicare enrollees",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-65-plus-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -937,10 +944,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:health-human-services.harm-reduction-services",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-18-plus-substance-use-condition-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "public-bargaining-to-earnings",
@@ -982,10 +990,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-5-to-17-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
@@ -1040,10 +1049,11 @@
       "policyArea": "health",
       "sourceArea": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug"
+      "currentStatus": "person-linked",
+      "recipientRule": "age-18-plus-substance-use-condition-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "highway-money-for-transit-to-service",
@@ -1178,9 +1188,9 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 34,
-    "budget-only": 4,
-    "place-number-only": 61,
-    "no-live-consumer": 2
+    "person-linked": 44,
+    "place-number-only": 51,
+    "no-live-consumer": 2,
+    "budget-only": 4
   }
 }
