@@ -587,6 +587,17 @@ export function PeopleWorkspace({
           {dossier.laws.map((law) => (
             <p key={law.measureId}>{law.title}</p>
           ))}
+          <HeardOfficialViewsList
+            views={dossier.viewsTheyHold}
+            shows="official"
+            testid="people-dossier-views-held"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
+          <HeardOfficialViewsList
+            views={dossier.viewsOfThem}
+            testid="people-dossier-views-of"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
           <PinToggle
             className="ui-action ui-action--rail"
             pinned={pinned}
