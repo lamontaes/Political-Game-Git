@@ -78,7 +78,6 @@ function lifeTurn(
   const event = eventsById.get(entry.sourceId);
   if (
     event?.tags.includes("vitality.death") ||
-    event?.type === "person-death" ||
     /\b(?:died|death|lost|loss|grief)\b/i.test(entry.text)
   )
     return "loss";
