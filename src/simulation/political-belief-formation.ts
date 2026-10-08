@@ -13,6 +13,7 @@ import {
 } from "./decisions";
 import { createFormationContext, recordPrivateBelief } from "./politics";
 import { activePartnershipsAt, kinshipRelationshipsAt } from "./life-queries";
+import { recordsByKey } from "./history-index";
 import type {
   DecisionConstraint,
   DecisionEvaluation,
@@ -556,11 +557,16 @@ function latestPrivateBeliefAtCutoff(
   propositionId: EntityId,
   cutoff: HistoricalCutoff,
 ): PrivateBeliefRecord | undefined {
-  return world.history.privateBeliefs
+  return recordsByKey(
+    world.history.privateBeliefs,
+    "belief-formation:person-subject",
+    (record) => [
+      JSON.stringify([record.personId, privateBeliefSubjectId(record)]),
+    ],
+    JSON.stringify([personId, propositionId]),
+  )
     .filter(
       (record) =>
-        record.personId === personId &&
-        privateBeliefSubjectId(record) === propositionId &&
         record.formedAt <= cutoff.asOfDate &&
         record.sequence < cutoff.historySequenceExclusive,
     )
