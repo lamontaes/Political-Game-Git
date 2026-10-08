@@ -1,4 +1,9 @@
 import { speakerTraits } from "./speaker-traits";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "./english-grades";
 import { daysBetween } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import {
@@ -90,6 +95,20 @@ function bankOf(variant: LinePartVariant): ComposedLineBank {
   };
 }
 
+/**
+ * The wordings the owner's grades have not held back, or the whole list when
+ * every one is: the day still opens, as a conversation still answers.
+ */
+function ungraded(
+  list: readonly LinePartVariant[],
+  grades: PartGradeLedger,
+): readonly LinePartVariant[] {
+  const kept = list.filter(
+    (variant) => !heldByGrades(`day-opening:core:${variant.key}`, grades),
+  );
+  return kept.length > 0 ? kept : list;
+}
+
 /** One step a day through a list, starting where this town starts. */
 function turn<T>(list: readonly T[], day: number, offset: number): T {
   return list[(((day + offset) % list.length) + list.length) % list.length]!;
@@ -120,6 +139,16 @@ export function dayOpeningLine(
   personId: EntityId,
   facts: DayOpeningFacts,
 ): string {
+  return composeDayOpening(world, personId, facts).text;
+}
+
+/** The day's opening line and the part keys a grade on it points at. */
+export function composeDayOpening(
+  world: World,
+  personId: EntityId,
+  facts: DayOpeningFacts,
+  grades: PartGradeLedger = PART_GRADES,
+): { readonly text: string; readonly parts: readonly string[] } {
   const date = new Date(`${world.currentDate}T12:00:00Z`);
   const clock = [world.id];
   const factRows: Record<string, GroundedEnglishFact> = {
@@ -182,17 +211,26 @@ export function dayOpeningLine(
     0,
   );
   const chosen = [
-    turn(factRows["place-name"] ? DAY : DAY_NO_PLACE, day, offset),
     turn(
-      factRows.waiting ? SOMETHING_WAITING : NOTHING_WAITING,
+      ungraded(factRows["place-name"] ? DAY : DAY_NO_PLACE, grades),
+      day,
+      offset,
+    ),
+    turn(
+      ungraded(factRows.waiting ? SOMETHING_WAITING : NOTHING_WAITING, grades),
       day,
       offset * 3,
     ),
-    ...(factRows.housemate ? [turn(HOUSEMATE, day, offset * 7)] : []),
+    ...(factRows.housemate
+      ? [turn(ungraded(HOUSEMATE, grades), day, offset * 7)]
+      : []),
   ];
-  const sentences = chosen.flatMap((variant) => {
+  const lines = chosen.flatMap((variant) => {
     const line = composeGroundedLine(packet, bankOf(variant));
-    return line.kind === "rendered" ? [line.text] : [];
+    return line.kind === "rendered" ? [line] : [];
   });
-  return sentences.join(" ");
+  return {
+    text: lines.map((line) => line.text).join(" "),
+    parts: lines.flatMap((line) => line.parts.map((part) => part.partKey)),
+  };
 }

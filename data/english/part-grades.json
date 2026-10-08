@@ -1,5 +1,150 @@
 {
   "schema": "english-part-grades/1",
-  "batches": [],
-  "parts": {}
+  "batches": ["batch-1"],
+  "parts": {
+    "bank:hearing.answer.thank-you-for-the-question": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.answer.yes-thank-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.chair-procedure.good-afternoon": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-all": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-chairman": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:hearing.thanks.thank-you-mr-chairman": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.procedural.may-i-inquire-about-how-much-time-is-remaining": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:meeting.procedural.reserving-the-right-to-object": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:phase:chapter:6": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1967": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1982": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1990": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:1994": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2005": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2007": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2015": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal:chapter:year:2026": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    }
+  }
 }

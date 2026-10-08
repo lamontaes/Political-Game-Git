@@ -3,7 +3,15 @@ import recipientAgeCohorts from "../../../data/research/outcome-web/person-recip
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
-import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  lifePlaceByJurisdictionId,
+  stateJurisdictionForKey,
+} from "../life-places";
+import {
+  PROSECUTION_SENTENCED_EVENT,
+  sentencedPersonOf,
+} from "../justice/jail-terms";
+import { hasPolicyRestoredVotingRightOn } from "../justice/voting-standing";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 import { householdMembershipsAt } from "../life-queries";
 import {
@@ -47,7 +55,9 @@ export type OutcomeRecipientRule =
   | "retirement-policy-age-cohort-estimate"
   | "recorded-married-woman-estimate"
   | "recorded-parent-of-young-child-estimate"
-  | "recorded-parent-of-infant-estimate";
+  | "recorded-parent-of-infant-estimate"
+  | "voting-age-resident-estimate"
+  | "recorded-restored-voting-right-estimate";
 
 type AgeBoundedOutcomeRecipientRule = Exclude<
   OutcomeRecipientRule,
@@ -62,6 +72,7 @@ type AgeBoundedOutcomeRecipientRule = Exclude<
   | "recorded-married-woman-estimate"
   | "recorded-parent-of-young-child-estimate"
   | "recorded-parent-of-infant-estimate"
+  | "recorded-restored-voting-right-estimate"
 >;
 
 interface CompulsorySchoolAgeRange {
@@ -132,6 +143,7 @@ export interface OutcomeLandingPerson {
   readonly hasRecordedFemaleIdentity: boolean;
   readonly hasActiveParentOfYoungChild: boolean;
   readonly hasActiveParentOfInfant: boolean;
+  readonly hasPolicyRestoredVotingRight: boolean;
 }
 
 /** Match a person to the estimate's cohort, using recorded facts when present. */
@@ -155,6 +167,7 @@ export function matchesOutcomeRecipientRule(
     | "hasRecordedFemaleIdentity"
     | "hasActiveParentOfYoungChild"
     | "hasActiveParentOfInfant"
+    | "hasPolicyRestoredVotingRight"
   >,
 ): boolean {
   switch (rule) {
@@ -186,6 +199,8 @@ export function matchesOutcomeRecipientRule(
       return person.hasActiveParentOfYoungChild;
     case "recorded-parent-of-infant-estimate":
       return person.hasActiveParentOfInfant;
+    case "recorded-restored-voting-right-estimate":
+      return person.hasPolicyRestoredVotingRight;
     case "adult-school-completer-estimate": {
       const cohort = RECIPIENT_AGE_COHORTS[rule];
       return (
@@ -263,8 +278,38 @@ export function recordPlannedPersonOutcomeLandings(
   const needsRecordedWage = PERSON_LANDINGS.some(
     (row) => row.recipientRule === "recorded-wage-family-member-estimate",
   );
+  const needsPolicyRestoredVotingRight = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "recorded-restored-voting-right-estimate",
+  );
   const adultConditionMinimumAge =
     RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
+  const policyRestoredVoters = new Set<EntityId>();
+  if (needsPolicyRestoredVotingRight) {
+    const sentencedPeople = new Set<EntityId>();
+    for (const event of world.history.events) {
+      if (event.type !== PROSECUTION_SENTENCED_EVENT) continue;
+      const personId = sentencedPersonOf(event);
+      if (personId) sentencedPeople.add(personId);
+    }
+    for (const personId of sentencedPeople) {
+      const person = world.people[personId];
+      if (!person) continue;
+      const stateKey = placeOutcomeKey(person.homeJurisdictionId);
+      const stateJurisdiction = stateKey
+        ? stateJurisdictionForKey(stateKey)
+        : null;
+      if (
+        stateJurisdiction &&
+        hasPolicyRestoredVotingRightOn(
+          world,
+          personId,
+          stateJurisdiction.id,
+          month,
+        )
+      )
+        policyRestoredVoters.add(personId);
+    }
+  }
   const education = needsEducationEnrollment
     ? educationEnrollmentsAt(world, month)
     : {
@@ -534,6 +579,7 @@ export function recordPlannedPersonOutcomeLandings(
       hasRecordedFemaleIdentity: person.identity?.gender === "female",
       hasActiveParentOfYoungChild: parentsOfYoungChildren.has(personId),
       hasActiveParentOfInfant: parentsOfInfants.has(personId),
+      hasPolicyRestoredVotingRight: policyRestoredVoters.has(personId),
     };
     for (const row of PERSON_LANDINGS) {
       if (
