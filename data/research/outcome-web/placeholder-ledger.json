@@ -34,6 +34,22 @@
       "gap": "The aggregate firearm-homicide measure records no personal exposure or victimization.",
       "estimate": "Route a changed place rate to resident safety-context estimates; preserve the rate's firearm-share and territory proxy limitations. Do not produce injuries or deaths.",
       "estimatedFrom": "CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization."
+    },
+    {
+      "key": "farmland-easements-to-farmland-lost-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["farmland-easements-to-farmland-lost"],
+      "gap": "Individual farmland parcels, land titles, acreage, and personal valuation are not recorded.",
+      "estimate": "Use the named recipient context only; no parcel, title, acreage, wealth change or easement payment is produced.",
+      "estimatedFrom": "American Farmland Trust, Farms Under Threat: The State of the States (2020), Appendix III, agricultural land converted from 2001 to 2016 divided by 15 years. This is an estimated resident exposure to local farmland preservation, with the existing uncovered-place proxies retained in the place measure. Individual parcels, acreage, easement contracts, and compensation remain unrecorded."
+    },
+    {
+      "key": "farm-payments-cut-to-land-values-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["farm-payments-cut-to-land-values"],
+      "gap": "Individual farmland parcels, land titles, acreage, and personal valuation are not recorded.",
+      "estimate": "Use the named recipient context only; no parcel, title, acreage, wealth change or easement payment is produced.",
+      "estimatedFrom": "USDA ERS, Farmland Ownership and Tenure (https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure), and USDA NASS farm real estate values. A current recorded agricultural business owner or directing farm operator in the person's home state supplies an estimated land-value exposure. An operator can lease land; this does not establish a land title, acreage, equity, or a personal wealth change."
     }
   ]
 }
