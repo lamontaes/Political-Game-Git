@@ -33,6 +33,7 @@ import type {
   CampaignWeekView,
   CommitCampaignWeekInput,
   EntityId,
+  IsoDate,
   World,
 } from "./index";
 import { campaignOperatingSpending } from "./campaign-operating-costs";
@@ -58,6 +59,49 @@ function moment(world: World, date: string, minuteOfDay: number) {
     timeZone: world.currentMoment.timeZone,
     preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
   });
+}
+
+/**
+ * Staff who have worked the campaign for months, without running months of
+ * clock: the dates their work relationship, its first status and its campaign
+ * role start from move back by `days`. Nothing else about them changes.
+ */
+function withCampaignExperience(
+  world: World,
+  staffPersonIds: readonly EntityId[],
+  days: number,
+): World {
+  const staffWork = new Set(
+    world.history.workRelationships
+      .filter((work) => staffPersonIds.includes(work.personId))
+      .map((work) => work.id),
+  );
+  const earlier = (date: IsoDate) => addDays(date, -days);
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      workRelationships: world.history.workRelationships.map((work) =>
+        staffWork.has(work.id)
+          ? {
+              ...work,
+              recordedAt: earlier(work.recordedAt),
+              startedAt: earlier(work.startedAt),
+            }
+          : work,
+      ),
+      workStatuses: world.history.workStatuses.map((status) =>
+        staffWork.has(status.workRelationshipId)
+          ? { ...status, effectiveAt: earlier(status.effectiveAt) }
+          : status,
+      ),
+      workRoles: world.history.workRoles.map((role) =>
+        staffWork.has(role.workRelationshipId)
+          ? { ...role, effectiveAt: earlier(role.effectiveAt) }
+          : role,
+      ),
+    },
+  };
 }
 
 /**
@@ -592,6 +636,27 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     expect(world.history.campaignWeeklyPlans ?? []).toEqual([]);
   });
 
+  it("has a manager with months of campaign work propose advertising, and a new hire the careful week", () => {
+    const hired = fundedCampaign("weekly-experience", { staffCount: 1 });
+    const staffPersonId = hired.staffPersonIds[0]!;
+    // The staff member's recorded traits and the committee allow a
+    // communications week in both worlds; the difference is how long the
+    // manager has worked the campaign (campaign-weekly-plans.ts,
+    // proposedEmphasis: under ninety days proposes the careful one).
+    const newHire = projectCampaignWeek(hired.world, hired.personId)!;
+    expect(newHire.proposerPersonId).toBe(staffPersonId);
+    expect(newHire.options.map((option) => option.emphasis)).toContain(
+      "communications",
+    );
+    expect(newHire.proposedEmphasis).toBe("relationships");
+    const seasoned = projectCampaignWeek(
+      withCampaignExperience(hired.world, hired.staffPersonIds, 120),
+      hired.personId,
+    )!;
+    expect(seasoned.proposerPersonId).toBe(staffPersonId);
+    expect(seasoned.proposedEmphasis).toBe("communications");
+  });
+
   it("attributes the plan to active staff and books them into the sessions", () => {
     const filed = fundedCampaign("weekly-staffed", { staffCount: 1 });
     const staffPersonId = filed.staffPersonIds[0]!;
@@ -599,7 +664,8 @@ describe("weekly campaign plans", { timeout: 900_000 }, () => {
     expect(view.proposerPersonId).toBe(staffPersonId);
     expect(view.attribution).toMatch(/active campaign staff member/);
     expect(view.proposal).toMatch(/proposes/);
-    expect(view.proposedEmphasis).toBe("communications");
+    // A new hire has under ninety days of campaign work.
+    expect(view.proposedEmphasis).toBe("relationships");
     const planned = commitCampaignWeek(
       filed.world,
       filed.personId,
