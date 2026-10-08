@@ -665,7 +665,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2218 | Clarify 2026 Minnesota groundwater permit rule | PR #2218 (codex/session17-agriculture-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2219 | Close permission writers over the shared kind and preserve legacy saves | PR #2219 (codex/session21-permission-kind) | open: draft: finish it or close it as superseded | |
 | RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: draft; 10 additional parks shares sourced on split main; focused test held below 5 GiB disk floor | |
 | RS-2222 | Use coverage-eligibility stamps in both existing coverage writers | PR #2222 (codex/session21-coverage-kind) | open: draft: finish it or close it as superseded | |
 | RS-2223 | Use legal-outcome stamps while preserving pretrial and custody records | PR #2223 (codex/session21-legal-kind) | open: draft: finish it or close it as superseded | |
 | RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
