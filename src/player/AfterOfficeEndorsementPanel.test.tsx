@@ -65,5 +65,11 @@ describe("after-office endorsement controls", () => {
     expect(html).toContain('data-testid="endorsement-reply-repay-favor-1"');
     expect(html).toContain('data-testid="endorsement-reply-decline"');
     expect(html).toContain("Endorse in return for earlier help");
+    // Record data and the recorded replies only: the candidate's name, no
+    // raw ids, speech-act codes or written confirmations as visible text.
+    expect(html).toContain("<h4>Jordan Lee</h4>");
+    expect(html).not.toMatch(/>[^<]*candidate-1[^<]*</);
+    expect(html).not.toMatch(/>[^<]*request-endorsement[^<]*</);
+    expect(html).not.toContain("Endorsement request");
   });
 });
