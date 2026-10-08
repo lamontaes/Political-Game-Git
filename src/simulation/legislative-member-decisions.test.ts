@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
+import { createDemoWorld } from "./demo";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "./life-places";
+import {
+  civicMessagesForPropositions,
+  recordCivicMessage,
+} from "./living-world/civic-actions";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { createPortabilityFixture } from "./portability-fixture";
@@ -252,6 +261,89 @@ describe("member votes read what constituents made of an existing law", () => {
     expect(lobby(withLaw("no", [], 0))).toEqual([]);
   });
 
+  it("routes real town messages to the state member across all 56 places", () => {
+    const demo = createDemoWorld("b08-town-message-to-state-member");
+    const [senderId, otherOfficialId] = demo.personOrder;
+    const sender = demo.people[senderId!]!;
+    const townId = sender.homeJurisdictionId;
+    const proposition = Object.values(demo.policyCatalog.propositions)[0]!;
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const state = stateJurisdictionForKey(place.jurisdictionKey)!;
+      const fixture = withLaw("yes", [], 0, state.id);
+      let world: World = {
+        ...demo,
+        currentDate: fixture.currentDate,
+        currentMoment: { ...demo.currentMoment, date: fixture.currentDate },
+        jurisdictions: {
+          ...demo.jurisdictions,
+          [state.id]: state,
+          [townId]: { ...demo.jurisdictions[townId]!, parentName: state.name },
+        },
+        jurisdictionOrder: [...demo.jurisdictionOrder, state.id],
+        people: {
+          ...demo.people,
+          [memberId]: { ...demo.people[otherOfficialId!]!, id: memberId },
+        },
+        personOrder: [...demo.personOrder, memberId],
+        policyCatalog: {
+          ...demo.policyCatalog,
+          propositions: {
+            ...demo.policyCatalog.propositions,
+            [propositionId]: {
+              ...proposition,
+              id: propositionId,
+              stableKey: "test:civic-message-state-bill",
+            },
+          },
+          propositionOrder: [
+            ...demo.policyCatalog.propositionOrder,
+            propositionId,
+          ],
+        },
+        history: { ...demo.history, ...fixture.history },
+      };
+      const message = (
+        stableKey: string,
+        officialId: EntityId,
+        stance: "yes" | "no",
+      ) => {
+        world = recordCivicMessage(world, {
+          stableKey,
+          jurisdictionId: townId,
+          senderId: senderId!,
+          officialId,
+          propositionId,
+          stance,
+          channel: "call",
+        });
+        return world.history.events.at(-1)!;
+      };
+      message("test:earlier-message", memberId, "no");
+      const current = message("test:current-message", memberId, "yes");
+      message("test:other-recipient", otherOfficialId!, "no");
+      expect(townId).not.toBe(state.id);
+      expect(current.jurisdictionId).toBe(townId);
+      expect(
+        civicMessagesForPropositions(world, townId, [propositionId]).get(
+          propositionId,
+        ),
+      ).toHaveLength(3);
+      expect(
+        civicMessagesForPropositions(world, state.id, [propositionId]).size,
+      ).toBe(0);
+      const reasons = constituents(world, "context:constituents");
+      expect(reasons, place.jurisdictionKey).toHaveLength(1);
+      expect(reasons[0], place.jurisdictionKey).toMatchObject({
+        optionKey: "vote-yea",
+        explanation: current.context.choice,
+        sourceRefs: [{ kind: "historical-event", eventId: current.id }],
+      });
+      expect(reasons[0]!.explanation).not.toContain("constituents-calling");
+    }
+  });
+
   it("reads only recorded constituent messages sent to this member", () => {
     const withCalls = (
       billAnswer: "yes" | "no",
@@ -269,6 +361,7 @@ describe("member votes read what constituents made of an existing law", () => {
         id: message.id,
         sequence: index + 1,
         type: "life.contacted-official",
+        summary: "Recorded fixture constituent message.",
         occurredAt: makeIsoDate("2026-05-01"),
         jurisdictionId,
         participants: [
