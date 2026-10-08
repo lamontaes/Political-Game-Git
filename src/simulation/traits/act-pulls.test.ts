@@ -274,8 +274,7 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
-  "central-bank.policy-rate": () =>
-    RATE_OPTIONS.map((option) => option.key),
+  "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
