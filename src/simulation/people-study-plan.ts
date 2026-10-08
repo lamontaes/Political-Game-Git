@@ -1,11 +1,11 @@
 import { evaluateDecision, isSelectedDecision } from "./decisions";
 import { personName } from "./people";
 import { STUDY_COLLABORATION_EVENT, STUDY_TAG } from "./people-study";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { daysBetween } from "./dates";
 import { recordWorldEvent } from "./world";
-import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
+import type { EntityId, IsoDate, World } from "./types";
 
 /**
  * Deciding how to do the work you agreed to do (CRUNCH47 F47.1).
@@ -188,43 +188,6 @@ export function peerStudyApproach(
     throw new Error("There is no agreed collaboration between these two.");
   }
   const withTraits = ensurePeopleTraits(world, [input.peerPersonId]);
-  const considerations: readonly DecisionConsideration[] = traitConsiderations(
-    withTraits,
-    input.peerPersonId,
-    `study-plan:${collaborationId}`,
-    [
-      {
-        optionKey: "outline-first",
-        trait: "deliberation",
-        pole: "low",
-        explanation: "They would rather know the shape before starting.",
-      },
-      {
-        optionKey: "evidence-first",
-        trait: "deliberation",
-        pole: "low",
-        explanation: "They would rather read everything before deciding.",
-      },
-      {
-        optionKey: "one-draft-together",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They would rather do the work in the same room.",
-      },
-      {
-        optionKey: "split-by-section",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They would rather take a part and get on with it.",
-      },
-      {
-        optionKey: "split-by-section",
-        trait: "reliability",
-        pole: "high",
-        explanation: "They would rather each part had one owner.",
-      },
-    ],
-  );
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `study-plan:${collaborationId}:${input.peerPersonId}`,
     decisionType: "people.study-plan",
@@ -239,7 +202,7 @@ export function peerStudyApproach(
       return { key: id, label: approach.label, description: approach.requires };
     }),
     constraints: [],
-    considerations,
+    considerations: [],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",
@@ -519,64 +482,6 @@ export function decideStudyPlanOutcome(
   }
   const withTraits = ensurePeopleTraits(world, [input.peerPersonId]);
   const basis = `study-plan-answer:${input.personId}:${input.answer}`;
-  const considerations: readonly DecisionConsideration[] = traitConsiderations(
-    withTraits,
-    input.peerPersonId,
-    basis,
-    input.answer === "compromise"
-      ? [
-          {
-            optionKey: "agrees",
-            trait: "deliberation",
-            pole: "low",
-            explanation:
-              "A worked-out revision is the kind of thing they take.",
-          },
-          {
-            optionKey: "counterproposes",
-            trait: "conflict",
-            pole: "high",
-            explanation: "They would rather say what still bothers them.",
-          },
-          {
-            optionKey: "agrees",
-            trait: "reliability",
-            pole: "high",
-            explanation: "They would rather have something settled to keep to.",
-          },
-          {
-            optionKey: "unresolved",
-            trait: "deliberation",
-            // Deliberation argues for both "take the worked-out revision"
-            // and "not yet" here, and that is the honest shape of it: a
-            // careful person either accepts something already thought
-            // through or wants longer. What it must not do is make the
-            // person who acts on impulse the one who defers.
-            pole: "low",
-            explanation: "They have not thought about it enough to say yes.",
-          },
-        ]
-      : [
-          {
-            optionKey: "agrees",
-            trait: "conflict",
-            pole: "low",
-            explanation: "They are not going to fight over the method.",
-          },
-          {
-            optionKey: "unresolved",
-            trait: "conflict",
-            pole: "high",
-            explanation: "They still think their own way is better.",
-          },
-          {
-            optionKey: "counterproposes",
-            trait: "deliberation",
-            pole: "low",
-            explanation: "They can see a part of it they would keep.",
-          },
-        ],
-  );
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `${basis}:${input.peerPersonId}:${withTraits.currentDate}`,
     decisionType: "people.study-plan-answer",
@@ -611,7 +516,7 @@ export function decideStudyPlanOutcome(
       },
     ],
     constraints: [],
-    considerations,
+    considerations: [],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",

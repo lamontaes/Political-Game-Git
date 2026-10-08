@@ -14,6 +14,7 @@ import { lifePlaceStateIdentities } from "../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../mind";
 import { PERSONALITY_TRAIT_REGISTRY } from "../personality-trait-registry";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
+import { PROPOSABLE_APPROACHES } from "../people-study-plan";
 import { latestPersonalityTendenciesForPerson } from "../queries";
 import { SeededRng, pickDistinct } from "../rng";
 import { traitDefinitionFromPack, isOneSided } from "../trait-packs";
@@ -273,6 +274,7 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
       ),
     ),
   ],
+  "people.study-plan": () => PROPOSABLE_APPROACHES,
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
@@ -503,7 +505,6 @@ const DECISIONS_OF_INLINE_CALLER: Readonly<
   hostDecidesToAsk: ["people.invite-over"],
   produceReporterQuestion: ["press.mention-a-promise"],
   // Option keys are ids the producer builds, so there is nothing to label.
-  peerStudyApproach: "dynamic",
   evaluateReplyMeaning: "dynamic",
   childhoodChoice: "dynamic",
 };

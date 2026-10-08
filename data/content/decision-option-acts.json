@@ -197,9 +197,15 @@
       "counterproposes": ["change", "delay"],
       "declines": ["refuse", "withdraw"]
     },
+    "people.study-plan": {
+      "split-by-section": ["withdraw", "commit"],
+      "one-draft-together": ["engage", "cooperate"],
+      "evidence-first": ["play-safe", "delay"],
+      "outline-first": ["play-safe", "delay"]
+    },
     "people.study-plan-answer": {
       "agrees": ["concede", "cooperate", "play-safe"],
-      "counterproposes": ["change", "delay", "speak-out"],
+      "counterproposes": ["change", "confront", "take-risk"],
       "unresolved": ["delay", "keep-same", "refuse"]
     },
     "people.tell-of-refusal": {
@@ -252,7 +258,6 @@
     "movement.membership-review",
     "people.caregiver-choice",
     "people.date-proposal",
-    "people.study-plan",
     "political-belief-formation"
   ]
 }
