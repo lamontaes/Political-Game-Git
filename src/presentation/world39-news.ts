@@ -3,6 +3,7 @@ import {
   lifePlaceByJurisdictionId,
   organizationProfileAt,
   organizationsAt,
+  personName,
   type EntityId,
   type IsoDate,
   type World,
@@ -18,6 +19,7 @@ import { resolvePublicationSource } from "../simulation/public-information-integ
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { lawEffectSentences } from "./law-effects-prose";
+import { readNoticesBank } from "./bank-english";
 import { proseMonthYear } from "./prose-dates";
 
 /**
@@ -201,7 +203,9 @@ export function projectWorld39News(world: World, personId: EntityId) {
         ? (world.jurisdictions[event.jurisdictionId]?.name ?? null)
         : null,
       known: learnedEventIds.has(event.id),
+      ...eventParties(world, event),
     }));
+  const notices = projectWorld39Notices(world, personId);
   const unfilledOffices: World39UnfilledOffice[] = place
     ? supportedCivicOfficesFor(place)
         .filter((office) => !heldTitles.has(office.displayName))
@@ -222,10 +226,61 @@ export function projectWorld39News(world: World, personId: EntityId) {
     publications,
     officeholders,
     publicEvents,
+    notices,
     learnedEventIds,
     unfilledOffices,
     laws: lawsReachingResident(world, jurisdictionId),
   };
+}
+
+/** One posted notice: the English engine's wording and the part that wrote it. */
+export interface World39Notice {
+  readonly key: string;
+  readonly text: string;
+}
+
+/**
+ * Public notices are the English engine's wording of recorded hearings, local
+ * measures and scheduled elections for the reader's own place. The notice bank
+ * gives a reason, not a line, when none is recorded, so no notice is posted.
+ */
+export function projectWorld39Notices(
+  world: World,
+  personId: EntityId,
+): readonly World39Notice[] {
+  const lines = readNoticesBank(world, personId);
+  return typeof lines === "string"
+    ? []
+    : lines.map((line) => ({ key: line.partKey, text: line.text }));
+}
+
+/**
+ * Who and what a public event names, by name: the people who took part in it
+ * and the organizations it involves. Record names only; the event's saved
+ * summary is not printed because some events save a key as their summary.
+ */
+function eventParties(
+  world: World,
+  event: (typeof world.history.events)[number],
+): {
+  readonly people: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly organizations: readonly string[];
+} {
+  const seen = new Set<EntityId>();
+  const people = event.participants.flatMap((row) => {
+    const person = world.people[row.personId];
+    if (!person || seen.has(row.personId)) return [];
+    seen.add(row.personId);
+    return [{ personId: row.personId, name: personName(person) }];
+  });
+  const organizations = event.involvedEntityIds.flatMap((id) => {
+    const name = organizationProfileAt(world, id)?.name;
+    return name ? [name] : [];
+  });
+  return { people, organizations: [...new Set(organizations)] };
 }
 
 /**
