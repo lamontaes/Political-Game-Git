@@ -632,20 +632,18 @@ export function CampaignWorkspace({
             </p>
           ) : null}
           {petitionCount !== null && petitionReview ? (
-            <div data-testid="candidate-petition-review">
-              <p>
-                Petition review: {petitionReview.accepted ? "accepted" : "rejected"}.
-                {petitionReview.canCure
-                  ? ` Signatures may be cured by ${readableCampaignDate(petitionReview.filingDeadline)}.`
-                  : ""}
-              </p>
+            <div
+              data-testid="candidate-petition-review"
+              data-accepted={petitionReview.accepted ? "true" : "false"}
+              data-can-cure={petitionReview.canCure ? "true" : "false"}
+            >
               {!petitionAccepted ? (
                 <button
                   type="button"
                   data-testid="file-candidate-petition"
                   onClick={filePetition}
                 >
-                  Submit signatures to the clerk
+                  Continue
                 </button>
               ) : null}
             </div>
