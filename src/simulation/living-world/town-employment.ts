@@ -411,7 +411,6 @@ function recordTownWorkRelationships(
   );
 }
 
-
 export const TOWN_WORKPLACES: readonly Workplace[] = [
   {
     key: "farm",
