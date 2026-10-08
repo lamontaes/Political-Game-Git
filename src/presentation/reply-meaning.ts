@@ -1,11 +1,6 @@
 import { evaluateDecision } from "../simulation/decisions";
 import { playerTemperament } from "../simulation/people-player-traits";
-import type { PeopleTrait } from "../simulation/people-trait-definitions";
-import {
-  ensurePeopleTraits,
-  traitConsiderations,
-  type TraitLean,
-} from "../simulation/people-traits";
+import { ensurePeopleTraits } from "../simulation/people-traits";
 import {
   readRelationshipStanding,
   type DimensionReading,
@@ -106,14 +101,6 @@ export interface ReplyMeanings {
 
 export type ReplyMeaning = keyof ReplyMeanings;
 
-/** A temperament lean for this subject, named by meaning. */
-export interface ReplyTraitLean {
-  readonly meaning: ReplyMeaning;
-  readonly trait: PeopleTrait;
-  readonly pole: "low" | "high";
-  readonly explanation: string;
-}
-
 /**
  * How the player comes across to the speaker, from the temperament the player
  * has chosen for themselves. A trait the player never chose says nothing.
@@ -180,7 +167,6 @@ export function evaluateReplyMeaning(
     readonly subjectKey: string;
     readonly standing: ConversationStanding;
     readonly meanings: ReplyMeanings;
-    readonly traitLeans: readonly ReplyTraitLean[];
     readonly playerLeans: readonly ReplyPlayerLean[];
   },
 ): {
@@ -291,28 +277,6 @@ export function evaluateReplyMeaning(
       sourceRefs: [],
     });
   }
-
-  // Who they are, matched by meaning.
-  considerations.push(
-    ...traitConsiderations(
-      withTraits,
-      input.actorPersonId,
-      `${input.turnKey}:reply`,
-      input.traitLeans.flatMap((lean): TraitLean[] => {
-        const optionKey = keyOf(lean.meaning);
-        return optionKey
-          ? [
-              {
-                optionKey,
-                trait: lean.trait,
-                pole: lean.pole,
-                explanation: lean.explanation,
-              },
-            ]
-          : [];
-      }),
-    ),
-  );
 
   // How the player comes across, from what the player chose to be.
   const said = playerTemperament(withTraits, input.playerPersonId).said;

@@ -260,6 +260,24 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   "election.consider-state-legislative-run": () => ["run", "decline"],
   "campaign.organizer-outreach": () =>
     registry.decisions.get("campaign.organizer-outreach")!.options,
+  "conversation.meeting-attendance-response": () => [
+    "attend-the-meeting",
+    "decline-the-meeting",
+    "suggest-you-go",
+    "not-sure-yet",
+  ],
+  "conversation.school-share-response": () => [
+    "split-the-work",
+    "decline-the-split",
+    "not-sure-yet",
+  ],
+  "life-talk.recorded-matter": () => ["listen", "decline", "undecided"],
+  "life-talk.running-open": () => ["encourage", "discourage", "ask-more"],
+  "life-talk.running-help": () => [
+    "will-help",
+    "will-not-help",
+    "think-about-helping",
+  ],
   "legislation.member-vote": () =>
     registry.decisions.get("legislation.member-vote")!.options,
   "legislation.bargaining-response": () => [

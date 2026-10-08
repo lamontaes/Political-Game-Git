@@ -17,7 +17,6 @@ import {
   evaluateReplyMeaning,
   standingTone,
   type ReplyMeanings,
-  type ReplyTraitLean,
 } from "./reply-meaning";
 
 /**
@@ -355,33 +354,6 @@ const OPEN_MEANINGS: ReplyMeanings = {
   undecided: { key: "ask-more", description: "Ask to hear more first." },
 };
 
-const OPEN_LEANS: readonly ReplyTraitLean[] = [
-  {
-    meaning: "agree",
-    trait: "risk",
-    pole: "high",
-    explanation: "They like a chance taken.",
-  },
-  {
-    meaning: "decline",
-    trait: "risk",
-    pole: "low",
-    explanation: "They worry about what it could cost.",
-  },
-  {
-    meaning: "undecided",
-    trait: "deliberation",
-    pole: "low",
-    explanation: "They want to think a thing through before they say.",
-  },
-  {
-    meaning: "agree",
-    trait: "sociability",
-    pole: "high",
-    explanation: "They like a life lived among people.",
-  },
-];
-
 const HELP_MEANINGS: ReplyMeanings = {
   agree: { key: "will-help", description: "Say they will help." },
   decline: { key: "will-not-help", description: "Say they will not campaign." },
@@ -390,33 +362,6 @@ const HELP_MEANINGS: ReplyMeanings = {
     description: "Say they will think about it.",
   },
 };
-
-const HELP_LEANS: readonly ReplyTraitLean[] = [
-  {
-    meaning: "agree",
-    trait: "reliability",
-    pole: "high",
-    explanation: "They follow through when they say they will.",
-  },
-  {
-    meaning: "agree",
-    trait: "sociability",
-    pole: "high",
-    explanation: "They enjoy meeting people.",
-  },
-  {
-    meaning: "decline",
-    trait: "sociability",
-    pole: "low",
-    explanation: "Knocking on strangers' doors is not for them.",
-  },
-  {
-    meaning: "undecided",
-    trait: "deliberation",
-    pole: "low",
-    explanation: "They want to think it over.",
-  },
-];
 
 /** What worries them, from the first of their recorded traits that speaks to it. */
 function worryReplyKey(world: World, personId: EntityId): LifeReplyKey {
@@ -480,7 +425,6 @@ export function answerRunning(
         "life.talk.running",
       ),
       meanings: step === "open" ? OPEN_MEANINGS : HELP_MEANINGS,
-      traitLeans: step === "open" ? OPEN_LEANS : HELP_LEANS,
       playerLeans: [],
     });
     const traced = recordDurableDecisionTrace(

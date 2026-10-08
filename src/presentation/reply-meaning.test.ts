@@ -15,11 +15,7 @@ import { explicitNewGameSetup } from "./new-game-geography";
 import { createOpeningLifeController } from "./opening-life";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectPlayerConversation } from "./player-conversation";
-import {
-  evaluateReplyMeaning,
-  type ReplyMeanings,
-  type ReplyTraitLean,
-} from "./reply-meaning";
+import { evaluateReplyMeaning, type ReplyMeanings } from "./reply-meaning";
 import { commitConversationTurn } from "./run-b-conversation";
 import { conversationStanding } from "./conversation-consequences";
 import { DEFAULT_INTERRUPTIONS } from "./shell-navigation";
@@ -261,19 +257,6 @@ describe("Reordering the possible answers does not change what is meant", () => 
     counter: { key: "suggest-you-go", description: "Suggest they go." },
     undecided: { key: "not-sure-yet", description: "Not decided yet." },
   };
-  const LEANS: readonly ReplyTraitLean[] = [
-    { meaning: "agree", trait: "sociability", pole: "high", explanation: "a" },
-    { meaning: "decline", trait: "sociability", pole: "low", explanation: "b" },
-    { meaning: "counter", trait: "conflict", pole: "low", explanation: "c" },
-    { meaning: "decline", trait: "conflict", pole: "high", explanation: "d" },
-    {
-      meaning: "undecided",
-      trait: "deliberation",
-      pole: "low",
-      explanation: "e",
-    },
-  ];
-
   function permutations<T>(items: readonly T[]): T[][] {
     if (items.length <= 1) return [[...items]];
     return items.flatMap((item, index) =>
@@ -283,11 +266,7 @@ describe("Reordering the possible answers does not change what is meant", () => 
     );
   }
 
-  function decide(
-    world: World,
-    order: readonly (keyof ReplyMeanings)[],
-    leans: readonly ReplyTraitLean[],
-  ) {
+  function decide(world: World, order: readonly (keyof ReplyMeanings)[]) {
     const meanings = Object.fromEntries(
       order.map((meaning) => [meaning, MEANINGS[meaning]]),
     ) as unknown as ReplyMeanings;
@@ -305,12 +284,11 @@ describe("Reordering the possible answers does not change what is meant", () => 
         "conversation.subject.neighborhood-meeting",
       ),
       meanings,
-      traitLeans: leans,
       playerLeans: [],
     }).meaning;
   }
 
-  it("keeps each temperament's meaning under every order of answers and leans", () => {
+  it("keeps each temperament's meaning under every order of answers", () => {
     const temperaments: Partial<Record<PeopleTrait, TraitValue>>[] = [
       { ...BALANCED, sociability: 2 },
       { ...BALANCED, sociability: -2, conflict: 2 },
@@ -327,15 +305,15 @@ describe("Reordering the possible answers does not change what is meant", () => 
     const seen = new Set<string>();
     for (const temperament of temperaments) {
       const world = withTemperament(life, temperament);
-      const reference = decide(
-        world,
-        ["agree", "decline", "counter", "undecided"],
-        LEANS,
-      );
+      const reference = decide(world, [
+        "agree",
+        "decline",
+        "counter",
+        "undecided",
+      ]);
       seen.add(reference);
-      for (const [index, order] of orders.entries()) {
-        const leans = index % 2 === 0 ? LEANS : [...LEANS].reverse();
-        expect(decide(world, order, leans)).toBe(reference);
+      for (const order of orders) {
+        expect(decide(world, order)).toBe(reference);
       }
     }
     // The orders were tested against temperaments that mean different things.
