@@ -45,10 +45,13 @@ import {
   officialViewReflectionHandler,
 } from "../living-world/official-views";
 import { livedOutcomeReflectionKey } from "../law-exposure";
-import { createWorkCompensation, money } from "../resources";
+import { createWorkCompensation, makeCurrencyCode, money } from "../resources";
 import { RENT_EVENTS } from "../living-world/town-rent";
 import { recordWorldEvent } from "../world";
-import { type PlaceOutcomeRecord } from "./place-outcome-store";
+import {
+  PLACE_OUTCOME_BASES,
+  type PlaceOutcomeRecord,
+} from "./place-outcome-store";
 import type {
   EntityId,
   LegislativeEnactmentRecord,
@@ -100,6 +103,9 @@ const plannedVoting = landingPlan.links.filter((row) =>
 );
 const plannedFinance = landingPlan.links.filter(
   (row) => row.policyArea === "finance",
+);
+const plannedTransit = landingPlan.links.filter(
+  (row) => row.policyArea === "transit",
 );
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
@@ -206,10 +212,10 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 82,
-      "budget-only": 4,
-      "place-number-only": 13,
-      "no-live-consumer": 2,
+      "person-linked": 100,
+      "budget-only": 0,
+      "place-number-only": 0,
+      "no-live-consumer": 1,
     });
   });
 
@@ -429,6 +435,43 @@ describe("the outcome landing plan", () => {
     ).toContain("42 C.F.R. § 435.119");
   });
 
+  it("routes the three transit opportunities through the shared resident estimate", () => {
+    expect(plannedTransit.map((row) => row.key).sort()).toEqual(
+      [
+        "fare-free-transit-to-ridership",
+        "highway-money-for-transit-to-service",
+        "transit-service-to-ridership",
+      ].sort(),
+    );
+    for (const row of plannedTransit) {
+      expect(row.currentStatus).toBe("person-linked");
+      expect(row.landingPath).toBe(educationLandingPath);
+      expect(row.recipientRule).toBe("jurisdiction-resident-estimate");
+      expect(row.outcomeDirection).toBe("higher-is-better");
+      expect(row.estimatedFrom).toContain(
+        "recipient estimate: FTA National Transit Database 2024",
+      );
+      expect(row.estimatedFrom).toContain("individual trips");
+    }
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "has transit rates and the shared recipient estimate for %s",
+    (place) => {
+      for (const row of plannedTransit) {
+        const base = PLACE_OUTCOME_BASES[row.outcome];
+        expect(base?.source).toContain("FTA National Transit Database 2024");
+        expect(Number.isFinite(base?.places[place.jurisdictionKey])).toBe(true);
+        expect(
+          matchesOutcomeRecipientRule(
+            row.recipientRule as OutcomeRecipientRule,
+            recipientAtAge(0),
+          ),
+        ).toBe(true);
+      }
+    },
+  );
+
   it.each(lifePlaceStateIdentities())(
     "uses the same voting recipients in %s",
     (place) => {
@@ -610,7 +653,7 @@ describe("the outcome landing plan", () => {
         OutcomeRecipientRule,
         "recorded-school-enrollment-or-compulsory-age-estimate"
       >,
-      (typeof recipientAgeRanges)[string],
+      (typeof recipientAgeRanges)[keyof typeof recipientAgeRanges],
     ][],
   )("matches the sourced %s age cohort", (rule, range) => {
     expect(range.estimatedFrom.length).toBeGreaterThan(0);
@@ -716,6 +759,8 @@ describe("the outcome landing plan", () => {
         hasActiveParentOfYoungChild: false,
         hasActiveParentOfInfant: false,
         hasPolicyRestoredVotingRight: false,
+        hasRecordedMedicaidExpansionCoverage: false,
+        hasActivePaydayLoan: false,
       };
       expect(
         matchesOutcomeRecipientRule(rule, {
@@ -1674,7 +1719,7 @@ describe("a named household outcome landing", () => {
       monthlyBenefitMinor: 25000,
       benefitSource: "seeded SNAP recipient fixture",
       causeId: householdId,
-      applicationId: "ow-spine-household-test:snap-application",
+      applicationId: "ow-spine-household-test:snap-application" as EntityId,
       effectiveAt: month,
       householdSize: fixture.world.history.householdMemberships.length,
       monthlyWorkHours: null,
@@ -1721,7 +1766,7 @@ describe("a named household outcome landing", () => {
       workRelationshipId:
         relationshipWorld.history.workRelationships.at(-1)!.id,
       startsAt: month,
-      amount: { minorUnits: 250000, currency: "USD" },
+      amount: { minorUnits: 250000, currency: makeCurrencyCode("USD") },
       cadenceKind: "schedule:monthly",
       restrictionKind: null,
       jurisdictionId: fixture.jurisdictionId,
@@ -1854,26 +1899,26 @@ describe("a named housing outcome landing", () => {
       monthlyBenefitMinor: 25000,
       benefitSource: "seeded housing recipient fixture",
       causeId: householdId,
-      applicationId: "ow-spine-housing-test:snap-application",
+      applicationId: "ow-spine-housing-test:snap-application" as EntityId,
       effectiveAt: month,
       householdSize: fixture.world.history.householdMemberships.length,
       monthlyWorkHours: null,
       incomeToThreshold: 0.5,
     });
-    const tenureId = "test:ow-spine-housing:rental-tenure";
+    const tenureId = "test:ow-spine-housing:rental-tenure" as EntityId;
     const nextSequence = world.history.nextSequence;
     const tenure = {
       id: tenureId,
       stableKey: tenureId,
       sequence: nextSequence,
       holder: { kind: "household" as const, householdId },
-      dwellingId: "test:ow-spine-housing:dwelling",
+      dwellingId: "test:ow-spine-housing:dwelling" as EntityId,
       startedAt: month,
       kind: "lease:rented",
       provenance,
     } as (typeof world.history.housingTenures)[number];
     const tenureState = {
-      id: "test:ow-spine-housing:rental-tenure:active",
+      id: "test:ow-spine-housing:rental-tenure:active" as EntityId,
       stableKey: "test:ow-spine-housing:rental-tenure:active",
       sequence: nextSequence + 1,
       housingTenureId: tenureId,
@@ -2305,6 +2350,108 @@ describe("a named labor outcome landing", () => {
           (row) =>
             row.stableKey === livedOutcomeReflectionKey(parentId, landing.id),
         ),
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named transit opportunity landing", () => {
+  it("records sourced resident estimates, skips quiet measures, and saves official reflection", () => {
+    const fixture = smallWorld({
+      place: "OH",
+      date: "2026-01-01",
+      offices: ["governor"],
+      seed: "ow-spine-transit-resident-opportunity",
+    });
+    const month = makeIsoDate("2026-01-01");
+    const personId = fixture.world.personOrder.find(
+      (id) => id !== fixture.personId,
+    );
+    if (!personId) throw new Error("The small world needs another resident.");
+    const recordsFor = (
+      factors: Readonly<Record<string, number>>,
+    ): PlaceOutcomeRecord[] => {
+      const causesByMeasure = new Map<
+        string,
+        { key: string; factor: number }[]
+      >();
+      for (const row of plannedTransit) {
+        const causes = causesByMeasure.get(row.outcome) ?? [];
+        causes.push({ key: row.key, factor: factors[row.key]! });
+        causesByMeasure.set(row.outcome, causes);
+      }
+      return [...causesByMeasure].map(([measure, causes]) => {
+        const base = PLACE_OUTCOME_BASES[measure]!.places["US-OH"]!;
+        const multiplier = causes.reduce(
+          (product, cause) => product * cause.factor,
+          1,
+        );
+        return {
+          measure,
+          placeKey: "US-OH",
+          jurisdictionId: fixture.stateJurisdictionId,
+          month,
+          base,
+          structural: base,
+          multiplier,
+          value: base * multiplier,
+          causes,
+        };
+      });
+    };
+    const worldFor = (factors: Readonly<Record<string, number>>): World => ({
+      ...fixture.world,
+      placeOutcomes: { months: [{ month, records: recordsFor(factors) }] },
+    });
+    const quiet = worldFor({
+      "fare-free-transit-to-ridership": 1,
+      "highway-money-for-transit-to-service": 1,
+      "transit-service-to-ridership": 1,
+    });
+    expect(recordPlannedPersonOutcomeLandings(quiet, month)).toBe(quiet);
+
+    const world = worldFor({
+      "fare-free-transit-to-ridership": 1.42,
+      "highway-money-for-transit-to-service": 1.1,
+      "transit-service-to-ridership": 1.05,
+    });
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const landings = (landed.placeOutcomes?.landings ?? []).filter(
+      (row) => row.personId === personId,
+    );
+    expect(landings.map((row) => row.linkKey).sort()).toEqual(
+      plannedTransit.map((row) => row.key).sort(),
+    );
+    const governor = currentGovernorOf(landed, "OH");
+    expect(governor).not.toBeNull();
+    for (const landing of landings) {
+      expect(landing.direction).toBe("gain");
+      expect(landing.recipientRule).toBe("jurisdiction-resident-estimate");
+      expect(landing.estimatedFrom).toContain(
+        "recipient estimate: FTA National Transit Database 2024",
+      );
+      expect(landing.answeringPersonId).toBe(governor!.personId);
+    }
+    expect(landed.history.resourceFlows).toEqual(world.history.resourceFlows);
+    expect(landed.history.scheduledActivities).toEqual(
+      world.history.scheduledActivities,
+    );
+    expect(recordPlannedPersonOutcomeLandings(landed, month)).toBe(landed);
+
+    const landing = landings[0];
+    if (!landing)
+      throw new Error("The transit estimate did not reach a resident.");
+    const due = landed.history.futureDueItems.find(
+      (row) =>
+        row.stableKey === livedOutcomeReflectionKey(personId, landing.id),
+    );
+    expect(due).toBeDefined();
+    const reflected = officialViewReflectionHandler(landed, due!).world;
+    expect(
+      reflected.history.events.some(
+        (event) =>
+          event.type === LIVED_OUTCOME_REFLECTION_EVENT_TYPE &&
+          event.tags.includes(`lived-outcome-source:${landing.id}`),
       ),
     ).toBe(true);
   });

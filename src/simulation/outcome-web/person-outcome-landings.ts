@@ -1,5 +1,6 @@
 import landingPlan from "../../../data/research/outcome-web/landing-plan.json" with { type: "json" };
 import recipientAgeCohorts from "../../../data/research/outcome-web/person-recipient-age-cohorts.json" with { type: "json" };
+import recipientWorkCohorts from "../../../data/research/outcome-web/person-recipient-work-cohorts.json" with { type: "json" };
 import schoolAges from "../../../data/research/education/compulsory-school-ages-2020.json" with { type: "json" };
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
@@ -29,7 +30,9 @@ import type {
   EducationEnrollmentStateRecord,
   EntityId,
   IsoDate,
+  OrganizationProfileRecord,
   World,
+  WorkStatusRecord,
 } from "../types";
 import {
   placeOutcomeAt,
@@ -62,7 +65,9 @@ export type OutcomeRecipientRule =
   | "voting-age-resident-estimate"
   | "recorded-restored-voting-right-estimate"
   | "recorded-medicaid-expansion-recipient-estimate"
-  | "recorded-payday-loan-borrower-estimate";
+  | "recorded-payday-loan-borrower-estimate"
+  | "recorded-farm-operator-land-value-estimate"
+  | "recorded-farm-operator-resource-estimate";
 
 type AgeBoundedOutcomeRecipientRule = Exclude<
   OutcomeRecipientRule,
@@ -79,6 +84,8 @@ type AgeBoundedOutcomeRecipientRule = Exclude<
   | "recorded-parent-of-infant-estimate"
   | "recorded-payday-loan-borrower-estimate"
   | "recorded-restored-voting-right-estimate"
+  | "recorded-farm-operator-land-value-estimate"
+  | "recorded-farm-operator-resource-estimate"
 >;
 
 interface CompulsorySchoolAgeRange {
@@ -121,6 +128,7 @@ interface PlannedLanding {
   readonly recipientRule: OutcomeRecipientRule | null;
   readonly outcomeDirection: "higher-is-better" | "higher-is-worse" | null;
   readonly estimatedFrom: string | null;
+  readonly unsupportedPlaceReasons?: Readonly<Record<string, string>>;
 }
 
 const PERSON_LANDING_PATH =
@@ -152,6 +160,7 @@ export interface OutcomeLandingPerson {
   readonly hasPolicyRestoredVotingRight: boolean;
   readonly hasRecordedMedicaidExpansionCoverage: boolean;
   readonly hasActivePaydayLoan: boolean;
+  readonly hasRecordedFarmOperator?: boolean;
 }
 
 /** Match a person to the estimate's cohort, using recorded facts when present. */
@@ -178,6 +187,7 @@ export function matchesOutcomeRecipientRule(
     | "hasPolicyRestoredVotingRight"
     | "hasRecordedMedicaidExpansionCoverage"
     | "hasActivePaydayLoan"
+    | "hasRecordedFarmOperator"
   >,
 ): boolean {
   switch (rule) {
@@ -213,6 +223,9 @@ export function matchesOutcomeRecipientRule(
       return person.hasPolicyRestoredVotingRight;
     case "recorded-payday-loan-borrower-estimate":
       return person.hasActivePaydayLoan;
+    case "recorded-farm-operator-land-value-estimate":
+    case "recorded-farm-operator-resource-estimate":
+      return person.hasRecordedFarmOperator === true;
     case "recorded-medicaid-expansion-recipient-estimate": {
       const cohort = RECIPIENT_AGE_COHORTS[rule];
       return (
@@ -309,6 +322,14 @@ export function recordPlannedPersonOutcomeLandings(
   const needsPaydayLoanBorrowers = PERSON_LANDINGS.some(
     (row) => row.recipientRule === "recorded-payday-loan-borrower-estimate",
   );
+  const needsFarmOperators = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "recorded-farm-operator-land-value-estimate" ||
+      row.recipientRule === "recorded-farm-operator-resource-estimate",
+  );
+  const farmOperators = needsFarmOperators
+    ? recordedFarmOperatorsAt(world, month)
+    : new Set<EntityId>();
   const adultConditionMinimumAge =
     RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
   const policyRestoredVoters = new Set<EntityId>();
@@ -671,8 +692,10 @@ export function recordPlannedPersonOutcomeLandings(
       hasRecordedMedicaidExpansionCoverage:
         medicaidExpansionRecipients.has(personId),
       hasActivePaydayLoan: activePaydayLoanBorrowers.has(personId),
+      hasRecordedFarmOperator: farmOperators.has(personId),
     };
     for (const row of PERSON_LANDINGS) {
+      if (stateKey && row.unsupportedPlaceReasons?.[stateKey]) continue;
       if (
         !row.recipientRule ||
         !row.outcomeDirection ||
@@ -755,6 +778,66 @@ export function recordPlannedPersonOutcomeLandings(
   for (const landing of pending)
     next = scheduleLivedOutcomeReflection(next, landing.personId, landing.id);
   return next;
+}
+
+/** Current agricultural operators supply an estimate, never a land title. */
+function recordedFarmOperatorsAt(
+  world: World,
+  through: IsoDate,
+): ReadonlySet<EntityId> {
+  const group =
+    recipientWorkCohorts.groupsByRule[
+      "recorded-farm-operator-land-value-estimate"
+    ];
+  const profiles = new Map<EntityId, OrganizationProfileRecord>();
+  for (const profile of world.history.organizationProfiles) {
+    if (profile.effectiveAt > through) continue;
+    const prior = profiles.get(profile.organizationId);
+    if (
+      !prior ||
+      profile.effectiveAt > prior.effectiveAt ||
+      (profile.effectiveAt === prior.effectiveAt &&
+        profile.sequence > prior.sequence)
+    )
+      profiles.set(profile.organizationId, profile);
+  }
+  const statuses = new Map<EntityId, WorkStatusRecord>();
+  for (const status of world.history.workStatuses) {
+    if (status.effectiveAt > through) continue;
+    const prior = statuses.get(status.workRelationshipId);
+    if (
+      !prior ||
+      status.effectiveAt > prior.effectiveAt ||
+      (status.effectiveAt === prior.effectiveAt &&
+        status.sequence > prior.sequence)
+    )
+      statuses.set(status.workRelationshipId, status);
+  }
+  const operators = new Set<EntityId>();
+  for (const work of world.history.workRelationships) {
+    if (work.recordedAt > through || work.startedAt > through) continue;
+    const status = statuses.get(work.id);
+    if (!status || !group.currentWorkStatuses.includes(status.status)) continue;
+    const profile = work.organizationId
+      ? profiles.get(work.organizationId)
+      : null;
+    if (
+      !profile ||
+      profile.closed ||
+      !profile.locationJurisdictionId ||
+      !group.organizationClassifications.includes(profile.classification) ||
+      (!group.businessOwnerKinds.includes(work.kind) &&
+        !group.operatorAuthorities.includes(work.authority))
+    )
+      continue;
+    const person = world.people[work.personId];
+    if (!person) continue;
+    const homeStateKey = placeOutcomeKey(person.homeJurisdictionId);
+    const workStateKey = placeOutcomeKey(profile.locationJurisdictionId);
+    if (!homeStateKey || homeStateKey !== workStateKey) continue;
+    operators.add(work.personId);
+  }
+  return operators;
 }
 
 function educationEnrollmentsAt(

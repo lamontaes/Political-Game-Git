@@ -1,3 +1,4 @@
+import { researchRuleTable } from "../simulation/research-rule-tables";
 import {
   PLACE_COUNTY_RELATIONS_META,
   PLACE_COUNTY_RELATIONS_ROWS,
@@ -14,33 +15,9 @@ interface RegionalProfile {
   /** Heterogeneous counties require independently reviewed places for this scene. */
   readonly places?: readonly string[];
 }
-const profiles: readonly RegionalProfile[] = [
-  {
-    id: "sonoma-oak-context",
-    stateKey: "US-CA",
-    counties: ["06097"],
-    regionType: "northern-california-oak-woodland",
-  },
-  {
-    id: "southern-inland-bungalow-context",
-    stateKey: "US-CA",
-    counties: ["06037", "06073"],
-    places: ["0622804", "0656000"],
-    regionType: "southern-california-inland-bungalow",
-  },
-  {
-    id: "chase-flint-hills-context",
-    stateKey: "US-KS",
-    counties: ["20017"],
-    regionType: "great-plains-grassland",
-  },
-  {
-    id: "cherry-sandhills-context",
-    stateKey: "US-NE",
-    counties: ["31031"],
-    regionType: "great-plains-grassland",
-  },
-];
+const profiles: readonly RegionalProfile[] = researchRuleTable(
+  "openingRegionProfiles",
+) as readonly RegionalProfile[];
 
 export const OPENING_REGION_GEOGRAPHY_AS_OF =
   PLACE_COUNTY_RELATIONS_META.geographyAsOf;

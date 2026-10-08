@@ -45,6 +45,9 @@ const configs = ["app", "node"].map((name) => {
 const result = spawnSync(
   process.execPath,
   [
+    // The whole project outgrew Node's default heap; the other heavy scripts
+    // already ask for 8 GB.
+    "--max-old-space-size=8192",
     resolve("node_modules/typescript/bin/tsc"),
     "-b",
     ...configs,

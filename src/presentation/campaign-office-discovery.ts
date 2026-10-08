@@ -11,7 +11,6 @@ import type { EntityId, World } from "../simulation";
 import {
   availableCampaignElectionDate,
   campaignElectionDateIsEstimated,
-  countyCandidacyUnavailableReason,
 } from "./campaign-projection";
 import { proseDate } from "./prose-dates";
 
@@ -59,7 +58,6 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
           option.officeKey,
         );
 
-      const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
       return {
         officeKey: option.officeKey,
         title: option.office.title,
@@ -69,17 +67,13 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
             ? "Local government"
             : "State government",
         provider: option.recordedBy.packName,
-        eligible:
-          eligibility.eligible &&
-          electionDate !== null &&
-          countyRefusal === null,
+        eligible: eligibility.eligible && electionDate !== null,
         eligibility: [
-          countyRefusal ??
-            (electionDate === null
-              ? "Election calendar: not on record"
-              : eligibility.eligible
-                ? "Eligible"
-                : eligibility.blocks.map((block) => block.reason).join(" · ")),
+          electionDate === null
+            ? "Election calendar: not on record"
+            : eligibility.eligible
+              ? "Eligible"
+              : eligibility.blocks.map((block) => block.reason).join(" · "),
           eligibility.minimumAge &&
           !eligibility.blocks.some((block) =>
             block.reason.startsWith("Minimum age"),

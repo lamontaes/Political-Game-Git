@@ -1,42 +1,41 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import {
-  createNewGameWorld,
-  DEFAULT_NEW_GAME_SETUP,
-} from "../presentation/new-game";
+import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import type { NewGameSetup } from "../presentation/new-game";
+import {
+  generateOpeningLife,
+  prepareOpeningLife,
+} from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
 import { buyHome, homePurchaseTerms } from "../simulation/home-purchase";
-import { createResourcePosition, money } from "../simulation/resources";
+import { withPersonalSavings } from "../../tests/fixtures/personal-money";
 import { HomePurchasePanel } from "./HomePurchasePanel";
 
 const usd = (minor: number) => `$${(minor / 100).toLocaleString("en-US")}`;
 
 function life(savingsMinor: number) {
-  const created = createNewGameWorld({
-    ...DEFAULT_NEW_GAME_SETUP,
-    startAge: 35,
-    placeKey: "3502000",
-    questionnaire: "skipped",
-    priors: [],
-    seed: "home-purchase-panel",
-  } as NewGameSetup);
+  // The opening records the economy's mortgage rate; a world built without it
+  // has no quote to offer.
+  const created = generateOpeningLife(
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startAge: 35,
+      placeKey: "3502000",
+      questionnaire: "skipped",
+      priors: [],
+      seed: "home-purchase-panel",
+    } as NewGameSetup),
+  ).game!;
   const personId = created.playerPersonId;
   const opened = openOrdinaryLife(created.world, personId);
   return {
     personId,
-    world: createResourcePosition(opened, {
-      stableKey: "test:opening-savings",
-      owner: { kind: "person", personId },
-      openedAt: opened.currentDate,
-      openingBalance: money(savingsMinor, "USD"),
-      provenance: { kind: "authored", note: "Test savings." },
-    }),
+    world: withPersonalSavings(opened, personId, savingsMinor),
   };
 }
 
 describe("the home panel on Money and property", () => {
-  it("offers the purchase with its terms, and says why it is out of reach", () => {
+  it("offers the purchase with its terms, and keeps the button off while it is out of reach", () => {
     const { world, personId } = life(1_000_000);
     const html = renderToStaticMarkup(
       <HomePurchasePanel
@@ -49,10 +48,13 @@ describe("the home panel on Money and property", () => {
       world,
       world.people[personId]!.homeJurisdictionId,
     );
-    expect(html).toContain(`A house costs ${usd(terms.priceMinor)}.`);
-    expect(html).toContain(
-      `The down payment is ${usd(terms.downPaymentMinor)}. You have $10,000.`,
-    );
+    // The panel shows its terms as labeled values and writes no sentence
+    // about them; $10,000 of savings is under the down payment.
+    expect(terms.downPaymentMinor).toBeGreaterThan(1_000_000);
+    expect(html).toContain("<dt>House price</dt>");
+    expect(html).toContain(`<dd>${usd(terms.priceMinor)}</dd>`);
+    expect(html).toContain("<dt>Down payment</dt>");
+    expect(html).toContain(`<dd>${usd(terms.downPaymentMinor)}</dd>`);
     expect(html).toMatch(/<button[^>]*disabled[^>]*>Buy a home<\/button>/);
   });
 
@@ -67,13 +69,14 @@ describe("the home panel on Money and property", () => {
         onWorldChange={() => {}}
       />,
     );
-    expect(html).toContain("Your household owns its home.");
+    expect(html).toContain("<h3>Your home</h3>");
     const terms = homePurchaseTerms(
       world,
       world.people[personId]!.homeJurisdictionId,
     );
+    expect(html).toContain("<dt>Mortgage left</dt>");
     expect(html).toContain(
-      `${usd(terms.priceMinor - terms.downPaymentMinor)} is left on the mortgage.`,
+      `<dd>${usd(terms.priceMinor - terms.downPaymentMinor)}</dd>`,
     );
     expect(html).not.toContain("Buy a home</button>");
   });

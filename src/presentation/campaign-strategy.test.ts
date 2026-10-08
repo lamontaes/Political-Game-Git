@@ -19,7 +19,11 @@ import {
 import type { EntityId, World } from "../simulation";
 import { buildProductionWorld } from "./production-world";
 import { projectCampaign, spendAnAfternoon } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  fundCommitteeFromCandidate,
+  withRecordedStartingConditions,
+} from "../../tests/fixtures/campaign-fixture";
 import {
   commitCampaignStrategy,
   projectCampaignStrategy,
@@ -59,7 +63,9 @@ function staffedCampaign(seed: string): {
     household: "shares-a-home",
     depth: "summarize-earlier-life",
   });
-  const opened = openOrdinaryLife(built.world, built.playerPersonId);
+  const opened = withRecordedStartingConditions(
+    openOrdinaryLife(built.world, built.playerPersonId),
+  );
   const person = opened.people[built.playerPersonId]!;
   const staffPersonId = opened.personOrder.find(
     (personId) => personId !== built.playerPersonId,
@@ -136,6 +142,9 @@ describe("the first staff-strategy campaign interaction", () => {
       selectedInput(first, "fundraising"),
     );
     world = passOrdinaryDays(world, 1);
+    // A fundraising session raises money only with a recorded monetary ask, so
+    // the committee is funded from the candidate's own savings.
+    world = fundCommitteeFromCandidate(world, life.personId, 500_000);
     const funded = projectCampaignStrategy(world, life.personId)!;
     const advertising = funded.priorityChoices.find(
       (choice) => choice.key === "advertising",
@@ -232,6 +241,7 @@ describe("the first staff-strategy campaign interaction", () => {
     const life = soloCampaign("strategy-funds-change");
     let world = spendAnAfternoon(life.world, life.personId, "fundraising");
     world = passOrdinaryDays(world, 1);
+    world = fundCommitteeFromCandidate(world, life.personId, 500_000);
     const proposal = projectCampaignStrategy(world, life.personId)!;
     const advertising = proposal.priorityChoices.find(
       (choice) => choice.key === "advertising",

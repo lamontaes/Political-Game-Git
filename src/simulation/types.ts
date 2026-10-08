@@ -105,6 +105,8 @@ export interface SimulationMoment {
 
 export type EntityKind =
   | "childhood-entry"
+  | "story-moment"
+  | "story-intake"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -116,6 +118,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "legislative-proposal"
+  | "place-outcome-landing"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -4055,6 +4058,14 @@ export interface CampaignActionResultRecord {
   readonly observationId: EntityId;
   readonly feedbackEventId: EntityId;
   readonly feedbackKnowledgeId: EntityId;
+  /**
+   * An outreach session's doors: every household knocked on, in order, and
+   * the residents who were home to answer. Absent for other kinds of work.
+   */
+  readonly canvass?: {
+    readonly householdIds: readonly EntityId[];
+    readonly metPersonIds: readonly EntityId[];
+  };
 }
 
 /**
@@ -4389,6 +4400,7 @@ export type PersonnelJustCauseGround =
   | "serious-policy-violation";
 
 interface PersonnelRecordBase {
+  readonly estimatedFrom?: string | null;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -4643,9 +4655,57 @@ export interface CampaignPurchaseRecord {
   readonly flowId: EntityId;
 }
 
+/**
+ * A record that changed something in one person's life, scored once by the
+ * story director when it was written (docs/design/story-director.md, part 1).
+ * Developer data: nothing here is shown to a player as written.
+ */
+export interface StoryMomentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  /** The date of the change, which can be before the record was written. */
+  readonly occurredAt: IsoDate;
+  readonly kindKey: string;
+  /** The other people the moment is with, when the record names them. */
+  readonly counterpartPersonIds: readonly EntityId[];
+  readonly sourceStore: string;
+  readonly sourceRecordId: EntityId;
+  /** Greater than 0 and at most 1. Moments that score 0 are not written. */
+  readonly salience: number;
+  readonly factors: {
+    readonly kind: number;
+    readonly closeness: number;
+    readonly first: number;
+    readonly traits: number;
+    readonly stakes: number;
+  };
+  /** The scale row the kind factor came from. */
+  readonly weight: {
+    readonly source: string;
+    readonly row: string;
+    readonly value: number;
+  };
+}
+
+/** How far the story director has read the history: the next intake starts at `throughSequence`. */
+export interface StoryIntakeMark {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly fromSequence: number;
+  readonly throughSequence: number;
+}
+
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
+  /** Scored moments of people's lives, read with `storyMomentsOf`. */
+  readonly storyMoments?: readonly StoryMomentRecord[];
+  /** The story director's reading positions, one per intake that read anything. */
+  readonly storyIntakeMarks?: readonly StoryIntakeMark[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
