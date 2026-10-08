@@ -34,10 +34,10 @@ it("keeps other records without a decision heading when staff handle the pending
   expect(html).not.toContain('data-testid="work-empty"');
   expect(html).toContain("Existing work records");
 });
-it("shows an actual outstanding decision", () => {
+it("shows an actual outstanding decision from its record", () => {
   readers.pending.mockReturnValue([entry("needs-you")]);
   const html = render();
-  expect(html).toContain("Waiting on you");
+  expect(html).not.toContain("Waiting on you");
   expect(html).toContain("Recorded task");
   expect(html).toContain("Existing work records");
 });
