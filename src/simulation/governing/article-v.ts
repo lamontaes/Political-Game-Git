@@ -4,6 +4,7 @@ import {
   constitutionalPosition,
   constitutionalActions,
   recordConstitutionalProposalVote,
+  recordConstitutionalProposalRollcalls,
   recordArticleVRatification,
 } from "../constitutional-process";
 import { hasStableKey } from "../history-index";
@@ -487,26 +488,25 @@ function congressRoute(world: World, year: number): World {
       byConvention: false,
     }),
     recordProposalVotes: (started, measureId) => {
-      let next = started;
-      for (const [bodyKey, voters] of [
-        ["house", house],
-        ["senate", senate],
-      ] as const) {
-        next = recordConstitutionalProposalVote(
-          next,
-          measureId,
+      return recordConstitutionalProposalRollcalls(
+        started,
+        measureId,
+        (
+          [
+            ["house", house],
+            ["senate", senate],
+          ] as const
+        ).map(([bodyKey, voters]) => ({
           bodyKey,
-          articleVProposalBallots(next, measureId, bodyKey),
-          voters.length,
-          {
+          dispositions: articleVProposalBallots(started, measureId, bodyKey),
+          eligibleMembers: voters.length,
+          provenance: {
             method: "member-decisions",
             note: "Each member voted by their own principles against the bar of amending the Constitution.",
             sourceEntityIds: [],
           },
-        );
-        if (constitutionalPosition(next, measureId).phase === "rejected") break;
-      }
-      return next;
+        })),
+      );
     },
     stateSchedule: {
       transitionKey: ARTICLE_V_STATE_ACTION,
