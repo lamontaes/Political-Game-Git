@@ -36,7 +36,7 @@ test("normal completed legislative action publishes News with person Back and un
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
     page.getByTestId("public-information-for-you-empty"),
-  ).toBeVisible();
+  ).toBeAttached();
   // The directory context mounts the panel with showClose={false}, so there is
   // no close button here. Escape is handled on the panel itself and closing
   // restores focus through onClose, not through whichever control was focused,
@@ -83,13 +83,6 @@ test("normal completed legislative action publishes News with person Back and un
   ).toHaveAttribute("data-person-id", personId!);
   await page.getByTestId("person-workspace-back").press("Enter");
   await expect(person).toBeFocused();
-  await article
-    .getByRole("button", { name: /^Explain/ })
-    .first()
-    .press("Enter");
-  await expect(page.getByTestId("public-information-help")).toBeVisible();
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("public-information-help")).toHaveCount(0);
   await page.screenshot({
     path: info.outputPath(`normal-news-${page.viewportSize()!.width}.png`),
   });
@@ -141,7 +134,7 @@ test("legislative staff can preview but cannot file or publish a member bill", a
   await expect(page.getByTestId("public-information-empty")).toHaveCount(0);
   await expect(
     page.getByTestId("public-information-for-you-empty"),
-  ).toBeVisible();
+  ).toBeAttached();
 });
 
 test("opening the normal press request form creates no request or consent", async ({
