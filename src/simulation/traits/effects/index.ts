@@ -49,16 +49,6 @@ import { facetObservantEffects } from "./facet-observant";
 import { facetOpenMindedEffects } from "./facet-open-minded";
 import { facetOpportunisticEffects } from "./facet-opportunistic";
 import { facetPersistentEffects } from "./facet-persistent";
-import { facetPhilanthropicEffects } from "./facet-philanthropic";
-import { facetPoliteEffects } from "./facet-polite";
-import { facetPracticalEffects } from "./facet-practical";
-import { facetProudEffects } from "./facet-proud";
-import { facetRestlessEffects } from "./facet-restless";
-import { facetSelfConsciousEffects } from "./facet-self-conscious";
-import { facetSkepticalEffects } from "./facet-skeptical";
-import { facetSlowToWarmUpEffects } from "./facet-slow-to-warm-up";
-import { facetStudiousEffects } from "./facet-studious";
-import { facetSupportiveEffects } from "./facet-supportive";
 import { facetTactfulEffects } from "./facet-tactful";
 import { facetTeasingEffects } from "./facet-teasing";
 import { facetTenderHeartedEffects } from "./facet-tender-hearted";
@@ -130,16 +120,6 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...facetOpenMindedEffects,
     ...facetOpportunisticEffects,
     ...facetPersistentEffects,
-    ...facetPhilanthropicEffects,
-    ...facetPoliteEffects,
-    ...facetPracticalEffects,
-    ...facetProudEffects,
-    ...facetRestlessEffects,
-    ...facetSelfConsciousEffects,
-    ...facetSkepticalEffects,
-    ...facetSlowToWarmUpEffects,
-    ...facetStudiousEffects,
-    ...facetSupportiveEffects,
     ...facetTactfulEffects,
     ...facetTeasingEffects,
     ...facetTenderHeartedEffects,

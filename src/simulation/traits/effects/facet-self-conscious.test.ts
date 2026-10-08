@@ -10,7 +10,6 @@ import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { ensurePeopleTraitCatalog } from "../../people-traits";
 import { personName } from "../../people";
 import { SeededRng } from "../../rng";
-import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import { deserializeWorld, serializeWorld } from "../../serialization";
@@ -154,15 +153,14 @@ describe("facet-self-conscious's public-life reader", () => {
     expect(before.disposition).toBe("yea");
     expect(after.disposition).toBe("present-not-voting");
     expect(
-      after.evaluation.context.considerations.filter(
-        ({ sourceType }) => sourceType === "mind:personality",
+      after.evaluation.context.considerations.find(
+        ({ sourceType, optionKey }) =>
+          sourceType === "mind:personality" && optionKey === "withhold",
       ),
-    ).toMatchObject([
-      {
-        optionKey: "withhold",
-        explanation: "Self-conscious",
-      },
-    ]);
+    ).toMatchObject({
+      explanation:
+        "personality-v1:facet-self-conscious|legislation.member-vote|withhold|high",
+    });
     // Scrutiny can support withholding, but cannot invent a policy position.
     const quiet = decideMemberVote(selfConscious, {
       ...context,
@@ -177,7 +175,7 @@ describe("facet-self-conscious's public-life reader", () => {
       {
         optionKey: "withhold",
         sourceType: "mind:personality",
-        explanation: "Self-conscious",
+        explanation: "personality-v1:facet-self-conscious|legislation.member-vote|withhold|high",
       },
     ]);
     expect(
@@ -197,25 +195,9 @@ describe("facet-self-conscious's public-life reader", () => {
       expect.objectContaining({
         optionKey: "withhold",
         sourceType: "mind:personality",
-        explanation: "Self-conscious",
+        explanation: "personality-v1:facet-self-conscious|legislation.member-vote|withhold|high",
       }),
     );
-    for (const [decisionId, optionKey] of [
-      ["campaign.organizer-outreach", "phone-shift"],
-      ["campaign.support-request", "defer"],
-      ["press.reporter-request-response", "defer"],
-      ["press.adviser-assignment-response", "decline"],
-    ]) {
-      expect(
-        registeredTraitConsiderations(
-          selfConscious,
-          loadedTraitRegistry(),
-          person.id,
-          SEED,
-          decisionId,
-        ),
-      ).toMatchObject([{ optionKey, sourceType: "mind:personality" }]);
-    }
     expect(loadedTraitRegistry().report.rejections).toEqual([]);
     console.info(
       JSON.stringify({

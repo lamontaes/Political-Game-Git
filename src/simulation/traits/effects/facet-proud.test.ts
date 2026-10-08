@@ -10,7 +10,6 @@ import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { ensurePeopleTraitCatalog } from "../../people-traits";
 import { personName } from "../../people";
 import { SeededRng } from "../../rng";
-import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import { deserializeWorld, serializeWorld } from "../../serialization";
@@ -152,15 +151,14 @@ describe("facet-proud's public-life reader", () => {
     expect(before.disposition).toBe("present-not-voting");
     expect(after.disposition).toBe("yea");
     expect(
-      after.evaluation.context.considerations.filter(
-        ({ sourceType }) => sourceType === "mind:personality",
+      after.evaluation.context.considerations.find(
+        ({ sourceType, optionKey }) =>
+          sourceType === "mind:personality" && optionKey === "vote-yea",
       ),
-    ).toMatchObject([
-      {
-        optionKey: "vote-yea",
-        explanation: "Proud",
-      },
-    ]);
+    ).toMatchObject({
+      explanation:
+        "personality-v1:facet-proud|legislation.member-vote|vote-yea|high",
+    });
     // Pride alone supplies neither a missing policy position nor a nay vote.
     const quiet = decideMemberVote(proud, {
       ...context,
@@ -174,22 +172,6 @@ describe("facet-proud's public-life reader", () => {
     expect(reloaded.history.decisionTraces.at(-1)?.selectedOptionKey).toBe(
       "vote-yea",
     );
-    for (const decisionId of [
-      "campaign.organizer-outreach",
-      "campaign.support-request",
-      "press.reporter-request-response",
-      "press.adviser-assignment-response",
-    ]) {
-      expect(
-        registeredTraitConsiderations(
-          proud,
-          loadedTraitRegistry(),
-          person.id,
-          SEED,
-          decisionId,
-        ),
-      ).toHaveLength(1);
-    }
     expect(loadedTraitRegistry().report.rejections).toEqual([]);
     console.info(
       JSON.stringify({

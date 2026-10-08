@@ -147,8 +147,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-supportive",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-supportive.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-comforting",
@@ -177,8 +176,7 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-studious",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-studious.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-blunt",
