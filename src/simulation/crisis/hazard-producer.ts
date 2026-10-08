@@ -49,7 +49,7 @@ export const HAZARD_SAMPLING_CONTRACT = {
    * only step in this module that is not read straight from the catalog.
    */
   countyThinning: "recorded-median-footprint-over-counties-in-state",
-  countExposure: "represented-households-dwellings-and-organizations",
+  countUnit: "represented-areas-with-recorded-exposure",
   footprintSource: "resampled-recorded-episode-of-the-same-state-family-month",
   footprintAllocation: "largest-represented-housing-and-service-exposure-first",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
@@ -273,15 +273,9 @@ function expectedMonthlyEpisodes(
 ): number {
   const rate = representedRate(stateUsps, sourceFamily, month);
   if (rate === null || rate <= 0 || areas.length === 0) return 0;
-  const totalExposure = areas.reduce(
-    (sum, area) => sum + area.exposureWeight,
-    0,
-  );
-  const meanExposure = totalExposure / areas.length;
-  if (meanExposure <= 0) return 0;
-  // Keep the catalog's represented-place rate while letting recorded housing
-  // and service exposure determine how much of that rate this World carries.
-  return rate * (totalExposure / meanExposure);
+  // The catalog rate is per represented area; exposure weights only rank the
+  // places selected for an episode's footprint.
+  return rate * areas.length;
 }
 
 /** Fractional catalog counts accrue across the source window; no dice draw. */
