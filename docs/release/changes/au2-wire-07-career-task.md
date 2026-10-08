@@ -5,4 +5,4 @@ section: Changed
 title: Record scheduled career tasks
 ---
 
-Career tasks scheduled during active work now create a completed work record when the shared clock completes the shift.
+Active work now exposes recorded career tasks in the live Work activity list. Scheduling uses the existing career task writer and places the work session on the calendar; completing that session records the task.
