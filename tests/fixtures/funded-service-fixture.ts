@@ -8,6 +8,7 @@ import {
 } from "../../src/simulation/legislation";
 import { applyLegislativeStep } from "../../src/presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../../src/simulation/governing/legislative-clock";
+import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import {
   FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
@@ -32,6 +33,7 @@ import type {
   EntityId,
   PublicProgramRecord,
   Jurisdiction,
+  LegislativeProvisionRecord,
   World,
 } from "../../src/simulation/types";
 
@@ -129,6 +131,7 @@ export function enact(
   jurisdictionId: EntityId,
   answer: "yes" | "no",
   keyOfQuestion = questionKey,
+  lawTerms: LegislativeProvisionRecord["lawTerms"] = [],
 ): World {
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (p) => p.stableKey === keyOfQuestion,
@@ -149,6 +152,22 @@ export function enact(
     propositionAnswers: [{ propositionId: proposition.id, answer }],
   });
   const measureId = next.history.legislativeMeasures!.at(-1)!.id;
+  if (lawTerms.length)
+    next = recordFiledProvision(next, {
+      stableKey: `${key}:terms`,
+      measureId,
+      provisionKey: "fixture-terms",
+      sectionNumber: 1,
+      heading: "Authored test terms",
+      text: "Controlled test terms, not a production default.",
+      beneficiary: {
+        kind: "general-application",
+        appliesToLabel: "Recorded fixture recipients",
+      },
+      applicationScope: { jurisdictionId, segmentKey: null },
+      answers: { propositionId: proposition.id, answer },
+      lawTerms,
+    });
   for (
     let index = 0;
     index < 40 && measurePosition(next, measureId).phase !== "enacted";
@@ -185,6 +204,7 @@ export function appendProgram(
   jurisdictionId: EntityId,
   kind: PublicProgramRecord["kind"],
   fields: object,
+  keyOfProgram = programKey,
 ) {
   const key = `test:program:${kind}:${world.history.nextSequence}`;
   const personId = procedure.playerPersonId;
@@ -215,7 +235,7 @@ export function appendProgram(
     id: publicProgramRecordId(next, key),
     stableKey: key,
     sequence: next.history.nextSequence,
-    programKey,
+    programKey: keyOfProgram,
     jurisdictionId,
     recordedAt: next.currentDate,
     eventId: next.history.events.at(-1)!.id,

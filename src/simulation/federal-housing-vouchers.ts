@@ -9,6 +9,7 @@ import { housingTenureStateAt, resourcePositionAt } from "./resource-queries";
 import { householdMembershipsAt } from "./life-queries";
 import {
   createResourceFlow,
+  makeCurrencyCode,
   money,
   recordResourceTransferOutcome,
 } from "./resources";
@@ -107,8 +108,9 @@ export function payFederalHousingVoucher(
     organizationId: account.organizationId,
   };
   const recipient = { kind: "person" as const, personId: input.leaseholderId };
-  const cash = resourcePositionAt(world, source, "USD");
-  if (!cash || !resourcePositionAt(world, recipient, "USD")) return world;
+  const currency = makeCurrencyCode("USD");
+  const cash = resourcePositionAt(world, source, currency);
+  if (!cash || !resourcePositionAt(world, recipient, currency)) return world;
   const paid = Math.min(entitled, Math.max(0, cash.liquidBalance.minorUnits));
   if (paid === 0) return world;
   const provenance = {
@@ -151,7 +153,7 @@ export function payFederalHousingVoucher(
     reasonKind: paid === entitled ? null : "capacity:insufficient-funds",
     note: FEDERAL_VOUCHER_QUESTION,
     provenance,
-    lawEffectStamps: stamp ? [stamp] : [],
+    ...(stamp ? { lawEffectStamps: [stamp] } : {}),
   });
   return recordLawExposure(next, {
     stableKey: `${stableKey}:exposure`,

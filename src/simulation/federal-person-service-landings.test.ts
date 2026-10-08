@@ -24,6 +24,11 @@ import {
 } from "./public-service-requests";
 import { performScheduledActivity } from "./time-work";
 import { applyLawConsequences } from "./enacted-law-effects";
+import {
+  cancelFutureDueItem,
+  futureDueItemStateAt,
+} from "./future-transitions";
+import { currentLifeCutoff } from "./life-queries";
 import { assertWorldIntegrityFully, withWorldIntegrityDeferred } from "./world";
 import {
   POWER_PLANT_CARBON_QUESTION,
@@ -145,7 +150,7 @@ describe("federal service and environmental landings", () => {
     "records lower estimated personal PM2.5 after the modeled lag in all 56 places",
     () =>
       withWorldIntegrityDeferred(() => {
-        const enacted = enact(
+        let enacted = enact(
           ensureNationalElectionJurisdiction(base),
           NATIONAL_ELECTION_JURISDICTION.id,
           "yes",
@@ -160,6 +165,21 @@ describe("federal service and environmental landings", () => {
             (e) => e.type === "environment.personal-air-exposure",
           ),
         ).toHaveLength(0);
+        // Controlled later observation, not a seven-year clock simulation.
+        // Retire the procedure fixture's pending work through its normal writer.
+        for (const item of enacted.history.futureDueItems)
+          if (
+            futureDueItemStateAt(enacted, item.id, currentLifeCutoff(enacted))
+              ?.status === "scheduled"
+          )
+            enacted = cancelFutureDueItem(enacted, {
+              stableKey: `test:carbon-observation:${item.id}`,
+              dueItemId: item.id,
+              effectiveAt: enacted.currentDate,
+              reasonKey: "fixture:observation-only",
+              context:
+                "Controlled air-exposure observation; no simulated intervening decisions.",
+            });
         for (const place of lifePlaceStateIdentities()) {
           const jurisdiction = stateJurisdictionForKey(place.jurisdictionKey)!;
           const date = makeIsoDate(
@@ -177,6 +197,9 @@ describe("federal service and environmental landings", () => {
                 ...enacted.jurisdictions,
                 [jurisdiction.id]: jurisdiction,
               },
+              jurisdictionOrder: [
+                ...new Set([...enacted.jurisdictionOrder, jurisdiction.id]),
+              ],
             },
             procedure.playerPersonId,
             jurisdiction.id,
