@@ -42,6 +42,16 @@ import {
   templatePrefix,
 } from "./bill-numbering-styles";
 import {
+  leadershipProfilesForJurisdiction,
+  type ChamberLeadershipProfile,
+} from "./chamber-leadership-profile";
+export {
+  chamberLeadershipProfileFor,
+  leadershipProfilesForJurisdiction,
+  chairMayDeclineFor,
+} from "./chamber-leadership-profile";
+export type { ChamberLeadershipProfile } from "./chamber-leadership-profile";
+import {
   knownRule,
   fractionOf,
   majorityOf,
@@ -463,6 +473,7 @@ export interface LegislatureProfile {
   readonly vetoWindowDaysInSession: number;
   readonly vetoWindowDaysAfterAdjournment: number;
   readonly overrideFraction: readonly [number, number];
+  readonly leadership: readonly ChamberLeadershipProfile[];
 }
 
 /**
@@ -566,6 +577,7 @@ function buildLegislatureProfile(
     // constitution, which `overrideThresholdFor` prefers. This is only the
     // fallback for a place with no reading: the bar most constitutions set.
     overrideFraction: mostCommonReadOverride(),
+    leadership: leadershipProfilesForJurisdiction(stateJurisdictionKey),
   };
 }
 

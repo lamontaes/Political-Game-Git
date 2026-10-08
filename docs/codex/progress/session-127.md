@@ -1,3 +1,47 @@
+# Final save receipt — 2026-10-08
+
+Owner ordered SAVE NOW and idle. Actual existing workspace: /workspace/game.
+Current branch: pool/b10-p1. Candidate: 2c9f89cbe1fbd9ac49d5ec51097cb87b741f976a.
+Current received origin/main: c6b2f1ec5282c0602b9e1e1da694846c774d72e7.
+The candidate includes an earlier main merge at 8d2d1b348; newest main has not
+been reconciled. All candidate work was committed, with no dirty/untracked files.
+This marker commit will be published without force as a DRAFT, not READY.
+Publication succeeded: draft PR #3788, https://github.com/lamontaes/Political-Game-Git/pull/3788.
+Initial published head: f395f9e3a0152bb32222054cd4aaf2f00bb311cd.
+This receipt update is the final marker commit; exact final head follows on #2424.
+
+Saved logs: /workspace/handoffs/session127-final/p1-b10-*.log, copied intact
+from /tmp. Latest executed focused run began 17:41:08 UTC: 45 PASS, 8 SKIPPED,
+one test-file collection FAILURE, duration 53.35s. Three passing files are the
+leadership profile, existing legislature profile and municipal registry tests.
+Transit collection fails at public-budgets/month.ts:92, BUDGET_PROGRAMS.map;
+this failure has not been compared with untouched main and is unresolved.
+The 27-file affected batch was interrupted (exit 130), not passed. Two selected
+failures reproduced on untouched main ed5fbf30d: plea acceptance false and
+missing future handler people:contact-answer. This establishes only those two
+baseline failures. Strict focused compilation logged 41 transitive diagnostics,
+zero diagnostics on own changed files; it is not a whole-project compile PASS.
+Earlier changed-file formatter/lint passed, not rerun for this final marker.
+
+Member-agenda's describe callback was discovered to contain a 120-day loop;
+it failed early with the separately reported official-view subject validation
+error before completion. It is now deferred into a skipped beforeAll pending
+SPEED FIXED, preserving assertions. No long-world completion is claimed.
+No test/fetch/timer process remains live in the inspected workspace. No broad
+retry, new coverage, source-pack edits or unrelated owner repair was performed.
+Prior Session127 scene notes below remain historical recovery evidence; current
+workspace branch differs. P1 map PR #3783 merged; b10-p1 remains incomplete.
+Consumer boundary: leadership race/assignment parts must reconcile the new data
+contract; do not overwrite other owners' source/tag/place readers or AU4-09 work.
+
+EXACT next action: git status --short, then inspect the published draft and
+saved logs. Establish transit's collection failure on untouched main using
+collection-only matching (no long-world execution), return to pool/b10-p1,
+fix only a proven candidate cause, receive main safely, and complete bounded
+changed/importer checks before proposing READY. No self merge.
+
+---
+
 # Session 127: Native coverage records the remaining art gaps
 
 The coverage test resolves every staged outfit cell through the real pack and
