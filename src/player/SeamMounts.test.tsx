@@ -47,10 +47,23 @@ interface Life {
   readonly personId: EntityId;
 }
 
+/** An adult in a place drawn at random from all 56, named by the seed. */
 function adultLife(seed: string): Life {
+  const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+    }),
   ).game!;
+  console.info("SEAM_MOUNTS_ADULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    worldId: game.world.id,
+  });
   return {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
