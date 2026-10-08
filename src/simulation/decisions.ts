@@ -21,6 +21,10 @@ import {
 } from "./life-sources";
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
+import {
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
 import { validateCutoff } from "./perception";
 import {
   assertOpenTaxonomyKey,
@@ -401,6 +405,13 @@ function validateConsideration(
   }
   assertMember(IMPORTANCES, consideration.importance, "decision importance");
   assertMember(CONFIDENCES, consideration.confidence, "decision confidence");
+  if (
+    consideration.weightScale !== undefined &&
+    (!Number.isFinite(consideration.weightScale) ||
+      consideration.weightScale < 0 ||
+      consideration.weightScale > 1)
+  )
+    throw new Error("Decision consideration weight scale must be in [0, 1].");
   validateMindSourceReferences(
     world,
     context.actorPersonId,
@@ -691,6 +702,19 @@ function snapshotSource(
           reference: { ...reference },
           label: `Decision · ${record.context.decisionType}`,
           content: record.selectedOptionKey ?? "No available option",
+        };
+      break;
+    }
+    case "place-outcome": {
+      const record = placeOutcomeRecords(world).find(
+        (candidate) =>
+          placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+      );
+      if (record)
+        return {
+          reference: { ...reference },
+          label: `Outcome · ${record.measure}`,
+          content: `${record.value} · ${record.month}`,
         };
       break;
     }
