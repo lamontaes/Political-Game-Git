@@ -644,8 +644,8 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2147 | Prepare source-pinned offline trouser cuff ownership | PR #2147 (codex/receive-team7-cuff-preparation) | ready #2147 | |
 | RS-2152 | Add pause-settled Observer developer inspector access | PR #2152 (codex/team9-observer-inspector-access) | done #2177 | |
 | RS-2156 | Record selected press-story learning through existing shell and room callbacks | PR #2156 (codex/team6-press-story-learning) | done #2156 | |
-| RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | open: stacked on codex/team8-title-actions-base: retarget to main; draft: finish it or close it as superseded | |
-| RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: stacked on codex/team8-title-actions: retarget to main; draft: finish it or close it as superseded | |
+| RS-2162 | Refine title actions and confirmed-empty save state | PR #2162 (codex/team8-title-actions) | closed: authored player-facing sentences; never reopen | |
+| RS-2165 | Separate People Web and List navigation | PR #2165 (codex/team8-people-structure) | open: draft; current-main PeopleWorkspace conflicts unresolved; focused test startup blocked by sandbox git EPERM | |
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | closed: authored player dialogue outside approved batch | |
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | closed: authored player dialogue outside approved batch | |
 | RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: finish it or close it as superseded | |
