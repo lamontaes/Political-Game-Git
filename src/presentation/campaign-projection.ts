@@ -1313,12 +1313,15 @@ export function campaignElectionDate(
   if (town) {
     // The state's municipal election law where it fixes the day; otherwise
     // the marked placeholder in town-election-calendar.ts.
-    const placeGeoid = town.unit.placeGeoid;
+    // The same place key the election scheduler uses (`nextTownElectionDay`),
+    // so a town or township without a Census place code still reads its
+    // state's municipal election law, and the race filed for is the one held.
     return (
-      (placeGeoid
-        ? nextTownElection(town.unit.stateUsps, placeGeoid, world.currentDate)
-            ?.electionDate
-        : null) ?? addDays(world.currentDate, FILING_LEAD_DAYS)
+      nextTownElection(
+        town.unit.stateUsps,
+        town.unit.placeGeoid ?? town.unit.publisherId,
+        world.currentDate,
+      )?.electionDate ?? addDays(world.currentDate, FILING_LEAD_DAYS)
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);

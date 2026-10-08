@@ -163,7 +163,7 @@ function filingOfficeOffers(
       id: `filing-office-${office.unit.id}`,
       kind: "travel",
       title: office.governmentName,
-      detail: office.clerkTitle,
+      detail: office.officeTitle,
       minutes: null,
       durationLabel: null,
       unavailable: null,
