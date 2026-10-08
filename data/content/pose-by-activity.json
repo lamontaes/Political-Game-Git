@@ -1,0 +1,608 @@
+{
+  "version": 1,
+  "about": "Which pose and view the people engine draws a person in, by what they are doing and the kind of spot they are in. Read by src/presentation/appearance-engine/pose-chooser.ts; no code lists a pose. Each list is weighted (weight defaults to 1), and a person always gets the same pose for the same situation: the draw is a stable hash of their appearance seed, never a die and never the clock. A pose with no painting for the person's build or outfit is drawn as the pose it stands in for (standIn), then standing, so adding art never needs a code change.",
+  "heldBack": {
+    "fist-raised": "Both raised fists are cropped at the top of the painted canvas (hands cut off) on every build; repaint it with the arms lower before it is chosen.",
+    "head-in-hand": "The painted hand covers the forehead and eyes, and the face layer is drawn over the body, so the hand would vanish behind the face; it needs a hand-over-face layer drawn above the head before it is chosen.",
+    "laughing": "Not painted yet: its folder holds no bodies on any build; paint it where the standing head is before it is chosen.",
+    "back-addressing": "Painted from behind, but the head sits 12 to 28 pixels from where the standing back body has it, so a hair layer would show a second head; repaint it with the head where the standing one is before it is chosen."
+  },
+  "stance": {
+    "arms-folded": "guarded",
+    "stern": "guarded",
+    "hands-behind-back": "guarded",
+    "angry": "guarded",
+    "hand-on-hip": "open",
+    "hands-clasped": "open",
+    "arms-wide": "open",
+    "hand-on-heart": "open",
+    "waving": "open",
+    "seated-hands-folded": "guarded",
+    "seated-legs-crossed": "guarded",
+    "seated-listening": "open",
+    "seated-phone": "open"
+  },
+  "standIn": {
+    "angry": "arms-folded",
+    "arms-wide": "explaining",
+    "checking-phone": "hand-on-hip",
+    "clapping": "standing",
+    "fidgeting": "standing",
+    "fist-raised": "explaining",
+    "hand-on-heart": "standing",
+    "hands-behind-back": "standing",
+    "hands-clasped": "standing",
+    "hands-on-hips": "hand-on-hip",
+    "handshake": "explaining",
+    "head-in-hand": "arms-folded",
+    "holding-cup": "arms-folded",
+    "holding-folder": "arms-folded",
+    "laughing": "standing",
+    "phone-call": "hand-on-hip",
+    "pointing": "explaining",
+    "shrug": "explaining",
+    "slumped": "standing",
+    "stern": "arms-folded",
+    "thinking": "arms-folded",
+    "walking": "standing",
+    "waving": "explaining",
+    "weight-shift": "hand-on-hip"
+  },
+  "byExpression": {
+    "about": "A person whose face shows this in the scene stands the way the face reads, in any activity but a speech from a podium. Only standing people; the share is how many of them carry it in the pose rather than only on the face.",
+    "share": 0.6,
+    "angry": ["angry", "stern", "pointing"],
+    "sad": ["slumped", "thinking"],
+    "concerned": ["thinking", "fidgeting", "hand-on-heart"],
+    "skeptical": ["stern", "arms-folded"],
+    "surprised": ["hand-on-heart", "arms-wide"],
+    "laugh": ["clapping"],
+    "smile": ["hands-clasped", "waving"]
+  },
+  "activities": {
+    "speaking": {
+      "front": {
+        "stand": [
+          {
+            "pose": "explaining",
+            "weight": 4
+          },
+          {
+            "pose": "arms-wide",
+            "weight": 2
+          },
+          {
+            "pose": "pointing",
+            "weight": 2
+          },
+          {
+            "pose": "hand-on-heart",
+            "weight": 1
+          },
+          {
+            "pose": "hands-on-hips",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "weight-shift"
+          },
+          {
+            "pose": "explaining"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-leaning"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "explaining",
+            "weight": 3
+          },
+          {
+            "pose": "pointing",
+            "weight": 2
+          },
+          {
+            "pose": "shrug",
+            "weight": 1
+          }
+        ]
+      }
+    },
+    "listening": {
+      "front": {
+        "stand": [
+          {
+            "pose": "arms-folded",
+            "weight": 4
+          },
+          {
+            "pose": "hand-on-hip",
+            "weight": 4
+          },
+          {
+            "pose": "hands-clasped",
+            "weight": 2
+          },
+          {
+            "pose": "hands-behind-back",
+            "weight": 2
+          },
+          {
+            "pose": "thinking",
+            "weight": 1
+          },
+          {
+            "pose": "stern",
+            "weight": 1
+          },
+          {
+            "pose": "fidgeting",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "weight-shift"
+          },
+          {
+            "pose": "arms-folded"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-hands-folded"
+          },
+          {
+            "pose": "seated-listening"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "arms-folded",
+            "weight": 4
+          },
+          {
+            "pose": "hand-on-hip",
+            "weight": 4
+          },
+          {
+            "pose": "hands-on-hips",
+            "weight": 2
+          },
+          {
+            "pose": "checking-phone",
+            "weight": 1
+          },
+          {
+            "pose": "holding-folder",
+            "weight": 1
+          },
+          {
+            "pose": "shrug",
+            "weight": 1
+          }
+        ]
+      }
+    },
+    "waiting": {
+      "front": {
+        "stand": [
+          {
+            "pose": "arms-folded",
+            "weight": 3
+          },
+          {
+            "pose": "hand-on-hip",
+            "weight": 3
+          },
+          {
+            "pose": "checking-phone",
+            "weight": 3
+          },
+          {
+            "pose": "holding-cup",
+            "weight": 2
+          },
+          {
+            "pose": "holding-folder",
+            "weight": 2
+          },
+          {
+            "pose": "phone-call",
+            "weight": 1
+          },
+          {
+            "pose": "weight-shift",
+            "weight": 1
+          },
+          {
+            "pose": "fidgeting",
+            "weight": 1
+          },
+          {
+            "pose": "hands-behind-back",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "weight-shift"
+          },
+          {
+            "pose": "checking-phone"
+          },
+          {
+            "pose": "holding-cup"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-legs-crossed"
+          },
+          {
+            "pose": "seated-phone"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "checking-phone",
+            "weight": 3
+          },
+          {
+            "pose": "holding-folder",
+            "weight": 2
+          },
+          {
+            "pose": "arms-folded",
+            "weight": 2
+          },
+          {
+            "pose": "hands-on-hips",
+            "weight": 1
+          }
+        ]
+      }
+    },
+    "speech": {
+      "front": {
+        "stand": [
+          {
+            "pose": "podium"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-leaning"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      }
+    },
+    "desk": {
+      "front": {
+        "stand": [
+          {
+            "pose": "holding-folder",
+            "weight": 2
+          },
+          {
+            "pose": "checking-phone",
+            "weight": 2
+          },
+          {
+            "pose": "holding-cup",
+            "weight": 1
+          },
+          {
+            "pose": "standing",
+            "weight": 2
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-writing"
+          },
+          {
+            "pose": "seated-reading"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      }
+    },
+    "meeting": {
+      "front": {
+        "stand": [
+          {
+            "pose": "hands-clasped",
+            "weight": 2
+          },
+          {
+            "pose": "holding-folder",
+            "weight": 2
+          },
+          {
+            "pose": "holding-cup",
+            "weight": 1
+          },
+          {
+            "pose": "standing",
+            "weight": 2
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-hands-folded"
+          },
+          {
+            "pose": "seated-leaning"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      }
+    },
+    "greeting": {
+      "front": {
+        "stand": [
+          {
+            "pose": "handshake",
+            "weight": 3
+          },
+          {
+            "pose": "waving",
+            "weight": 3
+          },
+          {
+            "pose": "arms-wide",
+            "weight": 2
+          },
+          {
+            "pose": "hand-on-heart",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "waving"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "handshake",
+            "weight": 3
+          },
+          {
+            "pose": "waving",
+            "weight": 1
+          }
+        ]
+      }
+    },
+    "crowd": {
+      "front": {
+        "stand": [
+          {
+            "pose": "clapping",
+            "weight": 4
+          },
+          {
+            "pose": "waving",
+            "weight": 1
+          },
+          {
+            "pose": "hands-clasped",
+            "weight": 1
+          },
+          {
+            "pose": "arms-folded",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "weight-shift"
+          },
+          {
+            "pose": "clapping"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated-listening"
+          },
+          {
+            "pose": "seated-hands-folded"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "clapping",
+            "weight": 2
+          },
+          {
+            "pose": "arms-folded",
+            "weight": 2
+          }
+        ]
+      }
+    },
+    "audience": {
+      "back": {
+        "stand": [
+          {
+            "pose": "back-arms-folded",
+            "weight": 3
+          },
+          {
+            "pose": "back-hands-in-pockets",
+            "weight": 2
+          },
+          {
+            "pose": "back-hands-on-hips",
+            "weight": 2
+          },
+          {
+            "pose": "back-pointing",
+            "weight": 1
+          },
+          {
+            "pose": "back-walking",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "back-hands-in-pockets"
+          },
+          {
+            "pose": "back-arms-folded"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      }
+    },
+    "idle": {
+      "front": {
+        "stand": [
+          {
+            "pose": "standing",
+            "weight": 4
+          },
+          {
+            "pose": "hands-behind-back",
+            "weight": 1
+          },
+          {
+            "pose": "hands-clasped",
+            "weight": 1
+          },
+          {
+            "pose": "weight-shift",
+            "weight": 1
+          }
+        ],
+        "lean": [
+          {
+            "pose": "weight-shift"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated"
+          },
+          {
+            "pose": "seated-relaxed"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      }
+    },
+    "transit": {
+      "front": {
+        "stand": [
+          {
+            "pose": "walking"
+          }
+        ],
+        "lean": [
+          {
+            "pose": "walking"
+          }
+        ],
+        "sit": [
+          {
+            "pose": "seated"
+          }
+        ],
+        "podium": [
+          {
+            "pose": "podium"
+          }
+        ]
+      },
+      "three-quarter": {
+        "stand": [
+          {
+            "pose": "walking"
+          }
+        ]
+      },
+      "back": {
+        "stand": [
+          {
+            "pose": "back-walking"
+          }
+        ]
+      }
+    }
+  }
+}

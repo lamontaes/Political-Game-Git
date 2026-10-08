@@ -135,6 +135,7 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { RENT_STABILIZATION_QUESTION } from "../law-consequences/rent-stabilization-row";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import {
@@ -1762,6 +1763,7 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       activityId: renewal.id,
       subjectIds: [lease.leaseholderId],
       onDate: dueOn,
+      questionKey: RENT_STABILIZATION_QUESTION,
     });
   }
   return next;
