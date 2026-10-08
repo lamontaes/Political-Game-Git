@@ -752,7 +752,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2464 | Reuse person-owned history and household projections | PR #2464 (codex/session5-sp-c-person-history-index) | open: draft: finish it or close it as superseded | |
 | RS-2468 | Add LW-04 state tax consequence rows | PR #2468 (codex/lw04-state-tax-terms-rows) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2471 | BG-57: print filed bills on the painted green sheet | PR #2471 (session14/bg57-filed-bills-board) | open: draft: finish it or close it as superseded | |
-| RS-2472 | B14 Part 6: Add player misconduct offer seam | PR #2472 (codex/session36-b14-part6) | open: draft: finish it or close it as superseded | |
+| RS-2472 | B14 Part 6: Add player misconduct offer seam | PR #2472 (codex/session36-b14-part6) | ready #2472 | |
 | RS-2474 | b13-p3: Add source-grounded courtroom situation adapter | PR #2474 (codex/session42-b13-p3-courtroom-scenes) | open: sent back: failed its own changed checks: prettier; rebase on main (conflicts) | |
 | RS-2475 | Fix radial menu spacing at ring boundaries | PR #2475 (session14/bg59-radial-clipping) | open: draft: finish it or close it as superseded | |
 | RS-2477 | [BG-50] Give the political map room at play size | PR #2477 (codex/bg50-map-legibility-session14) | ready #2477; gates in PR |
