@@ -244,8 +244,8 @@ export function projectLifeLookBack(
             )
             .flatMap((partnership) => partnership.personIds),
         ].filter((candidate) => candidate !== personId),
-      ).filter((familyPersonId) => world.people[familyPersonId] !== undefined),
-    ],
+      ),
+    ].filter((familyPersonId) => world.people[familyPersonId] !== undefined),
   };
 }
 

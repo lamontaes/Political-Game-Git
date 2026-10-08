@@ -116,6 +116,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "legislative-proposal"
+  | "place-outcome-landing"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"

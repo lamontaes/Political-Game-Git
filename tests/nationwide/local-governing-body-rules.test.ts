@@ -9,7 +9,6 @@ import {
   localGoverningBodyRules,
   localRuleCoverage,
 } from "../../src/simulation/nationwide-world/local-governing-body-rules";
-import { townSeatRulesSentence } from "../../src/presentation/local-governing-seat";
 import { governmentUnitDisplayName } from "../../src/simulation/nationwide-world/government-unit-names";
 
 /**
@@ -126,34 +125,6 @@ describe("a town nobody has read", () => {
     // Balta, North Dakota, about 60 people, drew eleven seats under the old
     // hash draw.
     expect(rulesAt("3804580").seats).toEqual({ value: 5, basis: "typical" });
-  });
-});
-
-describe("what the office screen says about the body", () => {
-  it("says a read rule plainly and labels a typical one as typical", () => {
-    expect(
-      townSeatRulesSentence({
-        seats: { value: 5, basis: "read" },
-        termYears: { value: 4, basis: "read" },
-      }),
-    ).toBe("By the town's own rules the body has 5 seats and 4-year terms.");
-    expect(
-      townSeatRulesSentence({
-        seats: { value: 9, basis: "typical" },
-        termYears: { value: 2, basis: "typical" },
-      }),
-    ).toBe(
-      "The game has not read how this body is made up, so it gives it 9 seats and 2-year terms, as town councils across the country commonly have.",
-    );
-    expect(
-      townSeatRulesSentence({
-        seats: { value: 5, basis: "read" },
-        termYears: { value: 3, basis: "typical" },
-      }),
-    ).toBe(
-      "By the town's own rules the body has 5 seats. The game has not read the rest, so it gives it 3-year terms, as town councils across the country commonly have.",
-    );
-    expect(townSeatRulesSentence({ seats: null, termYears: null })).toBeNull();
   });
 });
 

@@ -647,13 +647,14 @@ export function reviewTownCivicActions(
 /** The exact office identity used by workflow preferences for this contact. */
 function officeRelationshipForContact(
   world: World,
-  officialId: EntityId,
+  officialId: EntityId | null,
   officers: ReturnType<typeof sittingLocalOfficers>,
 ): EntityId | null {
+  if (!officialId) return null;
   const councilSeat = officers.find(
     (officer) => officer.personId === officialId,
   );
-  if (councilSeat) return councilSeat.participationId;
+  if (councilSeat) return councilSeat.participationId ?? null;
 
   const publicOffices = activeWorkRelationshipsAt(world, officialId)
     .map(({ relationship }) => relationship)
