@@ -1897,8 +1897,12 @@ function DraftingTable({
                           data-testid={`drafting-row-${row.provisionKey}`}
                         >
                           <th scope="row">{row.heading}</th>
-                          <td>{row.currentText ?? "—"}</td>
-                          <td>{row.proposedText ?? "—"}</td>
+                          {row.currentText !== null ? (
+                            <td>{row.currentText}</td>
+                          ) : null}
+                          {row.proposedText !== null ? (
+                            <td>{row.proposedText}</td>
+                          ) : null}
                         </tr>
                       ))}
                     </tbody>
