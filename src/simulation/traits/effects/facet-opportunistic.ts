@@ -13,8 +13,6 @@ export const facetOpportunisticEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-opportunistic",
         pole: "high",
-        explanation:
-          "They see another term as a useful opening worth pursuing.",
       },
     ],
   },
