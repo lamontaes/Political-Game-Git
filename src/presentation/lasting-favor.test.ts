@@ -5,7 +5,10 @@ import { addDays, ageOnDate } from "../simulation/dates";
 import { feltDebtConsiderations, recordFavor } from "../simulation/favors";
 import { currentLifeCutoff } from "../simulation/life-queries";
 import { recordWorldEvent } from "../simulation/world";
-import { npcContactAnswer, proposeContact } from "../simulation/people-contact";
+import {
+  npcContactAnswer,
+  proposeContact,
+} from "../simulation/relationship-contact";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 import { explicitNewGameSetup } from "./new-game-geography";
 import { createOpeningLifeController } from "./opening-life";

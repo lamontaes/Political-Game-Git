@@ -244,7 +244,7 @@ test.describe("people, and who was chosen", () => {
       /* A route the world cannot offer names its own limitation. */
       await expect(
         page.getByTestId("dossier-talk-unavailable"),
-      ).not.toBeEmpty();
+      ).toHaveAttribute("data-reason", /.+/);
     }
     expect(opened).toBe(true);
   });

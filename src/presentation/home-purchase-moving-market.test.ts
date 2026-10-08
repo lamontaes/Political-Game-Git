@@ -98,9 +98,8 @@ describe("A54 home quotes follow the moving recorded housing market", () => {
       expect(quote?.kind).toBe("can-buy");
       if (!quote || quote.kind === "owns")
         throw new Error("No purchase quote.");
-      expect(quote.terms).toContain(
-        `A house costs ${dollars(terms.priceMinor)}.`,
-      );
+      expect(quote.price.minorUnits).toBe(terms.priceMinor);
+      expect(quote.downPayment.minorUnits).toBe(terms.downPaymentMinor);
       expect(serializeWorld(later)).toBe(beforeRead);
       const reopened = deserializeWorld(beforeRead);
       expect(projectHomePurchase(reopened, adult)).toEqual(quote);

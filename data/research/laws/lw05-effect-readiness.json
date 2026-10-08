@@ -1,0 +1,33 @@
+{
+  "batch": "LW-05",
+  "status": "unsupported-consequences-recorded",
+  "runtimeActivation": false,
+  "supportedQuestionKeys": [
+    "us-tax-terms:county.sales-tax-terms",
+    "us-tax-terms:county.property-tax-terms"
+  ],
+  "entries": [
+    {
+      "questionKey": "us-tax-terms:state.corporate-tax-terms",
+      "candidateEffect": "state-corporate-income-tax-incidence",
+      "evidenceStatus": "no-person-corporate-tax-base-or-recorded-business-ownership",
+      "source": "src/simulation/law-consequences/tax.ts; docs/research/requests/businesses-owners-and-wealth.json; docs/research/outcome-web-2026-09-28.md",
+      "blockers": [
+        "Tax bases can represent organizations, but the shared law consequence reader resolves only person-payer bases and no producer maps state corporate tax to named people.",
+        "Town business operation is inferred from work authority; the checked-in business-owner research request says no private business has a recorded owner, balance, revenue or owner income.",
+        "The checked-in corporate-tax incidence summary gives an estimated split but does not identify recorded owner people or their ownership shares, so it cannot assign a complete cause chain to named people."
+      ]
+    },
+    {
+      "questionKey": "us-tax-terms:county.income-tax-terms",
+      "candidateEffect": "county-personal-income-tax-assessment",
+      "evidenceStatus": "local-authority-source-incomplete",
+      "source": "docs/research/requests/local-income-tax-authority-56-places.json; src/simulation/local-tax-authority.ts; src/simulation/paycheck-tax-consumer.test.ts",
+      "blockers": [
+        "The checked-in 56-place authority request says national coverage is open; the cited examples cover Ohio municipalities and Philadelphia, not county authority nationwide.",
+        "The shared local authority matrix combines income and payroll categories and does not provide a complete place-level authority record for county personal income taxes.",
+        "The paycheck consumer keeps unresolved local income authority as rule-unknown and creates no taxable base or liability; there is no checked-in county income-tax producer to reach a named payer."
+      ]
+    }
+  ]
+}

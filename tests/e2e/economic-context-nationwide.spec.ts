@@ -68,9 +68,8 @@ for (const { town, state, rents } of TOWNS) {
       expect(panelText).toContain("Two-bedroom Fair Market Rent");
       expect(panelText).toContain("2024-08-14");
     } else {
-      expect(panelText).toMatch(
-        /recorded for this place, and the game cannot establish/,
-      );
+      expect(panelText).not.toMatch(/recorded for this place/);
+      expect(panelText).not.toMatch(/No figures for this place/);
     }
     expect(panelText).not.toContain("personal income");
     expect(panelText).not.toContain("Nothing has been published");

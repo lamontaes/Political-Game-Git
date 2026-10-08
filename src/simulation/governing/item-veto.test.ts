@@ -2,6 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { US_CONGRESS_PACK_ID } from "../congress-rule-pack";
 import { addDays } from "../dates";
+import {
+  municipalGovernmentByKey,
+  municipalRulePackFor,
+} from "../municipal-government";
+import { DC_GOVERNMENT_KEY } from "../nationwide-world/district-of-columbia-council-opening";
 import { bodyForChamber } from "../legislation-scenarios";
 import {
   enrollMeasure,
@@ -229,6 +234,17 @@ describe("the governor's item veto", () => {
       reaches: "appropriation-bills",
     });
     expect(itemVetoPower(US_CONGRESS_PACK_ID)).toBeNull();
+  });
+
+  it("reads the D.C. Mayor's appropriation item veto from the District source", () => {
+    const government = municipalGovernmentByKey(DC_GOVERNMENT_KEY)!;
+    const rules = municipalRulePackFor(government);
+    expect(rules.ok).toBe(true);
+    if (!rules.ok) return;
+    expect(itemVetoPower(rules.pack.packId)).toEqual({
+      reaches: "appropriation-bills",
+      citation: "D.C. Code sec. 1-204.04(f) (Home Rule Act sec. 404(f))",
+    });
   });
 
   it("strikes a rider from a signed money bill, which the votes still read but the law does not", () => {

@@ -40,11 +40,11 @@
  * not be readable as a zero. The union below keeps that, so `?? 0` still has
  * nothing to attach to on this side either.
  */
+import { US_TERRITORY_GOVERNED_NAMES } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import {
-  US_STATE_NAMES,
-  US_TERRITORY_GOVERNED_NAMES,
-} from "../simulation/nationwide-world/state-executive-candidacy-packs";
-import { isTerritoryUsps } from "../simulation/state-reference";
+  isTerritoryUsps,
+  US_POSTAL_NAMES,
+} from "../simulation/state-reference";
 import { makeIsoDate } from "../simulation/dates";
 
 /**
@@ -128,10 +128,7 @@ export interface CpsVotingRecord {
   readonly metrics: Readonly<Record<CpsMetricKey, CpsVotingCell>>;
 }
 
-export const CPS_STATE_NAMES: Readonly<Record<string, string>> = {
-  ...US_STATE_NAMES,
-  DC: "District of Columbia",
-};
+export const CPS_STATE_NAMES = US_POSTAL_NAMES;
 
 export interface StateVotingSource {
   readonly artifactId: string;

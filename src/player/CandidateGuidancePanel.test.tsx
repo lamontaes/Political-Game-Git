@@ -104,7 +104,7 @@ describe("candidate guidance as reached by the player", () => {
         onWorldChange={() => {}}
       />,
     );
-    expect(html).toContain("The conversation is open in the community room.");
+    expect(html).toContain("Open in the community room");
     expect(html).not.toContain("party-work-attend-");
     expect(html).not.toContain("Something came up before you got there");
   });

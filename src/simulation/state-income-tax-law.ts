@@ -1,5 +1,5 @@
 /**
- * What a state's income tax law in force does to a paycheck.
+ * What a state's or territory's income tax law in force does to a paycheck.
  *
  * Two policy questions reach the paycheck: "Should the state levy a personal
  * income tax?" (`fiscal.adopt-income-tax`) and "Should the state have a
@@ -108,7 +108,7 @@ export function stateIncomeTaxUnderLaw(
 ): StateIncomeTaxUnderLaw {
   const place = STATE_PLACES[stateKey];
   const state = chiefExecutiveJurisdiction(stateKey.slice(3));
-  if (!place || !state) return { kind: "as-begun" };
+  if (!state) return { kind: "as-begun" };
   const taxYearStart = `${paidAt.slice(0, 4)}-01-01` as IsoDate;
   const adopt = governingLaw(
     world,
@@ -126,7 +126,7 @@ export function stateIncomeTaxUnderLaw(
   // reshapes a newly adopted tax or overrides an enacted numeric rate.
   const graduated = shapeLaw?.origin === "enacted" ? shapeLaw : null;
   const begunShape: TaxShape | null =
-    place.wageIncomeTax === "flat" || place.wageIncomeTax === "graduated"
+    place?.wageIncomeTax === "flat" || place?.wageIncomeTax === "graduated"
       ? place.wageIncomeTax
       : null;
   if (adopt?.answer === "no")
@@ -151,7 +151,10 @@ export function stateIncomeTaxUnderLaw(
         ? shapeLaw
         : adopt;
   let table =
-    tableLaw && (tableLaw.origin === "enacted" || shape === begunShape)
+    tableLaw &&
+    (tableLaw.origin === "enacted" ||
+      shape === begunShape ||
+      (!place && tableLaw === adopt && tableLaw.origin === "in-force-at-start"))
       ? readFinalEnactedLawSchedule(world, tableLaw, {
           questionKey:
             tableLaw === shapeLaw
@@ -161,7 +164,11 @@ export function stateIncomeTaxUnderLaw(
           onDate: taxYearStart,
         })
       : null;
-  if (!table && adopt?.origin === "in-force-at-start" && shape === begunShape) {
+  if (
+    !table &&
+    adopt?.origin === "in-force-at-start" &&
+    (shape === begunShape || !place)
+  ) {
     tableLaw = adopt;
     table = readFinalEnactedLawSchedule(world, adopt, {
       questionKey: ADOPT_STATE_INCOME_TAX_QUESTION,
@@ -182,6 +189,10 @@ export function stateIncomeTaxUnderLaw(
       ],
       schedule: stateScheduleForFilingStatus(table.term.schedule, status),
     };
+  // Territories can have a fully sourced starting schedule without appearing
+  // in the separate state-only estimate table. Read that schedule above; keep
+  // the existing no-estimate behavior when no numeric territory record exists.
+  if (!place) return { kind: "as-begun" };
   const flatRate =
     adopt?.answer === "yes"
       ? readFinalEnactedLawTerm(world, adopt, {

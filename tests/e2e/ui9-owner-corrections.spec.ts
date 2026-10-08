@@ -72,6 +72,12 @@ test("UI9-04, UI9-02: a government pins, and Personal has two real destinations"
   await expect(page.getByTestId("personal-workspace")).toContainText(
     "Money and property",
   );
+  await expect(
+    page.getByTestId("personal-household-cost-estimate"),
+  ).toBeVisible();
+  await expect(
+    page.getByTestId("personal-household-cost-estimate"),
+  ).toHaveAttribute("data-estimate", "ESTIMATED FROM AVERAGE");
   await page.getByTestId("personal-workspace-close").click();
 
   await goTo(page, "nav-personal");
@@ -105,13 +111,13 @@ test("UI9-10: the starting age is derived from the birthday, never a half-typed 
    */
   const derived = page.getByTestId("creator-derived-age");
   await expect(page.getByTestId("creator-continue-character")).toBeDisabled();
-  await expect(derived).toContainText("Choose a birth year");
+  await expect(derived).toContainText("2026");
   await chooseStartAge(page, 25);
-  await expect(derived).toContainText("age 25,");
+  await expect(derived).toContainText("25 \u00b7");
   await chooseOption(page.getByTestId("start-birth-month"), "7");
   await chooseOption(page.getByTestId("start-birth-day"), "14");
   await expectChosen(page.getByTestId("start-birth-year"), "2001");
-  await expect(derived).toContainText("age 24,");
+  await expect(derived).toContainText("24 \u00b7");
   await answerCharacterBasics(page);
   await expect(page.getByTestId("creator-continue-character")).toBeEnabled();
 });

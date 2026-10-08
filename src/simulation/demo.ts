@@ -72,6 +72,7 @@ import {
 } from "./world";
 import { advanceWorldMinutes } from "./time-work";
 import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureCrisisMortality } from "./crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -649,7 +650,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return world;
+  return ensureCrisisMortality(world);
 }
 
 /**

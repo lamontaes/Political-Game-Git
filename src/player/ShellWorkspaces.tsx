@@ -16,28 +16,24 @@ import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
-import {
-  economicContextBindingForPlace,
-  economicContextUnavailableReason,
-} from "../presentation/economic-context-bindings";
+import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import {
+  NOTES_VISIBILITY_LABEL,
+  NOTES_VISIBILITY_OPTIONS,
+} from "../simulation/play-settings";
+import type { NotesVisibility } from "../simulation/types";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import type {
-  ChallengeIntensity,
-  NotebookNotesSetting,
-  PlaySettings,
-} from "../simulation/types";
 
 import {
-  CATEGORY_LABELS,
-  PERSON_CATEGORIES,
   filterDirectory,
   projectPeopleDirectory,
-  type PersonCategory,
 } from "../presentation/people-directory";
+import type { PersonDossier } from "../presentation/person-dossier";
 import {
   calendarEntryFor,
   calendarEntryHorizon,
@@ -65,8 +61,9 @@ import {
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
-import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
+import { SavedPersonFigure } from "./SavedPersonFigure";
+import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
   declineCalendarActivity,
@@ -459,228 +456,72 @@ export function PeopleWorkspace({
   personId,
   state,
   dispatch,
+  dossierFor,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
+  readonly dossierFor: (personId: EntityId) => PersonDossier | null;
 }) {
-  const searchRef = useRef<HTMLDetailsElement>(null);
-  useEffect(() => {
-    const blurOutsideSearch = (event: PointerEvent) => {
-      const search = searchRef.current;
-      if (!search?.open || search.contains(event.target as Node)) return;
-      const input = search.querySelector("input");
-      input?.blur();
-      if (!input?.value.trim()) search.open = false;
-    };
-    document.addEventListener("pointerdown", blurOutsideSearch, true);
-    return () => {
-      document.removeEventListener("pointerdown", blurOutsideSearch, true);
-    };
-  }, []);
+  const [selectedPersonId, setSelectedPersonId] = useState(
+    state.quickDossierPersonId ?? personId,
+  );
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
     [world, personId],
   );
-  const category = state.peopleCategory as PersonCategory | "all";
   const shown = useMemo(
-    () => filterDirectory(directory, category, state.peopleQuery),
-    [directory, category, state.peopleQuery],
+    () => filterDirectory(directory, "all", state.peopleQuery),
+    [directory, state.peopleQuery],
   );
   const notYetMet = useMemo(
     () =>
-      category === "all"
-        ? []
-        : filterDirectory(
-            { ...directory, people: directory.notYetMet },
-            category,
-            state.peopleQuery,
-          ),
-    [directory, category, state.peopleQuery],
+      filterDirectory(
+        { ...directory, people: directory.notYetMet },
+        "all",
+        state.peopleQuery,
+      ),
+    [directory, state.peopleQuery],
   );
-  const [webExpanded, setWebExpanded] = useState(false);
-  const peopleView = state.preferences.peopleView;
-  const showWeb = peopleView === "web";
-  /*
-   * Choosing somebody here opens the one person card the whole game uses,
-   * beside this workspace, rather than a second card drawn inline. The web
-   * keeps the chosen person at its center so the card and the drawing agree.
-   */
-  const focusId = state.quickDossierPersonId ?? personId;
-  function selectPerson(id: EntityId) {
-    dispatch({ type: "open-quick-dossier", personId: id });
-  }
+  const people = [...shown, ...notYetMet];
+  const dossier = dossierFor(selectedPersonId);
+  if (!dossier) return null;
+  const pinned = isPinned(state, { kind: "person", id: selectedPersonId });
 
   return (
-    <>
-      <div className="pg-people-controls">
-        <details
-          ref={searchRef}
-          className="pg-people-search"
-          onBlur={(event) => {
-            if (
-              !event.currentTarget.contains(event.relatedTarget) &&
-              !event.currentTarget.querySelector("input")?.value.trim()
-            ) {
-              event.currentTarget.open = false;
-            }
-          }}
-          onToggle={(event) => {
-            if (event.currentTarget.open) {
-              event.currentTarget.querySelector("input")?.focus();
-            }
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Escape" && event.currentTarget.open) {
-              event.stopPropagation();
-              event.currentTarget.open = false;
-              event.currentTarget.querySelector("summary")?.focus();
-            }
-          }}
-        >
+    <div className="pg-people-layout" data-testid="people-layout">
+      <section className="pg-people-index" aria-label="People">
+        <details className="pg-people-search">
           <summary>
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="10" cy="10" r="6" />
               <path d="M 14.5 14.5 L 21 21" />
             </svg>
-            Find somebody
+            Search
           </summary>
-          <div className="pg-field pg-people-search-entry">
-            <input
-              type="search"
-              aria-label="Find somebody"
-              value={state.peopleQuery}
-              data-testid="people-search"
-              onChange={(event) =>
-                dispatch({
-                  type: "set-people-query",
-                  query: event.target.value,
-                })
-              }
-            />
-            {state.peopleQuery ? (
-              <button
-                type="button"
-                className="pg-search-icon"
-                aria-label="Clear search"
-                onClick={() => {
-                  dispatch({ type: "set-people-query", query: "" });
-                  searchRef.current?.querySelector("input")?.focus();
-                }}
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            ) : null}
-            <button
-              type="button"
-              className="pg-search-icon"
-              aria-label="Return to people"
-              onClick={() => {
-                if (searchRef.current) {
-                  searchRef.current.open = false;
-                  searchRef.current.querySelector("summary")?.focus();
-                }
-              }}
-            >
-              <span aria-hidden="true">↵</span>
-            </button>
-          </div>
-        </details>
-        <div
-          className="pg-people-web-toolbar"
-          role="group"
-          aria-label="People view"
-        >
-          {(
-            [
-              ["web", "Web"],
-              ["list", "List"],
-              ["categories", "Categories"],
-            ] as const
-          ).map(([view, label]: readonly [PeopleView, string]) => (
-            <button
-              key={view}
-              type="button"
-              className="ui-action ui-action--rail"
-              aria-pressed={peopleView === view}
-              data-testid={`people-view-${view}`}
-              onClick={() => dispatch({ type: "set-people-view", view })}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div
-          className="pg-people-categories"
-          role="group"
-          aria-label="Categories"
-        >
-          {(["all", ...PERSON_CATEGORIES] as const).map((key) => (
-            <button
-              key={key}
-              type="button"
-              className="ui-action ui-action--rail"
-              aria-pressed={category === key}
-              data-testid={`people-category-${key}`}
-              onClick={() =>
-                dispatch({ type: "set-people-category", category: key })
-              }
-            >
-              {key === "all" ? "Everyone" : CATEGORY_LABELS[key]}
-              <small>{directory.counts[key]}</small>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {showWeb ? (
-        <>
-          <PeopleRelationshipWeb
-            world={world}
-            playerId={personId}
-            focusId={focusId}
-            category={category}
-            query={state.peopleQuery}
-            expanded={webExpanded}
-            onSelect={selectPerson}
-            onShowList={() =>
-              dispatch({ type: "set-people-view", view: "list" })
+          <input
+            type="search"
+            aria-label="Search"
+            value={state.peopleQuery}
+            data-testid="people-search"
+            onChange={(event) =>
+              dispatch({ type: "set-people-query", query: event.target.value })
             }
           />
-          <button
-            type="button"
-            className="ui-action ui-action--subtle"
-            data-testid="people-web-expand"
-            onClick={() => setWebExpanded((value) => !value)}
-          >
-            {webExpanded
-              ? "Show the nearby connections"
-              : "Show everyone you know"}
-          </button>
-        </>
-      ) : null}
-
-      {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty">
-          Nobody here matches that. This life may simply not have met them yet.
-        </p>
-      ) : (
-        <ul
-          className="pg-people-list"
-          data-view={peopleView}
-          data-testid="people-list"
-        >
-          {shown.map((person) => {
+        </details>
+        <ul className="pg-people-list" data-testid="people-list">
+          {people.map((person) => {
             const ref: ShellRef = { kind: "person", id: person.personId };
-            const pinned = isPinned(state, ref);
+            const isSelected = person.personId === selectedPersonId;
             return (
               <li key={person.personId}>
                 <button
                   type="button"
                   className="pg-person-row"
+                  aria-pressed={isSelected}
                   data-testid={`people-person-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
+                  onClick={() => setSelectedPersonId(person.personId)}
                 >
                   <PersonPortrait
                     world={world}
@@ -693,15 +534,10 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
-                  {person.strain ? (
-                    <small data-testid={`people-strain-${person.personId}`}>
-                      {person.strain}
-                    </small>
-                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
-                  pinned={pinned}
+                  pinned={isPinned(state, ref)}
                   name={person.name}
                   testid={`people-pin-${person.personId}`}
                   onToggle={() => dispatch({ type: "toggle-pin", ref })}
@@ -710,46 +546,61 @@ export function PeopleWorkspace({
             );
           })}
         </ul>
-      )}
 
-      {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
-        </p>
-      ) : null}
-      {notYetMet.length > 0 ? (
-        <section
-          className="pg-people-not-yet-met"
-          aria-label="Not met yet"
-          data-testid="people-not-yet-met"
-        >
-          <h3>Not met yet</h3>
-          <ul className="pg-people-list" data-view="list">
-            {notYetMet.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-person-row"
-                  data-testid={`people-unmet-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={person.personId}
-                    size="small"
-                  />
-                  <strong>{person.name}</strong>
-                  {person.context ? <small>{person.context}</small> : null}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-    </>
+        <HeardOfficialViewsList
+          views={directory.heardViews}
+          onSelectPerson={(id) => setSelectedPersonId(id)}
+        />
+      </section>
+      <section
+        className="pg-people-dossier pg-glass-panel"
+        aria-label={dossier.name}
+        data-testid="people-dossier"
+        data-person-id={selectedPersonId}
+      >
+        <SavedPersonFigure
+          world={world}
+          personId={selectedPersonId}
+          className="pg-people-dossier-figure"
+          accessibleLabel={dossier.name}
+          showUnavailableText={false}
+        />
+        <div className="pg-people-dossier-record">
+          <div className="pg-people-dossier-identity">
+            <h2>{dossier.name}</h2>
+            {dossier.relationship ? <p>{dossier.relationship}</p> : null}
+          </div>
+          {dossier.details.map((fact) => (
+            <p key={fact.key}>{fact.text}</p>
+          ))}
+          {dossier.sharedHistory.map((entry) => (
+            <p key={entry.id}>
+              {entry.dateLabel} · {entry.summary}
+            </p>
+          ))}
+          {dossier.publicCareer.map((entry) => (
+            <p key={entry.eventId}>
+              {entry.dateLabel} · {entry.summary}
+            </p>
+          ))}
+          {dossier.laws.map((law) => (
+            <p key={law.measureId}>{law.title}</p>
+          ))}
+          <PinToggle
+            className="ui-action ui-action--rail"
+            pinned={pinned}
+            name={dossier.name}
+            testid="people-dossier-pin"
+            onToggle={() =>
+              dispatch({
+                type: "toggle-pin",
+                ref: { kind: "person", id: selectedPersonId },
+              })
+            }
+          />
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -787,7 +638,8 @@ function CalendarEntryRow({
         <span className="pg-calendar-copy">
           <strong>{entry.title}</strong>
           <small>
-            {calendarKindLabel(entry.kind)} · {entry.ownershipNote}
+            {calendarKindLabel(entry.kind)}
+            {entry.group === "chamber" ? " · Chamber agenda" : ""}
           </small>
         </span>
       </button>
@@ -1034,10 +886,12 @@ export function CalendarWorkspaceSurface({
               {outcome}
             </p>
           ) : null}
-          {calendar.note ? (
-            <p className="game-note" data-testid="calendar-note">
-              {calendar.note}
-            </p>
+          {calendar.empty || calendar.chamberOnly ? (
+            <p
+              className="game-note"
+              data-testid="calendar-note"
+              data-problem={calendar.empty ? "calendar-empty" : "chamber-only"}
+            />
           ) : null}
           <div data-testid="calendar-upcoming">
             <h3 className="pg-calendar-heading">
@@ -1057,7 +911,7 @@ export function CalendarWorkspaceSurface({
             {liveDays.filter(
               (day) => !selectedDate || day.date === selectedDate,
             ).length === 0 ? (
-              <p className="game-note">Nothing upcoming or ongoing.</p>
+              <p className="game-note" data-problem="nothing-upcoming" />
             ) : (
               renderDays(
                 liveDays.filter(
@@ -1073,9 +927,7 @@ export function CalendarWorkspaceSurface({
       {tab === "history" ? (
         <div data-testid="calendar-history">
           {historyDays.length === 0 ? (
-            <p className="game-note">
-              Nothing has happened on this calendar yet.
-            </p>
+            <p className="game-note" data-problem="nothing-happened" />
           ) : (
             renderDays(historyDays, "history")
           )}
@@ -1084,11 +936,7 @@ export function CalendarWorkspaceSurface({
 
       {tab === "interruptions" ? (
         <div className="pg-interruptions" data-testid="calendar-interruptions">
-          <p className="game-note">
-            What a day or week skip stops for. Reading or changing this moves no
-            time. A preference here never spends money, casts a vote or commits
-            you to anything; it only decides where a skip pauses.
-          </p>
+          <p className="game-note" data-note="skip-stops" />
           <InterruptionChecklist
             interruptions={interruptions}
             onChange={onInterruptionChange}
@@ -1130,18 +978,28 @@ function CalendarEntryDetail({
       <dt>What</dt>
       <dd>
         {entry.title} · {entry.kindLabel}
-        {entry.summary ? <span> {entry.summary}</span> : null}
       </dd>
-      <dt>How it was arranged</dt>
-      <dd data-testid="calendar-event-arrangement">
-        {entry.arrangementNote ? `${entry.arrangementNote} ` : ""}
-        {entry.ownershipNote}
+      <dt>On</dt>
+      <dd data-testid="calendar-event-arrangement" data-group={entry.group}>
+        {entry.group === "chamber" ? "Chamber agenda" : "Your calendar"}
       </dd>
+      {entry.inCharge ? (
+        <>
+          <dt>In charge</dt>
+          <dd data-testid="calendar-event-in-charge">{entry.inCharge}</dd>
+        </>
+      ) : null}
+      {entry.cameThrough.length > 0 ? (
+        <>
+          <dt>Through</dt>
+          <dd data-testid="calendar-event-through">
+            {entry.cameThrough.join(", ")}
+          </dd>
+        </>
+      ) : null}
       <dt>Who is going</dt>
       <dd data-testid="calendar-event-attendees">
-        {entry.attendeeNames.length > 0
-          ? entry.attendeeNames.join(", ")
-          : "Nobody is listed yet."}
+        {entry.attendeeNames.length > 0 ? entry.attendeeNames.join(", ") : null}
       </dd>
       <dt>Where</dt>
       <dd>{entry.locationLabel}</dd>
@@ -1229,8 +1087,8 @@ function CalendarEventActions({
       ? venue.refusal
       : venue?.journey
         ? venue.journey.alreadyCompleted
-          ? `The journey to ${selected.locationLabel} is complete. Attend begins here.`
-          : `Includes the trip to ${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}. ${venue.journey.costDisclosure}`
+          ? null
+          : `${selected.locationLabel}, ${describeInterval(venue.journey.journeyMinutes)}`
         : null;
   const busy = runner.pending || undefined;
   const meetingScene = projectOrdinaryMeetingScene(world, personId);
@@ -1291,8 +1149,7 @@ function CalendarEventActions({
             );
             onApplyNow({
               world: planned,
-              outcome:
-                "You plan to attend the posted public meeting. Day or Week will take the scheduled trip when it is time to leave.",
+              outcome: selected.title,
             });
           }}
         >
@@ -1303,7 +1160,7 @@ function CalendarEventActions({
           personId,
           selected.activityId,
         ) ? (
-        <p role="status">You plan to attend this meeting.</p>
+        <p role="status" data-planned="true" />
       ) : null}
       {skip ? (
         <button
@@ -1435,9 +1292,11 @@ export function CommitmentSurface({
   );
   if (!entry) {
     return (
-      <p className="game-note" data-testid="commitment-missing">
-        This world does not hold that commitment, or it is not yours to see.
-      </p>
+      <p
+        className="game-note"
+        data-testid="commitment-missing"
+        data-problem="commitment-not-held"
+      />
     );
   }
   return (
@@ -1447,21 +1306,33 @@ export function CommitmentSurface({
         {formatMinute(entry.start.minuteOfDay)} –{" "}
         {formatMinute(entry.end.minuteOfDay)}
       </p>
-      {entry.arrangementNote ? (
-        <p data-testid="commitment-arrangement">{entry.arrangementNote}</p>
-      ) : null}
       <p className="pg-kicker" data-testid="commitment-kind">
         {entry.kindLabel}
       </p>
-      <p data-testid="commitment-ownership">{entry.ownershipNote}</p>
-      <p>{entry.summary}</p>
-      <p className="game-note">Where: {entry.locationLabel}</p>
+      <dl data-testid="commitment-ownership" data-group={entry.group}>
+        {entry.inCharge ? (
+          <>
+            <dt>In charge</dt>
+            <dd data-testid="commitment-arrangement">{entry.inCharge}</dd>
+          </>
+        ) : null}
+        {entry.cameThrough.length > 0 ? (
+          <>
+            <dt>Through</dt>
+            <dd>{entry.cameThrough.join(", ")}</dd>
+          </>
+        ) : null}
+        <dt>Where</dt>
+        <dd>{entry.locationLabel}</dd>
+      </dl>
       {/* The player is not "with" themself: only the others are named. */}
       {entry.attendeeNames.filter((name) => name !== "You").length > 0 ? (
-        <p className="game-note" data-testid="commitment-participants">
-          With {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
-          .
-        </p>
+        <dl className="game-note" data-testid="commitment-participants">
+          <dt>With</dt>
+          <dd>
+            {entry.attendeeNames.filter((name) => name !== "You").join(", ")}
+          </dd>
+        </dl>
       ) : null}
     </div>
   );
@@ -1498,9 +1369,11 @@ export function MeasureSurface({
 
   if (!briefing || !measure) {
     return (
-      <p className="game-note" data-testid="measure-missing">
-        This world does not hold that measure.
-      </p>
+      <p
+        className="game-note"
+        data-testid="measure-missing"
+        data-problem="no-such-measure"
+      />
     );
   }
 
@@ -1516,21 +1389,16 @@ export function MeasureSurface({
       <p className="game-band" data-testid="measure-chamber">
         {briefing.legislatureName}
       </p>
-      <p data-testid="measure-sponsor">
-        {briefing.sponsorName
-          ? `Filed by ${briefing.sponsorName}.`
-          : "No sponsor is on the record."}
+      <p
+        data-testid="measure-sponsor"
+        data-problem={briefing.sponsorName ? undefined : "no-sponsor"}
+      >
+        {briefing.sponsorName}
       </p>
-      <p data-testid="measure-your-role">
-        {yours
-          ? "You filed it."
-          : "You did not file it. Your part in it is whatever the chamber gives you."}
-      </p>
+      <p data-testid="measure-your-role" data-filed={yours ? "yes" : "no"} />
       <p>{briefing.summary}</p>
       {briefing.questions.length > 0 ? (
-        <p data-testid="measure-questions">
-          {`${briefing.questions.length === 1 ? "The question it bears on" : "The questions it bears on"}: ${briefing.questions.join(" ")}`}
-        </p>
+        <p data-testid="measure-questions">{briefing.questions.join(" ")}</p>
       ) : null}
       <p data-testid="measure-standing">{briefing.whereItStands}</p>
       {briefing.outcomeNote ? (
@@ -1639,9 +1507,12 @@ export function PersonalFinancesWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
+  const householdCosts = useMemo(
+    () => estimatedHouseholdLivingCostsAt(world, personId),
+    [world, personId],
+  );
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
-  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1662,7 +1533,6 @@ export function PersonalFinancesWorkspace({
           {record.purses.map((purse) => (
             <li key={purse.kind} data-purse={purse.kind}>
               <strong>{purse.label}</strong>
-              <small>{purse.ownerNote}</small>
               {purse.balance ? (
                 <span data-testid={`purse-balance-${purse.kind}`}>
                   {dollars(purse.balance)}
@@ -1671,13 +1541,38 @@ export function PersonalFinancesWorkspace({
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
-                >
-                  {purse.absence}
-                </span>
+                  data-problem="no-balance-on-record"
+                />
               )}
             </li>
           ))}
         </ul>
+        {householdCosts ? (
+          <ul
+            className="pg-purses"
+            data-testid="personal-household-cost-estimate"
+            data-estimate={householdCosts.label}
+            data-currency="USD"
+            data-period="month"
+          >
+            {householdCosts.categories.map((category) => (
+              <li key={category.key} data-cost-category={category.key}>
+                <strong>{category.label}</strong>
+                <span>
+                  {dollars({
+                    minorUnits: Math.round(
+                      (category.annualMeanUsd *
+                        100 *
+                        householdCosts.monthlyMinor) /
+                        (12 * householdCosts.averageMonthlyMinor),
+                    ),
+                    currency: "USD",
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
 
       {/*
@@ -1722,13 +1617,14 @@ export function PersonalFinancesWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
-            world={world}
-            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
-          <p className="game-note" data-testid="economic-context-unavailable">
-            {economicContextUnavailableReason(economicPlace.key)}
-          </p>
+          <p
+            className="game-note"
+            data-testid="economic-context-unavailable"
+            data-problem="no-county-area"
+            data-place={economicPlace.key}
+          />
         ) : null}
         {economicPlace ? (
           <TownBusinessesPanel
@@ -1767,12 +1663,13 @@ export function WorkWorkspace({
   return (
     <>
       {pending.length === 0 ? (
-        <p className="game-note" data-testid="work-empty">
-          Nothing is waiting on you at the moment.
-        </p>
+        <p
+          className="game-note"
+          data-testid="work-empty"
+          data-problem="nothing-waiting"
+        />
       ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
-          <h3>Waiting on you</h3>
           <ul data-testid="work-pending">
             {needsYou.map((entry) => (
               <li key={entry.item.id}>{entry.item.title}</li>
@@ -1867,87 +1764,40 @@ export function OptionsWorkspace({
   state,
   dispatch,
   onOpenPatchNotes,
-  playSettings,
-  onSetPlaySetting,
+  notesVisibility,
+  onChangeNotesVisibility,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly onOpenPatchNotes?: () => void;
-  readonly playSettings?: PlaySettings;
-  readonly onSetPlaySetting?: (
-    key: "challenge" | "notes",
-    value: ChallengeIntensity | NotebookNotesSetting,
-  ) => void;
+  readonly notesVisibility: NotesVisibility;
+  readonly onChangeNotesVisibility: (value: NotesVisibility) => void;
 }) {
   return (
     <>
-      {playSettings && onSetPlaySetting ? (
-        <>
-          <section className="pg-personal-section">
-            <h3>Challenge</h3>
-            <p className="game-note">How often hard moments come up.</p>
-            <div role="group" aria-label="Challenge intensity">
-              {(
-                [
-                  ["quiet", "Quiet"],
-                  ["standard", "Standard"],
-                  ["relentless", "Relentless"],
-                ] as const
-              ).map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  className="ui-action ui-action--rail"
-                  aria-pressed={playSettings.challenge === value}
-                  onClick={() => onSetPlaySetting("challenge", value)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </section>
-          <section className="pg-personal-section">
-            <h3>Notebook</h3>
-            <p className="game-note">
-              How many known reminders appear without opening a person.
-            </p>
-            <div role="group" aria-label="Notebook reminders">
-              {(
-                [
-                  ["full", "Full"],
-                  ["light", "Light"],
-                  ["none", "None"],
-                ] as const
-              ).map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  className="ui-action ui-action--rail"
-                  aria-pressed={playSettings.notes === value}
-                  onClick={() => onSetPlaySetting("notes", value)}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </section>
-          <section className="pg-personal-section">
-            <h3>Premises and saves</h3>
-            <p className="game-note">
-              Chosen when this life began. Family money:{" "}
-              {playSettings.premises.familyMoney}; press:{" "}
-              {playSettings.premises.press}; saves: {playSettings.saves}.
-            </p>
-          </section>
-        </>
-      ) : null}
+      <section className="pg-personal-section">
+        <h3>{NOTES_VISIBILITY_LABEL}</h3>
+        <div role="group" aria-label={NOTES_VISIBILITY_LABEL}>
+          {NOTES_VISIBILITY_OPTIONS.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={notesVisibility === value}
+              data-testid={`option-notes-${value}`}
+              onClick={() => onChangeNotesVisibility(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
       <section className="pg-personal-section">
         <h3>Calendar</h3>
         <DateFormatSetting />
       </section>
       <section className="pg-personal-section">
         <h3>People</h3>
-        <p className="game-note">How the People screen opens.</p>
         <div role="group" aria-label="People default view">
           {(
             [
@@ -1972,7 +1822,6 @@ export function OptionsWorkspace({
 
       <section className="pg-personal-section">
         <h3>Pins</h3>
-        <p className="game-note">The size a new pin is created at.</p>
         <div role="group" aria-label="Default pin size">
           {(
             [
@@ -1993,14 +1842,6 @@ export function OptionsWorkspace({
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="pg-personal-section">
-        <h3>Motion</h3>
-        <p className="game-note">
-          Motion follows your system&rsquo;s reduced-motion setting, so nothing
-          here has to be switched on to make it stop.
-        </p>
       </section>
 
       {onOpenPatchNotes ? (

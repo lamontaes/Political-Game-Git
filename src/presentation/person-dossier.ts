@@ -1,3 +1,4 @@
+import { PRIOR_SERVICE_EVENT } from "./opening-prior-service";
 import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
 import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
@@ -6,19 +7,20 @@ import {
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
-import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
+  activeWorkRelationshipsAt,
   deriveRelationshipSummary,
   describePersonContext,
   explicitPerceptionHistory,
   factsForPerson,
+  householdLocationAt,
   householdMembershipsAt,
-  kinshipRelationshipsAt,
   measureById,
   peopleInHouseholdAt,
   personName,
+  resourceFlowTermsAt,
   scheduledActivitiesVisibleTo,
   type PersonAppearance,
   type EntityId,
@@ -28,7 +30,7 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
-import { playSettingsOf } from "../simulation/play-settings";
+import { moneyText } from "../simulation/money-text";
 
 /**
  * What the player makes of somebody, read from the records they can see.
@@ -91,16 +93,17 @@ export interface PersonDossier {
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
   /**
-   * What they are doing this minute, which is a different kind of claim from
-   * who they are — so it sits beside the identity rather than joining the
-   * lasting details, and is absent when nothing establishes it.
+   * The room this moment's scene puts them in, shown as the value of the
+   * presence label. It is a different kind of claim from who they are, so it
+   * sits beside the identity, and is null when the scene names no room.
    */
-  readonly rightNow: string | null;
+  readonly presentRoom: string | null;
   readonly details: readonly DossierFact[];
   /** Player-known, outstanding reminders about this person. */
   readonly reminders: readonly DossierFact[];
-  readonly notesMode: "full" | "light" | "none";
-  readonly lastInteraction: string;
+  readonly lastInteraction: string | null;
+  /** True when no conversation is on record; the card shows no line then. */
+  readonly neverSpoken?: boolean;
   /**
    * Where the two of them stand, in the player's own words.
    *
@@ -172,7 +175,10 @@ function describeInteraction(
   world: World,
   playerId: EntityId,
   personId: EntityId,
-): string {
+): string | null {
+  // Observation has no player whose acquaintance can be described as "you."
+  // Keep the relationship record intact, but make no player-relative claim.
+  if (world.control.kind === "observer") return null;
   // The player's own card is not somebody the player has or has not spoken to.
   if (personId === playerId) return "This is you.";
   const summary = deriveRelationshipSummary(world, playerId, personId);
@@ -248,37 +254,85 @@ function buildDetails(
 ): readonly DossierFact[] {
   const details: DossierFact[] = [];
 
+  const subject = world.people[personId];
+  const fullRecordAccess =
+    personId === playerId || world.control.kind === "observer";
   const playerHouseholdId = householdIdFor(world, playerId);
   const sharedHousehold =
     personId !== playerId &&
     playerHouseholdId !== null &&
     peopleInHouseholdAt(world, playerHouseholdId).includes(personId);
-  if (sharedHousehold) {
-    details.push({
-      key: "household",
-      text: "You live in the same household.",
-      attribution: "known",
-    });
-  }
-
-  const kin = kinshipRelationshipsAt(world, playerId).find((record) =>
-    record.personIds.includes(personId),
-  );
-  if (kin) {
-    const context = describePersonContext(world, playerId, personId);
-    if (context?.relationship) {
-      details.push({
-        key: `kin-${kin.id}`,
-        text: (() => {
-          const words = personWords(world.people[personId]);
-          return `${words.They} ${words.are} ${context.relationship}.`;
-        })(),
-        attribution: "known",
-      });
+  if (fullRecordAccess || sharedHousehold) {
+    const householdId = householdIdFor(world, personId);
+    if (householdId) {
+      const household = householdMembershipsAt(world, personId).find(
+        (membership) => membership.household.id === householdId,
+      )?.household;
+      const location = householdLocationAt(world, householdId);
+      if (location) {
+        details.push({
+          key: `home-${location.id}`,
+          text: location.label,
+          attribution: "record",
+        });
+      }
+      if (household) {
+        details.push({
+          key: `household-${household.id}`,
+          text: household.label,
+          attribution: "record",
+        });
+        const members = peopleInHouseholdAt(world, householdId)
+          .filter((memberId) => memberId !== personId)
+          .map((memberId) => world.people[memberId])
+          .filter((member): member is NonNullable<typeof member> => !!member)
+          .map(personName);
+        if (members.length > 0) {
+          details.push({
+            key: `household-members-${household.id}`,
+            text: members.join(", "),
+            attribution: "record",
+          });
+        }
+      }
     }
   }
-
-  const subject = world.people[personId];
+  if (fullRecordAccess) {
+    for (const active of activeWorkRelationshipsAt(world, personId)) {
+      const organization = active.relationship.organizationId
+        ? organizationRefLabel(world, active.relationship.organizationId)
+        : null;
+      const currentWork = [active.role.title, organization]
+        .filter((value): value is string => value !== null)
+        .join(" · ");
+      if (currentWork) {
+        details.push({
+          key: `current-work-${active.relationship.id}`,
+          text: currentWork,
+          attribution: "record",
+        });
+      }
+      const payFlow = world.history.resourceFlows
+        .filter(
+          (flow) =>
+            flow.basisReference.kind === "work" &&
+            flow.basisReference.workRelationshipId === active.relationship.id &&
+            flow.recipient.kind === "person" &&
+            flow.recipient.personId === personId &&
+            flow.basisKind.startsWith("compensation:"),
+        )
+        .at(-1);
+      const pay = payFlow ? resourceFlowTermsAt(world, payFlow.id) : undefined;
+      if (pay?.status === "active") {
+        const cadence = pay.cadenceKind.split(":").at(-1);
+        details.push({
+          key: `current-pay-${pay.id}`,
+          text: `${moneyText(pay.amount)} ${cadence ?? ""}`.trim(),
+          attribution: "record",
+        });
+      }
+    }
+  }
   const knownEvents = new Map(
     world.history.knowledge
       .filter(
@@ -436,16 +490,14 @@ export function projectPersonDossier(
   personId: EntityId,
   options: {
     readonly presentNow?: boolean;
-    readonly rightNow?: string | null;
+    readonly presentRoom?: string | null;
   } = {},
 ): PersonDossier | null {
   const subject = world.people[personId];
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
   const details = buildDetails(world, playerId, personId);
-  const notesMode = playSettingsOf(world).notes;
-  const reminders =
-    notesMode === "none" ? [] : buildReminders(world, playerId, personId);
+  const reminders = buildReminders(world, playerId, personId);
 
   return {
     personId,
@@ -478,10 +530,11 @@ export function projectPersonDossier(
             event.type,
           ) &&
           event.occurredAt <= world.currentDate &&
-          (event.involvedEntityIds.includes(personId) ||
-            event.participants.some(
-              (participant) => participant.personId === personId,
-            )),
+          (event.participants.some(
+            (participant) => participant.personId === personId,
+          ) ||
+            (event.involvedEntityIds.includes(personId) &&
+              /(?:^|[.:/-])vote$/.test(event.type))),
       )
       .map((event) => ({
         eventId: event.id,
@@ -495,18 +548,24 @@ export function projectPersonDossier(
           )?.detail;
           return office &&
             (event.type === "world.office-tenure" ||
-              event.type === "world.legislative-seat-tenure")
+              event.type === "world.legislative-seat-tenure" ||
+              event.type === PRIOR_SERVICE_EVENT)
             ? `Took office as ${office}.`
             : event.summary.replace(/ in this fictional world\./g, ".");
         })(),
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
     presentNow: options.presentNow ?? false,
-    rightNow: options.rightNow ?? null,
+    presentRoom: options.presentRoom ?? null,
     details,
     reminders,
-    notesMode,
     lastInteraction: describeInteraction(world, playerId, personId),
+    neverSpoken:
+      personId !== playerId &&
+      world.control.kind !== "observer" &&
+      deriveRelationshipSummary(world, playerId, personId).interactionCount ===
+        0 &&
+      !readRelationshipStanding(world, playerId, personId).absence.sharesHome,
     strain: recentStrain(world, playerId, personId),
     standing:
       personId === playerId
