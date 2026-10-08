@@ -10884,22 +10884,22 @@
         },
         {
           "x": 28,
-          "y": 75.5,
+          "y": 76,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 75.5,
-          "seatY": 73.5,
+          "depth": 76,
+          "seatY": 75.2,
           "group": "plaza-bench",
           "role": "general",
           "id": "state-capitol-az:spot:6"
         },
         {
           "x": 77,
-          "y": 75.5,
+          "y": 76,
           "pose": "sit",
           "facing": "viewer",
-          "depth": 75.5,
-          "seatY": 73.5,
+          "depth": 76,
+          "seatY": 75.2,
           "group": "plaza-bench",
           "role": "general",
           "id": "state-capitol-az:spot:7"
