@@ -8777,7 +8777,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 52,
-          "seatY": 45,
+          "seatY": 47.5,
           "group": "glass-office-desk",
           "clipBelowY": 45,
           "role": "general",
