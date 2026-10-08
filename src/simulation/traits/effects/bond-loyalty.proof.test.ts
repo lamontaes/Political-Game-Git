@@ -7,6 +7,9 @@ describe("the bond-loyalty difference in a random new game", () => {
       "personality-v1:bond-loyalty",
       "people.couple-stage",
       "l1-proof-bond-loyalty",
+      [],
+      "table",
+      ["stay", "break-up"],
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
