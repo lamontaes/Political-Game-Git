@@ -105,7 +105,7 @@ describe("candidate guidance read back as prose", () => {
     expect(entry!.text).not.toMatch(RAW_TOKEN);
     expect(entry!.text).not.toMatch(/\b1 years\b/);
     expect(entry!.text).toContain(
-      "To run for the Washington House of Representatives, you must be at least 21; you must have lived 1 year in the state immediately before filing; and a term is 2 years.",
+      "To run for the Washington House of Representatives, you must be at least 21; you must have lived 1 year in the state immediately before filing; and a term is 2 years; filing deadline",
     );
   }, 120_000);
 });

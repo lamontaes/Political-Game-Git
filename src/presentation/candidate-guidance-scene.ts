@@ -42,7 +42,7 @@ export function composeCandidateGuidanceAnswer(
   personId: EntityId,
 ): string {
   return plainCandidateGuidance(
-    campaignGuidanceRecordText(projectCampaignGuidance(world, personId)),
+    campaignGuidanceRecordText(projectCampaignGuidance(world, personId), 4),
   );
 }
 

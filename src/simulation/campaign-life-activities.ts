@@ -1275,7 +1275,10 @@ export function projectCampaignGuidance(
   };
 }
 
-export function campaignGuidanceRecordText(view: CampaignGuidanceView): string {
+export function campaignGuidanceRecordText(
+  view: CampaignGuidanceView,
+  officeLimit = view.offices.length,
+): string {
   const describe = <T>(label: string, value: CampaignGuidanceValue<T>) =>
     value.state === "known"
       ? `${label} ${String(value.value)} (${value.citation})`
@@ -1284,6 +1287,7 @@ export function campaignGuidanceRecordText(view: CampaignGuidanceView): string {
     view.offices.length === 0
       ? (view.noOfficeReason ?? "No office is established here.")
       : view.offices
+          .slice(0, officeLimit)
           .map(
             (office) =>
               `${office.chamberName}: ${describe("minimum age", office.minimumAge)}; ${describe("residency", office.residency)}; ${describe("term in years", office.termYears)}; filing deadline ${office.filingTerms.deadline}; fee $${(office.filingTerms.feeMinorUnits / 100).toFixed(2)}; ${typeof office.filingTerms.signatures === "number" ? office.filingTerms.signatures : `${office.filingTerms.signatures.percent}% of ${office.filingTerms.signatures.base}`} signatures${office.filingTerms.feeInLieuOfSignatures ? " or the fee" : ""}`,

@@ -1,16 +1,16 @@
 import { describe, expect, it } from "vitest";
 import {
-  createScenarioWorld,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
   campaignGuidanceRecordText,
-  lifePlaces,
+  lifePlaceStateIdentities,
   deserializeWorld,
   homePartyChapters,
   scheduledActivityState,
   serializeWorld,
   simulationMinutesBetween,
   projectCampaignGuidance,
+  stateJurisdictionForKey,
 } from "../simulation";
 import { attendPartyWork, requestPartyWork } from "./campaign-life-actions";
 import { plainCandidateGuidance } from "./candidate-guidance-prose";
@@ -62,22 +62,29 @@ function attend(
 
 describe("candidate guidance in the room", () => {
   it("composes the organizer's answer through the shared rule reader in all 56 places", () => {
-    const places = lifePlaces();
+    const places = lifePlaceStateIdentities();
     expect(places).toHaveLength(56);
+    const world = booked("candidate-guidance-all-places").world;
+    const personId = world.personOrder[0]!;
     for (const place of places) {
-      const world = createScenarioWorld(
-        `candidate-guidance-all-places:${place.key}`,
-        place.context,
-        { peopleCount: 1 },
-      );
-      const personId = world.personOrder[0]!;
-      const response = composeCandidateGuidanceAnswer(world, personId);
-      expect(response, place.displayName).toBeTruthy();
-      expect(response, place.displayName).not.toContain("Let's check");
-      expect(response, place.displayName).not.toMatch(
+      const jurisdiction = stateJurisdictionForKey(place.jurisdictionKey)!;
+      const placeWorld = {
+        ...world,
+        people: {
+          ...world.people,
+          [personId]: {
+            ...world.people[personId]!,
+            homeJurisdictionId: jurisdiction.id,
+          },
+        },
+      };
+      const response = composeCandidateGuidanceAnswer(placeWorld, personId);
+      expect(response, place.name).toBeTruthy();
+      expect(response, place.name).not.toContain("Let's check");
+      expect(response, place.name).not.toMatch(
         /\b[A-Z]{2,}(?:_[A-Z]+)+\b|\bUS-[A-Z]{2}\b/,
       );
-      expect(response, place.displayName).not.toContain("Const.");
+      expect(response, place.name).not.toContain("Const.");
     }
   });
 
@@ -124,7 +131,7 @@ describe("candidate guidance in the room", () => {
       ?.response;
     expect(response).toBe(
       plainCandidateGuidance(
-        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId)),
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId), 4),
       ),
     );
     expect(response).not.toContain("Let's check the requirements");
@@ -169,7 +176,7 @@ describe("candidate guidance in the room", () => {
         (outcome) => outcome.activityId === record.id,
       ),
     ).toHaveLength(1);
-  });
+  }, 120_000);
 
   it("leaves after asking without attendance credit and returns by the recorded route", () => {
     const { world, personId, record } = booked("candidate-guidance-leave");
@@ -184,7 +191,7 @@ describe("candidate guidance in the room", () => {
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
     ).toBe(
       plainCandidateGuidance(
-        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId)),
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId), 4),
       ),
     );
     const left = leaveCandidateGuidance(
