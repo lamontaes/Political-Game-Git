@@ -3,7 +3,11 @@ import { describe, expect, it } from "vitest";
 import { createScenarioWorld, makeCurrencyCode } from "../index";
 import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
 import { pressRecordsOfKind } from "./store";
-import { MISCONDUCT_FAMILIES, MISCONDUCT_FAMILY_ROWS } from "./records";
+import {
+  MISCONDUCT_FAMILIES,
+  MISCONDUCT_FAMILY_ROWS,
+  PUBLIC_MISCONDUCT_RECORD_KINDS,
+} from "./records";
 import { recordMisconductAct } from "./matters";
 
 describe("recordMisconductAct", () => {
@@ -81,6 +85,17 @@ describe("recordMisconductAct", () => {
           .map((artifact) => artifact.evidenceKind)
           .sort(),
       ).toEqual([...row.actArtifactKinds].sort());
+      expect(
+        result.world.history.evidenceArtifacts
+          .filter((artifact) => artifactIds.has(artifact.id))
+          .every(
+            (artifact) =>
+              artifact.access ===
+              (PUBLIC_MISCONDUCT_RECORD_KINDS.has(artifact.evidenceKind)
+                ? "public"
+                : "restricted"),
+          ),
+      ).toBe(true);
       expect(
         result.world.history.knowledge
           .filter((knowledge) => knowledge.eventId === result.event.id)
