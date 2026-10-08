@@ -10,8 +10,6 @@ import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { ensurePeopleTraitCatalog } from "../../people-traits";
 import { personName } from "../../people";
 import { SeededRng } from "../../rng";
-import { CONTACT_ANSWER_DECISION } from "../../people-contact-decisions";
-import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import type { EntityId, World } from "../../types";
@@ -83,7 +81,7 @@ describe("facet-independent's scheduling choice reader", () => {
     const decide = (personId: EntityId, world: typeof game.world) =>
       evaluateDecision(world, {
         stableKey: `${SEED}:decision:${personId}`,
-        decisionType: CONTACT_ANSWER_DECISION.id,
+        decisionType: "people.contact-answer",
         actorPersonId: personId,
         cutoff: {
           asOfDate: world.currentDate,
@@ -123,13 +121,6 @@ describe("facet-independent's scheduling choice reader", () => {
             explanation: "They welcome the meeting.",
             sourceRefs: [],
           },
-          ...registeredTraitConsiderations(
-            world,
-            loadedTraitRegistry(),
-            personId,
-            `${SEED}:${personId}`,
-            CONTACT_ANSWER_DECISION.id,
-          ),
         ],
         perceptionIds: [],
         randomness: "none",
@@ -164,11 +155,20 @@ describe("facet-independent's scheduling choice reader", () => {
 
     expect(independent.selectedOptionKey).toBe("counter");
     expect(independent.context.randomness).toBe("none");
-    expect(independent.context.considerations).toHaveLength(2);
-    expect(independent.context.considerations[1]?.sourceRefs[0]?.kind).toBe(
-      "personality-tendency",
-    );
+    expect(
+      independent.context.considerations.find(
+        ({ stableKey, optionKey }) =>
+          stableKey.includes(TRAIT) && optionKey === "counter",
+      ),
+    ).toMatchObject({
+      optionKey: "counter",
+      sourceRefs: [{ kind: "personality-tendency" }],
+    });
     expect(comparison.selectedOptionKey).toBe("accept");
-    expect(comparison.context.considerations).toHaveLength(1);
+    expect(
+      comparison.context.considerations.some(({ stableKey }) =>
+        stableKey.includes(TRAIT),
+      ),
+    ).toBe(false);
   }, 60_000);
 });

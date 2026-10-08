@@ -42,7 +42,7 @@ import {
 } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
-import { STATUTORY_WAGE_TAX_ROWS } from "../law-consequences/statutory-wage-tax-rows";
+import { loadedPolicyRegistry } from "../policy-pack-registry";
 import { taxLawFactor } from "./month";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 import type { PublicBudgetGovernment } from "./store";
@@ -55,7 +55,12 @@ describe("graduated income tax budget receipts", () => {
       TAX_QUESTION_EFFECTS.some((row) => row.questionKey === questionKey),
     ).toBe(false);
     expect(
-      STATUTORY_WAGE_TAX_ROWS[questionKey]!.map((row) => row.when),
+      loadedPolicyRegistry()
+        .propositions.find((row) => row.stableKey === questionKey)!
+        .consequences!.filter(
+          (row) => row.what === "attribute-saved-statutory-tax",
+        )
+        .map((row) => row.when),
     ).toEqual(["assessment", "payment"]);
   });
 
@@ -139,7 +144,7 @@ it.each([100_000, 300_000])(
     const f = smallWorld({
       place: jurisdictionKey,
       seed: `${TERM_SEED}:${jurisdictionKey}`,
-      date: "2025-12-18",
+      date: "2025-12-28",
       people: 3,
       offices: ["governor"],
       laws: [GRADUATED_STATE_INCOME_TAX_QUESTION],
@@ -209,8 +214,8 @@ it.each([100_000, 300_000])(
           "Authored favorable votes for the numeric terms fixture.",
       },
     });
-    // The canonical procedure spends fourteen days before enactment. Start
-    // before the tax year rather than backdating the law or its occurrence.
+    // Start before the tax year so this procedure reaches the January 1
+    // withholding table without backdating the law or its occurrence.
     expect(world.currentDate).toBe("2026-01-01");
     // Keep the actual signer in control while their required desk work is open.
     // The paycheck is for the actual resident, not a fabricated controller.
