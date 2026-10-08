@@ -595,6 +595,7 @@ export function reportLawOutcomes(world: World): World {
 
 export interface LawOutcomeFinding {
   readonly stableKey: string;
+  readonly reach: "public-service";
   readonly enactment: LegislativeEnactmentRecord;
   readonly question: string;
   readonly answer: string;
@@ -667,6 +668,7 @@ export function lawOutcomeFindings(
           if (!then || !now) continue;
           findings.push({
             stableKey: `${LAW_EFFECT_NEWS_VERSION}:outcome:${enactment.measureId}|${proposition.stableKey}|${outcome}|${place}`,
+            reach: "public-service",
             enactment,
             question: proposition.name,
             answer: answer.answer,
@@ -705,6 +707,7 @@ function recordLawOutcome(world: World, input: LawOutcomeFinding): World {
       LAW_EFFECT_NEWS_VERSION,
       `${LAW_EFFECT_MEASURE_TAG}${input.enactment.measureId}`,
       `law-effect:outcome:${input.outcome}`,
+      `law-effect:reach:${input.reach}`,
       "importance:notable",
     ],
     summary,
