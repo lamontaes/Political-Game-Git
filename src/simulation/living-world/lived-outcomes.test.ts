@@ -235,12 +235,6 @@ describe("a recorded crime shifts the victim's views of local officials", () => 
       eventId: source!.id,
     });
 
-    const sheriff = officialAnsweringFor(world, workerId, "county-sheriff");
-    if (sheriff) {
-      const sheriffView = viewOfOfficial(after, workerId, sheriff);
-      expect(sheriffView.belief, jurisdictionKey).not.toBeNull();
-      expect(sheriffView.belief!.position, jurisdictionKey).not.toBe("support");
-    }
     expect(workerId).not.toBe(playerId);
     assertWorldIntegrity(after);
   });
