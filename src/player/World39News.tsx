@@ -1,6 +1,9 @@
 import type { EntityId, World } from "../simulation";
 import { lawEffectsHere } from "../presentation/law-effects-here";
-import { projectWorld39News } from "../presentation/world39-news";
+import {
+  projectWorld39News,
+  type World39Notice,
+} from "../presentation/world39-news";
 import { readPressPublication } from "../simulation/press/read-publication";
 import "./world39-readers.css";
 
@@ -76,6 +79,7 @@ export function World39News({
           ))}
         </section>
       ) : null}
+      <PublicNotices notices={model.notices} />
       <section aria-label="Recent public events">
         <h4>Lately</h4>
         {model.publicEvents.length === 0 ? (
@@ -95,6 +99,21 @@ export function World39News({
                 <time dateTime={event.at}>{world39Date(event.at)}</time>
                 {event.jurisdiction ? ` · ${event.jurisdiction}` : ""}
               </p>
+              {event.organizations.length > 0 ? (
+                <p data-testid="world39-event-organizations">
+                  {event.organizations.join(" · ")}
+                </p>
+              ) : null}
+              {event.people.map((person) => (
+                <button
+                  type="button"
+                  key={person.personId}
+                  data-testid="world39-event-person"
+                  onClick={() => onOpenPerson(person.personId)}
+                >
+                  {person.name}
+                </button>
+              ))}
             </article>
           ))
         )}
@@ -174,6 +193,24 @@ export function World39News({
           data-problem="nothing-published"
         />
       )}
+    </section>
+  );
+}
+
+/** The notices a place has posted, as the English engine wrote them. */
+export function PublicNotices({
+  notices,
+}: {
+  readonly notices: readonly World39Notice[];
+}) {
+  if (notices.length === 0) return null;
+  return (
+    <section data-testid="world39-notices">
+      {notices.map((notice) => (
+        <article key={notice.key} data-notice={notice.key}>
+          <p className="world39-notice">{notice.text}</p>
+        </article>
+      ))}
     </section>
   );
 }

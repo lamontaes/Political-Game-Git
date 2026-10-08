@@ -10,6 +10,7 @@ import type { EntityId, IsoDate, World } from "../types";
 import { childrenOf } from "../people-family";
 import { localHeadOfGovernment } from "./local-government-seats";
 import { jobsLostBy } from "./town-labor-market";
+import { PLACE_OUTCOME_BASES } from "../outcome-web/place-outcome-store";
 
 /**
  * What happened to a person that an official answers for, read from the
@@ -33,7 +34,8 @@ import { jobsLostBy } from "./town-labor-market";
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost" | "school-move" | "county-justice";
+export type LivedOutcomeKind =
+  "job-lost" | "school-move" | "county-justice" | "place-outcome";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -49,6 +51,9 @@ export interface LivedOutcome {
   readonly explanationKey?: string;
   readonly sourceKnowledgeId?: EntityId;
   readonly informedPersonIds?: readonly EntityId[];
+  readonly outcomeRecordId?: EntityId;
+  readonly linkKey?: string;
+  readonly estimatedFrom?: string;
 }
 
 /**
@@ -75,16 +80,17 @@ export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
   // government, where they live now.
   "school-move": "local-executive",
   "county-justice": "local-executive",
+  "place-outcome": "state-executive",
 };
 
 /** What the person thought over, in the words of their reflection event. */
-export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
-  {
-    "job-lost": "losing a job they did not choose to leave",
-    "school-move":
-      "their child having to leave school in the middle of the year",
-    "county-justice": "county-office-work",
-  };
+export const LIVED_OUTCOME_SUMMARY: Readonly<
+  Partial<Record<LivedOutcomeKind, string>>
+> = {
+  "job-lost": "losing a job they did not choose to leave",
+  "school-move": "their child having to leave school in the middle of the year",
+  "county-justice": "county-office-work",
+};
 
 /**
  * One reader per kind, each a thin adapter over the reader its producer
@@ -126,6 +132,34 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           felt: { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
         })),
     ),
+  (world, personId, through) =>
+    (world.placeOutcomes?.landings ?? [])
+      .filter(
+        (landing) => landing.personId === personId && landing.month <= through,
+      )
+      .map((landing) => {
+        const place = lifePlaceByJurisdictionId(landing.jurisdictionId);
+        const office: AnsweringOffice =
+          place?.scope === "state" ? "state-executive" : "local-executive";
+        return {
+          kind: "place-outcome" as const,
+          at: landing.month,
+          sourceRecordId: landing.id,
+          direction: landing.direction,
+          felt: {
+            share: NON_MONEY_FELT_SIZE.monthsOfPay,
+            estimated: true,
+          },
+          answeringPersonId:
+            landing.answeringPersonId ??
+            officialAnsweringFor(world, personId, office),
+          summary:
+            PLACE_OUTCOME_BASES[landing.measure]?.name ?? landing.measure,
+          outcomeRecordId: landing.outcomeRecordId,
+          linkKey: landing.linkKey,
+          estimatedFrom: landing.estimatedFrom,
+        };
+      }),
 ];
 
 /** Everything recorded as happening to `personId`, oldest first. */

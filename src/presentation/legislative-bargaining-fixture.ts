@@ -8,30 +8,155 @@ import {
   recordRelationshipInteraction,
   recordWorldEvent,
   type EntityId,
+  type LegislativeProvisionBeneficiary,
   type LegislativeScenario,
+  type MetricSegmentKey,
   type SeatedBody,
   type World,
 } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
 import { createLegislativeBargainingProgress } from "./legislative-bargaining";
+import type { LegislativeBargainingSubjectFacts } from "./run-b-conversation-progress";
 import {
   bargainingRoomContexts,
   bargainingScenePeople,
-  bargainingSubjectFacts,
-  FILED_SECTION_BRIEFS,
-  fiscalNoteSummaryFor,
   formatPresentationTime,
-  PRIOR_ADVOCATE_HISTORY_SUMMARY,
-  PRIOR_GUARDIAN_HISTORY_SUMMARY,
   type LegislativeBargainingSeat,
 } from "./legislative-bargaining-brief";
 
-export {
-  PROGRAM_PROVISION_KEY,
-  REQUESTED_PROVISION_KEY,
-  REQUESTED_SEGMENT_KEY,
-  requestedProvisionText,
-} from "./legislative-bargaining-brief";
+export const BARGAINING_BRIEF_SCENARIO_KEY = "kentucky";
+export const PROGRAM_PROVISION_KEY = "pilot-support-limit";
+export const REQUESTED_PROVISION_KEY = "local-project-match";
+export const LEGACY_ADOPTED_PROVISION_SUFFIX = "section-4";
+export const REQUESTED_SEGMENT_KEY: MetricSegmentKey =
+  "transit.ashland-boyd-local-match";
+export const PROGRAM_AMOUNT_MINOR_UNITS = 800_000_000;
+export const REQUESTED_AMOUNT_MINOR_UNITS = 140_000_000;
+export const CAPPED_AMOUNT_MINOR_UNITS = 60_000_000;
+export const REQUESTED_MATCH_PLACE_GEOID = "2102368";
+export const BENEFICIARY_LABEL = "the Ashland–Boyd County Transit Authority";
+export const PLACE_LABEL = "Ashland";
+
+export function requestedProvisionText(amountMinorUnits: number): string {
+  const amount = `$${(amountMinorUnits / 100).toLocaleString("en-US", {
+    maximumFractionDigits: 0,
+  })}`;
+  return `Of the amounts appropriated by Section 3 of this Act, not more than ${amount} may be awarded to ${BENEFICIARY_LABEL} as the local match required for pilot participation, and an award under this section shall not reduce the amount available to any other participating provider.`;
+}
+
+export interface FiledSectionBrief {
+  readonly keySuffix: string;
+  readonly provisionKey: string;
+  readonly sectionNumber: number;
+  readonly heading: string;
+  readonly text: string;
+  readonly beneficiary: LegislativeProvisionBeneficiary;
+  readonly fiscalExposureLabel?: string;
+  readonly fiscalExposureMinorUnits?: number;
+}
+
+export const FILED_SECTION_BRIEFS: readonly FiledSectionBrief[] = [
+  {
+    keySuffix: "section-1",
+    provisionKey: "purpose",
+    sectionNumber: 1,
+    heading: "Purpose and construction",
+    text: "It is the purpose of this Act to test whether removing the fare barrier increases access to work, care and school for riders who already qualify for state assistance. Nothing in this Act creates an entitlement to service.",
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "everyone the Act reaches",
+    },
+  },
+  {
+    keySuffix: "section-2",
+    provisionKey: "eligibility",
+    sectionNumber: 2,
+    heading: "Eligible riders",
+    text: "A rider is eligible under this Act if the rider is enrolled in a state assistance program administered under KRS Chapter 205 at the time of boarding. A participating provider shall not require a separate application.",
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: "every rider enrolled in a state assistance program",
+    },
+  },
+  {
+    keySuffix: "section-3",
+    provisionKey: PROGRAM_PROVISION_KEY,
+    sectionNumber: 3,
+    heading: "Pilot support limit",
+    text: "There is appropriated for the two-year pilot a sum not to exceed $8,000,000, to be distributed among participating providers in proportion to eligible boardings. No provider is named in this section.",
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel:
+        "every participating provider, in proportion to eligible boardings",
+    },
+    fiscalExposureLabel: "$8,000,000 over the two-year pilot",
+    fiscalExposureMinorUnits: PROGRAM_AMOUNT_MINOR_UNITS,
+  },
+];
+
+export function fiscalNoteSummaryFor(designation: string): string {
+  return `A fiscal note on ${designation} as filed put the two-year exposure at $8,000,000, with the caveat that a named local match would sit on top of that figure rather than inside it.`;
+}
+
+export const PRIOR_ADVOCATE_HISTORY_SUMMARY =
+  "The two carried a road-fund bill together last session and neither of them had to be chased for a vote.";
+export const PRIOR_GUARDIAN_HISTORY_SUMMARY =
+  "They sit two seats apart in committee and have never worked on anything together.";
+
+function bargainingSubjectFacts(input: {
+  readonly measureId: EntityId;
+  readonly measureStableKey: string;
+  readonly designation: string;
+  readonly shortTitle: string;
+  readonly chamberName: string;
+  readonly nextStepLabel: string;
+  readonly fiscalNoteEventStableKey: string;
+  readonly analystPersonId: EntityId;
+  readonly advocatePersonId: EntityId;
+  readonly guardianPersonId: EntityId;
+}): LegislativeBargainingSubjectFacts {
+  return {
+    measureId: input.measureId,
+    measureStableKey: input.measureStableKey,
+    designation: input.designation,
+    shortTitle: input.shortTitle,
+    chamberName: input.chamberName,
+    nextStepLabel: input.nextStepLabel,
+    programProvisionKey: PROGRAM_PROVISION_KEY,
+    programSectionLabel: "Section 3",
+    programHeading: "Pilot support limit",
+    programReach: {
+      relation: "reaching",
+      who: "every rider enrolled in a state assistance program",
+    },
+    billAmountLabel: "$8,000,000",
+    requestedProvisionKey: REQUESTED_PROVISION_KEY,
+    requestedProvisionStableKeySuffix: LEGACY_ADOPTED_PROVISION_SUFFIX,
+    requestedExposurePhrase: "local match",
+    requestedQuestionSubject: "local match amendment",
+    requestedDescriptionSubject: "Section 4, a local project match",
+    requestedSectionNumber: 4,
+    requestedSectionLabel: "Section 4",
+    requestedHeading: "Local project match",
+    requestedText: requestedProvisionText(REQUESTED_AMOUNT_MINOR_UNITS),
+    requestedBeneficiaryLabel: BENEFICIARY_LABEL,
+    requestedPlaceLabel: PLACE_LABEL,
+    requestedStatedGround:
+      "The authority is the only fixed-route provider in the region and cannot raise the pilot's local match from fare revenue.",
+    requestedAmountLabel: "$1,400,000",
+    requestedAmountMinorUnits: REQUESTED_AMOUNT_MINOR_UNITS,
+    requestedSegmentKey: REQUESTED_SEGMENT_KEY,
+    cappedText: requestedProvisionText(CAPPED_AMOUNT_MINOR_UNITS),
+    cappedAmountLabel: "$600,000",
+    cappedAmountMinorUnits: CAPPED_AMOUNT_MINOR_UNITS,
+    fiscalNoteEventStableKey: input.fiscalNoteEventStableKey,
+    analystPersonId: input.analystPersonId,
+    advocatePersonId: input.advocatePersonId,
+    guardianPersonId: input.guardianPersonId,
+    advocateVoice: "district-advocate",
+    guardianVoice: "fiscal-guardian",
+  };
+}
 
 /**
  * One bill, two colleagues, and a genuinely open question.
@@ -74,7 +199,7 @@ export interface LegislativeBargainingFixture extends LegislativeBargainingSeat 
 export function createLegislativeBargainingFixture(
   seedInput?: string,
 ): LegislativeBargainingFixture {
-  const base = createLegislativeScenario("kentucky");
+  const base = createLegislativeScenario(BARGAINING_BRIEF_SCENARIO_KEY);
   const seed = seedInput?.trim() ? seedInput.trim() : BARGAINING_SEED;
 
   const playerPersonId = base.playerPersonId;
@@ -139,6 +264,10 @@ export function createLegislativeBargainingFixture(
     // The fixture's own synthetic prior-session setup below records this
     // shared work, so the read is true in the fixture world too.
     advocatePriorWork: "shared-work",
+    cause: {
+      sectionLabel: "Section 4",
+      beneficiaryLabel: BENEFICIARY_LABEL,
+    },
   });
 
   const { roomContext, privateRoomContext } = bargainingRoomContexts({
