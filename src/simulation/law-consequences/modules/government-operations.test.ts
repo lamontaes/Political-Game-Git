@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import startingLawResearch from "../../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLawResearch from "../../../../data/research/laws/starting-law-2026/index";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
