@@ -113,7 +113,7 @@ export function respondToMatter(
   }
   const person = world.people[input.personId];
   if (!person) throw new Error("The person answering this matter is missing.");
-  const summary = `${personName(person)} ${input.response === "decline-comment" ? "declined to comment" : input.response === "resign" ? "resigned" : input.response === "attack-source" ? "attacked the source" : input.response === "apologize" ? "apologized" : "denied the matter"}: ${meaning}`;
+  const summary = meaning;
   const next = recordWorldEvent(world, {
     stableKey,
     type: "press.subject-answered-matter",
