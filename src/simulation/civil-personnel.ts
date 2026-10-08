@@ -1,3 +1,4 @@
+import { personnelJurisdictionRule } from "./civil-personnel-rules";
 import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from "./civil-personnel-sources.generated";
 import { makeIsoDate } from "./dates";
 import { evaluateLifeEligibility } from "./life-eligibility";
@@ -8,8 +9,8 @@ import {
 } from "./life-queries";
 import { createWorkItem, canPersonAccess, workItemState } from "./time-work";
 import {
-  assessMinnesotaDiscipline,
-  assessMinnesotaReinstatement,
+  assessPersonnelDiscipline,
+  assessPersonnelReinstatement,
   personnelProcedure,
   procedureApplicability,
 } from "./civil-personnel-actions";
@@ -73,20 +74,21 @@ export function queryPersonnelProtections(
       )
     ) {
       const expectedClass =
-        context.jurisdictionKey === "US-FEDERAL" ? "competitive" : "classified";
+        context.employerLevel === "federal" ? "competitive" : "classified";
       if (context.civilClass !== expectedClass)
         missing.push(
           `This field does not establish rights for the employee's ${context.civilClass} class.`,
         );
       if (
-        context.jurisdictionKey === "US-FEDERAL" &&
+        context.employerLevel === "federal" &&
         ["removalProtection", "appealBody"].includes(field)
       )
         missing.push(
           "Chapter 75 employee coverage, including § 7511 exclusions, must be established.",
         );
       if (
-        context.jurisdictionKey === "US-MN" &&
+        personnelJurisdictionRule(context.jurisdictionKey)?.protectedTenure ===
+          "permanent" &&
         ["removalProtection", "appealBody"].includes(field) &&
         context.tenure !== "permanent"
       )
@@ -95,13 +97,18 @@ export function queryPersonnelProtections(
         );
       if (
         field === "appealBody" &&
-        context.jurisdictionKey === "US-MN" &&
+        personnelJurisdictionRule(context.jurisdictionKey)?.protectedTenure ===
+          "permanent" &&
         context.collectiveAgreement !== "not-covered"
       )
         missing.push(
           "This review procedure is scoped to employees not covered by a collective bargaining agreement.",
         );
-      if (field === "appealBody" && context.jurisdictionKey === "US-AK")
+      if (
+        field === "appealBody" &&
+        personnelJurisdictionRule(context.jurisdictionKey)
+          ?.extraAppealFindingRequired
+      )
         missing.push(
           "The adverse-action category and any promotional-probation exception must be checked.",
         );
@@ -163,40 +170,32 @@ function classGaps(
   const gaps: string[] = [];
   const procedures = (keys: readonly PersonnelProcedureKey[]) => {
     for (const key of keys) {
-      const applicability = procedureApplicability(key, makeIsoDate(date));
+      const applicability = procedureApplicability(
+        key,
+        makeIsoDate(date),
+        context.jurisdictionKey,
+      );
       if (applicability.state === "UNKNOWN") gaps.push(applicability.reason);
     }
   };
-  if (context.jurisdictionKey === "US-FEDERAL") {
+  if (context.employerLevel === "federal") {
     gaps.push(
       "Federal adverse actions need 5 U.S.C. § 7511 coverage, OPM regulations and the acting agency official, none of which is acquired.",
     );
     return gaps;
   }
-  if (context.jurisdictionKey === "US-AK") {
-    if (context.civilClass === "exempt")
-      gaps.push(personnelProcedure("ak-exempt").statement);
-    else if (context.civilClass === "partially-exempt")
-      gaps.push(personnelProcedure("ak-partially-exempt").statement);
-    else
-      gaps.push(
-        action === "appoint" || action === "reinstate"
-          ? "Alaska classified appointments follow personnel rules that are not acquired."
-          : `${personnelProcedure("ak-discipline-rules").statement} No qualifying dismissal can be recorded, so the hearing request cannot arise.`,
-      );
-    return gaps;
-  }
-  if (context.jurisdictionKey !== "US-MN") {
+  const rule = personnelJurisdictionRule(context.jurisdictionKey);
+  if (!rule?.classifiedProcedureAvailable) {
     gaps.push(
       `No personnel procedure is compiled for ${context.jurisdictionKey}.`,
     );
     return gaps;
   }
-  if (context.employerLevel !== "state")
+  if (context.employerLevel !== rule.employerLevel)
     gaps.push(
       "Chapter 43A procedures reach state civil service, not this employer level.",
     );
-  if (context.civilClass !== "classified")
+  if (context.civilClass !== rule.protectedClass)
     gaps.push(
       context.civilClass === "unknown"
         ? "The employee's civil-service class is not established."
@@ -545,7 +544,7 @@ export function publicEmploymentPermissionProvider(): LifeEligibilityProvider {
         case "work:public-discipline":
         case "work:public-remove": {
           if (!first) return blocked("Name the employee's position record.");
-          const assessment = assessMinnesotaDiscipline(
+          const assessment = assessPersonnelDiscipline(
             world,
             request.actorPersonId,
             first,
@@ -558,7 +557,7 @@ export function publicEmploymentPermissionProvider(): LifeEligibilityProvider {
         case "work:public-reinstate": {
           if (!first || !second)
             return blocked("Name the position and the person.");
-          const assessment = assessMinnesotaReinstatement(
+          const assessment = assessPersonnelReinstatement(
             world,
             request.actorPersonId,
             first,
