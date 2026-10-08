@@ -59,7 +59,7 @@ function ratifyOneTermLimit(world: World): World {
     ruleDelta: {
       kind: "rule-field",
       officeKey: "us-president",
-      field: "executive.term.limit",
+      field: "term.limit",
       value: {
         maxConsecutiveTerms: null,
         maxLifetimeTerms: 1,
@@ -215,7 +215,7 @@ describe("Congress and the states amending the U.S. Constitution on their own", 
         ruleDelta: {
           kind: "rule-field",
           officeKey: "us-president",
-          field: "executive.term.limit",
+          field: "term.limit",
           value: cause.value,
           applicability: { appliesTo: "immediately", countsPriorService: true },
         },
