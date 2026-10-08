@@ -2,14 +2,13 @@ import { describe, expect, it } from "vitest";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { personalityTraitEffects } from "./index";
 import { facetProudEffects } from "./facet-proud";
-import { facetHumbleEffects } from "./facet-humble";
 import { facetSelfConsciousEffects } from "./facet-self-conscious";
 import { facetThrillSeekingEffects } from "./facet-thrill-seeking";
+import { traitActTables } from "../act-pulls";
 
 describe("public-life readers in the effects index", () => {
   it.each([
     ["proud", facetProudEffects],
-    ["humble", facetHumbleEffects],
     ["self-conscious", facetSelfConsciousEffects],
     ["thrill-seeking", facetThrillSeekingEffects],
   ] as const)(
@@ -33,4 +32,18 @@ describe("public-life readers in the effects index", () => {
       }
     },
   );
+});
+
+describe("the facet-humble shared act data", () => {
+  it("replaces its per-decision effect declarations with shared pulls", () => {
+    const trait = "personality-v1:facet-humble";
+    expect(
+      personalityTraitEffects()
+        .flatMap(({ leans }) => leans)
+        .some((lean) => lean.trait === trait),
+    ).toBe(false);
+    expect([...traitActTables().pulls.get(trait)!.high!.toward]).toEqual(
+      expect.arrayContaining(["cooperate", "concede", "stay-quiet"]),
+    );
+  });
 });
