@@ -102,7 +102,18 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
       key: "monetary-financial.cap-consumer-loan-interest",
       parameters: [
         { key: "cap", value: "annual-percentage-rate" },
-        { key: "coverage", value: "covered-loan-categories" },
+        {
+          key: "coverage",
+          value: "covered-loan-categories",
+          allowedValues: [
+            "mortgage",
+            "auto",
+            "student",
+            "credit-card",
+            "personal",
+            "payday",
+          ],
+        },
       ],
       issue: "us-federal:monetary-financial.consumer-finance",
       name: "Cap consumer loan interest",

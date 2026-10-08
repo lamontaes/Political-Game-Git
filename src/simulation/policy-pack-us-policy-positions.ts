@@ -611,6 +611,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.ban-lobbying-after-office",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.lobbying
+        ]!,
+      ],
       issue: "us-state-and-local:government-operations.lobbying-regulation",
       name: "Cooling-off period before lobbying",
       question:
