@@ -566,7 +566,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-59 | Radial menu clips and spacing is wrong | BUGS.md BG-59 | done #3445 | Session 59 |
 | BG-60 | Wrong font in places | BUGS.md BG-60 | done #3517 | |
 | BG-61 | Toasts fade or stack at top-left | BUGS.md BG-61 | done (verified on current main) | |
-| BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | open | Session 11 or pool |
+| BG-62 | Every capitol flagpole draws the state's CURRENT recorded flag, and a law can change it (Mississippi 2020) | BUGS.md BG-62 | ready #TBD | Session 11 or pool |
 | BG-63 | Name cards on officials and in the bottom-right box are removed (owner, Oct 4) | BUGS.md BG-63 | done #2469 (verified on current main) | Session 2 or pool |
 | BG-64 | The cashier stands behind the counter, not on it | BUGS.md BG-64 | done #2860 | Session 11 |
 | BG-65 | The president's portrait shows the same saved appearance and clothes as the scene (owner, Oct 4) | BUGS.md BG-65 | done #3536 | Session 11 |
