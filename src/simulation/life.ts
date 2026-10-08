@@ -114,6 +114,7 @@ export interface CreateOrganizationInput {
     readonly name: string;
     readonly classification: OrganizationClassification;
     readonly locationJurisdictionId: EntityId | null;
+    readonly payPeriod?: OrganizationProfileRecord["payPeriod"];
     readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
     readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   };
@@ -126,6 +127,7 @@ export interface RecordOrganizationProfileInput {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  readonly payPeriod?: OrganizationProfileRecord["payPeriod"];
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   readonly provenance: LifeRecordProvenance;
@@ -405,6 +407,9 @@ export function createOrganization(
     name: input.initialProfile.name,
     classification: input.initialProfile.classification,
     locationJurisdictionId: input.initialProfile.locationJurisdictionId,
+    ...(input.initialProfile.payPeriod === undefined
+      ? {}
+      : { payPeriod: input.initialProfile.payPeriod }),
     ...(input.initialProfile.publicGovernmentIdentity === undefined
       ? {}
       : {
@@ -512,6 +517,9 @@ export function recordOrganizationProfile(
             ...(input.collegePlace ?? previous.collegePlace!),
           },
         }),
+    ...(input.payPeriod === undefined && previous.payPeriod === undefined
+      ? {}
+      : { payPeriod: input.payPeriod ?? previous.payPeriod }),
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);
