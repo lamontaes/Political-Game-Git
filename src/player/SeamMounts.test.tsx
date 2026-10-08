@@ -3,21 +3,26 @@ import { beforeAll, describe, expect, it, vi } from "vitest";
 
 vi.setConfig({ testTimeout: 300_000 });
 
-import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import {
+  DEFAULT_NEW_GAME_SETUP,
+  createNewGameWorld,
+} from "../presentation/new-game";
 import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { recordWorldEvent, startHouseholdMembership } from "../simulation";
-import { householdMembershipsAt } from "../simulation/life-queries";
-import { askToMeet, projectContacts } from "../presentation/people-contacts";
+import { projectContacts } from "../presentation/people-contacts";
+import { askToMeet } from "../../tests/support/contact-fixtures";
+import { recordHomePresence } from "../../tests/support/home-presence-fixture";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { projectChildhoodMoment } from "../presentation/childhood";
 import { projectDisclosure } from "../presentation/press-disclosure";
+import { personName } from "../simulation";
 import type { EntityId, World } from "../simulation";
 import { ChildhoodMomentPanel } from "./ChildhoodMomentPanel";
-import { availablePlayerConversations } from "../presentation/player-conversation";
-import { ContactDialog } from "./ContactDialog";
+import { recordedRoomPresence } from "../presentation/recorded-room-presence";
+import { projectPlayedSceneExchange } from "../presentation/scene-conversation";
 import { ContactsPanel } from "./ContactsPanel";
 import { ConversationStarters, SceneConversation } from "./SceneConversation";
 import { PressSourceDesk } from "./PressSourceDesk";
@@ -42,13 +47,46 @@ interface Life {
   readonly personId: EntityId;
 }
 
+/** An adult in a place drawn at random from all 56, named by the seed. */
 function adultLife(seed: string): Life {
+  const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+    }),
   ).game!;
+  console.info("SEAM_MOUNTS_ADULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    worldId: game.world.id,
+  });
   return {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
+  };
+}
+
+function sharedHomeLife(seed: string): Life {
+  const place = drawRandomPlace(seed);
+  const game = createNewGameWorld({
+    startKind: "custom",
+    placeKey: place.key,
+    startAge: 34,
+    depth: "summarize-earlier-life",
+    startingLife: "ordinary-life",
+    household: "shares-a-home",
+    seed,
+    givenName: null,
+    familyName: null,
+  });
+  const personId = game.playerPersonId;
+  return {
+    world: recordHomePresence(openOrdinaryLife(game.world, personId), personId),
+    personId,
   };
 }
 
@@ -64,59 +102,6 @@ function childLife(seed: string, startAge: number): Life {
   return { world: game.world, personId: game.playerPersonId };
 }
 
-function adultWithARecordedRoom(): Life {
-  const life = adultLife("ui47-seam-mounts-room");
-  const companionId = life.world.personOrder.find(
-    (id) =>
-      id !== life.personId &&
-      householdMembershipsAt(life.world, id).length === 0,
-  );
-  if (!companionId) throw new Error("The fixture needs a household companion.");
-  const provenance = {
-    kind: "authored" as const,
-    note: "Recorded-room conversation regression fixture.",
-  };
-  const householdId = householdMembershipsAt(life.world, life.personId)[0]
-    ?.membership.householdId;
-  if (!householdId) throw new Error("The fixture needs a recorded household.");
-  let world = startHouseholdMembership(life.world, {
-    stableKey: `ui47-room:membership:${companionId}`,
-    personId: companionId,
-    householdId,
-    startedAt: life.world.currentDate,
-    residenceRole: "secondary",
-    kind: "resident:member",
-    provenance,
-  });
-  const jurisdictionId = world.people[life.personId]!.homeJurisdictionId;
-  world = recordWorldEvent(world, {
-    stableKey: "ui47-room:scene",
-    type: "life.scene.opened",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId,
-    involvedEntityIds: [life.personId, companionId],
-    participants: [life.personId, companionId].map((personId) => ({
-      personId,
-      role: "presence:participant" as const,
-      detail: "At home together",
-    })),
-    personFactConstraints: [],
-    visibility: "private",
-    tags: [`moment:${JSON.stringify(world.currentMoment)}`],
-    summary: "They are at home together.",
-    context: {
-      location: { jurisdictionId, label: "Home", setting: "home" },
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  return { world, personId: life.personId };
-}
-
 function contacts(life: Life) {
   return renderToStaticMarkup(
     <ContactsPanel
@@ -128,13 +113,20 @@ function contacts(life: Life) {
 }
 
 let adult: Life;
-let roomLife: Life;
+/**
+ * A life with somebody at home, recorded as in the room. A home conversation
+ * needs the people recorded there (`recordedRoomPresence`); a generated adult
+ * often lives alone and no authored scene records it any more (EN-1), so this
+ * is the explicit shared-home start with the household's presence recorded by
+ * the fixture. The place is drawn at random from all 56 and named by the seed.
+ */
+let scened: Life;
 /** The same life after asking somebody to meet, which closes a channel. */
 let asked: Life;
 
 beforeAll(() => {
   adult = adultLife("ui47-seam-mounts");
-  roomLife = adultWithARecordedRoom();
+  scened = sharedHomeLife("ui47-seam-mounts-home");
   const view = projectContacts(adult.world, adult.personId);
   const other = view.contacts[0]!;
   asked = {
@@ -174,7 +166,7 @@ describe("Getting in touch", () => {
     }
   });
 
-  it("draws an unavailable channel as its stated reason", () => {
+  it("draws an unavailable channel as blocked, never as a control", () => {
     /*
      * Asking somebody to meet is what closes a channel: until they answer, the
      * seam reports it unavailable and says why. That is a real state reached
@@ -192,8 +184,11 @@ describe("Getting in touch", () => {
       const id = `contact-channel-${contact.personId}-${channel.kind}`;
       expect(html).toContain(`data-testid="${id}"`);
       expect(channel.note).toBeTruthy();
-      expect(html).toContain(channel.note!);
-      // Its reason, not a control that would fail if pressed.
+      // Blocked, with the adapter's reason kept as data (menu reset MR-6),
+      // not a control that would fail if pressed.
+      expect(html).toMatch(
+        new RegExp(`<li data-blocked="true"[^>]*data-testid="${id}"`),
+      );
       expect(html).not.toContain(`<button type="button" data-testid="${id}"`);
     }
   });
@@ -231,7 +226,6 @@ describe("Getting in touch", () => {
     const view = projectContacts(adult.world, adult.personId);
     const html = contacts(adult);
     const first = view.contacts[0]!;
-    const ask = first.actions.find((action) => action.kind === "ask-to-meet")!;
     /*
      * The playtest: a sentence stating the window, and a caption reciting it
      * again, read as the game's rules rather than the character's question.
@@ -240,17 +234,12 @@ describe("Getting in touch", () => {
     expect(html).not.toContain('data-testid="contacts-meeting-window"');
     expect(html).not.toContain("A meeting can be arranged");
     expect(html).not.toContain(`A day between ${view.earliestMeetingSpoken}`);
-    if (ask.available) {
-      expect(html).toContain(`data-testid="contact-ask-${first.personId}"`);
-      expect(html).toContain("<span>When?</span>");
-      expect(html).toContain(`min="${view.earliestMeetingOn}"`);
-      expect(html).toContain(`max="${view.latestMeetingOn}"`);
-    } else {
-      expect(html).toContain(
-        `data-testid="contact-ask-unavailable-${first.personId}"`,
-      );
-      expect(html).toContain(ask.unavailableReason!);
-    }
+    // The meeting question and its date picker are gone from the screen.
+    expect(html).not.toContain(`data-testid="contact-ask-${first.personId}"`);
+    expect(html).not.toContain("<span>When?</span>");
+    expect(html).not.toContain(
+      `data-testid="contact-ask-unavailable-${first.personId}"`,
+    );
   });
 
   it("carries no design commentary, and gives each part of a row its own line", () => {
@@ -263,34 +252,12 @@ describe("Getting in touch", () => {
     expect(html).toContain(
       `<strong class="pg-contact-name">${first.name}</strong>`,
     );
-    if (first.lastContactSpoken) {
+    if (first.lastContactSpoken && !first.livesWithYou) {
+      // The recorded day under its control name, not a sentence.
       expect(html).toContain(
-        `<p class="pg-contact-line">Last in touch ${first.lastContactSpoken}.`,
+        `<span class="pg-contact-label">Last in touch</span> ${first.lastContactSpoken}</p>`,
       );
     }
-  });
-
-  it("opens one person's contact as its own screen", () => {
-    const first = projectContacts(adult.world, adult.personId).contacts[0]!;
-    const html = renderToStaticMarkup(
-      <ContactDialog
-        world={adult.world}
-        playerPersonId={adult.personId}
-        personId={first.personId}
-        onWorldChange={() => {}}
-        onClose={() => {}}
-      />,
-    );
-    expect(html).toContain('data-testid="contact-dialog"');
-    expect(html).toContain(`>${first.name}</h2>`);
-    expect(html).toContain('data-testid="contact-dialog-close"');
-    // Its own ids, so the People list underneath is never mistaken for it.
-    expect(html).toContain(`data-testid="contact-focus-${first.personId}"`);
-    expect(html).not.toContain(`data-testid="contact-${first.personId}"`);
-    // Only that person.
-    for (const other of projectContacts(adult.world, adult.personId).contacts)
-      if (other.personId !== first.personId)
-        expect(html).not.toContain(`contact-focus-${other.personId}"`);
   });
 
   it("says whose turn it is once a request is outstanding", () => {
@@ -299,101 +266,95 @@ describe("Getting in touch", () => {
       (contact) => contact.outstanding?.direction === "you-asked",
     );
     expect(waiting).toBeTruthy();
-    const ask = waiting!.actions.find(
-      (action) => action.kind === "ask-to-meet",
-    )!;
-    expect(ask.available).toBe(false);
+    expect(
+      waiting!.actions.some((action) => action.kind === "ask-to-meet"),
+    ).toBe(false);
     const html = contacts(asked);
-    // No second ask while the first is unanswered; the reason stands in place
-    // of the control.
+    // No ask control and no ask line, whether or not one is outstanding.
     expect(html).not.toContain(
       `data-testid="contact-ask-${waiting!.personId}"`,
     );
-    expect(html).toContain(
+    expect(html).not.toContain(
       `data-testid="contact-ask-unavailable-${waiting!.personId}"`,
     );
-    expect(html).toContain(ask.unavailableReason!);
   });
 });
 
 describe("Conversations in People", () => {
-  function starters(presentPersonIds: readonly EntityId[]) {
+  function starters(life: Life) {
     return renderToStaticMarkup(
       <ConversationStarters
-        world={roomLife.world}
-        personId={roomLife.personId}
-        presentPersonIds={presentPersonIds}
+        world={life.world}
+        personId={life.personId}
+        presentPersonIds={[]}
         onStart={() => {}}
       />,
     );
   }
 
-  it("never says somebody is here who the room does not hold", () => {
-    const available = availablePlayerConversations(
-      roomLife.world,
-      roomLife.personId,
-    ).filter((entry) => entry.room.eligibleAddresseePersonIds.length > 0);
-    expect(available.length).toBeGreaterThan(0);
-    // Nobody in the room: nothing is offered under "here".
-    const alone = starters([]);
-    expect(alone).not.toContain("Talk to somebody here");
-    expect(alone).toContain("From people who are not here");
-    expect(alone).not.toContain('data-here="true"');
-    for (const entry of available)
-      expect(alone).toContain(
-        `data-testid="conversation-start-${entry.subject}"`,
+  /** The people the recorded room holds, who can be spoken to as scene exchanges. */
+  function recordedHere(life: Life): readonly EntityId[] {
+    return (recordedRoomPresence(life.world, life.personId)?.personIds ?? [])
+      .filter((id) => id !== life.personId)
+      .filter((id) =>
+        projectPlayedSceneExchange(life.world, life.personId, id),
       );
-    // The same people standing in the room: "here" is true of them.
-    const everyone = [
-      ...new Set(
-        available.flatMap((entry) => entry.room.eligibleAddresseePersonIds),
-      ),
-    ];
-    const together = starters(everyone);
-    expect(together).toContain("Talk to somebody here");
-    expect(together).not.toContain("From people who are not here");
+  }
+
+  it("offers exactly the people the room records, by name", () => {
+    const here = recordedHere(scened);
+    expect(here.length).toBeGreaterThan(0);
+    const html = starters(scened);
+    expect(html).toContain("People here");
+    for (const id of here)
+      expect(html).toContain(personName(scened.world.people[id]!));
+    // The prop a caller passes does not add anybody: there is no second list
+    // of "people who are not here".
+    expect(html).not.toContain("From people who are not here");
+  });
+
+  it("offers nobody when the room records nobody, and never somebody far away", () => {
+    // A life whose room has no recorded people: nobody is offered, and the
+    // people the life knows elsewhere are not stood in for them.
+    expect(recordedHere(adult)).toHaveLength(0);
+    const html = starters(adult);
+    expect(html).not.toContain("People here");
+    expect(html).not.toContain("From people who are not here");
+    expect(html).not.toContain('data-testid="conversations"');
   });
 });
 
-describe("A conversation with somebody who is not in the room", () => {
-  function opened(presentPersonIds: readonly EntityId[]) {
-    const entry = availablePlayerConversations(
-      roomLife.world,
-      roomLife.personId,
-    ).find(
-      (candidate) => candidate.room.eligibleAddresseePersonIds.length > 0,
+describe("A conversation is only with somebody in the room", () => {
+  function opened(life: Life) {
+    const other = recordedRoomPresence(
+      life.world,
+      life.personId,
+    )!.personIds.find(
+      (id) =>
+        id !== life.personId &&
+        projectPlayedSceneExchange(life.world, life.personId, id),
     )!;
-    const other = entry.room.eligibleAddresseePersonIds[0]!;
     const html = renderToStaticMarkup(
       <SceneConversation
-        world={roomLife.world}
-        playerPersonId={roomLife.personId}
-        subject={entry.subject}
+        world={life.world}
+        playerPersonId={life.personId}
+        subject="life-talk"
         addressee={other}
         onWorldChange={() => {}}
         onChange={() => {}}
         onBack={() => {}}
-        presentPersonIds={presentPersonIds}
+        presentPersonIds={[]}
       />,
     );
     return { html, other };
   }
 
-  it("is a phone call, not somebody standing here", () => {
-    const { html, other } = opened([]);
-    expect(html).toContain('data-testid="talk-remote"');
-    expect(html).toMatch(
-      new RegExp(`data-remote="true"[^>]*data-testid="talk-face-${other}"`),
-    );
-  });
-
-  it("is face to face when they are in the room", () => {
-    const first = opened([]);
-    const { html, other } = opened([first.other]);
+  it("is face to face, with nothing drawn as a phone call", () => {
+    const { html } = opened(scened);
+    expect(html).toContain('data-testid="scene-conversation"');
     expect(html).not.toContain('data-testid="talk-remote"');
-    expect(html).toMatch(
-      new RegExp(`data-remote="false"[^>]*data-testid="talk-face-${other}"`),
-    );
+    expect(html).not.toContain("On the phone");
+    expect(html).not.toContain('data-remote="true"');
   });
 });
 
@@ -471,9 +432,9 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-desk"');
-    expect(html).toContain(view.note);
-    // Appearing in this list is not acquaintance, and is never called one.
-    expect(html).toContain("not people you know");
+    expect(html).not.toContain(view.note);
+    expect(html).not.toContain("not people you know");
+    expect(html).not.toMatch(/covers [a-z-]+/);
     expect(html).not.toContain('data-testid="press-source-empty"');
     const contact = view.contacts[0]!;
     expect(html).toContain(
@@ -487,7 +448,7 @@ describe("The press desk", () => {
     );
   });
 
-  it("with no reporter to take anything to, says so", () => {
+  it("with no reporter to take anything to, shows an empty list", () => {
     /*
      * The press family reads `history.pressRecords`, so a world with none is a
      * world with no outlet and no reporter — the honest empty state rather
@@ -506,8 +467,6 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-empty"');
-    expect(html).toContain(
-      "No reporter here is covering anything you could take to them.",
-    );
+    expect(html).not.toContain("No reporter here is covering");
   });
 });

@@ -18,8 +18,7 @@ const CLASS_LABEL: Record<MacroCard["valueClass"], string> = {
   "modeled-account-record": "Recorded account money",
 };
 
-function formatValue(value: number | null, unit: string): string {
-  if (value === null) return "—";
+function formatValue(value: number, unit: string): string {
   if (unit.startsWith("US dollars")) {
     return value.toLocaleString("en-US", {
       style: "currency",
@@ -44,16 +43,16 @@ function SeriesTable({ series }: { readonly series: MacroSeries }) {
         </tr>
       </thead>
       <tbody>
-        {series.points.map((point) => (
-          <tr key={point.period}>
-            <th scope="row">{macroPeriodLabel(point.period)}</th>
-            <td>
-              {point.value === null
-                ? `No value — ${point.missingReason ?? "not recorded"}`
-                : formatValue(point.value, series.unit)}
-            </td>
-          </tr>
-        ))}
+        {series.points.map((point) =>
+          point.value === null ? null : (
+            <tr key={point.period}>
+              <th scope="row">{macroPeriodLabel(point.period)}</th>
+              <td data-reason={point.missingReason ?? undefined}>
+                {formatValue(point.value, series.unit)}
+              </td>
+            </tr>
+          ),
+        )}
       </tbody>
     </table>
   );
@@ -79,61 +78,54 @@ export function MacroConditionsPanel({
     return (
       <section
         className="pg-macro-conditions"
-        aria-labelledby="pg-macro-conditions-title"
         data-testid="pg-macro-conditions-unavailable"
       >
-        <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
-        <p>
-          This life began before the world kept its own economic history, so
-          there are no national conditions to show. Nothing has been filled in.
-        </p>
+        <p data-problem="no-world-economic-history" />
       </section>
     );
   }
   const open = model.series.find((series) => series.key === openKey) ?? null;
   const openGraph = model.graphs.find((graph) => graph.graphKey === openKey);
   return (
-    <section
-      className="pg-macro-conditions"
-      aria-labelledby="pg-macro-conditions-title"
-      data-testid="pg-macro-conditions"
-    >
-      <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
+    <section className="pg-macro-conditions" data-testid="pg-macro-conditions">
       {model.startingConditions ? (
-        <p className="pg-macro-conditions-start">
-          At the start of this life (
-          {proseDate(model.startingConditions.effectiveDate)}) unemployment
-          stood near {model.startingConditions.unemploymentPct.toFixed(1)}% and
-          prices were rising about{" "}
-          {model.startingConditions.inflation12mPct.toFixed(1)}% a year. These
-          are starting conditions, not released figures.
-        </p>
+        <dl className="pg-macro-conditions-start" data-basis="starting">
+          <dt>Date</dt>
+          <dd>{proseDate(model.startingConditions.effectiveDate)}</dd>
+          <dt>Unemployment</dt>
+          <dd>{model.startingConditions.unemploymentPct.toFixed(1)}%</dd>
+          <dt>Prices, 12 months</dt>
+          <dd>{model.startingConditions.inflation12mPct.toFixed(1)}%</dd>
+        </dl>
       ) : null}
       <ul className="pg-macro-card-grid">
-        {model.cards.map((card) => (
-          <li key={card.seriesKey}>
-            <button
-              type="button"
-              className="pg-macro-card"
-              aria-pressed={openKey === card.seriesKey}
-              data-series-key={card.seriesKey}
-              onClick={() =>
-                setOpenKey(openKey === card.seriesKey ? null : card.seriesKey)
-              }
-            >
-              <span className="pg-macro-card-title">{card.title}</span>
-              <strong className="pg-macro-card-value">
-                {formatValue(card.value, card.unit)}
-              </strong>
-              <span className="pg-macro-card-meta">
-                {card.period ?? "No value yet"} · {card.geographyLabel}
-              </span>
-              <span className="pg-macro-card-meta">
-                {card.unit} · {CLASS_LABEL[card.valueClass]}
-              </span>
-            </button>
-          </li>
-        ))}
+        {model.cards.map((card) =>
+          card.value === null ? null : (
+            <li key={card.seriesKey}>
+              <button
+                type="button"
+                className="pg-macro-card"
+                aria-pressed={openKey === card.seriesKey}
+                data-series-key={card.seriesKey}
+                onClick={() =>
+                  setOpenKey(openKey === card.seriesKey ? null : card.seriesKey)
+                }
+              >
+                <span className="pg-macro-card-title">{card.title}</span>
+                <strong className="pg-macro-card-value">
+                  {formatValue(card.value, card.unit)}
+                </strong>
+                <span className="pg-macro-card-meta">
+                  {card.period ? `${card.period} · ` : ""}
+                  {card.geographyLabel}
+                </span>
+                <span className="pg-macro-card-meta">
+                  {card.unit} · {CLASS_LABEL[card.valueClass]}
+                </span>
+              </button>
+            </li>
+          ),
+        )}
       </ul>
       {open && openGraph ? (
         <div
@@ -143,9 +135,6 @@ export function MacroConditionsPanel({
           <EconomicGraph graph={openGraph} />
           <SeriesTable series={open} />
         </div>
-      ) : null}
-      {model.localNote ? (
-        <p className="pg-macro-conditions-local">{model.localNote}</p>
       ) : null}
     </section>
   );

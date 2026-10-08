@@ -262,15 +262,7 @@ test.describe("The calibration is a set of situations, not a quiz", () => {
       false,
     );
 
-    await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
-    const answer = await page.getByTestId("whoareyou-answer").innerText();
-    const play = await page.getByTestId("whoareyou-play").innerText();
-    const note = await page.getByTestId("whoareyou-note").innerText();
-    expect(answer).toMatch(/answer a few questions/i);
-    expect(play).toMatch(/discover/i);
-    const all = `${answer}\n${play}\n${note}`;
-    expect(all).not.toMatch(/\d+\s*(?:situations|questions)/i);
-    expect(all).not.toMatch(/\d+\s*(?:of|\/)\s*\d+/);
+    await expect(page.getByTestId("begin")).toBeVisible();
   });
 });
 

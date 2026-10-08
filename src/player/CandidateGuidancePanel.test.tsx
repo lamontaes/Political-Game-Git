@@ -66,20 +66,19 @@ function render(world: NonNullable<typeof entered>["world"]) {
 }
 
 describe("candidate guidance as reached by the player", () => {
-  it("shows the saved host and exact available choices in the community room", () => {
+  it("shows the saved host and available record fields in the community room", () => {
     const scene = projectCandidateGuidanceScene(entered!.world, personId)!;
     const html = render(entered!.world);
     expect(html).toContain('data-testid="candidate-guidance-panel"');
     expect(html).toContain(scene.actors[0]!.name);
-    expect(html).toContain(scene.actors[0]!.spokenLine!);
     for (const question of scene.questions)
-      expect(html).toContain(question.words);
+      expect(html).toContain(question.key);
     expect(html).toContain('data-testid="stay-candidate-guidance"');
     expect(html).toContain('data-testid="leave-candidate-guidance"');
     expect(html).not.toContain("Something came up before you got there");
   });
 
-  it("shows a recorded question and removes its one-time choice", () => {
+  it("shows a recorded rule packet and removes its one-time choice", () => {
     const scene = projectCandidateGuidanceScene(entered!.world, personId)!;
     const asked = askCandidateGuidance(
       entered!.world,
@@ -89,7 +88,9 @@ describe("candidate guidance as reached by the player", () => {
     );
     const html = render(asked);
     expect(html).toContain('data-testid="candidate-guidance-turn"');
-    expect(html).toContain("You asked:");
+    expect(html).toContain("question");
+    expect(html).not.toContain("Let's check the requirements");
+    expect(html).not.toContain("What are the requirements to run here?");
     expect(html).not.toContain(
       'data-testid="candidate-guidance-question-requirements"',
     );
@@ -104,7 +105,7 @@ describe("candidate guidance as reached by the player", () => {
         onWorldChange={() => {}}
       />,
     );
-    expect(html).toContain("The conversation is open in the community room.");
+    expect(html).toContain("Open in the community room");
     expect(html).not.toContain("party-work-attend-");
     expect(html).not.toContain("Something came up before you got there");
   });

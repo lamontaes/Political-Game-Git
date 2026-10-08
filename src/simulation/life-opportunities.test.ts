@@ -2,25 +2,33 @@ import process from "node:process";
 import { describe, expect, it } from "vitest";
 
 import { createDemoWorld } from "./demo";
-import { ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "./dates";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
+import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../presentation/opening-life";
 import { drawRandomPlace } from "../../tests/support/random-place";
+import { smallWorld } from "../../tests/fixtures/small-world";
 import {
   buildAdultLifeContext,
   availableAdultSituations,
 } from "./adult-situations";
 import { adultSituationBank } from "./adult-situations";
 import { deserializeWorld, serializeWorld } from "./serialization";
+import { dateRefusal, DATE_OCCASION_TAG } from "./couples";
+import {
+  CONTACT_ANSWER_TRANSITION_KEY,
+  contactProposals,
+} from "./relationship-contact";
 import {
   PUBLIC_MEETING_KEY,
   LIFE_OPPORTUNITY_ANSWERING_KEY,
   LIFE_OPPORTUNITY_KINDS,
   LIFE_OPPORTUNITY_REPEATABLE,
   OPEN_LIFE_OPPORTUNITY_LIMIT,
+  writeDateInvitation,
   lifeOpportunitiesFor,
   lifeOpportunityTag,
   openOrdinaryLifeRecords,
@@ -53,10 +61,55 @@ function opened(): { world: World; personId: EntityId } {
 }
 
 describe("a life is given something to do", () => {
-  it("opens one random production game with explicit authored meeting provenance", () => {
+  it("routes dating invitations to the controlled person through contact in all 56 jurisdictions", () => {
+    const jurisdictions = Object.keys(
+      (nominationRules as { places: Record<string, unknown> }).places,
+    ).sort();
+    expect(jurisdictions).toHaveLength(56);
+
+    for (const jurisdictionKey of jurisdictions) {
+      const fixture = smallWorld({ place: jurisdictionKey, people: 4 });
+      const world = fixture.world;
+      const playerId = fixture.personId;
+      const hostId = world.personOrder.find(
+        (id) => id !== playerId && dateRefusal(world, id, playerId) === null,
+      );
+      expect(hostId, jurisdictionKey).toBeDefined();
+      const on = addDays(world.currentDate, 7);
+      const invited = writeDateInvitation(world, {
+        stableKey: `b21-p2-date-contact:${jurisdictionKey}`,
+        hostPersonId: hostId!,
+        recipientPersonId: playerId,
+        on,
+      });
+      const proposal = contactProposals(invited, playerId).find(
+        (row) => row.fromPersonId === hostId && row.toPersonId === playerId,
+      );
+      expect(proposal, jurisdictionKey).toMatchObject({
+        on,
+        date: true,
+        answered: false,
+      });
+      const event = invited.history.events.find(
+        (row) =>
+          row.stableKey === `b21-p2-date-contact:${jurisdictionKey}:proposed`,
+      );
+      expect(event?.jurisdictionId).toBe(
+        world.people[hostId!]!.homeJurisdictionId,
+      );
+      expect(event?.tags).toContain(DATE_OCCASION_TAG);
+      expect(
+        invited.history.futureDueItems.some(
+          (item) => item.transitionKey === CONTACT_ANSWER_TRANSITION_KEY,
+        ),
+      ).toBe(false);
+    }
+  });
+
+  it("does not author an opening meeting in a generated world", () => {
     const adultFixture = createDemoWorld();
     const adult = adultFixture.people[adultFixture.personOrder[0]!]!;
-    const seed = "opening-meeting-provenance";
+    const seed = "au14-no-authored-meeting";
     const place = drawRandomPlace(seed);
     const game = generateOpeningLife(
       prepareOpeningLife({
@@ -69,41 +122,63 @@ describe("a life is given something to do", () => {
     ).game!;
     expect(game).toBeDefined();
     const world = openOrdinaryLifeRecords(game.world, game.playerPersonId);
-    const notice = world.history.events.find(
-      (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
-    )!;
-    expect(notice.tags).toContain("provenance:authored opening");
+    expect(serializeWorld(world)).toBe(serializeWorld(game.world));
     expect(
-      world.history.scheduledActivities.find(
-        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
-      )!.responsiblePersonId,
-    ).toBe(game.playerPersonId);
+      world.history.events.some(
+        (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
+      ),
+    ).toBe(false);
     expect(
-      world.history.scheduledActivities.find(
-        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`,
-      )!.responsiblePersonId,
-    ).toBe(game.playerPersonId);
+      world.history.scheduledActivities.some((activity) =>
+        activity.stableKey.startsWith(`${PUBLIC_MEETING_KEY}:`),
+      ),
+    ).toBe(false);
     expect(
-      world.history.scheduledActivities.find(
-        (activity) => activity.stableKey === `${PUBLIC_MEETING_KEY}:activity`,
-      )!.kind,
-    ).toBe("tentative");
+      world.history.workItems.some(
+        (item) => item.stableKey === PUBLIC_MEETING_KEY,
+      ),
+    ).toBe(false);
+    expect(
+      (world.history.legislativeMeasures ?? []).some((measure) =>
+        measure.stableKey.endsWith(":posted-meeting-ordinance"),
+      ),
+    ).toBe(false);
     process.stdout.write(
-      `${JSON.stringify({ receipt: "A156 random production opening", seed, place: place.displayName, jurisdiction: place.stateJurisdictionKey, placeKey: place.key, worldId: game.world.id, currentDate: game.world.currentDate })}\n`,
+      `${JSON.stringify({ route: "AU-14 ordinary opening", seed, jurisdiction: place.stateJurisdictionKey, place: place.displayName, placeKey: place.key, worldId: world.id, simulationDate: world.currentDate, meetingRecordIds: [] })}\n`,
     );
   });
 
-  it("opens civic and personal opportunities without a routine grocery chore", () => {
+  it("keeps the opening path write-free under all 56 jurisdiction keys", () => {
+    const fixture = createDemoWorld();
+    const personId = fixture.personOrder[0]!;
+    const jurisdictions = Object.keys(
+      (nominationRules as { places: Record<string, unknown> }).places,
+    ).sort();
+    expect(jurisdictions).toHaveLength(56);
+    // The compatibility entry point has no place-specific inputs or branches.
+    // Check the same canonical path under each accepted jurisdiction key.
+    for (const jurisdictionKey of jurisdictions) {
+      expect(
+        openOrdinaryLifeRecords(fixture, personId),
+        `jurisdiction ${jurisdictionKey}`,
+      ).toBe(fixture);
+    }
+  });
+
+  it("keeps an ordinary life quiet when no requests or meeting records exist", () => {
     const { world, personId } = opened();
     const open = lifeOpportunitiesFor(world, personId);
-    expect(open.length).toBeGreaterThan(0);
+    expect(open).toHaveLength(0);
     expect(open.length).toBeLessThanOrEqual(OPEN_LIFE_OPPORTUNITY_LIMIT);
     const situations = availableAdultSituations(
       buildAdultLifeContext(world, personId),
     );
-    expect(situations.length).toBeGreaterThan(0);
+    expect(situations).toHaveLength(0);
     expect(situations.map((situation) => situation.key)).not.toContain(
       "adult.ordinary-good-day",
+    );
+    expect(situations.map((situation) => situation.key)).not.toContain(
+      "adult.local-issue-position",
     );
     expect(
       world.history.workItems.some((item) =>
@@ -131,43 +206,25 @@ describe("a life is given something to do", () => {
     );
   });
 
-  it("opens the public meeting once, however often it is asked", () => {
+  it("does not create a meeting, agenda, trip, or work item when opened", () => {
     const { world, personId } = opened();
     const again = openOrdinaryLifeRecords(world, personId);
+    expect(serializeWorld(again)).toBe(serializeWorld(world));
     expect(
-      again.history.workItems.filter((item) =>
-        item.stableKey.startsWith(PUBLIC_MEETING_KEY),
+      again.history.workItems.some(
+        (item) => item.stableKey === PUBLIC_MEETING_KEY,
       ),
-    ).toHaveLength(
-      world.history.workItems.filter((item) =>
-        item.stableKey.startsWith(PUBLIC_MEETING_KEY),
-      ).length,
-    );
-  });
-
-  it("meeting notice retains authored opening provenance and player meeting ownership", () => {
-    const { world, personId } = opened();
-    const notice = world.history.events.find(
-      (event) => event.stableKey === `${PUBLIC_MEETING_KEY}:notice`,
-    )!;
-    expect(notice.tags).toContain("provenance:authored opening");
+    ).toBe(false);
     expect(
-      notice.participants.every(
-        (participant) => participant.role === "observation:reader",
+      again.history.scheduledActivities.some((activity) =>
+        activity.stableKey.startsWith(`${PUBLIC_MEETING_KEY}:`),
       ),
-    ).toBe(true);
-    const activities = world.history.scheduledActivities.filter(
-      (activity) =>
-        activity.stableKey === `${PUBLIC_MEETING_KEY}:activity` ||
-        activity.stableKey === `${PUBLIC_MEETING_KEY}:journey`,
-    );
-    expect(activities).toHaveLength(2);
-    for (const activity of activities)
-      expect(activity.responsiblePersonId).toBe(personId);
-    const reloaded = deserializeWorld(serializeWorld(world));
+    ).toBe(false);
     expect(
-      serializeWorld(openOrdinaryLifeRecords(reloaded, world.personOrder[0]!)),
-    ).toBe(serializeWorld(world));
+      (again.history.legislativeMeasures ?? []).some((measure) =>
+        measure.stableKey.endsWith(":posted-meeting-ordinance"),
+      ),
+    ).toBe(false);
   });
 
   it("writes nothing at all for somebody the formative interval still holds", () => {

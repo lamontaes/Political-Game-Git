@@ -1,5 +1,11 @@
-import { createOrganizationParticipation } from "../life";
-import { activeOrganizationParticipationsAt } from "../life-queries";
+import {
+  createOrganizationParticipation,
+  recordOrganizationParticipationState,
+} from "../life";
+import {
+  activeOrganizationParticipationsAt,
+  organizationParticipationStateAt,
+} from "../life-queries";
 import { municipalProcedureReading } from "../municipal-government";
 import {
   installMunicipalGovernment,
@@ -11,7 +17,16 @@ import type { GovernmentUnitIdentity } from "../government-units";
 import { boardGoverningBodyRules } from "../nationwide-world/township-governing-body-rules";
 import { localChiefExecutiveRules } from "../nationwide-world/local-chief-executive-rules";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
+import {
+  localGoverningBodyRules,
+  localGoverningBodySeatLabel,
+} from "../nationwide-world/local-governing-body-rules";
+import {
+  countyElectedRowOffices,
+  countyRowOfficeFromRoleKind,
+  countyRowOfficeRoleKind,
+  type CountyRowOfficeKey,
+} from "../nationwide-world/county-row-offices";
 import {
   ensureLocalGovernmentOrganization,
   homeLocalGovernmentUnits,
@@ -70,8 +85,8 @@ export const LOCAL_GOVERNMENT_SEATS_VERSION = "local-government-seats/v1";
 
 const V = LOCAL_GOVERNMENT_SEATS_VERSION;
 
-/** The role a county board member holds, beside a town's council roles. */
-export const COUNTY_BOARD_MEMBER = "leader:county-board-member";
+import { COUNTY_BOARD_MEMBER } from "./local-government-roles";
+export { COUNTY_BOARD_MEMBER } from "./local-government-roles";
 
 /** Grown-ups old enough to hold local office in every state. */
 const MINIMUM_AGE = 21;
@@ -83,6 +98,54 @@ export function localGovernmentSeatsKey(unitId: string): string {
 export function localGovernmentSeated(world: World, unitId: string): boolean {
   const key = localGovernmentSeatsKey(unitId);
   return world.history.events.some((event) => event.stableKey === key);
+}
+
+/**
+ * Keep an internal trace when a local government's roster cannot supply any
+ * living, eligible officeholder. This is not a public happening: the
+ * information event type is excluded from journal, news, and recap readers.
+ * The dated key leaves later calls free to try again after the roster changes.
+ */
+export function recordLocalGovernmentSeatGap(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+): World {
+  const stableKey = `${localGovernmentSeatsKey(unit.id)}:seat-gap:${world.currentDate}`;
+  if (world.history.events.some((event) => event.stableKey === stableKey))
+    return world;
+  return recordWorldEvent(world, {
+    stableKey,
+    type: "information.local-government-seat-gap",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: [town],
+    participants: [],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: [
+      V,
+      "reason:eligible-roster-exhausted",
+      `unit:${unit.id}`,
+      `unit-type:${unit.unitType}`,
+      `state:${unit.stateUsps}`,
+      ...(unit.countyGeoid ? [`county-area:${unit.countyGeoid}`] : []),
+    ],
+    summary: "No eligible officeholder was found in the recorded local roster.",
+    context: {
+      location: {
+        jurisdictionId: town,
+        label: world.jurisdictions[town]?.name ?? null,
+        setting: null,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
 }
 
 /** The stable key a seat of a town without a compiled government is kept under. */
@@ -354,7 +417,11 @@ export function ensureLocalGovernmentSeatsForUnit(
   for (let n = 0; n < openMembers; n += 1) {
     const personId = draw(slot++, sitting.length + n + 1);
     if (!personId) break;
-    const label = `${identity.officeTitle}, seat ${sitting.length + n + 1}`;
+    const label = localGoverningBodySeatLabel(
+      unit,
+      identity.officeTitle,
+      sitting.length + n + 1,
+    );
     next = seatOne(next, unit, town, personId, false, label);
     seated.push({ personId, mayor: false, seatLabel: label });
   }
@@ -362,7 +429,11 @@ export function ensureLocalGovernmentSeatsForUnit(
   const members = seated.filter((seat) => !seat.mayor).length;
   // Nobody could be seated, so there is nobody for the record to name; the
   // seats stay open and a later pass fills them.
-  if (seated.length === 0) return next;
+  if (seated.length === 0) {
+    return sitting.length === 0
+      ? recordLocalGovernmentSeatGap(next, unit, town)
+      : next;
+  }
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
     type: "local.government-seated",
@@ -473,7 +544,11 @@ export function ensureCountyGovernmentSeatsForUnit(
       !seat(
         slot++,
         false,
-        `${rules.memberTitle}, seat ${sitting.length + n + 1}`,
+        localGoverningBodySeatLabel(
+          unit,
+          rules.memberTitle,
+          sitting.length + n + 1,
+        ),
       )
     )
       break;
@@ -483,7 +558,11 @@ export function ensureCountyGovernmentSeatsForUnit(
     sitting.filter((row) => !row.mayor).length;
   // Nobody could be seated, so there is nobody for the record to name; the
   // seats stay open and a later pass fills them.
-  if (seated.length === 0) return next;
+  if (seated.length === 0) {
+    return sitting.length === 0
+      ? recordLocalGovernmentSeatGap(next, unit, town)
+      : next;
+  }
   const name = localGovernmentDisplayName(unit);
   return recordWorldEvent(next, {
     stableKey: localGovernmentSeatsKey(unit.id),
@@ -501,6 +580,8 @@ export function ensureCountyGovernmentSeatsForUnit(
       `seats:${rules.seats}`,
       `seats-basis:${rules.basis}`,
       `mayor:${hasChief ? "elected" : "not-elected"}`,
+      `executive-basis:${rules.executive.basis}`,
+      `executive-status:${rules.executive.status}`,
     ],
     summary: `The ${rules.bodyName} of ${name} is seated with ${members} of ${rules.seats} members${
       hasChief && seated.some((row) => row.mayor)
@@ -519,6 +600,236 @@ export function ensureCountyGovernmentSeatsForUnit(
       motivation: null,
       immediateReaction: null,
     },
+  });
+}
+
+/**
+ * The organization a county's row officers sit in: the county government
+ * itself, kept apart from the board. A county whose board is a compiled
+ * government keeps its own board organization, and a row officer is never a
+ * member of it.
+ */
+export function countyRowOfficeOrganizationId(
+  world: World,
+  unit: GovernmentUnitIdentity,
+): EntityId | null {
+  const key = localGovernmentOrganizationKey(unit);
+  return (
+    world.history.organizations.find(
+      (organization) => organization.stableKey === key,
+    )?.id ?? null
+  );
+}
+
+/** The stable key of the event that seats a county's row officers. */
+export function countyRowOfficersKey(unitId: string): string {
+  return `${V}:${unitId}:row-offices`;
+}
+
+export interface SeatedCountyRowOfficer {
+  readonly office: CountyRowOfficeKey;
+  readonly personId: EntityId;
+  readonly participationId: EntityId;
+  readonly title: string;
+}
+
+/** Who holds each of this county's row offices today (sheriff, prosecutor, ...). */
+export function sittingCountyRowOfficers(
+  world: World,
+  unit: GovernmentUnitIdentity,
+): readonly SeatedCountyRowOfficer[] {
+  const organizationId = countyRowOfficeOrganizationId(world, unit);
+  if (!organizationId) return [];
+  const out: SeatedCountyRowOfficer[] = [];
+  for (const participation of world.history.organizationParticipations) {
+    if (participation.organizationId !== organizationId) continue;
+    const active = activeOrganizationParticipationsAt(
+      world,
+      participation.personId,
+    ).find((row) => row.participation.id === participation.id);
+    const office = countyRowOfficeFromRoleKind(active?.state.roleKind ?? null);
+    if (!active || !office) continue;
+    out.push({
+      office,
+      personId: participation.personId,
+      participationId: participation.id,
+      title: active.state.context ?? "",
+    });
+  }
+  return out;
+}
+
+function rowOfficerStableKey(
+  unit: GovernmentUnitIdentity,
+  office: CountyRowOfficeKey,
+  personId: EntityId,
+): string {
+  return `local-government-row-office:${unit.id}:${office}:${personId}`;
+}
+
+/**
+ * Seat the row offices this county's state elects (sheriff, prosecutor,
+ * clerk, treasurer, assessor, coroner), one resident each, as generated
+ * holders. The same table answers for every county
+ * (`county-row-offices.ts`): which offices exist is the state's, who holds them
+ * is drawn from the player's own town like the county board. A resident
+ * never holds two of the county's offices, and board members are left on the
+ * board. Offices already held are not filled again.
+ */
+export function ensureCountyRowOfficersForUnit(
+  world: World,
+  unit: GovernmentUnitIdentity,
+  town: EntityId,
+  excludePersonIds: readonly EntityId[] = [],
+): World {
+  if (
+    world.history.events.some(
+      (event) => event.stableKey === countyRowOfficersKey(unit.id),
+    )
+  )
+    return world;
+  const offices = countyElectedRowOffices(unit);
+  if (offices.length === 0) return world;
+  let next = ensureLocalGovernmentOrganization(world, unit);
+  const organizationId = countyRowOfficeOrganizationId(next, unit);
+  if (!organizationId) return world;
+  const held = new Set(
+    sittingCountyRowOfficers(next, unit).map((row) => row.office),
+  );
+  const excluded = new Set([
+    ...excludePersonIds,
+    ...sittingLocalOfficers(next, unit).map((seat) => seat.personId),
+    ...sittingCountyRowOfficers(next, unit).map((row) => row.personId),
+  ]);
+  const taken = new Set<string>();
+  const seated: CountyRowOfficeKey[] = [];
+  const personIds: EntityId[] = [];
+  offices.forEach((rule, slot) => {
+    if (held.has(rule.office)) return;
+    const found = drawTownResident(
+      next,
+      town,
+      `local-government:${unit.id}:row-${rule.office}`,
+      slot,
+      MINIMUM_AGE,
+      excluded,
+      taken,
+    );
+    next = found.world;
+    if (!found.personId) return;
+    excluded.add(found.personId);
+    next = createOrganizationParticipation(next, {
+      stableKey: rowOfficerStableKey(unit, rule.office, found.personId),
+      personId: found.personId,
+      organizationId,
+      startedAt: next.currentDate,
+      kind: "leadership:municipal-office",
+      roleKind: countyRowOfficeRoleKind(rule.office),
+      context: rule.title,
+      provenance: { kind: "generated", generatorKey: V },
+    });
+    seated.push(rule.office);
+    personIds.push(found.personId);
+  });
+  if (seated.length === 0) return next;
+  return recordWorldEvent(next, {
+    stableKey: countyRowOfficersKey(unit.id),
+    type: "local.county-row-officers-seated",
+    occurredAt: next.currentDate,
+    recordedAt: next.currentDate,
+    jurisdictionId: town,
+    involvedEntityIds: personIds,
+    participants: [],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [V, `unit:${unit.id}`, ...seated.map((office) => `office:${office}`)],
+    // Keys only; the English engine composes the sentence from the tags.
+    summary: `county-row-officers-seated:${unit.id}:${seated.join(",")}`,
+    context: {
+      location: {
+        jurisdictionId: town,
+        label: localGovernmentDisplayName(unit),
+        setting: null,
+      },
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
+/**
+ * Seat the winner of a county row-office race. The person who held the office
+ * leaves it the day the winner's term begins; a winner who already holds it
+ * keeps it. Called from the campaign's seating step.
+ */
+export function seatCountyRowOfficerWinner(
+  world: World,
+  input: {
+    readonly unit: GovernmentUnitIdentity;
+    readonly office: CountyRowOfficeKey;
+    readonly title: string;
+    readonly winnerPersonId: EntityId;
+    readonly effectiveAt: string;
+    readonly contestId: EntityId;
+    readonly outcomeEventId: EntityId;
+  },
+): World {
+  const { unit, office, winnerPersonId } = input;
+  let next = ensureLocalGovernmentOrganization(world, unit);
+  const organizationId = countyRowOfficeOrganizationId(next, unit);
+  if (!organizationId)
+    throw new Error(
+      `The county government ${unit.id} cannot be placed in this world, so nobody can be seated in it.`,
+    );
+  const roleKind = countyRowOfficeRoleKind(office);
+  const sitting = next.history.organizationParticipations.filter(
+    (participation) => {
+      if (participation.organizationId !== organizationId) return false;
+      const state = organizationParticipationStateAt(next, participation.id);
+      return state?.status === "active" && state.roleKind === roleKind;
+    },
+  );
+  if (
+    sitting.some((participation) => participation.personId === winnerPersonId)
+  )
+    return next;
+  for (const participation of sitting) {
+    const state = organizationParticipationStateAt(next, participation.id);
+    if (state?.status !== "active") continue;
+    next = recordOrganizationParticipationState(next, {
+      stableKey: `${participation.stableKey}:state:succeeded:${input.contestId}`,
+      participationId: participation.id,
+      effectiveAt:
+        input.effectiveAt > participation.startedAt
+          ? input.effectiveAt
+          : participation.startedAt,
+      status: "ended",
+      roleKind: state.roleKind,
+      context: state.context,
+      provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
+      supersedesStateId: state.id,
+    });
+  }
+  let stableKey = rowOfficerStableKey(unit, office, winnerPersonId);
+  // Returning after time away: a new seat, so the earlier one stays as it was.
+  if (
+    next.history.organizationParticipations.some(
+      (participation) => participation.stableKey === stableKey,
+    )
+  )
+    stableKey = `${stableKey}:${input.contestId}`;
+  return createOrganizationParticipation(next, {
+    stableKey,
+    personId: winnerPersonId,
+    organizationId,
+    startedAt: input.effectiveAt,
+    kind: "leadership:municipal-office",
+    roleKind,
+    context: input.title,
+    provenance: { kind: "simulated-event", eventId: input.outcomeEventId },
   });
 }
 
@@ -563,7 +874,9 @@ export function ensureLocalGovernmentSeats(
   // legislature and mayor, is seated from the same town's residents.
   for (const unit of units.townships)
     next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
-  for (const unit of units.counties)
+  for (const unit of units.counties) {
     next = ensureCountyGovernmentSeatsForUnit(next, unit, town, housemates);
+    next = ensureCountyRowOfficersForUnit(next, unit, town, housemates);
+  }
   return next;
 }

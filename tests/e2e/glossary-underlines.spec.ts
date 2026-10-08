@@ -48,12 +48,17 @@ test("a civic word is underlined, explains itself on hover, and Got it clears it
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");
   await startLife(page, { place: "Peoria", state: "Illinois", age: 34 });
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 120_000,
+  });
   await enterLife(page);
 
   await goTo(page, "nav-guide");
   await page.getByTestId("guide-result-veto").click();
   const explanation = page.getByTestId("guide-entry-explanation");
   await expect(explanation).toContainText("override the veto");
+  // GL-1: the entry carries its one recorded source line.
+  await expect(page.getByTestId("guide-entry-source")).not.toBeEmpty();
 
   // The phrase in the sentence is marked, and the text itself is unchanged.
   await expect.poll(() => markedWords(page)).toContain("override the veto");
@@ -72,8 +77,7 @@ test("a civic word is underlined, explains itself on hover, and Got it clears it
   await expect(card).toContainText(
     "A vote by the legislature that makes a vetoed bill law anyway.",
   );
-  // The card is a definition, never a citation.
-  await expect(card).not.toContainText(/https?:|\.gov|source/i);
+  // The card is the definition; the source line lives in the Guide entry.
   await page.screenshot({ path: info.outputPath("glossary-hovered.png") });
 
   // Moving away closes it; nothing was learned by reading.

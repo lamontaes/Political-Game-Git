@@ -154,7 +154,7 @@ it.each(places)(
   },
 );
 
-it("replaces a cancelled same-day clock append-only without reusing its key", () => {
+it("replaces a canceled same-day clock append-only without reusing its key", () => {
   let world = ensurePaydaySchedule(
     smallWorld({
       place: places[0]!,

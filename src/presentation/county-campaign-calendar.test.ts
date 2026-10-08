@@ -47,17 +47,15 @@ describe("county calendar reaches existing campaign readers", () => {
     expect(row.electionDate).toBe("2027-11-20");
     expect(row.eligible).toBe(false);
     expect(row.eligibility).toBe(
-      "The requirements for this county office have not been established.",
+      "Qualifications: not on record · Minimum age: 21 (estimated)",
     );
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    ).toThrow("Qualifications: not on record");
     expect(row.timing).toContain("2027");
     expect(serializeWorldPayload(world)).toEqual(before);
   });
-  it("keeps an unread county disabled and refuses qualification before creating opponents", () => {
+  it("reads the state calendar for a county without its own profile and still refuses qualification before creating opponents", () => {
     const { world, person, offices } = fixture("2108902");
     const county = offices.find((o) => o.unit.unitType === "county")!;
     const city = offices.find((o) => o.unit.unitType === "municipality")!;
@@ -68,20 +66,16 @@ describe("county calendar reaches existing campaign readers", () => {
         person.homeJurisdictionId,
         county.officeKey,
       ),
-    ).toBeNull();
+    ).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     const row = projectCampaignOffices(world, person.id).find(
       (o) => o.officeKey === county.officeKey,
     )!;
-    expect(row).toMatchObject({
-      electionDate: null,
-      eligible: false,
-      timing: "The next election date is not known.",
-    });
+    expect(row.electionDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(row.eligible).toBe(false);
+    expect(row.timing).toMatch(/^Next election: .+ \(estimated\)$/);
     expect(() =>
       fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    ).toThrow("Qualifications: not on record");
     expect(
       availableCampaignElectionDate(
         world,
@@ -91,6 +85,11 @@ describe("county calendar reaches existing campaign readers", () => {
     ).toBe(
       campaignElectionDate(world, person.homeJurisdictionId, city.officeKey),
     );
+    expect(
+      projectCampaignOffices(world, person.id).find(
+        (o) => o.officeKey === city.officeKey,
+      )?.timing,
+    ).toMatch(/^Next election: .+ \(estimated\)$/);
     expect(serializeWorldPayload(world)).toEqual(before);
   });
 });

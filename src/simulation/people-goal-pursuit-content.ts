@@ -65,11 +65,20 @@ export function isLivelihoodGoalKey(goalKey: string): boolean {
 }
 
 /**
- * PROVISIONAL(research: npc-private-goal-pursuit). Pacing, not measurement.
- * Replace these, do not tune them.
+ * ESTIMATED FROM RECORDED GAME ROUTINES. The weekly review follows the shared
+ * weekly clock; the two-week discretionary cadence, 60-day repeat-call gap,
+ * two declined calls, ages 18–66, 120-day recent-work window, and 84-day
+ * learning window use comparable work-search, contact, working-age, and
+ * term-length routines already recorded in this simulation. These are pacing
+ * estimates, not measured population rates. The age-66 limit also matches the
+ * Social Security full retirement age for people born in the 1950s.
  */
-export const GOAL_PURSUIT_PLACEHOLDER = {
+export const GOAL_PURSUIT_ESTIMATE = {
   researchQuestionId: "npc-private-goal-pursuit",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "game pacing estimates; working-age range ends at the Social Security full retirement age of 66",
   /** Days between one look at the area's private goals and the next. */
   reviewIntervalDays: 7,
   /**

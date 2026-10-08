@@ -204,6 +204,29 @@ function sessions(w: ReturnType<typeof fixture>, id: EntityId) {
 }
 
 describe("ordinary work without mandatory submissions and during fast-forward", () => {
+  it("records a scheduled career task when the shared clock completes its shift", () => {
+    const { w, id } = employed();
+    const task = p.tasks[0]!;
+    const scheduled = scheduleCareerTask(w, id, p, task.id).world;
+    const activity = scheduled.history.scheduledActivities.at(-1)!;
+    const later = advanceWorldMinutes(scheduled, 24 * 60, lifePaths2Handlers());
+    const record = later.history.events.find(
+      (event) =>
+        event.type === "career-path7.work-record" &&
+        event.involvedEntityIds.includes(activity.id),
+    );
+
+    expect(record?.tags).toContain(`task:${task.id}`);
+    expect(record?.tags).toContain(`provider:${p.id}`);
+    expect(
+      later.history.events.filter(
+        (event) =>
+          event.type === "career-path7.work-record" &&
+          event.involvedEntityIds.includes(activity.id),
+      ),
+    ).toHaveLength(1);
+  });
+
   it("keeps optional historical submissions and refuses a too-short offered text", () => {
     const started = employed();
     let w = started.w;

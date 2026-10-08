@@ -1,0 +1,45 @@
+{
+  "source": "Cohort ranges are explicit estimates derived from the public health sources attached to their outcome links.",
+  "cohortsByRule": {
+    "infant-mortality-cohort-estimate": {
+      "minimumAge": 0,
+      "maximumAge": 0,
+      "estimatedFrom": "Chay and Greenstone 2003 (NBER w10053, Air Quality, Infant Mortality, and the Clean Air Act of 1970); Chay and Greenstone 2003 (QJE); Gemmill et al. 2025 (JAMA)"
+    },
+    "working-age-adult-cohort-estimate": {
+      "minimumAge": 19,
+      "maximumAge": 64,
+      "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM); Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM); Cawley, Moriya and Simon 2015"
+    },
+    "older-adult-medicare-cohort-estimate": {
+      "minimumAge": 65,
+      "maximumAge": null,
+      "estimatedFrom": "CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024)"
+    },
+    "adult-substance-use-condition-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "Rees, Sabia, Argys, Latshaw and Dave 2019, Journal of Law and Economics 62(1); Doleac and Mukherjee 2022, Journal of Law and Economics 65(2); Chan, Burkhardt and Flyr 2020, Economic Inquiry 58(2); Mathur and Ruhm 2023, Journal of Health Economics 88; CDC WONDER 2022 overdose deaths by drug"
+    },
+    "youth-cannabis-cohort-estimate": {
+      "minimumAge": 13,
+      "maximumAge": 17,
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)"
+    },
+    "child-asthma-cohort-estimate": {
+      "minimumAge": 5,
+      "maximumAge": 17,
+      "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
+    },
+    "adult-school-completer-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "U.S. Census Bureau, American Community Survey adult population (age 18+); Jackson, Johnson and Persico 2016 (QJE)"
+    },
+    "retirement-age-adult-cohort-estimate": {
+      "minimumAge": 65,
+      "maximumAge": null,
+      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+    }
+  }
+}

@@ -1,3 +1,9 @@
+import { tagEngineText } from "./runtime-text-origin";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "./english-grades";
 import type { EntityId } from "../simulation/types";
 import type {
   RelationshipDimension,
@@ -125,6 +131,8 @@ export interface CompositionContext {
    * about them. A disclosure may copy only facts sourced wholly from these.
    */
   readonly speakerOwnRecordIds?: readonly EntityId[];
+  /** The owner's grades; a part they held back is not chosen. */
+  readonly partGrades?: PartGradeLedger;
 }
 
 export interface ComposedPart {
@@ -250,12 +258,36 @@ export function composeGroundedLine(
         reasons.push(`${part}/${variant.key}: ${blocked.join(", ")}`);
       return blocked.length === 0;
     });
-    // Prefer parts this speaker has not used with the player lately; fall
-    // back to the recent ones rather than refuse a line that can be said.
-    const fresh = conditioned.filter(
-      (variant) => !recent.has(`${bankKey}:${part}:${variant.key}`),
+    // Prefer parts the owner has not held back, then parts this speaker has
+    // not used with the player lately. A held or recent part is said only
+    // when nothing else can say the line, because a conversation that
+    // cannot word its reply cannot go on.
+    const unheld = conditioned.filter(
+      (variant) =>
+        !heldByGrades(
+          `${bankKey}:${part}:${variant.key}`,
+          context.partGrades ?? PART_GRADES,
+        ),
     );
-    const attempts = fresh.length > 0 ? [fresh, conditioned] : [conditioned];
+    const isFresh = (variant: LinePartVariant) =>
+      !recent.has(`${bankKey}:${part}:${variant.key}`);
+    const tiers = [
+      unheld.filter(isFresh),
+      unheld,
+      conditioned.filter(isFresh),
+      conditioned,
+    ];
+    const attempts = tiers.filter(
+      (tier, at) =>
+        tier.length > 0 &&
+        !tiers
+          .slice(0, at)
+          .some(
+            (earlier) =>
+              earlier.length === tier.length &&
+              earlier.every((variant) => tier.includes(variant)),
+          ),
+    );
 
     let rendered: ReturnType<typeof renderGroundedEnglish> | null = null;
     let chosen: LinePartVariant | null = null;
@@ -296,10 +328,14 @@ export function composeGroundedLine(
     for (const id of conditionSources(chosen, context)) sourceRecordIds.add(id);
   }
 
+  const composed = sentenceStart(
+    parts.map((part) => part.text.trim()).join(" "),
+  );
+  tagEngineText(composed, { bank: bank.key });
   return {
     kind: "rendered",
     act: bank.act,
-    text: sentenceStart(parts.map((part) => part.text.trim()).join(" ")),
+    text: composed,
     parts,
     sourceRecordIds: [...sourceRecordIds],
   };

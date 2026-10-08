@@ -1,0 +1,100 @@
+{
+  "schema": "english-exchanges/1",
+  "register": "hearing",
+  "shippable": false,
+  "source": {
+    "document": "Congressional hearing transcripts, govinfo CHRG packages (U.S. government works)",
+    "license": "public domain (17 U.S.C. 105)",
+    "url": "https://www.govinfo.gov/app/collection/chrg"
+  },
+  "counts": {
+    "documents": 38,
+    "questionReplyPairs": 1399,
+    "questionFormShare": {
+      "other": 0.541,
+      "yes-no": 0.297,
+      "wh": 0.162
+    },
+    "replyOpenerShareByForm": {
+      "other": {
+        "other": 0.584,
+        "yes": 0.168,
+        "thanks": 0.053,
+        "well": 0.049,
+        "no": 0.04,
+        "i think": 0.037,
+        "absolutely": 0.034,
+        "so": 0.025,
+        "i don't know": 0.007,
+        "again": 0.004
+      },
+      "yes-no": {
+        "other": 0.593,
+        "yes": 0.166,
+        "no": 0.055,
+        "i think": 0.043,
+        "absolutely": 0.036,
+        "thanks": 0.034,
+        "well": 0.034,
+        "so": 0.014,
+        "again": 0.014,
+        "sorry": 0.007,
+        "i don't know": 0.002
+      },
+      "wh": {
+        "other": 0.612,
+        "well": 0.15,
+        "thanks": 0.07,
+        "yes": 0.053,
+        "i think": 0.048,
+        "so": 0.026,
+        "absolutely": 0.026,
+        "again": 0.009,
+        "i don't know": 0.004
+      }
+    },
+    "medianReplyWordsByForm": {
+      "other": 25,
+      "yes-no": 20,
+      "wh": 51
+    },
+    "shareRepliesUnder10WordsByForm": {
+      "other": 0.316,
+      "yes-no": 0.299,
+      "wh": 0.119
+    },
+    "bankPartOpensReply": {
+      "hearing.confirm.yes-sir": 22,
+      "hearing.confirm.yes-senator": 15,
+      "hearing.answer.thank-you-for-the-question": 12,
+      "hearing.thanks.thank-you": 12,
+      "hearing.confirm.no-sir": 6,
+      "hearing.thanks.thank-you-madam-chair": 5,
+      "hearing.confirm.i-do": 5,
+      "hearing.confirm.yes-maam": 4,
+      "hearing.confirm.that-is-correct": 4,
+      "hearing.confirm.yes-that-is-correct": 3,
+      "hearing.thanks.thank-you-mr-chairman": 3,
+      "hearing.thanks.thank-you-very-much": 3,
+      "hearing.confirm.no-senator": 3,
+      "hearing.confirm.absolutely-yes": 2,
+      "hearing.thanks.thank-you-senator": 2,
+      "hearing.confirm.that-is-correct-sir": 2,
+      "hearing.confirm.absolutely-senator": 2,
+      "hearing.answer.thank-you-for-that-question": 2,
+      "hearing.answer.thank-you-for-your-question": 2,
+      "hearing.answer.thank-you-for-the-question-sir": 1,
+      "hearing.confirm.that-is-right": 1,
+      "hearing.repair.i-am-sorry": 1,
+      "hearing.chair-procedure.without-objection": 1,
+      "hearing.confirm.of-course": 1,
+      "hearing.answer.thank-you-for-that-question-senator": 1,
+      "hearing.confirm.it-is": 1,
+      "hearing.agree.i-agree": 1,
+      "hearing.answer.thank-you-for-the-question-senator": 1,
+      "hearing.confirm.it-does": 1,
+      "hearing.answer.that-is-a-great-question": 1,
+      "hearing.thanks.well-thank-you": 1
+    }
+  }
+}

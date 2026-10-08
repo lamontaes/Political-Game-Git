@@ -24,14 +24,23 @@ export function MoneyLawsPanel({
     <ul className="pg-dossier-laws" data-testid={testid}>
       {lines.map((line) => (
         <li key={line.key} data-testid="money-law-line">
-          <button
-            type="button"
-            className="pg-dossier-law-title"
-            data-testid={`money-law-${line.measureId}`}
-            onClick={() => onOpenMeasure(line.measureId)}
-          >
-            {line.lawLabel}
-          </button>
+          {line.openable ? (
+            <button
+              type="button"
+              className="pg-dossier-law-title"
+              data-testid={`money-law-${line.measureId}`}
+              onClick={() => onOpenMeasure(line.measureId)}
+            >
+              {line.lawLabel}
+            </button>
+          ) : (
+            <strong
+              className="pg-dossier-law-title"
+              data-testid={`money-law-${line.measureId}`}
+            >
+              {line.lawLabel}
+            </strong>
+          )}
           <p className="pg-dossier-law-effect">
             {line.dateLabel ? `${line.dateLabel}: ${line.text}` : line.text}
           </p>
@@ -40,16 +49,14 @@ export function MoneyLawsPanel({
     </ul>
   );
   return (
-    <section
-      className="pg-personal-section"
-      aria-label="What new laws did to money"
-      data-testid="money-laws"
-    >
-      <h3>What new laws did to money</h3>
+    <section className="pg-personal-section" data-testid="money-laws">
       {laws.empty ? (
-        <p className="game-note" data-testid="money-laws-none">
-          {laws.empty}
-        </p>
+        <p
+          className="game-note"
+          data-testid="money-laws-none"
+          data-problem="no-new-law-reached-money"
+          data-place={laws.placeName}
+        />
       ) : null}
       {laws.yours.length > 0 ? (
         <>

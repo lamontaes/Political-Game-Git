@@ -77,6 +77,7 @@ export * from "./disaster-warrants";
 export * from "./hazard-producer";
 export * from "./international";
 export * from "./outside-shock";
+export * from "./political-attack-intent";
 export * from "./epidemic";
 export * from "./official-funeral";
 export * from "./health-coverage";

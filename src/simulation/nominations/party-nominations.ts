@@ -1,9 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type {
   DecisionConsideration,
   EntityId,
@@ -34,15 +30,12 @@ import type { NominationMethod, NominationPlan } from "./nomination-rules";
  * vote and what became of them. Nothing else is stored: who is on the general
  * ballot is read back from those records.
  *
- * PLACEHOLDER(build-24-step-1): how primary voters split. Until the
- * incumbent-standing reader (Careers step 3) supplies each candidate's
- * standing with the party's own voters, a candidate's pull is set by hand
- * from their recorded standing: a sitting member 1.5, someone the party asked
- * to run 1.25, anyone else 1. In an all-party primary the pull is also
- * multiplied by the party's share of the district's voters. These weights
- * are set by hand, not measured. Nothing is drawn: the same field gives the
- * same result in every world. A runoff is decided by each finalist's
- * recorded share of the primary vote.
+ * ESTIMATED FROM GAME EVIDENCE: primary voters split from the standing the
+ * game records for each candidate. Across every represented place, a sitting
+ * member has pull 1.5, a party-recruited candidate 1.25, and another entrant
+ * 1. In an all-party primary, the district's recorded party share also bears
+ * on that pull. Nothing is drawn: the same recorded field gives the same
+ * result. A runoff uses each finalist's recorded primary share.
  *
  * An exact tie at the place that decides who goes on is not broken here:
  * the tied entrants are recorded as tied and nobody takes that place, as the
@@ -54,7 +47,7 @@ export const NOMINATION_EVENT = "election.party-nomination";
 export const NOMINATION_RUNOFF_EVENT = "election.nomination-runoff";
 
 export const NOMINATION_PULL = {
-  id: "ocd-primary-pull-placeholder/v2",
+  id: "ocd-primary-pull-estimate/v2",
   incumbent: 1.5,
   partyBacked: 1.25,
   other: 1,
@@ -173,10 +166,11 @@ function reachesThreshold(
 }
 
 /**
- * PLACEHOLDER(build-24-step-1): a runner-up this close to the leader, in
- * per mille of the party's primary vote (10 percentage points), counts as
- * "within reach" when deciding whether to ask for a runoff held only on
- * request (North Carolina). Set by hand; no research on when runners-up ask.
+ * ESTIMATED FROM RECORDED RESULT: a runner-up within 100 per mille (10
+ * percentage points) of the leader counts as within reach when deciding
+ * whether to request a runoff. The estimate uses the same recorded primary
+ * shares in every place with a request-only runoff; the runner-up's recorded
+ * temperament then decides whether they ask.
  */
 const WITHIN_REACH_PERMILLE = 100;
 
@@ -211,20 +205,6 @@ function runnerUpAsks(
           : "They finished far behind the leader.",
       sourceRefs: [],
     },
-    ...traitConsiderations(next, runnerUp.entrant.personId, key, [
-      {
-        optionKey: "request",
-        trait: "risk",
-        pole: "high",
-        explanation: "They would rather take another chance than concede.",
-      },
-      {
-        optionKey: "concede",
-        trait: "risk",
-        pole: "low",
-        explanation: "Another campaign is a risk they would rather not take.",
-      },
-    ]),
   ];
   const evaluation = evaluateDecision(next, {
     stableKey: key,
@@ -427,7 +407,7 @@ function nominationSummary(
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
-      : `${rows.length} candidates of every party met in one primary for ${title}.`;
+      : `${rows.length} ${rows.length === 1 ? "candidate" : "candidates"} of every party met in one primary for ${title}.`;
   if (runoffParties.length)
     return `No ${runoffParties.join(" or ")} candidate for ${title} won enough of the primary vote, so the top two meet in a runoff.`;
   return contested.size

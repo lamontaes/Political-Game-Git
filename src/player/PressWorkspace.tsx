@@ -1,3 +1,7 @@
+import {
+  pressAnswerPacket,
+  reporterQuestionPacket,
+} from "../presentation/press-english";
 import { useState } from "react";
 import {
   projectEligiblePressAdvisers,
@@ -21,7 +25,6 @@ import {
   projectPressInterview,
   publishPressInterview,
   projectPitchablePressBases,
-  projectPressReachSnapshot,
   type EntityId,
   type World,
 } from "../simulation";
@@ -43,15 +46,7 @@ import { GameSelect } from "./controls/GameSelect";
 import { proseDate } from "../presentation/prose-dates";
 import { formatMinute } from "../presentation/player-calendar";
 import { simulationMinutesBetween } from "../simulation/dates";
-import {
-  describeInterval,
-  describeTimeTarget,
-  PROTECTED_STOP_NOTE,
-} from "../presentation/time-target-label";
-import {
-  CALENDAR_COMMITMENT_NOTE,
-  useSharedTimeCommand,
-} from "./time-command-runner";
+import { useSharedTimeCommand } from "./time-command-runner";
 
 /** The authored step the preparation control offers, disclosed before it runs. */
 const PRESS_PREPARATION_STEP_MINUTES = 15;
@@ -70,19 +65,11 @@ const PRESS_PREPARATION_STEP_MINUTES = 15;
  * submit to, so it states why the step is not offered rather than opening a
  * second clock of its own.
  */
-export function PressPreparationTimeControl({
-  world,
-}: {
-  readonly world: World;
-}) {
+export function PressPreparationTimeControl() {
   const [notice, setNotice] = useState<string | null>(null);
   const runner = useSharedTimeCommand();
   return (
     <div>
-      <p>
-        Preparation progresses as time passes and the assigned adviser’s
-        available capacity.
-      </p>
       {runner ? (
         <>
           <button
@@ -90,7 +77,6 @@ export function PressPreparationTimeControl({
             data-testid="press-continue-quarter-hour"
             aria-disabled={runner.pending || undefined}
             aria-busy={runner.pending}
-            aria-describedby="press-quarter-hour-target"
             onClick={() =>
               runner.perform(
                 (current, handlers) => {
@@ -107,36 +93,15 @@ export function PressPreparationTimeControl({
                   );
                   return {
                     world: next,
-                    outcome:
-                      elapsed === 0
-                        ? CALENDAR_COMMITMENT_NOTE
-                        : elapsed < PRESS_PREPARATION_STEP_MINUTES
-                          ? `${describeInterval(elapsed)} passed, stopping short of ${describeInterval(
-                              PRESS_PREPARATION_STEP_MINUTES,
-                            )} because something else needed you. It is now ${describeTimeTarget(
-                              next.currentMoment,
-                            )}.`
-                          : `${describeInterval(elapsed)} passed. It is now ${describeTimeTarget(
-                              next.currentMoment,
-                            )}.`,
+                    outcome: String(elapsed),
                   };
                 },
                 (report) => setNotice(report.outcome),
               )
             }
           >
-            Continue 15 minutes
+            Continue
           </button>
-          <p id="press-quarter-hour-target">
-            {runner.pending
-              ? "Time is passing…"
-              : `${describeInterval(PRESS_PREPARATION_STEP_MINUTES)}, to ${describeTimeTarget(
-                  addSimulationMinutes(
-                    world.currentMoment,
-                    PRESS_PREPARATION_STEP_MINUTES,
-                  ),
-                )}. ${PROTECTED_STOP_NOTE}`}
-          </p>
           {notice && !runner.pending ? (
             <p
               role="status"
@@ -147,12 +112,7 @@ export function PressPreparationTimeControl({
             </p>
           ) : null}
         </>
-      ) : (
-        <p data-testid="press-continue-quarter-hour-unavailable">
-          Letting preparation time pass is not offered here: this desk is open
-          outside the play shell, which owns the one clock.
-        </p>
-      )}
+      ) : null}
     </div>
   );
 }
@@ -177,7 +137,6 @@ export function PressWorkspace({
   const [channel, setChannel] = useState<PressInterviewChannel>("written");
   const [terms, setTerms] = useState<PressRecordTerms>("on-record");
   const [attribution, setAttribution] = useState("");
-  const [requestNotice, setRequestNotice] = useState<string | null>(null);
   const [problem, setProblem] = useState<string | null>(null);
   const arrangements = new Set(
     world.history.events
@@ -186,7 +145,6 @@ export function PressWorkspace({
   );
   const controlledPersonId =
     world.control.kind === "person" ? world.control.personId : null;
-  const reach = projectPressReachSnapshot(world);
   const topics = controlledPersonId
     ? projectPitchablePressBases(world, controlledPersonId)
     : [];
@@ -218,12 +176,19 @@ export function PressWorkspace({
         backgroundAttribution: selectedAttribution,
       })
     : { ok: false as const, reason: "Choose a public development." };
-  const reporterQuestion = topic
-    ? composeReporterQuestion({
-        subjectSummary: topic.summary,
-        terms,
-      })
-    : { ok: false as const, reason: "Choose a public development." };
+  const reporterQuestion =
+    topic && reporter && controlledPersonId
+      ? composeReporterQuestion({
+          grounding: reporterQuestionPacket(
+            world,
+            controlledPersonId,
+            reporter.personId,
+            topic.eventId,
+          ),
+          subjectSummary: topic.summary,
+          terms,
+        })
+      : { ok: false as const, reason: "Choose a public development." };
   const requests = world.history.events.filter(
     (event) =>
       event.type === "press.interview-requested" &&
@@ -255,11 +220,6 @@ export function PressWorkspace({
           {problem}
         </p>
       ) : null}
-      {requestNotice ? (
-        <p className="game-note" role="status">
-          {requestNotice}
-        </p>
-      ) : null}
       {controlledPersonId ? (
         <PressDeskPanel
           world={world}
@@ -272,13 +232,8 @@ export function PressWorkspace({
       {controlledPersonId ? (
         <details data-testid="press-request-form">
           <summary>Request a press exchange</summary>
-          <p>
-            Choose a public civic development and a reporter who holds a current
-            journalism role. Asking is not the same as being booked. An adviser
-            is optional unless you ask one to prepare you.
-          </p>
-          {reach.journalistCount === 0 ? (
-            <p>No current journalism role is recorded in this life.</p>
+          {reporters.length === 0 ? (
+            <p data-testid="press-reporters-count">Reporters: 0</p>
           ) : null}
           <form
             onSubmit={(event) => {
@@ -299,9 +254,6 @@ export function PressWorkspace({
                   primaryQuestion: reporterQuestion.statement,
                   questionBasisEventIds: [topic.eventId],
                 });
-                setRequestNotice(
-                  "Request recorded. Awaiting the reporter’s response.",
-                );
                 return result.world;
               });
             }}
@@ -342,12 +294,6 @@ export function PressWorkspace({
                 ))}
               </GameSelect>
             </label>
-            {topic && reporters.length === 0 ? (
-              <p>
-                No current journalist can be asked about this public
-                development.
-              </p>
-            ) : null}
             <label>
               Channel
               <GameSelect
@@ -390,15 +336,10 @@ export function PressWorkspace({
                     ))}
                   </GameSelect>
                 </label>
-              ) : (
-                <p role="status">
-                  On-background terms need a recorded work title. None is
-                  available in this life.
-                </p>
-              )
+              ) : null
             ) : null}
             <fieldset>
-              <legend>What you are asking for</legend>
+              <legend>Request intent</legend>
               {PRESS_REQUEST_INTENTS.map((choice) => (
                 <label key={choice}>
                   <input
@@ -412,7 +353,7 @@ export function PressWorkspace({
               ))}
             </fieldset>
             <fieldset>
-              <legend>Stance on the record</legend>
+              <legend>Stance</legend>
               {PRESS_REQUEST_STANCES.map((choice) => (
                 <label key={choice}>
                   <input
@@ -429,16 +370,12 @@ export function PressWorkspace({
               <blockquote data-testid="press-request-preview">
                 {pitch.statement}
               </blockquote>
-            ) : (
-              <p role="status">{pitch.reason}</p>
-            )}
+            ) : null}
             {reporterQuestion.ok ? (
               <blockquote data-testid="press-reporter-question-preview">
                 {reporterQuestion.statement}
               </blockquote>
-            ) : (
-              <p role="status">{reporterQuestion.reason}</p>
-            )}
+            ) : null}
             <button
               type="submit"
               disabled={
@@ -470,9 +407,6 @@ export function PressWorkspace({
                     primaryQuestion: reporterQuestion.statement,
                     questionBasisEventIds: [topic.eventId],
                   });
-                  setRequestNotice(
-                    "The reporter’s question is recorded. Acceptance is still pending.",
-                  );
                   return result.world;
                 });
               }}
@@ -498,9 +432,10 @@ export function PressWorkspace({
           </ul>
         </section>
       ) : null}
-      {view ? <PressPreparationTimeControl world={world} /> : null}
+      {view ? <PressPreparationTimeControl /> : null}
       {view ? (
         <PressInterviewPanel
+          answerPacket={pressAnswerPacket(world, view.activityId)}
           view={view}
           onClose={() => setSelected(null)}
           onOpenPerson={onOpenPerson}
@@ -566,9 +501,7 @@ export function PressWorkspace({
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No interviews are arranged in this life.</p>
-      )}
+      ) : null}
     </section>
   );
 }
@@ -717,19 +650,11 @@ function PressRequestActions({
           </label>
           {arrangementPlace ? (
             <p data-testid="press-arrangement-place">
-              Planned meeting place: {arrangementPlace.label}. This names the
-              arranged channel and does not establish a room or anyone’s
-              arrival.
+              {arrangementPlace.label}
             </p>
-          ) : (
-            <p role="status">
-              The recorded request has no arranged channel to meet through.
-            </p>
-          )}
+          ) : null}
           <p>
-            Proposed start: {proseDate(start.date)} at{" "}
-            {formatMinute(start.minuteOfDay)}. This plan does not establish
-            anyone’s arrival.
+            {proseDate(start.date)} · {formatMinute(start.minuteOfDay)}
           </p>
           <button
             type="button"

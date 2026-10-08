@@ -1,11 +1,8 @@
-import { useId, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { EntityId, IsoDate, World } from "../simulation";
 import {
   answerMeeting,
-  askOnADate,
-  askedNote,
   askToBeTogether,
-  askToMeet,
   breakUp,
   goMeetSomebodyNew,
   meetingNewOptions,
@@ -14,29 +11,29 @@ import {
 } from "../presentation/people-contacts";
 import type { ContactEntry } from "../presentation/people-contacts";
 import { proseDate } from "../presentation/prose-dates";
+import { AfterOfficeEndorsementPanel } from "./AfterOfficeEndorsementPanel";
 import "./contacts.css";
 
 /**
  * Who this life can reach, and what is outstanding between them.
  *
- * The mount for PEOPLE's `projectContacts` seam (CRUNCH47 B1/P3). Everything
- * on screen is the adapter's answer: the basis the two of them overlap on, the
- * ways of getting in touch that exist, when they were last in contact, and
- * whose turn it is to answer. Nothing here composes a name, a date, a
- * relationship or a number of its own.
+ * The mount for PEOPLE's `projectContacts` seam (CRUNCH47 B1/P3). Menu reset
+ * (MR-6): the screen shows record data and control names only. Everything
+ * on it is the adapter's answer: the name, the relationship and the ground
+ * the two of them share, the ways of getting in touch, the day they were last
+ * in touch, and a request waiting on the player. Nothing here composes a
+ * sentence; the adapter's own sentences (how things stand, the last answer, a
+ * channel's or an action's reason) ride on data attributes until the English
+ * engine says them.
  *
  * Three rules this surface keeps:
  *
- * - A channel that cannot be used now is its stated reason, never a control
- *   that looks pressable. A channel that CAN be used is still not a control:
- *   the seam has no per-channel command, so a button on "Call them" would be a
- *   promise the game cannot keep. Asking to meet is the command that exists,
- *   and that is the button.
+ * - A channel is never a control: the seam has no per-channel command. One
+ *   that cannot be used now is drawn as blocked.
  * - Offering another day is an answer AND a request of its own, so it carries
  *   its own day, chosen here by the player. This surface never composes an
  *   offer on their behalf.
- * - A command may refuse with a plain sentence. It is caught and shown as a
- *   note; the World is untouched when it does.
+ * - A command that refuses leaves the World untouched and the row as it was.
  */
 export function ContactsPanel({
   world,
@@ -58,12 +55,10 @@ export function ContactsPanel({
    */
   readonly focused?: boolean;
 }) {
-  const titleId = useId();
   const view = useMemo(
     () => projectContacts(world, personId),
     [world, personId],
   );
-  const [note, setNote] = useState<string | null>(null);
   /*
    * The day a request carries. It starts at the earliest day the seam permits
    * and the field says so, so the default is disclosed rather than invented;
@@ -72,14 +67,13 @@ export function ContactsPanel({
   const [days, setDays] = useState<Readonly<Record<string, IsoDate>>>({});
   const dayFor = (key: string): IsoDate => days[key] ?? view.earliestMeetingOn;
 
-  function run(work: () => World, said: string | null = null) {
+  // A refusal changes nothing, so the row stays as it was.
+  function run(work: () => World) {
     try {
       const next = work();
-      setNote(said);
       if (next !== world) onWorldChange(next);
-    } catch (error) {
-      // The seam refuses in one player-readable sentence. That is the answer.
-      setNote(error instanceof Error ? error.message : String(error));
+    } catch {
+      return;
     }
   }
 
@@ -93,31 +87,21 @@ export function ContactsPanel({
   );
 
   return (
-    <section
+    <div
       className={
         focused
           ? "pg-contacts pg-contacts--focused"
           : "pg-personal-section pg-contacts"
       }
       data-testid={focused ? "contact-focus-panel" : "contacts"}
-      aria-labelledby={focused ? undefined : titleId}
-      aria-label={focused ? "Getting in touch" : undefined}
     >
-      {focused ? null : <h3 id={titleId}>Getting in touch</h3>}
-      {/* Said where it is seen: at the bottom of a long list it went unread. */}
-      {note ? (
-        <p
-          role="status"
-          className="pg-contact-note"
-          data-testid="contacts-note"
-        >
-          {note}
-        </p>
-      ) : null}
+      <AfterOfficeEndorsementPanel
+        world={world}
+        personId={personId}
+        onWorldChange={onWorldChange}
+      />
       {!contactEntry && view.contacts.length === 0 ? (
-        <p data-testid="contacts-empty">
-          There is nobody you have a way of reaching yet.
-        </p>
+        <p data-testid="contacts-empty" data-problem="no-contacts" />
       ) : (
         <ul className="pg-contacts-list">
           {shown.map((contact) => (
@@ -127,7 +111,6 @@ export function ContactsPanel({
               focused={focused}
               earliest={view.earliestMeetingOn}
               latest={view.latestMeetingOn}
-              askOn={dayFor(`ask:${contact.personId}`)}
               offerOn={dayFor(`offer:${contact.personId}`)}
               onDayChange={(which, on) =>
                 setDays((current) => ({
@@ -135,50 +118,13 @@ export function ContactsPanel({
                   [`${which}:${contact.personId}`]: on,
                 }))
               }
-              onAsk={(on) =>
-                run(
-                  () =>
-                    askToMeet(world, {
-                      personId,
-                      otherPersonId: contact.personId,
-                      on,
-                    }),
-                  askedNote(world, {
-                    otherPersonId: contact.personId,
-                    on,
-                    date: false,
-                  }),
-                )
-              }
-              onAskOut={(on) =>
-                run(
-                  () =>
-                    askOnADate(world, {
-                      personId,
-                      otherPersonId: contact.personId,
-                      on,
-                    }),
-                  askedNote(world, {
-                    otherPersonId: contact.personId,
-                    on,
-                    date: true,
-                  }),
-                )
-              }
               onCouple={(kind) => {
-                try {
-                  const input = { personId, otherPersonId: contact.personId };
-                  const done =
-                    kind === "ask-to-be-a-couple"
-                      ? askToBeTogether(world, input)
-                      : breakUp(world, input);
-                  setNote(done.said);
-                  if (done.world !== world) onWorldChange(done.world);
-                } catch (error) {
-                  setNote(
-                    error instanceof Error ? error.message : String(error),
-                  );
-                }
+                const input = { personId, otherPersonId: contact.personId };
+                run(() =>
+                  kind === "ask-to-be-a-couple"
+                    ? askToBeTogether(world, input).world
+                    : breakUp(world, input).world,
+                );
               }}
               onAnswer={(eventId, answer) =>
                 run(() =>
@@ -199,28 +145,22 @@ export function ContactsPanel({
       )}
       {newOptions.length > 0 ? (
         <div className="pg-contacts-new" data-testid="meet-new">
-          <h4>Meet somebody new</h4>
           <ul className="pg-contacts-new-list">
             {newOptions.map((option) => (
               <li key={option.key}>
                 <button
                   type="button"
                   data-testid={`meet-new-${option.key}`}
-                  onClick={() => {
-                    try {
-                      const met = goMeetSomebodyNew(world, {
-                        personId,
-                        setting: option.setting,
-                        viaPersonId: option.viaPersonId,
-                      });
-                      setNote(met.said);
-                      if (met.world !== world) onWorldChange(met.world);
-                    } catch (error) {
-                      setNote(
-                        error instanceof Error ? error.message : String(error),
-                      );
-                    }
-                  }}
+                  onClick={() =>
+                    run(
+                      () =>
+                        goMeetSomebodyNew(world, {
+                          personId,
+                          setting: option.setting,
+                          viaPersonId: option.viaPersonId,
+                        }).world,
+                    )
+                  }
                 >
                   {option.label}
                 </button>
@@ -229,7 +169,7 @@ export function ContactsPanel({
           </ul>
         </div>
       ) : null}
-    </section>
+    </div>
   );
 }
 
@@ -253,11 +193,8 @@ function ContactRow({
   focused,
   earliest,
   latest,
-  askOn,
   offerOn,
   onDayChange,
-  onAsk,
-  onAskOut,
   onCouple,
   onAnswer,
   onOfferAnotherDay,
@@ -266,11 +203,8 @@ function ContactRow({
   readonly focused: boolean;
   readonly earliest: IsoDate;
   readonly latest: IsoDate;
-  readonly askOn: IsoDate;
   readonly offerOn: IsoDate;
   readonly onDayChange: (which: "ask" | "offer", on: IsoDate) => void;
-  readonly onAsk: (on: IsoDate) => void;
-  readonly onAskOut: (on: IsoDate) => void;
   readonly onCouple: (kind: "ask-to-be-a-couple" | "end-couple") => void;
   readonly onAnswer: (eventId: EntityId, answer: "accept" | "decline") => void;
   readonly onOfferAnotherDay: (eventId: EntityId, on: IsoDate) => void;
@@ -278,10 +212,6 @@ function ContactRow({
   /* The contact screen's copy of a row carries its own ids. */
   const tid = (base: string) =>
     focused ? base.replace(/^contact-/, "contact-focus-") : base;
-  const ask = contact.actions.find((action) => action.kind === "ask-to-meet");
-  const askOut = contact.actions.find(
-    (action) => action.kind === "ask-on-a-date",
-  );
   const couple = contact.actions.find(
     (action) =>
       action.kind === "ask-to-be-a-couple" || action.kind === "end-couple",
@@ -301,33 +231,33 @@ function ContactRow({
       )}
       {focused && meta ? <p className="pg-contact-meta">{meta}</p> : null}
       {/*
-        When they were last in touch, when the world knows. With no date there
-        is nothing to say: an unknown last contact is not "never".
+        The day they were last in touch, when the world knows it: an unknown
+        last contact is not "never". Someone the player lives with has no
+        such day to show.
       */}
-      {contact.livesWithYou ? (
-        <p className="pg-contact-line">You live together.</p>
-      ) : contact.lastContactSpoken ? (
-        <p className="pg-contact-line">
-          Last in touch {contact.lastContactSpoken}.
-          {contact.outOfTouch ? " It has been a long while." : ""}
+      {!contact.livesWithYou && contact.lastContactSpoken ? (
+        <p
+          className="pg-contact-line"
+          data-out-of-touch={contact.outOfTouch ? "true" : undefined}
+        >
+          <span className="pg-contact-label">Last in touch</span>{" "}
+          {contact.lastContactSpoken}
         </p>
       ) : null}
+      {/* The adapter's sentences wait for the English engine. */}
       {contact.lastAnswer ? (
-        <p
-          className="pg-contact-line"
+        <span
+          hidden
           data-testid={tid(`contact-last-answer-${contact.personId}`)}
-        >
-          {contact.lastAnswer}
-        </p>
+          data-last-answer={contact.lastAnswer}
+        />
       ) : null}
-      {/* How things stand between them, when there is something to say. */}
       {contact.standing ? (
-        <p
-          className="pg-contact-line"
+        <span
+          hidden
           data-testid={tid(`contact-standing-${contact.personId}`)}
-        >
-          {contact.standing}
-        </p>
+          data-standing={contact.standing}
+        />
       ) : null}
       {contact.lookBack.length > 0 ? (
         <details
@@ -350,18 +280,17 @@ function ContactRow({
         asking and answering, so no channel is drawn as a control.
       */}
       {contact.channels.length > 0 ? (
-        <ul className="pg-contact-channels" aria-label="Ways to reach them">
+        <ul className="pg-contact-channels">
           {contact.channels.map((channel) => (
             <li
               key={channel.kind}
               data-blocked={channel.note ? "true" : "false"}
+              data-note={channel.note ?? undefined}
               data-testid={tid(
                 `contact-channel-${contact.personId}-${channel.kind}`,
               )}
             >
-              {channel.note
-                ? `${channel.label} — ${channel.note}`
-                : channel.label}
+              {channel.label}
             </li>
           ))}
         </ul>
@@ -370,7 +299,7 @@ function ContactRow({
       {theyAsked ? (
         <div className="pg-contact-ask">
           <p data-testid={tid(`contact-outstanding-${contact.personId}`)}>
-            {contact.name} asked about {theyAsked.onSpoken}: {theyAsked.purpose}
+            {[contact.name, theyAsked.onSpoken, theyAsked.purpose].join(" · ")}
           </p>
           <div className="pg-contact-actions">
             <button
@@ -379,7 +308,7 @@ function ContactRow({
               data-testid={tid(`contact-accept-${contact.personId}`)}
               onClick={() => onAnswer(theyAsked.eventId, "accept")}
             >
-              Say yes to {theyAsked.onSpoken}
+              Accept
             </button>
             <button
               type="button"
@@ -387,7 +316,7 @@ function ContactRow({
               data-testid={tid(`contact-decline-${contact.personId}`)}
               onClick={() => onAnswer(theyAsked.eventId, "decline")}
             >
-              Say you cannot
+              Decline
             </button>
           </div>
           {/*
@@ -397,7 +326,7 @@ function ContactRow({
           */}
           <div className="pg-contact-actions">
             <label className="pg-contact-day">
-              <span>Another day?</span>
+              <span>Another day</span>
               <input
                 type="date"
                 min={earliest}
@@ -415,57 +344,10 @@ function ContactRow({
               data-testid={tid(`contact-offer-${contact.personId}`)}
               onClick={() => onOfferAnotherDay(theyAsked.eventId, offerOn)}
             >
-              Offer that day
+              Offer
             </button>
           </div>
         </div>
-      ) : null}
-
-      {ask?.available ? (
-        <div className="pg-contact-actions pg-contact-ask">
-          {/*
-            The player's question is when. The days that can be picked are
-            the input's own min and max; nothing on screen recites the rule.
-          */}
-          <label className="pg-contact-day">
-            <span>When?</span>
-            <input
-              type="date"
-              min={earliest}
-              max={latest}
-              value={askOn}
-              data-testid={tid(`contact-ask-day-${contact.personId}`)}
-              onChange={(event) =>
-                onDayChange("ask", event.target.value as IsoDate)
-              }
-            />
-          </label>
-          <button
-            type="button"
-            className="ui-action ui-action--primary"
-            data-testid={tid(`contact-ask-${contact.personId}`)}
-            onClick={() => onAsk(askOn)}
-          >
-            {ask.label}
-          </button>
-          {askOut?.available ? (
-            <button
-              type="button"
-              className="ui-action"
-              data-testid={tid(`contact-ask-out-${contact.personId}`)}
-              onClick={() => onAskOut(askOn)}
-            >
-              {askOut.label}
-            </button>
-          ) : null}
-        </div>
-      ) : ask ? (
-        <p
-          className="pg-contact-line"
-          data-testid={tid(`contact-ask-unavailable-${contact.personId}`)}
-        >
-          {ask.unavailableReason}
-        </p>
       ) : null}
 
       {/* Becoming a couple is asked in person and answered at once. */}
@@ -484,12 +366,11 @@ function ContactRow({
             </button>
           </div>
         ) : (
-          <p
-            className="pg-contact-line"
+          <span
+            hidden
             data-testid={tid(`contact-couple-unavailable-${contact.personId}`)}
-          >
-            {couple.unavailableReason}
-          </p>
+            data-reason={couple.unavailableReason ?? undefined}
+          />
         )
       ) : null}
     </li>

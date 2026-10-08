@@ -45,7 +45,8 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
 } as const;
 
 /**
- * UNRESEARCHED. Unemployment's pull back toward its normal level.
+ * ESTIMATED FROM A RECORDED NATIONAL EPISODE: unemployment's pull back toward
+ * its normal level.
  *
  * Section 13 moves unemployment only by changes: last month's rate plus the
  * lagged growth gap, a draw and shock impulses. With nothing drawing it back,
@@ -56,17 +57,18 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
  *
  * `naturalRatePct` is the rate section 13 itself treats as neutral: the
  * starting draw at a zero cycle latent (`baseline.unemploymentPct`).
- * `monthlyGapRetention` is a placeholder read off one episode, BLS national
+ * `monthlyGapRetention` is an estimate read off one episode, BLS national
  * unemployment of 10.0% in October 2009 and 7.8% in October 2012
  * (((7.8 - 4.6) / (10.0 - 4.6)) ** (1 / 36) is about 0.985, a half-life of
  * about four years). That recovery also carried slow growth, so it is an
- * illustration, not an estimate. Both are filed as
+ * episode-based estimate rather than a fitted national series. Both are filed
+ * as
  * `unemployment-return-to-normal`.
  */
 export const UNEMPLOYMENT_RECOVERY_RULE =
   "unemployment-returns-to-normal/v1" as const;
 
-export const UNRESEARCHED_UNEMPLOYMENT_RECOVERY = {
+export const ESTIMATED_UNEMPLOYMENT_RECOVERY = {
   rule: UNEMPLOYMENT_RECOVERY_RULE,
   naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
   monthlyGapRetention: 0.985,
@@ -210,24 +212,27 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
     sectors: ["energy-resources", "manufacturing"],
   },
   /*
-   * UNRESEARCHED blanket rule, added so an enacted law can reach the economy
-   * at all. Money a government actually paid out under a law adds demand in
+   * ESTIMATED FROM SIMILAR RECORDED GAME IMPULSES: public spending uses the
+   * `revenue-windfall` profile; collections use `revenue-shortfall`. Those
+   * paired profiles supply the growth, labor, price and retention values below
+   * without naming a place. This rule lets an enacted law reach the economy.
+   * Money a government actually paid out under a law adds demand in
    * that jurisdiction; tax it actually collected takes demand out. These are
-   * the realized-money channels ChatGPT's C02 answer calls for, not enactment:
-   * an appropriation is authority, not spending, and a tax rise is not a
-   * windfall. The signs follow that accounting; the sizes are not estimates
-   * and are filed as `realized-public-money-macro-magnitudes`.
+   * realized-money channels, not enactment: an appropriation is authority,
+   * not spending, and a tax rise is not a windfall. The signs follow that
+   * accounting. The values are estimates from the named game profiles and are
+   * filed as `realized-public-money-macro-magnitudes`.
    */
   "public-spending-paid": {
-    growthPp: 0.1,
-    laborPp: -0.02,
-    pricePp: 0.01,
+    growthPp: 0.05,
+    laborPp: -0.01,
+    pricePp: 0,
     monthlyRetention: 0.6,
     sectors: ["health-education-public-services", "construction-housing"],
   },
   "tax-collections-paid": {
-    growthPp: -0.1,
-    laborPp: 0.02,
+    growthPp: -0.05,
+    laborPp: 0.01,
     pricePp: 0,
     monthlyRetention: 0.6,
     sectors: ["trade-transport-consumer"],
@@ -324,8 +329,9 @@ export const MACRO_ERA_POLICY = {
 export const MACRO_ERA_CONDITIONS = {
   version: "macro-eras-conditions-v1",
   /**
-   * PLACEHOLDER: growth this many points under trend before a month scars
-   * the normal unemployment rate, so an ordinary soft month does not.
+   * ESTIMATED FROM THE RECORDED NATIONAL RECESSION RANGE ABOVE: growth must
+   * run one point under trend before a month scars the normal unemployment
+   * rate, so an ordinary soft month does not.
    */
   scarringAbovePp: 1,
 } as const;

@@ -1,7 +1,9 @@
 import { federalRulePackById } from "./congress-rule-pack";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { townCouncilProfilePackById } from "./town-council-profile";
 import { withCommitteeStandIns } from "./standing-committee";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import {
   fractionOf,
   knownRule,
@@ -357,6 +359,9 @@ function kentuckyChamber(
     chamberKey,
     name,
     billDesignationPrefix,
+    // The CSG table reports current seats, not the statute or district plan
+    // that formally authorizes Kentucky's chamber size. Keep that separate
+    // count in seatsForChamber rather than promoting it to a legal rule row.
     seats: unknownRule(
       "The game does not know how many seats Kentucky's chamber formally has, and it will not guess a number.",
     ),
@@ -575,7 +580,7 @@ const NE_QUORUM: RuleSourceRef = {
   sourceUrl: "https://nebraskalegislature.gov/laws/articles.php?article=III-10",
   retrievedAt: "2026-10-01",
   verification: "verified",
-  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for elected members.',
+  note: '"A majority of the members elected to the Legislature shall constitute a quorum." This expressly uses members elected, so a vacancy changes the denominator; neither attendance nor authorized seats substitutes for members elected.',
 };
 
 const NE_LAWMAKING = source(
@@ -2267,6 +2272,9 @@ function nevadaChamber(
     chamberKey,
     name,
     billDesignationPrefix,
+    // The CSG table reports Nevada's current seats, not the ordinary law that
+    // authorizes its districts. The runtime may use that sourced count for
+    // seating people; this legal rule row stays unknown until the authority is read.
     seats: unknownRule(
       "The game does not know how many seats Nevada's chamber formally has: Nevada leaves the number to ordinary law, which draws the districts rather than stating a count. The game will not guess one.",
     ),
@@ -2646,7 +2654,7 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
   MISSOURI_RULE_PACK,
   NEVADA_RULE_PACK,
   OHIO_RULE_PACK,
-];
+].map(withMinorityPartyProcedureRows);
 
 /**
  * One registered rule pack, by id.
@@ -2662,49 +2670,33 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
  */
 type RulePackResolver = (packId: string) => LegislativeRulePack | null;
 
-const registeredResolvers: RulePackResolver[] = [];
+const RULE_PACK_SOURCES: readonly RulePackResolver[] = [
+  (packId) => {
+    const researched = LEGISLATIVE_RULE_PACKS.find(
+      (candidate) => candidate.packId === packId,
+    );
+    return researched ? withCommitteeStandIns(researched) : null;
+  },
+  federalRulePackById,
+  municipalRulePackById,
+  townCouncilProfilePackById,
+  legislatureProfilePackById,
+];
 
-/**
- * Adds a generated pack family that `rulePackById` resolves after the compiled
- * and federal ones. A module that generates packs from data this module cannot
- * import without a cycle (a town council's seat count reaches back here
- * through the capability resolver) registers its resolver on load.
- */
-export function registerRulePackResolver(resolver: RulePackResolver): void {
-  if (!registeredResolvers.includes(resolver))
-    registeredResolvers.push(resolver);
-}
-
-function registeredRulePackById(packId: string): LegislativeRulePack | null {
-  for (const resolver of registeredResolvers) {
-    const pack = resolver(packId);
+export function rulePackById(packId: string): LegislativeRulePack;
+export function rulePackById(
+  packId: string,
+  required: false,
+): LegislativeRulePack | null;
+export function rulePackById(
+  packId: string,
+  required = true,
+): LegislativeRulePack | null {
+  for (const source of RULE_PACK_SOURCES) {
+    const pack = source(packId);
     if (pack) return pack;
   }
-  return null;
-}
-
-export function rulePackById(packId: string): LegislativeRulePack {
-  const researched = LEGISLATIVE_RULE_PACKS.find(
-    (candidate) => candidate.packId === packId,
-  );
-  const pack =
-    // The pack's own record stays what was read; the game stands in a
-    // committee where none was, so a bill there can be referred at all.
-    (researched && withCommitteeStandIns(researched)) ??
-    // Congress, like a council, is moved by the same engine and is not a
-    // state legislature.
-    federalRulePackById(packId) ??
-    municipalRulePackById(packId) ??
-    // A town council whose charter has not been read plays under the
-    // labeled town profile (`town-council-profile.ts`, registered below).
-    registeredRulePackById(packId) ??
-    // A save made in a state with no compiled pack records a generated one, and
-    // it has to resolve or the save opens onto a seat with no chamber under it.
-    // It resolves last, so a state that gets compiled later takes over the
-    // moment its own pack exists.
-    legislatureProfilePackById(packId);
-  if (!pack) {
+  if (required)
     throw new Error(`No legislative rule pack is registered as '${packId}'.`);
-  }
-  return pack;
+  return null;
 }

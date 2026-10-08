@@ -1,4 +1,3 @@
-import { workUniform } from "../presentation/work-uniform";
 import type { PersonRenderSnapshot } from "../presentation/person-render-snapshot";
 import { useSavedRenderSnapshot, useSavedWardrobe } from "./SavedAppearance";
 import { resolvePersonWardrobeContext } from "../presentation/person-visual-selection";
@@ -18,17 +17,10 @@ import {
 } from "../presentation/engine-people29-data";
 import { ModularCharacter } from "./ModularCharacter";
 import { EnginePortrait } from "./EnginePerson";
-import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
-import {
-  PEOPLE_PACK,
-  peoplePackAvailable,
-} from "../presentation/appearance-engine/runtime";
+import { personDayRecipe } from "../presentation/day-clothing";
+import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 import { personName } from "../simulation";
 import type { EntityId, PersonAppearance, World } from "../simulation";
-import {
-  withSceneClothing,
-  type PersonSceneAppearance,
-} from "../presentation/person-scene-appearance";
 
 export interface PersonPortraitProps {
   readonly snapshot?: PersonRenderSnapshot;
@@ -43,8 +35,6 @@ export interface PersonPortraitProps {
   readonly previewAppearance?: PersonAppearance;
   /** Prepared expression of this same identity; neutral remains the default. */
   readonly expression?: "neutral" | "smile";
-  /** Actual scene outfit and colors while inspecting that person there. */
-  readonly sceneAppearance?: PersonSceneAppearance;
 }
 
 export function PersonPortrait({
@@ -57,7 +47,6 @@ export function PersonPortrait({
   snapshot,
   previewAppearance,
   expression = "neutral",
-  sceneAppearance,
 }: PersonPortraitProps) {
   const savedWardrobe = useSavedWardrobe(personId);
   const sharedSnapshot = useSavedRenderSnapshot(personId);
@@ -102,14 +91,9 @@ export function PersonPortrait({
    */
   const engine =
     !visualLibraries && peoplePackAvailable()
-      ? engineRecipeFor(person, world.currentDate, PEOPLE_PACK, {
-          // Their own portrait: in uniform when their job wears one.
-          uniform: workUniform(world, person.id, undefined),
-        })
+      ? personDayRecipe(world, person)
       : null;
-  const portraitEngine = engine
-    ? withSceneClothing(engine, person.id, world.currentDate, sceneAppearance)
-    : null;
+  const portraitEngine = engine;
   if (portraitEngine) {
     return (
       <figure
