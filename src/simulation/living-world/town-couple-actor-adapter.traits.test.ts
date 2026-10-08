@@ -10,7 +10,7 @@ import { traitDefinitionFromPack } from "../trait-packs";
 import { drawRandomPlace } from "../../../tests/support/random-place";
 import { evaluateTownCoupleActors } from "./town-couple-actor-adapter";
 
-describe("town couple actor producer reads registered traits", () => {
+describe("town couple actor producer reads act-table traits", () => {
   it("records the actor's affectionate reason in a generated-world stage decision", () => {
     const seed = "t4-couple-producer-trace";
     const place = drawRandomPlace(seed);
@@ -76,7 +76,9 @@ describe("town couple actor producer reads registered traits", () => {
         (row) =>
           row.sourceType === "mind:personality" &&
           row.optionKey === "stay" &&
-          row.explanation.includes("warmth"),
+          row.explanation.includes(
+            "personality-v1:facet-affectionate|people.couple-stage|",
+          ),
       ),
     ).toBe(true);
     process.stderr.write(
