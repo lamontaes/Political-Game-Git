@@ -137,9 +137,9 @@ function measureIn(world: World, measureId: string) {
 }
 
 describe("the sitting and the bill are the same bill", () => {
-  it("describes one measure, in one institution, from the record outwards", () => {
-    const generatedSeeds = ["p85c-owner-0", "p85c-owner-1", "p85c-owner-2"];
-    for (const seed of generatedSeeds) {
+  const generatedSeeds = ["p85c-owner-0", "p85c-owner-1", "p85c-owner-3"];
+  for (const seed of generatedSeeds) {
+    it(`describes one measure from its record in generated world ${seed}`, () => {
       const played = wonSeatedAndOnTheFloor(seed);
       const entry = openLegislativeBargaining(played.world, {
         playerPersonId: played.personId,
@@ -217,7 +217,17 @@ describe("the sitting and the bill are the same bill", () => {
       // 8. Supported outcomes are the institution's, and every intent offered
       //    is about this measure.
       expect(seat.floorIntents.length).toBeGreaterThan(0);
-    }
+    });
+  }
+
+  it("draws the generated routes in at least three jurisdictions", () => {
+    expect(
+      new Set(
+        generatedSeeds.map(
+          (seed) => drawRandomPlace(seed).stateJurisdictionKey,
+        ),
+      ).size,
+    ).toBeGreaterThanOrEqual(3);
   });
 
   it("spends no game time to walk in and read", () => {
