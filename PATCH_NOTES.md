@@ -2,6 +2,12 @@
 
 Newest release first.
 
+## UNRELEASED — A petition signature follows shared choices
+
+Signing a candidate's petition no longer adds a separate personality note to
+the choice. The shared trait system now handles that influence through the
+same option labels used by other decisions.
+
 ## UNRELEASED — A speech reaction uses shared trait pulls
 
 People who hear a speech still react according to their recorded personality,
