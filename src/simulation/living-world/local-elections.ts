@@ -2,11 +2,7 @@ import { nextCountyElection } from "../nationwide-world/county-election-calendar
 import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "../dates";
 import { candidacyEligibility } from "../candidacy";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { lifeWeighsAgainstOffice } from "../careers/another-term";
 import { decideAnotherTerm } from "../careers/another-term";
 import { applyLocalElectionLawLandings } from "../law-consequences/modules/election-local-landings";
@@ -1074,34 +1070,6 @@ export function localElectionFilingHandler(
         ],
         constraints: [],
         considerations: [
-          ...traitConsiderations(next, personId, key, [
-            {
-              optionKey: "run",
-              trait: "risk",
-              pole: "high",
-              explanation:
-                "They are willing to risk entering a contested election.",
-            },
-            {
-              optionKey: "decline",
-              trait: "risk",
-              pole: "low",
-              explanation:
-                "They prefer to avoid the risk of a contested election.",
-            },
-            {
-              optionKey: "run",
-              trait: "conflict",
-              pole: "high",
-              explanation: "They are willing to take part in a contested race.",
-            },
-            {
-              optionKey: "decline",
-              trait: "conflict",
-              pole: "low",
-              explanation: "They prefer to avoid a contested race.",
-            },
-          ]),
           ...lifeWeighsAgainstOffice(next, {
             personId,
             keyPrefix: key,

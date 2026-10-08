@@ -11,7 +11,7 @@ import { activeWorkRelationshipsAt } from "./life-queries";
 import { personName } from "./people";
 import { confidantsOf } from "./confidants";
 import { ensureOwnTies } from "./people-own-ties";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import {
   recordClaim,
   recordEventKnowledge,
@@ -257,26 +257,6 @@ export function produceFavorCollection(
         explanation: `They need help with ${need.words}.`,
         sourceRefs: [],
       },
-      ...traitConsiderations(withTraits, helperId, key, [
-        {
-          optionKey: "leave-it",
-          trait: "sociability",
-          pole: "low",
-          explanation: "Asking anybody for anything is hard for them.",
-        },
-        {
-          optionKey: "ask",
-          trait: "conflict",
-          pole: "high",
-          explanation: "They say what they want.",
-        },
-        {
-          optionKey: "leave-it",
-          trait: "conflict",
-          pole: "low",
-          explanation: "They would rather not impose.",
-        },
-      ]),
     ];
     const evaluation = evaluateDecision(withTraits, {
       stableKey: key,
@@ -560,32 +540,6 @@ function tellOfRefusal(start: World, input: RefusalToTell): World {
         explanation: `They had ${favor.description}, and were turned down.`,
         sourceRefs: [{ kind: "historical-event", eventId: answered.id }],
       },
-      ...traitConsiderations(withTraits, askerId, key, [
-        {
-          optionKey: "tell",
-          trait: "sociability",
-          pole: "high",
-          explanation: "They talk to people about what happens to them.",
-        },
-        {
-          optionKey: "keep-it",
-          trait: "sociability",
-          pole: "low",
-          explanation: "They keep things to themselves.",
-        },
-        {
-          optionKey: "tell",
-          trait: "conflict",
-          pole: "high",
-          explanation: "They do not let a slight pass.",
-        },
-        {
-          optionKey: "keep-it",
-          trait: "conflict",
-          pole: "low",
-          explanation: "They would rather not make trouble for anybody.",
-        },
-      ]),
     ],
     perceptionIds: [],
     randomness: "close-choices",

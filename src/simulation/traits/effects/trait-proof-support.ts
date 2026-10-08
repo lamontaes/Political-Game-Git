@@ -108,14 +108,18 @@ function decisionForPerson(
   baselineConsiderations: readonly DecisionConsideration[],
   reasonFromActTable: boolean,
   optionKeys?: readonly string[],
+  reader: "registered" | "act-pulls" = "registered",
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
+  const considerations =
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          world,
+          loadedTraitRegistry(),
+          personId,
+          `proof:${decisionId}`,
+          decisionId,
+        )
+      : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declarationDecisionId =
     {
@@ -175,9 +179,15 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
-  reasonFromActTable = false,
+  reasonFromActTableOrReader: boolean | "registered" | "act-pulls" = false,
   optionKeys?: readonly string[],
 ): TraitProof {
+  const reader =
+    typeof reasonFromActTableOrReader === "string"
+      ? reasonFromActTableOrReader
+      : "registered";
+  const reasonFromActTable =
+    reasonFromActTableOrReader === true || reader === "act-pulls";
   const runtimeDecisionType = reasonFromActTable
     ? ({
         "contact.answer": "people.contact-answer",
@@ -208,6 +218,7 @@ export function proveTraitDifference(
       baselineConsiderations,
       false,
       optionKeys,
+      reader,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
@@ -217,6 +228,7 @@ export function proveTraitDifference(
       baselineConsiderations,
       reasonFromActTable,
       optionKeys,
+      reader,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
@@ -226,6 +238,7 @@ export function proveTraitDifference(
       baselineConsiderations,
       reasonFromActTable,
       optionKeys,
+      reader,
     ),
   };
 }
