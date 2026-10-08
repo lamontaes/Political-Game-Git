@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import type { DecisionContext, World } from "./types";
 import { createDemoWorld } from "./demo";
+import { lifePlaceStateIdentities } from "./life-places";
 import { recordWorldEvent, assertWorldIntegrityFully } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -9,7 +10,6 @@ import {
   COUPLE_DECLINED_EVENT,
   COUPLE_FORMED_EVENT,
   DATE_KIND,
-  DATES_BEFORE_ASKING,
   coupleAskRefusal,
   coupleBetween,
   dateRefusal,
@@ -33,7 +33,7 @@ function eligibleRequest() {
     throw new Error("The fixture requires two eligible recorded adults.");
   // Control is fixture context; people and the dated history remain canonical.
   world = { ...world, control: { kind: "person", personId: pair.personId } };
-  for (let date = 0; date < DATES_BEFORE_ASKING; date++) {
+  for (const date of [0]) {
     world = recordWorldEvent(world, {
       stableKey: `c8:kept-date:${date}`,
       type: "life.date-held",
@@ -240,4 +240,37 @@ describe("an unanswered couple request reaches the actual contact consumer", () 
       expect(serializeWorld(reloaded)).toBe(serializeWorld(result.world));
     },
   );
+});
+
+describe("couple eligibility has one shared rule for every jurisdiction", () => {
+  it("does not add a place-specific date-count prerequisite across all 56", () => {
+    const fixture = eligibleRequest();
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+
+    for (const place of places) {
+      const atPlace: World = {
+        ...fixture.world,
+        people: {
+          ...fixture.world.people,
+          [fixture.pair.personId]: {
+            ...fixture.world.people[fixture.pair.personId]!,
+            homeJurisdictionId: place.jurisdictionKey,
+          },
+          [fixture.pair.otherPersonId]: {
+            ...fixture.world.people[fixture.pair.otherPersonId]!,
+            homeJurisdictionId: place.jurisdictionKey,
+          },
+        },
+      };
+      expect(
+        coupleAskRefusal(
+          atPlace,
+          fixture.pair.personId,
+          fixture.pair.otherPersonId,
+        ),
+        place.stateJurisdictionKey,
+      ).toBeNull();
+    }
+  });
 });
