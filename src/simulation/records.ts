@@ -334,6 +334,21 @@ function validateKnowledgeSource(
           "Direct event knowledge requires presence in the event record.",
         );
       }
+      if (source.claimId !== undefined) {
+        const claim = world.history.claims.find(
+          (candidate) => candidate.id === source.claimId,
+        );
+        if (
+          !claim ||
+          claim.eventId !== input.eventId ||
+          claim.madeAt > input.learnedAt ||
+          !event.involvedEntityIds.includes(claim.speakerPersonId)
+        ) {
+          throw new Error(
+            "Direct knowledge references a claim that was not witnessed in this event.",
+          );
+        }
+      }
       break;
     case "told-by": {
       const sourcePerson = requirePerson(world, source.sourcePersonId);

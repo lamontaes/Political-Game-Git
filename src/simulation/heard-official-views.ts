@@ -7,13 +7,17 @@ export interface HeardOfficialView {
   readonly holderId: EntityId;
   readonly officialId: EntityId;
   readonly position: "support" | "oppose";
+  readonly claimId: EntityId | null;
+  readonly statement: string | null;
+  readonly source: "told-by" | "direct";
   readonly learnedAt: IsoDate;
   readonly accuracy: EventKnowledgeRecord["accuracy"];
   readonly confidence: EventKnowledgeRecord["confidence"];
 }
 
 /**
- * Read only the listener's saved word-of-mouth statements about this official.
+ * Read only the listener's saved claims about this official, whether told or
+ * witnessed. Direct knowledge links a witnessed claim by its stable record ID.
  * The complete known IDs delimit the old summary format: entity IDs themselves
  * contain colons. A later private change of mind never rewrites what was heard.
  * No standing totals or private-belief reads belong in this projection.
@@ -38,14 +42,37 @@ export function heardOfficialViews(
   for (const row of world.history.knowledge) {
     if (
       row.personId !== listenerId ||
-      row.source.kind !== "told-by" ||
       row.sequence >= world.history.nextSequence ||
       row.learnedAt > world.currentDate ||
-      !events.has(row.eventId) ||
-      !world.people[row.source.sourcePersonId]
+      !events.has(row.eventId)
     )
       continue;
-    const holderId = row.source.sourcePersonId;
+    const claimId =
+      row.source.kind === "told-by"
+        ? row.source.claimId
+        : row.source.kind === "direct"
+          ? (row.source.claimId ?? null)
+          : null;
+    const claim = claimId
+      ? world.history.claims.find((candidate) => candidate.id === claimId)
+      : undefined;
+    const holderId =
+      row.source.kind === "told-by"
+        ? row.source.sourcePersonId
+        : row.source.kind === "direct" && claim
+          ? claim.speakerPersonId
+          : null;
+    if (!holderId || !world.people[holderId]) continue;
+    if (row.source.kind !== "told-by" && row.source.kind !== "direct") continue;
+    if (
+      claimId &&
+      (!claim ||
+        claim.eventId !== row.eventId ||
+        claim.speakerPersonId !== holderId ||
+        claim.madeAt > row.learnedAt)
+    )
+      continue;
+    if (row.source.kind === "direct" && !claimId) continue;
     const prefix = `told-view:${holderId}:${officialId}:`;
     if (!row.believedSummary.startsWith(prefix)) continue;
     const position = row.believedSummary.slice(prefix.length);
@@ -56,12 +83,17 @@ export function heardOfficialViews(
       holderId,
       officialId,
       position,
+      claimId,
+      statement: claim?.statement ?? null,
+      source: row.source.kind,
       learnedAt: row.learnedAt,
       accuracy: row.accuracy,
       confidence: row.confidence,
     });
   }
-  return heard.sort((left, right) =>
-    right.learnedAt.localeCompare(left.learnedAt),
+  return heard.sort(
+    (left, right) =>
+      right.learnedAt.localeCompare(left.learnedAt) ||
+      left.knowledgeId.localeCompare(right.knowledgeId),
   );
 }

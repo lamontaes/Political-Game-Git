@@ -5,7 +5,7 @@ import {
   stateJurisdictionForKey,
 } from "./life-places";
 import { createFormationContext, recordPrivateBelief } from "./politics";
-import { recordEventKnowledge } from "./records";
+import { recordClaim, recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import { heardOfficialViews } from "./heard-official-views";
@@ -31,8 +31,11 @@ function fixture(stateKey?: string) {
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [holderId],
-    participants: [{ personId: holderId, role: "focus:subject", detail: null }],
+    involvedEntityIds: [listenerId, holderId],
+    participants: [
+      { personId: listenerId, role: "focus:viewer", detail: null },
+      { personId: holderId, role: "focus:subject", detail: null },
+    ],
     personFactConstraints: [],
     visibility: "private",
     tags: ["people.official-view"],
@@ -97,6 +100,9 @@ describe("only statements the listener learned reach their heard-view list", () 
         holderId: f.holderId,
         officialId: f.listenerId,
         position: "oppose",
+        claimId: null,
+        statement: null,
+        source: "told-by",
         learnedAt: row.learnedAt,
         accuracy: row.accuracy,
         confidence: row.confidence,
@@ -106,6 +112,64 @@ describe("only statements the listener learned reach their heard-view list", () 
     expect(serializeWorld(world)).toBe(before);
     expect(heardOfficialViews(deserializeWorld(before), f.listenerId)).toEqual(
       heardOfficialViews(world, f.listenerId),
+    );
+  });
+
+  it("links told and directly witnessed statements to their saved claim", () => {
+    const f = fixture();
+    const withClaim = recordClaim(f.world, {
+      stableKey: "heard-view:claim",
+      speakerPersonId: f.holderId,
+      eventId: f.eventId,
+      madeAt: f.world.currentDate,
+      audience: "limited",
+      statement: "Recorded view statement.",
+      relationshipToTruth: "consistent",
+      provenance: { kind: "direct-record" },
+    });
+    const claim = withClaim.history.claims.at(-1)!;
+    const told = recordEventKnowledge(withClaim, {
+      stableKey: "heard-view:told-linked",
+      personId: f.listenerId,
+      eventId: f.eventId,
+      learnedAt: f.world.currentDate,
+      believedSummary: `told-view:${f.holderId}:${f.listenerId}:support`,
+      accuracy: "accurate",
+      confidence: "high",
+      source: {
+        kind: "told-by",
+        sourcePersonId: f.holderId,
+        claimId: claim.id,
+      },
+    });
+    const witnessed = recordEventKnowledge(withClaim, {
+      stableKey: "heard-view:witnessed-linked",
+      personId: f.listenerId,
+      eventId: f.eventId,
+      learnedAt: f.world.currentDate,
+      believedSummary: `told-view:${f.holderId}:${f.listenerId}:oppose`,
+      accuracy: "accurate",
+      confidence: "high",
+      source: { kind: "direct", claimId: claim.id },
+    });
+
+    expect(heardOfficialViews(told, f.listenerId)).toContainEqual(
+      expect.objectContaining({
+        holderId: f.holderId,
+        position: "support",
+        claimId: claim.id,
+        statement: claim.statement,
+        source: "told-by",
+      }),
+    );
+    expect(heardOfficialViews(witnessed, f.listenerId)).toContainEqual(
+      expect.objectContaining({
+        holderId: f.holderId,
+        position: "oppose",
+        claimId: claim.id,
+        statement: claim.statement,
+        source: "direct",
+      }),
     );
   });
 

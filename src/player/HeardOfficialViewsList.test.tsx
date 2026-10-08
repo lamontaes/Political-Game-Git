@@ -14,6 +14,9 @@ describe("heard statements in People", () => {
         officialId: "person:player" as EntityId,
         holderName: "Recorded Speaker",
         position: "oppose",
+        claimId: null,
+        statement: null,
+        source: "told-by",
         learnedAt: "2026-01-05" as IsoDate,
         accuracy: "accurate",
         confidence: "medium",
@@ -29,6 +32,30 @@ describe("heard statements in People", () => {
     expect(html).not.toMatch(
       /approval|percent|supporters|opponents|rating|medium|accurate/i,
     );
+  });
+
+  it("renders a linked claim from the saved statement", () => {
+    const views: PeopleDirectory["heardViews"] = [
+      {
+        knowledgeId: "knowledge:witnessed" as EntityId,
+        eventId: "event:witnessed" as EntityId,
+        holderId: "person:holder" as EntityId,
+        officialId: "person:player" as EntityId,
+        holderName: "Recorded Speaker",
+        position: "support",
+        claimId: "claim:statement" as EntityId,
+        statement: "The claim as recorded.",
+        source: "direct",
+        learnedAt: "2026-01-05" as IsoDate,
+        accuracy: "accurate",
+        confidence: "medium",
+      },
+    ];
+    const html = renderToStaticMarkup(
+      <HeardOfficialViewsList views={views} onSelectPerson={() => {}} />,
+    );
+    expect(html).toContain("The claim as recorded.");
+    expect(html).not.toContain("support");
   });
 
   it("renders no placeholder or opinion when the listener heard nothing", () => {
