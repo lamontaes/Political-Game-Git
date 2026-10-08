@@ -23,7 +23,9 @@ function line(id: string, text: string, place: string): BatchLine {
       observed: [],
     },
     line: text,
-    parts: [`bank:${id}`],
+    parts: [
+      id.startsWith("text-journal") ? `journal:chapter:${text}` : `bank:${id}`,
+    ],
     world: { place, player: "Pat Doe", playerAge: 40, date: "2026-01-05" },
     harness: [],
   };

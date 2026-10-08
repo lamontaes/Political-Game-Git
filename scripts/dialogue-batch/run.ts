@@ -1203,15 +1203,20 @@ export const SITUATIONS: readonly Situation[] = [
 // The batch
 // ---------------------------------------------------------------------------
 
-/** The same wording with other figures or places counts once. */
-export function textShape(text: string, place: string): string {
-  return text
-    .replace(place, "@")
-    .replace(
-      /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/g,
-      "#",
-    )
-    .replace(/[\d$,.]+/g, "#");
+/**
+ * When two texts are the same thing to grade. A bank line is its part, filled
+ * with other facts; any other text is its sentences' openings, so "I lived in
+ * Ames. I began working at a store." and the same chapter in another life
+ * count once.
+ */
+export function repeatKey(kind: string, text: string, partKey: string): string {
+  if (partKey.startsWith("bank:")) return partKey;
+  const openings = text
+    .split(/(?<=[.?!])\s+/)
+    .map((sentence) =>
+      sentence.toLowerCase().split(/\s+/).slice(0, 3).join(" "),
+    );
+  return `${kind}|${openings.join("|")}`;
 }
 
 export function runDialogueBatch(options: BatchOptions): BatchResult {
@@ -1330,7 +1335,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     const reading = readKinds(ctx.world, ctx.playerId);
     const fromWorld = new Map<string, number>();
     for (const text of reading.texts) {
-      const shape = textShape(text.text, ctx.place);
+      const shape = repeatKey(text.kind, text.text, text.partKey);
       if (
         (perKind.get(text.kind) ?? 0) >= 10 ||
         (fromWorld.get(text.kind) ?? 0) >= perWorld ||

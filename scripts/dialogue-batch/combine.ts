@@ -17,7 +17,7 @@ import { execSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { toGradingBatch, type GradingBatch } from "./grading";
-import { textShape, type BatchLine, type BatchResult } from "./run";
+import { repeatKey, type BatchLine, type BatchResult } from "./run";
 import { batchStats } from "./stats";
 import { BATCH_DIR } from "./apply-grades";
 
@@ -36,7 +36,7 @@ export function combineResults(results: readonly BatchResult[]): BatchResult {
       worlds.push({ ...world, index: worlds.length });
     for (const line of result.lines) {
       const kind = line.id.replace(/-\d+$/, "");
-      const shape = `${kind}|${textShape(line.line, line.world.place)}`;
+      const shape = repeatKey(kind, line.line, line.parts[0] ?? "");
       const index =
         result.worlds.find((world) => world.place === line.world.place)
           ?.index ?? 0;
