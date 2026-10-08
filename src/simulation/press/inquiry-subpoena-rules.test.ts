@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { lifePlaceStateIdentities } from "../life-places";
+import { municipalGovernments } from "../municipal-government";
 
 import {
   inquirySubpoenaRuleFor,
@@ -27,5 +29,48 @@ describe("inquiry subpoena rules", () => {
       municipalInquirySubpoenaRule(["INQUIRY_SUBPOENA"]).subpoenaPower,
     ).toBe(true);
     expect(municipalInquirySubpoenaRule([]).subpoenaPower).toBe(false);
+  });
+
+  it("keeps compiled local powers separate from state estimates across all 56 places", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    const governments = municipalGovernments();
+    for (const place of places) {
+      const stateRule = inquirySubpoenaRuleFor("state-legislature");
+      expect(stateRule, place.usps).toMatchObject({
+        basis: "estimated",
+        estimatedFrom: expect.stringContaining("NCSL"),
+        sourceUrl: expect.stringMatching(/^https:\/\//),
+      });
+      const readings = governments
+        .filter((government) => government.state === place.usps)
+        .flatMap((government) => government.readings);
+      for (const reading of readings) {
+        const held = reading.powers
+          .filter((row) => row.heldState === "KNOWN" && row.held === true)
+          .map((row) => row.power);
+        const rule = municipalInquirySubpoenaRule(held);
+        if (rule.subpoenaPower)
+          expect(reading.powers, `${place.usps}:${reading.key}`).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                power: "INQUIRY_SUBPOENA",
+                heldState: "KNOWN",
+                held: true,
+              }),
+            ]),
+          );
+        expect(
+          municipalInquirySubpoenaRule(
+            held.filter((power) => power !== "INQUIRY_SUBPOENA"),
+          ).subpoenaPower,
+          place.usps,
+        ).toBe(false);
+      }
+      // An absent local reading never inherits the estimated state power.
+      expect(municipalInquirySubpoenaRule([]).subpoenaPower, place.usps).toBe(
+        false,
+      );
+    }
   });
 });
