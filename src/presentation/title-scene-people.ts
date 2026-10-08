@@ -271,7 +271,7 @@ export interface PictureBox {
 /**
  * How much of a figure's canvas the person fills: the head starts a few rows
  * below the canvas top (anchors.top 64 of 808) and the shoulders and
- * elbows span about this share of the canvas width, centred on the foot
+ * elbows span about this share of the canvas width, centered on the foot
  * point. The rest of the canvas is clear, so only the person is tested
  * against the menu and the picture's edges.
  */
@@ -347,7 +347,7 @@ export function titlePeopleInView<
 
 /**
  * The light a picture is painted in, put on the people in it: a person
- * standing in a night picture is darker and flatter in colour than in a midday one,
+ * standing in a night picture is darker and flatter in color than in a midday one,
  * the same way for every picture, never one scene's own number. Midday,
  * the light the people are drawn in, takes no filter.
  */
