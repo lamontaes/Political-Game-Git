@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { smallWorld } from "../../tests/fixtures/small-world";
 import { serializeWorld } from "../simulation";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { projectToday, projectWorkRole } from "./day-overview";
 import {
   chooseOpeningLifeScene,
@@ -53,7 +55,7 @@ describe("PT3 — Today answers what is happening, next, waiting and time", () =
     expect(today.now).toBe(scene!.prose);
   });
 
-  it("gives a quiet day a clear opening when no moment or commitment is due", () => {
+  it("says nothing on a quiet day with no moment or commitment due", () => {
     const { world, personId } = adultLife();
     const scene = currentOpeningLifeScene(world, personId);
     expect(scene).not.toBeNull();
@@ -261,5 +263,23 @@ describe("PT3 an offer of work that has not been answered", () => {
         entry.key.startsWith("work-offer:"),
       ),
     ).toBe(false);
+  });
+});
+
+describe("the day screen says nothing when nothing is happening (owner rule R4)", () => {
+  it("has no words of its own in any of the 56 places", () => {
+    const states = lifePlaceStateIdentities();
+    expect(states).toHaveLength(56);
+    for (const state of states) {
+      const { world, personId } = smallWorld({
+        place: state.usps,
+        seed: "day-screen-r4",
+      });
+      const today = projectToday(world, personId);
+      // A sentence appears only when a scene, a meeting or a finished
+      // activity is there to say; none is in these worlds.
+      expect(today.now, state.usps).toBe("");
+      expect(today.now, state.usps).not.toMatch(/quiet day|^Next:/);
+    }
   });
 });
