@@ -44,7 +44,7 @@ describe("subject matter responses", () => {
         personId,
         response,
         meaning: `Recorded meaning for ${response}`,
-      });
+      }).world;
       expect(
         pressRecordsOfKind(answered, "matter-response").at(-1),
       ).toMatchObject({
@@ -80,7 +80,7 @@ describe("subject matter responses", () => {
       personId: fixture.personId,
       response: "resign",
       meaning: "resign",
-    });
+    }).world;
     expect(answered.history.workStatuses.length).toBeGreaterThan(
       played.history.workStatuses.length,
     );
