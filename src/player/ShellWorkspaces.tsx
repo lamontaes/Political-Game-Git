@@ -30,8 +30,11 @@ import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
+  CATEGORY_LABELS,
+  PERSON_CATEGORIES,
   filterDirectory,
   projectPeopleDirectory,
+  type PersonCategory,
 } from "../presentation/people-directory";
 import type { PersonDossier } from "../presentation/person-dossier";
 import {
@@ -62,6 +65,7 @@ import { interruptionHandlers } from "../presentation/interruption-policy";
 import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
 import { PersonPortrait } from "./PersonPortrait";
+import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
@@ -467,24 +471,50 @@ export function PeopleWorkspace({
   const [selectedPersonId, setSelectedPersonId] = useState(
     state.quickDossierPersonId ?? personId,
   );
+  const searchRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    const blurOutsideSearch = (event: PointerEvent) => {
+      const search = searchRef.current;
+      if (!search?.open || search.contains(event.target as Node)) return;
+      const input = search.querySelector("input");
+      input?.blur();
+      if (!input?.value.trim()) search.open = false;
+    };
+    document.addEventListener("pointerdown", blurOutsideSearch, true);
+    return () => {
+      document.removeEventListener("pointerdown", blurOutsideSearch, true);
+    };
+  }, []);
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
     [world, personId],
   );
+  const category = state.peopleCategory as PersonCategory | "all";
   const shown = useMemo(
-    () => filterDirectory(directory, "all", state.peopleQuery),
-    [directory, state.peopleQuery],
+    () => filterDirectory(directory, category, state.peopleQuery),
+    [directory, category, state.peopleQuery],
   );
   const notYetMet = useMemo(
     () =>
-      filterDirectory(
-        { ...directory, people: directory.notYetMet },
-        "all",
-        state.peopleQuery,
-      ),
-    [directory, state.peopleQuery],
+      category === "all"
+        ? []
+        : filterDirectory(
+            { ...directory, people: directory.notYetMet },
+            category,
+            state.peopleQuery,
+          ),
+    [directory, category, state.peopleQuery],
   );
-  const people = [...shown, ...notYetMet];
+  const peopleView =
+    state.preferences.peopleView === "categories"
+      ? "list"
+      : state.preferences.peopleView;
+  const showWeb = peopleView === "web";
+  const focusId = state.quickDossierPersonId ?? selectedPersonId;
+  function selectPerson(id: EntityId) {
+    setSelectedPersonId(id);
+    dispatch({ type: "open-quick-dossier", personId: id });
+  }
   const dossier = dossierFor(selectedPersonId);
   if (!dossier) return null;
   const pinned = isPinned(state, { kind: "person", id: selectedPersonId });
@@ -492,7 +522,7 @@ export function PeopleWorkspace({
   return (
     <div className="pg-people-layout" data-testid="people-layout">
       <section className="pg-people-index" aria-label="People">
-        <details className="pg-people-search">
+        <details className="pg-people-search" ref={searchRef}>
           <summary>
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="10" cy="10" r="6" />
@@ -510,47 +540,145 @@ export function PeopleWorkspace({
             }
           />
         </details>
-        <ul className="pg-people-list" data-testid="people-list">
-          {people.map((person) => {
-            const ref: ShellRef = { kind: "person", id: person.personId };
-            const isSelected = person.personId === selectedPersonId;
-            return (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-person-row"
-                  aria-pressed={isSelected}
-                  data-testid={`people-person-${person.personId}`}
-                  onClick={() => setSelectedPersonId(person.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={person.personId}
-                    size="small"
-                  />
-                  <strong>{person.name}</strong>
-                  {person.relationship ? (
-                    <small>{person.relationship}</small>
-                  ) : person.context ? (
-                    <small>{person.context}</small>
-                  ) : null}
-                </button>
-                <PinToggle
-                  className="ui-action ui-action--rail"
-                  pinned={isPinned(state, ref)}
-                  name={person.name}
-                  testid={`people-pin-${person.personId}`}
-                  onToggle={() => dispatch({ type: "toggle-pin", ref })}
-                />
-              </li>
-            );
-          })}
-        </ul>
-
-        <HeardOfficialViewsList
-          views={directory.heardViews}
-          onSelectPerson={(id) => setSelectedPersonId(id)}
-        />
+        <div
+          className="pg-people-web-toolbar"
+          role="group"
+          aria-label="People default view"
+        >
+          {(
+            [
+              ["web", "Relationship web"],
+              ["list", "One list"],
+            ] as const
+          ).map(([view, label]: readonly [PeopleView, string]) => (
+            <button
+              key={view}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={peopleView === view}
+              data-testid={`people-view-${view}`}
+              onClick={() => dispatch({ type: "set-people-view", view })}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <div
+          className="pg-people-categories"
+          role="group"
+          aria-label="Categories"
+        >
+          {(["all", ...PERSON_CATEGORIES] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={category === key}
+              data-testid={`people-category-${key}`}
+              onClick={() =>
+                dispatch({ type: "set-people-category", category: key })
+              }
+            >
+              {key === "all" ? "Everyone" : CATEGORY_LABELS[key]}
+              <small>{directory.counts[key]}</small>
+            </button>
+          ))}
+        </div>
+        {!showWeb ? (
+          <>
+            <HeardOfficialViewsList
+              views={directory.heardViews}
+              onSelectPerson={selectPerson}
+            />
+            <ul
+              className="pg-people-list"
+              data-view={peopleView}
+              data-testid="people-list"
+            >
+              {shown.map((person) => {
+                const ref: ShellRef = { kind: "person", id: person.personId };
+                return (
+                  <li key={person.personId}>
+                    <button
+                      type="button"
+                      className="pg-person-row"
+                      aria-pressed={person.personId === selectedPersonId}
+                      data-testid={`people-person-${person.personId}`}
+                      onClick={() => selectPerson(person.personId)}
+                    >
+                      <PersonPortrait
+                        world={world}
+                        personId={person.personId}
+                        size="small"
+                      />
+                      <strong>{person.name}</strong>
+                      {person.relationship ? (
+                        <small>{person.relationship}</small>
+                      ) : person.context ? (
+                        <small>{person.context}</small>
+                      ) : null}
+                      {person.strain ? (
+                        <small data-testid={`people-strain-${person.personId}`}>
+                          {person.strain}
+                        </small>
+                      ) : null}
+                    </button>
+                    <PinToggle
+                      className="ui-action ui-action--rail"
+                      pinned={isPinned(state, ref)}
+                      name={person.name}
+                      testid={`people-pin-${person.personId}`}
+                      onToggle={() => dispatch({ type: "toggle-pin", ref })}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+            {notYetMet.length > 0 ? (
+              <section
+                className="pg-people-not-yet-met"
+                aria-label="Not met yet"
+                data-testid="people-not-yet-met"
+              >
+                <ul className="pg-people-list" data-view="list">
+                  {notYetMet.map((person) => (
+                    <li key={person.personId}>
+                      <button
+                        type="button"
+                        className="pg-person-row"
+                        data-testid={`people-unmet-${person.personId}`}
+                        onClick={() => selectPerson(person.personId)}
+                      >
+                        <PersonPortrait
+                          world={world}
+                          personId={person.personId}
+                          size="small"
+                        />
+                        <strong>{person.name}</strong>
+                        {person.context ? (
+                          <small>{person.context}</small>
+                        ) : null}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
+          </>
+        ) : (
+          <PeopleRelationshipWeb
+            world={world}
+            playerId={personId}
+            focusId={focusId}
+            category={category}
+            query={state.peopleQuery}
+            expanded={false}
+            onSelect={selectPerson}
+            onShowList={() =>
+              dispatch({ type: "set-people-view", view: "list" })
+            }
+          />
+        )}
       </section>
       <section
         className="pg-people-dossier pg-glass-panel"
