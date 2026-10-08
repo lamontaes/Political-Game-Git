@@ -1,7 +1,11 @@
 import { schoolYearMovesOf } from "../childhood-record";
 import { currentGovernorOf } from "../crisis/offices";
 import { eventById } from "../event-index";
-import { NON_MONEY_FELT_SIZE, type LawExposureFeltSize } from "../law-exposure";
+import {
+  monthlyPay,
+  NON_MONEY_FELT_SIZE,
+  type LawExposureFeltSize,
+} from "../law-exposure";
 import {
   lifePlaceByJurisdictionId,
   stateKeyForJurisdiction,
@@ -10,6 +14,9 @@ import type { EntityId, IsoDate, World } from "../types";
 import { childrenOf } from "../people-family";
 import { localHeadOfGovernment } from "./local-government-seats";
 import { jobsLostBy } from "./town-labor-market";
+import { crimesSufferedBy } from "../crime/reporting";
+import { countyRowOfficerForJurisdiction } from "../justice/county-offices";
+import severityByOffense from "../../../data/research/crime/lived-outcome-severity.json" with { type: "json" };
 
 /**
  * What happened to a person that an official answers for, read from the
@@ -33,7 +40,7 @@ import { jobsLostBy } from "./town-labor-market";
  * count and the talk line read every kind the same way.
  */
 
-export type LivedOutcomeKind = "job-lost" | "school-move";
+export type LivedOutcomeKind = "job-lost" | "school-move" | "crime-suffered";
 
 export interface LivedOutcome {
   readonly kind: LivedOutcomeKind;
@@ -43,6 +50,7 @@ export interface LivedOutcome {
   readonly direction: "cost" | "gain";
   /** How big it was next to the person's month's pay. */
   readonly felt: Exclude<LawExposureFeltSize, null>;
+  readonly estimatedFrom?: string;
 }
 
 /**
@@ -50,7 +58,8 @@ export interface LivedOutcome {
  * person's state or territory, or the head of their local government (with
  * the governor where no local government is seated).
  */
-export type AnsweringOffice = "state-executive" | "local-executive";
+export type AnsweringOffice =
+  "state-executive" | "local-executive" | "county-sheriff";
 
 /**
  * PLACEHOLDER (research: who-answers-for-what-happened-to-me): a lost job is
@@ -61,13 +70,14 @@ export type AnsweringOffice = "state-executive" | "local-executive";
  * office, not how much one person's own lost job moves their view of it.
  */
 export const LIVED_OUTCOME_ANSWERED_BY: Readonly<
-  Record<LivedOutcomeKind, AnsweringOffice>
+  Record<LivedOutcomeKind, readonly AnsweringOffice[]>
 > = {
-  "job-lost": "state-executive",
+  "job-lost": ["state-executive"],
   // PLACEHOLDER (same research request): a child pulled out of school in the
   // middle of a year is held against the head of the family's local
   // government, where they live now.
-  "school-move": "local-executive",
+  "school-move": ["local-executive"],
+  "crime-suffered": ["local-executive", "county-sheriff"],
 };
 
 /** What the person thought over, in the words of their reflection event. */
@@ -76,6 +86,7 @@ export const LIVED_OUTCOME_SUMMARY: Readonly<Record<LivedOutcomeKind, string>> =
     "job-lost": "losing a job they did not choose to leave",
     "school-move":
       "their child having to leave school in the middle of the year",
+    "crime-suffered": "",
   };
 
 /**
@@ -118,6 +129,51 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           felt: { share: NON_MONEY_FELT_SIZE.monthsOfPay, estimated: true },
         })),
     ),
+  (world, personId, through) =>
+    crimesSufferedBy(world, personId, through).flatMap((sourceRecordId) => {
+      const event = eventById(world, sourceRecordId);
+      const offenseTag = event?.tags.find((tag) =>
+        tag.startsWith("crime:offense:"),
+      );
+      const offense = offenseTag?.slice("crime:offense:".length) as
+        keyof typeof severityByOffense.severityByOffense | undefined;
+      const severity = offense
+        ? severityByOffense.severityByOffense[offense]
+        : undefined;
+      if (
+        !event ||
+        !severity ||
+        severity.kind === "unsupported" ||
+        typeof severity.value !== "number" ||
+        typeof severity.estimatedFrom !== "string"
+      )
+        return [];
+      const felt: Exclude<LawExposureFeltSize, null> =
+        severity.kind === "injury-rate"
+          ? {
+              share: severity.value * NON_MONEY_FELT_SIZE.monthsOfPay,
+              estimated: true,
+            }
+          : (() => {
+              const pay = monthlyPay(world, personId, event.occurredAt);
+              return pay?.currency === "USD" && pay.minorUnits > 0
+                ? {
+                    share: (severity.value * 100) / pay.minorUnits,
+                    estimated: true,
+                  }
+                : "unmeasured";
+            })();
+      return [
+        {
+          kind: "crime-suffered" as const,
+          at: event.occurredAt,
+          sourceRecordId,
+          direction: "cost" as const,
+          felt,
+          estimatedFrom: severity.estimatedFrom,
+        },
+      ];
+    }),
 ];
 
 /** Everything recorded as happening to `personId`, oldest first. */
@@ -152,5 +208,10 @@ export function officialAnsweringFor(
       return governor;
     case "local-executive":
       return localHeadOfGovernment(world, personId) ?? governor;
+    case "county-sheriff":
+      return home
+        ? (countyRowOfficerForJurisdiction(world, home, "sheriff")?.personId ??
+            null)
+        : null;
   }
 }
