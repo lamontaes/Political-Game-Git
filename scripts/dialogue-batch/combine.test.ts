@@ -189,7 +189,7 @@ describe("combining batch runs", () => {
     });
     const reasons = new Map(batch.absent.map((row) => [row.kind, row.reason]));
     expect(reasons.get("hearing")).toBe(
-      "no output, because 1 line repeated one already put to the owner",
+      "no output, because 1 line repeated the wording of a line already asked or already in the batch",
     );
     expect(reasons.get("meeting")).toMatch(
       /^no output, because 1 line went to the bin \(procedural/,

@@ -354,7 +354,7 @@ export function toGradingBatch(
         : []),
       ...(lost && lost.repeated > 0
         ? [
-            `${counted(lost.repeated, "line")} repeated one already put to the owner`,
+            `${counted(lost.repeated, "line")} repeated the wording of a line already asked or already in the batch`,
           ]
         : []),
       ...(lost && lost.overLimit > 0
