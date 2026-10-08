@@ -619,19 +619,47 @@ describe("source-first modeled starting-law amount adapter", () => {
     expect(first.evidence.donors.map((row) => row.scope)).toEqual(
       Array.from({ length: first.evidence.donors.length }, () => CLEAN_SCOPE),
     );
-    const targetExcludedValues = SOURCE_TERM_STATES.filter(
-      ([state]) => state !== "CA",
-    )
-      .map(([, value]) => value)
-      .sort((a, b) => a - b);
-    const expectedMedian =
-      (targetExcludedValues[targetExcludedValues.length / 2 - 1]! +
-        targetExcludedValues[targetExcludedValues.length / 2]!) /
-      2;
-    expect(first.value).toBe(expectedMedian);
-    expect(first.estimate.median).toBe(expectedMedian);
-    expect(first.estimate.estimatedFrom).toBe("median of recorded states");
+    const expectedMean =
+      first.evidence.donors.reduce(
+        (sum, donor) => sum + donor.value * donor.weight,
+        0,
+      ) /
+      first.evidence.donors.reduce((sum, donor) => sum + donor.weight, 0);
+    expect(first.value).toBe(expectedMean);
+    expect(first.estimate.mean).toBe(expectedMean);
+    expect(first.estimate.estimatedFrom).toBe(
+      "weighted mean of recorded states",
+    );
     expect(first.estimate.spread).toBeGreaterThan(0);
+
+    for (const { usps } of lifePlaceStateIdentities()) {
+      const seedA = lawTermWorld(usps);
+      const seedB = lawTermWorld(usps);
+      (seedA.world as unknown as { seed: string }).seed = "starting-law-seed-a";
+      (seedB.world as unknown as { seed: string }).seed = "starting-law-seed-b";
+      const resultA = readOrEstimateFinalEnactedLawTerm(
+        seedA.world,
+        seedA.targetLaw,
+        { ...input, jurisdictionId: seedA.targetJurisdictionId },
+      );
+      const resultB = readOrEstimateFinalEnactedLawTerm(
+        seedB.world,
+        seedB.targetLaw,
+        { ...input, jurisdictionId: seedB.targetJurisdictionId },
+      );
+      expect(resultA.kind).toBe("modeled");
+      expect(resultB.kind).toBe("modeled");
+      if (resultA.kind !== "modeled" || resultB.kind !== "modeled")
+        throw new Error("Expected modeled starting law terms.");
+      const meanA =
+        resultA.evidence.donors.reduce(
+          (sum, donor) => sum + donor.value * donor.weight,
+          0,
+        ) /
+        resultA.evidence.donors.reduce((sum, donor) => sum + donor.weight, 0);
+      expect(resultA.value).toBe(meanA);
+      expect(resultB.value).toBe(meanA);
+    }
   });
 
   it("does not flatten a recorded schedule into an estimated scalar", () => {
