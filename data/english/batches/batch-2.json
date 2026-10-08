@@ -1,8 +1,8 @@
 {
   "id": "batch-2",
   "title": "Dialogue batch batch-2 (68 exchanges)",
-  "at": "2026-10-08T20:53:36.630Z",
-  "head": "692b81ab92635d25e4e2291ed20540ed8938593b",
+  "at": "2026-10-08T21:04:20.263Z",
+  "head": "7c93e046f02d405c8ec1b6db7f0c16cdffa93254",
   "status": "open",
   "variety": {
     "items": 68,
@@ -42,7 +42,7 @@
     },
     {
       "kind": "journal",
-      "reason": "no output, because no composer reached this kind. In these worlds: left out of this batch by its builder (--leave-out)"
+      "reason": "no output, because it was left out of this batch by its builder (--leave-out)"
     },
     {
       "kind": "press",
@@ -50,11 +50,11 @@
     },
     {
       "kind": "hearing",
-      "reason": "no output, because no composer speaks at a hearing until the home body is seated (readHearingBank needs one). In these worlds: no situation in the batch reaches this kind yet"
+      "reason": "no output, because 2 lines went to the bin (procedural wording: checked against real records, not put to the owner); 58 lines repeated the wording of a line already asked or already in the batch"
     },
     {
       "kind": "meeting",
-      "reason": "no output, because no composer speaks at a meeting until the home body has a seated chair (readMeetingBank needs one). In these worlds: no situation in the batch reaches this kind yet"
+      "reason": "no output, because 16 lines went to the bin (procedural wording: checked against real records, not put to the owner); 36 lines repeated the wording of a line already asked or already in the batch"
     },
     {
       "kind": "minutes",
