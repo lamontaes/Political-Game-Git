@@ -3,11 +3,17 @@ import {
   localBusinessesIn,
 } from "../simulation/local-economy";
 import {
+  organizationClosingAt,
   organizationProfileAt,
   workStatusAt,
   workRoleAt,
 } from "../simulation/life-queries";
-import type { EntityId, Organization, World } from "../simulation/types";
+import type {
+  EntityId,
+  IsoDate,
+  Organization,
+  World,
+} from "../simulation/types";
 
 /** Private employers are read from the town's own organization profiles. */
 function townBusinessOrganizations(
@@ -37,6 +43,12 @@ export interface TownBusinessLine {
   readonly name: string;
   readonly ownerLine: string | null;
   readonly otherStaff: number;
+  /**
+   * Set once the business has closed (a bank that failed is closed the same
+   * way): the day its closing profile took effect and the reason it records.
+   * A closed business is still on the town's record and no longer open.
+   */
+  readonly closed: { readonly on: IsoDate; readonly reason: string } | null;
 }
 
 /**
@@ -50,6 +62,7 @@ export function projectTownBusinesses(
 ): readonly TownBusinessLine[] {
   return townBusinessOrganizations(world, jurisdictionId).map(
     (organization) => {
+      const closing = organizationClosingAt(world, organization.id);
       const working = world.history.workRelationships.filter(
         (work) =>
           work.organizationId === organization.id &&
@@ -69,6 +82,9 @@ export function projectTownBusinesses(
           ? `${ownerPerson.givenName} ${ownerPerson.familyName}, ${(ownerTitle ?? "owner").toLowerCase()}`
           : null,
         otherStaff: staff,
+        closed: closing
+          ? { on: closing.effectiveAt, reason: closing.closed!.reason }
+          : null,
       };
     },
   );

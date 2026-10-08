@@ -39,6 +39,7 @@ export interface LawExposureInput {
   readonly amount: MoneyAmount | null;
   readonly cadence: LawExposureRecord["cadence"];
   readonly sourceRecordId: EntityId;
+  readonly estimatedFrom?: string;
   /** Write a family exposure for each active partner. Default true. */
   readonly includeFamily?: boolean;
 }
@@ -135,6 +136,7 @@ export function recordLawExposure(
     cadence: input.cadence,
     monthlyPay: monthlyPay(world, input.personId, world.currentDate),
     sourceRecordId: input.sourceRecordId,
+    ...(input.estimatedFrom ? { estimatedFrom: input.estimatedFrom } : {}),
   });
   if (input.includeFamily === false) return next;
   for (const partnership of activePartnershipsAt(world, input.personId)) {
@@ -153,6 +155,7 @@ export function recordLawExposure(
         cadence: input.cadence,
         monthlyPay: monthlyPay(world, partnerId, world.currentDate),
         sourceRecordId: input.sourceRecordId,
+        ...(input.estimatedFrom ? { estimatedFrom: input.estimatedFrom } : {}),
       });
     }
   }

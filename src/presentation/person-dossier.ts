@@ -33,6 +33,10 @@ import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
+import {
+  heardOfficialViews,
+  heardViewsHeldBy,
+} from "../simulation/heard-official-views";
 import { moneyText } from "../simulation/money-text";
 
 /**
@@ -68,6 +72,21 @@ export interface DossierFact {
   readonly key: string;
   readonly text: string;
   readonly attribution: FactAttribution;
+}
+
+/**
+ * A view somebody told the player, kept as the player heard it: who holds it,
+ * which official it is about, whether it credits or blames them, and when it
+ * was told. Never the holder's private belief (`heard-official-views.ts`).
+ */
+export interface DossierHeardView {
+  readonly knowledgeId: EntityId;
+  readonly holderId: EntityId;
+  readonly holderName: string;
+  readonly officialId: EntityId;
+  readonly officialName: string;
+  readonly position: "support" | "oppose";
+  readonly learnedAt: string;
 }
 
 export interface PersonDossier {
@@ -128,6 +147,10 @@ export interface PersonDossier {
   readonly links: readonly ShellRef[];
   /** Laws they sponsored that were enacted, and what each is doing. */
   readonly laws: readonly SponsoredLaw[];
+  /** Views of officials this person told the player. */
+  readonly viewsTheyHold: readonly DossierHeardView[];
+  /** Views the player was told of this person, as an official. */
+  readonly viewsOfThem: readonly DossierHeardView[];
 }
 
 function buildReminders(
@@ -489,6 +512,28 @@ function buildLinks(
   return links;
 }
 
+function heardViewLines(
+  world: World,
+  views: ReturnType<typeof heardOfficialViews>,
+): readonly DossierHeardView[] {
+  return views.flatMap((view) => {
+    const holder = world.people[view.holderId];
+    const official = world.people[view.officialId];
+    if (!holder || !official) return [];
+    return [
+      {
+        knowledgeId: view.knowledgeId,
+        holderId: view.holderId,
+        holderName: personName(holder),
+        officialId: view.officialId,
+        officialName: personName(official),
+        position: view.position,
+        learnedAt: view.learnedAt,
+      },
+    ];
+  });
+}
+
 /**
  * Builds one person's dossier, or null when the world has no such person.
  *
@@ -621,6 +666,15 @@ export function projectPersonDossier(
       personId,
       world.people[playerId]?.homeJurisdictionId ?? null,
     ),
+    // What the player was told, and nothing the person keeps to themselves.
+    // An observer was told nothing.
+    viewsTheyHold:
+      options.observer || personId === playerId
+        ? []
+        : heardViewLines(world, heardViewsHeldBy(world, playerId, personId)),
+    viewsOfThem: options.observer
+      ? []
+      : heardViewLines(world, heardOfficialViews(world, playerId, personId)),
   };
 }
 
