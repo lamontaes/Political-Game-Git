@@ -1,11 +1,11 @@
 # Story director: how a life becomes a story
 
-The owner is asked to approve this design and to decide six things. They are salience weights from the Holmes and Rahe life-change scale, seven new speech acts, retiring the authored childhood bank, a separate producer for war, keeping threads hidden, and whether gradual friendships get a scene type. The design turns records that change a life into scored moments. Moments between two people become threads. Threads and strong moments become playable scenes and journal chapters, and old moments come back years later. Nothing is authored: 31 reusable situation types supply structure, the world's records fill every role, and the English engine voices every line. Nothing is built until the owner approves.
+The owner is asked to approve this design and to decide six things. They are salience weights from the Holmes and Rahe life-change scale, seven new speech acts, retiring the authored childhood bank, a separate producer for war, keeping threads hidden, and whether gradual friendships get a scene type. The design turns records that change a life into scored moments. Moments between two people become threads. Threads and strong moments become playable scenes and journal chapters, and old moments come back years later. No scene, event or line is written by hand. 31 reusable situation types supply structure only, the world's records fill every role, and the English engine voices every line. Nothing is built until the owner approves.
 
 ## Decisions for the owner
 
 1. **Salience weights from a published scale.** The starting weight of a life change is its value on the Holmes and Rahe Social Readjustment Rating Scale, divided by 100. People under 18 use the non-adult version printed with it, whose sourcing is weaker than the adult scale's and is labeled so. Each weight is labeled as an estimate with its source. Approve, or name another source.
-2. **Seven new speech acts.** The situation types need comfort, blame, promise, thank, confess, farewell and recall. The speech-act list is the owner's (English engine brief, September 26, 2026), so the director adds none without approval. The nearest existing acts would misname the move.
+2. **Seven new speech acts.** The situation types need comfort, blame, promise, thank, confess, farewell and recall. The speech-act list is the owner's (English engine brief, September 26, 2026), so the director adds none without approval. The nearest existing acts would misname each move. Blame would have to be spoken as complain, which grumbles about a situation rather than holding a person to account; promise would be offer, and farewell would be greet.
 3. **Retire the authored childhood bank.** The 19 formative situations carry their own prose, option labels and memory sentences, and they are offered by age band rather than caused. Recommendation: delete the bank and its text in the pull request that lands the first childhood proof (step 8 of the build plan).
 4. **War needs a producer first.** The owner's war example, a father away from the child's age 5 to 14, maps onto four situation types: departure, letter, gathering with someone missing, and return (part 3). No war, deployment or military absence exists in the world today. Recommendation: a separate pool row builds deployment as a world record; P6 does not invent it.
 5. **Threads stay hidden.** The thread data supports either a visible list or none. Recommendation: show nothing new until the owner sees threads in play, as the brief says.
@@ -49,15 +49,15 @@ The director adds a scoring layer and one scene runner. Everything else is reuse
 
 Salience is the product of five factors, capped at 1:
 
-1. **Kind.** The base weight from the table. Life changes use the Holmes and Rahe value divided by 100. Under 18 the non-adult version applies; where it has no row (moving, joining a group, a first job), the adult row is used and labeled so. The scale has no row for gaining a friend; its only row about relations between people is "more frequent disputes" (35). Relationship moments are therefore capped at 0.35, so no interpersonal moment outweighs a life change such as a death. Within that cap, the relationship log's own weights apply. Significance counts minor 0, meaningful 2 and major 3; the change counts formed or strengthened 2, maintained 1, strained 2 and ended 3. The base is significance times change, divided by 9, times 0.35. A meaningful friendship formed scores 2 × 2 ÷ 9 × 0.35 = 0.156. Minor contact scores zero, as it does in the journal today (`journal-significance.ts:4`).
-2. **Closeness.** For kinds whose scale row already names the relation (death of a parent, death of a close friend), the row carries it. For other moments, closeness comes from the five-line standing and the kinship and household records.
+1. **Kind.** The base weight from the table. Life changes use the Holmes and Rahe value divided by 100. Under 18 the non-adult version applies; where it has no row (moving, joining a group, a first job), the adult row is used and labeled so. Relationship moments short of a death, such as a new friend or a quarrel, have no row of their own. The design caps them at the scale's row for friction between people, "more frequent disputes" (35), so no such moment outweighs a life change like a death; this cap is part of decision 1. Within the cap, the standing reader's weights apply (`relationship-standing.ts:125` and `:134`). Significance counts meaningful 2 and major 3; the change counts formed or strengthened 2, maintained 1, strained 2 and ended 3. Minor counts 0 here, not 1. The base is significance times change, divided by 9, times 0.35. A meaningful friendship formed scores 2 × 2 ÷ 9 × 0.35 = 0.156. Minor contact scores zero, as it does in the journal today (`journal-significance.ts:4`).
+2. **Closeness.** A multiplier from 0.5 to 1.5, at 1.00 when the base already carries it. A scale row that names the relation (death of a parent, family gatherings) carries it, and so does a relationship moment's significance. For any other moment, such as a neighbor's illness, closeness slides from 0.5 with no standing to 1.5 at strong warmth or commitment, read from the five-line standing and the kinship and household records.
 3. **First of its kind.** The first moment of a kind in a life is raised 1.5 times, labeled as calibration. Kinds are specific: a first school friendship and a first mentor are different kinds, so each counts as a first.
 4. **The person's traits.** Each moment kind carries the act kinds it embodies: a reach-out is engage, a quarrel is confront, a move is change. A recorded trait whose pole pulls toward those act kinds raises the moment, by up to a quarter at full strength. A trait whose pole pulls away lowers it by the same amount. This reads the trait act table and adds no second trait system. An unrecorded trait changes nothing; it is never a default.
 5. **Stakes.** Money as a share of the household's recorded income, days of freedom lost, a home left, a health state. Read from the record that carries them.
 
 **What the scale is for.** Real data checks the totals and never picks an outcome. Salience decides nothing any person does. It decides which moments the story shows, and how prominently.
 
-**Worked example (Mateo, Aberdeen Gardens).** The rule was run over every record naming Mateo. 26 records named Mateo; 18 scored zero (setup records and minor neighborhood contacts). The eight that scored:
+**Worked example (Mateo, Aberdeen Gardens).** The rule was run over every record naming Mateo. 26 records named Mateo. 18 scored zero: 2 setup records, 12 minor neighborhood contacts, the scene binding for Audrey's request, and 3 events (the lunch table, the teacher and the introduction) whose relationship record carries the score instead, so each counts once. The eight that scored:
 
 | Date             | Age | Moment                                        | Scale row or weight                                     | First | Salience |
 | ---------------- | --- | --------------------------------------------- | ------------------------------------------------------- | ----- | -------- |
@@ -70,7 +70,7 @@ Salience is the product of five factors, capped at 1:
 | January 12, 2026 | 34  | Sister Audrey asked by phone to meet          | Change in number of family gatherings, 15               | yes   | 0.225    |
 | January 12, 2026 | 34  | Met Rafael Butler through Wyatt               | Relationship, meaningful, maintained: 0.078 (see below) | yes   | 0.117    |
 
-Each salience is the base times 1.5 for a first. An introduction is written as maintained contact, not as a friendship formed (`social-introductions.ts:51`), so it takes the maintained weight. Closeness and stakes were 1.00 in every row: no scored record carried money or freedom at stake, and the reach-out's scale row already names a family relation. No trait is on record for Mateo, so the trait factor was 1.00 in every row.
+Each salience is the base times 1.5 for a first. The record at 17 is the generator's step of preparing for further education, training, work or service, dated at the age of a senior year; the nearest non-adult row is entering senior year (42). That one generated record outweighs every other moment in Mateo's life, a consequence of the fixed backstory listed under missing links. An introduction is written as maintained contact, not as a friendship formed (`social-introductions.ts:51`), so it takes the maintained weight. Closeness was 1.00 in every row, because each base already carries it: the relationship rows through their significance, the reach-out through its family row, and the rest are Mateo's own changes. Stakes were 1.00 because no scored record carried money or freedom at stake. No trait is on record for Mateo, so the trait factor was 1.00 in every row.
 
 The same rule found nothing in the two children's first weeks. All 15 records naming Quinn and all 13 naming Colin are setup records or minor neighborhood contacts, and all scored zero. Most days score zero, as the brief requires.
 
@@ -106,7 +106,7 @@ A new history store, `storyThreadStates`, holds one append-only row per change: 
 | Wyatt Murray            | none        | warmth marked                 | 0.233   | 1.00   | 0.058      |
 | Ivan Harmon             | none        | respect and commitment marked | 0.233   | 1.00   | 0.058      |
 
-Eleven people carry any importance. Four stand above 0.2, and the four grandparents sit at 0.2 on the standing tie alone. Wyatt and Ivan are faded threads with real history behind them, and part 5 shows how one of them comes back.
+Fading measures time since the pair's last recorded contact. Mateo and the relatives have none on record, so the reader returns 0 and calls them current (`relationship-absence.ts:477`). Wyatt's and Ivan's last contacts were in 2001 and 2003. Eleven people carry any importance. Four stand above 0.2, and the four grandparents sit at 0.2 on the standing tie alone. Wyatt and Ivan are faded threads with real history behind them, and part 5 shows how one of them comes back.
 
 The standing column shows a gap. Every relative reads none on all five lines, because generated families start with no recorded interactions between kin. Kin importance therefore rests on the standing tie alone until play writes family moments.
 
@@ -165,7 +165,7 @@ The standing column shows a gap. Every relative reads none on all five lines, be
 | Warning                        | the one warning, the one at risk                 | arrears, an eviction notice, a conflict escalating                                   |
 | Reconciliation                 | two people with settled tension                  | help or care after a quarrel                                                         |
 | Asking permission              | the one asking, the one with authority           | a choice that needs a guardian or a supervisor                                       |
-| Result night                   | candidate, supporters, rivals                    | an election result (coordinated with the b03 election-night rows)                    |
+| Election night                 | candidate, supporters, rivals                    | an election result (coordinated with the b03 election-night rows)                    |
 
 Gathering dates are birthdays, which are on record, and holidays. The simulation holds no holiday calendar, so holiday gatherings wait on one (missing links).
 
@@ -177,7 +177,7 @@ Gathering dates are birthdays, which are on record, and holidays. The simulation
 | Layoff                              | News arrives (the parent tells the household); argument over money; favor asked of kin                                                            | A job ending with the reason laid off or business closed                |
 | Illness                             | News arrives; visit; care; funeral if it ends in death                                                                                            | Crisis health episodes; deaths and death notices                        |
 | Move                                | Departure from the old place; first day at the new school; first meeting with new neighbors                                                       | Migration moves and household moves                                     |
-| Election                            | Result night; celebration or news arrives                                                                                                         | Election results                                                        |
+| Election                            | Election night; celebration or news arrives                                                                                                       | Election results                                                        |
 | Arrest                              | News arrives; visit while held; departure when sentenced; return on release                                                                       | Arrests, charges, holds and sentences                                   |
 | Death                               | News arrives; funeral; gathering with someone missing                                                                                             | Deaths and death notices                                                |
 | Birth of a sibling                  | Arrival; celebration                                                                                                                              | Family births and sibling kinship                                       |
@@ -192,7 +192,7 @@ The funeral type is opened by the death record itself, so it needs no separate f
 
 1. **A type and its roles bind.** The moment maps to a type, and every required role is filled from records. Otherwise it goes to the coverage log (part 7).
 2. **The player is there.** The player is a participant, or the type brings the news to them (news arrives, letter). A moment in someone else's life stays a journal line unless it reaches the player.
-3. **It ranks within the life's pace.** Each age band has a pace: about how many scenes a year the life carries. A moment becomes a scene when it ranks within that many of the life's moments over the trailing year, itself included. In a quiet year a modest moment ranks. In a year a parent goes to war, a schoolyard quarrel does not, and it stays in the journal. Starting paces, labeled calibration and owner-adjustable: about 1 a year under 6, 2 from 6 to 12, 3 from 13 to 17, and 4 for an adult.
+3. **It ranks within the life's pace.** Each age band has a pace: about how many scenes a year the life carries. A moment becomes a scene when it ranks within that many of the life's moments over the trailing year, itself included. In a quiet year a modest moment ranks. In a year a parent goes to war, a schoolyard quarrel does not, and it stays in the journal. Starting paces, labeled calibration and owner-adjustable, use the same bands as childhood agency and the journal: about 1 a year up to 7, 2 from 8 to 12, 3 from 13 to 17, and 4 for an adult.
 
 **When.** The type's timing. At the cause, the scene opens the first time the player has control after the record is written, dated to it. On the record's date, a departure plays on the day of leaving. At the next meeting, an apology plays the next time both people are in one place.
 
@@ -200,7 +200,7 @@ The funeral type is opened by the death record itself, so it needs no separate f
 
 **Who decides.** Childhood agency is reused unchanged. Under 8 the caregiver's move is decided through the ordinary decision path and the child watches. From 8 to 12 the choice is shared, and from 13 it is the young person's own.
 
-**Competing scenes.** When two scenes want the same evening, the existing situation selector ranks them, with salience as relevance. The childhood path today passes every situation a fixed relevance of 0.5 (`formative-play.ts:199`).
+**Competing scenes.** When two scenes want the same evening, the existing situation selector (`situation-selection.ts:246`) ranks them, with salience as relevance. The childhood path today passes every situation a fixed relevance of 0.5 (`formative-play.ts:199`).
 
 **The world sets the pace too.** Other people start situations from their own decisions: Audrey reaching out, a friend apologizing, a parent telling the household about a layoff. The director never starts one for them. It notices the record their decision wrote and schedules the scene.
 
@@ -230,16 +230,16 @@ The journal is a pure projection, computed when it is opened. It reads the store
 
 **The packet the director hands the English engine** (P3 owns the wording and the banks):
 
-| Fact                       | Example source                                                                                             |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Place and years            | Residence records and household moves                                                                      |
-| Ages at start and end      | Birth date                                                                                                 |
-| Quiet or eventful          | The period's total salience, against the life's own average; "nothing much happened" is a fact, not filler |
-| People met who matter now  | Threads opened in the period, ranked by current importance, with how they met and what they are now        |
-| Losses, arrivals and moves | Moments of those kinds that ranked                                                                         |
-| The strongest moments      | Up to three per chapter, by salience                                                                       |
+| Fact                       | Example source                                                                                                                               |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Place and years            | Residence records and household moves                                                                                                        |
+| Ages at start and end      | Birth date                                                                                                                                   |
+| Quiet or eventful          | The period's total salience against the life's own average; a quiet period is reported as quiet, so the engine may say nothing much happened |
+| People met who matter now  | Threads opened in the period, ranked by current importance, with how they met and what they are now                                          |
+| Losses, arrivals and moves | Moments of those kinds that ranked                                                                                                           |
+| The strongest moments      | Up to three per chapter, by salience                                                                                                         |
 
-**Worked example (Quinn).** Quinn's journal today is one chapter: Acorn, from birth to 10, with no moment above zero. The packet says the period was quiet and names the parents. It names no friend, because none is on record.
+**Worked example (Quinn).** Under this rule, Quinn's journal is one chapter: Acorn, from birth to 10, with no moment above zero. The packet says the period was quiet and names the parents. It names no friend, because none is on record.
 
 **Worked example (Mateo).** Mateo's childhood in Aberdeen Gardens splits into three chapters, because each band holds moments. Birth to 7 holds the move at 6 (0.300), which stayed inside the town. Ages 8 to 12 hold Wyatt at 10 and Ivan Harmon at 12 (0.233 each). Ages 13 to 17 hold volunteering (0.270), the first job (0.300) and preparing for the next step (0.630). No one met in those years ranks above family now: Wyatt and Ivan are faded, so the chapter can say Mateo met someone without dwelling on them. If Wyatt's reunion in part 5 grows into a friendship, the 8-to-12 chapter is told again with Wyatt in it. That is the owner's model, from the grade note on the first English batch: "I was born in West Jordan and lived there my first 12 years. Nothing much happened, but I met someone who became my best friend."
 
@@ -256,7 +256,7 @@ The journal is a pure projection, computed when it is opened. It reads the store
 
 A developer command, `npm run story:coverage`, totals the log by kind and reason over any save. Watched runs and early-access saves then show which types to build next. Nothing in the log reaches a player.
 
-**Worked example (Acorn, first week).** The town wrote 15 meaningful "friends in the same town" records between adults. Each scores 0.156 for both friends, or 0.233 where it is that person's first friendship. None maps to a type in the first library, because becoming friends over weeks is not one social moment. The coverage log would record 30 `no-type` rows for `contact:friendship formed` (15 records, two people each). Decision 6 settles it: journal lines only, or a "becoming friends" type.
+**Worked example (Acorn, first week).** The town wrote 15 meaningful "friends in the same town" records between adults. Each scores 0.156 for both friends, or 0.233 where it is that person's first friendship. For most of these adults it is the first friendship on record, because generated adults start with none (missing links). None maps to a type in the first library, because becoming friends over weeks is not one social moment. The coverage log would record 30 `no-type` rows for `contact:friendship formed` (15 records, two people each). Decision 6 settles it: journal lines only, or a "becoming friends" type.
 
 ## Part 8. Speed: acting on the day something changes
 
@@ -278,7 +278,7 @@ One pull request per step, branches `pool/P6-<step>`, each with tests over all 5
 
 1. **Moments (part 1).** The moment-kind table with sourced weights; the classifier and salience; the moment store and daily intake; tests that most records score zero and the worked rows reproduce.
 2. **Threads (part 2).** Thread states, importance, turns, fade due items, both indexes.
-3. **Situation types (part 3).** The 31 types and the move kinds as data; act-kind labels for every role's moves in the decision table; a schema test that every type keeps four moves per role.
+3. **Situation types (part 3).** The 31 types and the move kinds as data; act-kind labels for every role's moves in the decision table; a schema test that every role in every type keeps at least four moves.
 4. **The runner (part 3).** The `situation` scene family on the existing conversation engine, with fact packets, Lie variants and aftermath through the existing writers. It holds no sentence.
 5. **Scheduling and coverage (parts 4 and 7).** Pace ranking, scene bindings with real places and present people, the coverage log and its command; the childhood path reads caused scenes first.
 6. **Memory and callbacks (part 5).** Shared history in scene packets, the recall move, and the three resurfacing rules.
@@ -297,6 +297,8 @@ None is fixed in this design pull request, which changes no code. Each names who
 - **A generated classmate 16 months older started school the same day.** Zachary Perkins, born November 20, 2013, and Quinn, born March 16, 2015, both started at Acorn Elementary School on August 24, 2020. Who acts: a new pool row for the classmate generator; P6 files it.
 - **The childhood bank names a companion with no tie.** Quinn's offered "friend conflict" names a schoolmate the record never links to Quinn. Who acts: P6 step 8, which retires the bank (decision 3).
 - **A catch-up line claims time apart the record does not hold.** The favor family's opening says "It's been a long time" with no last contact on record (`contextual-scene-families.ts:565`). Who acts: P6 step 4, where the reach-out type replaces it.
+- **Generated adults start with no friendships.** In Acorn, 15 friendships between adults formed in the first simulated week, and for most of those adults each was the first friendship on record. Who acts: the same family-generator pool row, seeding earlier friendships from the generated backstory.
+- **No contact on record reads as current.** Mateo and Audrey have no recorded contact, and the absence reader calls the pair current with no fading (`relationship-absence.ts:477`). Who acts: P6 step 2, where a thread with no recorded contact takes no currency from the absence reader.
 - **No player trait is on record at the start.** In all three lives the trait factor was silent. Who acts: no one; traits are recorded as the player chooses, and the factor applies from then.
 
 **Read from the code:**
