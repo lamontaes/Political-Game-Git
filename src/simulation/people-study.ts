@@ -5,12 +5,12 @@ import {
   organizationProfileAt,
 } from "./life-queries";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { recordRelationshipInteraction } from "./records";
 import { isPersonAliveAt } from "./vitality-integrity";
 import { recordWorldEvent } from "./world";
-import type { DecisionConsideration, EntityId, World } from "./types";
+import type { EntityId, World } from "./types";
 
 /**
  * Working with somebody you met studying (CRUNCH47 F47.1).
@@ -122,39 +122,6 @@ export function decideStudyPeerOutcome(
   // offer, and says so. That is a fact about the world, not a temperament.
   if (peer.committedElsewhere) return { outcome: "declines", world };
   const withTraits = ensurePeopleTraits(world, [input.peerPersonId]);
-  const considerations: DecisionConsideration[] = [
-    ...traitConsiderations(
-      withTraits,
-      input.peerPersonId,
-      `study-peer:${input.personId}`,
-      [
-        {
-          optionKey: "agrees",
-          trait: "sociability",
-          pole: "high",
-          explanation: "They would rather work with somebody than alone.",
-        },
-        {
-          optionKey: "declines",
-          trait: "sociability",
-          pole: "low",
-          explanation: "They would rather work on their own.",
-        },
-        {
-          optionKey: "counterproposes",
-          trait: "deliberation",
-          pole: "low",
-          explanation: "They would rather settle the smaller part first.",
-        },
-        {
-          optionKey: "agrees",
-          trait: "reliability",
-          pole: "high",
-          explanation: "They take shared work seriously.",
-        },
-      ],
-    ),
-  ];
   const evaluation = evaluateDecision(withTraits, {
     stableKey: `study-peer:${input.personId}:${input.peerPersonId}:${withTraits.currentDate}`,
     decisionType: "people.study-collaboration",
