@@ -25,5 +25,8 @@ describe("the vindictive difference in a random new game", () => {
     expect(proof.without).toBe("decline");
     expect(proof.high.choice).toBe("dispute");
     expect(proof.low.choice).toBe("decline");
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-vindictive|press.subject-response|dispute|high",
+    );
   });
 });
