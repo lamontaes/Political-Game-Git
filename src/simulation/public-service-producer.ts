@@ -11,6 +11,9 @@ import {
   recordDurableDecisionTrace,
 } from "./decisions";
 import { scheduleFutureDueItem } from "./future-transitions";
+import { eventById } from "./event-index";
+import { dwellingOccupancyStateAt } from "./resource-queries";
+import housingFirstService from "../../data/research/health/housing-first-service.json";
 import { hasStableKey, recordById, recordByStableKey } from "./history-index";
 import {
   activeEducationEnrollmentsAt,
@@ -37,6 +40,7 @@ import {
 } from "./crisis/health-queries";
 import { SUBSTANCE_USE_DISORDER_KEY } from "./crisis/condition-pack";
 import { publicProgramRecords } from "./public-program-integrity";
+import { residentOfCounty } from "./county-service-authority";
 import {
   livesInServiceArea,
   requestPublicService,
@@ -55,6 +59,7 @@ import { writeWithWorldIntegrityOnce } from "./world";
 import {
   PUBLIC_SERVICE_ATTENDANCE,
   SERVICE_REQUEST_FORMS,
+  isCountyServiceProgram,
   type ServiceRequestForm,
 } from "./law-consequences/service-delivered-data";
 import type {
@@ -171,7 +176,7 @@ export function produceResidentServiceRequests(
   let noReason = 0;
   const next = writeWithWorldIntegrityOnce(world, () => {
     let current = world;
-    const records = residentRecordIndex(world);
+    const records = residentRecordIndex(world, form.need === "housing");
     const start = simulationMomentAtLocalTime({
       date: world.currentDate,
       minuteOfDay: form.visit.startMinuteOfDay,
@@ -179,8 +184,18 @@ export function produceResidentServiceRequests(
       preferredUtcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
     });
     const end = addSimulationMinutes(start, form.visit.minutes);
-    for (const personId of residentsOf(world, commitment.jurisdictionId)) {
+    const countyService = isCountyServiceProgram(commitment.programKey);
+    for (const personId of residentsOf(
+      world,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )) {
       if (records.dead.has(personId)) continue;
+      if (
+        countyService &&
+        !residentOfCounty(world, personId, commitment.programKey)
+      )
+        continue;
       if (
         !form.forChild &&
         scheduledConflictExists(current, [personId], start, end)
@@ -279,7 +294,11 @@ export function produceResidentServiceRequests(
 }
 
 /** Adults whose recorded home is in the served place, in id order. */
-function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
+function residentsOf(
+  world: World,
+  jurisdictionId: EntityId,
+  programKey?: string,
+): EntityId[] {
   const controlled =
     world.control.kind === "person" ? world.control.personId : null;
   return (Object.keys(world.people) as EntityId[])
@@ -288,13 +307,15 @@ function residentsOf(world: World, jurisdictionId: EntityId): EntityId[] {
         id !== controlled &&
         ageOnDate(world.people[id]!.birthDate, world.currentDate) >=
           ADULT_AGE &&
-        livesInServiceArea(world, id, jurisdictionId),
+        livesInServiceArea(world, id, jurisdictionId, programKey),
     )
     .sort();
 }
 
 interface ResidentRecordIndex {
   readonly dead: ReadonlySet<EntityId>;
+  readonly housingLoss: ReadonlyMap<EntityId, EntityId>;
+  readonly housed: ReadonlySet<EntityId>;
   /** Latest goal state per person and goal key. */
   readonly goals: ReadonlyMap<EntityId, ReadonlyMap<string, GoalStateRecord>>;
   /** Parent-child kinship records per person. */
@@ -305,7 +326,32 @@ interface ResidentRecordIndex {
 }
 
 /** One pass over each history list the decisions read, per paid installment. */
-function residentRecordIndex(world: World): ResidentRecordIndex {
+function residentRecordIndex(
+  world: World,
+  readHousing: boolean,
+): ResidentRecordIndex {
+  const housingLoss = new Map<EntityId, EntityId>();
+  const housed = new Set<EntityId>();
+  if (readHousing) {
+    // Read the occupancy history once per funded installment. An absent
+    // home record is not evidence that somebody lost a home.
+    for (const occupancy of world.history.dwellingOccupancies) {
+      if (occupancy.startedAt > world.currentDate) continue;
+      const state = dwellingOccupancyStateAt(world, occupancy.id);
+      if (!state || state.residenceRole !== "primary") continue;
+      const id =
+        occupancy.occupant.kind === "person"
+          ? occupancy.occupant.personId
+          : occupancy.occupant.householdId;
+      if (state.status === "active") housed.add(id);
+      else if (
+        state.provenance.kind === "simulated-event" &&
+        eventById(world, state.provenance.eventId)?.type ===
+          housingFirstService.displacementEventType
+      )
+        housingLoss.set(id, state.id);
+    }
+  }
   const dead = new Set(
     world.history.personDeaths
       .filter((death) => death.diedAt <= world.currentDate)
@@ -337,7 +383,7 @@ function residentRecordIndex(world: World): ResidentRecordIndex {
       kin.set(id, list);
     }
   }
-  return { dead, goals, kin };
+  return { dead, goals, kin, housingLoss, housed };
 }
 
 function lifeRef(
@@ -384,6 +430,39 @@ function needConsiderations(
 ): DecisionConsideration[] {
   const person = world.people[personId]!;
   const out: DecisionConsideration[] = [];
+  if (form.need === "housing") {
+    const occupants = [
+      personId,
+      ...householdMembershipsAt(world, personId).map(
+        ({ household }) => household.id,
+      ),
+    ];
+    if (occupants.some((id) => records.housed.has(id))) return out;
+    const loss = occupants
+      .map((id) => records.housingLoss.get(id))
+      .find(Boolean);
+    if (!loss) return out;
+    // Housing First has no treatment, sobriety, or work prerequisite. The
+    // saved eviction and still-unreplaced occupancy supply the person's reason.
+    out.push(
+      consideration(
+        personId,
+        `housing:${loss}`,
+        "ask",
+        "strong",
+        "high",
+        housingFirstService.requestReasonKey,
+        [
+          {
+            kind: "life-history",
+            reference: { family: "dwelling-occupancy-state", recordId: loss },
+          },
+        ],
+        "context:housing",
+      ),
+    );
+    return out;
+  }
   if (form.need === "child-in-household") {
     if (!form.forChild) return out;
     for (const childId of eligibleHouseholdServiceChildren(
@@ -454,6 +533,45 @@ function needConsiderations(
       (place ? stateKeyForJurisdiction(place) : null);
     return !!servedState && state === servedState;
   };
+
+  if (form.need === "clinic") {
+    // A county clinic is asked for from the person's own health record: any
+    // episode still open. The episode names no condition, so it is weighed as
+    // being unwell, never as a diagnosis. Hours already given to work weigh
+    // against going.
+    for (const episode of activeHealthEpisodes(world, personId)) {
+      if (!episode.eventId) continue;
+      out.push(
+        consideration(
+          personId,
+          `health:${episode.id}`,
+          "ask",
+          "moderate",
+          "high",
+          "Is unwell and could use the clinic.",
+          [{ kind: "historical-event", eventId: episode.eventId }],
+          "context:health",
+        ),
+      );
+    }
+    if (out.length === 0) return out;
+    for (const { relationship, role } of work) {
+      const weekly = role.timeDemand.expectedWeekly?.maximumHours ?? null;
+      out.push(
+        consideration(
+          personId,
+          `work-hours:${relationship.id}`,
+          "wait",
+          weekly !== null && weekly >= 40 ? "moderate" : "slight",
+          "high",
+          `Hours already go to work as ${role.title}.`,
+          [lifeRef("work-role", role.id)],
+          "context:work",
+        ),
+      );
+    }
+    return out;
+  }
 
   if (form.need === "on-call") {
     // A crisis team is asked for from the person's own health record: an
@@ -802,7 +920,12 @@ export function serviceAttendanceHandler(
     );
   if (
     !commitment ||
-    !livesInServiceArea(world, personId, commitment.jurisdictionId)
+    !livesInServiceArea(
+      world,
+      personId,
+      commitment.jurisdictionId,
+      commitment.programKey,
+    )
   )
     return done(
       cancelScheduledActivity(world, activity.id),

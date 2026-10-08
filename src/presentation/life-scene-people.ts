@@ -10,7 +10,7 @@ import {
 } from "./appearance-engine/pack";
 import { conversationExpression } from "./appearance-engine/expression-chooser";
 import type { ConversationExchangeTurn } from "./scene-conversation";
-import { personDayRecipe } from "./day-clothing";
+import { personDayRecipe, roomDayOutfitExclusions } from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackAvailable,
@@ -399,6 +399,8 @@ function posedFor(
   activity: SceneActivity,
   seated: boolean,
   turns: readonly ConversationExchangeTurn[],
+  /** Which way the anchor faces, when the registry says. */
+  facing?: "viewer" | "away",
 ): {
   readonly pose: BodyPose;
   readonly view: BodyView;
@@ -406,22 +408,22 @@ function posedFor(
   readonly reading: boolean;
 } {
   const record = world.people[personId]!;
+  const seed = record.appearance?.seed ?? record.id;
+  const expression = conversationExpression(world, personId, turns);
+  const view = chooseBodyView(activity, facing);
   return {
     // At a desk or table: anyone who wears glasses to read has them on.
     reading: activity === "desk",
-    expression: conversationExpression(
-      world,
-      personId,
-      record.appearance?.seed ?? record.id,
-      turns,
-    ),
+    expression,
     pose: chooseBodyPose({
       activity,
       seated,
-      seed: record.appearance?.seed ?? record.id,
+      seed,
+      view,
+      expression,
       ...recordedGuardedness(world, personId),
     }),
-    view: chooseBodyView(activity),
+    view,
   };
 }
 
@@ -709,6 +711,10 @@ export function planLifeScenePeople(
         .map((person) => [person.personId, person]),
     ).values(),
   ].sort((left, right) => left.personId.localeCompare(right.personId));
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    people.map((person) => person.personId),
+  );
 
   const plateAspect = scene.plate.width / scene.plate.height;
 
@@ -764,6 +770,7 @@ export function planLifeScenePeople(
       !savedWardrobes?.artPreview &&
       peoplePackAvailable()
         ? personDayRecipe(world, record, {
+            avoidOutfits: outfitExclusions.get(person.personId),
             ...posedFor(
               world,
               person.personId,
@@ -775,6 +782,10 @@ export function planLifeScenePeople(
               }),
               seated,
               activity?.turns ?? [],
+              anchor.permittedFacings?.includes("away") &&
+                !anchor.permittedFacings.includes("front")
+                ? "away"
+                : "viewer",
             ),
           })
         : null;

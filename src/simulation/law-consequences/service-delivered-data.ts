@@ -1,5 +1,6 @@
 import type { LawConsequenceRow } from "../law-consequence-types";
 import type { EducationContextKind, EducationProgramKind } from "../types";
+import housingFirstService from "../../../data/research/health/housing-first-service.json";
 
 export const SERVICE_SELECTOR = "service.completed-activity-participants";
 export const SERVICE_ACTION = "record-delivered-service";
@@ -8,9 +9,51 @@ export const FUNDED_SERVICE = "service.funded-by-governing-law";
 export const SERVICE_RECIPIENT_KIND = "activity:public-service";
 export const PUBLIC_SERVICE_ATTENDANCE = "public-service:attendance";
 
+/**
+ * The three services a county's board funds from its voted budget lines
+ * (CO-9). They have no catalog question: the board's own measure and its
+ * budget line are their authority, so each carries a service key of its own.
+ */
+export const COUNTY_HEALTH_CLINICS = "county-service:health-clinics";
+export const COUNTY_ROAD_REPAIR = "county-service:road-repair";
+export const COUNTY_FAIR = "county-service:fair";
+export const COUNTY_SERVICE_QUESTION_KEYS = [
+  COUNTY_HEALTH_CLINICS,
+  COUNTY_ROAD_REPAIR,
+  COUNTY_FAIR,
+] as const;
+
 /** Catalog data for completed, funded service; fare pricing is a separate consequence. */
 export const FARM_PAYMENT_QUESTION =
   "us-federal-positions:agriculture.cut-farm-subsidies";
+
+function recordedFundedServiceRow(questionKey: string): LawConsequenceRow {
+  return {
+    id: `${questionKey}:recorded-funded-service`,
+    kind: "service-delivered",
+    when: "service",
+    who: { selector: SERVICE_SELECTOR, predicates: [] },
+    what: SERVICE_ACTION,
+    amount: { op: "record", key: SERVICE_HOURS, unit: "hours" },
+    conditions: [{ capability: FUNDED_SERVICE, parameters: {} }],
+    lag: { days: 0, sourceIds: [] },
+    onRepeal: "preserve-completed",
+    evidence: {
+      sourceIds: [
+        "src/simulation/time-work.ts:completeActivity",
+        "src/simulation/public-program-integrity.ts",
+        "src/simulation/resources.ts:recordResourceTransferOutcome",
+      ],
+      population:
+        "Existing recorded service recipients who completed an activity tied to the law's funded commitment.",
+      scope:
+        "Actual completed recipient-hours only; not vehicle-hours, added ridership, free-fare pricing or population access.",
+      why: "The saved activity interval establishes time delivered to its recorded recipient. The commitment, appropriation and positive operating transfer establish the governing law's funding lineage. Neither payment nor legislation establishes attendance.",
+      uncertainty:
+        "No delivery is inferred without these records. An authored service record is not observational research or proof of a live caller.",
+    },
+  } satisfies LawConsequenceRow;
+}
 
 export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
   Record<string, readonly LawConsequenceRow[]>
@@ -34,33 +77,17 @@ export const SERVICE_DELIVERED_LAW_ROWS: Readonly<
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
   ].map((questionKey) => [
     questionKey,
-    [
-      {
-        id: `${questionKey}:recorded-funded-service`,
-        kind: "service-delivered",
-        when: "service",
-        who: { selector: SERVICE_SELECTOR, predicates: [] },
-        what: SERVICE_ACTION,
-        amount: { op: "record", key: SERVICE_HOURS, unit: "hours" },
-        conditions: [{ capability: FUNDED_SERVICE, parameters: {} }],
-        lag: { days: 0, sourceIds: [] },
-        onRepeal: "preserve-completed",
-        evidence: {
-          sourceIds: [
-            "src/simulation/time-work.ts:completeActivity",
-            "src/simulation/public-program-integrity.ts",
-            "src/simulation/resources.ts:recordResourceTransferOutcome",
-          ],
-          population:
-            "Existing recorded service recipients who completed an activity tied to the law's funded commitment.",
-          scope:
-            "Actual completed recipient-hours only; not vehicle-hours, added ridership, free-fare pricing or population access.",
-          why: "The saved activity interval establishes time delivered to its recorded recipient. The commitment, appropriation and positive operating transfer establish the governing law's funding lineage. Neither payment nor legislation establishes attendance.",
-          uncertainty:
-            "No delivery is inferred without these records. An authored service record is not observational research or proof of a live caller.",
-        },
-      } satisfies LawConsequenceRow,
-    ],
+    [recordedFundedServiceRow(questionKey)],
+  ]),
+);
+
+/** Rows for the county services; kept apart from the sixteen cataloged laws. */
+export const COUNTY_SERVICE_ROWS: Readonly<
+  Record<string, readonly LawConsequenceRow[]>
+> = Object.fromEntries(
+  COUNTY_SERVICE_QUESTION_KEYS.map((questionKey) => [
+    questionKey,
+    [recordedFundedServiceRow(questionKey)],
   ]),
 );
 
@@ -126,7 +153,8 @@ export interface ServiceRequestForm {
    * against a saved care record naming someone at home who looks after them.
    * `substance-use` services (harm reduction) are asked for from the person's
    * own private health record of a substance use disorder, against hours held
-   * by work.
+   * by work. `housing` services read an eviction-linked loss of primary
+   * occupancy, with no replacement primary home on record.
    */
   readonly need:
     | "travel"
@@ -134,7 +162,9 @@ export interface ServiceRequestForm {
     | "reading"
     | "on-call"
     | "child-in-household"
-    | "substance-use";
+    | "substance-use"
+    | "housing"
+    | "clinic";
   /** Recorded-family eligibility and enrollment, supplied only by this row. */
   readonly forChild?: {
     readonly minimumAge: number;
@@ -166,6 +196,14 @@ const TRANSIT_TRIP: ServiceRequestForm = {
 export const SERVICE_REQUEST_FORMS: Readonly<
   Record<string, ServiceRequestForm>
 > = {
+  [housingFirstService.questionKey]: {
+    asked: housingFirstService.label,
+    activityTitle: housingFirstService.label,
+    membership: housingFirstService.questionKey,
+    activityKind: "confirmed",
+    need: "housing",
+    visit: housingFirstService.visit,
+  },
   "us-policy-positions:education.universal-preschool": {
     asked: "a pre-K spot",
     activityTitle: "Pre-K at {operator}",
@@ -269,6 +307,31 @@ export const SERVICE_REQUEST_FORMS: Readonly<
       need: "on-call",
       visit: { startMinuteOfDay: 0, minutes: 90 },
     },
+  [COUNTY_HEALTH_CLINICS]: {
+    asked: "a clinic visit",
+    activityTitle: "Clinic visit with {operator}",
+    membership: "Registered as a patient with {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "clinic",
+    // Authored service-day profile: a mid-morning appointment, not a rule.
+    visit: { startMinuteOfDay: 10 * 60, minutes: 45 },
+  },
+  [COUNTY_ROAD_REPAIR]: {
+    asked: "a drive on the county's roads",
+    activityTitle: "Drive on roads kept by {operator}",
+    membership: "Lives on roads kept by {operator}; home is in {place}.",
+    activityKind: "travel",
+    need: "travel",
+    visit: { startMinuteOfDay: 7 * 60 + 30, minutes: 40 },
+  },
+  [COUNTY_FAIR]: {
+    asked: "a day at the county fair",
+    activityTitle: "Day at the fair run by {operator}",
+    membership: "Attends the fair run by {operator}; home is in {place}.",
+    activityKind: "confirmed",
+    need: "outdoors",
+    visit: { startMinuteOfDay: 13 * 60, minutes: 180 },
+  },
   "us-policy-positions:health-human-services.harm-reduction-services": {
     asked: "a harm reduction visit",
     activityTitle: "Harm reduction visit with {operator}",
@@ -312,7 +375,40 @@ export const STANDING_SERVICE_PROGRAMS: Readonly<
       "service:hospital",
     ],
   },
+  // A county's own services, funded by its board's voted budget lines.
+  "county-health-clinics": {
+    questionKey: COUNTY_HEALTH_CLINICS,
+    operatorClassifications: [
+      "service:public-health",
+      "service:clinic",
+      "service:hospital",
+    ],
+  },
+  "county-road-repair": {
+    questionKey: COUNTY_ROAD_REPAIR,
+    operatorClassifications: ["sector:local-government-office"],
+  },
+  "county-fair": {
+    questionKey: COUNTY_FAIR,
+    operatorClassifications: [
+      "enterprise:recreation",
+      "community:organizing-nonprofit",
+      "sector:local-government-office",
+    ],
+  },
 };
+
+/** The county services a board's voted budget lines fund, by program family. */
+export const COUNTY_SERVICE_FAMILIES = [
+  { family: "county-health-clinics", line: "healthAndHospitals" },
+  { family: "county-road-repair", line: "highways" },
+  { family: "county-fair", line: "parks" },
+] as const;
+
+export function isCountyServiceProgram(programKey: string): boolean {
+  const family = programKey.split(":")[0]!;
+  return COUNTY_SERVICE_FAMILIES.some((row) => row.family === family);
+}
 
 /** The standing program family of a program key, if it has one. */
 export function standingServiceProgram(programKey: string) {

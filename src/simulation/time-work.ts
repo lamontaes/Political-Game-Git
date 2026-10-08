@@ -49,6 +49,7 @@ import type {
   World,
 } from "./types";
 import { resolveFutureDueItemsThrough } from "./future-transitions";
+import { composeFutureTransitionHandlerRegistries } from "./future-transition-registry";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
@@ -58,6 +59,12 @@ import { composeWorldTimeHandlers } from "./campaigns";
 import { recordsWithFieldValue } from "./history-index";
 import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
 import { reconcileStateLegislatureQueue } from "./nationwide-world/state-legislature-queue";
+import { createCrisisTransitionRegistry } from "./crisis";
+import { ensureCrisisMortality } from "./crisis/mortality";
+import {
+  ensurePeopleGoalReview,
+  PEOPLE_GOAL_HANDLERS,
+} from "./people-goal-review";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -1112,22 +1119,31 @@ export function advanceWorldMinutes(
   minutes: number,
   transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
+  // Direct simulation-clock callers may start from a saved or fixture world
+  // that did not pass through the presentation opening path. Start the same
+  // dated mortality and goal schedules here, and supply their handlers even
+  // when the caller adds a narrower transition registry.
+  const scheduledWorld = ensurePeopleGoalReview(ensureCrisisMortality(world));
+  const handlers = composeFutureTransitionHandlerRegistries(
+    transitionHandlers,
+    createCrisisTransitionRegistry(),
+    PEOPLE_GOAL_HANDLERS,
+  );
   return advanceWithWorldIntegrityAtEnd(() => {
     if (!transitionHandlers.routine) {
-      if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
-        return world;
-      return advanceStoppingAtNewCommitments(
-        world,
-        minutes,
-        transitionHandlers,
-      );
+      if (
+        controlledCommitmentsBlockingMinuteAdvance(scheduledWorld, minutes)
+          .length > 0
+      )
+        return scheduledWorld;
+      return advanceStoppingAtNewCommitments(scheduledWorld, minutes, handlers);
     }
     return resolveAdvanceWithRoutine(
-      world,
-      addSimulationMinutes(world.currentMoment, minutes),
-      transitionHandlers,
+      scheduledWorld,
+      addSimulationMinutes(scheduledWorld.currentMoment, minutes),
+      handlers,
     );
-  }, world);
+  }, scheduledWorld);
 }
 
 /** Spend real time while joining one already-started commitment. The caller

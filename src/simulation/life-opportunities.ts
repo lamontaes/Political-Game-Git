@@ -1,11 +1,10 @@
-import { ensurePostedMeetingOnCouncilAgenda } from "./living-world/local-council-meetings";
 import {
   lifeRequestDetailsTag,
   type LifeRequestDetails,
 } from "./life-request-details";
 import { ageOnDate } from "./dates";
 import { formativeIntervalAt } from "./character-history";
-import { addDays, makeIsoDate, makeSimulationMoment } from "./dates";
+import { makeIsoDate, makeSimulationMoment } from "./dates";
 import {
   activeOrganizationParticipationsAt,
   activeWorkRelationshipsAt,
@@ -16,13 +15,14 @@ import {
 } from "./life-queries";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { recordEventKnowledge } from "./records";
-import { createScheduledActivity, createWorkItem } from "./time-work";
+import { createScheduledActivity } from "./time-work";
 import { settleLivingCosts } from "./cost-of-living";
 import { settleOfficeSalaries } from "./office-salary";
 import { advanceJobMarket } from "./job-market";
 import { settleHouseholdLoanPayments } from "./household-loans";
 import { recordWorldEvent } from "./world";
 import { ensurePeopleTraits } from "./people-traits";
+import { proposeContact } from "./relationship-contact";
 import {
   hostDecidesToAsk,
   occasionDetailsForRecipient,
@@ -171,16 +171,6 @@ export const ORDINARY_LIFE_WORK_ITEMS: readonly OrdinaryLifeWorkItemDefinition[]
     },
   ];
 
-function authoredWorkItem(key: string): OrdinaryLifeWorkItemDefinition {
-  const definition = ORDINARY_LIFE_WORK_ITEMS.find(
-    (candidate) => candidate.key === key,
-  );
-  if (!definition) {
-    throw new Error(`No ordinary-life work item is authored as '${key}'.`);
-  }
-  return definition;
-}
-
 /* -------------------------------------------------------------------------- */
 /* Reading — pure, and the only thing the scene bank is allowed to use         */
 /* -------------------------------------------------------------------------- */
@@ -296,143 +286,21 @@ function occasionDatesBySource(world: World): ReadonlyMap<EntityId, IsoDate> {
 /* -------------------------------------------------------------------------- */
 
 /**
- * The public meeting records an ordinary life starts with, written once.
+ * Compatibility entry point for the ordinary-life opening route.
  *
- * Moved here from the presentation surface without changing what it writes:
- * the same notice, the same meeting on the calendar, and its work item
- * under the same stable keys and authored titles and summaries, explicitly
- * marked as an authored opening. Meeting and travel retain their recorded
- * responsible person so the existing action readers can find them. It lives
- * in the simulation now because the canonical world builder needs it and a
- * world may not reach up into a screen to find out what an ordinary week is.
- *
- * Once per world, keyed to the posted meeting rather than to a daily read.
+ * An opening cannot post a public meeting, agenda, trip, or work item without
+ * a dated notice from an actual organizer. The former authored opening had no
+ * such record, so new worlds leave the meeting history empty. Existing saves
+ * keep their recorded meetings because this reader does not rewrite history.
  */
 export function openOrdinaryLifeRecords(
   world: World,
   personId: EntityId,
 ): World {
-  const person = world.people[personId];
-  if (!person) throw new Error("This character is not in the world.");
-  if (formativeIntervalAt(world, personId) !== null) return world;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  const jurisdictionId = place?.context.jurisdiction.id ?? null;
-  const alreadyOpen = world.history.workItems.some(
-    (item) => item.stableKey === PUBLIC_MEETING_KEY,
-  );
-  if (alreadyOpen) return world;
-
-  let next = recordWorldEvent(world, {
-    stableKey: `${PUBLIC_MEETING_KEY}:notice`,
-    type: "civic.meeting-notice",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
-    jurisdictionId,
-    involvedEntityIds: [personId],
-    participants: [
-      {
-        personId,
-        role: "observation:reader",
-        detail: "Saw the posted agenda",
-      },
-    ],
-    personFactConstraints: [],
-    visibility: "public",
-    tags: ["civic.public-meeting", "provenance:authored opening"],
-    summary: `A public meeting was posted on the local calendar. Agenda: ${PUBLIC_MEETING_AGENDA}`,
-    context: {
-      location: jurisdictionId
-        ? { jurisdictionId, label: "Public meeting room", setting: null }
-        : null,
-      socialContext: null,
-      pressure: null,
-      choice: null,
-      motivation: null,
-      immediateReaction: null,
-    },
-  });
-  const notice = next.history.events.at(-1);
-  if (!notice) throw new Error("The meeting notice was not recorded.");
-
-  next = createScheduledActivity(next, {
-    stableKey: `${PUBLIC_MEETING_KEY}:activity`,
-    title: "Posted public meeting",
-    summary:
-      "A local meeting on the published calendar. Anyone may attend; nobody has asked you to.",
-    kind: "tentative",
-    start: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
-    end: momentAt(world, 19, 45, addDays(world.currentDate, 1)),
-    participantPersonIds: [personId],
-    responsiblePersonId: personId,
-    location: {
-      locationKey: "ordinary-life:meeting-room",
-      label: "Public meeting room",
-      jurisdictionId: jurisdictionId ?? person.homeJurisdictionId,
-    },
-    sourceEntityIds: [notice.id],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [personId] },
-  });
-  const meeting = next.history.scheduledActivities.at(-1);
-  if (!meeting) throw new Error("The public meeting was not recorded.");
-
-  // A bounded game-authored journey, not measured geography or a fare quote.
-  // Existing saves retain their original meeting; only new notices get this leg.
-  next = createScheduledActivity(next, {
-    stableKey: `${PUBLIC_MEETING_KEY}:journey`,
-    title: "Trip to the public meeting",
-    summary: "About twenty minutes to get to the meeting room.",
-    kind: "travel",
-    start: momentAt(world, 18, 10, addDays(world.currentDate, 1)),
-    end: momentAt(world, 18, 30, addDays(world.currentDate, 1)),
-    participantPersonIds: [personId],
-    responsiblePersonId: personId,
-    location: {
-      locationKey: "ordinary-life:to-meeting-room",
-      label: "On the way to the public meeting",
-      jurisdictionId: jurisdictionId ?? person.homeJurisdictionId,
-    },
-    sourceEntityIds: [meeting.id],
-    flexibility: { kind: "fixed" },
-    access: { kind: "private", personIds: [personId] },
-  });
-
-  next = createWorkItem(next, {
-    stableKey: PUBLIC_MEETING_KEY,
-    title: authoredWorkItem(PUBLIC_MEETING_KEY).title,
-    summary: authoredWorkItem(PUBLIC_MEETING_KEY).summary,
-    jurisdictionId,
-    sourceEntityIds: [meeting.id],
-    focus: { kind: "calendar-item", scheduledActivityId: meeting.id },
-    effort: { kind: "authored-duration", requiredMinutes: 75 },
-    access: { kind: "private", personIds: [personId] },
-    assignedPersonIds: [personId],
-    playerRequirement: playerRequirementFor(next, personId),
-    waitingOnPersonIds: [],
-    blocker: null,
-    scheduledActivityId: meeting.id,
-  });
-  // Where the town's council is seated, the posted meeting is its meeting,
-  // and its agenda item goes before the council to be voted on.
-  return ensurePostedMeetingOnCouncilAgenda(next, personId);
-}
-
-/**
- * Whether the public meeting asks the controlled player for a decision.
- *
- * "decision" when this world is being played by this person, which is the case
- * every normal route reaches, and "none" in an observer world. The engine
- * enforces the same distinction — player-required work
- * against an unplayed person is refused — and stating it here keeps a canonical
- * fixture honest rather than dressing an observer up as a player.
- */
-function playerRequirementFor(
-  world: World,
-  personId: EntityId,
-): "decision" | "none" {
-  return world.control.kind === "person" && world.control.personId === personId
-    ? "decision"
-    : "none";
+  if (!world.people[personId]) {
+    throw new Error("This character is not in the world.");
+  }
+  return world;
 }
 
 /**
@@ -612,8 +480,16 @@ function eligibleOpportunities(
     push({
       kind: "social-occasion",
       counterpartPersonId: host,
-      write: (current, stableKey) =>
-        writeAsk(ensurePeopleTraits(current, [host]), {
+      write: (current, stableKey) => {
+        if (occasion.reason === "date") {
+          return writeDateInvitation(current, {
+            stableKey: `${stableKey}:date`,
+            hostPersonId: host,
+            recipientPersonId: personId,
+            on: occasion.date,
+          });
+        }
+        return writeAsk(ensurePeopleTraits(current, [host]), {
           stableKey,
           kind: "social-occasion",
           personId,
@@ -633,7 +509,8 @@ function eligibleOpportunities(
             endHour: 18,
             label: occasion.homeLabel,
           },
-        }),
+        });
+      },
     });
   }
 
@@ -911,6 +788,29 @@ function writeAsk(world: World, input: AskInput): World {
       claimId: null,
     },
   });
+}
+
+/** Write a date request through the canonical contact record and answer path. */
+export function writeDateInvitation(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly hostPersonId: EntityId;
+    readonly recipientPersonId: EntityId;
+    readonly on: IsoDate;
+  },
+): World {
+  return proposeContact(world, {
+    stableKey: input.stableKey,
+    fromPersonId: input.hostPersonId,
+    toPersonId: input.recipientPersonId,
+    on: input.on,
+    purpose: "date",
+    date: true,
+    answerInPerson:
+      world.control.kind === "person" &&
+      world.control.personId === input.recipientPersonId,
+  }).world;
 }
 
 interface NoticeInput {
@@ -1196,20 +1096,6 @@ function ageOn(birthDate: IsoDate, on: IsoDate): number {
     age -= 1;
   }
   return age;
-}
-
-function momentAt(
-  world: World,
-  hour: number,
-  minute: number,
-  date = world.currentDate,
-) {
-  return makeSimulationMoment({
-    date,
-    minuteOfDay: hour * 60 + minute,
-    timeZone: world.currentMoment.timeZone,
-    utcOffsetMinutes: world.currentMoment.utcOffsetMinutes,
-  });
 }
 
 function momentOn(world: World, date: IsoDate, hour: number) {

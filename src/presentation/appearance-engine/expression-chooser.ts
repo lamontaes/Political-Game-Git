@@ -11,7 +11,6 @@ import {
 import { standingTone, type ReplyTone } from "../reply-meaning";
 import type { ConversationExchangeTurn } from "../scene-conversation";
 import { SMALL_TALK_BANKS } from "../small-talk-english";
-import { stableHash } from "../../simulation/ids";
 import type { FaceExpression } from "./pack";
 
 /**
@@ -27,21 +26,20 @@ import type { FaceExpression } from "./pack";
  *   stand with the speaker (standingTone) and whether the turn strained
  *   things with them;
  * - the person: recorded traits give a resting face (a warm or cheerful
- *   person's is a soft smile, an anxious one's leans concerned, a guarded
- *   one's is neutral or skeptical) and a tilt (the quick-tempered turn angry
- *   sooner, the calm later). Unrecorded traits are never read.
+ *   person's is a soft smile, an anxious one's leans concerned) and a tilt
+ *   (the quick-tempered turn angry sooner, the calm later). A guarded person's
+ *   latest recorded turn supplies their face; without one, the face is neutral.
+ *   Unrecorded traits are never read.
  *
  * A reaction holds for its line and the next, then eases back to the resting
  * face: it is measured in turns, never in time, so nothing twitches on a
- * timer. Deterministic: every choice between two faces is drawn from the
- * person's seed. It reads the record and writes nothing.
+ * timer. It reads the record and writes nothing.
  */
 
 /** What a line does, as far as the record says. */
 export type LineTone =
   | "agree"
   | "warm"
-  | "joke"
   | "bad-news"
   | "threat"
   | "accusation"
@@ -139,8 +137,6 @@ export function lineTone(world: World, event: HistoricalEvent): LineTone {
       if (tone) return tone;
     }
   }
-  // Suggesting a game is the one recorded line that is play.
-  if (event.tags.includes("life.talk:suggestGame")) return "joke";
   for (const key of linePartsOf(event.tags) ?? []) {
     const act = bankOf(key)?.act;
     const tone = act ? ACT_TONE[act] : undefined;
@@ -178,21 +174,13 @@ export interface FaceTemperament {
   readonly temper: "quick" | "calm" | null;
 }
 
-function draw(seed: string, question: string): number {
-  return (
-    Number.parseInt(stableHash(`${seed}:${question}`).slice(0, 8), 16) /
-    0x100000000
-  );
-}
-
 /**
  * The face a person rests in and how quickly they anger, from recorded
- * traits only. Nobody recorded rests neutral with an ordinary temper.
+ * traits and, when guarded, their latest recorded turn.
  */
 export function faceTemperament(
   world: World,
   personId: EntityId,
-  seed: string,
 ): FaceTemperament {
   const q = (key: string) => recordedQuality(world, personId, key);
   const leans = (value: number | null) => value !== null && value > 0;
@@ -223,15 +211,50 @@ export function faceTemperament(
     leans(q("facet-defensive"));
 
   // A person can be recorded as more than one; the most guarded reading
-  // wins, since the face shows the wall before what is behind it.
+  // wins, since the face shows the wall before what is behind it. Their most
+  // recent recorded turn supplies a resting expression when it has a clear
+  // tone. With no readable event, the record supports only a neutral face.
   if (guarded)
     return {
-      rest: draw(seed, "face:guarded") < 0.5 ? "neutral" : "skeptical",
+      rest: latestRecordedFace(world, personId) ?? "neutral",
       temper,
     };
   if (anxious) return { rest: "concerned", temper };
   if (warm) return { rest: "smile", temper };
   return { rest: "neutral", temper };
+}
+
+/** The latest event with a clear conversational tone, in the subject's role. */
+function latestRecordedFace(
+  world: World,
+  personId: EntityId,
+): FaceExpression | null {
+  const event = world.history.events
+    .filter((candidate) =>
+      candidate.participants.some(
+        (participant) => participant.personId === personId,
+      ),
+    )
+    .sort((left, right) => right.sequence - left.sequence)[0];
+  if (!event) return null;
+  const tone = lineTone(world, event);
+  if (tone === "plain") return null;
+  const personRole = event.participants.find(
+    (participant) => participant.personId === personId,
+  )?.role;
+  if (personRole === "focus:respondent") return speakerFace(tone);
+  if (personRole === "focus:subject") {
+    const speaker = event.participants.find(
+      (participant) => participant.role === "focus:respondent",
+    )?.personId;
+    if (!speaker) return null;
+    return listenerFace(
+      tone,
+      standingTone(world, personId, speaker),
+      hurtBy(world, event, personId),
+    );
+  }
+  return null;
 }
 
 /** Anger shown sooner or later by temper. */
@@ -251,8 +274,6 @@ function speakerFace(tone: LineTone): FaceExpression | null {
     case "warm":
     case "praise":
       return "smile";
-    case "joke":
-      return "laugh";
     case "bad-news":
       return "concerned";
     case "threat":
@@ -278,12 +299,6 @@ function listenerFace(
 ): FaceExpression | null {
   if (hurt) return tone === "accusation" || tone === "threat" ? "angry" : "sad";
   switch (tone) {
-    case "joke":
-      return feeling === "warm"
-        ? "laugh"
-        : feeling === "worn"
-          ? "skeptical"
-          : "smile";
     case "agree":
     case "warm":
     case "praise":
@@ -342,10 +357,9 @@ function reactionTo(
 export function conversationExpression(
   world: World,
   personId: EntityId,
-  seed: string,
   turns: readonly ConversationExchangeTurn[],
 ): FaceExpression {
-  const temperament = faceTemperament(world, personId, seed);
+  const temperament = faceTemperament(world, personId);
   const recent = turns.slice(-2).reverse();
   if (recent[0]?.current)
     for (const turn of recent) {

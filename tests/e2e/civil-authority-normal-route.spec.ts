@@ -53,7 +53,7 @@ async function worldDate(page: Page): Promise<number> {
   const label =
     (await page.getByTestId("shell-nav-cluster").getAttribute("aria-label")) ??
     "";
-  // "<name>. <Month D, YYYY>. <Place, State>. Open navigation."
+  // "<name>. <Month D, YYYY>. <Place, State>."
   const match = label.match(/[A-Z][a-z]+ \d{1,2}, \d{4}/);
   if (!match) throw new Error(`No date in the shell clock: ${label}`);
   return Date.parse(`${match[0]} UTC`);
@@ -121,12 +121,7 @@ test("current Custom Start reaches dated personnel work, an NPC answer, and save
   const offer = vacancy.getByRole("button", { name: "Offer reinstatement" });
   await expect(offer).toBeEnabled();
   await offer.click();
-  await expect(
-    page.getByText(
-      "The offer was made and answered on receipt. Only an acceptance is an appointment.",
-      { exact: true },
-    ),
-  ).toBeVisible();
+  await expect(page.getByText("Offer answered", { exact: true })).toBeVisible();
   const answered = panel.getByRole("article", {
     name: /^Reinstatement offer to /,
   });

@@ -23,7 +23,7 @@ import {
 import { WASHINGTON_PLACE_KEY } from "./opening-federal-geography";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { currentPublicOfficeholders } from "./opening-officeholders";
-import { OFFICEHOLDER_PRINCIPLES_VERSION } from "../simulation/governing/officeholder-principles";
+import { LIFE_PRINCIPLES_VERSION } from "../simulation/principles-from-life";
 
 const LONG = 600_000;
 
@@ -115,7 +115,7 @@ describe("WORLD46 opening version gate", () => {
     expect(worldOpeningVersionOf(legacy.world)).toBeNull();
     expect(
       legacy.world.history.principles.some((row) =>
-        row.stableKey.startsWith(`${OFFICEHOLDER_PRINCIPLES_VERSION}:`),
+        row.stableKey.startsWith(`${LIFE_PRINCIPLES_VERSION}:`),
       ),
     ).toBe(false);
   });

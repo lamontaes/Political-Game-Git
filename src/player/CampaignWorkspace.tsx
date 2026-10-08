@@ -148,6 +148,19 @@ export function CampaignWorkspace({
     () => projectCampaign(world, personId, selectedOfficeKey),
     [world, personId, selectedOfficeKey],
   );
+  const [electionReportProgress, setElectionReportProgress] = useState<{
+    readonly campaignId: EntityId;
+    readonly beatIndex: number;
+  } | null>(null);
+  const reportingBeats = view.electionNight?.reportingBeats ?? [];
+  const reportingBeatIndex =
+    electionReportProgress?.campaignId === view.campaignId
+      ? Math.min(electionReportProgress.beatIndex, reportingBeats.length - 1)
+      : 0;
+  const currentReportingBeat = reportingBeats[reportingBeatIndex] ?? null;
+  const finalReportingBeat =
+    reportingBeats.length === 0 ||
+    reportingBeatIndex >= reportingBeats.length - 1;
   const strategy = useMemo(
     () => projectCampaignStrategy(world, personId),
     [world, personId],
@@ -378,10 +391,10 @@ export function CampaignWorkspace({
                     const status = office.eligible
                       ? { reasons: [office.eligibility] }
                       : splitEligibilityText(office.eligibility);
-                    const [electionOn, ...timingDetail] = office.timing
+                    const [electionOn, ...timingDetail] = (office.timing ?? "")
                       .split(" — ")
                       .map((part) => part.trim());
-                    const hasElection = ISO_DATE.test(office.timing);
+                    const hasElection = ISO_DATE.test(office.timing ?? "");
                     /*
                      * What is left to say about the office, beyond its status
                      * and its date. The unresolved research gaps are notes to
@@ -429,7 +442,7 @@ export function CampaignWorkspace({
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
-                              ? `Election: ${readableCampaignDate(electionOn ?? "")}`
+                              ? readableCampaignDate(electionOn ?? "")
                               : office.timing}
                           </span>
                           {office.connections.map((line) => (
@@ -987,7 +1000,94 @@ export function CampaignWorkspace({
             The result leads. It used to sit below the whole session log, and
             a Presque Isle race put it under about three hundred lines.
           */}
-          {view.tallies.length > 0 ? (
+          {view.electionNight && reportingBeats.length > 0 ? (
+            <section data-testid="election-night-scene">
+              <h2>Election night</h2>
+              {view.electionNight.participants.length > 0 ? (
+                <ul data-testid="election-night-participants">
+                  {view.electionNight.participants.map((participant) => (
+                    <li key={participant.personId}>{participant.name}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {currentReportingBeat ? (
+                <div data-testid="election-night-report">
+                  <p>
+                    Report {currentReportingBeat.number}:{" "}
+                    {currentReportingBeat.ballotsCast} ballots from{" "}
+                    {currentReportingBeat.precinctKeys.length} precincts
+                  </p>
+                  <ul data-testid="election-night-batch-tallies">
+                    {currentReportingBeat.tallies.map((tally) => (
+                      <li key={tally.candidatePersonId}>
+                        {tally.candidateName}
+                        {tally.isThisCandidate ? " (you)" : ""} — {tally.votes}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul data-testid="election-night-reactions">
+                    {currentReportingBeat.reactions.map((reaction) => (
+                      <li key={reaction.personId}>
+                        {view.electionNight?.participants.find(
+                          (person) => person.personId === reaction.personId,
+                        )?.name ?? ""}{" "}
+                        {reaction.reaction}
+                      </li>
+                    ))}
+                  </ul>
+                  {!finalReportingBeat ? (
+                    <>
+                      <p>Running total</p>
+                      <ul data-testid="election-night-running-tallies">
+                        {currentReportingBeat.runningTallies.map((tally) => (
+                          <li key={tally.candidatePersonId}>
+                            {tally.candidateName}
+                            {tally.isThisCandidate ? " (you)" : ""} —{" "}
+                            {tally.votes}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="game-campaign-actions">
+                        <button
+                          type="button"
+                          className="game-campaign-action"
+                          data-testid="election-night-next-report"
+                          onClick={() =>
+                            view.campaignId &&
+                            setElectionReportProgress({
+                              campaignId: view.campaignId,
+                              beatIndex: reportingBeatIndex + 1,
+                            })
+                          }
+                        >
+                          <span className="game-campaign-action-label">
+                            Next report
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          className="game-campaign-action"
+                          data-testid="election-night-skip"
+                          onClick={() =>
+                            view.campaignId &&
+                            setElectionReportProgress({
+                              campaignId: view.campaignId,
+                              beatIndex: reportingBeats.length - 1,
+                            })
+                          }
+                        >
+                          <span className="game-campaign-action-label">
+                            Skip to result
+                          </span>
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+          {view.tallies.length > 0 && finalReportingBeat ? (
             <div data-testid="campaign-result">
               <p className="game-scene" data-testid="campaign-afterword">
                 {view.afterword}

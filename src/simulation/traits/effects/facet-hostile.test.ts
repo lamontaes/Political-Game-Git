@@ -5,12 +5,10 @@ import {
   DEFAULT_NEW_GAME_SETUP,
 } from "../../../presentation/new-game";
 import { addDays } from "../../dates";
-import { npcContactAnswer, proposeContact } from "../../people-contact";
+import { npcContactAnswer, proposeContact } from "../../relationship-contact";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { stableHash } from "../../ids";
-import { CONTACT_ANSWER_DECISION } from "../../people-contact-decisions";
-import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import type { EntityId } from "../../types";
@@ -92,25 +90,27 @@ describe("facet-hostile", () => {
     const hostile = npcContactAnswer(world, eventId);
 
     expect(ordinary.answer).toBe("accept");
-    // The decline reason balances the ordinary reasons to say yes: they do not
-    // accept, and they have not settled on a refusal either.
-    expect(hostile.answer).toBeNull();
-    const reasons = (source: typeof world) =>
-      registeredTraitConsiderations(
-        source,
-        loadedTraitRegistry(),
-        personId,
-        `contact:${eventId}`,
-        CONTACT_ANSWER_DECISION.id,
-        askerId,
+    expect(hostile.answer).toBe("decline");
+    const traceFor = (source: typeof world) =>
+      source.history.decisionTraces.find(
+        (trace) => trace.context.stableKey === `contact:${eventId}:answer`,
       );
-    expect(reasons(ordinaryWorld)).toEqual([]);
-    const traitReason = reasons(world).find((reason) =>
-      reason.stableKey.includes("personality-v1:facet-hostile"),
+    const traitReason = traceFor(hostile.world)?.context.considerations.find(
+      (reason) =>
+        reason.sourceType === "mind:personality" &&
+        reason.stableKey.includes("personality-v1:facet-hostile") &&
+        reason.optionKey === "decline" &&
+        reason.direction === "supports",
     );
+    expect(
+      traceFor(ordinary.world)?.context.considerations.some((reason) =>
+        reason.stableKey.includes("personality-v1:facet-hostile"),
+      ) ?? false,
+    ).toBe(false);
+    expect(traitReason).toBeDefined();
+    expect(traitReason!.stableKey).toContain("personality-v1:facet-hostile");
     expect(traitReason?.optionKey).toBe("decline");
     expect(traitReason?.sourceRefs[0]?.kind).toBe("personality-tendency");
-
     const name = (id: EntityId) => {
       const person = world.people[id]!;
       return `${person.givenName} ${person.familyName}`;

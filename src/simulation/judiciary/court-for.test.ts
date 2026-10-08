@@ -5,6 +5,7 @@ import {
   openObserverWorld,
 } from "../../presentation/observer-world";
 import { addDays } from "../dates";
+import { createStableId } from "../ids";
 import { currentLifeCutoff } from "../life-queries";
 import {
   lifePlaceStateIdentities,
@@ -28,7 +29,7 @@ import {
   PROSECUTION_CHARGED_EVENT,
   PROSECUTION_SENTENCED_EVENT,
   enterPlea,
-  UNRESEARCHED_PROSECUTION,
+  PROSECUTION_ESTIMATE,
 } from "../justice/prosecution";
 import { sentencingJudge, type CourtCase } from "../justice/court-reasoning";
 import { createProsecutionTransitionRegistry } from "../justice/prosecution-transitions";
@@ -79,6 +80,36 @@ describe("one finder reads saved courts", () => {
         ),
         `${state.jurisdictionKey}: saved court venue`,
       ).toBe(old[0]);
+    }
+  });
+
+  it("records an outlook for seated trial judges across all 56 places", () => {
+    const at = world();
+    for (const place of lifePlaceStateIdentities()) {
+      const jurisdictionId = stateJurisdictionForKey(place.jurisdictionKey)!.id;
+      const court = courtFor(
+        at,
+        jurisdictionId,
+        "local-general-trial",
+        "criminal",
+      )!;
+      const holders = seatsForCourt(at, court.courtId)
+        .map((seat) => seatHolderAt(at, seat.seatId, at.currentDate))
+        .filter((holder) => holder !== null);
+      expect(holders.length, place.jurisdictionKey).toBeGreaterThan(0);
+      for (const holder of holders) {
+        expect(
+          at.judiciary!.philosophies.some(
+            (record) =>
+              record.recordId ===
+              createStableId(
+                "judicial-philosophy",
+                `${holder.personId}:seating:${holder.tenureId}`,
+              ),
+          ),
+          `${place.jurisdictionKey}:${holder.personId}`,
+        ).toBe(true);
+      }
     }
   });
 
@@ -219,7 +250,7 @@ describe("one finder reads saved courts", () => {
       expect(sentencingJudge(unseated, input, 0)).toBeNull();
       const dueAt = addDays(
         base.currentDate,
-        UNRESEARCHED_PROSECUTION.chargeDecisionDays,
+        PROSECUTION_ESTIMATE.chargeDecisionDays,
       );
       const charged = resolveFutureDueItemsThrough(
         referred.world,
@@ -249,7 +280,7 @@ describe("one finder reads saved courts", () => {
       });
       expect(chargedPlea.ok).toBe(true);
       expect(pendingPlea.ok).toBe(true);
-      const trialAt = addDays(dueAt, UNRESEARCHED_PROSECUTION.resolveAfterDays);
+      const trialAt = addDays(dueAt, PROSECUTION_ESTIMATE.resolveAfterDays);
       const sentenced = resolveFutureDueItemsThrough(
         chargedPlea.world,
         trialAt,

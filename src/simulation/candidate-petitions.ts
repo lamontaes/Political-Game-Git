@@ -3,8 +3,12 @@ import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { viewOfOfficial } from "./official-view-reads";
 import { majorPartyOf } from "./statewide-electorate";
 import { readRelationshipStanding } from "./relationship-standing";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { campaignById } from "./campaign-queries";
+import { electionContestById } from "./election-contests";
+import { districtResidenceSince } from "./district-residence";
+import { modelCampaignFieldReach } from "./campaign-contact-calibration";
+import { residesForVoting } from "./issue-record";
 import { personName } from "./people";
 import { recordWorldEvent } from "./world";
 import type { DecisionConsideration, EntityId, IsoDate, World } from "./types";
@@ -16,6 +20,7 @@ export interface AskToSignInput {
   readonly circulatorPersonId: EntityId;
   readonly signerPersonId: EntityId;
   readonly at: IsoDate;
+  readonly circulationKey?: string;
 }
 
 export interface AskToSignResult {
@@ -23,6 +28,83 @@ export interface AskToSignResult {
   readonly eventId: EntityId;
   readonly decision: "sign" | "decline";
   readonly alreadyAsked: false;
+}
+
+export interface CirculateCandidatePetitionInput {
+  readonly campaignId: EntityId;
+  readonly circulatorPersonId: EntityId;
+  readonly stableKey: string;
+  readonly minutes: number;
+  readonly at: IsoDate;
+}
+
+/** Complete the bounded number of asks supported by one recorded field shift. */
+export function circulateCandidatePetition(
+  inputWorld: World,
+  input: CirculateCandidatePetitionInput,
+): World {
+  const campaign = campaignById(inputWorld, input.campaignId);
+  if (!campaign) throw new Error(`Campaign not found: ${input.campaignId}`);
+  const circulationTag = `petition-circulation:${input.stableKey}`;
+  if (
+    inputWorld.history.events.some((event) =>
+      event.tags.includes(circulationTag),
+    )
+  )
+    return inputWorld;
+  const reach = modelCampaignFieldReach("petition-circulation", input.minutes);
+  const target = reach?.estimatedCompletedConversations?.min ?? 0;
+  if (!reach || target === 0) return inputWorld;
+
+  const contest = electionContestById(inputWorld, campaign.contestId);
+  const binding = contest?.office.districtBinding ?? null;
+  const personOrder = inputWorld.personOrder;
+  if (personOrder.length === 0) return inputWorld;
+
+  let hash = 2166136261;
+  for (const character of input.stableKey) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  const start = (hash >>> 0) % personOrder.length;
+  const asked = new Set(petitionAskedPersonIds(inputWorld, campaign.id));
+  let world = inputWorld;
+  let completed = 0;
+  for (
+    let step = 0;
+    step < personOrder.length && completed < target;
+    step += 1
+  ) {
+    const signerPersonId = personOrder[(start + step) % personOrder.length]!;
+    if (
+      signerPersonId === campaign.candidatePersonId ||
+      asked.has(signerPersonId) ||
+      (binding
+        ? districtResidenceSince(
+            inputWorld,
+            signerPersonId,
+            binding,
+            input.at,
+          ) === null
+        : !residesForVoting(
+            inputWorld,
+            signerPersonId,
+            campaign.jurisdictionId,
+            input.at,
+          ))
+    )
+      continue;
+    world = askToSign(world, {
+      campaignId: campaign.id,
+      circulatorPersonId: input.circulatorPersonId,
+      signerPersonId,
+      at: input.at,
+      circulationKey: input.stableKey,
+    }).world;
+    asked.add(signerPersonId);
+    completed += 1;
+  }
+  return world;
 }
 
 /** The event log's first ask for each signer, in recorded order. */
@@ -162,23 +244,6 @@ export function askToSign(
       sourceRefs: [],
     });
   }
-  considerations.push(
-    ...traitConsiderations(world, input.signerPersonId, stableKey, [
-      {
-        optionKey: "sign",
-        trait: "sociability",
-        pole: "high",
-        explanation: "The signer tends to engage with people who approach.",
-      },
-      {
-        optionKey: "decline",
-        trait: "conflict",
-        pole: "high",
-        explanation:
-          "The signer tends to press disagreements with the candidate.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey,
     decisionType: "campaign.petition-signature",
@@ -238,6 +303,9 @@ export function askToSign(
       CANDIDATE_PETITION_ASKED_TAG,
       `campaign:${campaign.id}`,
       `decision:${decision}`,
+      ...(input.circulationKey
+        ? [`petition-circulation:${input.circulationKey}`]
+        : []),
     ],
     summary:
       decision === "sign"

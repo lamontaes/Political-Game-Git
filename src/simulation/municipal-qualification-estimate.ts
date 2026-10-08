@@ -1,6 +1,5 @@
 import type { CandidacyPack } from "./candidacy-packs";
 import type { RuleSourceRef } from "./legislature-rules";
-import { stateName } from "./office-qualification-rules";
 
 export interface MunicipalMinimumAgeEstimate {
   readonly version: "municipal-similar-office-age/v1";
@@ -70,7 +69,7 @@ export function municipalMinimumAgeEstimate(
 export function municipalMinimumAgeSentence(
   estimate: MunicipalMinimumAgeEstimate,
 ): string {
-  return `You must be at least ${estimate.minimumAge} to run for this office. This age is estimated from similar elected offices in ${stateName(estimate.jurisdictionKey.replace(/^US-/, ""))}; this municipality's own age rule is unconfirmed.`;
+  return `Minimum age: ${estimate.minimumAge} (estimated)`;
 }
 
 export function municipalMinimumAgeSource(

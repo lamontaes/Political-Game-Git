@@ -1,3 +1,5 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
 import {
@@ -143,6 +145,7 @@ import {
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
+  appendMemoryRecord,
   createHistoryStore,
   eventsInvolving,
 } from "./history";
@@ -523,7 +526,9 @@ export function createWorld(input: CreateWorldInput): World {
   );
   validateControl(control, new Set(input.people.map((person) => person.id)));
   const jurisdictions = input.jurisdictions.map(cloneJurisdiction);
-  const people = input.people.map(clonePerson);
+  const people = input.people.map((person) =>
+    clonePerson(initializePersonCitizenship(person, seed, currentDate)),
+  );
 
   if (input.setupPriors) assertSetupPriorIntegrity(input.setupPriors);
 
@@ -1397,14 +1402,47 @@ export function recordWorldEvent(
     }
   }
 
-  return {
-    ...world,
-    history: appendHistoricalEvent(world.history, world.id, {
-      ...input,
-      occurredAt,
-      recordedAt,
-    }),
-  };
+  const history = appendHistoricalEvent(world.history, world.id, {
+    ...input,
+    occurredAt,
+    recordedAt,
+  });
+  const event = history.events.at(-1)!;
+  const memoryWorthy = new Set([
+    "work.job-ended",
+    "life.couple-formed",
+    "life.couple-ended",
+    "life.started-dating",
+    "life.household-move",
+    "life.moved-into-home",
+    "life.left-home",
+    "life.death-learned",
+    "law.effect-reached-town",
+  ]).has(event.type);
+  let nextHistory = history;
+  if (memoryWorthy) {
+    const involvedPeople =
+      event.type === "life.death-learned"
+        ? event.participants
+            .filter((participant) => participant.role === "focus:told")
+            .map((participant) => participant.personId)
+        : event.involvedEntityIds;
+    for (const personId of involvedPeople) {
+      if (!world.people[personId]) continue;
+      nextHistory = appendMemoryRecord(nextHistory, world.id, {
+        stableKey: `event-memory:${event.id}:${personId}`,
+        personId,
+        eventId: event.id,
+        formedAt: occurredAt,
+        rememberedSummary: event.summary,
+        interpretation: event.summary,
+        strength: "moderate",
+        relevanceTags: [event.type],
+        supersedesMemoryId: null,
+      });
+    }
+  }
+  return { ...world, history: nextHistory };
 }
 
 /** Compatibility day entry; the canonical minute clock owns completion. */
@@ -1732,6 +1770,7 @@ function validateInitialEntities(
       throw new Error(`Materialized person is missing details: ${person.id}`);
     }
 
+    assertPersonCitizenshipIntegrity(person, currentDate);
     const facts = [
       ...person.establishedFacts,
       ...(person.detailLevel === "materialized"
@@ -2348,6 +2387,7 @@ function validateHistoryIntegrity(
   const officeIds = new Set([
     ...history.workRelationships.map((record) => record.id),
     ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
   ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);
@@ -4509,6 +4549,21 @@ function clonePerson(person: Person): Person {
   const core = {
     ...person,
     establishedFacts: person.establishedFacts.map(cloneFact),
+    ...(person.citizenshipStatuses
+      ? {
+          citizenshipStatuses: person.citizenshipStatuses.map((record) => ({
+            ...record,
+            provenance: {
+              ...record.provenance,
+              countyGeoids: [...record.provenance.countyGeoids],
+              sourceArtifactSha256s: [
+                ...record.provenance.sourceArtifactSha256s,
+              ],
+              sourceEntityIds: [...record.provenance.sourceEntityIds],
+            },
+          })),
+        }
+      : {}),
   };
 
   if (person.detailLevel === "lightweight") {

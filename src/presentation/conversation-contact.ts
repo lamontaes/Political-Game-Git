@@ -19,7 +19,7 @@ import type {
  * says the two of them spoke that day and not that they spoke eleven times, as
  * the conduct rubric for `what-moves-a-relationship` asks. All of it is contact
  * that keeps the two of them in touch and moves none of the five lines on its
- * own: a chat is slight, half an hour together or an agreed date is more, and
+ * own: a chat is slight, half an hour together is more, and
  * none of it is affection earned by repetition. What either of them does with
  * that time is its own conduct. A refusal writes no extra record: it is the
  * other person's answer, not a mark against anyone.
@@ -32,7 +32,6 @@ export function recordConversationContact(
     readonly eventId: EntityId;
     readonly occurredAt: IsoDate;
     readonly timeTogether: boolean;
-    readonly date: boolean;
   },
 ): World {
   const event = world.history.events.find(
@@ -75,14 +74,6 @@ export function recordConversationContact(
       kind: "contact:time-together",
       significance: "meaningful",
       summary: "Spent time together.",
-    });
-  }
-  if (input.date) {
-    episodes.push({
-      key: `${base}:date`,
-      kind: "contact:date",
-      significance: "meaningful",
-      summary: "Agreed this was a date.",
     });
   }
   let next = world;

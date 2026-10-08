@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
-import { projectPersonDossier } from "./person-dossier";
+import { householdIdFor, projectPersonDossier } from "./person-dossier";
 import { recordWorldEvent } from "../simulation/world";
 import { makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { serializeWorld } from "../simulation/serialization";
 import { createLightweightPerson } from "../simulation/people";
 import { recordFavor } from "../simulation/favors";
+import { householdLocationAt, householdMembershipsAt } from "../simulation";
+import { createOrganization, createWorkRelationship } from "../simulation/life";
+import { createWorkCompensation } from "../simulation/resources";
 import type { OccupationFact, World } from "../simulation/types";
 import {
   observerPlace,
@@ -14,16 +17,110 @@ import {
   openObserverWorld,
 } from "./observer-world";
 
-function recordedLife() {
+function recordedLife(startAge = 8) {
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
     seed: "dossier-record-access",
-    startAge: 8,
+    startAge,
   });
   return game;
 }
 
 describe("a dossier's own recorded history", () => {
+  it("shows the person's recorded home and household on their own record and while observing", () => {
+    const game = recordedLife();
+    const membership = householdMembershipsAt(
+      game.world,
+      game.playerPersonId,
+    )[0];
+    expect(membership).toBeDefined();
+    const location = householdLocationAt(game.world, membership!.household.id);
+    expect(location).toBeDefined();
+
+    for (const world of [
+      game.world,
+      {
+        ...game.world,
+        control: { kind: "observer" as const },
+      } as World,
+    ]) {
+      const dossier = projectPersonDossier(
+        world,
+        game.playerPersonId,
+        game.playerPersonId,
+      )!;
+      const details = dossier.details.map((fact) => fact.text);
+      expect(details).toContain(membership!.household.label);
+      expect(details).toContain(location!.label);
+    }
+  });
+
+  it("shows recorded current work and pay only on the person's own record or while observing", () => {
+    const game = recordedLife(40);
+    const person = game.world.people[game.playerPersonId]!;
+    let world = createOrganization(game.world, {
+      stableKey: "dossier-current-work:employer",
+      formedAt: game.world.currentDate,
+      provenance: { kind: "authored", note: "Dossier test employer." },
+      initialProfile: {
+        name: "Dossier Test Employer",
+        classification: "custom:dossier-test-employer",
+        locationJurisdictionId: person.homeJurisdictionId,
+      },
+    });
+    world = createWorkRelationship(world, {
+      stableKey: "dossier-current-work:relationship",
+      personId: person.id,
+      organizationId: world.history.organizations.at(-1)!.id,
+      startedAt: world.currentDate,
+      kind: "employment:dossier-test",
+      compensation: "paid",
+      authority: "directed",
+      dependency: "dependent",
+      economicRisk: "organization-borne",
+      provenance: { kind: "authored", note: "Dossier test employment." },
+      initialRole: {
+        title: "Records clerk",
+        occupationClassification: null,
+        locationJurisdictionId: person.homeJurisdictionId,
+        timeDemand: {
+          expectedWeekly: { minimumHours: 30, maximumHours: 40 },
+          attention: "moderate",
+          concurrency: "mostly-exclusive",
+          scheduleRigidity: "mixed",
+          interruptibility: "limited",
+          locationJurisdictionId: person.homeJurisdictionId,
+        },
+      },
+    });
+    const work = world.history.workRelationships.at(-1)!;
+    world = createWorkCompensation(world, {
+      stableKey: "dossier-current-work:pay",
+      workRelationshipId: work.id,
+      startsAt: world.currentDate,
+      amount: { minorUnits: 42_500, currency: "USD" },
+      cadenceKind: "schedule:weekly",
+      restrictionKind: null,
+      jurisdictionId: person.homeJurisdictionId,
+      provenance: { kind: "authored", note: "Dossier test pay." },
+    });
+
+    const owner = projectPersonDossier(world, person.id, person.id)!;
+    expect(owner.details.map((fact) => fact.text)).toContain(
+      "Records clerk · Dossier Test Employer",
+    );
+    expect(owner.details.map((fact) => fact.text)).toContain("$425 weekly");
+
+    const strangerId = world.personOrder.find((id) => id !== person.id)!;
+    const stranger = projectPersonDossier(world, strangerId, person.id)!;
+    expect(stranger.details.map((fact) => fact.text)).not.toContain(
+      "Records clerk · Dossier Test Employer",
+    );
+    expect(stranger.details.map((fact) => fact.text)).not.toContain(
+      "$425 weekly",
+    );
+  });
+
   it("shows only recorded, player-known reminders according to the notes setting", () => {
     const game = recordedLife();
     const otherPersonId = game.world.personOrder.find(
@@ -95,6 +192,42 @@ describe("a dossier's own recorded history", () => {
     expect(serializeWorld(world)).toBe(before);
   });
 
+  it("does not put a board's public meeting in an individual's career when the person is not a participant", () => {
+    const game = recordedLife();
+    const world = recordWorldEvent(game.world, {
+      stableKey: "dossier:unrelated-board-meeting",
+      type: "local.town-board-session",
+      occurredAt: game.world.currentDate,
+      recordedAt: game.world.currentDate,
+      jurisdictionId:
+        game.world.people[game.playerPersonId]!.homeJurisdictionId,
+      involvedEntityIds: [game.playerPersonId],
+      participants: [],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "The town board reviewed the annual budget.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const event = world.history.events.at(-1)!;
+    const dossier = projectPersonDossier(
+      world,
+      game.playerPersonId,
+      game.playerPersonId,
+    )!;
+
+    expect(
+      dossier.publicCareer.some((entry) => entry.eventId === event.id),
+    ).toBe(false);
+  });
+
   it("withholds private events from the public record", () => {
     const game = recordedLife();
     const world = recordWorldEvent(game.world, {
@@ -150,13 +283,24 @@ describe("conversation context in a freshly generated world", () => {
     const housemateId = familyGame.world.personOrder.find(
       (personId) =>
         personId !== familyGame.playerPersonId &&
-        projectPersonDossier(
-          familyGame.world,
-          familyGame.playerPersonId,
-          personId,
-        )?.details.some((fact) => fact.key === "household"),
+        householdIdFor(familyGame.world, personId) ===
+          householdIdFor(familyGame.world, familyGame.playerPersonId),
     );
     expect(housemateId, `fresh random place ${place.key}`).toBeDefined();
+
+    const housemateDossier = projectPersonDossier(
+      familyGame.world,
+      familyGame.playerPersonId,
+      housemateId!,
+    )!;
+    expect(housemateDossier.details.map((detail) => detail.text)).not.toContain(
+      "You live in the same household.",
+    );
+    expect(
+      housemateDossier.details.some((detail) =>
+        /^(?:They are|He is|She is) your /.test(detail.text),
+      ),
+    ).toBe(false);
 
     expect(
       projectPersonDossier(

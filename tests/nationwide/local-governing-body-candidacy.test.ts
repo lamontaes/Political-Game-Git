@@ -156,22 +156,29 @@ describe("a town's governing body, across the country", () => {
   it("offers Bowling Green's body beside Kentucky's seats, and invents nothing about it", () => {
     const here = jurisdictionOf(BOWLING_GREEN);
     const bodies = localGoverningBodiesForJurisdiction(here);
-    // The body, the mayor the city's voters elect at large, then the board
-    // of the county the city sits in.
-    expect(bodies.map((office) => [office.seat, office.unit.unitType])).toEqual(
-      [
-        ["governing-body", "municipality"],
-        ["chief-executive", "municipality"],
-        ["governing-body", "county"],
-      ],
+    // The body, the mayor the city's voters elect at large, then what the
+    // county the city sits in elects: its board first, then whatever its
+    // executive and row offices its state and structure record elect.
+    const pairs = bodies.map((office) => [office.seat, office.unit.unitType]);
+    expect(pairs.slice(0, 3)).toEqual([
+      ["governing-body", "municipality"],
+      ["chief-executive", "municipality"],
+      ["governing-body", "county"],
+    ]);
+    for (const office of bodies.slice(3)) {
+      expect(office.unit.unitType).toBe("county");
+      expect(["chief-executive", "row-office"]).toContain(office.seat);
+    }
+    expect(new Set(bodies.map((office) => office.officeKey)).size).toBe(
+      bodies.length,
     );
     const offices = electiveOfficesForJurisdiction(here);
     // The state's offices are still reached; the town's are added, not swapped.
-    expect(offices.length).toBeGreaterThan(3);
-    expect(offices.slice(-3).map((office) => office.officeKey)).toEqual(
-      bodies.map((office) => office.officeKey),
-    );
-    const body = offices.at(-3)!;
+    expect(offices.length).toBeGreaterThan(bodies.length);
+    expect(
+      offices.slice(-bodies.length).map((office) => office.officeKey),
+    ).toEqual(bodies.map((office) => office.officeKey));
+    const body = offices.at(-bodies.length)!;
     expect(body.officeKey).toBe(bodies[0]!.officeKey);
     // The body the city's own government names, not a generic label.
     expect(body.chamberName).toBe("Bowling Green Board of Commissioners");
@@ -179,7 +186,15 @@ describe("a town's governing body, across the country", () => {
       "Member of the Bowling Green Board of Commissioners",
     );
     expect(body.seats.kind).toBe("unknown");
-    expect(body.qualification.minimumAge.kind).toBe("unknown");
+    // The age is a disclosed estimate from Kentucky's similar offices, never
+    // passed off as the town's own rule.
+    const age = body.qualification.minimumAge;
+    expect(age.kind).toBe("known");
+    if (age.kind === "known") {
+      expect(age.source.verification).toBe("game-profile");
+      expect(age.source.note).toMatch(/estimated from similar elected offices/);
+      expect(age.source.note).toMatch(/unconfirmed/);
+    }
     expect(body.qualification.termYears.kind).toBe("unknown");
     // Nothing a player reads names where the listing came from.
     for (const gap of body.unresolvedGaps)
