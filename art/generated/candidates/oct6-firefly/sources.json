@@ -1,0 +1,212 @@
+[
+  {
+    "place": "mayor-office",
+    "variant": "midday",
+    "file": "mayor-office__midday.jpg",
+    "sourceFile": "mayor-office__midday-v1.png",
+    "id": "A01",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A01",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "committee-hearing-room",
+    "variant": "midday",
+    "file": "committee-hearing-room__midday.jpg",
+    "sourceFile": "committee-hearing-room__midday-v1.png",
+    "id": "A03",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A03",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "coffee-shop",
+    "variant": "midday",
+    "file": "coffee-shop__midday.jpg",
+    "sourceFile": "coffee-shop__midday-v1.png",
+    "id": "A08",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A08",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "church-sanctuary",
+    "variant": "midday",
+    "file": "church-sanctuary__midday.jpg",
+    "sourceFile": "church-sanctuary__midday-v1.png",
+    "id": "A09",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A09",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "church-exterior",
+    "variant": "midday",
+    "file": "church-exterior__midday.jpg",
+    "sourceFile": "church-exterior__midday-v1.png",
+    "id": "A10",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A10",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "clerk-back-office",
+    "variant": "midday",
+    "file": "clerk-back-office__midday.jpg",
+    "sourceFile": "clerk-back-office__midday-v1.png",
+    "id": "A11",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A11",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "election-office",
+    "variant": "midday",
+    "file": "election-office__midday.jpg",
+    "sourceFile": "election-office__midday-v1.png",
+    "id": "A12",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A12",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "hospital-lobby",
+    "variant": "midday",
+    "file": "hospital-lobby__midday.jpg",
+    "sourceFile": "hospital-lobby__midday-v1.png",
+    "id": "A13",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A13",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "school-hallway",
+    "variant": "midday",
+    "file": "school-hallway__midday.jpg",
+    "sourceFile": "school-hallway__midday-v1.png",
+    "id": "A14",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A14",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "school-cafeteria",
+    "variant": "midday",
+    "file": "school-cafeteria__midday.jpg",
+    "sourceFile": "school-cafeteria__midday-v1.png",
+    "id": "A15",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A15",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "school-exterior",
+    "variant": "midday",
+    "file": "school-exterior__midday.jpg",
+    "sourceFile": "school-exterior__midday-v1.png",
+    "id": "A16",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A16",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "home-kitchen",
+    "variant": "midday",
+    "file": "home-kitchen__midday.jpg",
+    "sourceFile": "home-kitchen__midday-v1.png",
+    "id": "A17",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A17",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "bedroom-teen",
+    "variant": "midday",
+    "file": "bedroom-teen__midday.jpg",
+    "sourceFile": "bedroom-teen__midday-v1.png",
+    "id": "A18",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A18",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "farm-yard",
+    "variant": "midday",
+    "file": "farm-yard__midday.jpg",
+    "sourceFile": "farm-yard__midday-v1.png",
+    "id": "A19",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A19",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "city-hall-hallway",
+    "variant": "midday",
+    "file": "city-hall-hallway__midday.jpg",
+    "sourceFile": "city-hall-hallway__midday-v1.png",
+    "id": "A20",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A20",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "local-newspaper-office",
+    "variant": "midday",
+    "file": "local-newspaper-office__midday.jpg",
+    "sourceFile": "local-newspaper-office__midday-v1.png",
+    "id": "A21",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A21",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "lodge-hall",
+    "variant": "midday",
+    "file": "lodge-hall__midday.jpg",
+    "sourceFile": "lodge-hall__midday-v1.png",
+    "id": "A22",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A22",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "dorm-room",
+    "variant": "midday",
+    "file": "dorm-room__midday.jpg",
+    "sourceFile": "dorm-room__midday-v1.png",
+    "id": "A23",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A23",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "gas-station-store",
+    "variant": "midday",
+    "file": "gas-station-store__midday.jpg",
+    "sourceFile": "gas-station-store__midday-v1.png",
+    "id": "A24",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A24",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "city-hall-steps-event",
+    "variant": "midday",
+    "file": "city-hall-steps-event__midday.jpg",
+    "sourceFile": "city-hall-steps-event__midday-v1.png",
+    "id": "A25",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A25",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  },
+  {
+    "place": "governor-residence-exterior",
+    "variant": "midday",
+    "file": "governor-residence-exterior__midday.jpg",
+    "sourceFile": "governor-residence-exterior__midday-v1.png",
+    "id": "A26",
+    "generator": "Firefly Gemini 3.1 (Nano Banana 2), Oct 6 2026",
+    "prompt": "cto-notes art-requests-2026-10-06.md item A26",
+    "approval": "cto-checked-2026-10-06 (owner curates in play)"
+  }
+]
