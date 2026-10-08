@@ -3,7 +3,7 @@ import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { viewOfOfficial } from "./official-view-reads";
 import { majorPartyOf } from "./statewide-electorate";
 import { readRelationshipStanding } from "./relationship-standing";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { campaignById } from "./campaign-queries";
 import { electionContestById } from "./election-contests";
 import { districtResidenceSince } from "./district-residence";
@@ -244,23 +244,6 @@ export function askToSign(
       sourceRefs: [],
     });
   }
-  considerations.push(
-    ...traitConsiderations(world, input.signerPersonId, stableKey, [
-      {
-        optionKey: "sign",
-        trait: "sociability",
-        pole: "high",
-        explanation: "The signer tends to engage with people who approach.",
-      },
-      {
-        optionKey: "decline",
-        trait: "conflict",
-        pole: "high",
-        explanation:
-          "The signer tends to press disagreements with the candidate.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey,
     decisionType: "campaign.petition-signature",

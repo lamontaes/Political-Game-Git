@@ -17,6 +17,7 @@ import {
 } from "../../../life-places";
 import { readEligibilityLawsInForce } from "../../../enacted-eligibility";
 import { placeOutcomeRecords } from "../../../outcome-web/place-outcome-store";
+import { recordLawExposure } from "../../../law-exposure";
 import {
   snapParticipationAt,
   recordSnapParticipation,
@@ -352,7 +353,7 @@ export function applySnapParticipation(
       }, 0),
     0,
   );
-  return recordSnapParticipation(world, {
+  const next = recordSnapParticipation(world, {
     householdId: resolved.subject.id,
     enrolled: resolved.value.value,
     monthlyBenefitMinor:
@@ -371,6 +372,35 @@ export function applySnapParticipation(
       : (prior?.monthlyWorkHours ?? null),
     incomeToThreshold: ratio ?? prior?.incomeToThreshold ?? null,
   });
+  const participation = snapParticipationAt(
+    next,
+    resolved.subject.id,
+    resolved.effectiveAt,
+  );
+  if (!participation || participation.enrolled === prior?.enrolled) return next;
+
+  // A saved enrollment change reaches every recorded household member through
+  // the existing person-level law exposure path. The participation record is
+  // the evidence; this adds no estimated benefit amount to a person's record.
+  let exposed = next;
+  for (const personId of peopleInHouseholdAt(next, resolved.subject.id, {
+    asOfDate: resolved.effectiveAt,
+    historySequenceExclusive: next.history.nextSequence,
+  })) {
+    if (!next.people[personId]) continue;
+    exposed = recordLawExposure(exposed, {
+      stableKey: `${participation.stableKey}:person:${personId}:exposure`,
+      personId,
+      measureId: resolved.law.measureId,
+      sectionKey: resolved.questionKey,
+      channel: "benefit",
+      direction: participation.enrolled ? "gain" : "cost",
+      amount: null,
+      cadence: null,
+      sourceRecordId: participation.id,
+    });
+  }
+  return exposed;
 }
 
 export const registrations: readonly LawConsequenceKindRegistration[] = [
