@@ -13,8 +13,6 @@ export const facetInventiveEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-inventive",
         pole: "high",
-        explanation:
-          "They think of a different way to meet the request and offer that instead.",
       },
     ],
   },

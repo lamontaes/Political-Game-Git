@@ -36,7 +36,6 @@ import {
 } from "../../src/simulation";
 import type { EntityId, World } from "../../src/simulation";
 import { lifePlaceStateIdentities } from "../../src/simulation/life-places";
-import { LIFE_MIND_IDS } from "../../src/simulation/life-mind-content";
 import { activeOrdinaryGoal } from "../../src/simulation/life-personality";
 import { describePersonContext } from "../../src/simulation/person-context";
 import {
@@ -48,10 +47,6 @@ import {
 } from "../../src/simulation/justice/court-reasoning";
 import { householdMembershipsAt } from "../../src/simulation/life-queries";
 import { stateKeyForJurisdiction } from "../../src/simulation/state-jurisdiction-id";
-import {
-  latestPersonalValue,
-  latestPersonalityTendency,
-} from "../../src/simulation/queries";
 import { observedTraitLabels } from "../../src/simulation/people-traits";
 import { JOURNALISM_OCCUPATION_CLASSIFICATION } from "../../src/simulation/press-interviews";
 import { createOpeningLifeController } from "../../src/presentation/opening-life";
@@ -85,13 +80,14 @@ import {
   reporterQuestionPacket,
 } from "../../src/presentation/press-english";
 import {
-  invitationAgreeLine,
-  invitationDeclineLine,
-} from "../../src/presentation/refusal-english";
-import {
   matterUninformedLine,
   officialViewLine,
+  greetAgainLine,
 } from "../../src/presentation/small-talk-english";
+import {
+  commitLifeConversation,
+  projectLifeConversation,
+} from "../../src/presentation/life-conversation";
 import {
   currentKnownMatter,
   matterAwareness,
@@ -199,7 +195,7 @@ export interface BatchResult {
 
 export interface BatchOptions {
   readonly seed: string;
-  /** The player's age in each world; one world per age (2 to 4). */
+  /** The player's age in each world; one world per age (2 to 8). */
   readonly ages: readonly number[];
   /** Days the first adult world is moved forward so news and press exist. */
   readonly newsDays: number;
@@ -207,7 +203,7 @@ export interface BatchOptions {
   readonly max: number;
 }
 
-export const DEFAULT_AGES: readonly number[] = [6, 17, 34, 52];
+export const DEFAULT_AGES: readonly number[] = [28, 34, 42, 50, 58, 64, 68, 70];
 
 // ---------------------------------------------------------------------------
 // Worlds and the people in them
@@ -280,9 +276,6 @@ const isParent = (person: Person) =>
   PARENT_RELATIONS.has(person.relation ?? "");
 const isPeer = (person: Person) =>
   /classmate|from your school/.test(person.relation ?? "");
-const isSibling = (person: Person) =>
-  /brother|sister|sibling/.test(person.relation ?? "");
-
 /** Scans the whole world for a person the cast does not already hold. */
 function findLocal(
   ctx: WorldContext,
@@ -451,36 +444,6 @@ function playerFact(ctx: WorldContext) {
 
 const youngPlayer = (ctx: WorldContext) => ctx.playerAge < 13;
 
-// The leisure and company answers, read the way the conversation reads them.
-function leisureOf(world: World, id: EntityId): string {
-  if (activeOrdinaryGoal(world, id, "learning")) return "explore";
-  if (activeOrdinaryGoal(world, id, "connection")) return "company";
-  if (
-    latestPersonalValue(world, id, LIFE_MIND_IDS.learning)?.orientation ===
-    "embraces"
-  )
-    return "explore";
-  return (
-    latestPersonalityTendency(world, id, LIFE_MIND_IDS.leisure)
-      ?.expressionKey ?? "familiar"
-  );
-}
-
-function acceptsGame(world: World, id: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, id, "privacy") &&
-    leisureOf(world, id) !== "explore"
-  );
-}
-
-function willingToDate(world: World, id: EntityId): boolean {
-  return (
-    !activeOrdinaryGoal(world, id, "privacy") &&
-    latestPersonalValue(world, id, LIFE_MIND_IDS.connection)?.orientation ===
-      "embraces"
-  );
-}
-
 // ---------------------------------------------------------------------------
 // The situations, in priority order
 // ---------------------------------------------------------------------------
@@ -502,108 +465,6 @@ function greeting(
     composer: "lifeReplyLine (first-greeting) in life-reply-english.ts",
     situation: `${ctx.playerName} says hello for the first time to ${describeWho(speaker)}${label}. ${note}`,
     prior: LIFE_TALK_INTENTS.greet,
-    speaker,
-    line: line.text,
-    parts: line.parts,
-  };
-}
-
-function invitationAccept(ctx: WorldContext): Produced {
-  const speaker = ctx.cast.find(
-    (person) => person.age >= 5 && acceptsGame(ctx.world, person.id),
-  );
-  if (!speaker) return skip("nobody in the cast would take up a game");
-  const line = worded(
-    () =>
-      invitationAgreeLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-game-accept",
-        "game",
-      ),
-    "invitationAgreeLine game",
-  );
-  return {
-    axis: "interaction",
-    composer: "invitationAgreeLine in refusal-english.ts",
-    situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, who is free to say yes (no privacy goal; leisure style "${leisureOf(ctx.world, speaker.id)}").`,
-    prior: LIFE_TALK_INTENTS.suggestGame,
-    speaker,
-    line: line.text,
-    parts: line.parts,
-    harness: [
-      "The suggestion is the harness's; the decision rule is the conversation's own.",
-    ],
-  };
-}
-
-function invitationDecline(ctx: WorldContext): Produced {
-  for (const speaker of ctx.cast) {
-    if (speaker.age < 5 || acceptsGame(ctx.world, speaker.id)) continue;
-    let line: { text: string; parts: readonly ComposedPart[] } | null = null;
-    try {
-      line = invitationDeclineLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-game-decline",
-        "game",
-      );
-    } catch {
-      line = null;
-    }
-    if (!line) continue;
-    const why = activeOrdinaryGoal(ctx.world, speaker.id, "privacy")
-      ? "an active goal to keep to themselves"
-      : `a leisure style of "${leisureOf(ctx.world, speaker.id)}"`;
-    return {
-      axis: "interaction",
-      composer: "invitationDeclineLine in refusal-english.ts",
-      situation: `${ctx.playerName} suggests playing a game together to ${describeWho(speaker)}, whose record gives ${why}.`,
-      prior: LIFE_TALK_INTENTS.suggestGame,
-      speaker,
-      line: line.text,
-      parts: line.parts,
-      harness: [
-        "The suggestion is the harness's; the refusal reason is read from the person's own records.",
-      ],
-    };
-  }
-  return skip("nobody in the cast has a recorded reason to turn down a game");
-}
-
-function dateDecline(ctx: WorldContext): Produced {
-  const speaker = ctx.cast.find(
-    (person) =>
-      person.age >= 18 &&
-      ctx.playerAge >= 18 &&
-      !isParent(person) &&
-      !isSibling(person) &&
-      !/grand|uncle|aunt|cousin/.test(person.relation ?? "") &&
-      !willingToDate(ctx.world, person.id),
-  );
-  if (!speaker)
-    return skip("no adult non-relative in the cast who would decline");
-  const line = worded(
-    () =>
-      invitationDeclineLine(
-        ctx.world,
-        speaker.id,
-        ctx.playerId,
-        [],
-        "dialogue-batch:invite-date-decline",
-        "date",
-      ),
-    "invitationDeclineLine date",
-  );
-  return {
-    axis: "relationship",
-    composer: "invitationDeclineLine (date) in refusal-english.ts",
-    situation: `${ctx.playerName} asks ${describeWho(speaker)} if they would like this to be a date; their record shows no openness to it.`,
-    prior: LIFE_TALK_INTENTS.date,
     speaker,
     line: line.text,
     parts: line.parts,
@@ -962,6 +823,61 @@ function officialsView(ctx: WorldContext): Produced {
   return skip("no one in this world has formed a view of an official yet");
 }
 
+function greetAgain(ctx: WorldContext): Produced {
+  for (const person of ctx.cast) {
+    const conversation = projectLifeConversation(
+      ctx.world,
+      ctx.playerId,
+      person.id,
+    );
+    if (!conversation?.intents.some((intent) => intent.key === "greet"))
+      continue;
+    let greeted: World;
+    try {
+      greeted = commitLifeConversation(ctx.world, {
+        playerPersonId: ctx.playerId,
+        personId: person.id,
+        intent: "greet",
+        revision: conversation.revision,
+      });
+    } catch {
+      continue;
+    }
+    const history = greeted.history.events.filter(
+      (event) =>
+        event.type === "life.conversation" &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === ctx.playerId &&
+            participant.role === "focus:subject",
+        ) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === person.id &&
+            participant.role === "coordination:counterpart",
+        ) &&
+        event.occurredAt <= greeted.currentDate,
+    );
+    const line = greetAgainLine(greeted, person.id, ctx.playerId, history);
+    if (!line) continue;
+    return {
+      axis: "interaction",
+      composer: "greetAgainLine in small-talk-english.ts",
+      situation: `${ctx.playerName} says hello again to ${describeWho(person)} after their saved conversation.`,
+      prior: LIFE_TALK_INTENTS.greet,
+      speaker: personOf(greeted, ctx.playerId, person.id, person.relation),
+      line: line.text,
+      parts: line.parts,
+      harness: [
+        "The batch records a first ordinary greeting in the current scene, then reads the next greeting from that saved conversation.",
+      ],
+    };
+  }
+  return skip(
+    "no present person has a current scene where a greeting can be recorded",
+  );
+}
+
 /**
  * A judge's sentence, in the justice code's own fixed sentences (CTO, 6:30
  * p.m. Oct 6: the first kind of text beyond conversation). The judge is the
@@ -1175,8 +1091,10 @@ function privacyMood(ctx: WorldContext): Produced {
   };
 }
 
-const SITUATIONS: readonly Situation[] = [
-  // The sixteen kept first, spread across the composers.
+// Kept available for situation-specific tests; grading batches exclude these
+// authored menu scenarios until they are backed by real played records.
+export const SITUATIONS: readonly Situation[] = [
+  // Core conversation, narrative and record-backed situations come first.
   {
     id: "greet-ask",
     run: (ctx) => {
@@ -1222,8 +1140,7 @@ const SITUATIONS: readonly Situation[] = [
       );
     },
   },
-  { id: "invite-game-accept", run: invitationAccept },
-  { id: "invite-game-decline", run: invitationDecline },
+  { id: "greet-again", run: greetAgain },
   { id: "remember-news-topic", run: rememberTopic },
   { id: "told-plan-first-listener", run: toldPlan(0) },
   { id: "running-open", run: running("open") },
@@ -1254,7 +1171,6 @@ const SITUATIONS: readonly Situation[] = [
   // Fallbacks, used only when one above cannot be worded in any world.
   { id: "told-plan-second-listener", run: toldPlan(1) },
   { id: "school-offer", run: schoolReply("offer") },
-  { id: "invite-date-decline", run: dateDecline },
   { id: "matter-heard", run: matterHeard },
   { id: "privacy-mood", run: privacyMood },
   { id: "everyday-accept", run: everyday("social-accept-reply") },
@@ -1286,8 +1202,8 @@ const SITUATIONS: readonly Situation[] = [
 // ---------------------------------------------------------------------------
 
 export function runDialogueBatch(options: BatchOptions): BatchResult {
-  if (options.ages.length < 1 || options.ages.length > 4)
-    throw new Error("Use one to four worlds.");
+  if (options.ages.length < 1 || options.ages.length > 8)
+    throw new Error("Use one to eight worlds.");
   // The first adult world is the one moved forward, so news and press exist.
   const newsIndex = Math.max(
     0,
@@ -1341,7 +1257,10 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
   const lines: BatchLine[] = [];
   const skipped: BatchSkip[] = [];
   const seenText = new Set<string>();
-  SITUATIONS.forEach((situation, order) => {
+  // Every menu prompt is excluded: this grading batch contains only text
+  // read from records created in the played worlds.
+  const recordedSituations: readonly Situation[] = [];
+  recordedSituations.forEach((situation, order) => {
     if (lines.length >= options.max) {
       skipped.push({ id: situation.id, reason: "over the line cap" });
       return;
@@ -1388,7 +1307,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
-  // The other kinds of text, read from the game's own producers: up to three
+  // The other kinds of text, read from the game's own producers: up to ten
   // each across the worlds, and a reason for every kind none produced.
   const perKind = new Map<string, number>();
   const why = new Map<string, string[]>();
@@ -1403,7 +1322,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           "#",
         )
         .replace(/[\d$,.]+/g, "#");
-      if ((perKind.get(text.kind) ?? 0) >= 3 || seenText.has(shape)) continue;
+      if ((perKind.get(text.kind) ?? 0) >= 10 || seenText.has(shape)) continue;
       seenText.add(shape);
       perKind.set(text.kind, (perKind.get(text.kind) ?? 0) + 1);
       lines.push({
@@ -1488,7 +1407,7 @@ function main() {
     seed: opt("seed", "dialogue-batch"),
     ages: opt("ages", DEFAULT_AGES.join(",")).split(",").map(Number),
     newsDays: Number(opt("news-days", "10")),
-    max: Number(opt("max", "16")),
+    max: Number(opt("max", "48")),
   };
   if (
     options.ages.some((age) => !Number.isInteger(age) || age < 0) ||
@@ -1498,7 +1417,7 @@ function main() {
     options.max < 1
   )
     throw new Error(
-      "Use --seed S, --ages a,b,c (1 to 4), --news-days N, --max N and --out FILE.",
+      "Use --seed S, --ages a,b,c (1 to 8), --news-days N, --max N and --out FILE.",
     );
   const out = opt("out", `test-results/dialogue-batch/${options.seed}.json`);
   const result = runDialogueBatch(options);
@@ -1510,7 +1429,8 @@ function main() {
   // to the bin beside it.
   const at = new Date();
   const batchId = opt("batch-id", gradingBatchId(at));
-  const head = execSync("git rev-parse HEAD").toString().trim();
+  const head =
+    opt("head", "") || execSync("git rev-parse HEAD").toString().trim();
   const { batch, bin } = toGradingBatch(result, { id: batchId, head, at });
   const gradingOut = `test-results/dialogue-batch/${batchId}.json`;
   mkdirSync(dirname(gradingOut), { recursive: true });

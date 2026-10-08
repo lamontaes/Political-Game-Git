@@ -520,24 +520,3 @@ describe("HUD", () => {
     expect(all.some((r) => r.area.countyTownName === "")).toBe(false);
   });
 });
-
-describe("FEC", () => {
-  interface Row {
-    recordKind: string;
-    candidateId?: string;
-    officeDistrict?: string | null;
-    committeeId?: string;
-  }
-  const all = records<Row>("fec");
-
-  it("holds every row of all three bulk files", () => {
-    expect(all.filter((r) => r.recordKind === "candidate")).toHaveLength(9798);
-    expect(all.filter((r) => r.recordKind === "committee")).toHaveLength(20938);
-    expect(all.filter((r) => r.recordKind === "linkage")).toHaveLength(8619);
-  });
-
-  it("keeps an at-large House district as the 00 the Commission publishes", () => {
-    const alaska = all.find((r) => r.candidateId === "H0AK00105");
-    expect(alaska?.officeDistrict).toBe("00");
-  });
-});

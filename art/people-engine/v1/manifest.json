@@ -2390,6 +2390,1604 @@
               "seatRow": 547
             }
           }
+        },
+        "angry": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-angry.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123.4,
+                "base": 155.3,
+                "highlight": 168.1
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-angry.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 124.5,
+                "base": 159.8,
+                "highlight": 173.9
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-angry.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "arms-wide": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-arms-wide.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 113.8,
+                "base": 156.5,
+                "highlight": 173.6
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-arms-wide.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 116.4,
+                "base": 159.7,
+                "highlight": 177
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-arms-wide.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 121.8,
+                "base": 155.4,
+                "highlight": 168.9
+              }
+            }
+          }
+        },
+        "checking-phone": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-checking-phone.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 122.2,
+                "base": 155.6,
+                "highlight": 168.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-checking-phone.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 123.7,
+                "base": 160.3,
+                "highlight": 174.9
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-checking-phone.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 127.3,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "clapping": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-clapping.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 120,
+                "base": 155.3,
+                "highlight": 169.5
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-clapping.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 121.2,
+                "base": 160.1,
+                "highlight": 175.6
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-clapping.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 124.6,
+                "base": 155.4,
+                "highlight": 167.7
+              }
+            }
+          }
+        },
+        "fidgeting": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-fidgeting.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 121.7,
+                "base": 155.3,
+                "highlight": 168.8
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-fidgeting.png",
+              "anchors": {
+                "top": 64,
+                "feet": 793,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 121.4,
+                "base": 159.5,
+                "highlight": 174.7
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-fidgeting.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.9,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "hand-on-heart": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-hand-on-heart.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123.7,
+                "base": 155.3,
+                "highlight": 167.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-hand-on-heart.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 124.8,
+                "base": 160.5,
+                "highlight": 174.8
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-hand-on-heart.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.1,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "hands-behind-back": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-hands-behind-back.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 126.3,
+                "base": 155.2,
+                "highlight": 167.2
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-hands-behind-back.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 127.4,
+                "base": 160.1,
+                "highlight": 173.3
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-hands-behind-back.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 127.8,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "hands-clasped": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-hands-clasped.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 120.1,
+                "base": 155.3,
+                "highlight": 169.5
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-hands-clasped.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 118.7,
+                "base": 159.5,
+                "highlight": 175.8
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-hands-clasped.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 123.9,
+                "base": 155.4,
+                "highlight": 168
+              }
+            }
+          }
+        },
+        "hands-on-hips": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-hands-on-hips.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 120.9,
+                "base": 155.3,
+                "highlight": 169.1
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-hands-on-hips.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 123,
+                "base": 160.4,
+                "highlight": 175.4
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-hands-on-hips.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.2,
+                "base": 155.5,
+                "highlight": 167.5
+              }
+            }
+          }
+        },
+        "handshake": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-handshake.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123.2,
+                "base": 155,
+                "highlight": 167.7
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-handshake.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 124.1,
+                "base": 160.5,
+                "highlight": 175.1
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-handshake.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 124.6,
+                "base": 155.3,
+                "highlight": 167.5
+              }
+            }
+          },
+          "toward": "left"
+        },
+        "holding-cup": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-holding-cup.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 122.4,
+                "base": 155.1,
+                "highlight": 185.7
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-holding-cup.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 125.4,
+                "base": 160.4,
+                "highlight": 185.9
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-holding-cup.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 127,
+                "base": 155.3,
+                "highlight": 186.6
+              }
+            }
+          }
+        },
+        "holding-folder": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-holding-folder.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 115.8,
+                "base": 155.1,
+                "highlight": 170.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-holding-folder.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 120,
+                "base": 160.7,
+                "highlight": 177.6
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-holding-folder.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 115.2,
+                "base": 155.4,
+                "highlight": 171.5
+              }
+            }
+          }
+        },
+        "phone-call": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-phone-call.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 122.6,
+                "base": 155.3,
+                "highlight": 168.3
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-phone-call.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 123.5,
+                "base": 160.6,
+                "highlight": 175.4
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-phone-call.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.2,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "pointing": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-pointing.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 122.9,
+                "base": 155.3,
+                "highlight": 168.2
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-pointing.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 124.2,
+                "base": 160.6,
+                "highlight": 175.1
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-pointing.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 125,
+                "base": 155.4,
+                "highlight": 167.6
+              }
+            }
+          },
+          "toward": "right"
+        },
+        "shrug": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-shrug.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 121.1,
+                "base": 155.3,
+                "highlight": 169
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-shrug.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 119.1,
+                "base": 159.9,
+                "highlight": 176.1
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-shrug.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 124.2,
+                "base": 155.4,
+                "highlight": 167.9
+              }
+            }
+          }
+        },
+        "slumped": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-slumped.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123.5,
+                "base": 155.4,
+                "highlight": 168.2
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-slumped.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 123.2,
+                "base": 159.8,
+                "highlight": 174.4
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-slumped.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.2,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "stern": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-stern.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 121.1,
+                "base": 155.1,
+                "highlight": 168.7
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-stern.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 122.9,
+                "base": 160.4,
+                "highlight": 175.3
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-stern.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "thinking": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-thinking.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 118.1,
+                "base": 155.1,
+                "highlight": 169.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-thinking.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 119.5,
+                "base": 159.9,
+                "highlight": 176.1
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-thinking.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 123.7,
+                "base": 155.4,
+                "highlight": 168.1
+              }
+            }
+          }
+        },
+        "walking": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-walking.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 119.9,
+                "base": 155.6,
+                "highlight": 169.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-walking.png",
+              "anchors": {
+                "top": 64,
+                "feet": 793,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 121.2,
+                "base": 159.1,
+                "highlight": 174.3
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-walking.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 124.8,
+                "base": 155.1,
+                "highlight": 167.3
+              }
+            }
+          }
+        },
+        "waving": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-waving.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123,
+                "base": 155.1,
+                "highlight": 167.9
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-waving.png",
+              "anchors": {
+                "top": 64,
+                "feet": 792,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 122.8,
+                "base": 159.9,
+                "highlight": 174.8
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-waving.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
+        },
+        "weight-shift": {
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-weight-shift.png",
+              "anchors": {
+                "top": 58,
+                "feet": 792,
+                "neck": {
+                  "row": 144,
+                  "centerX": 252,
+                  "width": 43
+                },
+                "head": {
+                  "left": 213,
+                  "right": 291,
+                  "top": 58,
+                  "bottom": 144
+                },
+                "shoulderRow": 217
+              },
+              "skin": {
+                "shadow": 123.5,
+                "base": 156.1,
+                "highlight": 169.1
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-weight-shift.png",
+              "anchors": {
+                "top": 64,
+                "feet": 793,
+                "neck": {
+                  "row": 154,
+                  "centerX": 252.5,
+                  "width": 44
+                },
+                "head": {
+                  "left": 212,
+                  "right": 293,
+                  "top": 64,
+                  "bottom": 154
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 124.3,
+                "base": 159.6,
+                "highlight": 173.7
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-weight-shift.png",
+              "anchors": {
+                "top": 70,
+                "feet": 792,
+                "neck": {
+                  "row": 155,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 213,
+                  "right": 296,
+                  "top": 70,
+                  "bottom": 155
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 126.6,
+                "base": 155.4,
+                "highlight": 167.4
+              }
+            }
+          }
         }
       },
       "outfits": [
@@ -2837,6 +4435,37 @@
                   "skin": "outfit-feminine-casual-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-casual-lean-back.png",
+                  "hides": "outfit-feminine-casual-lean-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-casual-lean-back-top.png",
+                    "bottom": "outfit-feminine-casual-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-casual-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-casual-average-back.png",
+                  "hides": "outfit-feminine-casual-average-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-casual-average-back-top.png",
+                    "bottom": "outfit-feminine-casual-average-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-casual-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-casual-fuller-back.png",
+                  "hides": "outfit-feminine-casual-fuller-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-casual-fuller-back-top.png",
+                    "bottom": "outfit-feminine-casual-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-casual-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -3282,6 +4911,37 @@
                     "shirt": "outfit-feminine-formal-fuller-three-quarter-shirt.png"
                   },
                   "skin": "outfit-feminine-formal-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-formal-lean-back.png",
+                  "hides": "outfit-feminine-formal-lean-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-feminine-formal-lean-back-suit.png",
+                    "shirt": "outfit-feminine-formal-lean-back-shirt.png"
+                  },
+                  "skin": "outfit-feminine-formal-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-formal-average-back.png",
+                  "hides": "outfit-feminine-formal-average-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-feminine-formal-average-back-suit.png",
+                    "shirt": "outfit-feminine-formal-average-back-shirt.png"
+                  },
+                  "skin": "outfit-feminine-formal-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-formal-fuller-back.png",
+                  "hides": "outfit-feminine-formal-fuller-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-feminine-formal-fuller-back-suit.png",
+                    "shirt": "outfit-feminine-formal-fuller-back-shirt.png"
+                  },
+                  "skin": "outfit-feminine-formal-fuller-back-skin.png"
                 }
               }
             }
@@ -3780,6 +5440,40 @@
                   "skin": "outfit-feminine-cardigan-jeans-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-cardigan-jeans-lean-back.png",
+                  "hides": "outfit-feminine-cardigan-jeans-lean-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-feminine-cardigan-jeans-lean-back-sweater.png",
+                    "shirt": "outfit-feminine-cardigan-jeans-lean-back-shirt.png",
+                    "bottom": "outfit-feminine-cardigan-jeans-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-cardigan-jeans-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-cardigan-jeans-average-back.png",
+                  "hides": "outfit-feminine-cardigan-jeans-average-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-feminine-cardigan-jeans-average-back-sweater.png",
+                    "shirt": "outfit-feminine-cardigan-jeans-average-back-shirt.png",
+                    "bottom": "outfit-feminine-cardigan-jeans-average-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-cardigan-jeans-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-cardigan-jeans-fuller-back.png",
+                  "hides": "outfit-feminine-cardigan-jeans-fuller-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-feminine-cardigan-jeans-fuller-back-sweater.png",
+                    "shirt": "outfit-feminine-cardigan-jeans-fuller-back-shirt.png",
+                    "bottom": "outfit-feminine-cardigan-jeans-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-cardigan-jeans-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -4228,6 +5922,37 @@
                     "bottom": "outfit-feminine-hoodie-jeans-fuller-three-quarter-bottom.png"
                   },
                   "skin": "outfit-feminine-hoodie-jeans-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-hoodie-jeans-lean-back.png",
+                  "hides": "outfit-feminine-hoodie-jeans-lean-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-hoodie-jeans-lean-back-top.png",
+                    "bottom": "outfit-feminine-hoodie-jeans-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-hoodie-jeans-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-hoodie-jeans-average-back.png",
+                  "hides": "outfit-feminine-hoodie-jeans-average-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-hoodie-jeans-average-back-top.png",
+                    "bottom": "outfit-feminine-hoodie-jeans-average-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-hoodie-jeans-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-hoodie-jeans-fuller-back.png",
+                  "hides": "outfit-feminine-hoodie-jeans-fuller-back-hides.png",
+                  "regions": {
+                    "top": "outfit-feminine-hoodie-jeans-fuller-back-top.png",
+                    "bottom": "outfit-feminine-hoodie-jeans-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-feminine-hoodie-jeans-fuller-back-skin.png"
                 }
               }
             }
@@ -5536,6 +7261,37 @@
                   "skin": "outfit-feminine-dress-blazer-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-dress-blazer-lean-back.png",
+                  "hides": "outfit-feminine-dress-blazer-lean-back-hides.png",
+                  "regions": {
+                    "dress": "outfit-feminine-dress-blazer-lean-back-dress.png",
+                    "jacket": "outfit-feminine-dress-blazer-lean-back-jacket.png"
+                  },
+                  "skin": "outfit-feminine-dress-blazer-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-dress-blazer-average-back.png",
+                  "hides": "outfit-feminine-dress-blazer-average-back-hides.png",
+                  "regions": {
+                    "dress": "outfit-feminine-dress-blazer-average-back-dress.png",
+                    "jacket": "outfit-feminine-dress-blazer-average-back-jacket.png"
+                  },
+                  "skin": "outfit-feminine-dress-blazer-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-dress-blazer-fuller-back.png",
+                  "hides": "outfit-feminine-dress-blazer-fuller-back-hides.png",
+                  "regions": {
+                    "dress": "outfit-feminine-dress-blazer-fuller-back-dress.png",
+                    "jacket": "outfit-feminine-dress-blazer-fuller-back-jacket.png"
+                  },
+                  "skin": "outfit-feminine-dress-blazer-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -6214,6 +7970,34 @@
                     "scrubs": "outfit-feminine-scrubs-fuller-three-quarter-scrubs.png"
                   },
                   "skin": "outfit-feminine-scrubs-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-feminine-scrubs-lean-back.png",
+                  "hides": "outfit-feminine-scrubs-lean-back-hides.png",
+                  "regions": {
+                    "scrubs": "outfit-feminine-scrubs-lean-back-scrubs.png"
+                  },
+                  "skin": "outfit-feminine-scrubs-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-feminine-scrubs-average-back.png",
+                  "hides": "outfit-feminine-scrubs-average-back-hides.png",
+                  "regions": {
+                    "scrubs": "outfit-feminine-scrubs-average-back-scrubs.png"
+                  },
+                  "skin": "outfit-feminine-scrubs-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-feminine-scrubs-fuller-back.png",
+                  "hides": "outfit-feminine-scrubs-fuller-back-hides.png",
+                  "regions": {
+                    "scrubs": "outfit-feminine-scrubs-fuller-back-scrubs.png"
+                  },
+                  "skin": "outfit-feminine-scrubs-fuller-back-skin.png"
                 }
               }
             }
@@ -6946,7 +8730,1000 @@
           },
           "faces": [],
           "hair": [],
-          "toward": "right"
+          "toward": "right",
+          "poses": {
+            "arms-folded": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 120,
+                    "base": 152.1,
+                    "highlight": 164.9
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 793,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 121,
+                    "base": 155.6,
+                    "highlight": 169.4
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 124.8,
+                    "base": 152.1,
+                    "highlight": 164.1
+                  }
+                }
+              }
+            },
+            "checking-phone": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-checking-phone-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 114.6,
+                    "base": 152.5,
+                    "highlight": 167.6
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-checking-phone-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 793,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 117.7,
+                    "base": 155.4,
+                    "highlight": 170.4
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-checking-phone-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 123.2,
+                    "base": 152.1,
+                    "highlight": 164.1
+                  }
+                }
+              }
+            },
+            "hands-on-hips": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 116,
+                    "base": 151.4,
+                    "highlight": 165.6
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 792,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 117.2,
+                    "base": 155.4,
+                    "highlight": 170.7
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 122.9,
+                    "base": 151.6,
+                    "highlight": 163.6
+                  }
+                }
+              }
+            },
+            "holding-folder": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 119.2,
+                    "base": 151.9,
+                    "highlight": 203.8
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 793,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 121,
+                    "base": 156.6,
+                    "highlight": 203.7
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 122.2,
+                    "base": 152.1,
+                    "highlight": 203.4
+                  }
+                }
+              }
+            },
+            "pointing": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-pointing-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 118.6,
+                    "base": 152.5,
+                    "highlight": 166
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-pointing-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 792,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 119.8,
+                    "base": 156.8,
+                    "highlight": 171.6
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-pointing-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 121.7,
+                    "base": 152.4,
+                    "highlight": 164.7
+                  }
+                }
+              },
+              "toward": "left"
+            },
+            "shrug": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 792,
+                    "neck": {
+                      "row": 157,
+                      "centerX": 252,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 57,
+                      "bottom": 157
+                    },
+                    "shoulderRow": 227
+                  },
+                  "skin": {
+                    "shadow": 116.8,
+                    "base": 152.3,
+                    "highlight": 166.5
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 63,
+                    "feet": 792,
+                    "neck": {
+                      "row": 163,
+                      "centerX": 252,
+                      "width": 47
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 63,
+                      "bottom": 163
+                    },
+                    "shoulderRow": 235
+                  },
+                  "skin": {
+                    "shadow": 118.2,
+                    "base": 156,
+                    "highlight": 171.1
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 69,
+                    "feet": 792,
+                    "neck": {
+                      "row": 169,
+                      "centerX": 255,
+                      "width": 53
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 298,
+                      "top": 69,
+                      "bottom": 169
+                    },
+                    "shoulderRow": 240
+                  },
+                  "skin": {
+                    "shadow": 122.8,
+                    "base": 152.1,
+                    "highlight": 164.1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "back": {
+          "canonical": {
+            "top": 61,
+            "feet": 793,
+            "neck": {
+              "row": 153,
+              "centerX": 253,
+              "width": 45
+            },
+            "head": {
+              "left": 212,
+              "right": 294,
+              "top": 61,
+              "bottom": 153
+            },
+            "shoulderRow": 226
+          },
+          "bodies": {
+            "lean": {
+              "file": "body-feminine-lean-back.png",
+              "anchors": {
+                "top": 57,
+                "feet": 792,
+                "neck": {
+                  "row": 148,
+                  "centerX": 251,
+                  "width": 45
+                },
+                "head": {
+                  "left": 210,
+                  "right": 291,
+                  "top": 57,
+                  "bottom": 148
+                },
+                "shoulderRow": 220
+              },
+              "skin": {
+                "shadow": 123.4,
+                "base": 155.3,
+                "highlight": 168
+              }
+            },
+            "average": {
+              "file": "body-feminine-average-back.png",
+              "anchors": {
+                "top": 61,
+                "feet": 793,
+                "neck": {
+                  "row": 153,
+                  "centerX": 253,
+                  "width": 45
+                },
+                "head": {
+                  "left": 212,
+                  "right": 294,
+                  "top": 61,
+                  "bottom": 153
+                },
+                "shoulderRow": 226
+              },
+              "skin": {
+                "shadow": 125.5,
+                "base": 156.1,
+                "highlight": 168.4
+              }
+            },
+            "fuller": {
+              "file": "body-feminine-fuller-back.png",
+              "anchors": {
+                "top": 68,
+                "feet": 792,
+                "neck": {
+                  "row": 158,
+                  "centerX": 255.5,
+                  "width": 52
+                },
+                "head": {
+                  "left": 213,
+                  "right": 298,
+                  "top": 68,
+                  "bottom": 158
+                },
+                "shoulderRow": 230
+              },
+              "skin": {
+                "shadow": 129.8,
+                "base": 155.2,
+                "highlight": 167.2
+              }
+            }
+          },
+          "poses": {
+            "back-arms-folded": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 793,
+                    "neck": {
+                      "row": 148,
+                      "centerX": 251,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 210,
+                      "right": 291,
+                      "top": 57,
+                      "bottom": 148
+                    },
+                    "shoulderRow": 220
+                  },
+                  "skin": {
+                    "shadow": 83.6,
+                    "base": 152.1,
+                    "highlight": 179.5
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 61,
+                    "feet": 794,
+                    "neck": {
+                      "row": 153,
+                      "centerX": 253,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 212,
+                      "right": 294,
+                      "top": 61,
+                      "bottom": 153
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 81.6,
+                    "base": 152.7,
+                    "highlight": 181.2
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 158,
+                      "centerX": 255.5,
+                      "width": 52
+                    },
+                    "head": {
+                      "left": 213,
+                      "right": 298,
+                      "top": 68,
+                      "bottom": 158
+                    },
+                    "shoulderRow": 230
+                  },
+                  "skin": {
+                    "shadow": 86.5,
+                    "base": 152.4,
+                    "highlight": 178.8
+                  }
+                }
+              }
+            },
+            "back-hands-in-pockets": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 793,
+                    "neck": {
+                      "row": 148,
+                      "centerX": 251,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 210,
+                      "right": 291,
+                      "top": 57,
+                      "bottom": 148
+                    },
+                    "shoulderRow": 220
+                  },
+                  "skin": {
+                    "shadow": 79.7,
+                    "base": 152.6,
+                    "highlight": 181.7
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 61,
+                    "feet": 794,
+                    "neck": {
+                      "row": 153,
+                      "centerX": 253,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 212,
+                      "right": 294,
+                      "top": 61,
+                      "bottom": 153
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 77.7,
+                    "base": 153.4,
+                    "highlight": 183.7
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 158,
+                      "centerX": 255.5,
+                      "width": 52
+                    },
+                    "head": {
+                      "left": 213,
+                      "right": 298,
+                      "top": 68,
+                      "bottom": 158
+                    },
+                    "shoulderRow": 230
+                  },
+                  "skin": {
+                    "shadow": 84.7,
+                    "base": 152.6,
+                    "highlight": 179.7
+                  }
+                }
+              }
+            },
+            "back-hands-on-hips": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 793,
+                    "neck": {
+                      "row": 148,
+                      "centerX": 251,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 210,
+                      "right": 291,
+                      "top": 57,
+                      "bottom": 148
+                    },
+                    "shoulderRow": 220
+                  },
+                  "skin": {
+                    "shadow": 84.3,
+                    "base": 152.1,
+                    "highlight": 179.2
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 61,
+                    "feet": 794,
+                    "neck": {
+                      "row": 153,
+                      "centerX": 253,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 212,
+                      "right": 294,
+                      "top": 61,
+                      "bottom": 153
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 81.7,
+                    "base": 152.6,
+                    "highlight": 181
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 158,
+                      "centerX": 255.5,
+                      "width": 52
+                    },
+                    "head": {
+                      "left": 213,
+                      "right": 298,
+                      "top": 68,
+                      "bottom": 158
+                    },
+                    "shoulderRow": 230
+                  },
+                  "skin": {
+                    "shadow": 88.9,
+                    "base": 152.3,
+                    "highlight": 177.6
+                  }
+                }
+              }
+            },
+            "back-pointing": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-back-pointing-back.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 793,
+                    "neck": {
+                      "row": 148,
+                      "centerX": 251,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 210,
+                      "right": 291,
+                      "top": 57,
+                      "bottom": 148
+                    },
+                    "shoulderRow": 220
+                  },
+                  "skin": {
+                    "shadow": 86.5,
+                    "base": 152.2,
+                    "highlight": 178.5
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-back-pointing-back.png",
+                  "anchors": {
+                    "top": 61,
+                    "feet": 794,
+                    "neck": {
+                      "row": 153,
+                      "centerX": 253,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 212,
+                      "right": 294,
+                      "top": 61,
+                      "bottom": 153
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 82.9,
+                    "base": 152.6,
+                    "highlight": 180.5
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-back-pointing-back.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 158,
+                      "centerX": 255.5,
+                      "width": 52
+                    },
+                    "head": {
+                      "left": 213,
+                      "right": 298,
+                      "top": 68,
+                      "bottom": 158
+                    },
+                    "shoulderRow": 230
+                  },
+                  "skin": {
+                    "shadow": 89.3,
+                    "base": 152.2,
+                    "highlight": 177.4
+                  }
+                }
+              }
+            },
+            "back-walking": {
+              "bodies": {
+                "lean": {
+                  "file": "body-feminine-lean-back-walking-back.png",
+                  "anchors": {
+                    "top": 57,
+                    "feet": 793,
+                    "neck": {
+                      "row": 148,
+                      "centerX": 251,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 210,
+                      "right": 291,
+                      "top": 57,
+                      "bottom": 148
+                    },
+                    "shoulderRow": 220
+                  },
+                  "skin": {
+                    "shadow": 71.3,
+                    "base": 151.9,
+                    "highlight": 184.1
+                  }
+                },
+                "average": {
+                  "file": "body-feminine-average-back-walking-back.png",
+                  "anchors": {
+                    "top": 61,
+                    "feet": 794,
+                    "neck": {
+                      "row": 153,
+                      "centerX": 253,
+                      "width": 45
+                    },
+                    "head": {
+                      "left": 212,
+                      "right": 294,
+                      "top": 61,
+                      "bottom": 153
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 72.4,
+                    "base": 150.6,
+                    "highlight": 181.9
+                  }
+                },
+                "fuller": {
+                  "file": "body-feminine-fuller-back-walking-back.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 158,
+                      "centerX": 255.5,
+                      "width": 52
+                    },
+                    "head": {
+                      "left": 213,
+                      "right": 298,
+                      "top": 68,
+                      "bottom": 158
+                    },
+                    "shoulderRow": 230
+                  },
+                  "skin": {
+                    "shadow": 79.5,
+                    "base": 151.8,
+                    "highlight": 180.7
+                  }
+                }
+              }
+            }
+          },
+          "faces": [],
+          "hair": [
+            {
+              "id": "wavy-bob",
+              "back": "hair-feminine-wavy-bob-back.png",
+              "front": "hair-feminine-wavy-bob-nape-back.png"
+            },
+            {
+              "id": "afro",
+              "back": "hair-feminine-afro-back.png",
+              "front": "hair-feminine-afro-nape-back.png"
+            },
+            {
+              "id": "bob-bangs",
+              "back": "hair-feminine-bob-bangs-back.png",
+              "front": "hair-feminine-bob-bangs-nape-back.png"
+            },
+            {
+              "id": "box-braids",
+              "back": "hair-feminine-box-braids-back.png",
+              "front": "hair-feminine-box-braids-nape-back.png"
+            },
+            {
+              "id": "box-braids-2",
+              "back": "hair-feminine-box-braids-2-back.png",
+              "front": "hair-feminine-box-braids-2-nape-back.png"
+            },
+            {
+              "id": "locs",
+              "back": "hair-feminine-locs-back.png",
+              "front": "hair-feminine-locs-nape-back.png"
+            },
+            {
+              "id": "long-straight",
+              "back": "hair-feminine-long-straight-back.png",
+              "front": "hair-feminine-long-straight-nape-back.png"
+            },
+            {
+              "id": "low-ponytail",
+              "back": "hair-feminine-low-ponytail-back.png",
+              "front": "hair-feminine-low-ponytail-nape-back.png"
+            },
+            {
+              "id": "pixie",
+              "back": "hair-feminine-pixie-back.png",
+              "front": "hair-feminine-pixie-nape-back.png"
+            },
+            {
+              "id": "top-bun",
+              "back": "hair-feminine-top-bun-back.png",
+              "front": "hair-feminine-top-bun-nape-back.png"
+            },
+            {
+              "id": "wavy-shoulder",
+              "back": "hair-feminine-wavy-shoulder-back.png",
+              "front": "hair-feminine-wavy-shoulder-nape-back.png"
+            }
+          ],
+          "toward": null,
+          "faceless": true
         }
       }
     },
@@ -9341,6 +12118,1376 @@
               "seatRow": 557
             }
           }
+        },
+        "angry": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-angry.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 134,
+                "base": 172.3,
+                "highlight": 187.6
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-angry.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 139.2,
+                "base": 186.6,
+                "highlight": 205.5
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-angry.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 131.5,
+                "base": 170,
+                "highlight": 185.4
+              }
+            }
+          }
+        },
+        "arms-wide": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-arms-wide.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 132.7,
+                "base": 172.4,
+                "highlight": 188.3
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-arms-wide.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 142,
+                "base": 187.9,
+                "highlight": 206.2
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-arms-wide.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 133.2,
+                "base": 170.1,
+                "highlight": 184.9
+              }
+            }
+          }
+        },
+        "checking-phone": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-checking-phone.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 132.3,
+                "base": 172.1,
+                "highlight": 188
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-checking-phone.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 141.2,
+                "base": 187.4,
+                "highlight": 205.8
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-checking-phone.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 133.1,
+                "base": 169.3,
+                "highlight": 183.7
+              }
+            }
+          }
+        },
+        "fidgeting": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-fidgeting.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 128.1,
+                "base": 172,
+                "highlight": 189.6
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-fidgeting.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 142.7,
+                "base": 186.9,
+                "highlight": 204.5
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-fidgeting.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 130.1,
+                "base": 169.8,
+                "highlight": 185.6
+              }
+            }
+          }
+        },
+        "hand-on-heart": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-hand-on-heart.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 129.6,
+                "base": 172,
+                "highlight": 188.9
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-hand-on-heart.png",
+              "anchors": {
+                "top": 69,
+                "feet": 792,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 142.2,
+                "base": 187,
+                "highlight": 204.9
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-hand-on-heart.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 131.5,
+                "base": 170,
+                "highlight": 185.4
+              }
+            }
+          }
+        },
+        "hands-behind-back": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-hands-behind-back.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 139.9,
+                "base": 172.3,
+                "highlight": 185.2
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-hands-behind-back.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 146.9,
+                "base": 186.7,
+                "highlight": 202.6
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-hands-behind-back.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 137.1,
+                "base": 169.7,
+                "highlight": 182.7
+              }
+            }
+          }
+        },
+        "hands-clasped": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-hands-clasped.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 136.7,
+                "base": 172.6,
+                "highlight": 186.9
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-hands-clasped.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 150.2,
+                "base": 187.4,
+                "highlight": 202.2
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-hands-clasped.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 137.4,
+                "base": 170,
+                "highlight": 183
+              }
+            }
+          }
+        },
+        "hands-on-hips": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-hands-on-hips.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 134.5,
+                "base": 172.3,
+                "highlight": 187.4
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-hands-on-hips.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 148.2,
+                "base": 187.3,
+                "highlight": 202.9
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-hands-on-hips.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 137.5,
+                "base": 169.9,
+                "highlight": 182.9
+              }
+            }
+          }
+        },
+        "handshake": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-handshake.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 132,
+                "base": 172.3,
+                "highlight": 188.4
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-handshake.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 146.1,
+                "base": 187.3,
+                "highlight": 203.7
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-handshake.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 131.5,
+                "base": 169.8,
+                "highlight": 185.1
+              }
+            }
+          },
+          "toward": "left"
+        },
+        "holding-cup": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-holding-cup.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 129,
+                "base": 172,
+                "highlight": 189.2
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-holding-cup.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 142.4,
+                "base": 187.1,
+                "highlight": 205
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-holding-cup.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 130.4,
+                "base": 170,
+                "highlight": 189.5
+              }
+            }
+          }
+        },
+        "holding-folder": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-holding-folder.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 130.3,
+                "base": 172.5,
+                "highlight": 215
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-holding-folder.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 144.7,
+                "base": 187.5,
+                "highlight": 214.3
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-holding-folder.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 128.8,
+                "base": 169.9,
+                "highlight": 215.7
+              }
+            }
+          }
+        },
+        "phone-call": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-phone-call.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 127.4,
+                "base": 172.3,
+                "highlight": 190.3
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-phone-call.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 144.3,
+                "base": 187.5,
+                "highlight": 204.8
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-phone-call.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 130.8,
+                "base": 170.2,
+                "highlight": 186
+              }
+            }
+          }
+        },
+        "pointing": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-pointing.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 131.6,
+                "base": 171.9,
+                "highlight": 188.1
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-pointing.png",
+              "anchors": {
+                "top": 69,
+                "feet": 792,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 145.3,
+                "base": 187.1,
+                "highlight": 203.8
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-pointing.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 132.2,
+                "base": 170.1,
+                "highlight": 185.3
+              }
+            }
+          },
+          "toward": "left"
+        },
+        "shrug": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-shrug.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 131.4,
+                "base": 172.1,
+                "highlight": 188.3
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-shrug.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 145,
+                "base": 187.1,
+                "highlight": 203.9
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-shrug.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 131.8,
+                "base": 169.7,
+                "highlight": 184.9
+              }
+            }
+          }
+        },
+        "stern": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-stern.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 130.5,
+                "base": 172.2,
+                "highlight": 188.9
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-stern.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 143.7,
+                "base": 187.4,
+                "highlight": 204.9
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-stern.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 132.2,
+                "base": 169.9,
+                "highlight": 184.9
+              }
+            }
+          }
+        },
+        "thinking": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-thinking.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 129,
+                "base": 172,
+                "highlight": 189.2
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-thinking.png",
+              "anchors": {
+                "top": 69,
+                "feet": 792,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 139,
+                "base": 187.6,
+                "highlight": 207
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-thinking.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 129.1,
+                "base": 169.8,
+                "highlight": 186
+              }
+            }
+          }
+        },
+        "walking": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-walking.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 131.8,
+                "base": 171.9,
+                "highlight": 188
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-walking.png",
+              "anchors": {
+                "top": 69,
+                "feet": 793,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 147.1,
+                "base": 186.6,
+                "highlight": 202.4
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-walking.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 136.1,
+                "base": 169.5,
+                "highlight": 182.8
+              }
+            }
+          }
+        },
+        "waving": {
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-waving.png",
+              "anchors": {
+                "top": 55,
+                "feet": 792,
+                "neck": {
+                  "row": 134,
+                  "centerX": 254.5,
+                  "width": 50
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 55,
+                  "bottom": 134
+                },
+                "shoulderRow": 208
+              },
+              "skin": {
+                "shadow": 132.6,
+                "base": 172.4,
+                "highlight": 188.4
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-waving.png",
+              "anchors": {
+                "top": 69,
+                "feet": 792,
+                "neck": {
+                  "row": 145,
+                  "centerX": 254,
+                  "width": 55
+                },
+                "head": {
+                  "left": 215,
+                  "right": 293,
+                  "top": 69,
+                  "bottom": 145
+                },
+                "shoulderRow": 216
+              },
+              "skin": {
+                "shadow": 145.9,
+                "base": 187.2,
+                "highlight": 203.7
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-waving.png",
+              "anchors": {
+                "top": 66,
+                "feet": 792,
+                "neck": {
+                  "row": 150,
+                  "centerX": 255,
+                  "width": 61
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 66,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 134.7,
+                "base": 170.2,
+                "highlight": 184.4
+              }
+            }
+          }
         }
       },
       "outfits": [
@@ -9786,6 +13933,37 @@
                     "bottom": "outfit-masculine-casual-fuller-three-quarter-bottom.png"
                   },
                   "skin": "outfit-masculine-casual-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-casual-lean-back.png",
+                  "hides": "outfit-masculine-casual-lean-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-casual-lean-back-top.png",
+                    "bottom": "outfit-masculine-casual-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-casual-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-casual-average-back.png",
+                  "hides": "outfit-masculine-casual-average-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-casual-average-back-top.png",
+                    "bottom": "outfit-masculine-casual-average-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-casual-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-casual-fuller-back.png",
+                  "hides": "outfit-masculine-casual-fuller-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-casual-fuller-back-top.png",
+                    "bottom": "outfit-masculine-casual-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-casual-fuller-back-skin.png"
                 }
               }
             }
@@ -10281,6 +14459,40 @@
                   "skin": "outfit-masculine-formal-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-formal-lean-back.png",
+                  "hides": "outfit-masculine-formal-lean-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-masculine-formal-lean-back-suit.png",
+                    "shirt": "outfit-masculine-formal-lean-back-shirt.png",
+                    "tie": "outfit-masculine-formal-lean-back-tie.png"
+                  },
+                  "skin": "outfit-masculine-formal-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-formal-average-back.png",
+                  "hides": "outfit-masculine-formal-average-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-masculine-formal-average-back-suit.png",
+                    "shirt": "outfit-masculine-formal-average-back-shirt.png",
+                    "tie": "outfit-masculine-formal-average-back-tie.png"
+                  },
+                  "skin": "outfit-masculine-formal-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-formal-fuller-back.png",
+                  "hides": "outfit-masculine-formal-fuller-back-hides.png",
+                  "regions": {
+                    "suit": "outfit-masculine-formal-fuller-back-suit.png",
+                    "shirt": "outfit-masculine-formal-fuller-back-shirt.png",
+                    "tie": "outfit-masculine-formal-fuller-back-tie.png"
+                  },
+                  "skin": "outfit-masculine-formal-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -10731,6 +14943,37 @@
                   "skin": "outfit-masculine-polo-khakis-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-polo-khakis-lean-back.png",
+                  "hides": "outfit-masculine-polo-khakis-lean-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-polo-khakis-lean-back-top.png",
+                    "bottom": "outfit-masculine-polo-khakis-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-polo-khakis-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-polo-khakis-average-back.png",
+                  "hides": "outfit-masculine-polo-khakis-average-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-polo-khakis-average-back-top.png",
+                    "bottom": "outfit-masculine-polo-khakis-average-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-polo-khakis-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-polo-khakis-fuller-back.png",
+                  "hides": "outfit-masculine-polo-khakis-fuller-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-polo-khakis-fuller-back-top.png",
+                    "bottom": "outfit-masculine-polo-khakis-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-polo-khakis-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -11179,6 +15422,37 @@
                     "bottom": "outfit-masculine-hoodie-jeans-fuller-three-quarter-bottom.png"
                   },
                   "skin": "outfit-masculine-hoodie-jeans-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-hoodie-jeans-lean-back.png",
+                  "hides": "outfit-masculine-hoodie-jeans-lean-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-hoodie-jeans-lean-back-top.png",
+                    "bottom": "outfit-masculine-hoodie-jeans-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-hoodie-jeans-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-hoodie-jeans-average-back.png",
+                  "hides": "outfit-masculine-hoodie-jeans-average-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-hoodie-jeans-average-back-top.png",
+                    "bottom": "outfit-masculine-hoodie-jeans-average-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-hoodie-jeans-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-hoodie-jeans-fuller-back.png",
+                  "hides": "outfit-masculine-hoodie-jeans-fuller-back-hides.png",
+                  "regions": {
+                    "top": "outfit-masculine-hoodie-jeans-fuller-back-top.png",
+                    "bottom": "outfit-masculine-hoodie-jeans-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-hoodie-jeans-fuller-back-skin.png"
                 }
               }
             }
@@ -11677,6 +15951,40 @@
                   "skin": "outfit-masculine-sweater-collar-fuller-three-quarter-skin.png"
                 }
               }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-sweater-collar-lean-back.png",
+                  "hides": "outfit-masculine-sweater-collar-lean-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-masculine-sweater-collar-lean-back-sweater.png",
+                    "shirt": "outfit-masculine-sweater-collar-lean-back-shirt.png",
+                    "bottom": "outfit-masculine-sweater-collar-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-sweater-collar-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-sweater-collar-average-back.png",
+                  "hides": "outfit-masculine-sweater-collar-average-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-masculine-sweater-collar-average-back-sweater.png",
+                    "shirt": "outfit-masculine-sweater-collar-average-back-shirt.png",
+                    "bottom": "outfit-masculine-sweater-collar-average-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-sweater-collar-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-sweater-collar-fuller-back.png",
+                  "hides": "outfit-masculine-sweater-collar-fuller-back-hides.png",
+                  "regions": {
+                    "sweater": "outfit-masculine-sweater-collar-fuller-back-sweater.png",
+                    "shirt": "outfit-masculine-sweater-collar-fuller-back-shirt.png",
+                    "bottom": "outfit-masculine-sweater-collar-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-sweater-collar-fuller-back-skin.png"
+                }
+              }
             }
           }
         },
@@ -12171,6 +16479,40 @@
                     "bottom": "outfit-masculine-work-jacket-fuller-three-quarter-bottom.png"
                   },
                   "skin": "outfit-masculine-work-jacket-fuller-three-quarter-skin.png"
+                }
+              }
+            },
+            "back": {
+              "builds": {
+                "lean": {
+                  "file": "outfit-masculine-work-jacket-lean-back.png",
+                  "hides": "outfit-masculine-work-jacket-lean-back-hides.png",
+                  "regions": {
+                    "jacket": "outfit-masculine-work-jacket-lean-back-jacket.png",
+                    "shirt": "outfit-masculine-work-jacket-lean-back-shirt.png",
+                    "bottom": "outfit-masculine-work-jacket-lean-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-work-jacket-lean-back-skin.png"
+                },
+                "average": {
+                  "file": "outfit-masculine-work-jacket-average-back.png",
+                  "hides": "outfit-masculine-work-jacket-average-back-hides.png",
+                  "regions": {
+                    "jacket": "outfit-masculine-work-jacket-average-back-jacket.png",
+                    "shirt": "outfit-masculine-work-jacket-average-back-shirt.png",
+                    "bottom": "outfit-masculine-work-jacket-average-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-work-jacket-average-back-skin.png"
+                },
+                "fuller": {
+                  "file": "outfit-masculine-work-jacket-fuller-back.png",
+                  "hides": "outfit-masculine-work-jacket-fuller-back-hides.png",
+                  "regions": {
+                    "jacket": "outfit-masculine-work-jacket-fuller-back-jacket.png",
+                    "shirt": "outfit-masculine-work-jacket-fuller-back-shirt.png",
+                    "bottom": "outfit-masculine-work-jacket-fuller-back-bottom.png"
+                  },
+                  "skin": "outfit-masculine-work-jacket-fuller-back-skin.png"
                 }
               }
             }
@@ -13759,7 +18101,944 @@
           },
           "faces": [],
           "hair": [],
-          "toward": "right"
+          "toward": "right",
+          "poses": {
+            "arms-folded": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 130.1,
+                    "base": 168.7,
+                    "highlight": 184.1
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 143.8,
+                    "base": 185.1,
+                    "highlight": 201.6
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-arms-folded-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 133.8,
+                    "base": 167,
+                    "highlight": 180.2
+                  }
+                }
+              }
+            },
+            "explaining": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-explaining-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 128.9,
+                    "base": 168.3,
+                    "highlight": 184
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-explaining-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 143.5,
+                    "base": 184.3,
+                    "highlight": 200.7
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-explaining-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 131.7,
+                    "base": 166.1,
+                    "highlight": 179.9
+                  }
+                }
+              },
+              "toward": "right"
+            },
+            "hands-on-hips": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 794,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 130.8,
+                    "base": 167.6,
+                    "highlight": 182.2
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 794,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 143.9,
+                    "base": 184.2,
+                    "highlight": 200.3
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-hands-on-hips-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 134.6,
+                    "base": 165.5,
+                    "highlight": 177.8
+                  }
+                }
+              }
+            },
+            "holding-folder": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 92.2,
+                    "base": 167.8,
+                    "highlight": 198
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 92.6,
+                    "base": 184.1,
+                    "highlight": 220.6
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-holding-folder-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 93.3,
+                    "base": 165.7,
+                    "highlight": 194.7
+                  }
+                }
+              }
+            },
+            "shrug": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 130.9,
+                    "base": 168.8,
+                    "highlight": 183.9
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 141,
+                    "base": 185.4,
+                    "highlight": 203.2
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-shrug-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 130.9,
+                    "base": 166,
+                    "highlight": 180
+                  }
+                }
+              }
+            },
+            "walking": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-walking-three-quarter.png",
+                  "anchors": {
+                    "top": 54,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 253.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 54,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 226
+                  },
+                  "skin": {
+                    "shadow": 131.8,
+                    "base": 168.8,
+                    "highlight": 183.6
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-walking-three-quarter.png",
+                  "anchors": {
+                    "top": 68,
+                    "feet": 793,
+                    "neck": {
+                      "row": 166,
+                      "centerX": 253,
+                      "width": 57
+                    },
+                    "head": {
+                      "left": 217,
+                      "right": 296,
+                      "top": 68,
+                      "bottom": 166
+                    },
+                    "shoulderRow": 234
+                  },
+                  "skin": {
+                    "shadow": 143.7,
+                    "base": 184,
+                    "highlight": 200.1
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-walking-three-quarter.png",
+                  "anchors": {
+                    "top": 66,
+                    "feet": 792,
+                    "neck": {
+                      "row": 165,
+                      "centerX": 257,
+                      "width": 69
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 302,
+                      "top": 66,
+                      "bottom": 165
+                    },
+                    "shoulderRow": 237
+                  },
+                  "skin": {
+                    "shadow": 132.3,
+                    "base": 166.5,
+                    "highlight": 180.2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "back": {
+          "canonical": {
+            "top": 67,
+            "feet": 791,
+            "neck": {
+              "row": 150,
+              "centerX": 254.5,
+              "width": 54
+            },
+            "head": {
+              "left": 215,
+              "right": 294,
+              "top": 67,
+              "bottom": 150
+            },
+            "shoulderRow": 222
+          },
+          "bodies": {
+            "lean": {
+              "file": "body-masculine-lean-back.png",
+              "anchors": {
+                "top": 56,
+                "feet": 790,
+                "neck": {
+                  "row": 137,
+                  "centerX": 255,
+                  "width": 49
+                },
+                "head": {
+                  "left": 216,
+                  "right": 293,
+                  "top": 56,
+                  "bottom": 137
+                },
+                "shoulderRow": 210
+              },
+              "skin": {
+                "shadow": 136.9,
+                "base": 170.1,
+                "highlight": 183.4
+              }
+            },
+            "average": {
+              "file": "body-masculine-average-back.png",
+              "anchors": {
+                "top": 67,
+                "feet": 791,
+                "neck": {
+                  "row": 150,
+                  "centerX": 254.5,
+                  "width": 54
+                },
+                "head": {
+                  "left": 215,
+                  "right": 294,
+                  "top": 67,
+                  "bottom": 150
+                },
+                "shoulderRow": 222
+              },
+              "skin": {
+                "shadow": 150.8,
+                "base": 186.3,
+                "highlight": 200.6
+              }
+            },
+            "fuller": {
+              "file": "body-masculine-fuller-back.png",
+              "anchors": {
+                "top": 65,
+                "feet": 792,
+                "neck": {
+                  "row": 152,
+                  "centerX": 255.5,
+                  "width": 66
+                },
+                "head": {
+                  "left": 211,
+                  "right": 299,
+                  "top": 65,
+                  "bottom": 152
+                },
+                "shoulderRow": 225
+              },
+              "skin": {
+                "shadow": 139.6,
+                "base": 166,
+                "highlight": 178
+              }
+            }
+          },
+          "poses": {
+            "back-arms-folded": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 56,
+                    "feet": 791,
+                    "neck": {
+                      "row": 137,
+                      "centerX": 255,
+                      "width": 49
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 293,
+                      "top": 56,
+                      "bottom": 137
+                    },
+                    "shoulderRow": 210
+                  },
+                  "skin": {
+                    "shadow": 92.6,
+                    "base": 167.6,
+                    "highlight": 197.6
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 67,
+                    "feet": 792,
+                    "neck": {
+                      "row": 150,
+                      "centerX": 254.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 67,
+                      "bottom": 150
+                    },
+                    "shoulderRow": 222
+                  },
+                  "skin": {
+                    "shadow": 106.1,
+                    "base": 183.2,
+                    "highlight": 214.1
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-back-arms-folded-back.png",
+                  "anchors": {
+                    "top": 65,
+                    "feet": 793,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 255.5,
+                      "width": 66
+                    },
+                    "head": {
+                      "left": 211,
+                      "right": 299,
+                      "top": 65,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 225
+                  },
+                  "skin": {
+                    "shadow": 114,
+                    "base": 163.8,
+                    "highlight": 183.7
+                  }
+                }
+              }
+            },
+            "back-hands-in-pockets": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 56,
+                    "feet": 791,
+                    "neck": {
+                      "row": 137,
+                      "centerX": 255,
+                      "width": 49
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 293,
+                      "top": 56,
+                      "bottom": 137
+                    },
+                    "shoulderRow": 210
+                  },
+                  "skin": {
+                    "shadow": 87.9,
+                    "base": 167.1,
+                    "highlight": 198.8
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 67,
+                    "feet": 792,
+                    "neck": {
+                      "row": 150,
+                      "centerX": 254.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 67,
+                      "bottom": 150
+                    },
+                    "shoulderRow": 222
+                  },
+                  "skin": {
+                    "shadow": 102.1,
+                    "base": 183.1,
+                    "highlight": 215.4
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-back-hands-in-pockets-back.png",
+                  "anchors": {
+                    "top": 65,
+                    "feet": 793,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 255.5,
+                      "width": 66
+                    },
+                    "head": {
+                      "left": 211,
+                      "right": 299,
+                      "top": 65,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 225
+                  },
+                  "skin": {
+                    "shadow": 106.1,
+                    "base": 163.3,
+                    "highlight": 186.2
+                  }
+                }
+              }
+            },
+            "back-hands-on-hips": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 56,
+                    "feet": 791,
+                    "neck": {
+                      "row": 137,
+                      "centerX": 255,
+                      "width": 49
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 293,
+                      "top": 56,
+                      "bottom": 137
+                    },
+                    "shoulderRow": 210
+                  },
+                  "skin": {
+                    "shadow": 89.2,
+                    "base": 167,
+                    "highlight": 198.1
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 67,
+                    "feet": 792,
+                    "neck": {
+                      "row": 150,
+                      "centerX": 254.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 67,
+                      "bottom": 150
+                    },
+                    "shoulderRow": 222
+                  },
+                  "skin": {
+                    "shadow": 102.6,
+                    "base": 183.1,
+                    "highlight": 215.2
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-back-hands-on-hips-back.png",
+                  "anchors": {
+                    "top": 65,
+                    "feet": 793,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 255.5,
+                      "width": 66
+                    },
+                    "head": {
+                      "left": 211,
+                      "right": 299,
+                      "top": 65,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 225
+                  },
+                  "skin": {
+                    "shadow": 109.5,
+                    "base": 163.3,
+                    "highlight": 184.8
+                  }
+                }
+              }
+            },
+            "back-walking": {
+              "bodies": {
+                "lean": {
+                  "file": "body-masculine-lean-back-walking-back.png",
+                  "anchors": {
+                    "top": 56,
+                    "feet": 791,
+                    "neck": {
+                      "row": 137,
+                      "centerX": 255,
+                      "width": 49
+                    },
+                    "head": {
+                      "left": 216,
+                      "right": 293,
+                      "top": 56,
+                      "bottom": 137
+                    },
+                    "shoulderRow": 210
+                  },
+                  "skin": {
+                    "shadow": 81.6,
+                    "base": 166.4,
+                    "highlight": 200.3
+                  }
+                },
+                "average": {
+                  "file": "body-masculine-average-back-walking-back.png",
+                  "anchors": {
+                    "top": 67,
+                    "feet": 792,
+                    "neck": {
+                      "row": 150,
+                      "centerX": 254.5,
+                      "width": 54
+                    },
+                    "head": {
+                      "left": 215,
+                      "right": 294,
+                      "top": 67,
+                      "bottom": 150
+                    },
+                    "shoulderRow": 222
+                  },
+                  "skin": {
+                    "shadow": 90.6,
+                    "base": 182.3,
+                    "highlight": 218.9
+                  }
+                },
+                "fuller": {
+                  "file": "body-masculine-fuller-back-walking-back.png",
+                  "anchors": {
+                    "top": 65,
+                    "feet": 792,
+                    "neck": {
+                      "row": 152,
+                      "centerX": 255.5,
+                      "width": 66
+                    },
+                    "head": {
+                      "left": 211,
+                      "right": 299,
+                      "top": 65,
+                      "bottom": 152
+                    },
+                    "shoulderRow": 225
+                  },
+                  "skin": {
+                    "shadow": 96,
+                    "base": 162.6,
+                    "highlight": 189.2
+                  }
+                }
+              }
+            }
+          },
+          "faces": [],
+          "hair": [
+            {
+              "id": "short-coils",
+              "back": "hair-masculine-short-coils-back.png",
+              "front": "hair-masculine-short-coils-nape-back.png"
+            },
+            {
+              "id": "buzz",
+              "back": "hair-masculine-buzz-back.png",
+              "front": "hair-masculine-buzz-nape-back.png"
+            },
+            {
+              "id": "curly-top",
+              "back": "hair-masculine-curly-top-back.png",
+              "front": "hair-masculine-curly-top-nape-back.png"
+            },
+            {
+              "id": "fade",
+              "back": "hair-masculine-fade-back.png",
+              "front": "hair-masculine-fade-nape-back.png"
+            },
+            {
+              "id": "locs-long",
+              "back": "hair-masculine-locs-long-back.png",
+              "front": "hair-masculine-locs-long-nape-back.png"
+            },
+            {
+              "id": "locs-short",
+              "back": "hair-masculine-locs-short-back.png",
+              "front": "hair-masculine-locs-short-nape-back.png"
+            },
+            {
+              "id": "man-bun",
+              "back": "hair-masculine-man-bun-back.png",
+              "front": "hair-masculine-man-bun-nape-back.png"
+            },
+            {
+              "id": "short-coils-2",
+              "back": "hair-masculine-short-coils-2-back.png",
+              "front": "hair-masculine-short-coils-2-nape-back.png"
+            },
+            {
+              "id": "short-crop",
+              "back": "hair-masculine-short-crop-back.png",
+              "front": "hair-masculine-short-crop-nape-back.png"
+            },
+            {
+              "id": "side-part",
+              "back": "hair-masculine-side-part-back.png",
+              "front": "hair-masculine-side-part-nape-back.png"
+            },
+            {
+              "id": "slicked-back",
+              "back": "hair-masculine-slicked-back-back.png",
+              "front": "hair-masculine-slicked-back-nape-back.png"
+            },
+            {
+              "id": "swept-back",
+              "back": "hair-masculine-swept-back-back.png",
+              "front": "hair-masculine-swept-back-nape-back.png"
+            },
+            {
+              "id": "top-knot",
+              "back": "hair-masculine-top-knot-back.png",
+              "front": "hair-masculine-top-knot-nape-back.png"
+            },
+            {
+              "id": "wavy-long",
+              "back": "hair-masculine-wavy-long-back.png",
+              "front": "hair-masculine-wavy-long-nape-back.png"
+            },
+            {
+              "id": "wavy-medium",
+              "back": "hair-masculine-wavy-medium-back.png",
+              "front": "hair-masculine-wavy-medium-nape-back.png"
+            }
+          ],
+          "toward": null,
+          "faceless": true
         }
       }
     }
@@ -13780,6 +19059,36 @@
     "seated-listening": ["sit"],
     "seated-relaxed": ["sit"],
     "hands-in-pockets": ["stand"],
-    "seated-ankle-on-knee": ["sit"]
+    "seated-ankle-on-knee": ["sit"],
+    "angry": ["stand"],
+    "arms-wide": ["stand"],
+    "checking-phone": ["stand"],
+    "clapping": ["stand"],
+    "fidgeting": ["stand"],
+    "fist-raised": ["stand"],
+    "hand-on-heart": ["stand"],
+    "hands-behind-back": ["stand"],
+    "hands-clasped": ["stand"],
+    "hands-on-hips": ["stand"],
+    "handshake": ["stand"],
+    "head-in-hand": ["stand"],
+    "holding-cup": ["stand"],
+    "holding-folder": ["stand"],
+    "laughing": ["stand"],
+    "phone-call": ["stand"],
+    "pointing": ["stand"],
+    "shrug": ["stand"],
+    "slumped": ["stand"],
+    "stern": ["stand"],
+    "thinking": ["stand"],
+    "walking": ["stand"],
+    "waving": ["stand"],
+    "weight-shift": ["stand"],
+    "back-addressing": ["stand"],
+    "back-arms-folded": ["stand"],
+    "back-hands-in-pockets": ["stand"],
+    "back-hands-on-hips": ["stand"],
+    "back-pointing": ["stand"],
+    "back-walking": ["stand"]
   }
 }

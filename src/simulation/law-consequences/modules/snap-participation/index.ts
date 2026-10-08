@@ -17,6 +17,7 @@ import {
 } from "../../../life-places";
 import { readEligibilityLawsInForce } from "../../../enacted-eligibility";
 import { placeOutcomeRecords } from "../../../outcome-web/place-outcome-store";
+import { recordLawExposure } from "../../../law-exposure";
 import {
   snapParticipationAt,
   recordSnapParticipation,
@@ -69,7 +70,7 @@ function candidateFor(
   );
   if (!people.length) return null;
   const pay = recordedMonthlyPayByPerson(world, onDate);
-  const anyPay = people.some((id) => pay.has(id));
+  const hasRecordedPay = people.some((id) => pay.has(id));
   const knownMonthlyIncome = people.reduce(
     (sum, id) => sum + (pay.get(id) ?? 0),
     0,
@@ -77,14 +78,19 @@ function candidateFor(
   const line = annualPovertyLineMinor(stateKey, people.length, onDate) / 12;
   const threshold =
     line * (programs.federal.snap.grossIncomeTestPctFpl.value / 100);
-  const incomeToThreshold =
-    anyPay && threshold > 0 ? knownMonthlyIncome / threshold : null;
-  const monthlyWorkHours = people.reduce((sum, personId) => {
-    const jobs = activeWorkRelationshipsAt(world, personId, {
+  const workByPerson = people.map((personId) =>
+    activeWorkRelationshipsAt(world, personId, {
       asOfDate: onDate,
       historySequenceExclusive: world.history.nextSequence,
-    });
-    return (
+    }),
+  );
+  const hasActiveWork = workByPerson.some((jobs) => jobs.length > 0);
+  const incomeToThreshold =
+    threshold > 0 && (hasRecordedPay || !hasActiveWork)
+      ? knownMonthlyIncome / threshold
+      : null;
+  const monthlyWorkHours = workByPerson.reduce(
+    (sum, jobs) =>
       sum +
       jobs.reduce((hours, job) => {
         const range = job.role.timeDemand.expectedWeekly;
@@ -92,9 +98,9 @@ function candidateFor(
           hours +
           ((range.minimumHours + range.maximumHours) / 2) * (365.25 / 12 / 7)
         );
-      }, 0)
-    );
-  }, 0);
+      }, 0),
+    0,
+  );
   const prior = snapParticipationAt(world, householdId, onDate);
   return {
     householdId,
@@ -347,7 +353,7 @@ export function applySnapParticipation(
       }, 0),
     0,
   );
-  return recordSnapParticipation(world, {
+  const next = recordSnapParticipation(world, {
     householdId: resolved.subject.id,
     enrolled: resolved.value.value,
     monthlyBenefitMinor:
@@ -366,6 +372,35 @@ export function applySnapParticipation(
       : (prior?.monthlyWorkHours ?? null),
     incomeToThreshold: ratio ?? prior?.incomeToThreshold ?? null,
   });
+  const participation = snapParticipationAt(
+    next,
+    resolved.subject.id,
+    resolved.effectiveAt,
+  );
+  if (!participation || participation.enrolled === prior?.enrolled) return next;
+
+  // A saved enrollment change reaches every recorded household member through
+  // the existing person-level law exposure path. The participation record is
+  // the evidence; this adds no estimated benefit amount to a person's record.
+  let exposed = next;
+  for (const personId of peopleInHouseholdAt(next, resolved.subject.id, {
+    asOfDate: resolved.effectiveAt,
+    historySequenceExclusive: next.history.nextSequence,
+  })) {
+    if (!next.people[personId]) continue;
+    exposed = recordLawExposure(exposed, {
+      stableKey: `${participation.stableKey}:person:${personId}:exposure`,
+      personId,
+      measureId: resolved.law.measureId,
+      sectionKey: resolved.questionKey,
+      channel: "benefit",
+      direction: participation.enrolled ? "gain" : "cost",
+      amount: null,
+      cadence: null,
+      sourceRecordId: participation.id,
+    });
+  }
+  return exposed;
 }
 
 export const registrations: readonly LawConsequenceKindRegistration[] = [

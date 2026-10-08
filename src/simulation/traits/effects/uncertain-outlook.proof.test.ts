@@ -7,12 +7,18 @@ describe("the uncertain-outlook difference in a random new game", () => {
       "personality-v1:uncertain-outlook",
       "career.consider-another-term",
       "l1-proof-uncertain-outlook",
+      [],
+      "act-pulls",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("seek");
     expect(proof.low.choice).toBe("step-down");
-    expect(proof.high.reason).toEqual(expect.any(String));
-    expect(proof.low.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:uncertain-outlook|career.consider-another-term|seek|high",
+    );
+    expect(proof.low.reason).toBe(
+      "personality-v1:uncertain-outlook|career.consider-another-term|step-down|low",
+    );
   });
 });

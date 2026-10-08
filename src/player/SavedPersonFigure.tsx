@@ -17,7 +17,7 @@ import {
 } from "../presentation/art-preview";
 import { gameBuildProfile } from "../presentation/build-profile";
 import { EngineFigure } from "./EnginePerson";
-import { personDayRecipe } from "../presentation/day-clothing";
+import { personDayRecipeWithOutfitExclusions } from "../presentation/day-clothing";
 import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 
 /** Full-body record leaf. Reads the same saved appearance and wardrobe as the
@@ -27,11 +27,18 @@ export function SavedPersonFigure({
   personId,
   libraries: explicitLibraries,
   className,
+  avoidOutfits,
+  accessibleLabel,
+  showUnavailableText = true,
 }: {
   readonly world: World;
   readonly personId: string;
   readonly libraries?: PersonVisualLibraries;
   readonly className?: string;
+  readonly accessibleLabel?: string;
+  readonly showUnavailableText?: boolean;
+  /** Room wardrobe exclusions when this saved figure stands in for that room. */
+  readonly avoidOutfits?: readonly string[];
 }) {
   const snapshot = useSavedRenderSnapshot(personId);
   const preference = useSavedWardrobe(personId);
@@ -48,14 +55,17 @@ export function SavedPersonFigure({
   if (!person) return null;
   const engine =
     !explicitLibraries && peoplePackAvailable()
-      ? personDayRecipe(world, person)
+      ? personDayRecipeWithOutfitExclusions(world, person, { avoidOutfits })
       : null;
   const figureEngine = engine;
   if (figureEngine) {
     return (
       <figure
         className={className}
-        aria-label={`${personName(person)} — saved full-body appearance`}
+        aria-label={
+          accessibleLabel ??
+          `${personName(person)} — saved full-body appearance`
+        }
         data-person-id={personId}
         data-figure-status="ready"
         data-likeness="engine"
@@ -153,7 +163,7 @@ export function SavedPersonFigure({
   return (
     <figure
       className={className}
-      aria-label={`${name} — saved full-body appearance`}
+      aria-label={accessibleLabel ?? `${name} — saved full-body appearance`}
       data-person-id={personId}
       data-figure-status={reason ? "unavailable" : "ready"}
       data-diagnostic={reason}
@@ -164,7 +174,8 @@ export function SavedPersonFigure({
         isolation: "isolate",
       }}
     >
-      {content ?? <p>Full-body artwork unavailable.</p>}
+      {content ??
+        (showUnavailableText ? <p>Full-body artwork unavailable.</p> : null)}
     </figure>
   );
 }

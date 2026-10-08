@@ -11,13 +11,14 @@ import { electionContestResult } from "../../src/simulation";
 import { projectBillPaper } from "../../src/presentation/bill-paper";
 import { journalInFirstPerson } from "../../src/presentation/journal-first-person";
 import { projectJournalView } from "../../src/presentation/journal-views";
-import { projectNewsFrontPage } from "../../src/presentation/news-front-page";
 import { projectOrdinaryMeetingScene } from "../../src/presentation/ordinary-meeting-scene";
 import {
   readHearingBank,
   readLegislationBank,
   readMeetingBank,
   readMinutesBank,
+  readNewsBank,
+  readNoticesBank,
   readWinningLosingBank,
   type BankReading,
 } from "../../src/presentation/bank-english";
@@ -42,13 +43,7 @@ export interface KindReading {
   }[];
 }
 
-/** Kinds no producer in the game writes yet. */
-export const KINDS_WITHOUT_PRODUCER: Readonly<Record<string, string>> = {
-  "notices-and-screens":
-    "no output, because no notices bank or composer exists yet",
-};
-
-const PER_KIND = 3;
+const PER_KIND = 10;
 
 export function readKinds(world: World, playerId: EntityId): KindReading {
   const texts: KindText[] = [];
@@ -57,31 +52,6 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     if (found.length === 0) absent.push({ kind, reason: why });
     else texts.push(...found.slice(0, PER_KIND));
   };
-
-  // One story per wording: three copies of one template with other figures
-  // are one item, not three (batch variety rule).
-  const shapes = new Set<string>();
-  const stories = projectNewsFrontPage(world, "front", null).stories.filter(
-    (story) => {
-      const shape = story.headline.replace(/[\d$,.]+/g, "#");
-      if (shapes.has(shape)) return false;
-      shapes.add(shape);
-      return true;
-    },
-  );
-  add(
-    "news",
-    stories.map((story) => ({
-      kind: "news",
-      composer: "projectNewsFrontPage in news-front-page.ts",
-      situation: `A ${story.outletName} story from ${story.place ?? "the nation"}.`,
-      text: story.body.startsWith(story.headline)
-        ? story.body
-        : `${story.headline} ${story.body}`.trim(),
-      partKey: `news:story:${story.sourceEventId}`,
-    })),
-    "no newspaper has printed a story in this world yet",
-  );
 
   // A journal item is a chapter of the life, told by the character from the
   // record (CTO 9:03 p.m. Oct 6): the section's entries in the first person.
@@ -146,9 +116,16 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
     );
   };
   addBank(
+    "news",
+    [],
+    readNewsBank(world),
+    "readNewsBank in bank-english.ts",
+    "no published legislative vote or veto can be composed from linked record fields",
+  );
+  addBank(
     "legislation",
     bills,
-    readLegislationBank(world),
+    readLegislationBank(world, playerId),
     "readLegislationBank in bank-english.ts",
     "no Congress measure with printed text is filed",
   );
@@ -214,7 +191,13 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       `no ${kind} producer writes in the game yet`,
     );
 
-  for (const [kind, reason] of Object.entries(KINDS_WITHOUT_PRODUCER))
-    absent.push({ kind, reason });
+  addBank(
+    "notices-and-screens",
+    [],
+    readNoticesBank(world, playerId),
+    "readNoticesBank in bank-english.ts",
+    "no recorded hearing, local measure, or scheduled election contest is available",
+  );
+
   return { texts, absent };
 }

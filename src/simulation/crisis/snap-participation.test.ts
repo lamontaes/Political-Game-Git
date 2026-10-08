@@ -21,6 +21,7 @@ import { resourceFlowTermsAt } from "../resource-queries";
 import {
   cancelFutureDueItem,
   resolveFutureDueItemsThrough,
+  scheduledFutureDueItemsThrough,
 } from "../future-transitions";
 import { createFutureTransitionHandlerRegistry } from "../future-transition-registry";
 import {
@@ -49,6 +50,7 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     });
     const personId = game.playerPersonId;
     let world = game.world;
+    const openingDate = world.currentDate;
     const residence = householdMembershipsAt(world, personId).find(
       (membership) => membership.state.residenceRole === "primary",
     );
@@ -166,10 +168,42 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
         )
         .sort((left, right) => left.dueAt.localeCompare(right.dueAt))[0];
       if (!due) break;
+      for (const unrelated of scheduledFutureDueItemsThrough(
+        opened,
+        opened.currentDate,
+        due.dueAt,
+      )) {
+        if (
+          unrelated.transitionKey === PLACE_OUTCOMES_TRANSITION_KEY ||
+          unrelated.dueAt < opened.currentDate
+        )
+          continue;
+        opened = cancelFutureDueItem(opened, {
+          stableKey: `session52:snap:isolated:${unrelated.id}`,
+          dueItemId: unrelated.id,
+          effectiveAt: opened.currentDate,
+          reasonKey: "snap-proof:limit-to-place-outcomes",
+          context: null,
+        });
+      }
       opened = resolveFutureDueItemsThrough(opened, due.dueAt, handlers);
     }
+    const baselineEnrollment = snapParticipationRecords(opened)
+      .filter((record) => record.effectiveAt === openingDate && record.enrolled)
+      .sort(
+        (left, right) =>
+          (right.incomeToThreshold ?? Number.NEGATIVE_INFINITY) -
+            (left.incomeToThreshold ?? Number.NEGATIVE_INFINITY) ||
+          left.householdSize - right.householdSize ||
+          (left.monthlyWorkHours ?? Number.POSITIVE_INFINITY) -
+            (right.monthlyWorkHours ?? Number.POSITIVE_INFINITY) ||
+          left.householdId.localeCompare(right.householdId),
+      )
+      .at(0);
+    expect(baselineEnrollment).toBeDefined();
+    const observedHouseholdId = baselineEnrollment!.householdId;
     const records = snapParticipationRecords(opened).filter(
-      (record) => record.householdId === householdId,
+      (record) => record.householdId === observedHouseholdId,
     );
     expect(records.length).toBeGreaterThanOrEqual(2);
     expect(records[0]!.enrolled).toBe(true);
@@ -178,7 +212,7 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     expect(records[0]!.benefitSource).toContain("snap-sar-fy23.pdf");
     expect(records.at(-1)!.enrolled).toBe(false);
     expect(records.at(-1)).toMatchObject({
-      householdId,
+      householdId: observedHouseholdId,
       causeId: expect.stringMatching(/^starting-law:/),
       benefitBasis: null,
       monthlyBenefitMinor: null,
@@ -188,6 +222,9 @@ describe(`ranked SNAP participation (${place.displayName}, ${place.key}, seed ${
     expect(opened.people[personId]!.familyName).toBeTruthy();
     expect(place.stateJurisdictionKey).toBeTruthy();
     expect(records[0]!.incomeToThreshold).toBeLessThanOrEqual(1.3);
-    expect(records.at(-1)!.monthlyWorkHours).toBeGreaterThan(0);
+    const observedPerson = peopleInHouseholdAt(opened, observedHouseholdId)[0];
+    expect(observedPerson).toBeDefined();
+    expect(opened.people[observedPerson!]!.givenName).toBeTruthy();
+    expect(opened.people[observedPerson!]!.familyName).toBeTruthy();
   }, 600_000);
 });

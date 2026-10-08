@@ -1,5 +1,5 @@
 import { eventById } from "./event-index";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import type { AdultAftermathKind } from "./adult-situations";
 import { applyCharacterHistoryPlan } from "./character-history";
 import { addDays, makeIsoDate } from "./dates";
@@ -658,29 +658,6 @@ function counterpartRaisesIt(
     }
   }
 
-  considerations.push(
-    ...traitConsiderations(world, counterpartId, dueItem.stableKey, [
-      {
-        optionKey: "raise-it",
-        trait: "conflict",
-        pole: "high",
-        explanation: "They tend to say it when something bothers them.",
-      },
-      {
-        optionKey: "let-it-lie",
-        trait: "conflict",
-        pole: "low",
-        explanation:
-          "They tend to let a disagreement settle rather than press it.",
-      },
-      {
-        optionKey: "raise-it",
-        trait: "reliability",
-        pole: "high",
-        explanation: "They follow through on things and expect the same.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey: `${dueItem.stableKey}:raises-it`,
     decisionType: "life.raise-earlier-matter",
