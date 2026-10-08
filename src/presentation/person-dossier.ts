@@ -1,4 +1,5 @@
 import { PRIOR_SERVICE_EVENT } from "./opening-prior-service";
+import { countyOfficeHolderWorkEventIds } from "../simulation/justice/county-office-work";
 import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
 import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
@@ -526,6 +527,9 @@ export function projectPersonDossier(
     });
   const pay =
     monthlyPayByPerson(world, world.currentDate).get(personId) ?? null;
+  const countyWorkEvents = new Set(
+    countyOfficeHolderWorkEventIds(world, personId),
+  );
 
   return {
     personId,
@@ -558,9 +562,10 @@ export function projectPersonDossier(
             event.type,
           ) &&
           event.occurredAt <= world.currentDate &&
-          (event.participants.some(
-            (participant) => participant.personId === personId,
-          ) ||
+          (countyWorkEvents.has(event.id) ||
+            event.participants.some(
+              (participant) => participant.personId === personId,
+            ) ||
             (event.involvedEntityIds.includes(personId) &&
               /(?:^|[.:/-])vote$/.test(event.type))),
       )

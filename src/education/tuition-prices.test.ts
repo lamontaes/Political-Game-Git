@@ -7,7 +7,7 @@ import type { ArtifactLock } from "../source/core/index";
 import {
   compileSchoolTuitionInput,
   tuitionInputJson,
-} from "../source/domains/education/tuition-input";
+} from "../../tests/support/source/education-tuition-input";
 import { createOrganization } from "../simulation/life";
 import { advanceWorld } from "../simulation/world";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
