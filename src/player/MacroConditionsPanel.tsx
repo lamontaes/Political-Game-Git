@@ -18,8 +18,7 @@ const CLASS_LABEL: Record<MacroCard["valueClass"], string> = {
   "modeled-account-record": "Recorded account money",
 };
 
-function formatValue(value: number | null, unit: string): string {
-  if (value === null) return "—";
+function formatValue(value: number, unit: string): string {
   if (unit.startsWith("US dollars")) {
     return value.toLocaleString("en-US", {
       style: "currency",
@@ -44,16 +43,16 @@ function SeriesTable({ series }: { readonly series: MacroSeries }) {
         </tr>
       </thead>
       <tbody>
-        {series.points.map((point) => (
-          <tr key={point.period}>
-            <th scope="row">{macroPeriodLabel(point.period)}</th>
-            <td data-reason={point.missingReason ?? undefined}>
-              {point.value === null
-                ? "—"
-                : formatValue(point.value, series.unit)}
-            </td>
-          </tr>
-        ))}
+        {series.points.map((point) =>
+          point.value === null ? null : (
+            <tr key={point.period}>
+              <th scope="row">{macroPeriodLabel(point.period)}</th>
+              <td data-reason={point.missingReason ?? undefined}>
+                {formatValue(point.value, series.unit)}
+              </td>
+            </tr>
+          ),
+        )}
       </tbody>
     </table>
   );
@@ -100,31 +99,33 @@ export function MacroConditionsPanel({
         </dl>
       ) : null}
       <ul className="pg-macro-card-grid">
-        {model.cards.map((card) => (
-          <li key={card.seriesKey}>
-            <button
-              type="button"
-              className="pg-macro-card"
-              aria-pressed={openKey === card.seriesKey}
-              data-series-key={card.seriesKey}
-              onClick={() =>
-                setOpenKey(openKey === card.seriesKey ? null : card.seriesKey)
-              }
-            >
-              <span className="pg-macro-card-title">{card.title}</span>
-              <strong className="pg-macro-card-value">
-                {formatValue(card.value, card.unit)}
-              </strong>
-              <span className="pg-macro-card-meta">
-                {card.period ? `${card.period} · ` : ""}
-                {card.geographyLabel}
-              </span>
-              <span className="pg-macro-card-meta">
-                {card.unit} · {CLASS_LABEL[card.valueClass]}
-              </span>
-            </button>
-          </li>
-        ))}
+        {model.cards.map((card) =>
+          card.value === null ? null : (
+            <li key={card.seriesKey}>
+              <button
+                type="button"
+                className="pg-macro-card"
+                aria-pressed={openKey === card.seriesKey}
+                data-series-key={card.seriesKey}
+                onClick={() =>
+                  setOpenKey(openKey === card.seriesKey ? null : card.seriesKey)
+                }
+              >
+                <span className="pg-macro-card-title">{card.title}</span>
+                <strong className="pg-macro-card-value">
+                  {formatValue(card.value, card.unit)}
+                </strong>
+                <span className="pg-macro-card-meta">
+                  {card.period ? `${card.period} · ` : ""}
+                  {card.geographyLabel}
+                </span>
+                <span className="pg-macro-card-meta">
+                  {card.unit} · {CLASS_LABEL[card.valueClass]}
+                </span>
+              </button>
+            </li>
+          ),
+        )}
       </ul>
       {open && openGraph ? (
         <div

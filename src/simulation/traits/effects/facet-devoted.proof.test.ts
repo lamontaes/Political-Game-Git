@@ -8,7 +8,7 @@ import { stableHash } from "../../ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { personName } from "../../people";
-import { readTrait, registeredTraitConsiderations } from "../../trait-readings";
+import { readTrait } from "../../trait-readings";
 import {
   BUILT_IN_TRAIT_DECISIONS,
   loadedTraitRegistry,
@@ -73,11 +73,7 @@ function recordDevotion(world: World, personId: EntityId): World {
   });
 }
 
-function chooseWithSharedContext(
-  world: World,
-  personId: EntityId,
-  targetTendencyRecordId?: EntityId,
-) {
+function chooseWithSharedContext(world: World, personId: EntityId) {
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === DECISION_ID,
   )!;
@@ -91,22 +87,8 @@ function chooseWithSharedContext(
     explanation: "The relationship has a strain worth weighing.",
     sourceRefs: [],
   };
-  const traitConsiderations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${DECISION_ID}:${personId}`,
-    DECISION_ID,
-  ).filter(({ sourceRefs }) =>
-    sourceRefs.some(
-      (source) =>
-        source.kind === "personality-tendency" &&
-        source.tendencyRecordId === targetTendencyRecordId,
-    ),
-  );
   const considerations = [
     { ...sharedContext, stableKey: `${sharedContext.stableKey}:${personId}` },
-    ...traitConsiderations,
   ];
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${DECISION_ID}:${personId}`,
@@ -132,11 +114,14 @@ function chooseWithSharedContext(
     randomness: "none",
     retention: "durable",
   });
+  const chosenReasons = evaluation.context.considerations.filter(
+    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+  );
   return {
     choice: evaluation.selectedOptionKey,
-    reason: considerations.find(
-      ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-    )?.explanation,
+    reason:
+      chosenReasons.find(({ stableKey }) => stableKey.includes(TRAIT_ID))
+        ?.explanation ?? chosenReasons[0]?.explanation,
   };
 }
 
@@ -161,20 +146,8 @@ describe("facet-devoted in a random new game", () => {
     expect(candidates.length).toBeGreaterThanOrEqual(2);
     const [unmarkedPersonId, devotedPersonId] = candidates;
     const world = recordDevotion(game.world, devotedPersonId!);
-    const devotionTendencyId = traitDefinitionFromPack(trait).id;
-    const devotionRecord = [...world.history.personalityTendencies]
-      .reverse()
-      .find(
-        (record) =>
-          record.personId === devotedPersonId &&
-          record.tendencyId === devotionTendencyId,
-      )!;
     const unmarked = chooseWithSharedContext(world, unmarkedPersonId!);
-    const devoted = chooseWithSharedContext(
-      world,
-      devotedPersonId!,
-      devotionRecord.id,
-    );
+    const devoted = chooseWithSharedContext(world, devotedPersonId!);
     const proof = {
       place: place.label,
       seed: SEED,
@@ -189,6 +162,8 @@ describe("facet-devoted in a random new game", () => {
     expect(proof.unmarked.choice).toBe("break-up");
     expect(proof.devoted.choice).toBe("stay");
     expect(proof.unmarked.reason).toContain("strain");
-    expect(proof.devoted.reason).toContain("commitment");
+    expect(proof.devoted.reason).toContain(
+      `${TRAIT_ID}|${DECISION_ID}|stay|high`,
+    );
   });
 });

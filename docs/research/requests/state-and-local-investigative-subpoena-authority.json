@@ -1,0 +1,19 @@
+{
+  "requestVersion": "research-request/v1",
+  "questionId": "state-and-local-investigative-subpoena-authority",
+  "title": "Read subpoena authority for investigative bodies",
+  "question": "For each state legislative committee and state ethics commission, read the current constitution, statute, and applicable chamber or commission rules to determine whether it can compel testimony, bank records, and government records. Record separate authority for each category. For local bodies, retain the compiled municipality's INQUIRY_SUBPOENA capability as the source of truth.",
+  "whyItMatters": "An inquiry may discover only evidence its investigator can lawfully reach. A universal subpoena assumption exposes private records to bodies that lack that authority; a universal denial makes lawful investigations impossible.",
+  "usableAnswer": "One row per body and evidence category, with jurisdiction, body name, exact citation and URL, the operative text, retrieval date, and evidence status. Until then, use the explicitly labeled peer-median estimates in data/research/legislative-procedure/inquiry-subpoena-rules.json.",
+  "sourcesChecked": [
+    {
+      "source": "NCSL, Inside the Legislative Process and State Ethics Commissions",
+      "whatItDidNotSettle": "Comparative sources do not establish current subpoena authority for each state body or each record category."
+    },
+    {
+      "source": "src/source/domains/municipal-governance/types.ts: INQUIRY_SUBPOENA",
+      "whatItDidNotSettle": "The compiled municipality records can identify where this capability was read, but do not settle state or federal investigative bodies."
+    }
+  ],
+  "priority": "P1"
+}

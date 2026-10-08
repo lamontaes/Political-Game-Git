@@ -7,6 +7,8 @@ describe("the facet-duty-bound trait in a random new game", () => {
       "personality-v1:facet-duty-bound",
       "labor.worker-quit",
       "l1-proof-facet-duty-bound",
+      [],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

@@ -104,7 +104,7 @@ it("loads tax questions without assigning any rates or replacing existing questi
         evidence: {
           sourceIds: expect.arrayContaining([
             "src/simulation/state-income-tax-law.ts",
-            "src/simulation/law-consequences/statutory-wage-tax-rows.ts",
+            "src/simulation/policy-pack-registry.ts",
             "src/simulation/law-consequences/tax.ts",
           ]),
         },

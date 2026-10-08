@@ -17,9 +17,15 @@ import { createLightweightPerson } from "../people";
 import { serializeWorld, deserializeWorld } from "../serialization";
 import { recordOrganizationProfile } from "../life";
 import { organizationProfileAt } from "../life-queries";
-import { TOWN_WORKPLACES, writeTownEmployer } from "./town-employment";
+import {
+  TOWN_WORKPLACES,
+  sourcedTownInstitution,
+  writeTownEmployer,
+} from "./town-employment";
 import { countyGovernmentUnitsForPlace } from "../government-units";
 import { countyDisplayName } from "./town-employment";
+import { FDIC_SMALL_BANK_RECORDS } from "./town-bank-shapes.generated";
+import { recordedBankShapeForCertificate } from "./town-finances";
 import { localInstitutionsFor } from "../local-institutions";
 import {
   townBusinesses,
@@ -136,13 +142,7 @@ describe("A59 recorded same-line town entry", () => {
       : undefined;
     const countyName = county ? countyDisplayName(county.name) : null;
     const names: string[] = [];
-    for (const key of [
-      "bank",
-      "clinic",
-      "hospital",
-      "inn",
-      "retail",
-    ] as const) {
+    for (const key of ["inn", "retail", "restaurant"] as const) {
       const workplace = TOWN_WORKPLACES.find((row) => row.key === key)!;
       world = writeTownEmployer(
         world,
@@ -172,6 +172,84 @@ describe("A59 recorded same-line town entry", () => {
       );
     }
     expect(new Set(names).size).toBe(names.length);
+  });
+
+  it("does not invent banks, hospitals, or clinics without a source row", () => {
+    const fixture = smallWorld({
+      place: "NV",
+      seed: `${seed}:unsupported-public-facilities`,
+    });
+    for (const key of ["bank", "hospital", "clinic"] as const) {
+      const workplace = TOWN_WORKPLACES.find((row) => row.key === key)!;
+      const before = fixture.world.history.organizations.length;
+      const institution = sourcedTownInstitution(
+        fixture.world,
+        fixture.jurisdictionId,
+        key,
+      );
+      const next = writeTownEmployer(
+        fixture.world,
+        fixture.jurisdictionId,
+        workplace,
+        0,
+        fixture.world.currentDate,
+      );
+      if (!institution) {
+        expect(next).toBe(fixture.world);
+        expect(next.history.organizations).toHaveLength(before);
+      } else {
+        const organization = next.history.organizations.find((row) =>
+          row.stableKey.endsWith(`:employer:${key}:0`),
+        )!;
+        expect(organizationProfileAt(next, organization.id)?.name).toBe(
+          institution.name,
+        );
+        expect(organization.provenance.kind).toBe("source-record");
+      }
+    }
+  });
+
+  it("selects official facility names through one path in all 56 places", () => {
+    expect(catalog).toHaveLength(56);
+    const world = smallWorld({
+      place: "NV",
+      seed: `${seed}:facility-source`,
+    }).world;
+    for (const identity of catalog) {
+      const place = searchLifePlaces("", 1, {
+        stateJurisdictionKey: identity.jurisdictionKey,
+        scope: "locality",
+      })[0]!;
+      const town = place.context.jurisdiction.id;
+      const institutions = localInstitutionsFor(world, town);
+      expect(sourcedTownInstitution(world, town, "bank")).toBe(
+        institutions.banks[0],
+      );
+      expect(sourcedTownInstitution(world, town, "hospital")).toBe(
+        institutions.hospitals.find((row) => row.kind === "hospital"),
+      );
+      expect(sourcedTownInstitution(world, town, "clinic")).toBe(
+        institutions.hospitals.find((row) => row.kind === "clinic"),
+      );
+    }
+  });
+
+  it("keeps bank books attached to their FDIC certificate", () => {
+    const state = Object.keys(FDIC_SMALL_BANK_RECORDS).sort()[0]!;
+    const certificate = FDIC_SMALL_BANK_RECORDS[state]![0]![1];
+    expect(recordedBankShapeForCertificate(state, certificate)).toMatchObject({
+      state,
+      certificate,
+    });
+    const missing =
+      Math.max(
+        ...Object.values(FDIC_SMALL_BANK_RECORDS).flatMap((rows) =>
+          rows.map((row) => row[1]),
+        ),
+      ) + 1;
+    expect(() => recordedBankShapeForCertificate(state, missing)).toThrow(
+      `No modeled FDIC financial row matches certificate ${missing}`,
+    );
   });
 
   it("samples five distinct places from all 56", () => {
