@@ -18,7 +18,10 @@ import {
   type SuccessorRelation,
 } from "../simulation/people-continuation";
 import { deathSentence } from "../simulation/crisis/death-causes";
+import { officesHeldOverLife } from "../simulation/crisis/offices";
+import { ageOnDate } from "../simulation/dates";
 import { describePersonContext } from "../simulation/person-context";
+import { ownElectionResultsDecided } from "./own-election";
 import { proseDate } from "./prose-dates";
 
 /**
@@ -91,6 +94,159 @@ export interface LifeContinuationView {
     readonly personId: EntityId;
     readonly name: string;
   }[];
+  /** Saved history of the ended life, bounded by its recorded end date. */
+  readonly lookBack: LifeLookBack;
+}
+
+export interface LifeLookBackMemory {
+  readonly memoryId: EntityId;
+  readonly at: IsoDate;
+  readonly age: number;
+  readonly sentence: string;
+  readonly strength: "strong" | "defining";
+}
+
+export interface LifeLookBack {
+  readonly through: IsoDate;
+  readonly causeKey: string | null;
+  /** The existing saved recollections, in age order; no summary is authored. */
+  readonly memories: readonly LifeLookBackMemory[];
+  readonly memoryGroups: readonly {
+    readonly age: number;
+    readonly memories: readonly LifeLookBackMemory[];
+  }[];
+  /** Offices and decided races read from their canonical history records. */
+  readonly offices: ReturnType<typeof officesHeldOverLife>;
+  readonly races: ReturnType<typeof ownElectionResultsDecided>;
+  /** Measures this person sponsored that were enacted by the end date. */
+  readonly enactedMeasures: readonly {
+    readonly measureId: EntityId;
+    readonly designation: string;
+    readonly title: string;
+    readonly resolvedAt: IsoDate;
+  }[];
+  /** Family identities from saved kinship records, never generated here. */
+  readonly familyPersonIds: readonly EntityId[];
+}
+
+export function projectLifeLookBack(
+  world: World,
+  personId: EntityId,
+  through: IsoDate,
+): LifeLookBack {
+  const person = world.people[personId];
+  if (!person)
+    return {
+      through,
+      causeKey: null,
+      memories: [],
+      memoryGroups: [],
+      offices: [],
+      races: [],
+      enactedMeasures: [],
+      familyPersonIds: [],
+    };
+
+  const memories = world.history.memories
+    .filter(
+      (memory) =>
+        memory.personId === personId &&
+        memory.formedAt >= person.birthDate &&
+        memory.formedAt <= through &&
+        (memory.strength === "strong" || memory.strength === "defining"),
+    )
+    .sort(
+      (left, right) =>
+        left.formedAt.localeCompare(right.formedAt) ||
+        left.sequence - right.sequence,
+    )
+    .map((memory) => ({
+      memoryId: memory.id,
+      at: memory.formedAt,
+      age: ageOnDate(person.birthDate, memory.formedAt),
+      sentence: memory.rememberedSummary,
+      strength: memory.strength as "strong" | "defining",
+    }));
+  const enactments = new Map(
+    (world.history.legislativeEnactments ?? [])
+      .filter(
+        (entry) => entry.outcome === "enacted" && entry.resolvedAt <= through,
+      )
+      .map((entry) => [entry.measureId, entry]),
+  );
+  const enactedMeasures = (world.history.legislativeMeasures ?? [])
+    .filter(
+      (measure) =>
+        measure.sponsorPersonId === personId &&
+        (enactments.get(measure.id)?.resolvedAt ?? "9999-12-31") <= through,
+    )
+    .flatMap((measure) => {
+      const enactment = enactments.get(measure.id);
+      return enactment
+        ? [
+            {
+              measureId: measure.id,
+              designation: measure.designation,
+              title: measure.shortTitle,
+              resolvedAt: enactment.resolvedAt,
+            },
+          ]
+        : [];
+    })
+    .sort((left, right) => left.resolvedAt.localeCompare(right.resolvedAt));
+
+  const offices = officesHeldOverLife(world, personId).filter((office) => {
+    if (!office.termEvidenceId) return false;
+    const relationship = world.history.workRelationships.find(
+      (entry) => entry.id === office.termEvidenceId,
+    );
+    if (relationship) return relationship.startedAt <= through;
+    const event = world.history.events.find(
+      (entry) => entry.id === office.termEvidenceId,
+    );
+    return Boolean(event && event.occurredAt <= through);
+  });
+  const memoryGroups = [
+    ...memories.reduce((groups, memory) => {
+      const entries = groups.get(memory.age) ?? [];
+      entries.push(memory);
+      groups.set(memory.age, entries);
+      return groups;
+    }, new Map<number, LifeLookBackMemory[]>()),
+  ].map(([age, entries]) => ({ age, memories: entries }));
+
+  return {
+    through,
+    causeKey:
+      world.history.personDeaths.find(
+        (entry) => entry.personId === personId && entry.diedAt <= through,
+      )?.causeKey ?? null,
+    memories,
+    memoryGroups,
+    offices,
+    races: ownElectionResultsDecided(world, personId, null, through),
+    enactedMeasures,
+    familyPersonIds: [
+      ...new Set(
+        [
+          ...world.history.kinshipRelationships
+            .filter(
+              (relationship) =>
+                relationship.establishedAt <= through &&
+                relationship.personIds.includes(personId),
+            )
+            .flatMap((relationship) => relationship.personIds),
+          ...world.history.partnerships
+            .filter(
+              (partnership) =>
+                partnership.startedAt <= through &&
+                partnership.personIds.includes(personId),
+            )
+            .flatMap((partnership) => partnership.personIds),
+        ].filter((candidate) => candidate !== personId),
+      ),
+    ],
+  };
 }
 
 /** Whether the played life has ended, and what can follow. Pure. */
@@ -159,6 +315,7 @@ export function projectLifeContinuation(
         ? personName(world.people[personId]!)
         : "Unknown",
     })),
+    lookBack: projectLifeLookBack(world, playedPersonId, ended.on),
   };
 }
 
