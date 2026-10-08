@@ -83,11 +83,12 @@
       "outcome": "crime.firearm-homicide",
       "policyArea": "crime",
       "sourceArea": "law:us-policy-positions:justice-public-safety.stand-your-ground",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/"
+      "recipientGroup": "jurisdiction residents (estimated firearm-homicide safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8861849/; recipient estimate: CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "speed-limit-to-traffic-deaths",
@@ -345,11 +346,12 @@
       "outcome": "crime.firearm-homicide",
       "policyArea": "crime",
       "sourceArea": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Siegel et al. 2017 (AJPH); RAND Science of Gun Policy, 5th ed."
+      "recipientGroup": "jurisdiction residents (estimated firearm-homicide safety context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Siegel et al. 2017 (AJPH); RAND Science of Gun Policy, 5th ed.; recipient estimate: CDC National Center for Health Statistics 2024 age-adjusted homicide mortality rates and CDC FastStats 2024 national firearm share (15,364 of 20,162 homicides), as calibrated in crime.firearm-homicide. Each place rate is an estimate using that national firearm share; the five territory rates retain the sourced Florida or Hawaii proxies recorded in the place measure. This is an estimate of a resident's safety context. It assigns no individual firearm exposure, injury, homicide, or personal victimization.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "automatic-registration-to-turnout",
@@ -1229,8 +1231,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 85,
-    "place-number-only": 10,
+    "person-linked": 87,
+    "place-number-only": 8,
     "no-live-consumer": 2,
     "budget-only": 4
   }
