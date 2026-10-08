@@ -721,7 +721,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2387 | Reveal saved precinct returns in election-night reporting order | PR #2387 (codex/session13-election-night-reporting) | closed unmerged; reporting flow incomplete | |
 | RS-2389 | Session 30 Part 4: Record constituent pressure in shared vote reasons | PR #2389 (codex/session30-vote-bargaining-part-4) | closed unmerged; authored explanations | |
 | RS-2397 | Session 30 B08 P5: Resolve recorded promises after roll call | PR #2397 (codex/session30-vote-bargaining-part-5) | closed unmerged; authored summaries | |
-| RS-2398 | [b12 Part 4] Record quorum denials and walkouts | PR #2398 (session35/b12-part4) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2398 | [b12 Part 4] Record quorum denials and walkouts | PR #2398 (session35/b12-part4) | done #2398 (merged; verified on current main) | |
 | RS-2405 | Compose dated clerk and council-night producers with shared scene blocks | PR #2405 (codex/session13-clerk-night-composition) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2407 | [b12 Part 5] Record player messaging amendment motive | PR #2407 (session35/b12-part5) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2410 | Part 4: Ask people individually for campaign contributions | PR #2410 (session27/b02-part4-donors) | open: rebase on main (conflicts) | |
