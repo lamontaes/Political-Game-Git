@@ -922,7 +922,6 @@ export function commitConversationTurn(
       eventId: event.id,
       occurredAt: event.occurredAt,
       timeTogether: false,
-      date: false,
     });
 
   if (effect !== null) {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { smallWorld } from "../fixtures/small-world";
 import { scheduleFutureDueItem } from "../../src/simulation/future-transitions";
 import { enactThroughDesk } from "../fixtures/enact-through-desk";

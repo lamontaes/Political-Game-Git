@@ -263,13 +263,22 @@ describe(`A125 opponent caller pending choices in ${state!.jurisdictionKey} (see
     const steps = campaignOpponentStepRecords(result.world);
     expect(steps).toHaveLength(1);
     expect(steps[0]?.kind).toBe("fundraising");
+    // A rival's committee has no campaign record with named donors, so the
+    // sole writer invents no donor and no payment (it says so in the step's
+    // note); money moves only when a recorded donor gives.
+    expect(steps[0]?.resourceFlowId).toBeNull();
     expect(
-      result.world.history.resourceTransferOutcomes.some(
+      result.world.history.resourceTransferOutcomes.filter(
         (outcome) =>
-          outcome.resourceFlowId === steps[0]?.resourceFlowId &&
           outcome.status === "completed" &&
           outcome.transferredAmount.minorUnits > 0,
       ),
-    ).toBe(true);
+    ).toEqual(
+      world.history.resourceTransferOutcomes.filter(
+        (outcome) =>
+          outcome.status === "completed" &&
+          outcome.transferredAmount.minorUnits > 0,
+      ),
+    );
   });
 });

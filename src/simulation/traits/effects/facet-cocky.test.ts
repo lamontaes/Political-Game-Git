@@ -12,7 +12,7 @@ import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
 import type { EntityId } from "../../types";
 
-const SEED = "h1-cocky-proof";
+const SEED = "h1-cocky-proof-two-person";
 
 function randomPlace(): { placeKey: string; label: string } {
   const states = lifePlaceStateIdentities();
@@ -29,7 +29,7 @@ function randomPlace(): { placeKey: string; label: string } {
 }
 
 describe("facet-cocky", () => {
-  it("changes a named person's plea decision in a random new game", () => {
+  it("changes the plea choice for one person while a second person has no marked tendency", () => {
     const place = randomPlace();
     const game = createNewGameWorld({
       ...DEFAULT_NEW_GAME_SETUP,
@@ -38,10 +38,13 @@ describe("facet-cocky", () => {
       startAge: 40,
       questionnaire: "skipped",
     });
-    const personId = game.world.personOrder.find(
+    const candidates = game.world.personOrder.filter(
       (id) => id !== game.playerPersonId,
-    )!;
-    expect(personId).toBeDefined();
+    );
+    const cockyPersonId = candidates[0]!;
+    const unmarkedPersonId = candidates[1]!;
+    expect(cockyPersonId).toBeDefined();
+    expect(unmarkedPersonId).toBeDefined();
     const ordinaryWorld = game.world;
     let world = game.world;
     const trait = loadedTraitRegistry().traits.get(
@@ -60,8 +63,8 @@ describe("facet-cocky", () => {
       },
     };
     world = recordPersonalityTendency(world, {
-      stableKey: `test:${personId}:cocky`,
-      personId,
+      stableKey: `test:${cockyPersonId}:cocky`,
+      personId: cockyPersonId,
       tendencyId: definition.id,
       recordedAt: world.currentDate,
       expressionKey: trait.poles.high.key,
@@ -84,10 +87,10 @@ describe("facet-cocky", () => {
       venueJurisdictionId: world.people[personId]!.homeJurisdictionId,
       stateKey: null,
     });
-    const ordinary = evaluatePlea(ordinaryWorld, courtCase(personId));
-    const cocky = evaluatePlea(world, courtCase(personId));
+    const unmarked = evaluatePlea(ordinaryWorld, courtCase(unmarkedPersonId));
+    const cocky = evaluatePlea(world, courtCase(cockyPersonId));
 
-    expect(ordinary.selectedOptionKey).toBe("plead");
+    expect(unmarked.selectedOptionKey).toBe("plead");
     expect(cocky.selectedOptionKey).toBe("trial");
     const traitReason = cocky.context.considerations.find((reason) =>
       reason.stableKey.includes("personality-v1:facet-cocky"),
@@ -102,12 +105,12 @@ describe("facet-cocky", () => {
     console.info({
       seed: SEED,
       place: place.label,
-      ordinary: {
-        person: name(personId),
-        choice: ordinary.selectedOptionKey,
+      unmarked: {
+        person: name(unmarkedPersonId),
+        choice: unmarked.selectedOptionKey,
       },
       cocky: {
-        person: name(personId),
+        person: name(cockyPersonId),
         choice: cocky.selectedOptionKey,
         reason: traitReason?.explanation,
       },

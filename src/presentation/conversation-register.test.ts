@@ -1,11 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { drawRandomPlace } from "../../tests/support/random-place";
-import type { EntityId, World } from "../simulation";
-import { chooseOrdinaryLifeGoal } from "../simulation/life-personality";
+import { LIFE_TALK_INTENTS } from "./life-conversation";
 import { conversationRegister } from "./conversation-register";
 import { createNewGameWorld } from "./new-game";
-import { invitationDeclineLine } from "./refusal-english";
 
 const SEED = "encal1-register";
 const place = drawRandomPlace(SEED);
@@ -42,17 +40,6 @@ function world() {
   return { world, playerPersonId, housemate, outsider };
 }
 
-function withPrivacyGoal(world: World, personId: EntityId): World {
-  return {
-    ...chooseOrdinaryLifeGoal(
-      { ...world, control: { kind: "person", personId } },
-      personId,
-      "privacy",
-    ),
-    control: world.control,
-  };
-}
-
 describe(`the register of an ordinary conversation in ${place.displayName}, seed ${SEED}`, () => {
   it("reads family from a shared household and everyday talk from anyone else", () => {
     const { world: start, playerPersonId, housemate, outsider } = world();
@@ -66,41 +53,9 @@ describe(`the register of an ordinary conversation in ${place.displayName}, seed
     );
   });
 
-  it("picks different parts for the same refusal in a household and outside it", () => {
-    const { world: start, playerPersonId, housemate, outsider } = world();
-    let next = withPrivacyGoal(start, housemate!);
-    next = withPrivacyGoal(next, outsider!);
-    const partsFor = (speaker: EntityId) => {
-      const keys = new Set<string>();
-      for (let index = 0; index < 60; index += 1) {
-        const line = invitationDeclineLine(
-          next,
-          speaker,
-          playerPersonId,
-          [],
-          `encal1:${index}`,
-          "game",
-        );
-        expect(line, `a refusal from ${speaker}`).not.toBeNull();
-        for (const part of line!.parts) keys.add(part.partKey);
-      }
-      return keys;
-    };
-    const family = partsFor(housemate!);
-    const everyday = partsFor(outsider!);
-    // A household member is never thanked-for-asking and an outsider never
-    // gets the family's short put-off; each register still speaks its own.
-    expect(family.has("invitation.company-decline:closer:thanks-asking")).toBe(
-      false,
+  it("keeps removed date, game, and quiet options out of the intent catalog", () => {
+    expect(Object.keys(LIFE_TALK_INTENTS)).not.toEqual(
+      expect.arrayContaining(["date", "suggestGame", "suggestQuiet"]),
     );
-    expect(family.has("invitation.company-decline:closer:maybe-later")).toBe(
-      true,
-    );
-    expect(everyday.has("invitation.company-decline:closer:maybe-later")).toBe(
-      false,
-    );
-    expect(
-      everyday.has("invitation.company-decline:closer:thanks-asking"),
-    ).toBe(true);
   });
 });

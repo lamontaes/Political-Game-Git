@@ -54,7 +54,6 @@ export function BudgetEconomyWorkspace({
     >
       <header className="budget-economy-header">
         <div>
-          <p className="pg-kicker">Public record</p>
           <h3 id="budget-economy-title">Budget &amp; economy</h3>
         </div>
         <p>
@@ -75,7 +74,7 @@ export function BudgetEconomyWorkspace({
         >
           <h4>Federal budget by category</h4>
           {model.federalBudget.month ? (
-            <p>{`Latest settled month: ${proseDate(model.federalBudget.month)}`}</p>
+            <p>{proseDate(model.federalBudget.month)}</p>
           ) : null}
           <h5>Receipts</h5>
           <ul>
@@ -112,7 +111,7 @@ export function BudgetEconomyWorkspace({
           data-testid="budget-program-lines"
         >
           <h4>Program lines</h4>
-          <p>{`Latest settled month: ${proseDate(model.programLines.month)}`}</p>
+          <p>{proseDate(model.programLines.month)}</p>
           <ul>
             {model.programLines.lines.flatMap((line) =>
               line.amount === null
@@ -136,16 +135,12 @@ export function BudgetEconomyWorkspace({
         >
           <h4>Budget record</h4>
           {model.fiscalAvailability.status === "available" ? (
-            <p>
-              {model.fiscalAvailability.graphCount.toLocaleString("en-US")}{" "}
-              exact fiscal{" "}
-              {model.fiscalAvailability.graphCount === 1 ? "graph" : "graphs"}{" "}
-              for {model.jurisdictionLabel}.
-            </p>
+            <p>{model.fiscalAvailability.graphCount}</p>
           ) : (
-            <p data-testid="budget-history-unavailable">
-              {model.fiscalAvailability.reason}
-            </p>
+            <p
+              data-testid="budget-history-unavailable"
+              data-problem="unavailable"
+            />
           )}
         </section>
       ) : null}
@@ -170,11 +165,10 @@ export function BudgetEconomyWorkspace({
           aria-label="Economic graph availability"
         >
           <h4>Dated economic graphs</h4>
-          <p data-testid="economic-binding-unavailable">
-            No reviewed economic source binding is available for this exact
-            place. Figures from another city, county, metro, or state have not
-            been substituted.
-          </p>
+          <p
+            data-testid="economic-binding-unavailable"
+            data-problem="no-binding"
+          />
           {model.fiscalGraphs.length > 0 ? (
             <div className="economic-graph-grid">
               {model.fiscalGraphs.map((graph) => (
@@ -195,19 +189,13 @@ export function BudgetEconomyWorkspace({
       {lookItUp === "summary" ? (
         <section aria-label="Budget summary" data-testid="budget-summary">
           <h4>Budget summary</h4>
-          {model.federalBudget?.status === "available" ? (
-            <p>
-              {model.federalBudget.month
-                ? `Federal categories last settled ${proseDate(model.federalBudget.month)}.`
-                : "Federal budget categories are available; no month has settled yet."}
-            </p>
+          {model.federalBudget?.status === "available" &&
+          model.federalBudget.month ? (
+            <p>{proseDate(model.federalBudget.month)}</p>
           ) : model.fiscalAvailability.status === "available" ? (
-            <p>
-              {model.fiscalAvailability.graphCount} recorded fiscal graphs are
-              available for {model.jurisdictionLabel}.
-            </p>
+            <p>{model.fiscalAvailability.graphCount}</p>
           ) : (
-            <p>{model.fiscalAvailability.reason}</p>
+            <p data-problem="budget-unavailable" />
           )}
         </section>
       ) : null}

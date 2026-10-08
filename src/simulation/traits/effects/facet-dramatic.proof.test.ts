@@ -20,6 +20,7 @@ describe("the dramatic difference in a random new game", () => {
           sourceRefs: [],
         },
       ],
+      true,
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("decline");

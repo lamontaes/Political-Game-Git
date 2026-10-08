@@ -6,7 +6,6 @@ import type {
   PublicInformationPanelItem,
   PublicInformationPanelModel,
 } from "../presentation/public-information-adapters";
-import type { CivicGlossaryEntry } from "../presentation/civic-glossary";
 import { filterPublishedNewsItems } from "./public-information-search";
 import {
   itemsForPublicInformationView,
@@ -36,16 +35,10 @@ export function PublicInformationPanel({
   followedOutletKeys,
   onToggleOutletFollow,
 }: PublicInformationPanelProps) {
-  const [activeConcept, setActiveConcept] = useState<CivicGlossaryEntry | null>(
-    null,
-  );
   const [searchQuery, setSearchQuery] = useState("");
   const [view, setView] = useState<PublicInformationView>({ kind: "for-you" });
   const panelCloseRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const conceptCloseRef = useRef<HTMLButtonElement>(null);
-  const conceptTriggerRef = useRef<HTMLButtonElement | null>(null);
-  const returnConceptFocusRef = useRef(false);
 
   const trimmedQuery = searchQuery.trim();
   const viewItems = useMemo(
@@ -81,20 +74,6 @@ export function PublicInformationPanel({
     panelCloseRef.current?.focus();
   }, []);
 
-  useEffect(() => {
-    if (activeConcept) {
-      conceptCloseRef.current?.focus();
-    } else if (returnConceptFocusRef.current) {
-      returnConceptFocusRef.current = false;
-      conceptTriggerRef.current?.focus();
-    }
-  }, [activeConcept]);
-
-  function closeConcept(): void {
-    returnConceptFocusRef.current = true;
-    setActiveConcept(null);
-  }
-
   function clearSearch(): void {
     setSearchQuery("");
     searchInputRef.current?.focus();
@@ -111,15 +90,18 @@ export function PublicInformationPanel({
         if (event.key !== "Escape") return;
         event.preventDefault();
         event.stopPropagation();
-        if (activeConcept) closeConcept();
-        else onClose();
+        onClose();
       }}
     >
       <header className="public-information-header">
         <div>
           <p className="public-information-kicker">Public record</p>
           <h2 id="public-information-title">{model.digest.outletName}</h2>
-          <p>Published through {model.digest.asOf}</p>
+          <p>
+            <time dateTime={model.digest.asOf}>
+              {proseDate(model.digest.asOf)}
+            </time>
+          </p>
         </div>
         {showClose ? (
           <button
@@ -134,9 +116,10 @@ export function PublicInformationPanel({
       </header>
 
       {model.items.length === 0 ? (
-        <p data-testid="public-information-empty">
-          No stories have been published here yet.
-        </p>
+        <p
+          data-testid="public-information-empty"
+          data-problem="nothing-published"
+        />
       ) : (
         <>
           <nav className="public-information-views" aria-label="News views">
@@ -180,14 +163,10 @@ export function PublicInformationPanel({
               data-testid="public-information-outlet-view"
             >
               <div>
-                <p>Outlet</p>
                 <h3 id="public-information-outlet-title">
                   {selectedOutlet.outletName}
                 </h3>
-                <span>
-                  {selectedOutlet.storyCount} published{" "}
-                  {selectedOutlet.storyCount === 1 ? "story" : "stories"}
-                </span>
+                <span>{selectedOutlet.storyCount}</span>
               </div>
               <button
                 type="button"
@@ -235,8 +214,9 @@ export function PublicInformationPanel({
                 className="public-information-no-match"
                 data-testid="public-information-no-match"
                 aria-live="polite"
+                data-problem="no-match"
               >
-                No stories match &ldquo;{trimmedQuery}&rdquo;.
+                {trimmedQuery}
               </p>
             ) : (
               <p
@@ -245,10 +225,8 @@ export function PublicInformationPanel({
                 aria-live="polite"
               >
                 {hasActiveSearch
-                  ? `Showing ${filteredItems.length} of ${viewItems.length} published stories.`
-                  : `${viewItems.length} published ${
-                      viewItems.length === 1 ? "story" : "stories"
-                    }.`}
+                  ? `${filteredItems.length} / ${viewItems.length}`
+                  : viewItems.length}
               </p>
             )}
           </div>
@@ -259,11 +237,8 @@ export function PublicInformationPanel({
             <p
               className="public-information-no-match"
               data-testid="public-information-for-you-empty"
-            >
-              No published stories are linked directly to you yet. Following an
-              outlet adds its published stories here; All always keeps the full
-              public record available.
-            </p>
+              data-problem="no-linked-stories"
+            />
           ) : hasActiveSearch && filteredItems.length === 0 ? null : (
             <ol className="public-information-editions">
               {filteredItems.map((item) => (
@@ -279,10 +254,6 @@ export function PublicInformationPanel({
                           )
                         : []
                     }
-                    onOpenConcept={(entry, trigger) => {
-                      conceptTriggerRef.current = trigger;
-                      setActiveConcept(entry);
-                    }}
                     onOpenPerson={onOpenPerson}
                   />
                 </li>
@@ -291,29 +262,6 @@ export function PublicInformationPanel({
           )}
         </>
       )}
-
-      {activeConcept ? (
-        <aside
-          className="public-information-help"
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby="public-information-help-title"
-          data-testid="public-information-help"
-        >
-          <header>
-            <h3 id="public-information-help-title">{activeConcept.label}</h3>
-            <button
-              ref={conceptCloseRef}
-              type="button"
-              aria-label={`Close ${activeConcept.label} explanation`}
-              onClick={closeConcept}
-            >
-              <span aria-hidden="true">×</span>
-            </button>
-          </header>
-          <p>{activeConcept.fullDefinition}</p>
-        </aside>
-      ) : null}
     </section>
   );
 }
@@ -321,15 +269,10 @@ export function PublicInformationPanel({
 function PublicInformationArticle({
   item,
   relevance,
-  onOpenConcept,
   onOpenPerson,
 }: {
   readonly item: PublicInformationPanelItem;
   readonly relevance: readonly string[];
-  readonly onOpenConcept: (
-    entry: CivicGlossaryEntry,
-    trigger: HTMLButtonElement,
-  ) => void;
   readonly onOpenPerson: (personId: EntityId) => void;
 }) {
   return (
@@ -340,46 +283,34 @@ function PublicInformationArticle({
       data-publication-kind={item.kind}
     >
       <header>
-        <p>
-          Event{" "}
-          <time dateTime={item.eventTime}>{proseDate(item.eventTime)}</time> ·
-          Published{" "}
+        <h3 data-testid="news-kind">{item.kind.replace(/-/g, " ")}</h3>
+      </header>
+      <dl className="public-information-record">
+        <dt>Event</dt>
+        <dd>
+          <time dateTime={item.eventTime}>{proseDate(item.eventTime)}</time>
+        </dd>
+        <dt>Published</dt>
+        <dd>
           <time dateTime={item.publicationTime}>
             {proseDate(item.publicationTime)}
           </time>
-          {item.jurisdictionName ? ` · ${item.jurisdictionName}` : ""}
-        </p>
-        <h3>{item.readerHeadline}</h3>
-      </header>
-      {item.body !== item.readerHeadline ? <p>{item.body}</p> : null}
-
+        </dd>
+        <dt>Outlet</dt>
+        <dd>{item.outletName}</dd>
+        {item.jurisdictionName ? (
+          <>
+            <dt>Place</dt>
+            <dd>{item.jurisdictionName}</dd>
+          </>
+        ) : null}
+      </dl>
       {relevance.length > 0 ? (
-        <p
-          className="public-information-relevance"
+        <span
+          hidden
           data-testid="news-relevance"
-        >
-          {relevance.join(" ")}
-        </p>
-      ) : null}
-
-      {item.civicReferences.length > 0 ? (
-        <div
-          className="public-information-references"
-          aria-label="Civic explanations"
-        >
-          {item.civicReferences.map((entry) => (
-            <button
-              key={entry.conceptId}
-              type="button"
-              aria-haspopup="dialog"
-              aria-label={`Explain ${entry.label}`}
-              onClick={(event) => onOpenConcept(entry, event.currentTarget)}
-            >
-              {entry.label}
-              <span aria-hidden="true"> · i</span>
-            </button>
-          ))}
-        </div>
+          data-reason={relevance.join(",")}
+        />
       ) : null}
 
       {item.people.length > 0 ? (
@@ -387,7 +318,6 @@ function PublicInformationArticle({
           className="public-information-people"
           aria-label="People in this event"
         >
-          <span>People:</span>
           {item.people.map((reference) => (
             <button
               key={reference.personId}
@@ -403,17 +333,13 @@ function PublicInformationArticle({
 
       {item.corrections.length > 0 ? (
         <details className="public-information-corrections">
-          <summary>
-            {item.corrections.length} correction
-            {item.corrections.length === 1 ? "" : "s"}
-          </summary>
+          <summary>{item.corrections.length}</summary>
           <ol>
             {item.corrections.map((correction) => (
               <li key={correction.publicationId}>
-                <p>
-                  <strong>{correction.publishedAt}</strong> — {correction.note}
-                </p>
-                <p>{correction.body}</p>
+                <time dateTime={correction.publishedAt}>
+                  {correction.publishedAt}
+                </time>
               </li>
             ))}
           </ol>

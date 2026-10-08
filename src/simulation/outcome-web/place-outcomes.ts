@@ -13,6 +13,8 @@ import { CRUNCH46_WORLD_OPENING_VERSION } from "../world-setup/types";
 import { outcomeFactor, outcomeRangeViolations } from ".";
 import { settleSnapParticipationForMonth } from "../crisis/snap-participation-producer";
 import { recordMonthlyServiceReceipts } from "../monthly-service-receipts";
+import { recordEnvironmentEnergyLandings } from "./environment-energy-landings";
+import { recordPlannedPersonOutcomeLandings } from "./person-outcome-landings";
 import {
   DEFAULT_PLACE_OUTCOME_DRIFT,
   localOutcomeKey,
@@ -265,6 +267,10 @@ export function ensurePlaceOutcomes(world: World): World {
   const openingDate = makeIsoDate(world.currentDate);
   opened = settleSnapParticipationForMonth(opened, openingDate, world.id, true);
   opened = settleSnapParticipationForMonth(opened, openingDate, world.id);
+  opened = recordPlannedPersonOutcomeLandings(
+    opened,
+    firstOfMonth(openingDate),
+  );
   const dueAt = firstOfNextMonth(makeIsoDate(world.currentDate));
   return scheduleFutureDueItem(opened, {
     stableKey: `${PLACE_OUTCOMES_VERSION}:pass:${dueAt.slice(0, 7)}`,
@@ -301,6 +307,8 @@ export function placeOutcomesHandler(
   if (!already) {
     next = settleSnapParticipationForMonth(next, month, dueItem.id);
     next = recordMonthlyServiceReceipts(next, dueItem.dueAt);
+    next = recordEnvironmentEnergyLandings(next, dueItem.id);
+    next = recordPlannedPersonOutcomeLandings(next, month);
   }
   const following = firstOfNextMonth(addDays(month, 1));
   next = scheduleFutureDueItem(next, {

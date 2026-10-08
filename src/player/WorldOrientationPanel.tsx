@@ -33,6 +33,7 @@ import { OpeningStateVoting } from "./OpeningStateVoting";
 import { SavedPersonFigure } from "./SavedPersonFigure";
 import { PlacePeopleLayer } from "./PlacePeopleLayer";
 import { backdropStaging } from "../presentation/backdrop-people";
+import { roomDayOutfitExclusions } from "../presentation/day-clothing";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 import { introPlacementTrace } from "../presentation/intro-placement-trace";
 import { projectLivingSceneOpening } from "../presentation/living-scene-facts";
@@ -50,6 +51,7 @@ import {
   openingFamilyPeople,
   openingTourStagedPeople,
   chamberFloorPeople,
+  openingChamberMembers,
   openingHouseholdPeople,
   stateLegislatureFloorPeople,
 } from "../presentation/opening-tour-people";
@@ -416,10 +418,41 @@ export function WorldOrientationPanel({
       return true;
     });
   }, [step?.key, step?.people, world, personId]);
+  // OW-14: show the recorded lawmakers who fit at this room's member desks.
+  const chamberRoster = useMemo(
+    () =>
+      step?.key === "legislature" &&
+      world &&
+      personId &&
+      backdrop.kind === "place"
+        ? openingChamberMembers(
+            world,
+            personId,
+            backdropStaging(backdrop.place)?.spots.filter((spot) =>
+              ["general", "member-at-dais"].includes(spot.role ?? "general"),
+            ).length ?? 0,
+          )
+        : null,
+    [step?.key, world, personId, backdrop],
+  );
   const sceneRoster =
-    step?.key === "executive" || step?.key === "legislature"
-      ? (stateFloorRoster ?? step?.people ?? [])
-      : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
+    step?.key === "legislature"
+      ? chamberRoster?.length
+        ? chamberRoster
+        : (stateFloorRoster ?? step?.people ?? [])
+      : step?.key === "executive"
+        ? (step?.people ?? [])
+        : (floorRoster ?? householdRoster ?? cast.map((actor) => actor.person));
+  const executiveOutfitExclusions = useMemo(
+    () =>
+      world && step?.key === "executive"
+        ? roomDayOutfitExclusions(
+            world,
+            sceneRoster.map((person) => person.personId),
+          )
+        : null,
+    [world, step?.key, sceneRoster],
+  );
   const measuredPlace =
     backdrop.kind === "place" &&
     !(step?.key === "executive" && establishingPlate) &&
@@ -526,7 +559,6 @@ export function WorldOrientationPanel({
                 people={scenePeople}
                 stageRef={sceneStage}
                 overflowLabel="More illustrated people"
-                nameTags={step.key === "parents"}
                 onSelectPerson={(id) => {
                   const selected = sceneRoster.find(
                     (person) => person.personId === id,
@@ -587,6 +619,9 @@ export function WorldOrientationPanel({
                             world={world}
                             personId={person.personId}
                             className="pg-opening-figure"
+                            avoidOutfits={executiveOutfitExclusions?.get(
+                              person.personId,
+                            )}
                           />
                         ) : null)}
                     </button>
@@ -688,7 +723,6 @@ export function WorldOrientationPanel({
                               ? "Your territory's government"
                               : "Your state government"}
                         </h3>
-                        <p>{step.summary}</p>
                         {step.people.length > 0 ? (
                           <ul className="pg-orientation-people">
                             {step.people.map((person) => (

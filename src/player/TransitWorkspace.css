@@ -36,18 +36,10 @@
   margin: 0.4rem 0;
 }
 
-.transit-workspace .transit-cash-guidance,
 .transit-workspace .transit-outcome {
   display: grid;
   gap: 0.4rem;
   margin-block: 0.75rem;
-  padding: 0.7rem;
-  border: 1px solid var(--run-a-line);
-  border-radius: 2px;
-}
-
-.transit-workspace .transit-outcome h4 {
-  margin: 0;
 }
 
 .transit-workspace .transit-periods {
