@@ -1,4 +1,5 @@
 import type { EntityId, IsoDate } from "../simulation";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { describe, expect, it } from "vitest";
 import type { LivingSurfaceRecord } from "../presentation/living-scene-surfaces";
 import {
@@ -63,8 +64,54 @@ const record: LivingSurfaceRecord = {
   projection: EMPTY_SURFACE_PROJECTION,
   symbolAssetId: null,
 };
+if (record.detail?.kind !== "article")
+  throw new Error("The controlled press record needs its article detail.");
+const article = record.detail.article;
 
 describe("exact room press-publication admission", () => {
+  it("admits each place's exact displayed publication across all 56 jurisdictions", () => {
+    const jurisdictions = lifePlaceStateIdentities();
+    expect(jurisdictions).toHaveLength(56);
+
+    for (const jurisdiction of jurisdictions) {
+      const publicationId =
+        `publication:${jurisdiction.jurisdictionKey}` as EntityId;
+      const place = jurisdiction.name;
+      const selectedStory = { ...story, publicationId, place };
+      const selectedMedia: RoomMedia = {
+        broadcast: { ...media.broadcast!, story: selectedStory },
+        frontPage: { ...media.frontPage!, story: selectedStory },
+      };
+      const selectedRecord: LivingSurfaceRecord = {
+        ...record,
+        recordIds: [publicationId],
+        detail: {
+          kind: "article",
+          article: {
+            ...article,
+            id: publicationId,
+            place,
+          },
+        },
+      };
+
+      expect(
+        roomPressPublicationId(
+          selectedMedia,
+          ROOM_TELEVISION_SLOT_ID,
+          selectedRecord,
+        ),
+      ).toBe(publicationId);
+      expect(
+        roomPressPublicationId(
+          selectedMedia,
+          ROOM_PAPERS_SLOT_ID,
+          selectedRecord,
+        ),
+      ).toBe(publicationId);
+    }
+  });
+
   it("admits the same shown publication for TV and papers without changing projection", () => {
     const before = JSON.stringify({ media, record });
     expect(roomPressPublicationId(media, ROOM_TELEVISION_SLOT_ID, record)).toBe(

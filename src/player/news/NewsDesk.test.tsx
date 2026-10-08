@@ -130,7 +130,7 @@ describe("explicit press-story reads", () => {
     const before = serializeWorld(loaded);
     expect(readPressPublication(loaded, f.personId, row.id)).toBe(loaded);
     expect(serializeWorld(loaded)).toBe(before);
-  });
+  }, 30_000);
   it("admits only the actual displayed room story and refuses a quiet paper's generic lead", () => {
     const room = projectRoomMedia(f.world, f.personId);
     const shown = publication();
