@@ -484,7 +484,7 @@ export function chapterOutreachTransitionHandler(
   }
   // The organizer's own temperament weighs too (PEOPLE P2).
   world = ensurePeopleTraits(world, [organizerId]);
-
+  const evaluation = evaluateDecision(world, {
     stableKey: `${dueItem.stableKey}:decision`,
     decisionType: "party-chapter.invite-to-meeting",
     actorPersonId: organizerId,

@@ -277,6 +277,10 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   ],
   "central-bank.policy-rate": () => RATE_OPTIONS.map((option) => option.key),
   "people.study-plan": () => PROPOSABLE_APPROACHES,
+  // Fixture decisions used by query and source-cutoff tests name their options here.
+  "query-fixture": () => ["act", "wait"],
+  "run-a-life-source": () => ["mention", "omit"],
+  "run-a-source-cutoff": () => ["use", "omit"],
   // `leave` is "split" when there are allies and "found" when there are none.
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
