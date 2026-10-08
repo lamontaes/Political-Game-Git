@@ -85,6 +85,8 @@ function onlyPart(key: string): RegExp {
 export function composeStoryChapter(
   packet: StoryChapterPacket,
   grades: PartGradeLedger = PART_GRADES,
+  /** The last event of the chapter before, which this one's first turns from. */
+  earlier: StoryMoment | null = null,
 ): StoryChapter | null {
   const say = (
     move: string,
@@ -103,6 +105,21 @@ export function composeStoryChapter(
   const when = (age: number, pick: string): Clause | null =>
     say("when", { age: spelledCount(age, false) }, pick);
   const told: (Clause | null)[] = [];
+  // A turn or a feeling is not said twice in one chapter.
+  const said: string[] = [];
+  const fresh = (also?: RegExp): RegExp | undefined => {
+    const used = said.map((key) =>
+      (BANK.parts.find((part) => part.key === key)?.text ?? "").replace(
+        /[.*+?^${}()|[\]\\]/g,
+        "\\$&",
+      ),
+    );
+    const sources = [
+      ...(also ? [also.source] : []),
+      ...(used.length > 0 ? [`^(?:${used.join("|")})$`] : []),
+    ];
+    return sources.length > 0 ? new RegExp(sources.join("|")) : undefined;
+  };
 
   // Where it starts.
   if (packet.bornHere)
@@ -200,22 +217,27 @@ export function composeStoryChapter(
     if (!before || !/^(?:I|we)\b/.test(clause.text)) return clause;
     const years =
       Number(moment.date.slice(0, 4)) - Number(before.date.slice(0, 4));
+    // Across a chapter break the records may skip years they never held, so
+    // the turn there is only for events close together.
+    if (before === earlier && years >= EVENTUALLY_AFTER_YEARS) return clause;
     const turn =
       moment.causeKey === before.key
-        ? say("cause", { clause: clause.text }, `turn:${moment.key}`)
+        ? say("cause", { clause: clause.text }, `turn:${moment.key}`, fresh())
         : say(
             "connect",
             { clause: clause.text },
             `turn:${moment.key}`,
-            years >= EVENTUALLY_AFTER_YEARS
-              ? /^(?:then|after that)\b/
-              : /^eventually\b/,
+            fresh(
+              years >= EVENTUALLY_AFTER_YEARS
+                ? /^(?:then|after that)\b/
+                : /^eventually\b/,
+            ),
           );
-    return turn
-      ? { text: turn.text, partKey: `${turn.partKey},${clause.partKey}` }
-      : clause;
+    if (!turn) return clause;
+    said.push(turn.partKey);
+    return { text: turn.text, partKey: `${turn.partKey},${clause.partKey}` };
   };
-  let before: StoryMoment | null = null;
+  let before: StoryMoment | null = earlier;
   for (const moment of packet.moments) {
     const clause = momentClause(moment);
     if (!clause) continue;
@@ -232,16 +254,23 @@ export function composeStoryChapter(
         : sentence(opened),
     );
     // What it was like, where the records say.
-    if (moment.feeling === "hard")
-      told.push(
-        sentence(say("weigh", {}, `${moment.key}:weigh`, /fun|loved|big deal/)),
-      );
-    if (moment.feeling === "good")
-      told.push(
-        sentence(
-          say("weigh", {}, `${moment.key}:weigh`, /hard|tough|difficult/),
-        ),
-      );
+    const weighed =
+      moment.feeling === null
+        ? null
+        : say(
+            "weigh",
+            {},
+            `${moment.key}:weigh`,
+            fresh(
+              moment.feeling === "hard"
+                ? /fun|loved|big deal/
+                : /hard|tough|difficult/,
+            ),
+          );
+    if (weighed) {
+      said.push(weighed.partKey);
+      told.push(sentence(weighed));
+    }
     before = moment;
   }
 
@@ -283,8 +312,11 @@ export function composeLifeStory(
   personId: EntityId,
   grades: PartGradeLedger = PART_GRADES,
 ): readonly StoryChapter[] {
+  // Each chapter's first event turns from the last event of the one before.
+  let earlier: StoryMoment | null = null;
   return buildStoryChapterPackets(world, personId).flatMap((packet) => {
-    const chapter = composeStoryChapter(packet, grades);
+    const chapter = composeStoryChapter(packet, grades, earlier);
+    earlier = packet.moments.at(-1) ?? earlier;
     return chapter ? [chapter] : [];
   });
 }

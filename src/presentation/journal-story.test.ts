@@ -15,7 +15,8 @@ import {
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { spelledCount } from "../simulation/press/story-voice";
 import type { PartGradeLedger } from "./english-grades";
-import { composeLifeStory } from "./journal-story";
+import { composeLifeStory, composeStoryChapter } from "./journal-story";
+import type { StoryChapterPacket, StoryMoment } from "./story-chapter-packet";
 import { projectJournalView } from "./journal-views";
 import { placeFor, rng } from "../../scripts/playtest/mass-play/driver";
 import { createOpeningLifeController } from "./opening-life";
@@ -290,4 +291,190 @@ describe("the journal told as a story", () => {
       projectJournalView(world, personId, "chapters", chapters.years[0]!).story,
     ).toEqual([]);
   });
+});
+
+/**
+ * The turns that make the facts a story (owner, via CTO 4:30 p.m. Oct 8): each
+ * told from a chapter packet, so each case states the facts it rests on.
+ */
+describe("the story's turns", () => {
+  const moment = (
+    key: string,
+    kind: StoryMoment["kind"],
+    date: string,
+    age: number,
+    facts: Record<string, string>,
+    extra: Partial<StoryMoment> = {},
+  ): StoryMoment =>
+    ({
+      key,
+      kind,
+      date,
+      age,
+      facts,
+      causeKey: null,
+      feeling: null,
+      sourceRecordIds: [],
+      ...extra,
+    }) as StoryMoment;
+  const packet = (
+    moments: readonly StoryMoment[],
+    over: Partial<StoryChapterPacket> = {},
+  ): StoryChapterPacket =>
+    ({
+      key: "story:test",
+      personId: "person:story-test",
+      place: { name: PLACE.displayName, jurisdictionId: "jurisdiction:test" },
+      bornHere: false,
+      raisedHere: false,
+      from: "2000-06-01",
+      through: "2026-01-05",
+      ageFrom: 18,
+      ageThrough: 44,
+      current: true,
+      narratorAgeNow: 44,
+      quiet: false,
+      raisedBy: [],
+      siblings: null,
+      people: [],
+      moments,
+      texture: { smallTown: null, temperament: [] },
+      sourceRecordIds: [],
+      ...over,
+    }) as StoryChapterPacket;
+  const jobs = (years: number) => [
+    moment("work:a", "work-started", "2001-03-01", 19, { employer: "Acme" }),
+    moment("work:b", "work-started", `${2001 + years}-03-01`, 19 + years, {
+      employer: "Baker Freight",
+    }),
+  ];
+
+  it("turns from one event to the next by date, eventually after five years", () => {
+    const soon = composeStoryChapter(packet(jobs(2)))!.text;
+    expect(soon).toMatch(
+      /^I went to work for Acme\. (?:Then|After that,) I went to work for Baker Freight\.$/,
+    );
+    const later = composeStoryChapter(packet(jobs(7)))!.text;
+    expect(later).toMatch(/\. Eventually, I went to work for Baker Freight\.$/);
+  });
+
+  it("says that's when only where a record names the cause", () => {
+    const [first, second] = jobs(2);
+    const caused = composeStoryChapter(
+      packet([first!, { ...second!, causeKey: first!.key }]),
+    )!;
+    expect(caused.text).toContain(
+      "That's when I went to work for Baker Freight.",
+    );
+    for (let years = 1; years <= 9; years += 1)
+      expect(composeStoryChapter(packet(jobs(years)))!.text).not.toMatch(
+        /That's when/,
+      );
+  });
+
+  it("weighs a loss as the records say it felt, never twice the same way", () => {
+    const losses = [
+      moment(
+        "loss:a",
+        "loss",
+        "2010-05-01",
+        28,
+        { parent: "father" },
+        {
+          feeling: "hard",
+        },
+      ),
+      moment(
+        "loss:b",
+        "loss",
+        "2015-05-01",
+        33,
+        { parent: "mother" },
+        {
+          feeling: "hard",
+        },
+      ),
+    ];
+    const text = composeStoryChapter(packet(losses))!.text;
+    const weighed = text.match(/It was (?:hard|tough|difficult)\./g) ?? [];
+    expect(text).toMatch(/^My father died when I was 28\. It was/);
+    expect(weighed).toHaveLength(2);
+    expect(new Set(weighed).size).toBe(2);
+    // No feeling on record: nothing is weighed.
+    const unfelt = losses.map((loss) => ({ ...loss, feeling: null }));
+    expect(composeStoryChapter(packet(unfelt))!.text).not.toMatch(/It was/);
+  });
+
+  it("looks back only on a stretch lived past, and only for a narrator whose temperament fits", () => {
+    const contented = { smallTown: null, temperament: ["Contented"] };
+    const past = composeStoryChapter(
+      packet(jobs(2), { current: false, texture: contented }),
+    )!;
+    expect(past.text).toMatch(/ Looking back, I was lucky\.$/);
+    expect(
+      composeStoryChapter(
+        packet(jobs(2), { current: true, texture: contented }),
+      )!.text,
+    ).not.toMatch(/Looking back/);
+    expect(
+      composeStoryChapter(packet(jobs(2), { current: false }))!.text,
+    ).not.toMatch(/Looking back/);
+  });
+
+  it("turns across a chapter break only for events close together", () => {
+    const school = moment("school:a", "school-finished", "2000-06-01", 18, {});
+    const near = composeStoryChapter(
+      packet(jobs(2).slice(0, 1)),
+      undefined,
+      school,
+    )!;
+    expect(near.text).toMatch(
+      /^(?:Then|After that,) I went to work for Acme\.$/,
+    );
+    const far = composeStoryChapter(
+      packet([
+        moment("work:c", "work-started", "2009-03-01", 27, {
+          employer: "Acme",
+        }),
+      ]),
+      undefined,
+      school,
+    )!;
+    expect(far.text).toBe("I went to work for Acme.");
+  });
+
+  it(
+    "weighs a parent's death in a generated life, told from its records",
+    { timeout: 180_000 },
+    () => {
+      // A generated life in a place drawn from all 56 (seed story-probe-4):
+      // both parents' deaths are on record, in the adult chapter.
+      const states = lifePlaceStateIdentities();
+      const random = rng("story-probe:4");
+      let place: ReturnType<typeof placeFor> = null;
+      while (!place)
+        place = placeFor(
+          states[Math.floor(random() * states.length)]!.usps,
+          random,
+        );
+      const setup = explicitNewGameSetup({
+        placeKey: place.key,
+        seed: "story-probe-4",
+        startAge: 66 as never,
+        depth: "summarize-earlier-life",
+      });
+      const { world, playerPersonId } =
+        createOpeningLifeController(setup).finishTransition().game!;
+      const adult = composeLifeStory(world, playerPersonId).find(
+        (chapter) => chapter.key === "story:adult",
+      )!;
+      expect(adult.text, place.displayName).toMatch(
+        /My (?:father|mother) died when I was (?:[a-z-]+|\d+)\. It was (?:hard|tough|difficult)\./,
+      );
+      const deaths = world.history.personDeaths.filter((death) =>
+        adult.sourceRecordIds.includes(death.id),
+      );
+      expect(deaths.length).toBeGreaterThan(0);
+    },
+  );
 });
