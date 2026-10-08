@@ -7,7 +7,7 @@ describe("the fickle difference in a random new game", () => {
   it.each([
     ["labor.worker-quit", "quit"],
     ["justice.clemency-decision", "clemency:grant"],
-    ["people.couple-answer", "decline"],
+    ["career.consider-another-term", "step-down"],
   ])(
     "changes %s between two people alike in every other trait reason",
     (decisionId, pushedOption) => {
