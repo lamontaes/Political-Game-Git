@@ -67,7 +67,7 @@ function seated(state: string) {
 function saveAct(
   world: World,
   personId: EntityId,
-  type: string,
+  type: `${string}.${string}`,
   officialId: EntityId | null,
 ) {
   return recordWorldEvent(world, {

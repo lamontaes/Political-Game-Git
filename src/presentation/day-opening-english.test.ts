@@ -2,7 +2,14 @@ import { describe, expect, it } from "vitest";
 
 import { addDays } from "../simulation";
 import type { EntityId, World } from "../simulation";
-import { dayOpeningLine, type DayOpeningFacts } from "./day-opening-english";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { drawRandomPlace } from "../../tests/support/random-place";
+import {
+  composeDayOpening,
+  dayOpeningLine,
+  type DayOpeningFacts,
+} from "./day-opening-english";
+import type { PartGradeLedger } from "./english-grades";
 
 /**
  * The line that opens an ordinary day is written from the world's facts and
@@ -11,17 +18,17 @@ import { dayOpeningLine, type DayOpeningFacts } from "./day-opening-english";
 
 const START = "2026-01-05";
 
+// A small real world, read on the dates the tests name. The line reads the
+// world's identity, seed, clock and the viewer's recorded voice.
+const SEED = "day-opening";
+const PLACE = drawRandomPlace(SEED);
+const base = smallWorld({ place: PLACE.key, seed: SEED }).world;
+
 function worldOn(date: string): World {
-  // The line reads only the world's identity, seed and clock.
-  return {
-    id: "world:test" as EntityId,
-    seed: "day-opening",
-    startedAt: START,
-    currentDate: date,
-  } as unknown as World;
+  return { ...base, startedAt: START, currentDate: date };
 }
 
-const player = "person:player" as EntityId;
+const player = base.personOrder[0]!;
 
 const mountOlive: DayOpeningFacts = {
   placeName: "Mount Olive",
@@ -88,5 +95,34 @@ describe("the opening line of an ordinary day", () => {
     expect(line).not.toMatch(/ in [A-Z][a-z]+ [A-Z]/);
     expect(line).toMatch(/[Nn]othing|[Nn]obody|empty/);
     expect(line.split(". ").length).toBeLessThanOrEqual(2);
+  });
+});
+
+describe(`the owner's grades on the day's opening (${PLACE.displayName}, seed ${SEED})`, () => {
+  it("passes over a wording the owner held back and says another", () => {
+    const before = composeDayOpening(worldOn(START), player, mountOlive);
+    expect(before.parts.length).toBeGreaterThan(0);
+    const held = before.parts[0]!;
+    const ledger: PartGradeLedger = {
+      schema: "english-part-grades/1",
+      batches: ["batch-test"],
+      parts: {
+        [held]: {
+          good: 0,
+          bad: 1,
+          fix: 0,
+          sharedGood: 0,
+          sharedBad: 0,
+          sharedFix: 0,
+        },
+      },
+    };
+    const after = composeDayOpening(worldOn(START), player, mountOlive, ledger);
+    expect(after.parts).not.toContain(held);
+    expect(after.text).not.toBe(before.text);
+    expect(after.text).toContain("Mount Olive");
+    expect(dayOpeningLine(worldOn(START), player, mountOlive)).toBe(
+      before.text,
+    );
   });
 });

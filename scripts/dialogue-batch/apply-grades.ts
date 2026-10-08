@@ -13,6 +13,7 @@
  *
  * A development tool. It never words anything.
  */
+import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import {
@@ -42,6 +43,8 @@ export interface GradeFileRow {
   readonly grade?: string;
   readonly verdict?: string;
   readonly note?: string;
+  /** The part keys of the graded line, when the grade file carries them. */
+  readonly parts?: readonly string[];
 }
 
 export interface GradeFile {
@@ -50,11 +53,25 @@ export interface GradeFile {
   readonly items?: readonly GradeFileRow[];
 }
 
-/** GOOD, BAD or FIX in any case; anything else names the row that broke. */
+/**
+ * The owner's word for a grade. The Grade tab writes good, rewrite and kill;
+ * GOOD, BAD and FIX mean the same. Anything else names the row that broke.
+ */
+const GRADE_WORDS: Readonly<Record<string, OwnerGrade>> = {
+  good: "good",
+  bad: "bad",
+  kill: "bad",
+  fix: "fix",
+  rewrite: "fix",
+};
+
 export function ownerGrade(row: GradeFileRow, where: string): OwnerGrade {
   const word = (row.grade ?? row.verdict ?? "").trim().toLowerCase();
-  if (word === "good" || word === "bad" || word === "fix") return word;
-  throw new Error(`${where}: grade "${word}" is not GOOD, BAD or FIX`);
+  const grade = GRADE_WORDS[word];
+  if (grade) return grade;
+  throw new Error(
+    `${where}: grade "${word}" is not good, rewrite or kill (or GOOD, BAD or FIX)`,
+  );
 }
 
 const EMPTY: PartGradeCounts = {
@@ -72,22 +89,30 @@ const SHARED = {
   fix: "sharedFix",
 } as const;
 
-export function foldGrades(
-  graded: readonly { readonly batch: BatchFile; readonly grades: GradeFile }[],
-): PartGradeLedger {
+export interface GradedBatch {
+  /** The batch file, or null when the grade file carries each line's parts. */
+  readonly batch: BatchFile | null;
+  readonly grades: GradeFile;
+}
+
+export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
   const parts: Record<string, PartGradeCounts> = {};
   const batches: string[] = [];
   for (const { batch, grades } of graded) {
-    batches.push(batch.id);
-    const byNumber = new Map(batch.items.map((item) => [item.i, item]));
+    const id = batch?.id ?? grades.batch ?? "batch";
+    batches.push(id);
+    const byNumber = new Map(batch?.items.map((item) => [item.i, item]));
     for (const row of grades.grades ?? grades.items ?? []) {
       const number = row.i ?? row.n;
-      const where = `${batch.id} item ${number}`;
-      const item = number === undefined ? undefined : byNumber.get(number);
-      if (!item) throw new Error(`${where}: no such item in the batch`);
+      const where = `${id} item ${number}`;
+      const keys =
+        row.parts ??
+        (number === undefined ? undefined : byNumber.get(number)?.parts);
+      if (!keys || keys.length === 0)
+        throw new Error(`${where}: no such item in the batch`);
       const grade = ownerGrade(row, where);
-      const field = item.parts.length === 1 ? grade : SHARED[grade];
-      for (const key of new Set(item.parts)) {
+      const field = keys.length === 1 ? grade : SHARED[grade];
+      for (const key of new Set(keys)) {
         const counts = parts[key] ?? EMPTY;
         parts[key] = { ...counts, [field]: counts[field] + 1 };
       }
@@ -98,11 +123,50 @@ export function foldGrades(
   return { schema: "english-part-grades/1", batches, parts: sorted };
 }
 
+export const COVERAGE_FILE = "data/english/coverage.json";
+
+/** How many graded items each axis has in each kind of text (CTO 2:23 p.m. Oct 8). */
+export type GradedCoverage = Readonly<
+  Record<string, Readonly<Record<string, number>>>
+>;
+
+export interface CoverageBatchItem extends BatchFileItem {
+  readonly axis?: string;
+  readonly kind?: string;
+}
+
+/**
+ * The graded count for every axis and kind. A grade counts toward its batch
+ * item's axis and kind; a grade file without its batch reads them from the
+ * grade row, and a row that names neither counts under "unknown".
+ */
+export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
+  const table: Record<string, Record<string, number>> = {};
+  for (const { batch, grades } of graded) {
+    const items = new Map(
+      (batch?.items as readonly CoverageBatchItem[] | undefined)?.map(
+        (item) => [item.i, item],
+      ),
+    );
+    for (const row of grades.grades ?? grades.items ?? []) {
+      const item = items.get(row.i ?? row.n ?? -1);
+      const fromRow = row as GradeFileRow & {
+        readonly axis?: string;
+        readonly kind?: string;
+      };
+      const axis = item?.axis ?? fromRow.axis ?? "unknown";
+      const kind = item?.kind ?? fromRow.kind ?? "unknown";
+      table[axis] = { ...table[axis], [kind]: (table[axis]?.[kind] ?? 0) + 1 };
+    }
+  }
+  return table;
+}
+
 /** The graded batches on disk, in batch order (batch-2 before batch-10). */
 export function readGradedBatches(
   batchDir = BATCH_DIR,
   gradeDir = GRADE_DIR,
-): { batch: BatchFile; grades: GradeFile }[] {
+): GradedBatch[] {
   if (!existsSync(gradeDir)) return [];
   const order = (name: string) => Number(/(\d+)/.exec(name)?.[1] ?? 0);
   return readdirSync(gradeDir)
@@ -110,20 +174,43 @@ export function readGradedBatches(
     .sort((a, b) => order(a) - order(b) || a.localeCompare(b))
     .map((name) => {
       const batchPath = join(batchDir, basename(name));
-      if (!existsSync(batchPath))
+      const grades = JSON.parse(
+        readFileSync(join(gradeDir, name), "utf8"),
+      ) as GradeFile;
+      // A grade file that carries each line's parts stands on its own.
+      const selfContained = (grades.grades ?? grades.items ?? []).every(
+        (row) => (row.parts?.length ?? 0) > 0,
+      );
+      if (!existsSync(batchPath) && !selfContained)
         throw new Error(`${join(gradeDir, name)}: no batch at ${batchPath}`);
       return {
-        batch: JSON.parse(readFileSync(batchPath, "utf8")) as BatchFile,
-        grades: JSON.parse(
-          readFileSync(join(gradeDir, name), "utf8"),
-        ) as GradeFile,
+        batch: existsSync(batchPath)
+          ? (JSON.parse(readFileSync(batchPath, "utf8")) as BatchFile)
+          : null,
+        grades,
       };
     });
 }
 
 function main() {
-  const ledger = foldGrades(readGradedBatches());
+  const graded = readGradedBatches();
+  const ledger = foldGrades(graded);
+  // The coverage file keeps what batches asked (byKind, cells) beside what the
+  // owner has graded, axis by kind.
+  const coverage = existsSync(COVERAGE_FILE)
+    ? (JSON.parse(readFileSync(COVERAGE_FILE, "utf8")) as Record<
+        string,
+        unknown
+      >)
+    : {};
+  writeFileSync(
+    COVERAGE_FILE,
+    `${JSON.stringify({ ...coverage, graded: gradedCoverage(graded) }, null, 2)}\n`,
+  );
+  execSync(`npx prettier --write ${COVERAGE_FILE}`, { stdio: "ignore" });
   writeFileSync(LEDGER_FILE, `${JSON.stringify(ledger, null, 2)}\n`);
+  // A committed data file, written in the repository's JSON style.
+  execSync(`npx prettier --write ${LEDGER_FILE}`, { stdio: "ignore" });
   const held = Object.keys(ledger.parts).filter((key) =>
     heldByGrades(key, ledger),
   );

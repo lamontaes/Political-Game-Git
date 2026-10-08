@@ -152,7 +152,8 @@ const LIVED_OUTCOME_READERS: readonly LivedOutcomeReader[] = [
           },
           answeringPersonId:
             landing.answeringPersonId ??
-            officialAnsweringFor(world, personId, office),
+            officialAnsweringFor(world, personId, office) ??
+            undefined,
           summary:
             PLACE_OUTCOME_BASES[landing.measure]?.name ?? landing.measure,
           outcomeRecordId: landing.outcomeRecordId,

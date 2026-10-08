@@ -11,8 +11,7 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../national-election-geography";
-import { createOrganization } from "../life";
-import { createResourcePosition, money } from "../resources";
+import { money } from "../resources";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
   ensurePublicGovernmentAccount,
@@ -58,24 +57,12 @@ describe("federal public-program outlay metric", () => {
     if (!president) throw new Error("Expected a sitting President.");
     const jurisdictionId = NATIONAL_ELECTION_JURISDICTION.id;
     const publicOrganizationId = publicOrganizationKey(jurisdictionId);
-    world = createOrganization(world, {
-      stableKey: publicOrganizationId,
-      formedAt: world.currentDate,
-      provenance: { kind: "authored", note: FIXTURE.note },
-      initialProfile: {
-        name: "Federal public government",
-        classification: "sector:government",
-        locationJurisdictionId: jurisdictionId,
-      },
-    });
-    const publicGovernment = world.history.organizations.at(-1)!;
-    world = createResourcePosition(world, {
-      stableKey: `${publicOrganizationId}:modeled-receipts:USD`,
-      owner: { kind: "organization", organizationId: publicGovernment.id },
-      openedAt: world.currentDate,
-      openingBalance: money(150_000_00, "USD"),
-      provenance: { kind: "authored", note: FIXTURE.note },
-    });
+    // The opening life already records the national government's
+    // organization and its modeled receipts; the program pays out of those.
+    const publicGovernment = world.history.organizations.find(
+      (organization) => organization.stableKey === publicOrganizationId,
+    )!;
+    expect(publicGovernment).toBeDefined();
     world = ensurePublicGovernmentAccount(world, {
       kind: "jurisdiction",
       jurisdictionId,
@@ -84,6 +71,7 @@ describe("federal public-program outlay metric", () => {
     expect(account?.organizationId).toBe(publicGovernment.id);
     if (!account) throw new Error("Expected the federal public account.");
 
+    const cashBeforeProgram = cash(world, account.organizationId);
     world = declareProgramCapacity(world, {
       edition: "federal-outlay-metric",
       programKey: PROGRAM_KEY,
@@ -160,7 +148,9 @@ describe("federal public-program outlay metric", () => {
         sourceEntityIds: [installment.eventId],
       },
     });
-    expect(cash(world, account.organizationId)).toBe(50_000_00);
+    expect(cash(world, account.organizationId)).toBe(
+      cashBeforeProgram - PAYMENT.minorUnits,
+    );
     expect(cash(world, operator.organizationId)).toBe(PAYMENT.minorUnits);
 
     world = advance(world, 1);

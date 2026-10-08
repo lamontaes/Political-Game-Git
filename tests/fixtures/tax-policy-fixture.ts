@@ -199,6 +199,15 @@ export function enactSecondTaxVersion(
     index < 40 && measurePosition(world, measureId).phase !== "enacted";
     index++
   ) {
+    if (measurePosition(world, measureId).phase === "awaiting-executive") {
+      world = recordGovernorDecisionOnMeasure(
+        world,
+        measureId,
+        "signed",
+        "Authored test contract: the governor signs the second tax act.",
+      );
+      continue;
+    }
     const key = availableMeasureSteps(world, measureId).find(
       (row) => row !== "offer-amendment",
     );

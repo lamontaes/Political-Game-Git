@@ -11,6 +11,7 @@ import {
   vi,
 } from "vitest";
 import * as decisions from "../decisions";
+import { composeWorldTimeHandlers } from "../campaigns";
 import { addDays } from "../dates";
 import { createDemoWorld } from "../demo";
 import { FEDERAL_TENURE_EVENT } from "../federal-tenures";
@@ -180,12 +181,16 @@ function scheduled(world: World) {
   });
   return { world: next, due: next.history.futureDueItems.at(-1)! };
 }
-const handlers = createFutureTransitionHandlerRegistry([
-  [
-    ASSOCIATE_JUSTICE_CONFIRMATION,
-    (world, due) => confirmAssociateJustice(world, due, (next) => next),
-  ],
-]);
+// The clock schedules Congress's own intake the day after the world is lived
+// in, so this isolated handler rides on the registry a passed day composes.
+const handlers = composeWorldTimeHandlers(
+  createFutureTransitionHandlerRegistry([
+    [
+      ASSOCIATE_JUSTICE_CONFIRMATION,
+      (world, due) => confirmAssociateJustice(world, due, (next) => next),
+    ],
+  ]),
+);
 
 beforeAll(() => {
   const demo = createDemoWorld(seed);
@@ -446,8 +451,12 @@ describe("Associate Justice requires recorded Senate consent", () => {
     ).toEqual([vote]);
     expect(seatHolderAt(repeated, seatId)).toBeNull();
     expect(seatHolderAt(repeated, lowerSeatId)?.personId).toBe(nomineeId);
-    expect(repeated.history.futureDueItems).toEqual(
-      continued.history.futureDueItems,
-    );
+    // The clock schedules other work on each new day; only the nomination's
+    // own due items must be unchanged by repeating the day.
+    const nominationItems = (candidate: World) =>
+      candidate.history.futureDueItems.filter(
+        (item) => item.transitionKey === ASSOCIATE_JUSTICE_CONFIRMATION,
+      );
+    expect(nominationItems(repeated)).toEqual(nominationItems(continued));
   });
 });

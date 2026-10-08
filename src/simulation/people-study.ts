@@ -149,7 +149,7 @@ export function decideStudyPeerOutcome(
       },
     ],
     constraints: [],
-    considerations,
+    considerations: [],
     perceptionIds: [],
     randomness: "close-choices",
     retention: "ephemeral",

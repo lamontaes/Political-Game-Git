@@ -75,13 +75,6 @@ export function regionalMeasureJurisdictions(): readonly string[] {
   return [...BY_KEY.keys()];
 }
 
-/** The whole series for a jurisdiction such as "US-RI", or null for an unknown key. */
-export function regionalMeasureSeries(
-  jurisdictionKey: string,
-): JurisdictionRegionalMeasures | null {
-  return BY_KEY.get(jurisdictionKey) ?? null;
-}
-
 function latestBy(
   series: readonly RegionalObservation[],
   date: IsoDate,

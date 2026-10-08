@@ -26,7 +26,9 @@ describe("a story about what a law did is heard from the news", () => {
     expect(heard.map((row) => row.personId)).toContain(resident.id);
     expect(
       new Set(
-        heard.map((row) => `${row.news!.knowledgeId}:${row.basisEventId}`),
+        heard.map(
+          (row) => `${row.news!.knowledgeId}:${row.news!.basisEventId}`,
+        ),
       ).size,
     ).toBe(heard.length);
     for (const row of heard) {

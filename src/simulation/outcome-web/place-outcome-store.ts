@@ -81,7 +81,7 @@ export interface PlaceOutcomeRecord {
 export function placeOutcomeRecordId(
   record: Pick<PlaceOutcomeRecord, "measure" | "jurisdictionId" | "month">,
 ): EntityId {
-  return `place-outcome:${record.jurisdictionId}:${record.measure}:${record.month}`;
+  return `place-outcome:${record.jurisdictionId}:${record.measure}:${record.month}` as EntityId;
 }
 
 /** A city's or county's part in its state's value. */

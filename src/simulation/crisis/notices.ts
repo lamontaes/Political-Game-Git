@@ -198,14 +198,6 @@ export interface CrisisEnvelope {
   readonly recordSchemaVersion: string;
 }
 
-export function crisisEnvelopeDedupeKey(
-  envelope: CrisisEnvelope,
-  consumer: string,
-  consumerVersion: string,
-): string {
-  return `${envelope.recordId}|${consumer}|${consumerVersion}|${envelope.recordSchemaVersion}`;
-}
-
 function homeOf(world: World, personId: EntityId): EntityId[] {
   const person = world.people[personId];
   return person ? [person.homeJurisdictionId] : [];
