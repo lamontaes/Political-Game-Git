@@ -1042,36 +1042,36 @@
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.balanced-operating-budget",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Poterba and Rueben 1999, State Fiscal Institutions and the U.S. Municipal Bond Market (NBER w6237); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "pension-funding-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.fund-pensions-to-schedule",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Novy-Marx and Rauh 2012, AEJ: Economic Policy 4(2); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "reserve-balance-to-borrowing-cost",
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "law:us-policy-positions:fiscal.minimum-reserve-balance",
-      "recipientGroup": "place",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Pew Charitable Trusts 2017; Wagner 2004; recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "fare-free-transit-to-ridership",
@@ -1173,12 +1173,12 @@
       "outcome": "gov.borrowing-cost",
       "policyArea": "gov",
       "sourceArea": "federal.deficit-change-pct-of-gdp",
-      "recipientGroup": "state governments",
-      "currentStatus": "budget-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": null,
-      "landingPath": "src/simulation/public-budgets/month.ts"
+      "recipientGroup": "jurisdiction residents (estimated public debt-service context)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO); recipient estimate: SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "fix-it-first-to-poor-roads",
@@ -1250,8 +1250,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 95,
-    "budget-only": 4,
+    "person-linked": 99,
+    "budget-only": 0,
     "place-number-only": 0,
     "no-live-consumer": 2
   }

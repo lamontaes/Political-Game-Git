@@ -212,8 +212,8 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 95,
-      "budget-only": 4,
+      "person-linked": 99,
+      "budget-only": 0,
       "place-number-only": 0,
       "no-live-consumer": 2,
     });
