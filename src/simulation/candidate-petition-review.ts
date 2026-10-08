@@ -7,7 +7,10 @@ import { recordWorldEvent } from "./world";
 import type { EntityId, IsoDate, World } from "./types";
 
 export type CandidatePetitionInvalidReason =
-  "not-eligible-voter" | "outside-district" | "duplicate-signature" | "outside-circulation-window";
+  | "not-eligible-voter"
+  | "outside-district"
+  | "duplicate-signature"
+  | "outside-circulation-window";
 
 export interface CandidatePetitionSignatureReview {
   readonly eventId: EntityId;
@@ -19,7 +22,7 @@ export interface CandidatePetitionSignatureReview {
 export interface CandidatePetitionCountDecision {
   readonly accepted: boolean;
   readonly shortfall: number;
-  readonly reasonKeys: readonly ("petition-insufficient-signatures")[];
+  readonly reasonKeys: readonly "petition-insufficient-signatures"[];
 }
 
 /** Apply the filing threshold uniformly to every place and office family. */
@@ -39,8 +42,7 @@ export function candidatePetitionCountDecision(
   return {
     accepted: shortfall === 0,
     shortfall,
-    reasonKeys:
-      shortfall > 0 ? ["petition-insufficient-signatures"] : [],
+    reasonKeys: shortfall > 0 ? ["petition-insufficient-signatures"] : [],
   };
 }
 
@@ -51,7 +53,9 @@ export interface CandidatePetitionReview {
   readonly filingDeadline: IsoDate;
   readonly accepted: boolean;
   readonly canCure: boolean;
-  readonly reasonKeys: readonly ("petition-deadline-passed" | "petition-insufficient-signatures")[];
+  readonly reasonKeys: readonly (
+    "petition-deadline-passed" | "petition-insufficient-signatures"
+  )[];
   readonly requiredSignatures: number;
   readonly validSignatures: number;
   readonly invalidSignatures: number;
@@ -175,7 +179,6 @@ export function reviewCandidatePetition(
   };
 }
 
-
 export interface FiledCandidatePetition {
   readonly world: World;
   readonly review: CandidatePetitionReview;
@@ -230,8 +233,16 @@ export function fileCandidatePetition(
       campaign.jurisdictionId,
     ],
     participants: [
-      { personId: clerkPersonId, role: "agency:clerk", detail: "petition:filing-clerk" },
-      { personId: campaign.candidatePersonId, role: "agency:candidate", detail: "petition:candidate" },
+      {
+        personId: clerkPersonId,
+        role: "agency:clerk",
+        detail: "petition:filing-clerk",
+      },
+      {
+        personId: campaign.candidatePersonId,
+        role: "agency:candidate",
+        detail: "petition:candidate",
+      },
     ],
     personFactConstraints: [],
     visibility: "public",
