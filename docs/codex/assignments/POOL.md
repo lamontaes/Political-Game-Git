@@ -665,18 +665,18 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2218 | Clarify 2026 Minnesota groundwater permit rule | PR #2218 (codex/session17-agriculture-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2219 | Close permission writers over the shared kind and preserve legacy saves | PR #2219 (codex/session21-permission-kind) | open: draft: finish it or close it as superseded | |
 | RS-2220 | Keep workplace conversations at their recorded location and coworkers | PR #2220 (codex/session4-workplace-context-isolated) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2221 | Document sourced health and parks law amounts | PR #2221 (codex/session16-starting-law-partial) | open: draft; 10 additional parks shares sourced on split main; focused test held below 5 GiB disk floor | |
 | RS-2222 | Use coverage-eligibility stamps in both existing coverage writers | PR #2222 (codex/session21-coverage-kind) | open: draft: finish it or close it as superseded | |
 | RS-2223 | Use legal-outcome stamps while preserving pretrial and custody records | PR #2223 (codex/session21-legal-kind) | open: draft: finish it or close it as superseded | |
 | RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2229 | Add sourced Session 18 starting law terms | PR #2229 (codex/session18-law-amounts) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2232 | Use price-cost stamps for existing rent consequences | PR #2232 (codex/session21-price-kind) | open: draft: finish it or close it as superseded | |
-| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | open: draft: finish it or close it as superseded | |
-| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
+| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | done #2197 | |
+| RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | done #2295 | |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
-| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | done #3074 (refines #2295/#2573) | |
 | RS-2255 | List loading dependencies in the strict Node project | PR #3568 (session35/rs2255-deps) | ready #3568 | Session 35 |
-| RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2259 | P1: Clerk filing evidence and saved council result scene consumers | PR #2259 (codex/session13-clerk-night-shared) | done: closed by owner; authored player text and unmounted consumer violate current rules | |
 | RS-2264 | Session 19: shared law applicability and persisted term provenance | PR #2264 (codex/session19-law-shared-schema) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2266 | Record sourced government law amounts | PR #2266 (codex/session18-government-operations-amounts) | open: draft: finish it or close it as superseded | |
 | RS-2275 | Record acting presidency during official incapacity | PR #2275 (session25/p1-presidential-health) | open: sent back: failed its own changed checks: tests | |

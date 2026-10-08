@@ -597,14 +597,30 @@
         "US-AL": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "Forever Wild: a 10 percent levy on offshore gas operations funds recreational land purchases, renewed by voters in 2012 through 2032 (Ala. Const. amend. 543)."
+          "source": "https://www.alabamaforeverwild.com/forever-wild-funding",
+          "note": "10% of the Alabama Trust Fund interest distribution supports Forever Wild; the state source reports a $15 million annual cap, with program funding for recreational land acquisition.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-AR": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "A one-eighth of one percent sales tax funds parks and tourism, dedicated by voters in 1996 (Ark. Const. amend. 75)."
+          "source": "https://www.sos.arkansas.gov/uploads/elections/Arkansas_Election_Laws_and_Constitution_2025_Edition.pdf",
+          "note": "45% of receipts from the 0.125% constitutional tourism tax is allocated to parks and tourism purposes.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.45,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-AS": {
           "answer": "no",
@@ -626,8 +642,16 @@
         "US-CO": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "Lottery proceeds fund Great Outdoors Colorado and state parks, dedicated by voters in 1992 (Colo. Const. art. XXVII)."
+          "source": "https://goco.org/about/our-finances",
+          "note": "10% of Colorado Lottery proceeds goes to Colorado Parks and Wildlife; other lottery shares fund conservation and GOCO.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.1,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-CT": {
           "answer": "no",
@@ -647,14 +671,30 @@
         "US-FL": {
           "answer": "yes",
           "preempts": false,
-          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "At least a third of the documentary stamp tax goes to conservation land and parks for 20 years from July 1, 2015 (Fla. Const. art. X, section 28)."
+          "source": "https://www.flsenate.gov/Laws/Constitution",
+          "note": "At least 33% of net documentary stamp tax revenues is dedicated to conservation land and water purposes for 20 years beginning July 1, 2015.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.33,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-GA": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "Up to 80 percent of the sales tax on outdoor recreation equipment goes to the Outdoor Stewardship Trust Fund for 10 years from 2018 (Ga. Const. art. III, section IX, para. VI)."
+          "source": "https://gadnr.org/sites/default/files/Grants-2024/2023_2024_GOSP_Manual_8.30.2023.pdf",
+          "note": "40% of existing sporting-goods sales and use tax revenue is allocated to the Georgia Outdoor Stewardship Trust Fund under current law; this differs from the constitutional maximum.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.4,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-GU": {
           "answer": "no",
@@ -764,8 +804,16 @@
         "US-MT": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "A share of the 20 percent tax on non-medical marijuana goes to conservation and parks, dedicated by voters in 2020."
+          "source": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0650/part_0010/section_0210/0150-0650-0010-0210.html",
+          "note": "6.5% of lodging tax receipts is allocated to parks maintenance; a separate coal-tax revenue stream also funds parks, so this term represents the lodging-tax stream.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.065,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NC": {
           "answer": "no",
@@ -780,8 +828,16 @@
         "US-NE": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "49.5 percent of the state lottery goes to the environment trust, which funds parks, dedicated by voters in 1992."
+          "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=9-812",
+          "note": "44.5% of residual Nebraska lottery proceeds goes to the Environmental Trust, which funds conservation and parks.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.445,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NH": {
           "answer": "no",
@@ -791,8 +847,16 @@
         "US-NJ": {
           "answer": "yes",
           "preempts": false,
-          "source": "Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "A share of corporation business tax revenue goes to open space, farmland and historic sites, dedicated by voters in 2014 (N.J. Const. art. VIII, section II, para. 7)."
+          "source": "https://www.njleg.state.nj.us/constitution",
+          "note": "Six percent of annual Corporation Business Tax revenues is dedicated to open space, farmland, and historic preservation beginning July 1, 2019.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.06,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-NM": {
           "answer": "no",
@@ -822,8 +886,16 @@
         "US-OR": {
           "answer": "yes",
           "preempts": false,
-          "source": "Research 1, read from the constitution 9/29/2026; also in Trust for Public Land LandVote database (passed state measures that dedicate a tax or other revenue, in force in 2026), filtered by Research 1, read 9/29/2026",
-          "note": "15 percent of net lottery proceeds go to the parks and natural resources fund, half to a parks subaccount (Or. Const. art. XV, sections 4(8) and 4a)."
+          "source": "https://www.oregonlegislature.gov/bills_laws/ors/orcons.html",
+          "note": "15% of net lottery proceeds goes to the Parks and Natural Resources Fund; half of that fund goes to its parks subaccount.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.15,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-PA": {
           "answer": "no",
@@ -860,8 +932,16 @@
         "US-TX": {
           "answer": "yes",
           "preempts": false,
-          "source": "Research 1, read from the statute 9/29/2026",
-          "note": "93 percent of the sales tax on sporting goods goes to the Parks and Wildlife Department (Tex. Tax Code section 151.801(c))."
+          "source": "https://tcss.legis.texas.gov/resources/tx/htm/tx.151.htm",
+          "note": "93% of state sales-tax revenue attributable to sporting goods is allocated to the Texas Parks and Wildlife Department.",
+          "lawTerms": [
+            {
+              "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "key": "share",
+              "value": 0.93,
+              "unit": "ratio"
+            }
+          ]
         },
         "US-UT": {
           "answer": "no",
