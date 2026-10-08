@@ -1,9 +1,6 @@
 import { makeIsoDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type { EntityId, IsoDate, World } from "../types";
 import type { NominationPlan } from "./nomination-rules";
 

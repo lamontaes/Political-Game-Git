@@ -18,6 +18,11 @@ const MONTH_YEAR_FORMAT = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   timeZone: "UTC",
 });
+const MONTH_DAY_FORMAT = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  timeZone: "UTC",
+});
 const WEEKDAY_DATE_FORMAT = new Intl.DateTimeFormat("en-US", {
   weekday: "long",
   month: "long",
@@ -64,4 +69,13 @@ export function proseYear(iso: IsoDate | string): string {
 export function proseWeekdayDate(iso: IsoDate | string): string {
   const date = utcDate(iso);
   return date ? WEEKDAY_DATE_FORMAT.format(date) : iso;
+}
+
+/** "June 1": a date that falls each year, stored as month and day ("06-01"). */
+export function proseMonthDay(monthDay: string): string {
+  // A leap year, so February 29 reads too.
+  const date = /^\d{2}-\d{2}$/.test(monthDay)
+    ? utcDate(`2000-${monthDay}`)
+    : null;
+  return date ? MONTH_DAY_FORMAT.format(date) : monthDay;
 }

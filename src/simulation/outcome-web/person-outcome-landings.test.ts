@@ -759,6 +759,8 @@ describe("the outcome landing plan", () => {
         hasActiveParentOfYoungChild: false,
         hasActiveParentOfInfant: false,
         hasPolicyRestoredVotingRight: false,
+        hasRecordedMedicaidExpansionCoverage: false,
+        hasActivePaydayLoan: false,
       };
       expect(
         matchesOutcomeRecipientRule(rule, {

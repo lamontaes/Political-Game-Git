@@ -44,10 +44,12 @@ export function withRecordedStartingConditions(world: World): World {
  * Production callers must supply an explicit office key; this is not UI policy.
  */
 export function fileForOffice(
-  world: World,
+  startWorld: World,
   personId: EntityId,
   binding: DistrictSeatBinding | null = null,
 ): World {
+  // Filing starts a campaign, and campaign work reads recorded district leans.
+  const world = withRecordedStartingConditions(startWorld);
   const offices =
     candidacyPackForJurisdiction(world.people[personId]!.homeJurisdictionId)
       ?.offices ?? [];

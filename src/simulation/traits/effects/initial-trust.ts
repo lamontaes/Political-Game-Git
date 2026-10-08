@@ -22,4 +22,19 @@ export const initialTrustEffects: readonly TraitEffectDeclaration[] = [
       },
     ],
   },
+  {
+    decision: "campaign.door-answer",
+    leans: [
+      {
+        option: "talk",
+        trait: "personality-v1:initial-trust",
+        pole: "high",
+      },
+      {
+        option: "decline",
+        trait: "personality-v1:initial-trust",
+        pole: "low",
+      },
+    ],
+  },
 ];
