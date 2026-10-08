@@ -9,6 +9,7 @@ import { spokenDate } from "../dates";
 import { recordWorkStatus } from "../life";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
+import { currentPresidentOf } from "../crisis/offices";
 import { recordWorldEvent } from "../world";
 import { currentGoverningOffices } from "./state-governing";
 import { scheduleSeatFilling } from "./office-continuity";
@@ -521,6 +522,14 @@ export function playerOfficeScope(
         level,
       });
     }
+  const president = currentPresidentOf(world);
+  if (president?.personId === personId)
+    scopes.push({
+      officeKey: president.officeKey,
+      title: president.title,
+      jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+      level: "federal-executive",
+    });
   const congress = projectCongress(world);
   for (const chamber of congress ? [congress.house, congress.senate] : [])
     for (const seat of chamber.seats)
