@@ -863,6 +863,41 @@ describe(`one person in ${place!.jurisdictionKey} (seed ${SEED}) decides differe
     expect(actReasons(none.context.considerations)).toEqual([]);
     expect(hot.selectedOptionKey).toBe("dispute");
   });
+
+  it("proves recorded truthfulness changes a live response through the act table", () => {
+    const { world, personId } = seededPerson(place!.jurisdictionKey);
+    const traitId = "personality-v1:truthfulness";
+    const highWorld = recordTrait(world, personId, traitId, 2);
+    const high = evaluateDecision(
+      highWorld,
+      decisionFor(
+        highWorld,
+        personId,
+        "press.subject-response",
+        "proof:truthfulness:high",
+      ),
+    );
+    const lowWorld = recordTrait(world, personId, traitId, -2);
+    const low = evaluateDecision(
+      lowWorld,
+      decisionFor(
+        lowWorld,
+        personId,
+        "press.subject-response",
+        "proof:truthfulness:low",
+      ),
+    );
+
+    expect(isSelectedDecision(high)).toBe(true);
+    expect(isSelectedDecision(low)).toBe(true);
+    expect(high.selectedOptionKey).not.toBe(low.selectedOptionKey);
+    expect(
+      actReasons(high.context.considerations, traitId).length,
+    ).toBeGreaterThan(0);
+    expect(
+      actReasons(low.context.considerations, traitId).length,
+    ).toBeGreaterThan(0);
+  });
 });
 
 function tendencyOf(traitId: string): EntityId {
