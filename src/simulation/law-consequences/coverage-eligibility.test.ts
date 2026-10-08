@@ -64,9 +64,8 @@ import {
 } from "./coverage-eligibility";
 
 describe("coverage kind reuses the existing saved-record writer", () => {
-  it.each(Object.keys(STATES))(
-    "matches the existing review in %s and survives Save/Continue",
-    (usps) => {
+  it("matches the existing review and survives Save/Continue in all 56 jurisdictions", () => {
+    for (const usps of Object.keys(STATES)) {
       const state = stateJurisdictionForKey(`US-${usps}`)!;
       const date = makeIsoDate("2026-01-14");
       const reviewDate = addDays(date, 1);
@@ -309,8 +308,8 @@ describe("coverage kind reuses the existing saved-record writer", () => {
         continued,
       );
       expect(healthCoverageRecords(continued)).toEqual(records);
-    },
-  );
+    }
+  }, 120_000);
   it("runs the same rule across all 56 jurisdictions", () =>
     expect(Object.keys(STATES)).toHaveLength(56));
 });
