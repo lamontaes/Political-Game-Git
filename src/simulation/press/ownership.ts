@@ -83,10 +83,6 @@ export function loadedOwnershipRegistry(): OwnershipRegistry {
   return cached;
 }
 
-export function resetLoadedOwnershipRegistry(): void {
-  cached = null;
-}
-
 export const PRESS_OWNER_REVIEW_TRANSITION_KEY = "press:owner-review";
 
 const OWNER_KEY = "press:owner:";
@@ -1047,6 +1043,8 @@ export type OutletPurchaseTerms =
       /** A sentence the player reads. */
       readonly reason: string;
       readonly priceMinorUnits: number | null;
+      /** The buyer's recorded cash, where the record holds it. */
+      readonly buyerMoneyMinorUnits?: number;
     };
 
 /**
@@ -1113,10 +1111,13 @@ export function outletPurchaseTerms(
     );
   }
   if (savings.liquidBalance.minorUnits < price) {
-    return refuse(
-      "cannot-afford",
-      `${owner.name} is asking more than you have.`,
-    );
+    return {
+      ...(refuse(
+        "cannot-afford",
+        `${owner.name} is asking more than you have.`,
+      ) as Extract<OutletPurchaseTerms, { readonly reason: string }>),
+      buyerMoneyMinorUnits: savings.liquidBalance.minorUnits,
+    };
   }
   return {
     status: "available",

@@ -1,6 +1,24 @@
 import { describe, expect, it } from "vitest";
-
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { runDialogueBatch } from "./run";
+import { toGradingBatch } from "./grading";
+
+function sourcedBankParts() {
+  return readdirSync("data/english/parts")
+    .filter((file) => file.endsWith(".json"))
+    .flatMap((file) => {
+      const bank = JSON.parse(
+        readFileSync(join("data/english/parts", file), "utf8"),
+      ) as {
+        readonly parts?: readonly {
+          readonly key: string;
+          readonly source?: { readonly url?: string };
+        }[];
+      };
+      return bank.parts ?? [];
+    });
+}
 
 describe("the dialogue batch", () => {
   it(
@@ -38,34 +56,74 @@ describe("the dialogue batch", () => {
   );
 });
 
-describe("the dialogue batch reaches the requested public replies", () => {
+describe("the dialogue batch reads records and real conversations, and composes news from records", () => {
   it(
-    "includes an official view, a recorded repeat greeting, and a press answer",
+    "uses record-backed output and records unavailable lede source fields",
     { timeout: 300_000 },
     () => {
       const result = runDialogueBatch({
-        seed: "dh1-20261007-session52",
+        seed: "eng-20261007-endpoint",
         ages: [34],
-        newsDays: 10,
-        max: 40,
+        newsDays: 1,
+        max: 20,
       });
-      const answer = result.lines.find((line) => line.id === "press-answer");
-      const official = result.lines.find(
-        (line) => line.id === "officials-view",
+      const { batch, bin } = toGradingBatch(result, {
+        id: "eng-20261007-proof",
+        head: "test-head",
+        at: new Date("2026-10-07T17:00:00.000Z"),
+      });
+
+      expect(batch.items.length).toBeGreaterThanOrEqual(1);
+      // Only procedure, which the owner does not grade, goes to the bin.
+      for (const entry of bin)
+        expect(entry.rule).toMatch(/^procedural wording/);
+      expect(batch.items.every((item) => item.parts.length > 0)).toBe(true);
+      // Record-backed text, or a conversation the game itself offered: the
+      // person's saved reply, the opening choice and four or more choices.
+      for (const line of result.lines) {
+        expect(/^(text|conversation)-/.test(line.id), line.id).toBe(true);
+        if (line.id.startsWith("conversation-")) {
+          expect(line.choices?.length ?? 0).toBeGreaterThanOrEqual(4);
+          expect(line.prior?.trim()).toBeTruthy();
+        }
+      }
+      const situationRelationships = batch.items.map(
+        (item) => `${item.situation}|${item.cell.relationship}`,
       );
-      const greeting = result.lines.find((line) => line.id === "greet-again");
-      expect(official?.composer).toBe(
-        "officialViewLine in small-talk-english.ts",
-      );
-      expect(official?.line.trim()).not.toBe("");
-      expect(greeting?.composer).toBe(
-        "greetAgainLine in small-talk-english.ts",
-      );
-      expect(greeting?.line.trim()).not.toBe("");
-      expect(answer?.composer).toBe(
-        "composePressLine (answer-unknown) in press-english.ts",
-      );
-      expect(answer?.line.trim()).not.toBe("");
+      expect(new Set(situationRelationships).size).toBe(batch.items.length);
+      const sourcedParts = sourcedBankParts();
+      for (const item of batch.items)
+        for (const key of item.parts) {
+          if (key.startsWith("bank:")) {
+            const part = sourcedParts.find((row) => row.key === key.slice(5));
+            expect(part?.source?.url, key).toBeTruthy();
+          } else {
+            // Otherwise a record the text was read from, or a part the
+            // English engine composed the line from (bank:part:variant).
+            expect(
+              key.startsWith("news:story:event_") ||
+                key.startsWith("journal:chapter:") ||
+                /^[a-z][\w.-]*:(opener|core|reason|closer):[\w.-]+$/.test(key),
+              key,
+            ).toBe(true);
+          }
+        }
+      expect(
+        batch.absent.every((item) =>
+          item.reason.startsWith("no output, because"),
+        ),
+      ).toBe(true);
+      const news = batch.items.filter((item) => item.kind === "news");
+      expect(
+        news.every((item) => item.parts.some((key) => key.startsWith("bank:"))),
+      ).toBe(true);
+      expect(
+        batch.absent
+          .filter((item) => item.kind === "news")
+          .every((item) =>
+            item.reason.includes("no published legislative vote or veto"),
+          ),
+      ).toBe(true);
     },
   );
 });

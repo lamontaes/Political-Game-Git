@@ -147,6 +147,7 @@ export const BODY_POSES = [
   "walking",
   "waving",
   "weight-shift",
+  "lean",
   "back-addressing",
   "back-arms-folded",
   "back-hands-in-pockets",
@@ -205,6 +206,7 @@ export const POSES_BY_PRESENTATION: Readonly<
     "walking",
     "waving",
     "weight-shift",
+    "lean",
     "back-addressing",
     "back-arms-folded",
     "back-hands-in-pockets",
@@ -397,6 +399,7 @@ export const POSE_PAINTED_TOWARD: Readonly<
   walking: null,
   waving: null,
   "weight-shift": null,
+  lean: null,
   "back-addressing": null,
   "back-arms-folded": null,
   "back-hands-in-pockets": null,
@@ -831,29 +834,6 @@ export function posedPieces(
   throw new Error("unreachable: standing in front always resolves");
 }
 
-function mirrorForFacing(
-  pack: PackPresentation,
-  pose: BodyPose,
-  view: BodyView,
-  recipe: EngineRecipe,
-): boolean {
-  if (!recipe.facing) return recipe.mirrored === true;
-  if (view !== "three-quarter" && view !== "side") return false;
-  const painted = towardOf(pack, pose, view, false);
-  return painted !== null && recipe.facing !== painted;
-}
-
-function facingOf(
-  pack: PackPresentation,
-  pose: BodyPose,
-  view: BodyView,
-  recipe: EngineRecipe,
-): "left" | "right" | null {
-  if (!recipe.facing)
-    return towardOf(pack, pose, view, recipe.mirrored === true);
-  return towardOf(pack, pose, view, mirrorForFacing(pack, pose, view, recipe));
-}
-
 function towardOf(
   pack: PackPresentation,
   pose: BodyPose,
@@ -1126,7 +1106,16 @@ function recolorPart(layer: Raster, mask: Raster, color: FabricRamp): Raster {
     height: layer.height,
     data: part,
   });
-  const tinted = recolorFabric(layer, color, source);
+  // Only the part's own pixels are recolored: recolorFabric reads each pixel
+  // alone, and the blend below takes nothing from anywhere else.
+  const scope = new Uint8ClampedArray(layer.data.length);
+  for (let i = 3; i < scope.length; i += 4)
+    if (mask.data[i]! > 0) scope.set(layer.data.subarray(i - 3, i + 1), i - 3);
+  const tinted = recolorFabric(
+    { width: layer.width, height: layer.height, data: scope },
+    color,
+    source,
+  );
   const out = new Uint8ClampedArray(layer.data);
   for (let i = 3; i < out.length; i += 4) {
     const t = mask.data[i]! / 255;

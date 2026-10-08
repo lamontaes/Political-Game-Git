@@ -28,6 +28,7 @@ import {
   consequentialSocialEventIds,
   isRoutineSocialOccasion,
 } from "./journal-significance";
+import { isOwnCaseEvent } from "./journal-own-case";
 
 export interface World39BiographyEntry {
   readonly id: string;
@@ -73,6 +74,9 @@ export function livedWorld39Sentence(raw: string): string | null {
   return stripped;
 }
 
+/** How a told view of an official is saved: fields, not a sentence. */
+const TOLD_VIEW_FIELDS = "told-view:";
+
 /** No inferred motives or outcome classification: original words retain their scope. */
 export function projectWorld39Journal(world: World, personId: EntityId) {
   const person = world.people[personId];
@@ -101,8 +105,10 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     const other = otherId ? world.people[otherId] : null;
     if (!other) continue;
     const name = personName(other);
+    // A parent-child record does not order its two people; the parent is the
+    // one born first (as `family-shape.ts` reads it).
     const relation = relationship.kind.includes("parent-child")
-      ? relationship.personIds[0] === personId
+      ? other.birthDate > person.birthDate
         ? "child"
         : "parent"
       : relationship.kind.includes("sibling")
@@ -263,11 +269,12 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       event.occurredAt < person.birthDate
     )
       continue;
-    const participated = event.participants.some(
-      (row) =>
-        row.personId === personId &&
-        (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
-    );
+    const participated =
+      event.participants.some(
+        (row) =>
+          row.personId === personId &&
+          (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
+      ) || isOwnCaseEvent(event, personId);
     const directKnowledge = world.history.knowledge.find(
       (row) =>
         row.personId === personId &&
@@ -380,6 +387,9 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (isRoutineSocialOccasion(consequentialEvents, source.id, source.type))
       continue;
     if (!account.believedSummary.trim()) continue;
+    // A view somebody told the player is saved as fields for the English
+    // engine to word, not as a sentence (`heard-official-views.ts`).
+    if (account.believedSummary.startsWith(TOLD_VIEW_FIELDS)) continue;
     entries.push({
       id: `account:${account.id}`,
       at: account.learnedAt,

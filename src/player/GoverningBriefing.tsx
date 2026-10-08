@@ -12,6 +12,7 @@ import {
   projectExecutiveInbox,
   type ExecutiveInboxItem,
 } from "../presentation/executive-inbox";
+import { proseDate } from "../presentation/prose-dates";
 import { ExecutiveWorkCard } from "./ExecutiveWorkCard";
 import { IncidentResponsePanel } from "./IncidentResponsePanel";
 import { spendExecutiveWorkTime } from "../simulation/executive-work";
@@ -189,7 +190,8 @@ export function GoverningBriefing({
         <ul data-testid="governing-recent">
           {briefing.recent.map((entry, index) => (
             <li key={`${entry.date}:${index}`}>
-              <time>{entry.date}</time> {entry.text}
+              <time dateTime={entry.date}>{proseDate(entry.date)}</time>{" "}
+              {entry.text}
             </li>
           ))}
         </ul>
@@ -212,14 +214,15 @@ function MatterCard({
   return (
     <li className="governing-matter" data-testid="governing-matter">
       <h5>{matter.title}</h5>
-      <p
-        className="game-note"
-        data-testid="governing-deadline"
-        data-problem={matter.deadline ? undefined : "no-deadline"}
-        data-days-left={matter.daysLeft ?? undefined}
-      >
-        {matter.deadline ?? "—"}
-      </p>
+      {matter.deadline ? (
+        <p
+          className="game-note"
+          data-testid="governing-deadline"
+          data-days-left={matter.daysLeft ?? undefined}
+        >
+          {matter.deadline}
+        </p>
+      ) : null}
       {matter.recommendation ? (
         <p
           data-testid="governing-recommendation"

@@ -85,8 +85,8 @@ export const LOCAL_GOVERNMENT_SEATS_VERSION = "local-government-seats/v1";
 
 const V = LOCAL_GOVERNMENT_SEATS_VERSION;
 
-/** The role a county board member holds, beside a town's council roles. */
-export const COUNTY_BOARD_MEMBER = "leader:county-board-member";
+import { COUNTY_BOARD_MEMBER } from "./local-government-roles";
+export { COUNTY_BOARD_MEMBER } from "./local-government-roles";
 
 /** Grown-ups old enough to hold local office in every state. */
 const MINIMUM_AGE = 21;
@@ -134,11 +134,13 @@ export function recordLocalGovernmentSeatGap(
     ],
     summary: "No eligible officeholder was found in the recorded local roster.",
     context: {
-      location: {
-        jurisdictionId: town,
-        label: world.jurisdictions[town]?.name ?? null,
-        setting: null,
-      },
+      location: world.jurisdictions[town]
+        ? {
+            jurisdictionId: town,
+            label: world.jurisdictions[town].name,
+            setting: null,
+          }
+        : null,
       socialContext: null,
       pressure: null,
       choice: null,

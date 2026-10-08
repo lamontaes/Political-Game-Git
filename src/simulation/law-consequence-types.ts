@@ -30,6 +30,7 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "snap-participation",
     "public-library-service",
     "parks-service-spending",
+    "justice-person-exposure",
   ],
   legacy: [
     "business-compliance-cost",
@@ -477,7 +478,7 @@ export interface LawConsequenceContext {
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
-  subjectIds: EntityId[];
+  subjectIds: readonly EntityId[];
   origin?: LawInForce["origin"];
   standingAppropriationId?: EntityId;
   governingLawId?: EntityId;

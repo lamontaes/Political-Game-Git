@@ -93,7 +93,6 @@ import {
 } from "./municipal-government";
 import {
   municipalActionAuthority,
-  municipalMeasureKey,
   municipalMeasures,
   municipalSeats,
 } from "./municipal-public-work";
@@ -699,7 +698,7 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * Sundays, holidays and days neither House sits) expires, unless a joint
  * resolution disapproving it is enacted first.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: the days counted
+ * RECORDED GAME PROFILE: the days counted
  * here skip Saturdays and Sundays only. Holidays are not excluded, because no
  * holiday calendar is read, and both Houses are taken to be sitting, because
  * no congressional sitting calendar is read. No joint resolution of
@@ -710,7 +709,7 @@ export const COUNCIL_ACT_OVERRIDE_DEADLINE =
  * offenses), 23 (criminal procedure) or 24 (prisoners and their treatment),
  * which § 1-206.02(c)(2) gives a 60-day review instead of 30.
  *
- * PLACEHOLDER, pending `dc-congressional-review-day-count`: an act in play
+ * RECORDED GAME PROFILE: an act in play
  * records the policy question it answers, not the Code title it amends, so
  * this mapping from question to title is the game's own inference. A
  * councilmember's own act names no question and takes the ordinary period.
@@ -1523,17 +1522,4 @@ export function admitCouncilAction(
           `${localRule.source.citation} before its ${local.operativeOn} amendment was not retrieved; only ${generalRule.source.citation} is applied on this date.`,
         ],
   };
-}
-
-/** The measure stable key an ordinance of this designation is filed under. */
-export function municipalOrdinanceMeasureKey(
-  governmentKey: string,
-  designation: string,
-): string {
-  return municipalMeasureKey(governmentKey, designation);
-}
-
-/** Convenience for callers holding only a measure id. */
-export function municipalOrdinanceMeasure(world: World, measureId: EntityId) {
-  return requireMeasure(world, measureId);
 }

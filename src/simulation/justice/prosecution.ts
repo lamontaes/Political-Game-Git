@@ -1,5 +1,7 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import { scheduleCountyOfficeReflections } from "./county-office-reflection";
 import {
+  applyStandYourGroundCaseLanding,
   applySentencingLawLandings,
   applyVotingRightLanding,
 } from "../law-consequences/modules/justice-sentencing-landings";
@@ -564,6 +566,7 @@ function recordFollowUp(
     for (const id of detail.basisRecordIds ?? []) {
       next = recordJusticeChargeReference(next, id, chargeEvent.id);
     }
+    next = applyStandYourGroundCaseLanding(next, chargeEvent.id);
     return next;
   }
   if (type === PROSECUTION_ENDED_EVENT)
@@ -622,14 +625,17 @@ function followUp(
   if (recorded === world) return world;
   const activity = recorded.history.events.at(-1);
   if (!activity || activity.type !== type) return recorded;
-  return applyLawConsequences(recorded, {
-    onDate: activity.occurredAt,
-    activity: "case-stage",
-    activityId: activity.id,
-    subjectIds: activity.participants
-      .filter((participant) => participant.role === "focus:defendant")
-      .map((participant) => participant.personId),
-  });
+  return applyLawConsequences(
+    scheduleCountyOfficeReflections(recorded, activity.id),
+    {
+      onDate: activity.occurredAt,
+      activity: "case-stage",
+      activityId: activity.id,
+      subjectIds: activity.participants
+        .filter((participant) => participant.role === "focus:defendant")
+        .map((participant) => participant.personId),
+    },
+  );
 }
 
 function outcomeLine(
@@ -693,16 +699,6 @@ function courtCaseOf(
     venueJurisdictionId: venue,
     stateKey,
   };
-}
-
-/** The days a case filed in this jurisdiction takes, read from its state. */
-export function prosecutionTimingAt(
-  world: World,
-  jurisdictionId: EntityId | null,
-): ReturnType<typeof prosecutionTimingFor> {
-  return prosecutionTimingFor(
-    jurisdictionId ? stateKeyOf(world, jurisdictionId) : null,
-  );
 }
 
 function stateKeyOf(world: World, jurisdictionId: EntityId): string | null {

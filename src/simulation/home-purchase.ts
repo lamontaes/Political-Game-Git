@@ -18,10 +18,7 @@ import { GROWN_UP_PRESENTATION_AGE_ESTIMATE } from "./age-of-majority";
 import { homeValueForJurisdiction } from "./county-home-value";
 import { homePriceLevel, homePriceLevels } from "./living-world/housing-market";
 import { homeBuyerKind, homeDownPaymentShare } from "./home-down-payment";
-import {
-  openHouseholdLoan,
-  settleHouseholdLoanPayments,
-} from "./household-loans";
+import { openHouseholdLoan } from "./household-loans";
 import { mortgageFinancingQuote } from "./mortgage-financing";
 import { personName } from "./people";
 import {
@@ -554,9 +551,4 @@ export function buyHome(world: World, personId: EntityId): HomePurchaseResult {
       provenance,
     });
   return { status: "bought", world: next };
-}
-
-/** Compatibility API; both old and new loans use the shared due-period runner. */
-export function settleMortgages(world: World, personId: EntityId): World {
-  return settleHouseholdLoanPayments(world, personId);
 }

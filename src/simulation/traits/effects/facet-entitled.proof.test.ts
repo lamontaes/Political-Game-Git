@@ -19,12 +19,16 @@ describe("the entitled facet difference in a random new game", () => {
       "campaign.organizer-outreach",
       "l1-proof-facet-entitled",
       [baseline],
+      true,
+      ["organization-meeting", "candidate-guidance"],
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("organization-meeting");
     expect(proof.high.choice).toBe("candidate-guidance");
     expect(proof.low.choice).toBe("organization-meeting");
-    expect(proof.high.reason).toContain("individualized help");
+    expect(proof.high.reason).toContain(
+      "personality-v1:facet-entitled|campaign.organizer-outreach|candidate-guidance|high",
+    );
     expect(proof.low.reason).toContain("group meeting");
   });
 });

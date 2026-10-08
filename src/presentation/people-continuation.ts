@@ -245,7 +245,7 @@ export function projectLifeLookBack(
             .flatMap((partnership) => partnership.personIds),
         ].filter((candidate) => candidate !== personId),
       ),
-    ],
+    ].filter((familyPersonId) => world.people[familyPersonId] !== undefined),
   };
 }
 
@@ -309,12 +309,10 @@ export function projectLifeContinuation(
     recordPersonId: playedPersonId,
     canKeepObserving: true,
     generation: currentGeneration(world),
-    lineage: controlledLineage(world).map((personId) => ({
-      personId,
-      name: world.people[personId]
-        ? personName(world.people[personId]!)
-        : "Unknown",
-    })),
+    lineage: controlledLineage(world).flatMap((personId) => {
+      const person = world.people[personId];
+      return person ? [{ personId, name: personName(person) }] : [];
+    }),
     lookBack: projectLifeLookBack(world, playedPersonId, ended.on),
   };
 }

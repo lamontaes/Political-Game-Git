@@ -89,6 +89,7 @@ export interface CivicMessageRecord {
   readonly channel: CivicMessageChannel;
   readonly stakeBeliefId: EntityId | null;
   readonly salience: PrivateBeliefRecord["salience"];
+  readonly description: string;
 }
 
 export interface RecordCivicMessageInput {
@@ -185,23 +186,28 @@ export function recordCivicMessage(
   });
 }
 
-/** Read saved civic messages for one issue in one jurisdiction. */
-export function civicMessagesForProposition(
-  world: World,
-  jurisdictionId: EntityId,
-  propositionId: EntityId,
-): readonly CivicMessageRecord[] {
-  return (
-    civicMessagesForPropositions(world, jurisdictionId, [propositionId]).get(
-      propositionId,
-    ) ?? []
-  );
-}
-
 /** Read matching topics in one pass for callers weighing a multi-part bill. */
 export function civicMessagesForPropositions(
   world: World,
   jurisdictionId: EntityId,
+  propositionIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
+  return matchingCivicMessages(world, { jurisdictionId }, propositionIds);
+}
+
+/** A named recipient's messages can originate in towns within a wider district. */
+export function civicMessagesForOfficial(
+  world: World,
+  officialId: EntityId,
+  propositionIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
+  return matchingCivicMessages(world, { officialId }, propositionIds);
+}
+
+function matchingCivicMessages(
+  world: World,
+  scope:
+    { readonly jurisdictionId: EntityId } | { readonly officialId: EntityId },
   propositionIds: readonly EntityId[],
 ): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
   const wanted = new Set(
@@ -212,7 +218,8 @@ export function civicMessagesForPropositions(
   for (const event of world.history.events) {
     if (
       event.type !== CIVIC_ACTION_EVENTS.contacted ||
-      event.jurisdictionId !== jurisdictionId ||
+      ("jurisdictionId" in scope &&
+        event.jurisdictionId !== scope.jurisdictionId) ||
       event.occurredAt > world.currentDate ||
       !event.tags.includes(CIVIC_MESSAGE_TAG)
     )
@@ -248,6 +255,7 @@ export function civicMessagesForPropositions(
     if (
       !senderId ||
       !officialId ||
+      ("officialId" in scope && officialId !== scope.officialId) ||
       (stance !== "yes" && stance !== "no") ||
       !MESSAGE_CHANNELS.includes(channel as CivicMessageChannel) ||
       !["low", "moderate", "high", "central"].includes(salience ?? "")
@@ -258,7 +266,7 @@ export function civicMessagesForPropositions(
       eventId: event.id,
       sequence: event.sequence,
       occurredAt: event.occurredAt,
-      jurisdictionId,
+      jurisdictionId: event.jurisdictionId!,
       senderId,
       officialId,
       propositionId,
@@ -267,6 +275,7 @@ export function civicMessagesForPropositions(
       stakeBeliefId: (stakeTag?.slice("message-stake:belief:".length) ??
         null) as EntityId | null,
       salience: salience as PrivateBeliefRecord["salience"],
+      description: event.context?.choice ?? event.summary,
     });
     result.set(propositionId, list);
   }
@@ -638,13 +647,14 @@ export function reviewTownCivicActions(
 /** The exact office identity used by workflow preferences for this contact. */
 function officeRelationshipForContact(
   world: World,
-  officialId: EntityId,
+  officialId: EntityId | null,
   officers: ReturnType<typeof sittingLocalOfficers>,
 ): EntityId | null {
+  if (!officialId) return null;
   const councilSeat = officers.find(
     (officer) => officer.personId === officialId,
   );
-  if (councilSeat) return councilSeat.participationId;
+  if (councilSeat) return councilSeat.participationId ?? null;
 
   const publicOffices = activeWorkRelationshipsAt(world, officialId)
     .map(({ relationship }) => relationship)
@@ -832,16 +842,4 @@ function openOfficeCaseForContact(
     summary: contact.summary,
     context: contact.context,
   });
-}
-
-/** How many of each civic action a town's residents took. */
-export function describeTownCivicActions(
-  world: World,
-  town: EntityId,
-): Readonly<Record<string, number>> {
-  const counts: Record<string, number> = {};
-  for (const event of world.history.events)
-    if (event.stableKey.startsWith(`${CIVIC_ACTIONS_VERSION}:${town}:`))
-      counts[event.type] = (counts[event.type] ?? 0) + 1;
-  return counts;
 }
