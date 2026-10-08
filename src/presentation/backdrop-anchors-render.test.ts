@@ -20,9 +20,9 @@ import {
 } from "./backdrop-people";
 
 /**
- * People drawn on the anchors of three places: a legislative chamber, an
- * office and a diner. Each spot gets a real engine figure in the pose the
- * spot calls for, composed from the pack's paintings, and the figure is laid
+ * People drawn on the anchors of a legislative chamber, an office, a diner
+ * and the 22 places painted or repainted on October 6, 2026. Each spot gets
+ * a real engine figure in the pose the spot calls for, composed from the pack's paintings, and the figure is laid
  * on the picture the way the scene lays it: its canvas scaled into the spot's
  * box. Then the drawn feet must land on the spot's foot point, a seated
  * figure's seat on the painted seat, and a figure turned toward a side must
@@ -30,7 +30,37 @@ import {
  */
 
 const PACK = manifestJson as unknown as PeoplePackManifest;
-const SCENES = ["state-legislative-chamber-bicameral", "office", "diner"];
+/** The 21 places painted on October 6, 2026, and the Oval Office re-measured for its wider desk. */
+const OCT_6_PLACES = [
+  "bedroom-teen",
+  "church-exterior",
+  "church-sanctuary",
+  "city-hall-hallway",
+  "city-hall-steps-event",
+  "clerk-back-office",
+  "coffee-shop",
+  "committee-hearing-room",
+  "dorm-room",
+  "election-office",
+  "farm-yard",
+  "gas-station-store",
+  "governor-residence-exterior",
+  "home-kitchen",
+  "hospital-lobby",
+  "local-newspaper-office",
+  "lodge-hall",
+  "mayor-office",
+  "oval-office",
+  "school-cafeteria",
+  "school-exterior",
+  "school-hallway",
+];
+const SCENES = [
+  "state-legislative-chamber-bicameral",
+  "office",
+  "diner",
+  ...OCT_6_PLACES,
+];
 
 function read(file: string): Raster {
   const png = PNG.sync.read(readFileSync(`art/people-engine/v1/${file}`));
