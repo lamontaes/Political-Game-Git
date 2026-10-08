@@ -6,6 +6,7 @@ import {
 import { childhoodRecordEntries } from "./childhood-record";
 import {
   indexFollowingAppends,
+  peopleTableAppendedFrom,
   recordById,
   recordsByStringField,
 } from "./history-index";
@@ -789,9 +790,13 @@ function extendFamilyCohortIndex(
     if (prior.inputs[at] !== inputs[at]) return undefined;
   const priorPeople = prior.inputs[0] as World["people"];
   const order = world.personOrder;
-  if (appendedFrom(prior.personOrder, order) === null) return undefined;
-  for (const id of prior.personOrder)
-    if (world.people[id] !== priorPeople[id]) return undefined;
+  // An append writer's tables keep every earlier person and place in order by
+  // construction; any other table is compared person by person.
+  if (!peopleTableAppendedFrom(priorPeople, world.people)) {
+    if (appendedFrom(prior.personOrder, order) === null) return undefined;
+    for (const id of prior.personOrder)
+      if (world.people[id] !== priorPeople[id]) return undefined;
+  } else if (order.length < prior.personOrder.length) return undefined;
   const newPeople = new Set<EntityId>();
   for (let at = prior.personOrder.length; at < order.length; at += 1) {
     const id = order[at]!;

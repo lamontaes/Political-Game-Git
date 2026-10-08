@@ -178,4 +178,36 @@ describe(`family index extension (${place.displayName}, seed ${seed})`, () => {
       spy.mockRestore();
     }
   });
+
+  it("rebuilds when an earlier person was edited between the index and the new arrivals", () => {
+    const { world, personId, jurisdictionId } = smallWorld({
+      place: place.key,
+      seed: `${seed}-edit`,
+      people: 8,
+      household: true,
+    });
+    const spy = vi.spyOn(families, "recordedFamilyEstimates");
+    try {
+      upbringingFor(world, personId);
+      const builds = spy.mock.calls.length;
+      // A person table changed outside any append writer: the same ids, but
+      // one person is now a different object, so nothing earlier may be assumed.
+      const source = world.people[personId]!;
+      const edited: World = {
+        ...world,
+        people: {
+          ...world.people,
+          [personId]: { ...source },
+        },
+      };
+      const next = withNewHousehold(edited, jurisdictionId, "edit", [
+        { stableKey: "edit:a1", birthDate: makeIsoDate("1981-01-01") },
+      ]);
+      for (const id of [personId, ...next.personIds])
+        expect(upbringingFor(next.world, id)).toEqual(coldRead(next.world, id));
+      expect(spy.mock.calls.length).toBeGreaterThan(builds);
+    } finally {
+      spy.mockRestore();
+    }
+  });
 });
