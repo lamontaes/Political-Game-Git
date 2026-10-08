@@ -62,7 +62,7 @@ describe("the owner's grades fold into a part ledger", () => {
       /batch-test item 9: no such item/,
     );
     expect(() => ledgerOf([{ i: 0, grade: "meh" }])).toThrow(
-      /not GOOD, BAD or FIX/,
+      /not good, rewrite or kill/,
     );
   });
 
@@ -95,7 +95,33 @@ describe("the owner's grades fold into a part ledger", () => {
     expect(heldByGrades("talk.greet:opener:hey", redeemed)).toBe(false);
   });
 
-  it("starts empty on main until a grade file lands", () => {
+  it("reads the Grade tab's words: kill holds like BAD, rewrite like FIX", () => {
+    const ledger = ledgerOf([
+      { i: 0, grade: "kill" },
+      { i: 1, grade: "good" },
+      { i: 4, grade: "rewrite" },
+    ]);
+    expect(ledger.parts["bank:meeting.opener.a"]).toMatchObject({ bad: 1 });
+    expect(ledger.parts["bank:meeting.opener.c"]).toMatchObject({ fix: 1 });
+    expect(heldByGrades("bank:meeting.opener.a", ledger)).toBe(true);
+    expect(heldByGrades("bank:meeting.opener.b", ledger)).toBe(false);
+  });
+
+  it("folds a grade file that carries each line's parts without its batch", () => {
+    const ledger = foldGrades([
+      {
+        batch: null,
+        grades: {
+          batch: "batch-standalone",
+          grades: [{ i: 7, grade: "kill", parts: ["bank:meeting.opener.z"] }],
+        },
+      },
+    ]);
+    expect(ledger.batches).toEqual(["batch-standalone"]);
+    expect(heldByGrades("bank:meeting.opener.z", ledger)).toBe(true);
+  });
+
+  it("names the graded batches behind every part the ledger holds", () => {
     expect(PART_GRADES.schema).toBe("english-part-grades/1");
     for (const key of Object.keys(PART_GRADES.parts))
       expect(PART_GRADES.batches.length, key).toBeGreaterThan(0);

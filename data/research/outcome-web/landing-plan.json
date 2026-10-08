@@ -1,7 +1,7 @@
 {
   "source": "data/research/outcome-web/links.json",
   "audit": {
-    "document": "00o AUDIT RESULTS \u2014 Oct 7",
+    "document": "00o AUDIT RESULTS — Oct 7",
     "baselineHead": "8541d8f1",
     "builtLinkCount": 101,
     "statusCounts": {
@@ -212,11 +212,12 @@
       "outcome": "labor.married-women-participation",
       "policyArea": "labor",
       "sourceArea": "broadband.home-access",
-      "recipientGroup": "married women",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Dettling 2017 (ILR Review)"
+      "recipientGroup": "recorded married women; estimates use the cited population relationship",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-married-woman-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Dettling 2017 (ILR Review)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-births",
@@ -259,11 +260,12 @@
       "outcome": "labor.mothers-participation",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:education.universal-preschool",
-      "recipientGroup": "mothers of young children",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Malik 2018; Baker, Gruber and Milligan 2008"
+      "recipientGroup": "recorded parents of children under six; maternal participation studies are estimates, not individual enrollment findings",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-parent-of-young-child-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Malik 2018; Baker, Gruber and Milligan 2008; U.S. Census Bureau ACS table B23008",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "all-mail-voting-to-turnout",
@@ -401,7 +403,7 @@
       "currentStatus": "person-linked",
       "recipientRule": "youth-cannabis-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
-      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerd\u00e1 et al. 2017 (JAMA Pediatrics)",
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
@@ -420,22 +422,24 @@
       "outcome": "labor.mothers-participation",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:labor-workforce.paid-family-leave",
-      "recipientGroup": "new mothers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM); Baum and Ruhm 2016 (JPAM); Bailey, Byker, Patel and Ramnath 2019 (NBER w26416)"
+      "recipientGroup": "recorded parents of infants; the cited estimate studies new mothers and is not a personal leave or employment finding",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-parent-of-infant-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM); Baum and Ruhm 2016 (JPAM); Bailey, Byker, Patel and Ramnath 2019 (NBER w26416)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carbon-price-to-emissions",
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "container-deposit-to-litter",
@@ -489,11 +493,12 @@
       "outcome": "env.container-recycling-pct",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.bottle-deposit",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-uninsured",
@@ -524,22 +529,24 @@
       "outcome": "env.emissions",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "power-plant-carbon-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
-      "recipientGroup": "people downwind of coal plants",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure; downwind residents are not separately identified",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards; the state-level PM2.5 average is used for modeled residents because the simulation has no individual plant-proximity records",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "tariffs-to-prices",
@@ -571,10 +578,11 @@
       "policyArea": "labor",
       "sourceArea": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "recipientGroup": "people 62 to 67",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Mastrobuoni 2009 (JPubE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "retirement-policy-age-cohort-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Mastrobuoni 2009 (JPubE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -913,22 +921,24 @@
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.clean-electricity-standard",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "carbon-price-to-particulates",
       "outcome": "env.particulates",
       "policyArea": "env",
       "sourceArea": "law:us-policy-positions:environment-energy.price-carbon",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217"
+      "recipientGroup": "jurisdiction residents represented by the place-level measure",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Hernandez-Cortes and Meng 2023, Journal of Public Economics 217",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "retirement-age-to-poverty",
@@ -971,11 +981,12 @@
       "outcome": "labor.median-earnings",
       "policyArea": "labor",
       "sourceArea": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3)"
+      "recipientGroup": "jurisdiction residents represented by the place-level earnings measure; historic schooling exposure is not identified for individuals",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Lovenheim and Willen 2019, AEJ: Economic Policy 11(3); historic student exposure is not individually recorded",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "library-funding-to-reading",
@@ -1109,11 +1120,12 @@
       "outcome": "labor.median-earnings",
       "policyArea": "labor",
       "sourceArea": "federal.defense-boost-pct",
-      "recipientGroup": "workers in the states that get the contracts",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026"
+      "recipientGroup": "jurisdiction residents represented by the place-level earnings measure; individual contract employment is not recorded",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Nakamura and Steinsson 2014, Fiscal Stimulus in a Monetary Union: Evidence from U.S. Regions, American Economic Review 104(3), NBER w17391; contracts from USAspending.gov and output from the Bureau of Economic Analysis, read September 29, 2026; individual contract employment is not recorded",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "farm-payments-cut-to-land-values",
@@ -1205,8 +1217,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 61,
-    "place-number-only": 34,
+    "person-linked": 73,
+    "place-number-only": 22,
     "no-live-consumer": 2,
     "budget-only": 4
   }

@@ -5,6 +5,7 @@ import agePlaceholderLedger from "../../../data/research/education/placeholder-l
 import sourceLinks from "../../../data/research/outcome-web/links.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../dates";
+import { createStableId } from "../ids";
 import {
   CONDITION_PACK_ORIGIN,
   holdsPackCondition,
@@ -16,6 +17,7 @@ import { currentGovernorOf } from "../crisis/offices";
 import {
   createEducationEnrollment,
   createOrganization,
+  createPartnership,
   createWorkRelationship,
   recordEducationEnrollmentState,
 } from "../life";
@@ -30,7 +32,9 @@ import {
 import { livedOutcomeReflectionKey } from "../law-exposure";
 import { createWorkCompensation } from "../resources";
 import { RENT_EVENTS } from "../living-world/town-rent";
-import type { PlaceOutcomeRecord } from "./place-outcome-store";
+import { type PlaceOutcomeRecord } from "./place-outcome-store";
+import type { World } from "../types";
+import type { EntityId } from "../types";
 import {
   matchesOutcomeRecipientRule,
   outcomeLandingDirection,
@@ -57,6 +61,12 @@ const plannedHousehold = landingPlan.links.filter(
 const plannedHousing = landingPlan.links.filter(
   (row) => row.policyArea === "housing" && row.recipientRule !== null,
 );
+const plannedEnvironment = landingPlan.links.filter(
+  (row) => row.policyArea === "env" && row.recipientRule !== null,
+);
+const plannedLabor = landingPlan.links.filter(
+  (row) => row.policyArea === "labor" && row.recipientRule !== null,
+);
 const compulsorySchoolAges = schoolAges.agesByJurisdictionKey as Readonly<
   Record<
     string,
@@ -72,12 +82,16 @@ const recipientAgeRanges = recipientAgeCohorts.cohortsByRule as Readonly<
     Exclude<
       OutcomeRecipientRule,
       | "recorded-school-enrollment-or-compulsory-age-estimate"
+      | "jurisdiction-resident-estimate"
       | "household-resident-estimate"
       | "snap-enrolled-household-member-estimate"
       | "recorded-wage-family-member-estimate"
       | "active-renter-household-member-estimate"
       | "snap-enrolled-renter-household-member-estimate"
       | "evicted-household-without-home-member-estimate"
+      | "recorded-married-woman-estimate"
+      | "recorded-parent-of-young-child-estimate"
+      | "recorded-parent-of-infant-estimate"
     >,
     {
       readonly minimumAge: number;
@@ -98,6 +112,10 @@ function recipientAtAge(
     readonly hasActiveRenterHousehold?: boolean;
     readonly hasSnapEnrolledRenterHousehold?: boolean;
     readonly hasEvictedHouseholdWithoutHome?: boolean;
+    readonly hasActiveLegalMarriage?: boolean;
+    readonly hasRecordedFemaleIdentity?: boolean;
+    readonly hasActiveParentOfYoungChild?: boolean;
+    readonly hasActiveParentOfInfant?: boolean;
   } = {},
 ) {
   return {
@@ -116,6 +134,12 @@ function recipientAtAge(
       householdFacts.hasSnapEnrolledRenterHousehold ?? false,
     hasEvictedHouseholdWithoutHome:
       householdFacts.hasEvictedHouseholdWithoutHome ?? false,
+    hasActiveLegalMarriage: householdFacts.hasActiveLegalMarriage ?? false,
+    hasRecordedFemaleIdentity:
+      householdFacts.hasRecordedFemaleIdentity ?? false,
+    hasActiveParentOfYoungChild:
+      householdFacts.hasActiveParentOfYoungChild ?? false,
+    hasActiveParentOfInfant: householdFacts.hasActiveParentOfInfant ?? false,
   };
 }
 
@@ -138,9 +162,9 @@ describe("the outcome landing plan", () => {
       "no-live-consumer": 2,
     });
     expect(landingPlan.currentStatusCounts).toEqual({
-      "person-linked": 61,
+      "person-linked": 73,
       "budget-only": 4,
-      "place-number-only": 34,
+      "place-number-only": 22,
       "no-live-consumer": 2,
     });
   });
@@ -225,6 +249,152 @@ describe("the outcome landing plan", () => {
       "housing-preemption-to-homelessness": "higher-is-worse",
     });
   });
+
+  it("routes all six environmental place estimates through the shared person path", () => {
+    expect(plannedEnvironment).toHaveLength(6);
+    expect(
+      plannedEnvironment.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          row.recipientRule === "jurisdiction-resident-estimate" &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    const directions = new Map(
+      plannedEnvironment.map((row) => [row.key, row.outcomeDirection]),
+    );
+    expect(Object.fromEntries(directions)).toEqual({
+      "carbon-price-to-emissions": "higher-is-worse",
+      "container-deposit-to-recycling": "higher-is-better",
+      "power-plant-carbon-to-emissions": "higher-is-worse",
+      "power-plant-carbon-to-particulates": "higher-is-worse",
+      "clean-electricity-to-particulates": "higher-is-worse",
+      "carbon-price-to-particulates": "higher-is-worse",
+    });
+  });
+
+  it("routes all six labor estimates through the shared person path", () => {
+    expect(plannedLabor).toHaveLength(6);
+    expect(
+      plannedLabor.every(
+        (row) =>
+          row.currentStatus === "person-linked" &&
+          row.landingPath === educationLandingPath &&
+          typeof row.estimatedFrom === "string" &&
+          row.estimatedFrom.length > 0,
+      ),
+    ).toBe(true);
+    const rules = new Map(
+      plannedLabor.map((row) => [row.key, row.recipientRule]),
+    );
+    expect(Object.fromEntries(rules)).toEqual({
+      "broadband-to-married-women-work": "recorded-married-woman-estimate",
+      "universal-childcare-to-mothers-work":
+        "recorded-parent-of-young-child-estimate",
+      "paid-leave-to-mothers-work": "recorded-parent-of-infant-estimate",
+      "retirement-age-to-older-work": "retirement-policy-age-cohort-estimate",
+      "public-bargaining-to-earnings": "jurisdiction-resident-estimate",
+      "defense-contracts-to-earnings": "jurisdiction-resident-estimate",
+    });
+    const directions = new Map(
+      plannedLabor.map((row) => [row.key, row.outcomeDirection]),
+    );
+    expect(Object.fromEntries(directions)).toEqual({
+      "broadband-to-married-women-work": "higher-is-better",
+      "universal-childcare-to-mothers-work": "higher-is-better",
+      "paid-leave-to-mothers-work": "higher-is-better",
+      "retirement-age-to-older-work": "higher-is-better",
+      "public-bargaining-to-earnings": "higher-is-better",
+      "defense-contracts-to-earnings": "higher-is-better",
+    });
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "uses recorded family facts and the same labor estimates in %s",
+    (place) => {
+      expect(place.jurisdictionKey).toMatch(/^US-/);
+      const rule = (key: string) =>
+        plannedLabor.find((row) => row.key === key)
+          ?.recipientRule as OutcomeRecipientRule;
+      const marriedWoman = recipientAtAge(40, false, {
+        hasActiveLegalMarriage: true,
+        hasRecordedFemaleIdentity: true,
+      });
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("broadband-to-married-women-work"),
+          marriedWoman,
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("broadband-to-married-women-work"),
+          recipientAtAge(40, false, { hasActiveLegalMarriage: true }),
+        ),
+      ).toBe(false);
+      const parent = recipientAtAge(30, false, {
+        hasActiveParentOfYoungChild: true,
+        hasActiveParentOfInfant: true,
+      });
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("universal-childcare-to-mothers-work"),
+          parent,
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(rule("paid-leave-to-mothers-work"), parent),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("paid-leave-to-mothers-work"),
+          recipientAtAge(30, false, { hasActiveParentOfYoungChild: true }),
+        ),
+      ).toBe(false);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("public-bargaining-to-earnings"),
+          recipientAtAge(0),
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("defense-contracts-to-earnings"),
+          recipientAtAge(100),
+        ),
+      ).toBe(true);
+      const retirement =
+        recipientAgeRanges["retirement-policy-age-cohort-estimate"];
+      expect(retirement.estimatedFrom).toContain("Mastrobuoni 2009");
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("retirement-age-to-older-work"),
+          recipientAtAge(retirement.minimumAge),
+        ),
+      ).toBe(true);
+      expect(
+        matchesOutcomeRecipientRule(
+          rule("retirement-age-to-older-work"),
+          recipientAtAge(retirement.maximumAge! + 1),
+        ),
+      ).toBe(false);
+    },
+  );
+
+  it.each(lifePlaceStateIdentities())(
+    "applies the jurisdiction-average environmental recipient rule in %s",
+    (place) => {
+      expect(place.jurisdictionKey).toBeTruthy();
+      expect(
+        matchesOutcomeRecipientRule(
+          "jurisdiction-resident-estimate",
+          recipientAtAge(0),
+        ),
+      ).toBe(true);
+    },
+  );
 
   it.each(
     Object.entries(recipientAgeRanges) as [
@@ -1056,6 +1226,341 @@ describe("a named housing outcome landing", () => {
     expect(
       landed.history.futureDueItems.some(
         (row) => row.stableKey === reflectionKey,
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named environmental outcome landing", () => {
+  it("records place-average changes for a resident and schedules the official view", () => {
+    const fixture = smallWorld({
+      place: "OH",
+      date: "2026-01-01",
+      offices: ["governor"],
+      seed: "ow-spine-environment-place-resident",
+    });
+    const month = makeIsoDate("2026-01-01");
+    const state = stateJurisdictionForKey("US-OH");
+    if (!state) throw new Error("Ohio's state jurisdiction must be present.");
+    const personId = fixture.world.personOrder.find(
+      (id) => id !== fixture.personId,
+    );
+    if (!personId) throw new Error("The small world needs another resident.");
+    const factors: Readonly<Record<string, number>> = {
+      "carbon-price-to-emissions": 0.97,
+      "container-deposit-to-recycling": 1.1,
+      "power-plant-carbon-to-emissions": 0.98,
+      "power-plant-carbon-to-particulates": 0.995,
+      "clean-electricity-to-particulates": 0.99,
+      "carbon-price-to-particulates": 0.995,
+    };
+    const causesByMeasure = new Map<
+      string,
+      { key: string; factor: number }[]
+    >();
+    for (const row of plannedEnvironment) {
+      const causes = causesByMeasure.get(row.outcome) ?? [];
+      causes.push({ key: row.key, factor: factors[row.key]! });
+      causesByMeasure.set(row.outcome, causes);
+    }
+    const records: PlaceOutcomeRecord[] = [...causesByMeasure].map(
+      ([measure, causes]) => {
+        const multiplier = causes.reduce(
+          (product, row) => product * row.factor,
+          1,
+        );
+        return {
+          measure,
+          placeKey: "US-OH",
+          jurisdictionId: state.id,
+          month,
+          base: 100,
+          structural: 100,
+          multiplier,
+          value: 100 * multiplier,
+          causes,
+        };
+      },
+    );
+    const world = {
+      ...fixture.world,
+      placeOutcomes: { months: [{ month, records }] },
+    };
+
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const landings = landed.placeOutcomes?.landings?.filter(
+      (row) => row.personId === personId,
+    );
+    expect(landings?.map((row) => row.linkKey).sort()).toEqual(
+      plannedEnvironment.map((row) => row.key).sort(),
+    );
+    expect(landings?.every((row) => row.direction === "gain")).toBe(true);
+    expect(
+      landings?.every(
+        (row) => row.recipientRule === "jurisdiction-resident-estimate",
+      ),
+    ).toBe(true);
+    const landing = landings?.[0];
+    if (!landing)
+      throw new Error(
+        "The environmental place outcome did not reach a person.",
+      );
+    const reflectionKey = livedOutcomeReflectionKey(personId, landing.id);
+    expect(
+      landed.history.futureDueItems.some(
+        (row) => row.stableKey === reflectionKey,
+      ),
+    ).toBe(true);
+  });
+});
+
+describe("a named labor outcome landing", () => {
+  it("uses current marriage and parent records, estimates place measures, and schedules reflections", () => {
+    const fixture = smallWorld({
+      place: "OH",
+      date: "2026-01-01",
+      offices: ["governor"],
+      seed: "ow-spine-labor-family-records",
+    });
+    const [parentId, partnerId] = fixture.world.personOrder.filter(
+      (personId) => personId !== fixture.personId,
+    );
+    if (!parentId || !partnerId)
+      throw new Error("The seeded labor world needs two residents.");
+    const childGenerationKey = "ow-spine-labor-test:child";
+    const olderGenerationKey = "ow-spine-labor-test:older";
+    const childId = createStableId(
+      "person",
+      `${fixture.world.id}:${childGenerationKey}`,
+    );
+    const olderPersonId = createStableId(
+      "person",
+      `${fixture.world.id}:${olderGenerationKey}`,
+    );
+    const month = makeIsoDate("2026-01-01");
+    const state = stateJurisdictionForKey("US-OH");
+    if (!state) throw new Error("Ohio's state jurisdiction must be present.");
+    const provenance = {
+      kind: "authored" as const,
+      note: "A seeded labor landing test record.",
+    };
+    const homeJurisdictionId =
+      fixture.world.people[parentId]!.homeJurisdictionId;
+    const personForTest = (
+      id: EntityId,
+      generationKey: string,
+      givenName: string,
+      birthDate: ReturnType<typeof makeIsoDate>,
+      identity?: {
+        readonly gender: "female" | "male";
+        readonly pronouns: "she-her" | "he-him";
+      },
+    ) => {
+      const factProvenance = {
+        method: "manual" as const,
+        sourceEventId: null,
+        note: "Seeded labor outcome test.",
+      };
+      return {
+        id,
+        generationKey,
+        givenName,
+        familyName: "Test",
+        birthDate,
+        homeJurisdictionId,
+        ...(identity ? { identity } : {}),
+        establishedFacts: [
+          {
+            id: createStableId("fact", `${id}:birth-date`),
+            stableKey: "birth-date",
+            kind: "birth-date" as const,
+            occurredAt: birthDate,
+            jurisdictionId: null,
+            summary: "Test birth date.",
+            provenance: factProvenance,
+          },
+          {
+            id: createStableId("fact", `${id}:birthplace`),
+            stableKey: "birthplace",
+            kind: "birthplace" as const,
+            occurredAt: birthDate,
+            jurisdictionId: homeJurisdictionId,
+            summary: "Test birthplace.",
+            provenance: factProvenance,
+          },
+          {
+            id: createStableId("fact", `${id}:residence:initial`),
+            stableKey: "residence:initial",
+            kind: "residence" as const,
+            occurredAt: fixture.world.currentDate,
+            jurisdictionId: homeJurisdictionId,
+            endedAt: null,
+            summary: "Test residence.",
+            provenance: factProvenance,
+          },
+        ],
+        detailLevel: "lightweight" as const,
+      };
+    };
+    let world: World = {
+      ...fixture.world,
+      people: {
+        ...fixture.world.people,
+        [parentId]: {
+          ...fixture.world.people[parentId]!,
+          identity: { gender: "female", pronouns: "she-her" },
+        },
+        [partnerId]: {
+          ...fixture.world.people[partnerId]!,
+          identity: { gender: "male", pronouns: "he-him" },
+        },
+        [childId]: {
+          ...personForTest(
+            childId,
+            childGenerationKey,
+            "Child",
+            makeIsoDate("2025-04-01"),
+          ),
+        },
+        [olderPersonId]: {
+          ...personForTest(
+            olderPersonId,
+            olderGenerationKey,
+            "Worker",
+            makeIsoDate("1962-01-01"),
+          ),
+        },
+      },
+      personOrder: [...fixture.world.personOrder, childId, olderPersonId],
+    };
+    world = createPartnership(world, {
+      stableKey: "ow-spine-labor-test:marriage",
+      personIds: [parentId, partnerId],
+      startedAt: month,
+      kind: "legal:marriage",
+      provenance,
+    });
+    const authorityId = "child-authority_ow-spine-labor-test" as EntityId;
+    const authorityStateId =
+      "child-authority-state_ow-spine-labor-test" as EntityId;
+    const sequence = world.history.nextSequence;
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: sequence + 2,
+        childAuthorities: [
+          ...world.history.childAuthorities,
+          {
+            id: authorityId,
+            stableKey: "ow-spine-labor-test:parent-child",
+            sequence,
+            childPersonId: childId,
+            holder: { kind: "person", personId: parentId },
+            establishedAt: month,
+            kind: "parental:legal-parent",
+            provenance,
+          },
+        ],
+        childAuthorityStates: [
+          ...world.history.childAuthorityStates,
+          {
+            id: authorityStateId,
+            stableKey: "ow-spine-labor-test:parent-child:state",
+            sequence: sequence + 1,
+            childAuthorityId: authorityId,
+            effectiveAt: month,
+            status: "active",
+            basisKind: "legal:parentage",
+            context: null,
+            provenance,
+            supersedesStateId: null,
+          },
+        ],
+      },
+    };
+
+    const factors: Readonly<Record<string, number>> = {
+      "broadband-to-married-women-work": 1.07,
+      "universal-childcare-to-mothers-work": 1.15,
+      "paid-leave-to-mothers-work": 1.02,
+      "retirement-age-to-older-work": 1.1,
+      "public-bargaining-to-earnings": 0.99,
+      "defense-contracts-to-earnings": 1.015,
+    };
+    const causesByMeasure = new Map<
+      string,
+      { key: string; factor: number }[]
+    >();
+    for (const row of plannedLabor) {
+      const causes = causesByMeasure.get(row.outcome) ?? [];
+      causes.push({ key: row.key, factor: factors[row.key]! });
+      causesByMeasure.set(row.outcome, causes);
+    }
+    const records: PlaceOutcomeRecord[] = [...causesByMeasure].map(
+      ([measure, causes]) => {
+        const multiplier = causes.reduce(
+          (product, row) => product * row.factor,
+          1,
+        );
+        return {
+          measure,
+          placeKey: "US-OH",
+          jurisdictionId: state.id,
+          month,
+          base: 100,
+          structural: 100,
+          multiplier,
+          value: 100 * multiplier,
+          causes,
+        };
+      },
+    );
+    world = {
+      ...world,
+      placeOutcomes: { months: [{ month, records }] },
+    };
+
+    const landed = recordPlannedPersonOutcomeLandings(world, month);
+    const linksFor = (personId: EntityId) =>
+      (landed.placeOutcomes?.landings ?? [])
+        .filter((row) => row.personId === personId)
+        .map((row) => row.linkKey)
+        .sort();
+    expect(linksFor(parentId)).toEqual(
+      [
+        "broadband-to-married-women-work",
+        "universal-childcare-to-mothers-work",
+        "paid-leave-to-mothers-work",
+        "public-bargaining-to-earnings",
+        "defense-contracts-to-earnings",
+      ].sort(),
+    );
+    expect(linksFor(partnerId)).toEqual(
+      ["public-bargaining-to-earnings", "defense-contracts-to-earnings"].sort(),
+    );
+    expect(linksFor(childId)).toEqual(
+      ["public-bargaining-to-earnings", "defense-contracts-to-earnings"].sort(),
+    );
+    expect(linksFor(olderPersonId)).toEqual(
+      [
+        "retirement-age-to-older-work",
+        "public-bargaining-to-earnings",
+        "defense-contracts-to-earnings",
+      ].sort(),
+    );
+    const parentLandings = (landed.placeOutcomes?.landings ?? []).filter(
+      (row) => row.personId === parentId,
+    );
+    expect(parentLandings.every((row) => row.estimatedFrom.length > 0)).toBe(
+      true,
+    );
+    expect(
+      parentLandings.every((landing) =>
+        landed.history.futureDueItems.some(
+          (row) =>
+            row.stableKey === livedOutcomeReflectionKey(parentId, landing.id),
+        ),
       ),
     ).toBe(true);
   });
