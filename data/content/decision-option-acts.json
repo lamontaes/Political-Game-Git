@@ -283,21 +283,44 @@
       "cheered": ["engage", "speak-out"],
       "applauded": ["follow-rules", "keep-same"],
       "stayed-quiet": ["withdraw", "stay-quiet"]
+    },
+    "conversation.meeting-attendance-response": {
+      "attend-the-meeting": ["engage"],
+      "decline-the-meeting": ["withdraw", "refuse"],
+      "suggest-you-go": ["cooperate"],
+      "not-sure-yet": ["delay"]
+    },
+    "conversation.school-share-response": {
+      "split-the-work": ["cooperate", "commit"],
+      "decline-the-split": ["refuse"],
+      "not-sure-yet": ["delay"]
+    },
+    "life-talk.recorded-matter": {
+      "listen": ["engage"],
+      "decline": ["withdraw"],
+      "undecided": ["delay"]
+    },
+    "life-talk.running-open": {
+      "encourage": ["take-risk", "engage"],
+      "discourage": ["play-safe"],
+      "ask-more": ["delay"]
+    },
+    "life-talk.running-help": {
+      "will-help": ["cooperate"],
+      "will-not-help": ["withdraw"],
+      "think-about-helping": ["delay"]
     }
   },
   "unlabeled": [
     "appointment.choose-appointee",
     "civic.shared-cause-group-action",
     "conversation.commitment-response",
-    "conversation.meeting-attendance-response",
-    "conversation.school-share-response",
     "election.vote",
     "governing.presiding-officer-vote",
     "governing.senate-joint-assembly-vote",
     "governing.supreme-court-nomination",
     "governing:agenda-priority",
     "justice.sentence-term",
-    "life-talk.recorded-matter",
     "life.scene.person-reason",
     "movement.leadership-succession",
     "movement.membership-review",
