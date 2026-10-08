@@ -1,7 +1,7 @@
 import { createOrganization, createWorkRelationship } from "../life";
 import { beforeAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
 import { createResourcePosition, money } from "../resources";
 import { ensureTaxPublicAccount } from "../tax-policy";

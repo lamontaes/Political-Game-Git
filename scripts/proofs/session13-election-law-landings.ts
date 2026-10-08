@@ -8,7 +8,7 @@ import {
 } from "../../src/presentation/opening-life";
 import { advanceWorld } from "../../src/simulation/world";
 import { lawExposureSentence } from "../../src/presentation/law-exposure-lines";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { lawInForce } from "../../src/simulation/governing/law-in-force";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 
