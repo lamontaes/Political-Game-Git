@@ -14,18 +14,21 @@ import {
   type BodyPose,
   type BodyView,
   type EngineRecipe,
+  type FaceExpression,
 } from "./appearance-engine/pack";
 import {
+  chooseBodyPose,
   sceneActivity,
   type SceneActivity,
 } from "./appearance-engine/pose-chooser";
-import { engineRecipeFor } from "./appearance-engine/recipe";
+import {
+  personDayRecipeWithOutfitExclusions,
+  roomDayOutfitExclusions,
+} from "./day-clothing";
 import {
   PEOPLE_PACK,
   peoplePackFileAvailable,
 } from "./appearance-engine/runtime";
-import { placeWear } from "./dress-code";
-import { workUniform } from "./work-uniform";
 import { selectedWorkplaceForPerson } from "./place-backdrops";
 import { isPersonAliveAt } from "../simulation/vitality-integrity";
 
@@ -111,6 +114,9 @@ export interface StagingSpot {
   readonly group?: string;
   /** A raised floor (stage, dais, steps) named in the place's `floors`. */
   readonly floor?: string;
+  /** A raised tier can have its own visible horizon and scale. */
+  readonly floorHorizonY?: number;
+  readonly floorMetersPercent?: number;
   /** Where the main character stands on the title screen: one per place. */
   readonly hero?: boolean;
 }
@@ -153,15 +159,6 @@ const PLACES = staging.places as Readonly<Record<string, PlaceStaging>>;
  * and community-room staff dress as the place does. A job with a uniform
  * (scrubs, police, a safety vest) wears it on shift wherever it is.
  */
-const STAFF_WEAR: Readonly<Record<string, "business" | "casual">> = {
-  "clerk-counter": "business",
-  "hospital-hallway": "business",
-  classroom: "business",
-  "church-supper-hall": "business",
-  office: "business",
-  "county-party-office": "business",
-  "campaign-storefront": "business",
-};
 
 /** Jobs done from behind a counter or desk. */
 const COUNTER_TITLE = /clerk|receptionist|cashier|secretary|office assistant/i;
@@ -198,9 +195,11 @@ export function spotFigure(
   engine?: EngineRecipe,
 ): SpotFigure {
   const meters =
+    spot.floorMetersPercent ??
     (spot.floor !== undefined ? stage.floors?.[spot.floor] : undefined) ??
     stage.metersPercent;
-  const heightPercent = STANDING_METERS * meters * (spot.y - stage.horizonY);
+  const horizonY = spot.floorHorizonY ?? stage.horizonY;
+  const heightPercent = STANDING_METERS * meters * (spot.y - horizonY);
   const widthPercent =
     (heightPercent * (PEOPLE_PACK.canvas.width / PEOPLE_PACK.canvas.height)) /
     BACKDROP_ASPECT;
@@ -257,23 +256,34 @@ export function backdropHeroSpot(
 export function spotPose(
   spot: StagingSpot,
   activity?: SceneActivity,
+  /**
+   * The person's appearance seed: the same person in the same spot is
+   * always posed the same way. Absent, the spot itself stands in.
+   */
+  seed?: string,
+  /** What the person's face shows, and the view they are drawn in. */
+  mood: {
+    readonly expression?: FaceExpression;
+    readonly view?: BodyView;
+    readonly guarded?: number;
+  } = {},
 ): BodyPose {
-  if (spot.pose === "podium") return "podium";
   const seated = spot.pose === "sit";
-  switch (activity ?? (seated && spot.group ? "desk" : "idle")) {
-    case "speaking":
-    case "speech":
-      return seated ? "seated-leaning" : "explaining";
-    case "listening":
-      return seated ? "seated-listening" : "arms-folded";
-    case "desk":
-      return seated ? "seated-writing" : "standing";
-    case "meeting":
-      return seated ? "seated-hands-folded" : "standing";
-    case "waiting":
-    case "idle":
-      return seated ? "seated" : "standing";
-  }
+  return chooseBodyPose({
+    activity:
+      spot.pose === "podium"
+        ? "speech"
+        : (activity ?? (seated && spot.group ? "desk" : "idle")),
+    seated,
+    spot: spot.pose ?? "stand",
+    seed: seed ?? spot.id ?? `${spot.x},${spot.y}`,
+    ...mood,
+  });
+}
+
+/** Whether the pack has people seen from behind to stand at a spot facing away. */
+function peopleSeenFromBehind(): boolean {
+  return PEOPLE_PACK.presentations.feminine.views?.back !== undefined;
 }
 
 /** People present who need another measured spot or compatible artwork. */
@@ -289,8 +299,12 @@ export type BackdropPeople = readonly BackdropPerson[] & {
   readonly overflow: readonly BackdropOverflowPerson[];
 };
 
-/** Turned toward a side of the picture: three quarters, not front on. */
+/**
+ * Turned toward a side of the picture: three quarters, not front on; or
+ * facing away from the camera: seen from behind.
+ */
 export function spotView(spot: StagingSpot): BodyView {
+  if (spot.facing === "away") return "back";
   return spot.facing === "left" || spot.facing === "right"
     ? "three-quarter"
     : "front";
@@ -322,6 +336,13 @@ export function placeBackdropPeople(
     readonly speakerId?: EntityId | null;
     /** An explicitly selected illustration is not a workplace attendance query. */
     readonly rosterOnly?: boolean;
+    /**
+     * A turned spot may hold someone facing the room when their clothes have
+     * no turned drawing (a family standing together at home).
+     */
+    readonly faceRoom?: boolean;
+    /** Include the controlled person when the recorded scene names them present. */
+    readonly includeViewer?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -329,11 +350,12 @@ export function placeBackdropPeople(
   const workplace = selectedWorkplaceForPerson(world, playerId);
   const selected = workplace?.place === place ? workplace : null;
   const town = selected?.jurisdictionId ?? playerTown(world, playerId);
-  const wear = STAFF_WEAR[place] ?? placeWear(place, world.currentDate);
   const presentIds = new Set(
     present
       .map((person) => person.personId)
-      .filter((id) => id !== playerId && world.people[id]),
+      .filter(
+        (id) => (options.includeViewer || id !== playerId) && world.people[id],
+      ),
   );
   const onShift = (
     options.rosterOnly
@@ -378,7 +400,7 @@ export function placeBackdropPeople(
   const counterJob = (title: string) => COUNTER_TITLE.test(title);
   const usable = (stage?.spots ?? []).filter(
     (spot) =>
-      spot.facing !== "away" &&
+      (spot.facing !== "away" || options.faceRoom || peopleSeenFromBehind()) &&
       !(spot.pose === "podium" && spot.audience === "away") &&
       (!options.standing || spot.pose === "stand") &&
       (spot.pose !== "podium" || options.speakerId !== undefined),
@@ -497,9 +519,22 @@ export function placeBackdropPeople(
           )),
     })),
   ];
+  const outfitExclusions = roomDayOutfitExclusions(
+    world,
+    assigned
+      .filter(({ spot }) => Boolean(spot && stage))
+      .map(({ worker }) => worker.personId),
+  );
+  /**
+   * The view a spot draws a person in: turned or seen from behind as the
+   * spot faces; a scene of people facing the room (faceRoom) has no one with
+   * their back to it.
+   */
+  const viewOf = (at: StagingSpot): BodyView =>
+    options.faceRoom && at.facing === "away" ? "front" : spotView(at);
   const placed: BackdropPerson[] = [];
   const overflow: BackdropOverflowPerson[] = [];
-  for (const { worker, onShift, spot } of assigned) {
+  for (const { worker, onShift, spot: assignedSpot } of assigned) {
     const record = world.people[worker.personId];
     if (!record) continue;
     const unplaced = (reason: BackdropOverflowPerson["reason"]) =>
@@ -509,55 +544,91 @@ export function placeBackdropPeople(
         title: worker.title,
         reason,
       });
-    if (!spot || !stage) {
+    if (!assignedSpot || !stage) {
       unplaced("no-spot");
       continue;
     }
-    const recipe = engineRecipeFor(record, world.currentDate, PEOPLE_PACK, {
-      wear,
-      // On shift, a uniformed job wears its uniform (work-uniform.ts reads
-      // "business" as dressed for work). Someone who came for the scene
-      // wears what they wear.
-      ...(onShift
-        ? { uniform: workUniform(world, worker.personId, "business") }
-        : {}),
-      pose: spotPose(
-        spot,
-        sceneActivity({
-          personId: record.id,
-          speakerId: options.speakerId ?? null,
-          anchorType:
-            spot.pose === "podium"
-              ? "podium"
-              : (spot.group ?? spot.pose ?? "stand"),
-          seated: spot.pose === "sit",
-        }),
-      ),
-      view: spotView(spot),
-    });
-    if (!recipe) {
+    // The assigned spot first; when the person's art cannot stand there (no
+    // drawing for that view or pose), any other free spot the role accepts,
+    // front-facing first, rather than leaving them out of the room.
+    const tryAt = (at: StagingSpot, view: BodyView = viewOf(at)) => {
+      const recipe = personDayRecipeWithOutfitExclusions(world, record, {
+        pose: spotPose(
+          at,
+          sceneActivity({
+            personId: record.id,
+            speakerId: options.speakerId ?? null,
+            anchorType:
+              at.pose === "podium"
+                ? "podium"
+                : (at.group ?? at.pose ?? "stand"),
+            seated: at.pose === "sit",
+            facing: at.facing,
+          }),
+          record.appearance?.seed ?? record.id,
+          { view },
+        ),
+        view,
+        avoidOutfits: outfitExclusions.get(record.id),
+      });
+      if (!recipe) return null;
+      const resolved = posedPieces(
+        PEOPLE_PACK.presentations[recipe.presentation],
+        recipe,
+        peoplePackFileAvailable,
+      );
+      if (
+        !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
+          at.pose ?? "stand",
+        ) ||
+        (at.pose === "sit" && !isSeatedPose(resolved.pose)) ||
+        resolved.view !== view
+      )
+        return null;
+      return { recipe, resolved };
+    };
+    let spot = assignedSpot;
+    let fit = tryAt(spot);
+    if (!fit) {
+      const alternatives = usable
+        .filter(
+          (candidate) =>
+            !taken.has(candidate) &&
+            candidate.pose !== "podium" &&
+            slotAcceptsRole(candidate.role ?? "general"),
+        )
+        .sort(
+          (a, b) =>
+            Number(viewOf(a) !== "front") - Number(viewOf(b) !== "front"),
+        );
+      // Last, a turned spot with the person facing the room, when their
+      // clothes have no turned drawing.
+      for (const [candidate, view] of [
+        ...alternatives.map((at) => [at, viewOf(at)] as const),
+        // Their own spot first: it is already theirs, so it is not free.
+        ...[spot, ...alternatives]
+          .filter((at) => options.faceRoom && viewOf(at) !== "front")
+          .map((at) => [at, "front" as const] as const),
+      ]) {
+        const attempt = tryAt(candidate, view);
+        if (!attempt) continue;
+        taken.delete(spot);
+        taken.add(candidate);
+        spot = candidate;
+        fit = attempt;
+        break;
+      }
+    }
+    if (!fit) {
       unplaced("missing-art");
       continue;
     }
-    const resolved = posedPieces(
-      PEOPLE_PACK.presentations[recipe.presentation],
-      recipe,
-      peoplePackFileAvailable,
-    );
-    if (
-      !PEOPLE_PACK.slotKindsByPose?.[resolved.pose]?.includes(
-        spot.pose ?? "stand",
-      ) ||
-      (spot.pose === "sit" && !isSeatedPose(resolved.pose)) ||
-      resolved.view !== spotView(spot)
-    ) {
-      unplaced("missing-art");
-      continue;
-    }
+    const { recipe, resolved } = fit;
     // Turned toward the side the spot faces: mirrored when the painting
     // turns the other way.
     const engine =
-      spot.facing === "left" || spot.facing === "right"
+      (spot.facing === "left" || spot.facing === "right") &&
+      resolved.view !== "front"
         ? {
             ...recipe,
             mirrored: mirrorToFace(

@@ -8,6 +8,7 @@ import {
 } from "../tax-policy";
 import { attributePaycheckTaxLaws } from "../paycheck-law-attribution";
 import { recordPaycheckTaxBases } from "../paycheck-tax-bases";
+import { recordLocalPayrollTaxBases } from "../payroll-tax-bases";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { lawInForce } from "../governing/law-in-force";
 import { applyLawConsequences } from "../enacted-law-effects";
@@ -1713,7 +1714,7 @@ export function raiseTeacherPayToFloor(
       const stamp =
         governing?.measureId === floor.measureId && jurisdictionId
           ? lawEffectStamp(governing, {
-              effectKind: "teacher-pay",
+              effectKind: "pay",
               questionKey: TEACHER_SALARY_FLOOR_QUESTION,
               jurisdictionId,
               appliedAt: day,
@@ -2113,6 +2114,7 @@ export function settleTownCompensations(
     (initial) => assessPaychecksTaxes(initial, ids),
   );
   next = recordPaycheckTaxBases(next, ids);
+  next = recordLocalPayrollTaxBases(next, ids);
 
   next = attributePaycheckTaxLaws(next, ids);
   // Benefits are paid after the premiums of the same paychecks reach the

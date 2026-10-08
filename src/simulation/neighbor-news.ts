@@ -7,7 +7,7 @@ import {
 import { currentLifeCutoff, organizationProfileAt } from "./life-queries";
 import { personName } from "./people";
 import { relationshipHistory } from "./queries";
-import { recordEventKnowledge } from "./records";
+import { recordDirectEventMemories, recordEventKnowledge } from "./records";
 import { familyAndFriendsNearby, householdmatesOf } from "./speech-reception";
 import type { EntityId, World } from "./types";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -194,7 +194,11 @@ export function recordJobEndedNews(
       immediateReaction: null,
     },
   });
-  return tellPeopleOf(next, next.history.events.at(-1)!.id, {
+  const remembered = recordDirectEventMemories(
+    next,
+    next.history.events.at(-1)!.id,
+  );
+  return tellPeopleOf(remembered, next.history.events.at(-1)!.id, {
     tied,
     direct: [job.personId],
     teller: job.personId,

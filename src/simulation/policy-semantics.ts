@@ -1541,7 +1541,7 @@ function validateImplementationFactor(
 ): void {
   if (!IMPLEMENTATION_FACTOR_ORDER.includes(factor.kind)) {
     throw new Error(
-      `Unknown policy implementation factor: ${String(factor.kind)}`,
+      `Unsupported policy implementation factor: ${String(factor.kind)}`,
     );
   }
   assertNonnegativeShare(factor.share, true, "Policy implementation factor");

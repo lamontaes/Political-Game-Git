@@ -28,6 +28,19 @@
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
+    "bedroom-teen": {
+      "checked": [
+        "bedroom-teen__midday.jpg",
+        "bedroom-teen__morning.jpg",
+        "bedroom-teen__night.jpg",
+        "bedroom-teen__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "campaign-storefront": {
       "checked": [
         "campaign-storefront__midday.jpg",
@@ -115,6 +128,32 @@
         "storefront windows and door: windows"
       ]
     },
+    "church-exterior": {
+      "checked": [
+        "church-exterior__midday.jpg",
+        "church-exterior__morning.jpg",
+        "church-exterior__night.jpg",
+        "church-exterior__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
+    "church-sanctuary": {
+      "checked": [
+        "church-sanctuary__midday.jpg",
+        "church-sanctuary__morning.jpg",
+        "church-sanctuary__night.jpg",
+        "church-sanctuary__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "church-supper-hall": {
       "checked": [
         "church-supper-hall__midday.jpg",
@@ -154,6 +193,32 @@
       ],
       "skipped": ["windows and doors: windows"]
     },
+    "city-hall-hallway": {
+      "checked": [
+        "city-hall-hallway__midday.jpg",
+        "city-hall-hallway__morning.jpg",
+        "city-hall-hallway__night.jpg",
+        "city-hall-hallway__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
+    "city-hall-steps-event": {
+      "checked": [
+        "city-hall-steps-event__midday.jpg",
+        "city-hall-steps-event__morning.jpg",
+        "city-hall-steps-event__night.jpg",
+        "city-hall-steps-event__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "classroom": {
       "checked": ["classroom__midday.jpg", "classroom__night.jpg"],
       "surfaces": [
@@ -176,6 +241,19 @@
         "windows and door window: windows",
         "books on the shelves: spines, no readable face",
         "whiteboard lower edge is partly covered by the plant, desk chair and books; quad keeps the full board face"
+      ]
+    },
+    "clerk-back-office": {
+      "checked": [
+        "clerk-back-office__midday.jpg",
+        "clerk-back-office__morning.jpg",
+        "clerk-back-office__night.jpg",
+        "clerk-back-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "clerk-counter": {
@@ -300,11 +378,37 @@
         "window: window"
       ]
     },
+    "coffee-shop": {
+      "checked": [
+        "coffee-shop__midday.jpg",
+        "coffee-shop__morning.jpg",
+        "coffee-shop__night.jpg",
+        "coffee-shop__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "college-quad": {
       "checked": ["college-quad__midday.jpg", "college-quad__night.jpg"],
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards; building faces are too distant and carry no sign panels"
+      ]
+    },
+    "committee-hearing-room": {
+      "checked": [
+        "committee-hearing-room__midday.jpg",
+        "committee-hearing-room__morning.jpg",
+        "committee-hearing-room__night.jpg",
+        "committee-hearing-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "community-room": {
@@ -605,6 +709,19 @@
         "no painted screens, posters, notes, papers, brochures or boards (exterior street/porch view)"
       ]
     },
+    "dorm-room": {
+      "checked": [
+        "dorm-room__midday.jpg",
+        "dorm-room__morning.jpg",
+        "dorm-room__night.jpg",
+        "dorm-room__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "election-night-venue": {
       "checked": [
         "election-night-venue__midday.jpg",
@@ -646,6 +763,19 @@
         "no other painted screens, posters, papers or boards; windows excluded"
       ]
     },
+    "election-office": {
+      "checked": [
+        "election-office__midday.jpg",
+        "election-office__morning.jpg",
+        "election-office__night.jpg",
+        "election-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "factory-floor": {
       "checked": ["factory-floor__midday.jpg", "factory-floor__night.jpg"],
       "surfaces": [],
@@ -654,6 +784,19 @@
         "control screen on the right machine (x 1324-1342, y 361-385): under 36",
         "machine door viewing windows: windows",
         "no posters, papers or boards"
+      ]
+    },
+    "farm-yard": {
+      "checked": [
+        "farm-yard__midday.jpg",
+        "farm-yard__morning.jpg",
+        "farm-yard__night.jpg",
+        "farm-yard__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "fire-station": {
@@ -666,6 +809,19 @@
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "gas-station-store": {
+      "checked": [
+        "gas-station-store__midday.jpg",
+        "gas-station-store__morning.jpg",
+        "gas-station-store__night.jpg",
+        "gas-station-store__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "governor-office": {
@@ -683,6 +839,32 @@
         "no painted screens, posters, papers or boards"
       ]
     },
+    "governor-residence-exterior": {
+      "checked": [
+        "governor-residence-exterior__midday.jpg",
+        "governor-residence-exterior__morning.jpg",
+        "governor-residence-exterior__night.jpg",
+        "governor-residence-exterior__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
+    "home-kitchen": {
+      "checked": [
+        "home-kitchen__midday.jpg",
+        "home-kitchen__morning.jpg",
+        "home-kitchen__night.jpg",
+        "home-kitchen__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "hospital-hallway": {
       "checked": [
         "hospital-hallway__midday.jpg",
@@ -694,6 +876,19 @@
         "framed landscape on the left waiting-room wall: a picture",
         "door vision panels: windows",
         "no posters, papers or boards"
+      ]
+    },
+    "hospital-lobby": {
+      "checked": [
+        "hospital-lobby__midday.jpg",
+        "hospital-lobby__morning.jpg",
+        "hospital-lobby__night.jpg",
+        "hospital-lobby__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "hotel-ballroom": {
@@ -720,6 +915,32 @@
         "no painted screens, posters, notes, papers, brochures or boards",
         "stacked closed books on the coffee table: books, not papers",
         "framed landscape paintings: pictures"
+      ]
+    },
+    "local-newspaper-office": {
+      "checked": [
+        "local-newspaper-office__midday.jpg",
+        "local-newspaper-office__morning.jpg",
+        "local-newspaper-office__night.jpg",
+        "local-newspaper-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
+    "lodge-hall": {
+      "checked": [
+        "lodge-hall__midday.jpg",
+        "lodge-hall__morning.jpg",
+        "lodge-hall__night.jpg",
+        "lodge-hall__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "main-street": {
@@ -772,6 +993,19 @@
         "fourth storefront sign panel (x 907-933, y 403-448): about 26 px wide, under 36",
         "farther storefront signs down the street: under 36 px",
         "storefront windows and doors: windows/doors"
+      ]
+    },
+    "mayor-office": {
+      "checked": [
+        "mayor-office__midday.jpg",
+        "mayor-office__morning.jpg",
+        "mayor-office__night.jpg",
+        "mayor-office__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "mobile-home": {
@@ -1229,6 +1463,32 @@
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
       ]
     },
+    "school-cafeteria": {
+      "checked": [
+        "school-cafeteria__midday.jpg",
+        "school-cafeteria__morning.jpg",
+        "school-cafeteria__night.jpg",
+        "school-cafeteria__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
+    "school-exterior": {
+      "checked": [
+        "school-exterior__midday.jpg",
+        "school-exterior__morning.jpg",
+        "school-exterior__night.jpg",
+        "school-exterior__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
+      ]
+    },
     "school-gym-town-hall": {
       "checked": [
         "school-gym-town-hall__midday.jpg",
@@ -1311,6 +1571,19 @@
       "skipped": [
         "basketball backboard: not a sign surface",
         "windows and doors excluded"
+      ]
+    },
+    "school-hallway": {
+      "checked": [
+        "school-hallway__midday.jpg",
+        "school-hallway__morning.jpg",
+        "school-hallway__night.jpg",
+        "school-hallway__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "boards, screens and posters painted in this picture are not measured yet: left as painted until a surfaces pass marks their corners",
+        "no live content is drawn on this place yet"
       ]
     },
     "small-apartment": {

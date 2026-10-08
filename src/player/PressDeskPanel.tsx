@@ -73,17 +73,8 @@ export function PressDeskPanel({
       aria-labelledby="press-desk-title"
     >
       <h3 id="press-desk-title">Your press desk</h3>
-      <p className="game-note">
-        What reporters have asked you, what has been printed about you, and the
-        terms you agreed to.
-      </p>
-
       <DeskGroup id="requests" title="Questions waiting on you">
-        {desk.incomingRequests.length === 0 ? (
-          <p className="game-note">
-            No reporter is waiting on an answer from you.
-          </p>
-        ) : (
+        {desk.incomingRequests.length > 0 ? (
           <ul className="pg-press-desk-list">
             {desk.incomingRequests.map((request) => (
               <li key={request.leadId}>
@@ -97,13 +88,11 @@ export function PressDeskPanel({
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
       </DeskGroup>
 
       <DeskGroup id="stories" title="Printed about you">
-        {stories.length === 0 ? (
-          <p className="game-note">Nothing has been published about you yet.</p>
-        ) : (
+        {stories.length > 0 ? (
           <ul className="pg-press-desk-list" data-testid="press-desk-stories">
             {stories.map((story) => (
               <li key={story.publicationId}>
@@ -111,15 +100,11 @@ export function PressDeskPanel({
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
       </DeskGroup>
 
       <DeskGroup id="matters" title="Complaints and questions about you">
-        {desk.matters.length === 0 ? (
-          <p className="game-note">
-            Nobody has raised anything about you that you know of.
-          </p>
-        ) : (
+        {desk.matters.length > 0 ? (
           <ul className="pg-press-desk-list">
             {desk.matters.map((matter) => (
               <li key={matter.matterId}>
@@ -132,15 +117,11 @@ export function PressDeskPanel({
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
       </DeskGroup>
 
       <DeskGroup id="arrangements" title="Your source arrangements">
-        {desk.agreements.length === 0 ? (
-          <p className="game-note">
-            You have no ground rules agreed with a reporter.
-          </p>
-        ) : (
+        {desk.agreements.length > 0 ? (
           <ul
             className="pg-press-desk-list"
             data-testid="press-desk-agreements"
@@ -157,21 +138,11 @@ export function PressDeskPanel({
               </li>
             ))}
           </ul>
-        )}
-        <details data-testid="press-desk-glossary">
-          <summary>What the ground rules mean</summary>
-          <ul className="pg-press-desk-list">
-            {desk.glossary.map((entry) => (
-              <li key={entry.terms}>{entry.text}</li>
-            ))}
-          </ul>
-        </details>
+        ) : null}
       </DeskGroup>
 
       <DeskGroup id="outlets" title="Newsrooms that cover this ground">
-        {desk.outlets.length === 0 ? (
-          <p className="game-note">No news outlet is recorded here.</p>
-        ) : (
+        {desk.outlets.length > 0 ? (
           <ul className="pg-press-desk-list" data-testid="press-desk-outlets">
             {desk.outlets.map((outlet) => (
               <li key={outlet.outletId}>
@@ -212,7 +183,7 @@ export function PressDeskPanel({
               </li>
             ))}
           </ul>
-        )}
+        ) : null}
       </DeskGroup>
 
       {desk.personalUse.available ? (
@@ -343,7 +314,7 @@ function PressRequestItem({
         </button>
       </p>
       <blockquote>{request.question}</blockquote>
-      <p className="game-note">Answer due by {proseDate(request.dueAt)}.</p>
+      <p className="game-note">{proseDate(request.dueAt)}</p>
       <fieldset className="pg-press-desk-answers">
         <legend>Your answer</legend>
         {request.answerOptions.map((option) => (
@@ -363,7 +334,6 @@ function PressRequestItem({
       </fieldset>
       {selected ? (
         <div data-testid="press-desk-answer-preview">
-          <p className="game-note">You will say, exactly:</p>
           <blockquote>{selected.statement}</blockquote>
           <p className="game-note">{selected.note}</p>
         </div>
@@ -442,10 +412,7 @@ function MatterItem({
       </ul>
       {waiting ? (
         <div className="pg-press-desk-actions">
-          <p className="game-note">
-            {waiting.institution} is waiting on your response. Your counsel
-            handles the rest of the file either way.
-          </p>
+          <p className="game-note">{waiting.institution}</p>
           <button type="button" onClick={() => respond("counsel-responds")}>
             Let counsel respond
           </button>
@@ -459,10 +426,7 @@ function MatterItem({
           className="pg-press-desk-actions"
           data-testid="press-desk-office-answer"
         >
-          <p className="game-note">
-            As {office.officeTitle}, you can answer for this in public.{" "}
-            {office.note}
-          </p>
+          <p className="game-note">{office.officeTitle}</p>
           {office.options
             .filter((option) => !option.endsOffice)
             .map((option) => (
@@ -480,7 +444,6 @@ function MatterItem({
             .map((option) =>
               confirmingResignation ? (
                 <span key={option.kind}>
-                  <span className="game-note"> {option.description} </span>
                   <button type="button" onClick={() => answer(option.kind)}>
                     Yes, resign
                   </button>
@@ -571,9 +534,7 @@ function PersonalUseSection({
       <p className="pg-press-desk-line">
         <strong>{label}</strong>
       </p>
-      <p className="game-note">
-        The committee holds {dollars(balanceMinorUnits)}.
-      </p>
+      <p className="game-note">{dollars(balanceMinorUnits)}</p>
       <div className="game-fields">
         <label>
           Amount in dollars
@@ -633,7 +594,7 @@ function OutletPurchase({
   const [problem, setProblem] = useState<string | null>(null);
   const terms = outlet.purchase;
   if (terms.status === "already-yours") {
-    return <p className="game-note">You own this outlet.</p>;
+    return null;
   }
   if (terms.priceMinorUnits === null) return null;
   if (terms.status !== "available") {
@@ -643,16 +604,25 @@ function OutletPurchase({
     )
       return null;
     return (
-      <p className="game-note">
-        For sale at {dollars(terms.priceMinorUnits)}. {terms.reason}
-      </p>
+      <dl
+        className="pg-press-desk-terms"
+        data-testid={`press-desk-terms-${outlet.outletId}`}
+      >
+        <dt>Asking price</dt>
+        <dd>{dollars(terms.priceMinorUnits)}</dd>
+        <dt>Your money</dt>
+        <dd>
+          {terms.buyerMoneyMinorUnits === undefined
+            ? "Not on record"
+            : dollars(terms.buyerMoneyMinorUnits)}
+        </dd>
+      </dl>
     );
   }
   return (
     <p className="pg-press-desk-line">
       <span className="game-note">
-        {terms.sellerName} would sell it for {dollars(terms.priceMinorUnits)}
-        .{" "}
+        Asking price: {dollars(terms.priceMinorUnits)}{" "}
       </span>
       <button
         type="button"

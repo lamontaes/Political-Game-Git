@@ -1,0 +1,174 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  createNewGameWorld,
+  DEFAULT_NEW_GAME_SETUP,
+} from "../../../presentation/new-game";
+import { evaluateDecision } from "../../decisions";
+import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
+import { createMindProvenance, recordPersonalityTendency } from "../../mind";
+import { ensurePeopleTraitCatalog } from "../../people-traits";
+import { personName } from "../../people";
+import { SeededRng } from "../../rng";
+import { loadedTraitRegistry } from "../../trait-registry";
+import { traitDefinitionFromPack } from "../../trait-packs";
+import type { EntityId, World } from "../../types";
+
+const TRAIT = "personality-v1:facet-independent";
+const SEED = "t9-facet-independent-two-person-proof";
+
+function conferIndependence(world: World, personId: EntityId): World {
+  const trait = loadedTraitRegistry().traits.get(TRAIT)!;
+  const withCatalog = ensurePeopleTraitCatalog(world);
+  const definition = traitDefinitionFromPack(trait);
+  const ready: World = withCatalog.mindCatalog.tendencies[definition.id]
+    ? withCatalog
+    : {
+        ...withCatalog,
+        mindCatalog: {
+          ...withCatalog.mindCatalog,
+          tendencies: {
+            ...withCatalog.mindCatalog.tendencies,
+            [definition.id]: definition,
+          },
+          tendencyOrder: [
+            ...withCatalog.mindCatalog.tendencyOrder,
+            definition.id,
+          ],
+        },
+      };
+  return recordPersonalityTendency(ready, {
+    stableKey: `${SEED}:${personId}:independent`,
+    personId,
+    tendencyId: definition.id,
+    recordedAt: ready.currentDate,
+    expressionKey: "facet-independent:high",
+    strength: "strong",
+    confidence: "medium",
+    scopeTags: ["life:ordinary"],
+    provenance: createMindProvenance("authored", {
+      note: "Focused proof fixture for the person's recorded independence.",
+    }),
+    supersedesTendencyId: null,
+  });
+}
+
+describe("facet-independent's scheduling choice reader", () => {
+  it("changes the same named person's choice with and without the trait in a seeded random new-game place and prints the trace", () => {
+    const rng = new SeededRng(SEED);
+    const state = rng.pick(lifePlaceStateIdentities());
+    const place = rng.pick(
+      searchLifePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: state.jurisdictionKey,
+      }),
+    );
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      startKind: "custom",
+      seed: SEED,
+      startAge: 40,
+      depth: "summarize-earlier-life",
+      questionnaire: "skipped",
+      placeKey: place.key,
+      household: "shares-a-home",
+    });
+    const people = Object.values(game.world.people)
+      .filter((person) => person.id !== game.playerPersonId)
+      .slice(0, 1);
+    expect(people).toHaveLength(1);
+
+    const world = conferIndependence(game.world, people[0]!.id);
+    const decide = (personId: EntityId, world: typeof game.world) =>
+      evaluateDecision(world, {
+        stableKey: `${SEED}:decision:${personId}`,
+        decisionType: "people.contact-answer",
+        actorPersonId: personId,
+        cutoff: {
+          asOfDate: world.currentDate,
+          historySequenceExclusive: world.history.nextSequence,
+        },
+        subject: {
+          kind: "context:life",
+          key: "meeting-request",
+          entityId: null,
+        },
+        options: [
+          {
+            key: "accept",
+            label: "Agree",
+            description: "Meet them that day.",
+          },
+          {
+            key: "counter",
+            label: "Offer another day",
+            description: "Say when they could instead.",
+          },
+          {
+            key: "decline",
+            label: "Say no",
+            description: "Leave it for another time.",
+          },
+        ],
+        constraints: [],
+        considerations: [
+          {
+            stableKey: `${SEED}:${personId}:meeting-is-welcome`,
+            optionKey: "accept",
+            sourceType: "context:fixture",
+            direction: "supports",
+            importance: "slight",
+            confidence: "medium",
+            explanation: "They welcome the meeting.",
+            sourceRefs: [],
+          },
+        ],
+        perceptionIds: [],
+        randomness: "none",
+        retention: "ephemeral",
+      });
+
+    const independent = decide(people[0]!.id, world);
+    const comparison = decide(people[0]!.id, game.world);
+    const trace = {
+      seed: SEED,
+      worldId: game.world.id,
+      date: world.currentDate,
+      place: place.displayName,
+      people: [
+        {
+          id: people[0]!.id,
+          name: personName(people[0]!),
+          trait: TRAIT,
+          selected: independent.selectedOptionKey,
+          reasons: independent.context.considerations,
+        },
+        {
+          id: people[0]!.id,
+          name: personName(people[0]!),
+          trait: "unrecorded",
+          selected: comparison.selectedOptionKey,
+          reasons: comparison.context.considerations,
+        },
+      ],
+    };
+    console.info("T9 facet-independent proof trace", JSON.stringify(trace));
+
+    expect(independent.selectedOptionKey).toBe("counter");
+    expect(independent.context.randomness).toBe("none");
+    expect(
+      independent.context.considerations.find(
+        ({ stableKey, optionKey }) =>
+          stableKey.includes(TRAIT) && optionKey === "counter",
+      ),
+    ).toMatchObject({
+      optionKey: "counter",
+      sourceRefs: [{ kind: "personality-tendency" }],
+    });
+    expect(comparison.selectedOptionKey).toBe("accept");
+    expect(
+      comparison.context.considerations.some(({ stableKey }) =>
+        stableKey.includes(TRAIT),
+      ),
+    ).toBe(false);
+  }, 60_000);
+});

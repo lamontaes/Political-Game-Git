@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { EntityId, World } from "../simulation";
 import {
   askCandidateGuidance,
@@ -24,7 +23,6 @@ export function CandidateGuidancePanel({
   readonly onOutcome: (outcome: string) => void;
 }) {
   const runner = useTimeCommand({ world, personId, onWorldChange });
-  const [message, setMessage] = useState<string | null>(null);
   const scene = projectCandidateGuidanceScene(world, personId);
   if (!scene) return null;
   const stay = previewTimeCommand(world, personId, {
@@ -38,9 +36,7 @@ export function CandidateGuidancePanel({
       data-testid="candidate-guidance-panel"
     >
       <h2>{scene.location.label}</h2>
-      <p>{scene.caption}</p>
       <div data-testid="candidate-guidance-people">
-        <h3>In the room</h3>
         <ul>
           {scene.actors.map((actor) => (
             <li key={actor.personId}>
@@ -54,15 +50,51 @@ export function CandidateGuidancePanel({
                 {actor.name}
               </button>{" "}
               · {actor.role}
-              {actor.spokenLine ? <p>{actor.spokenLine}</p> : null}
             </li>
           ))}
         </ul>
       </div>
       {scene.turns.map((turn) => (
         <div key={turn.eventId} data-testid="candidate-guidance-turn">
-          <p>You asked: {turn.words}</p>
-          {turn.response ? <p>{turn.response}</p> : null}
+          <dl>
+            {turn.question ? (
+              <div>
+                <dt>question</dt>
+                <dd>{turn.question}</dd>
+              </div>
+            ) : null}
+            {turn.answer.map((office) => (
+              <div key={office.officeKey}>
+                <dt>{office.officeName}</dt>
+                {office.minimumAge ? (
+                  <dd>
+                    minimumAge ·{" "}
+                    {office.minimumAge.value ?? office.minimumAge.kind}
+                    {office.minimumAge.citation
+                      ? ` · ${office.minimumAge.citation}`
+                      : ""}
+                  </dd>
+                ) : null}
+                {office.residency ? (
+                  <dd>
+                    residency ·{" "}
+                    {office.residency.value ?? office.residency.kind}
+                    {office.residency.citation
+                      ? ` · ${office.residency.citation}`
+                      : ""}
+                  </dd>
+                ) : null}
+                {office.filing ? (
+                  <dd>
+                    filing · {office.filing.value ?? office.filing.kind}
+                    {office.filing.citation
+                      ? ` · ${office.filing.citation}`
+                      : ""}
+                  </dd>
+                ) : null}
+              </div>
+            ))}
+          </dl>
         </div>
       ))}
       {scene.questions.map((question) =>
@@ -84,17 +116,14 @@ export function CandidateGuidancePanel({
                   );
                   return {
                     world: next,
-                    outcome:
-                      next === current
-                        ? "That question is no longer available. No time passed."
-                        : "You asked the question. No time passed.",
+                    outcome: "",
                   };
                 },
-                (report) => setMessage(report.outcome),
+                () => {},
               )
             }
           >
-            {question.words}
+            {question.key}
           </button>
         ) : null,
       )}
@@ -108,14 +137,12 @@ export function CandidateGuidancePanel({
             runner.submit(
               { kind: "attend-activity", activityId: scene.activityId },
               (report) => {
-                setMessage(report.outcome);
-                if (report.status === "accepted") onOutcome(report.outcome);
+                if (report.status === "accepted") onOutcome("");
               },
             )
           }
         >
-          Stay through the conversation
-          {stay ? ` · ${stay.elapsedMinutes} minutes` : ""}
+          stay
         </button>
       ) : null}
       {scene.availableActions.includes("leave") ? (
@@ -135,23 +162,18 @@ export function CandidateGuidancePanel({
                 );
                 return {
                   world: next,
-                  outcome:
-                    next === current
-                      ? "Leaving is no longer available. No time passed."
-                      : "You left the conversation and returned home.",
+                  outcome: "",
                 };
               },
               (report) => {
-                setMessage(report.outcome);
-                if (report.status === "accepted") onOutcome(report.outcome);
+                if (report.status === "accepted") onOutcome("");
               },
             )
           }
         >
-          Leave and return home
+          leave
         </button>
       ) : null}
-      {message ? <p role="status">{message}</p> : null}
     </section>
   );
 }

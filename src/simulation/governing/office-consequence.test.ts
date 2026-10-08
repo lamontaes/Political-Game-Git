@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
+import { currentPresidentOf } from "../crisis/offices";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import {
   openOrdinaryLife,
@@ -9,10 +10,13 @@ import {
 import { serializeWorld } from "../serialization";
 import type { World } from "../types";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
+import { stateJurisdictionForKey } from "../life-places";
 import { projectCongress } from "../living-world/congress";
 import { NATIONAL_REACH_SCALE, recordedScale } from "../press/desk";
 import {
   officeConsequences,
+  officesHeldBy,
   playerOfficeScope,
   recordOfficeConsequence,
 } from "./office-consequence";
@@ -29,33 +33,57 @@ function openingWorld(seed: string): World {
 }
 
 describe("GOVERNING D2: what an office does about an allegation", () => {
-  it("reads governor and congressional scopes from their canonical records", () => {
-    const world = openingWorld("player-office-scope");
+  it("projects every held office with its jurisdiction and level", () => {
+    const world = openingWorld("office-scope-reader");
     const governors = currentStateExecutiveHolders(world);
-    expect(new Set(governors.map((governor) => governor.stateUsps))).toHaveSize(
-      56,
-    );
+    expect(
+      [...new Set(governors.map((governor) => governor.stateUsps))].sort(),
+    ).toEqual([...US_STATE_USPS].sort());
     for (const governor of governors)
       expect(playerOfficeScope(world, governor.personId)).toContainEqual({
         officeKey: governor.officeKey,
         title: governor.title,
-        jurisdictionId: expect.any(String),
+        jurisdictionId: stateJurisdictionForKey(`US-${governor.stateUsps}`)?.id,
         level: "state-executive",
       });
+    const governor = governors[0]!;
+    const expected = officesHeldBy(world, governor.personId);
+    const scopes = playerOfficeScope(world, governor.personId);
+
+    expect(scopes).toEqual(
+      expect.arrayContaining(
+        expected.map(({ officeKey, title }) =>
+          expect.objectContaining({ officeKey, title }),
+        ),
+      ),
+    );
+    expect(
+      scopes.find((row) => row.officeKey === governor.officeKey),
+    ).toMatchObject({
+      jurisdictionId: stateJurisdictionForKey(`US-${governor.stateUsps}`)?.id,
+      level: "state-executive",
+    });
 
     const seat = projectCongress(world)!.house.seats.find(
-      (candidate) => candidate.occupant.kind === "member",
+      (row) => row.occupant.kind === "member",
     )!;
     if (seat.occupant.kind !== "member") throw new Error("fixture");
+    const memberScopes = playerOfficeScope(
+      world,
+      seat.occupant.member.personId,
+    );
     expect(
-      playerOfficeScope(world, seat.occupant.member.personId),
-    ).toContainEqual({
-      officeKey: seat.seatKey,
-      title: seat.occupant.member.title,
-      jurisdictionId: expect.any(String),
-      level: "congress",
-    });
-  }, 600_000);
+      memberScopes.find((row) => row.officeKey === seat.seatKey),
+    ).toMatchObject({ level: "congress" });
+    const president = currentPresidentOf(world)!;
+    expect(playerOfficeScope(world, president.personId)).toContainEqual(
+      expect.objectContaining({
+        officeKey: president.officeKey,
+        title: president.title,
+        level: "federal-executive",
+      }),
+    );
+  });
 
   it("records answers without changing the office, and a resignation that does", () => {
     const world = openingWorld("office-consequence");

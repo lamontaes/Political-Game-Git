@@ -31,8 +31,8 @@ import {
   pressRecordsOfKind,
   publicAdverseFindingsAgainst,
   spendCampaignFundsPersonally,
-  UNRESEARCHED_FINDING_EFFECTS,
-  UNRESEARCHED_REPEAT_OFFENSE,
+  RECORDED_FINDING_EFFECTS,
+  RECORDED_REPEAT_OFFENSE,
   STATE_OVERSIGHT_RULE,
 } from "../simulation/press";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
@@ -254,7 +254,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
       justBefore,
       run.campaign,
       run.personId,
-      UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding,
+      RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding,
     );
     const [playerState, rivalState] = [run.personId, run.rivalId].map((id) =>
       lossStates.find((state) => state.stableKey.endsWith(`:support:${id}`))!,
@@ -269,7 +269,7 @@ describe("a Washington candidate paying themselves is noticed and punished", () 
     expect(
       canonicalSupportBasisPoints(justBefore, run.campaign, run.personId) -
         share(playerState),
-    ).toBe(UNRESEARCHED_FINDING_EFFECTS.supportLossBasisPoints.finding);
+    ).toBe(RECORDED_FINDING_EFFECTS.supportLossBasisPoints.finding);
   });
 
   it("orders both payments paid to the state, not back to the committee", () => {
@@ -483,7 +483,7 @@ describe("a Washington candidate who keeps taking after a finding", () => {
       body.civilPenaltyPerPaymentMinorUnits * 2,
       body.civilPenaltyPerPaymentMinorUnits *
         3 *
-        (1 + UNRESEARCHED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
+        (1 + RECORDED_REPEAT_OFFENSE.civilPenaltyStepPerPriorFinding),
     ]);
     const notices = world.history.events.filter(
       (event) => event.type === "matter.civil-penalty-imposed",

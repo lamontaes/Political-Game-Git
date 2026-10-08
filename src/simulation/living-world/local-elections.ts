@@ -2,13 +2,10 @@ import { nextCountyElection } from "../nationwide-world/county-election-calendar
 import { addDays, ageOnDate, dateAtAge, makeIsoDate } from "../dates";
 import { candidacyEligibility } from "../candidacy";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { lifeWeighsAgainstOffice } from "../careers/another-term";
 import { decideAnotherTerm } from "../careers/another-term";
+import { applyLocalElectionLawLandings } from "../law-consequences/modules/election-local-landings";
 import {
   councilTermLimitBar,
   COUNCIL_TERM_LIMIT_QUESTION,
@@ -52,7 +49,11 @@ import {
   localGoverningBodyIdentityForOfficeKey,
 } from "../nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
+import {
+  localGoverningBodyRules,
+  localGoverningBodySeatKind,
+  localGoverningBodySeatLabel,
+} from "../nationwide-world/local-governing-body-rules";
 import { homeLocalGovernmentUnits } from "../nationwide-world/local-governments";
 import {
   FILING_LEAD_DAYS,
@@ -96,6 +97,7 @@ import {
   homePosition,
   isWardSeat,
   redrawTownWards,
+  establishVotingPrecinctMembership,
   seatWard,
   townWardMap,
   wardAt,
@@ -345,6 +347,8 @@ function campaignSeats(
       contest.office.officeKey,
     );
     if (office?.unit.id !== unit.id) continue;
+    // A county row office has no numbered seat; it takes none from the board.
+    if (office.seat === "row-office") continue;
     const seat = localCampaignSeat(
       unit,
       office.seat === "chief-executive",
@@ -375,7 +379,7 @@ export function withdrawTownRaceForCampaign(
   const office = localGoverningBodyIdentityForOfficeKey(
     contest.office.officeKey,
   );
-  if (!office) return world;
+  if (!office || office.seat === "row-office") return world;
   const { unit } = office;
   const campaign = campaigns(world).find((row) => row.contestId === contestId);
   const seat = localCampaignSeat(
@@ -463,6 +467,7 @@ function event(
     readonly town: EntityId;
     readonly label: string;
     readonly involved: readonly EntityId[];
+    readonly focusPersonId?: EntityId;
     readonly tags: readonly string[];
     readonly summary: string;
   } & LawEffectStampedRecord,
@@ -479,7 +484,15 @@ function event(
     recordedAt: world.currentDate,
     jurisdictionId: input.town,
     involvedEntityIds: [...input.involved],
-    participants: [],
+    participants: input.focusPersonId
+      ? [
+          {
+            personId: input.focusPersonId,
+            role: "focus:subject",
+            detail: "barred",
+          },
+        ]
+      : [],
     personFactConstraints: [],
     visibility: "public",
     tags: [V, ...input.tags],
@@ -567,7 +580,7 @@ function seatLabelFor(
 ): string {
   return seat === 0
     ? office.officeTitle
-    : `${office.officeTitle}, seat ${seat}`;
+    : localGoverningBodySeatLabel(office.unit, office.officeTitle, seat);
 }
 
 /**
@@ -597,11 +610,11 @@ function seatsOf(
   return seats;
 }
 
-/** The seat in a sentence: "seat 3 on the Ely City Council", "the mayor's office". */
+/** The seat in a sentence: "district seat 3 on the Ely City Council". */
 function seatPhrase(office: LocalGoverningBodyIdentity, seat: number): string {
   return seat === 0
     ? `the ${office.officeTitle.toLowerCase()}'s office`
-    : `seat ${seat} on the ${office.bodyName}`;
+    : `${localGoverningBodySeatKind(office.unit, seat)} seat ${seat} on the ${office.bodyName}`;
 }
 
 function holderOf(
@@ -920,7 +933,7 @@ export function localElectionFilingHandler(
         label: office.governmentName,
         involved: [holder.personId],
         tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:ward"],
-        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in Ward ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents Ward ${ward}.`,
+        summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: their home is in district ${holderWard} under the map ${wardMap!.drawnBy === "commission" ? "an independent commission" : "the council"} drew, and the seat represents district ${ward}.`,
       });
     }
     if (holder && alive(next, holder.personId) && !drawnOut) {
@@ -961,9 +974,15 @@ export function localElectionFilingHandler(
           town,
           label: office.governmentName,
           involved: [holder.personId],
+          focusPersonId: holder.personId,
           tags: [`unit:${unit.id}`, `seat:${seat}`, "barred:term-limit"],
           summary: `${nameOf(next, holder.personId)} may not run again for ${phrase}: ${barred}`,
         });
+        const barEvent = next.history.events.find(
+          (row) => row.stableKey === `${race}:term-limited`,
+        );
+        if (stamp && barEvent)
+          next = applyLocalElectionLawLandings(next, barEvent.id);
       }
       const decided = barred
         ? { world: next, seeks: false }
@@ -1051,34 +1070,6 @@ export function localElectionFilingHandler(
         ],
         constraints: [],
         considerations: [
-          ...traitConsiderations(next, personId, key, [
-            {
-              optionKey: "run",
-              trait: "risk",
-              pole: "high",
-              explanation:
-                "They are willing to risk entering a contested election.",
-            },
-            {
-              optionKey: "decline",
-              trait: "risk",
-              pole: "low",
-              explanation:
-                "They prefer to avoid the risk of a contested election.",
-            },
-            {
-              optionKey: "run",
-              trait: "conflict",
-              pole: "high",
-              explanation: "They are willing to take part in a contested race.",
-            },
-            {
-              optionKey: "decline",
-              trait: "conflict",
-              pole: "low",
-              explanation: "They prefer to avoid a contested race.",
-            },
-          ]),
           ...lifeWeighsAgainstOffice(next, {
             personId,
             keyPrefix: key,
@@ -1529,6 +1520,7 @@ export function redistrictAfterCensus(
   unit: GovernmentUnitIdentity,
   town: EntityId,
 ): World {
+  world = establishVotingPrecinctMembership(world, town, "census");
   const map = townWardMap(world, unit);
   const year = Number(world.currentDate.slice(0, 4));
   if (!map || year % 10 !== 1 || map.drawnAt >= `${year}-01-01`) return world;
@@ -1567,7 +1559,7 @@ export function redistrictForWardCommission(
     town,
     drawnBy: "commission",
     members: wardMembers(world, unit),
-    reason: "the independent ward commission law took effect",
+    reason: "the independent district commission law took effect",
   });
 }
 
