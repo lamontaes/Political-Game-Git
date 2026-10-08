@@ -4,10 +4,13 @@ import schoolAges from "../../../data/research/education/compulsory-school-ages-
 import { ageOnDate } from "../dates";
 import { createStableId } from "../ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { recordedMonthlyPayByPerson } from "../household-pay";
+import { householdMembershipsAt } from "../life-queries";
 import {
   holdsPackCondition,
   SUBSTANCE_USE_DISORDER_KEY,
 } from "../crisis/condition-pack";
+import { snapParticipationRecords } from "../crisis/snap-participation";
 import { scheduleLivedOutcomeReflection } from "../law-exposure";
 import { officialAnsweringFor } from "../living-world/lived-outcomes";
 import type {
@@ -30,7 +33,20 @@ export type OutcomeRecipientRule =
   | "older-adult-medicare-cohort-estimate"
   | "adult-substance-use-condition-estimate"
   | "youth-cannabis-cohort-estimate"
-  | "child-asthma-cohort-estimate";
+  | "child-asthma-cohort-estimate"
+  | "household-resident-estimate"
+  | "snap-enrolled-household-member-estimate"
+  | "recorded-wage-family-member-estimate"
+  | "adult-school-completer-estimate"
+  | "retirement-age-adult-cohort-estimate";
+
+type AgeBoundedOutcomeRecipientRule = Exclude<
+  OutcomeRecipientRule,
+  | "recorded-school-enrollment-or-compulsory-age-estimate"
+  | "household-resident-estimate"
+  | "snap-enrolled-household-member-estimate"
+  | "recorded-wage-family-member-estimate"
+>;
 
 interface CompulsorySchoolAgeRange {
   readonly minimumAge: number;
@@ -49,13 +65,7 @@ interface RecipientAgeCohort {
 }
 
 const RECIPIENT_AGE_COHORTS = recipientAgeCohorts.cohortsByRule as Readonly<
-  Record<
-    Exclude<
-      OutcomeRecipientRule,
-      "recorded-school-enrollment-or-compulsory-age-estimate"
-    >,
-    RecipientAgeCohort
-  >
+  Record<AgeBoundedOutcomeRecipientRule, RecipientAgeCohort>
 >;
 
 interface PlannedLanding {
@@ -84,6 +94,10 @@ export interface OutcomeLandingPerson {
   readonly hasRecordedEducationEnrollment: boolean;
   readonly compulsorySchoolAge: CompulsorySchoolAgeRange | null;
   readonly activeSubstanceUseCondition: boolean;
+  readonly hasCurrentHouseholdResidence: boolean;
+  readonly hasSnapEnrolledHousehold: boolean;
+  readonly hasRecordedWageHousehold: boolean;
+  readonly completedSchooling: boolean;
 }
 
 /** Match a person to the estimate's cohort, using recorded facts when present. */
@@ -96,6 +110,10 @@ export function matchesOutcomeRecipientRule(
     | "hasRecordedEducationEnrollment"
     | "compulsorySchoolAge"
     | "activeSubstanceUseCondition"
+    | "hasCurrentHouseholdResidence"
+    | "hasSnapEnrolledHousehold"
+    | "hasRecordedWageHousehold"
+    | "completedSchooling"
   >,
 ): boolean {
   switch (rule) {
@@ -107,13 +125,28 @@ export function matchesOutcomeRecipientRule(
         person.age >= person.compulsorySchoolAge.minimumAge &&
         person.age <= person.compulsorySchoolAge.maximumAge
       );
+    case "household-resident-estimate":
+      return person.hasCurrentHouseholdResidence;
+    case "snap-enrolled-household-member-estimate":
+      return person.hasSnapEnrolledHousehold;
+    case "recorded-wage-family-member-estimate":
+      return person.hasRecordedWageHousehold;
+    case "adult-school-completer-estimate": {
+      const cohort = RECIPIENT_AGE_COHORTS[rule];
+      return (
+        person.completedSchooling &&
+        person.age >= cohort.minimumAge &&
+        (cohort.maximumAge === null || person.age <= cohort.maximumAge)
+      );
+    }
   }
   const ageRange = RECIPIENT_AGE_COHORTS[rule];
   return (
     person.age >= ageRange.minimumAge &&
     (ageRange.maximumAge === null || person.age <= ageRange.maximumAge) &&
-    (rule !== "adult-substance-use-condition-estimate" ||
-      person.activeSubstanceUseCondition)
+    (rule === "adult-substance-use-condition-estimate"
+      ? person.activeSubstanceUseCondition
+      : true)
   );
 }
 
@@ -158,11 +191,65 @@ export function recordPlannedPersonOutcomeLandings(
   const needsSubstanceUseCondition = PERSON_LANDINGS.some(
     (row) => row.recipientRule === "adult-substance-use-condition-estimate",
   );
+  const needsHouseholdMemberships = PERSON_LANDINGS.some(
+    (row) =>
+      row.recipientRule === "household-resident-estimate" ||
+      row.recipientRule === "snap-enrolled-household-member-estimate" ||
+      row.recipientRule === "recorded-wage-family-member-estimate",
+  );
+  const needsSnapParticipation = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "snap-enrolled-household-member-estimate",
+  );
+  const needsRecordedWage = PERSON_LANDINGS.some(
+    (row) => row.recipientRule === "recorded-wage-family-member-estimate",
+  );
   const adultConditionMinimumAge =
     RECIPIENT_AGE_COHORTS["adult-substance-use-condition-estimate"].minimumAge;
   const education = needsEducationEnrollment
     ? educationEnrollmentsAt(world, month)
-    : { active: new Set<EntityId>(), recorded: new Set<EntityId>() };
+    : {
+        active: new Set<EntityId>(),
+        recorded: new Set<EntityId>(),
+        completedSchooling: new Set<EntityId>(),
+      };
+  const membershipsByPerson = new Map(
+    needsHouseholdMemberships
+      ? world.personOrder.map((personId) => [
+          personId,
+          householdMembershipsAt(world, personId, {
+            asOfDate: month,
+            historySequenceExclusive: world.history.nextSequence,
+          }),
+        ])
+      : [],
+  );
+  const snapHouseholds = new Set<EntityId>();
+  if (needsSnapParticipation) {
+    const latestSnapByHousehold = new Map<
+      EntityId,
+      ReturnType<typeof snapParticipationRecords>[number]
+    >();
+    for (const record of snapParticipationRecords(world)) {
+      if (record.effectiveAt > month) continue;
+      const prior = latestSnapByHousehold.get(record.householdId);
+      if (
+        !prior ||
+        record.effectiveAt > prior.effectiveAt ||
+        (record.effectiveAt === prior.effectiveAt &&
+          record.sequence > prior.sequence)
+      )
+        latestSnapByHousehold.set(record.householdId, record);
+    }
+    for (const [householdId, record] of latestSnapByHousehold)
+      if (record.enrolled) snapHouseholds.add(householdId);
+  }
+  const wageHouseholds = new Set<EntityId>();
+  if (needsRecordedWage) {
+    const workers = recordedMonthlyPayByPerson(world, month, "work");
+    for (const personId of workers.keys())
+      for (const membership of membershipsByPerson.get(personId) ?? [])
+        wageHouseholds.add(membership.membership.householdId);
+  }
   const alreadyLanded = new Set(
     (world.placeOutcomes.landings ?? []).map(
       (row) => `${row.personId}|${row.linkKey}`,
@@ -207,6 +294,15 @@ export function recordPlannedPersonOutcomeLandings(
         needsSubstanceUseCondition && age >= adultConditionMinimumAge
           ? holdsPackCondition(world, personId, SUBSTANCE_USE_DISORDER_KEY)
           : false,
+      hasCurrentHouseholdResidence:
+        (membershipsByPerson.get(personId)?.length ?? 0) > 0,
+      hasSnapEnrolledHousehold: (membershipsByPerson.get(personId) ?? []).some(
+        (membership) => snapHouseholds.has(membership.membership.householdId),
+      ),
+      hasRecordedWageHousehold: (membershipsByPerson.get(personId) ?? []).some(
+        (membership) => wageHouseholds.has(membership.membership.householdId),
+      ),
+      completedSchooling: education.completedSchooling.has(personId),
     };
     for (const row of PERSON_LANDINGS) {
       if (
@@ -299,6 +395,7 @@ function educationEnrollmentsAt(
 ): {
   readonly active: ReadonlySet<EntityId>;
   readonly recorded: ReadonlySet<EntityId>;
+  readonly completedSchooling: ReadonlySet<EntityId>;
 } {
   const latest = new Map<EntityId, EducationEnrollmentStateRecord>();
   for (const state of world.history.educationEnrollmentStates) {
@@ -314,6 +411,7 @@ function educationEnrollmentsAt(
   }
   const active = new Set<EntityId>();
   const recorded = new Set<EntityId>();
+  const completedSchooling = new Set<EntityId>();
   for (const enrollment of world.history.educationEnrollments) {
     if (
       (!enrollment.programKind.startsWith("schooling:") &&
@@ -323,10 +421,15 @@ function educationEnrollmentsAt(
       continue;
     recorded.add(enrollment.personId);
     if (
+      enrollment.programKind.startsWith("schooling:") &&
+      latest.get(enrollment.id)?.status === "completed"
+    )
+      completedSchooling.add(enrollment.personId);
+    if (
       enrollment.startedAt <= through &&
       latest.get(enrollment.id)?.status === "active"
     )
       active.add(enrollment.personId);
   }
-  return { active, recorded };
+  return { active, recorded, completedSchooling };
 }

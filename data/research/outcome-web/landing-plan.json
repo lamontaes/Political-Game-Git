@@ -1,7 +1,7 @@
 {
   "source": "data/research/outcome-web/links.json",
   "audit": {
-    "document": "00o AUDIT RESULTS — Oct 7",
+    "document": "00o AUDIT RESULTS \u2014 Oct 7",
     "baselineHead": "8541d8f1",
     "builtLinkCount": 101,
     "statusCounts": {
@@ -142,10 +142,11 @@
       "policyArea": "household",
       "sourceArea": "program.snap-receipt:moved-by-causes",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024"
+      "currentStatus": "person-linked",
+      "recipientRule": "snap-enrolled-household-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Ratcliffe, McKernan and Zhang 2011, American Journal of Agricultural Economics 93(4); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 8; USDA FNS, Characteristics of SNAP Households: Fiscal Year 2023; Census Bureau, America's Families and Living Arrangements: 2024",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -153,10 +154,11 @@
       "policyArea": "household",
       "sourceArea": "labor.minimum-wage-change-pct",
       "recipientGroup": "families at the bottom",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Dube 2019 (AEJ Applied)"
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-wage-family-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Dube 2019 (AEJ Applied)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "unemployment-to-poverty",
@@ -164,10 +166,11 @@
       "policyArea": "household",
       "sourceArea": "labor.unemployment-pct",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Hoynes, Page and Stevens 2006 (JEP)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Hoynes, Page and Stevens 2006 (JEP)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "graduation-to-turnout",
@@ -394,7 +397,7 @@
       "currentStatus": "person-linked",
       "recipientRule": "youth-cannabis-cohort-estimate",
       "outcomeDirection": "higher-is-worse",
-      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)",
+      "estimatedFrom": "Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerd\u00e1 et al. 2017 (JAMA Pediatrics)",
       "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
@@ -506,10 +509,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
       "recipientGroup": "families at the bottom",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage"
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-wage-family-member-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "CBO 2019, The Effects on Employment and Family Income of Increasing the Federal Minimum Wage",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "power-plant-carbon-to-emissions",
@@ -539,10 +543,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:trade.raise-tariffs",
       "recipientGroup": "households",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Yale Budget Lab, One year of tariff analysis (April 2, 2026)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "housing-vouchers-to-homelessness",
@@ -703,10 +708,11 @@
       "policyArea": "household",
       "sourceArea": "school.graduation-pct",
       "recipientGroup": "adults, years later",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Jackson, Johnson and Persico 2016 (QJE)"
+      "currentStatus": "person-linked",
+      "recipientRule": "adult-school-completer-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Jackson, Johnson and Persico 2016 (QJE)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "crime-level-to-burglary",
@@ -832,10 +838,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-policy-positions:business-commerce.reduce-occupational-licensing",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Kleiner and Soltas 2019; Institute for Justice, License to Work"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Kleiner and Soltas 2019; Institute for Justice, License to Work",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "independent-redistricting-to-turnout",
@@ -922,10 +929,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "recipientGroup": "people 65 and older",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+      "currentStatus": "person-linked",
+      "recipientRule": "retirement-age-adult-cohort-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "grocery-exemption-to-food-insecurity",
@@ -933,10 +941,11 @@
       "policyArea": "household",
       "sourceArea": "law:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
       "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Zheng, Zhao, Buck, Burney, Kaiser and Wilson 2021, Food Policy 101",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "harm-reduction-to-overdose-deaths",
@@ -1150,10 +1159,11 @@
       "policyArea": "household",
       "sourceArea": "roads.poor-condition-pct:moved-by-causes",
       "recipientGroup": "households",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
+      "currentStatus": "person-linked",
+      "recipientRule": "household-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "federal-rail-expansion-to-riders",
@@ -1188,8 +1198,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 44,
-    "place-number-only": 51,
+    "person-linked": 54,
+    "place-number-only": 41,
     "no-live-consumer": 2,
     "budget-only": 4
   }
