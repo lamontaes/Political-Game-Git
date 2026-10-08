@@ -5,7 +5,7 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
-import { STATES } from "../state-reference";
+import { isFederalDistrictJurisdictionKey, STATES } from "../state-reference";
 import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import { lawInForce } from "./law-in-force";
 
@@ -185,7 +185,11 @@ function computeLevels(
   if (column) return [column];
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   // Washington is the District: no city government sits under the Council.
-  if (place?.stateJurisdictionKey === "US-DC") return ["dc"];
+  if (
+    place?.stateJurisdictionKey &&
+    isFederalDistrictJurisdictionKey(place.stateJurisdictionKey)
+  )
+    return ["dc"];
   const kind =
     world?.jurisdictions?.[jurisdictionId]?.kind ??
     place?.context.jurisdiction.kind ??
