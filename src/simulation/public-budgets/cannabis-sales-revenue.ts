@@ -9,7 +9,7 @@ import {
   finalTermProvisions,
   readFinalEnactedLawTerm,
 } from "../governing/final-law-term-query";
-import market from "../../../data/research/money/cannabis-retail-market.json";
+import market from "../../../data/research/money/cannabis-retail-market.json" with { type: "json" };
 import { makeIsoDate } from "../dates";
 import { lawInForce, lawInForceAtStart } from "../governing/law-in-force";
 import type { EntityId, IsoDate, World } from "../types";
