@@ -1,6 +1,6 @@
 import { inventedPersonBirthDate } from "../invented-person-age";
 import { scheduledActivityAnswer } from "../scheduled-activity-answer";
-import { ensurePeopleTraits, traitConsiderations } from "../people-traits";
+import { ensurePeopleTraits } from "../people-traits";
 import { createCharacterHistoryContextPeople } from "../character-history";
 import { characterHistoryContextPersonId } from "../character-history";
 import {
@@ -484,23 +484,7 @@ export function chapterOutreachTransitionHandler(
   }
   // The organizer's own temperament weighs too (PEOPLE P2).
   world = ensurePeopleTraits(world, [organizerId]);
-  considerations.push(
-    ...traitConsiderations(world, organizerId, dueItem.stableKey, [
-      {
-        optionKey: "invite",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They like reaching out to people.",
-      },
-      {
-        optionKey: "not-now",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They hold back from reaching out.",
-      },
-    ]),
-  );
-  const evaluation = evaluateDecision(world, {
+
     stableKey: `${dueItem.stableKey}:decision`,
     decisionType: "party-chapter.invite-to-meeting",
     actorPersonId: organizerId,
