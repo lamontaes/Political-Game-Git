@@ -13,7 +13,12 @@ import {
   loadedTraitRegistry,
 } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
+import { traitActConsiderations } from "../act-pulls";
 import type { DecisionConsideration, EntityId, World } from "../../types";
+
+const DECISION_TYPE_FOR_PROOF: Readonly<Record<string, string>> = {
+  "contact.answer": "people.contact-answer",
+};
 
 /** One person's choice with and without a recorded tendency. */
 export interface TraitProof {
@@ -119,7 +124,7 @@ function decisionForPerson(
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType: DECISION_TYPE_FOR_PROOF[decisionId] ?? decisionId,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
@@ -140,7 +145,7 @@ function decisionForPerson(
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      allConsiderations.find(
+      evaluation.context.considerations.find(
         ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
       )?.explanation ?? null,
   };
@@ -216,15 +221,34 @@ export function proveTwoPersonTraitDifference(
     questionnaire: "skipped",
   });
   const registry = loadedTraitRegistry();
+  const declaration = BUILT_IN_TRAIT_DECISIONS.find(
+    ({ id }) => id === decisionId,
+  )!;
+  const options = declaration.options.map((key) => ({
+    key,
+    label: key,
+    description: `The person chooses ${key}.`,
+  }));
+  const decisionType = DECISION_TYPE_FOR_PROOF[decisionId] ?? decisionId;
   const nonTargetTraitSignature = (personId: EntityId) =>
-    registeredTraitConsiderations(
-      game.world,
-      registry,
-      personId,
-      `proof:${decisionId}`,
-      decisionId,
-    )
-      .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
+    [
+      ...registeredTraitConsiderations(
+        game.world,
+        registry,
+        personId,
+        `proof:${decisionId}`,
+        decisionId,
+      ).filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`)),
+      ...traitActConsiderations(
+        game.world,
+        registry,
+        personId,
+        `proof:${decisionId}`,
+        decisionType,
+        options,
+        new Set([traitId]),
+      ),
+    ]
       .map(
         ({ stableKey, optionKey, direction, importance, confidence }) =>
           `${stableKey}:${optionKey}:${direction}:${importance}:${confidence}`,
