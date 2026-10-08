@@ -14,13 +14,11 @@ import {
   outletCovers,
   storyLeads,
   ensurePressDeskSchedule,
+  pressDeskSweepHandler,
+  PRESS_DESK_SWEEP_TRANSITION_KEY,
 } from "./desk";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import {
-  ensurePressExposureCoverage,
-  ensurePressHomeCoverage,
-  mediaOutlets,
-} from "./outlets";
+import { ensurePressHomeCoverage, mediaOutlets } from "./outlets";
 import { advanceWorld, recordWorldEvent } from "../world";
 
 /**
@@ -77,9 +75,13 @@ describe("press coverage", () => {
     const before = mediaOutlets(world).filter(
       (outlet) => outlet.scope === "state",
     );
-    const after = mediaOutlets(ensurePressExposureCoverage(world)).filter(
-      (outlet) => outlet.scope === "state",
-    );
+    world = ensurePressDeskSchedule(world);
+    const sweep = world.history.futureDueItems.find(
+      (item) => item.transitionKey === PRESS_DESK_SWEEP_TRANSITION_KEY,
+    )!;
+    const after = mediaOutlets(
+      pressDeskSweepHandler(world, sweep).world,
+    ).filter((outlet) => outlet.scope === "state");
 
     expect(
       before.some((outlet) =>
