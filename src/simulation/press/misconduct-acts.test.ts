@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { createScenarioWorld, makeCurrencyCode } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { lifePlaceStateIdentities } from "../life-places";
+import { smallWorldPlace } from "../../../tests/fixtures/small-world";
 import { pressRecordsOfKind } from "./store";
 import {
   MISCONDUCT_FAMILIES,
@@ -11,12 +12,18 @@ import {
 import { recordMisconductAct } from "./matters";
 
 describe("recordMisconductAct", () => {
-  it.each(MISCONDUCT_FAMILIES)(
-    "%s writes one occurrence and knowledge for exactly its participants",
-    (family) => {
+  it.each(
+    lifePlaceStateIdentities().flatMap((place) =>
+      MISCONDUCT_FAMILIES.map((family) => ({ place, family })),
+    ),
+  )(
+    "$family in $place.usps writes one occurrence and knowledge for exactly its participants",
+    ({ place, family }) => {
+      expect(lifePlaceStateIdentities()).toHaveLength(56);
+      const context = smallWorldPlace(place.usps).context;
       const world = createScenarioWorld(
-        `misconduct-act:${family}`,
-        KENTUCKY_CONTEXT,
+        `misconduct-act:${place.usps}:${family}`,
+        context,
         { peopleCount: 3 },
       );
       const actorPersonId = world.personOrder[0]!;
@@ -48,7 +55,7 @@ describe("recordMisconductAct", () => {
                     basisKind: "custom:campaign-expenditure",
                     basisReference: { kind: "general" },
                     restrictionKind: null,
-                    jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+                    jurisdictionId: context.jurisdiction.id,
                   },
                   outcome: null,
                 },
@@ -62,7 +69,7 @@ describe("recordMisconductAct", () => {
           access: "restricted",
           description: `${row.label} record left by the act.`,
         })),
-        jurisdictionId: KENTUCKY_CONTEXT.jurisdiction.id,
+        jurisdictionId: context.jurisdiction.id,
         summary: `${row.label} was carried out.`,
         choice: row.label,
       });
