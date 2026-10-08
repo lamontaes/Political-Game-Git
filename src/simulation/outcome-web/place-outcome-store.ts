@@ -5,7 +5,7 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
-import { STATES } from "../state-reference";
+import { isFederalDistrictJurisdictionKey, STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
 import type { OutcomeRangeViolation } from ".";
@@ -219,7 +219,7 @@ export function localOutcomeKey(jurisdictionId: EntityId): string | null {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (!place || place.scope === "state" || !place.stateJurisdictionKey)
     return null;
-  if (place.stateJurisdictionKey === "US-DC") return null;
+  if (isFederalDistrictJurisdictionKey(place.stateJurisdictionKey)) return null;
   if (place.scope === "county") return place.key;
   return place.sourceGeoid ?? place.key;
 }
