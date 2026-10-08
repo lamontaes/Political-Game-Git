@@ -202,6 +202,12 @@ export function recordStoryHeardOfficialViews(
         stableKey,
         "This reported act runs against the view of this official the person already held.",
       );
+      next = tellViewToHearers(next, {
+        holderId: knowledge.personId,
+        officialId: act.officialId,
+        eventId: story.id,
+        stableKey: `${stableKey}:firsthand-story-view`,
+      });
     }
   }
   return next;
