@@ -261,9 +261,12 @@ export function toGradingBatch(
   const voices = new Map<string, number>();
   // Conversation repeats when the exchange and the relationship repeat; a
   // read text (news, journal, a judge's reasons) repeats when its words do.
+  // A conversation repeats a situation when the same kind of exchange with the
+  // same kind of person opens the same way and varies the same thing; one
+  // that opens with another choice, or tests another axis, is a new situation.
   const pairOf = (item: Omit<GradingItem, "i">) =>
     item.kind === "conversation" || item.kind === "press"
-      ? `${item.kind}|${item.cell.kind}|${item.cell.relationship}`
+      ? `${item.kind}|${item.cell.kind}|${item.cell.relationship}|${item.prior}|${item.axis}`
       : `${item.kind}|${item.situation}|${item.reply}`;
   const worldIndex = new Map(
     result.worlds.map((world) => [world.place, world.index]),
