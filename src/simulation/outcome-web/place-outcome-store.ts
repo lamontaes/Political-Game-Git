@@ -97,12 +97,33 @@ export interface PlaceOutcomeMonth {
   readonly records: readonly PlaceOutcomeRecord[];
 }
 
+/** A recorded place outcome reaching a named member of its measured cohort. */
+export interface PlaceOutcomeLandingRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly linkKey: string;
+  readonly measure: string;
+  readonly outcomeRecordId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly answeringPersonId?: EntityId | null;
+  readonly month: IsoDate;
+  readonly direction: "gain" | "cost";
+  readonly previousCauseFactor: number;
+  readonly currentCauseFactor: number;
+  readonly recipientRule: string;
+  /** Public evidence used to estimate an individual effect from the group result. */
+  readonly estimatedFrom: string;
+}
+
 /**
  * Month by month, oldest first. Kept as one entry per month so a century of
  * play appends a short list, not every record ever written.
  */
 export interface PlaceOutcomeStore {
   readonly months: readonly PlaceOutcomeMonth[];
+  /** Optional so saves from before person landings remain readable. */
+  readonly landings?: readonly PlaceOutcomeLandingRecord[];
 }
 
 /** Every record in the store, oldest month first. */

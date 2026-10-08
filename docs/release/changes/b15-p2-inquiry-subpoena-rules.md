@@ -1,7 +1,7 @@
 ---
 id: b15-p2-inquiry-subpoena-rules
 impact: patch
-section: Simulation
+section: Changed
 title: Record subpoena authority by investigative body
 ---
 

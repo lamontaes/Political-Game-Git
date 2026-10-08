@@ -1,4 +1,9 @@
-# People who know the player can ask them on a date
+---
+id: pool-b21-p2-date-invitations
+impact: patch
+section: Changed
+title: People who know the player can ask them on a date
+---
 
 Recorded relationship interactions can now give a person a reason to invite
 someone they know on a date. The inviter's choice uses the shared romantic

@@ -121,119 +121,14 @@
   color-scheme: dark;
 }
 
-.pg-contact-note {
-  margin: 0.5rem 0 0;
-  font-size: 0.85rem;
-  color: var(--text-2);
-}
-
-/* The contact screen for one person, over whatever was open. */
-.pg-contact-dialog {
-  box-sizing: border-box;
-  width: min(30rem, calc(100vw - 2rem));
-  max-height: calc(100dvh - 2rem);
-  margin: auto;
-  padding: 0;
-  overflow: auto;
-  color: var(--pg-ivory, var(--run-a-ink));
-  font-family: var(--ui);
-  background: var(--kit12-glass);
-  border: 1px solid var(--brass);
-  border-radius: 2px;
-  box-shadow: var(--kit12-frame);
-  backdrop-filter: var(--kit12-blur);
-}
-
-.pg-contact-dialog-body {
-  padding: 0.9rem 1rem 1rem;
-}
-
-.pg-contact-dialog[open] {
-  animation: pg-contact-in 180ms ease-out;
-}
-
-.pg-contact-dialog::backdrop {
-  background: rgb(0 0 0 / 55%);
-  animation: pg-contact-fade 180ms ease-out;
-}
-
-@keyframes pg-contact-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px) scale(0.985);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes pg-contact-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pg-contact-dialog[open],
-  .pg-contact-dialog::backdrop {
-    animation: none;
-  }
-}
-
-.pg-contact-dialog-head {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0.6rem;
-}
-
-.pg-contact-dialog-head .person-portrait figcaption {
-  display: none;
-}
-
-.pg-contact-dialog-head .person-portrait-mark {
-  width: 2.8rem;
-  height: 2.8rem;
-  border-radius: 0.4rem;
-}
-
-.pg-contact-dialog-who {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.pg-contact-dialog-who h2 {
-  margin: 0;
-  font: 800 1.15rem var(--name);
-  color: var(--gold);
-  line-height: 1.2;
-}
-
-.pg-contact-dialog-who p {
-  margin: 0.1rem 0 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+/* A recorded value under its control name: "Last in touch" and the day. */
+.pg-contact-label {
   color: var(--pg-brass, var(--run-a-gold));
-}
-
-.pg-contact-dialog button:focus-visible,
-.pg-contact-dialog input:focus-visible {
-  outline: 3px solid var(--run-a-focus);
-  outline-offset: 2px;
 }
 
 /* Where the player can go and meet somebody they do not know yet. */
 .pg-contacts-new {
   margin-top: 0.8rem;
-}
-
-.pg-contacts-new h4 {
-  margin: 0 0 0.4rem;
 }
 
 .pg-contacts-new-list {
