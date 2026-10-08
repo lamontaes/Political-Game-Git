@@ -47,7 +47,7 @@
     "walking": "standing",
     "waving": "explaining",
     "weight-shift": "hand-on-hip",
-    "lean": "weight-shift"
+    "lean": "hand-on-hip"
   },
   "byExpression": {
     "about": "A person whose face shows this in the scene stands the way the face reads, in any activity but a speech from a podium. Only standing people; the share is how many of them carry it in the pose rather than only on the face.",
