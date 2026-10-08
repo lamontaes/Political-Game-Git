@@ -43,6 +43,9 @@ import {
   materializePerson,
   recordWorldEvent,
 } from "./world";
+import { useFullWorldIntegrity } from "../../tests/fixtures/full-world-integrity";
+
+useFullWorldIntegrity();
 
 const AUTHORED = {
   kind: "authored" as const,

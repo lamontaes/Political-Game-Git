@@ -5,7 +5,7 @@
  * is the single seam that carries verified qualification records across that
  * line: it reads the compiled corpus under
  * `data/source/state-office-qualifications/`, keeps the fields a candidacy
- * decision needs, and writes one generated module the simulation can import.
+ * decision needs, and writes JSON rows and the browser-safe module the simulation can import.
  *
  * What crosses, and what does not. A record's state, office, field, epistemic
  * state, value, citation and effective date cross, because a player who is
@@ -24,6 +24,7 @@
 
 import { readFileSync, writeFileSync } from "fs";
 import path from "path";
+import { format, resolveConfig } from "prettier";
 
 import type {
   ProvisionValidity,
@@ -39,6 +40,10 @@ const CORPUS_PATH = path.join(
 const MANIFEST_PATH = path.join(
   REPOSITORY_ROOT,
   "data/source/state-office-qualifications/corpus-manifest.json",
+);
+const DATA_OUTPUT_PATH = path.join(
+  REPOSITORY_ROOT,
+  "data/research/elections/office-qualifications.json",
 );
 const OUTPUT_PATH = path.join(
   REPOSITORY_ROOT,
@@ -144,7 +149,7 @@ function rowFor(record: QualificationRecord): ExportedRow {
   };
 }
 
-function main(): void {
+async function main(): Promise<void> {
   const records = JSON.parse(
     readFileSync(CORPUS_PATH, "utf8"),
   ) as readonly QualificationRecord[];
@@ -160,46 +165,27 @@ function main(): void {
 
   const states = [...new Set(rows.map((row) => row.stateUsps))].sort();
 
-  const output = `/**
- * GENERATED — do not edit by hand.
- *
- * Written by \`scripts/source/export-office-qualifications.ts\` from the
- * compiled \`state-office-qualifications\` corpus. Every row below was checked
- * against the enacted text of the provision it cites, in bytes this repository
- * retrieved from the state's own publisher and hashed. Regenerate with
- * \`npm run export:office-qualifications\`.
- *
- * This file imports nothing from \`src/source\`; it is the browser-safe side of
- * the one-way source-to-game seam.
- *
- * The states below are the states whose authorities were retrieved. Every other
- * state is absent, and its absence is a fact about this repository rather than
- * about that state's law — which is why the read model above this file says
- * "the game has not read" rather than "there is no rule".
- */
-
-/** Provenance for the qualification rows below. Surfaced honestly. */
-export const OFFICE_QUALIFICATIONS_META = ${JSON.stringify(
-    {
-      asOf: manifest.asOf,
-      corpusSha256: manifest.canonicalSha256,
-      compiler: `${manifest.compiler.name}@${manifest.compiler.version}`,
-      recordCount: manifest.recordCount,
-      states,
-      coverage: manifest.coverage.universeDescription,
-    },
-    null,
-    2,
-  )} as const;
-
-/**
- * One row per verified qualification fact, as one JSON string.
- *
- * Kept as a string so the type checker never has to describe the literal, and
- * parsed once by \`office-qualification-rules.ts\`.
- */
-export const OFFICE_QUALIFICATION_ROWS: string =
-  ${JSON.stringify(JSON.stringify(rows))};
+  const meta = {
+    asOf: manifest.asOf,
+    corpusSha256: manifest.canonicalSha256,
+    compiler: `${manifest.compiler.name}@${manifest.compiler.version}`,
+    recordCount: manifest.recordCount,
+    states,
+    coverage: manifest.coverage.universeDescription,
+  };
+  writeFileSync(
+    DATA_OUTPUT_PATH,
+    await format(JSON.stringify({ meta, rows }), {
+      ...(await resolveConfig(DATA_OUTPUT_PATH)),
+      parser: "json",
+    }),
+    "utf8",
+  );
+  const output = `/** GENERATED browser-safe qualification seam. Regenerate with npm run export:office-qualifications. */
+import { researchRuleTable } from "./research-rule-tables";
+const table = researchRuleTable("officeQualifications");
+export const OFFICE_QUALIFICATIONS_META = table.meta;
+export const OFFICE_QUALIFICATION_ROWS: string = JSON.stringify(table.rows);
 `;
 
   writeFileSync(OUTPUT_PATH, output, "utf8");
@@ -208,4 +194,4 @@ export const OFFICE_QUALIFICATION_ROWS: string =
   );
 }
 
-main();
+await main();

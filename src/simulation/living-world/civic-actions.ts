@@ -186,19 +186,6 @@ export function recordCivicMessage(
   });
 }
 
-/** Read saved civic messages for one issue in one jurisdiction. */
-export function civicMessagesForProposition(
-  world: World,
-  jurisdictionId: EntityId,
-  propositionId: EntityId,
-): readonly CivicMessageRecord[] {
-  return (
-    civicMessagesForPropositions(world, jurisdictionId, [propositionId]).get(
-      propositionId,
-    ) ?? []
-  );
-}
-
 /** Read matching topics in one pass for callers weighing a multi-part bill. */
 export function civicMessagesForPropositions(
   world: World,
@@ -855,16 +842,4 @@ function openOfficeCaseForContact(
     summary: contact.summary,
     context: contact.context,
   });
-}
-
-/** How many of each civic action a town's residents took. */
-export function describeTownCivicActions(
-  world: World,
-  town: EntityId,
-): Readonly<Record<string, number>> {
-  const counts: Record<string, number> = {};
-  for (const event of world.history.events)
-    if (event.stableKey.startsWith(`${CIVIC_ACTIONS_VERSION}:${town}:`))
-      counts[event.type] = (counts[event.type] ?? 0) + 1;
-  return counts;
 }

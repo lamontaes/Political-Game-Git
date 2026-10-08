@@ -138,13 +138,16 @@ describe("council filing survivor", () => {
         },
       };
       const next = file(world);
-      // Captured from councilFilings on main37a25100b before its deletion.
+      // Captured from councilFilings on main 37a25100b before its deletion. The
+      // sponsors' ids come from world generation, which has changed since, so
+      // the digest was refreshed on 2026-10-08 (main 58ba8cb0) to pin the
+      // seeded selection now.
       expect(
         createHash("sha256")
           .update(JSON.stringify(selection(next)))
           .digest("hex"),
       ).toBe(
-        "a8b648478a8d09df80f693db4886d7b8cf0223a960f151b77a84e10866db7c34",
+        "722a3418a5afdfc73427bbec5ad6f85db897679f903741bf2e344b155b0ce43c",
       );
       for (const measure of municipalMeasures(next, DC_GOVERNMENT_KEY)) {
         expect(
