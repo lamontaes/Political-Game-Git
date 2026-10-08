@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "../dates";
+import { jumpToDate } from "../../../tests/fixtures/due-item-clock";
 import { enactmentStatuteDateContext } from "../enacted-rule-changes";
 import { bodyForChamber } from "../legislation-scenarios";
 import {
@@ -48,11 +49,7 @@ import { stateStatuteOperativeAt } from "./statute-effective-date";
  */
 
 function on(world: World, date: IsoDate): World {
-  return {
-    ...world,
-    currentDate: date,
-    currentMoment: { ...world.currentMoment, date },
-  };
+  return jumpToDate(world, date);
 }
 
 /** Takes the budget through every floor stage, a legislative day apart. */
