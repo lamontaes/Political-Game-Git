@@ -1,3 +1,4 @@
+import { PERSONNEL_JURISDICTION_RULES } from "./civil-personnel-rules";
 /** Explicit fictional Custom Start premise for public personnel work. */
 import { inventedPersonBirthDate } from "./invented-person-age";
 import {
@@ -20,7 +21,6 @@ import {
   establishPersonnelDesignation,
   establishPersonnelIncumbency,
   establishPersonnelPosition,
-  personnelProcedure,
   personnelStateKeyForJurisdiction,
   type PersonnelResult,
 } from "./civil-personnel-actions";
@@ -35,9 +35,9 @@ export const STATE_AGENCY_START_NOTICE =
  * compiled from acquired law.
  */
 export function stateAgencyStartStates(): readonly string[] {
-  return personnelProcedure("mn-discipline-notice").jurisdictionKey === "US-MN"
-    ? ["US-MN"]
-    : [];
+  return PERSONNEL_JURISDICTION_RULES.filter(
+    (row) => row.classifiedProcedureAvailable,
+  ).map((row) => row.jurisdictionKey);
 }
 
 export function stateAgencyStartAvailableFor(
