@@ -1,0 +1,1091 @@
+{
+  "version": 1,
+  "researchQuestionId": "legislative-committees-and-assignment-by-chamber",
+  "note": "Field tables are starting practice, not a claim that unread chambers adopted these rules. Every estimated field names its source; a recorded committee rule overrides the estimate. State and territorial rows are explicit, including one-house legislatures.",
+  "sources": {
+    "house-rules": {
+      "title": "Rules of the House of Representatives, 119th Congress",
+      "url": "https://clerk.house.gov/legislative/house-rules.pdf",
+      "citation": "Rules I, X, XI and XV"
+    },
+    "senate-rules": {
+      "title": "Standing Rules of the Senate",
+      "url": "https://www.rules.senate.gov/rules-of-the-senate",
+      "citation": "Rules I, XXV and XXVI"
+    },
+    "ncsl-leadership": {
+      "title": "NCSL Legislative Leadership and Legislative Committees",
+      "url": "https://www.ncsl.org/about-state-legislatures/legislative-leadership",
+      "citation": "Presiding officers, caucus leadership and committee assignment practices"
+    },
+    "nlc-forms": {
+      "title": "National League of Cities: Forms of Municipal Government",
+      "url": "https://www.nlc.org/resource/forms-of-municipal-government/",
+      "citation": "Council-manager and mayor-council forms; council presiding authority"
+    },
+    "house-caucus": {
+      "title": "House party caucus leadership and committee practice",
+      "url": "https://crsreports.congress.gov/product/pdf/RS/RS20722",
+      "citation": "CRS The First Day of a New Congress: A Guide to Proceedings on the House Floor"
+    },
+    "senate-caucus": {
+      "title": "Senate party conference leadership and committee practice",
+      "url": "https://www.senate.gov/senators/leadership.htm",
+      "citation": "Party leadership elected by the party conferences; seniority custom is not a binding selection rule"
+    }
+  },
+  "tables": {
+    "assignmentAuthority": [
+      {
+        "id": "federal-house:assignmentAuthority",
+        "value": "committee-on-committees",
+        "sourceId": "house-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "federal-senate:assignmentAuthority",
+        "value": "party-caucuses",
+        "sourceId": "senate-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "state-house:assignmentAuthority",
+        "value": "speaker",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:assignmentAuthority",
+        "value": "senate-president",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:assignmentAuthority",
+        "value": "committee-on-committees",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:assignmentAuthority",
+        "value": "council-president",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:assignmentAuthority",
+        "value": "presiding-officer",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:assignmentAuthority",
+        "value": "council-president",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ],
+    "chairSelectionAuthority": [
+      {
+        "id": "federal-house:chairSelectionAuthority",
+        "value": "party-caucuses-and-chamber",
+        "sourceId": "house-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "federal-senate:chairSelectionAuthority",
+        "value": "party-caucuses-and-chamber",
+        "sourceId": "senate-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "state-house:chairSelectionAuthority",
+        "value": "speaker",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:chairSelectionAuthority",
+        "value": "senate-president",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:chairSelectionAuthority",
+        "value": "chamber-vote",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:chairSelectionAuthority",
+        "value": "council-vote",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:chairSelectionAuthority",
+        "value": "council-vote",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:chairSelectionAuthority",
+        "value": "council-vote",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ],
+    "posts": [
+      {
+        "id": "federal-house:posts",
+        "value": [
+          {
+            "key": "speaker",
+            "title": "Speaker",
+            "selection": "floor-vote"
+          },
+          {
+            "key": "majority-leader",
+            "title": "Majority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-leader",
+            "title": "Minority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "majority-whip",
+            "title": "Majority whip",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-whip",
+            "title": "Minority whip",
+            "selection": "caucus-vote"
+          }
+        ],
+        "sourceId": "house-caucus",
+        "estimatedFrom": null
+      },
+      {
+        "id": "federal-senate:posts",
+        "value": [
+          {
+            "key": "president-pro-tempore",
+            "title": "President pro tempore",
+            "selection": "floor-vote"
+          },
+          {
+            "key": "majority-leader",
+            "title": "Majority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-leader",
+            "title": "Minority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "majority-whip",
+            "title": "Majority whip",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-whip",
+            "title": "Minority whip",
+            "selection": "caucus-vote"
+          }
+        ],
+        "sourceId": "senate-caucus",
+        "estimatedFrom": null
+      },
+      {
+        "id": "state-house:posts",
+        "value": [
+          {
+            "key": "speaker",
+            "title": "Speaker",
+            "selection": "floor-vote"
+          },
+          {
+            "key": "majority-leader",
+            "title": "Majority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-leader",
+            "title": "Minority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "majority-whip",
+            "title": "Majority whip",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-whip",
+            "title": "Minority whip",
+            "selection": "caucus-vote"
+          }
+        ],
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:posts",
+        "value": [
+          {
+            "key": "president-pro-tempore",
+            "title": "President pro tempore",
+            "selection": "floor-vote"
+          },
+          {
+            "key": "majority-leader",
+            "title": "Majority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-leader",
+            "title": "Minority leader",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "majority-whip",
+            "title": "Majority whip",
+            "selection": "caucus-vote"
+          },
+          {
+            "key": "minority-whip",
+            "title": "Minority whip",
+            "selection": "caucus-vote"
+          }
+        ],
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:posts",
+        "value": [
+          {
+            "key": "speaker",
+            "title": "Speaker",
+            "selection": "floor-vote"
+          }
+        ],
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:posts",
+        "value": [
+          {
+            "key": "council-president",
+            "title": "Council president",
+            "selection": "floor-vote"
+          }
+        ],
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:posts",
+        "value": [
+          {
+            "key": "mayor-pro-tem",
+            "title": "Mayor pro tem",
+            "selection": "floor-vote"
+          }
+        ],
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:posts",
+        "value": [
+          {
+            "key": "council-president",
+            "title": "Council president",
+            "selection": "direct-election"
+          }
+        ],
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ],
+    "partyRatioRule": [
+      {
+        "id": "federal-house:partyRatioRule",
+        "value": "party-agreement",
+        "sourceId": "house-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "federal-senate:partyRatioRule",
+        "value": "party-agreement",
+        "sourceId": "senate-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "state-house:partyRatioRule",
+        "value": "proportional",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:partyRatioRule",
+        "value": "proportional",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:partyRatioRule",
+        "value": "nonpartisan",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:partyRatioRule",
+        "value": "not-applicable",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:partyRatioRule",
+        "value": "not-applicable",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:partyRatioRule",
+        "value": "not-applicable",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ],
+    "chairMayDeclineBill": [
+      {
+        "id": "federal-house:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "house-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "federal-senate:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "senate-rules",
+        "estimatedFrom": null
+      },
+      {
+        "id": "state-house:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:chairMayDeclineBill",
+        "value": true,
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ],
+    "seniorityImportance": [
+      {
+        "id": "federal-house:seniorityImportance",
+        "value": "slight",
+        "sourceId": "house-caucus",
+        "estimatedFrom": "House party caucus leadership and committee practice"
+      },
+      {
+        "id": "federal-senate:seniorityImportance",
+        "value": "slight",
+        "sourceId": "senate-caucus",
+        "estimatedFrom": "Senate party conference leadership and committee practice"
+      },
+      {
+        "id": "state-house:seniorityImportance",
+        "value": "slight",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "state-senate:seniorityImportance",
+        "value": "slight",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "unicameral:seniorityImportance",
+        "value": "slight",
+        "sourceId": "ncsl-leadership",
+        "estimatedFrom": "NCSL Legislative Leadership and Legislative Committees"
+      },
+      {
+        "id": "council-manager:seniorityImportance",
+        "value": "slight",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "mayor-council:seniorityImportance",
+        "value": "slight",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      },
+      {
+        "id": "elected-president:seniorityImportance",
+        "value": "slight",
+        "sourceId": "nlc-forms",
+        "estimatedFrom": "National League of Cities: Forms of Municipal Government"
+      }
+    ]
+  },
+  "templates": {
+    "federal-house": {
+      "assignmentAuthority": "federal-house:assignmentAuthority",
+      "chairSelectionAuthority": "federal-house:chairSelectionAuthority",
+      "posts": "federal-house:posts",
+      "partyRatioRule": "federal-house:partyRatioRule",
+      "chairMayDeclineBill": "federal-house:chairMayDeclineBill",
+      "seniorityImportance": "federal-house:seniorityImportance"
+    },
+    "federal-senate": {
+      "assignmentAuthority": "federal-senate:assignmentAuthority",
+      "chairSelectionAuthority": "federal-senate:chairSelectionAuthority",
+      "posts": "federal-senate:posts",
+      "partyRatioRule": "federal-senate:partyRatioRule",
+      "chairMayDeclineBill": "federal-senate:chairMayDeclineBill",
+      "seniorityImportance": "federal-senate:seniorityImportance"
+    },
+    "state-house": {
+      "assignmentAuthority": "state-house:assignmentAuthority",
+      "chairSelectionAuthority": "state-house:chairSelectionAuthority",
+      "posts": "state-house:posts",
+      "partyRatioRule": "state-house:partyRatioRule",
+      "chairMayDeclineBill": "state-house:chairMayDeclineBill",
+      "seniorityImportance": "state-house:seniorityImportance"
+    },
+    "state-senate": {
+      "assignmentAuthority": "state-senate:assignmentAuthority",
+      "chairSelectionAuthority": "state-senate:chairSelectionAuthority",
+      "posts": "state-senate:posts",
+      "partyRatioRule": "state-senate:partyRatioRule",
+      "chairMayDeclineBill": "state-senate:chairMayDeclineBill",
+      "seniorityImportance": "state-senate:seniorityImportance"
+    },
+    "unicameral": {
+      "assignmentAuthority": "unicameral:assignmentAuthority",
+      "chairSelectionAuthority": "unicameral:chairSelectionAuthority",
+      "posts": "unicameral:posts",
+      "partyRatioRule": "unicameral:partyRatioRule",
+      "chairMayDeclineBill": "unicameral:chairMayDeclineBill",
+      "seniorityImportance": "unicameral:seniorityImportance"
+    },
+    "council-manager": {
+      "assignmentAuthority": "council-manager:assignmentAuthority",
+      "chairSelectionAuthority": "council-manager:chairSelectionAuthority",
+      "posts": "council-manager:posts",
+      "partyRatioRule": "council-manager:partyRatioRule",
+      "chairMayDeclineBill": "council-manager:chairMayDeclineBill",
+      "seniorityImportance": "council-manager:seniorityImportance"
+    },
+    "mayor-council": {
+      "assignmentAuthority": "mayor-council:assignmentAuthority",
+      "chairSelectionAuthority": "mayor-council:chairSelectionAuthority",
+      "posts": "mayor-council:posts",
+      "partyRatioRule": "mayor-council:partyRatioRule",
+      "chairMayDeclineBill": "mayor-council:chairMayDeclineBill",
+      "seniorityImportance": "mayor-council:seniorityImportance"
+    },
+    "elected-president": {
+      "assignmentAuthority": "elected-president:assignmentAuthority",
+      "chairSelectionAuthority": "elected-president:chairSelectionAuthority",
+      "posts": "elected-president:posts",
+      "partyRatioRule": "elected-president:partyRatioRule",
+      "chairMayDeclineBill": "elected-president:chairMayDeclineBill",
+      "seniorityImportance": "elected-president:seniorityImportance"
+    }
+  },
+  "councilForms": {
+    "council-manager": "council-manager",
+    "mayor-council": "mayor-council",
+    "elected-president": "elected-president"
+  },
+  "defaultCouncilTemplate": "council-manager",
+  "rows": [
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "house",
+      "templateId": "federal-house"
+    },
+    {
+      "jurisdictionKey": "US",
+      "chamberKey": "senate",
+      "templateId": "federal-senate"
+    },
+    {
+      "jurisdictionKey": "US-AL",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AL",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "chamberKey": "council",
+      "templateId": "elected-president"
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "chamberKey": "legislature",
+      "templateId": "unicameral"
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "chamberKey": "legislature",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-VI",
+      "chamberKey": "legislature",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "chamberKey": "house",
+      "templateId": "state-house"
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "chamberKey": "senate",
+      "templateId": "state-senate"
+    }
+  ]
+}

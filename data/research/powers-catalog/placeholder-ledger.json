@@ -3,15 +3,15 @@
   "generatedBy": "scripts/research/placeholder-ledger.ts",
   "pathRule": "money: files whose values reach pay, prices, balances or public money; law: files that make, number, decide, enact or apply law, or seat the bodies that do; government: elections, candidacies, offices and the press; other: everything else. The rule is by file, in scripts/research/placeholder-scan.ts.",
   "counts": {
-    "markers": 302,
+    "markers": 303,
     "byKind": {
       "unresearched": 99,
-      "placeholder": 180,
+      "placeholder": 181,
       "blanket": 30
     },
     "byPath": {
       "other": 166,
-      "law": 86,
+      "law": 87,
       "government": 48,
       "money": 2
     },
@@ -2737,6 +2737,15 @@
       "path": "other",
       "researchQuestionId": null,
       "researchQuestionFiled": false
+    },
+    {
+      "file": "src/simulation/chamber-leadership-profile.ts",
+      "line": 93,
+      "text": "PLACEHOLDER: unread chamber customs use the named public practice in the field table, never silent permission.",
+      "kinds": ["placeholder"],
+      "path": "law",
+      "researchQuestionId": "legislative-committees-and-assignment-by-chamber",
+      "researchQuestionFiled": true
     }
   ],
   "estimates": [
