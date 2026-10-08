@@ -11,7 +11,9 @@ describe("the facet-teasing trait in a random new game", () => {
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("counter");
-    expect(proof.high.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:facet-teasing|people.contact-answer|counter|high",
+    );
     expect(proof.low.choice).toBeNull();
   });
 });
