@@ -7,7 +7,7 @@ import {
   type World,
 } from "../simulation";
 import {
-  candidatePersonalBalance,
+  candidatePersonalMoney,
   contributeOwnMoneyToCampaign,
 } from "../simulation/campaign-money-sources";
 
@@ -35,24 +35,21 @@ export function CampaignOwnMoney({
   );
   if (!campaign) return null;
   const currency = campaign.treasuryCurrency;
-  const balance = candidatePersonalBalance(world, personId);
+  const own = candidatePersonalMoney(world, personId);
+  if (own === null) return null;
+  const balance = own.minorUnits;
   const show = (minorUnits: number) => displayMoney({ minorUnits, currency });
-  if (balance === null) {
-    return (
-      <p className="game-note" data-testid="campaign-own-money">
-        Own money: not on record
-      </p>
-    );
-  }
   return (
     <section
       className="game-campaign-own-money"
       data-testid="campaign-own-money"
       aria-label="Your own money"
     >
-      <p>
-        You have {show(Math.max(0, balance))} of your own. You can put some of
-        it into the campaign.
+      <p data-testid="campaign-own-money-balance">
+        You have {own.estimateBasis ? "about " : ""}
+        {show(Math.max(0, balance))} of your own
+        {own.estimateBasis ? ", an estimate from the typical balance" : ""}. You
+        can put some of it into the campaign.
       </p>
       <div>
         {OFFERED_AMOUNTS.map((amount) => (
