@@ -133,6 +133,14 @@ describe("people anchors on every place picture", () => {
     expect(seats.filter((spot) => spot.facing === "right")).toHaveLength(6);
   });
 
+  it("stages each visible party headquarters office chair", () => {
+    const stage = backdropStaging("party-headquarters")!;
+    const seats = stage.spots.filter((spot) => spot.pose === "sit");
+
+    expect(seats).toHaveLength(4);
+    expect(seats.map((spot) => spot.id)).toContain("party-headquarters:spot:8");
+  });
+
   it("covers every place that has a picture, and only those", () => {
     expect(Object.keys(STAGES).sort()).toEqual(PLACES);
   });
