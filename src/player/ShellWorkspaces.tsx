@@ -29,6 +29,7 @@ import type { NotesVisibility } from "../simulation/types";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -1652,6 +1653,10 @@ export function PersonalFinancesWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
+  const householdCosts = useMemo(
+    () => estimatedHouseholdLivingCostsAt(world, personId),
+    [world, personId],
+  );
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
   const economicJurisdictionId = homeId ?? undefined;
@@ -1688,6 +1693,32 @@ export function PersonalFinancesWorkspace({
             </li>
           ))}
         </ul>
+        {householdCosts ? (
+          <ul
+            className="pg-purses"
+            data-testid="personal-household-cost-estimate"
+            data-estimate={householdCosts.label}
+            data-currency="USD"
+            data-period="month"
+          >
+            {householdCosts.categories.map((category) => (
+              <li key={category.key} data-cost-category={category.key}>
+                <strong>{category.label}</strong>
+                <span>
+                  {dollars({
+                    minorUnits: Math.round(
+                      (category.annualMeanUsd *
+                        100 *
+                        householdCosts.monthlyMinor) /
+                        (12 * householdCosts.averageMonthlyMinor),
+                    ),
+                    currency: "USD",
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
 
       {/*
