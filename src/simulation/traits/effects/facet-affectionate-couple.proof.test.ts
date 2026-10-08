@@ -7,10 +7,14 @@ describe("affection in couple decisions", () => {
       "personality-v1:facet-affectionate",
       "people.couple-answer",
       "t4-proof-couple-answer",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.high.choice).toBe("accept");
-    expect(proof.high.reason).toMatch(/warmth/);
+    expect(proof.high.reason).toContain(
+      "personality-v1:facet-affectionate|people.couple-answer|",
+    );
     expect(proof.low.choice).not.toBe("accept");
   });
 
@@ -19,10 +23,15 @@ describe("affection in couple decisions", () => {
       "personality-v1:facet-affectionate",
       "people.couple-stage",
       "t4-proof-couple-stage",
+      [],
+      "table",
+      ["stay", "break-up"],
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.high.choice).toBe("stay");
-    expect(proof.high.reason).toMatch(/warmth/);
+    expect(proof.high.reason).toContain(
+      "personality-v1:facet-affectionate|people.couple-stage|",
+    );
     expect(proof.low.choice).not.toBe("stay");
   });
 });
