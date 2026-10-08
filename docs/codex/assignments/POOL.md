@@ -557,7 +557,7 @@ Take these after the order above, or any time a session is free. Every row is on
 | BG-50 | Map is too low-resolution to read | BUGS.md BG-50 | done #2477 | |
 | BG-51 | State-house filing refused for a random-locality home | BUGS.md BG-51 | done #3354 | Session 34 |
 | BG-52 | Campaigns: 'Read from RULES at filing time; not recorded in this pack' and 'election date not known' shown to the player | BUGS.md BG-52 | unsupported: nationwide governor qualification rules are not source-admitted; current corpus covers only MN, MO, NE, NV, and OH | |
-| BG-53 | 'Put your name in' for Governor is a dead gray button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | ready #3359 (unsupported: Nevada governor qualification is only a current observation, with no verified historical applicability date; eligibility reader does not compile this source row) | |
+| BG-53 | 'Put your name in' for Governor is a dead gray button with no reason (age 19, Nevada needs 25) | BUGS.md BG-53 | done #3359 (unsupported: no verified historical Nevada qualification source) | |
 | BG-54 | 'Talk about running for office' schedules a meeting and prints 'You said you would do it' unsaid | BUGS.md BG-54 | done #3459 | |
 | BG-55 | Organizer answers are empty ('Let's check the requirements...'); nothing learned or recorded | BUGS.md BG-55 | done #3596 (verified on main) | |
 | BG-56 | Politics screen: 2 rows of tabs, 6 sub-tabs, dropdown, 7 buttons over the map; entirely too much scrolling in menus | BUGS.md BG-56 | done #2514 (verified on current main) | |
