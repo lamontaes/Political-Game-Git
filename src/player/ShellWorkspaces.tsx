@@ -15,6 +15,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { PersonalObligations } from "./PersonalObligations";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
@@ -1547,6 +1548,7 @@ export function PersonalFinancesWorkspace({
             </li>
           ))}
         </ul>
+        <PersonalObligations world={world} personId={personId} />
         {householdCosts ? (
           <ul
             className="pg-purses"

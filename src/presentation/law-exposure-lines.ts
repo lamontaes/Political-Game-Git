@@ -110,7 +110,10 @@ function shareOfPay(exposure: LawExposureRecord): string | null {
  * quotation marks because the catalog names questions as actions
  * ("Work requirement for assistance", "Limit legislative terms").
  */
-function startingLawName(world: World, measureId: EntityId): string | null {
+export function startingLawName(
+  world: World,
+  measureId: EntityId,
+): string | null {
   const questionKey = /^starting-law:[^:]+:(.+)$/.exec(measureId)?.[1];
   if (!questionKey) return null;
   const name = Object.values(world.policyCatalog?.propositions ?? {})
