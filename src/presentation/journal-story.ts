@@ -31,6 +31,7 @@ import {
   organizationProfileAt,
   workRelationshipHistoryForPerson,
   type EntityId,
+  type IsoDate,
   type World,
 } from "../simulation";
 import { workRoleAt } from "../simulation/life-queries";
@@ -110,7 +111,7 @@ export function composeLifeStory(
     );
   const sources = new Set<EntityId>([personId]);
   // How old they were on a record's date, as a newspaper spells it.
-  const when = (date: string, pick: string): Clause | null =>
+  const when = (date: IsoDate, pick: string): Clause | null =>
     say(
       "when",
       { age: spelledCount(ageOnDate(person.birthDate, date), false) },
