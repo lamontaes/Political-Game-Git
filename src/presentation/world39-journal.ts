@@ -105,8 +105,10 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     const other = otherId ? world.people[otherId] : null;
     if (!other) continue;
     const name = personName(other);
+    // A parent-child record does not order its two people; the parent is the
+    // one born first (as `family-shape.ts` reads it).
     const relation = relationship.kind.includes("parent-child")
-      ? relationship.personIds[0] === personId
+      ? other.birthDate > person.birthDate
         ? "child"
         : "parent"
       : relationship.kind.includes("sibling")

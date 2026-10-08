@@ -297,11 +297,12 @@
       "outcome": "finance.medical-debt-in-collections",
       "policyArea": "finance",
       "sourceArea": "law:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "recipientGroup": "low-income adults",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Kluender, Mahoney, Wong and Yin 2021 (JAMA); Hu, Kaestner, Mazumder, Miller and Wong 2018 (JPubE); Brevoort, Grodzicki and Hackmann 2020 (JPubE)"
+      "recipientGroup": "recorded Medicaid expansion recipients ages 19 to 64",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-medicaid-expansion-recipient-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Kluender, Mahoney, Wong and Yin 2021 (JAMA); Hu, Kaestner, Mazumder, Miller and Wong 2018 (JPubE); Brevoort, Grodzicki and Hackmann 2020 (JPubE); 42 C.F.R. § 435.119 (Medicaid adult group ages 19 through 64). Recipients require a current recorded Medicaid expansion coverage record; the aggregate debt estimate is not a personal debt record.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "snap-work-requirement-to-participation",
@@ -415,11 +416,12 @@
       "outcome": "finance.high-cost-loans",
       "policyArea": "finance",
       "sourceArea": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "recipientGroup": "borrowers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
+      "recipientGroup": "people with a recorded outstanding payday loan",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-payday-loan-borrower-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "McKernan, Ratcliffe and Kuehn 2013 (JEBO); Wang and Burke 2021 (NBER w28765). The estimated borrower cohort requires a recorded outstanding payday-lender loan; other and unrecorded borrowing is not inferred.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "paid-leave-to-mothers-work",
@@ -605,11 +607,12 @@
       "outcome": "finance.high-cost-loans",
       "policyArea": "finance",
       "sourceArea": "law:us-federal-positions:monetary-financial.cap-consumer-loan-interest",
-      "recipientGroup": "borrowers",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "McKernan, Ratcliffe and Kuehn 2010 (Urban Institute) and 2013 (JEBO); Wang and Burke 2021 (NBER w28765) for the range"
+      "recipientGroup": "people with a recorded outstanding payday loan",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-payday-loan-borrower-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "McKernan, Ratcliffe and Kuehn 2013 (JEBO); Wang and Burke 2021 (NBER w28765). The estimated borrower cohort requires a recorded outstanding payday-lender loan; other and unrecorded borrowing is not inferred.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "universal-prek-to-math-proficiency",
@@ -1223,8 +1226,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 79,
-    "place-number-only": 16,
+    "person-linked": 82,
+    "place-number-only": 13,
     "no-live-consumer": 2,
     "budget-only": 4
   }
