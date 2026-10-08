@@ -40,7 +40,7 @@ describe("standing scene slot contract", () => {
       expect(backdropSurfaceSlots(place, "unmeasured-variant")).toEqual([]);
       surfaces += stage.surfaceSlots.length;
     }
-    expect(spots).toBe(870);
+    expect(spots).toBe(1775);
     expect(surfaces).toBe(56);
   });
 
@@ -66,7 +66,9 @@ describe("standing scene slot contract", () => {
           ? "sit"
           : pose === "podium"
             ? "podium"
-            : "stand",
+            : pose === "lean"
+              ? "lean"
+              : "stand",
       ]);
     }
   });

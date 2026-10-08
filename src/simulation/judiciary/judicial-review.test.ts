@@ -17,6 +17,10 @@ import { deserializeWorld, serializeWorld } from "../serialization";
 import { lawEffectStamp } from "../law-effect-stamp";
 import { seatHolderAt, seatsForCourt } from "./courts";
 import {
+  playerHandlesJudicialCase,
+  recordOfficeWorkflowPreference,
+} from "../office-workflow";
+import {
   observerPlace,
   observerSetup,
   openObserverWorld,
@@ -30,6 +34,7 @@ import { stateJurisdictionForKey } from "../life-places";
 import { SeededRng } from "../rng";
 import { STATES } from "../state-reference";
 import { recordWorldEvent, withWorldIntegrityDeferred } from "../world";
+import { recordJudicialPhilosophy } from "./philosophy";
 import type {
   EntityId,
   IsoDate,
@@ -402,6 +407,7 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       world.history.legislativeMeasures!.at(-1)!.jurisdictionId,
     )!;
     expect(ruling.tags).toContain(`court:${court.courtId}`);
+    expect(ruling.tags).toContain("importance:major");
     expect(ruling.participants.length).toBeGreaterThan(0);
     for (const participant of ruling.participants) {
       const [option, reason] = participant.detail!.split("|");
@@ -430,6 +436,69 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     if (ruling.tags.includes("outcome:struck")) expect(read).toBeNull();
     else expect(read?.answer).toBe("yes");
     expect(ruling.tags.some((tag) => tag.startsWith("challenge:"))).toBe(true);
+  });
+
+  it("leaves review pending when the controlled person holds a seat on the reviewing court", () => {
+    const base = openObserverWorld(
+      observerSetup(`${SEED}-player-controlled-justice`),
+    ).world;
+    const { world, propositionId: pid } = withLaw(base, lawState, GAS);
+    const challenged = withRecordedChallenge(world, GAS);
+    const court = reviewingCourt(
+      challenged,
+      stateJurisdictionForKey(`US-${lawState}`)!.id,
+    )!;
+    const playerJustice = seatsForCourt(
+      challenged,
+      court.courtId,
+      challenged.currentDate,
+    )
+      .map((seat) => seatHolderAt(challenged, seat.seatId)?.personId)
+      .find((personId): personId is EntityId => Boolean(personId))!;
+    const controlled: World = {
+      ...challenged,
+      control: { kind: "person", personId: playerJustice },
+    };
+    expect(
+      playerHandlesJudicialCase(controlled, playerJustice, "criminal"),
+    ).toBe(true);
+    expect(playerHandlesJudicialCase(controlled, playerJustice, "civil")).toBe(
+      false,
+    );
+    const playerSeat = seatsForCourt(
+      controlled,
+      court.courtId,
+      controlled.currentDate,
+    ).find(
+      (seat) =>
+        seatHolderAt(controlled, seat.seatId)?.personId === playerJustice,
+    )!;
+    const preference = recordOfficeWorkflowPreference(controlled, {
+      personId: playerJustice,
+      officeRelationshipId: playerSeat.seatId as EntityId,
+      votingMode: null,
+      caseworkMode: "player-handles-all",
+      judicialCaseworkModes: { "law-review": "decide-as-usual" },
+    });
+    expect(preference.kind).toBe("recorded");
+    if (preference.kind !== "recorded") throw new Error(preference.reason);
+    expect(
+      playerHandlesJudicialCase(preference.world, playerJustice, "law-review"),
+    ).toBe(false);
+    const eventsBefore = controlled.history.events.length;
+    const eve = addDays(world.currentDate, 90);
+    const advanced = review(addDays(eve, -1), controlled);
+    expect(advanced).toBe(controlled);
+    expect(advanced.history.events).toHaveLength(eventsBefore);
+    expect(
+      justiceVotes(advanced, {
+        stableKey: "player-bench-held-review",
+        justiceIds: [playerJustice],
+        reviewed: REVIEWED_QUESTIONS.find((row) => row.question === GAS)!,
+        propositionId: pid,
+        ruledAt: eve,
+      }),
+    ).toEqual([]);
   });
 
   it("strikes a law when the justices' own principles and the rulings run against it, and upholds it when they run for it", () => {
@@ -487,6 +556,70 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
     });
     expect(onlyUphold[0]!.optionKey).toBe("law:stands");
     expect(court).not.toBeNull();
+  });
+
+  it("reads a justice's recorded deference outlook when weighing a law", () => {
+    const base = openedWorld();
+    const { world, propositionId: pid } = withLaw(base, lawState, GAS);
+    const gas = REVIEWED_QUESTIONS.find((row) => row.question === GAS)!;
+    const justiceId = world.judiciary!.seatTenures.find(
+      (tenure) => tenure.endedAt === null && world.people[tenure.personId],
+    )!.personId;
+    const without = justiceVotes(world, {
+      stableKey: "test:outlook:before",
+      justiceIds: [justiceId],
+      reviewed: { ...gas, rulings: [] },
+      propositionId: pid,
+      ruledAt: world.currentDate,
+    });
+    const eventWorld = recordWorldEvent(world, {
+      stableKey: "test:outlook:recorded-view",
+      type: "judiciary.outlook-evidence",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.people[justiceId]!.homeJurisdictionId,
+      involvedEntityIds: [justiceId],
+      participants: [
+        { personId: justiceId, role: "agency:speaker", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "limited",
+      tags: ["judiciary.outlook"],
+      summary: "A judge's recorded institutional view.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: "The judge recorded an institutional view.",
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const eventId = eventWorld.history.events.at(-1)!.id;
+    const recorded = withWorldIntegrityDeferred(() =>
+      recordJudicialPhilosophy(eventWorld, {
+        stableKey: "test:deference-outlook",
+        personId: justiceId,
+        formedAt: eventWorld.currentDate,
+        dimensions: {
+          deference: {
+            strength: 2,
+            evidence: [{ kind: "historical-event", id: eventId }],
+            reason: "judicial.outlook.deference.willing-to-strike",
+          },
+        },
+        reason: "judicial.outlook.recorded-at-seating",
+      }),
+    );
+    const withOutlook = justiceVotes(recorded, {
+      stableKey: "test:outlook:after",
+      justiceIds: [justiceId],
+      reviewed: { ...gas, rulings: [] },
+      propositionId: pid,
+      ruledAt: recorded.currentDate,
+    });
+    expect(without[0]?.optionKey).toBe("law:stands");
+    expect(withOutlook[0]?.optionKey).toBe(LAW_STRUCK);
   });
 
   it("upholds a law the U.S. Supreme Court has held valid", () => {

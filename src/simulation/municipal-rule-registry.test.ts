@@ -5,9 +5,15 @@ vi.mock("./municipal-government", () => {
   throw new Error("Legislative lookup must not load municipal inventory");
 });
 import { rulePackById } from "./legislature-rule-packs";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import { MUNICIPAL_RULE_PACKS_JSON } from "./municipal-rule-registry.generated";
 
 describe("synchronous municipal registry on a clean start", () => {
+  it("resolves a saved town council before the municipal inventory loads", () => {
+    const savedPackId = "us-al-town-council-profile-v1:gus2025:100019";
+    expect(rulePackById(savedPackId).packId).toBe(savedPackId);
+    expect(rulePackById(savedPackId)).not.toBeInstanceOf(Promise);
+  });
   it("resolves nonmunicipal rules without inventory or initialization", () => {
     const pack = rulePackById("us-ky-general-assembly-v1");
     expect(pack.packId).toBe("us-ky-general-assembly-v1");
@@ -18,7 +24,10 @@ describe("synchronous municipal registry on a clean start", () => {
   });
   it("resolves every complete admitted municipal entry without a screen visit", () => {
     for (const pack of JSON.parse(MUNICIPAL_RULE_PACKS_JSON)) {
-      expect(rulePackById(pack.packId)).toEqual(pack);
+      // The registry adds the minority-party procedure rows to every pack.
+      expect(rulePackById(pack.packId)).toEqual(
+        withMinorityPartyProcedureRows(pack),
+      );
     }
   });
   it("synchronously loads a nonempty compiled registry on its first lookup", async () => {
@@ -33,7 +42,9 @@ describe("synchronous municipal registry on a clean start", () => {
     }));
     try {
       const cold = await import("./legislature-rule-packs");
-      expect(cold.rulePackById(pack.packId)).toEqual(pack);
+      expect(cold.rulePackById(pack.packId)).toEqual(
+        withMinorityPartyProcedureRows(pack),
+      );
       expect(cold.rulePackById(pack.packId)).not.toBeInstanceOf(Promise);
     } finally {
       vi.doUnmock("./municipal-rule-registry.generated");

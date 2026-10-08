@@ -1,3 +1,4 @@
+import { speakerTraits } from "./speaker-traits";
 import { CONCESSION_EVENT, VICTORY_SPEECH_EVENT } from "../simulation";
 import type { EntityId, HistoricalEvent, World } from "../simulation";
 import type { ElectionSpeechMove } from "../simulation/speech-moves";
@@ -158,7 +159,7 @@ export function speechRememberedLine(
     stage: "adult",
     sourceRecordIds: basis,
     facts,
-    speaker: { personId, traits: {} },
+    speaker: { personId, traits: speakerTraits(world, personId) },
     // Their memory and how they came to know the speech are the record of
     // their knowing each of these.
     knowledge: Object.keys(facts).map((factKey) => ({

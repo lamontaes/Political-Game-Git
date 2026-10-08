@@ -118,7 +118,7 @@ describe("talking to somebody", () => {
     ]) {
       const { world: start, playerPersonId, parentId } = opening(seed);
       let world = say(start, playerPersonId, parentId, "activity");
-      world = say(world, playerPersonId, parentId, "suggestGame");
+      world = say(world, playerPersonId, parentId, "acceptProposal");
       const offered = projectLifeConversation(world, playerPersonId, parentId);
       const kindsAfterPlan = relationshipHistory(
         world,

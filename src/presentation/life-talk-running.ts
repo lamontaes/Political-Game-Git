@@ -1,3 +1,5 @@
+import { lifeReplyLine, type LifeReplyKey } from "./life-reply-english";
+import type { ComposedPart } from "./english-composition";
 import { recordDurableDecisionTrace } from "../simulation/decisions";
 import { ageOnDate, daysBetween } from "../simulation/dates";
 import { personTrait } from "../simulation/people-traits";
@@ -14,7 +16,6 @@ import { proseDate } from "./prose-dates";
 import {
   evaluateReplyMeaning,
   standingTone,
-  type ReplyMeaning,
   type ReplyMeanings,
   type ReplyTraitLean,
 } from "./reply-meaning";
@@ -417,57 +418,22 @@ const HELP_LEANS: readonly ReplyTraitLean[] = [
   },
 ];
 
-const OPEN_WORDS: Readonly<
-  Record<ReplyMeaning, Readonly<Record<"warm" | "even" | "worn", string>>>
-> = {
-  agree: {
-    warm: "You should. I think you would be good at it.",
-    even: "If you want to, go ahead.",
-    worn: "Well, if it is what you want.",
-  },
-  decline: {
-    warm: "I'm not sure that is a good idea. It could take a lot out of you.",
-    even: "I'm not sure that is a good idea.",
-    worn: "I don't think you should.",
-  },
-  counter: { warm: "", even: "", worn: "" },
-  undecided: {
-    warm: "Running for office? Tell me more before I say anything.",
-    even: "Tell me more before I say anything.",
-    worn: "I would want to hear a lot more first.",
-  },
-};
-
-const HELP_WORDS: Readonly<Record<ReplyMeaning, string>> = {
-  agree: "Yes. Tell me what you need.",
-  decline: "I'll cheer you on, but I can't do the campaigning.",
-  counter: "",
-  undecided: "Let me think about it.",
-};
-
 /** What worries them, from the first of their recorded traits that speaks to it. */
-function worryWords(world: World, personId: EntityId): string {
+function worryReplyKey(world: World, personId: EntityId): LifeReplyKey {
   const recorded = (trait: Parameters<typeof personTrait>[2]) => {
     const reading = personTrait(world, personId, trait);
     return reading.recordId === null ? 0 : reading.value;
   };
-  if (recorded("risk") < 0)
-    return "The money. A campaign costs a lot, and you could lose.";
-  if (recorded("conflict") < 0)
-    return "The arguing. People get nasty in an election.";
-  if (recorded("sociability") < 0)
-    return "Being in front of people all the time.";
-  return "Nothing yet. Just go in with your eyes open.";
-}
-
-function electionWords(world: World, date: IsoDate): string {
-  const days = daysBetween(world.currentDate, date);
-  return days <= 60 ? "That is not far off." : "That gives you some time.";
+  if (recorded("risk") < 0) return "running-worry-risk";
+  if (recorded("conflict") < 0) return "running-worry-conflict";
+  if (recorded("sociability") < 0) return "running-worry-sociability";
+  return "running-worry-none";
 }
 
 export interface RunningAnswer {
   readonly world: World;
   readonly reply: string;
+  readonly parts: readonly ComposedPart[];
   /** The `life.answer:` tag the turn records. */
   readonly answer: string;
 }
@@ -485,6 +451,20 @@ export function answerRunning(
   turnKey: string,
 ): RunningAnswer {
   const step = stepOf(intent);
+  const answer = (
+    current: World,
+    key: LifeReplyKey,
+    tag: string,
+  ): RunningAnswer => {
+    const line = lifeReplyLine(
+      current,
+      personId,
+      playerPersonId,
+      talkTurns(current, playerPersonId, personId),
+      key,
+    );
+    return { world: current, reply: line.text, parts: line.parts, answer: tag };
+  };
   if (step === "open" || step === "help") {
     const decided = evaluateReplyMeaning(world, {
       turnKey,
@@ -508,47 +488,48 @@ export function answerRunning(
       decided.evaluation,
     );
     const tone = standingTone(traced, personId, playerPersonId);
-    const reply =
+    const meaning =
+      decided.meaning === "counter" ? "undecided" : decided.meaning;
+    const key: LifeReplyKey =
       step === "open"
-        ? OPEN_WORDS[decided.meaning][tone]
-        : HELP_WORDS[decided.meaning];
-    return {
-      world: traced,
-      reply: reply || HELP_WORDS.undecided,
-      answer: `running-${step}-${decided.evaluation.selectedOptionKey ?? "none"}`,
-    };
+        ? `running-open-${meaning}-${tone}`
+        : `running-help-${meaning}`;
+    return answer(
+      traced,
+      key,
+      `running-${step}-${decided.evaluation.selectedOptionKey ?? "none"}`,
+    );
   }
   if (step === "when") {
     const election = electionAhead(world, playerPersonId);
-    return {
+    return answer(
       world,
-      reply: election
-        ? electionWords(world, election.date)
-        : "When is it, again?",
-      answer: "running-when",
-    };
+      election
+        ? daysBetween(world.currentDate, election.date) <= 60
+          ? "running-election-soon"
+          : "running-election-later"
+        : "running-election-unknown",
+      "running-when",
+    );
   }
   if (step === "news") {
     const matter = currentKnownMatter(world, playerPersonId);
     const awareness = matter
       ? matterAwareness(world, personId, matter.eventId)
       : "uninformed";
-    return {
+    return answer(
       world,
-      reply:
-        awareness === "involved"
-          ? "I was part of that, you know."
-          : awareness === "informed"
-            ? "I heard about that."
-            : "I hadn't heard about that. Tell me what happened.",
-      answer: `running-news-${awareness}`,
-    };
+      `running-news-${awareness}`,
+      `running-news-${awareness}`,
+    );
   }
   if (step === "remember")
-    return { world, reply: "I remember that.", answer: "running-remember" };
-  return {
-    world,
-    reply: worryWords(world, personId),
-    answer: "running-worry",
-  };
+    return answer(
+      world,
+      sharedMemory(world, playerPersonId, personId)
+        ? "running-remember"
+        : "running-no-memory",
+      "running-remember",
+    );
+  return answer(world, worryReplyKey(world, personId), "running-worry");
 }

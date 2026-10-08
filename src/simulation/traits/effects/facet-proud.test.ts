@@ -54,7 +54,7 @@ function confer(world: World, personId: EntityId, marked: boolean): World {
 }
 
 describe("facet-proud's public-life reader", () => {
-  it("changes one generated person's production vote, preserves evidence and reloads the reason", () => {
+  it("changes a marked person's production vote while a second unmarked person holds position", () => {
     const rng = new SeededRng(SEED);
     const state = rng.pick(lifePlaceStateIdentities());
     const place = rng.pick(
@@ -71,9 +71,12 @@ describe("facet-proud's public-life reader", () => {
       questionnaire: "skipped",
       placeKey: place.key,
     });
-    const person = Object.values(game.world.people).find(
+    const candidates = Object.values(game.world.people).filter(
       ({ id }) => id !== game.playerPersonId,
-    )!;
+    );
+    const person = candidates[0]!;
+    const unmarkedPerson = candidates[1]!;
+    expect(person.id).not.toBe(unmarkedPerson.id);
     expect(personName(person)).not.toBe("");
     const context: DecisionContext = {
       stableKey: `${SEED}:vote`,
@@ -133,10 +136,12 @@ describe("facet-proud's public-life reader", () => {
       randomness: "none",
       retention: "durable",
     };
-    const unmarked = confer(game.world, person.id, false);
+    const unmarked = confer(game.world, unmarkedPerson.id, false);
     const proud = confer(game.world, person.id, true);
     const before = decideMemberVote(unmarked, {
       ...context,
+      stableKey: `${SEED}:vote:${unmarkedPerson.id}`,
+      actorPersonId: unmarkedPerson.id,
       cutoff: {
         asOfDate: unmarked.currentDate,
         historySequenceExclusive: unmarked.history.nextSequence,
@@ -158,8 +163,7 @@ describe("facet-proud's public-life reader", () => {
     ).toMatchObject([
       {
         optionKey: "vote-yea",
-        explanation:
-          "They attach dignity to standing behind their recorded position.",
+        explanation: "Proud",
       },
     ]);
     // Pride alone supplies neither a missing policy position nor a nay vote.
@@ -200,6 +204,8 @@ describe("facet-proud's public-life reader", () => {
         place: place.displayName,
         person: personName(person),
         personId: person.id,
+        unmarkedPerson: personName(unmarkedPerson),
+        unmarkedPersonId: unmarkedPerson.id,
         before: before.disposition,
         after: after.disposition,
         decisionId: after.evaluation.decisionId,

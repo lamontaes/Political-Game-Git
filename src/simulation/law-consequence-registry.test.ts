@@ -1,5 +1,8 @@
 import { expect, it } from "vitest";
-import { createLawConsequenceRegistry } from "./law-consequence-registry";
+import {
+  createLawConsequenceRegistry,
+  LAW_CONSEQUENCE_REGISTRATIONS,
+} from "./law-consequence-registry";
 import { validateLawConsequences } from "./law-consequence-validation";
 import type {
   LawConsequenceKindRegistration,
@@ -49,6 +52,11 @@ it("does not admit another kind's selector", () => {
 it("keeps an empty capability set unavailable", () =>
   expect(createLawConsequenceRegistry([]).handlers.size).toBe(0));
 
+it("retains the exported registration array through lazy cycle-safe access", () =>
+  expect(
+    LAW_CONSEQUENCE_REGISTRATIONS.map((registration) => registration.kind),
+  ).toContain("service-delivered"));
+
 it("admits the reviewed tax handler only with its declared selector and action", () => {
   const registry = createLawConsequenceRegistry();
   const handler = registry.handlers.get("tax");
@@ -80,4 +88,18 @@ it("admits the existing rights handler without borrowing another kind capability
       ?.get("right-permission")
       ?.has("recorded-tax-base-payer"),
   ).toBe(false);
+});
+
+it("registers person-level justice outcomes under their own selectors", () => {
+  const registry = createLawConsequenceRegistry();
+  const handler = registry.handlers.get("justice-person-exposure");
+  expect(handler?.owner).toBe("LW-17 person landings");
+  expect(
+    registry.capabilities.selectorsByKind?.get("justice-person-exposure"),
+  ).toEqual(
+    new Set(["justice.pretrial-defendant", "justice.sentenced-defendant"]),
+  );
+  expect(registry.capabilities.actions.get("justice-person-exposure")).toEqual(
+    new Set(["record-cash-bail-exposure", "record-mandatory-minimum-exposure"]),
+  );
 });

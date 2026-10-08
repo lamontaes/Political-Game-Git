@@ -1,0 +1,21 @@
+{
+  "adultPopulationShare": {
+    "value": 0.78,
+    "estimatedFrom": "U.S. Census national age distribution: approximately 78 percent age 18 or older; applied to the recorded government population where an adult count is unavailable"
+  },
+  "pastMonthUseShare": {
+    "value": 0.15,
+    "estimatedFrom": "SAMHSA NSDUH state estimates: approximate national adult past-month marijuana-use share pending place-specific compilation"
+  },
+  "monthlySpendingPerUser": {
+    "value": 100,
+    "estimatedFrom": "State retail sales / users: approximate monthly dollars per past-month user pending matched state sales and NSDUH denominators"
+  },
+  "exciseRate": {
+    "value": 0.14,
+    "estimatedFrom": "Median retail cannabis tax-rate terms in starting-law-2026/business-commerce.json; used only when the adopted law has no recorded numeric rate"
+  },
+  "legalRetailBase": {
+    "estimatedFrom": "CTO-approved aggregate legal-retail base: adult residents x past-month use x monthly spending; no individual purchasing decision is inferred"
+  }
+}

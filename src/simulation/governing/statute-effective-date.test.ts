@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
+import stateSessionCalendar from "../../../data/research/laws/state-session-calendars-2026.json" with { type: "json" };
 import { isoDateFromParts, makeIsoDate } from "../dates";
 import { rulePackById } from "../legislature-rule-packs";
 import { STATES } from "../state-reference";
@@ -92,7 +93,7 @@ describe("when a state law takes effect by its state's own rule", () => {
   });
 
   it("marks every rule and session end that was not read as estimated, and sources the rest", () => {
-    const { rules, sessionEnds } = (
+    const { rules } = (
       startingLaw as unknown as {
         effectiveDates: {
           rules: Record<
@@ -104,13 +105,15 @@ describe("when a state law takes effect by its state's own rule", () => {
               source: string;
             }
           >;
-          sessionEnds: Record<
-            string,
-            { estimated?: string; cite?: string; source?: string }
-          >;
         };
       }
     ).effectiveDates;
+    const { sessionEnds } = stateSessionCalendar as unknown as {
+      sessionEnds: Record<
+        string,
+        { estimated?: string; cite?: string; source?: string }
+      >;
+    };
     expect(Object.keys(rules).sort()).toEqual([...PLACES].sort());
     let estimatedRules = 0;
     for (const [key, row] of Object.entries(rules)) {
@@ -181,21 +184,17 @@ describe("when a state law takes effect by its state's own rule", () => {
     // take effect August 28, whatever day the chambers last sat.
     expect(stateSessionEnds("US-MO", 2026)).toEqual(["2026-05-30"]);
     // Every published adjournment names its source.
-    const { sessionEnds } = (
-      startingLaw as unknown as {
-        effectiveDates: {
-          sessionEnds: Record<
+    const { sessionEnds } = stateSessionCalendar as unknown as {
+      sessionEnds: Record<
+        string,
+        {
+          adjourned?: Record<
             string,
-            {
-              adjourned?: Record<
-                string,
-                { dates: string[]; sourceUrl: string; quote: string }
-              >;
-            }
+            { dates: string[]; sourceUrl: string; quote: string }
           >;
-        };
-      }
-    ).effectiveDates;
+        }
+      >;
+    };
     for (const [key, row] of Object.entries(sessionEnds))
       for (const [year, entry] of Object.entries(row.adjourned ?? {})) {
         expect(entry.sourceUrl, `${key} ${year}`).toMatch(/^https:\/\//);

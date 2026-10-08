@@ -3,7 +3,11 @@ import { createDemoWorld } from "../demo";
 import { makeIsoDate } from "../dates";
 import { recordWorldEvent } from "../world";
 import { buildOpeningCourtCatalog } from "./courts";
-import { recordJudicialPhilosophy } from "./philosophy";
+import {
+  judicialOutlookConsideration,
+  judicialPrecedentImportance,
+  recordJudicialPhilosophy,
+} from "./philosophy";
 import type { JudicialPhilosophyEvidence } from "./types";
 
 function fixture() {
@@ -68,6 +72,41 @@ describe("judicial philosophy from life evidence", () => {
     expect(philosophy.lifeEvidenceIds).toEqual([eventId]);
     expect(recordJudicialPhilosophy(next, input)).toBe(next);
     expect(world.judiciary!.philosophies).toHaveLength(0);
+  });
+
+  it("reads recorded rights and precedent outlooks in the shared weight order", () => {
+    const { world, personId, eventId } = fixture();
+    const recorded = recordJudicialPhilosophy(world, {
+      stableKey: "rights-view",
+      personId,
+      formedAt: world.currentDate,
+      dimensions: {
+        rights: {
+          strength: 2,
+          evidence: [{ kind: "historical-event", id: eventId }],
+          reason: "judicial.outlook.rights.civil-liberties",
+        },
+        precedent: {
+          strength: -1,
+          evidence: [{ kind: "historical-event", id: eventId }],
+          reason: "judicial.outlook.precedent.tradition-conscientiousness",
+        },
+      },
+      reason: "judicial.outlook.recorded-at-seating",
+    });
+    expect(
+      judicialOutlookConsideration(
+        recorded,
+        personId,
+        "rights",
+        "release",
+        "hold",
+        "case:rights",
+      ),
+    ).toMatchObject({ optionKey: "release", importance: "strong" });
+    expect(judicialPrecedentImportance(recorded, personId, "moderate")).toBe(
+      "strong",
+    );
   });
 
   it("refuses absent, unrelated, future and unsupported views", () => {

@@ -1,15 +1,15 @@
-# python3 apply.py <research.json>... : move approved research rows into starting-law-2026.json.
+# python3 apply.py <research.json>... : move approved rows into their area shard.
 # Each row keeps its own "preempts" when the research set one. Otherwise: true, except
 # where a "yes" answer means cities are allowed to act (LOCAL_POWER_QUESTIONS), and where
 # the question limits something cities may still go further on (rent stabilization).
 import json, sys
+from area_data import load, save
 
-P = "data/research/laws/starting-law-2026.json"
 LOCAL_POWER_QUESTIONS = {
     "transportation-infrastructure.public-broadband",
     "labor-workforce.local-minimum-wage-authority",
 }
-data = json.load(open(P))
+data = load()
 for path in sys.argv[1:]:
     research = json.load(open(path))
     key = research["question"]
@@ -42,5 +42,4 @@ for path in sys.argv[1:]:
         else "Every place is answered.",
         "answers": dict(sorted(answers.items())),
     }
-json.dump(data, open(P, "w"), indent=2, ensure_ascii=False)
-open(P, "a").write("\n")
+save(data)

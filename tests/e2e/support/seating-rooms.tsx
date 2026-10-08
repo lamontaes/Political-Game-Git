@@ -25,6 +25,7 @@ const { world, playerPersonId } = opened.game;
 const rooms = [
   "council-chamber",
   "office",
+  "governor-office",
   "diner",
   "classroom",
   "county-courtroom",
@@ -111,7 +112,6 @@ function Proof() {
           stageRef={stage}
           onSelectPerson={setSelected}
           selectedPersonId={selected}
-          nameplates
         />
       </div>
     </main>

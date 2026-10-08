@@ -1,4 +1,9 @@
-import { activeCampaignForCandidate } from "./campaign-queries";
+import {
+  activeCampaignForCandidate,
+  campaignState,
+  campaigns,
+} from "./campaign-queries";
+import { runCampaignCallTime } from "./campaign-donors";
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { campaignFundraiserPayments } from "./campaign-money-source-queries";
 import { viewOfOfficial } from "./official-view-reads";
@@ -7,6 +12,9 @@ import { positionOwnerEndpoint, resourcePositionAt } from "./resource-queries";
 import { createResourceFlow, recordResourceTransferOutcome } from "./resources";
 import type { CurrencyCode, EntityId, MoneyAmount, World } from "./types";
 import { recordWorldEvent } from "./world";
+import leftoverFundsRules from "../../data/research/campaign-reality/leftover-funds-rules.json";
+import { lifePlaceByJurisdictionId } from "./life-places";
+import { electionContestResult } from "./election-contests";
 
 /**
  * Where a campaign's money can come from.
@@ -47,7 +55,7 @@ export const CAMPAIGN_MONEY_SOURCES = {
     note: "A bank lends the committee money.",
   },
   "leftover-funds": {
-    status: "unbuilt",
+    status: "built",
     note: "Money left from the candidate's earlier campaign carries over.",
   },
   "outside-spending": {
@@ -58,7 +66,135 @@ export const CAMPAIGN_MONEY_SOURCES = {
 
 export type CampaignMoneySource = keyof typeof CAMPAIGN_MONEY_SOURCES;
 
-/** Read receipts attributed to this event; never settle a completed gift again.
+export type LeftoverFundUse =
+  | "keep-for-future-race"
+  | "refund-donors"
+  | "give-to-charity"
+  | "give-to-party/candidate";
+
+export interface LeftoverFundsRule {
+  readonly jurisdiction: string;
+  readonly allowedUses: readonly LeftoverFundUse[];
+  readonly source?: string;
+  readonly estimatedFrom?: string;
+}
+
+/** Every jurisdiction has an explicit rule; estimates remain labeled as such. */
+export function leftoverFundsRuleForState(
+  stateJurisdictionKey: string,
+): LeftoverFundsRule | null {
+  const key = stateJurisdictionKey.replace(/^US-/, "");
+  return (
+    (leftoverFundsRules.rules as readonly LeftoverFundsRule[]).find(
+      (rule) => rule.jurisdiction === key,
+    ) ?? null
+  );
+}
+
+/**
+ * A read of the recorded committee account after an election. Closing a race
+ * never moves or spends this balance; only an explicit later transfer does.
+ */
+export function leftoverCampaignBalance(
+  world: World,
+  campaignId: EntityId,
+): MoneyAmount | null {
+  const campaign = campaigns(world).find((row) => row.id === campaignId);
+  if (
+    !campaign ||
+    !["won", "lost"].includes(campaignState(world, campaign.id).status)
+  )
+    return null;
+  return (
+    resourcePositionAt(
+      world,
+      { kind: "organization", organizationId: campaign.organizationId },
+      campaign.treasuryCurrency,
+    )?.liquidBalance ?? null
+  );
+}
+
+/** Transfer a closed committee's balance only when the player explicitly opts in. */
+export function carryForwardLeftoverFunds(
+  world: World,
+  fromCampaignId: EntityId,
+  toCampaignId: EntityId,
+): World {
+  const from = campaigns(world).find((row) => row.id === fromCampaignId);
+  const to = campaigns(world).find((row) => row.id === toCampaignId);
+  if (
+    !from ||
+    !to ||
+    from.id === to.id ||
+    from.candidatePersonId !== to.candidatePersonId
+  )
+    throw new Error(
+      "Leftover campaign funds can move only between races run by the same candidate.",
+    );
+  if (!["won", "lost"].includes(campaignState(world, from.id).status))
+    throw new Error(
+      "Leftover campaign funds are available only after an election.",
+    );
+  if (campaignState(world, to.id).status !== "active")
+    throw new Error(
+      "Leftover campaign funds need an active receiving campaign.",
+    );
+  if (from.treasuryCurrency !== to.treasuryCurrency)
+    throw new Error(
+      "Campaign accounts with different currencies cannot be combined.",
+    );
+  const sourcePlace = lifePlaceByJurisdictionId(
+    from.jurisdictionId,
+  )?.stateJurisdictionKey;
+  const rule = sourcePlace ? leftoverFundsRuleForState(sourcePlace) : null;
+  if (!rule?.allowedUses.includes("keep-for-future-race"))
+    throw new Error(
+      "This campaign's recorded rules do not allow keeping funds for a future race.",
+    );
+  const balance = leftoverCampaignBalance(world, from.id);
+  if (!balance || balance.minorUnits <= 0) return world;
+  const result = electionContestResult(world, from.contestId);
+  if (!result)
+    throw new Error("The completed campaign has no election result.");
+  const stableKey = `campaign:${from.id}:leftover-to:${to.id}`;
+  let next = createResourceFlow(world, {
+    stableKey: `${stableKey}:flow`,
+    source: { kind: "organization", organizationId: from.organizationId },
+    recipient: positionOwnerEndpoint({
+      kind: "organization",
+      organizationId: to.organizationId,
+    }),
+    startsAt: world.currentDate,
+    initialStatus: "active",
+    amount: balance,
+    cadenceKind: "schedule:one-time",
+    basisKind: "custom:campaign-leftover-funds",
+    basisReference: { kind: "general" },
+    restrictionKind: "purpose:campaign",
+    jurisdictionId: to.jurisdictionId,
+    provenance: { kind: "simulated-event", eventId: result.outcomeEventId },
+  });
+  next = recordResourceTransferOutcome(next, {
+    stableKey: `${stableKey}:transfer`,
+    resourceFlowId: next.history.resourceFlows.at(-1)!.id,
+    periodStartsAt: world.currentDate,
+    periodEndsAt: world.currentDate,
+    occurredAt: world.currentDate,
+    status: "completed",
+    attemptedAmount: balance,
+    transferredAmount: balance,
+    reasonKind: null,
+    note: "The candidate chose to keep the remaining committee funds for a later race.",
+    provenance: { kind: "simulated-event", eventId: result.outcomeEventId },
+  });
+  return next;
+}
+
+/** Fundraiser completion runs the remaining known-person call-time asks in
+ * stable order. Each answer, contribution, and transfer is stored separately;
+ * any legacy payment attributed directly to this event is read without paying
+ * it again. Read receipts attributed to this event; never settle a completed
+ * gift again.
  * The current activity producers save attendance but no dated monetary ask or
  * contribution-cap law binding. Record that missing basis through the shared
  * evaluator instead of manufacturing a donor, ask, pledge, or payment.
@@ -79,9 +215,21 @@ export function recordCampaignFundraiserReceipts(
   readonly unavailableBasis: readonly string[];
   readonly note: string;
 } {
-  const { event, flows, receipts } = campaignFundraiserPayments(world, input);
-  const unavailableBasis = ["monetary-ask", "contribution-cap-law-term"];
-  let next = world;
+  const active = activeCampaignForCandidate(world, input.candidatePersonId);
+  const asksBefore = new Set(
+    (world.history.campaignAsks ?? []).map((row) => row.id),
+  );
+  let next = active ? runCampaignCallTime(world, active.id) : world;
+  const callTimePeople = new Set(
+    (next.history.campaignAsks ?? [])
+      .filter((row) => !asksBefore.has(row.id))
+      .map((row) => row.residentId),
+  );
+  const { event, flows, receipts } = campaignFundraiserPayments(next, input);
+  const unavailableBasis = active
+    ? []
+    : ["monetary-ask", "contribution-cap-law-term"];
+
   const paidSources = new Set(
     flows
       .filter((flow) => receipts.some((row) => row.resourceFlowId === flow.id))
@@ -94,6 +242,7 @@ export function recordCampaignFundraiserReceipts(
     if (
       personId === input.candidatePersonId ||
       paidSources.has(personId) ||
+      callTimePeople.has(personId) ||
       (next.control.kind === "person" && next.control.personId === personId)
     )
       continue;
@@ -175,7 +324,9 @@ export function recordCampaignFundraiserReceipts(
           }
         : null,
     unavailableBasis,
-    note: "Completed gifts are reported from the recorded payments. New gifts need a recorded monetary ask and applicable contribution-cap law term; no payment was invented.",
+    note: active
+      ? "Call-time asked the remaining known people individually; each response and payment is saved by person."
+      : "No active campaign is attached to this event; no donor or payment was invented.",
   };
 }
 

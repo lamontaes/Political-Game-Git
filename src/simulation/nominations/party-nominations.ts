@@ -1,9 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type {
   DecisionConsideration,
   EntityId,
@@ -209,20 +205,6 @@ function runnerUpAsks(
           : "They finished far behind the leader.",
       sourceRefs: [],
     },
-    ...traitConsiderations(next, runnerUp.entrant.personId, key, [
-      {
-        optionKey: "request",
-        trait: "risk",
-        pole: "high",
-        explanation: "They would rather take another chance than concede.",
-      },
-      {
-        optionKey: "concede",
-        trait: "risk",
-        pole: "low",
-        explanation: "Another campaign is a risk they would rather not take.",
-      },
-    ]),
   ];
   const evaluation = evaluateDecision(next, {
     stableKey: key,
@@ -425,7 +407,7 @@ function nominationSummary(
   if (isAllParty(method))
     return rows.length === 1
       ? `One candidate filed for ${title}, so the primary sent them on alone.`
-      : `${rows.length} candidates of every party met in one primary for ${title}.`;
+      : `${rows.length} ${rows.length === 1 ? "candidate" : "candidates"} of every party met in one primary for ${title}.`;
   if (runoffParties.length)
     return `No ${runoffParties.join(" or ")} candidate for ${title} won enough of the primary vote, so the top two meet in a runoff.`;
   return contested.size

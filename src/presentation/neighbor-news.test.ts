@@ -195,6 +195,14 @@ describe(`LIVES tell-paths in ${state!.jurisdictionKey} (seed ${SEED})`, () => {
     });
     const statusId = world.history.workStatuses.at(-1)!.id;
     const told = world;
+    const jobEnded = told.history.events.find(
+      (event) => event.type === JOB_ENDED_EVENT,
+    )!;
+    expect(
+      told.history.memories.some(
+        (memory) => memory.eventId === jobEnded.id && memory.personId === mate,
+      ),
+    ).toBe(true);
     // Asked again for the same ended job, it writes nothing more.
     expect(recordJobEndedNews(told, statusId, { closedBusiness: false })).toBe(
       told,

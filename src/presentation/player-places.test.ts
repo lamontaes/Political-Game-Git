@@ -45,8 +45,8 @@ describe("player-places projection", () => {
     const { world, personId } = childAtHome();
     const saved = serializeWorld(world);
     const model = projectPlacesWorkspace(world, personId)!;
-    expect(model.current.label).toBe("Home");
-    expect(model.current.setting).toBe("home");
+    expect(model.current.label).toBeNull();
+    expect(model.current.setting).toBeNull();
     expect(
       model.offers.some((offer) => offer.walkDestination !== undefined),
     ).toBe(false);
@@ -145,11 +145,9 @@ describe("player-places projection", () => {
       (offer) => offer.activityId === fixture.dLite.meetingActivityId,
     )!;
     expect(meeting.unavailable).toBeNull();
-    expect(meeting.detail).toMatch(/Attending includes the 20-minute trip/);
-    expect(meeting.detail).toMatch(/There is no fare\./);
-    expect(meeting.durationLabel).toMatch(
-      /^Starts .+ and takes .+\. The trip there takes 20 minutes before it\.$/,
-    );
+    expect(meeting.detail).toBeTruthy();
+    expect(meeting.detail).not.toMatch(/Attending includes|There is no fare/);
+    expect(meeting.durationLabel).toBe("20 minutes");
     expect(
       model.offers.some(
         (offer) => offer.activityId === fixture.dLite.travelActivityId,

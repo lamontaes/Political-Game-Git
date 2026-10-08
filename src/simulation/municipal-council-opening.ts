@@ -207,7 +207,7 @@ export function ensureMunicipalCouncilOpening(
       `seated:${size}`,
       ...(managerPersonId ? ["manager:game-profile"] : []),
     ],
-    summary: `${reading.bodyName ?? reading.displayName} begins this fictional world with ${size} generated ${countyBoard ? "board members" : "councilors"}, using its ${managerPersonId ? "game-profile" : "compiled"} seat count; their identities and numbered labels are game facts.${managerPersonId ? " A distinct fictional professional manager administers the game-profile program." : ""}`,
+    summary: `${reading.bodyName ?? reading.displayName} begins with ${size} ${countyBoard ? "board members" : "councilors"}.`,
     context: {
       location: null,
       socialContext: null,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { contactProposals, produceReachingOut } from "./people-contact";
+import { contactProposals, produceReachingOut } from "./relationship-contact";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,

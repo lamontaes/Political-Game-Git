@@ -68,6 +68,9 @@ jobs:
       - name: Install deterministic dependencies
         run: npm ci
 
+      - name: Check player-facing text is American English
+        run: npx vitest run tests/american-english.test.ts
+
       - name: Run repository validation
         env:
           EVENT_NAME: ${{ github.event_name }}

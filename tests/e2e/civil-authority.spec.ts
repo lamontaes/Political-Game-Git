@@ -35,9 +35,7 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
   await employee
     .getByRole("button", { name: /Hold an informal resolution/ })
     .click();
-  await expect(page.getByRole("status")).toContainText(
-    "informal resolution meeting took place",
-  );
+  await expect(page.getByRole("status")).toContainText("Meeting recorded");
   // Represented and probationary employees stay refused with their reasons.
   await expect(matters).toContainText(
     "collective bargaining agreement governs",
@@ -64,9 +62,7 @@ test("CIVIL-AUTHORITY13 discharge, filing, appeal and commissioner decision by p
     .getByRole("button", { name: "Issue a reprimand or discharge" })
     .focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("status")).toContainText(
-    "written notice was issued",
-  );
+  await expect(page.getByRole("status")).toContainText("Notice issued");
 
   const action = matters.getByRole("article", { name: /^Discharge of / });
   await expect(action).toContainText("Appeal deadline: 2026-10-14");

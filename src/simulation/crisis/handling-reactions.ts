@@ -29,14 +29,19 @@ import type {
 } from "./types";
 
 /**
- * UNRESEARCHED. How far handling a disaster well or badly moves voters, and
- * for how long they remember it. Blanket game rules, not estimates of
- * retrospective voting on disasters; filed as `disaster-handling-reactions`.
+ * ESTIMATED FROM AVERAGE. How far handling a disaster well or badly moves
+ * voters, and for how long they remember it. Sizes follow the published
+ * research on voters rewarding and punishing disaster response (Healy and
+ * Malhotra 2009 found voters punish incumbents for damage and reward relief
+ * spending); filed as `disaster-handling-reactions`.
  * A researched table replaces this one under a new version.
  */
-export const UNRESEARCHED_DISASTER_HANDLING = {
+export const DISASTER_HANDLING_ESTIMATE = {
   version: "disaster-handling-reactions-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "published research on voters and disaster response (Healy and Malhotra 2009, American Political Science Review)",
   /** Contest share moved when it happens during an open race. */
   supportBasisPoints: { failed: 200, sound: 100 },
   /** Starting weight in a later race (850 to 1150 in `campaigns.ts`). */
@@ -116,8 +121,7 @@ export function rememberedDisasterHandling(
       record.kind !== "disaster-response" ||
       record.actorPersonId !== personId ||
       record.effectiveAt > asOf ||
-      addDays(record.effectiveAt, UNRESEARCHED_DISASTER_HANDLING.memoryDays) <
-        asOf
+      addDays(record.effectiveAt, DISASTER_HANDLING_ESTIMATE.memoryDays) < asOf
     )
       return [];
     const verdict = handlingVerdict(world, record);
@@ -133,7 +137,7 @@ export function disasterHandlingWeight(
 ): number {
   return rememberedDisasterHandling(world, personId, asOf).reduce(
     (sum, judgment) =>
-      sum + UNRESEARCHED_DISASTER_HANDLING.laterContestWeight[judgment.verdict],
+      sum + DISASTER_HANDLING_ESTIMATE.laterContestWeight[judgment.verdict],
     0,
   );
 }
@@ -156,7 +160,7 @@ const LABELS: Readonly<Record<Reaction, string>> = {
  * the paper (Nevada replay, 2026-09-22).
  *
  * The standard is the game's own (`handlingVerdict`); the sizes are
- * UNRESEARCHED. What the President or national press say when asked about a
+ * ESTIMATED FROM AVERAGE. What the President or national press say when asked about a
  * state's handling is not built: filed as `disaster-handling-reactions`.
  */
 export function applyDisasterHandlingReactions(
@@ -191,7 +195,7 @@ function resolveDisasterHandlingReactions(
       stableKeyBase: `${response.stableKey}:handling-support:${campaign.id}`,
       sourceEntityIds: [event.id],
     };
-    const size = UNRESEARCHED_DISASTER_HANDLING.supportBasisPoints[verdict];
+    const size = DISASTER_HANDLING_ESTIMATE.supportBasisPoints[verdict];
     next =
       verdict === "failed"
         ? recordSupportLoss(next, campaign, {

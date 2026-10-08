@@ -11,18 +11,15 @@ import { resolveLifeScene } from "./life-scene";
 import { proseDate } from "./prose-dates";
 import { municipalWorkspaceFor } from "./municipal-workspace";
 import { municipalActionAuthority } from "../simulation/municipal-public-work";
-import {
-  completedActivityHere,
-  sceneVenueForLocationKey,
-} from "./scene-venues";
+import { completedActivityHere } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
-import { venueActivities, venueTimingLabel } from "./venue-activity";
+import { venueActivities } from "./venue-activity";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
 
 export interface PlacesLocationView {
-  readonly label: string;
+  readonly label: string | null;
   readonly setting: string | null;
   readonly jurisdictionId: EntityId | null;
   /** Honest note when no released scene art matches the recorded location. */
@@ -66,7 +63,7 @@ export function projectPlacesWorkspace(
   const location = openingLifeLocation(world, personId);
   const scene = resolveLifeScene(world, personId);
   const current: PlacesLocationView = {
-    label: location?.label ?? "Location not recorded",
+    label: location?.label ?? null,
     setting: location?.setting ?? null,
     jurisdictionId: location?.jurisdictionId ?? null,
     sceneNote:
@@ -117,8 +114,7 @@ export function projectPlacesWorkspace(
       id: `inspect-government-${municipal.government.key}`,
       kind: "inspect",
       title: municipal.government.displayName,
-      detail:
-        "Inspect this government’s public meetings and records. This does not move you or change where you live.",
+      detail: null,
       minutes: null,
       durationLabel: null,
       unavailable: null,
@@ -146,34 +142,15 @@ function projectVenueOffer(
   journey: ReturnType<typeof venueActivities>[number]["journey"],
   declinable: boolean,
 ): PlacesOfferView {
-  const venue = sceneVenueForLocationKey(activity.location.locationKey);
-  const detailParts = [
-    activity.summary.trim(),
-    journey
-      ? journey.alreadyCompleted
-        ? `The journey to ${activity.location.label} is complete. Attend begins here.`
-        : `Attending includes the ${journey.journeyMinutes}-minute trip to ${activity.location.label}. ${journey.costDisclosure}`
-      : null,
-    venue?.isJourney
-      ? "This is a journey, not a room you enter at the end."
-      : venue?.sceneId
-        ? null
-        : (venue?.reason ??
-          "No released room art is bound to this activity yet."),
-  ].filter(Boolean);
+  const detail = activity.summary.trim();
   let durationLabel: string | null = null;
-  if (refusal === null && elapsedMinutes !== null) {
-    const timing = venueTimingLabel(world, activity.id);
-    durationLabel =
-      journey && timing && !journey.alreadyCompleted
-        ? `${timing} The trip there takes ${formatRoutineElapsedMinutes(journey.journeyMinutes)} before it.`
-        : timing;
-  }
+  if (refusal === null && journey && !journey.alreadyCompleted)
+    durationLabel = formatRoutineElapsedMinutes(journey.journeyMinutes);
   return {
     id: `venue-${activity.id}`,
     kind: "attend",
     title: activity.title,
-    detail: detailParts.join(" "),
+    detail,
     minutes: elapsedMinutes,
     durationLabel,
     unavailable: refusal,
@@ -205,7 +182,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
-        durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
+        durationLabel = describeInterval(timing.totalElapsedMinutes);
       } catch (error) {
         unavailable =
           error instanceof Error
