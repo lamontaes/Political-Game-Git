@@ -1,4 +1,5 @@
 import { rentConstructionCovered } from "../law-consequences/rent-construction-coverage";
+import type { LawTermResolutionProvenance } from "../law-consequence-types";
 import { recordedMonthlyPayByPerson } from "../household-pay";
 /**
  * Rent day: every renting household in town pays rent on the first of the
@@ -1391,6 +1392,9 @@ export function startTownLeases(
         questionKey: RENT_LAW_KEYS.inclusionary,
         jurisdictionId: town,
         appliedAt: dueOn,
+        ...(inclusionary.termResolution
+          ? { termResolution: inclusionary.termResolution }
+          : {}),
         sourceRecordIds: [
           ...inclusionary.sourceRecordIds,
           flow.id,
@@ -1481,6 +1485,7 @@ export function inclusionaryHome(
   readonly designation: string;
   readonly law: LawInForce;
   readonly sourceRecordIds: readonly EntityId[];
+  readonly termResolution?: LawTermResolutionProvenance;
 } | null {
   if (
     !coveredKind(kind) ||
