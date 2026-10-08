@@ -13,8 +13,6 @@ export const facetMeticulousEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-meticulous",
         pole: "high",
-        explanation:
-          "They want to see the office's unfinished details through.",
       },
     ],
   },
