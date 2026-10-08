@@ -56,7 +56,7 @@ import {
   settleGoal,
 } from "./people-goal-pursuit";
 import { ensureOwnTies } from "./people-own-ties";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import {
   CONTACT_DECLINED_EVENT,
@@ -663,14 +663,6 @@ function decideOnOffer(
         explanation: "They have been looking for work.",
       },
     ]),
-    ...traitConsiderations(withTraits, personId, key, [
-      {
-        optionKey: "hold-out",
-        trait: "risk",
-        pole: "high",
-        explanation: "They would chance waiting for something better.",
-      },
-    ]),
   ];
   const evaluation = evaluateDecision(withTraits, {
     stableKey: key,
@@ -1002,34 +994,6 @@ function decidesToAct(
             ? "They have been meaning to keep up with people."
             : "They have been meaning to learn something.",
       },
-    ]),
-    ...traitConsiderations(world, personId, key, [
-      purpose === "connection"
-        ? {
-            optionKey: "act",
-            trait: "sociability",
-            pole: "high",
-            explanation: "They are the one who picks up the phone.",
-          }
-        : {
-            optionKey: "act",
-            trait: "reliability",
-            pole: "high",
-            explanation: "They follow through on what they meant to do.",
-          },
-      purpose === "connection"
-        ? {
-            optionKey: "not-this-week",
-            trait: "sociability",
-            pole: "low",
-            explanation: "They wait to be called.",
-          }
-        : {
-            optionKey: "not-this-week",
-            trait: "reliability",
-            pole: "low",
-            explanation: "They let it slide another week.",
-          },
     ]),
     {
       stableKey: `${key}:quiet-week`,

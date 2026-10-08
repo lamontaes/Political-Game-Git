@@ -1,9 +1,6 @@
 import { produceRebuffedAskEffects } from "../simulation/people-trait-occasions";
 import { wasRefused } from "../simulation/scheduled-activity-answer";
-import {
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../simulation/people-traits";
+import { ensurePeopleTraits } from "../simulation/people-traits";
 import {
   addDays,
   ageOnDate,
@@ -1216,26 +1213,7 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
       historySequenceExclusive: world.history.nextSequence,
     },
     subject: { kind: "context:life", key: "mention-a-promise", entityId: null },
-    considerations: traitConsiderations(world, promisee.id, tipKey, [
-      {
-        optionKey: "mention",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They talk to a lot of people.",
-      },
-      {
-        optionKey: "keep-quiet",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They keep things to themselves.",
-      },
-      {
-        optionKey: "keep-quiet",
-        trait: "reliability",
-        pole: "low",
-        explanation: "They keep a confidence.",
-      },
-    ]),
+    considerations: [],
     options: [
       {
         key: "mention",
