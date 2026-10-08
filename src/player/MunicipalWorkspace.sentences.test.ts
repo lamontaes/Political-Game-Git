@@ -1,6 +1,11 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { smallWorld } from "../../tests/fixtures/small-world";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
+import { MunicipalWorkspace } from "./MunicipalWorkspace";
 
 describe("the municipal screen carries no authored sentence", () => {
   it("has no sentence literal in its file", () => {
@@ -13,5 +18,25 @@ describe("the municipal screen carries no authored sentence", () => {
     expect(
       text.match(/>\s*[A-Z][a-z]+ [a-z ,'&;]{20,}[.?!]\s*</g) ?? [],
     ).toEqual([]);
+    expect(text).not.toContain(["Unknown"].join(""));
   });
+
+  it.each(lifePlaceStateIdentities())(
+    "omits unrecorded values for $jurisdictionKey",
+    (place) => {
+      const { world } = smallWorld({
+        place: place.jurisdictionKey,
+        seed: `municipal-missing-values:${place.jurisdictionKey}`,
+      });
+      const html = renderToStaticMarkup(
+        createElement(MunicipalWorkspace, {
+          world,
+          diagnostics: true,
+          onWorldChange: () => {},
+        }),
+      );
+      expect(html).not.toContain(">Unknown<");
+      expect(html).not.toContain(">—<");
+    },
+  );
 });
