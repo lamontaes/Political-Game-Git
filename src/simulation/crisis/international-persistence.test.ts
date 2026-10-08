@@ -15,6 +15,7 @@ import {
   declareInternationalCrisis,
   internationalCrisisState,
 } from "./index";
+import { internationalTestActors } from "./international-test-actors";
 
 /**
  * CRUNCH47 C2: the old three-cycle limit is a computational checkpoint, not a
@@ -26,10 +27,14 @@ const LONG = 900_000;
 function crisisIn(world: World, stableKey: string) {
   const next = declareInternationalCrisis(world, {
     stableKey,
+    ...internationalTestActors(world, stableKey, ["treaty allies"]),
     counterpartyLabel: "a foreign government",
     allyLabels: ["treaty allies"],
     subject: "access to a disputed shipping lane",
-    tension: "elevated",
+    // Severe tension makes this persistence fixture hold or escalate under
+    // recorded reasons, rather than use a random share to guarantee a
+    // de-escalation.
+    tension: "severe",
     basis: "Declared for the persistence proof; fictional counterparty.",
   });
   const crisisId = crisisRecords(next)

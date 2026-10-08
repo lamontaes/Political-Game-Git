@@ -956,6 +956,7 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
@@ -1010,6 +1011,8 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A source label for amounts estimated from population-level evidence. */
+  readonly estimatedFrom?: string;
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }
