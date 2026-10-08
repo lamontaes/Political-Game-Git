@@ -200,6 +200,27 @@ describe("a choice answers the other person's last line", () => {
     expect(
       lastLineOf({ intent: "greet", reply: "We could play cards?" }, true),
     ).toBe("invitation");
+    expect(
+      lastLineOf(
+        { intent: "share", reply: "Yes. Tell me what's on your mind." },
+        false,
+      ),
+    ).toBe("go-ahead");
+  });
+
+  it("files every kind of reply under a last line the table answers", () => {
+    for (const [choice, kinds] of Object.entries(talkChoiceFits.afterChoice)) {
+      if (choice !== "default")
+        expect(Object.keys(LIFE_TALK_INTENTS)).toContain(choice);
+      for (const kind of Object.values(kinds))
+        expect(Object.keys(talkChoiceFits.fits)).toContain(kind);
+    }
+  });
+
+  it("asks no question back when the other person says to go ahead", () => {
+    for (const other of others)
+      for (const choice of ["explain", "greet", "acceptProposal"])
+        expect(say(choice, "go-ahead", other), choice).toBeNull();
   });
 
   it('answers "How are you?" with an answer, never another greeting', () => {

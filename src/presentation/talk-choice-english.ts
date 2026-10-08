@@ -39,10 +39,17 @@ const FITS = talkChoiceFits.fits as Record<
   Partial<Record<string, readonly string[]>>
 >;
 
+/** What kind of line a reply is, from the choice it answers (data). */
+const AFTER_CHOICE = talkChoiceFits.afterChoice as Record<
+  string,
+  { readonly asks: LastLine; readonly says: LastLine }
+>;
+
 /**
  * The kind of the other person's last line, from what the player chose and
  * what came back: nothing yet, a greeting with or without "How are you?", an
- * open invitation, another question, or a statement.
+ * open invitation, a go-ahead to say what is on the player's mind, another
+ * question, or a statement.
  */
 export function lastLineOf(
   previous: { readonly intent: string; readonly reply: string } | null,
@@ -51,8 +58,8 @@ export function lastLineOf(
   if (!previous) return "opening";
   if (invitationOpen) return "invitation";
   const asks = /\?["”]?\s*$/.test(previous.reply);
-  if (previous.intent === "greet") return asks ? "wellbeing" : "greeting";
-  return asks ? "question" : "statement";
+  const answering = AFTER_CHOICE[previous.intent] ?? AFTER_CHOICE.default!;
+  return asks ? answering.asks : answering.says;
 }
 
 export interface TalkChoiceLine {

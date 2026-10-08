@@ -1,13 +1,28 @@
 {
   "schema": "talk-choice-fits/1",
-  "description": "Which sentences of the talk-choice bank may word a conversation choice, given the other person's last line (owner rule R3, from grading English batch 2 on October 8, 2026: a question gets an answer, an invitation gets a yes or no, a greeting gets a greeting). Each kind of last line lists the choices that answer it and the bank moves their words come from. A choice not listed under the last line gets no sentence. Leaving and acknowledging are the screen's controls (rule R2) and choices with no subject are not offered (rule R1), so neither appears.",
+  "description": "Which sentences of the talk-choice bank may word a conversation choice, given the other person's last line (owner rule R3, from grading English batch 2 on October 8, 2026: a question gets an answer, an invitation gets a yes or no, a greeting gets a greeting). afterChoice says what kind of line the other person's reply is, from the player's choice it answers and whether it asks a question; a choice not listed there uses default. Each kind of last line lists the choices that answer it and the bank moves their words come from. A choice not listed under the last line gets no sentence. Leaving and acknowledging are the screen's controls (rule R2) and choices with no subject are not offered (rule R1), so neither appears.",
   "lastLine": {
     "opening": "Nobody has spoken yet: the player opens the conversation.",
     "greeting": "The other person greeted the player and asked nothing.",
     "wellbeing": "The other person greeted the player and asked how they are.",
     "question": "The other person asked something else.",
     "invitation": "The other person invited the player to do something together, and the invitation is still open.",
-    "statement": "The other person said something that is not a question or an invitation."
+    "statement": "The other person said something that is not a question or an invitation.",
+    "go-ahead": "The player asked to tell the other person something, and the other person answered."
+  },
+  "afterChoice": {
+    "default": {
+      "asks": "question",
+      "says": "statement"
+    },
+    "greet": {
+      "asks": "wellbeing",
+      "says": "greeting"
+    },
+    "share": {
+      "asks": "go-ahead",
+      "says": "go-ahead"
+    }
   },
   "fits": {
     "opening": {
@@ -38,6 +53,7 @@
       "remember": ["remember"],
       "cancelProposal": ["cancelProposal"],
       "spendTime": ["spendTime"]
-    }
+    },
+    "go-ahead": {}
   }
 }
