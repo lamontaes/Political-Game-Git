@@ -411,6 +411,7 @@ export function recordNewsLawExposure(
     readonly measureId: EntityId;
     readonly sectionKey: string | null;
     readonly channel: LawExposureChannel;
+    readonly direction?: LawExposureRecord["direction"];
     readonly news: LawExposureNewsProvenance;
   },
 ): World {
@@ -418,7 +419,7 @@ export function recordNewsLawExposure(
     throw new Error("A law exposure needs a person in the world.");
   if (!recordedLawAt(world, input.measureId, world.currentDate))
     throw new Error("Only a recorded law in force can reach a person.");
-  return append(world, {
+  const next = append(world, {
     stableKey: input.stableKey,
     personId: input.personId,
     measureId: input.measureId,
@@ -426,13 +427,19 @@ export function recordNewsLawExposure(
     channel: input.channel,
     relation: "news",
     viaPersonId: null,
-    direction: "none",
+    direction: input.direction ?? "none",
     amount: null,
     cadence: null,
     monthlyPay: null,
     sourceRecordId: input.news.knowledgeId,
     news: input.news,
   });
+  const exposure = (next.history.lawExposures ?? []).find(
+    (row) => row.stableKey === input.stableKey,
+  );
+  return exposure && exposure.direction !== "none"
+    ? scheduleOfficialViewReflection(next, exposure)
+    : next;
 }
 
 /**
@@ -519,9 +526,7 @@ export function assertLawExposureIntegrity(
     }
     if (
       row.relation === "news" &&
-      (row.direction !== "none" ||
-        row.amount !== null ||
-        row.monthlyPay !== null)
+      (row.amount !== null || row.cadence !== null || row.monthlyPay !== null)
     )
       throw new Error("A news exposure carries no money.");
     if ((row.amount === null) !== (row.cadence === null))
