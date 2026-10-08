@@ -7,12 +7,23 @@ import { stableHash } from "../ids";
 import { lifePlaceStateIdentities } from "../life-places";
 import { activeWorkRelationshipsAt, workStatusHistory } from "../life-queries";
 import { viewOfOfficial } from "../official-view-reads";
+import {
+  createFormationContext,
+  recordPrivateBelief,
+  recordPublicPosition,
+} from "../politics";
+import { recordWorldEvent } from "../world";
+import {
+  PRESS_STORY_EVENT_TYPE,
+  PRESS_STORY_LEAD_TAG,
+} from "../public-information-integrity";
 import type { EntityId, World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
   closeKin,
   hearersOfPerson,
   livedOutcomeReflectionEventKey,
+  recordStoryHeardOfficialViews,
 } from "./official-views";
 import {
   jobsLostBy,
@@ -75,6 +86,153 @@ function talkativeWorkerIn(seed: string) {
 }
 
 describe(`a view of an official travels to the people its holder talks politics with (seed ${SEED})`, () => {
+  it("passes on a view formed from a published story", () => {
+    const { world, governor, workerId } = talkativeWorkerIn(
+      `${SEED}:published-story`,
+    );
+    expect(governor).not.toBeNull();
+    expect(workerId).toBeDefined();
+    const personId = workerId!;
+    const officialId = governor!.personId;
+    const propositionId = Object.keys(
+      world.policyCatalog.propositions,
+    )[0]! as EntityId;
+    const prior = recordPrivateBelief(world, {
+      stableKey: `word-of-mouth:story-prior:${personId}`,
+      personId,
+      propositionId,
+      formedAt: world.currentDate,
+      position: "support",
+      conviction: "moderate",
+      salience: "moderate",
+      flexibility: "open",
+      rationale: null,
+      formation: createFormationContext("reflection:initial"),
+      supersedesBeliefId: null,
+    });
+    const basis = recordWorldEvent(prior, {
+      stableKey: `word-of-mouth:story-basis:${personId}`,
+      type: "fixture.official-act",
+      occurredAt: prior.currentDate,
+      recordedAt: prior.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [officialId],
+      participants: [
+        { personId: officialId, role: "agency:actor", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [],
+      summary: "Recorded official act fixture.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const basisEventId = basis.history.events.at(-1)!.id;
+    let next = recordPublicPosition(basis, {
+      stableKey: `word-of-mouth:story-position:${personId}`,
+      personId: officialId,
+      propositionId,
+      statedAt: basis.currentDate,
+      stance: "oppose",
+      statement: "Fixture stance.",
+      audience: "public",
+      venue: null,
+      sourceEventId: basisEventId,
+      supersedesPublicPositionId: null,
+    });
+    const leadId = `word-of-mouth:story-lead:${personId}` as EntityId;
+    const publicationId = `word-of-mouth:publication:${personId}` as EntityId;
+    next = recordWorldEvent(next, {
+      stableKey: `word-of-mouth:published-story:${personId}`,
+      type: PRESS_STORY_EVENT_TYPE,
+      occurredAt: next.currentDate,
+      recordedAt: next.currentDate,
+      jurisdictionId: null,
+      involvedEntityIds: [personId],
+      participants: [{ personId, role: "focus:subject", detail: null }],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: [`${PRESS_STORY_LEAD_TAG}${leadId}`],
+      summary: "Fixture story.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const story = next.history.events.at(-1)!;
+    next = {
+      ...next,
+      history: {
+        ...next.history,
+        pressRecords: [
+          ...(next.history.pressRecords ?? []),
+          { id: leadId, kind: "story-lead", basisEventIds: [basisEventId] },
+        ],
+        publications: [
+          ...(next.history.publications ?? []),
+          {
+            id: publicationId,
+            sourceEventId: story.id,
+            kind: "press-story",
+            publishedAt: next.currentDate,
+            recordedAt: next.currentDate,
+          },
+        ],
+      },
+    } as unknown as World;
+    const sequence = next.history.nextSequence;
+    const knowledge = {
+      ...next,
+      history: {
+        ...next.history,
+        nextSequence: sequence + 1,
+        knowledge: [
+          ...next.history.knowledge,
+          {
+            id: `word-of-mouth:story-knowledge:${personId}` as EntityId,
+            stableKey: `word-of-mouth:story-knowledge:${personId}`,
+            sequence,
+            personId,
+            eventId: story.id,
+            learnedAt: next.currentDate,
+            believedSummary: "Fixture reported act.",
+            accuracy: "accurate",
+            confidence: "high",
+            source: { kind: "media", reference: publicationId },
+          },
+        ],
+      },
+    } as unknown as World;
+    const knowledgeId = knowledge.history.knowledge.at(-1)!.id;
+    const after = recordStoryHeardOfficialViews(knowledge, knowledgeId);
+    const told = after.history.knowledge.filter(
+      (row) =>
+        row.eventId === story.id &&
+        row.source.kind === "told-by" &&
+        row.source.sourcePersonId === personId,
+    );
+    expect(told.length).toBeGreaterThan(0);
+    expect(told.some((row) => closeKin(after, personId, row.personId))).toBe(
+      true,
+    );
+    expect(
+      viewOfOfficial(after, personId, officialId).belief?.position,
+    ).not.toBeNull();
+    expect(
+      recordStoryHeardOfficialViews(after, knowledgeId).history.knowledge,
+    ).toHaveLength(after.history.knowledge.length);
+  });
+
   it("tells each hearer who told them, lets a relative weigh it in their own view, and does not tell it again", () => {
     const { world, playerId, stateKey, governor, workerId } =
       talkativeWorkerIn(SEED);
