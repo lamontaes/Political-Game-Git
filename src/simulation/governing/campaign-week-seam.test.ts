@@ -1,6 +1,7 @@
 import { fixtureMeetsRecordedCandidacyAge } from "../../../tests/fixtures/candidacy-age";
 import { describe, expect, it } from "vitest";
 import {
+  fundCommitteeFromCandidate,
   namedSeatForFixture,
   withRecordedStartingConditions,
 } from "../../../tests/fixtures/campaign-fixture";
@@ -116,8 +117,14 @@ function fundedCampaign(seed: string): Filed {
     },
     spend: null,
   });
+  // The session itself raises nothing without a recorded monetary ask and a
+  // contribution-cap law term, so the committee's money is the candidate's own.
   return {
-    world: performCampaignAction(raise.world, raise.action.id),
+    world: fundCommitteeFromCandidate(
+      performCampaignAction(raise.world, raise.action.id),
+      personId,
+      2_000_00,
+    ),
     campaign: filed.campaign,
     personId,
   };
