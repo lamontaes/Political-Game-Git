@@ -154,6 +154,16 @@ describe(`the clerk's counter in a generated world (${place.displayName}, seed $
             event.involvedEntityIds.includes(campaign.id),
         ),
       ).toBe(true);
+      // The counter shows the filing: the seat, with the player among those filed.
+      const filedTurn = projectClerkFilingScene(world, personId)!.turns.find(
+        (turn) => turn.kind === CLERK_SCENE_FILED,
+      )!;
+      expect(filedTurn.answer.map((row) => row.officeKey)).toEqual([
+        council.officeKey,
+      ]);
+      expect(
+        filedTurn.answer[0]!.filed?.map((filer) => filer.personId),
+      ).toContain(personId);
       // Filed once: the counter no longer offers it.
       expect(
         projectClerkFilingScene(world, personId)!.availableActions,

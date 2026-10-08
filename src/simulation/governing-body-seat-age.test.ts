@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import governingBodySeatQualification from "../../data/research/local-government/governing-body-seat-qualification.json" with { type: "json" };
+import { smallWorld } from "../../tests/fixtures/small-world";
 import {
+  candidacyEligibility,
   electiveOfficesForJurisdiction,
   localGoverningBodiesForJurisdiction,
 } from "./candidacy";
+import { addDays } from "./dates";
 import { searchLifePlaces } from "./life-places";
 import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { placeLocalGovernmentUnits } from "./nationwide-world/local-governments";
@@ -102,6 +105,53 @@ describe("a governing-body seat's age, in all 56 places", () => {
     }
     // Towns and townships govern in the New England and Midwest states.
     expect(checked).toBeGreaterThan(5);
+  });
+
+  it("tells someone too young that the seat's age is an estimate, for a city, town, township or county seat", () => {
+    const fixture = smallWorld({ place: "US-KY", seed: "seat-age-block" });
+    const personId = fixture.personId;
+    const kinds = new Set<string>();
+    for (const usps of Object.keys(STATES)) {
+      const places = searchLifePlaces("", 100_000, {
+        stateJurisdictionKey: `US-${usps}`,
+      }).filter((candidate) => candidate.scope !== "state");
+      const found = firstGoverningBodySeat(usps);
+      const township = places.find((candidate) => {
+        const units = placeLocalGovernmentUnits(candidate);
+        return units.municipal.length === 0 && units.townships.length > 0;
+      });
+      for (const place of [found?.place, township]) {
+        if (!place) continue;
+        const jurisdictionId = place.context.jurisdiction.id;
+        // A seventeen-year-old living in the place.
+        const world = {
+          ...fixture.world,
+          people: {
+            ...fixture.world.people,
+            [personId]: {
+              ...fixture.world.people[personId]!,
+              homeJurisdictionId: jurisdictionId,
+              birthDate: addDays(fixture.world.currentDate, -(17 * 365 + 100)),
+            },
+          },
+        };
+        for (const seat of localGoverningBodiesForJurisdiction(
+          jurisdictionId,
+        ).filter((identity) => identity.seat === "governing-body")) {
+          const age = candidacyEligibility(world, {
+            personId,
+            jurisdictionId,
+            officeKey: seat.officeKey,
+            alreadyACandidate: false,
+          }).blocks.find((block) => block.reason.startsWith("Minimum age"));
+          expect(age?.reason, `${usps} ${seat.officeKey}`).toBe(
+            `Minimum age: ${governingBodySeatQualification.minimumAge} (estimated)`,
+          );
+          kinds.add(seat.unit.unitType);
+        }
+      }
+    }
+    expect([...kinds].sort()).toEqual(["county", "municipality", "township"]);
   });
 
   it("rests on read state codes and the national voting age", () => {

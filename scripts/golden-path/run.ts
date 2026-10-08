@@ -2,7 +2,7 @@
  * Plays the golden path for one seed and prints what the player hit.
  *
  *   node --max-old-space-size=12288 --import tsx scripts/golden-path/run.ts \
- *     --seed golden-path-1 [--out report.json] [--no-save]
+ *     --seed golden-path-1 [--out report.json] [--no-save] [--until <step id>]
  *
  * A week-old world is large enough that saving it needs the bigger heap.
  *
@@ -29,9 +29,17 @@ let printedNotes = 0;
 let printedBreaks = 0;
 // Saving a week-old world takes minutes and most of the memory; skip it when
 // only the path before it is being checked.
-const steps = process.argv.includes("--no-save")
+const saving = process.argv.includes("--no-save")
   ? GOLDEN_PATH_STEPS.filter((step) => step.id !== "save-continue")
   : GOLDEN_PATH_STEPS;
+// `--until find-clerk` stops after that step, to check the early path fast.
+const until = argument("until");
+const last = until ? saving.findIndex((step) => step.id === until) : -1;
+if (until && last < 0)
+  throw new Error(
+    `No step "${until}"; steps are ${saving.map((step) => step.id).join(", ")}.`,
+  );
+const steps = last >= 0 ? saving.slice(0, last + 1) : saving;
 const state = playGoldenPath(seed, steps, (step, current) => {
   const seconds = Math.round((Date.now() - started) / 1000);
   const breaks = current.breaks.filter((row) => row.step === step.id);

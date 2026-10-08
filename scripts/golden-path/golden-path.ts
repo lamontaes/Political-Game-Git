@@ -46,12 +46,14 @@ import {
 } from "../../src/presentation/district-selection";
 import { attendPartyWork } from "../../src/presentation/campaign-life-actions";
 import {
+  CLERK_SCENE_FILED,
   askClerk,
   fileAtClerk,
   leaveFilingVisit,
   projectClerkFilingScene,
 } from "../../src/presentation/clerk-filing-scene";
 import { filingOfficeForSeat } from "../../src/simulation/filing-office";
+import { sittingLocalClerk } from "../../src/simulation/living-world/local-government-seats";
 import {
   requestFilingVisit,
   scheduledFilingVisits,
@@ -351,6 +353,15 @@ const findTheClerk: GoldenPathStep = {
           `Places offers: ${offers.map((offer) => `${offer.kind}:${offer.title}`).join(", ") || "none"}`,
         ],
       );
+    const office = filingOfficeForSeat(
+      state.world,
+      filing.filingSeatOfficeKey!,
+    );
+    // Whether the office was held before the player asked, or was filled for
+    // the visit, is part of what the walk reports.
+    const clerkBefore = office
+      ? sittingLocalClerk(state.world, office.unit)
+      : null;
     const world = requestFilingVisit(
       state.world,
       state.playerPersonId,
@@ -367,7 +378,7 @@ const findTheClerk: GoldenPathStep = {
     return note(
       { ...state, world },
       "find-clerk",
-      `Places offered ${filing.title} (${filing.detail}); visit with ${personName(world.people[visit.participantPersonIds.find((id) => id !== state.playerPersonId)!]!)} at ${scheduledActivityState(world, visit.id).start.date} ${scheduledActivityState(world, visit.id).start.minuteOfDay}`,
+      `Places offered ${filing.title} (${filing.detail}); visit with ${personName(world.people[visit.participantPersonIds.find((id) => id !== state.playerPersonId)!]!)} at ${scheduledActivityState(world, visit.id).start.date} ${scheduledActivityState(world, visit.id).start.minuteOfDay}; ${clerkBefore ? "the clerk already held the office" : "the office was empty and was filled for the visit"}`,
     );
   },
 };
@@ -493,6 +504,21 @@ const fileForCouncil: GoldenPathStep = {
           "Filing at the counter did nothing.",
         );
       state = { ...state, world, filedOfficeKey: target.officeKey };
+      const shown = projectClerkFilingScene(
+        world,
+        state.playerPersonId,
+      )?.turns.find((turn) => turn.kind === CLERK_SCENE_FILED);
+      if (
+        !shown?.answer.some((row) =>
+          row.filed?.some((filer) => filer.personId === state.playerPersonId),
+        )
+      )
+        state = brk(
+          state,
+          "file",
+          "no-reaction",
+          "The counter shows nothing for the filing.",
+        );
     } else {
       state = brk(
         state,

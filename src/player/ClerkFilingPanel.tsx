@@ -7,6 +7,7 @@ import {
   type ClerkQuestion,
   type ClerkRuleRecord,
 } from "../presentation/clerk-filing-scene";
+import { proseDate, proseMonthDay } from "../presentation/prose-dates";
 import type { ShellRef } from "../presentation/shell-navigation";
 import type {
   TimeCommandReport,
@@ -74,13 +75,21 @@ export function ClerkFilingPanel({
               {seat.residency ? <dd>{rule(seat.residency)}</dd> : null}
               {seat.electionDate ? (
                 <dd>
-                  {seat.electionDate}
+                  {proseDate(seat.electionDate)}
                   {seat.electionDateEstimated ? " (estimated)" : ""}
                 </dd>
               ) : null}
-              {seat.deadline ? <dd>{seat.deadline}</dd> : null}
+              {seat.deadline ? (
+                <dd>
+                  {proseMonthDay(seat.deadline)}
+                  {seat.termsEstimatedFrom ? " (estimated)" : ""}
+                </dd>
+              ) : null}
               {seat.feeMinorUnits !== undefined ? (
-                <dd>${(seat.feeMinorUnits / 100).toFixed(2)}</dd>
+                <dd>
+                  ${(seat.feeMinorUnits / 100).toFixed(2)}
+                  {seat.termsEstimatedFrom ? " (estimated)" : ""}
+                </dd>
               ) : null}
               {seat.filed?.map((filer) => (
                 <dd key={filer.personId}>
@@ -93,7 +102,7 @@ export function ClerkFilingPanel({
                   >
                     {filer.name}
                   </button>{" "}
-                  · {filer.filedAt}
+                  · {proseDate(filer.filedAt)}
                 </dd>
               ))}
             </div>

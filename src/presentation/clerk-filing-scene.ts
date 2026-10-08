@@ -562,6 +562,11 @@ export function fileAtClerk(
   if (!campaign) return world;
   const clerk = scene.actors[0]!;
   const key = `${baseKey(activityId)}:filed:${officeKey}`;
+  // The counter shows the filing as it shows every answer: the seat and who
+  // has now filed for it, the player among them.
+  const answer = clerkAnswerRecords(filed, personId, officeKey, "filed").filter(
+    (row) => row.officeKey === officeKey,
+  );
   const next = recordWorldEvent(filed, {
     stableKey: key,
     type: CLERK_SCENE_FILED,
@@ -596,6 +601,7 @@ export function fileAtClerk(
       choice: `file:${officeKey}`,
       motivation: null,
       immediateReaction: null,
+      campaignGuidanceAnswer: JSON.stringify(answer),
     },
   });
   const turn = next.history.events.at(-1)!;

@@ -867,7 +867,9 @@ export function candidacyEligibility(
           rule.kind === "known" && rule.source.verification === "game-profile"
             ? "profile-minimum-age"
             : "sourced-minimum-age",
-        reason: minimumAgeRequirement ?? `Minimum age: ${rule.value}`,
+        reason:
+          minimumAgeRequirement ??
+          `Minimum age: ${rule.value}${rule.source.verification === "game-profile" ? " (estimated)" : ""}`,
       });
     } else if (rule.kind === "unknown") {
       blocks.push({
