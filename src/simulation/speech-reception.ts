@@ -8,7 +8,7 @@ import {
   workStatusAt,
 } from "./life-queries";
 import { personName } from "./people";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { recordEventKnowledge } from "./records";
 import { relationshipHistory } from "./queries";
 import { readRelationshipStanding } from "./relationship-standing";
@@ -209,22 +209,6 @@ export function speechReactionOf(
         interactionId,
       })),
     });
-  considerations.push(
-    ...traitConsiderations(world, witnessId, key, [
-      {
-        optionKey: "cheered",
-        trait: "sociability",
-        pole: "high",
-        explanation: "They are outgoing and let it show.",
-      },
-      {
-        optionKey: "applauded",
-        trait: "sociability",
-        pole: "low",
-        explanation: "They are reserved, even when pleased.",
-      },
-    ]),
-  );
   const evaluation = evaluateDecision(world, {
     stableKey: key,
     decisionType: "speech.react",
@@ -280,6 +264,28 @@ export function speechReception(
   } catch {
     return null;
   }
+}
+
+/** Read the saved reaction of one witness to one recorded speech. */
+export function speechReactionForWitness(
+  world: World,
+  speech: HistoricalEvent,
+  witnessId: EntityId,
+): SpeechReaction | null {
+  const tag = `${SPEECH_OF_TAG}${speech.id}`;
+  const reception = recordsByStringField(
+    world.history.events,
+    "type",
+    SPEECH_RECEPTION_EVENT,
+  ).find((row) => row.tags.includes(tag));
+  const detail = reception?.participants.find(
+    (participant) => participant.personId === witnessId,
+  )?.detail;
+  if (!detail?.startsWith("Heard it and ")) return null;
+  const reaction = detail.slice("Heard it and ".length);
+  return SPEECH_REACTIONS.includes(reaction as SpeechReaction)
+    ? (reaction as SpeechReaction)
+    : null;
 }
 
 /**

@@ -8,6 +8,7 @@ import { US_CONGRESS_PACK_ID } from "./congress-rule-pack";
 import {
   enactedDutiesOf,
   settleEnactedDuty,
+  serviceEvidenceForDuty,
   writeDutyRecord,
 } from "./enacted-duties";
 import { createOrganization, createWorkRelationship } from "./life";
@@ -26,6 +27,7 @@ import type {
   EnactedDutyRuleRecord,
   EntityId,
   World,
+  PublicProgramRecord,
 } from "./types";
 
 // Canonical saved-duty fixtures test settlement, not passage or delivery of a law.
@@ -212,6 +214,75 @@ describe("A97 duty settlement requires fulfillment evidence", () => {
           "canonical supplied duty, no natural enactment or positive completion claim",
       }),
     );
+  });
+  it("accepts only a posted service outturn joined to the Act and covered body", () => {
+    const eventId = "a97:service-event" as EntityId;
+    const outturnId = "a97:service-outturn" as EntityId;
+    const records = [
+      {
+        id: "a97:appropriation" as EntityId,
+        kind: "appropriation",
+        sourceMeasureId: measureId,
+      },
+      {
+        id: "a97:commitment" as EntityId,
+        kind: "commitment",
+        appropriationId: "a97:appropriation" as EntityId,
+        recipientOrganizationId: staffedId,
+      },
+      {
+        id: "a97:installment" as EntityId,
+        kind: "installment",
+        commitmentId: "a97:commitment" as EntityId,
+        status: "posted",
+      },
+      {
+        id: outturnId,
+        kind: "capacity-outturn",
+        eventId,
+        commitmentId: "a97:commitment" as EntityId,
+        installmentId: "a97:installment" as EntityId,
+      },
+    ] as unknown as PublicProgramRecord[];
+    const event = {
+      id: eventId,
+      occurredAt: duty.complyBy,
+    };
+    const serviceWorld = (measure: EntityId, recipient: EntityId) => {
+      const linked = records.map((record) =>
+        record.kind === "appropriation"
+          ? { ...record, sourceMeasureId: measure }
+          : record.kind === "commitment"
+            ? { ...record, recipientOrganizationId: recipient }
+            : record,
+      ) as PublicProgramRecord[];
+      return {
+        ...world,
+        history: {
+          ...world.history,
+          publicProgramRecords: linked,
+          events: [...world.history.events, event],
+        },
+      } as World;
+    };
+
+    expect(
+      serviceEvidenceForDuty(
+        serviceWorld(measureId, staffedId),
+        duty,
+        staffedId,
+      ),
+    ).toBe(outturnId);
+    expect(
+      serviceEvidenceForDuty(
+        serviceWorld("another-act" as EntityId, staffedId),
+        duty,
+        staffedId,
+      ),
+    ).toBeNull();
+    expect(
+      serviceEvidenceForDuty(serviceWorld(measureId, emptyId), duty, staffedId),
+    ).toBeNull();
   });
   it("retains unknown coverage for an unplaced body and unrecorded applicability test", () => {
     const ordinary = settleEnactedDuty(world, duty.id);

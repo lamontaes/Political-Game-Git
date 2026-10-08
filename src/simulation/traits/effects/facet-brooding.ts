@@ -1,16 +1,20 @@
 import type { TraitEffectDeclaration } from "../../trait-packs";
 
-/** Brooding can make an officeholder dwell on the cost of another term. */
+/**
+ * Brooding can keep an earlier unpleasant exchange present when a person
+ * considers a new invitation. That gives them a reason to decline; the other
+ * circumstances of the invitation still take part in the decision.
+ */
 export const facetBroodingEffects: readonly TraitEffectDeclaration[] = [
   {
-    decision: "career.consider-another-term",
+    decision: "contact.answer",
     leans: [
       {
-        option: "step-down",
+        option: "decline",
         trait: "personality-v1:facet-brooding",
         pole: "high",
         explanation:
-          "They keep dwelling on the strain of another term in office.",
+          "Unpleasant experiences stay on their mind while they weigh the invitation.",
       },
     ],
   },

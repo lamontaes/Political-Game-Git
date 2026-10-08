@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import {
@@ -18,6 +19,29 @@ const ALL_56 = Object.keys(
 describe("the opening's state card is never blank or stuck loading", () => {
   it("covers all 56 jurisdictions", () => {
     expect(ALL_56).toHaveLength(56);
+  });
+
+  it("keeps every jurisdiction's state information readable on the glass panel", () => {
+    const css = readFileSync(
+      new URL("./world-orientation.css", import.meta.url),
+      "utf8",
+    );
+    expect(css).toMatch(
+      /\.pg-regional-state-information\s*\{[^}]*color:\s*var\(--text-strong\)/s,
+    );
+    expect(css).toMatch(
+      /\.pg-state-population-caption\s*\{[^}]*color:\s*var\(--text-2\)/s,
+    );
+    expect(css).toMatch(
+      /\.pg-state-voting-table-wrap table\s*\{[^}]*font-size:\s*0\.9rem/s,
+    );
+    expect(css).toMatch(/\.pg-orientation-person\s*\{[^}]*color:\s*#32291b/s);
+    expect(css).toMatch(
+      /\.pg-orientation-panel\s*>\s*\.pg-orientation-reading\s*\{[^}]*overflow-y:\s*auto/s,
+    );
+    expect(css).not.toMatch(
+      /\.pg-regional-state-information\s*\{[^}]*color:\s*#[0-9a-f]{3,8}/i,
+    );
   });
 
   it("shows an estimated population on the first paint in every jurisdiction", () => {

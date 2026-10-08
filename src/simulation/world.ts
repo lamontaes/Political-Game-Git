@@ -145,6 +145,7 @@ import {
 } from "./future-transitions";
 import {
   appendHistoricalEvent,
+  appendMemoryRecord,
   createHistoryStore,
   eventsInvolving,
 } from "./history";
@@ -1401,14 +1402,47 @@ export function recordWorldEvent(
     }
   }
 
-  return {
-    ...world,
-    history: appendHistoricalEvent(world.history, world.id, {
-      ...input,
-      occurredAt,
-      recordedAt,
-    }),
-  };
+  const history = appendHistoricalEvent(world.history, world.id, {
+    ...input,
+    occurredAt,
+    recordedAt,
+  });
+  const event = history.events.at(-1)!;
+  const memoryWorthy = new Set([
+    "work.job-ended",
+    "life.couple-formed",
+    "life.couple-ended",
+    "life.started-dating",
+    "life.household-move",
+    "life.moved-into-home",
+    "life.left-home",
+    "life.death-learned",
+    "law.effect-reached-town",
+  ]).has(event.type);
+  let nextHistory = history;
+  if (memoryWorthy) {
+    const involvedPeople =
+      event.type === "life.death-learned"
+        ? event.participants
+            .filter((participant) => participant.role === "focus:told")
+            .map((participant) => participant.personId)
+        : event.involvedEntityIds;
+    for (const personId of involvedPeople) {
+      if (!world.people[personId]) continue;
+      nextHistory = appendMemoryRecord(nextHistory, world.id, {
+        stableKey: `event-memory:${event.id}:${personId}`,
+        personId,
+        eventId: event.id,
+        formedAt: occurredAt,
+        rememberedSummary: event.summary,
+        interpretation: event.summary,
+        strength: "moderate",
+        relevanceTags: [event.type],
+        supersedesMemoryId: null,
+      });
+    }
+  }
+  return { ...world, history: nextHistory };
 }
 
 /** Compatibility day entry; the canonical minute clock owns completion. */
@@ -2353,6 +2387,7 @@ function validateHistoryIntegrity(
   const officeIds = new Set([
     ...history.workRelationships.map((record) => record.id),
     ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
   ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);

@@ -62,6 +62,7 @@ import {
   zoomViewBox,
   panViewBox,
   HOME_VIEW,
+  readableMapLabelSize,
 } from "./map-view";
 import "./political-map.css";
 import { MapPlaceContext } from "./MapPlaceContext";
@@ -610,7 +611,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
     Boolean(entry),
   );
 
-  const labelSize = 11 * scaleHint;
+  const labelSize = readableMapLabelSize(view);
   const insetFrames = useMemo(
     () =>
       (["alaska", "hawaii"] as const).flatMap((inset) => {
@@ -810,9 +811,6 @@ export function PoliticalMap(props: PoliticalMapProps) {
           {days === 0
             ? "There is no earlier day to look back to."
             : `You can look back to ${proseDate(earliest)}. Each past day shows the map as it stood then.`}
-          {mode === "house"
-            ? " District outlines are the lines drawn for 2026 on every day."
-            : ""}
         </span>
       </div>
 
@@ -1007,7 +1005,7 @@ export function PoliticalMap(props: PoliticalMapProps) {
                         <text
                           x={frame.x + 3}
                           y={frame.y + frame.height - 3}
-                          fontSize={8 * scaleHint}
+                          fontSize={readableMapLabelSize(view, 12)}
                         >
                           {inset === "alaska"
                             ? "Alaska (not to scale)"
@@ -1081,9 +1079,6 @@ export function PoliticalMap(props: PoliticalMapProps) {
                 </g>
               ))}
             </svg>
-            <p className="pg-map-attribution">
-              Alaska and Hawaii are drawn as insets.
-            </p>
           </div>
         ) : null}
 

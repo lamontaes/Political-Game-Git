@@ -1,8 +1,8 @@
 ---
 id: facet-brooding-live-officeholder-choice
-impact: minor
-section: Improved
-title: Brooding officeholders weigh another term differently
+impact: none
+section: Changed
+title: Brooding's officeholding proof uses shared trait pulls
 ---
 
-Officeholders with a strong brooding tendency can weigh the strain of another term and choose to step down.
+The seeded brooding proof now checks the shared decision table's effect on another-term choices.
