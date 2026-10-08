@@ -8,11 +8,13 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import type { World } from "../types";
+import type { EntityId, World } from "../types";
+import type { RepresentedArea } from "./hazard-producer";
 import {
   HAZARD_EPISODE_TRANSITION_KEY,
   HAZARD_SAMPLE_TRANSITION_KEY,
   STORM_CATALOG,
+  chooseFootprintAreas,
   hazardSampleHandler,
   crisisRecords,
   representedHazardAreas,
@@ -45,6 +47,28 @@ const peebles = lifePlaceSearch("Peebles", 20, {
 }).find((place) => /\bPeebles\b/i.test(place.displayName))!;
 
 describe("automatic hazard production", () => {
+  it("allocates recorded footprints to the places with the most exposure", () => {
+    const areas = [
+      {
+        jurisdictionId: "area-c" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 2,
+      },
+      {
+        jurisdictionId: "area-a" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 9,
+      },
+      {
+        jurisdictionId: "area-b" as EntityId,
+        stateUsps: "KY",
+        exposureWeight: 5,
+      },
+    ] satisfies RepresentedArea[];
+    expect(chooseFootprintAreas(areas, 2)).toEqual(["area-a", "area-b"]);
+    expect(chooseFootprintAreas(areas, 1)).toEqual(["area-a"]);
+  });
+
   it("rates come from the catalog and are thinned to one represented place", () => {
     expect(STORM_CATALOG.stateMonthlyCatalog).toBeDefined();
     const june = representedRate("KY", "thunderstorm-wind", 6)!;

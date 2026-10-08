@@ -39,7 +39,7 @@ export const HAZARD_PRODUCER_VERSION = "crisis-hazard-producer-v1";
 /** The authored sampling law, stated so nobody has to infer it from code. */
 export const HAZARD_SAMPLING_CONTRACT = {
   version: HAZARD_PRODUCER_VERSION,
-  countLaw: "poisson-at-the-catalog-recorded-monthly-rate",
+  countLaw: "recorded-rate-with-cumulative-fractional-counts",
   /**
    * The catalog records episodes for a whole state; it has no per-county rate.
    * A represented place is thinned out of that state rate by the state's
@@ -49,7 +49,9 @@ export const HAZARD_SAMPLING_CONTRACT = {
    * only step in this module that is not read straight from the catalog.
    */
   countyThinning: "recorded-median-footprint-over-counties-in-state",
+  countUnit: "represented-areas-with-recorded-exposure",
   footprintSource: "resampled-recorded-episode-of-the-same-state-family-month",
+  footprintAllocation: "largest-represented-housing-and-service-exposure-first",
   magnitudeLadder: "authored-from-the-recorded-episode-area-count",
   label: "historical-report-resampling",
 } as const;
@@ -148,6 +150,7 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
 export interface RepresentedArea {
   readonly jurisdictionId: EntityId;
   readonly stateUsps: string;
+  readonly exposureWeight: number;
 }
 
 /**
@@ -171,7 +174,15 @@ export function representedHazardAreas(
       exposure.organizations.length === 0
     )
       continue;
-    areas.push({ jurisdictionId, stateUsps: usps });
+    areas.push({
+      jurisdictionId,
+      stateUsps: usps,
+      // Households and their homes describe the same exposure; use the
+      // household count where available, otherwise the recorded dwellings.
+      exposureWeight:
+        Math.max(exposure.households.length, exposure.dwellings.length) +
+        exposure.organizations.length,
+    });
   }
   return areas;
 }
@@ -254,17 +265,54 @@ export function representedRate(
   return rate * share;
 }
 
-/** Knuth's method, on the shared deterministic stream. */
-function poisson(rng: SeededRng, mean: number): number {
-  if (mean <= 0) return 0;
-  const limit = Math.exp(-mean);
-  let count = 0;
-  let product = rng.next();
-  while (product > limit && count < 25) {
-    count += 1;
-    product *= rng.next();
-  }
-  return count;
+function expectedMonthlyEpisodes(
+  stateUsps: string,
+  sourceFamily: string,
+  areas: readonly RepresentedArea[],
+  month: number,
+): number {
+  const rate = representedRate(stateUsps, sourceFamily, month);
+  if (rate === null || rate <= 0 || areas.length === 0) return 0;
+  // The catalog rate is per represented area; exposure weights only rank the
+  // places selected for an episode's footprint.
+  return rate * areas.length;
+}
+
+/** Fractional catalog counts accrue across the source window; no dice draw. */
+function recordedCountForMonth(
+  stateUsps: string,
+  sourceFamily: string,
+  areas: readonly RepresentedArea[],
+  monthStart: IsoDate,
+): number {
+  const targetYear = Number(monthStart.slice(0, 4));
+  const targetMonth = monthOf(monthStart);
+  const firstYear = STORM_CATALOG.window.firstYear;
+  if (targetYear < firstYear) return 0;
+  const monthly = Array.from({ length: 12 }, (_, index) =>
+    expectedMonthlyEpisodes(stateUsps, sourceFamily, areas, index + 1),
+  );
+  const annual = monthly.reduce((sum, count) => sum + count, 0);
+  const fullSourceYears = targetYear - firstYear;
+  const expectedBefore =
+    fullSourceYears * annual +
+    monthly.slice(0, targetMonth - 1).reduce((sum, count) => sum + count, 0);
+  const expectedThrough = expectedBefore + monthly[targetMonth - 1]!;
+  return Math.max(0, Math.floor(expectedThrough) - Math.floor(expectedBefore));
+}
+
+export function chooseFootprintAreas(
+  areas: readonly RepresentedArea[],
+  width: number,
+): readonly EntityId[] {
+  return [...areas]
+    .sort(
+      (left, right) =>
+        right.exposureWeight - left.exposureWeight ||
+        areas.indexOf(left) - areas.indexOf(right),
+    )
+    .slice(0, Math.max(0, width))
+    .map((area) => area.jurisdictionId);
 }
 
 export interface SampledHazard {
@@ -290,22 +338,24 @@ export function sampleMonthlyHazards(
   const areas = representedHazardAreas(world);
   if (areas.length === 0) return [];
   const month = monthOf(monthStart);
-  const byState = new Map<string, EntityId[]>();
+  const byState = new Map<string, RepresentedArea[]>();
   for (const area of areas) {
-    byState.set(area.stateUsps, [
-      ...(byState.get(area.stateUsps) ?? []),
-      area.jurisdictionId,
-    ]);
+    byState.set(area.stateUsps, [...(byState.get(area.stateUsps) ?? []), area]);
   }
   const sampled: SampledHazard[] = [];
-  for (const [stateUsps, jurisdictionIds] of [...byState].sort((a, b) =>
+  for (const [stateUsps, stateAreas] of [...byState].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
     for (const sourceFamily of Object.keys(FAMILY_OF).sort()) {
       const perPlace = representedRate(stateUsps, sourceFamily, month);
       if (perPlace === null || perPlace <= 0) continue;
-      // One draw for the represented places of this state together.
-      const rate = perPlace * jurisdictionIds.length;
+      const jurisdictionIds = stateAreas.map((area) => area.jurisdictionId);
+      const count = recordedCountForMonth(
+        stateUsps,
+        sourceFamily,
+        stateAreas,
+        monthStart,
+      );
       const stream = new SeededRng(HAZARD_PRODUCER_VERSION).fork(
         JSON.stringify([
           HAZARD_PRODUCER_VERSION,
@@ -315,7 +365,6 @@ export function sampleMonthlyHazards(
           sourceFamily,
         ]),
       );
-      const count = poisson(stream.fork("count"), rate);
       const candidates = episodesFor(
         stateFipsOf(stateUsps),
         sourceFamily,
@@ -333,7 +382,7 @@ export function sampleMonthlyHazards(
           1,
           Math.min(jurisdictionIds.length, recordedAreaCount),
         );
-        const chosen = [...jurisdictionIds].sort().slice(0, width);
+        const chosen = chooseFootprintAreas(stateAreas, width);
         sampled.push({
           stateUsps,
           sourceFamily,

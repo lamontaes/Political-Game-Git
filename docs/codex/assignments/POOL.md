@@ -277,10 +277,10 @@ Order: T1-T2, laws that run nothing (LW-01 to LW-10), bank parts by phase (counc
 | AU-08 | Pay and hiring from records | pool-audit-repairs.md AU-08 | open | |
 | AU-09 | Opening money from records | pool-audit-repairs.md AU-09 | done (#1992/#2001/#2024, batch-marked by CTO Oct 7) | |
 | AU-10 | Businesses and banks from books | pool-audit-repairs.md AU-10 | open | |
-| AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | open | |
+| AU-11 | Opening politics and town elections without swings | pool-audit-repairs.md AU-11 | done (#2563/#1589/#1532) | |
 | AU-12 | Where people live and what is on record | pool-audit-repairs.md AU-12 | done (#3494) | S55 |
 | AU-13 | Hazards and crime from causes | pool-audit-repairs.md AU-13 | open | |
-| AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | open | |
+| AU-14 | Scenes point at real things | pool-audit-repairs.md AU-14 | done #3591 | |
 | AU-15 | English engine as the voice (unverified: check first) | pool-audit-repairs.md AU-15 | open | |
 | AU-16 | Research data gaps | pool-audit-repairs.md AU-16 | open | |
 | AU-17 | Root lint repair: ESLint ignore for docs/ mockups and non-TS scripts (PR #2446, lint 188 to 0; Session 14 idle at 3:30 a.m. Oct 6) | pool-audit-repairs.md | done | Opus (CTO vision session) |
