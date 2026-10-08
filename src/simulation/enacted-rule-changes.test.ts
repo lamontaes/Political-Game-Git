@@ -578,6 +578,45 @@ describe("A chief executive's term, as the executive-term consumer reads it", ()
   });
 });
 
+describe("minimum-age rules cover every state office", () => {
+  it("files an age change for a governor through the shared qualification field", () => {
+    const scenario = createLegislativeScenario("kentucky");
+    const officeKey = "us-ky-governor";
+    const world = fileRuleChangeProvision(scenario.world, {
+      stableKey: "governor-age",
+      measureId: scenario.measureId,
+      officeKey,
+      field: "qualification.minimumAge",
+      value: 35,
+    });
+    expect(
+      ruleValueInWorld(
+        world,
+        {
+          jurisdiction: "KY",
+          officeKey,
+          field: "qualification.minimumAge",
+          onDate: makeIsoDate("2026-07-15"),
+        },
+        30,
+      ).value,
+    ).toBe(30);
+    const enacted = enact(scenario, world, "2026-07-15");
+    expect(
+      ruleValueInWorld(
+        enacted,
+        {
+          jurisdiction: "KY",
+          officeKey,
+          field: "qualification.minimumAge",
+          onDate: makeIsoDate("2026-07-15"),
+        },
+        30,
+      ).value,
+    ).toBe(35);
+  });
+});
+
 describe("Which law governs when several are in force", () => {
   const change = (
     instrument: "statute" | "constitutional-amendment",
