@@ -712,10 +712,10 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2372 | Save precinct returns from the canonical voter count | PR #2372 (codex/session13-precinct-results) | open: draft: finish it or close it as superseded | |
 | RS-2374 | Session 30 Part 3: Carry bargaining promises into vote reasons | PR #2374 (codex/session30-vote-bargaining-part-3) | open: draft: finish it or close it as superseded | |
 | RS-2375 | [b12 Part 3] Decide cloture and floor holds by member | PR #2375 (session35/b12-part3) | done #2375 | |
-| RS-2381 | b22 part 1: add composed player office scope | PR #2381 (session48/b22-part1-office-scope) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2382 | b22 part 2: scale economy views by office | PR #2382 (session48/b22-part2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2383 | b22 part 3: materialize press coverage from office and travel | PR #2383 (session48/b22-part3-press-coverage) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
-| RS-2384 | b22 part 4: tag nationally significant state events | PR #2384 (session48/b22-part4-national-scale) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2381 | b22 part 1: add composed player office scope | PR #2381 (session48/b22-part1-office-scope) | done #2506 | |
+| RS-2382 | b22 part 2: scale economy views by office | PR #2382 (session48/b22-part2-economy-visibility) | done #2385 | |
+| RS-2383 | b22 part 3: materialize press coverage from office and travel | PR #2383 (session48/b22-part3-press-coverage) | done #2385 | |
+| RS-2384 | b22 part 4: tag nationally significant state events | PR #2384 (session48/b22-part4-national-scale) | done #2385 | |
 | RS-2385 | b22 part 5: filter news by reader habit | PR #2385 (session48/b22-part5-reader-news) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2386 | b22 part 6: record local reader knowledge on publication | PR #3592 (session40/rs2386-reader-learning); prior PR #2386 closed | ready #3592 | |
 | RS-2387 | Reveal saved precinct returns in election-night reporting order | PR #2387 (codex/session13-election-night-reporting) | open: draft: finish it or close it as superseded | |
