@@ -105,26 +105,27 @@ function decisionForPerson(
   personId: EntityId,
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
-  traitId: string,
-  reader: "registered" | "act-pulls",
 ): { choice: string | null; reason: string | null } {
-  const considerations =
-    reader === "registered"
-      ? registeredTraitConsiderations(
-          world,
-          loadedTraitRegistry(),
-          personId,
-          `proof:${decisionId}`,
-          decisionId,
-        )
-      : [];
+  const tableDecisionId =
+    decisionId === "contact.answer"
+      ? "people.contact-answer"
+      : decisionId === "court.jury-vote"
+        ? "justice.jury-vote"
+        : decisionId;
+  const considerations = registeredTraitConsiderations(
+    world,
+    loadedTraitRegistry(),
+    personId,
+    `proof:${decisionId}`,
+    decisionId,
+  );
   const allConsiderations = [...baselineConsiderations, ...considerations];
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType: tableDecisionId,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
@@ -142,24 +143,12 @@ function decisionForPerson(
     randomness: "none",
     retention: "durable",
   });
-  const traitReason = evaluation.context.considerations.find(
-    ({ stableKey, optionKey }) =>
-      optionKey === evaluation.selectedOptionKey &&
-      stableKey.includes(
-        reader === "act-pulls" ? `:act:${traitId}:` : `:trait:${traitId}:`,
-      ),
-  );
-  const supportingActReason =
-    reader === "act-pulls"
-      ? evaluation.context.considerations.find(
-          ({ stableKey, direction }) =>
-            stableKey.includes(`:act:${traitId}:`) && direction === "supports",
-        )
-      : undefined;
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      traitReason?.explanation ?? supportingActReason?.explanation ?? null,
+      evaluation.context.considerations.find(
+        ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+      )?.explanation ?? null,
   };
 }
 
@@ -174,7 +163,6 @@ export function proveTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
-  reader: "registered" | "act-pulls" = "registered",
 ): TraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -197,24 +185,18 @@ export function proveTraitDifference(
       personId,
       decisionId,
       baselineConsiderations,
-      traitId,
-      reader,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
       decisionId,
       baselineConsiderations,
-      traitId,
-      reader,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
       decisionId,
       baselineConsiderations,
-      traitId,
-      reader,
     ),
   };
 }
@@ -223,6 +205,8 @@ export function proveTraitDifference(
  * Draws two people with matching other trait considerations from one randomly
  * generated game and records opposite poles of the requested trait. Each
  * person makes the same decision in the same place with the same baseline.
+ * Decision evaluation adds the shared trait-act table, so these proofs remain
+ * valid when a per-decision reader is retired.
  */
 export function proveTwoPersonTraitDifference(
   traitId: string,
