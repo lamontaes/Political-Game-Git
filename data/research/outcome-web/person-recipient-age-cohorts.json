@@ -30,6 +30,16 @@
       "minimumAge": 5,
       "maximumAge": 17,
       "estimatedFrom": "Gruenwald, Seals, Knibbs and Hosgood 2022, International Journal of Environmental Research and Public Health 20(1)"
+    },
+    "adult-school-completer-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "U.S. Census Bureau, American Community Survey adult population (age 18+); Jackson, Johnson and Persico 2016 (QJE)"
+    },
+    "retirement-age-adult-cohort-estimate": {
+      "minimumAge": 65,
+      "maximumAge": null,
+      "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
     }
   }
 }
