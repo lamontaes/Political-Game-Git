@@ -6206,9 +6206,53 @@
           "group": "waiting",
           "role": "audience",
           "id": "dmv-office:spot:8"
+        },
+        {
+          "x": 75,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:24"
+        },
+        {
+          "x": 83,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:25"
+        },
+        {
+          "x": 91,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:26"
+        },
+        {
+          "x": 99,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 65.5,
+          "group": "waiting-right-foreground",
+          "role": "audience",
+          "id": "dmv-office:spot:27"
         }
       ],
-      "measuredFrom": "customer chair 0.9 m foot 91 top 62.7 (0.77); service counter about 1.1 m foot 52.6",
+      "measuredFrom": "customer chair 0.9 m foot 91 top 62.7 (0.77); service counter about 1.1 m foot 52.6; four foreground-right waiting seat anchors are visual estimates within ±2% from the midday painting",
       "surfaceSlots": []
     },
     "door-knocking-rural": {
