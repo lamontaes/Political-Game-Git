@@ -11,6 +11,7 @@ import {
   walkCampaignCanvass,
 } from "../simulation/campaign-canvass";
 import { CAMPAIGN_DOOR_CONTACT_KIND } from "../simulation/campaigns";
+import { doorKnockingReturn } from "../simulation/campaign-recognition";
 import {
   addSimulationMinutes,
   ageOnDate,
@@ -167,6 +168,14 @@ describe(`a candidate's afternoon on the doors in a generated world (${place.dis
           id,
         ).toBe(true);
       }
+
+      // Everyone met now counts as recognizing the candidate, which is what
+      // the next session's support return reads.
+      const recognized = doorKnockingReturn(
+        world,
+        campaign,
+      ).recognizedPersonIds;
+      for (const id of canvass.metPersonIds) expect(recognized).toContain(id);
 
       // The next session picks up at the next door, not the same ones.
       const next = walkCampaignCanvass(world, campaign, action).doors;

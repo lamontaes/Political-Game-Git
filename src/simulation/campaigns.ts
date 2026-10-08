@@ -1650,7 +1650,9 @@ function recordCampaignActionOutcome(
       change: knownBefore ? "maintained" : "formed",
       significance: "minor",
       summary: outcomeSummary,
-      tags: ["campaign.door"],
+      // "campaign.contact" is what `doorKnockingReturn` counts as a resident
+      // who has met the candidate, so the next door returns more.
+      tags: ["campaign.door", "campaign.contact"],
     });
     next = recordEventKnowledge(next, {
       stableKey: `${action.stableKey}:door-knowledge:${personId}`,
