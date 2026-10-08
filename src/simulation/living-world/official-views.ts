@@ -468,7 +468,7 @@ export function officialsBehind(
       ])
         if (seat.occupant.kind === "member")
           acts.push({
-            officialId: seat.occupant.personId,
+            officialId: seat.occupant.member.personId,
             act: "could-repeal",
             executive: false,
             role: "could-repeal",

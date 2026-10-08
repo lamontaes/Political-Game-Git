@@ -1,8 +1,6 @@
 ---
 id: pool-b02-p6-blocked-oct7
-impact: patch
-section: Changed
-title: Keep the campaign view blocked until its comparison line is approved
+impact: none
 ---
 
-The comparative campaign-spending sentence requested by b02-p6 has no existing English-engine template or data identifier, and the prior implementation PR #2441 was closed for authored player copy. The row remains blocked for an owner decision; no player-facing behavior changed.
+Work-pool status only: the comparative campaign-spending sentence stays blocked for an owner decision and no player-facing behavior changed.
