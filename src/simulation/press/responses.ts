@@ -9,6 +9,10 @@ import {
   workRelationshipHistoryForOrganization,
 } from "../life-queries";
 import {
+  officesHeldBy,
+  recordOfficeConsequence,
+} from "../governing/office-consequence";
+import {
   CHAPTER_MEMBERSHIP_KIND,
   homePartyChapters,
 } from "../living-world/party-chapters";
@@ -114,7 +118,7 @@ export function respondToMatter(
   const person = world.people[input.personId];
   if (!person) throw new Error("The person answering this matter is missing.");
   const summary = meaning;
-  const next = recordWorldEvent(world, {
+  let next = recordWorldEvent(world, {
     stableKey,
     type: "press.subject-answered-matter",
     occurredAt: world.currentDate,
@@ -142,7 +146,7 @@ export function respondToMatter(
     },
   });
   const event = next.history.events.at(-1)!;
-  return appendPressRecord(next, "matter-response", {
+  next = appendPressRecord(next, "matter-response", {
     stableKey,
     matterId: input.matterId,
     actorPersonId: input.personId,
@@ -153,6 +157,21 @@ export function respondToMatter(
     knowledgeIds: [],
     respondedAt: next.currentDate,
   }).world;
+  if (input.response === "resign") {
+    const office = officesHeldBy(next, input.personId)[0];
+    if (office) {
+      next = recordOfficeConsequence(next, {
+        stableKey: `${stableKey}:office-resignation`,
+        officeKey: office.officeKey,
+        subjectPersonId: input.personId,
+        kind: "resignation",
+        effectiveAt: next.currentDate,
+        statedReason: meaning,
+        evidenceEventIds: [event.id],
+      }).world;
+    }
+  }
+  return next;
 }
 
 /** Organizers of party chapters the subject actively belongs to. */
