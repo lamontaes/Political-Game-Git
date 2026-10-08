@@ -42,7 +42,7 @@ import {
 } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, World } from "../types";
-import { STATUTORY_WAGE_TAX_ROWS } from "../law-consequences/statutory-wage-tax-rows";
+import { loadedPolicyRegistry } from "../policy-pack-registry";
 import { taxLawFactor } from "./month";
 import { TAX_QUESTION_EFFECTS } from "./rules";
 import type { PublicBudgetGovernment } from "./store";
@@ -55,7 +55,12 @@ describe("graduated income tax budget receipts", () => {
       TAX_QUESTION_EFFECTS.some((row) => row.questionKey === questionKey),
     ).toBe(false);
     expect(
-      STATUTORY_WAGE_TAX_ROWS[questionKey]!.map((row) => row.when),
+      loadedPolicyRegistry()
+        .propositions.find((row) => row.stableKey === questionKey)!
+        .consequences!.filter(
+          (row) => row.what === "attribute-saved-statutory-tax",
+        )
+        .map((row) => row.when),
     ).toEqual(["assessment", "payment"]);
   });
 
