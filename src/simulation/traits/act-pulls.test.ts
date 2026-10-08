@@ -295,6 +295,17 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
   "party.consider-leaving": () => ["stay", "split", "found"],
   // The chapter's request is the same three answers as the campaign's.
   "campaign.chapter-support-request": () => ["grant", "decline", "defer"],
+  // Term-limit votes use the shared chamber vote options.
+  "governing.governor-term-limit-vote": () => [
+    "vote-yea",
+    "vote-nay",
+    "withhold",
+  ],
+  "governing.presidential-term-limit-vote": () => [
+    "vote-yea",
+    "vote-nay",
+    "withhold",
+  ],
   // Offered only when a revision was authored; the keys are fixed.
   "people.study-plan-answer": () => ["agrees", "counterproposes", "unresolved"],
 };
