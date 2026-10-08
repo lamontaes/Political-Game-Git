@@ -1212,7 +1212,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -3640,6 +3641,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -3681,6 +3684,12 @@ export interface DecisionContext {
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
+  /**
+   * Whether the general trait system adds its reasons to this decision: `"on"`
+   * when left out. Only a test or fixture about something other than
+   * personality passes `"off"`. See `traits/act-pulls.ts`.
+   */
+  readonly traitActs?: "on" | "off";
 }
 
 export type DecisionPreference =
