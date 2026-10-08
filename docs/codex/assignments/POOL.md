@@ -630,7 +630,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-1591 | A56: first landlords follow recorded owners and the saved home roster | PR #1680 (merged: first leases follow recorded owners) | done #1680 | S50 | |
 | RS-1647 | A25: extract sourced juvenile ages without runtime admission | PR #1647 (codex/team9-a25-sourced-age-extraction) | done #1647 | |
 | RS-1662 | WIP: People's views weigh what they lived through (slice 10 Lives) | PR #1662 (claude/quirky-brown-rq82i7) | open: draft: finish it or close it as superseded | |
-| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | ready #1673 | Session 35 |
+| RS-1673 | Your Home: preserve rent when the legal cap is unresolved | PR #1673 (codex/team-4-a57-unresolved-cap) | done #1673 (merged implementation verified on current main) | Session 35 |
 | RS-1696 | A105 Crime & Courts trial step: prove all 56 saved court paths | PR #1696 (codex/team9-a105-all56-trial-proof) | open: draft: finish it or close it as superseded | |
 | RS-1704 | A10 A105 Crime & Courts play script: saved player plea and sentence | PR #1704 (codex/team9-crime-courts-play-script) | open: stacked on codex/team9-a105-all56-trial-proof: retarget to main; draft: finish it or close it as superseded | |
 | RS-1712 | A25: carry cited juvenile age limits into starting-law terms | PR #1712 (codex/a25-starting-age-terms) | done #3364 | |
@@ -649,7 +649,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2180 | Share recorded election counts and dated office rules | PR #2180 (codex/session13-elections-one-engine) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2189 | P1 loading shows life before Creator questions | PR #2189 (codex/session7-life-loading-main) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2191 | Member votes cite the sponsor favors that remain owed | PR #2191 (codex/session21-votes-programs) | open: draft: coordinated three-year speed receipt pending | Session 35 |
-| RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2193 | Hide empty measure request history | PR #2193 (codex/session8-measure-empty-state) | done #2173 (runtime already covered on current main; verified by Session 35) | Session 35 |
 | RS-2194 | Assessments, collections, and federal withholding use the shared tax kind | PR #2194 (codex/session21-tax-kind) | open: draft: finish it or close it as superseded | |
 | RS-2199 | Name state service for unincorporated Alaska places | PR #2199 (codex/session8-unincorporated-government) | open: draft: finish it or close it as superseded | |
 | RS-2200 | Add sourced fiscal terms for property and income taxes | PR #2200 (codex/session19-fiscal-law-terms) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
