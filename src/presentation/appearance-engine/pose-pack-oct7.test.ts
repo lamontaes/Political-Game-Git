@@ -220,7 +220,7 @@ describe("the Oct. 7 poses in the people pack", () => {
 });
 
 describe("the pose data", () => {
-  it("names only poses the pack has, and holds back the ones it must not draw", () => {
+  it("names painted poses or gives a declared stand-in, and holds back unsafe poses", () => {
     const painted = paintedPoses();
     const named = new Set<string>();
     for (const views of Object.values(poseData.activities))
@@ -232,8 +232,12 @@ describe("the pose data", () => {
       if (Array.isArray(poses)) for (const pose of poses) named.add(pose);
     // Poses painted before the Oct. 7 sheets are all in the pack.
     for (const pose of ["podium", "arms-folded", "explaining"]) named.add(pose);
+    expect(named.has("lean")).toBe(true);
+    expect(painted.has("lean")).toBe(false);
+    expect(poseFallbacks("lean")).toEqual(["lean", "hand-on-hip", "standing"]);
     for (const pose of named)
-      expect(painted.has(pose), `${pose} is in the pose data`).toBe(true);
+      if (pose !== "lean")
+        expect(painted.has(pose), `${pose} is in the pose data`).toBe(true);
     // A held-back pose is not packed and not chosen.
     for (const pose of Object.keys(poseData.heldBack)) {
       expect(painted.has(pose), `${pose} is held back`).toBe(false);

@@ -89,6 +89,7 @@ export interface CivicMessageRecord {
   readonly channel: CivicMessageChannel;
   readonly stakeBeliefId: EntityId | null;
   readonly salience: PrivateBeliefRecord["salience"];
+  readonly description: string;
 }
 
 export interface RecordCivicMessageInput {
@@ -204,6 +205,24 @@ export function civicMessagesForPropositions(
   jurisdictionId: EntityId,
   propositionIds: readonly EntityId[],
 ): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
+  return matchingCivicMessages(world, { jurisdictionId }, propositionIds);
+}
+
+/** A named recipient's messages can originate in towns within a wider district. */
+export function civicMessagesForOfficial(
+  world: World,
+  officialId: EntityId,
+  propositionIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
+  return matchingCivicMessages(world, { officialId }, propositionIds);
+}
+
+function matchingCivicMessages(
+  world: World,
+  scope:
+    { readonly jurisdictionId: EntityId } | { readonly officialId: EntityId },
+  propositionIds: readonly EntityId[],
+): ReadonlyMap<EntityId, readonly CivicMessageRecord[]> {
   const wanted = new Set(
     propositionIds.filter((id) => !!world.policyCatalog.propositions[id]),
   );
@@ -212,7 +231,8 @@ export function civicMessagesForPropositions(
   for (const event of world.history.events) {
     if (
       event.type !== CIVIC_ACTION_EVENTS.contacted ||
-      event.jurisdictionId !== jurisdictionId ||
+      ("jurisdictionId" in scope &&
+        event.jurisdictionId !== scope.jurisdictionId) ||
       event.occurredAt > world.currentDate ||
       !event.tags.includes(CIVIC_MESSAGE_TAG)
     )
@@ -248,6 +268,7 @@ export function civicMessagesForPropositions(
     if (
       !senderId ||
       !officialId ||
+      ("officialId" in scope && officialId !== scope.officialId) ||
       (stance !== "yes" && stance !== "no") ||
       !MESSAGE_CHANNELS.includes(channel as CivicMessageChannel) ||
       !["low", "moderate", "high", "central"].includes(salience ?? "")
@@ -258,7 +279,7 @@ export function civicMessagesForPropositions(
       eventId: event.id,
       sequence: event.sequence,
       occurredAt: event.occurredAt,
-      jurisdictionId,
+      jurisdictionId: event.jurisdictionId!,
       senderId,
       officialId,
       propositionId,
@@ -267,6 +288,7 @@ export function civicMessagesForPropositions(
       stakeBeliefId: (stakeTag?.slice("message-stake:belief:".length) ??
         null) as EntityId | null,
       salience: salience as PrivateBeliefRecord["salience"],
+      description: event.context?.choice ?? event.summary,
     });
     result.set(propositionId, list);
   }
