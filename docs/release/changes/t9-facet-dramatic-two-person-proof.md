@@ -1,0 +1,1 @@
+The dramatic trait's live press response now has a seeded proof comparing two residents with opposite recorded poles. The person with the high pole disputes the account; the person with the low pole declines to respond.
