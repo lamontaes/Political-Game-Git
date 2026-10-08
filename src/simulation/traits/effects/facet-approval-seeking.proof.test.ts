@@ -7,6 +7,8 @@ describe("the approval-seeking difference in a random new game", () => {
       "personality-v1:facet-approval-seeking",
       "press.subject-response",
       "s15-proof-facet-approval-seeking",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

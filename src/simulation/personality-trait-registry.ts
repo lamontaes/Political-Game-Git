@@ -117,8 +117,52 @@ export const PERSONALITY_TRAIT_READERS: readonly TraitReaderRegistration[] = [
   {
     trait: "personality-v1:facet-affectionate",
     kind: "decision",
-    reader:
-      "registeredTraitConsiderations — src/simulation/traits/effects/facet-affectionate.ts",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:action-despite-fear",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:bond-loyalty",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:concern-for-distress",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-acquisitive",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-ambitious",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-analytical",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-approval-seeking",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-arbitrary",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
+  },
+  {
+    trait: "personality-v1:facet-argumentative",
+    kind: "decision",
+    reader: "traitActConsiderations — src/simulation/traits/act-pulls.ts",
   },
   {
     trait: "personality-v1:facet-thrill-seeking",

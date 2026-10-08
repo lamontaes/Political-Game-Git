@@ -7,6 +7,8 @@ describe("the ambitious difference in a random new game", () => {
       "personality-v1:facet-ambitious",
       "career.consider-another-term",
       "m2-proof-facet-ambitious",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

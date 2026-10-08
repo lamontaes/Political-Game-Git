@@ -7,6 +7,8 @@ describe("the concern-for-distress difference in a random new game", () => {
       "personality-v1:concern-for-distress",
       "clemency.petition",
       "l1-proof-concern-for-distress",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();

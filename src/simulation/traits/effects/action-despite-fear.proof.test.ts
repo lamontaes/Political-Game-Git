@@ -7,6 +7,8 @@ describe("the action-despite-fear difference in a random new game", () => {
       "personality-v1:action-despite-fear",
       "career.consider-another-term",
       "l1-proof-action-despite-fear",
+      [],
+      "table",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
