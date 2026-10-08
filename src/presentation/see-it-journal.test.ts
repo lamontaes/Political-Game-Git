@@ -33,6 +33,7 @@ import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { observerPlace } from "./observer-world";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { lawExposureSentence } from "./law-exposure-lines";
+import { projectMoneyLaws } from "./money-laws";
 import { projectWorld39Journal } from "./world39-journal";
 
 /**
@@ -356,5 +357,43 @@ describe(`a told view of an official is not printed as a field string (${place.d
     expect(
       journal.entries.some((entry) => entry.text.includes("told-view:")),
     ).toBe(false);
+  });
+});
+
+/**
+ * A resident's environmental exposure (the place's measured air, water or
+ * energy outcome moved because of a law) is saved under its own channel
+ * (`environment-energy-landings.ts`). No wording bank covers that channel
+ * yet, so the Journal leaves the exposure out. It used to throw reading the
+ * channel's missing word table.
+ */
+describe(`an exposure with no wording is left out, not thrown on (${place.displayName}, place ${place.key}, seed ${SEED})`, () => {
+  it("projects the Journal and the Money laws lists without the line", () => {
+    const world = small.world;
+    const person = world.people[playerId]!;
+    const found = Object.values(world.policyCatalog.propositions)
+      .map((proposition) => ({
+        proposition,
+        law: lawInForce(world, person.homeJurisdictionId, proposition.id),
+      }))
+      .find(({ law }) => law?.origin === "in-force-at-start")!;
+    const written = recordLawExposure(world, {
+      stableKey: `see-it-journal:environment:${SEED}`,
+      personId: playerId,
+      measureId: found.law!.measureId as EntityId,
+      channel: "environmental-condition",
+      direction: "gain",
+      amount: null,
+      cadence: null,
+      sourceRecordId: playerId,
+      includeFamily: false,
+    });
+    const exposure = written.history.lawExposures!.at(-1)!;
+    expect(lawExposureSentence(written, playerId, exposure)).toBeNull();
+    const journal = projectWorld39Journal(written, playerId);
+    expect(
+      journal.entries.some((entry) => entry.sourceId === exposure.id),
+    ).toBe(false);
+    expect(() => projectMoneyLaws(written, playerId)).not.toThrow();
   });
 });
