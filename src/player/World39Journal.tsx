@@ -87,6 +87,21 @@ export function World39Journal({
           </GameSelect>
         </label>
       </div>
+      {shown.story.length > 0 ? (
+        <div className="world39-biography" data-testid="journal-story">
+          {shown.story.map((chapter) => (
+            <section
+              key={chapter.key}
+              className="world39-chapter"
+              data-testid="journal-story-chapter"
+              data-parts={chapter.parts.join(" ")}
+            >
+              <h4>{chapter.heading}</h4>
+              <p>{chapter.text}</p>
+            </section>
+          ))}
+        </div>
+      ) : null}
       <div
         className="world39-biography"
         data-testid="world39-biography"

@@ -69,6 +69,10 @@ test("News speaks about the place and the Journal tells the life through save (A
     /I was born (?:in [^.]+, )?on [A-Z][a-z]+ \d{1,2}, \d{4}\./,
   );
   await expect(page.getByTestId("world39-chapter").first()).toBeVisible();
+  // Chapters opens with the life told as a story, from the life-story bank.
+  const story = page.getByTestId("journal-story");
+  await expect(story).toContainText(/I was born (?:and raised )?in [^.]+\./);
+  expect(await story.innerText()).not.toMatch(DATABASE_WORDING);
   const accountText = await biography.innerText();
   expect(accountText).not.toMatch(/you chose to/i);
   expect(accountText).not.toMatch(DATABASE_WORDING);
