@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 
 const questionKey =
   "us-policy-positions:education.raise-teacher-minimum-salary" as const;
