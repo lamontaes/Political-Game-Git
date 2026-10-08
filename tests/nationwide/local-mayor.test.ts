@@ -247,11 +247,8 @@ describe("running for mayor", () => {
           (entry) => entry.role.title,
         ),
       ).toEqual(startingJobs);
-      const mayorRole = `Mayor, ${seat.governmentName}`;
       expect(projectWorkRole(decided, personId).sentence).toBe(
-        startingJobs.length > 0
-          ? `Your roles: ${[...new Set(startingJobs), mayorRole].join("; ")}.`
-          : `Your role: ${mayorRole}.`,
+        `Role: Mayor, ${seat.governmentName}`,
       );
 
       // Never a council seat, and never the state's legislature.

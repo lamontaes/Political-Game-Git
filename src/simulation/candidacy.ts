@@ -6,6 +6,7 @@ import type { RuleValue } from "./legislature-rules";
 import type { QualificationOfficeFamily } from "./office-qualification-rules";
 import type { CandidacyPack, ElectiveOfficeOption } from "./candidacy-packs";
 import {
+  municipalMinimumAgeEstimate,
   municipalMinimumAgeSentence,
   type MunicipalMinimumAgeEstimate,
 } from "./municipal-qualification-estimate";
@@ -326,37 +327,19 @@ export interface CandidacyBlock {
   readonly citation?: string;
 }
 
-/**
- * Why there is nothing to stand for, in the words that are actually true here.
- *
- * The old single sentence said "nobody has written down which offices are
- * elected here" to a character living in a state whose General Assembly the
- * game has read in full. That was the owner-play failure: a true statement
- * about Lexington's council delivered as a false one about Kentucky.
- */
-function noSourcedOfficeReason(authority: CandidacyAuthority): string {
-  if (authority.stateJurisdictionKey === null) {
-    return "The game has not read any elected office for this place, and it will not borrow another jurisdiction's rules to fill the gap.";
-  }
-  if (
-    authority.pack === null &&
-    isTerritoryUsps(authority.stateJurisdictionKey.slice(3))
-  ) {
-    // A territory's Governor stands apart from this list; its legislature and
-    // local offices are not on record until the territory research lands.
-    return "None of this territory's legislative or local offices is on record yet, so there is no seat to run for here. Its Governor is below.";
-  }
-  if (authority.pack === null) {
-    return "The game has not read this state's elected offices yet, so there is nothing to run for here. It will not borrow another state's rules to fill the gap.";
-  }
-  // A pack governs; the office asked for simply is not one of its seats.
-  return "That office is not one the accepted rules for this place establish, so the game will not put it on a ballot.";
+function noSourcedOfficeReason(): string {
+  return "Qualifications: not on record";
 }
 
 export interface CandidacyEligibility {
   readonly eligible: boolean;
   readonly minimumAgeEstimate: MunicipalMinimumAgeEstimate | null;
   readonly minimumAgeRequirement: string | null;
+  /** The minimum age as a value, marked when it is estimated. */
+  readonly minimumAge: {
+    readonly value: number;
+    readonly estimated: boolean;
+  } | null;
   readonly personId: EntityId;
   /** The pack the jurisdiction itself declares, if it declares one. */
   readonly pack: CandidacyPack | null;
@@ -505,7 +488,7 @@ function assessEnactedQualification(
       verdict: meets ? "meets" : "fails",
       reason: meets
         ? `Old enough: ${law} this office has a minimum age of ${change.value}.`
-        : `You must be at least ${change.value} to run for this office, ${law.slice(0, -1)}.`,
+        : `Minimum age: ${change.value}`,
       source: null,
     };
   }
@@ -551,6 +534,7 @@ export function candidacyEligibility(
   const blocks: CandidacyBlock[] = [];
   let minimumAgeEstimate: MunicipalMinimumAgeEstimate | null = null;
   let minimumAgeRequirement: string | null = null;
+  let minimumAgeValue: { value: number; estimated: boolean } | null = null;
   const authority = candidacyAuthority(input.jurisdictionId);
   // A state's executive office is the state's own, whatever legislature pack
   // governs the place: it is filed for statewide, against its own pack.
@@ -627,13 +611,9 @@ export function candidacyEligibility(
     }
   }
   if (!option) {
-    // Two different absences, said as two different sentences. A state the
-    // game has never read is not the same as a city whose council it has never
-    // read, and telling a Kentuckian the first when only the second is true is
-    // the defect this replaced.
     blocks.push({
       kind: "no-sourced-office",
-      reason: noSourcedOfficeReason(authority),
+      reason: noSourcedOfficeReason(),
     });
   }
 
@@ -853,17 +833,39 @@ export function candidacyEligibility(
           : null;
       minimumAgeRequirement = minimumAgeEstimate
         ? municipalMinimumAgeSentence(minimumAgeEstimate)
-        : `You must be at least ${rule.value} to run for this office.`;
+        : `Minimum age: ${rule.value}`;
     }
-    if (rule.kind === "known" && age < rule.value) {
+    // ESTIMATED FROM AVERAGE: an office whose age rule is not on record takes
+    // the most common minimum age among this state's other elected offices.
+    const estimate =
+      rule.kind === "unknown" && stateJurisdictionKey
+        ? municipalMinimumAgeEstimate(
+            stateJurisdictionKey,
+            input.officeKey,
+            stateCandidacyPack(stateJurisdictionKey),
+          )
+        : null;
+    if (rule.kind === "known")
+      minimumAgeValue = {
+        value: rule.value,
+        estimated: rule.source.verification === "game-profile",
+      };
+    else if (estimate)
+      minimumAgeValue = { value: estimate.minimumAge, estimated: true };
+    if (estimate && age < estimate.minimumAge) {
+      blocks.push({
+        kind: "profile-minimum-age",
+        reason: `Minimum age: ${estimate.minimumAge} (estimated)`,
+      });
+    } else if (estimate) {
+      // The estimate stands in for the unread rule; nothing blocks.
+    } else if (rule.kind === "known" && age < rule.value) {
       blocks.push({
         kind:
           rule.kind === "known" && rule.source.verification === "game-profile"
             ? "profile-minimum-age"
             : "sourced-minimum-age",
-        reason:
-          minimumAgeRequirement ??
-          `You must be at least ${rule.value} to run for this office.`,
+        reason: minimumAgeRequirement ?? `Minimum age: ${rule.value}`,
       });
     } else if (rule.kind === "unknown") {
       blocks.push({
@@ -933,10 +935,24 @@ export function candidacyEligibility(
       ? candidateFilingTerms(filingStateUsps, filingFamily)
       : null;
 
+  // The age a sourced rule, a compiled rule or the Constitution sets.
+  function recordedAgeValue(): { value: number; estimated: boolean } | null {
+    if (congress) return { value: congress.minimumAge, estimated: false };
+    if (qualificationRules?.minimumAge.state === "KNOWN")
+      return { value: qualificationRules.minimumAge.value, estimated: false };
+    const assessed = qualificationAssessments.find(
+      (assessment) =>
+        assessment.field === "MINIMUM_AGE" &&
+        assessment.verdict !== "not-evaluated",
+    );
+    const figure = assessed?.reason.match(/(\d+)/)?.[1];
+    return figure ? { value: Number(figure), estimated: false } : null;
+  }
   return {
     eligible: blocks.length === 0,
     minimumAgeEstimate,
     minimumAgeRequirement,
+    minimumAge: minimumAgeValue ?? recordedAgeValue(),
     personId: input.personId,
     pack,
     office: boundOption,

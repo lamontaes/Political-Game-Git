@@ -7776,9 +7776,20 @@
           "clipBelowY": 56,
           "role": "general",
           "id": "party-headquarters:spot:7"
+        },
+        {
+          "x": 12,
+          "y": 88,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 88,
+          "seatY": 78,
+          "group": "desk",
+          "role": "general",
+          "id": "party-headquarters:spot:8"
         }
       ],
-      "measuredFrom": "folding table 0.75 m foot about 70 top 58; office chair 0.95 m",
+      "measuredFrom": "Folding table 0.75 m foot about 70 top 58; office chair 0.95 m. The fourth chair seat center at x about 12%, y 78% is estimated from party-headquarters__midday.jpg.",
       "surfaceSlots": []
     },
     "phone-bank-room": {
@@ -10870,9 +10881,31 @@
           "hero": true,
           "role": "general",
           "id": "state-capitol-az:spot:5"
+        },
+        {
+          "x": 28,
+          "y": 76,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 76,
+          "seatY": 75.2,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:6"
+        },
+        {
+          "x": 77,
+          "y": 76,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 76,
+          "seatY": 75.2,
+          "group": "plaza-bench",
+          "role": "general",
+          "id": "state-capitol-az:spot:7"
         }
       ],
-      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03",
+      "measuredFrom": "two rows of identical plaza bollards (near foot 91.1 top 74.0; far foot 85.2 top 74.2 and foot 85.6 top 74.8) fix the horizon at 74.5; bollard about 1.0 m gives 1.03. The two plaza bench seat centers are visual estimates from state-capitol-az__midday.jpg (about ±2% of image dimensions).",
       "surfaceSlots": []
     },
     "state-capitol-ca": {

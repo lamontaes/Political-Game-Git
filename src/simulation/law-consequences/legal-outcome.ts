@@ -90,10 +90,13 @@ export const juvenileJurisdictionRow: LawConsequenceRow = {
   what: "juvenile-jurisdiction-ceiling",
   amount: { op: "term", key: "age", unit: "years" },
   conditions: [],
-  lag: { days: 0, sourceIds: ["data/research/laws/starting-law-2026.json"] },
+  lag: {
+    days: 0,
+    sourceIds: ["data/research/laws/starting-law-2026/index.ts"],
+  },
   onRepeal: "preserve-completed",
   evidence: {
-    sourceIds: ["data/research/laws/starting-law-2026.json"],
+    sourceIds: ["data/research/laws/starting-law-2026/index.ts"],
     population:
       "People considered for adult charging in the incident jurisdiction",
     scope:

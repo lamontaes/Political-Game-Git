@@ -38,6 +38,19 @@ function floorOf(spot: StagingSpot): string {
 }
 
 describe("people anchors on every place picture", () => {
+  it("stages both visible Arizona capitol plaza benches", () => {
+    const stage = backdropStaging("state-capitol-az")!;
+    const benches = stage.spots.filter(
+      (spot) => spot.group === "plaza-bench" && spot.pose === "sit",
+    );
+
+    expect(benches).toHaveLength(2);
+    expect(benches.map((spot) => spot.id)).toEqual([
+      "state-capitol-az:spot:6",
+      "state-capitol-az:spot:7",
+    ]);
+  });
+
   it("anchors each visible barbershop barber chair", () => {
     const seats = STAGES["barbershop"]!.spots.filter(
       (spot) => spot.group === "barber-chair",
@@ -131,6 +144,14 @@ describe("people anchors on every place picture", () => {
     expect(new Set(seats.map((spot) => spot.id)).size).toBe(12);
     expect(seats.filter((spot) => spot.facing === "left")).toHaveLength(6);
     expect(seats.filter((spot) => spot.facing === "right")).toHaveLength(6);
+  });
+
+  it("stages each visible party headquarters office chair", () => {
+    const stage = backdropStaging("party-headquarters")!;
+    const seats = stage.spots.filter((spot) => spot.pose === "sit");
+
+    expect(seats).toHaveLength(4);
+    expect(seats.map((spot) => spot.id)).toContain("party-headquarters:spot:8");
   });
 
   it("covers every place that has a picture, and only those", () => {

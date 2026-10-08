@@ -30,6 +30,7 @@ import {
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaceByJurisdictionId,
+  lifePlaceStateIdentities,
   lifePlaces,
   makeCurrencyCode,
   makeIsoDate,
@@ -41,6 +42,7 @@ import {
   addDays,
   assessCampaignContributionForPack,
   campaignCompliancePackFor,
+  compliancePackFor,
   campaignObligations,
   committeeCampaignComplianceDocuments,
   publicCampaignComplianceDocuments,
@@ -54,7 +56,7 @@ import {
   leftoverFundsRuleForState,
 } from "./campaign-money-sources";
 import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
-import { KENTUCKY_CAMPAIGN_COMPLIANCE_PACK } from "./campaign-compliance";
+import { compliancePackFor as resolveCompliancePackFor } from "./campaign-compliance";
 import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
@@ -63,6 +65,11 @@ import {
 } from "./campaigns";
 import { SIMULATION_ESTABLISHED_METRIC_STABLE_KEYS } from "./production-catalog";
 import { canonicalJson } from "./canonical-json";
+
+const KENTUCKY_CAMPAIGN_COMPLIANCE_PACK = resolveCompliancePackFor(
+  "US-KY",
+  makeIsoDate("2026-09-09"),
+);
 import { startingSupportAdjustment } from "./record-in-office";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { generatePoliticalStartingConditions } from "./world-setup/political-start";
@@ -303,6 +310,10 @@ describe("candidacy coverage is stated, never assumed", () => {
     expect(eligibility.blocks.map((block) => block.kind)).toContain(
       "no-sourced-office",
     );
+    expect(
+      eligibility.blocks.find((block) => block.kind === "no-sourced-office")
+        ?.reason,
+    ).toBe("Qualifications: not on record");
   });
 
   it("reaches its own state's pack, and never a different state's", () => {
@@ -336,6 +347,45 @@ describe("candidacy coverage is stated, never assumed", () => {
       lifePlaceByJurisdictionId(LEXINGTON_DEMO_CONTEXT.jurisdiction.id)
         ?.stateJurisdictionKey,
     );
+  });
+});
+
+describe("campaign compliance packs by place", () => {
+  it("resolves all 56 places and marks federal fallback fields as estimates", () => {
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const pack = compliancePackFor(
+        place.jurisdictionKey,
+        makeIsoDate("2026-09-09"),
+      );
+      expect(pack.jurisdictionKey).toBe(place.jurisdictionKey);
+      expect(pack.packId.length).toBeGreaterThan(0);
+      if (place.jurisdictionKey === "US-KY") {
+        expect(pack.statementOfIntentWithinDays).toMatchObject({
+          state: "KNOWN",
+          value: 5,
+        });
+        expect(
+          Object.values(pack).some(
+            (value) =>
+              typeof value === "object" &&
+              value !== null &&
+              "estimatedFrom" in value,
+          ),
+        ).toBe(false);
+        continue;
+      }
+      const fields = Object.entries(pack).filter(
+        ([key]) => key !== "packId" && key !== "jurisdictionKey",
+      );
+      expect(fields).toHaveLength(10);
+      for (const [, value] of fields) {
+        expect(value).toMatchObject({
+          estimatedFrom: "federal campaign finance rules",
+        });
+      }
+    }
   });
 });
 

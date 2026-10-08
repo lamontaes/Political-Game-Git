@@ -7,10 +7,8 @@
  * `displayedSharePercents` rounds floating percentages for display, and
  * `apportionHouse` guarantees every entry one seat.
  *
- * First written for the survey household donors (#1742,
- * `source/adapters/acs-pums-character-history.ts`, which re-exports it); it
- * lives here so simulation code shares the one allocator without importing a
- * source adapter.
+ * First written for the survey household donors (#1742); it lives here so
+ * simulation code shares the one allocator without importing the source tree.
  */
 export function largestRemainderAllocation(
   weights: readonly number[],

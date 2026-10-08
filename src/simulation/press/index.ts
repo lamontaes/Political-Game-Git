@@ -20,3 +20,4 @@ export * from "./ownership-packs";
 export * from "./ownership-pack-default";
 export * from "./ownership";
 export * from "./inquiries";
+export * from "./player-misconduct-situations";
