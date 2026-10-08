@@ -25,6 +25,7 @@ import { execSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { gradingBatchId, toGradingBatch, writeCoverageLedger } from "./grading";
 import { readKinds } from "./kinds";
+import { readConversations } from "./conversations";
 import { batchStats, statsSummary, type BatchStat } from "./stats";
 import { LIFE_TALK_INTENTS } from "../../src/presentation/life-conversation";
 import { dirname } from "node:path";
@@ -117,6 +118,12 @@ import {
   recordPressRequest,
 } from "../../src/simulation";
 
+/**
+ * The one thing an item varies, so the owner's grade calibrates it (CTO 2:23
+ * p.m. Oct 8: lies, personality, mood, relationship, age and generation,
+ * region and word choice, register, belief and party, what the person knows).
+ * "trait" is personality.
+ */
 export type BatchAxis =
   | "pose"
   | "place"
@@ -125,7 +132,28 @@ export type BatchAxis =
   | "experience"
   | "belief"
   | "relationship"
-  | "mood";
+  | "mood"
+  | "lie"
+  | "age"
+  | "region"
+  | "register"
+  | "knowledge";
+
+export const BATCH_AXES: readonly BatchAxis[] = [
+  "lie",
+  "trait",
+  "mood",
+  "relationship",
+  "age",
+  "region",
+  "register",
+  "belief",
+  "knowledge",
+  "place",
+  "interaction",
+  "experience",
+  "pose",
+];
 
 export interface BatchLine {
   readonly id: string;
@@ -164,6 +192,10 @@ export interface BatchLine {
   readonly prior?: string;
   /** The seed and world the line came from, when runs were combined. */
   readonly seed?: string;
+  /** For a conversation: the reply choices the game offers next. */
+  readonly choices?: readonly string[];
+  /** For a conversation: whether any offered choice is a deliberate lie. */
+  readonly lieOffered?: boolean;
 }
 
 export interface BatchSkip {
@@ -1330,6 +1362,53 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
     }
     skipped.push({ id: situation.id, reason: reasons.join(" | ") });
   });
+  // Conversations, from the game's own conversation path: what a person in
+  // the player's scene says back, and the four or more choices that follow.
+  let conversations = 0;
+  for (const ctx of contexts) {
+    const reading = readConversations(ctx.world, ctx.playerId);
+    for (const exchange of reading.exchanges) {
+      const speaker = personOf(
+        ctx.world,
+        ctx.playerId,
+        exchange.personId,
+        exchange.relation,
+      );
+      const others = exchange.othersPresent;
+      const company =
+        others.length === 0
+          ? ""
+          : others.length <= 3
+            ? ` Also there: ${others.join(", ")}.`
+            : ` Also there: ${others.slice(0, 3).join(", ")} and ${others.length - 3} others.`;
+      conversations += 1;
+      lines.push({
+        id: `conversation-${conversations}`,
+        axis: "relationship",
+        composer:
+          "projectLifeConversation and commitLifeConversation in life-conversation.ts",
+        situation: `At ${exchange.placeLabel.toLowerCase() === "home" ? "home" : exchange.placeLabel} (${exchange.setting}), ${ctx.playerName} (${ctx.playerAge}) talks with ${describeWho(speaker)}.${company} ${ctx.playerName} opens with the choice "${exchange.opened}". This item tests: relationship. ${exchange.lieOffered ? "A Lie choice is offered." : "No Lie choice is offered."}`,
+        speaker: speakerOf(ctx, speaker),
+        line: exchange.reply,
+        parts: exchange.parts,
+        world: {
+          place: ctx.place,
+          player: ctx.playerName,
+          playerAge: ctx.playerAge,
+          date: ctx.world.currentDate,
+        },
+        harness: [
+          "The harness picks the opening choice: hello when the game offers it.",
+        ],
+        prior: exchange.opened,
+        choices: exchange.choices,
+        lieOffered: exchange.lieOffered,
+      });
+    }
+    for (const reason of reading.skipped)
+      skipped.push({ id: `conversation:${ctx.place}`, reason });
+  }
+
   // The other kinds of text, read from the game's own producers: up to ten
   // each across the worlds, shared out among the worlds so no single life or
   // body fills a kind, and a reason for every kind none produced.
@@ -1360,7 +1439,7 @@ export function runDialogueBatch(options: BatchOptions): BatchResult {
           personOf(ctx.world, ctx.playerId, ctx.playerId, null),
         ),
         line: text.text,
-        parts: [text.partKey],
+        parts: text.parts ?? [text.partKey],
         world: {
           place: ctx.place,
           player: ctx.playerName,

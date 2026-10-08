@@ -2,7 +2,7 @@ import { publicTaxAccountEvidenceForIdentity } from "../tax-policy";
 import { bindFederalClaimsForPaidStateInstallment } from "../federal-state-program-payments";
 import { farmProgramPaymentAt } from "../federal-farm-payments";
 import { createStableId } from "../ids";
-import { addDays, daysBetween, spokenDate } from "../dates";
+import { addDays, spokenDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stateJurisdictionForKey } from "../life-places";
 import { resourcePositionAt } from "../resource-queries";
@@ -1452,11 +1452,4 @@ export function publicProgramHandlers() {
     [PUBLIC_PROGRAM_INSTALLMENT, programInstallmentHandler],
     [PUBLIC_PROGRAM_DELIVERY, programDeliveryHandler],
   ] as const;
-}
-
-/** Months between two dates, for monthly schedules supplied by callers. */
-export function monthlyAfterDays(from: IsoDate, months: number): number {
-  const [y, m, d] = from.split("-").map(Number) as [number, number, number];
-  const target = new Date(Date.UTC(y, m - 1 + months, d));
-  return daysBetween(from, target.toISOString().slice(0, 10) as IsoDate);
 }

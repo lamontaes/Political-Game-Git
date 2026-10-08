@@ -72,10 +72,7 @@ import {
   localMemberAgendaHandlers,
   scheduleLocalMemberAgendaIntakes,
 } from "./governing/member-agenda";
-import {
-  createNationalElectionTransitionRegistry,
-  linkedNationalUnitTransition,
-} from "./national-election-consumer";
+import { createNationalElectionTransitionRegistry } from "./national-election-consumer";
 import { createTransitTransitionRegistry } from "./transit-service";
 import { settlePublicResourcePayment } from "./public-fiscal";
 import { createTaxTransitionHandlerRegistry } from "./tax-policy";
@@ -2327,8 +2324,6 @@ export function campaignElectionTransitionHandler(
   world: World,
   dueItem: FutureDueItem,
 ): FutureTransitionHandlerResult {
-  const national = linkedNationalUnitTransition(world, dueItem);
-  if (national) return national;
   const contestId = dueItem.entityIds[0];
   const campaign = contestId ? campaignForContest(world, contestId) : null;
   if (!campaign || campaignState(world, campaign.id).status !== "active") {

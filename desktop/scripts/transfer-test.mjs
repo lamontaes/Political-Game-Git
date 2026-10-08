@@ -171,6 +171,8 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
       proposalLayout: "auto",
       newsMode: "front",
       newsOutletKey: null,
+      journalView: "chapters",
+      journalYear: null,
       politicsPlace: "here",
       governmentScope: "local",
       learnedGuideTermKeys: [],

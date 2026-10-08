@@ -8,7 +8,6 @@ import { createStableId } from "./ids";
 import {
   measureActions,
   measureAmendments,
-  measurePosition,
   requireMeasure,
 } from "./legislation";
 import { personName } from "./people";
@@ -1655,9 +1654,4 @@ export function laterRecordedVoteOn(
     }
   }
   return null;
-}
-
-/** Re-exported for callers that need the measure's phase alongside its text. */
-export function measurePhaseFor(world: World, measureId: EntityId) {
-  return measurePosition(world, measureId).phase;
 }

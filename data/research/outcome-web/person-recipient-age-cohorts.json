@@ -1,5 +1,5 @@
 {
-  "source": "Cohort ranges are explicit estimates derived from the public health sources attached to their outcome links.",
+  "source": "Cohort ranges are explicit estimates derived from public sources named on or attached to their outcome links.",
   "cohortsByRule": {
     "infant-mortality-cohort-estimate": {
       "minimumAge": 0,
@@ -10,6 +10,11 @@
       "minimumAge": 19,
       "maximumAge": 64,
       "estimatedFrom": "CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM); Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM); Cawley, Moriya and Simon 2015"
+    },
+    "recorded-medicaid-expansion-recipient-estimate": {
+      "minimumAge": 19,
+      "maximumAge": 64,
+      "estimatedFrom": "42 C.F.R. § 435.119, Medicaid adult group ages 19 through 64; recipient identity and coverage come from recorded Medicaid expansion coverage, not an age estimate alone"
     },
     "older-adult-medicare-cohort-estimate": {
       "minimumAge": 65,
@@ -40,6 +45,28 @@
       "minimumAge": 65,
       "maximumAge": null,
       "estimatedFrom": "Engelhardt and Gruber 2004 (NBER w10466); 20 CFR 404.410; Census P60-287 (2025)"
+    },
+    "retirement-policy-age-cohort-estimate": {
+      "minimumAge": 62,
+      "maximumAge": 67,
+      "estimatedFrom": "Mastrobuoni 2009 (JPubE); the outcome link estimates employment among ages 62 to 67 as the Social Security full retirement age rises"
+    },
+    "voting-age-resident-estimate": {
+      "minimumAge": 18,
+      "maximumAge": null,
+      "estimatedFrom": "U.S. Constitution, Amendment XXVI (age 18 minimum for voting in U.S. elections); U.S. Census Bureau, American Community Survey adult population (age 18+). Age alone does not establish citizenship, registration, or voting eligibility, which are not universally recorded."
+    }
+  },
+  "childCohortsByRule": {
+    "recorded-parent-of-young-child-estimate": {
+      "minimumAge": 0,
+      "maximumAge": 5,
+      "estimatedFrom": "U.S. Census Bureau, American Community Survey table B23008 (own children under age 6); Malik 2018; Baker, Gruber and Milligan 2008"
+    },
+    "recorded-parent-of-infant-estimate": {
+      "minimumAge": 0,
+      "maximumAge": 0,
+      "estimatedFrom": "Baum and Ruhm 2016 (JPAM); Rossin-Slater, Ruhm and Waldfogel 2013 (JPAM), return to work within a year of birth"
     }
   }
 }
