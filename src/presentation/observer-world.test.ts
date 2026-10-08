@@ -125,6 +125,11 @@ describe("a world watched from its start", () => {
     const file = projectObserverPerson(world, anchor);
     expect(file?.name.length).toBeGreaterThan(0);
     expect(file?.record.length).toBeGreaterThan(0);
+    expect(file?.home).toBeTruthy();
+    expect(file?.work.length).toBeGreaterThan(0);
+    expect(file?.monthlyPay).not.toBeNull();
+    expect(file?.household.length).toBeGreaterThan(0);
+    expect(file?.career[0]?.text).toContain(file?.work[0]?.split(",")[0]);
   });
 
   it("reads saved congressional and state legislative results without making elections", () => {

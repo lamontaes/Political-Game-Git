@@ -8,7 +8,6 @@ export const facetComfortingEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-comforting",
         pole: "high",
-        explanation: "They would rather stay present than leave someone alone.",
       },
     ],
   },

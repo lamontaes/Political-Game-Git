@@ -262,7 +262,7 @@
     "personality-v1:facet-entitled": {
       "high": {
         "toward": ["self-interest", "speak-out", "confront"],
-        "away": ["help-others"]
+        "away": []
       }
     },
     "personality-v1:facet-envious": {
@@ -339,7 +339,7 @@
     },
     "personality-v1:facet-imaginative": {
       "high": {
-        "toward": ["change", "engage", "take-risk"],
+        "toward": ["change"],
         "away": ["keep-same"]
       }
     },

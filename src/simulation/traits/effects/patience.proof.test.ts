@@ -7,12 +7,18 @@ describe("the patience difference in a random new game", () => {
       "personality-v1:patience",
       "labor.worker-quit",
       "l1-proof-patience",
+      [],
+      "act-pulls",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("continue-work");
     expect(proof.low.choice).toBe("quit");
-    expect(proof.high.reason).toEqual(expect.any(String));
-    expect(proof.low.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:patience|labor.worker-quit|continue-work|high",
+    );
+    expect(proof.low.reason).toBe(
+      "personality-v1:patience|labor.worker-quit|quit|low",
+    );
   });
 });
