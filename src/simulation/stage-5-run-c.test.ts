@@ -87,16 +87,13 @@ import {
   policyEstimateAt,
   realizePolicyEstimate,
   incidentAt,
-  INCIDENT_TRANSITION_KEY,
-  incidentTransitionHandler,
-  recordIncidentTransitionPlan,
+  recordIncidentStage,
   recordEvidenceArtifact,
   recordEvidenceDiscovery,
   evidenceArtifactsRelatedToEntity,
   hasPersonDiscoveredEvidence,
   recordPersonFunctionalCapacity,
   recordPersonDeath,
-  scheduleIncidentTransition,
 } from "./index";
 import type {
   CharacterHistoryMode,
@@ -2441,7 +2438,6 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
           };
         },
       ],
-      [INCIDENT_TRANSITION_KEY, incidentTransitionHandler],
     ]);
     world = advanceWorld(world, 5, transitionHandlers);
 
@@ -2829,24 +2825,17 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     });
     const civicIncident = world.history.incidents.at(-1)!;
     const civicEffect = world.history.effectActivations.at(-1)!;
-    world = recordIncidentTransitionPlan(world, {
-      stableKey: "end-to-end:civic-incident:recovery-plan",
+    const beforeCivicRecovery = currentResourceCutoff(world);
+    world = advanceWorld(world, 32, transitionHandlers);
+    world = recordIncidentStage(world, {
+      stableKey: "end-to-end:civic-incident:recovery",
       incidentId: civicIncident.id,
-      dueAt: makeIsoDate("2026-01-11"),
-      targetStatus: "resolved",
+      status: "resolved",
       phaseKey: "incident:ended",
       reasonKey: "incident:recovered",
       context: "The civic occurrence reached its recorded end state.",
-      consequences: [],
+      summary: "The civic occurrence ended.",
     });
-    const civicRecoveryPlan = world.history.incidentTransitionPlans.at(-1)!;
-    world = scheduleIncidentTransition(world, {
-      stableKey: "end-to-end:civic-incident:recovery-due",
-      transitionPlanId: civicRecoveryPlan.id,
-    });
-    const civicRecoveryDueItem = world.history.futureDueItems.at(-1)!;
-    const beforeCivicRecovery = currentResourceCutoff(world);
-    world = advanceWorld(world, 32, transitionHandlers);
     world = recordWorldMetricState(world, {
       stableKey: "end-to-end:policy:output-actual-baseline",
       metricId: outputMetric.id,
@@ -3014,11 +3003,6 @@ describe("Stage 5 Run C history, plans, persistence, and end-to-end life", () =>
     expect(
       incidentAt(world, civicIncident.id, beforeIncidentHistory),
     ).toBeNull();
-    expect(
-      world.history.futureDueItemStates
-        .filter((state) => state.dueItemId === civicRecoveryDueItem.id)
-        .at(-1),
-    ).toMatchObject({ status: "resolved" });
     expect(
       world.history.incidentStates.some(
         (state) =>
