@@ -89,7 +89,79 @@ describe("election-night speeches", () => {
       result.winnerPersonId === rival ? VICTORY_SPEECH_EVENT : CONCESSION_EVENT,
     );
     expect(speeches(personId)).toHaveLength(0);
-    const view = projectCampaign(world, personId);
+    const byPrecinct = result.tallies.map((tally) => ({
+      candidatePersonId: tally.candidatePersonId,
+      votes: Math.floor(tally.votes / 2),
+      voteShare: tally.voteShare,
+    }));
+    const precinctA = {
+      townId: contest.jurisdictionId,
+      precinctKey: "test-small",
+      mapId: "test-map-a" as EntityId,
+      ballotsCast: byPrecinct.reduce((sum, tally) => sum + tally.votes, 0),
+      tallies: byPrecinct,
+    };
+    const precinctB = {
+      townId: contest.jurisdictionId,
+      precinctKey: "test-large",
+      mapId: "test-map-b" as EntityId,
+      ballotsCast:
+        result.tallies.reduce((sum, tally) => sum + tally.votes, 0) -
+        precinctA.ballotsCast,
+      tallies: result.tallies.map((tally, index) => ({
+        candidatePersonId: tally.candidatePersonId,
+        votes: tally.votes - byPrecinct[index]!.votes,
+        voteShare: tally.voteShare,
+      })),
+    };
+    const withPrecinctReturns = {
+      ...world,
+      history: {
+        ...world.history,
+        electionContestResults: world.history.electionContestResults!.map(
+          (record) =>
+            record.id === result.id
+              ? { ...record, precinctTallies: [precinctA, precinctB] }
+              : record,
+        ),
+      },
+    };
+    const view = projectCampaign(withPrecinctReturns, personId);
+    const reports = view.electionNight!.reportingBeats;
+    expect(reports.length).toBeGreaterThan(0);
+    expect(reports.length).toBeLessThanOrEqual(6);
+    expect(
+      projectCampaign(withPrecinctReturns, personId).electionNight,
+    ).toEqual(view.electionNight);
+    expect(reports.flatMap((beat) => beat.precinctKeys).sort()).toEqual([
+      "test-large",
+      "test-small",
+    ]);
+    for (const candidateId of contest.candidatePersonIds) {
+      expect(
+        reports.reduce(
+          (sum, beat) =>
+            sum +
+            (beat.tallies.find(
+              (tally) => tally.candidatePersonId === candidateId,
+            )?.votes ?? 0),
+          0,
+        ),
+      ).toBe(
+        result.tallies.find((tally) => tally.candidatePersonId === candidateId)
+          ?.votes ?? 0,
+      );
+      expect(
+        reports
+          .at(-1)!
+          .runningTallies.find(
+            (tally) => tally.candidatePersonId === candidateId,
+          )?.votes,
+      ).toBe(
+        result.tallies.find((tally) => tally.candidatePersonId === candidateId)
+          ?.votes ?? 0,
+      );
+    }
     expect(view.speech).toMatchObject({
       kind: result.winnerPersonId === personId ? "victory" : "concession",
       given: null,
@@ -308,9 +380,11 @@ describe("election-night speeches", () => {
         .filter((row) => row.personId === holderId && row.eventId === speech.id)
         .at(-1)?.strength,
     ).toBe("moderate");
-    // Election night is a place: the venue, on the day the player spoke, and
-    // never before they have or on a later day.
-    expect(electionNightLocationKey(world, personId)).toBeNull();
+    // Election night is a place from the result through the speech, and not
+    // on a later day.
+    expect(electionNightLocationKey(world, personId)).toBe(
+      ELECTION_NIGHT_LOCATION_KEY,
+    );
     expect(electionNightLocationKey(spoken, personId)).toBe(
       ELECTION_NIGHT_LOCATION_KEY,
     );

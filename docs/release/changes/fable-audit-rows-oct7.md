@@ -1,7 +1,5 @@
 ---
 id: fable-audit-rows-oct7
-section: Changed
-title: Code audit rows added to the work pool
 impact: none
 ---
 
