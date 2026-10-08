@@ -13,9 +13,9 @@ import {
 } from "../simulation/civil-personnel";
 import {
   fileNoticeWithCommissioner,
-  issueMinnesotaDiscipline,
+  issuePersonnelDiscipline,
   justCauseGrounds,
-  offerMinnesotaReinstatement,
+  offerPersonnelReinstatement,
   personnelMatters,
   recordInformalResolutionAttempt,
   reinstatementOpportunities,
@@ -183,7 +183,7 @@ export function CivilPersonnelPanel({
                           candidates={vacancy.candidates}
                           offer={(personId, probation) =>
                             apply(
-                              offerMinnesotaReinstatement(world, {
+                              offerPersonnelReinstatement(world, {
                                 positionId: vacancy.position.id,
                                 personId,
                                 probation,
@@ -209,7 +209,7 @@ export function CivilPersonnelPanel({
                     );
                   case "discipline":
                     return apply(
-                      issueMinnesotaDiscipline(world, {
+                      issuePersonnelDiscipline(world, {
                         incumbencyId: matter.id,
                         action: input.action,
                         ground: input.ground,
