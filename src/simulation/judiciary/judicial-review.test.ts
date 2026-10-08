@@ -596,19 +596,21 @@ describe(`court review (seed ${SEED}, opened in ${observerPlace(SEED).key}, law 
       },
     });
     const eventId = eventWorld.history.events.at(-1)!.id;
-    const recorded = recordJudicialPhilosophy(eventWorld, {
-      stableKey: "test:deference-outlook",
-      personId: justiceId,
-      formedAt: eventWorld.currentDate,
-      dimensions: {
-        deference: {
-          strength: 2,
-          evidence: [{ kind: "historical-event", id: eventId }],
-          reason: "judicial.outlook.deference.willing-to-strike",
+    const recorded = withWorldIntegrityDeferred(() =>
+      recordJudicialPhilosophy(eventWorld, {
+        stableKey: "test:deference-outlook",
+        personId: justiceId,
+        formedAt: eventWorld.currentDate,
+        dimensions: {
+          deference: {
+            strength: 2,
+            evidence: [{ kind: "historical-event", id: eventId }],
+            reason: "judicial.outlook.deference.willing-to-strike",
+          },
         },
-      },
-      reason: "judicial.outlook.recorded-at-seating",
-    });
+        reason: "judicial.outlook.recorded-at-seating",
+      }),
+    );
     const withOutlook = justiceVotes(recorded, {
       stableKey: "test:outlook:after",
       justiceIds: [justiceId],
