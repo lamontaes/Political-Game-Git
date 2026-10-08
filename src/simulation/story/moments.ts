@@ -2,8 +2,16 @@ import kindsData from "../../../data/content/story-moment-kinds.json" with { typ
 import { ageOnDate } from "../dates";
 import { appendedList, recordsByStringField } from "../history-index";
 import { createStableId } from "../ids";
-import { activePartnershipsAt, kinshipRelationshipsAt } from "../life-queries";
-import { latestPersonalityTendenciesForPerson } from "../queries";
+import {
+  activePartnershipsAt,
+  householdMembershipsAt,
+  kinshipRelationshipsAt,
+  peopleInHouseholdAt,
+} from "../life-queries";
+import {
+  latestPersonalityTendenciesForPerson,
+  relationshipHistory,
+} from "../queries";
 import { readRelationshipStanding } from "../relationship-standing";
 import { loadedTraitRegistry } from "../trait-registry";
 import { traitDefinitionFromPack, type RegisteredTrait } from "../trait-packs";
@@ -679,6 +687,38 @@ function round(value: number): number {
   return Math.round(value * 1e6) / 1e6;
 }
 
+/**
+ * Whose moments are scored (owner's speed ruling, October 8, 2026): full
+ * detail in the focus circle of the person being played, coarser everywhere
+ * else. The circle is the player, their relatives and household, everyone
+ * they have recorded contact with, and the people of their home town. A
+ * watched world, with nobody being played, scores everyone.
+ */
+export function storyFocus(world: World): (personId: EntityId) => boolean {
+  if (world.control.kind !== "person") return () => true;
+  const playerId = world.control.personId;
+  const player = world.people[playerId];
+  if (!player) return () => true;
+  const circle = new Set<EntityId>([playerId]);
+  for (const record of safeKinship(world, playerId))
+    for (const id of record.personIds) circle.add(id);
+  try {
+    for (const membership of householdMembershipsAt(world, playerId))
+      for (const id of peopleInHouseholdAt(
+        world,
+        membership.membership.householdId,
+      ))
+        circle.add(id);
+  } catch {
+    // No household on record: the circle is the rest of it.
+  }
+  for (const interaction of relationshipHistory(world, playerId))
+    for (const id of interaction.personIds) circle.add(id);
+  const home = player.homeJurisdictionId;
+  return (personId) =>
+    circle.has(personId) || world.people[personId]?.homeJurisdictionId === home;
+}
+
 /* -------------------------------------------------------------------------- */
 /* The intake                                                                  */
 /* -------------------------------------------------------------------------- */
@@ -708,6 +748,7 @@ export function recordStoryMoments(world: World): World {
     for (const record of newRecords(history[store], from))
       candidates.push(...stateCandidates(world, store, record));
 
+  const inFocus = storyFocus(world);
   // One change, one moment: an event that scored for a person carries the
   // change, so its relationship record and a same-year state record of the
   // same kind do not score it again.
@@ -735,6 +776,7 @@ export function recordStoryMoments(world: World): World {
   const written: StoryMomentRecord[] = [];
   const writtenKeys = new Set<string>();
   for (const candidate of ordered) {
+    if (!inFocus(candidate.personId)) continue;
     const prior = momentsFor(candidate.personId);
     if (
       candidate.sourceStore === "relationshipInteractions" &&

@@ -19,6 +19,7 @@ import {
   STORY_MOMENT_KINDS,
   storyIntakeCursor,
   storyMoments,
+  storyFocus,
   storyMomentsOf,
 } from "./moments";
 
@@ -182,6 +183,21 @@ describe("story moments in a seeded week", () => {
   it("reads each record once: a second intake writes nothing", () => {
     expect(storyIntakeCursor(world)).toBe(world.history.nextSequence);
     expect(recordStoryMoments(world)).toBe(world);
+  });
+
+  it("scores the player's circle in a played world and everyone in a watched one", () => {
+    const inFocus = storyFocus(world);
+    expect(inFocus(personId)).toBe(true);
+    for (const moment of storyMoments(world))
+      expect(inFocus(moment.personId)).toBe(true);
+    const elsewhere = Object.values(world.people).find(
+      (person) =>
+        person.homeJurisdictionId !==
+        world.people[personId]!.homeJurisdictionId,
+    );
+    if (elsewhere) expect(inFocus(elsewhere.id)).toBe(false);
+    const watched = storyFocus({ ...world, control: { kind: "observer" } });
+    expect(watched("person_nobody" as EntityId)).toBe(true);
   });
 
   it("passes the full World check", () => {
