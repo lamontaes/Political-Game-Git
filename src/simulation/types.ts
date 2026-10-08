@@ -1448,6 +1448,8 @@ export interface OrganizationProfileRecord {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  /** Recorded town-employer payroll cadence. */
+  readonly payPeriod?: "weekly" | "biweekly" | "semimonthly" | "monthly";
   /** Source-backed legal employer identity; not a funder or public account. */
   readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   /** Source-backed IPEDS identity attached by the education organization writer. */
