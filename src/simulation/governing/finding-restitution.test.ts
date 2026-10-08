@@ -357,13 +357,15 @@ describe("A152 mechanically extracted adjudicated restitution", () => {
         f.step,
       );
       assertWorldIntegrity(after);
-      // Baseline #1409 and extracted writer have identical full saves on main b84750d91.
+      // The extracted writer and baseline #1409 had identical full saves on main
+      // b84750d91. The save has gained records since, so these digests were
+      // refreshed on 2026-10-08 (main 58ba8cb0) to pin the writer's output now.
       const expected = {
-        AS: "0ca48563fdbba300e79542d10a25a660aa97a1ddab3de0477e8eaef2e37b82c3",
-        AR: "f08652c3731d8eefb7dfbd7d798b5e88a4b157c70e134abd7975b5223b2fb26e",
-        AZ: "a01362c1829b7119cb27ce58216174cf1004af1d44c24f4aab2f62fc3dfb706d",
-        AK: "00d4623b2faae28169f2b04b6bf05aff911ec3da4bbeea78004f3635ef74a920",
-        AL: "c5165e2e626ed40e9bc62df9e88d9c696931def1b75be3dfbf20aa5cc71465d2",
+        AS: "bdf8adda61e318ad84a856112f9e48ca08f7b767e679bb0d02c006bf32c444ac",
+        AR: "3c28123dd8e23eb12ce9c139120116e83f0a5a402f717f65f6a559255f8f7d28",
+        AZ: "ef9d5b15fc7ad16f5f6d0c67986a17444a87f8351bf2a35882c033a730255b25",
+        AK: "3221d07885e2b359176efd5d9ce91d15b725a690025e55732631678efee995a6",
+        AL: "3a6e5d643fa9611bf21f06b6dc05fa239c2f4b8f161aa1d098ca436df254f814",
       };
       const payload = serializeWorld(after);
       expect(createHash("sha256").update(payload).digest("hex")).toBe(

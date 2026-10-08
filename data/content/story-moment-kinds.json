@@ -1,0 +1,405 @@
+{
+  "version": 1,
+  "note": "Developer data for the story director (docs/design/story-director.md, part 1). Never shown to a player. A record scores for each person it names; it reaches relatives only through a row that names that relation.",
+  "sources": {
+    "srrs-adult": {
+      "citation": "Holmes, T. H., and Rahe, R. H. (1967). The Social Readjustment Rating Scale. Journal of Psychosomatic Research, 11(2), 213-218.",
+      "status": "estimatedFrom"
+    },
+    "srrs-non-adult": {
+      "citation": "Holmes and Rahe Stress Scale, non-adult version, as published with the adult scale (attributed to Zenko and Marn, 2014). Weaker sourcing than the adult scale.",
+      "status": "estimatedFrom"
+    },
+    "relationship-standing": {
+      "citation": "The relationship standing reader's significance and change weights (src/simulation/relationship-standing.ts), capped at the adult scale's row 'More frequent disputes' (35). Approved by the owner, October 8, 2026.",
+      "status": "calibration"
+    }
+  },
+  "calibration": {
+    "firstOfKind": 1.5,
+    "traitTiltAtFullStrength": 0.25,
+    "closenessRange": [0.5, 1.5],
+    "relationshipCap": 0.35,
+    "relationshipSignificance": {
+      "minor": 0,
+      "meaningful": 2,
+      "major": 3
+    },
+    "relationshipChange": {
+      "formed": 2,
+      "strengthened": 2,
+      "maintained": 1,
+      "strained": 2,
+      "ended": 3
+    }
+  },
+  "kinds": [
+    {
+      "key": "moved-home",
+      "match": {
+        "store": "events",
+        "types": [
+          "life.household-move",
+          "migration.moved",
+          "life.moved-into-home"
+        ]
+      },
+      "acts": ["change"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Change in residence",
+        "value": 20
+      }
+    },
+    {
+      "key": "left-home",
+      "match": {
+        "store": "events",
+        "types": ["life.left-home"]
+      },
+      "acts": ["change", "withdraw"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Change in residence",
+        "value": 20
+      },
+      "relations": [
+        {
+          "relation": "parent",
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Child moving out",
+            "value": 29
+          }
+        },
+        {
+          "relation": "sibling",
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Sibling moving out",
+            "value": 37
+          }
+        }
+      ]
+    },
+    {
+      "key": "death-learned",
+      "match": {
+        "store": "events",
+        "types": ["life.death-learned"]
+      },
+      "scores": "told",
+      "acts": [],
+      "byRelation": {
+        "parent": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Death of a close family member",
+            "value": 63
+          },
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Death of a parent",
+            "value": 100
+          }
+        },
+        "child": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Death of a close family member",
+            "value": 63
+          }
+        },
+        "sibling": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Death of a close family member",
+            "value": 63
+          },
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Death of a sibling",
+            "value": 68
+          }
+        },
+        "partner": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Loss of a spouse to death",
+            "value": 100
+          }
+        },
+        "kin": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Death of a close family member",
+            "value": 63
+          }
+        },
+        "other": {
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Death of a close friend",
+            "value": 37
+          },
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Death of a close friend",
+            "value": 63
+          }
+        }
+      }
+    },
+    {
+      "key": "married",
+      "match": {
+        "store": "events",
+        "types": ["life.married"]
+      },
+      "acts": ["commit"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Getting married",
+        "value": 50
+      },
+      "youth": {
+        "source": "srrs-non-adult",
+        "row": "Getting married",
+        "value": 95
+      }
+    },
+    {
+      "key": "started-dating",
+      "match": {
+        "store": "events",
+        "types": ["life.started-dating", "life.couple-formed"]
+      },
+      "acts": ["engage", "commit"],
+      "youth": {
+        "source": "srrs-non-adult",
+        "row": "Starting to date",
+        "value": 51
+      }
+    },
+    {
+      "key": "separated",
+      "match": {
+        "store": "events",
+        "types": ["life.couple-separated", "life.divorced"]
+      },
+      "acts": ["withdraw", "change"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Marital separation",
+        "value": 65
+      },
+      "relations": [
+        {
+          "relation": "child",
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Parents' separation",
+            "value": 69
+          }
+        }
+      ]
+    },
+    {
+      "key": "broke-up",
+      "match": {
+        "store": "events",
+        "types": ["life.broke-up", "life.couple-ended"]
+      },
+      "acts": ["withdraw", "change"],
+      "youth": {
+        "source": "srrs-non-adult",
+        "row": "Breakup with boyfriend or girlfriend",
+        "value": 53
+      }
+    },
+    {
+      "key": "family-birth",
+      "match": {
+        "store": "events",
+        "types": ["life.family-member-added"],
+        "tags": ["family.birth"],
+        "roles": ["agency:parent"]
+      },
+      "acts": ["commit"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Adding a new family member",
+        "value": 39
+      },
+      "subjectRelations": [
+        {
+          "relation": "sibling",
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Sibling born",
+            "value": 50
+          },
+          "adult": {
+            "source": "srrs-adult",
+            "row": "Adding a new family member",
+            "value": 39
+          }
+        }
+      ]
+    },
+    {
+      "key": "jailed",
+      "match": {
+        "store": "events",
+        "types": ["justice.sentenced"],
+        "tags": ["justice.sentence:jail"],
+        "roles": ["focus:defendant", "focus:subject"]
+      },
+      "acts": [],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Being jailed",
+        "value": 63
+      },
+      "relations": [
+        {
+          "relation": "child",
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Parent jailed for over 30 days",
+            "value": 53
+          },
+          "youthLong": {
+            "source": "srrs-non-adult",
+            "row": "Parent jailed for over a year",
+            "value": 70
+          }
+        }
+      ]
+    },
+    {
+      "key": "held-before-trial",
+      "match": {
+        "store": "events",
+        "types": ["justice.held-before-trial"],
+        "roles": ["focus:defendant", "focus:subject"]
+      },
+      "acts": [],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Being jailed",
+        "value": 63
+      }
+    },
+    {
+      "key": "reached-out",
+      "match": {
+        "store": "events",
+        "types": ["life.meeting-proposed"],
+        "roles": ["focus:asked-of"]
+      },
+      "acts": ["engage"],
+      "kin": {
+        "source": "srrs-adult",
+        "row": "Change in number of family gatherings",
+        "value": 15
+      },
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Change in social activities",
+        "value": 18
+      },
+      "closeness": "standing"
+    },
+    {
+      "key": "next-step",
+      "match": {
+        "store": "events",
+        "types": ["life.future-preparation"]
+      },
+      "acts": ["change", "commit"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Starting or finishing school",
+        "value": 26
+      },
+      "youth": {
+        "source": "srrs-non-adult",
+        "row": "Entering senior year of high school",
+        "value": 42
+      }
+    },
+    {
+      "key": "school-started",
+      "match": {
+        "store": "educationEnrollments"
+      },
+      "acts": ["change"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Starting or finishing school",
+        "value": 26
+      }
+    },
+    {
+      "key": "school-finished",
+      "match": {
+        "store": "educationEnrollmentStates",
+        "statuses": ["completed"]
+      },
+      "acts": ["change"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Starting or finishing school",
+        "value": 26
+      }
+    },
+    {
+      "key": "job-started",
+      "match": {
+        "store": "workRelationships"
+      },
+      "acts": ["commit"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Change in work hours or conditions",
+        "value": 20
+      }
+    },
+    {
+      "key": "job-lost",
+      "match": {
+        "store": "workStatuses",
+        "reasons": ["labor:laid-off", "labor:business-closed"]
+      },
+      "acts": [],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Being fired",
+        "value": 47
+      },
+      "relations": [
+        {
+          "relation": "child",
+          "youth": {
+            "source": "srrs-non-adult",
+            "row": "Parent losing job",
+            "value": 46
+          }
+        }
+      ]
+    },
+    {
+      "key": "group-joined",
+      "match": {
+        "store": "organizationParticipations"
+      },
+      "acts": ["cooperate"],
+      "adult": {
+        "source": "srrs-adult",
+        "row": "Change in social activities",
+        "value": 18
+      }
+    }
+  ]
+}

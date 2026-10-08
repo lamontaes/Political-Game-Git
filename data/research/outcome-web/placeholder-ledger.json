@@ -110,6 +110,39 @@
       "gap": "Individual use, consumption and transactions are not recorded by this place measure.",
       "estimate": "Route only a sourced resident or current household opportunity/exposure estimate; no personal activity, payment, injury or health event is created.",
       "estimatedFrom": "County Health Rankings & Roadmaps 2025, access to exercise opportunities. A changed resident-access share supplies an estimated opportunity. The existing territory median estimates remain labeled. Individual visits, exercise, and health changes are unrecorded."
+    },
+    {
+      "key": "government-borrowing-cost-resident-context-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": [
+        "balanced-budget-to-borrowing-cost",
+        "pension-funding-to-borrowing-cost",
+        "reserve-balance-to-borrowing-cost",
+        "federal-deficit-to-borrowing-cost"
+      ],
+      "gap": "Government borrowing records no individual tax incidence, private debt, bondholding, or service reduction.",
+      "estimate": "Use resident fiscal-context estimates alongside the existing public-budget consumer; create no personal bill, payment, loan, or public-service cut.",
+      "estimatedFrom": "SEC Investor.gov, General Obligation Bond (https://www.investor.gov/introduction-investing/investing-basics/glossary/general-obligation-bond), and GFOA, Adopting Financial Policies (https://www.gfoa.org/materials/adopting-financial-policies). Public debt service is a resident fiscal-context estimate because general-obligation borrowing is backed by the issuer's taxing power. It does not establish a personal tax bill, public-service cut, private borrowing rate, bondholding, or household debt change. The place measure retains its sourced credit-rating spread estimates and five territory average proxies. Calibration: S&P general-obligation ratings for 2024 (Wikipedia, List of U.S. states by credit rating, from S&P Global; D.C. from its current S&P rating; Montana from Moody's Aa1, as S&P does not rate it), priced at 6 basis points per notch below AAA through A+ (Joffe, Doubly Bound: The Cost of Issuing Municipal Bonds, Haas Institute 2017, from Bloomberg five-year index yields), and 12 per notch below A+, where the same source says spreads steepen (the 12 is this game's reading, not the source's number); ESTIMATED FROM AVERAGE for Puerto Rico, Guam, the Virgin Islands, American Samoa and the Northern Mariana Islands: 8.7 basis points, the arithmetic mean of the recorded 2024 values for all 50 states and D.C. A AAA state starts at 0 and may drift a little below it, as top-rated bonds sometimes trade through the benchmark."
+    },
+    {
+      "key": "irrigation-groundwater-territory-median",
+      "sourceFile": "data/research/outcome-web/place-outcome-bases-2024.json",
+      "measure": "water.irrigation-groundwater",
+      "jurisdictionKeys": ["US-AS", "US-GU", "US-MP"],
+      "gap": "Three territories are absent from the USGS 2015 irrigation withdrawal calibration.",
+      "value": 102.4,
+      "unit": "million gallons a day",
+      "recordedPlaceCount": 53,
+      "estimate": "Use the median of all 53 recorded place values, including two measured zeros.",
+      "estimatedFrom": "ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration."
+    },
+    {
+      "key": "groundwater-limits-to-irrigation-pumping-recipient-estimate",
+      "sourceFile": "data/research/outcome-web/landing-plan.json",
+      "linkKeys": ["groundwater-limits-to-irrigation-pumping"],
+      "gap": "Individual irrigated parcels, wells, water rights, and pumping allocations are unrecorded.",
+      "estimate": "Use current recorded agricultural operators as an estimated irrigation-resource cohort; record no personal pumping, permission, crop, or income change.",
+      "estimatedFrom": "USGS 2015 irrigation groundwater withdrawals and USDA NASS 2023 Irrigation and Water Management Survey (https://www.nass.usda.gov/Surveys/Guide_to_NASS_Surveys/Farm_and_Ranch_Irrigation/). Current recorded agricultural owners or directing operators in their home state supply an estimated irrigation-resource context. Their existing work cohort is inferred exposure; it does not establish an irrigated parcel, well, water right, pumping allocation, personal withdrawal, crop yield, or income change. Lower pumping is estimated groundwater conservation, not a measured operator benefit. ESTIMATED FROM MEDIAN for American Samoa, Guam and the Northern Mariana Islands: 102.4 million gallons a day, the median of the 53 recorded USGS 2015 irrigation groundwater withdrawal values, including recorded zeros for D.C. and the U.S. Virgin Islands. Source: USGS Estimated Use of Water in the United States, County-Level Data for 2015, version 2.0, https://doi.org/10.5066/F7TB15V5. Those three territories are absent from this calibration."
     }
   ]
 }
