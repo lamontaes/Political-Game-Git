@@ -1144,6 +1144,31 @@ describe("the table runs the same in every one of the 56 places", () => {
           `sweep:${state.jurisdictionKey}`,
         ),
       );
+      const withStudyPlanTraits = recordTrait(
+        recordTrait(withTraits, personId, "people-mind-v1:deliberation", 2),
+        personId,
+        "people-mind-v1:conflict",
+        2,
+      );
+      for (const decisionType of [
+        "people.study-plan",
+        "people.study-plan-answer",
+        "people.study-plan-compromise-answer",
+      ]) {
+        const studyPlanDecision = evaluateDecision(
+          withStudyPlanTraits,
+          decisionFor(
+            withStudyPlanTraits,
+            personId,
+            decisionType,
+            `sweep:${state.jurisdictionKey}:${decisionType}`,
+          ),
+        );
+        expect(isSelectedDecision(studyPlanDecision)).toBe(true);
+        expect(
+          studyPlanDecision.context.options.map((option) => option.key).sort(),
+        ).toEqual([...tables.optionActs.get(decisionType)!.keys()].sort());
+      }
       if (actReasons(evaluation.context.considerations).length === 0) {
         withoutReason.push(state.jurisdictionKey);
       }
