@@ -66,6 +66,10 @@ export interface GradingItem {
   readonly kind: TextKind;
   readonly cell: GradingCell;
   readonly seed: string;
+  /** For a conversation: the reply choices the game offers next. */
+  readonly choices?: readonly string[];
+  /** For a conversation: whether any offered choice is a deliberate lie. */
+  readonly lieOffered?: boolean;
 }
 
 export interface GradingBatch {
@@ -202,8 +206,9 @@ function voiceLabel(line: BatchLine): string {
 function plainSituation(line: BatchLine): string {
   if (line.id.startsWith("text-"))
     return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
-  // A judge's line needs the case it decides, which the batch line words.
-  if (line.id.startsWith("judge-"))
+  // A judge's line needs the case it decides, and a conversation needs the
+  // scene and what the player said, which the batch line words.
+  if (line.id.startsWith("judge-") || line.id.startsWith("conversation-"))
     return `${line.situation} In ${line.world.place}, on ${proseDate(line.world.date)}.`;
   const who = line.speaker.isPlayer
     ? "You"
@@ -294,6 +299,8 @@ export function toGradingBatch(
       },
       seed:
         line.seed ?? `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
+      ...(line.choices ? { choices: line.choices } : {}),
+      ...(line.lieOffered !== undefined ? { lieOffered: line.lieOffered } : {}),
     };
     // At most two items for any one relationship (CTO 9:03 p.m. Oct 6:
     // "dads carried 9 of 13").
