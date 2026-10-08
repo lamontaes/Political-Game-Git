@@ -56,6 +56,7 @@ import {
   pressRecordsOfKind,
   proceedingSteps,
   projectPressDesk,
+  respondToMatter,
   recordAllegation,
   recordStoryLead,
   assignStory,
@@ -194,6 +195,42 @@ function roundTrip(world: World): World {
 
 describe("PRESS46 M1 media seed pack", () => {
   const fixture = pressFixture("press46-seed", 1);
+
+  it("records each of the five subject responses through the matter writer", () => {
+    for (const response of [
+      "deny",
+      "apologize",
+      "attack-source",
+      "decline-comment",
+      "resign",
+    ] as const) {
+      const opened = openMatter(fixture.world, {
+        stableKey: `press46-response:${response}`,
+        family: "M1",
+        subjectPersonIds: [fixture.playerId],
+        occurrenceId: null,
+        originEventId: fixture.world.history.events[0]!.id,
+        jurisdictionId: KY,
+      });
+      const answered = respondToMatter(opened.world, {
+        matterId: opened.matter.id,
+        personId: fixture.playerId,
+        response,
+        meaning: `Recorded meaning for ${response}`,
+      });
+      const record = pressRecordsOfKind(answered, "matter-response").at(-1)!;
+      expect(record).toMatchObject({
+        matterId: opened.matter.id,
+        actorPersonId: fixture.playerId,
+        actorRole: "subject",
+        response,
+        knowledgeIds: [],
+      });
+      expect(answered.history.events.at(-1)?.summary).toContain(
+        `Recorded meaning for ${response}`,
+      );
+    }
+  });
 
   it("creates three persistent national products and one state newsroom, each staffed", () => {
     const outlets = mediaOutlets(fixture.world);
