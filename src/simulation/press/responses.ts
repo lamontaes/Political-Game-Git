@@ -64,6 +64,8 @@ const OPTIONS: Readonly<Record<RespondingRole, readonly MatterResponse[]>> = {
 
 const LABELS: Readonly<Record<MatterResponse, string>> = {
   deny: "Deny it",
+  apologize: "Apologize",
+  "attack-source": "Attack the source",
   acknowledge: "Acknowledge it",
   "correct-record": "Correct the record",
   "decline-comment": "Decline to comment",
@@ -77,6 +79,81 @@ const LABELS: Readonly<Record<MatterResponse, string>> = {
   "call-for-resignation": "Call for resignation",
   "no-action": "Do nothing",
 };
+
+/** Records one of the subject's five direct answers to a real matter. */
+export function respondToMatter(
+  world: World,
+  input: {
+    readonly matterId: EntityId;
+    readonly personId: EntityId;
+    readonly response:
+      "deny" | "apologize" | "attack-source" | "decline-comment" | "resign";
+    readonly meaning: string;
+  },
+): World {
+  if (
+    world.control.kind !== "person" ||
+    world.control.personId !== input.personId
+  ) {
+    throw new Error("Only the character being played can answer this matter.");
+  }
+  const matter = requirePressRecord(world, "matter", input.matterId);
+  if (!matter.subjectPersonIds.includes(input.personId)) {
+    throw new Error("Only a subject of this matter can answer it.");
+  }
+  const meaning = input.meaning.trim();
+  if (!meaning) throw new Error("An answer needs a recorded meaning.");
+  const stableKey = `${matter.stableKey}:subject-response:${input.personId}`;
+  if (
+    pressRecordsOfKind(world, "matter-response").some(
+      (record) => record.stableKey === stableKey,
+    )
+  ) {
+    throw new Error("You already answered this matter.");
+  }
+  const person = world.people[input.personId];
+  if (!person) throw new Error("The person answering this matter is missing.");
+  const summary = `${personName(person)} ${input.response === "decline-comment" ? "declined to comment" : input.response === "resign" ? "resigned" : input.response === "attack-source" ? "attacked the source" : input.response === "apologize" ? "apologized" : "denied the matter"}: ${meaning}`;
+  const next = recordWorldEvent(world, {
+    stableKey,
+    type: "press.subject-answered-matter",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: person.homeJurisdictionId,
+    involvedEntityIds: [input.personId, input.matterId],
+    participants: [
+      { personId: input.personId, role: "agency:actor", detail: meaning },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      PRESS_CONTRACT_VERSION,
+      `${PRESS_MATTER_TAG}${input.matterId}`,
+      `press.response:${input.response}`,
+    ],
+    summary,
+    context: {
+      location: null,
+      socialContext: "A public answer about a recorded matter.",
+      pressure: null,
+      choice: input.response,
+      motivation: meaning,
+      immediateReaction: null,
+    },
+  });
+  const event = next.history.events.at(-1)!;
+  return appendPressRecord(next, "matter-response", {
+    stableKey,
+    matterId: input.matterId,
+    actorPersonId: input.personId,
+    actorRole: "subject",
+    response: input.response,
+    eventId: event.id,
+    decisionTraceId: null,
+    knowledgeIds: [],
+    respondedAt: next.currentDate,
+  }).world;
+}
 
 /** Organizers of party chapters the subject actively belongs to. */
 export function partyContactsForSubject(
