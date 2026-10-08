@@ -843,10 +843,8 @@ export function readOrEstimateFinalEnactedLawTerm(
     0,
   );
   const mean =
-    references.reduce(
-      (total, donor) => total + donor.value * donor.weight,
-      0,
-    ) / totalWeight;
+    references.reduce((total, donor) => total + donor.value * donor.weight, 0) /
+    totalWeight;
   const spread = spreadOf(references.map((donor) => donor.value));
   return {
     kind: "modeled",
