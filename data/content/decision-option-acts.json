@@ -338,6 +338,18 @@
     "civil-personnel.reinstatement-response": {
       "accept": ["cooperate", "commit"],
       "decline": ["refuse", "change"]
+    },
+    "query-fixture": {
+      "act": ["engage", "take-risk"],
+      "wait": ["delay", "keep-same"]
+    },
+    "run-a-life-source": {
+      "mention": ["speak-out", "change"],
+      "omit": ["stay-quiet", "keep-same"]
+    },
+    "run-a-source-cutoff": {
+      "use": ["trust", "engage"],
+      "omit": ["keep-same", "stay-quiet"]
     }
   },
   "unlabeled": [
