@@ -694,9 +694,9 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2326 | P1 b05 step 5: summarize quiet council roll calls | PR #2326 (codex/session8-b05-after-meeting-summary) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2331 | b12 Part 1: add per body minority procedure rows | PR #2331 (session35/b12-minority-party-tools) | done #2523 | |
 | RS-2332 | P1.1: open bargaining for recorded measures across bodies | PR #2332 (codex/session30-vote-bargaining) | open: draft: finish it or close it as superseded | |
-| RS-2336 | B23 Part 2: Use local institution names for school histories | PR #2336 (codex/session41-b23-part2) | open: rebase on main (conflicts) | |
-| RS-2338 | B01 Part 4: run petition circulation on candidate campaign routines | PR #2338 (session-26/b01-part4-background) | open: draft: finish it or close it as superseded | |
-| RS-2342 | Part 2: Ask people you know to help a campaign | PR #2342 (session27/b02-part2-ask) | open: mergeable: needs a changed-file check | |
+| RS-2336 | B23 Part 2: Use local institution names for school histories | PR #2336 (codex/session41-b23-part2) | done #2357 | |
+| RS-2338 | B01 Part 4: run petition circulation on candidate campaign routines | PR #2338 (session-26/b01-part4-background) | done #3175 | |
+| RS-2342 | Part 2: Ask people you know to help a campaign | PR #2342 (session27/b02-part2-ask) | done #2342 | |
 | RS-2346 | [b12 Part 2] Record procedural motions | PR #2346 (session35/b12-part2) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2353 | [Session 33 P2] Add reusable chamber leadership races | PR #2353 (codex/session-33-b10-p2) | open: draft: finish it or close it as superseded | |
 | RS-2356 | Let the player choose their election ballot | PR #2356 (session46/b18-1-player-vote) | open: sent back: failed its own changed checks: tests | |
