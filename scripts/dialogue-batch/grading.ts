@@ -53,6 +53,10 @@ export interface GradingCell {
 
 export interface GradingItem {
   readonly i: number;
+  /** The batch situation the line came from. */
+  readonly id: string;
+  /** The one thing this line varies, the axis being graded. */
+  readonly axis: string;
   readonly situation: string;
   readonly prior: string;
   readonly reply: string;
@@ -143,12 +147,29 @@ function ageBandOf(age: number): string {
 }
 
 /** How the owner reads a speaker's label: "You", "Your mom", "A neighbor". */
+/** The composer each kind lacks when a batch has none of it. */
+const MISSING_COMPOSER: Readonly<Record<string, string>> = {
+  "winning-and-losing":
+    "no composer words a race or vote result yet without a recorded vote or decided contest (readWinningLosingBank needs one)",
+  minutes:
+    "no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one)",
+  "notices-and-screens": "no notices composer or bank exists yet",
+  legislation:
+    "no composer words a bill until a measure with a short title is filed (readLegislationBank needs one)",
+  meeting:
+    "no composer speaks at a meeting until the home body has a seated chair (readMeetingBank needs one)",
+  hearing:
+    "no composer speaks at a hearing until the home body is seated (readHearingBank needs one)",
+};
+
 const KIND_VOICE: Readonly<Record<string, string>> = {
   news: "Newspaper",
   journal: "Your journal",
   legislation: "Bill text",
   "winning-and-losing": "Results",
-  meeting: "Agenda",
+  meeting: "A member",
+  minutes: "Minutes",
+  hearing: "At the hearing",
 };
 
 function voiceLabel(line: BatchLine): string {
@@ -226,6 +247,8 @@ export function toGradingBatch(
   for (const line of result.lines) {
     const traitKeys = Object.keys(line.speaker.traits);
     const item: Omit<GradingItem, "i"> = {
+      id: line.id,
+      axis: line.axis,
       situation: plainSituation(line),
       prior:
         line.prior === undefined
@@ -254,7 +277,8 @@ export function toGradingBatch(
         pose: null,
         ageBand: ageBandOf(line.speaker.age),
       },
-      seed: `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
+      seed:
+        line.seed ?? `${result.seed}:${worldIndex.get(line.world.place) ?? 0}`,
     };
     // At most two items for any one relationship (CTO 9:03 p.m. Oct 6:
     // "dads carried 9 of 13").
@@ -276,12 +300,17 @@ export function toGradingBatch(
   const kinds: Record<string, number> = {};
   for (const kind of TEXT_KINDS)
     kinds[kind] = items.filter((item) => item.kind === kind).length;
-  const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => ({
-    kind,
-    reason:
+  // Every absent kind is a row that names the composer it is missing (CTO
+  // 10:14 p.m. Oct 6), with what each world reported.
+  const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => {
+    const seen =
       result.absent?.find((row) => row.kind === kind)?.reason ??
-      "no situation in the batch reaches this kind yet",
-  }));
+      "no situation in the batch reaches this kind yet";
+    return {
+      kind,
+      reason: `no output, because ${MISSING_COMPOSER[kind] ?? "no composer reached this kind"}. In these worlds: ${seen.replace(/no output, because /g, "")}`,
+    };
+  });
   return {
     batch: {
       id: run.id,

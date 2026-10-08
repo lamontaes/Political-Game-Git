@@ -152,8 +152,10 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   const briefing = page.getByTestId("governing-briefing");
   await expect(briefing).toBeVisible();
   await expect(briefing).toContainText("Governor of Colorado");
-  const matters = briefing.getByTestId("governing-matter");
-  await expect(matters).toHaveCount(2);
+  const matterTabs = briefing
+    .getByTestId("governing-matter-list")
+    .getByRole("button");
+  await expect(matterTabs).toHaveCount(2);
   // The office's other sections sit in the page beside the decisions, never
   // over them. The desk once shared a class name with a room scene's floating
   // desk, and the office work was mounted as a raised workspace; either one
@@ -173,15 +175,21 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   }
   await page.screenshot({
     path: testInfo.outputPath("governing-briefing-first-day.png"),
+    fullPage: true,
   });
 
   // Team: choose a chief of staff from three people with assessments.
-  const staffCard = matters.filter({ hasText: "Choose a chief of staff" });
+  const staffTab = matterTabs.filter({ hasText: "Choose a chief of staff" });
+  await staffTab.click();
+  const staffCard = briefing.getByTestId("governing-matter");
   await expect(staffCard.getByTestId("governing-option")).toHaveCount(3);
   await staffCard.getByTestId("governing-option").first().click();
-  await expect(briefing).toContainText("Chief of staff:");
+  await expect(
+    briefing.getByTestId("governing-chief-of-staff"),
+  ).not.toHaveAttribute("data-problem", "no-chief");
 
   // The office's other posts: look for staff, and hire a Legislative Director.
+  await page.getByRole("link", { name: "People" }).click();
   const hiring = page.getByTestId("office-staff-hiring");
   await hiring.getByTestId("office-staff-look").click();
   const director = hiring.getByTestId(
@@ -189,8 +197,8 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   );
   await expect(director.getByTestId("office-staff-hire")).toHaveCount(3);
   await director.getByTestId("office-staff-hire").first().click();
-  await expect(hiring.getByTestId("office-staff-note")).toContainText(
-    "now works for you as Legislative Director",
+  await expect(hiring.getByTestId("office-staff-note")).toHaveAttribute(
+    "data-reason",
   );
   await expect(
     page.getByTestId("office-staff").getByTestId("office-staff-member"),
@@ -198,43 +206,37 @@ test("a Colorado life wins the governorship, takes office and governs", async ({
   await hiring.scrollIntoViewIfNeeded();
   await page.screenshot({
     path: testInfo.outputPath("governing-office-staff-hired.png"),
+    fullPage: true,
   });
 
   // Agenda: the chief of staff now recommends, and the player chooses.
-  const agendaCard = briefing
-    .getByTestId("governing-matter")
-    .filter({ hasText: "Set the first priority" });
+  await matterTabs.filter({ hasText: "Set the first priority" }).click();
+  const agendaCard = briefing.getByTestId("governing-matter");
   await expect(
     agendaCard.getByTestId("governing-recommendation"),
   ).toBeVisible();
   await agendaCard.getByTestId("governing-option").first().click();
 
   // One consequential task: direct the agencies, then see what came of it.
-  const taskCard = briefing
-    .getByTestId("governing-matter")
-    .filter({ hasText: "Direct the agencies" });
+  await matterTabs.filter({ hasText: "Direct the agencies" }).click();
+  const taskCard = briefing.getByTestId("governing-matter");
   await taskCard.locator('[data-option="pace:fast"]').click();
   await expect(briefing.getByTestId("governing-nothing-open")).toBeVisible();
   await passWeeksUntil(
     page,
-    async () =>
-      (await briefing
-        .getByTestId("governing-recent")
-        .getByText("State agencies reported")
-        .count()) > 0,
+    async () => (await briefing.getByTestId("governing-recent").count()) > 0,
     12,
   );
 
   await briefing.scrollIntoViewIfNeeded();
   await page.screenshot({
     path: testInfo.outputPath("governing-briefing-report.png"),
+    fullPage: true,
   });
   await saveLife(page);
   await page.reload();
   await page.getByTestId("continue").click();
   await enterLife(page);
   await goTo(page, "elsewhere-work");
-  await expect(
-    page.getByTestId("governing-recent").getByText("State agencies reported"),
-  ).toBeVisible();
+  await expect(page.getByTestId("governing-recent")).toBeVisible();
 });

@@ -15,6 +15,7 @@ import {
   declareInternationalCrisis,
   internationalCrisisState,
 } from "./index";
+import { internationalTestActors } from "./international-test-actors";
 
 /**
  * CRUNCH47 Q47-005, the broader world test: a dispute in an ordinary world
@@ -86,6 +87,9 @@ describe("an international dispute ends only on a record that says how", () => {
       // answers its own disputes rather than waiting on a human.
       const started = declareInternationalCrisis(life.world, {
         stableKey: "q47-005:broader",
+        ...internationalTestActors(life.world, "q47-005:broader", [
+          "treaty allies",
+        ]),
         counterpartyLabel: "a foreign government",
         allyLabels: ["treaty allies"],
         subject: "access to a disputed shipping lane",
@@ -162,6 +166,9 @@ describe("an international dispute ends only on a record that says how", () => {
       const life = openedLife("q47-005-forces");
       const started = declareInternationalCrisis(life.world, {
         stableKey: "q47-005:forces",
+        ...internationalTestActors(life.world, "q47-005:forces", [
+          "treaty allies",
+        ]),
         counterpartyLabel: "a foreign government",
         allyLabels: ["treaty allies"],
         subject: "a contested border crossing",
@@ -206,6 +213,7 @@ describe("an international dispute ends only on a record that says how", () => {
     const life = openedLife("q47-005-scheduled");
     const started = declareInternationalCrisis(life.world, {
       stableKey: "q47-005:scheduled",
+      ...internationalTestActors(life.world, "q47-005:scheduled", []),
       counterpartyLabel: "a foreign government",
       allyLabels: [],
       subject: "an expiring fisheries agreement",

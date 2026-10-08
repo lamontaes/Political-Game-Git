@@ -1,7 +1,8 @@
+import market from "../../../data/research/money/cannabis-retail-market.json";
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
 import { createWorld } from "../world";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { lawInForceAtStart } from "../governing/law-in-force";
 import {
   lifePlaceStateIdentities,
@@ -112,7 +113,12 @@ describe("cannabis revenue reads amounts independently of the opening tax base",
     ).toEqual({
       reason: "sales-legalized",
       annualRevenueDelta:
-        CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount * 1000,
+        1000 *
+        market.adultPopulationShare.value *
+        market.pastMonthUseShare.value *
+        market.monthlySpendingPerUser.value *
+        12 *
+        market.exciseRate.value,
       sourceMeasureId: "measure_0",
     });
   });
@@ -242,8 +248,12 @@ describe("cannabis revenue reaches a zero-base saved budget consequence", () => 
     ) as PublicBudgetGovernment;
     const at = BUDGET_SOURCES.indexOf("selectiveSalesTaxes");
     const amount = Math.round(
-      (CANNABIS_TAX_EFFECT.perResidentRevenue.annualAmount *
-        initial.population) /
+      (initial.population *
+        market.adultPopulationShare.value *
+        market.pastMonthUseShare.value *
+        market.monthlySpendingPerUser.value *
+        12 *
+        market.exciseRate.value) /
         12,
     );
     console.info(

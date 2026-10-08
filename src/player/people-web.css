@@ -31,6 +31,29 @@
   margin-top: 0.5rem;
   inline-size: min(100%, 16rem);
 }
+.pg-people-search[open] > input {
+  margin-top: 0.45rem;
+}
+.pg-game .pg-people-search > input {
+  inline-size: min(100%, 16rem);
+  min-inline-size: 0;
+  box-sizing: border-box;
+  padding: 0.35rem 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+  color: var(--text-strong);
+  caret-color: var(--gold);
+  font: 500 1rem var(--ui);
+}
+.pg-game .pg-people-search > input:is(:hover, :focus, :focus-visible) {
+  border: 0;
+  outline: none;
+  background: none;
+  box-shadow: none;
+}
 .pg-game .pg-people-search > .pg-field input {
   inline-size: 100%;
   min-inline-size: 0;
@@ -238,12 +261,6 @@
   stroke: var(--text-strong);
   stroke-width: 4;
   outline: none;
-}
-.pg-relationship-web-caption {
-  margin: 0.45rem 0 0.2rem;
-  color: var(--run-a-ink);
-  font-size: 0.9rem;
-  line-height: 1.4;
 }
 .pg-relationship-web-legend {
   display: flex;

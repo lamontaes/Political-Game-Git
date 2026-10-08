@@ -413,6 +413,9 @@ export function publicMeetingSeries(
  * asks to vote is told they are not a member rather than told the city's
  * passage threshold is unread. Both are true; only one is about them.
  */
+/** Trace key: the action needs the town's enacted text, which is not read. */
+export const ENACTED_TEXT_REQUIRED = "enacted-text-required";
+
 export function municipalActionAuthority(
   world: World,
   input: {
@@ -438,11 +441,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(
-      input.action,
-      "evidence",
-      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
-    );
+    return refuse(input.action, "evidence", ENACTED_TEXT_REQUIRED);
   }
   const standing = municipalStanding(world, input);
   const isMember =
@@ -453,12 +452,12 @@ export function municipalActionAuthority(
     case "inspect-government":
       return grant(
         input.action,
-        `${reading.displayName} is compiled from ${
+        `${reading.displayName} is compiled${
           reading.evidence === "enacted-text"
-            ? "enacted text this repository retrieved"
+            ? " from enacted text this repository retrieved"
             : reading.evidence === "game-profile"
-              ? "a disclosed local government game profile"
-              : "a research transcription of official municipal pages"
+              ? ""
+              : " from a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 

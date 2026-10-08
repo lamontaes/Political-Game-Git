@@ -141,10 +141,10 @@ const GROUP_ORDER: readonly ShellDestinationGroup[] = [
  * negative upwards.
  */
 export const FAN_RINGS: readonly { radius: number; capacity: number }[] = [
-  { radius: 140, capacity: 3 },
-  { radius: 250, capacity: 5 },
-  { radius: 360, capacity: 7 },
-  { radius: 480, capacity: 9 },
+  { radius: 150, capacity: 3 },
+  { radius: 250, capacity: 4 },
+  { radius: 360, capacity: 6 },
+  { radius: 480, capacity: 7 },
 ];
 const FAN_FROM_DEGREES = 90;
 const FAN_TO_DEGREES = 25;
@@ -477,7 +477,7 @@ export function ShellNav({
             data-testid="shell-nav-cluster"
             aria-expanded={open}
             aria-controls={open ? "pg-nav-flyout" : undefined}
-            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}. Open navigation.`}
+            aria-label={`${playerName}. ${currentMoment ? proseWeekdayDate(currentMoment.date) : dateLabel}. ${currentMoment ? formatMinute(currentMoment.minuteOfDay) + ". " : ""}${place}.`}
             onClick={() => dispatch({ type: "toggle-navigation" })}
           >
             <span className="pg-nav-cluster-inner" aria-hidden="true">
@@ -538,11 +538,7 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-day"
                 aria-disabled={passing || undefined}
-                title={
-                  passTargets
-                    ? `${passTargets.day}. Your routine runs; stops early for anything protected.`
-                    : "Let the day run through your routine. Stops for anything that needs you."
-                }
+                title={passTargets?.day}
                 onClick={() => {
                   if (!passing) onPassDays(1);
                 }}
@@ -554,11 +550,7 @@ export function ShellNav({
                 className="pg-nav-day ui-action"
                 data-testid="shell-pass-week"
                 aria-disabled={passing || undefined}
-                title={
-                  passTargets
-                    ? `${passTargets.week}. Your routine runs; stops early for anything protected.`
-                    : "Let the week run through your routine. Stops for anything that needs you."
-                }
+                title={passTargets?.week}
                 onClick={() => {
                   if (!passing) onPassDays(7);
                 }}
@@ -695,13 +687,12 @@ export function ShellNav({
           data-testid="leave-confirm"
         >
           <p className="pg-nav-heading" id="pg-nav-confirm-title">
-            Save before returning to the title?
+            Return to title
           </p>
-          <p className="pg-nav-confirm-copy">
-            {unsaved
-              ? ""
-              : "Save your latest progress before returning. Earlier autosaves will remain available."}
-          </p>
+          <p
+            className="pg-nav-confirm-copy"
+            data-reason={unsaved ? undefined : "autosaves-kept"}
+          />
           <button
             type="button"
             className="ui-action ui-action--primary"
@@ -735,10 +726,7 @@ export function ShellNav({
           </button>
           {leaveProblem ? <p role="alert">{leaveProblem}</p> : null}
           {!canSave ? (
-            <p role="alert">
-              Saving is unavailable. You can stay in this life or return without
-              saving.
-            </p>
+            <p role="alert" data-problem="saving-unavailable" />
           ) : null}
         </div>
       ) : null}

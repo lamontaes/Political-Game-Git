@@ -1,15 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { proveTraitDifference } from "./trait-proof-support";
+import { proveTwoPersonTraitDifference } from "./trait-proof-support";
 
 describe("the action-despite-fear difference in a random new game", () => {
-  it("changes one named person's career.consider-another-term choice, with the reason traced to the tendency", () => {
-    const proof = proveTraitDifference(
+  it("changes the same choice for two named people who differ only in the trait", () => {
+    const proof = proveTwoPersonTraitDifference(
       "personality-v1:action-despite-fear",
       "career.consider-another-term",
       "l1-proof-action-despite-fear",
     );
-    process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
-    expect(proof.without).toBeNull();
+    expect(proof.high.personId).not.toBe(proof.low.personId);
     expect(proof.high.choice).toBe("seek");
     expect(proof.low.choice).toBe("step-down");
     expect(proof.high.reason).toEqual(expect.any(String));

@@ -129,9 +129,8 @@ describe("PT3 — the scene conversation box reads the record back", () => {
     } as NewGameSetup);
     const personId = game.playerPersonId;
     const started = openOrdinaryLife(game.world, personId);
-    expect(
-      projectPlayerConversation(started, personId, "life-talk"),
-    ).toBeNull();
+    // A new life at home already has the household members who are home now
+    // to talk to (BG-79); the saved scene below fixes exactly who is there.
     const membership = householdMembershipsAt(started, personId).find(
       (entry) => entry.state.residenceRole === "primary",
     )!;

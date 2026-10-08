@@ -15,6 +15,10 @@ import {
   type ProsecutionReferralInput,
 } from "../justice/prosecution";
 import { recordsByKey } from "../history-index";
+import {
+  ARRESTING_OFFICER_ROLE,
+  countyRowOfficerForJurisdiction,
+} from "../justice/county-offices";
 import { stableHash } from "../ids";
 import {
   crimeCutoff,
@@ -32,6 +36,7 @@ import type {
 } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { recordWorldEvent } from "../world";
+import { scheduleCountyOfficeReflections } from "../justice/county-office-reflection";
 import {
   worldOpeningRecord,
   worldOpeningVersionOf,
@@ -957,6 +962,7 @@ export function arrestReferral(
   arrest: HistoricalEvent,
   offense: CrimeOffense,
   offenderPersonId: EntityId | null,
+  arrestingOfficerPersonId: EntityId | null = null,
 ): ProsecutionReferralInput | null {
   if (offenderPersonId === null) return null;
   return {
@@ -967,7 +973,7 @@ export function arrestReferral(
     referredBy: {
       kind: "police",
       label: `police in ${placeName(incident.jurisdictionId!)}`,
-      personId: null,
+      personId: arrestingOfficerPersonId,
     },
     basisEventIds: [incident.id, arrest.id],
     // A police arrest rests on what the victim and witnesses say.
@@ -1000,6 +1006,18 @@ function recordArrests(
     if (!offender || !policeCanName(offender)) continue;
     const place = placeName(incident.jurisdictionId!);
     const offenderName = personName(next.people[offender.personId]!);
+    // The county's sheriff, when the county seats one, makes the arrest (CO-4).
+    const sheriff = countyRowOfficerForJurisdiction(
+      next,
+      incident.jurisdictionId,
+      "sheriff",
+    );
+    const arrestingSheriff =
+      sheriff &&
+      sheriff.personId !== offender.personId &&
+      !incident.involvedEntityIds.includes(sheriff.personId)
+        ? sheriff
+        : null;
     next = recordWorldEvent(next, {
       stableKey: `${incident.stableKey}:arrest`,
       type: CRIME_EVENT_TYPES.arrest,
@@ -1009,6 +1027,7 @@ function recordArrests(
       involvedEntityIds: [
         ...incident.involvedEntityIds,
         offender.personId,
+        ...(arrestingSheriff ? [arrestingSheriff.personId] : []),
       ].sort(),
       participants: [
         ...incident.participants,
@@ -1017,6 +1036,15 @@ function recordArrests(
           role: "focus:subject" as const,
           detail: `Arrested; ${offender.reasons.join(", ")}`,
         },
+        ...(arrestingSheriff
+          ? [
+              {
+                personId: arrestingSheriff.personId,
+                role: ARRESTING_OFFICER_ROLE,
+                detail: arrestingSheriff.title || "Sheriff",
+              },
+            ]
+          : []),
       ],
       personFactConstraints: [],
       visibility: "public",
@@ -1032,6 +1060,7 @@ function recordArrests(
       context: EMPTY_CONTEXT,
     });
     const arrest = next.history.events.at(-1)!;
+    next = scheduleCountyOfficeReflections(next, arrest.id);
     for (const participant of incident.participants) {
       next = recordEventKnowledge(next, {
         stableKey: `${arrest.stableKey}:knows:${participant.personId}`,
@@ -1054,9 +1083,26 @@ function recordArrests(
       confidence: "high",
       source: { kind: "direct" },
     });
+    if (arrestingSheriff)
+      next = recordEventKnowledge(next, {
+        stableKey: `${arrest.stableKey}:knows:${arrestingSheriff.personId}`,
+        personId: arrestingSheriff.personId,
+        eventId: arrest.id,
+        learnedAt: arrestDate,
+        believedSummary: `${personName(next.people[arrestingSheriff.personId]!)} arrested ${offenderName}.`,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "direct" },
+      });
     next = referForProsecution(
       next,
-      arrestReferral(incident, arrest, offense, offender.personId)!,
+      arrestReferral(
+        incident,
+        arrest,
+        offense,
+        offender.personId,
+        arrestingSheriff?.personId ?? null,
+      )!,
     ).world;
   }
   return next;

@@ -42,8 +42,7 @@ import {
 export const LOCAL_GOVERNING_BODY_PROFILE_NOTE =
   "The game holds that every town with a government of its own elects its governing body. The town's seat count, districts, residence requirements and term are unconfirmed. An estimated minimum age does not settle those requirements.";
 
-const QUALIFICATION_AT_FILING =
-  "The age and residence requirements for this municipal office are unconfirmed.";
+const QUALIFICATION_AT_FILING = "Qualifications: not on record";
 const NO_FILING_PROCEDURE =
   "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.";
 const NO_FORM =
@@ -123,8 +122,23 @@ export function localGoverningBodyIdentity(
 export function localChiefExecutiveIdentity(
   unit: GovernmentUnitIdentity,
 ): LocalGoverningBodyIdentity | null {
-  const rules = localChiefExecutiveRules(unit);
-  if (!rules?.directlyElected.value) return null;
+  // A county's executive comes from its structure record
+  // (`county-governing-body-rules.ts`): its own reading where it has one,
+  // else its state's. A state where only some counties elect one gives none
+  // until the record says which.
+  const county =
+    unit.unitType === "county" ? countyGoverningBodyRules(unit) : null;
+  const rules =
+    unit.unitType === "county" ? null : localChiefExecutiveRules(unit);
+  const title =
+    unit.unitType === "county"
+      ? county?.executive.kind === "elected"
+        ? county.executive.title
+        : null
+      : rules?.directlyElected.value
+        ? rules.title.value
+        : null;
+  if (!title) return null;
   const officeKey = `${OFFICE_PREFIX}${unit.publisherId}${CHIEF_SUFFIX}`;
   const governmentName = displayName(unit);
   return {
@@ -134,7 +148,7 @@ export function localChiefExecutiveIdentity(
     candidacyPackId: `${officeKey}:candidacy`,
     governmentName,
     bodyName: governmentName,
-    officeTitle: rules.title.value,
+    officeTitle: title,
   };
 }
 
@@ -223,11 +237,11 @@ export function localGoverningBodyCandidacyPack(
 ): CandidacyPack {
   const mayor = identity.seat !== "governing-body";
   const county = identity.unit.unitType === "county";
-  // A county board's age stays unread; a row office (sheriff, clerk, ...) takes
-  // the same disclosed estimate a town office does, from the state's other
-  // elected offices, so a resident can stand for one.
+  // A county board's age stays unread; a county's executive and its row
+  // offices take the same disclosed estimate a town office does, from the
+  // state's other elected offices, so a resident can stand for one.
   const estimate =
-    county && identity.seat !== "row-office"
+    county && identity.seat === "governing-body"
       ? null
       : municipalMinimumAgeEstimate(
           `US-${identity.unit.stateUsps}`,

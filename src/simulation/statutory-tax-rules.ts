@@ -1,3 +1,6 @@
+import table from "../../data/research/money/statutory-tax-rules.json" with { type: "json" };
+import { validatePlaceTable } from "./data-tables";
+
 /**
  * The taxes that already exist in law, as ChatGPT's 56-place research found
  * them (`docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230/`,
@@ -129,115 +132,41 @@ export interface PlaceWageIncomeTax {
   readonly sourceUrl: string | null;
 }
 
-const NOT_IMPOSED: Readonly<Record<string, string>> = {
-  "US-AK":
-    "https://treasury.dor.alaska.gov/docs/treasurydivisionlibraries/debt-management/meetings-minutes/packets/2025_07_18_sbc_packet.pdf?sfvrsn=362aab36_1",
-  "US-FL": "https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1466",
-  "US-NV":
-    "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/",
-  "US-NH":
-    "https://www.revenue.nh.gov/news-and-media/repeal-nh-interest-and-dividends-tax-now-effect",
-  "US-SD": "https://dor.sd.gov/individuals/taxes/",
-  "US-TN":
-    "https://revenue.support.tn.gov/hc/en-us/articles/360057595051-GEN-34-Income-Tax-Withholding",
-  "US-TX": "https://tcss.legis.texas.gov/resources/CN/htm/CN.8.htm",
-  // Washington's capital gains excise is not a tax on wages.
-  "US-WA": "https://dor.wa.gov/taxes-rates/other-taxes/capital-gains-tax",
-  "US-WY":
-    "https://sao.wyo.gov/wp-content/uploads/2026/01/2025-ACFR-12.22.25.pdf",
-};
+interface StatutoryTaxPlaceRow {
+  readonly placeKey: string;
+  readonly wageIncomeTax: PlaceWageIncomeTax;
+  readonly territory: boolean;
+  readonly employerPayrollRules: readonly UnpricedPayrollRule[];
+}
 
-// Montana was UNKNOWN in the 56-place intake; the 2026 state income tax
-// compilation (data/research/money/state-income-tax-2026.json, #850) shows it
-// taxes wages at 4.7% and 5.65%, as Claude CTO directed on September 28, 2026.
-const UNKNOWN_WAGE_TAX = new Set<string>();
-
-const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
-
-/** Every other state, D.C. and the five territories: "Individual income: YES". */
-const IMPOSED = new Set([
-  "US-AL",
-  "US-AZ",
-  "US-AR",
-  "US-CA",
-  "US-CO",
-  "US-CT",
-  "US-DE",
-  "US-GA",
-  "US-HI",
-  "US-ID",
-  "US-IL",
-  "US-IN",
-  "US-IA",
-  "US-KS",
-  "US-KY",
-  "US-LA",
-  "US-ME",
-  "US-MD",
-  "US-MA",
-  "US-MI",
-  "US-MN",
-  "US-MS",
-  "US-MO",
-  "US-MT",
-  "US-NE",
-  "US-NJ",
-  "US-NM",
-  "US-NY",
-  "US-NC",
-  "US-ND",
-  "US-OH",
-  "US-OK",
-  "US-OR",
-  "US-PA",
-  "US-RI",
-  "US-SC",
-  "US-UT",
-  "US-VT",
-  "US-VA",
-  "US-WV",
-  "US-WI",
-  "US-DC",
-  ...TERRITORIES,
-]);
+const placeRows = validatePlaceTable(
+  "statutory tax rules",
+  table.places as StatutoryTaxPlaceRow[],
+);
+const byPlace = new Map(placeRows.map((row) => [row.placeKey, row]));
 
 export function placeWageIncomeTax(stateKey: string): PlaceWageIncomeTax {
-  const source = NOT_IMPOSED[stateKey];
-  if (source) return { status: "not-imposed", sourceUrl: source };
-  if (IMPOSED.has(stateKey)) return { status: "imposed", sourceUrl: null };
-  return { status: "unknown", sourceUrl: null };
+  return (
+    byPlace.get(stateKey)?.wageIncomeTax ?? {
+      status: "unknown",
+      sourceUrl: null,
+    }
+  );
 }
 
 export function isTerritory(stateKey: string): boolean {
-  return TERRITORIES.has(stateKey);
+  return byPlace.get(stateKey)?.territory ?? false;
 }
 
 /** The 56 places the research covers, for coverage checks. */
-export const RESEARCHED_PLACE_KEYS: readonly string[] = [
-  ...Object.keys(NOT_IMPOSED),
-  ...UNKNOWN_WAGE_TAX,
-  ...IMPOSED,
-].sort();
+export const RESEARCHED_PLACE_KEYS: readonly string[] = placeRows.map(
+  (row) => row.placeKey,
+);
 
-/**
- * Nevada's Modified Business Tax: an employer tax of 1.17% on quarterly gross
- * wages less health benefits, the first $50,000 a quarter exempt. The
- * exemption runs over everything the employer pays everyone that quarter, and
- * a fictional employer's other payroll is not in the world, so the base of any
- * one paycheck is UNKNOWN rather than priced as if the player were the only
- * employee.
- */
 export const PLACE_EMPLOYER_PAYROLL_RULES: Readonly<
   Record<string, readonly UnpricedPayrollRule[]>
-> = {
-  "US-NV": [
-    {
-      taxKey: "us-nv:modified-business-tax",
-      label: "Nevada Modified Business Tax",
-      side: "employer",
-      status: "base-unknown",
-      sourceUrl: "https://tax.nv.gov/tax-types/modified-business-tax/",
-      researchQuestionId: "employer-total-quarterly-payroll",
-    },
-  ],
-};
+> = Object.fromEntries(
+  placeRows
+    .filter((row) => row.employerPayrollRules.length > 0)
+    .map((row) => [row.placeKey, row.employerPayrollRules]),
+);

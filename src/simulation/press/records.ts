@@ -51,6 +51,7 @@ export type MediaResourceTier = (typeof MEDIA_RESOURCE_TIERS)[number];
 
 export const MEDIA_CADENCES = ["continuous", "daily", "periodic"] as const;
 export type MediaCadence = (typeof MEDIA_CADENCES)[number];
+export type EditorialStandard = "gentler" | "realistic" | "tougher";
 export type ReporterTemperament = "low" | "medium" | "high";
 
 /** ALIVE44 R1–R8. */
@@ -265,6 +266,15 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
   },
 };
 
+/** Filed contract, payroll, disclosure, budget, and roll-call records are public. */
+export const PUBLIC_MISCONDUCT_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "record:contract-award",
+  "record:disclosure-filing",
+  "record:payroll-posting",
+  "record:public-budget-ledger",
+  "record:legislative-vote",
+]);
+
 export const MISCONDUCT_FAMILY_LABELS: Readonly<Record<MatterFamily, string>> =
   {
     ...(Object.fromEntries(
@@ -287,7 +297,7 @@ export const PROCEDURE_KEYS = [
   "fec-enforcement",
   "ky-legislative-ethics",
   "simulated-inquiry",
-  // A body generated per state from an UNRESEARCHED range, for campaign money
+  // A body generated per state from the recorded regulator range, for campaign money
   // and for legislators whose state's own body has not been read
   // (`generated-state-oversight.ts`).
   "generated-state-oversight",
@@ -367,6 +377,59 @@ interface PressRecordBase {
   readonly recordedAt: IsoDate;
 }
 
+export const INQUIRY_CAUSES = [
+  "allegation",
+  "lead",
+  "public-record",
+  "tip",
+  "investigator-goal",
+] as const;
+export type InquiryCause = (typeof INQUIRY_CAUSES)[number];
+
+export const INQUIRY_BODY_KINDS = [
+  "prosecutor",
+  "state-ethics-board",
+  "city-auditor",
+  "legislative-committee",
+  "inspector-general",
+  "reporter",
+  "campaign-researcher",
+] as const;
+export type InquiryBodyKind = (typeof INQUIRY_BODY_KINDS)[number];
+export type InquiryRecordsScope = "public-only" | "public-plus-compelled";
+export type InquiryPeopleScope = "willing-only" | "willing-plus-compelled";
+
+export interface InquiryAuthorityScope {
+  readonly bodyKind: InquiryBodyKind;
+  readonly records: InquiryRecordsScope;
+  readonly people: InquiryPeopleScope;
+  /** Exact nonpublic evidence kinds this body's applicable law permits it to compel. */
+  readonly compelledEvidenceKinds: readonly `${string}:${string}`[];
+  readonly basis: string;
+  readonly estimated: boolean;
+}
+
+export interface InquiryRecord extends PressRecordBase {
+  readonly kind: "inquiry";
+  readonly investigatorPersonId: EntityId;
+  readonly subjectEntityId: EntityId;
+  readonly cause: InquiryCause;
+  readonly causeRecordId: EntityId | null;
+  readonly authorityScope: InquiryAuthorityScope;
+  readonly hoursBudget: { readonly minimum: number; readonly maximum: number };
+  readonly budgetBasis: string;
+  readonly openedAt: IsoDate;
+}
+
+export interface InquiryStepRecord extends PressRecordBase {
+  readonly kind: "inquiry-step";
+  readonly inquiryId: EntityId;
+  readonly at: IsoDate;
+  readonly hoursUsed: number;
+  readonly artifactIdsRead: readonly EntityId[];
+  readonly discoveryIds: readonly EntityId[];
+}
+
 export interface MediaOutletRecord extends PressRecordBase {
   readonly kind: "media-outlet";
   readonly organizationId: EntityId;
@@ -380,6 +443,8 @@ export interface MediaOutletRecord extends PressRecordBase {
   readonly resourceTier: MediaResourceTier;
   readonly cadence: MediaCadence;
   readonly acceptsDeepBackground: boolean;
+  /** The outlet's recorded threshold, fixed when it is founded. */
+  readonly editorialStandard?: EditorialStandard;
   readonly establishedAt: IsoDate;
   readonly policyVersion: typeof PRESS_POLICY_VERSION;
   readonly provenanceNote: string;
@@ -626,7 +691,9 @@ export type PressRecord =
   | MatterResponseRecord
   | MediaOwnerRecord
   | OutletOwnershipRecord
-  | OwnerDirectiveRecord;
+  | OwnerDirectiveRecord
+  | InquiryRecord
+  | InquiryStepRecord;
 
 export type PressRecordKind = PressRecord["kind"];
 export type PressRecordOf<K extends PressRecordKind> = Extract<

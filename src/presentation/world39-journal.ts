@@ -28,6 +28,7 @@ import {
   consequentialSocialEventIds,
   isRoutineSocialOccasion,
 } from "./journal-significance";
+import { isOwnCaseEvent } from "./journal-own-case";
 
 export interface World39BiographyEntry {
   readonly id: string;
@@ -72,6 +73,9 @@ export function livedWorld39Sentence(raw: string): string | null {
   if (INVENTED_CAUSE_OR_FEELING.test(stripped)) return null;
   return stripped;
 }
+
+/** How a told view of an official is saved: fields, not a sentence. */
+const TOLD_VIEW_FIELDS = "told-view:";
 
 /** No inferred motives or outcome classification: original words retain their scope. */
 export function projectWorld39Journal(world: World, personId: EntityId) {
@@ -263,11 +267,12 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       event.occurredAt < person.birthDate
     )
       continue;
-    const participated = event.participants.some(
-      (row) =>
-        row.personId === personId &&
-        (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
-    );
+    const participated =
+      event.participants.some(
+        (row) =>
+          row.personId === personId &&
+          (row.role.startsWith("agency:") || row.role.startsWith("presence:")),
+      ) || isOwnCaseEvent(event, personId);
     const directKnowledge = world.history.knowledge.find(
       (row) =>
         row.personId === personId &&
@@ -380,6 +385,9 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
     if (isRoutineSocialOccasion(consequentialEvents, source.id, source.type))
       continue;
     if (!account.believedSummary.trim()) continue;
+    // A view somebody told the player is saved as fields for the English
+    // engine to word, not as a sentence (`heard-official-views.ts`).
+    if (account.believedSummary.startsWith(TOLD_VIEW_FIELDS)) continue;
     entries.push({
       id: `account:${account.id}`,
       at: account.learnedAt,
@@ -588,14 +596,11 @@ const SPOKEN_PAST: Readonly<Record<string, (name: string) => string>> = {
     `You talked with ${name} about what was happening around you.`,
   activity: (name) => `You asked ${name} what they would like to do.`,
   explain: (name) => `You asked ${name} why.`,
-  suggestGame: (name) => `You suggested playing a game with ${name}.`,
-  suggestQuiet: (name) => `You suggested sitting and talking with ${name}.`,
   share: (name) => `You asked ${name} if you could tell them something.`,
   matter: (name) => `You mentioned something in the news to ${name}.`,
   remember: (name) => `You talked with ${name} about an earlier conversation.`,
   acknowledge: (name) => `You let ${name} know you had heard.`,
   leave: (name) => `You said goodbye to ${name}.`,
-  date: (name) => `You asked ${name} if they would like it to be a date.`,
   spendTime: (name) => `You spent half an hour with ${name}.`,
   acceptProposal: (name) => `You agreed to ${name}'s suggestion.`,
   declineProposal: (name) => `You declined ${name}'s suggestion.`,
