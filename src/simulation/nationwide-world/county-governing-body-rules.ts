@@ -290,13 +290,6 @@ export function municipiosForPlace(
   );
 }
 
-/** The citation a county body's size rests on, for a record's provenance. */
-export function countyGoverningBodySource(
-  rules: CountyGoverningBodyRules,
-): string {
-  return `${rules.citation} (${rules.url})`;
-}
-
 export interface CountyStructureReading {
   readonly structure: string;
   readonly electedExecutive: "all" | "most" | "some" | "none";

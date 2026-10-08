@@ -12,6 +12,7 @@ import {
   projectExecutiveInbox,
   type ExecutiveInboxItem,
 } from "../presentation/executive-inbox";
+import { proseDate } from "../presentation/prose-dates";
 import { ExecutiveWorkCard } from "./ExecutiveWorkCard";
 import { IncidentResponsePanel } from "./IncidentResponsePanel";
 import { spendExecutiveWorkTime } from "../simulation/executive-work";
@@ -189,7 +190,8 @@ export function GoverningBriefing({
         <ul data-testid="governing-recent">
           {briefing.recent.map((entry, index) => (
             <li key={`${entry.date}:${index}`}>
-              <time>{entry.date}</time> {entry.text}
+              <time dateTime={entry.date}>{proseDate(entry.date)}</time>{" "}
+              {entry.text}
             </li>
           ))}
         </ul>
