@@ -1,6 +1,7 @@
 import { federalRulePackById } from "./congress-rule-pack";
 import { legislatureProfilePackById } from "./legislature-game-profile";
 import { municipalRulePackById } from "./municipal-rule-registry";
+import { townCouncilProfilePackById } from "./town-council-profile";
 import { withCommitteeStandIns } from "./standing-committee";
 import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
 import {
@@ -2669,49 +2670,33 @@ export const LEGISLATIVE_RULE_PACKS: readonly LegislativeRulePack[] = [
  */
 type RulePackResolver = (packId: string) => LegislativeRulePack | null;
 
-const registeredResolvers: RulePackResolver[] = [];
+const RULE_PACK_SOURCES: readonly RulePackResolver[] = [
+  (packId) => {
+    const researched = LEGISLATIVE_RULE_PACKS.find(
+      (candidate) => candidate.packId === packId,
+    );
+    return researched ? withCommitteeStandIns(researched) : null;
+  },
+  federalRulePackById,
+  municipalRulePackById,
+  townCouncilProfilePackById,
+  legislatureProfilePackById,
+];
 
-/**
- * Adds a generated pack family that `rulePackById` resolves after the compiled
- * and federal ones. A module that generates packs from data this module cannot
- * import without a cycle (a town council's seat count reaches back here
- * through the capability resolver) registers its resolver on load.
- */
-export function registerRulePackResolver(resolver: RulePackResolver): void {
-  if (!registeredResolvers.includes(resolver))
-    registeredResolvers.push(resolver);
-}
-
-function registeredRulePackById(packId: string): LegislativeRulePack | null {
-  for (const resolver of registeredResolvers) {
-    const pack = resolver(packId);
+export function rulePackById(packId: string): LegislativeRulePack;
+export function rulePackById(
+  packId: string,
+  required: false,
+): LegislativeRulePack | null;
+export function rulePackById(
+  packId: string,
+  required = true,
+): LegislativeRulePack | null {
+  for (const source of RULE_PACK_SOURCES) {
+    const pack = source(packId);
     if (pack) return pack;
   }
-  return null;
-}
-
-export function rulePackById(packId: string): LegislativeRulePack {
-  const researched = LEGISLATIVE_RULE_PACKS.find(
-    (candidate) => candidate.packId === packId,
-  );
-  const pack =
-    // The pack's own record stays what was read; the game stands in a
-    // committee where none was, so a bill there can be referred at all.
-    (researched && withCommitteeStandIns(researched)) ??
-    // Congress, like a council, is moved by the same engine and is not a
-    // state legislature.
-    federalRulePackById(packId) ??
-    municipalRulePackById(packId) ??
-    // A town council whose charter has not been read plays under the
-    // labeled town profile (`town-council-profile.ts`, registered below).
-    registeredRulePackById(packId) ??
-    // A save made in a state with no compiled pack records a generated one, and
-    // it has to resolve or the save opens onto a seat with no chamber under it.
-    // It resolves last, so a state that gets compiled later takes over the
-    // moment its own pack exists.
-    legislatureProfilePackById(packId);
-  if (!pack) {
+  if (required)
     throw new Error(`No legislative rule pack is registered as '${packId}'.`);
-  }
-  return pack;
+  return null;
 }

@@ -84,6 +84,11 @@ import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
+import { stateExecutiveIdentityForOfficeKey } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 
 /**
  * What a candidate can actually see.
@@ -595,24 +600,27 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
-    donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
-      personId: ask.residentId,
-      name: world.people[ask.residentId]
-        ? personName(world.people[ask.residentId]!)
-        : "Unknown",
-      outcome: ask.outcome,
-      amountMinorUnits: ask.amountMinorUnits,
-      reasonBeliefId: ask.reasonBeliefId,
-      reason: campaignAskReason(world, campaign, asks, index),
-    })),
+    donors: campaignAsks(world, campaign.id).flatMap((ask, index, asks) => {
+      const person = world.people[ask.residentId];
+      return person
+        ? [
+            {
+              personId: ask.residentId,
+              name: personName(person),
+              outcome: ask.outcome,
+              amountMinorUnits: ask.amountMinorUnits,
+              reasonBeliefId: ask.reasonBeliefId,
+              reason: campaignAskReason(world, campaign, asks, index),
+            },
+          ]
+        : [];
+    }),
     donorCandidates:
       state.status === "active"
-        ? campaignDonorCandidates(world, campaign.id).map((personId) => ({
-            personId,
-            name: world.people[personId]
-              ? personName(world.people[personId]!)
-              : "Unknown",
-          }))
+        ? campaignDonorCandidates(world, campaign.id).flatMap((personId) => {
+            const person = world.people[personId];
+            return person ? [{ personId, name: personName(person) }] : [];
+          })
         : [],
     managerCandidates:
       state.status === "active"
@@ -1116,11 +1124,24 @@ export function countyCandidacyUnavailableReason(
   // and county residence, so they are not refused; a county board seat stays
   // unavailable until its own requirements are read.
   return office?.unit.unitType === "county" && office.seat === "governing-body"
-    ? "The requirements for this county office have not been established."
+    ? "Qualifications: not on record"
     : null;
 }
 
 /** A missing county calendar remains unknown for read-only consumers. */
+export function campaignElectionDateIsEstimated(
+  world: World,
+  officeKey: string,
+): boolean {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" && read.dates.estimated;
+  }
+  if (local) return true;
+  return false;
+}
+
 export function availableCampaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -1167,6 +1188,11 @@ export function campaignElectionDate(
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (executive) {
+    const rule = stateExecutiveTermRule(executive.stateUsps);
+    if (rule) return nextRegularElection(rule, world.currentDate);
+  }
   const pack = stateCandidacyPack(stateKey);
   const matchingSeats =
     pack && districtBinding

@@ -1,7 +1,10 @@
 import { allGovernmentUnits, governmentUnit } from "../government-units";
 import type { GovernmentUnitIdentity } from "../government-units";
 import { primaryReading } from "../municipal-government";
-import type { MunicipalGovernment } from "../municipal-government";
+import type {
+  MunicipalCompositionValue,
+  MunicipalGovernment,
+} from "../municipal-government";
 import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import { localGoverningBodyIdentity } from "./local-governing-body-candidacy-packs";
 import { isMayorSeatClass } from "./local-chief-executive-rules";
@@ -14,6 +17,54 @@ export {
   type LocalRuleValue,
 } from "./typical-council-size";
 export { localGoverningBodyReadSpread } from "./typical-council-spread";
+
+export type LocalGoverningBodySeatKind = "district" | "ward" | "at-large";
+
+/**
+ * Seat words come from a government's recorded composition. The corpus records
+ * counts rather than a roster-to-seat map, so numbered slots follow the
+ * recorded ward, district, then at-large groups. Any unclassified slot uses
+ * the row's district fallback.
+ */
+export function localGoverningBodySeatKindFromComposition(
+  composition: MunicipalCompositionValue | null,
+  seat: number,
+): LocalGoverningBodySeatKind {
+  if (!composition || !Number.isInteger(seat) || seat < 1) return "district";
+  if (composition.pattern === "WARD") return "ward";
+  if (composition.pattern === "AT_LARGE") return "at-large";
+  if (composition.pattern === "SINGLE_MEMBER_DISTRICT") return "district";
+
+  const count = (value: number | null): number =>
+    value !== null && Number.isInteger(value) && value > 0 ? value : 0;
+  const wards = count(composition.wardSeats);
+  const districts = count(composition.districtSeats);
+  const atLarge = count(composition.atLargeSeats);
+  if (seat <= wards) return "ward";
+  if (seat <= wards + districts) return "district";
+  if (seat <= wards + districts + atLarge) return "at-large";
+  return "district";
+}
+
+export function localGoverningBodySeatKind(
+  unit: GovernmentUnitIdentity,
+  seat: number,
+): LocalGoverningBodySeatKind {
+  const government = municipalGovernmentForUnit(unit);
+  const composition = government
+    ? (primaryReading(government)?.composition ?? null)
+    : null;
+  return localGoverningBodySeatKindFromComposition(composition, seat);
+}
+
+export function localGoverningBodySeatLabel(
+  unit: GovernmentUnitIdentity,
+  officeTitle: string,
+  seat: number,
+): string {
+  const kind = localGoverningBodySeatKind(unit, seat);
+  return `${officeTitle}, ${kind} seat ${seat}`;
+}
 
 /**
  * How big a town's governing body is and how long its terms run, for every

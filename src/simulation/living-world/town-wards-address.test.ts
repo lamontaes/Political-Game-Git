@@ -186,7 +186,7 @@ describe(`player ward from a recorded home (${state}, ${seed})`, () => {
     expect(serializeWorld(continued)).toBe(saved);
   });
 
-  it("requires an active matching tenure and preserves the legacy fallback when none is recorded", () => {
+  it("uses the roster position when the matching tenure is absent", () => {
     const f = fixture();
     const fallback = homePosition(f.world, f.town, f.player);
     const occupied = startDwellingOccupancy(f.world, {
@@ -204,5 +204,21 @@ describe(`player ward from a recorded home (${state}, ${seed})`, () => {
     expect(
       homePosition(occupied, f.town, "person_absent" as EntityId),
     ).toBeNull();
+  });
+
+  it("leaves a town resident's ward unknown without a recorded household position", () => {
+    const f = fixture();
+    const withoutHousehold = {
+      ...f.world,
+      history: {
+        ...f.world.history,
+        householdMemberships: f.world.history.householdMemberships.filter(
+          (row) => row.personId !== f.player,
+        ),
+      },
+    };
+    expect(withoutHousehold.people[f.player]!.homeJurisdictionId).toBe(f.town);
+    expect(homePosition(withoutHousehold, f.town, f.player)).toBeNull();
+    expect(wardOfPerson(withoutHousehold, f.unit, f.town, f.player)).toBeNull();
   });
 });

@@ -21,7 +21,7 @@ import {
   EPIDEMIC_EVENT_TYPES,
   EPIDEMIC_PASS_KEY,
   EPIDEMIC_VERSION,
-  UNRESEARCHED_EPIDEMIC,
+  EPIDEMIC_ESTIMATE,
   caregiverFor,
   epidemicCases,
   epidemicCaughtEvents,
@@ -48,20 +48,20 @@ function open(seed: string) {
 }
 
 describe("epidemics among named people", () => {
-  it("every rate is a marked placeholder with its research questions", () => {
-    expect(UNRESEARCHED_EPIDEMIC.provenance).toBe("unresearched-blanket-rule");
-    expect(UNRESEARCHED_EPIDEMIC.researchQuestions).toEqual(
+  it("every rate is a marked estimate with its research questions", () => {
+    expect(EPIDEMIC_ESTIMATE.provenance).toBe("estimated-from-average");
+    expect(EPIDEMIC_ESTIMATE.researchQuestions).toEqual(
       expect.arrayContaining([
         "epidemic-transmission-by-setting",
         "epidemic-severity-by-age",
         "epidemic-seasonality",
       ]),
     );
-    for (const rate of Object.values(UNRESEARCHED_EPIDEMIC.exposureBySetting)) {
+    for (const rate of Object.values(EPIDEMIC_ESTIMATE.exposureBySetting)) {
       expect(rate).toBeGreaterThan(0);
       expect(rate).toBeLessThan(1);
     }
-    expect(UNRESEARCHED_EPIDEMIC.seasonalMultiplier).toHaveLength(12);
+    expect(EPIDEMIC_ESTIMATE.seasonalMultiplier).toHaveLength(12);
   });
 
   describe("a year in a watched town", () => {
@@ -125,7 +125,7 @@ describe("epidemics among named people", () => {
           (found) =>
             found.personId === source &&
             found.onsetAt ===
-              addDays(event.occurredAt, -UNRESEARCHED_EPIDEMIC.passDays),
+              addDays(event.occurredAt, -EPIDEMIC_ESTIMATE.passDays),
         );
         expect(sourceCase).toBeDefined();
         expect(patientCase.episode.causalParentIds).toContain(
@@ -207,7 +207,7 @@ describe("epidemics among named people", () => {
             .split(":")[2],
         );
         expect(newCases).toBeGreaterThanOrEqual(
-          UNRESEARCHED_EPIDEMIC.newsNewCasesInWeek,
+          EPIDEMIC_ESTIMATE.newsNewCasesInWeek,
         );
       }
       const ids = new Set(reports.map((report) => report.id));
@@ -246,10 +246,10 @@ describe("epidemics among named people", () => {
           return hoursOk((minimumHours + maximumHours) / 2);
         })!;
       const partTime = paid(
-        (hours) => hours < UNRESEARCHED_EPIDEMIC.fullTimeWeeklyHours,
+        (hours) => hours < EPIDEMIC_ESTIMATE.fullTimeWeeklyHours,
       );
       const fullTime = paid(
-        (hours) => hours >= UNRESEARCHED_EPIDEMIC.fullTimeWeeklyHours,
+        (hours) => hours >= EPIDEMIC_ESTIMATE.fullTimeWeeklyHours,
       );
       expect(partTime).toBeDefined();
       expect(fullTime).toBeDefined();
@@ -304,7 +304,7 @@ describe("epidemics among named people", () => {
           const age = ageOnDate(world.people[id]!.birthDate, world.currentDate);
           return (
             age >= 5 &&
-            age < UNRESEARCHED_EPIDEMIC.careAgeUnder &&
+            age < EPIDEMIC_ESTIMATE.careAgeUnder &&
             caregiverFor(world, id) !== null
           );
         })!;

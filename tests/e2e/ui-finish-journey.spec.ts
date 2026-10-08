@@ -142,45 +142,27 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
   await shot(page, "04-room");
   const openingDate = await shellDate(page);
 
-  // People: the face, by its name label and by the keyboard ring.
+  // People: the index selects its record in the adjacent dossier.
   await goTo(page, "elsewhere-people");
-  const web = page.getByTestId("people-relationship-web");
-  await expect(web).toBeVisible();
-  await expect(page.getByTestId("people-web-connection")).toHaveText("");
-  const other = web
-    .locator('[data-testid^="people-web-node-"][data-focus="false"]')
-    .first();
+  const people = page.getByTestId("people-list");
+  const other = people.locator('[data-testid^="people-person-"]').first();
   const otherId = ((await other.getAttribute("data-testid")) ?? "").replace(
-    "people-web-node-",
+    "people-person-",
     "",
   );
   expect(otherId).not.toBe("");
-  await other.locator(".pg-relationship-web-label-hit").click();
-  await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
+  await other.click();
+  await expect(page.getByTestId("people-dossier")).toHaveAttribute(
     "data-person-id",
     otherId,
-  );
-  await expect(
-    web.locator(`[data-testid="people-web-node-${otherId}"]`),
-  ).toHaveAttribute("data-selected", "true");
-  await expect(page.getByTestId("people-web-connection")).toHaveText(
-    /^(How you know .+ — .+\.|No record connects you directly to .+\.)$/,
   );
   await shot(page, "05-people-selected");
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
-  await expect(web).toBeVisible();
-  const ring = web
-    .locator(`[data-testid="people-web-node-${otherId}"] circle`)
-    .first();
-  await ring.focus();
+  await other.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
+  await expect(page.getByTestId("people-dossier")).toHaveAttribute(
     "data-person-id",
     otherId,
   );
-  await page.keyboard.press("Escape");
-  await expect(page.getByTestId("quick-dossier")).toHaveCount(0);
 
   // Calendar.
   await goTo(page, "nav-calendar");

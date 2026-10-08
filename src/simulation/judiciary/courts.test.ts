@@ -74,6 +74,9 @@ describe("judicial seat contract", () => {
       retentionDueAt: null,
     });
     expect(seatHolderAt(world, seatId)?.personId).toBe(first);
+    expect(
+      world.judiciary?.philosophies.some((record) => record.personId === first),
+    ).toBe(true);
     expect(() =>
       seatJudge(world, {
         seatId,

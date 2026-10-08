@@ -3,7 +3,14 @@ import { createCampaignElectionTransitionRegistry } from "./campaigns";
 import { addDays, daysBetween } from "./dates";
 import { PUBLIC_PROGRAM_INSTALLMENT } from "./governing/public-program";
 import { stableHash } from "./ids";
-import { createOrganization, createWorkRelationship } from "./life";
+import {
+  createOrganization,
+  createWorkRelationship,
+  createHousehold,
+  startHouseholdMembership,
+  recordHouseholdMembershipState,
+} from "./life";
+import { householdMembershipsAt } from "./life-queries";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -23,10 +30,17 @@ import {
   LIVELIHOOD_GOAL_KEY,
   PRIVACY_GOAL_KEY,
 } from "./people-goal-pursuit-content";
-import { createResourcePosition, money as usd } from "./resources";
+import {
+  createResourcePosition,
+  money as usd,
+  createDwelling,
+  startDwellingOccupancy,
+  recordDwellingOccupancyState,
+} from "./resources";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { scheduledActivityState } from "./time-work";
-import { advanceWorld, assertWorldIntegrity } from "./world";
+import { advanceWorld, assertWorldIntegrity, recordWorldEvent } from "./world";
+import housingFirstService from "../../data/research/health/housing-first-service.json";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
 import {
   PUBLIC_SERVICE_ATTENDANCE,
@@ -277,6 +291,165 @@ const traceFor = (world: World, personId: EntityId) =>
   );
 
 describe("residents ask for a paid service on their own records, then take part", () => {
+  it.each(lifePlaceStateIdentities())(
+    "housing-first assistance reaches a displaced resident in $jurisdictionKey",
+    ({ jurisdictionKey }) => {
+      const f = fundedTomorrow(
+        jurisdictionKey,
+        housingFirstService.questionKey,
+      );
+      const [displaced, quiet] = f.residents as [EntityId, EntityId];
+      let world = homeIn(
+        homeIn(f.world, displaced, f.jurisdiction.id),
+        quiet,
+        f.jurisdiction.id,
+      );
+      for (const { membership, state } of householdMembershipsAt(
+        world,
+        displaced,
+      )) {
+        world = recordHouseholdMembershipState(world, {
+          stableKey: `test:leave-household:${membership.id}`,
+          membershipId: membership.id,
+          effectiveAt: world.currentDate,
+          status: "ended",
+          residenceRole: state.residenceRole,
+          kind: state.kind,
+          provenance,
+          supersedesStateId: state.id,
+        });
+      }
+      world = createHousehold(world, {
+        stableKey: "test:displaced-household",
+        formedAt: world.currentDate,
+        label: "Test household",
+        provenance,
+      });
+      const householdId = world.history.households.at(-1)!.id;
+      world = startHouseholdMembership(world, {
+        stableKey: "test:displaced-member",
+        personId: displaced,
+        householdId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "resident:family",
+        provenance,
+      });
+      world = createDwelling(world, {
+        stableKey: "test:lost-home",
+        establishedAt: world.currentDate,
+        jurisdictionId: f.jurisdiction.id,
+        locationLabel: "Test home",
+        classification: "residential:apartment",
+        provenance,
+      });
+      const dwellingId = world.history.dwellings.at(-1)!.id;
+      world = startDwellingOccupancy(world, {
+        stableKey: "test:lost-occupancy",
+        occupant: { kind: "household", householdId },
+        dwellingId,
+        startedAt: world.currentDate,
+        residenceRole: "primary",
+        kind: "residence:rented",
+        provenance,
+      });
+      const occupancy = world.history.dwellingOccupancies.at(-1)!;
+      const initial = world.history.dwellingOccupancyStates.at(-1)!;
+      // Saved edge fixture: the existing rent producer writes this event and
+      // ends occupancy with this provenance when it executes an eviction.
+      world = recordWorldEvent(world, {
+        stableKey: "test:eviction",
+        type: "housing.evicted",
+        occurredAt: world.currentDate,
+        recordedAt: world.currentDate,
+        jurisdictionId: f.jurisdiction.id,
+        involvedEntityIds: [displaced, householdId],
+        participants: [],
+        personFactConstraints: [],
+        visibility: "private",
+        tags: [],
+        summary: "Authored eviction fixture.",
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+      world = recordDwellingOccupancyState(world, {
+        stableKey: "test:ended-occupancy",
+        dwellingOccupancyId: occupancy.id,
+        effectiveAt: world.currentDate,
+        status: "ended",
+        residenceRole: "primary",
+        kind: initial.kind,
+        reason: "Test eviction",
+        provenance: {
+          kind: "simulated-event",
+          eventId: world.history.events.at(-1)!.id,
+        },
+        supersedesStateId: initial.id,
+      });
+      const lostStateId = world.history.dwellingOccupancyStates.at(-1)!.id;
+      const before = world;
+      world = advanceWorld(world, 3, registry);
+      const trace = traceFor(world, displaced)!;
+      expect(trace.selectedOptionKey).toBe("ask");
+      expect(trace.context.considerations).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            explanation: housingFirstService.requestReasonKey,
+            sourceRefs: [
+              {
+                kind: "life-history",
+                reference: {
+                  family: "dwelling-occupancy-state",
+                  recordId: lostStateId,
+                },
+              },
+            ],
+          }),
+        ]),
+      );
+      expect(traceFor(world, quiet)).toBeUndefined();
+      expect(requestsBy(world, quiet)).toEqual([]);
+      const receipts = deliveries(world);
+      expect(receipts).toHaveLength(1);
+      expect(receipts[0]!.participants[0]!.personId).toBe(displaced);
+      expect(receipts[0]!.lawEffectStamps![0]).toMatchObject({
+        questionKey: housingFirstService.questionKey,
+        jurisdictionId: f.jurisdiction.id,
+        effectKind: "service-delivered",
+      });
+      expect(
+        advanceWorld(
+          deserializeWorld(serializeWorld(world)),
+          3,
+          registry,
+        ).history.events.filter(
+          (event) => event.type === "service.delivery-recorded",
+        ),
+      ).toHaveLength(1);
+      // A replacement home removes the reason even though the old eviction
+      // remains in history. Missing housing records never supply this reason.
+      const rehoused = startDwellingOccupancy(before, {
+        stableKey: "test:replacement-occupancy",
+        occupant: { kind: "household", householdId },
+        dwellingId,
+        startedAt: before.currentDate,
+        residenceRole: "primary",
+        kind: "residence:rented",
+        provenance,
+      });
+      const quietWorld = advanceWorld(rehoused, 3, registry);
+      expect(traceFor(quietWorld, displaced)).toBeUndefined();
+      expect(deliveries(quietWorld)).toEqual([]);
+    },
+    30_000,
+  );
+
   const parksSeed = "team5-producer-parks";
   const parksPlace = drawPlace(parksSeed);
   it(`parks: one asks, one declines, one ties, one has no reason; the visit is delivered once (${parksPlace}, seed ${parksSeed})`, () => {

@@ -1,5 +1,7 @@
 import { applyPretrialLawLandings } from "../law-consequences/modules/justice-pretrial-landings";
+import { scheduleCountyOfficeReflections } from "./county-office-reflection";
 import {
+  applyStandYourGroundCaseLanding,
   applySentencingLawLandings,
   applyVotingRightLanding,
 } from "../law-consequences/modules/justice-sentencing-landings";
@@ -55,6 +57,8 @@ import {
   stateKeyForJurisdiction,
 } from "../life-places";
 import { ensureOpeningJudiciary } from "../judiciary/opening";
+import { isControlledPerson } from "../judiciary/court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import { personName } from "../people";
 import { ensurePeopleTraits } from "../people-traits";
 import { favorStandingBetween } from "../favors";
@@ -249,11 +253,12 @@ function sentenceDecisionForCase(
   // Preserve the published replay guard: a pending unsupported range never
   // re-appends the already saved judge's sentence-kind decision.
   if (
-    saved &&
-    (saved.context.actorPersonId !== judgeId ||
-      saved.context.decisionType !== "justice.sentence" ||
-      saved.context.subject?.kind !== "context:criminal-case" ||
-      saved.context.subject.key !== courtCase.caseKey)
+    playerHandlesJudicialCase(world, judgeId, "criminal") ||
+    (saved &&
+      (saved.context.actorPersonId !== judgeId ||
+        saved.context.decisionType !== "justice.sentence" ||
+        saved.context.subject?.kind !== "context:criminal-case" ||
+        saved.context.subject.key !== courtCase.caseKey))
   )
     return null;
   const sentence =
@@ -298,7 +303,7 @@ function recordedProsecutorForCase(world: World, courtCase: CourtCase) {
       relationship.personId === courtCase.defendantId ||
       !world.people[relationship.personId] ||
       !isPersonAliveAt(world, relationship.personId, cutoff) ||
-      isPlayer(world, relationship.personId)
+      isControlledPerson(world, relationship.personId)
     )
       continue;
     const active = activeWorkRelationshipsAt(
@@ -355,7 +360,7 @@ function countyProsecutorForCase(
     holder.personId === courtCase.defendantId ||
     !world.people[holder.personId] ||
     !isPersonAliveAt(world, holder.personId, cutoff) ||
-    isPlayer(world, holder.personId)
+    isControlledPerson(world, holder.personId)
   )
     return null;
   return {
@@ -456,10 +461,6 @@ export function referForProsecution(
     ),
     referralId: referral.id,
   };
-}
-
-function isPlayer(world: World, personId: EntityId): boolean {
-  return world.control.kind === "person" && world.control.personId === personId;
 }
 
 export const PROSECUTION_MISTRIAL_EVENT = "justice.mistrial";
@@ -565,6 +566,7 @@ function recordFollowUp(
     for (const id of detail.basisRecordIds ?? []) {
       next = recordJusticeChargeReference(next, id, chargeEvent.id);
     }
+    next = applyStandYourGroundCaseLanding(next, chargeEvent.id);
     return next;
   }
   if (type === PROSECUTION_ENDED_EVENT)
@@ -623,14 +625,17 @@ function followUp(
   if (recorded === world) return world;
   const activity = recorded.history.events.at(-1);
   if (!activity || activity.type !== type) return recorded;
-  return applyLawConsequences(recorded, {
-    onDate: activity.occurredAt,
-    activity: "case-stage",
-    activityId: activity.id,
-    subjectIds: activity.participants
-      .filter((participant) => participant.role === "focus:defendant")
-      .map((participant) => participant.personId),
-  });
+  return applyLawConsequences(
+    scheduleCountyOfficeReflections(recorded, activity.id),
+    {
+      onDate: activity.occurredAt,
+      activity: "case-stage",
+      activityId: activity.id,
+      subjectIds: activity.participants
+        .filter((participant) => participant.role === "focus:defendant")
+        .map((participant) => participant.personId),
+    },
+  );
 }
 
 function outcomeLine(
@@ -1095,7 +1100,7 @@ export function advanceProsecutions(
             motivation: "They chose to plead guilty.",
             decidedBy: { personId: subjectId, role: "Defendant" },
           });
-      } else if (!isPlayer(next, subjectId)) {
+      } else if (!isControlledPerson(next, subjectId)) {
         next = ensurePeopleTraits(next, [subjectId]);
         const savedPlea = recordByStableKey(
           next.history.decisionTraces,
@@ -1170,6 +1175,7 @@ export function advanceProsecutions(
     pleaded = pleaded || ended.tags.includes(`${OUTCOME_TAG}plea`);
 
     // The sitting judge who allowed this case to proceed chooses the sentence.
+    if (playerHandlesJudicialCase(next, judgeId, "criminal")) continue;
     next = prepareJudge(next, judgeId);
     const decision = sentenceDecisionForCase(next, judgeId, courtCase, pleaded);
     if (!decision) continue;
@@ -1324,6 +1330,7 @@ function decideBeforeTrial(
       motivation:
         "The law presumes release before trial, and no judge on the state's trial court could hear a request to hold them.",
     });
+  if (playerHandlesJudicialCase(next, judgeId, "criminal")) return next;
   next = prepareJudge(next, judgeId);
   const decision = evaluateDetention(next, judgeId, courtCase);
   next = recordDurableDecisionTrace(next, decision);

@@ -17,10 +17,7 @@ import {
   TRANSIT_REPORT_READ_MINUTES,
   unreadTransitDecisionReportIds,
 } from "../../presentation/transit-report-reading";
-import {
-  describeTimeTarget,
-  PROTECTED_STOP_NOTE,
-} from "../../presentation/time-target-label";
+import { describeTimeTarget } from "../../presentation/time-target-label";
 import "./news.css";
 import { GameSelect } from "../controls/GameSelect";
 import { useSharedTimeCommand } from "../time-command-runner";
@@ -51,6 +48,7 @@ export function NewsDesk({
   onOutletChange,
   onOpenPerson,
   onOpenMeasure,
+  onReadPublication,
   around,
   directory,
   press,
@@ -66,6 +64,8 @@ export function NewsDesk({
   readonly onOpenPerson: (personId: EntityId) => void;
   /** Opens a law's own page from a story about it. */
   readonly onOpenMeasure?: (measureId: EntityId) => void;
+  /** Explicit headline read; absent in observer and informational previews. */
+  readonly onReadPublication?: (publicationId: EntityId) => void;
   readonly around: ReactNode;
   readonly directory: ReactNode;
   readonly press: ReactNode;
@@ -84,7 +84,12 @@ export function NewsDesk({
   const openArticle = (story: NewsStory) => {
     setReadNotice(null);
     // The headline click is the explicit read; front-page projection is free.
-    if (!unreadReports.has(story.id) || !runner) {
+    if (!unreadReports.has(story.id)) {
+      onReadPublication?.(story.id);
+      setSelectedId(story.id);
+      return;
+    }
+    if (!runner) {
       setSelectedId(story.id);
       return;
     }
@@ -103,7 +108,7 @@ export function NewsDesk({
   };
   const reportReadingLabel = (story: NewsStory) =>
     runner && unreadReports.has(story.id)
-      ? `Reading this report takes ${TRANSIT_REPORT_READ_MINUTES} minutes, to ${reportReadTarget}. ${PROTECTED_STOP_NOTE}`
+      ? `${TRANSIT_REPORT_READ_MINUTES} min · ${reportReadTarget}`
       : null;
   return (
     <div className="pg-news-desk" data-testid="news-desk">
@@ -190,7 +195,13 @@ export function NewsDesk({
             </header>
           )}
 
-          {readNotice ? <p role="status">{readNotice}</p> : null}
+          {readNotice ? (
+            <p
+              role="status"
+              data-testid="news-read-notice"
+              data-reason={readNotice}
+            />
+          ) : null}
 
           {selected ? (
             <section className="pg-news-article" data-testid="news-article">
@@ -213,9 +224,11 @@ export function NewsDesk({
               />
             </section>
           ) : page.empty ? (
-            <p className="pg-news-empty" data-testid="news-empty">
-              {page.empty}
-            </p>
+            <p
+              className="pg-news-empty"
+              data-testid="news-empty"
+              data-problem="nothing-published"
+            />
           ) : (
             <>
               {page.lead ? (
@@ -349,7 +362,9 @@ function Story({
           </button>
         )}
       </h3>
-      {readingLabel ? <p>{readingLabel}</p> : null}
+      {readingLabel ? (
+        <p data-testid="news-reading-cost">{readingLabel}</p>
+      ) : null}
       <p className="pg-news-dateline">
         {story.place ? `${story.place} · ` : ""}
         <time dateTime={story.publishedAt}>

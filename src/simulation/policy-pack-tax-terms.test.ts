@@ -104,7 +104,7 @@ it("loads tax questions without assigning any rates or replacing existing questi
         evidence: {
           sourceIds: expect.arrayContaining([
             "src/simulation/state-income-tax-law.ts",
-            "src/simulation/law-consequences/statutory-wage-tax-rows.ts",
+            "src/simulation/policy-pack-registry.ts",
             "src/simulation/law-consequences/tax.ts",
           ]),
         },
@@ -152,6 +152,27 @@ it("routes federal tax-term rows through the existing registered tax consumer", 
         ?.get("tax")
         ?.has(consequence!.who.selector),
     ).toBe(true);
+  }
+});
+
+it("keeps city property, payroll, and corporate tax terms on the shared tax path", () => {
+  for (const key of [
+    "city.property-tax-terms",
+    "city.payroll-tax-terms",
+    "city.corporate-tax-terms",
+  ]) {
+    const row = TAX_TERM_QUESTION_ROWS.find(
+      (candidate) => candidate.key === key,
+    );
+    expect(row?.consequences).toHaveLength(1);
+    expect(row?.tags).toContain("local-fiscal-effect:tax-policy");
+    expect(row?.consequences?.[0]).toMatchObject({
+      kind: "tax",
+      when: "assessment",
+      who: { selector: "recorded-tax-base-payer" },
+      what: "assess-enacted-tax-base",
+      amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+    });
   }
 });
 
