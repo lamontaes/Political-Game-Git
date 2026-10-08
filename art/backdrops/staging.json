@@ -7147,7 +7147,7 @@
           "facing": "viewer",
           "depth": 52,
           "seatY": 45,
-          "group": "desk",
+          "group": "glass-office-desk",
           "clipBelowY": 45,
           "role": "general",
           "id": "newsroom:spot:5"
@@ -7173,6 +7173,18 @@
           "group": "desk",
           "role": "general",
           "id": "newsroom:spot:7"
+        },
+        {
+          "x": 64.5,
+          "y": 52,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 52,
+          "seatY": 45,
+          "group": "glass-office-desk",
+          "clipBelowY": 45,
+          "role": "general",
+          "id": "newsroom:spot:8"
         }
       ],
       "measuredFrom": "desk chair 0.95 m foot 66.4 top 50 (0.86); glass-office desk 0.75 m foot 52",
