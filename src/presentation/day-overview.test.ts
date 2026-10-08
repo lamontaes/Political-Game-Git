@@ -76,7 +76,8 @@ describe("PT3 — Today answers what is happening, next, waiting and time", () =
 
     const today = projectToday(quiet, personId);
     expect(today.nowKind).toBe("day");
-    expect(today.now).toBe("It's a quiet day. Nothing is happening right now.");
+    // Nothing is happening, so the day screen says nothing (owner rule R4).
+    expect(today.now).toBe("");
   });
 
   it("is a pure read: projecting today changes nothing in the world", () => {

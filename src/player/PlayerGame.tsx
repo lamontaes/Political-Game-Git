@@ -5247,22 +5247,25 @@ function TodayView({
         {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
 
-      <section className="pg-today-block" aria-labelledby="pg-today-now">
-        <h3 id="pg-today-now">Now</h3>
-        <p
-          className="game-scene"
-          data-testid={
-            today.nowKind === "activity" ? "day-now-activity" : "day-opening"
-          }
-        >
-          {today.now}
-        </p>
-        {today.nowKind === "scene" ? (
-          <p className="game-note" data-testid="day-now-scene">
-            It is waiting in the room. Close this to go back to it.
+      {/* Words only when something is happening (owner rule R4, Oct 8). */}
+      {today.now ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-now">
+          <h3 id="pg-today-now">Now</h3>
+          <p
+            className="game-scene"
+            data-testid={
+              today.nowKind === "activity" ? "day-now-activity" : "day-opening"
+            }
+          >
+            {today.now}
           </p>
-        ) : null}
-      </section>
+          {today.nowKind === "scene" ? (
+            <p className="game-note" data-testid="day-now-scene">
+              It is waiting in the room. Close this to go back to it.
+            </p>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="pg-today-block" aria-labelledby="pg-today-next">
         <h3 id="pg-today-next">Next</h3>
