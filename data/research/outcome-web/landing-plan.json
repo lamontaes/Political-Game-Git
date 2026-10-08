@@ -1111,11 +1111,12 @@
       "outcome": "farmland.developed-acres",
       "policyArea": "farmland",
       "sourceArea": "law:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-      "recipientGroup": "place",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
+      "recipientGroup": "jurisdiction residents (estimated farmland preservation exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "jurisdiction-resident-estimate",
+      "outcomeDirection": "higher-is-worse",
+      "estimatedFrom": "Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014); recipient estimate: American Farmland Trust, Farms Under Threat: The State of the States (2020), Appendix III, agricultural land converted from 2001 to 2016 divided by 15 years. This is an estimated resident exposure to local farmland preservation, with the existing uncovered-place proxies retained in the place measure. Individual parcels, acreage, easement contracts, and compensation remain unrecorded.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
@@ -1145,11 +1146,12 @@
       "outcome": "farmland.value-per-acre",
       "policyArea": "farmland",
       "sourceArea": "federal.farm-payments-cut-pct-of-land-value",
-      "recipientGroup": "farmland owners",
-      "currentStatus": "place-number-only",
-      "recipientRule": null,
-      "outcomeDirection": null,
-      "estimatedFrom": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
+      "recipientGroup": "recorded agricultural operators (estimated land-value exposure)",
+      "currentStatus": "person-linked",
+      "recipientRule": "recorded-farm-operator-land-value-estimate",
+      "outcomeDirection": "higher-is-better",
+      "estimatedFrom": "Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026; recipient estimate: USDA ERS, Farmland Ownership and Tenure (https://www.ers.usda.gov/topics/farm-economy/land-use-land-value-tenure/farmland-ownership-and-tenure), and USDA NASS farm real estate values. A current recorded agricultural business owner or directing farm operator in the person's home state supplies an estimated land-value exposure. An operator can lease land; this does not establish a land title, acreage, equity, or a personal wealth change.",
+      "landingPath": "src/simulation/outcome-web/person-outcome-landings.ts -> src/simulation/living-world/lived-outcomes.ts -> src/simulation/living-world/official-views.ts"
     },
     {
       "key": "transit-service-to-ridership",
@@ -1231,8 +1233,8 @@
     }
   },
   "currentStatusCounts": {
-    "person-linked": 87,
-    "place-number-only": 8,
+    "person-linked": 89,
+    "place-number-only": 6,
     "no-live-consumer": 2,
     "budget-only": 4
   }
