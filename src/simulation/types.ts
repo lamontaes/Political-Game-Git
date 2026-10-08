@@ -771,7 +771,11 @@ export type KnowledgeAccuracy =
 export type KnowledgeConfidence = "low" | "medium" | "high";
 
 export type KnowledgeSource =
-  | { readonly kind: "direct" }
+  | {
+      readonly kind: "direct";
+      /** Stable link when this direct knowledge is witnessing a saved claim. */
+      readonly claimId?: EntityId;
+    }
   | {
       readonly kind: "told-by";
       readonly sourcePersonId: EntityId;

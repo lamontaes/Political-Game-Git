@@ -21,7 +21,7 @@ export function HeardOfficialViewsList({
             onClick={() => onSelectPerson(view.holderId)}
           >
             <strong>{view.holderName}</strong>
-            <small>{view.position}</small>
+            <small>{view.statement ?? view.position}</small>
             <time dateTime={view.learnedAt}>{proseDate(view.learnedAt)}</time>
           </button>
         </li>
