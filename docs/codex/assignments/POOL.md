@@ -671,7 +671,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2227 | Compose shared played scenes from actual placement and recorded people | PR #2227 (codex/session4-played-scene-spec) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2229 | Add sourced Session 18 starting law terms | PR #2229 (codex/session18-law-amounts) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2232 | Use price-cost stamps for existing rent consequences | PR #2232 (codex/session21-price-kind) | open: draft: finish it or close it as superseded | |
-| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | open: draft: finish it or close it as superseded | |
+| RS-2235 | Publish developer-only research for 18 retained unrecorded causes | PR #2235 (codex/session21-cause-research) | done #2197 | |
 | RS-2238 | Session 17: source-first numeric law fallback adapter | PR #2238 (session17/numeric-law-fallback) | open: draft: finish it or close it as superseded | |
 | RS-2243 | Repair A52 fixture for recorded household bills and separate rent | PR #2243 (codex/session21-a52-rent-repair) | open: draft: finish it or close it as superseded | |
 | RS-2254 | Session 16: apply Medicaid starting-law thresholds in coverage | PR #2254 (codex/session16-law-consumer) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
