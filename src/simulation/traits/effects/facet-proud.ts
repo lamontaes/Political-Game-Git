@@ -11,8 +11,6 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
       option,
       trait: "personality-v1:facet-proud",
       pole: "high" as const,
-      explanation:
-        "They attach dignity to standing behind their recorded position.",
     })),
   },
   {
@@ -22,8 +20,6 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
         option: "town-hall",
         trait: "personality-v1:facet-proud",
         pole: "high",
-        explanation:
-          "They value a public forum where their chapter's work can be recognized.",
       },
     ],
   },
@@ -34,8 +30,6 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
         option: "defer",
         trait: "personality-v1:facet-proud",
         pole: "high",
-        explanation:
-          "They want the chapter's backing treated as a considered public endorsement.",
       },
     ],
   },
@@ -46,8 +40,6 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-proud",
         pole: "high",
-        explanation:
-          "They value recognition of their reporting role in this exchange.",
       },
     ],
   },
@@ -58,8 +50,6 @@ export const facetProudEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:facet-proud",
         pole: "high",
-        explanation:
-          "They value being trusted with the office's public explanation.",
       },
     ],
   },

@@ -1206,7 +1206,6 @@ export function produceReachingOut(
   );
   if (recent) return world;
   for (const basis of contactBases(world, playerPersonId)) {
-    if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     // Family who live elsewhere have no recorded contact on day one: nothing
     // was ever written down for them, which is a gap in the record and not a
     // fact about the family. Skipping them left a life of five relatives with
@@ -1216,6 +1215,14 @@ export function produceReachingOut(
       basis.lastContactOn === null &&
       basis.basis.includes("family") &&
       !basis.basis.includes("shares your home");
+    // With no contact event, continuity cannot classify the relationship as a
+    // long gap. Let recorded family ties through on that basis alone.
+    if (
+      basis.gap !== "long-gap" &&
+      basis.gap !== "reconnected" &&
+      !keptUpWithByKin
+    )
+      continue;
     if (!basis.lastContactOn && !keptUpWithByKin) continue;
     // They ring on a day off, not at work (see the placeholder above).
     if (workingToday(world, basis.personId)) continue;

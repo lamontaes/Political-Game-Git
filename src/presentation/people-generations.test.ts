@@ -11,7 +11,7 @@ import {
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
-import type { EntityId, IsoDate, World } from "../simulation";
+import type { EntityId, IsoDate, MemoryRecord, World } from "../simulation";
 import {
   householdMembershipsAt,
   kinshipRelationshipsAt,
@@ -46,6 +46,7 @@ import {
   observeWorld,
   pendingCommandsInvalidatedBy,
   projectLifeContinuation,
+  projectLifeLookBack,
   retireFromPlay,
 } from "./people-continuation";
 import { projectPersonalGoals, startPersonalGoal } from "./people-goals";
@@ -316,6 +317,74 @@ describe("PEOPLE P5 three generations, two handoffs", () => {
 });
 
 describe("PEOPLE P5 edges", () => {
+  it("bounds saved look-back memories at the recorded end date", () => {
+    const start = life("b19-p3-lookback-bound", 40);
+    const personId = start.playerPersonId;
+    const dead = die(start.world, personId);
+    const through = dead.currentDate;
+    const eventId = dead.history.events[0]!.id;
+    const memory = (
+      id: string,
+      formedAt: IsoDate,
+      sequence: number,
+      rememberedSummary: string,
+    ): MemoryRecord => ({
+      id: id as EntityId,
+      stableKey: id,
+      sequence,
+      personId,
+      eventId,
+      formedAt,
+      rememberedSummary,
+      interpretation: "",
+      strength: "defining",
+      relevanceTags: [],
+      supersedesMemoryId: null,
+    });
+    const before = memory(
+      "memory:b19-before-death",
+      addDays(through, -1),
+      dead.history.nextSequence,
+      "Saved before the end.",
+    );
+    const after = memory(
+      "memory:b19-after-death",
+      addDays(through, 1),
+      dead.history.nextSequence + 1,
+      "Saved after the end.",
+    );
+    const withMemories = {
+      ...dead,
+      history: {
+        ...dead.history,
+        memories: [...dead.history.memories, before, after],
+      },
+    } as World;
+
+    expect(
+      projectLifeLookBack(withMemories, personId, through).memories,
+    ).toEqual([
+      {
+        memoryId: before.id,
+        at: before.formedAt,
+        age: expect.any(Number),
+        sentence: before.rememberedSummary,
+        strength: "defining",
+      },
+    ]);
+    expect(
+      projectLifeContinuation(withMemories, personId)?.lookBack,
+    ).toMatchObject({
+      through,
+      causeKey: dead.history.personDeaths.find(
+        (record) => record.personId === personId,
+      )?.causeKey,
+      memoryGroups: [
+        { age: expect.any(Number), memories: [{ memoryId: before.id }] },
+      ],
+    });
+  });
+
   it("no heir: nobody is invented, and watching the world is still possible", () => {
     const start = life("people-gen-b", 40);
     const player = start.playerPersonId;

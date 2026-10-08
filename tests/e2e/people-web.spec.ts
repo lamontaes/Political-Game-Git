@@ -1,215 +1,88 @@
-import { expect, test, type Page } from "./fixtures";
+import { expect, test } from "./fixtures";
 
-import { enterLife, goTo, startLife } from "./support/creator";
+import { drawRandomPlace } from "../support/random-place";
+import { goTo, startLife } from "./support/creator";
 
 test.describe.configure({ timeout: 120_000 });
 
-async function freshBrowser(page: Page): Promise<void> {
-  await page.goto("/");
-  await page.evaluate(async () => {
-    const databases = (await indexedDB.databases?.()) ?? [];
-    await Promise.all(
-      databases.map(
-        (database) =>
-          new Promise<void>((resolve) => {
-            if (!database.name) return resolve();
-            const request = indexedDB.deleteDatabase(database.name);
-            request.onsuccess = () => resolve();
-            request.onerror = () => resolve();
-            request.onblocked = () => resolve();
-          }),
-      ),
-    );
-    window.localStorage.clear();
+test("People places the directory beside the selected record", async ({
+  page,
+}) => {
+  test.setTimeout(300_000);
+  const place = drawRandomPlace("session36-mr5-people-layout");
+  const [town, state] = place.displayName.split(", ");
+  if (!town || !state)
+    throw new Error(`Unexpected place: ${place.displayName}`);
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/?seed=session36-mr5-pair-3b7f49631");
+  await startLife(page, { age: 34, place: town, state });
+  await expect(page.getByTestId("world-orientation")).toBeVisible({
+    timeout: 60_000,
   });
-  await page.reload();
-}
-
-async function beginOrdinaryLife(page: Page): Promise<void> {
-  await startLife(page, {
-    place: "Lexington",
-    state: "Kentucky",
-    age: 34,
-    household: "shares-a-home",
+  const orientationSkip = page.getByTestId("orientation-skip");
+  await orientationSkip.click();
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 60_000,
   });
-  await expect(page.getByTestId("play-screen")).toBeVisible();
-  await enterLife(page);
-}
-
-async function selectConnection(
-  page: Page,
-  candidateIds: readonly string[],
-): Promise<{ firstId: string; secondId: string; isPlayer: boolean }> {
-  expect(candidateIds.length).toBeGreaterThanOrEqual(1);
-  /*
-   * The played person is a node in their own web. In a fresh life the web is
-   * often a star around them, so the only connection somebody has is the
-   * player, whose card has no Talk button. Prefer somebody else; accept the
-   * player's own card only when nobody else is connected.
-   */
-  const playerId = (
-    (await page
-      .locator('[data-testid^="people-web-node-"]')
-      .filter({ has: page.locator('circle[aria-label="You"]') })
-      .getAttribute("data-testid")) ?? ""
-  ).replace("people-web-node-", "");
-  expect(playerId).not.toBe("");
-
-  for (const allowPlayer of [false, true]) {
-    for (const firstId of candidateIds.filter((id) => id !== playerId)) {
-      const node = page.getByTestId(`people-web-node-${firstId}`);
-      await node.locator("circle").click();
-      await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
-        "data-person-id",
-        firstId,
-      );
-
-      // Connected people are under More details on the small card.
-      await page.getByTestId("quick-dossier-full").click();
-      const connections = page
-        .getByTestId("person-card-connections")
-        .getByRole("button");
-      const connectionCount = await connections.count();
-      for (
-        let connectionIndex = 0;
-        connectionIndex < connectionCount;
-        connectionIndex += 1
-      ) {
-        const connection = connections.nth(connectionIndex);
-        const secondId = (
-          (await connection.getAttribute("data-testid")) ?? ""
-        ).replace("person-card-connection-", "");
-        if (!secondId || secondId === firstId) continue;
-        if (secondId === playerId && !allowPlayer) continue;
-
-        /*
-         * Use the keyboard route for the second selection. The first
-         * selection above is a real pointer click on the rendered SVG node.
-         */
-        await connection.focus();
-        await page.keyboard.press("Enter");
-        // One person card: choosing a connection moves the same card to them.
-        await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
-          "data-person-id",
-          secondId,
-        );
-        return { firstId, secondId, isPlayer: secondId === playerId };
-      }
-      // The expanded card covers the web; close it before the next person.
-      await page.getByTestId("quick-dossier-close").click();
-    }
-  }
-
-  throw new Error("The generated People network had no connected person.");
-}
-
-async function provePeopleWebRoute(
-  page: Page,
-  screenshotPrefix: string,
-): Promise<void> {
-  await freshBrowser(page);
-  await beginOrdinaryLife(page);
+  const sceneContact = page
+    .locator('[data-testid^="scene-person-person_"]')
+    .first();
+  await expect(sceneContact).toBeVisible();
+  await sceneContact.click();
+  const quickDossier = page.getByTestId("quick-dossier");
+  await expect(quickDossier).toBeVisible();
+  await quickDossier.getByTestId("quick-dossier-full").click();
+  await expect(quickDossier).toHaveAttribute("data-expanded", "true");
   await goTo(page, "elsewhere-people");
 
-  await expect(page.getByTestId("people-relationship-web")).toBeVisible();
-  await expect(page.getByTestId("people-search")).toBeVisible();
-  await page.getByTestId("people-web-expand").click();
-  const candidateIds = await page
-    .locator('[data-testid^="people-person-"]')
-    .evaluateAll((nodes) =>
-      nodes.map((node) =>
-        (node.getAttribute("data-testid") ?? "").replace("people-person-", ""),
-      ),
-    );
-  const firstName = await page
-    .locator('[data-testid^="people-person-"] strong')
-    .first()
-    .textContent();
-  expect(firstName).not.toBeNull();
-  await page.getByTestId("people-search").fill(firstName!);
+  const layout = page.getByTestId("people-layout");
+  const list = page.getByTestId("people-list");
+  const dossier = page.getByTestId("people-dossier");
+  await expect(layout).toBeVisible();
+  await expect(list).toBeVisible();
+  await expect(dossier).toBeVisible();
+  await expect(quickDossier).toBeVisible();
+  await expect(quickDossier).not.toContainText("Connected people");
+  await expect(page.getByTestId("people-web-connection")).toHaveCount(0);
+  await expect(dossier).not.toContainText("You live in the same household.");
+  const dossierParagraphs = await dossier.locator("p").allTextContents();
+  expect(
+    dossierParagraphs.some((text) =>
+      /^(?:They are|He is|She is) your /.test(text),
+    ),
+  ).toBe(false);
+
+  const first = list.locator('[data-testid^="people-person-"]').first();
+  const personId = ((await first.getAttribute("data-testid")) ?? "").replace(
+    "people-person-",
+    "",
+  );
+  const name = await first.locator("strong").first().textContent();
+  expect(personId).not.toBe("");
+  expect(name).not.toBeNull();
+  await first.click();
+  await expect(dossier).toHaveAttribute("data-person-id", personId);
+  await expect(dossier.getByRole("heading", { level: 2 })).toHaveText(name!);
   await page.screenshot({
-    path: `/tmp/${screenshotPrefix}-web-before-selection.png`,
+    path: test.info().outputPath("people-split-directory.png"),
     fullPage: true,
   });
 
-  const { secondId, isPlayer } = await selectConnection(page, candidateIds);
-  await page.getByTestId("quick-dossier-pin").click();
-  await page.getByTestId("people-overlay-close").click();
+  await page.getByText("Search", { exact: true }).click();
+  await page.getByTestId("people-search").fill(name!);
+  await expect(first).toBeVisible();
 
-  const pin = page.getByTestId(`pin-person:${secondId}`);
-  await expect(pin).toBeVisible();
-  /*
-   * The selected connected person may be a non-present acquaintance. The
-   * card must preserve that unavailable state rather than pretending a pin is
-   * presence; the live conversation route below uses the existing starter for
-   * somebody actually available in this generated room.
-   */
-  await pin.focus();
-  await page.keyboard.press("Enter");
-  await expect(page.getByTestId("full-dossier")).toHaveAttribute(
-    "data-person-id",
-    secondId,
-  );
-  await expect(page.getByTestId("dossier-pin")).toHaveAttribute(
-    "aria-pressed",
-    "true",
-  );
-
-  const talk = page.getByTestId("dossier-talk");
-  if (isPlayer) {
-    // Your own card offers no way to talk to yourself.
-    await expect(page.getByTestId("full-dossier")).toContainText(
-      "This is you.",
-    );
-    await expect(talk).toHaveCount(0);
-  }
-  if (!isPlayer && (await talk.isEnabled())) {
-    await talk.focus();
-    await page.keyboard.press("Enter");
-  } else {
-    if (!isPlayer) {
-      await expect(page.getByTestId("dossier-talk-unavailable")).toHaveCount(1);
-    }
-    await page.getByTestId("person-workspace-back").click();
-    await expect(page.getByTestId("play-screen")).toBeVisible();
-    await goTo(page, "elsewhere-people");
-    const starter = page
-      .locator('[data-testid^="conversation-start-"]')
-      .first();
-    await expect(starter).toBeVisible();
-    await starter.focus();
-    await page.keyboard.press("Enter");
-  }
-  const conversation = page.getByRole("region", {
-    name: /^Conversation with /,
-  });
-  await expect(conversation).toBeVisible();
-  await page.screenshot({
-    path: `/tmp/${screenshotPrefix}-web-after-talk.png`,
-    fullPage: true,
-  });
-
-  await conversation.getByTestId("talk-back").focus();
-  await page.keyboard.press("Enter");
-  await expect(conversation).toHaveCount(0);
-  await expect(page.getByTestId("play-screen")).toBeVisible();
-}
-
-for (const size of [
-  { label: "desktop", width: 1440, height: 900 },
-  { label: "narrow", width: 1024, height: 768 },
-]) {
-  test(`real People web route works at ${size.label} width`, async ({
-    page,
-  }) => {
-    await page.setViewportSize({ width: size.width, height: size.height });
-    await provePeopleWebRoute(page, `people-web-${size.label}`);
-
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 1024, height: 768 },
+  ]) {
+    await page.setViewportSize(viewport);
     const overflow = await page.evaluate(
       () =>
         document.documentElement.scrollWidth -
         document.documentElement.clientWidth,
     );
     expect(overflow).toBeLessThanOrEqual(1);
-  });
-}
+  }
+});

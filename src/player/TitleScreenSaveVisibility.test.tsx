@@ -97,6 +97,11 @@ describe("the title screen while the saved lives are being read", () => {
     expect(markup).toContain('data-listing="loading"');
     expect(markup).not.toContain("<small>");
     expect(markup).not.toContain('<p class="game-');
+    expect(markup).toContain('data-testid="title-save-progress"');
+    expect(markup).toContain('role="progressbar"');
+    expect(markup).toContain('aria-label="Progress bar"');
+    expect(markup).not.toContain("aria-valuenow");
+    expect(markup).not.toContain("aria-valuetext");
   });
 
   it("offers only Try again for a failed read", () => {

@@ -62,6 +62,12 @@ import {
   PRESS_STORY_LEAD_TAG,
 } from "../public-information-integrity";
 import { pressRecordsOfKind } from "../press/store";
+import { stateCandidacyPack } from "../candidacy-packs";
+import { projectCongress } from "./congress";
+import { nationalOfficeHolder } from "../national-election-consumer";
+import { currentFederalTenure } from "../federal-tenures";
+import { stateLegislators } from "../nationwide-world/state-legislature-opening";
+import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
 
 /**
  * People credit or blame the officials behind a law that reached them
@@ -338,8 +344,9 @@ const LEGACY_POINTS_FOR_STRONG = 20;
 
 interface OfficialAct {
   readonly officialId: EntityId;
-  readonly act: OfficialViewRecord["act"];
+  readonly act: OfficialViewRecord["act"] | "could-repeal";
   readonly executive: boolean;
+  readonly role?: "could-repeal";
 }
 
 export function officialViewReflectionHandler(
@@ -373,12 +380,14 @@ export function officialViewReflectionHandler(
   const weighed = officialsBehind(world, exposure.measureId).filter(
     (act) =>
       act.officialId !== exposure.personId &&
-      (act.executive || knowsVote(world, exposure, act.officialId)),
+      (act.role === "could-repeal" ||
+        act.executive ||
+        knowsVote(world, exposure, act.officialId)),
   );
   let next = world;
   if (weighed.length > 0) {
     for (const act of weighed) {
-      if (act.executive) continue;
+      if (act.executive || act.role === "could-repeal") continue;
       const event = voteEvent(next, exposure, act.officialId);
       if (!event || voteKnowledge(next, exposure.personId, event.id)) continue;
       next = recordEventKnowledge(next, {
@@ -442,6 +451,59 @@ export function officialsBehind(
   for (const [officialId, act] of latest)
     if (!acts.some((row) => row.officialId === officialId))
       acts.push({ officialId, act, executive: false });
+  if (
+    acts.length === 0 &&
+    measureId.startsWith("starting-law:") &&
+    !world.history.legislativeEnactments?.some(
+      (row) => row.measureId === measureId,
+    )
+  ) {
+    const placeKey = /^starting-law:([^:]+):/.exec(measureId)?.[1];
+    if (placeKey === "US") {
+      const congress = projectCongress(world);
+      for (const seat of [
+        ...(congress?.house.seats ?? []),
+        ...(congress?.senate.seats ?? []),
+      ])
+        if (seat.occupant.kind === "member")
+          acts.push({
+            officialId: seat.occupant.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+      const president =
+        nationalOfficeHolder(world, "president")?.plan.personId ??
+        currentFederalTenure(world, "us-president")?.personId;
+      if (president)
+        acts.push({
+          officialId: president,
+          act: "could-repeal",
+          executive: false,
+          role: "could-repeal",
+        });
+    } else if (placeKey) {
+      const pack = stateCandidacyPack(placeKey);
+      if (pack) {
+        for (const member of stateLegislators(world, pack.packId))
+          acts.push({
+            officialId: member.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+      }
+      const stateUsps = placeKey.startsWith("US-") ? placeKey.slice(3) : "";
+      for (const holder of currentStateExecutiveHolders(world))
+        if (holder.stateUsps === stateUsps)
+          acts.push({
+            officialId: holder.personId,
+            act: "could-repeal",
+            executive: false,
+            role: "could-repeal",
+          });
+    }
+  }
   return acts;
 }
 
@@ -727,7 +789,10 @@ function recordReflection(world: World, exposure: LawExposureRecord): World {
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: null,
-    involvedEntityIds: [exposure.personId, exposure.measureId],
+    involvedEntityIds: [
+      exposure.personId,
+      ...(measure ? [exposure.measureId] : []),
+    ],
     participants: [
       { personId: exposure.personId, role: "focus:subject", detail: null },
     ],
@@ -992,7 +1057,11 @@ function lawFactor(
   const credit = exposure.direction === "gain" ? made : !made;
   let felt =
     felt01(world, exposure) *
-    (act.executive ? EXECUTIVE_VISIBILITY : LEGISLATOR_VISIBILITY) *
+    (act.role === "could-repeal"
+      ? LEGISLATOR_VISIBILITY / 2
+      : act.executive
+        ? EXECUTIVE_VISIBILITY
+        : LEGISLATOR_VISIBILITY) *
     reactionLens(world, exposure.personId) *
     heardShare(world, exposure);
   const mine = affiliationAt(world, exposure.personId).partyOrganizationId;
@@ -1011,28 +1080,33 @@ function lawFactor(
     ? voteKnowledge(world, exposure.personId, vote.id)
     : null;
   const what =
-    act.act === "signed"
-      ? "signed"
-      : act.act === "voted-for"
-        ? "voted for"
-        : "voted against";
+    act.role === "could-repeal"
+      ? "could-repeal"
+      : act.act === "signed"
+        ? "signed"
+        : act.act === "voted-for"
+          ? "voted for"
+          : "voted against";
   return {
     felt,
     factor: {
-      stableKey: `law-exposure:${exposure.id}`,
+      stableKey: `law-exposure:${exposure.id}${act.role ? `:${act.role}` : ""}`,
       favors: credit ? "support" : "opposition",
       sourceType: "information:law-exposure",
       importance,
       confidence: exposure.relation === "friend" ? "medium" : "high",
-      explanation: `This official ${what} a law that ${
-        exposure.direction === "gain" ? "paid" : "cost"
-      } ${
-        exposure.relation === "own"
-          ? "the person"
-          : exposure.relation === "family"
-            ? "the person's household"
-            : "someone the person knows"
-      }${anchored ? "; the person's party loyalty tempers it" : ""}.`,
+      explanation:
+        act.role === "could-repeal"
+          ? "starting-law:could-repeal"
+          : `This official ${what} a law that ${
+              exposure.direction === "gain" ? "paid" : "cost"
+            } ${
+              exposure.relation === "own"
+                ? "the person"
+                : exposure.relation === "family"
+                  ? "the person's household"
+                  : "someone the person knows"
+            }${anchored ? "; the person's party loyalty tempers it" : ""}.`,
       sourceRefs: [
         { kind: "historical-event", eventId },
         ...(knowledge

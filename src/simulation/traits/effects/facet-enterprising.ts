@@ -13,7 +13,6 @@ export const facetEnterprisingEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-enterprising",
         pole: "high",
-        explanation: "They see another term as a chance to build something.",
       },
     ],
   },

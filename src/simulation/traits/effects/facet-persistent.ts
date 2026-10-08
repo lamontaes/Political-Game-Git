@@ -13,8 +13,6 @@ export const facetPersistentEffects: readonly TraitEffectDeclaration[] = [
         option: "continue-work",
         trait: "personality-v1:facet-persistent",
         pole: "high",
-        explanation:
-          "They keep pursuing the goal through a slow stretch instead of leaving.",
       },
     ],
   },

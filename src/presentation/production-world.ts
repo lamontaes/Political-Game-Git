@@ -79,6 +79,7 @@ import { hireAtAdultStart } from "../simulation/job-market";
 import { ensureTownResidents } from "../simulation/living-world/town-residents";
 import { ensureTownHomes } from "../simulation/living-world/town-homes";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
+import { establishVotingPrecinctMembership } from "../simulation/living-world/town-wards";
 import { drawFamilyShape } from "../simulation/family-shape";
 import { ensureStartingPersonalMoney } from "../simulation/starting-money";
 import { parentsOf, recordFamilyAddition } from "../simulation/people-family";
@@ -533,6 +534,7 @@ export function buildProductionWorld(
     player.id,
     input.districtHomeJoinVersion,
   );
+  world = establishVotingPrecinctMembership(world, jurisdiction.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }
@@ -747,6 +749,7 @@ export function finalizePreStartPlayer(
     player.id,
     input.districtHomeJoinVersion,
   );
+  world = establishVotingPrecinctMembership(world, jurisdiction.id);
   assertWorldIntegrity(world);
   return { world, playerPersonId: player.id, player };
 }

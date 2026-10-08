@@ -5,13 +5,16 @@ import { createWorld, advanceWorld, assertWorldIntegrity } from "./world";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   ARTICLE_V_STATE_KEYS,
+  constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleAt,
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
+  recordConstitutionalProposalRollcalls,
   recordArticleVRatification,
   recordCaliforniaRatification,
   recordCarsonCharterEnactment,
+  stateAmendmentProfile,
   recordConstitutionalPosition,
   constitutionalMemberBody,
 } from "./constitutional-process";
@@ -23,6 +26,12 @@ import {
   offerFloorAmendment,
 } from "./legislation";
 import { KENTUCKY_RULE_PACK, NEVADA_RULE_PACK } from "./legislature-rule-packs";
+import {
+  legislatureForState,
+  seatsForChamber,
+} from "./legislature-game-profile";
+import { legislativeWorkKey } from "./legislative-work-key";
+import { isFederalDistrictJurisdictionKey, STATES } from "./state-reference";
 import { stateJurisdictionForKey } from "./life-places";
 import type { Jurisdiction, LegislativeEnactmentRecord, World } from "./types";
 import type { ProposeConstitutionalMeasureInput } from "./constitutional-process";
@@ -139,7 +148,64 @@ function date(w: World, d: string) {
   );
 }
 
+describe("state amendment profile records", () => {
+  it("uses pack chamber sizes and keeps migration and federal-district identities for all 56 places", () => {
+    const uspsCodes = Object.keys(STATES);
+    expect(uspsCodes).toHaveLength(56);
+    for (const usps of uspsCodes) {
+      const jurisdictionKey = `US-${usps}`;
+      const pack = legislatureForState(jurisdictionKey);
+      const profile = stateAmendmentProfile(jurisdictionKey);
+      if (!pack) {
+        expect(profile, jurisdictionKey).toBeNull();
+        continue;
+      }
+      expect(profile, jurisdictionKey).not.toBeNull();
+      expect(profile!.bodies, jurisdictionKey).toEqual(
+        pack.chamberOrder.map((bodyKey) => ({
+          bodyKey: usps === "CA" && bodyKey === "house" ? "assembly" : bodyKey,
+          members: seatsForChamber(pack, bodyKey)?.seats ?? 0,
+        })),
+      );
+    }
+    expect(isFederalDistrictJurisdictionKey("US-DC")).toBe(true);
+    expect(
+      uspsCodes.filter((usps) =>
+        isFederalDistrictJurisdictionKey(`US-${usps}`),
+      ),
+    ).toEqual(["DC"]);
+    expect(legislativeWorkKey(legislatureForState("US-KY")!)).toBe("kentucky");
+    expect(legislativeWorkKey(legislatureForState("US-NE")!)).toBe("nebraska");
+    expect(legislativeWorkKey(legislatureForState("US-AK")!)).toBe("alaska");
+  });
+});
+
 describe("S30-K constitutional process", () => {
+  it("records shared proposal rollcalls in order and stops after rejection", () => {
+    const world = proposal(setup("US"));
+    const measureId = id(world);
+    const next = recordConstitutionalProposalRollcalls(world, measureId, [
+      {
+        bodyKey: "house",
+        dispositions: votes(435, 200),
+        eligibleMembers: 435,
+        provenance: AUTHORED,
+      },
+      {
+        bodyKey: "senate",
+        dispositions: votes(100, 67),
+        eligibleMembers: 100,
+        provenance: AUTHORED,
+      },
+    ]);
+    expect(constitutionalPosition(next, measureId).phase).toBe("rejected");
+    expect(
+      constitutionalActions(next, measureId).flatMap((action) =>
+        action.detail.kind === "proposal-vote" ? [action.detail.bodyKey] : [],
+      ),
+    ).toEqual(["house"]);
+  });
+
   it("only writes the controlled person's position and does not infer a proposing seat", () => {
     const demo = createDemoWorld("constitutional-person-role-proof");
     const ca = setup();
