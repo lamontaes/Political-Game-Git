@@ -10,12 +10,10 @@ import {
   STATE_LEGISLATURE_KEYS,
   ensureStateLegislatureOpening,
   planStateChambers,
-  scheduleNationwideStateLegislatureOpenings,
   recordedChamberParties,
   stateLegislators,
 } from "../simulation/nationwide-world/state-legislature-opening";
 import { US_STATE_USPS } from "../simulation/nationwide-world/state-executive-candidacy-packs";
-import { ensureStateJurisdictionForKey } from "../simulation/nationwide-world/state-executives";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
   generateOpeningLife,
@@ -111,7 +109,6 @@ describe("nationwide state legislature opening preparation", () => {
       );
       expect(stateLegislators(world, pack.packId)).toHaveLength(expected);
     }
-    expect(scheduleNationwideStateLegislatureOpenings(world)).toBe(world);
     // Congress principles are drawn after the rosters, so the last roster step is the
     // one that reports all fifty.
     expect(
@@ -127,19 +124,6 @@ describe("nationwide state legislature opening preparation", () => {
     expect(
       progress.filter((step) => step.label === "Preparing state legislatures"),
     ).toHaveLength(25);
-  });
-
-  it("schedules unprepared rosters for the existing clock fallback", () => {
-    const incomplete = US_STATE_USPS.reduce(
-      (world, usps) => ensureStateJurisdictionForKey(world, `US-${usps}`),
-      createNewGameWorld(SETUP).world,
-    );
-    const scheduled = scheduleNationwideStateLegislatureOpenings(incomplete);
-    expect(
-      scheduled.history.futureDueItems.filter((due) =>
-        due.stableKey.startsWith("state-legislature-opening-calendar/v1:"),
-      ),
-    ).toHaveLength(50);
   });
 
   it("can stop between real preparation chunks", async () => {

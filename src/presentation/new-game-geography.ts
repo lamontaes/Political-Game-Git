@@ -1,3 +1,4 @@
+import geographyDefaults from "../../data/research/new-game-geography-defaults.json" with { type: "json" };
 import {
   candidacyAuthority,
   legislatureForState,
@@ -36,9 +37,9 @@ import { resolvePlayerCapabilities } from "./player-capabilities";
  * of inheriting Lexington or the first town in a list.
  */
 
-export const LEGACY_REPLAY_PLACE_KEY = "kentucky" as const;
+export const LEGACY_REPLAY_PLACE_KEY = geographyDefaults.legacyReplayPlaceKey;
 export const KENTUCKY_LEXINGTON_REGRESSION_PLACE_KEY =
-  "lexington-fayette" as const;
+  geographyDefaults.regressionPlaceKey;
 
 export type GeographyWorldOrigin =
   "explicit-creator" | "kentucky-regression-fixture" | "legacy-replay-default";
@@ -123,11 +124,12 @@ export function geographyWorldOriginForPlaceKey(
   requested: GeographyWorldOrigin | undefined,
 ): GeographyWorldOrigin {
   if (requested) return requested;
-  if (placeKey === KENTUCKY_LEXINGTON_REGRESSION_PLACE_KEY) {
-    return "kentucky-regression-fixture";
-  }
-  if (placeKey === LEGACY_REPLAY_PLACE_KEY) return "legacy-replay-default";
-  return "explicit-creator";
+  const recorded = geographyDefaults.origins.find(
+    (row) => row.placeKey === placeKey,
+  );
+  return (
+    (recorded?.origin as GeographyWorldOrigin | undefined) ?? "explicit-creator"
+  );
 }
 
 /**

@@ -20,6 +20,9 @@ import type {
   LegislativeSubjectClass,
   World,
 } from "./types";
+import { useFullWorldIntegrity } from "../../tests/fixtures/full-world-integrity";
+
+useFullWorldIntegrity();
 
 /**
  * The origination boundary, checked where it has to hold permanently.

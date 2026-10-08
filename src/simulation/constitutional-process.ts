@@ -101,13 +101,6 @@ const CONVENTION_RULE = majorityOf(
     note: "ESTIMATED: no Article V convention has met; this is the most common assumed rule.",
   },
 );
-const CALIFORNIA_BASE = fractionOf(
-  2,
-  3,
-  "members-elected",
-  "Two-thirds of each house's membership",
-  source("ca-constitution-xviii", "Cal. Const. art. XVIII § 1"),
-);
 
 /**
  * One state's constitutional amendment route: the bodies that propose, their
@@ -153,16 +146,18 @@ export function stateAmendmentProfile(
   return {
     jurisdictionKey: profile.jurisdictionKey as `US-${string}`,
     bodies: profile.bodies,
-    base:
-      profile.basis === "sourced"
-        ? CALIFORNIA_BASE
-        : fractionOf(
-            2,
-            3,
-            "members-elected",
-            "Two-thirds of each chamber's membership (game default)",
-            GAME_PROFILE_AMENDMENT_SOURCE,
-          ),
+    base: fractionOf(
+      profile.proposalThreshold.numerator,
+      profile.proposalThreshold.denominatorParts,
+      "members-elected",
+      profile.proposalThreshold.label,
+      profile.sourceArtifactId
+        ? source(
+            profile.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE,
+            profile.sourceCitation!,
+          )
+        : GAME_PROFILE_AMENDMENT_SOURCE,
+    ),
     effectiveDaysAfterStatement: profile.effectiveDaysAfterStatement!,
     basis: profile.basis === "sourced" ? "sourced" : "game-profile",
   };
@@ -434,7 +429,7 @@ export function proposeConstitutionalMeasure(
         "Carson's charter cannot change a federal or state constitutional proposal rule.",
       );
     assertThresholdRule({
-      ...(federal ? FEDERAL_BASE : CALIFORNIA_BASE),
+      ...(federal ? FEDERAL_BASE : profile!.base),
       numerator: input.ruleDelta.numerator,
       denominatorParts: input.ruleDelta.denominatorParts,
     });
@@ -515,7 +510,9 @@ export function proposeConstitutionalMeasure(
               ? "us-constitution"
               : charter
                 ? "carson-charter"
-                : "ca-constitution-xviii"
+                : (stateAmendmentProfiles.find(
+                    (row) => row.jurisdictionKey === input.jurisdictionKey,
+                  )!.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE)
           ].sha256,
     provenance: "authored-game-proposal",
   };

@@ -1,7 +1,7 @@
 ---
 id: au4-09-congress-official-views
-impact: simulation
-section: laws
+impact: patch
+section: Fixed
 title: Residents form views of the members of Congress behind a federal law
 ---
 

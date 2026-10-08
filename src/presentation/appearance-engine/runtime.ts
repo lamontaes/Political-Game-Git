@@ -92,8 +92,42 @@ function decode(file: string): Promise<Raster> {
 
 const composed = new Map<string, Promise<EnginePersonImage>>();
 
-/** One person composed at a time, newest asked for first (compose-turns.ts). */
+/** One person composed at a time, by priority (compose-turns.ts). */
 const turns = createComposeTurns();
+
+/**
+ * Who is on screen: how many figures show each composed person, and when one
+ * was last put on screen. People on screen are drawn newest first; a person
+ * no figure shows any more (a screen the player has left) waits until they
+ * are drawn, newest first among themselves.
+ */
+let shownClock = 0;
+const shown = new Map<string, { count: number; at: number }>();
+
+function drawPriority(key: string): number {
+  const entry = shown.get(key);
+  if (!entry) return -Number.MAX_SAFE_INTEGER;
+  return entry.count > 0 ? entry.at : entry.at - Number.MAX_SAFE_INTEGER / 2;
+}
+
+/**
+ * A figure showing this person is on screen; call the returned function when
+ * it leaves. The figure's own `enginePersonImage` request is then drawn
+ * before people who are no longer shown.
+ */
+export function showEnginePerson(recipe: EngineRecipe): () => void {
+  const key = engineRecipeKey(recipe);
+  const entry = shown.get(key) ?? { count: 0, at: 0 };
+  entry.count += 1;
+  entry.at = ++shownClock;
+  shown.set(key, entry);
+  let left = false;
+  return () => {
+    if (left) return;
+    left = true;
+    entry.count -= 1;
+  };
+}
 
 export function enginePersonImage(
   recipe: EngineRecipe,
@@ -108,7 +142,7 @@ export function enginePersonImage(
           files.map(async (file) => [file, await decode(file)] as const),
         ),
       );
-      await turns.turn();
+      await turns.turn(() => drawPriority(key));
       let drawn: ReturnType<typeof composeEnginePerson>;
       const canvas = document.createElement("canvas");
       try {
