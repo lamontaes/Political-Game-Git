@@ -9,8 +9,6 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "../decisions";
-import { registeredTraitConsiderations } from "../trait-readings";
-import { traitRegistryFor } from "../trait-registry";
 import { recordsByKey } from "../history-index";
 import type { DecisionEvaluation, EntityId, IsoDate, World } from "../types";
 
@@ -93,16 +91,7 @@ export function evaluateTownCoupleActors(
       subject: { kind: "context:life", key: "couple-stage", entityId: null },
       options,
       constraints: [],
-      considerations: [
-        ...considerations,
-        ...registeredTraitConsiderations(
-          next,
-          traitRegistryFor(next),
-          actorPersonId,
-          stableKey,
-          "people.couple-stage",
-        ),
-      ],
+      considerations,
       perceptionIds: [],
       randomness: "none",
       retention: input.retention ?? "ephemeral",
@@ -212,17 +201,12 @@ export function evaluateTownDateProposal(
     (row) => `date:${row.id}` === evaluation.selectedOptionKey,
   )?.id;
   if (!recipient) return null;
-  const considerations = [
-    ...romanticConsiderations(world, `${stableKey}:answer`, recipient, askerId),
-    ...registeredTraitConsiderations(
-      world,
-      traitRegistryFor(world),
-      recipient,
-      `${stableKey}:answer`,
-      "people.date-answer",
-    ),
-  ];
-  if (considerations.length === 0) return null;
+  const considerations = romanticConsiderations(
+    world,
+    `${stableKey}:answer`,
+    recipient,
+    askerId,
+  );
   const answer = evaluateDecision(world, {
     stableKey: `${stableKey}:answer`,
     decisionType: "people.date-answer",
