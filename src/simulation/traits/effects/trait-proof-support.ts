@@ -106,20 +106,20 @@ function decisionForPerson(
   decisionId: string,
   baselineConsiderations: readonly DecisionConsideration[],
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
-  const allConsiderations = [...baselineConsiderations, ...considerations];
+  const allConsiderations = [...baselineConsiderations];
+  const decisionType =
+    (
+      {
+        "contact.answer": "people.contact-answer",
+        "clemency.petition": "justice.clemency-petition",
+      } as Readonly<Record<string, string>>
+    )[decisionId] ?? decisionId;
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
     ({ id }) => id === decisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
-    decisionType: decisionId,
+    decisionType,
     actorPersonId: personId,
     cutoff: {
       asOfDate: world.currentDate,
@@ -140,7 +140,7 @@ function decisionForPerson(
   return {
     choice: evaluation.selectedOptionKey,
     reason:
-      allConsiderations.find(
+      evaluation.context.considerations.find(
         ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
       )?.explanation ?? null,
   };
