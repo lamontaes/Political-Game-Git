@@ -403,7 +403,7 @@ function subjectBindsToChamber(
       return `names "${proof.subject}" as every legislator, and that is none of the terms this state declares for them.`;
     }
     if (!isDeclaredFact(declaration.structure)) {
-      return `names "${proof.subject}" as every legislator, but this state's structure is UNKNOWN, so there is no established set of chambers for that to cover.`;
+      return `names "${proof.subject}" as every legislator, but this state's structure is unresolved, so there is no established set of chambers for that to cover.`;
     }
     return null;
   }
@@ -658,18 +658,18 @@ function resolve<T>(
     const investigated = declared.investigated ?? [];
     const basis = declared.basis;
     if (!basis) {
-      return fail(`${label} is UNKNOWN and declares no basis for being so.`);
+      return fail(`${label} is unresolved and declares no basis for being so.`);
     }
     if (basis.kind === "authority-not-retrieved") {
       if (investigated.length > 0) {
         return fail(
-          `${label} is UNKNOWN because the authority was not retrieved, and still cites ${investigated.length} provision(s) it read. One of those two statements is untrue.`,
+          `${label} is unresolved because the authority was not retrieved, and still cites ${investigated.length} provision(s) it read. One of those two statements is untrue.`,
         );
       }
     } else {
       if (investigated.length === 0) {
         return fail(
-          `${label} is UNKNOWN because a provision it read does not fix the value, and cites no provision. A claim about what an instrument says has to produce the instrument.`,
+          `${label} is unresolved because a provision it read does not fix the value, and cites no provision. A claim about what an instrument says has to produce the instrument.`,
         );
       }
       const form = RELEVANCE_FORMS[basis.relevance];
@@ -685,7 +685,7 @@ function resolve<T>(
         investigated.length < 2
       ) {
         return fail(
-          `${label} is UNKNOWN for competing provisions and cites one. One provision competes with nothing.`,
+          `${label} is unresolved because provisions compete, but cites one. One provision competes with nothing.`,
         );
       }
     }
@@ -699,7 +699,7 @@ function resolve<T>(
       if (text === null || !containsExcerpt(text, transcription.excerpt)) {
         resolver.defects.push({
           stateUsps: resolver.stateUsps,
-          message: `${label} is UNKNOWN citing ${transcription.citation} as the provision it read, and that text is not in the enacted text of artifact "${transcription.artifactId}". An investigated citation is evidence and is checked like one.`,
+          message: `${label} is unresolved and cites ${transcription.citation} as the provision it read, but that text is not in the enacted text of artifact "${transcription.artifactId}". An investigated citation is evidence and is checked like one.`,
         });
       }
     }

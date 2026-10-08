@@ -16,13 +16,11 @@ export const selfConfidenceEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:self-confidence",
         pole: "high",
-        explanation: "They trust their judgment enough to serve another term.",
       },
       {
         option: "step-down",
         trait: "personality-v1:self-confidence",
         pole: "low",
-        explanation: "They doubt they are adequate for another term.",
       },
     ],
   },

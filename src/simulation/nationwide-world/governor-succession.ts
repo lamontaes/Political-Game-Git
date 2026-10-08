@@ -138,6 +138,38 @@ export function seatGovernorSuccessor(
       immediateReaction: null,
     },
   });
+  next = recordWorldEvent(next, {
+    stableKey: `public-governor-change:${stableKey}`,
+    type: "office.governor-changed",
+    occurredAt: input.vacancyDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: office.jurisdictionId,
+    involvedEntityIds: [successorId, input.formerHolderId],
+    participants: [
+      {
+        personId: successorId,
+        role: "focus:subject",
+        detail: `Became ${office.displayName}.`,
+      },
+    ],
+    personFactConstraints: [],
+    visibility: "public",
+    tags: [
+      STATE_EXECUTIVE_WRITER_VERSION,
+      `office:${office.officeKey}`,
+      `state:${office.stateUsps}`,
+      "importance:major",
+    ],
+    summary: `${personName(next.people[successorId]!)} became ${office.displayName}.`,
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
   return { world: next, successorId };
 }
 

@@ -1,4 +1,5 @@
 import { SCHOOL_STAGE_TRANSITION_KEY } from "./school-calendar";
+import { completeScheduledCareerTask } from "./career-path7";
 import { isLivelihoodGoalKey } from "./people-goal-pursuit-content";
 import { settleTownCompensations } from "./living-world/town-pay";
 import { ensureEmployerCashPositions } from "./opening-employer-cash";
@@ -14,7 +15,6 @@ import {
   bootstrapStudyPeriodProgression,
   cancelStudyPeriodDues,
   enrollmentStudyModel,
-  registerStudyPathResolver,
   scheduleStudyPeriodDue,
   studyProgressSummary,
   studyUsesPeriodModel,
@@ -30,6 +30,7 @@ import {
   studyPeriodDueDate,
   totalStudyPeriods,
 } from "./education-study-progression";
+import { registerStudyPathResolver } from "./study-path-resolver";
 import { ensureLifePathPersonalPosition } from "./life-paths2-resources";
 import { activeCampaignForCandidate } from "./campaign-queries";
 import {
@@ -916,7 +917,8 @@ function createLifePathRoutineHook(): RoutineTimeHook {
       }
     },
     afterActivityCompleted(world, activityId) {
-      return applyLifePathSessionCompletion(world, activityId);
+      const completed = applyLifePathSessionCompletion(world, activityId);
+      return completeScheduledCareerTask(completed, activityId);
     },
   };
 }

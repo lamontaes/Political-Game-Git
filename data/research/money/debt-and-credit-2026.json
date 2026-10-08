@@ -222,7 +222,7 @@
       "retrieved": "2026-09-28 via WebSearch result snippets; direct page fetch blocked by the session's network egress proxy"
     }
   ],
-  "scope": "National household debt, loan rates, federal and state/local government debt, student-loan law after Pub. L. 119-21, bankruptcy basics and credit-score calibration; per-place payday status, small-loan cap class, general usury cap and state+local debt per resident. Unknown is null with status UNKNOWN, never zero. Real data calibrates only.",
+  "scope": "National household debt, loan rates, federal and state/local government debt, student-loan law after Pub. L. 119-21, bankruptcy basics and credit-score calibration; per-place payday status, small-loan cap class, general usury cap and state+local debt per resident. An unread field is null with its evidence status, never zero. Real data calibrates only.",
   "household": {
     "totals_2026Q2": {
       "asOf": "2026-06-30",
@@ -738,7 +738,7 @@
       },
       "source": "cfpb-bankruptcy-report",
       "evidence": "snippet-derived",
-      "note": "CFPB: up to 10 years from the order for relief or adjudication. The common 7-year practice for completed Chapter 13 is a credit-bureau policy, not in the snippet: UNKNOWN source."
+      "note": "CFPB: up to 10 years from the order for relief or adjudication. This corpus does not use the common 7-year credit-bureau practice for completed Chapter 13 because the cited snippet does not establish it."
     },
     "chapter13SevenYearPractice": {
       "value": null,

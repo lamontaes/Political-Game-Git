@@ -19,6 +19,7 @@ import {
   type HealthDisclosureRecord,
   type HealthEpisodeRecord,
   type HealthStateRecord,
+  type PoliticalAttackIntentRecord,
 } from "./types";
 
 /**
@@ -182,6 +183,7 @@ function referenceSequences(world: World): ReadonlyMap<EntityId, number> {
     world.history.personDeaths,
     world.history.personFunctionalCapacities,
     world.history.incidents,
+    world.history.legislativeEnactments ?? [],
     world.history.resourceFlowTerms,
   ] as readonly (readonly { id: EntityId; sequence: number }[])[])
     for (const record of family) sequences.set(record.id, record.sequence);
@@ -236,10 +238,11 @@ function validateCrisisRecords(
   const hazards = new Map<EntityId, HazardRecord>();
   const damages = new Map<EntityId, DisasterDamageRecord>();
   const crises = new Set<EntityId>();
+  const intentsByEventId = new Map<EntityId, PoliticalAttackIntentRecord>();
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
-      fail(record, "unknown schema version");
+      fail(record, "schema version does not match the crisis record schema");
     if (keys.has(record.stableKey)) fail(record, "duplicate stable key");
     keys.add(record.stableKey);
     if (record.id !== crisisRecordId(world, record.stableKey))
@@ -285,7 +288,7 @@ function validateCrisisRecords(
       }
       case "mortality-calibration":
         if (!MORTALITY_CALIBRATION_CATEGORIES.includes(record.category))
-          fail(record, "unknown calibration category");
+          fail(record, "calibration category is not in the recorded catalog");
         if (!record.basis.trim()) fail(record, "calibration needs a basis");
         break;
       case "health-episode":
@@ -307,7 +310,7 @@ function validateCrisisRecords(
       case "health-state": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "state for an unknown episode");
+          fail(record, "state has no earlier matching episode");
         const prior = latestState.get(record.episodeId);
         if (prior?.state === "deceased" || prior?.state === "recovered")
           fail(record, "episode already ended");
@@ -326,7 +329,7 @@ function validateCrisisRecords(
       case "health-disclosure": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "disclosure for an unknown episode");
+          fail(record, "disclosure has no earlier matching episode");
         const prior = latestDisclosure.get(record.episodeId);
         if (
           prior &&
@@ -334,12 +337,12 @@ function validateCrisisRecords(
         )
           fail(record, "disclosed information cannot become less known");
         if (record.recipientIds.some((id) => !world.people[id]))
-          fail(record, "unknown disclosure recipient");
+          fail(record, "disclosure recipient is not a recorded person");
         if (
           record.decidedByPersonId !== null &&
           !world.people[record.decidedByPersonId]
         )
-          fail(record, "unknown disclosure decider");
+          fail(record, "disclosure decider is not a recorded person");
         latestDisclosure.set(record.episodeId, record);
         break;
       }
@@ -355,6 +358,32 @@ function validateCrisisRecords(
           (record.hazardFrom !== null && record.hazardFrom < record.effectiveAt)
         )
           fail(record, "malformed health coverage");
+        break;
+      case "snap-participation":
+        if (
+          !world.history.households.some(
+            (household) => household.id === record.householdId,
+          ) ||
+          typeof record.enrolled !== "boolean" ||
+          !record.causeId.trim() ||
+          !Number.isSafeInteger(record.householdSize) ||
+          record.householdSize < 1 ||
+          (record.monthlyWorkHours !== null &&
+            (!Number.isFinite(record.monthlyWorkHours) ||
+              record.monthlyWorkHours < 0)) ||
+          (record.incomeToThreshold !== null &&
+            (!Number.isFinite(record.incomeToThreshold) ||
+              record.incomeToThreshold < 0)) ||
+          (record.enrolled
+            ? !Number.isSafeInteger(record.monthlyBenefitMinor) ||
+              record.monthlyBenefitMinor! < 0 ||
+              record.benefitBasis !== "ESTIMATED FROM STATE AVERAGE" ||
+              !record.benefitSource
+            : record.monthlyBenefitMinor !== null ||
+              record.benefitBasis !== null ||
+              record.benefitSource !== null)
+        )
+          fail(record, "malformed household SNAP participation record");
         break;
       case "hazard-episode":
         if (
@@ -384,7 +413,7 @@ function validateCrisisRecords(
       case "disaster-assessment":
       case "disaster-response":
         if (!hazards.has(record.episodeId))
-          fail(record, "response for an unknown hazard episode");
+          fail(record, "response has no earlier matching hazard episode");
         break;
       case "repair-progress": {
         const damage = damages.get(record.damageId);
@@ -413,7 +442,7 @@ function validateCrisisRecords(
       case "counterparty-response":
       case "war-powers":
         if (!crises.has(record.crisisId))
-          fail(record, "record for an unknown international crisis");
+          fail(record, "record has no earlier matching international crisis");
         if (
           record.kind === "war-powers" &&
           record.terminationAt !== null &&
@@ -421,9 +450,83 @@ function validateCrisisRecords(
         )
           fail(record, "war powers termination precedes its record");
         break;
-      case "violence-attempt":
-        if (!world.people[record.targetPersonId])
-          fail(record, "missing attempt target");
+      case "political-attack-intent": {
+        const event = record.eventId ? eventsById.get(record.eventId) : null;
+        const decision = world.history.decisionTraces.find(
+          (trace) => trace.id === record.decisionTraceId,
+        );
+        const threat = eventsById.get(record.threatEventId);
+        const malformed = {
+          actorMissing: !world.people[record.actorPersonId],
+          targetMissing: !world.people[record.targetPersonId],
+          selfTargeted: record.actorPersonId === record.targetPersonId,
+          intentEventType: event?.type ?? null,
+          intentEventMissingActor: !event?.involvedEntityIds.includes(
+            record.actorPersonId,
+          ),
+          intentEventMissingTarget: !event?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          threatMissingTarget: !threat?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          decisionActor: decision?.context.actorPersonId ?? null,
+          selectedOption: decision?.selectedOptionKey ?? null,
+          basis: record.basis,
+        };
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          record.actorPersonId === record.targetPersonId ||
+          !event ||
+          event.type !== "crisis.political-attack-intent" ||
+          !event.involvedEntityIds.includes(record.actorPersonId) ||
+          !event.involvedEntityIds.includes(record.targetPersonId) ||
+          !threat?.involvedEntityIds.includes(record.targetPersonId) ||
+          decision?.context.actorPersonId !== record.actorPersonId ||
+          decision.selectedOptionKey !== "intend-attack" ||
+          !record.basis.trim()
+        )
+          fail(
+            record,
+            `malformed recorded attack intent: ${JSON.stringify(malformed)}`,
+          );
+        for (const factor of [
+          record.actorStrain,
+          record.actorMeans,
+          record.targetSecurity,
+          record.targetExposure,
+        ]) {
+          if (
+            factor.sourceEventIds.length === 0 ||
+            !factor.explanation.trim() ||
+            factor.sourceEventIds.some(
+              (id) => !record.causalParentIds.includes(id),
+            )
+          )
+            fail(record, "attack intent factor lacks earlier evidence");
+        }
+        intentsByEventId.set(record.eventId!, record);
+        break;
+      }
+      case "violence-attempt": {
+        const intent = intentsByEventId.get(record.intentEventId);
+        const outcomeTrace = world.history.decisionTraces.find(
+          (trace) => trace.id === record.outcomeDecisionTraceId,
+        );
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          !intent ||
+          intent.actorPersonId !== record.actorPersonId ||
+          intent.targetPersonId !== record.targetPersonId ||
+          !record.causalParentIds.includes(record.intentEventId) ||
+          outcomeTrace?.context.actorPersonId !== record.actorPersonId ||
+          !["unharmed", "injured", "killed"].includes(
+            outcomeTrace.selectedOptionKey ?? "",
+          )
+        )
+          fail(record, "attempt lacks an earlier selected intent and outcome");
         if (
           record.threatEvidenceIds.length === 0 ||
           record.threatEvidenceIds.some(
@@ -432,6 +535,7 @@ function validateCrisisRecords(
         )
           fail(record, "attempt lacks its threat evidence");
         break;
+      }
       case "official-continuity": {
         const source =
           world.history.personDeaths.find(

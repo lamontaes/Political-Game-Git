@@ -394,9 +394,8 @@ function deriveSimulatedMembers(
     {
       personId: seat.guardianPersonId,
       localBeneficiaryLabels: [],
-      // What this member said in public before the bill was filed.
-      // PLACEHOLDER(research: how-bargaining-limits-and-pay-counteroffers-are-set): a flat $8.6M, not sourced.
-      fiscalConcernCeilingMinorUnits: 860_000_000,
+      // No recorded fiscal limit is supplied for this modeled member.
+      fiscalConcernCeilingMinorUnits: null,
     },
     {
       personId: seat.playerPersonId,

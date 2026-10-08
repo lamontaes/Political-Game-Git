@@ -1,5 +1,5 @@
 {
-  "sourceHead": "57ad2144291912d571d3f80842fbf08ace64db99",
+  "sourceHead": "8592a017cc9b314c46f140955782f542688f941c",
   "scope": "Exact uppercase words PLACEHOLDER, UNRESEARCHED, SET BY HAND in src TS/TSX. Reuses placeholder-scan file exclusions; also excludes .spec.ts/.spec.tsx. One record per matching line and identical-text occurrence, with complete text. Broader case-insensitive and identifier markers remain in the existing placeholder ledger.",
   "historicalInventory": "Original 334-marker docs/codex/codex-declared-assumptions.json is absent from this source head. This is a current-source inventory, not proof of review of that historical artifact.",
   "markers": [
@@ -3125,6 +3125,51 @@
       "disposition": "rebuild",
       "rebuildStep": "A166",
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/simulation/people-upbringing.ts",
+      "line": 1185,
+      "text": "/** PLACEHOLDER weights until the child-development research is read; every one is smooth. */",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
+    },
+    {
+      "file": "src/simulation/people-upbringing.ts",
+      "line": 1675,
+      "text": "// less reliable and a full one more. PLACEHOLDER center until read.",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
+    },
+    {
+      "file": "src/simulation/relationship-contact.ts",
+      "line": 1081,
+      "text": "* PLACEHOLDER, NOT RESEARCH: the day counts and the steps are calibration",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
+    },
+    {
+      "file": "src/simulation/relationship-contact.ts",
+      "line": 1497,
+      "text": "* PLACEHOLDER, NOT RESEARCH: how much one evening together counts for is",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
+    },
+    {
+      "file": "src/simulation/relationship-contact.ts",
+      "line": 1571,
+      "text": "* moves nothing by itself. PLACEHOLDER, NOT RESEARCH: how much a canceled",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 current-source review backlog: this calibration is explicitly marked as not researched. No accepted audit item uniquely assigns a replacement; researched values and an owner must supply the receiving step. This record does not approve the value or claim repair is complete."
     }
   ]
 }

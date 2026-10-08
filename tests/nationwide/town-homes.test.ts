@@ -203,6 +203,21 @@ describe(
       });
     });
 
+    it("records a memory for each household member involved in a home event", () => {
+      for (const event of world.history.events.filter((row) =>
+        row.tags.includes(TOWN_HOMES_VERSION),
+      ))
+        for (const personId of event.involvedEntityIds.filter(
+          (id) => world.people[id],
+        ))
+          expect(
+            world.history.memories.some(
+              (memory) =>
+                memory.eventId === event.id && memory.personId === personId,
+            ),
+          ).toBe(true);
+    });
+
     it("every household in town has exactly one home after each review", () => {
       for (const snapshot of snapshots) {
         const summary = describeTownHomes(snapshot, town);

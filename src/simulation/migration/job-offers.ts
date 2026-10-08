@@ -32,8 +32,8 @@
  * place. Whoever leaves for it accepts it and starts there on arrival;
  * whoever stays turns it down.
  *
- * ESTIMATED FROM THE NATIONAL CPS AVERAGE: every weight below is calibrated
- * as a whole against one
+ * Every weight below is ESTIMATED FROM AVERAGE (research:
+ * why-americans-move-causes-and-strengths), calibrated as a whole against one
  * total (CTO ruling 23): about 1.5 to 2 percent of adults a year move for a
  * job offer. A new job or job transfer is 13.2 percent of movers' reasons in
  * the Census Bureau's CPS ASEC 2023 ("Why People Move"), about a fifth of
@@ -79,9 +79,12 @@ import {
   placeToLookFor,
 } from "./employers-elsewhere";
 
-/** CPS-calibrated estimate weights, each a strength from 0 to 1 at its fullest. */
-export const UNRESEARCHED_JOB_SEARCH = {
-  provenance: "unresearched-blanket-rule",
+/** Weights ESTIMATED FROM AVERAGE, each a strength from 0 to 1 at its fullest. */
+export const JOB_SEARCH_ESTIMATE = {
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "Census Bureau CPS ASEC 2023 (Why People Move): a new job or job transfer is 13.2 percent of movers' reasons, at a mover rate near 8 to 10 percent; the weights are calibrated as a whole to that total",
   researchQuestionId: "why-americans-move-causes-and-strengths",
   /** Out of work: the strength on the first day, and the days to its full. */
   outOfWorkStart: 0.4,
@@ -96,7 +99,7 @@ export const UNRESEARCHED_JOB_SEARCH = {
   /**
    * Age: looking weighs fully at `youngest`, nothing from `lookUntil`. Moved
    * from 35 to 37 when offers came to pay the place's own wage for the work
-   * rather than the clerk placeholder (CTO ruling 23(b)), to hold the total.
+   * rather than the clerk stand-in (CTO ruling 23(b)), to hold the total.
    */
   youngest: 20,
   lookUntil: 37,
@@ -118,7 +121,7 @@ export const UNRESEARCHED_JOB_SEARCH = {
   settledConfidence: "high",
 } as const;
 
-const S = UNRESEARCHED_JOB_SEARCH;
+const S = JOB_SEARCH_ESTIMATE;
 
 const SEARCH_OPTIONS = {
   /** Ties sort by key, so an even weighing keeps the search at home. */

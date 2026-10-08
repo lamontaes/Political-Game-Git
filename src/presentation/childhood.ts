@@ -16,8 +16,13 @@ import {
 } from "../simulation/people-traits";
 import type { PeopleTrait } from "../simulation/people-trait-definitions";
 import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
+import { appendChildhoodEntry } from "../simulation/childhood-record";
 import type { DecisionConsideration } from "../simulation/types";
-import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
+import {
+  chooseFormativeOption,
+  formativePlayStableKey,
+  projectFormativeYears,
+} from "./formative-play";
 import { goalConsiderations } from "../simulation/people-goal-pursuit";
 import {
   CONNECTION_GOAL_KEY,
@@ -126,6 +131,8 @@ export function playChildhoodMoment(
   input: {
     readonly personId: EntityId;
     readonly optionKey?: string;
+    /** A faith choice only when the player made faith part of this scene. */
+    readonly faithChoice?: EntityId | null;
   },
 ): World {
   const moment = projectChildhoodMoment(world, input.personId);
@@ -144,11 +151,39 @@ export function playChildhoodMoment(
       true,
     );
     if (!decided.optionKey) return decided.world;
-    return chooseFormativeOption(decided.world, {
+    const formativeKey = formativePlayStableKey(
+      decided.world,
+      input.personId,
+      scene.situationKey,
+    );
+    const chosen = chooseFormativeOption(decided.world, {
       personId: input.personId,
       situationKey: scene.situationKey,
       optionKey: decided.optionKey,
       withPersonId: scene.withPersonId,
+      ...(moment.agency === "caregiver-led" && moment.caregiverPersonId
+        ? { decisionMakerPersonId: moment.caregiverPersonId }
+        : {}),
+    });
+    const recorded =
+      moment.agency === "caregiver-led" && moment.caregiverPersonId
+        ? recordCaregiverChoice(
+            chosen,
+            input.personId,
+            moment.caregiverPersonId,
+            scene,
+            decided.optionKey,
+            formativeKey,
+          )
+        : chosen;
+    return recordFormativePlayerTraitChoice(world, recorded, {
+      personId: input.personId,
+      situationKey: scene.situationKey,
+      optionKey: decided.optionKey,
+      choiceLabel:
+        scene.options.find((option) => option.key === decided.optionKey)
+          ?.label ?? decided.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (moment.action === "choose") {
@@ -168,6 +203,7 @@ export function playChildhoodMoment(
       choiceLabel:
         scene.options.find((option) => option.key === input.optionKey)?.label ??
         input.optionKey,
+      faithChoice: input.faithChoice,
     });
   }
   if (input.optionKey) {
@@ -177,11 +213,52 @@ export function playChildhoodMoment(
   }
   const chosen = caregiverChoice(world, input.personId, moment, scene);
   if (chosen === null) return world;
-  return chooseFormativeOption(world, {
+  const formativeKey = formativePlayStableKey(
+    world,
+    input.personId,
+    scene.situationKey,
+  );
+  const played = chooseFormativeOption(world, {
     personId: input.personId,
     situationKey: scene.situationKey,
     optionKey: chosen,
     withPersonId: scene.withPersonId,
+    decisionMakerPersonId: moment.caregiverPersonId ?? undefined,
+  });
+  return moment.caregiverPersonId
+    ? recordCaregiverChoice(
+        played,
+        input.personId,
+        moment.caregiverPersonId,
+        scene,
+        chosen,
+        formativeKey,
+      )
+    : played;
+}
+
+function recordCaregiverChoice(
+  world: World,
+  personId: EntityId,
+  caregiverPersonId: EntityId,
+  scene: FormativeScene,
+  optionKey: string,
+  formativeKey: string,
+): World {
+  const source = world.history.events.find(
+    (event) => event.stableKey === `${formativeKey}:event`,
+  );
+  if (!source)
+    throw new Error("The caregiver choice has no formative event to cite.");
+  return appendChildhoodEntry(world, {
+    kind: "caregiver-choice",
+    stableKey: `childhood-caregiver-choice:${personId}:${source.id}`,
+    personId,
+    caregiverPersonId,
+    situationKey: scene.situationKey,
+    optionKey,
+    sourceRecordId: source.id,
+    effectiveAt: world.currentDate,
   });
 }
 

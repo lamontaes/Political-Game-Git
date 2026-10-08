@@ -17,6 +17,8 @@ describe("Options after the morning-note presentation is retired", () => {
         <OptionsWorkspace
           state={state}
           dispatch={dispatch}
+          notesVisibility="full"
+          onChangeNotesVisibility={() => {}}
           onOpenPatchNotes={() => {}}
         />,
       );
@@ -25,9 +27,12 @@ describe("Options after the morning-note presentation is retired", () => {
       expect(markup).not.toContain("A morning note reads");
       expect(markup).not.toContain("option-morning-thoughts");
       expect(markup).toContain("Date format");
+      expect(markup).toContain("Notes");
+      for (const value of ["full", "light", "none"])
+        expect(markup).toContain(`data-testid="option-notes-${value}"`);
       expect(markup).toContain("People default view");
       expect(markup).toContain("Default pin size");
-      expect(markup).toContain("reduced-motion");
+      expect(markup).not.toContain("reduced-motion");
       expect(markup).toContain('data-testid="nav-patch-notes"');
       expect(JSON.stringify(state)).toBe(before);
       expect(dispatch).not.toHaveBeenCalled();

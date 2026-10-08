@@ -644,9 +644,59 @@
 
 /* ---------------------------------------------------------------- people */
 
-.pg-people-controls {
+.pg-people-layout {
   display: grid;
-  gap: 0.6rem;
+  grid-template-columns: minmax(16rem, 0.42fr) minmax(0, 0.58fr);
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.pg-people-index {
+  min-width: 0;
+}
+
+.pg-people-dossier {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.38fr) minmax(0, 0.62fr);
+  align-items: start;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 0.75rem;
+}
+
+.pg-people-dossier-figure {
+  width: 100%;
+  max-width: 12rem;
+}
+
+.pg-people-dossier-record {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.pg-people-dossier-record p,
+.pg-people-dossier-identity h2 {
+  margin: 0;
+}
+
+.pg-people-dossier-record p {
+  line-height: 1.4;
+}
+
+.pg-people-dossier-identity {
+  display: grid;
+  gap: 0.2rem;
+}
+
+@media (max-width: 720px) {
+  .pg-people-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pg-people-dossier {
+    grid-template-columns: minmax(6rem, 0.35fr) minmax(0, 0.65fr);
+  }
 }
 
 .pg-field {
@@ -1138,25 +1188,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-/*
- * The development art preview says so, in a band nobody can mistake for the
- * game. It sits above the room rather than over it so it cannot be cropped out
- * of a screenshot of the scene, which is the way an unreleased likeness would
- * otherwise end up circulating as approved art.
- */
-.art-preview-banner {
-  position: relative;
-  z-index: 6;
-  margin: 0;
-  padding: 0.4rem 0.75rem;
-  background: #4a1d1d;
-  color: #ffd9d9;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
 }
 
 /* ---------------------------------------------------------- today / work */
