@@ -10,7 +10,7 @@ import {
   contactBases,
   contactProposals,
   produceReachingOut,
-} from "../simulation/people-contact";
+} from "../simulation/relationship-contact";
 import { recordTraitChange } from "../simulation/people-traits";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";

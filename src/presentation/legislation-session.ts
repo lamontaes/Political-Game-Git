@@ -162,6 +162,9 @@ export function applyLegislativeStep(
   scenario: LegislativeProcedureContext,
   world: World,
   step: MeasureStepKey,
+  options: {
+    readonly amendmentMotive?: "pass" | "sink" | "record" | "ride";
+  } = {},
 ): StepResult {
   const measureId = scenario.measureId;
   const sessionEnd = applyInstitutionSessionEnd(world, measureId);
@@ -352,6 +355,9 @@ export function applyLegislativeStep(
         description:
           "Narrow the pilot so it starts in the counties already served.",
         offeredByLabel: "Floor sponsor",
+        ...(options.amendmentMotive
+          ? { authorMotive: options.amendmentMotive }
+          : {}),
         dispositions,
         presentMembers: presentFor(scenario, body.members, dispositions),
         electedMembers: body.members.length,

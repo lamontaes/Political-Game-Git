@@ -38,6 +38,7 @@ import { stateName } from "./office-qualification-rules";
 import { personName } from "./people";
 import { viewOfOfficial } from "./official-view-reads";
 import { isEligibleVoterIn } from "./issue-record";
+import { petitionSignerEligibility } from "./petition-signers";
 import { nextTownElection } from "./nationwide-world/town-election-calendar";
 import type {
   DecisionContext,
@@ -108,7 +109,13 @@ export type RecallRule =
       readonly circulationBasis: MunicipalBallotRuleBasis;
       readonly groundsRequired: boolean | null;
     }
-  | { readonly available: false; readonly reason: string };
+  | {
+      readonly available: false;
+      readonly reason: string;
+      /** The state's recall doctrine and name, where a state rule refused it. */
+      readonly doctrine?: MunicipalRecallDoctrine;
+      readonly stateName?: string;
+    };
 
 /**
  * The recall rule for a seat on one town's governing body, read through the
@@ -149,11 +156,15 @@ export function municipalRecallRule(
     return {
       available: false,
       reason: `Towns in ${state} cannot recall their officials${since}.`,
+      doctrine: rule.doctrine,
+      stateName: state,
     };
   if (rule.doctrine === "judicial-cause-removal-trial")
     return {
       available: false,
       reason: `In ${state} a town official is removed by a court for cause, not by a recall vote${since}.`,
+      doctrine: rule.doctrine,
+      stateName: state,
     };
   return {
     available: true,
@@ -1322,6 +1333,13 @@ export function askToSign(
 }
 
 /** Circulators reach named residents through the existing field-work estimate. */
+/** The state, territory or D.C. whose petition terms govern this petition. */
+function petitionStateUsps(petition: CitizenPetition): string {
+  return petition.kind === "recall"
+    ? municipalGovernmentByKey(petition.governmentKey)!.state
+    : petition.rule.stateUsps;
+}
+
 export function circulatePetition(
   world: World,
   input: {
@@ -1349,7 +1367,12 @@ export function circulatePetition(
   const candidates = [...new Set([...tied, ...world.personOrder])].filter(
     (id) =>
       id !== input.circulatorPersonId &&
-      isEligibleVoterIn(world, id, petition.jurisdictionId, world.currentDate),
+      petitionSignerEligibility(world, {
+        stateUsps: petitionStateUsps(petition),
+        jurisdictionId: petition.jurisdictionId,
+        signerPersonId: id,
+        on: world.currentDate,
+      }).eligible,
   );
   const alreadyAsked = new Set(
     world.history.events
@@ -1453,6 +1476,14 @@ export function recordedPetitionSignatures(
     )?.personId;
     const askId = tagValue(signed.tags, "ask:") as EntityId | null;
     const ask = askId ? asks.get(askId) : undefined;
+    const eligibility = signer
+      ? petitionSignerEligibility(world, {
+          stateUsps: petitionStateUsps(petition),
+          jurisdictionId: petition.jurisdictionId,
+          signerPersonId: signer,
+          on: signed.occurredAt,
+        })
+      : null;
     const traceId = tagValue(signed.tags, "signer-decision:");
     const trace = world.history.decisionTraces.find(
       (row) => row.id === traceId,
@@ -1479,12 +1510,7 @@ export function recordedPetitionSignatures(
                   row.personId === signer && row.role === "focus:requested",
               )
             ? "No preceding request to this signer is recorded."
-            : !isEligibleVoterIn(
-                  world,
-                  signer,
-                  petition.jurisdictionId,
-                  signed.occurredAt,
-                )
+            : eligibility && !eligibility.eligible
               ? "The signer's age, life or residence records do not establish eligibility."
               : !trace ||
                   trace.sequence >= signed.sequence ||
@@ -1561,12 +1587,27 @@ function closingEvent(
     occurredAt: world.currentDate,
     recordedAt: world.currentDate,
     jurisdictionId: petition.jurisdictionId,
-    involvedEntityIds: [petition.targetPersonId ?? petition.petitionerPersonId],
+    involvedEntityIds: [
+      ...new Set([
+        petition.petitionerPersonId,
+        petition.targetPersonId ?? petition.petitionerPersonId,
+      ]),
+    ],
     participants: [
+      ...(petition.targetPersonId
+        ? [
+            {
+              personId: petition.targetPersonId,
+              role: "focus:subject" as const,
+              detail: "recall-target",
+            },
+          ]
+        : []),
+      // The filer did it, so their Journal carries the outcome.
       {
-        personId: petition.targetPersonId ?? petition.petitionerPersonId,
-        role: "focus:subject",
-        detail: petition.kind === "recall" ? "recall-target" : "petition-filer",
+        personId: petition.petitionerPersonId,
+        role: "agency:petitioner" as const,
+        detail: "petition-filer",
       },
     ],
     personFactConstraints: [],

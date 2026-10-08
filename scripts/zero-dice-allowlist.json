@@ -17,13 +17,6 @@
       "code": "export const COLLAR_BAND_SHARE = 0.03;"
     },
     {
-      "file": "src/presentation/appearance-engine/expression-chooser.ts",
-      "kind": "roll",
-      "build": "Build 6",
-      "count": 1,
-      "code": "rest: draw(seed, \"face:guarded\") < 0.5 ? \"neutral\" : \"skeptical\","
-    },
-    {
       "file": "src/presentation/appearance-engine/extract.ts",
       "kind": "fixed-share",
       "build": "Build 6",
@@ -351,62 +344,6 @@
       "build": "Build 27",
       "count": 1,
       "code": "if (jurisdictionKey === \"US-CA\")"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.45,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.4,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.6,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.25,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.5,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.12,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "reportedShare: 0.3,"
-    },
-    {
-      "file": "src/simulation/crime/contract.ts",
-      "kind": "fixed-share",
-      "build": "Build 21",
-      "count": 1,
-      "code": "arrestShare: 0.1,"
     },
     {
       "file": "src/simulation/crisis/disaster.ts",

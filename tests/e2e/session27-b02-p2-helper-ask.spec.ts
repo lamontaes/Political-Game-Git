@@ -49,10 +49,6 @@ test("a new random-place campaign asks a named person to help", async ({
     place: place.formalName ?? undefined,
   };
   await chooseCreatorLocation(page, life, false);
-  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
-  await page.getByTestId("creator-skip-difficulty").click();
-  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
-  await page.getByTestId("whoareyou-play").click();
   await expect(page.getByTestId("begin")).toBeEnabled();
   await page.getByTestId("begin").click();
   await expect(page.getByTestId("play-screen")).toBeVisible({

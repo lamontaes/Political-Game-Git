@@ -413,6 +413,9 @@ export function publicMeetingSeries(
  * asks to vote is told they are not a member rather than told the city's
  * passage threshold is unread. Both are true; only one is about them.
  */
+/** Trace key: the action needs the town's enacted text, which is not read. */
+export const ENACTED_TEXT_REQUIRED = "enacted-text-required";
+
 export function municipalActionAuthority(
   world: World,
   input: {
@@ -438,11 +441,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(
-      input.action,
-      "evidence",
-      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
-    );
+    return refuse(input.action, "evidence", ENACTED_TEXT_REQUIRED);
   }
   const standing = municipalStanding(world, input);
   const isMember =
@@ -453,12 +452,12 @@ export function municipalActionAuthority(
     case "inspect-government":
       return grant(
         input.action,
-        `${reading.displayName} is compiled from ${
+        `${reading.displayName} is compiled${
           reading.evidence === "enacted-text"
-            ? "enacted text this repository retrieved"
+            ? " from enacted text this repository retrieved"
             : reading.evidence === "game-profile"
-              ? "a disclosed local government game profile"
-              : "a research transcription of official municipal pages"
+              ? ""
+              : " from a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 
@@ -735,20 +734,17 @@ export function installMunicipalGovernment(
     participants: [],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["municipal", `government:${input.governmentKey}`],
-    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, ${
-      reading.evidence === "enacted-text"
-        ? `read from its own enacted law as of ${reading.asOf}`
-        : reading.evidence === "game-profile"
-          ? "under a disclosed fictional game profile; the Census catalog identifies the unit but does not establish its procedure"
-          : `read from a research transcription of official municipal pages as of ${reading.asOf}`
-    }.${
-      selectedProcedure.ok &&
-      selectedProcedure.evidence === "game-profile" &&
-      reading.evidence !== "game-profile"
-        ? ` Its ordinance procedure uses the separate ${selectedProcedure.pack.packId} game profile.`
-        : ""
-    }`,
+    // The summary is read aloud (press questions, news), so it says only who
+    // governs. Where the reading came from is kept in the tags, never spoken.
+    tags: [
+      "municipal",
+      `government:${input.governmentKey}`,
+      `evidence:${reading.evidence}`,
+      ...(selectedProcedure.ok
+        ? [`procedure-evidence:${selectedProcedure.evidence}`]
+        : []),
+    ],
+    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "its local government"}.`,
     context: {
       location: {
         jurisdictionId,

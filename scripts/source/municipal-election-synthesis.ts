@@ -202,7 +202,11 @@ function parseProfile(usps: string, stateName: string, body: string) {
     runoffTriggerPercent: numberOrNull(runoff[2]!),
     runoffCitation: runoff[3]!,
     seatStructureOptions: csv(seats[1]!),
-    seatStructureDefault: seats[2]!,
+    // The pinned research text says "ward councillors"; the committed record
+    // is American English (#2752), so the extraction says it the same way.
+    seatStructureDefault: seats[2]!
+      .replace(/ward councillors/g, "district council members")
+      .replace(/councillors/g, "council members"),
     seatStructureCitation: seats[3]!,
     mayorSelectionOptions: csv(mayor[1]!),
     mayorSelectionNote: mayor[2]!,

@@ -9,6 +9,8 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "../decisions";
+import { registeredTraitConsiderations } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import { recordsByKey } from "../history-index";
 import type { DecisionEvaluation, EntityId, IsoDate, World } from "../types";
 
@@ -59,6 +61,27 @@ export function evaluateTownCoupleActors(
           rngVersion: previous.rngVersion,
         };
     }
+    const considerations = romanticConsiderations(
+      next,
+      input.stableKey,
+      actorPersonId,
+      otherPersonId,
+    )
+      // A preference for privacy can weigh on starting a relationship, but
+      // cannot by itself establish a reason to end an existing one. Friction
+      // and other relationship-specific evidence still reaches the decision.
+      .filter(
+        (consideration) =>
+          !(
+            consideration.sourceType === "mind:personal-value" &&
+            consideration.stableKey.endsWith(":connection") &&
+            consideration.optionKey === "decline"
+          ),
+      )
+      .map((consideration) => ({
+        ...consideration,
+        optionKey: consideration.optionKey === "accept" ? "stay" : ending,
+      }));
     const result = evaluateDecision(next, {
       stableKey,
       decisionType: "people.couple-stage",
@@ -70,15 +93,16 @@ export function evaluateTownCoupleActors(
       subject: { kind: "context:life", key: "couple-stage", entityId: null },
       options,
       constraints: [],
-      considerations: romanticConsiderations(
-        next,
-        input.stableKey,
-        actorPersonId,
-        otherPersonId,
-      ).map((consideration) => ({
-        ...consideration,
-        optionKey: consideration.optionKey === "accept" ? "stay" : ending,
-      })),
+      considerations: [
+        ...considerations,
+        ...registeredTraitConsiderations(
+          next,
+          traitRegistryFor(next),
+          actorPersonId,
+          stableKey,
+          "people.couple-stage",
+        ),
+      ],
       perceptionIds: [],
       randomness: "none",
       retention: input.retention ?? "ephemeral",
@@ -162,8 +186,8 @@ export function evaluateTownDateProposal(
       },
       ...supported.map((row) => ({
         key: `date:${row.id}`,
-        label: "Ask this person out",
-        description: "Propose a first date to this recorded acquaintance.",
+        label: "ask-on-a-date",
+        description: "date-proposal",
       })),
     ],
     constraints: [],
@@ -188,12 +212,16 @@ export function evaluateTownDateProposal(
     (row) => `date:${row.id}` === evaluation.selectedOptionKey,
   )?.id;
   if (!recipient) return null;
-  const considerations = romanticConsiderations(
-    world,
-    `${stableKey}:answer`,
-    recipient,
-    askerId,
-  );
+  const considerations = [
+    ...romanticConsiderations(world, `${stableKey}:answer`, recipient, askerId),
+    ...registeredTraitConsiderations(
+      world,
+      traitRegistryFor(world),
+      recipient,
+      `${stableKey}:answer`,
+      "people.date-answer",
+    ),
+  ];
   if (considerations.length === 0) return null;
   const answer = evaluateDecision(world, {
     stableKey: `${stableKey}:answer`,

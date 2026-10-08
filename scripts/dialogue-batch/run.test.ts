@@ -37,3 +37,35 @@ describe("the dialogue batch", () => {
     },
   );
 });
+
+describe("the dialogue batch reaches the requested public replies", () => {
+  it(
+    "includes an official view, a recorded repeat greeting, and a press answer",
+    { timeout: 300_000 },
+    () => {
+      const result = runDialogueBatch({
+        seed: "dh1-20261007-session52",
+        ages: [34],
+        newsDays: 10,
+        max: 40,
+      });
+      const answer = result.lines.find((line) => line.id === "press-answer");
+      const official = result.lines.find(
+        (line) => line.id === "officials-view",
+      );
+      const greeting = result.lines.find((line) => line.id === "greet-again");
+      expect(official?.composer).toBe(
+        "officialViewLine in small-talk-english.ts",
+      );
+      expect(official?.line.trim()).not.toBe("");
+      expect(greeting?.composer).toBe(
+        "greetAgainLine in small-talk-english.ts",
+      );
+      expect(greeting?.line.trim()).not.toBe("");
+      expect(answer?.composer).toBe(
+        "composePressLine (answer-unknown) in press-english.ts",
+      );
+      expect(answer?.line.trim()).not.toBe("");
+    },
+  );
+});

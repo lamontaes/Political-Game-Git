@@ -96,7 +96,7 @@ describe("recorded fundraiser sources", () => {
     expect(CANDIDATE_OWN_MONEY_RULE.sources).toHaveLength(2);
   });
 
-  it("records the unavailable ask in the existing evaluator despite recorded cash; never invents a donor or gift", () => {
+  it("does not invent a donor when the fundraiser has no active campaign", () => {
     const fixture = fundraiser();
     console.info(`A66 place=${fixture.place} seed=${fixture.seed}`);
     const result = recordCampaignFundraiserReceipts(
@@ -166,5 +166,37 @@ describe("recorded fundraiser sources", () => {
     expect(
       recordCampaignFundraiserReceipts(result.world, fixture.input).world,
     ).toBe(world);
+  });
+
+  it("offers jurisdiction-specific leftover uses and labels estimates", async () => {
+    const { leftoverFundsRuleForState } =
+      await import("./campaign-money-sources");
+    expect(leftoverFundsRuleForState("US-NY")).toMatchObject({
+      jurisdiction: "NY",
+      allowedUses: [
+        "keep-for-future-race",
+        "refund-donors",
+        "give-to-charity",
+        "give-to-party/candidate",
+      ],
+      source: expect.stringContaining("Brooklyn Eagle"),
+    });
+    expect(leftoverFundsRuleForState("US-VA")?.source).toContain("VPM");
+    expect(leftoverFundsRuleForState("US-CA")).toMatchObject({
+      estimatedFrom: "NY",
+      allowedUses: ["keep-for-future-race", "refund-donors"],
+    });
+  });
+
+  it("has a nonblank rule for every state, D.C. and territory", async () => {
+    const { leftoverFundsRuleForState } =
+      await import("./campaign-money-sources");
+    const expected =
+      "AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC AS GU MP PR VI".split(
+        " ",
+      );
+    for (const state of expected) {
+      expect(leftoverFundsRuleForState(`US-${state}`), state).not.toBeNull();
+    }
   });
 });
