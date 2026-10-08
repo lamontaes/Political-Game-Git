@@ -4,9 +4,11 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { projectWorld39News } from "./world39-news";
 import { projectWorld39Journal } from "./world39-journal";
 import {
+  addDays,
   recordWorldEvent,
   recordEventKnowledge,
   recordMemory,
+  lifePlaceStateIdentities,
   serializeWorld,
   deserializeWorld,
   stateExecutiveOffice,
@@ -15,6 +17,12 @@ import {
   type EventVisibility,
   type EventParticipantRole,
 } from "../simulation";
+import type {
+  MatterRecord,
+  MatterResponseRecord,
+} from "../simulation/press/records";
+import { publicPressEventsAbout } from "../simulation/press/findings";
+import { CLAIM_CONTRADICTION_EVENT } from "../simulation/claim-stances";
 import { publishPublicEvent } from "../simulation/public-information";
 import { stateOfJurisdiction } from "../simulation/press/outlets";
 
@@ -61,6 +69,147 @@ function event(
 }
 
 describe("WORLD39 saved-world readers", () => {
+  it("keeps old press matters, responses and caught lies in the subject's Journal", () => {
+    const game = opening("world39-press-journal-records");
+    const subjectId = game.playerPersonId;
+    const reporterId = game.world.personOrder.find((id) => id !== subjectId)!;
+    const at = addDays(game.world.currentDate, -8 * 365);
+    const makePressEvent = (
+      world: World,
+      stableKey: string,
+      type: string,
+      summary: string,
+      tags: string[],
+    ) =>
+      recordWorldEvent(world, {
+        stableKey,
+        type,
+        occurredAt: at,
+        recordedAt: world.currentDate,
+        jurisdictionId: world.people[subjectId]!.homeJurisdictionId,
+        involvedEntityIds: [subjectId, reporterId],
+        participants: [
+          { personId: reporterId, role: "agency:reporter", detail: null },
+          { personId: subjectId, role: "focus:subject", detail: null },
+        ],
+        personFactConstraints: [],
+        visibility: "public",
+        tags,
+        summary,
+        context: {
+          location: null,
+          socialContext: null,
+          pressure: null,
+          choice: null,
+          motivation: null,
+          immediateReaction: null,
+        },
+      });
+    let world = makePressEvent(
+      game.world,
+      "test:journal-matter",
+      "press.matter-opened",
+      "A public matter about you was opened.",
+      ["test.fixture"],
+    );
+    const matterEvent = world.history.events.at(-1)!;
+    const matter: MatterRecord = {
+      id: "test:journal-matter-record",
+      stableKey: "test:journal-matter-record",
+      sequence: 1,
+      recordedAt: world.currentDate,
+      kind: "matter",
+      family: "M1",
+      subjectPersonIds: [subjectId],
+      occurrenceId: null,
+      openedAt: at,
+      originEventId: matterEvent.id,
+      jurisdictionId: matterEvent.jurisdictionId,
+    };
+    world = makePressEvent(
+      world,
+      "test:journal-response",
+      "matter.party-response",
+      "A party colleague called on you to resign.",
+      ["test.fixture"],
+    );
+    const responseEvent = world.history.events.at(-1)!;
+    const response: MatterResponseRecord = {
+      id: "test:journal-response-record",
+      stableKey: "test:journal-response-record",
+      sequence: 2,
+      recordedAt: world.currentDate,
+      kind: "matter-response",
+      matterId: matter.id,
+      actorPersonId: reporterId,
+      actorRole: "party",
+      response: "call-for-resignation",
+      eventId: responseEvent.id,
+      decisionTraceId: null,
+      knowledgeIds: [],
+      respondedAt: at,
+    };
+    world = makePressEvent(
+      world,
+      "test:journal-caught-lie",
+      CLAIM_CONTRADICTION_EVENT,
+      "A reporter established that your recorded claim was false.",
+      ["test.fixture", "claim.intent.deceive"],
+    );
+    world = {
+      ...world,
+      history: {
+        ...world.history,
+        pressRecords: [matter, response],
+      },
+    };
+
+    const caughtLieEvent = world.history.events.at(-1)!;
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const localWorld: World = {
+        ...world,
+        people: {
+          ...world.people,
+          [subjectId]: {
+            ...world.people[subjectId]!,
+            homeJurisdictionId: place.jurisdictionKey as EntityId,
+          },
+        },
+      };
+      const journal = projectWorld39Journal(localWorld, subjectId);
+      expect(journal.entries).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            at,
+            text: "A public matter about you was opened.",
+            sourceId: matterEvent.id,
+          }),
+          expect.objectContaining({
+            at,
+            text: "A party colleague called on you to resign.",
+            sourceId: responseEvent.id,
+          }),
+          expect.objectContaining({
+            at,
+            text: "A reporter established that your recorded claim was false.",
+            sourceId: caughtLieEvent.id,
+          }),
+        ]),
+      );
+      expect(
+        publicPressEventsAbout(localWorld, subjectId).map((event) => event.id),
+      ).toEqual(
+        expect.arrayContaining([
+          matterEvent.id,
+          responseEvent.id,
+          caughtLieEvent.id,
+        ]),
+      );
+    }
+  });
+
   it("orients an actual opening life before any reporter event and never writes on reads", () => {
     const { world, playerPersonId } = opening("world39-populated");
     const before = serializeWorld(world);

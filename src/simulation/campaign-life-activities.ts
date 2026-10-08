@@ -4,7 +4,10 @@ import { modelCampaignFieldReach } from "./campaign-contact-calibration";
 import { circulateCandidatePetition } from "./candidate-petitions";
 import { wasRefused } from "./scheduled-activity-answer";
 import { onShiftAt, workSchedulesFor } from "./living-world/work-schedules";
-import { rememberedAdverseFindingsAgainst } from "./press/findings";
+import {
+  publicAdverseFindingsAgainst,
+  publicPressEventsAbout,
+} from "./press/findings";
 import {
   CAMPAIGN_LIFE_CATALOG,
   CAMPAIGN_LIFE_TRAVEL_COST_DISCLOSURE,
@@ -1405,10 +1408,8 @@ function supportRequestDecision(
       "grant",
     ),
   );
-  for (const finding of rememberedAdverseFindingsAgainst(
-    world,
-    record.subjectPersonId,
-  )) {
+  const findings = publicAdverseFindingsAgainst(world, record.subjectPersonId);
+  for (const finding of findings) {
     considerations.push({
       stableKey: `${decisionKey}:public-finding:${finding.step.id}`,
       optionKey: "decline",
@@ -1418,6 +1419,19 @@ function supportRequestDecision(
       confidence: "high",
       explanation: `The ${finding.proceeding.institutionLabel} has made a public finding against them.`,
       sourceRefs: [{ kind: "historical-event", eventId: finding.step.eventId }],
+    });
+  }
+  for (const event of publicPressEventsAbout(world, record.subjectPersonId)) {
+    if (findings.some((finding) => finding.step.eventId === event.id)) continue;
+    considerations.push({
+      stableKey: `${decisionKey}:press-record:${event.id}`,
+      optionKey: "decline",
+      sourceType: "context:public-press-record",
+      direction: "supports",
+      importance: "moderate",
+      confidence: "high",
+      explanation: event.summary,
+      sourceRefs: [{ kind: "historical-event", eventId: event.id }],
     });
   }
   const evaluation = evaluateCampaignHelpDecision(world, {

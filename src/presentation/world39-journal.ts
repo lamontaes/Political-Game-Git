@@ -21,6 +21,8 @@ import {
 } from "./law-exposure-lines";
 import { INTRODUCTION_EVENT } from "../simulation/social-introductions";
 import { crimeJournalLine } from "../simulation/crime/journal";
+import { CLAIM_CONTRADICTION_EVENT } from "../simulation/claim-stances";
+import { pressRecordsOfKind } from "../simulation/press/store";
 import { playSettingsOf } from "../simulation/play-settings";
 import { ownElectionResultSentence } from "./own-election";
 import { proseDate, proseMonthYear, proseYear } from "./prose-dates";
@@ -84,6 +86,8 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
   const eventsById = new Map(
     world.history.events.map((event) => [event.id, event]),
   );
+  const matters = pressRecordsOfKind(world, "matter");
+  const mattersById = new Map(matters.map((matter) => [matter.id, matter]));
   entries.push({
     id: `birth:${person.id}`,
     at: person.birthDate,
@@ -324,6 +328,54 @@ export function projectWorld39Journal(world: World, personId: EntityId) {
       sourceId: event.id,
     });
   }
+  // Press records keep the person's durable account of a matter even when
+  // the event names them only as its subject. Event wording stays sourced
+  // from the saved event; this read adds no news copy or memory window.
+  const addPressEvent = (eventId: EntityId) => {
+    const event = eventsById.get(eventId);
+    if (
+      !event ||
+      covered.has(event.id) ||
+      event.occurredAt > world.currentDate ||
+      event.recordedAt > world.currentDate
+    )
+      return;
+    const text = livedWorld39Sentence(event.summary);
+    if (!text) return;
+    covered.add(event.id);
+    entries.push({
+      id: `event:${event.id}`,
+      at: event.occurredAt,
+      sequence: event.sequence,
+      kind: "event",
+      text,
+      sourceId: event.id,
+    });
+  };
+  for (const matter of matters)
+    if (
+      matter.subjectPersonIds.includes(personId) &&
+      matter.openedAt <= world.currentDate
+    )
+      addPressEvent(matter.originEventId);
+  for (const response of pressRecordsOfKind(world, "matter-response")) {
+    const matter = mattersById.get(response.matterId);
+    if (
+      response.respondedAt <= world.currentDate &&
+      (response.actorPersonId === personId ||
+        matter?.subjectPersonIds.includes(personId))
+    )
+      addPressEvent(response.eventId);
+  }
+  for (const event of world.history.events)
+    if (
+      event.type === CLAIM_CONTRADICTION_EVENT &&
+      event.tags.includes("claim.intent.deceive") &&
+      event.participants.some(
+        (participant) => participant.personId === personId,
+      )
+    )
+      addPressEvent(event.id);
   for (const memory of world.history.memories) {
     if (
       memory.personId !== personId ||
