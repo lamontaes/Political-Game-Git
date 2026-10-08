@@ -56,7 +56,7 @@ describe("the dialogue batch", () => {
   );
 });
 
-describe("the dialogue batch avoids menu prompts and composes news from records", () => {
+describe("the dialogue batch reads records and real conversations, and composes news from records", () => {
   it(
     "uses record-backed output and records unavailable lede source fields",
     { timeout: 300_000 },
@@ -78,9 +78,15 @@ describe("the dialogue batch avoids menu prompts and composes news from records"
       for (const entry of bin)
         expect(entry.rule).toMatch(/^procedural wording/);
       expect(batch.items.every((item) => item.parts.length > 0)).toBe(true);
-      expect(result.lines.every((line) => line.id.startsWith("text-"))).toBe(
-        true,
-      );
+      // Record-backed text, or a conversation the game itself offered: the
+      // person's saved reply, the opening choice and four or more choices.
+      for (const line of result.lines) {
+        expect(/^(text|conversation)-/.test(line.id), line.id).toBe(true);
+        if (line.id.startsWith("conversation-")) {
+          expect(line.choices?.length ?? 0).toBeGreaterThanOrEqual(4);
+          expect(line.prior?.trim()).toBeTruthy();
+        }
+      }
       const situationRelationships = batch.items.map(
         (item) => `${item.situation}|${item.cell.relationship}`,
       );
@@ -92,9 +98,12 @@ describe("the dialogue batch avoids menu prompts and composes news from records"
             const part = sourcedParts.find((row) => row.key === key.slice(5));
             expect(part?.source?.url, key).toBeTruthy();
           } else {
+            // Otherwise a record the text was read from, or a part the
+            // English engine composed the line from (bank:part:variant).
             expect(
               key.startsWith("news:story:event_") ||
-                key.startsWith("journal:chapter:"),
+                key.startsWith("journal:chapter:") ||
+                /^[a-z][\w.-]*:(opener|core|reason|closer):[\w.-]+$/.test(key),
               key,
             ).toBe(true);
           }
