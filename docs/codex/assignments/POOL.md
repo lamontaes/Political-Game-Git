@@ -702,7 +702,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2356 | Let the player choose their election ballot | PR #2356 (session46/b18-1-player-vote) | open: sent back: failed its own changed checks: tests | |
 | RS-2357 | B23 Part 4: Use local names for generated town employers | PR #2357 (codex/session41-b23-part4) | done #2357 | |
 | RS-2361 | Part 3: Hire managers with campaign experience | PR #2361 (session27/b02-part3-manager) | done #2361 | |
-| RS-2362 | Save population-based voting precinct membership beside town wards | PR #2362 (codex/session13-precinct-membership) | open: draft: finish it or close it as superseded | |
+| RS-2362 | Save population-based voting precinct membership beside town wards | PR #2362 (codex/session13-precinct-membership) | done #2362 | |
 | RS-2364 | [B19 Part 2] Read whole-career public offices | PR #2364 (session39/b19-part2-office) | open: draft: finish it or close it as superseded | |
 | RS-2365 | P1.2: add endorsement, warning and called-favor moves | PR #2365 (codex/session30-vote-bargaining-part-2) | open: draft: finish it or close it as superseded | |
 | RS-2366 | [B19 Part 3] Read a life back from recorded history | PR #2366 (session39/b19-part3-projection) | open: draft: finish it or close it as superseded | |
@@ -711,7 +711,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2371 | B23 Part 5: prove local names in random new games | PR #2371 (codex/session41-b23-part5) | open: rebase on main (conflicts) | |
 | RS-2372 | Save precinct returns from the canonical voter count | PR #2372 (codex/session13-precinct-results) | open: draft: finish it or close it as superseded | |
 | RS-2374 | Session 30 Part 3: Carry bargaining promises into vote reasons | PR #2374 (codex/session30-vote-bargaining-part-3) | open: draft: finish it or close it as superseded | |
-| RS-2375 | [b12 Part 3] Decide cloture and floor holds by member | PR #2375 (session35/b12-part3) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2375 | [b12 Part 3] Decide cloture and floor holds by member | PR #2375 (session35/b12-part3) | done #2375 | |
 | RS-2381 | b22 part 1: add composed player office scope | PR #2381 (session48/b22-part1-office-scope) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2382 | b22 part 2: scale economy views by office | PR #2382 (session48/b22-part2-economy-visibility) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2383 | b22 part 3: materialize press coverage from office and travel | PR #2383 (session48/b22-part3-press-coverage) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
