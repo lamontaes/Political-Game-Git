@@ -296,6 +296,11 @@ describe("a law that moves a place's outcome is news a year on", () => {
     expect(found.length).toBe(acting.length);
     // 32 of 56 towns may pass it and keep a crime record of their own.
     expect(found.length).toBeGreaterThan(20);
+    // Every place effect can be heard through the same public-service path
+    // used by the news exposure reader.
+    expect(found.every((finding) => finding.reach === "public-service")).toBe(
+      true,
+    );
 
     // A year after the repeal took effect, the other way.
     const repealYear = run(
