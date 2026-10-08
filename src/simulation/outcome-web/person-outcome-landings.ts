@@ -126,6 +126,7 @@ interface PlannedLanding {
   readonly recipientRule: OutcomeRecipientRule | null;
   readonly outcomeDirection: "higher-is-better" | "higher-is-worse" | null;
   readonly estimatedFrom: string | null;
+  readonly unsupportedPlaceReasons?: Readonly<Record<string, string>>;
 }
 
 const PERSON_LANDING_PATH =
@@ -689,6 +690,7 @@ export function recordPlannedPersonOutcomeLandings(
       hasRecordedFarmOperator: farmOperators.has(personId),
     };
     for (const row of PERSON_LANDINGS) {
+      if (stateKey && row.unsupportedPlaceReasons?.[stateKey]) continue;
       if (
         !row.recipientRule ||
         !row.outcomeDirection ||
