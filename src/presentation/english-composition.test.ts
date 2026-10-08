@@ -533,3 +533,39 @@ describe("registers, refusals and addresses", () => {
     );
   });
 });
+
+describe("one question per turn in ordinary talk", () => {
+  const asking: ComposedLineBank = {
+    key: "test.two-questions",
+    version: "1",
+    surface: "dialogue",
+    act: "ask",
+    parts: {
+      core: {
+        variants: [
+          { key: "core", kind: "template", text: "Do you want a turn?" },
+        ],
+      },
+      closer: {
+        variants: [
+          { key: "wait", kind: "template", text: "Do you want me to wait?" },
+        ],
+      },
+    },
+  };
+
+  it("leaves a second question for the next turn in a kitchen, keeps both in a hearing room", () => {
+    const kitchen = composeGroundedLine(packet(), asking, {
+      register: "family",
+    });
+    const hearing = composeGroundedLine(packet(), asking, {
+      register: "committee-questioning",
+    });
+    expect(kitchen.kind === "rendered" && kitchen.text).toBe(
+      "Do you want a turn?",
+    );
+    expect(hearing.kind === "rendered" && hearing.text).toBe(
+      "Do you want a turn? Do you want me to wait?",
+    );
+  });
+});
