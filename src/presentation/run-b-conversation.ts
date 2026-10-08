@@ -69,7 +69,6 @@ import {
   standingTone,
   type ReplyMeanings,
   type ReplyPlayerLean,
-  type ReplyTraitLean,
 } from "./reply-meaning";
 import {
   canListenToRunBConversation,
@@ -1398,34 +1397,6 @@ const SCHOOL_SPLIT_MEANINGS: ReplyMeanings = {
   },
 };
 
-/** Temperament bears on these meanings by what they are, not their order. */
-const SCHOOL_SPLIT_TRAIT_LEANS: readonly ReplyTraitLean[] = [
-  {
-    meaning: "agree",
-    trait: "conflict",
-    pole: "low",
-    explanation: "They would rather settle it than argue about it.",
-  },
-  {
-    meaning: "decline",
-    trait: "conflict",
-    pole: "high",
-    explanation: "They say no when they mean no.",
-  },
-  {
-    meaning: "undecided",
-    trait: "deliberation",
-    pole: "low",
-    explanation: "They think a choice through before they make it.",
-  },
-  {
-    meaning: "agree",
-    trait: "deliberation",
-    pole: "high",
-    explanation: "They answer on the spot.",
-  },
-];
-
 const SCHOOL_SPLIT_PLAYER_LEANS: readonly ReplyPlayerLean[] = [
   {
     meaning: "agree",
@@ -1510,7 +1481,6 @@ function resolveSchoolProjectResponse(
         subjectKey: "ask-to-split:who-does-which-half",
         standing,
         meanings: SCHOOL_SPLIT_MEANINGS,
-        traitLeans: SCHOOL_SPLIT_TRAIT_LEANS,
         playerLeans: SCHOOL_SPLIT_PLAYER_LEANS,
       });
       const traced = recordDurableDecisionTrace(
@@ -1561,39 +1531,6 @@ const NEIGHBORHOOD_MEETING_MEANINGS: ReplyMeanings = {
     description: "Say they have not decided about the evening.",
   },
 };
-
-const NEIGHBORHOOD_MEETING_TRAIT_LEANS: readonly ReplyTraitLean[] = [
-  {
-    meaning: "agree",
-    trait: "sociability",
-    pole: "high",
-    explanation: "They like an evening among neighbors.",
-  },
-  {
-    meaning: "decline",
-    trait: "sociability",
-    pole: "low",
-    explanation: "They would rather not sit through a room of people.",
-  },
-  {
-    meaning: "counter",
-    trait: "conflict",
-    pole: "low",
-    explanation: "They would rather find a way round it than refuse.",
-  },
-  {
-    meaning: "decline",
-    trait: "conflict",
-    pole: "high",
-    explanation: "They say no when they mean no.",
-  },
-  {
-    meaning: "undecided",
-    trait: "deliberation",
-    pole: "low",
-    explanation: "They think a choice through before they make it.",
-  },
-];
 
 const NEIGHBORHOOD_MEETING_PLAYER_LEANS: readonly ReplyPlayerLean[] = [
   {
@@ -1671,7 +1608,6 @@ function resolveNeighborhoodMeetingResponse(
         subjectKey: "ask-them-to-go:who-gives-the-evening",
         standing,
         meanings: NEIGHBORHOOD_MEETING_MEANINGS,
-        traitLeans: NEIGHBORHOOD_MEETING_TRAIT_LEANS,
         playerLeans: NEIGHBORHOOD_MEETING_PLAYER_LEANS,
       });
       const traced = recordDurableDecisionTrace(
