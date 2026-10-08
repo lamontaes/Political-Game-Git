@@ -36,6 +36,9 @@ import type {
   HistoricalEventInput,
   World,
 } from "./index";
+import { MORTALITY_WINDOW_KEY } from "./crisis/mortality";
+import { GOAL_REVIEW_TRANSITION_KEY } from "./people-goal-pursuit-content";
+import { lifePaths2Handlers } from "./life-paths2";
 
 const TEST_CONTEXT: EventContext = {
   location: null,
@@ -64,6 +67,45 @@ function testEvent(world: World, stableKey: string): HistoricalEventInput {
 }
 
 describe("deterministic world foundation", () => {
+  it("starts mortality and goal schedules through a direct minute-clock path", () => {
+    const generated = createPortabilityFixture();
+    // A raw world has no opening-created schedules; the direct clock API must
+    // establish the same ones as opening ordinary life.
+    const personId = generated.personOrder[0]!;
+    const playable = createWorld({
+      seed: generated.seed,
+      currentDate: generated.currentDate,
+      currentMoment: generated.currentMoment,
+      jurisdictions: Object.values(generated.jurisdictions),
+      people: generated.personOrder.map((id) => generated.people[id]!),
+      control: { kind: "person" as const, personId },
+    });
+
+    expect(
+      playable.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+      ),
+    ).toBe(false);
+    expect(
+      playable.history.futureDueItems.some(
+        (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
+      ),
+    ).toBe(false);
+
+    const advanced = advanceWorldMinutes(playable, 40, lifePaths2Handlers());
+    expect(
+      advanced.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+      ),
+    ).toBe(true);
+    expect(
+      advanced.history.futureDueItems.some(
+        (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
+      ),
+    ).toBe(true);
+    assertWorldIntegrity(advanced);
+  });
+
   it("replays identical worlds, actions, histories, and progressive detail", () => {
     const play = () => {
       let world = createDemoWorld("replay-seed");
