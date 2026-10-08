@@ -5,13 +5,13 @@ import {
   type LawTermScope,
   type RentalPriceRule,
 } from "../law-consequence-types";
-import {
-  reciprocalRankedReferences,
-  weightedReferenceMean,
-} from "../income-tax-withholding";
+import { reciprocalRankedReferences } from "../income-tax-withholding";
 import { spreadOf } from "../sample-spread";
-import { SeededRng } from "../rng";
-import { censusRegionOf } from "../world-setup/census-regions";
+import { isDistrictOfColumbia } from "../nationwide-world/district-of-columbia-identity";
+import {
+  censusRegionOf,
+  censusRegionStates,
+} from "../world-setup/census-regions";
 import {
   startingLawTerms,
   startingLawCategories,
@@ -94,12 +94,9 @@ export interface ModeledFinalEnactedLawTerm {
   readonly unit: LawAmountUnit;
   /** Dev/Observer-only estimate evidence. This is never a primary law term. */
   readonly estimate: {
-    readonly mean: number;
+    readonly median: number;
     readonly spread: number;
-    readonly selectedDonorValue: number;
-    readonly selectionKey: string;
-    readonly worldSeed: string;
-    readonly method: "same-level-similar-state-law-peer";
+    readonly estimatedFrom: "median of recorded states";
   };
   readonly evidence: {
     readonly targetJurisdictionId: EntityId;
@@ -113,7 +110,7 @@ export interface ModeledFinalEnactedLawTerm {
     readonly lawLevel: LawInForce["level"];
     readonly governmentForm: string;
     readonly targetPopulation: number;
-    readonly targetRegion: string;
+    readonly targetRegion: string | null;
     readonly donorLawMeasureIds: readonly EntityId[];
     readonly donorSourceRecordIds: readonly EntityId[];
     readonly donors: readonly {
@@ -769,7 +766,16 @@ export function readOrEstimateFinalEnactedLawTerm(
     };
 
   const targetForm = governmentForm(targetGovernment);
-  const targetRegion = censusRegionOf(targetPlaceKey.slice(3));
+  const targetUsps = targetPlaceKey.slice(3);
+  const censusPlaces = new Set(censusRegionStates());
+  const targetRegion = censusPlaces.has(targetUsps)
+    ? censusRegionOf(targetUsps)
+    : null;
+  const recordedStateKeys = new Set(
+    censusRegionStates()
+      .filter((state) => !isDistrictOfColumbia(state))
+      .map((state) => `US-${state}`),
+  );
   const governments = world.publicBudgets?.governments ?? [];
   const donors: LawTermDonor[] = [];
   for (const government of governments) {
@@ -777,8 +783,7 @@ export function readOrEstimateFinalEnactedLawTerm(
       government.key === targetGovernment.key ||
       government.level !== targetGovernment.level ||
       government.population <= 0 ||
-      governmentForm(government) !== targetForm ||
-      !government.stateKey.startsWith("US-")
+      !recordedStateKeys.has(government.stateKey)
     )
       continue;
     const donorPlaceKey = startingLawPlaceKey(government.lawJurisdictionId);
@@ -820,57 +825,36 @@ export function readOrEstimateFinalEnactedLawTerm(
       scope: donorTerm.scope,
       population: government.population,
       region: censusRegionOf(government.stateKey.slice(3)),
-      governmentForm: targetForm,
-      sameRegion: censusRegionOf(government.stateKey.slice(3)) === targetRegion,
-      populationDistance: Math.abs(
-        Math.log(government.population / targetGovernment.population),
-      ),
+      governmentForm: governmentForm(government),
     });
   }
   if (!donors.length)
     return {
       kind: "unsupported",
       reason:
-        "No same-level, same-form state law has a sourced numeric term in this scope and unit.",
+        "No recorded state law has a sourced numeric term in this scope and unit.",
     };
 
-  const references = reciprocalRankedReferences(
-    donors,
-    (left, right) =>
-      Number(right.sameRegion) - Number(left.sameRegion) ||
-      left.populationDistance - right.populationDistance,
-    (donor) => donor.stateKey,
-  );
-  const mean = weightedReferenceMean(references, (donor) => donor.value);
+  const references = [...donors]
+    .sort((left, right) => left.stateKey.localeCompare(right.stateKey))
+    .map((donor, index) => ({ ...donor, rank: index + 1, weight: 1 }));
+  const sortedValues = references
+    .map((donor) => donor.value)
+    .sort((left, right) => left - right);
+  const middle = Math.floor(sortedValues.length / 2);
+  const median =
+    sortedValues.length % 2 === 1
+      ? sortedValues[middle]!
+      : (sortedValues[middle - 1]! + sortedValues[middle]!) / 2;
   const spread = spreadOf(references.map((donor) => donor.value));
-  const selectionKey =
-    `starting-law-term/v1:${targetPlaceKey}:${input.questionKey}:` +
-    `${input.termKey}:${input.unit}:${onDate}:${JSON.stringify(input.scope)}`;
-  const totalWeight = references.reduce(
-    (total, donor) => total + donor.weight,
-    0,
-  );
-  let selection =
-    new SeededRng(world.seed).fork(selectionKey).next() * totalWeight;
-  let selected = references.at(-1)!;
-  for (const donor of references) {
-    selection -= donor.weight;
-    if (selection < 0) {
-      selected = donor;
-      break;
-    }
-  }
   return {
     kind: "modeled",
-    value: selected.value,
+    value: median,
     unit: input.unit,
     estimate: {
-      mean,
+      median,
       spread: spread.standardDeviation,
-      selectedDonorValue: selected.value,
-      selectionKey,
-      worldSeed: world.seed,
-      method: "same-level-similar-state-law-peer",
+      estimatedFrom: "median of recorded states",
     },
     evidence: {
       targetJurisdictionId: input.jurisdictionId,
@@ -917,8 +901,6 @@ interface LawTermDonor {
   readonly population: number;
   readonly region: string;
   readonly governmentForm: string;
-  readonly sameRegion: boolean;
-  readonly populationDistance: number;
 }
 
 function governmentForm(government: {

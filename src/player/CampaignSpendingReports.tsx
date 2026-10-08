@@ -33,11 +33,7 @@ export function CampaignSpendingReports({
         <div key={committee.key} data-testid="campaign-spending-committee">
           <h4>{committee.heading}</h4>
           {committee.reports.length === 0 ? (
-            <p className="game-note">
-              {committee.yours
-                ? "Your committee has not filed a spending report yet."
-                : "No spending report filed yet."}
-            </p>
+            <p className="game-note">{"Reports: none"}</p>
           ) : (
             committee.reports.map((report) => (
               <details key={report.key} data-testid="campaign-spending-report">

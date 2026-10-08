@@ -3,7 +3,6 @@ import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import {
   ensurePeopleTraitCatalog,
   ensurePeopleTraits,
-  traitConsiderations,
 } from "../people-traits";
 import type { EntityId, IsoDate, World } from "../types";
 import type { NominationPlan } from "./nomination-rules";
@@ -138,32 +137,6 @@ export function decideSelfStarterRun(
         explanation: "A campaign takes a year of their life and money.",
         sourceRefs: [],
       },
-      ...traitConsiderations(next, personId, key, [
-        {
-          optionKey: "run",
-          trait: "risk",
-          pole: "high",
-          explanation: "They are willing to gamble on a long shot.",
-        },
-        {
-          optionKey: "decline",
-          trait: "risk",
-          pole: "low",
-          explanation: "They would rather not stake so much on one race.",
-        },
-        {
-          optionKey: "run",
-          trait: "conflict",
-          pole: "high",
-          explanation: "A contested primary does not put them off.",
-        },
-        {
-          optionKey: "decline",
-          trait: "conflict",
-          pole: "low",
-          explanation: "They would rather not fight their own party's people.",
-        },
-      ]),
     ],
     perceptionIds: [],
     randomness: "none",

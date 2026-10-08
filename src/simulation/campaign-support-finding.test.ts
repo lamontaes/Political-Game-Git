@@ -13,7 +13,7 @@ import { lifePlaceStateIdentities } from "./life-places";
 import { applyFindingConsequences } from "./press/finding-consequences";
 import {
   ADVERSE_PUBLIC_OUTCOMES,
-  FINDING_EFFECTS_ESTIMATE,
+  RECORDED_FINDING_EFFECTS,
 } from "./press/findings";
 import type { ProceedingOutcome } from "./press/records";
 import { appendPressRecord } from "./press/store";
@@ -127,7 +127,7 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
       const actual = shares(f, after);
       expect(actual[f.respondentId]).toBe(
         before[f.respondentId]! -
-          FINDING_EFFECTS_ESTIMATE.supportLossBasisPoints[outcome],
+          RECORDED_FINDING_EFFECTS.supportLossBasisPoints[outcome],
       );
       expect(Object.values(actual).reduce((sum, value) => sum + value, 0)).toBe(
         SUPPORT_DENOMINATOR,
@@ -174,7 +174,7 @@ describe(`finding support uses the campaign engine in ${place!.jurisdictionKey}`
     },
   );
 
-  it("leaves a cancelled contest unchanged", () => {
+  it("leaves a canceled contest unchanged", () => {
     const f = fixture("finding");
     const cancelled = cancelElectionContest(f.world, {
       stableKey: "fixture:cancel-contest",

@@ -11,6 +11,7 @@ import {
   askCampaignHelper,
   offerCampaignManagerJob,
   askCampaignDonorForContribution,
+  buyCampaignOperatingUnits,
   groupCampaignSessions,
   projectCampaign,
   spendAnAfternoon,
@@ -148,6 +149,19 @@ export function CampaignWorkspace({
     () => projectCampaign(world, personId, selectedOfficeKey),
     [world, personId, selectedOfficeKey],
   );
+  const [electionReportProgress, setElectionReportProgress] = useState<{
+    readonly campaignId: EntityId;
+    readonly beatIndex: number;
+  } | null>(null);
+  const reportingBeats = view.electionNight?.reportingBeats ?? [];
+  const reportingBeatIndex =
+    electionReportProgress?.campaignId === view.campaignId
+      ? Math.min(electionReportProgress.beatIndex, reportingBeats.length - 1)
+      : 0;
+  const currentReportingBeat = reportingBeats[reportingBeatIndex] ?? null;
+  const finalReportingBeat =
+    reportingBeats.length === 0 ||
+    reportingBeatIndex >= reportingBeats.length - 1;
   const strategy = useMemo(
     () => projectCampaignStrategy(world, personId),
     [world, personId],
@@ -175,6 +189,7 @@ export function CampaignWorkspace({
   const [problem, setProblem] = useState<string | null>(null);
   const [helperNotice, setHelperNotice] = useState<string | null>(null);
   const [donorAskDollars, setDonorAskDollars] = useState(100);
+  const [purchaseUnits, setPurchaseUnits] = useState(10);
   const [selectedGeography, setSelectedGeography] = useState<string | null>(
     null,
   );
@@ -295,7 +310,7 @@ export function CampaignWorkspace({
           : spendAnAfternoon(world, personId, kind),
       (next) => {
         if (next === world) {
-          setProblem("Something already on the calendar has to happen first.");
+          setProblem("Calendar conflict");
           return;
         }
         setSelectedSpending(null);
@@ -368,10 +383,6 @@ export function CampaignWorkspace({
           data-testid="campaign-office-browser"
         >
           <h3>Offices you could run for</h3>
-          <p>
-            Looking at an office, or selecting one, does not start a campaign or
-            spend money.
-          </p>
           {[...new Set(offices.map((office) => office.governmentLevel))].map(
             (level) => (
               <fieldset key={level}>
@@ -382,10 +393,10 @@ export function CampaignWorkspace({
                     const status = office.eligible
                       ? { reasons: [office.eligibility] }
                       : splitEligibilityText(office.eligibility);
-                    const [electionOn, ...timingDetail] = office.timing
+                    const [electionOn, ...timingDetail] = (office.timing ?? "")
                       .split(" — ")
                       .map((part) => part.trim());
-                    const hasElection = ISO_DATE.test(office.timing);
+                    const hasElection = ISO_DATE.test(office.timing ?? "");
                     /*
                      * What is left to say about the office, beyond its status
                      * and its date. The unresolved research gaps are notes to
@@ -429,11 +440,11 @@ export function CampaignWorkspace({
                               ? office.eligibility
                               : status.reasons.length > 0
                                 ? status.reasons.join(" ")
-                                : "You can't file for this office right now."}
+                                : "Not available"}
                           </span>
                           <span className="game-campaign-office-line">
                             {hasElection
-                              ? `Election: ${readableCampaignDate(electionOn ?? "")}`
+                              ? readableCampaignDate(electionOn ?? "")
                               : office.timing}
                           </span>
                           {office.connections.map((line) => (
@@ -480,7 +491,7 @@ export function CampaignWorkspace({
           <p>
             {unavailable.reasons.length > 0
               ? unavailable.reasons.join(" ")
-              : "There is no office here you can file for right now."}
+              : "No office open"}
           </p>
         </div>
       ) : null}
@@ -489,8 +500,8 @@ export function CampaignWorkspace({
         <div data-testid="campaign-offer" className="game-campaign-offer">
           <p>
             {selectedOffice
-              ? `There is an election for ${runForPhrase(selectedOffice.title)}${view.placeName ? ` in ${view.placeName}` : ""}.`
-              : "Choose one of the offices above to see whether you can file for it."}
+              ? `Election: ${selectedOffice.title}${view.placeName ? ` · ${view.placeName}` : ""}`
+              : "Choose an office"}
           </p>
           {needsDistrict && selectedOffice ? (
             <DistrictResidencePanel
@@ -752,10 +763,138 @@ export function CampaignWorkspace({
                     ))}
                   </fieldset>
                 ) : null}
-                <p className="game-hint">
-                  Changing the plan does not use any time. The work happens when
-                  you choose it below.
+              </section>
+            ) : null}
+
+            {planning.slots.includes("immediate") ? (
+              <section
+                aria-label="Campaign purchases"
+                data-testid="campaign-purchases"
+              >
+                <h3>Campaign costs in this place</h3>
+                <p>
+                  About {view.households.toLocaleString()} households (
+                  {view.householdBasis}); prices and household totals are
+                  estimates.
                 </p>
+                {view.comparableSpending ? (
+                  <p>
+                    Races like this here usually spend about{" "}
+                    {displayMoney({
+                      minorUnits: view.comparableSpending.amountMinorUnits,
+                      currency: view.treasury.currency,
+                    })}
+                    {view.comparableSpending.basis ===
+                    "recorded-comparable-races"
+                      ? `, from ${view.comparableSpending.sampleSize} similar-size race(s) recorded in this game.`
+                      : ", a research estimate until this game records a similar-size race."}
+                  </p>
+                ) : null}
+                <ul>
+                  {Object.entries(view.unitPrices).map(([item, price]) => (
+                    <li key={item}>
+                      {price.label}:{" "}
+                      {displayMoney({
+                        minorUnits: price.priceMinorUnits,
+                        currency: view.treasury.currency,
+                      })}{" "}
+                      per {price.unit} (estimated)
+                    </li>
+                  ))}
+                </ul>
+                <label>
+                  Units to buy{" "}
+                  <input
+                    aria-label="Campaign purchase units"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={purchaseUnits}
+                    onChange={(event) =>
+                      setPurchaseUnits(Number(event.target.value))
+                    }
+                  />
+                </label>
+                {Object.entries(view.unitPrices).map(([item, price]) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => {
+                      try {
+                        onWorldChange(
+                          buyCampaignOperatingUnits(
+                            world,
+                            view.campaignId!,
+                            item as keyof typeof view.unitPrices,
+                            purchaseUnits,
+                          ),
+                        );
+                        setProblem(null);
+                      } catch (error) {
+                        setProblem(
+                          error instanceof Error
+                            ? error.message
+                            : String(error),
+                        );
+                      }
+                    }}
+                  >
+                    Buy {purchaseUnits} {price.unit}
+                    {purchaseUnits === 1 ? "" : "s"}
+                  </button>
+                ))}
+                {Object.entries(view.unitPrices).map(([item, price]) => {
+                  const units =
+                    item === "yard-sign"
+                      ? Math.max(1, Math.ceil(view.households / 10))
+                      : item === "palm-card" || item === "postage"
+                        ? Math.max(1, view.households)
+                        : 1;
+                  return (
+                    <button
+                      key={`place-${item}`}
+                      type="button"
+                      onClick={() => {
+                        try {
+                          onWorldChange(
+                            buyCampaignOperatingUnits(
+                              world,
+                              view.campaignId!,
+                              item as keyof typeof view.unitPrices,
+                              units,
+                            ),
+                          );
+                          setProblem(null);
+                        } catch (error) {
+                          setProblem(
+                            error instanceof Error
+                              ? error.message
+                              : String(error),
+                          );
+                        }
+                      }}
+                    >
+                      Buy estimated place coverage: {units.toLocaleString()}{" "}
+                      {price.unit}s
+                    </button>
+                  );
+                })}
+                {view.purchases.length ? (
+                  <ul aria-label="Campaign purchases">
+                    {view.purchases.map((purchase, index) => (
+                      <li key={`${purchase.id}-${index}`}>
+                        {purchase.units} {view.unitPrices[purchase.item].unit}
+                        (s):{" "}
+                        {displayMoney({
+                          minorUnits: purchase.totalMinorUnits,
+                          currency: view.treasury.currency,
+                        })}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No campaign purchases yet.</p>
+                )}
               </section>
             ) : null}
 
@@ -814,7 +953,7 @@ export function CampaignWorkspace({
                               );
                               onWorldChange(result.world);
                               setHelperNotice(
-                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: ${result.reasons.join(" ") || result.view}. Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
+                                `${donor.name} ${result.ask.outcome === "gave" ? `gave ${displayMoney({ minorUnits: result.ask.amountMinorUnits, currency: view.treasury.currency })}` : result.ask.outcome}: Their view: ${result.view}. ${result.reasons.join(" ")} Recorded means: ${result.meansMinorUnits ?? "unknown"}; contribution limit: ${result.limit.minorUnits} ${view.treasury.currency}${result.limit.estimated ? " (estimated)" : ""}.`,
                               );
                               setProblem(null);
                             } catch (error) {
@@ -879,10 +1018,7 @@ export function CampaignWorkspace({
                           Offer manager job to {candidate.name}
                         </button>
                       ) : (
-                        <span>
-                          The treasury cannot cover the salary through election
-                          day.
-                        </span>
+                        <span>Treasury short</span>
                       )}
                     </li>
                   ))}
@@ -900,7 +1036,7 @@ export function CampaignWorkspace({
                 <p>
                   {view.helpers.length
                     ? view.helpers.map((helper) => helper.name).join(", ")
-                    : "You are running this campaign alone."}
+                    : "None"}
                 </p>
                 {view.helperCandidates.length ? (
                   <ul aria-label="People you know who could help">
@@ -998,7 +1134,94 @@ export function CampaignWorkspace({
             The result leads. It used to sit below the whole session log, and
             a Presque Isle race put it under about three hundred lines.
           */}
-          {view.tallies.length > 0 ? (
+          {view.electionNight && reportingBeats.length > 0 ? (
+            <section data-testid="election-night-scene">
+              <h2>Election night</h2>
+              {view.electionNight.participants.length > 0 ? (
+                <ul data-testid="election-night-participants">
+                  {view.electionNight.participants.map((participant) => (
+                    <li key={participant.personId}>{participant.name}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {currentReportingBeat ? (
+                <div data-testid="election-night-report">
+                  <p>
+                    Report {currentReportingBeat.number}:{" "}
+                    {currentReportingBeat.ballotsCast} ballots from{" "}
+                    {currentReportingBeat.precinctKeys.length} precincts
+                  </p>
+                  <ul data-testid="election-night-batch-tallies">
+                    {currentReportingBeat.tallies.map((tally) => (
+                      <li key={tally.candidatePersonId}>
+                        {tally.candidateName}
+                        {tally.isThisCandidate ? " (you)" : ""} — {tally.votes}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul data-testid="election-night-reactions">
+                    {currentReportingBeat.reactions.map((reaction) => (
+                      <li key={reaction.personId}>
+                        {view.electionNight?.participants.find(
+                          (person) => person.personId === reaction.personId,
+                        )?.name ?? ""}{" "}
+                        {reaction.reaction}
+                      </li>
+                    ))}
+                  </ul>
+                  {!finalReportingBeat ? (
+                    <>
+                      <p>Running total</p>
+                      <ul data-testid="election-night-running-tallies">
+                        {currentReportingBeat.runningTallies.map((tally) => (
+                          <li key={tally.candidatePersonId}>
+                            {tally.candidateName}
+                            {tally.isThisCandidate ? " (you)" : ""} —{" "}
+                            {tally.votes}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="game-campaign-actions">
+                        <button
+                          type="button"
+                          className="game-campaign-action"
+                          data-testid="election-night-next-report"
+                          onClick={() =>
+                            view.campaignId &&
+                            setElectionReportProgress({
+                              campaignId: view.campaignId,
+                              beatIndex: reportingBeatIndex + 1,
+                            })
+                          }
+                        >
+                          <span className="game-campaign-action-label">
+                            Next report
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          className="game-campaign-action"
+                          data-testid="election-night-skip"
+                          onClick={() =>
+                            view.campaignId &&
+                            setElectionReportProgress({
+                              campaignId: view.campaignId,
+                              beatIndex: reportingBeats.length - 1,
+                            })
+                          }
+                        >
+                          <span className="game-campaign-action-label">
+                            Skip to result
+                          </span>
+                        </button>
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+              ) : null}
+            </section>
+          ) : null}
+          {view.tallies.length > 0 && finalReportingBeat ? (
             <div data-testid="campaign-result">
               <p className="game-scene" data-testid="campaign-afterword">
                 {view.afterword}

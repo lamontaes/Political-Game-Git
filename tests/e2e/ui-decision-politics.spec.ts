@@ -71,10 +71,6 @@ async function startPoliticsTestLife(
   await expect(page.getByTestId("creator-stage-background")).toBeVisible();
   await page.getByTestId("depth-later").click();
   await page.getByTestId("creator-continue-background").click();
-  await expect(page.getByTestId("creator-stage-difficulty")).toBeVisible();
-  await page.getByTestId("creator-skip-difficulty").click();
-  await expect(page.getByTestId("creator-stage-whoareyou")).toBeVisible();
-  await page.getByTestId("whoareyou-play").click();
   await page.getByTestId("begin").click();
 }
 
@@ -260,8 +256,17 @@ for (const size of SIZES) {
     if ((await issues.count()) > 0) {
       await issues.click();
       await expect(page.getByTestId("politics-workspace")).toBeVisible();
-      await expect(page.getByTestId("politics-budget-scope")).toContainText(
-        "Alamo",
+      await expect(
+        page.getByTestId("economic-context-panel").getByRole("heading"),
+      ).toContainText("Alamo");
+      await expect(page.getByTestId("politics-workspace")).not.toContainText(
+        "Public finances shown for",
+      );
+      await expect(page.getByTestId("public-services")).not.toContainText(
+        "No public service records are kept",
+      );
+      await expect(page.getByTestId("politics-workspace")).not.toContainText(
+        "public finance record is kept",
       );
       // A citizen without the authority is not offered the configuration forms.
       await expect(page.getByTestId("politics-sub-transit")).toHaveCount(0);

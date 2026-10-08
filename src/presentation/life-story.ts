@@ -5,7 +5,6 @@ import {
   openingLifeSceneAtStage,
   openingChoiceMinutes,
 } from "../simulation/opening-life-content";
-import { playSettingsOf } from "../simulation/play-settings";
 import { scheduleAgreedCoverShift } from "../simulation/life-circumstances";
 import { recordFormativePlayerTraitChoice } from "../simulation/people-player-traits";
 import { formatMinute } from "./player-calendar";
@@ -27,6 +26,7 @@ import {
 } from "./candidate-guidance-scene";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { playSettingsOf } from "../simulation/play-settings";
 import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import {
@@ -474,7 +474,6 @@ export function traceStorySelection(
   }
   const history = playedStoryKeys(world, personId);
   const selection = selectSituation({
-    intensity: playSettingsOf(world).challenge,
     selectionSeed: adaptiveSelectionSeed(world),
     personKey: personId,
     ordinal: history.length,
@@ -482,6 +481,7 @@ export function traceStorySelection(
     candidates: candidates.map((entry) => entry.candidate),
     recentKeys: history.slice(-6),
     recentStakes: history.slice(-6).map(stakesOfKey),
+    challenge: playSettingsOf(world).challengeIntensity,
   });
   if (!selection) {
     return {
@@ -521,7 +521,6 @@ function chooseStoryScene(
 
   if (candidates.length > 0) {
     const selection = selectSituation({
-      intensity: playSettingsOf(world).challenge,
       selectionSeed: adaptiveSelectionSeed(world),
       personKey: personId,
       ordinal: history.length,
@@ -529,6 +528,7 @@ function chooseStoryScene(
       candidates: candidates.map((entry) => entry.candidate),
       recentKeys: history.slice(-6),
       recentStakes: history.slice(-6).map(stakesOfKey),
+      challenge: playSettingsOf(world).challengeIntensity,
     });
     const winner = selection
       ? candidates.find(

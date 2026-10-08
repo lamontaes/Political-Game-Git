@@ -22,9 +22,11 @@ import { proseDate } from "./prose-dates";
  */
 
 /** What the law did through each channel, for a cost and for a gain. */
-const CHANNEL_WORDS: Record<
-  LawExposureRecord["channel"],
-  { readonly cost: string; readonly gain: string; readonly none: string }
+const CHANNEL_WORDS: Partial<
+  Record<
+    LawExposureRecord["channel"],
+    { readonly cost: string; readonly gain: string; readonly none: string }
+  >
 > = {
   paycheck: {
     cost: "took {amount} from {whose} paycheck",
@@ -66,6 +68,16 @@ const CHANNEL_WORDS: Record<
     gain: "let {whom} go home while waiting for trial",
     none: "changed how {whom} waited for trial",
   },
+  "voting-rule": {
+    gain: "gave {whom} the vote back when the sentence ended",
+    cost: "kept {whom} from voting after the sentence ended",
+    none: "changed when {whom} vote again after a sentence",
+  },
+  "sentence-rule": {
+    cost: "set a jail term for {whom} that the judge could not go below",
+    gain: "changed the jail term set for {whom}",
+    none: "changed the sentencing rules for {whom}",
+  },
   rent: {
     cost: "raised {whose} rent by {amount}",
     gain: "lowered {whose} rent by {amount}",
@@ -95,6 +107,24 @@ function shareOfPay(exposure: LawExposureRecord): string | null {
 }
 
 /**
+ * A law the place began with has no bill to carry a short title, so it is
+ * named the way the policy catalog names the question it answers, set in
+ * quotation marks because the catalog names questions as actions
+ * ("Work requirement for assistance", "Limit legislative terms").
+ */
+export function startingLawName(
+  world: World,
+  measureId: EntityId,
+): string | null {
+  const questionKey = /^starting-law:[^:]+:(.+)$/.exec(measureId)?.[1];
+  if (!questionKey) return null;
+  const name = Object.values(world.policyCatalog?.propositions ?? {})
+    .find((row) => row.stableKey === questionKey)
+    ?.name?.trim();
+  return name ? `\u201C${name}\u201D` : null;
+}
+
+/**
  * The Journal's sentence for one exposure of `personId`, or null when the
  * law's record cannot be read.
  */
@@ -108,7 +138,10 @@ export function lawExposureSentence(
     (row) => row.id === exposure.measureId,
   );
   const sourceEvent =
-    exposure.channel === "election-rule" || exposure.channel === "court-rule"
+    exposure.channel === "election-rule" ||
+    exposure.channel === "court-rule" ||
+    exposure.channel === "sentence-rule" ||
+    exposure.channel === "voting-rule"
       ? world.history.events.find((row) => row.id === exposure.sourceRecordId)
       : null;
   const recordedTermLimitBar =
@@ -121,14 +154,29 @@ export function lawExposureSentence(
     sourceEvent?.involvedEntityIds.includes(personId) &&
     (sourceEvent.type === "justice.released-before-trial" ||
       sourceEvent.type === "justice.held-before-trial");
+  const recordedSentence =
+    exposure.channel === "sentence-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.sentenced";
+  const recordedVotingRight =
+    exposure.channel === "voting-rule" &&
+    sourceEvent?.involvedEntityIds.includes(personId) &&
+    sourceEvent.type === "justice.voting-right-set";
   const title =
     measure?.shortTitle?.trim() ||
+    (recordedVotingRight && exposure.measureId.startsWith("starting-law:")
+      ? "voting rights law"
+      : null) ||
+    (recordedSentence && exposure.measureId.startsWith("starting-law:")
+      ? "mandatory minimum law"
+      : null) ||
     (recordedTermLimitBar && exposure.measureId.startsWith("starting-law:")
       ? "term-limit law"
       : recordedPretrialDecision &&
           exposure.measureId.startsWith("starting-law:")
         ? "cash bail law"
-        : null);
+        : null) ||
+    startingLawName(world, exposure.measureId);
   if (!title) return null;
   const via =
     exposure.relation !== "own" && exposure.viaPersonId
@@ -141,11 +189,17 @@ export function lawExposureSentence(
   const direction =
     (exposure.amount === null &&
       exposure.channel !== "election-rule" &&
-      exposure.channel !== "court-rule") ||
+      exposure.channel !== "court-rule" &&
+      exposure.channel !== "sentence-rule" &&
+      exposure.channel !== "voting-rule") ||
     exposure.direction === "none"
       ? "none"
       : exposure.direction;
-  const words = CHANNEL_WORDS[exposure.channel][direction]
+  // A channel no wording covers yet (an environmental condition) is left out
+  // of the account; the audit lists it as an English gap.
+  const channelWords = CHANNEL_WORDS[exposure.channel];
+  if (!channelWords) return null;
+  const words = channelWords[direction]
     .replace("{whose}", whose)
     .replace("{whom}", whom)
     .replace("{amount}", exposure.amount === null ? "" : amountText(exposure));

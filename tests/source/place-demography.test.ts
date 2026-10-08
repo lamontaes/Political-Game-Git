@@ -16,7 +16,7 @@ import type {
   EconomicContextObservation,
   EconomicContextReadModel,
 } from "../../src/source/adapters/economic-context";
-import { readPlaceDemography } from "../../src/source/adapters/place-demography";
+import { readPlaceDemography } from "../../src/simulation/place-demography";
 import {
   LEXINGTON_PLACEHOLDER_ID,
   lifePlaceByKey,

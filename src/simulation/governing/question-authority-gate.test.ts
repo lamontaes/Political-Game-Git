@@ -26,7 +26,7 @@ const P = "us-policy-positions:";
 const LOCAL_WAGE = `${P}labor-workforce.local-minimum-wage-authority`;
 const STATE_FAIRNESS = `${P}civil-family-community.ban-discrimination-in-housing-and-work`;
 
-vi.mock("../../../data/research/laws/starting-law-2026.json", () => ({
+vi.mock("../../../data/research/laws/starting-law-2026/index", () => ({
   default: {
     defaultOperativeAt: "2000-01-01",
     questions: {

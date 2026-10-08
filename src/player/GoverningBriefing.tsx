@@ -1,16 +1,20 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   decideGoverningMatter,
   delegateGoverningMatter,
   type EntityId,
   type GoverningActionResult,
   type World,
+  type FutureTransitionHandlerRegistry,
 } from "../simulation";
+import { type BriefingMatter } from "../presentation/governing-briefing";
 import {
-  projectGoverningBriefing,
-  type BriefingMatter,
-} from "../presentation/governing-briefing";
-import { GuideTermText } from "./GuideTerm";
+  projectExecutiveInbox,
+  type ExecutiveInboxItem,
+} from "../presentation/executive-inbox";
+import { ExecutiveWorkCard } from "./ExecutiveWorkCard";
+import { IncidentResponsePanel } from "./IncidentResponsePanel";
+import { spendExecutiveWorkTime } from "../simulation/executive-work";
 import { BUDGET_DOLLARS } from "../simulation/governing/executive-budget-requests";
 import {
   ExecutiveBudgetRequestEditor,
@@ -28,14 +32,34 @@ export function GoverningBriefing({
   world,
   personId,
   onWorldChange,
+  handlers,
+  onClose,
+  placement = "inline",
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly onWorldChange: (world: World) => void;
+  readonly handlers?: FutureTransitionHandlerRegistry;
+  readonly onClose?: () => void;
+  readonly placement?: "inline" | "overlay";
 }) {
   const [problem, setProblem] = useState<string | null>(null);
-  const briefing = projectGoverningBriefing(world, personId);
+  const [selectedItemId, setSelectedItemId] = useState<EntityId | null>(null);
+  const briefing = projectExecutiveInbox(world, personId);
+  const inline = placement === "inline";
+  const close = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (inline) return;
+    const previous = document.activeElement;
+    close.current?.focus();
+    return () => {
+      if (previous instanceof HTMLElement) previous.focus();
+    };
+  }, [inline]);
   if (!briefing) return null;
+  const items = [...briefing.significant, ...briefing.more];
+  const selectedItem =
+    items.find((item) => item.id === selectedItemId) ?? items[0];
 
   const commit = (result: GoverningActionResult) => {
     if (result.ok) {
@@ -43,7 +67,19 @@ export function GoverningBriefing({
       onWorldChange(result.world);
     } else setProblem(result.reason);
   };
-  const card = (matter: BriefingMatter) => (
+  const card = (item: ExecutiveInboxItem) =>
+    item.kind === "work" ? (
+      <ExecutiveWorkCard
+        key={item.id}
+        world={world}
+        item={item.work}
+        onWorldChange={onWorldChange}
+        handlers={handlers}
+      />
+    ) : (
+      governingCard(item.matter)
+    );
+  const governingCard = (matter: BriefingMatter) => (
     <MatterCard
       key={matter.id}
       matter={matter}
@@ -62,59 +98,101 @@ export function GoverningBriefing({
     />
   );
 
+  const itemTitle = (item: ExecutiveInboxItem) =>
+    item.kind === "work" ? item.work.title : item.matter.title;
+
   return (
-    <section className="governing-briefing" data-testid="governing-briefing">
+    <section
+      id="governing-calendar"
+      className={
+        inline ? "governing-briefing" : "planning-workspace governing-briefing"
+      }
+      aria-label="Calendar"
+      data-testid="governing-briefing"
+      onKeyDown={(event) => {
+        if (!inline && onClose && event.key === "Escape") {
+          event.stopPropagation();
+          onClose();
+        }
+      }}
+    >
       <header>
         <h3>{briefing.officeTitle}</h3>
-        <p className="game-note">
-          {briefing.termLine}{" "}
-          {briefing.chiefOfStaff
-            ? `Chief of staff: ${briefing.chiefOfStaff.name}.`
-            : "No chief of staff yet."}
-        </p>
-        {briefing.calendarNote ? (
-          <details className="game-campaign-detail">
-            <summary>About this office's rules</summary>
-            <p>{briefing.calendarNote}</p>
-          </details>
-        ) : null}
+        {briefing.canSpendWorkTime && (
+          <button
+            onClick={() => {
+              const result = spendExecutiveWorkTime(world, handlers);
+              if (result.ok) {
+                onWorldChange(result.world);
+                setProblem(null);
+              } else setProblem(result.reason);
+            }}
+          >
+            Continue
+          </button>
+        )}
+        {!inline && onClose && (
+          <button ref={close} onClick={onClose}>
+            Back
+          </button>
+        )}
+        <dl className="game-note" data-testid="governing-office-facts">
+          {briefing.termEnds ? (
+            <dd data-testid="governing-term-ends">{briefing.termEnds}</dd>
+          ) : null}
+          {briefing.chiefOfStaff ? (
+            <dd data-testid="governing-chief-of-staff">
+              {briefing.chiefOfStaff.name}
+            </dd>
+          ) : null}
+        </dl>
       </header>
 
+      <IncidentResponsePanel world={world} onWorldChange={onWorldChange} />
       <ExecutiveBudgetRequestHistory world={world} personId={personId} />
-      <h4>Needs you</h4>
-      {briefing.significant.length === 0 ? (
-        <p className="game-note" data-testid="governing-nothing-open">
-          Nothing is waiting on you right now.
-        </p>
+      {items.length === 0 ? (
+        <p data-testid="governing-nothing-open" data-problem="nothing-open" />
       ) : (
-        <ul className="governing-matters" data-testid="governing-significant">
-          {briefing.significant.map(card)}
-        </ul>
+        <div className="governing-matter-browser">
+          <nav className="governing-matter-list" aria-label="Calendar">
+            {items.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className="pg-tab"
+                aria-pressed={selectedItem?.id === item.id}
+                onClick={() => setSelectedItemId(item.id)}
+              >
+                {itemTitle(item)}
+              </button>
+            ))}
+          </nav>
+          <ul className="governing-matters" data-testid="governing-significant">
+            {selectedItem ? card(selectedItem) : null}
+          </ul>
+        </div>
       )}
       {problem ? (
-        <p role="alert" className="game-note" data-testid="governing-problem">
-          {problem}
-        </p>
+        <p
+          role="alert"
+          className="game-note"
+          data-testid="governing-problem"
+          data-reason={problem}
+        />
       ) : null}
 
       {briefing.more.length > 0 ? (
-        <details data-testid="governing-more">
-          <summary>{`${briefing.more.length} more matters`}</summary>
-          <ul className="governing-matters">{briefing.more.map(card)}</ul>
-        </details>
+        <span data-testid="governing-more" data-count={briefing.more.length} />
       ) : null}
 
       {briefing.recent.length > 0 ? (
-        <>
-          <h4>What came of it</h4>
-          <ul data-testid="governing-recent">
-            {briefing.recent.map((entry, index) => (
-              <li key={`${entry.date}:${index}`}>
-                <small>{entry.date}</small> {entry.text}
-              </li>
-            ))}
-          </ul>
-        </>
+        <ul data-testid="governing-recent">
+          {briefing.recent.map((entry, index) => (
+            <li key={`${entry.date}:${index}`}>
+              <time>{entry.date}</time> {entry.text}
+            </li>
+          ))}
+        </ul>
       ) : null}
     </section>
   );
@@ -134,20 +212,22 @@ function MatterCard({
   return (
     <li className="governing-matter" data-testid="governing-matter">
       <h5>{matter.title}</h5>
-      <p>
-        <GuideTermText text={matter.ask} />
-      </p>
-      <p className="game-note">
-        {matter.deadline
-          ? `Decide by ${matter.deadline}`
-          : "No deadline is established"}
-        {matter.daysLeft !== null && matter.daysLeft >= 0
-          ? ` (${matter.daysLeft} days).`
-          : "."}
-      </p>
+      {matter.deadline ? (
+        <p
+          className="game-note"
+          data-testid="governing-deadline"
+          data-days-left={matter.daysLeft ?? undefined}
+        >
+          {matter.deadline}
+        </p>
+      ) : null}
       {matter.recommendation ? (
-        <p data-testid="governing-recommendation">
-          {`${matter.recommendation.byName} recommends: ${matter.recommendation.optionLabel}. ${matter.recommendation.reason}`}
+        <p
+          data-testid="governing-recommendation"
+          data-reason={matter.recommendation.reason}
+        >
+          <strong>{matter.recommendation.byName}</strong>{" "}
+          {matter.recommendation.optionLabel}
         </p>
       ) : null}
       <div className="game-choices">
@@ -163,7 +243,6 @@ function MatterCard({
               onClick={() => onDecide(option.key)}
             >
               {option.label}
-              <small>{option.effect}</small>
             </button>
           ))}
         {matter.canDelegate ? (
@@ -173,25 +252,11 @@ function MatterCard({
             data-testid="governing-delegate"
             onClick={onDelegate}
           >
-            Let your chief of staff handle it
-            <small>They will take their own recommendation.</small>
+            Continue
           </button>
         ) : null}
       </div>
       {budgetEditor}
-      <details>
-        <summary>Tradeoffs and what happens if you wait</summary>
-        <ul>
-          {matter.options.map((option) => (
-            <li key={option.key}>
-              <strong>{option.label}:</strong> {option.tradeoff}
-            </li>
-          ))}
-        </ul>
-        <p>
-          <GuideTermText text={`If nothing is decided: ${matter.ifIgnored}`} />
-        </p>
-      </details>
     </li>
   );
 }

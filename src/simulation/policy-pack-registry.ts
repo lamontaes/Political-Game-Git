@@ -4,14 +4,23 @@ import {
   RENT_STABILIZATION_ROW,
   RENT_COVERAGE_VALUES,
 } from "./law-consequences/rent-stabilization-row";
-import { STATUTORY_WAGE_TAX_ROWS } from "./law-consequences/statutory-wage-tax-rows";
+import type { LawConsequenceRow } from "./law-consequence-types";
 import {
   TUITION_FREEZE_QUESTION,
   TUITION_FREEZE_ROW,
 } from "./law-consequences/tuition-freeze-row";
 import { TAX_TERMS_POLICY_PACK } from "./policy-pack-tax-terms";
-import { COVERAGE_ELIGIBILITY_ROWS } from "./law-consequences/coverage-eligibility-rows";
+import {
+  COVERAGE_ELIGIBILITY_ROWS,
+  COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS,
+} from "./law-consequences/coverage-eligibility-rows";
 import { SERVICE_DELIVERED_LAW_ROWS } from "./law-consequences/service-delivered-data";
+import { DEVELOPMENT_INCENTIVE_AWARD_ROW } from "./law-consequences/modules/lw08-development-incentive-cap/rows";
+import {
+  SNAP_PARTICIPATION_ROW,
+  SNAP_WORK_REQUIREMENT_QUESTION,
+} from "./law-consequences/modules/snap-participation/rows";
+import { LW17_PERSON_LANDING_ROWS } from "./law-consequences/lw17-person-landing-rows";
 import {
   loadPolicyPacks,
   type PolicyPack,
@@ -21,6 +30,62 @@ import { US_STATE_AND_LOCAL_POLICY_PACK } from "./policy-pack-us-state-and-local
 import { US_POLICY_POSITIONS_PACK } from "./policy-pack-us-policy-positions";
 import { US_FEDERAL_POLICY_PACK } from "./policy-pack-us-federal";
 import { US_FEDERAL_POSITIONS_PACK } from "./policy-pack-us-federal-positions";
+
+const statutoryWageTaxRows: Readonly<
+  Record<string, readonly LawConsequenceRow[]>
+> = Object.fromEntries(
+  [
+    {
+      key: "us-policy-positions:fiscal.adopt-income-tax",
+      attributes: {
+        level: "state-statute",
+        taxKey: "{authority}:wage-income-tax",
+      },
+    },
+    {
+      key: "us-policy-positions:fiscal.graduated-income-tax",
+      attributes: {
+        level: "state-statute",
+        taxKey: "{authority}:wage-income-tax",
+      },
+    },
+    {
+      key: "us-federal-positions:tax.raise-top-income-tax-rate",
+      attributes: {
+        level: "federal-statute",
+        taxKey: "us-federal:income-tax-withholding",
+        authority: "US",
+      },
+    },
+  ].map(({ key, attributes }) => [
+    key,
+    (["assessment", "payment"] as const).map((when): LawConsequenceRow => ({
+      id: `${key}:saved-statutory-${when}`,
+      kind: "tax",
+      when,
+      who: { selector: "recorded-tax-base-payer", predicates: [] },
+      what: "attribute-saved-statutory-tax",
+      attributes,
+      amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
+      conditions: [],
+      lag: { days: 0, sourceIds: [] },
+      onRepeal: "preserve-completed",
+      evidence: {
+        sourceIds: [
+          "src/simulation/statutory-tax.ts",
+          "src/simulation/statutory-tax-law-attribution.ts",
+        ],
+        population:
+          "The named payer on the saved wage-tax liability or payment allocation.",
+        scope:
+          "An actual adopted law identified by the statutory wage-tax record.",
+        why: "The statutory writer has already applied the wage rule; these rows attribute that existing result without reassessing or paying again.",
+        uncertainty:
+          "Absent historical law bindings remain unavailable; this row supplies no starting-law mapping or tax amount.",
+      },
+    })),
+  ]),
+);
 
 /**
  * The policy packs this build loads.
@@ -48,15 +113,32 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
     ...US_POLICY_POSITIONS_PACK,
     propositions: US_POLICY_POSITIONS_PACK.propositions?.map((row) => {
       const key = `${US_POLICY_POSITIONS_PACK.pack}:${row.key}`;
-      const coverage = COVERAGE_ELIGIBILITY_ROWS[key];
+      const coverage = [
+        COVERAGE_ELIGIBILITY_ROWS[key],
+        COVERAGE_EFFECTIVE_ELIGIBILITY_ROWS[key],
+      ].filter((consequence) => consequence !== undefined);
+      const justice = LW17_PERSON_LANDING_ROWS[key] ?? [];
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
-        ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+        ...(statutoryWageTaxRows[key] ?? []),
       ];
       const rent = key === RENT_STABILIZATION_QUESTION;
       const tuition = key === TUITION_FREEZE_QUESTION;
-      if (!coverage && !pay && service.length === 0 && !rent && !tuition)
+      const snap = key === SNAP_WORK_REQUIREMENT_QUESTION;
+      const developmentIncentive =
+        key ===
+        "us-policy-positions:business-commerce.cap-development-incentives";
+      if (
+        coverage.length === 0 &&
+        justice.length === 0 &&
+        !pay &&
+        service.length === 0 &&
+        !rent &&
+        !tuition &&
+        !snap &&
+        !developmentIncentive
+      )
         return row;
       return {
         ...row,
@@ -73,7 +155,10 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
           ...(row.consequences ?? []),
           ...(rent ? [RENT_STABILIZATION_ROW] : []),
           ...(tuition ? [TUITION_FREEZE_ROW] : []),
-          ...(coverage ? [coverage] : []),
+          ...(snap ? [SNAP_PARTICIPATION_ROW] : []),
+          ...(developmentIncentive ? [DEVELOPMENT_INCENTIVE_AWARD_ROW] : []),
+          ...coverage,
+          ...justice,
           ...(pay ? [pay] : []),
           ...service,
         ],
@@ -95,7 +180,7 @@ export const POLICY_PACKS: readonly PolicyPack[] = [
       const pay = MINIMUM_WAGE_PAY_ROWS[key];
       const service = [
         ...(SERVICE_DELIVERED_LAW_ROWS[key] ?? []),
-        ...(STATUTORY_WAGE_TAX_ROWS[key] ?? []),
+        ...(statutoryWageTaxRows[key] ?? []),
       ];
       return service.length === 0 && !pay
         ? row

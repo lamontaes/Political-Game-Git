@@ -39,7 +39,7 @@
     }
   },
   "householdCount": {
-    "source": "ACS 2020-2024 place population for places present in place-population-acs-2024.json, converted to households at 2.5 people per household; otherwise the current world’s recorded households at the campaign jurisdiction.",
+    "source": "ACS 2020-2024 place population where compiled; otherwise 2020 Census PL 94-171 population for places in place-population-census-2020.json; convert population to households at an estimated 2.5 people per household. If neither place source covers the jurisdiction, count the current world’s recorded households.",
     "estimatedFallback": "Recorded household count from the game world; no households are manufactured."
   }
 }

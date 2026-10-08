@@ -15,8 +15,6 @@ export const facetBrazenEffects: readonly TraitEffectDeclaration[] = [
         option: "deal",
         trait: BRAZEN_TRAIT,
         pole: "high",
-        explanation:
-          "They are not easily checked by the embarrassment of making an audacious offer.",
       },
     ],
   },

@@ -15,6 +15,7 @@ import {
   declareInternationalCrisis,
   internationalCrisisState,
 } from "./international";
+import { internationalTestActors } from "./international-test-actors";
 import {
   OUTSIDE_SHOCK_EVENT_TAG,
   OUTSIDE_SHOCK_ENDED_PHASE,
@@ -50,6 +51,9 @@ describe("outside pressure as a lasting condition", () => {
     () => {
       let world = declareInternationalCrisis(opening, {
         stableKey: "outside-shock-k6-crisis",
+        ...internationalTestActors(opening, "outside-shock-k6-crisis", [
+          "treaty allies",
+        ]),
         counterpartyLabel: "a foreign government",
         allyLabels: ["treaty allies"],
         subject: "a disputed shipping lane",

@@ -121,6 +121,16 @@ export function townshipGoverningBodyRules(
     bodyName: reading.bodyName,
     memberTitle: reading.memberTitle,
     chiefTitle: null,
+    // A town or township board seats no separate chief; its supervisor or
+    // trustee chair sits as a member.
+    structure: null,
+    executive: {
+      kind: "none",
+      title: null,
+      presidesOverBody: false,
+      basis: "state-none",
+      status: "ESTIMATED FROM AVERAGE",
+    },
     citation: reading.citation,
     url: reading.url,
     inForceSince: null,

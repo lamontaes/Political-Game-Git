@@ -12,6 +12,7 @@ import {
   placeBackdrop,
   workplacePlaceFor,
 } from "./place-backdrops";
+import { backdropStaging } from "./backdrop-people";
 import type { SimulationMoment } from "../simulation/types";
 
 const at = (date: string, hour: number, minute = 0): SimulationMoment => ({
@@ -62,15 +63,69 @@ describe("place backdrops", () => {
     }
   });
 
-  it("has all 223 shared pictures for 61 places, each with a midday picture", () => {
+  it("has all 307 shared pictures for 82 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(
       manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
-    ).toHaveLength(223);
+    ).toHaveLength(307);
     expect(
       backdropPlaces().filter((place) => !ownCapitol.test(place)),
-    ).toHaveLength(61);
+    ).toHaveLength(82);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
+  });
+
+  it("has one shared staging entry for each of the 21 places painted on October 6, 2026, with all four light and weather versions", () => {
+    const painted = [
+      ...new Set(
+        manifest.backdrops
+          .filter((record) =>
+            record.approval.startsWith("cto-checked-2026-10-06"),
+          )
+          .map((record) => record.place),
+      ),
+    ].filter((place) => place !== "oval-office");
+    expect(painted).toHaveLength(21);
+    for (const place of painted) {
+      const rows = manifest.backdrops.filter(
+        (record) => record.place === place,
+      );
+      expect(rows.map((record) => record.variant).sort(), place).toEqual([
+        "midday",
+        "morning",
+        "night",
+        "rain",
+      ]);
+      const stage = backdropStaging(place);
+      expect(stage, place).not.toBeNull();
+      expect(stage!.spots.length, place).toBeGreaterThanOrEqual(3);
+      expect(
+        stage!.spots.filter((spot) => spot.hero === true),
+        place,
+      ).toHaveLength(1);
+    }
+  });
+
+  it("seats the Oval Office hero behind the wider desk and keeps every other spot off it", () => {
+    // The Resolute desk fills x 32-68 from its far edge (y 44.4) to its plinth
+    // foot (y 73.4); the hero's lap hides behind the far edge, and nobody else
+    // stands inside the desk's own footprint.
+    const stage = backdropStaging("oval-office")!;
+    const hero = stage.spots.find((spot) => spot.hero === true)!;
+    expect(hero.pose).toBe("sit");
+    expect(hero.clipBelowY).toBe(44.4);
+    expect(hero.clipBelowY!).toBeGreaterThanOrEqual(hero.seatY!);
+    for (const spot of stage.spots.filter((candidate) => candidate !== hero)) {
+      const insideDesk =
+        spot.x > 32 && spot.x < 68 && spot.y > 44.4 && spot.y < 73.4;
+      expect(insideDesk, `${spot.id} stands in the desk`).toBe(false);
+    }
+  });
+
+  it("tags every backdrop kind and shared-location use", () => {
+    for (const record of manifest.backdrops) {
+      expect(record.tags).toContain(`kind:${record.place}`);
+      expect(record.tags).toContain("uses:shared-location");
+    }
   });
 
   it("shows every state, D.C. and each territory its own capitol", () => {
