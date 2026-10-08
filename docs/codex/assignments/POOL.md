@@ -771,7 +771,7 @@ Owner order Oct 6: everything has an owner or is in this pool. Each open PR is o
 | RS-2497 | Add citizen ballot measures and law in force | PR #2497 (session46/b18-3-ballot-measures) | open: draft: finish it or close it as superseded | |
 | RS-2498 | Add concern for distress trait effect | PR #2498 (session49-t9-concern-distress) | open: draft: finish it or close it as superseded | |
 | RS-2499 | b31-p1: add data-only row sections to runtime content packs | PR #2499 (session55/b31-p1) | open: draft: finish it or close it as superseded | |
-| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
+| RS-2501 | B07 P1: form official views from published vote stories | PR #2501 (session29-b07-p1) | done #3488 | |
 | RS-2503 | b30-p1: Add IPEDS college place identities | PR #2503 (codex/session54-b30-p1) | open: sent back: failed its own changed checks: tests | |
 | RS-2504 | LW-17: Add person-level justice law landings | PR #2504 (session31/lw17-person-landings) | open: rebase on main (conflicts); draft: finish it or close it as superseded | |
 | RS-2509 | b22-p2: add office-scoped economy visibility | PR #2509 (session48/b22-p2-economy-visibility) | closed: superseded by current-main implementation (#2385) | |
