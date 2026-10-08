@@ -12,7 +12,11 @@ describe("the initial-trust difference in a random new game", () => {
     expect(proof.without).toBeNull();
     expect(proof.high.choice).toBe("accept");
     expect(proof.low.choice).toBe("counter");
-    expect(proof.high.reason).toEqual(expect.any(String));
-    expect(proof.low.reason).toEqual(expect.any(String));
+    expect(proof.high.reason).toBe(
+      "personality-v1:initial-trust|people.contact-answer|accept|high",
+    );
+    expect(proof.low.reason).toBe(
+      "personality-v1:initial-trust|people.contact-answer|counter|low",
+    );
   });
 });
