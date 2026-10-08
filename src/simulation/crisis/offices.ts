@@ -1,4 +1,7 @@
 import { currentFederalTenure } from "../federal-tenures";
+import { electedExecutiveTermForRelationship } from "../executive-work-context";
+import { workRoleAt, workStatusAt } from "../life-queries";
+import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -146,6 +149,90 @@ export function publicOfficesHeldBy(
   refs.push(...(table.justices.get(personId) ?? []));
   refs.push(...(table.congress.get(personId) ?? []));
   return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
+}
+
+/** Current offices plus ended public offices still evidenced in saved records. */
+export function officesHeldOverLife(
+  world: World,
+  personId: EntityId,
+): readonly OfficeRef[] {
+  const refs = [...publicOfficesHeldBy(world, personId)];
+  const known = new Set(
+    refs.map((ref) => `${ref.officeKey}:${ref.termEvidenceId ?? "current"}`),
+  );
+  const addHistorical = (ref: OfficeRef) => {
+    const key = `${ref.officeKey}:${ref.termEvidenceId ?? "current"}`;
+    if (known.has(key)) return;
+    known.add(key);
+    refs.push(ref);
+  };
+
+  for (const relationship of world.history.workRelationships) {
+    if (
+      relationship.personId !== personId ||
+      workStatusAt(world, relationship.id)?.status !== "ended"
+    )
+      continue;
+    const role = workRoleAt(world, relationship.id);
+    if (!role) continue;
+    let officeKey: string | null = null;
+    if (relationship.kind === "employment:executive-office")
+      officeKey =
+        electedExecutiveTermForRelationship(world, relationship.id)?.contest
+          .office.officeKey ?? null;
+    else if (relationship.kind === "employment:legislative-member")
+      officeKey =
+        legislativeTermForRelationship(world, relationship.id)?.contest.office
+          .officeKey ?? null;
+    else if (
+      relationship.kind === "employment:judicial-office" ||
+      relationship.kind === "employment:state-agency-director" ||
+      relationship.kind.startsWith("office:")
+    )
+      officeKey = relationship.stableKey;
+    if (!officeKey) continue;
+    addHistorical({
+      officeKey,
+      title: role.title,
+      organizationId: relationship.organizationId,
+      termEvidenceId: relationship.id,
+    });
+  }
+
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      event.occurredAt > world.currentDate
+    )
+      continue;
+    const officeKey = event.tags
+      .find((tag) => tag.startsWith("office:"))
+      ?.slice("office:".length);
+    const startsAt = event.tags
+      .find((tag) => tag.startsWith("term-begins:"))
+      ?.slice("term-begins:".length);
+    const participant = event.participants.find(
+      (row) => row.personId === personId && row.role === "focus:subject",
+    );
+    if (
+      !officeKey ||
+      !participant ||
+      (startsAt && startsAt > world.currentDate)
+    )
+      continue;
+    addHistorical({
+      officeKey,
+      title: participant.detail ?? officeKey,
+      organizationId: null,
+      termEvidenceId: event.id,
+    });
+  }
+
+  return refs.sort(
+    (left, right) =>
+      left.officeKey.localeCompare(right.officeKey) ||
+      (left.termEvidenceId ?? "").localeCompare(right.termEvidenceId ?? ""),
+  );
 }
 
 export interface OfficeHolder {

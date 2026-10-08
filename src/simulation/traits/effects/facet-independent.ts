@@ -25,7 +25,6 @@ export const facetIndependentEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-independent",
         pole: "high",
-        explanation: "They prefer to choose how their own time is arranged.",
       },
     ],
   },

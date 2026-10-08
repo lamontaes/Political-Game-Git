@@ -47,9 +47,9 @@ function SeriesTable({ series }: { readonly series: MacroSeries }) {
         {series.points.map((point) => (
           <tr key={point.period}>
             <th scope="row">{macroPeriodLabel(point.period)}</th>
-            <td>
+            <td data-reason={point.missingReason ?? undefined}>
               {point.value === null
-                ? `No published value — ${point.missingReason ?? "the series records a publication gap"}`
+                ? "—"
                 : formatValue(point.value, series.unit)}
             </td>
           </tr>
@@ -79,35 +79,25 @@ export function MacroConditionsPanel({
     return (
       <section
         className="pg-macro-conditions"
-        aria-labelledby="pg-macro-conditions-title"
         data-testid="pg-macro-conditions-unavailable"
       >
-        <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
-        <p>
-          This life began before the world kept its own economic history, so
-          there are no national conditions to show. Nothing has been filled in.
-        </p>
+        <p data-problem="no-world-economic-history" />
       </section>
     );
   }
   const open = model.series.find((series) => series.key === openKey) ?? null;
   const openGraph = model.graphs.find((graph) => graph.graphKey === openKey);
   return (
-    <section
-      className="pg-macro-conditions"
-      aria-labelledby="pg-macro-conditions-title"
-      data-testid="pg-macro-conditions"
-    >
-      <h4 id="pg-macro-conditions-title">This world&rsquo;s economy</h4>
+    <section className="pg-macro-conditions" data-testid="pg-macro-conditions">
       {model.startingConditions ? (
-        <p className="pg-macro-conditions-start">
-          At the start of this life (
-          {proseDate(model.startingConditions.effectiveDate)}) unemployment
-          stood near {model.startingConditions.unemploymentPct.toFixed(1)}% and
-          prices were rising about{" "}
-          {model.startingConditions.inflation12mPct.toFixed(1)}% a year. These
-          are starting conditions, not released figures.
-        </p>
+        <dl className="pg-macro-conditions-start" data-basis="starting">
+          <dt>Date</dt>
+          <dd>{proseDate(model.startingConditions.effectiveDate)}</dd>
+          <dt>Unemployment</dt>
+          <dd>{model.startingConditions.unemploymentPct.toFixed(1)}%</dd>
+          <dt>Prices, 12 months</dt>
+          <dd>{model.startingConditions.inflation12mPct.toFixed(1)}%</dd>
+        </dl>
       ) : null}
       <ul className="pg-macro-card-grid">
         {model.cards.map((card) => (
@@ -126,7 +116,8 @@ export function MacroConditionsPanel({
                 {formatValue(card.value, card.unit)}
               </strong>
               <span className="pg-macro-card-meta">
-                {card.period ?? "No value yet"} · {card.geographyLabel}
+                {card.period ? `${card.period} · ` : ""}
+                {card.geographyLabel}
               </span>
               <span className="pg-macro-card-meta">
                 {card.unit} · {CLASS_LABEL[card.valueClass]}
@@ -143,9 +134,6 @@ export function MacroConditionsPanel({
           <EconomicGraph graph={openGraph} />
           <SeriesTable series={open} />
         </div>
-      ) : null}
-      {model.localNote ? (
-        <p className="pg-macro-conditions-local">{model.localNote}</p>
       ) : null}
     </section>
   );

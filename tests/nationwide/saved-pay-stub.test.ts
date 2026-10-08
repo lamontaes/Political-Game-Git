@@ -9,8 +9,8 @@ import {
   enterLifePath,
   performLifePathSession,
   scheduleLifePathSession,
-  lifePaths2Handlers,
 } from "../../src/simulation/life-paths2";
+import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import { recordedPayStubs } from "../../src/simulation/resource-income";
 import { resourcePositionAt } from "../../src/simulation/resource-queries";
 import {
@@ -68,13 +68,15 @@ describe.each(sampled)("saved pay stub in %s", (placeKey) => {
       entered.world.history.workRelationships.at(-1)!.id,
     );
     expect(scheduled.ok, scheduled.message).toBe(true);
+    const timeHandlers = composeWorldTimeHandlers();
     const worked = performLifePathSession(
       scheduled.world,
       scheduled.world.history.scheduledActivities.at(-1)!.id,
+      timeHandlers,
     );
     expect(worked.ok, worked.message).toBe(true);
     const before = worked.world;
-    const paid = advanceWorld(before, 1, lifePaths2Handlers());
+    const paid = advanceWorld(before, 1, timeHandlers);
     const saved = serializeWorld(paid);
     const stubs = recordedPayStubs(paid, personId);
     expect(stubs).toHaveLength(1);

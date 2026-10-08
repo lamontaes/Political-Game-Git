@@ -164,14 +164,14 @@ describe("office discovery's election date", () => {
         world.people[personId]!.homeJurisdictionId,
         office.officeKey,
       );
-      expect(office.timing).toBe(`The next election is ${proseDate(date)}.`);
+      expect(office.timing).toBe(`Next election: ${proseDate(date)}`);
       expect(office.timing).not.toMatch(
         /recorded|contest|simulated|authored|\d{4}-\d{2}-\d{2}/,
       );
     }
     // Eligibility is said plainly, not in the rules' own vocabulary.
     for (const office of offices.filter((office) => office.eligible))
-      expect(office.eligibility).toBe("You can run for this office.");
+      expect(office.eligibility).toBe("Eligible");
     expect(serializeWorld(world)).toBe(before);
 
     const filed = fileForOffice(world, personId);
@@ -184,7 +184,7 @@ describe("office discovery's election date", () => {
     )!;
     // The fixture's short authored race, not the calendar date.
     expect(own.timing).toBe(
-      `The next election is ${proseDate(contest.electionDate)}.`,
+      `Next election: ${proseDate(contest.electionDate)}`,
     );
   });
 });

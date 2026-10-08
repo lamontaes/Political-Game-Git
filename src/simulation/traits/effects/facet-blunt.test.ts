@@ -19,7 +19,6 @@ describe("facet-blunt decision effects", () => {
       option: "counter",
       trait: "personality-v1:facet-blunt",
       pole: "high",
-      explanation: "They say plainly what would need to change.",
     });
   });
 });

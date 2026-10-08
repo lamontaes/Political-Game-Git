@@ -1,6 +1,6 @@
 {
   "name": "political-life-rpg",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -18,6 +18,7 @@
     "wording:check": "node --import tsx scripts/english-check/wording.ts",
     "wording:baseline": "node --import tsx scripts/english-check/wording.ts --write",
     "world:aging": "node --enable-source-maps --max-old-space-size=8192 --import tsx scripts/dev-lab/world-aging.ts",
+    "speed:year": "node --enable-source-maps --max-old-space-size=8192 --import tsx scripts/speed-years/year.ts",
     "world:report": "node --max-old-space-size=8192 --import tsx scripts/world-report/run.ts",
     "law:money": "node --max-old-space-size=8192 --import tsx scripts/dev-lab/law-money.ts",
     "world:rent": "node --max-old-space-size=8192 --import tsx scripts/world-report/rent.ts",
@@ -29,6 +30,7 @@
     "education:check": "node --import tsx scripts/source/check-education.ts",
     "education:export": "node --import tsx scripts/source/export-education.ts",
     "source:replay": "node --import tsx scripts/source/replay.ts",
+    "export:seats-of-government": "node --import tsx scripts/source/export-seats-of-government.ts",
     "source:check-fiscal-disposition": "node --import tsx scripts/source/fiscal-authority-inventory.ts --check",
     "export:economic-context": "node --import tsx scripts/source/export-economic-context.ts",
     "export:regional-measures": "node --import tsx scripts/source/export-regional-measures.ts",

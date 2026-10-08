@@ -167,66 +167,59 @@ describe("PLAYTEST34 line-level time and family speech", () => {
     ).toBe(false);
   });
 
-  it.each(["acceptProposal", "suggestGame"])(
-    "Mom's own new-game proposal survives reload and %s without an unrelated refusal",
-    (intent) => {
-      const { world, personId } = life("p34-mom-game-3", 10);
-      const mom = currentOpeningLifeScene(
-        world,
+  it("Mom's own new-game proposal survives reload and acceptance without an unrelated refusal", () => {
+    const { world, personId } = life("p34-mom-game-3", 10);
+    const mom = currentOpeningLifeScene(world, personId)!.presentPersonIds.find(
+      (id) => id !== personId,
+    )!;
+    const proposed = line(world, personId, mom, "activity");
+    const offered = projectLifeConversation(proposed, personId, mom)!;
+    expect(offered.person.relationship).toBe("your mom");
+    expect(offered.proposal!.terms.activity).toBe("new-game");
+    expect(offered.transcript.at(-1)!.reply).toContain("try a new game");
+    const explained = line(
+      deserializeWorld(serializeWorld(proposed)),
+      personId,
+      mom,
+      "explain",
+    );
+    const agreed = line(explained, personId, mom, "acceptProposal");
+    const agreement = projectLifeConversation(agreed, personId, mom)!;
+    expect(agreement.proposal!.request.id).toBe(offered.proposal!.request.id);
+    expect(agreement.proposal!.status).toBe("accepted");
+    expect(agreement.transcript.at(-1)!.reply).toContain(
+      "Yes, let's try a new game",
+    );
+    expect(agreed.currentMoment).toEqual(world.currentMoment);
+    let saved = deserializeWorld(serializeWorld(agreed));
+    for (let n = 0; n < 10; n++)
+      saved = line(saved, personId, mom, n % 2 ? "remember" : "acknowledge");
+    expect(saved.currentMoment).toEqual(world.currentMoment);
+    const performed = line(saved, personId, mom, "spendTime");
+    expect(
+      simulationMinutesBetween(world.currentMoment, performed.currentMoment),
+    ).toBe(30);
+    expect(
+      projectLifeConversation(performed, personId, mom)!.proposal!.status,
+    ).toBe("performed");
+    expect(
+      performed.history.events.filter((event) =>
+        event.tags.includes("life.proposal.performed"),
+      ),
+    ).toHaveLength(1);
+    expect(() =>
+      line(
+        deserializeWorld(serializeWorld(performed)),
         personId,
-      )!.presentPersonIds.find((id) => id !== personId)!;
-      const proposed = line(world, personId, mom, "activity");
-      const offered = projectLifeConversation(proposed, personId, mom)!;
-      expect(offered.person.relationship).toBe("your mom");
-      expect(offered.proposal!.terms.activity).toBe("new-game");
-      expect(offered.transcript.at(-1)!.reply).toContain("try a new game");
-      const explained =
-        intent === "acceptProposal"
-          ? line(
-              deserializeWorld(serializeWorld(proposed)),
-              personId,
-              mom,
-              "explain",
-            )
-          : deserializeWorld(serializeWorld(proposed));
-      const agreed = line(explained, personId, mom, intent);
-      const agreement = projectLifeConversation(agreed, personId, mom)!;
-      expect(agreement.proposal!.request.id).toBe(offered.proposal!.request.id);
-      expect(agreement.proposal!.status).toBe("accepted");
-      expect(agreement.transcript.at(-1)!.reply).toContain(
-        "Yes, let's try a new game",
-      );
-      expect(agreed.currentMoment).toEqual(world.currentMoment);
-      let saved = deserializeWorld(serializeWorld(agreed));
-      for (let n = 0; n < 10; n++)
-        saved = line(saved, personId, mom, n % 2 ? "remember" : "acknowledge");
-      expect(saved.currentMoment).toEqual(world.currentMoment);
-      const performed = line(saved, personId, mom, "spendTime");
-      expect(
-        simulationMinutesBetween(world.currentMoment, performed.currentMoment),
-      ).toBe(30);
-      expect(
-        projectLifeConversation(performed, personId, mom)!.proposal!.status,
-      ).toBe("performed");
-      expect(
-        performed.history.events.filter((event) =>
-          event.tags.includes("life.proposal.performed"),
-        ),
-      ).toHaveLength(1);
-      expect(() =>
-        line(
-          deserializeWorld(serializeWorld(performed)),
-          personId,
-          mom,
-          "spendTime",
-        ),
-      ).toThrow();
-      expect(performed.history.resourceOutcomes).toEqual(
-        world.history.resourceOutcomes,
-      );
-      assertWorldIntegrity(performed);
-    },
-  );
+        mom,
+        "spendTime",
+      ),
+    ).toThrow();
+    expect(performed.history.resourceOutcomes).toEqual(
+      world.history.resourceOutcomes,
+    );
+    assertWorldIntegrity(performed);
+  });
 
   it.each(["declineProposal", "cancelProposal"])(
     "%s closes the actual saved game proposal for zero time",

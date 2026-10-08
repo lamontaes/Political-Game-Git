@@ -108,6 +108,7 @@ describe("CampaignLifePanel as mounted", () => {
     const html = render(withShift);
     expect(html).not.toContain('data-testid="party-work-empty"');
     expect(html).toContain('data-state="accepted"');
+    expect(html).not.toContain("You said you would do it.");
     expect(html).toContain("Phone shift");
     // A remote shift is worked from home: the one action is taking the shift,
     // and no journey is disclosed because none is traveled.

@@ -1,0 +1,665 @@
+{
+  "version": 1,
+  "pulls": {
+    "legislature-v1:showing-their-hand": {
+      "high": {
+        "toward": ["speak-out", "commit", "cooperate"],
+        "away": ["delay"]
+      },
+      "low": {
+        "toward": ["delay", "stay-quiet", "withdraw"],
+        "away": ["commit"]
+      }
+    },
+    "people-mind-v1:conflict": {
+      "high": {
+        "toward": ["confront", "refuse", "speak-out"],
+        "away": ["concede", "cooperate"]
+      },
+      "low": {
+        "toward": ["concede", "cooperate", "withdraw"],
+        "away": ["confront"]
+      }
+    },
+    "people-mind-v1:deliberation": {
+      "high": {
+        "toward": ["take-risk", "commit", "engage"],
+        "away": ["delay", "distrust"]
+      },
+      "low": {
+        "toward": ["delay", "distrust", "play-safe"],
+        "away": ["take-risk"]
+      }
+    },
+    "people-mind-v1:reliability": {
+      "high": {
+        "toward": ["follow-rules", "cooperate", "commit"],
+        "away": ["bend-rules"]
+      },
+      "low": {
+        "toward": ["bend-rules", "delay", "stay-quiet"],
+        "away": ["follow-rules"]
+      }
+    },
+    "people-mind-v1:risk": {
+      "high": {
+        "toward": ["take-risk", "change"],
+        "away": ["play-safe", "keep-same"]
+      },
+      "low": {
+        "toward": ["play-safe", "keep-same", "withdraw"],
+        "away": ["take-risk", "change"]
+      }
+    },
+    "people-mind-v1:sociability": {
+      "high": {
+        "toward": ["engage", "cooperate"],
+        "away": ["withdraw", "stay-quiet"]
+      },
+      "low": {
+        "toward": ["withdraw", "keep-same"],
+        "away": ["engage", "cooperate"]
+      }
+    },
+    "personality-v1:action-despite-fear": {
+      "high": {
+        "toward": ["take-risk", "confront", "engage"],
+        "away": ["withdraw", "play-safe"]
+      },
+      "low": {
+        "toward": ["withdraw", "play-safe", "delay"],
+        "away": ["take-risk", "confront"]
+      }
+    },
+    "personality-v1:bond-loyalty": {
+      "high": {
+        "toward": ["keep-same", "help-others", "trust"],
+        "away": ["withdraw"]
+      },
+      "low": {
+        "toward": ["withdraw", "bend-rules", "self-interest"],
+        "away": ["commit"]
+      }
+    },
+    "personality-v1:concern-for-distress": {
+      "high": {
+        "toward": ["help-others", "engage", "speak-out"],
+        "away": ["self-interest"]
+      },
+      "low": {
+        "toward": ["self-interest", "withdraw", "delay"],
+        "away": ["help-others"]
+      }
+    },
+    "personality-v1:facet-acquisitive": {
+      "high": {
+        "toward": ["self-interest", "take-risk", "keep-same"],
+        "away": ["help-others"]
+      }
+    },
+    "personality-v1:facet-affectionate": {
+      "high": {
+        "toward": ["engage", "cooperate", "trust"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-ambitious": {
+      "high": {
+        "toward": ["engage", "take-risk", "self-interest"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-analytical": {
+      "high": {
+        "toward": ["delay", "distrust", "change"],
+        "away": ["take-risk"]
+      }
+    },
+    "personality-v1:facet-approval-seeking": {
+      "high": {
+        "toward": ["speak-out", "engage", "cooperate"],
+        "away": []
+      }
+    },
+    "personality-v1:facet-arbitrary": {
+      "high": {
+        "toward": ["bend-rules", "change", "self-interest"],
+        "away": ["follow-rules"]
+      }
+    },
+    "personality-v1:facet-argumentative": {
+      "high": {
+        "toward": ["confront", "speak-out", "refuse"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-assertive": {
+      "high": {
+        "toward": ["speak-out", "confront"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-blunt": {
+      "high": {
+        "toward": ["speak-out", "confront"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-brazen": {
+      "high": {
+        "toward": ["bend-rules", "take-risk", "speak-out"],
+        "away": ["play-safe"]
+      }
+    },
+    "personality-v1:facet-brooding": {
+      "high": {
+        "toward": ["withdraw", "stay-quiet", "keep-same"],
+        "away": ["engage"]
+      }
+    },
+    "personality-v1:facet-calm": {
+      "high": {
+        "toward": ["keep-same", "play-safe", "delay"],
+        "away": ["confront", "take-risk"]
+      }
+    },
+    "personality-v1:facet-charming": {
+      "high": {
+        "toward": ["engage", "speak-out", "cooperate"],
+        "away": []
+      }
+    },
+    "personality-v1:facet-closeness-seeking": {
+      "high": {
+        "toward": ["engage", "cooperate", "commit"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-cocky": {
+      "high": {
+        "toward": ["take-risk", "speak-out", "confront"],
+        "away": ["concede", "play-safe"]
+      }
+    },
+    "personality-v1:facet-comforting": {
+      "high": {
+        "toward": ["help-others", "engage", "cooperate"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-competitive": {
+      "high": {
+        "toward": ["confront", "engage", "take-risk"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-contented": {
+      "high": {
+        "toward": ["keep-same", "play-safe", "withdraw"],
+        "away": ["take-risk", "change"]
+      }
+    },
+    "personality-v1:facet-cruel": {
+      "high": {
+        "toward": ["confront", "self-interest"],
+        "away": ["help-others", "concede"]
+      }
+    },
+    "personality-v1:facet-curious": {
+      "high": {
+        "toward": ["engage", "trust"],
+        "away": ["keep-same"]
+      }
+    },
+    "personality-v1:facet-cynical": {
+      "high": {
+        "toward": ["distrust", "self-interest"],
+        "away": ["trust", "help-others"]
+      }
+    },
+    "personality-v1:facet-daydreaming": {
+      "high": {
+        "toward": ["delay", "withdraw", "change"],
+        "away": ["commit"]
+      }
+    },
+    "personality-v1:facet-defensive": {
+      "high": {
+        "toward": ["confront", "refuse", "distrust"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-deferential": {
+      "high": {
+        "toward": ["concede", "cooperate", "follow-rules"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-devoted": {
+      "high": {
+        "toward": ["keep-same", "help-others"],
+        "away": ["withdraw", "change"]
+      }
+    },
+    "personality-v1:facet-dramatic": {
+      "high": {
+        "toward": ["speak-out", "engage", "confront"],
+        "away": ["stay-quiet"]
+      }
+    },
+    "personality-v1:facet-duty-bound": {
+      "high": {
+        "toward": ["follow-rules", "commit", "keep-same"],
+        "away": ["bend-rules", "self-interest"]
+      }
+    },
+    "personality-v1:facet-enterprising": {
+      "high": {
+        "toward": ["engage", "take-risk", "commit"],
+        "away": ["play-safe"]
+      }
+    },
+    "personality-v1:facet-entitled": {
+      "high": {
+        "toward": ["self-interest", "speak-out", "confront"],
+        "away": ["help-others"]
+      }
+    },
+    "personality-v1:facet-envious": {
+      "high": {
+        "toward": ["engage", "confront", "self-interest"],
+        "away": ["help-others"]
+      }
+    },
+    "personality-v1:facet-excitable": {
+      "high": {
+        "toward": ["engage", "take-risk"],
+        "away": ["delay"]
+      }
+    },
+    "personality-v1:facet-fair-minded": {
+      "high": {
+        "toward": ["follow-rules", "trust", "delay"],
+        "away": ["bend-rules"]
+      }
+    },
+    "personality-v1:facet-fickle": {
+      "high": {
+        "toward": ["change", "bend-rules"],
+        "away": ["keep-same", "commit"]
+      }
+    },
+    "personality-v1:facet-forgiving": {
+      "high": {
+        "toward": ["concede", "cooperate", "trust"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-friendly": {
+      "high": {
+        "toward": ["engage", "cooperate", "trust"],
+        "away": ["refuse"]
+      }
+    },
+    "personality-v1:facet-generous": {
+      "high": {
+        "toward": ["help-others", "cooperate", "trust"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-gentle": {
+      "high": {
+        "toward": ["concede", "delay"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-guarded": {
+      "high": {
+        "toward": ["withdraw", "distrust", "stay-quiet"],
+        "away": ["trust", "engage"]
+      }
+    },
+    "personality-v1:facet-hostile": {
+      "high": {
+        "toward": ["confront", "refuse", "distrust"],
+        "away": ["cooperate", "trust"]
+      }
+    },
+    "personality-v1:facet-hot-headed": {
+      "high": {
+        "toward": ["confront", "speak-out"],
+        "away": ["concede", "delay"]
+      }
+    },
+    "personality-v1:facet-humble": {
+      "high": {
+        "toward": ["cooperate", "concede", "stay-quiet"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-imaginative": {
+      "high": {
+        "toward": ["change", "engage", "take-risk"],
+        "away": ["keep-same"]
+      }
+    },
+    "personality-v1:facet-independent": {
+      "high": {
+        "toward": ["self-interest", "change"],
+        "away": ["cooperate"]
+      }
+    },
+    "personality-v1:facet-informal": {
+      "high": {
+        "toward": ["speak-out", "bend-rules"],
+        "away": ["follow-rules"]
+      }
+    },
+    "personality-v1:facet-intimacy-guarded": {
+      "high": {
+        "toward": ["withdraw", "distrust", "play-safe"],
+        "away": ["commit", "engage"]
+      }
+    },
+    "personality-v1:facet-inventive": {
+      "high": {
+        "toward": ["change", "take-risk"],
+        "away": ["keep-same"]
+      }
+    },
+    "personality-v1:facet-light-hearted": {
+      "high": {
+        "toward": ["keep-same", "play-safe", "engage"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-manipulative": {
+      "high": {
+        "toward": ["speak-out", "self-interest", "bend-rules"],
+        "away": ["trust"]
+      }
+    },
+    "personality-v1:facet-mediating": {
+      "high": {
+        "toward": ["cooperate", "engage", "help-others"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-meticulous": {
+      "high": {
+        "toward": ["follow-rules", "commit"],
+        "away": ["bend-rules"]
+      }
+    },
+    "personality-v1:facet-mischievous": {
+      "high": {
+        "toward": ["confront", "change", "bend-rules"],
+        "away": ["follow-rules"]
+      }
+    },
+    "personality-v1:facet-nostalgic": {
+      "high": {
+        "toward": ["keep-same", "engage"],
+        "away": ["change"]
+      }
+    },
+    "personality-v1:facet-nurturing": {
+      "high": {
+        "toward": ["help-others", "cooperate", "engage"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-observant": {
+      "high": {
+        "toward": ["speak-out", "distrust"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-open-minded": {
+      "high": {
+        "toward": ["trust", "change", "engage"],
+        "away": ["refuse"]
+      }
+    },
+    "personality-v1:facet-opportunistic": {
+      "high": {
+        "toward": ["self-interest", "engage", "take-risk"],
+        "away": ["play-safe"]
+      }
+    },
+    "personality-v1:facet-persistent": {
+      "high": {
+        "toward": ["commit", "keep-same", "take-risk"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-philanthropic": {
+      "high": {
+        "toward": ["help-others", "engage"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-polite": {
+      "high": {
+        "toward": ["cooperate", "follow-rules", "concede"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-practical": {
+      "high": {
+        "toward": ["engage", "play-safe", "follow-rules"],
+        "away": ["take-risk"]
+      }
+    },
+    "personality-v1:facet-proud": {
+      "high": {
+        "toward": ["speak-out", "engage", "play-safe"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-restless": {
+      "high": {
+        "toward": ["change", "withdraw"],
+        "away": ["keep-same"]
+      }
+    },
+    "personality-v1:facet-sassy": {
+      "high": {
+        "toward": ["confront", "speak-out"],
+        "away": ["concede"]
+      }
+    },
+    "personality-v1:facet-self-conscious": {
+      "high": {
+        "toward": ["delay", "play-safe"],
+        "away": []
+      }
+    },
+    "personality-v1:facet-self-serving": {
+      "high": {
+        "toward": ["self-interest", "bend-rules"],
+        "away": ["help-others"]
+      }
+    },
+    "personality-v1:facet-sensitive": {
+      "high": {
+        "toward": ["withdraw", "play-safe"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-shy": {
+      "high": {
+        "toward": ["withdraw", "stay-quiet", "delay"],
+        "away": ["speak-out", "engage"]
+      }
+    },
+    "personality-v1:facet-sincere": {
+      "high": {
+        "toward": ["speak-out", "trust", "follow-rules"],
+        "away": ["bend-rules"]
+      }
+    },
+    "personality-v1:facet-skeptical": {
+      "high": {
+        "toward": ["distrust", "delay"],
+        "away": []
+      }
+    },
+    "personality-v1:facet-slow-to-warm-up": {
+      "high": {
+        "toward": ["withdraw", "keep-same"],
+        "away": ["engage"]
+      }
+    },
+    "personality-v1:facet-smug": {
+      "high": {
+        "toward": ["speak-out", "keep-same"],
+        "away": ["change"]
+      }
+    },
+    "personality-v1:facet-studious": {
+      "high": {
+        "toward": ["commit", "engage"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-supportive": {
+      "high": {
+        "toward": ["help-others", "cooperate", "engage"],
+        "away": ["self-interest"]
+      }
+    },
+    "personality-v1:facet-tactful": {
+      "high": {
+        "toward": ["play-safe", "stay-quiet"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-teasing": {
+      "high": {
+        "toward": ["confront", "speak-out", "change"],
+        "away": []
+      }
+    },
+    "personality-v1:facet-tender-hearted": {
+      "high": {
+        "toward": ["concede", "help-others", "delay"],
+        "away": ["confront"]
+      }
+    },
+    "personality-v1:facet-thrill-seeking": {
+      "high": {
+        "toward": ["take-risk", "engage"],
+        "away": ["play-safe", "keep-same"]
+      }
+    },
+    "personality-v1:facet-vindictive": {
+      "high": {
+        "toward": ["confront", "self-interest", "refuse"],
+        "away": ["concede", "trust"]
+      }
+    },
+    "personality-v1:facet-work-centered": {
+      "high": {
+        "toward": ["commit", "engage", "keep-same"],
+        "away": ["withdraw"]
+      }
+    },
+    "personality-v1:facet-zealous": {
+      "high": {
+        "toward": ["commit", "speak-out", "confront"],
+        "away": ["concede", "delay"]
+      }
+    },
+    "personality-v1:initial-trust": {
+      "high": {
+        "toward": ["trust", "cooperate", "engage"],
+        "away": ["distrust"]
+      },
+      "low": {
+        "toward": ["distrust", "delay", "play-safe"],
+        "away": ["trust"]
+      }
+    },
+    "personality-v1:method-revision": {
+      "high": {
+        "toward": ["cooperate", "concede"],
+        "away": ["keep-same"]
+      },
+      "low": {
+        "toward": ["keep-same", "refuse", "confront"],
+        "away": ["change", "concede"]
+      }
+    },
+    "personality-v1:outward-emotional-display": {
+      "high": {
+        "toward": ["speak-out", "engage"],
+        "away": ["stay-quiet"]
+      },
+      "low": {
+        "toward": ["stay-quiet", "withdraw", "keep-same"],
+        "away": ["speak-out"]
+      }
+    },
+    "personality-v1:patience": {
+      "high": {
+        "toward": ["delay", "keep-same", "play-safe"],
+        "away": ["take-risk"]
+      },
+      "low": {
+        "toward": ["take-risk", "change", "withdraw"],
+        "away": ["delay"]
+      }
+    },
+    "personality-v1:playful-manner": {
+      "high": {
+        "toward": ["engage", "speak-out", "change"],
+        "away": []
+      },
+      "low": {
+        "toward": ["play-safe", "follow-rules", "commit"],
+        "away": ["change"]
+      }
+    },
+    "personality-v1:self-confidence": {
+      "high": {
+        "toward": ["engage", "take-risk", "speak-out"],
+        "away": ["withdraw", "delay"]
+      },
+      "low": {
+        "toward": ["withdraw", "play-safe", "delay"],
+        "away": ["take-risk", "speak-out"]
+      }
+    },
+    "personality-v1:truthfulness": {
+      "high": {
+        "toward": ["speak-out", "follow-rules", "trust"],
+        "away": ["bend-rules"]
+      },
+      "low": {
+        "toward": ["bend-rules", "stay-quiet", "self-interest"],
+        "away": ["follow-rules"]
+      }
+    },
+    "personality-v1:uncertain-outlook": {
+      "high": {
+        "toward": ["take-risk", "engage", "change"],
+        "away": ["play-safe"]
+      },
+      "low": {
+        "toward": ["play-safe", "withdraw", "delay"],
+        "away": ["take-risk"]
+      }
+    },
+    "personality-v1:voluntary-effort": {
+      "high": {
+        "toward": ["commit", "engage", "follow-rules"],
+        "away": ["withdraw"]
+      },
+      "low": {
+        "toward": ["withdraw", "delay", "keep-same"],
+        "away": ["commit"]
+      }
+    }
+  }
+}

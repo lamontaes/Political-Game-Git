@@ -199,12 +199,14 @@ export function CampaignLifePanel({
                   {row.travelNote}
                 </span>
               ) : null}
-              <span
-                className="game-campaign-life-state"
-                data-testid={`party-work-state-${row.lifeActivityId}`}
-              >
-                {row.stateLabel}
-              </span>
+              {row.stateLabel ? (
+                <span
+                  className="game-campaign-life-state"
+                  data-testid={`party-work-state-${row.lifeActivityId}`}
+                >
+                  {row.stateLabel}
+                </span>
+              ) : null}
               {row.attendNote ? (
                 <span className="game-campaign-life-line">
                   {row.attendNote}

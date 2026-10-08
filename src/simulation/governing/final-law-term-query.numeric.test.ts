@@ -8,10 +8,13 @@ import {
 import type { EntityId, IsoDate, World } from "../types";
 import type { LawTermScope } from "../law-consequence-types";
 import type { LawInForce } from "./law-in-force";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { afterEach, vi } from "vitest";
 import * as lawReader from "./law-in-force";
-import { stateJurisdictionForKey } from "../life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../life-places";
 
 const { startingLawTermsMock } = vi.hoisted(() => ({
   startingLawTermsMock: vi.fn(),
@@ -68,8 +71,9 @@ function lawTermWorld(target: string): {
   readonly targetLaw: LawInForce;
   readonly targetJurisdictionId: EntityId;
 } {
-  const peerStates = SOURCE_TERM_STATES.map(([state]) => state);
-  const stateKeys = [...new Set([target, ...peerStates])];
+  const stateKeys = [
+    ...new Set([target, ...lifePlaceStateIdentities().map((row) => row.usps)]),
+  ];
   const governments = stateKeys.map((state, index) => {
     const jurisdiction = stateJurisdictionForKey(`US-${state}`)!;
     return {
@@ -561,7 +565,7 @@ describe("source-first modeled starting-law amount adapter", () => {
     ).toMatchObject({
       kind: "unsupported",
       reason:
-        "No same-level, same-form state law has a sourced numeric term in this scope and unit.",
+        "No recorded state law has a sourced numeric term in this scope and unit.",
     });
   });
 
@@ -615,11 +619,19 @@ describe("source-first modeled starting-law amount adapter", () => {
     expect(first.evidence.donors.map((row) => row.scope)).toEqual(
       Array.from({ length: first.evidence.donors.length }, () => CLEAN_SCOPE),
     );
+    const targetExcludedValues = SOURCE_TERM_STATES.filter(
+      ([state]) => state !== "CA",
+    )
+      .map(([, value]) => value)
+      .sort((a, b) => a - b);
+    const expectedMedian =
+      (targetExcludedValues[targetExcludedValues.length / 2 - 1]! +
+        targetExcludedValues[targetExcludedValues.length / 2]!) /
+      2;
+    expect(first.value).toBe(expectedMedian);
+    expect(first.estimate.median).toBe(expectedMedian);
+    expect(first.estimate.estimatedFrom).toBe("median of recorded states");
     expect(first.estimate.spread).toBeGreaterThan(0);
-    expect(SOURCE_TERM_STATES.some(([, value]) => value === first.value)).toBe(
-      true,
-    );
-    expect(first.estimate.mean).toBeGreaterThan(0);
   });
 
   it("does not flatten a recorded schedule into an estimated scalar", () => {
