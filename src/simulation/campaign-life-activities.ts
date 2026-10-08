@@ -1275,7 +1275,7 @@ export function projectCampaignGuidance(
   };
 }
 
-function guidanceText(view: CampaignGuidanceView): string {
+export function campaignGuidanceRecordText(view: CampaignGuidanceView): string {
   const describe = <T>(label: string, value: CampaignGuidanceValue<T>) =>
     value.state === "known"
       ? `${label} ${String(value.value)} (${value.citation})`
@@ -1586,7 +1586,7 @@ export function recordCampaignLifeAttendance(
       summary = `A ${entry.title.toLowerCase()} for ${orgName} with ${contactNames.join(", ")}.${openCampaign ? " The work was for the campaign." : ""}`;
       break;
     case "candidate-guidance":
-      summary = `${personName(host)} went over what is known about running for office here. ${guidanceText(guidance!)}`;
+      summary = `${personName(host)} went over what is known about running for office here. ${campaignGuidanceRecordText(guidance!)}`;
       break;
     case "fundraiser":
       summary = `A small fundraiser with ${personName(host)}. ${openCampaign ? "Attendance is recorded; no new payment was attempted without a recorded monetary ask and applicable contribution-cap law term." : "The campaign was no longer running, so nothing was collected."}`;
@@ -1690,7 +1690,7 @@ export function recordCampaignLifeAttendance(
       personId,
       eventId: outcomeEvent.id,
       learnedAt: completedAt,
-      believedSummary: guidanceText(guidance),
+      believedSummary: campaignGuidanceRecordText(guidance),
       accuracy: "accurate",
       confidence: "high",
       source: {

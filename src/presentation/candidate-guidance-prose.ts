@@ -19,7 +19,7 @@ const ABSENT_RULE = String.raw`not [a-z ]+ to this game`;
 /** A bracketed citation, allowing one level of brackets inside it. */
 const CITATION = String.raw`(?: \((?:[^()]|\([^()]*\))*\))?`;
 const OFFICE_CLAUSE = new RegExp(
-  String.raw`(^|\. )([^.:;]+): minimum age (\d+|${ABSENT_RULE})${CITATION}; residency (${ABSENT_RULE}|[^;()]+?)${CITATION}; term in years (\d+|${ABSENT_RULE})${CITATION}(?=\.)`,
+  String.raw`(^|\. )([^.:;]+): minimum age (\d+|${ABSENT_RULE})${CITATION}; residency (${ABSENT_RULE}|[^;()]+?)${CITATION}; term in years (\d+|${ABSENT_RULE})${CITATION}(?=; filing deadline\b|\.)`,
   "g",
 );
 

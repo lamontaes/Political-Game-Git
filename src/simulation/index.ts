@@ -118,6 +118,7 @@ export {
   offerCampaignLifeActivity,
   oldEnoughForCampaignLife,
   projectCampaignGuidance,
+  campaignGuidanceRecordText,
   projectCampaignLifeActivities,
   recordCampaignLifeAttendance,
   requestCampaignLifeActivity,

@@ -42,6 +42,19 @@ describe("candidate guidance read back as prose", () => {
     );
   });
 
+  it("cleans rule citations while keeping the recorded filing terms", () => {
+    const text = plainCandidateGuidance(
+      "House of Representatives: minimum age 21 (Ohio Const. art. II, § 3); residency 1 year in the district immediately preceding filing (Ohio Const. art. II, § 3); term in years 2 (Ohio Const. art. II, § 2); filing deadline 2026-07-01; fee $0.00; 25 signatures. The election clerk accepts the filing and applies those terms.",
+    );
+    expect(text).toContain(
+      "To run for the House of Representatives, you must be at least 21; you must have lived 1 year in the district immediately before filing; and a term is 2 years",
+    );
+    expect(text).toContain(
+      "; filing deadline 2026-07-01; fee $0.00; 25 signatures.",
+    );
+    expect(text).not.toContain("Ohio Const.");
+  });
+
   it("leaves a line in any other shape as it was written", () => {
     const other = "Somebody said the minimum age is 18 (they were not sure).";
     expect(plainCandidateGuidance(other)).toBe(other);

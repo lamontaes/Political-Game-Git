@@ -1,16 +1,22 @@
 import { describe, expect, it } from "vitest";
 import {
+  createScenarioWorld,
   campaignLifeActivityRecords,
   campaignLifeOutcomeRecords,
+  campaignGuidanceRecordText,
+  lifePlaces,
   deserializeWorld,
   homePartyChapters,
   scheduledActivityState,
   serializeWorld,
   simulationMinutesBetween,
+  projectCampaignGuidance,
 } from "../simulation";
 import { attendPartyWork, requestPartyWork } from "./campaign-life-actions";
+import { plainCandidateGuidance } from "./candidate-guidance-prose";
 import {
   askCandidateGuidance,
+  composeCandidateGuidanceAnswer,
   leaveCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
@@ -55,6 +61,26 @@ function attend(
 }
 
 describe("candidate guidance in the room", () => {
+  it("composes the organizer's answer through the shared rule reader in all 56 places", () => {
+    const places = lifePlaces();
+    expect(places).toHaveLength(56);
+    for (const place of places) {
+      const world = createScenarioWorld(
+        `candidate-guidance-all-places:${place.key}`,
+        place.context,
+        { peopleCount: 1 },
+      );
+      const personId = world.personOrder[0]!;
+      const response = composeCandidateGuidanceAnswer(world, personId);
+      expect(response, place.displayName).toBeTruthy();
+      expect(response, place.displayName).not.toContain("Let's check");
+      expect(response, place.displayName).not.toMatch(
+        /\b[A-Z]{2,}(?:_[A-Z]+)+\b|\bUS-[A-Z]{2}\b/,
+      );
+      expect(response, place.displayName).not.toContain("Const.");
+    }
+  });
+
   it("opens through the normal Attend route, saves the organizer and questions, then finishes on Stay", () => {
     const { world, personId, record } = booked("candidate-guidance-room");
     const activityId = record.scheduledActivityId;
@@ -94,9 +120,30 @@ describe("candidate guidance in the room", () => {
     expect(
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.words,
     ).toBe("What are the requirements to run here?");
+    const response = projectCandidateGuidanceScene(asked, personId)?.turns[0]
+      ?.response;
+    expect(response).toBe(
+      plainCandidateGuidance(
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId)),
+      ),
+    );
+    expect(response).not.toContain("Let's check the requirements");
+    expect(response).toContain("minimum age");
+    const requirementsEvent = asked.history.events.find(
+      (event) =>
+        event.type === "campaign.candidate-guidance-question" &&
+        event.tags.includes("question:requirements"),
+    )!;
+    expect(requirementsEvent.context.immediateReaction).toBe(response);
     expect(
-      projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the requirements before you decide to run.");
+      asked.history.knowledge.some(
+        (item) =>
+          item.eventId === requirementsEvent.id &&
+          item.personId === personId &&
+          item.accuracy === "accurate" &&
+          item.source.kind === "direct",
+      ),
+    ).toBe(true);
     expect(
       askCandidateGuidance(asked, personId, activityId, "requirements"),
     ).toBe(asked);
@@ -135,7 +182,11 @@ describe("candidate guidance in the room", () => {
     );
     expect(
       projectCandidateGuidanceScene(asked, personId)?.turns[0]?.response,
-    ).toBe("Let's check the filing steps before you act.");
+    ).toBe(
+      plainCandidateGuidance(
+        campaignGuidanceRecordText(projectCampaignGuidance(asked, personId)),
+      ),
+    );
     const left = leaveCandidateGuidance(
       asked,
       personId,

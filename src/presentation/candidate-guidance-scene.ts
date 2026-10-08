@@ -1,8 +1,10 @@
 import {
   canPersonAccess,
+  campaignGuidanceRecordText,
   compareSimulationMoments,
   createCampaignElectionTransitionRegistry,
   personName,
+  projectCampaignGuidance,
   projectCampaignLifeActivities,
   scheduledActivityState,
   type EntityId,
@@ -15,6 +17,7 @@ import { meetingDepartureRoute, meetingHomeRoute } from "./meeting-home-route";
 import { travelToPlace } from "./place-travel";
 import { performVenueActivity, venueActivities } from "./venue-activity";
 import { cancelScheduledActivity } from "../simulation/time-work";
+import { plainCandidateGuidance } from "./candidate-guidance-prose";
 
 export type CandidateGuidanceQuestion = "requirements" | "filing";
 
@@ -32,6 +35,16 @@ export const CANDIDATE_GUIDANCE_QUESTIONS: readonly {
 
 const baseKey = (activityId: EntityId) =>
   `candidate-guidance-scene-v1:${activityId}`;
+
+/** Words the organizer can support with this place's recorded candidacy rules. */
+export function composeCandidateGuidanceAnswer(
+  world: World,
+  personId: EntityId,
+): string {
+  return plainCandidateGuidance(
+    campaignGuidanceRecordText(projectCampaignGuidance(world, personId)),
+  );
+}
 
 /** A saved journey and the actual host are prerequisites for the conversation. */
 function guidanceHere(world: World, personId: EntityId, activityId: EntityId) {
@@ -264,12 +277,10 @@ export function askCandidateGuidance(
     (choice) => choice.key === question,
   )?.words;
   if (!scene || scene.activityId !== activityId || !words) return world;
-  // COPY-PENDING(wave2): Claude English will replace these short lines from
-  // the recorded scene packet. No filing rule or host knowledge is asserted.
-  const response =
-    question === "requirements"
-      ? "Let's check the requirements before you decide to run."
-      : "Let's check the filing steps before you act.";
+  // The host's answer comes from the same recorded rule packet used by the
+  // campaign-life journal. The prose renderer only turns that packet into
+  // plain English; it does not add a new rule or filing deadline.
+  const response = composeCandidateGuidanceAnswer(world, personId);
   const host = scene.actors[0]!;
   const key = `${baseKey(activityId)}:question:${question}`;
   const next = recordWorldEvent(world, {
