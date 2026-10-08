@@ -5,7 +5,7 @@ import {
   MACRO_MONTHLY_STEP_KEY,
 } from "../../src/simulation/macro-economy";
 import { randomInt } from "node:crypto";
-import startingLaws from "../../data/research/laws/starting-law-2026.json";
+import startingLaws from "../../data/research/laws/starting-law-2026/index";
 import {
   allGovernmentUnits,
   governmentUnitJurisdictionId,

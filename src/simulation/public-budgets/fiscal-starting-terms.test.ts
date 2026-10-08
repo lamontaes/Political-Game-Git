@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { stdout } from "node:process";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import incomeTables from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { stableHash } from "../ids";
