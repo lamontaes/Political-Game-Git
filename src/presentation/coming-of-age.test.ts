@@ -27,12 +27,22 @@ import {
 import { describePersonContext } from "../simulation/person-context";
 import { STATES } from "../simulation/state-reference";
 import { resourcePositionAt } from "../simulation/resource-queries";
-import { createResourcePosition, money } from "../simulation/resources";
+import {
+  createResourceFlow,
+  createResourcePosition,
+  money,
+  recordResourceTransferOutcome,
+} from "../simulation/resources";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, IsoDate, World } from "../simulation/types";
-import { assertWorldIntegrity, advanceWorld } from "../simulation/world";
+import {
+  assertWorldIntegrity,
+  advanceWorld,
+  withWorldIntegrityDeferred,
+} from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import type { NewGameSetup } from "./new-game";
+import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { passOrdinaryDays } from "./ordinary-life";
 import { projectPersonalRecord } from "./personal-record";
 
@@ -112,7 +122,47 @@ function withSavings(world: World, personId: EntityId, minor: number): World {
     { kind: "person", personId },
     money(0, "USD").currency,
   );
-  expect(tracked).toBeUndefined();
+  if (tracked) {
+    // A grown-up start with a job already tracks the account its pay goes
+    // into, so the savings arrive there as one recorded deposit from the
+    // household's own untracked savings rather than as a second account.
+    expect(tracked.liquidBalance.minorUnits).toBe(0);
+    const household = householdMembershipsAt(world, personId)[0]!.household.id;
+    const deposited = createResourceFlow(world, {
+      stableKey: "test:coming-of-age-savings",
+      source: { kind: "household", householdId: household },
+      recipient: { kind: "person", personId },
+      startsAt: world.currentDate,
+      amount: money(minor, "USD"),
+      cadenceKind: "custom:test-transfer",
+      basisKind: "custom:test-transfer",
+      basisReference: { kind: "general" },
+      restrictionKind: null,
+      jurisdictionId: world.people[personId]!.homeJurisdictionId,
+      provenance: { kind: "authored", note: "Test savings." },
+    });
+    const next = recordResourceTransferOutcome(deposited, {
+      stableKey: "test:coming-of-age-savings:outcome",
+      resourceFlowId: deposited.history.resourceFlows.at(-1)!.id,
+      periodStartsAt: world.currentDate,
+      periodEndsAt: world.currentDate,
+      occurredAt: world.currentDate,
+      attemptedAmount: money(minor, "USD"),
+      transferredAmount: money(minor, "USD"),
+      status: "completed",
+      reasonKind: null,
+      note: null,
+      provenance: { kind: "authored", note: "Test savings." },
+    });
+    expect(
+      resourcePositionAt(
+        next,
+        { kind: "person", personId },
+        money(0, "USD").currency,
+      )?.liquidBalance.minorUnits,
+    ).toBe(minor);
+    return next;
+  }
   return createResourcePosition(world, {
     stableKey: "test:coming-of-age-savings",
     owner: { kind: "person", personId },
@@ -423,13 +473,22 @@ describe("buying a home as a grown child", () => {
   });
 
   it("buys for the household as before when no parent lives there", () => {
-    const { world: start, playerId } = newLife(
-      "Fargo",
-      "ND",
-      "coming-of-age:fargo-adult",
-      30,
-      "shares-a-home",
+    // Opened the way a new game opens, so the economy has started and a
+    // mortgage can be quoted; the bare world builder starts no economy.
+    const { game } = withWorldIntegrityDeferred(() =>
+      generateOpeningLife(
+        prepareOpeningLife({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed: "coming-of-age:fargo-adult",
+          startAge: 30,
+          household: "shares-a-home",
+          placeKey: placeKey("Fargo", "ND"),
+          questionnaire: "skipped",
+        } as NewGameSetup),
+      ),
     );
+    const start = game!.world;
+    const playerId = game!.playerPersonId;
     const world = withSavings(start, playerId, 10_000_000);
     const household = householdMembershipsAt(world, playerId)[0]!.household.id;
     const residents = peopleInHouseholdAt(world, household);
