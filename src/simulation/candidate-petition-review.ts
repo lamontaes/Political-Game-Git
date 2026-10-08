@@ -230,8 +230,8 @@ export function fileCandidatePetition(
       campaign.jurisdictionId,
     ],
     participants: [
-      { personId: clerkPersonId, role: "agency:clerk" },
-      { personId: campaign.candidatePersonId, role: "agency:candidate" },
+      { personId: clerkPersonId, role: "agency:clerk", detail: "petition:filing-clerk" },
+      { personId: campaign.candidatePersonId, role: "agency:candidate", detail: "petition:candidate" },
     ],
     personFactConstraints: [],
     visibility: "public",
