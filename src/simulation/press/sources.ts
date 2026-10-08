@@ -484,7 +484,7 @@ export function answerPressRequest(
             ? "deny"
             : "apologize",
         meaning: input.stance.statement,
-      })
+      }).world
     : world;
   const recorded = recordSubjectResponse(responseWorld, {
     leadId: lead.id,
