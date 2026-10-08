@@ -295,9 +295,9 @@
       "stand-aside": ["play-safe", "self-interest", "keep-same"]
     },
     "crisis.international-response": {
-      "de-escalate": ["withdraw", "concede", "cooperate", "delay"],
+      "de-escalate": ["withdraw", "concede", "cooperate"],
       "hold": ["keep-same", "play-safe"],
-      "escalate": ["confront", "speak-out", "take-risk", "bend-rules"]
+      "escalate": ["confront", "speak-out", "take-risk"]
     },
     "speech.react": {
       "cheered": ["engage", "speak-out"],
