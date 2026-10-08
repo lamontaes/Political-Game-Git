@@ -59,7 +59,7 @@ import {
   proposeFamilyPlan,
   type FamilyPlanKind,
 } from "../people-family-plan";
-import { ensurePeopleTraits, traitConsiderations } from "../people-traits";
+import { ensurePeopleTraits } from "../people-traits";
 import { resourcePositionAt } from "../resource-queries";
 import { money } from "../resources";
 import type {
@@ -524,29 +524,7 @@ export function weighTownFamilyPlans(
     let best: { actor: EntityId; margin: number } | null = null;
     for (const actor of couple.personIds) {
       const prefix = `${TOWN_FAMILY_PLANS_VERSION}:${actor}:${today}`;
-      const list = [
-        ...considerations(rows, prefix),
-        ...traitConsiderations(next, actor, prefix, [
-          {
-            optionKey: FAMILY_PLAN_OPTIONS.raise,
-            trait: "risk",
-            pole: "high",
-            explanation: "They are ready to take something on.",
-          },
-          {
-            optionKey: FAMILY_PLAN_OPTIONS.wait,
-            trait: "deliberation",
-            pole: "low",
-            explanation: "They would rather think it through for longer.",
-          },
-          {
-            optionKey: FAMILY_PLAN_OPTIONS.raise,
-            trait: "reliability",
-            pole: "high",
-            explanation: "They mean to see things through.",
-          },
-        ]),
-      ];
+      const list = considerations(rows, prefix);
       const held = tradition.get(actor);
       const size = held
         ? step(FAMILY_PLAN_WEIGHTS.tradition * held.lean)
@@ -591,12 +569,15 @@ export function weighTownFamilyPlans(
         randomness: "none",
         retention: "ephemeral",
       });
+      const decisionConsiderations = evaluation.context.considerations;
       if (evaluation.selectedOptionKey !== FAMILY_PLAN_OPTIONS.raise) continue;
-      const lean = margin(list);
+      const lean = margin(decisionConsiderations);
       if (rowsBefore) {
         const earlier = [
           ...considerations(rowsBefore, `${prefix}:before`),
-          ...list.filter((row) => !row.sourceType.startsWith("context:")),
+          ...decisionConsiderations.filter(
+            (row) => !row.sourceType.startsWith("context:"),
+          ),
         ];
         if (margin(earlier) > 0) continue;
       }
