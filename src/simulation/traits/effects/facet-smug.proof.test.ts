@@ -20,6 +20,7 @@ describe("the smug difference in a random new game", () => {
           sourceRefs: [],
         },
       ],
+      "act-pulls",
     );
     process.stderr.write(`TRAIT PROOF ${JSON.stringify(proof)}\n`);
     expect(proof.without).toBe("decline");
