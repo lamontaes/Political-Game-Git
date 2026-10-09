@@ -138,6 +138,16 @@ const PERSON_LANDINGS = (landingPlan.links as readonly PlannedLanding[]).filter(
     row.landingPath === PERSON_LANDING_PATH && row.recipientRule !== null,
 );
 
+/** A planned link that reaches people, with the rule naming whom it reaches. */
+export type PersonOutcomeLandingRow = PlannedLanding & {
+  readonly recipientRule: OutcomeRecipientRule;
+};
+
+/** Every planned link that reaches people, in the plan's order. */
+export function personOutcomeLandingRows(): readonly PersonOutcomeLandingRow[] {
+  return PERSON_LANDINGS as readonly PersonOutcomeLandingRow[];
+}
+
 export interface OutcomeLandingPerson {
   readonly personId: EntityId;
   readonly jurisdictionId: EntityId;
@@ -274,18 +284,14 @@ export function outcomeLandingStableKey(
 }
 
 /**
- * Route each place measure to the people represented by its recipient rule.
- * Place estimates remain estimates, not personal test scores, diagnoses,
- * coverage decisions, or enrollment facts.
+ * The facts the recipient rules read for each person on `month`: one pass
+ * over the world's records, then a lookup per person. The monthly landings
+ * read it, and so does anything else that asks whom an outcome reaches.
  */
-export function recordPlannedPersonOutcomeLandings(
+export function outcomeRecipientsAt(
   world: World,
   month: IsoDate,
-): World {
-  if (PERSON_LANDINGS.length === 0 || !world.placeOutcomes) return world;
-  const previousMonth = world.placeOutcomes.months
-    .filter((entry) => entry.month < month)
-    .at(-1)?.month;
+): (personId: EntityId) => OutcomeLandingPerson | null {
   const needsEducationEnrollment = PERSON_LANDINGS.some(
     (row) =>
       row.recipientRule ===
@@ -616,38 +622,12 @@ export function recordPlannedPersonOutcomeLandings(
           evictedHouseholdsWithoutHome.add(householdId);
     }
   }
-  const alreadyLanded = new Set(
-    (world.placeOutcomes.landings ?? []).map(
-      (row) => `${row.personId}|${row.linkKey}`,
-    ),
-  );
-  const stableKeys = new Set(
-    (world.placeOutcomes.landings ?? []).map((row) => row.stableKey),
-  );
-  const pending: PlaceOutcomeLandingRecord[] = [];
-  const currentOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
-  const priorOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
-  const outcomeFor = (
-    cache: Map<string, ReturnType<typeof placeOutcomeAt>>,
-    jurisdictionId: EntityId,
-    outcomeMonth: IsoDate,
-    measure: string,
-  ) => {
-    const key = `${jurisdictionId}|${measure}|${outcomeMonth}`;
-    if (!cache.has(key))
-      cache.set(
-        key,
-        placeOutcomeAt(world, measure, jurisdictionId, outcomeMonth),
-      );
-    return cache.get(key) ?? null;
-  };
-
-  for (const personId of world.personOrder) {
+  return (personId) => {
     const person = world.people[personId];
-    if (!person) continue;
+    if (!person) return null;
     const stateKey = placeOutcomeKey(person.homeJurisdictionId);
     const age = ageOnDate(person.birthDate, month);
-    const recipient: OutcomeLandingPerson = {
+    return {
       personId,
       jurisdictionId: person.homeJurisdictionId,
       age,
@@ -694,6 +674,54 @@ export function recordPlannedPersonOutcomeLandings(
       hasActivePaydayLoan: activePaydayLoanBorrowers.has(personId),
       hasRecordedFarmOperator: farmOperators.has(personId),
     };
+  };
+}
+
+/**
+ * Route each place measure to the people represented by its recipient rule.
+ * Place estimates remain estimates, not personal test scores, diagnoses,
+ * coverage decisions, or enrollment facts.
+ */
+export function recordPlannedPersonOutcomeLandings(
+  world: World,
+  month: IsoDate,
+): World {
+  if (PERSON_LANDINGS.length === 0 || !world.placeOutcomes) return world;
+  const previousMonth = world.placeOutcomes.months
+    .filter((entry) => entry.month < month)
+    .at(-1)?.month;
+  const recipientFor = outcomeRecipientsAt(world, month);
+  const alreadyLanded = new Set(
+    (world.placeOutcomes.landings ?? []).map(
+      (row) => `${row.personId}|${row.linkKey}`,
+    ),
+  );
+  const stableKeys = new Set(
+    (world.placeOutcomes.landings ?? []).map((row) => row.stableKey),
+  );
+  const pending: PlaceOutcomeLandingRecord[] = [];
+  const currentOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const priorOutcomes = new Map<string, ReturnType<typeof placeOutcomeAt>>();
+  const outcomeFor = (
+    cache: Map<string, ReturnType<typeof placeOutcomeAt>>,
+    jurisdictionId: EntityId,
+    outcomeMonth: IsoDate,
+    measure: string,
+  ) => {
+    const key = `${jurisdictionId}|${measure}|${outcomeMonth}`;
+    if (!cache.has(key))
+      cache.set(
+        key,
+        placeOutcomeAt(world, measure, jurisdictionId, outcomeMonth),
+      );
+    return cache.get(key) ?? null;
+  };
+
+  for (const personId of world.personOrder) {
+    const person = world.people[personId];
+    if (!person) continue;
+    const stateKey = placeOutcomeKey(person.homeJurisdictionId);
+    const recipient = recipientFor(personId)!;
     for (const row of PERSON_LANDINGS) {
       if (stateKey && row.unsupportedPlaceReasons?.[stateKey]) continue;
       if (

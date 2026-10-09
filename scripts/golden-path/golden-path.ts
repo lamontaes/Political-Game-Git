@@ -54,6 +54,7 @@ import {
 } from "../../src/presentation/clerk-filing-scene";
 import { filingOfficeForSeat } from "../../src/simulation/filing-office";
 import { sittingLocalClerk } from "../../src/simulation/living-world/local-government-seats";
+import { storyPerson } from "../../src/simulation/story-people";
 import {
   requestFilingVisit,
   scheduledFilingVisits,
@@ -680,6 +681,19 @@ const firstCampaignWeek: GoldenPathStep = {
             state.playerPersonId,
             "outreach",
           );
+          const grew = world.personOrder.length - before.personOrder.length;
+          const metAgain = (
+            world.history.campaignActionResults?.at(-1)?.canvass
+              ?.metPersonIds ?? []
+          ).filter((id) => !before.people[id]).length;
+          if (grew > 0 && metAgain === 0)
+            state = brk(
+              state,
+              "campaign-week",
+              "slow",
+              "A session on the doors wrote people out who were only passing by.",
+              [`${grew} people added`],
+            );
           state =
             world === before
               ? note(
@@ -712,7 +726,7 @@ const firstCampaignWeek: GoldenPathStep = {
         met.length
           ? `: ${met
               .slice(0, 5)
-              .map((id) => personName(state.world.people[id]!))
+              .map((id) => anyoneName(state.world, id))
               .join(", ")}`
           : ""
       }`,
@@ -740,13 +754,21 @@ const firstCampaignWeek: GoldenPathStep = {
 function canvassNote(world: World): string {
   const canvass = world.history.campaignActionResults?.at(-1)?.canvass;
   if (!canvass) return "no doors recorded";
-  return `${canvass.householdIds.length} doors, ${canvass.metPersonIds.length} met${
-    canvass.metPersonIds.length
-      ? `: ${canvass.metPersonIds
-          .map((id) => personName(world.people[id]!))
-          .join(", ")}`
-      : ""
-  }`;
+  const conversations = canvass.conversations ?? [];
+  const count = (response: string) =>
+    conversations.filter((row) => row.response === response).length;
+  const subjects = new Map<string, number>();
+  for (const row of conversations)
+    if (row.subject)
+      subjects.set(
+        row.subject.measure,
+        (subjects.get(row.subject.measure) ?? 0) + 1,
+      );
+  const names = (canvass.storyPersonIds ?? []).slice(0, 3).map((id) => {
+    const row = storyPerson(world, id);
+    return row ? `${row.givenName} ${row.familyName}` : id;
+  });
+  return `${canvass.doorKeys?.length ?? canvass.householdIds.length} doors, ${conversations.length} talked (${canvass.metPersonIds.length} written out, ${canvass.storyPersonIds?.length ?? 0} story-only${names.length ? `: ${names.join(", ")}` : ""}); warm ${count("warm")}, cool ${count("cool")}, heard ${count("heard")}; subjects ${[...subjects].map(([key, n]) => `${key} ×${n}`).join(", ") || "none"}`;
 }
 
 /** The candidate's recorded support in their own race, in percent. */
@@ -764,17 +786,28 @@ function supportPercent(state: GoldenPathState): number | null {
   );
 }
 
-/** Everybody the player has a recorded interaction with. */
+/** Everybody the player has a recorded interaction with, or met at a door. */
 function peopleMet(state: GoldenPathState): readonly EntityId[] {
   return [
-    ...new Set(
-      state.world.history.relationshipInteractions.flatMap((row) =>
+    ...new Set([
+      ...state.world.history.relationshipInteractions.flatMap((row) =>
         row.personIds.includes(state.playerPersonId)
           ? row.personIds.filter((id) => id !== state.playerPersonId)
           : [],
       ),
-    ),
+      ...(state.world.history.campaignActionResults ?? []).flatMap(
+        (row) => row.canvass?.storyPersonIds ?? [],
+      ),
+    ]),
   ];
+}
+
+/** A person's name, written out or story-only. */
+function anyoneName(world: World, id: EntityId): string {
+  const person = world.people[id];
+  if (person) return personName(person);
+  const row = storyPerson(world, id);
+  return row ? `${row.givenName} ${row.familyName}` : id;
 }
 
 /** Save and reload through the save path the shell uses, as Continue does. */

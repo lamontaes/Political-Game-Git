@@ -292,8 +292,8 @@ export function electionReportReactionOf(
       confidence: "high",
       explanation:
         leadChange > 0
-          ? "The reported count improves the speaker's lead."
-          : "The reported count reduces the speaker's lead.",
+          ? "The count improves the speaker's lead."
+          : "The count reduces the speaker's lead.",
       sourceRefs: [],
     });
   const evaluation = evaluateDecision(world, {

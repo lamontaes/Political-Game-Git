@@ -21,6 +21,7 @@ import {
   undertakingsHeldBy,
 } from "./index";
 import type { EntityId, FavorMotive, FavorWeight, World } from "./types";
+import { jumpToDate } from "../../tests/fixtures/due-item-clock";
 
 /**
  * Build 22, step 5: somebody who once helped, who still expects something
@@ -81,12 +82,7 @@ function helped(
 }
 
 function later(world: World, days: number): World {
-  const date = addDays(world.currentDate, days);
-  return {
-    ...world,
-    currentDate: date,
-    currentMoment: { ...world.currentMoment, date },
-  };
+  return jumpToDate(world, addDays(world.currentDate, days));
 }
 
 /** Tries several demo towns so the test does not rest on one draw. */

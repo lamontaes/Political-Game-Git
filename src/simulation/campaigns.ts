@@ -195,7 +195,12 @@ import {
   recordResourceTransferOutcome,
 } from "./resources";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
-import { walkCampaignCanvass } from "./campaign-canvass";
+import {
+  CANVASS_SUPPORT_EFFECT,
+  campaignCanvassSoFar,
+  walkCampaignCanvass,
+} from "./campaign-canvass";
+import { nameStoryPeople, writeOutStoryPerson } from "./story-people";
 import {
   CAMPAIGN_ROUTINE_WORK,
   campaignRoutineBlockAt,
@@ -215,6 +220,7 @@ import type {
   CampaignActionKind,
   CampaignActionRecord,
   CampaignActionResultRecord,
+  CampaignDoorConversation,
   CampaignActionStrategyRecord,
   CampaignCandidateSupportScope,
   CampaignRecord,
@@ -256,6 +262,7 @@ import {
   SUPPORT_FLOOR_BASIS_POINTS,
   latestSupportState,
   quantityBasisPoints,
+  recordSupportLoss,
   recordSupportShift,
 } from "./campaign-support";
 import { moneyText } from "./money-text";
@@ -1221,31 +1228,72 @@ function requestedGainBasisPoints(
   return Math.max(1, Math.floor(base));
 }
 
+/** A resident met at the door during a campaign's outreach session. */
+export const CAMPAIGN_DOOR_CONTACT_KIND = "contact:campaign-door";
+
+/**
+ * What a session's conversations at the doors moved. Each resident who took
+ * to the candidate moves toward them by the share of a vote a candidate's own
+ * visit moves a canvassed voter (`CANVASS_SUPPORT_EFFECT`), and each who took
+ * against them moves away by the same; a resident who only heard the
+ * candidate out moves nothing here, and counts toward recognition instead.
+ * The sum is a share of the adults the race reaches.
+ */
+export function doorConversationBasisPoints(
+  world: World,
+  campaign: CampaignRecord,
+  conversations: readonly CampaignDoorConversation[],
+): number {
+  const net = conversations.reduce((sum, row) => {
+    const sign = row.response === "warm" ? 1 : row.response === "cool" ? -1 : 0;
+    const size = row.partisan
+      ? CANVASS_SUPPORT_EFFECT.partisan
+      : CANVASS_SUPPORT_EFFECT.pooled;
+    return sum + sign * size;
+  }, 0);
+  if (net === 0) return 0;
+  const { electorate } = doorKnockingReturn(world, campaign);
+  return electorate > 0 ? (SUPPORT_DENOMINATOR * net) / electorate : 0;
+}
+
 /**
  * Support is a share, so a gain is a transfer. Taking it evenly from the field
  * and refusing to push anybody below the floor keeps the split a real
  * distribution rather than a score that only ever goes up. The shared writer
  * in `campaign-support.ts` does both, for this campaign and for opponents.
  */
-/** A resident met at the door during a campaign's outreach session. */
-export const CAMPAIGN_DOOR_CONTACT_KIND = "contact:campaign-door";
-
 function recordSupportAfterAction(
   world: World,
   campaign: CampaignRecord,
   action: CampaignActionRecord,
   outcomeEventId: EntityId,
+  conversations: readonly CampaignDoorConversation[] = [],
 ): {
   readonly world: World;
   readonly stateIds: readonly EntityId[];
   readonly candidateStateId: EntityId;
 } {
-  const shift = recordSupportShift(world, campaign, {
-    stableKeyBase: action.stableKey,
-    gainerPersonId: campaign.candidatePersonId,
-    gainBasisPoints: requestedGainBasisPoints(world, campaign, action),
-    sourceEntityIds: [outcomeEventId],
-  });
+  // Being met and recognized moves support up; what the conversations were
+  // about can add to that or, where residents took against the candidate,
+  // take it back.
+  const total = Math.floor(
+    requestedGainBasisPoints(world, campaign, action) +
+      doorConversationBasisPoints(world, campaign, conversations),
+  );
+  const shift =
+    total > 0
+      ? recordSupportShift(world, campaign, {
+          stableKeyBase: action.stableKey,
+          gainerPersonId: campaign.candidatePersonId,
+          gainBasisPoints: total,
+          sourceEntityIds: [outcomeEventId],
+        })
+      : recordSupportLoss(world, campaign, {
+          stableKeyBase: action.stableKey,
+          loserPersonId: campaign.candidatePersonId,
+          lossBasisPoints: -total,
+          sourceEntityIds: [outcomeEventId],
+        });
   const candidateStateId = shift.stateIdByPerson[campaign.candidatePersonId];
   if (!candidateStateId) {
     throw new Error("Candidate support state was not recorded.");
@@ -1559,7 +1607,7 @@ function recordCampaignActionOutcome(
   const baseOutcomeSummary =
     action.kind === "fundraising"
       ? money.raisedAmount
-        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        ? `completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
         : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`
@@ -1568,10 +1616,71 @@ function recordCampaignActionOutcome(
     ? `${baseOutcomeSummary} The approved geography was ${action.strategy.geographyLabel}.`
     : baseOutcomeSummary;
   // The doors an outreach session reached, and the residents home to answer.
-  const walk = walkCampaignCanvass(next, campaign, action);
-  next = walk.world;
-  const doors = walk.doors;
-  const metPersonIds = [...new Set(doors.flatMap((door) => door.metPersonIds))];
+  // Most are story-only: named, with what they raised and how they took the
+  // candidate, and nobody written out. One met before and met again starts
+  // to matter, and is written out now.
+  const metBefore = campaignCanvassSoFar(next, campaign).storyPersonIds;
+  const doors = walkCampaignCanvass(next, campaign, action);
+  const meetings = doors.flatMap((door) => door.met);
+  for (const meeting of meetings)
+    if (!meeting.written && metBefore.has(meeting.personId))
+      next = writeOutStoryPerson(next, meeting.personId);
+  const metPersonIds = [
+    ...new Set(
+      meetings
+        .filter((meeting) => next.people[meeting.personId])
+        .map((meeting) => meeting.personId),
+    ),
+  ];
+  const storyPersonIds = [
+    ...new Set(
+      meetings
+        .filter((meeting) => !next.people[meeting.personId])
+        .map((meeting) => meeting.personId),
+    ),
+  ];
+  next = nameStoryPeople(
+    next,
+    meetings.flatMap((meeting) =>
+      meeting.roster && !next.people[meeting.personId]
+        ? [
+            {
+              ...meeting.roster,
+              sourceStore: "campaignActions",
+              sourceRecordId: action.id,
+              whereMet: {
+                jurisdictionId: meeting.roster.town,
+                setting: "campaign-door",
+                on: next.currentDate,
+              },
+              // What they raised, then how they answered the candidate.
+              lines: [
+                meeting.subject
+                  ? { act: "complain", about: meeting.subject.measure }
+                  : { act: "greet", about: null },
+                {
+                  act:
+                    meeting.response === "warm"
+                      ? "agree"
+                      : meeting.response === "cool"
+                        ? "decline"
+                        : "undecided",
+                  about: null,
+                },
+              ],
+            },
+          ]
+        : [],
+    ),
+  );
+  const conversations: readonly CampaignDoorConversation[] = meetings.map(
+    (meeting) => ({
+      personId: meeting.personId,
+      subject: meeting.subject,
+      response: meeting.response,
+      partisan: meeting.partisan,
+    }),
+  );
   next = recordWorldEvent(next, {
     stableKey: `${action.stableKey}:outcome-event`,
     type: `campaign.${action.kind}-completed`,
@@ -1671,6 +1780,7 @@ function recordCampaignActionOutcome(
     campaign,
     action,
     outcomeEventId,
+    conversations,
   );
   next = supportResult.world;
   const observationResult = recordCampaignObservation(
@@ -1781,8 +1891,13 @@ function recordCampaignActionOutcome(
     ...(action.kind === "outreach"
       ? {
           canvass: {
-            householdIds: doors.map((door) => door.householdId),
+            householdIds: doors.flatMap((door) =>
+              door.householdId ? [door.householdId] : [],
+            ),
             metPersonIds,
+            doorKeys: doors.map((door) => door.doorKey),
+            storyPersonIds,
+            conversations,
           },
         }
       : {}),

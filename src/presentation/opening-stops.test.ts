@@ -92,6 +92,19 @@ describe("the six opening stops", { timeout: 300_000 }, () => {
         ),
       ).toHaveLength(1);
       expect(yours).toHaveLength(3);
+      // Congress is introduced once (owner playtest, October 8, 2026, A7):
+      // no other cut names a member of Congress on a plaque.
+      expect(
+        view.stops
+          .filter((stop) =>
+            stop.people.some(
+              (person) =>
+                person.plaque &&
+                /^U\.S\. (Senator|Representative) /.test(person.title),
+            ),
+          )
+          .map((stop) => stop.key),
+      ).toEqual(["representatives"]);
 
       expect(state!.people[0]!.title).toMatch(/^Governor of /);
       expect(state!.place).toBe("governor-office");

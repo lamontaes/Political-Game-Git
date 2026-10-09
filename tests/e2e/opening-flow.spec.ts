@@ -50,6 +50,8 @@ async function freshBrowser(page: Page) {
 /** Every cut of the opening, in order, until it closes. */
 async function walkOpening(page: Page): Promise<string[]> {
   const intro = page.getByTestId("world-orientation");
+  // Begin builds the world behind a progress screen first, about 13 seconds
+  // in a cloud machine (#3896); the opening follows it.
   await expect(intro).toBeVisible({ timeout: 60_000 });
   // The Ledger holds every number and starts closed.
   await expect(page.getByTestId("opening-ledger")).toHaveCount(0);

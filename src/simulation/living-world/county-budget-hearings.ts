@@ -82,7 +82,7 @@ const OWNER_SHARE = hearingData.ownerOccupiedShare.value;
 const RATE_DENOMINATOR = hearingData.rateDenominator;
 
 const ESTIMATE_NOTES: readonly string[] = [
-  `${hearingData.hearingLeadDays.basis}: ${LEAD_DAYS} days before the fiscal year (${hearingData.hearingLeadDays.source})`,
+  `${hearingData.hearingLeadDays.basis}: ${LEAD_DAYS} days (${hearingData.hearingLeadDays.source})`,
   `${hearingData.personsPerHousehold.basis}: ${PERSONS_PER_HOUSEHOLD} people per household (${hearingData.personsPerHousehold.source})`,
   `${hearingData.ownerOccupiedShare.basis}: ${OWNER_SHARE} of homes owner-occupied (${hearingData.ownerOccupiedShare.source})`,
 ];
@@ -362,7 +362,7 @@ export function countyBudgetHearingHandler(
     government.fiscalYearStart,
   );
   if (opening.fiscalYear !== fiscalYear)
-    return done(following(world), "This hearing's fiscal year has moved.");
+    return done(following(world), "This hearing has moved.");
   const fiscalStart = opening.startsOn;
   const voteDay = nextSessionCalendarDate(
     boardCalendar(unit.id),

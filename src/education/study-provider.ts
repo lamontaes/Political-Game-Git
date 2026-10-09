@@ -212,7 +212,7 @@ export const ADMISSION_TIMETABLE_ESTIMATE = {
   provenance: "designed",
   estimated: false,
   rationale:
-    "designed game timetable: reads the date an application was sent and balances a single answer lag (45 days) against a single late-August fall start, so an application sent in the usual season is answered before the term it asks for; no one college's calendar is modeled",
+    "designed game: reads the date an application was sent and balances a single answer lag (45 days) against a single late-August fall start, so an application sent in the usual season is answered before the term it asks for; no one college's calendar is modeled",
   researchQuestionId: "when-college-applications-are-decided-and-terms-begin",
 } as const;
 

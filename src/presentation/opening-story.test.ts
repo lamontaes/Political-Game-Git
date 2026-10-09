@@ -43,7 +43,7 @@ const NEBRASKA = opening("nebraska", 40);
 const ALL = [LEXINGTON, MINNEAPOLIS, NEBRASKA];
 
 describe("In the year 2026", () => {
-  it("names the President, divides Congress, gives the economy and real headlines", () => {
+  it("names the President, gives the economy and real headlines, and leaves Congress to its own stop", () => {
     for (const { world, personId } of ALL) {
       const view = projectOpeningYear(
         world,
@@ -58,10 +58,13 @@ describe("In the year 2026", () => {
       const value = (label: RegExp) =>
         view.facts.find((fact) => label.test(fact.label))?.value;
       expect(view.facts[0]!.label).toBe("President");
-      expect(value(/^United States Senate$/)).toMatch(/^\d+ [A-Za-z]/);
-      expect(value(/^United States House of Representatives$/)).toMatch(
-        /^\d+ [A-Za-z]/,
-      );
+      // Congress is told once, on its own stop beside its chart (owner
+      // playtest, October 8, 2026: the year card counted it a second time).
+      expect(
+        view.facts.filter((fact) =>
+          /Senate|House of Representatives/.test(fact.label),
+        ),
+      ).toEqual([]);
       expect(value(/^Unemployment$/)).toMatch(/^\d+\.\d%$/);
       expect(value(/^Prices over a year$/)).toMatch(/^[+-]?\d+\.\d%$/);
       for (const fact of view.facts)
@@ -76,15 +79,21 @@ describe("In the year 2026", () => {
   });
 });
 
-describe("The Senate on the opening card", () => {
+describe("The Senate on the Congress stop", () => {
   // Lamontae's playtest showed 58 + 39 + 2 = 99 senators: the opening drew a
   // vacant seat and the card left it out. Places are drawn from all 56;
-  // seed s99-b drew a vacant Hawaii seat before the fix.
-  const senateCount = (line: string) =>
-    [...line.matchAll(/(\d+) [A-Za-z]/g)].reduce(
-      (sum, match) => sum + Number(match[1]),
-      0,
-    );
+  // seed s99-b drew a vacant Hawaii seat before the fix. The year card no
+  // longer counts Congress, so the stop's chart, which draws each party's
+  // members, the vacant seats and the seats with no recorded holder, is the
+  // one place that has to account for all 100.
+  const seatsDrawn = (chamber: {
+    readonly parties: readonly { readonly members: number }[];
+    readonly vacancies: number;
+    readonly unrecorded: number;
+  }) =>
+    chamber.parties.reduce((sum, party) => sum + party.members, 0) +
+    chamber.vacancies +
+    chamber.unrecorded;
   it.each(["senate-100-a", "s99-b"])(
     "seats 100 senators in a new world (seed %s)",
     (seed) => {
@@ -92,68 +101,59 @@ describe("The Senate on the opening card", () => {
       const game = generateOpeningLife(
         prepareOpeningLife({ ...observerSetup(seed), startAge: 25 }),
       ).game!;
-      const orientation = projectOrientationView(
-        projectWorldOrientation(game.world, game.playerPersonId),
-        stateNameForUsps,
-      );
-      const senate = orientation.steps
-        .find((step) => step.key === "congress")!
-        .chambers.find((chamber) => chamber.chamberKey === "us-senate")!;
+      const recorded = projectWorldOrientation(game.world, game.playerPersonId);
+      const senateOf = (orientation: typeof recorded) =>
+        projectOrientationView(orientation, stateNameForUsps)
+          .steps.find((step) => step.key === "congress")!
+          .chambers.find((chamber) => chamber.chamberKey === "us-senate")!;
+      const senate = senateOf(recorded);
       expect(senate.members, place.key).toBe(100);
-      const line = projectOpeningYear(
-        game.world,
-        game.playerPersonId,
-        orientation,
-      ).facts.find((fact) => fact.label === "United States Senate")!.value;
-      expect(senateCount(line), `${place.key}: ${line}`).toBe(100);
+      expect(seatsDrawn(senate), place.key).toBe(100);
 
-      // A seat a death or resignation leaves empty is counted, so the card
+      // A seat a death or resignation leaves empty is counted, so the stop
       // still accounts for all 100.
-      const [first, ...rest] = senate.roster;
-      const leaving = senate.parties.find(
-        (party) =>
-          party.partyOrganizationId ===
-          (first!.person?.partyOrganizationId ?? null),
-      )!;
-      const withVacancy = {
-        ...orientation,
-        steps: orientation.steps.map((step) =>
-          step.key !== "congress"
-            ? step
-            : {
-                ...step,
-                chambers: step.chambers.map((chamber) =>
-                  chamber !== senate
-                    ? chamber
-                    : {
-                        ...chamber,
-                        members: 99,
-                        vacancies: 1,
-                        parties: chamber.parties.map((party) =>
-                          party === leaving
-                            ? { ...party, members: party.members - 1 }
-                            : party,
-                        ),
-                        roster: [
-                          {
-                            ...first!,
-                            status: "vacancy" as const,
-                            person: null,
-                          },
-                          ...rest,
-                        ],
-                      },
-                ),
-              },
-        ),
-      };
-      const vacantLine = projectOpeningYear(
-        game.world,
-        game.playerPersonId,
-        withVacancy,
-      ).facts.find((fact) => fact.label === "United States Senate")!.value;
-      expect(senateCount(vacantLine)).toBe(100);
-      expect(vacantLine).toContain("1 vacant");
+      const chamber = recorded.congress!.senate;
+      const leaving = chamber.seats.findIndex(
+        (seat) =>
+          seat.occupant.kind === "member" &&
+          seat.occupant.member.partyOrganizationId !== null,
+      );
+      const occupant = chamber.seats[leaving]!.occupant;
+      const party =
+        occupant.kind === "member" ? occupant.member.partyOrganizationId : null;
+      const withVacancy = senateOf({
+        ...recorded,
+        congress: {
+          ...recorded.congress!,
+          senate: {
+            ...chamber,
+            seats: chamber.seats.map((seat, index) =>
+              index === leaving
+                ? {
+                    ...seat,
+                    occupant: {
+                      kind: "vacancy" as const,
+                      since: game.world.currentDate,
+                      eventId: "event_vacancy" as typeof chamber.organizationId,
+                    },
+                  }
+                : seat,
+            ),
+            totals: {
+              ...chamber.totals,
+              members: chamber.totals.members - 1,
+              vacancies: chamber.totals.vacancies + 1,
+              byParty: chamber.totals.byParty.map((entry) =>
+                entry.partyOrganizationId === party
+                  ? { ...entry, members: entry.members - 1 }
+                  : entry,
+              ),
+            },
+          },
+        },
+      });
+      expect(withVacancy.vacancies).toBe(senate.vacancies + 1);
+      expect(seatsDrawn(withVacancy)).toBe(100);
     },
   );
 });

@@ -203,9 +203,7 @@ export function ObserverRecordWorkspace({
               : "Lives alone."}
           </p>
           <h4>Their career</h4>
-          {file.career.length === 0 ? (
-            <p className="game-note">No career lines on record.</p>
-          ) : (
+          {file.career.length === 0 ? null : (
             <ul data-testid="observer-person-career">
               {file.career.map((item) => (
                 <li key={item.id}>
@@ -235,9 +233,7 @@ export function ObserverRecordWorkspace({
             </section>
           ) : null}
           <h4>Everything recorded about them</h4>
-          {file.record.length === 0 ? (
-            <p className="game-note">Nothing has been recorded yet.</p>
-          ) : (
+          {file.record.length === 0 ? null : (
             <ul>
               {file.record.map((item) => (
                 <li key={item.id}>
@@ -296,11 +292,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-laws">
         <h3>Bills and laws</h3>
-        {record.laws.length === 0 ? (
-          <p className="game-note">
-            No bill has been introduced anywhere in this world yet.
-          </p>
-        ) : (
+        {record.laws.length === 0 ? null : (
           <table>
             <thead>
               <tr>
@@ -331,9 +323,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-amendments">
         <h3>Constitutional amendments</h3>
-        {record.amendments.length === 0 ? (
-          <p className="game-note">No amendment has been proposed yet.</p>
-        ) : (
+        {record.amendments.length === 0 ? null : (
           <ul>
             {record.amendments.map((amendment) => (
               <li key={amendment.id}>
@@ -348,10 +338,6 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-elections">
         <h3>Elections</h3>
-        {record.elections.length === 0 &&
-        record.electionSummaries.length === 0 ? (
-          <p className="game-note">No election has been decided yet.</p>
-        ) : null}
         {record.elections.length > 0 ? (
           <ul>
             {record.elections.slice(0, 60).map((election) => (
@@ -501,9 +487,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-news">
         <h3>The news</h3>
-        {record.news.length === 0 ? (
-          <p className="game-note">Nothing has been published yet.</p>
-        ) : (
+        {record.news.length === 0 ? null : (
           <ul>
             {record.news.map((item) => (
               <li key={item.id}>
@@ -556,9 +540,7 @@ export function ObserverPersonStory({
   return (
     <>
       <h4>Their threads</h4>
-      {story.threads.length === 0 ? (
-        <p className="game-note">No threads on record.</p>
-      ) : (
+      {story.threads.length === 0 ? null : (
         <ul data-testid="observer-person-threads">
           {story.threads.map((thread) => (
             <li key={thread.personId}>
@@ -579,9 +561,7 @@ export function ObserverPersonStory({
         </ul>
       )}
       <h4>Their recent moments</h4>
-      {story.moments.length === 0 ? (
-        <p className="game-note">No moments on record.</p>
-      ) : (
+      {story.moments.length === 0 ? null : (
         <ul data-testid="observer-person-moments">
           {story.moments.map((moment) => (
             <li key={moment.id}>
