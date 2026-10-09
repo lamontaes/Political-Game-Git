@@ -18,6 +18,7 @@
  * they are loaded at run time so this tool does not depend on that package.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { isoDateFromParts } from "../../simulation/dates";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { createOpeningFinance } from "../../core2/opening-finance";
 import { DEFAULT_DATA } from "../../core2/data";
@@ -113,6 +114,7 @@ function run(
   watch: readonly PersonId[],
   withDirector: boolean,
   extra?: ExtraModules,
+  trace: readonly PersonId[] = [],
 ) {
   const director = createDirector({ watch });
   const before = mib();
@@ -126,9 +128,39 @@ function run(
     ],
   });
   if (withDirector) director.start(core);
-  advanceCore(core, through);
+  // Month by month, so each traced life's threads can be read as they rise and fade.
+  const traces = new Map<
+    PersonId,
+    { date: string; threads: Record<string, number> }[]
+  >();
+  let cursor = core.date;
+  while (cursor < through) {
+    const [year, month] = cursor.split("-").map(Number) as [number, number];
+    const next = isoDateFromParts(
+      month === 12 ? year + 1 : year,
+      month === 12 ? 1 : month + 1,
+      1,
+    );
+    advanceCore(core, next < through ? next : through);
+    cursor = core.date;
+    if (!withDirector) continue;
+    for (const id of trace) {
+      const book = director.ledger.people.get(id);
+      if (!book) continue;
+      const threads: Record<string, number> = {};
+      for (const thread of book.threads.values())
+        threads[thread.otherId] = director.importance(
+          id,
+          thread.otherId,
+          cursor,
+        );
+      const rows = traces.get(id) ?? [];
+      rows.push({ date: cursor, threads });
+      traces.set(id, rows);
+    }
+  }
   const seconds = (performance.now() - started) / 1000;
-  return { core, director, seconds, before, after: mib() };
+  return { core, director, seconds, before, after: mib(), traces };
 }
 
 function name(core: CoreState, id: string): string {
@@ -136,7 +168,12 @@ function name(core: CoreState, id: string): string {
   return person ? `${person.givenName} ${person.familyName}` : id;
 }
 
-function lifeSummary(core: CoreState, director: Director, id: string) {
+function lifeSummary(
+  core: CoreState,
+  director: Director,
+  id: string,
+  trace: readonly { date: string; threads: Record<string, number> }[] = [],
+) {
   const book = director.ledger.people.get(id)!;
   const person = core.people.get(id)!;
   const threads = [...book.threads.values()]
@@ -148,11 +185,6 @@ function lifeSummary(core: CoreState, director: Director, id: string) {
       tie: thread.tie,
       closeness: thread.closeness,
       lastContact: thread.lastContact,
-      importanceAtStart: director.importance(
-        id,
-        thread.otherId,
-        book.watchedSince,
-      ),
       importanceAtEnd: director.importance(id, thread.otherId, core.date),
       fadingAtEnd: director.fading(id, thread.otherId, core.date),
       turns: thread.turns,
@@ -172,6 +204,7 @@ function lifeSummary(core: CoreState, director: Director, id: string) {
     keptFacts: [...book.keptFacts.values()],
     backdrop: book.backdrop,
     schedule: book.schedule,
+    importanceByMonth: trace,
   };
 }
 
@@ -203,10 +236,10 @@ async function main() {
     );
     return;
   }
-  const result = run(input, options.through, watch, true, extra);
   const detailed = [
     ...new Set([...(input.playerId ? [input.playerId] : []), ...options.watch]),
   ];
+  const result = run(input, options.through, watch, true, extra, detailed);
   const broad = [...result.director.ledger.broadEvents.values()].map((row) => ({
     ...row,
     reachedCount: row.reached.length,
@@ -290,7 +323,9 @@ async function main() {
     memory: { before: result.before, after: result.after },
     directorStopgapHits: [...result.director.ledger.stopgapHits].sort(),
     openDirectorStopgaps: openDirectorStopgapCount(),
-    lives: detailed.map((id) => lifeSummary(result.core, result.director, id)),
+    lives: detailed.map((id) =>
+      lifeSummary(result.core, result.director, id, result.traces.get(id)),
+    ),
     broadEvents: broad,
   };
   if (options.output)
