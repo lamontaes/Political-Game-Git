@@ -1,375 +1,371 @@
 {
- "entries": [
-  "src/main.tsx",
-  "src/review.tsx",
-  "src/art-desk-entry.tsx"
- ],
- "reachableFiles": 1631,
- "nonTestFiles": 1923,
- "engines": {
-  "screens": {
-   "files": 636,
-   "deadFiles": 62,
-   "fileLines": 201532,
-   "units": {
-    "RULE": 2167,
-    "TYPE": 1638,
-    "DATA": 410,
-    "PLUMBING": 1216,
-    "DEAD": 550
-   },
-   "lines": {
-    "RULE": 73530,
-    "TYPE": 15441,
-    "DATA": 5706,
-    "PLUMBING": 56865,
-    "DEAD": 18955
-   },
-   "ruleEntangled": {
-    "units": 276,
-    "lines": 34381
-   },
-   "rulePortable": {
-    "units": 1891,
-    "lines": 39149
-   },
-   "numericLiteralsInRule": 3946
-  },
-  "source-data": {
-   "files": 205,
-   "deadFiles": 192,
-   "fileLines": 51232,
-   "units": {
-    "RULE": 44,
-    "PLUMBING": 25,
-    "DATA": 12,
-    "TYPE": 469,
-    "DEAD": 1241
-   },
-   "lines": {
-    "RULE": 582,
-    "PLUMBING": 1137,
-    "DATA": 150,
-    "TYPE": 4039,
-    "DEAD": 36565
-   },
-   "ruleEntangled": {
-    "units": 0,
-    "lines": 0
-   },
-   "rulePortable": {
-    "units": 44,
-    "lines": 582
-   },
-   "numericLiteralsInRule": 20
-  },
-  "elections": {
-   "files": 89,
-   "deadFiles": 6,
-   "fileLines": 37018,
-   "units": {
-    "TYPE": 259,
-    "DATA": 133,
-    "RULE": 595,
-    "DEAD": 47,
-    "PLUMBING": 387
-   },
-   "lines": {
-    "TYPE": 2185,
-    "DATA": 1681,
-    "RULE": 11467,
-    "DEAD": 738,
-    "PLUMBING": 14573
-   },
-   "ruleEntangled": {
-    "units": 93,
-    "lines": 6518
-   },
-   "rulePortable": {
-    "units": 502,
-    "lines": 4949
-   },
-   "numericLiteralsInRule": 974
-  },
-  "substrate": {
-   "files": 248,
-   "deadFiles": 6,
-   "fileLines": 102821,
-   "units": {
-    "TYPE": 1095,
-    "PLUMBING": 1262,
-    "RULE": 1093,
-    "DEAD": 131,
-    "DATA": 413
-   },
-   "lines": {
-    "TYPE": 9731,
-    "PLUMBING": 38764,
-    "RULE": 19025,
-    "DEAD": 3263,
-    "DATA": 15263
-   },
-   "ruleEntangled": {
-    "units": 164,
-    "lines": 9021
-   },
-   "rulePortable": {
-    "units": 929,
-    "lines": 10004
-   },
-   "numericLiteralsInRule": 2390
-  },
-  "governing": {
-   "files": 135,
-   "deadFiles": 12,
-   "fileLines": 62130,
-   "units": {
-    "TYPE": 420,
-    "DATA": 176,
-    "DEAD": 131,
-    "PLUMBING": 505,
-    "RULE": 586
-   },
-   "lines": {
-    "TYPE": 3593,
-    "DATA": 15861,
-    "DEAD": 2792,
-    "PLUMBING": 20915,
-    "RULE": 10268
-   },
-   "ruleEntangled": {
-    "units": 87,
-    "lines": 5385
-   },
-   "rulePortable": {
-    "units": 499,
-    "lines": 4883
-   },
-   "numericLiteralsInRule": 617
-  },
-  "economy": {
-   "files": 110,
-   "deadFiles": 2,
-   "fileLines": 48197,
-   "units": {
-    "TYPE": 281,
-    "PLUMBING": 522,
-    "DEAD": 58,
-    "DATA": 181,
-    "RULE": 657
-   },
-   "lines": {
-    "TYPE": 2712,
-    "PLUMBING": 17773,
-    "DEAD": 1806,
-    "DATA": 2929,
-    "RULE": 15401
-   },
-   "ruleEntangled": {
-    "units": 167,
-    "lines": 11011
-   },
-   "rulePortable": {
-    "units": 490,
-    "lines": 4390
-   },
-   "numericLiteralsInRule": 1934
-  },
-  "english": {
-   "files": 26,
-   "deadFiles": 2,
-   "fileLines": 8489,
-   "units": {
-    "TYPE": 78,
-    "RULE": 76,
-    "PLUMBING": 41,
-    "DATA": 63,
-    "DEAD": 31
-   },
-   "lines": {
-    "TYPE": 579,
-    "RULE": 1405,
-    "PLUMBING": 1527,
-    "DATA": 3237,
-    "DEAD": 582
-   },
-   "ruleEntangled": {
-    "units": 5,
-    "lines": 430
-   },
-   "rulePortable": {
-    "units": 71,
-    "lines": 975
-   },
-   "numericLiteralsInRule": 182
-  },
-  "story": {
-   "files": 44,
-   "deadFiles": 2,
-   "fileLines": 26862,
-   "units": {
-    "TYPE": 169,
-    "RULE": 248,
-    "PLUMBING": 232,
-    "DATA": 66,
-    "DEAD": 28
-   },
-   "lines": {
-    "TYPE": 2191,
-    "RULE": 5758,
-    "PLUMBING": 9864,
-    "DATA": 3890,
-    "DEAD": 879
-   },
-   "ruleEntangled": {
-    "units": 47,
-    "lines": 3109
-   },
-   "rulePortable": {
-    "units": 201,
-    "lines": 2649
-   },
-   "numericLiteralsInRule": 408
-  },
-  "campaigns": {
-   "files": 53,
-   "deadFiles": 1,
-   "fileLines": 23635,
-   "units": {
-    "TYPE": 136,
-    "DEAD": 27,
-    "PLUMBING": 287,
-    "RULE": 229,
-    "DATA": 57
-   },
-   "lines": {
-    "TYPE": 1237,
-    "DEAD": 1304,
-    "PLUMBING": 12459,
-    "RULE": 4290,
-    "DATA": 699
-   },
-   "ruleEntangled": {
-    "units": 63,
-    "lines": 3416
-   },
-   "rulePortable": {
-    "units": 166,
-    "lines": 874
-   },
-   "numericLiteralsInRule": 347
-  },
-  "legislatures": {
-   "files": 107,
-   "deadFiles": 4,
-   "fileLines": 48427,
-   "units": {
-    "TYPE": 320,
-    "RULE": 564,
-    "DATA": 151,
-    "DEAD": 61,
-    "PLUMBING": 468
-   },
-   "lines": {
-    "TYPE": 3483,
-    "RULE": 11565,
-    "DATA": 4893,
-    "DEAD": 2075,
-    "PLUMBING": 18168
-   },
-   "ruleEntangled": {
-    "units": 100,
-    "lines": 7245
-   },
-   "rulePortable": {
-    "units": 464,
-    "lines": 4320
-   },
-   "numericLiteralsInRule": 718
-  },
-  "laws": {
-   "files": 159,
-   "deadFiles": 2,
-   "fileLines": 49496,
-   "units": {
-    "PLUMBING": 537,
-    "RULE": 517,
-    "TYPE": 302,
-    "DATA": 158,
-    "DEAD": 62
-   },
-   "lines": {
-    "PLUMBING": 21303,
-    "RULE": 8545,
-    "TYPE": 2904,
-    "DATA": 8610,
-    "DEAD": 1566
-   },
-   "ruleEntangled": {
-    "units": 74,
-    "lines": 4686
-   },
-   "rulePortable": {
-    "units": 443,
-    "lines": 3859
-   },
-   "numericLiteralsInRule": 618
-  },
-  "courts": {
-   "files": 64,
-   "deadFiles": 0,
-   "fileLines": 21558,
-   "units": {
-    "PLUMBING": 264,
-    "TYPE": 147,
-    "RULE": 284,
-    "DEAD": 33,
-    "DATA": 65
-   },
-   "lines": {
-    "PLUMBING": 9284,
-    "TYPE": 1364,
-    "RULE": 5311,
-    "DEAD": 823,
-    "DATA": 1617
-   },
-   "ruleEntangled": {
-    "units": 83,
-    "lines": 4318
-   },
-   "rulePortable": {
-    "units": 201,
-    "lines": 993
-   },
-   "numericLiteralsInRule": 311
-  },
-  "press": {
-   "files": 47,
-   "deadFiles": 1,
-   "fileLines": 19533,
-   "units": {
-    "TYPE": 162,
-    "PLUMBING": 311,
-    "RULE": 203,
-    "DATA": 57,
-    "DEAD": 12
-   },
-   "lines": {
-    "TYPE": 1265,
-    "PLUMBING": 9646,
-    "RULE": 4342,
-    "DATA": 971,
-    "DEAD": 292
-   },
-   "ruleEntangled": {
-    "units": 52,
-    "lines": 3037
-   },
-   "rulePortable": {
-    "units": 151,
-    "lines": 1305
-   },
-   "numericLiteralsInRule": 294
+  "entries": ["src/main.tsx", "src/review.tsx", "src/art-desk-entry.tsx"],
+  "reachableFiles": 1631,
+  "nonTestFiles": 1923,
+  "engines": {
+    "screens": {
+      "files": 636,
+      "deadFiles": 62,
+      "fileLines": 201532,
+      "units": {
+        "PLUMBING": 2599,
+        "TYPE": 1638,
+        "DATA": 679,
+        "RULE": 515,
+        "DEAD": 550
+      },
+      "lines": {
+        "PLUMBING": 108125,
+        "TYPE": 15441,
+        "DATA": 6039,
+        "RULE": 21937,
+        "DEAD": 18955
+      },
+      "ruleEntangled": {
+        "units": 159,
+        "lines": 12671
+      },
+      "rulePortable": {
+        "units": 356,
+        "lines": 9266
+      },
+      "numericLiteralsInRule": 2199
+    },
+    "source-data": {
+      "files": 205,
+      "deadFiles": 192,
+      "fileLines": 51232,
+      "units": {
+        "PLUMBING": 65,
+        "DATA": 13,
+        "TYPE": 469,
+        "RULE": 3,
+        "DEAD": 1241
+      },
+      "lines": {
+        "PLUMBING": 1705,
+        "DATA": 151,
+        "TYPE": 4039,
+        "RULE": 13,
+        "DEAD": 36565
+      },
+      "ruleEntangled": {
+        "units": 0,
+        "lines": 0
+      },
+      "rulePortable": {
+        "units": 3,
+        "lines": 13
+      },
+      "numericLiteralsInRule": 7
+    },
+    "elections": {
+      "files": 89,
+      "deadFiles": 6,
+      "fileLines": 37018,
+      "units": {
+        "TYPE": 259,
+        "DATA": 211,
+        "PLUMBING": 730,
+        "DEAD": 47,
+        "RULE": 174
+      },
+      "lines": {
+        "TYPE": 2185,
+        "DATA": 1784,
+        "PLUMBING": 18347,
+        "DEAD": 738,
+        "RULE": 7590
+      },
+      "ruleEntangled": {
+        "units": 67,
+        "lines": 4980
+      },
+      "rulePortable": {
+        "units": 107,
+        "lines": 2610
+      },
+      "numericLiteralsInRule": 797
+    },
+    "substrate": {
+      "files": 248,
+      "deadFiles": 6,
+      "fileLines": 102821,
+      "units": {
+        "TYPE": 1095,
+        "PLUMBING": 1747,
+        "RULE": 355,
+        "DEAD": 131,
+        "DATA": 666
+      },
+      "lines": {
+        "TYPE": 9731,
+        "PLUMBING": 43459,
+        "RULE": 14033,
+        "DEAD": 3263,
+        "DATA": 15560
+      },
+      "ruleEntangled": {
+        "units": 129,
+        "lines": 7092
+      },
+      "rulePortable": {
+        "units": 226,
+        "lines": 6941
+      },
+      "numericLiteralsInRule": 2066
+    },
+    "governing": {
+      "files": 135,
+      "deadFiles": 12,
+      "fileLines": 62130,
+      "units": {
+        "TYPE": 420,
+        "DATA": 258,
+        "DEAD": 131,
+        "PLUMBING": 862,
+        "RULE": 147
+      },
+      "lines": {
+        "TYPE": 3593,
+        "DATA": 15959,
+        "DEAD": 2792,
+        "PLUMBING": 25142,
+        "RULE": 5943
+      },
+      "ruleEntangled": {
+        "units": 68,
+        "lines": 3898
+      },
+      "rulePortable": {
+        "units": 79,
+        "lines": 2045
+      },
+      "numericLiteralsInRule": 503
+    },
+    "economy": {
+      "files": 110,
+      "deadFiles": 2,
+      "fileLines": 48197,
+      "units": {
+        "TYPE": 281,
+        "PLUMBING": 775,
+        "DEAD": 58,
+        "DATA": 302,
+        "RULE": 283
+      },
+      "lines": {
+        "TYPE": 2712,
+        "PLUMBING": 21278,
+        "DEAD": 1806,
+        "DATA": 3071,
+        "RULE": 11754
+      },
+      "ruleEntangled": {
+        "units": 130,
+        "lines": 9048
+      },
+      "rulePortable": {
+        "units": 153,
+        "lines": 2706
+      },
+      "numericLiteralsInRule": 1599
+    },
+    "english": {
+      "files": 26,
+      "deadFiles": 2,
+      "fileLines": 8489,
+      "units": {
+        "TYPE": 78,
+        "DATA": 72,
+        "PLUMBING": 88,
+        "RULE": 20,
+        "DEAD": 31
+      },
+      "lines": {
+        "TYPE": 579,
+        "DATA": 3246,
+        "PLUMBING": 1872,
+        "RULE": 1051,
+        "DEAD": 582
+      },
+      "ruleEntangled": {
+        "units": 4,
+        "lines": 364
+      },
+      "rulePortable": {
+        "units": 16,
+        "lines": 687
+      },
+      "numericLiteralsInRule": 149
+    },
+    "story": {
+      "files": 44,
+      "deadFiles": 2,
+      "fileLines": 26862,
+      "units": {
+        "TYPE": 169,
+        "RULE": 81,
+        "PLUMBING": 353,
+        "DATA": 112,
+        "DEAD": 28
+      },
+      "lines": {
+        "TYPE": 2191,
+        "RULE": 3589,
+        "PLUMBING": 11976,
+        "DATA": 3947,
+        "DEAD": 879
+      },
+      "ruleEntangled": {
+        "units": 39,
+        "lines": 2335
+      },
+      "rulePortable": {
+        "units": 42,
+        "lines": 1254
+      },
+      "numericLiteralsInRule": 301
+    },
+    "campaigns": {
+      "files": 53,
+      "deadFiles": 1,
+      "fileLines": 23635,
+      "units": {
+        "TYPE": 136,
+        "DEAD": 27,
+        "PLUMBING": 390,
+        "DATA": 97,
+        "RULE": 86
+      },
+      "lines": {
+        "TYPE": 1237,
+        "DEAD": 1304,
+        "PLUMBING": 13388,
+        "DATA": 747,
+        "RULE": 3313
+      },
+      "ruleEntangled": {
+        "units": 53,
+        "lines": 2799
+      },
+      "rulePortable": {
+        "units": 33,
+        "lines": 514
+      },
+      "numericLiteralsInRule": 295
+    },
+    "legislatures": {
+      "files": 107,
+      "deadFiles": 4,
+      "fileLines": 48427,
+      "units": {
+        "TYPE": 320,
+        "PLUMBING": 795,
+        "DATA": 242,
+        "RULE": 146,
+        "DEAD": 61
+      },
+      "lines": {
+        "TYPE": 3483,
+        "PLUMBING": 22205,
+        "DATA": 5043,
+        "RULE": 7378,
+        "DEAD": 2075
+      },
+      "ruleEntangled": {
+        "units": 72,
+        "lines": 5625
+      },
+      "rulePortable": {
+        "units": 74,
+        "lines": 1753
+      },
+      "numericLiteralsInRule": 554
+    },
+    "laws": {
+      "files": 159,
+      "deadFiles": 2,
+      "fileLines": 49496,
+      "units": {
+        "PLUMBING": 840,
+        "TYPE": 302,
+        "RULE": 138,
+        "DATA": 234,
+        "DEAD": 62
+      },
+      "lines": {
+        "PLUMBING": 24039,
+        "TYPE": 2904,
+        "RULE": 5660,
+        "DATA": 8759,
+        "DEAD": 1566
+      },
+      "ruleEntangled": {
+        "units": 60,
+        "lines": 3915
+      },
+      "rulePortable": {
+        "units": 78,
+        "lines": 1745
+      },
+      "numericLiteralsInRule": 499
+    },
+    "courts": {
+      "files": 64,
+      "deadFiles": 0,
+      "fileLines": 21558,
+      "units": {
+        "RULE": 86,
+        "TYPE": 147,
+        "DEAD": 33,
+        "DATA": 108,
+        "PLUMBING": 419
+      },
+      "lines": {
+        "RULE": 4005,
+        "TYPE": 1364,
+        "DEAD": 823,
+        "DATA": 1681,
+        "PLUMBING": 10526
+      },
+      "ruleEntangled": {
+        "units": 66,
+        "lines": 3747
+      },
+      "rulePortable": {
+        "units": 20,
+        "lines": 258
+      },
+      "numericLiteralsInRule": 261
+    },
+    "press": {
+      "files": 47,
+      "deadFiles": 1,
+      "fileLines": 19533,
+      "units": {
+        "TYPE": 162,
+        "PLUMBING": 419,
+        "RULE": 61,
+        "DATA": 91,
+        "DEAD": 12
+      },
+      "lines": {
+        "TYPE": 1265,
+        "PLUMBING": 11420,
+        "RULE": 2526,
+        "DATA": 1013,
+        "DEAD": 292
+      },
+      "ruleEntangled": {
+        "units": 42,
+        "lines": 2286
+      },
+      "rulePortable": {
+        "units": 19,
+        "lines": 240
+      },
+      "numericLiteralsInRule": 203
+    }
   }
- }
 }
