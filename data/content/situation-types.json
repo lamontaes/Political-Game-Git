@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Developer data for the story director (docs/design/story-director.md, part 3). Structure only: no type holds a sentence. The world's records fill every role and the English engine voices every line. Never shown to a player. standingPulls says which act kinds each relationship line favors when a role chooses its move: calibration, owner-adjustable.",
+  "note": "Developer data for the story director (docs/design/story-director.md, part 3). Structure only: no type holds a sentence. The world's records fill every role and the English engine voices every line. Never shown to a player. standingPulls says which act kinds each relationship line favors when a role chooses its move: calibration, owner-adjustable. A cause may name its opener, the role that speaks first, and its opening, the move the opening record already is: a request to meet is a request. Otherwise the first role the player does not fill opens, with the move its decision picks.",
   "fills": {
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
@@ -112,14 +112,18 @@
           "bind": {
             "leaving": "subject",
             "staying": "household"
-          }
+          },
+          "opener": "leaving",
+          "opening": "farewell"
         },
         {
           "moment": "jailed",
           "bind": {
             "leaving": "subject",
             "staying": "kin"
-          }
+          },
+          "opener": "leaving",
+          "opening": "farewell"
         }
       ],
       "awaiting": ["record:deployment"]
@@ -186,7 +190,9 @@
             "receiver": "subject",
             "about": "counterpart",
             "bearer": "household"
-          }
+          },
+          "opener": "bearer",
+          "opening": "tell"
         },
         {
           "moment": "job-lost",
@@ -194,7 +200,9 @@
             "bearer": "subject",
             "receiver": "household",
             "about": "subject"
-          }
+          },
+          "opener": "bearer",
+          "opening": "tell"
         },
         {
           "moment": "jailed",
@@ -202,7 +210,9 @@
             "about": "subject",
             "receiver": "kin",
             "bearer": "present"
-          }
+          },
+          "opener": "bearer",
+          "opening": "tell"
         }
       ],
       "awaiting": [
@@ -379,7 +389,9 @@
           "bind": {
             "asked": "subject",
             "asking": "counterpart"
-          }
+          },
+          "opener": "asking",
+          "opening": "request"
         }
       ]
     },
@@ -447,7 +459,8 @@
             "honoree": "subject",
             "host": "kin",
             "guests": "present"
-          }
+          },
+          "opener": "host"
         },
         {
           "moment": "school-finished",
@@ -455,7 +468,8 @@
             "honoree": "subject",
             "host": "household",
             "guests": "kin"
-          }
+          },
+          "opener": "host"
         },
         {
           "moment": "job-started",
@@ -463,7 +477,8 @@
             "honoree": "subject",
             "host": "household",
             "guests": "kin"
-          }
+          },
+          "opener": "host"
         },
         {
           "moment": "family-birth",
@@ -471,7 +486,8 @@
             "honoree": "subject",
             "host": "household",
             "guests": "kin"
-          }
+          },
+          "opener": "host"
         }
       ],
       "awaiting": ["record:birthday-gathering", "record:election-win"]
@@ -573,7 +589,9 @@
             "newcomer": "subject",
             "met": "counterpart",
             "introducer": "present"
-          }
+          },
+          "opener": "introducer",
+          "opening": "tell"
         }
       ],
       "awaiting": ["record:new-neighbor"]
@@ -918,14 +936,16 @@
           "bind": {
             "cannot-come": "subject",
             "visitor": "kin"
-          }
+          },
+          "opener": "visitor"
         },
         {
           "moment": "held-before-trial",
           "bind": {
             "cannot-come": "subject",
             "visitor": "kin"
-          }
+          },
+          "opener": "visitor"
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"]
@@ -1010,14 +1030,16 @@
           "bind": {
             "deciding": "subject",
             "adviser": "authority"
-          }
+          },
+          "opener": "adviser"
         },
         {
           "moment": "relationship:mentorship:*:formed",
           "bind": {
             "deciding": "subject",
             "adviser": "counterpart"
-          }
+          },
+          "opener": "adviser"
         }
       ]
     },
