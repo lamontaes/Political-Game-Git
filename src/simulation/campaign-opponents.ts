@@ -818,7 +818,7 @@ function writeFundraising(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["campaign.opponent", "campaign.fundraising", WRITER_NOTE],
-    summary: `${name}'s committee held a fundraising session; only recorded completed gifts are reported.`,
+    summary: `${name}'s committee held a fundraising session.`,
     context: {
       location: location(world, campaign, "Fundraising calls"),
       socialContext: "Supporters asked one at a time.",

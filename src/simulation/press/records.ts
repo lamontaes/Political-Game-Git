@@ -255,7 +255,7 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
     ],
   },
   M13: {
-    label: "Gift to an official not reported as required",
+    label: "Gift to an official",
     dutyReference:
       "Federal: 18 U.S.C. § 201(c), unlawful gratuities when its elements apply; state public-official gift and disclosure law for the place.",
     dutySources: [

@@ -14,9 +14,20 @@ import {
 import {
   materializeSettledTownHousehold,
   playerTown,
+  townHouseholdSkeleton,
   townResidentId,
   townRoster,
 } from "./living-world/town-residents";
+import {
+  doorResponse,
+  doorSubject,
+  placeConditions,
+  type DoorResponse,
+  type DoorSubject,
+} from "./door-conversations";
+import { contestIncumbentPersonId } from "./election-contests";
+import { majorPartyOf } from "./statewide-electorate";
+import { outcomeRecipientsAt } from "./outcome-web/person-outcome-landings";
 import { whereaboutsAt } from "./living-world/work-schedules";
 import { scheduledActivityState } from "./time-work";
 import { traitRegistryFor } from "./trait-registry";
@@ -29,13 +40,7 @@ import type {
   World,
 } from "./types";
 import { isPersonAliveAt } from "./vitality-integrity";
-
-/** A door the campaign knocked on, and who was home to answer it. */
-export interface CampaignCanvassDoor {
-  readonly householdId: EntityId;
-  readonly knockedAt: SimulationMoment;
-  readonly metPersonIds: readonly EntityId[];
-}
+import { withWorldIntegrityDeferred } from "./world";
 
 /** The decision a resident at home makes when the candidate knocks. */
 export const DOOR_ANSWER_DECISION_ID = "campaign.door-answer";
@@ -106,23 +111,112 @@ export const CANVASS_DOORS_PER_HOUR: number = (() => {
     : (lows[middle - 1]! + lows[middle]!) / 2;
 })();
 
-/** Every household the campaign has already knocked on, from its results. */
-function householdsKnocked(
+/**
+ * The lengths a candidate can give an afternoon on the doors, in minutes:
+ * every whole hour from the shortest volunteer canvass shift in the
+ * calibration packet to the longest whole hour within the longest (two-hour
+ * shifts at an ACLU of Oklahoma canvass in 2018, four- to four-and-a-half-hour
+ * shifts at a 9to5 Georgia canvass in 2014).
+ */
+export const CANVASS_SESSION_MINUTES: readonly number[] = (() => {
+  const shifts = calibration.observations.filter(
+    (row) => row.metric === "canvass-shift-hours",
+  );
+  if (shifts.length === 0)
+    throw new Error("The calibration packet has no canvass shift length.");
+  const shortest = Math.ceil(Math.min(...shifts.map((row) => row.range.min)));
+  const longest = Math.floor(Math.max(...shifts.map((row) => row.range.max)));
+  const lengths: number[] = [];
+  for (let hours = shortest; hours <= longest; hours += 1)
+    lengths.push(hours * 60);
+  return lengths;
+})();
+
+/**
+ * How much a candidate's own visit moves a canvassed voter toward them, as a
+ * share of a vote: about 20 percentage points across all canvassed voters,
+ * and a statistically insignificant 9 among partisans (Barton, Castillo and
+ * Petrie, the calibration packet's `candidate-canvass-support-*` rows). A
+ * resident with no party on record takes the pooled figure: the game does
+ * not know them to be unaffiliated. Each resident's direction is their own
+ * decision (`door-conversations.ts`); this sizes it, it does not choose it.
+ */
+export const CANVASS_SUPPORT_EFFECT: {
+  readonly pooled: number;
+  readonly partisan: number;
+} = (() => {
+  const effect = (id: string) => {
+    const row = calibration.observations.find((entry) => entry.id === id);
+    if (!row) throw new Error(`The calibration packet has no ${id} row.`);
+    return row.range.min;
+  };
+  return {
+    pooled: effect("candidate-canvass-support-pooled"),
+    partisan: effect("candidate-canvass-support-partisan"),
+  };
+})();
+
+/** A resident who came to the door, what they raised, and how they took it. */
+export interface CanvassMeeting {
+  /** A written-out person, or the id a story-only resident keeps. */
+  readonly personId: EntityId;
+  /** False for a story-only resident: met at the door, not written out. */
+  readonly written: boolean;
+  /** The roster place of a story-only resident, null for a written one. */
+  readonly roster: {
+    readonly town: EntityId;
+    readonly household: number;
+    readonly member: number;
+  } | null;
+  readonly subject: DoorSubject | null;
+  readonly response: DoorResponse;
+  /** Whether a major party is on record for them. */
+  readonly partisan: boolean;
+}
+
+/** A door the campaign knocked on, and who came to it. */
+export interface CampaignCanvassDoor {
+  /** `town:<id>:<household>` for a roster door, `household:<id>` otherwise. */
+  readonly doorKey: string;
+  /** The household when it is written out, or null. */
+  readonly householdId: EntityId | null;
+  readonly knockedAt: SimulationMoment;
+  readonly met: readonly CanvassMeeting[];
+}
+
+function rosterDoorKey(town: EntityId, index: number): string {
+  return `town:${town}:${index}`;
+}
+
+/**
+ * Every door the campaign has knocked on, from its results, and the story
+ * people it has met. A result written before doors had keys names its
+ * written households instead.
+ */
+export function campaignCanvassSoFar(
   world: World,
   campaign: CampaignRecord,
-): ReadonlySet<EntityId> {
+): {
+  readonly doorKeys: ReadonlySet<string>;
+  readonly householdIds: ReadonlySet<EntityId>;
+  readonly storyPersonIds: ReadonlySet<EntityId>;
+} {
   const actions = new Set(
     (world.history.campaignActions ?? [])
       .filter((action) => action.campaignId === campaign.id)
       .map((action) => action.id),
   );
-  return new Set(
-    (world.history.campaignActionResults ?? []).flatMap((result) =>
-      actions.has(result.campaignActionId)
-        ? (result.canvass?.householdIds ?? [])
-        : [],
-    ),
-  );
+  const doorKeys = new Set<string>();
+  const householdIds = new Set<EntityId>();
+  const storyPersonIds = new Set<EntityId>();
+  for (const result of world.history.campaignActionResults ?? []) {
+    if (!actions.has(result.campaignActionId) || !result.canvass) continue;
+    for (const key of result.canvass.doorKeys ?? []) doorKeys.add(key);
+    for (const id of result.canvass.householdIds) householdIds.add(id);
+    for (const id of result.canvass.storyPersonIds ?? [])
+      storyPersonIds.add(id);
+  }
+  return { doorKeys, householdIds, storyPersonIds };
 }
 
 /** The household a written-out member of roster household `index` lives in. */
@@ -136,71 +230,89 @@ function rosterHouseholdId(
   return householdMembershipsAt(world, personId)[0]?.household.id ?? null;
 }
 
+interface PlannedDoor {
+  readonly doorKey: string;
+  readonly roster: { readonly town: EntityId; readonly index: number } | null;
+  readonly householdId: EntityId | null;
+}
+
 /**
- * The next doors of the candidate's neighborhood, writing out each roster
- * household as its door is reached, the way a town government or an election
- * writes out a resident it draws. A candidate whose home is not a town walks
- * the households already recorded there, in their recorded order.
+ * The next doors of the candidate's neighborhood, in the town roster's order.
+ * Doors not yet knocked on come first; once every door has been knocked on,
+ * the walk goes round again from the start, so a second session in the same
+ * street meets the same people again. A candidate whose home is not a town
+ * walks the households already recorded there, in their recorded order.
  */
 function nextDoors(
   world: World,
   candidateId: EntityId,
-  knocked: ReadonlySet<EntityId>,
   doors: number,
-): { readonly world: World; readonly householdIds: readonly EntityId[] } {
+  sofar: ReturnType<typeof campaignCanvassSoFar>,
+): readonly PlannedDoor[] {
   const own = new Set(
     householdMembershipsAt(world, candidateId).map((row) => row.household.id),
   );
-  const fresh = (householdId: EntityId | null): householdId is EntityId =>
-    householdId !== null && !own.has(householdId) && !knocked.has(householdId);
   const town = playerTown(world, candidateId);
   if (town) {
-    let next = world;
-    const householdIds: EntityId[] = [];
     const { households } = townRoster(town);
+    const fresh: PlannedDoor[] = [];
+    const again: PlannedDoor[] = [];
     for (
       let index = 0;
-      index < households && householdIds.length < doors;
+      index < households && fresh.length < doors;
       index += 1
     ) {
-      // A household already knocked on is passed without writing anything.
-      const written = rosterHouseholdId(next, town, index);
-      if (written !== null && !fresh(written)) continue;
-      next = materializeSettledTownHousehold(next, town, index);
-      const householdId = rosterHouseholdId(next, town, index);
-      if (fresh(householdId)) householdIds.push(householdId);
+      const householdId = rosterHouseholdId(world, town, index);
+      if (householdId !== null && own.has(householdId)) continue;
+      const doorKey = rosterDoorKey(town, index);
+      const knocked =
+        sofar.doorKeys.has(doorKey) ||
+        (householdId !== null && sofar.householdIds.has(householdId));
+      const door = { doorKey, roster: { town, index }, householdId };
+      if (!knocked) fresh.push(door);
+      else if (again.length < doors) again.push(door);
     }
-    return { world: next, householdIds };
+    return [...fresh, ...again].slice(0, doors);
   }
   const home = world.people[candidateId]!.homeJurisdictionId;
-  const householdIds = [...world.history.households]
+  return [...world.history.households]
     .filter((household) =>
       peopleInHouseholdAt(world, household.id).some(
         (personId) => world.people[personId]?.homeJurisdictionId === home,
       ),
     )
     .sort((a, b) => (a.stableKey < b.stableKey ? -1 : 1))
-    .map((household) => household.id)
-    .filter(fresh)
-    .slice(0, doors);
-  return { world, householdIds };
+    .filter(
+      (household) =>
+        !own.has(household.id) && !sofar.householdIds.has(household.id),
+    )
+    .slice(0, doors)
+    .map((household) => ({
+      doorKey: `household:${household.id}`,
+      roster: null,
+      householdId: household.id,
+    }));
 }
 
 /**
  * Walk a completed outreach session door to door. How many doors the session
- * reaches comes from its minutes, its workers and the sourced pace; who
- * answers is whoever the world has at home at the minute of the knock (not at
- * work, not at another recorded activity, not away) and decides to come to
- * the door, so nobody is met by chance and a door with nobody home meets
- * nobody. Returns the world with any
- * household reached for the first time written out.
+ * reaches comes from its minutes, its workers and the sourced pace. Who comes
+ * to a door is whoever the world has at home at the minute of the knock and
+ * decides to come; what they raise and how they take the candidate are read
+ * from the place's conditions and decided by them (`door-conversations.ts`).
+ *
+ * A household the world has not written out is read on a scratch copy of the
+ * world, written there the way a town writes out anyone it draws, so its
+ * people's jobs and hours are the world's own. The copy is discarded: the
+ * people met are returned as story-only residents, and nobody is written out
+ * by a session on the doors (owner direction, October 8, 2026).
  */
 export function walkCampaignCanvass(
   world: World,
   campaign: CampaignRecord,
   action: CampaignActionRecord,
-): { readonly world: World; readonly doors: readonly CampaignCanvassDoor[] } {
-  if (action.kind !== "outreach") return { world, doors: [] };
+): readonly CampaignCanvassDoor[] {
+  if (action.kind !== "outreach") return [];
   const timing = scheduledActivityState(world, action.scheduledActivityId);
   const minutes = simulationMinutesBetween(timing.start, timing.end);
   const activity = world.history.scheduledActivities.find(
@@ -208,41 +320,110 @@ export function walkCampaignCanvass(
   );
   const workers = Math.max(1, activity?.participantPersonIds.length ?? 1);
   const doors = Math.floor((minutes * workers * CANVASS_DOORS_PER_HOUR) / 60);
-  if (doors <= 0) return { world, doors: [] };
-  const route = nextDoors(
-    world,
-    campaign.candidatePersonId,
-    householdsKnocked(world, campaign),
-    doors,
-  );
-  const next = route.world;
-  const cutoff = currentLifeCutoff(next);
-  return {
-    world: next,
-    doors: route.householdIds.map((householdId, index) => {
-      // The session's doors are spread evenly over its minutes.
-      const knockedAt = addSimulationMinutes(
-        timing.start,
-        Math.floor((index * minutes) / doors),
-      );
-      const metPersonIds = peopleInHouseholdAt(next, householdId).filter(
-        (personId) =>
-          personId !== campaign.candidatePersonId &&
-          ageOnDate(next.people[personId]!.birthDate, knockedAt.date) >=
-            CANVASS_MINIMUM_AGE &&
-          isPersonAliveAt(next, personId, {
-            ...cutoff,
-            asOfDate: knockedAt.date,
-          }) &&
-          whereaboutsAt(next, personId, knockedAt).kind === "home" &&
-          residentComesToTheDoor(
-            next,
-            personId,
-            campaign.candidatePersonId,
-            `${action.stableKey}:door:${householdId}:${personId}`,
-          ),
-      );
-      return { householdId, knockedAt, metPersonIds };
-    }),
-  };
+  if (doors <= 0) return [];
+  const sofar = campaignCanvassSoFar(world, campaign);
+  const planned = nextDoors(world, campaign.candidatePersonId, doors, sofar);
+  if (planned.length === 0) return [];
+  // Write the unwritten households out on a scratch copy only.
+  const scratch = withWorldIntegrityDeferred(() => {
+    let next = world;
+    for (const door of planned)
+      if (door.roster && door.householdId === null)
+        next = materializeSettledTownHousehold(
+          next,
+          door.roster.town,
+          door.roster.index,
+        );
+    return next;
+  });
+  const cutoff = currentLifeCutoff(scratch);
+  const date = timing.start.date;
+  const recipients = outcomeRecipientsAt(scratch, date);
+  const home = scratch.people[campaign.candidatePersonId]!.homeJurisdictionId;
+  const conditions = placeConditions(scratch, home, date);
+  const holdsSeat =
+    contestIncumbentPersonId(world, campaign.contestId) ===
+    campaign.candidatePersonId;
+  return planned.map((door, index) => {
+    // The session's doors are spread evenly over its minutes.
+    const knockedAt = addSimulationMinutes(
+      timing.start,
+      Math.floor((index * minutes) / planned.length),
+    );
+    const householdId =
+      door.householdId ??
+      (door.roster
+        ? rosterHouseholdId(scratch, door.roster.town, door.roster.index)
+        : null);
+    const members = householdId
+      ? peopleInHouseholdAt(scratch, householdId)
+      : [];
+    const met: CanvassMeeting[] = [];
+    for (const personId of members) {
+      if (
+        personId === campaign.candidatePersonId ||
+        ageOnDate(scratch.people[personId]!.birthDate, knockedAt.date) <
+          CANVASS_MINIMUM_AGE ||
+        !isPersonAliveAt(scratch, personId, {
+          ...cutoff,
+          asOfDate: knockedAt.date,
+        }) ||
+        whereaboutsAt(scratch, personId, knockedAt).kind !== "home"
+      )
+        continue;
+      const key = `${action.stableKey}:door:${door.doorKey}:${personId}`;
+      if (
+        !residentComesToTheDoor(
+          scratch,
+          personId,
+          campaign.candidatePersonId,
+          key,
+        )
+      )
+        continue;
+      const subject = doorSubject(conditions, recipients(personId));
+      const written = Boolean(world.people[personId]);
+      met.push({
+        personId,
+        written,
+        roster:
+          !written && door.roster
+            ? {
+                town: door.roster.town,
+                household: door.roster.index,
+                member: rosterMemberOf(scratch, door.roster, personId),
+              }
+            : null,
+        subject,
+        partisan: majorPartyOf(scratch, personId, knockedAt.date) !== null,
+        response: doorResponse(scratch, {
+          residentId: personId,
+          candidateId: campaign.candidatePersonId,
+          subject,
+          holdsSeat,
+          key: `${key}:conversation`,
+        }),
+      });
+    }
+    return {
+      doorKey: door.doorKey,
+      householdId: door.householdId,
+      knockedAt,
+      met,
+    };
+  });
+}
+
+/** Which member of its roster household a written-out resident is. */
+function rosterMemberOf(
+  world: World,
+  roster: { readonly town: EntityId; readonly index: number },
+  personId: EntityId,
+): number {
+  const members = townHouseholdSkeleton(world, roster.town, roster.index)
+    .members.length;
+  for (let member = 0; member < members; member += 1)
+    if (townResidentId(world, roster.town, roster.index, member) === personId)
+      return member;
+  throw new Error(`${personId} is not in roster household ${roster.index}.`);
 }

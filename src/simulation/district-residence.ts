@@ -856,7 +856,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). Equal population counts use district GEOID. This does not locate a particular address.`,
+        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This does not locate a particular address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

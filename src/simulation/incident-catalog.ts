@@ -126,7 +126,7 @@ export function createSyntheticIncidentCatalog(): IncidentCatalog {
         stableKey: "incident.bounded-outbreak",
         label: "Bounded outbreak condition",
         description:
-          "An outbreak the world has recorded being reported, read from the epidemic's own report; no individual health or mortality model.",
+          "An outbreak the world has recorded, read from the epidemic's own report; no individual health or mortality model.",
         incidentKind: "incident:outbreak",
         occurrenceMode: "condition",
         baseLikelihood: { ...ONE_SHARE },
