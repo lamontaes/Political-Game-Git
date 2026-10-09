@@ -1,0 +1,32 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- node --import tsx /tmp/p8-isolated-benchmark-v4.mts --repo /workspace/p8-core-prototype --packed /tmp/p8-steady-peer-circle-input.packed.json --metadata /tmp/p8-steady-peer-circle-input.meta.json --output /tmp/p8-steady-peer-circle-year.json --runs 3
+
+[storage-guard] OVERRIDDEN for test: Cloud P8 isolated memory baseline; one worker, generation excluded, no owner Mac
+2026-10-09T10:29:05.596Z worker-start {"runId":1,"serial":true}
+2026-10-09T10:29:10.331Z worker-prepared {"runId":"1","preparedInputSha256":"71bc2e4e36938fb6cc2010fa5f96a770965982821e580cac198e76afd05ba1b5","sourceDigest":"afaff8cde6535568fc7957950238e9d2da7fb29eb833769d095137cb0780e073","sourceManifestMatchesCaptured":true,"toolingDriftPaths":[],"inputPeople":10002,"tracedPlayerId":"person_5ddb09a9f5487640","focusPeople":25,"tierScope":"normal-circle-daily-town-weekly","coreVersions":{"apiVersion":"core2-api-v4","schemaVersion":"core2-schema-v4"},"throughDate":"2022-01-01"}
+2026-10-09T10:29:10.333Z warmup-start {"runId":"1","throughDate":"2022-01-01"}
+2026-10-09T10:31:06.333Z warmup-complete {"runId":"1","milliseconds":116000.18926399999,"decisions":527929,"acts":527929}
+2026-10-09T10:31:06.347Z measured-year-start {"runId":"1","throughDate":"2022-01-01"}
+2026-10-09T10:32:50.320Z measured-year-complete {"runId":"1","milliseconds":74475.29248899998,"decisions":527929,"acts":527929,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:32:57.628Z worker-complete {"runId":1,"milliseconds":74475.29248899998,"measuredBoundaryRssPeakBytes":2035286016,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:32:57.630Z worker-start {"runId":2,"serial":true}
+2026-10-09T10:33:00.234Z worker-prepared {"runId":"2","preparedInputSha256":"71bc2e4e36938fb6cc2010fa5f96a770965982821e580cac198e76afd05ba1b5","sourceDigest":"afaff8cde6535568fc7957950238e9d2da7fb29eb833769d095137cb0780e073","sourceManifestMatchesCaptured":true,"toolingDriftPaths":[],"inputPeople":10002,"tracedPlayerId":"person_5ddb09a9f5487640","focusPeople":25,"tierScope":"normal-circle-daily-town-weekly","coreVersions":{"apiVersion":"core2-api-v4","schemaVersion":"core2-schema-v4"},"throughDate":"2022-01-01"}
+2026-10-09T10:33:00.236Z warmup-start {"runId":"2","throughDate":"2022-01-01"}
+2026-10-09T10:35:05.216Z warmup-complete {"runId":"2","milliseconds":124980.07050700001,"decisions":527929,"acts":527929}
+2026-10-09T10:35:05.295Z measured-year-start {"runId":"2","throughDate":"2022-01-01"}
+2026-10-09T10:36:58.841Z measured-year-complete {"runId":"2","milliseconds":77145.596159,"decisions":527929,"acts":527929,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:37:12.021Z worker-complete {"runId":2,"milliseconds":77145.596159,"measuredBoundaryRssPeakBytes":1314119680,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:37:12.026Z worker-start {"runId":3,"serial":true}
+2026-10-09T10:37:16.611Z worker-prepared {"runId":"3","preparedInputSha256":"71bc2e4e36938fb6cc2010fa5f96a770965982821e580cac198e76afd05ba1b5","sourceDigest":"afaff8cde6535568fc7957950238e9d2da7fb29eb833769d095137cb0780e073","sourceManifestMatchesCaptured":true,"toolingDriftPaths":[],"inputPeople":10002,"tracedPlayerId":"person_5ddb09a9f5487640","focusPeople":25,"tierScope":"normal-circle-daily-town-weekly","coreVersions":{"apiVersion":"core2-api-v4","schemaVersion":"core2-schema-v4"},"throughDate":"2022-01-01"}
+2026-10-09T10:37:16.615Z warmup-start {"runId":"3","throughDate":"2022-01-01"}
+2026-10-09T10:38:49.037Z warmup-complete {"runId":"3","milliseconds":92421.551754,"decisions":527929,"acts":527929}
+2026-10-09T10:38:49.238Z measured-year-start {"runId":"3","throughDate":"2022-01-01"}
+2026-10-09T10:40:16.961Z measured-year-complete {"runId":"3","milliseconds":51188.98508000001,"decisions":527929,"acts":527929,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:40:34.576Z worker-complete {"runId":3,"milliseconds":51188.98508000001,"measuredBoundaryRssPeakBytes":1436254208,"outcomeSha256":"1bb5387d8b377c99228e0f0e5368799aa5e9e416a5c9b6ff7170cf7c98680dae"}
+2026-10-09T10:40:43.661Z receipt-written {"output":"/tmp/p8-steady-peer-circle-year.json","workerCount":3}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
