@@ -138,21 +138,34 @@ export const CANVASS_SESSION_MINUTES: readonly number[] = (() => {
  * and a statistically insignificant 9 among partisans (Barton, Castillo and
  * Petrie, the calibration packet's `candidate-canvass-support-*` rows). A
  * resident with no party on record takes the pooled figure: the game does
- * not know them to be unaffiliated. Each resident's direction is their own
- * decision (`door-conversations.ts`); this sizes it, it does not choose it.
+ * not know them to be unaffiliated.
+ *
+ * Every visit keeps that base; what was said moves it a little either way
+ * (CTO on #3903, October 8, 2026). How far is the range the same experiment's
+ * canvass effect took across its two message arms, 0.176 and 0.246 against
+ * the pooled 0.207: a resident who took to the candidate takes the higher
+ * share of the base, one who took against them the lower. The resident's
+ * response is their own decision (`door-conversations.ts`); this sizes it.
  */
 export const CANVASS_SUPPORT_EFFECT: {
   readonly pooled: number;
   readonly partisan: number;
+  /** The share of the base a warm conversation carries. */
+  readonly warm: number;
+  /** The share of the base a cool conversation carries. */
+  readonly cool: number;
 } = (() => {
   const effect = (id: string) => {
     const row = calibration.observations.find((entry) => entry.id === id);
     if (!row) throw new Error(`The calibration packet has no ${id} row.`);
     return row.range.min;
   };
+  const pooledAtt = effect("candidate-canvass-support-pooled-att");
   return {
     pooled: effect("candidate-canvass-support-pooled"),
     partisan: effect("candidate-canvass-support-partisan"),
+    warm: effect("candidate-canvass-support-vote-info-arm") / pooledAtt,
+    cool: effect("candidate-canvass-support-political-arm") / pooledAtt,
   };
 })();
 

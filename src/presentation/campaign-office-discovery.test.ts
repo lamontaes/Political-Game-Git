@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   campaignForCandidate,
   deserializeWorld,
+  localGoverningBodiesForJurisdiction,
   requireElectionContest,
   requireLifePlace,
   serializeWorld,
@@ -9,7 +10,12 @@ import {
 import { buildProductionWorld } from "./production-world";
 import { openOrdinaryLife } from "./ordinary-life";
 import { fileForOffice, projectCampaign } from "./campaign-projection";
-import { projectCampaignOffices } from "./campaign-office-discovery";
+import {
+  projectCampaignListOffices,
+  projectCampaignOffices,
+} from "./campaign-office-discovery";
+import { filingOfficeForSeat } from "../simulation/filing-office";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { bindingForDistrict, offeredDistricts } from "./district-selection";
 
 function life() {
@@ -100,5 +106,41 @@ describe("deliberate supported office discovery", () => {
     expect(() =>
       fileForOffice(loaded, personId, null, "us-ky-general-assembly-v1:house"),
     ).toThrow(/already/i);
+  });
+});
+
+const COUNTER_SEED = "office-list-counter";
+/** A place, drawn from all 56 by seed, that elects a local governing body. */
+const counterPlace = drawRandomPlace(
+  COUNTER_SEED,
+  (candidate) =>
+    localGoverningBodiesForJurisdiction(candidate.context.jurisdiction.id)
+      .length > 0,
+);
+
+describe(`seats filed at a counter leave the Campaigns list (${counterPlace.displayName}, seed ${COUNTER_SEED})`, () => {
+  it("lists only the offices no counter in the world takes", () => {
+    const built = buildProductionWorld({
+      seed: COUNTER_SEED,
+      place: counterPlace,
+      age: 34,
+      givenName: null,
+      familyName: null,
+      startingLife: "ordinary-life",
+      household: "lives-alone",
+      depth: "summarize-earlier-life",
+    });
+    const world = openOrdinaryLife(built.world, built.playerPersonId);
+    const all = projectCampaignOffices(world, built.playerPersonId);
+    const atCounter = all.filter(
+      (office) => filingOfficeForSeat(world, office.officeKey) !== null,
+    );
+    expect(atCounter.length, "a local seat with a counter").toBeGreaterThan(0);
+    const listed = projectCampaignListOffices(world, built.playerPersonId);
+    expect(listed.map((office) => office.officeKey)).toEqual(
+      all
+        .filter((office) => !atCounter.includes(office))
+        .map((office) => office.officeKey),
+    );
   });
 });

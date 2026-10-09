@@ -11,6 +11,7 @@ import {
   scheduledFilingVisits,
 } from "../simulation/filing-visit";
 import { sittingLocalClerk } from "../simulation/living-world/local-government-seats";
+import { municipalSeatMustBeNamed } from "../simulation/municipal-seat-identity";
 import {
   readWorldSnapshot,
   serializeWorldPayload,
@@ -192,4 +193,64 @@ describe(`the clerk's counter in a generated world (${place.displayName}, seed $
       );
     },
   );
+});
+
+const SEAT_SEED = "clerk-filing-numbered-seat";
+
+/** A place, drawn by seed, whose governing body is filed by numbered seat. */
+const numbered = drawRandomPlace(SEAT_SEED, (candidate) =>
+  localGoverningBodiesForJurisdiction(candidate.context.jurisdiction.id).some(
+    (seat) => municipalSeatMustBeNamed(seat.officeKey),
+  ),
+);
+
+describe(`a seat filed by number at the counter (${numbered.displayName}, seed ${SEAT_SEED})`, () => {
+  it("files only for the seat the player names", { timeout: 240_000 }, () => {
+    const game = generateOpeningLife(
+      prepareOpeningLife(
+        endQuestionnaireEarly({
+          ...DEFAULT_NEW_GAME_SETUP,
+          seed: SEAT_SEED,
+          placeKey: numbered.key,
+          startAge: 34,
+        }),
+      ),
+    ).game!;
+    const personId = game.playerPersonId;
+    let world: World = openOrdinaryLife(game.world, personId);
+    const body = localGoverningBodiesForJurisdiction(
+      world.people[personId]!.homeJurisdictionId,
+    ).find((seat) => municipalSeatMustBeNamed(seat.officeKey))!;
+    world = requestFilingVisit(world, personId, body.officeKey);
+    const visit = scheduledFilingVisits(world, personId)[0]!;
+    world = playCalendarActivity(world, personId, visit.id).world;
+    const scene = projectClerkFilingScene(world, personId)!;
+    expect(scene, "the player reached the counter").not.toBeNull();
+    const seat = scene.seats.find((row) => row.officeKey === body.officeKey)!;
+    const choice = seat.seatChoices.find((row) => row.eligible)!;
+    expect(choice, "an eligible numbered seat").toBeDefined();
+
+    // Naming no seat, or one not open to the player, files nothing.
+    expect(fileAtClerk(world, personId, scene.activityId, body.officeKey)).toBe(
+      world,
+    );
+    expect(
+      fileAtClerk(world, personId, scene.activityId, body.officeKey, "none"),
+    ).toBe(world);
+
+    world = fileAtClerk(
+      world,
+      personId,
+      scene.activityId,
+      body.officeKey,
+      choice.key,
+    );
+    const campaign = activeCampaignForCandidate(world, personId)!;
+    expect(campaign.officeKey).toBe(body.officeKey);
+    expect(
+      world.history.electionContests.find(
+        (contest) => contest.id === campaign.contestId,
+      )?.office.seatKey,
+    ).toBe(choice.key);
+  });
 });
