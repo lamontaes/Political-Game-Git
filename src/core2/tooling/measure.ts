@@ -19,8 +19,12 @@ import type { CoreInput, CoreState } from "../types";
 import { advanceCore, createLifeCore } from "../life";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningPeerContacts } from "../opening-peer-network";
-import { DEFAULT_DATA } from "../data";
+import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "../data";
 import measurementData from "../data/measurement.json" with { type: "json" };
+import {
+  summarizeWorkObservables,
+  type WorkObservableSummary,
+} from "./work-observables";
 
 type MeasureMode = "opening" | "year" | "pre-run";
 
@@ -91,6 +95,7 @@ interface RunResult {
   decisions: number;
   acts: number;
   actStatsHash: string;
+  workStatsHash: string;
   memory: {
     before: MemorySample;
     after: MemorySample;
@@ -101,6 +106,7 @@ interface RunResult {
 }
 
 interface WorldSummary {
+  work: WorkObservableSummary;
   counts: {
     people: number;
     households: number;
@@ -176,6 +182,7 @@ function deepFreeze<T>(value: T): T {
 function traceSelection(
   input: CoreInput,
   mode: MeasureMode,
+  requestedPlayerId?: string,
 ): {
   input: CoreInput;
   playerId: string;
@@ -233,7 +240,13 @@ function traceSelection(
       left.person.id.localeCompare(right.person.id)
     );
   });
-  const selected = candidates[zero]!;
+  const selected = requestedPlayerId
+    ? candidates.find((row) => row.person.id === requestedPlayerId)
+    : candidates[zero];
+  if (!selected)
+    throw new Error(
+      `Requested benchmark person is not an eligible recorded worker: ${requestedPlayerId}`,
+    );
   const player = selected.person;
   const peers = buildOpeningPeerContacts(input, { personIds: [player.id] });
   input = peers.input;
@@ -635,11 +648,17 @@ function summarizeWorld(
   core: CoreState,
   includeDetailedActStats: boolean,
   reasonSummary: RunWindowReasonSummary,
+  input: CoreInput,
 ): WorldSummary {
   const allTime = aggregateAllTimeActStats(core);
   const retainedReasons = aggregateRetainedReasonContributions(core);
   const actionKinds = new Map(
-    core.data.actions.map((row) => [row.id, row.actKinds]),
+    [
+      ...core.data.actions,
+      ...(core.data.work
+        ? [core.data.work.attendanceAction, core.data.work.absenceAction]
+        : []),
+    ].map((row) => [row.id, row.actKinds]),
   );
   const kindTagsByMonth: Record<string, Record<string, number>> = {};
   for (const [month, actions] of Object.entries(allTime.byMonthActionId)) {
@@ -671,6 +690,7 @@ function summarizeWorld(
     visibility[key] = (visibility[key] ?? zero) + one;
   }
   return {
+    work: summarizeWorkObservables(input, core),
     counts: {
       people: core.people.size,
       households: core.households.size,
@@ -796,8 +816,21 @@ function sourceHash(): {
   };
 }
 
-function preparedInputHash(input: CoreInput): string {
-  return createHash("sha256").update(JSON.stringify(input)).digest("hex");
+function preparedInputHash(input: CoreInput, outputPath?: string): string {
+  const serialized = JSON.stringify(input);
+  if (outputPath) {
+    const relativeToRepo = relative(repositoryRoot, outputPath);
+    if (
+      relativeToRepo === "" ||
+      (!relativeToRepo.startsWith(`..${sep}`) && relativeToRepo !== "..")
+    )
+      throw new Error(
+        "Prepared inputs must be written outside the repository.",
+      );
+    mkdirSync(dirname(outputPath), { recursive: true });
+    writeFileSync(outputPath, serialized, { flag: "wx" });
+  }
+  return createHash("sha256").update(serialized).digest("hex");
 }
 
 function memoryDelta(before: MemorySample, after: MemorySample) {
@@ -813,10 +846,11 @@ async function runCore(
   input: CoreInput,
   throughDate: string,
   includeDetailedActStats: boolean,
+  scheduledWork: boolean,
 ): Promise<RunResult> {
   const before = memorySample();
   const started = performance.now();
-  const core = createLifeCore(input, { observer: false });
+  const core = createLifeCore(input, { observer: false, scheduledWork });
   const initialized = performance.now();
   const advanceResult = advanceInMonthChunks(core, throughDate, true);
   const advanceReceipt = advanceResult.receipt;
@@ -838,7 +872,12 @@ async function runCore(
     delete reasonSummary.byPerson;
     delete reasonSummary.personMonthActionRows;
   }
-  const world = summarizeWorld(core, includeDetailedActStats, reasonSummary);
+  const world = summarizeWorld(
+    core,
+    includeDetailedActStats,
+    reasonSummary,
+    input,
+  );
   if (world.allTimeActCount !== advanceReceipt.acts)
     throw new Error(
       `Life loop reported ${advanceReceipt.acts} acts; all-time person counts contain ${world.allTimeActCount}.`,
@@ -863,6 +902,9 @@ async function runCore(
     decisions: advanceReceipt.decisions,
     acts: advanceReceipt.acts,
     actStatsHash: world.actStatsHash,
+    workStatsHash: createHash("sha256")
+      .update(JSON.stringify(world.work))
+      .digest("hex"),
     memory: memoryDelta(before, after),
     world,
   };
@@ -882,9 +924,17 @@ function timingSummary(runs: readonly RunResult[]) {
 function parseArgs(args: readonly string[]): {
   mode: MeasureMode;
   outputPath?: string;
+  preparedInputOutputPath?: string;
+  playerId?: string;
+  openingEmployment: boolean;
+  scheduledWork: boolean;
 } {
+  let openingEmployment = true,
+    scheduledWork = true;
   let mode: MeasureMode = "opening";
   let outputPath: string | undefined;
+  let preparedInputOutputPath: string | undefined;
+  let playerId: string | undefined;
   for (let index = zero; index < args.length; index += one) {
     const argument = args[index];
     if (argument === "--mode") {
@@ -898,20 +948,64 @@ function parseArgs(args: readonly string[]): {
       if (!value) throw new Error("--output needs a path.");
       outputPath = resolve(value);
       index += one;
+    } else if (argument === "--prepared-input-output") {
+      const value = args[index + one];
+      if (!value || value.startsWith("--"))
+        throw new Error(
+          "--prepared-input-output needs an outside-repository path.",
+        );
+      preparedInputOutputPath = resolve(value);
+      index += one;
+    } else if (argument === "--player-id") {
+      const value = args[index + one];
+      if (!value || value.startsWith("--"))
+        throw new Error("--player-id needs a recorded person ID.");
+      playerId = value;
+      index += one;
+    } else if (
+      argument === "--opening-employment" ||
+      argument === "--scheduled-work"
+    ) {
+      const value = args[index + one];
+      if (
+        value !== "true" &&
+        value !== "false" &&
+        value !== "enable" &&
+        value !== "disable"
+      )
+        throw new Error(`${argument} needs true/false or enable/disable.`);
+      const enabled = value === "true" || value === "enable";
+      if (argument === "--opening-employment") openingEmployment = enabled;
+      else scheduledWork = enabled;
+      index += one;
     } else if (argument === "--help") {
       process.stdout.write(
-        "Usage: measure.ts [--mode opening|year|pre-run] [--output /tmp/receipt.json]\n",
+        "Usage: measure.ts [--mode opening|year|pre-run] [--output /tmp/receipt.json] [--prepared-input-output /tmp/prepared.json] [--player-id recorded-person-id] [--opening-employment true|false] [--scheduled-work true|false]\n",
       );
       process.exit(zero);
     } else {
       throw new Error(`Unknown measurement option: ${argument}`);
     }
   }
-  return { mode, outputPath };
+  return {
+    mode,
+    outputPath,
+    preparedInputOutputPath,
+    playerId,
+    openingEmployment,
+    scheduledWork,
+  };
 }
 
 async function main(): Promise<void> {
-  const { mode, outputPath } = parseArgs(process.argv.slice(2));
+  const {
+    mode,
+    outputPath,
+    preparedInputOutputPath,
+    playerId,
+    openingEmployment,
+    scheduledWork,
+  } = parseArgs(process.argv.slice(one + one));
   const startDate = makeIsoDate(measurement.startedAt);
   const sourceHashBefore = sourceHash();
   const populationMemoryBefore = memorySample();
@@ -920,6 +1014,8 @@ async function main(): Promise<void> {
     seed: measurement.seed,
     startedAt: startDate,
     minimumPeople: P("targetPopulation"),
+    openingEmployment,
+    scheduledWork,
   });
   const populationCompleted = performance.now();
   progress("population-built", {
@@ -946,7 +1042,7 @@ async function main(): Promise<void> {
   const civicMemoryAfter = memorySample();
   const peerMemoryBefore = memorySample();
   const traceStarted = performance.now();
-  const traced = traceSelection(withCivicInputs, mode);
+  const traced = traceSelection(withCivicInputs, mode, playerId);
   const traceCompleted = performance.now();
   const peerMemoryAfter = memorySample();
   progress("circle-prepared", {
@@ -956,7 +1052,7 @@ async function main(): Promise<void> {
     generatedHistoricalContacts: traced.peerPrior.contactCount,
     peerReports: traced.peerPrior.reports,
   });
-  const inputSha256 = preparedInputHash(traced.input);
+  const inputSha256 = preparedInputHash(traced.input, preparedInputOutputPath);
   const throughDate =
     mode === "year"
       ? addDays(startDate, P("yearSpanDays"))
@@ -971,7 +1067,9 @@ async function main(): Promise<void> {
   const warmups: RunResult[] = [];
   for (let index = zero; index < warmupCount; index += one) {
     progress("warmup-start", { run: index + one, throughDate });
-    warmups.push(await runCore(traced.input, throughDate, false));
+    warmups.push(
+      await runCore(traced.input, throughDate, false, scheduledWork),
+    );
     const run = warmups.at(-one)!;
     progress("warmup-complete", {
       run: index + one,
@@ -983,7 +1081,12 @@ async function main(): Promise<void> {
   for (let index = zero; index < measuredCount; index += one) {
     progress("measured-run-start", { run: index + one, throughDate });
     runs.push(
-      await runCore(traced.input, throughDate, index === measuredCount - one),
+      await runCore(
+        traced.input,
+        throughDate,
+        index === measuredCount - one,
+        scheduledWork,
+      ),
     );
     const run = runs.at(-one)!;
     progress("measured-run-complete", {
@@ -994,15 +1097,26 @@ async function main(): Promise<void> {
     });
   }
   const expectedActHash = runs[zero]?.actStatsHash;
-  if ([...warmups, ...runs].some((run) => run.actStatsHash !== expectedActHash))
+  const expectedWorkHash = runs[zero]?.workStatsHash;
+  if (
+    [...warmups, ...runs].some(
+      (run) =>
+        run.actStatsHash !== expectedActHash ||
+        run.workStatsHash !== expectedWorkHash,
+    )
+  )
     throw new Error(
-      "Measured runs produced different canonical act summaries.",
+      "Measured runs produced different canonical act/work summaries.",
     );
   const sourceHashAfter = sourceHash();
   if (JSON.stringify(sourceHashBefore) !== JSON.stringify(sourceHashAfter))
     throw new Error("src/core2 sources changed during the measurement run.");
   const output: Record<string, unknown> = {
     schema: "p8-measurement-v1",
+    coreVersions: {
+      apiVersion: CORE_API_VERSION,
+      schemaVersion: CORE_SCHEMA_VERSION,
+    },
     mode,
     measurementConfig: measurement,
     seed: measurement.seed,
@@ -1015,6 +1129,9 @@ async function main(): Promise<void> {
       warmRuns: measuredCount,
       ...(mode === "year" ? { yearSpanDays: P("yearSpanDays") } : {}),
       benchmarkAdultMinimumAge: P("benchmarkAdultMinimumAge"),
+      requestedPlayerId: playerId,
+      openingEmployment,
+      scheduledWork,
     },
     sourceHash: {
       beforeBuild: sourceHashBefore,
@@ -1022,16 +1139,32 @@ async function main(): Promise<void> {
       stableDuringRun: true,
     },
     preparedInputSha256: inputSha256,
+    preparedInputExport: preparedInputOutputPath
+      ? {
+          path: preparedInputOutputPath,
+          sha256: inputSha256,
+          serialization:
+            "Exact JSON.stringify CoreInput bytes without a trailing newline; written once with exclusive-create outside every annual timed window.",
+        }
+      : undefined,
     place: population.placeMetadata,
     actionKindBindings: Object.fromEntries(
-      DEFAULT_DATA.actions.map((row) => [row.id, row.actKinds]),
+      [
+        ...DEFAULT_DATA.actions,
+        ...(scheduledWork && DEFAULT_DATA.work
+          ? [
+              DEFAULT_DATA.work.attendanceAction,
+              DEFAULT_DATA.work.absenceAction,
+            ]
+          : []),
+      ].map((row) => [row.id, row.actKinds]),
     ),
     actKindCountScope:
       "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
     affectSampleScope:
       "Focus-circle state at opening and month boundaries, in latent model units; no PANAS/PSS score mapping and no added external stimulus.",
     timerScope:
-      "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
+      "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, exact fixed-roster age-exposure calculation and ATUS contextual crosswalk, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
     memoryScope:
       "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
     build: {

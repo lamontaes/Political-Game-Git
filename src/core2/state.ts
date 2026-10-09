@@ -1,9 +1,18 @@
+import {
+  emptyWorkRuntime,
+  admitWorkCommitment,
+  settleWorkResult,
+  recordActivityTime,
+  recordDiscretionaryTime,
+} from "./work-state";
 import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import type {
+  ActOffer,
+  DecisionResult,
   CoreAPI,
   CoreData,
   CoreEventInput,
@@ -107,6 +116,7 @@ export function createCore(
     husks: new Map(),
     households: new Map(),
     jobs: new Map(),
+    work: emptyWorkRuntime(),
     organizations: new Map(),
     publicOrganizations: new Map(),
     publicOrganizationsByPlace: new Map(),
@@ -172,6 +182,8 @@ export function createCore(
     admitNumber(row.hoursDaily, "job hours", p("zero"));
     core.jobs.set(row.id, { ...row });
   }
+  for (const row of input.workCommitments ?? []) api.addWorkCommitment(row);
+  for (const gap of core.data.work?.gaps ?? []) core.gaps.add(gap);
   for (const row of input.publicOrganizations ?? []) {
     if (core.publicOrganizations.has(row.id))
       throw new Error(`Duplicate public organization: ${row.id}`);
@@ -352,6 +364,59 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   index(core.logByPlace, row.placeId, row.id);
 }
 
+/** Shared act admission is pure so coupled money writers can validate before payment. */
+function validateCommittedAct(
+  core: CoreState,
+  actorId: string,
+  offer: ActOffer,
+  date: string,
+  reason: DecisionResult,
+): void {
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const zero = p("zero"),
+    one = p("one"),
+    monthLength = p("isoMonthCharacters");
+  if (makeIsoDate(date) !== core.date)
+    throw new Error("Acts must be recorded on the current date.");
+  const actor = core.people.get(actorId);
+  if (
+    !actor ||
+    reason.actorId !== actorId ||
+    reason.date !== date ||
+    !offer.targetId ||
+    !offer.definition.id
+  )
+    throw new Error("Invalid committed act identity or decision date.");
+  if (!Number.isSafeInteger(actor.actCount + one) || actor.actCount < zero)
+    throw new Error("Act count overflows or is malformed.");
+  const month = date.slice(zero, monthLength),
+    key = `${month}:${actorId}:${offer.definition.id}`;
+  const total = `${month}:${offer.definition.id}`;
+  const count = core.actCounters.get(key);
+  if (
+    ![
+      (actor.actsByKind.get(offer.definition.id) ?? zero) + one,
+      (core.actsByMonthKind.get(total) ?? zero) + one,
+      (count?.count ?? zero) + one,
+    ].every(Number.isSafeInteger)
+  )
+    throw new Error("Act counters overflow or are malformed.");
+  if (
+    Object.values(reason.selectedReasons ?? {}).some(
+      (value) => !Number.isFinite(value),
+    ) ||
+    [
+      (count?.needContribution ?? zero) +
+        (reason.selectedReasons?.need ?? zero),
+      (count?.goalContribution ?? zero) +
+        (reason.selectedReasons?.goal ?? zero),
+      (count?.driveContribution ?? zero) +
+        (reason.selectedReasons?.drive ?? zero),
+    ].some((value) => !Number.isFinite(value))
+  )
+    throw new Error("Act reason/counter contribution is non-finite.");
+}
+
 const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
@@ -391,6 +456,18 @@ export function coreAPI(core: CoreState): CoreAPI {
       payer.liquidMinor -= paid;
       payee.liquidMinor += paid;
       return paid;
+    },
+    addWorkCommitment(row) {
+      admitWorkCommitment(core, api, row);
+    },
+    settleWorkResult(row) {
+      return settleWorkResult(core, api, row);
+    },
+    recordActivityTime(personId, category, minutes, source) {
+      recordActivityTime(core, api, personId, category, minutes, source);
+    },
+    recordDiscretionaryTime(personId, minutes) {
+      recordDiscretionaryTime(core, api, personId, minutes);
     },
     relationship(actorId, otherId, kind, change) {
       if (
@@ -440,7 +517,11 @@ export function coreAPI(core: CoreState): CoreAPI {
     emit(event) {
       applyCoreEvent(core, event);
     },
+    validateAct(actorId, offer, date, reason) {
+      validateCommittedAct(core, actorId, offer, date, reason);
+    },
     recordAct(actorId, offer, date, reason) {
+      validateCommittedAct(core, actorId, offer, date, reason);
       if (makeIsoDate(date) !== core.date)
         throw new Error("Acts must be recorded on the current date.");
       const actor = core.people.get(actorId);
@@ -452,6 +533,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         offer.definition.id,
         (actor.actsByKind.get(offer.definition.id) ?? p("zero")) + p("one"),
       );
+      const committedId = `act:${date}:${actorId}:${actor.actCount}`;
       const month = date.slice(p("zero"), p("isoMonthCharacters"));
       const totalKey = `${month}:${offer.definition.id}`;
       core.actsByMonthKind.set(
@@ -484,7 +566,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         actorId === core.playerId
       )
         retainLog(core, {
-          id: `act:${date}:${actorId}:${actor.actCount}`,
+          id: committedId,
           date,
           kind: "person.acted",
           personIds: [actorId],
@@ -501,6 +583,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           reasonKey: reason.reasonKey,
           decision: reason,
         });
+      return committedId;
     },
     updatePerson(personId, changes) {
       const actor = core.people.get(personId);
@@ -788,6 +871,35 @@ export function assertCoreIntegrity(core: CoreState): void {
         `county:${actor.id}`,
       );
   }
+  for (const [id, row] of core.work.commitments) {
+    fail(
+      core.jobs.get(row.jobId)?.personId === row.personId &&
+        core.jobs.get(row.jobId)?.organizationId === row.organizationId &&
+        core.work.commitmentsByPerson.get(row.personId)?.has(id) === true,
+      `work-commitment:${id}`,
+    );
+  }
+  for (const [personId, ids] of core.work.commitmentsByPerson)
+    for (const id of ids)
+      fail(
+        core.work.commitments.get(id)?.personId === personId,
+        `work-person-index:${id}`,
+      );
+  for (const [period, residues] of core.work.byPeriodResidue)
+    for (const ids of residues.values())
+      for (const id of ids)
+        fail(
+          core.work.commitments.get(id)?.periodDays === period,
+          `work-calendar-index:${id}`,
+        );
+  for (const [jobId, row] of core.work.lastResultByJob)
+    fail(
+      core.work.commitments.get(row.commitmentId)?.jobId === jobId &&
+        row.paidMinor <= row.requestedMinor &&
+        row.shortfallMinor === row.requestedMinor - row.paidMinor &&
+        row.date <= core.date,
+      `work-result:${jobId}`,
+    );
   for (const [tier, ids] of core.peopleByTier)
     for (const id of ids)
       fail(core.people.get(id)?.tier === tier, `stale-tier:${id}`);

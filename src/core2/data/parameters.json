@@ -562,5 +562,410 @@
     "checkRange": {
       "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
     }
+  },
+  "employment-age-16-minimumAge": {
+    "value": 16,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 16 to 17 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-16-maximumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 16 to 17 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-16-population": {
+    "value": 8798,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 16 to 17 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-16-employed": {
+    "value": 1789,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 16 to 17 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-18-minimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 18 to 19 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-18-maximumAge": {
+    "value": 20,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 18 to 19 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-18-population": {
+    "value": 7894,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 18 to 19 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-18-employed": {
+    "value": 3361,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 18 to 19 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-20-minimumAge": {
+    "value": 20,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 20 to 24 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-20-maximumAge": {
+    "value": 25,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 20 to 24 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-20-population": {
+    "value": 21055,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 20 to 24 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-20-employed": {
+    "value": 14172,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 20 to 24 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-25-minimumAge": {
+    "value": 25,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 25 to 29 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-25-maximumAge": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 25 to 29 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-25-population": {
+    "value": 22933,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 25 to 29 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-25-employed": {
+    "value": 18211,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 25 to 29 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-30-minimumAge": {
+    "value": 30,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 30 to 34 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-30-maximumAge": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 30 to 34 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-30-population": {
+    "value": 21943,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 30 to 34 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-30-employed": {
+    "value": 17597,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 30 to 34 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-35-minimumAge": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 35 to 44 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-35-maximumAge": {
+    "value": 45,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 35 to 44 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-35-population": {
+    "value": 40960,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 35 to 44 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-35-employed": {
+    "value": 33127,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 35 to 44 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-45-minimumAge": {
+    "value": 45,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 45 to 54 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-45-maximumAge": {
+    "value": 55,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 45 to 54 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-45-population": {
+    "value": 40445,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 45 to 54 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-45-employed": {
+    "value": 32042,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 45 to 54 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-55-minimumAge": {
+    "value": 55,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 55 to 59 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-55-maximumAge": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 55 to 59 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-55-population": {
+    "value": 21624,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 55 to 59 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-55-employed": {
+    "value": 15348,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 55 to 59 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-60-minimumAge": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 60 to 64 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-60-maximumAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 60 to 64 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-60-population": {
+    "value": 20616,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 60 to 64 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-60-employed": {
+    "value": 11545,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 60 to 64 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-65-minimumAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 65 to 69 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-65-maximumAge": {
+    "value": 70,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 65 to 69 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-65-population": {
+    "value": 17288,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 65 to 69 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-65-employed": {
+    "value": 5765,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 65 to 69 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-70-minimumAge": {
+    "value": 70,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 70 to 74 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-70-maximumAge": {
+    "value": 75,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 70 to 74 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-70-population": {
+    "value": 13990,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 70 to 74 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-70-employed": {
+    "value": 2679,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 70 to 74 years. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-75-minimumAge": {
+    "value": 75,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 75 years and over. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-75-population": {
+    "value": 21626,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 75 years and over. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "employment-age-75-employed": {
+    "value": 1903,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 3, https://www.bls.gov/cps/aa2019/cpsaat03.htm; civilian noninstitutional population and employed counts in thousands. Ratios are employed/population, not employed/labor force. Row 75 years and over. Source cohort boundary or published count is a point observation; no individual spread or source uncertainty interval is reconstructed."
+  },
+  "openingMissingCountyEmploymentScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Applies national age-cohort employment to a missing county/territory; unit scaling is a guess about local comparability.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-resident-employment-proxy",
+    "checkRange": {
+      "ref": "EMPIRICAL-RESIDENT-EMPLOYMENT-AGE"
+    }
+  },
+  "workCommitmentUrgency": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Ongoing recorded agreement contributes to fulfilling work, independently of cash; actor traits, stress and current needs can favor absence.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-attendance-choice",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workSleepReserveHours": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Daily time reserved for sleep in the finite prototype. This does not claim an individual sleep observation.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-time-reserve",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workRoutineRetentionWeeks": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Number of quiet completed weekly work rollups retained per worker; full focus results and open obligations stay separate.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-result-retention",
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "mondayIndex": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay civil weekday index; technical calendar identity."
+  },
+  "tuesdayIndex": {
+    "value": 2,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay civil weekday index; technical calendar identity."
+  },
+  "wednesdayIndex": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay civil weekday index; technical calendar identity."
+  },
+  "thursdayIndex": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay civil weekday index; technical calendar identity."
+  },
+  "fridayIndex": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay civil weekday index; technical calendar identity."
+  },
+  "workMorningStartMinute": {
+    "value": 480,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Inherited authored shift/cycle placement from work-schedules.ts; not an observed employer timetable.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-schedule-data",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workEarlyStartMinute": {
+    "value": 360,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Inherited authored shift/cycle placement from work-schedules.ts; not an observed employer timetable.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-schedule-data",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workEveningStartMinute": {
+    "value": 840,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Inherited authored shift/cycle placement from work-schedules.ts; not an observed employer timetable.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-schedule-data",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workNightStartMinute": {
+    "value": 1140,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Inherited authored shift/cycle placement from work-schedules.ts; not an observed employer timetable.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-schedule-data",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workFireCycleDays": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for this prototype parameter. Inherited authored shift/cycle placement from work-schedules.ts; not an observed employer timetable.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+    },
+    "stopgapId": "SG-P8-work-schedule-data",
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "workWakingRecoveryHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "No measured bound for the duration of a prototype waking-recovery offer; separate from sleep and the reported sleep mean.",
+    "stopgapId": "SG-P8-work-time-reserve",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical offer-duration range or matched microdata calibration is established."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
+  },
+  "employmentCountyAge22": {
+    "value": 22,
+    "tag": "SOURCED",
+    "citation": "Census ACS B23001 age-category boundary from https://api.census.gov/data/2019/acs/acs5/groups/B23001.json; technical data crosswalk, not an actor decision threshold."
+  },
+  "employmentCountyAge62": {
+    "value": 62,
+    "tag": "SOURCED",
+    "citation": "Census ACS B23001 age-category boundary from https://api.census.gov/data/2019/acs/acs5/groups/B23001.json; technical data crosswalk, not an actor decision threshold."
+  },
+  "activityMinimumReferenceAge": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "BLS ATUS 2025 Table 3 civilian-population reference begins at age 15; https://www.bls.gov/news.release/atus.t03.htm."
   }
 }

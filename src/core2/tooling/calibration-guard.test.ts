@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { parameter } from "../parameters";
 
 import {
   auditCheckRangeCoverage,
@@ -288,3 +289,122 @@ function replayPair(
     sourcePreimagesVerified: options.sourcePreimagesVerified ?? true,
   };
 }
+
+const empiricalId = "EMPIRICAL-FIXTURE-POPULATION";
+const empiricalFile = "src/core2/data/fixture-population-observation.json";
+const empiricalHash =
+  "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
+function empiricalTarget() {
+  return {
+    id: empiricalId,
+    kind: "external empirical observable",
+    revision: "fixture-independent-source-vintage",
+    sourceFiles: { [empiricalFile]: empiricalHash },
+    sources: [
+      {
+        id: "fixture-population-source",
+        title: "Fixture population source",
+        publisher: "Fixture publisher",
+        url: "https://example.invalid/population",
+      },
+    ],
+    observations: [
+      {
+        quantity: "Fixture population outcome",
+        unit: "fixture unit",
+        sourceFile: empiricalFile,
+        sourceRefs: ["fixture-population-source"],
+        dateWindow: { earliest: "2025-01-01", latest: "2025-12-31" },
+        observedValue: parameter("one"),
+      },
+    ],
+    testRoute: {
+      commandTemplate: "fixture-only-population-evaluator",
+      evaluationContract: "Fixture schema only, never empirical evidence.",
+      implementationStatus: "ready",
+    },
+    calibrationStatus: "unmeasured; fixture only",
+  };
+}
+function empiricalCatalog() {
+  const base = catalog();
+  return {
+    ...base,
+    empiricalSourceFiles: { [empiricalFile]: empiricalHash },
+    targets: [...base.targets, empiricalTarget()],
+    parameterBindings: [
+      ...base.parameterBindings,
+      {
+        parameter: "fixturePopulationScale",
+        checkRange: { ref: empiricalId },
+        mappingStatus:
+          "target present; blocked by population/evidence applicability",
+      },
+    ],
+  };
+}
+function empiricalParameters() {
+  return {
+    ...parameters(),
+    fixturePopulationScale: {
+      value: parameter("one"),
+      tag: "TUNABLE",
+      citation: "Fixture only; no coefficient bound",
+      spread: { status: "unmeasured", reason: "Fixture only" },
+      checkRange: { ref: empiricalId },
+    },
+  };
+}
+
+describe("external population observable references", () => {
+  it("accepts independent pinned population evidence while preserving unmeasured/applicability blockers", () => {
+    const result = auditCheckRangeCoverage(
+      empiricalParameters(),
+      empiricalCatalog(),
+      undefined,
+      { [empiricalFile]: empiricalHash },
+    );
+    expect(result.diagnostics).toEqual([]);
+    expect(result.empiricalCalibrationPass).toBe(false);
+    expect(
+      result.blockers.some(
+        (row) =>
+          row.parameter === "fixturePopulationScale" &&
+          row.code === "calibration-applicability-blocked",
+      ),
+    ).toBe(true);
+  });
+  it("rejects wrong actual source hashes, missing source links and an external reference masquerading as P9", () => {
+    const wrong = auditCheckRangeCoverage(
+      empiricalParameters(),
+      empiricalCatalog(),
+      undefined,
+      {
+        [empiricalFile]:
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      },
+    );
+    expect(
+      wrong.diagnostics.some(
+        (row) =>
+          row.target === empiricalId &&
+          row.code === "calibration-target-evidence",
+      ),
+    ).toBe(true);
+    const base = empiricalCatalog();
+    const noEvidence = auditCheckRangeCoverage(empiricalParameters(), {
+      ...base,
+      targets: [target(), { ...empiricalTarget(), observations: [] }],
+    });
+    expect(
+      noEvidence.diagnostics.some(
+        (row) =>
+          row.target === empiricalId &&
+          row.code === "calibration-target-evidence",
+      ),
+    ).toBe(true);
+    expect(evaluateP9Target(empiricalTarget(), [replayPair()]).status).toBe(
+      "blocked",
+    );
+  });
+});

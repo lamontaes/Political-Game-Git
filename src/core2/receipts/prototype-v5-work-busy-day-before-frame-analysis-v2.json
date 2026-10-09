@@ -1,0 +1,971 @@
+{
+  "schema": "p8-busy-day-sampled-advance-subtree-analysis-v2",
+  "profileDate": "2021-07-02",
+  "advanceWallMilliseconds": 1586.2546849999926,
+  "advance": {
+    "simulatedDays": 1,
+    "decisions": 10797,
+    "acts": 10797
+  },
+  "rawProfileSha256": "9aa14e0edb8741563947ee083dfdd500920b6c606eb1e754e7c5e47f21e09b1f",
+  "rawSampleDeltaMilliseconds": 3774.656,
+  "advanceSubtreeSampleDeltaMilliseconds": 1514.004,
+  "advanceSubtreeSamples": 1182,
+  "scope": "Only samples whose recorded stack contains the actual advanceCore node are included below. Inclusive times overlap and must not be added. Inspector start bookkeeping and root-level garbage collector samples are excluded, not relabeled as engine costs. Sample deltas are attribution, not instrumented function wall time.",
+  "sourceMapping": {
+    "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+    "sha256": "47869675170e3bbd103bc1c2faa4f50e4cc37b17dfdc2970c1b07e3baf110dcf",
+    "cachePath": "/tmp/tsx-1000/17915-9ab91e546a8a9402c3283252c361433b9eb5e08c",
+    "cacheSha256": "8a2f8c8fd7300e727e60e7376c470e707a7e038a907ba7797c5a11e12efcfc01",
+    "validation": "Root imported current pinned state.ts without running a world. Current coreAPI.toString() exactly matched only this cached transform among all five state.ts caches. Live function SHA256 da56bbdf981b9e825ad9f4f34389ab08f9ebb1371557703d95c151d7a2bf3fa4. Standard source-map VLQ decoding maps coreAPI frames to original TypeScript. Other frame columns retain generated locations and are not presented as original lines.",
+    "sourcesContentAvailableInCache": false
+  },
+  "topFramesBySelfTime": [
+    {
+      "functionName": "",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 11495,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 446,
+        "column": 11
+      },
+      "nodeIds": [
+        73,
+        74,
+        91
+      ],
+      "selfSampleMilliseconds": 223.46499999999997,
+      "inclusiveSampleMilliseconds": 223.46499999999997
+    },
+    {
+      "functionName": "dateTime",
+      "scriptId": "207",
+      "url": "file:///workspace/p8-core-prototype/src/core2/emotion.ts",
+      "lineNumber": 0,
+      "columnNumber": 632,
+      "nodeIds": [
+        76,
+        99
+      ],
+      "selfSampleMilliseconds": 108.74900000000001,
+      "inclusiveSampleMilliseconds": 111.506
+    },
+    {
+      "functionName": "chooseAct",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 1085,
+      "nodeIds": [
+        16,
+        55
+      ],
+      "selfSampleMilliseconds": 100.925,
+      "inclusiveSampleMilliseconds": 201.451
+    },
+    {
+      "functionName": "parameter",
+      "scriptId": "205",
+      "url": "file:///workspace/p8-core-prototype/src/core2/parameters.ts",
+      "lineNumber": 0,
+      "columnNumber": 544,
+      "nodeIds": [
+        26,
+        84,
+        96,
+        101,
+        105,
+        126,
+        128,
+        132,
+        136,
+        139,
+        151,
+        159,
+        164,
+        166,
+        176,
+        183,
+        184,
+        188,
+        192,
+        195,
+        197
+      ],
+      "selfSampleMilliseconds": 89.865,
+      "inclusiveSampleMilliseconds": 89.865
+    },
+    {
+      "functionName": "validateCommittedAct",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 9416,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 368,
+        "column": 9
+      },
+      "nodeIds": [
+        37,
+        66
+      ],
+      "selfSampleMilliseconds": 71.976,
+      "inclusiveSampleMilliseconds": 99.253
+    },
+    {
+      "functionName": "knownPublicTargets",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 775,
+      "nodeIds": [
+        69,
+        72
+      ],
+      "selfSampleMilliseconds": 70.40299999999999,
+      "inclusiveSampleMilliseconds": 252.046
+    },
+    {
+      "functionName": "availableActs",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 3229,
+      "nodeIds": [
+        53
+      ],
+      "selfSampleMilliseconds": 63.994,
+      "inclusiveSampleMilliseconds": 533.49
+    },
+    {
+      "functionName": "index",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 474,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 29,
+        "column": 9
+      },
+      "nodeIds": [
+        85,
+        148
+      ],
+      "selfSampleMilliseconds": 57.114000000000004,
+      "inclusiveSampleMilliseconds": 57.114000000000004
+    },
+    {
+      "functionName": "recordAct",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 13730,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 523,
+        "column": 4
+      },
+      "nodeIds": [
+        39,
+        65
+      ],
+      "selfSampleMilliseconds": 53.908,
+      "inclusiveSampleMilliseconds": 204.285
+    },
+    {
+      "functionName": "activate",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4579,
+      "nodeIds": [
+        49
+      ],
+      "selfSampleMilliseconds": 45.559,
+      "inclusiveSampleMilliseconds": 1418.667
+    },
+    {
+      "functionName": "discretionaryHours",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 5772,
+      "nodeIds": [
+        21,
+        41,
+        54,
+        108
+      ],
+      "selfSampleMilliseconds": 36.216,
+      "inclusiveSampleMilliseconds": 59.888
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4680,
+      "nodeIds": [
+        71
+      ],
+      "selfSampleMilliseconds": 31.999,
+      "inclusiveSampleMilliseconds": 31.999
+    },
+    {
+      "functionName": "refreshNeeds",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 1539,
+      "nodeIds": [
+        58
+      ],
+      "selfSampleMilliseconds": 28.284,
+      "inclusiveSampleMilliseconds": 254.542
+    },
+    {
+      "functionName": "",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 10960,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 426,
+        "column": 13
+      },
+      "nodeIds": [
+        22,
+        42,
+        48,
+        52,
+        81,
+        83,
+        86,
+        95,
+        104,
+        111,
+        125,
+        127,
+        131,
+        135,
+        138,
+        140,
+        158,
+        160,
+        173,
+        175,
+        182,
+        191,
+        194,
+        196
+      ],
+      "selfSampleMilliseconds": 25.930000000000003,
+      "inclusiveSampleMilliseconds": 99.72600000000001
+    },
+    {
+      "functionName": "traitScore",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 199,
+      "nodeIds": [
+        18,
+        75
+      ],
+      "selfSampleMilliseconds": 25.815,
+      "inclusiveSampleMilliseconds": 25.815
+    },
+    {
+      "functionName": "updateGoal",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 18000,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 684,
+        "column": 4
+      },
+      "nodeIds": [
+        82
+      ],
+      "selfSampleMilliseconds": 25.735,
+      "inclusiveSampleMilliseconds": 30.178
+    },
+    {
+      "functionName": "numeric",
+      "scriptId": "207",
+      "url": "file:///workspace/p8-core-prototype/src/core2/emotion.ts",
+      "lineNumber": 0,
+      "columnNumber": 248,
+      "nodeIds": [
+        113,
+        117,
+        142,
+        146,
+        150,
+        170
+      ],
+      "selfSampleMilliseconds": 24.454,
+      "inclusiveSampleMilliseconds": 24.454
+    },
+    {
+      "functionName": "relationship",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 12471,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 472,
+        "column": 4
+      },
+      "nodeIds": [
+        64
+      ],
+      "selfSampleMilliseconds": 23.311,
+      "inclusiveSampleMilliseconds": 36.712
+    },
+    {
+      "functionName": "affectAt",
+      "scriptId": "207",
+      "url": "file:///workspace/p8-core-prototype/src/core2/emotion.ts",
+      "lineNumber": 0,
+      "columnNumber": 1342,
+      "nodeIds": [
+        24,
+        59,
+        98
+      ],
+      "selfSampleMilliseconds": 22.871,
+      "inclusiveSampleMilliseconds": 161.574
+    },
+    {
+      "functionName": "updatePerson",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 15403,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 588,
+        "column": 4
+      },
+      "nodeIds": [
+        115,
+        133,
+        143,
+        152
+      ],
+      "selfSampleMilliseconds": 22.723000000000003,
+      "inclusiveSampleMilliseconds": 28.680999999999997
+    },
+    {
+      "functionName": "stopgap",
+      "scriptId": "209",
+      "url": "file:///workspace/p8-core-prototype/src/core2/stopgaps.ts",
+      "lineNumber": 0,
+      "columnNumber": 266,
+      "nodeIds": [
+        23,
+        87,
+        134,
+        161,
+        174,
+        177
+      ],
+      "selfSampleMilliseconds": 21.126,
+      "inclusiveSampleMilliseconds": 21.126
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 2471,
+      "nodeIds": [
+        33,
+        88
+      ],
+      "selfSampleMilliseconds": 20.818,
+      "inclusiveSampleMilliseconds": 28.355
+    },
+    {
+      "functionName": "set natives",
+      "scriptId": "0",
+      "url": "",
+      "lineNumber": -1,
+      "columnNumber": -1,
+      "nodeIds": [
+        57,
+        169
+      ],
+      "selfSampleMilliseconds": 18.12,
+      "inclusiveSampleMilliseconds": 18.12
+    },
+    {
+      "functionName": "activityAgeId",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 11233,
+      "nodeIds": [
+        43,
+        79
+      ],
+      "selfSampleMilliseconds": 17.785,
+      "inclusiveSampleMilliseconds": 41.995999999999995
+    },
+    {
+      "functionName": "__name",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 47,
+      "nodeIds": [
+        38,
+        67
+      ],
+      "selfSampleMilliseconds": 17.352,
+      "inclusiveSampleMilliseconds": 22.482
+    },
+    {
+      "functionName": "__name",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 47,
+      "nodeIds": [
+        30,
+        56
+      ],
+      "selfSampleMilliseconds": 16.715999999999998,
+      "inclusiveSampleMilliseconds": 29.706
+    },
+    {
+      "functionName": "updateNeeds",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 17671,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 672,
+        "column": 4
+      },
+      "nodeIds": [
+        60
+      ],
+      "selfSampleMilliseconds": 16.626,
+      "inclusiveSampleMilliseconds": 19.883
+    },
+    {
+      "functionName": "recordActivityTime",
+      "scriptId": "211",
+      "url": "file:///workspace/p8-core-prototype/src/core2/work-state.ts",
+      "lineNumber": 0,
+      "columnNumber": 8808,
+      "nodeIds": [
+        46,
+        63
+      ],
+      "selfSampleMilliseconds": 16.397000000000002,
+      "inclusiveSampleMilliseconds": 57.503
+    },
+    {
+      "functionName": "advanceCore",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 6262,
+      "nodeIds": [
+        6
+      ],
+      "selfSampleMilliseconds": 16.143,
+      "inclusiveSampleMilliseconds": 1514.004
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4332,
+      "nodeIds": [
+        90
+      ],
+      "selfSampleMilliseconds": 13.695,
+      "inclusiveSampleMilliseconds": 63.705
+    }
+  ],
+  "topFramesByInclusiveTime": [
+    {
+      "functionName": "advanceCore",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 6262,
+      "nodeIds": [
+        6
+      ],
+      "selfSampleMilliseconds": 16.143,
+      "inclusiveSampleMilliseconds": 1514.004
+    },
+    {
+      "functionName": "activate",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4579,
+      "nodeIds": [
+        49
+      ],
+      "selfSampleMilliseconds": 45.559,
+      "inclusiveSampleMilliseconds": 1418.667
+    },
+    {
+      "functionName": "availableActs",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 3229,
+      "nodeIds": [
+        53
+      ],
+      "selfSampleMilliseconds": 63.994,
+      "inclusiveSampleMilliseconds": 533.49
+    },
+    {
+      "functionName": "refreshNeeds",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 1539,
+      "nodeIds": [
+        58
+      ],
+      "selfSampleMilliseconds": 28.284,
+      "inclusiveSampleMilliseconds": 254.542
+    },
+    {
+      "functionName": "knownPublicTargets",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 775,
+      "nodeIds": [
+        69,
+        72
+      ],
+      "selfSampleMilliseconds": 70.40299999999999,
+      "inclusiveSampleMilliseconds": 252.046
+    },
+    {
+      "functionName": "",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 11495,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 446,
+        "column": 11
+      },
+      "nodeIds": [
+        73,
+        74,
+        91
+      ],
+      "selfSampleMilliseconds": 223.46499999999997,
+      "inclusiveSampleMilliseconds": 223.46499999999997
+    },
+    {
+      "functionName": "recordAct",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 13730,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 523,
+        "column": 4
+      },
+      "nodeIds": [
+        39,
+        65
+      ],
+      "selfSampleMilliseconds": 53.908,
+      "inclusiveSampleMilliseconds": 204.285
+    },
+    {
+      "functionName": "chooseAct",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 1085,
+      "nodeIds": [
+        16,
+        55
+      ],
+      "selfSampleMilliseconds": 100.925,
+      "inclusiveSampleMilliseconds": 201.451
+    },
+    {
+      "functionName": "affectAt",
+      "scriptId": "207",
+      "url": "file:///workspace/p8-core-prototype/src/core2/emotion.ts",
+      "lineNumber": 0,
+      "columnNumber": 1342,
+      "nodeIds": [
+        24,
+        59,
+        98
+      ],
+      "selfSampleMilliseconds": 22.871,
+      "inclusiveSampleMilliseconds": 161.574
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4128,
+      "nodeIds": [
+        68
+      ],
+      "selfSampleMilliseconds": 9.094,
+      "inclusiveSampleMilliseconds": 141.391
+    },
+    {
+      "functionName": "dateTime",
+      "scriptId": "207",
+      "url": "file:///workspace/p8-core-prototype/src/core2/emotion.ts",
+      "lineNumber": 0,
+      "columnNumber": 632,
+      "nodeIds": [
+        76,
+        99
+      ],
+      "selfSampleMilliseconds": 108.74900000000001,
+      "inclusiveSampleMilliseconds": 111.506
+    },
+    {
+      "functionName": "",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 10960,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 426,
+        "column": 13
+      },
+      "nodeIds": [
+        22,
+        42,
+        48,
+        52,
+        81,
+        83,
+        86,
+        95,
+        104,
+        111,
+        125,
+        127,
+        131,
+        135,
+        138,
+        140,
+        158,
+        160,
+        173,
+        175,
+        182,
+        191,
+        194,
+        196
+      ],
+      "selfSampleMilliseconds": 25.930000000000003,
+      "inclusiveSampleMilliseconds": 99.72600000000001
+    },
+    {
+      "functionName": "validateCommittedAct",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 9416,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 368,
+        "column": 9
+      },
+      "nodeIds": [
+        37,
+        66
+      ],
+      "selfSampleMilliseconds": 71.976,
+      "inclusiveSampleMilliseconds": 99.253
+    },
+    {
+      "functionName": "parameter",
+      "scriptId": "205",
+      "url": "file:///workspace/p8-core-prototype/src/core2/parameters.ts",
+      "lineNumber": 0,
+      "columnNumber": 544,
+      "nodeIds": [
+        26,
+        84,
+        96,
+        101,
+        105,
+        126,
+        128,
+        132,
+        136,
+        139,
+        151,
+        159,
+        164,
+        166,
+        176,
+        183,
+        184,
+        188,
+        192,
+        195,
+        197
+      ],
+      "selfSampleMilliseconds": 89.865,
+      "inclusiveSampleMilliseconds": 89.865
+    },
+    {
+      "functionName": "recordDiscretionaryActivity",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 9553,
+      "nodeIds": [
+        61
+      ],
+      "selfSampleMilliseconds": 0.0,
+      "inclusiveSampleMilliseconds": 79.594
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4332,
+      "nodeIds": [
+        90
+      ],
+      "selfSampleMilliseconds": 13.695,
+      "inclusiveSampleMilliseconds": 63.705
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 5736,
+      "nodeIds": [
+        97
+      ],
+      "selfSampleMilliseconds": 9.014,
+      "inclusiveSampleMilliseconds": 60.415
+    },
+    {
+      "functionName": "discretionaryHours",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 5772,
+      "nodeIds": [
+        21,
+        41,
+        54,
+        108
+      ],
+      "selfSampleMilliseconds": 36.216,
+      "inclusiveSampleMilliseconds": 59.888
+    },
+    {
+      "functionName": "runScheduledWork",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 6704,
+      "nodeIds": [
+        10
+      ],
+      "selfSampleMilliseconds": 3.899,
+      "inclusiveSampleMilliseconds": 59.673
+    },
+    {
+      "functionName": "recordActivityTime",
+      "scriptId": "211",
+      "url": "file:///workspace/p8-core-prototype/src/core2/work-state.ts",
+      "lineNumber": 0,
+      "columnNumber": 8808,
+      "nodeIds": [
+        46,
+        63
+      ],
+      "selfSampleMilliseconds": 16.397000000000002,
+      "inclusiveSampleMilliseconds": 57.503
+    },
+    {
+      "functionName": "recordActivityTime",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 12267,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 466,
+        "column": 4
+      },
+      "nodeIds": [
+        45,
+        62
+      ],
+      "selfSampleMilliseconds": 0.0,
+      "inclusiveSampleMilliseconds": 57.503
+    },
+    {
+      "functionName": "index",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 474,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 29,
+        "column": 9
+      },
+      "nodeIds": [
+        85,
+        148
+      ],
+      "selfSampleMilliseconds": 57.114000000000004,
+      "inclusiveSampleMilliseconds": 57.114000000000004
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 6024,
+      "nodeIds": [
+        50
+      ],
+      "selfSampleMilliseconds": 5.648,
+      "inclusiveSampleMilliseconds": 50.109
+    },
+    {
+      "functionName": "activityAgeId",
+      "scriptId": "212",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/work.ts",
+      "lineNumber": 0,
+      "columnNumber": 11233,
+      "nodeIds": [
+        43,
+        79
+      ],
+      "selfSampleMilliseconds": 17.785,
+      "inclusiveSampleMilliseconds": 41.995999999999995
+    },
+    {
+      "functionName": "",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 1224,
+      "nodeIds": [
+        25,
+        100
+      ],
+      "selfSampleMilliseconds": 3.612,
+      "inclusiveSampleMilliseconds": 39.611
+    },
+    {
+      "functionName": "relationship",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 12471,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 472,
+        "column": 4
+      },
+      "nodeIds": [
+        64
+      ],
+      "selfSampleMilliseconds": 23.311,
+      "inclusiveSampleMilliseconds": 36.712
+    },
+    {
+      "functionName": "",
+      "scriptId": "202",
+      "url": "file:///workspace/p8-core-prototype/src/core2/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4272,
+      "nodeIds": [
+        70
+      ],
+      "selfSampleMilliseconds": 0.0,
+      "inclusiveSampleMilliseconds": 33.132
+    },
+    {
+      "functionName": "",
+      "scriptId": "215",
+      "url": "file:///workspace/p8-core-prototype/src/core2/modules/life.ts",
+      "lineNumber": 0,
+      "columnNumber": 4680,
+      "nodeIds": [
+        71
+      ],
+      "selfSampleMilliseconds": 31.999,
+      "inclusiveSampleMilliseconds": 31.999
+    },
+    {
+      "functionName": "updateGoal",
+      "scriptId": "219",
+      "url": "file:///workspace/p8-core-prototype/src/core2/state.ts",
+      "lineNumber": 0,
+      "columnNumber": 18000,
+      "originalLocation": {
+        "path": "/workspace/p8-core-prototype/src/core2/state.ts",
+        "line": 684,
+        "column": 4
+      },
+      "nodeIds": [
+        82
+      ],
+      "selfSampleMilliseconds": 25.735,
+      "inclusiveSampleMilliseconds": 30.178
+    },
+    {
+      "functionName": "__name",
+      "scriptId": "214",
+      "url": "file:///workspace/p8-core-prototype/src/core2/choice.ts",
+      "lineNumber": 0,
+      "columnNumber": 47,
+      "nodeIds": [
+        30,
+        56
+      ],
+      "selfSampleMilliseconds": 16.715999999999998,
+      "inclusiveSampleMilliseconds": 29.706
+    }
+  ],
+  "notAnnualGate": true,
+  "annualGcCoverageEstablished": false
+}

@@ -1,3 +1,6 @@
+import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import { canonicalOpeningSchedules } from "./opening-work";
+import { openingWorkCommitments } from "./modules/work";
 import coreContent from "./data/content.json" with { type: "json" };
 import { realLocalities } from "./places";
 import {
@@ -104,6 +107,10 @@ export interface PopulationOptions {
   placeKey?: string;
   startedAt: string;
   minimumPeople?: number;
+  /** Opening generation only; false preserves the original canonical employment projection. */
+  openingEmployment?: boolean;
+  /** Independent schedule import switch; runtime can also disable scheduled work. */
+  scheduledWork?: boolean;
 }
 
 interface CountyContext {
@@ -549,7 +556,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     "Existing deterministic matcher and authored workplace/role mix, interpreted as an opening estimate; later employment vintages are not observed 2021 jobs.",
   );
   const roles = new Map(
-    world.history.workRoles.map((role) => [role.workRelationshipId, role]),
+    world.history.workRoles
+      .filter((role) => role.effectiveAt <= startedAt)
+      .map((role) => [role.workRelationshipId, role]),
   );
   const workById = new Map(
     world.history.workRelationships.map((relationship) => [
@@ -557,11 +566,23 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       relationship,
     ]),
   );
+  const openingStatuses = new Map(
+    world.history.workStatuses
+      .filter((row) => row.effectiveAt <= startedAt)
+      .map((row) => [row.workRelationshipId, row.status]),
+  );
   const jobs: JobInput[] = [];
   const jobByPerson = new Map<string, JobInput>();
   for (const relationship of world.history.workRelationships) {
     const role = roles.get(relationship.id);
-    if (!role || !relationship.organizationId) continue;
+    if (
+      !role ||
+      !relationship.organizationId ||
+      relationship.startedAt > startedAt ||
+      openingStatuses.get(relationship.id) !== "active" ||
+      relationship.compensation !== "paid"
+    )
+      continue;
     const hoursDaily = weeklyHoursOf(role) / p("daysPerWeek");
     const percentile = townPayPercentile(
       daysBetween(relationship.startedAt, startedAt) / p("daysPerMeanYear"),
@@ -594,6 +615,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       title: role.title,
       occupationClassification: role.occupationClassification ?? undefined,
       hoursDaily,
+      hourlyMinor: Math.round(hourlyMinor),
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
       source: estimatedSource(
         startedAt,
@@ -604,6 +626,46 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
+  const countyGeoidByPerson = new Map<string, string>();
+  for (const plan of plans) {
+    const county = counties.find(
+      (row) => row.place.context.jurisdiction.id === plan.countyId,
+    );
+    if (county?.place.sourceGeoid)
+      for (const id of plan.ids)
+        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+  }
+  const openingAllocation =
+    options.openingEmployment === false
+      ? {
+          jobs: [],
+          startedAtByJob: new Map<string, WorldDate>(),
+          templateJobIdByJob: new Map<string, string>(),
+          receipt: { enabled: false, omitted: [], ageTargets: [] },
+        }
+      : openingEmploymentFromRecordedRoles(
+          world,
+          town,
+          options.seed,
+          undefined,
+          countyGeoidByPerson,
+        );
+  for (const job of openingAllocation.jobs) {
+    jobs.push(job);
+    jobByPerson.set(job.personId, job);
+  }
+  if (openingAllocation.receipt.omitted.length)
+    gaps.add(
+      "Unsupported opening workplace/occupation shares remain omitted; unassigned actors are not declared unemployed.",
+    );
+  if (
+    openingAllocation.receipt.ageTargets.some(
+      (row) => !row.basis.startsWith("county-ACS-"),
+    )
+  )
+    gaps.add(
+      "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
+    );
   const payByOrganization = new Map<string, number>();
   for (const job of jobs)
     payByOrganization.set(
@@ -829,12 +891,16 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...(familyPast.get(id) ?? []),
     ];
     if (job) {
-      const relationship = workById.get(job.id as EntityId)!;
+      const relationship = workById.get(job.id as EntityId);
+      const workStartedAt =
+        relationship?.startedAt ?? openingAllocation.startedAtByJob.get(job.id);
+      if (!workStartedAt)
+        throw new Error("Opening job has no admitted source start date.");
       pastFacts.push({
         id: `${job.id}:past:opening`,
-        date: relationship.startedAt,
+        date: workStartedAt,
         kind: "work:opening",
-        summary: `The generated opening job as ${job.title} has an estimated start on ${relationship.startedAt}.`,
+        summary: `The generated opening job as ${job.title} has an estimated start on ${workStartedAt}.`,
         source: job.source,
       });
     }
@@ -878,15 +944,32 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     households,
     jobs,
     organizations,
+    workCommitments:
+      options.scheduledWork === false
+        ? []
+        : openingWorkCommitments(
+            jobs,
+            organizations,
+            startedAt,
+            undefined,
+            undefined,
+            canonicalOpeningSchedules(
+              world,
+              jobs,
+              openingAllocation.templateJobIdByJob,
+            ),
+          ),
     familyLinks,
     focusPersonIds: [],
-    focusPlaceIds: [
+    focusPlaceIds: [],
+    visiblePlaceIds: [
       town,
       ...counties.map((county) => county.place.context.jurisdiction.id),
     ],
     calendarDates: [],
     gaps: [...gaps],
     placeMetadata: {
+      openingEmploymentReceipt: JSON.stringify(openingAllocation.receipt),
       placeKey: place.key,
       placeName: place.displayName,
       countyNames: counties

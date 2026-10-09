@@ -1,0 +1,265 @@
+{
+  "schema": "p8-v5-work-gate-declaration-v1",
+  "declarationOrigin": "Root internal task message, October 9, 2026; exit codes are attributed root observations, not inferred from quiet logs.",
+  "scope": "Historical bounded validation of v5 work/input/observable/calibration sources; archive does not rerun a gate or claim calibration or release readiness.",
+  "postSupportChangesDeclaredByRoot": [
+    "SG line anchor 920 to 835",
+    "Calibration target JSON Prettier formatting"
+  ],
+  "records": [
+    {
+      "id": "repaired-life-choice-tripwires",
+      "path": "/tmp/p8-priority2-repaired-gate.log",
+      "bytes": 1157,
+      "sha256": "f0a606669d03c207122c5a05da447fabf6a8aa62147a3938615e9f22626ea6ab",
+      "kind": "tests",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "passedTests": 37,
+        "totalTests": 37,
+        "passedFiles": 3,
+        "testFiles": [
+          "src/core2/life.test.ts",
+          "src/core2/choice-qualifiers.test.ts",
+          "src/core2/tooling/tripwires.test.ts"
+        ]
+      }
+    },
+    {
+      "id": "work-and-age-observables",
+      "path": "/tmp/p8-priority2-observables-tests.log",
+      "bytes": 1121,
+      "sha256": "db089faaa6e21ea6a4a138c1a5e68a61c433b37b479635a014ba98e82fc8797b",
+      "kind": "tests",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "passedTests": 13,
+        "totalTests": 13,
+        "passedFiles": 2,
+        "testFiles": [
+          "src/core2/work.test.ts",
+          "src/core2/tooling/work-observables.test.ts"
+        ],
+        "knownPartition": {
+          "work": 8,
+          "age": 5
+        }
+      }
+    },
+    {
+      "id": "opening-and-calibration-support",
+      "path": "/tmp/p8-priority2-final-support-tests.log",
+      "bytes": 1183,
+      "sha256": "1b39a7b5b3dcb9a124d4301f57840b0fab08586e1aedf1ccf0ac3ee241748f5e",
+      "kind": "tests",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "passedTests": 27,
+        "totalTests": 27,
+        "passedFiles": 3,
+        "testFiles": [
+          "src/core2/opening-employment-provenance.test.ts",
+          "src/core2/tooling/calibration-guard.test.ts",
+          "src/core2/tooling/tripwires.test.ts"
+        ]
+      }
+    },
+    {
+      "id": "strict-types",
+      "path": "/tmp/p8-priority2-final-typecheck.log",
+      "bytes": 498,
+      "sha256": "b38d71634ad01c877c8d872722b7fd5f77f804520115ffaa2d5a18339ff5824a",
+      "kind": "typecheck",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {}
+    },
+    {
+      "id": "final-format-and-lint",
+      "path": "/tmp/p8-priority2-final-style-gates-recheck.log",
+      "bytes": 556,
+      "sha256": "6b92db6666d36d794fd6ae1a173225fe0f69927f30728019cfe174fe454a53ee",
+      "kind": "style",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "formatFiles": 29,
+        "lintFiles": 21,
+        "fileManifestPath": "/tmp/p8-priority2-final-all-paths.json"
+      }
+    },
+    {
+      "id": "source-audit",
+      "path": "/tmp/p8-priority2-final-source-audit-recheck.log",
+      "bytes": 10995,
+      "sha256": "f0503eca3daca3d0466a83e1f954c0f39786dfe15f308e9752a0f7a15e49840b",
+      "kind": "source-audit",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "openStopgaps": 40,
+        "targetReferences": 37,
+        "calibrationBlockers": 58,
+        "empiricalPass": false
+      }
+    },
+    {
+      "id": "no-dice-and-release",
+      "path": "/tmp/p8-priority2-final-release-gates.log",
+      "bytes": 1306,
+      "sha256": "dd9a8350a3bf464c8004ecbdb3af1812b1d498e616b979bdeb0b6fb31d291367",
+      "kind": "release",
+      "exitCodeDeclaredByRoot": 0,
+      "exitStatusEvidence": "Root observed tool-session completion and declared exit 0",
+      "status": "historical-passed",
+      "expected": {
+        "allowedDiceLines": 89,
+        "prReleaseCheck": "passed"
+      }
+    },
+    {
+      "id": "superseded-initial-module-count",
+      "path": "/tmp/p8-priority2-tests.log",
+      "bytes": 1455,
+      "sha256": "2eecb806991ceed70054ab9db40991256a0fbbf3e4a07ab98ca0384346856bde",
+      "kind": "superseded-failed-tests",
+      "exitCodeDeclaredByRoot": null,
+      "exitStatusEvidence": "Root declared initial failure; exact exit code not provided",
+      "status": "historical-failed-superseded",
+      "expected": {
+        "passedTests": 113,
+        "totalTests": 114,
+        "failedTests": 1,
+        "reason": "Initial full five-file run had old life module-count assertion failure; later life/chooser/tripwire repair group supersedes that failed life assertion. Never a full-pass declaration."
+      }
+    }
+  ],
+  "styleFileManifest": {
+    "path": "/tmp/p8-priority2-final-all-paths.json",
+    "bytes": 1040,
+    "sha256": "fc7ed9d333d8e1baba792062a3cb22558601e456f240fc428df04728bc35a643",
+    "paths": [
+      "src/core2/choice.ts",
+      "src/core2/data.ts",
+      "src/core2/data/opening-employment.json",
+      "src/core2/data/parameters.json",
+      "src/core2/data/resident-employment.json",
+      "src/core2/data/stopgaps.json",
+      "src/core2/data/time-use-reference.json",
+      "src/core2/data/work.json",
+      "src/core2/life.test.ts",
+      "src/core2/life.ts",
+      "src/core2/modules/life.ts",
+      "src/core2/modules/work.ts",
+      "src/core2/opening-employment-provenance.test.ts",
+      "src/core2/opening-employment.ts",
+      "src/core2/opening-work.ts",
+      "src/core2/population.ts",
+      "src/core2/state.ts",
+      "src/core2/tooling/calibration-guard.test.ts",
+      "src/core2/tooling/calibration-guard.ts",
+      "src/core2/tooling/calibration-targets.json",
+      "src/core2/tooling/measure.ts",
+      "src/core2/tooling/tripwires.test.ts",
+      "src/core2/tooling/tripwires.ts",
+      "src/core2/tooling/work-observables.json",
+      "src/core2/tooling/work-observables.test.ts",
+      "src/core2/tooling/work-observables.ts",
+      "src/core2/types.ts",
+      "src/core2/work-state.ts",
+      "src/core2/work.test.ts"
+    ]
+  },
+  "overlap": {
+    "sharedTestFiles": [
+      "src/core2/tooling/tripwires.test.ts"
+    ],
+    "combinedPassedTestCount": null,
+    "combinedFileCount": null,
+    "reason": "Groups are retained with their exact scopes; overlapping quiet summaries have no reliable per-file count partition. No sum of 37+13+27 is a distinct test total."
+  },
+  "readinessClaim": false,
+  "archivedOriginalLogs": {
+    "repaired-life-choice-tripwires": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-repaired-life-choice-tripwires.log.gz",
+      "bytes": 698,
+      "sha256": "212aa4203a75e608c8c20fa08923bd6834c008f61602c62200676e1b0bc04dc8",
+      "originalLocation": "/tmp/p8-priority2-repaired-gate.log",
+      "uncompressedBytes": 1157,
+      "uncompressedSha256": "f0a606669d03c207122c5a05da447fabf6a8aa62147a3938615e9f22626ea6ab",
+      "roundTripVerified": true
+    },
+    "work-and-age-observables": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-work-and-age-observables.log.gz",
+      "bytes": 679,
+      "sha256": "75259e98361a5e4073f7a6b3368a6f06569604944edb4e76a8cf04fb0aa9c74d",
+      "originalLocation": "/tmp/p8-priority2-observables-tests.log",
+      "uncompressedBytes": 1121,
+      "uncompressedSha256": "db089faaa6e21ea6a4a138c1a5e68a61c433b37b479635a014ba98e82fc8797b",
+      "roundTripVerified": true
+    },
+    "opening-and-calibration-support": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-opening-and-calibration-support.log.gz",
+      "bytes": 705,
+      "sha256": "cdde3331d190e16b550c851283171006fc27af830d3f2e93084fac08c045f94a",
+      "originalLocation": "/tmp/p8-priority2-final-support-tests.log",
+      "uncompressedBytes": 1183,
+      "uncompressedSha256": "1b39a7b5b3dcb9a124d4301f57840b0fab08586e1aedf1ccf0ac3ee241748f5e",
+      "roundTripVerified": true
+    },
+    "strict-types": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-strict-types.log.gz",
+      "bytes": 336,
+      "sha256": "b34a130106f24fffaca5bfdfde2c02151e9e1ef08093d321d82bc6b51fa0d309",
+      "originalLocation": "/tmp/p8-priority2-final-typecheck.log",
+      "uncompressedBytes": 498,
+      "uncompressedSha256": "b38d71634ad01c877c8d872722b7fd5f77f804520115ffaa2d5a18339ff5824a",
+      "roundTripVerified": true
+    },
+    "final-format-and-lint": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-final-format-and-lint.log.gz",
+      "bytes": 359,
+      "sha256": "dd5ec424c3df4b74591ca037d545d45082f0cbf667693f34a5364e714a722ebd",
+      "originalLocation": "/tmp/p8-priority2-final-style-gates-recheck.log",
+      "uncompressedBytes": 556,
+      "uncompressedSha256": "6b92db6666d36d794fd6ae1a173225fe0f69927f30728019cfe174fe454a53ee",
+      "roundTripVerified": true
+    },
+    "source-audit": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-source-audit.log.gz",
+      "bytes": 1807,
+      "sha256": "1c2f6114ff20b9316d10094c47d0733b3d5c75f47bcbc001bc374d9ead222434",
+      "originalLocation": "/tmp/p8-priority2-final-source-audit-recheck.log",
+      "uncompressedBytes": 10995,
+      "uncompressedSha256": "f0503eca3daca3d0466a83e1f954c0f39786dfe15f308e9752a0f7a15e49840b",
+      "roundTripVerified": true
+    },
+    "no-dice-and-release": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-no-dice-and-release.log.gz",
+      "bytes": 524,
+      "sha256": "7db96a3b1caa691335c70777c5f8beea9cbdee292849a44fb48ac3d6ee72a512",
+      "originalLocation": "/tmp/p8-priority2-final-release-gates.log",
+      "uncompressedBytes": 1306,
+      "uncompressedSha256": "dd9a8350a3bf464c8004ecbdb3af1812b1d498e616b979bdeb0b6fb31d291367",
+      "roundTripVerified": true
+    },
+    "superseded-initial-module-count": {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-superseded-initial-module-count.log.gz",
+      "bytes": 786,
+      "sha256": "ca6bd8cae2552b81e541839edb40df17f04f292cec0795e89b1e75bd99accb47",
+      "originalLocation": "/tmp/p8-priority2-tests.log",
+      "uncompressedBytes": 1455,
+      "uncompressedSha256": "2eecb806991ceed70054ab9db40991256a0fbbf3e4a07ab98ca0384346856bde",
+      "roundTripVerified": true
+    }
+  }
+}

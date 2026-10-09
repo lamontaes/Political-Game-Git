@@ -620,10 +620,47 @@ function inspectCalibrationCatalog(
       message: `Could not read the developer-only calibration catalog: ${errorMessage(error)}.`,
     });
   }
+  // Independently hash population evidence rather than trusting a repeated catalog hash.
+  const empiricalManifest =
+    isRecord(catalog) && isRecord(catalog.empiricalSourceFiles)
+      ? catalog.empiricalSourceFiles
+      : {};
+  const actualEmpiricalSourceSha256s: Record<string, string> = {};
+  for (const path of Object.keys(empiricalManifest)) {
+    const sourcePath = resolve(root, path),
+      relativePath = relative(root, sourcePath);
+    if (
+      !(
+        path.startsWith("src/core2/data/") || path.startsWith("data/research/")
+      ) ||
+      path.split("/").includes("..") ||
+      relativePath.startsWith(`..${sep}`) ||
+      relativePath === ".."
+    ) {
+      diagnostics.push({
+        code: "calibration-empirical-source-path",
+        file: catalogFile,
+        message: `Unsupported empirical source path: ${path}`,
+      });
+      continue;
+    }
+    try {
+      actualEmpiricalSourceSha256s[path] = createHash("sha256")
+        .update(readFileSync(sourcePath))
+        .digest("hex");
+    } catch (error) {
+      diagnostics.push({
+        code: "calibration-empirical-source-unreadable",
+        file: catalogFile,
+        message: `Cannot verify empirical source ${path}: ${errorMessage(error)}`,
+      });
+    }
+  }
   const audit = auditCheckRangeCoverage(
     parameters,
     catalog,
     parameterSourceSha256,
+    actualEmpiricalSourceSha256s,
   );
   diagnostics.push(
     ...audit.diagnostics.map((row) => ({
@@ -1110,17 +1147,23 @@ function isStaticContentLiteral(node: ts.Node): boolean {
     return true;
   }
   if (ts.isArrayLiteralExpression(node)) {
-    return node.elements.every(
-      (element) =>
-        !ts.isSpreadElement(element) && isStaticContentLiteral(element),
+    return (
+      node.elements.length > 0 &&
+      node.elements.every(
+        (element) =>
+          !ts.isSpreadElement(element) && isStaticContentLiteral(element),
+      )
     );
   }
   if (ts.isObjectLiteralExpression(node)) {
-    return node.properties.every(
-      (property) =>
-        ts.isPropertyAssignment(property) &&
-        propertyName(property.name) !== undefined &&
-        isStaticContentLiteral(property.initializer),
+    return (
+      node.properties.length > 0 &&
+      node.properties.every(
+        (property) =>
+          ts.isPropertyAssignment(property) &&
+          propertyName(property.name) !== undefined &&
+          isStaticContentLiteral(property.initializer),
+      )
     );
   }
   return false;

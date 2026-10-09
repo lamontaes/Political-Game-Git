@@ -1,8 +1,18 @@
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople, catchUpPerson } from "./calendar";
 import { affectAt } from "./emotion";
+import { compactQuietWorkResults } from "./work-state";
+import { chooseAct } from "./choice";
+export { chooseAct } from "./choice";
+import {
+  WORK_MODULE,
+  discretionaryHours,
+  recordDiscretionaryActivity,
+  catchUpScheduledWork,
+} from "./modules/work";
 import { LIFE_MODULE } from "./modules/life";
 import { parameter, parameterValues } from "./parameters";
+import { DEFAULT_DATA } from "./data";
 import { coreAPI, createCore, resolveOperation } from "./state";
 import type {
   ActOffer,
@@ -11,7 +21,7 @@ import type {
   CoreInput,
   CoreModule,
   CoreState,
-  DecisionReason,
+  DecisionContext,
   DecisionResult,
   PersonState,
 } from "./types";
@@ -20,22 +30,33 @@ export type Controller = (
   decision: DecisionResult,
   offers: readonly ActOffer[],
 ) => string | undefined;
-const traitScores = new WeakMap<PersonState, Map<string, number>>();
 
 export function createLifeCore(
   input: CoreInput,
   options: {
     observer?: boolean;
+    scheduledWork?: boolean;
     data?: CoreData;
     modules?: readonly CoreModule[];
   } = {},
 ): CoreState {
-  const core = createCore(input, {
-    ...options,
-    modules: [LIFE_MODULE, ...(options.modules ?? [])],
-  });
+  const { scheduledWork = true, ...coreOptions } = options;
+  const core = createCore(
+    scheduledWork ? input : { ...input, workCommitments: [] },
+    {
+      ...coreOptions,
+      data: scheduledWork
+        ? options.data
+        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+      modules: [
+        LIFE_MODULE,
+        ...(scheduledWork ? [WORK_MODULE] : []),
+        ...(options.modules ?? []),
+      ],
+    },
+  );
   core.gaps.add(
-    "Prototype selects one discretionary scored act per tier activation; a complete daily activity plan is not yet modeled.",
+    "Recorded work is scored and settled on its scheduled dates; remaining time admits one discretionary scored act per tier activation. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
     "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
@@ -75,6 +96,49 @@ function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
   api.updateNeeds(actor.id, values);
 }
 
+/** Routine attendance projects only its two current needs; it does not rewrite weekly actor state. */
+function projectWorkNeeds(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+  ids: readonly string[],
+): DecisionContext {
+  const affect = affectAt(
+    actor.affect,
+    core.date,
+    parameterValues(core.data.parameters),
+  );
+  const view = { ...actor, affect };
+  const needValues: Record<string, number> = {},
+    goalUrgencies: Record<string, number> = {};
+  const goalRows: NonNullable<DecisionContext["goalRows"]>[number][] = [];
+  for (const id of new Set(ids)) {
+    const definition = core.data.needs.find((row) => row.id === id);
+    if (!definition)
+      throw new Error(`Work action references absent need: ${id}`);
+    const evaluate = resolveOperation(
+      core,
+      "needEvaluators",
+      definition.evaluator,
+    );
+    if (!evaluate)
+      throw new Error(
+        `Unregistered work need evaluator: ${definition.evaluator}`,
+      );
+    const value = evaluate(api, view, definition);
+    if (!Number.isFinite(value) || value < api.parameter("zero"))
+      throw new Error("Invalid projected work need.");
+    needValues[id] = value;
+    goalUrgencies[`need:${id}`] = value;
+    goalRows.push({
+      id: `need:${id}`,
+      kind: definition.goalKind,
+      urgency: value,
+    });
+  }
+  return { affect, needValues, goalUrgencies, goalRows };
+}
+
 export function availableActs(
   core: CoreState,
   personId: string,
@@ -94,7 +158,29 @@ export function availableActs(
         `Unregistered available-act provider: ${definition.targetKind}`,
       );
     for (const offer of provide(api, actor, definition)) {
-      if (api.parameter(definition.effortParameter) > offer.availableHours)
+      if (
+        core.data.work?.discretionaryExclusions.includes(definition.effect) &&
+        core.work.commitmentsByPerson.has(actor.id)
+      )
+        continue;
+      const override =
+        core.data.work?.discretionaryDurationParameters?.[definition.effect];
+      offer.effortHours = override
+        ? api.parameter(override)
+        : api.parameter(definition.effortParameter);
+      offer.availableHours = Math.min(
+        offer.availableHours,
+        discretionaryHours(api, actor.id),
+      );
+      if (
+        !Number.isFinite(offer.effortHours) ||
+        offer.effortHours < api.parameter("zero")
+      )
+        throw new Error("Invalid activity duration.");
+      if (
+        offer.effortHours > offer.availableHours ||
+        offer.availableHours <= api.parameter("zero")
+      )
         continue;
       const eligible = (definition.prerequisites ?? []).every((rule) => {
         const accepts = resolveOperation(
@@ -110,113 +196,6 @@ export function availableActs(
     }
   }
   return offers;
-}
-
-function traitScore(
-  core: CoreState,
-  actor: PersonState,
-  offer: ActOffer,
-): number {
-  let scores = traitScores.get(actor);
-  if (!scores) {
-    scores = new Map();
-    traitScores.set(actor, scores);
-  }
-  const previous = scores.get(offer.definition.id);
-  if (previous !== undefined) return previous;
-  const p = (key: string) => parameter(key, core.data.parameters);
-  let sum = p("zero");
-  let contributing = p("zero");
-  for (const [id, raw] of Object.entries(actor.traits)) {
-    const row = core.data.traitPulls[id];
-    if (!row || raw === p("zero")) continue;
-    const side = raw > p("zero") ? row.high : row.low;
-    if (!side) continue;
-    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
-    for (const kind of offer.definition.actKinds) {
-      if (side.toward?.includes(kind)) {
-        sum += weight;
-        contributing += p("one");
-      }
-      if (side.away?.includes(kind)) {
-        sum -= weight;
-        contributing += p("one");
-      }
-    }
-  }
-  const result = contributing > p("zero") ? sum / contributing : p("zero");
-  scores.set(offer.definition.id, result);
-  return result;
-}
-
-export function chooseAct(
-  core: CoreState,
-  personId: string,
-  offers: readonly ActOffer[],
-): DecisionResult {
-  const actor = core.people.get(personId);
-  if (!actor) throw new Error("Decision actor is absent.");
-  const p = (key: string) => parameter(key, core.data.parameters);
-  let best:
-    { offer: ActOffer; score: number; reasons: DecisionReason } | undefined;
-  const traced =
-    core.observer ||
-    actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id);
-  const scores: NonNullable<DecisionResult["scores"]>[number][] | undefined =
-    traced ? [] : undefined;
-  for (const offer of offers) {
-    const action = offer.definition;
-    const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
-    const goal = [...actor.goals.values()].reduce(
-      (strength, row) =>
-        action.goalKinds.includes(row.kind)
-          ? Math.max(strength, row.urgency)
-          : strength,
-      p("zero"),
-    );
-    const reasons: DecisionReason = {
-      need: (actor.needs[action.need] ?? p("zero")) * p("needWeight"),
-      goal: goal * p("goalWeight"),
-      drive: (drive?.strength ?? p("zero")) * p("driveWeight"),
-      trait: traitScore(core, actor, offer) * p("traitWeight"),
-      emotion:
-        p("emotionWeight") *
-        (actor.affect.mood *
-          p(action.emotion?.moodMultiplierParameter ?? "zero") +
-          actor.affect.stress *
-            p(action.emotion?.stressMultiplierParameter ?? "zero")),
-      effort:
-        (-p(action.effortParameter) / offer.availableHours) * p("effortWeight"),
-    };
-    const score = Object.values(reasons).reduce(
-      (sum, value) => sum + value,
-      p("zero"),
-    );
-    if (!Number.isFinite(score)) throw new Error("Non-finite choice utility.");
-    scores?.push({
-      actionId: action.id,
-      targetId: offer.targetId,
-      score,
-      reasons,
-    });
-    const key = `${action.id}:${offer.targetId}`;
-    const bestKey = best
-      ? `${best.offer.definition.id}:${best.offer.targetId}`
-      : undefined;
-    if (!best || score > best.score || (score === best.score && key < bestKey!))
-      best = { offer, score, reasons };
-  }
-  return {
-    actorId: personId,
-    date: core.date,
-    selected: best?.offer,
-    selectedReasons: best?.reasons,
-    reasonKey: best
-      ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
-      : "no-available-act",
-    scores,
-  };
 }
 
 function activate(
@@ -257,6 +236,7 @@ function activate(
     if (chosen.definition.stopgapId) api.stopgap(chosen.definition.stopgapId);
     effect(api, personId, chosen, core.date, days);
     api.recordAct(personId, chosen, core.date, decision);
+    recordDiscretionaryActivity(api, personId, chosen);
   }
   api.updatePerson(personId, { lastActDate: core.date });
   return chosen !== undefined;
@@ -293,12 +273,29 @@ export function advanceCore(
     const date = addDays(makeIsoDate(core.date), p("one"));
     const due = duePeople(core, date);
     advanceDate(core, date);
+    const api = coreAPI(core);
+    for (const module of core.modules.values()) {
+      const committed = module.onDay?.(
+        api,
+        (actorId, offers, context) => chooseAct(core, actorId, offers, context),
+        (actor, needIds) => {
+          if (needIds) return projectWorkNeeds(core, api, actor, needIds);
+          refreshNeeds(core, api, actor);
+          return undefined;
+        },
+      );
+      if (committed) {
+        decisions += committed.decisions;
+        acts += committed.acts;
+      }
+    }
     for (const row of due) {
       decisions += p("one");
       if (activate(core, row.personId, row.days, options.controller))
         acts += p("one");
     }
     compactRoutineMetrics(core);
+    compactQuietWorkResults(core, coreAPI(core));
   }
   return {
     simulatedDays: daysBetween(makeIsoDate(started), target),
@@ -308,6 +305,9 @@ export function advanceCore(
 }
 
 export function catchUpLife(core: CoreState, personId: string): void {
+  // Chronological work was already settled at each indexed scheduled date.
+  // This returns arithmetic/current records and never makes an endpoint choice for elapsed days.
+  catchUpScheduledWork(coreAPI(core), personId);
   const due = catchUpPerson(core, personId, core.date);
   if (due.days > parameter("zero", core.data.parameters))
     activate(core, personId, due.days);

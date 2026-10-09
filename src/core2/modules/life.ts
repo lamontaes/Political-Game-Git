@@ -1,4 +1,5 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { plannedWorkMinutesOnDate } from "./work";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -104,9 +105,20 @@ export const LIFE_MODULE: CoreModule = {
     },
     "time-load": (api, actor) => {
       const job = actor.jobId ? api.state.jobs.get(actor.jobId) : undefined;
+      const commitments = api.state.work.commitmentsByPerson.get(actor.id);
+      const planned = commitments
+        ? [...commitments].reduce(
+            (sum, id) =>
+              sum +
+              plannedWorkMinutesOnDate(
+                api,
+                api.state.work.commitments.get(id)!,
+              ),
+            zero(api),
+          ) / p(api, "minutesPerHour")
+        : (job?.hoursDaily ?? zero(api));
       return (
-        positive(api, actor.affect.stress) +
-        (job?.hoursDaily ?? zero(api)) / p(api, "hoursPerDay")
+        positive(api, actor.affect.stress) + planned / p(api, "hoursPerDay")
       );
     },
     "affect-load": (api, actor) =>

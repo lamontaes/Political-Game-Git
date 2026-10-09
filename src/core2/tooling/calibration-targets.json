@@ -1,6 +1,6 @@
 {
-  "schema": "p8-calibration-targets-v3",
-  "classification": "developer-only target catalog; never import into P8 core or copy outcome values into CoreData/parameters",
+  "schema": "p8-calibration-targets-v4",
+  "classification": "Developer-only outcome and external population observable catalog; no observation value, biography or target range enters a core numeric lookup.",
   "sourceRevision": "19f63909",
   "p9SourceFiles": {
     "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
@@ -10,11 +10,11 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "c80a6bcc3783c3b8a17c9759a3d0554d33633e418b751170aac67b0a02ea866c",
-    "meaning": "Current parameter table includes the uncalibrated opening school-peer roster size. Its P9 school chronology reference does not identify peer counts or recognition persistence."
+    "sha256": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df",
+    "meaning": "Exact proposed parameter metadata table including ten opening/work ref-only pointers. Values and unmeasured spreads are unchanged; source uncertainty fixes remain separate."
   },
-  "status": "27 active TUNABLE rows have generic outcome references. Five generation/history mappings, including opening peer group size, do not identify their coefficient bounds and remain blocked. No coefficient is calibrated and all associated stopgaps remain open.",
-  "engineReferenceContract": "A parameter row may carry only checkRange: { ref: \"P9-GENERIC-TARGET-ID\" }. This is a developer-only target pointer and is never read by simulation code. Target references do not encode expected values, metrics, dates, biographies, citations, ranges, or source payloads in engine data, and do not resolve stopgaps.",
+  "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
+  "engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their pinned source/evaluator contract; external population observables have independently hashed source records and never pass through a P9 individual replay evaluator. A reference, contextual report or target pass does not identify a coefficient bound or close a stopgap.",
   "supplementalEmpiricalTargetsNotReferencedByCheckRange": [
     {
       "id": "atus-primary-activity-time",
@@ -639,6 +639,156 @@
       "calibrated": false,
       "openStopgapId": "SG-P8-opening-peer-network",
       "reviewNote": "A metadata reference is not empirical support for group size 24. Do not copy desired career/job/office outcomes or future acquaintance facts into P8."
+    },
+    {
+      "parameter": "workCommitmentUrgency",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-attendance-choice",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workSleepReserveHours",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 8,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-time-reserve",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. The reserve is not actual recorded sleep; Table 3 personal care is broader and no complete diary or sleep bridge exists."
+    },
+    {
+      "parameter": "workMorningStartMinute",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 480,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-schedule-data",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workEarlyStartMinute",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 360,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-schedule-data",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workEveningStartMinute",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 840,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-schedule-data",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workNightStartMinute",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1140,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-schedule-data",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workFireCycleDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 3,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-schedule-data",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workWakingRecoveryHours",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-time-reserve",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
+    },
+    {
+      "parameter": "openingMissingCountyEmploymentScale",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "EMPIRICAL-RESIDENT-EMPLOYMENT-AGE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Opening allocator",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-resident-employment-proxy",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. County employed/resident-age counts benchmark aggregate initialization only; absent county, occupation-support and territorial gaps prevent an identified generic scaling interval."
+    },
+    {
+      "parameter": "workRoutineRetentionWeeks",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 4,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
+      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
+      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-work-result-retention",
+      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
     }
   ],
   "unreferencedRemovalReview": {
@@ -3042,6 +3192,2268 @@
         "A target outcome can check an end-to-end generated record path; it cannot identify an individual coefficient or promote a TUNABLE tag."
       ],
       "calibrationStatus": "blocked; source-linked observations exist, but generated-record comparison is not implemented or measured."
+    },
+    {
+      "id": "EMPIRICAL-RESIDENT-EMPLOYMENT-AGE",
+      "kind": "external empirical observable",
+      "scope": "Developer-only aggregate initialization coverage. Never a rate deciding a future individual hire, application or career.",
+      "revision": "official-B23001-2020-2024-and-CPS-2019-source-receipts",
+      "sources": [
+        {
+          "id": "county-acs-b23001",
+          "title": "2024 ACS five-year B23001, Sex by Age by Employment Status, Hidalgo County",
+          "publisher": "U.S. Census Bureau",
+          "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b23001.dat"
+        },
+        {
+          "id": "national-cps-age-2019",
+          "title": "CPS 2019 annual averages, Table 3: Employment status by age and sex",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/cps/aa2019/cpsaat03.htm"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
+        "src/core2/data/parameters.json": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df"
+      },
+      "observations": [
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-16",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 62577,
+            "employed": 13185
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-20",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 29794,
+            "employed": 16791
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-22",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 39663,
+            "employed": 25901
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-25",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 63360,
+            "employed": 43840
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-30",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 58552,
+            "employed": 41747
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-35",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 108931,
+            "employed": 79726
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-45",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 102360,
+            "employed": 73666
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-55",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 40274,
+            "employed": 25968
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-60",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 15128,
+            "employed": 8934
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-62",
+          "denominatorKind": "civilian-age population after reported Armed Forces subtraction",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 22246,
+            "employed": 9651
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-65",
+          "denominatorKind": "reported resident-age population; Armed Forces detail absent at these older ages",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 32076,
+            "employed": 8490
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-70",
+          "denominatorKind": "reported resident-age population; Armed Forces detail absent at these older ages",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 26701,
+            "employed": 3279
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian employed estimate and published age population denominator",
+          "unit": "persons (survey estimate)",
+          "countyGeoid": "48215",
+          "ageId": "acs-age-75",
+          "denominatorKind": "reported resident-age population; Armed Forces detail absent at these older ages",
+          "dateWindow": {
+            "earliest": "2020-01-01",
+            "latest": "2024-12-31",
+            "precision": "five-year-survey-window"
+          },
+          "sourceFile": "src/core2/data/resident-employment.json",
+          "sourceRefs": ["county-acs-b23001"],
+          "observedCounts": {
+            "population": 45758,
+            "employed": 2138
+          },
+          "uncertainty": "Published sex-specific MOEs remain in the source record; no combined MOE or individual spread reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-16",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 8798,
+            "employed": 1789
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-18",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 7894,
+            "employed": 3361
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-20",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 21055,
+            "employed": 14172
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-25",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 22933,
+            "employed": 18211
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-30",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 21943,
+            "employed": 17597
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-35",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 40960,
+            "employed": 33127
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-45",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 40445,
+            "employed": 32042
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-55",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 21624,
+            "employed": 15348
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-60",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 20616,
+            "employed": 11545
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-65",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 17288,
+            "employed": 5765
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-70",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 13990,
+            "employed": 2679
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        },
+        {
+          "quantity": "Civilian noninstitutional population and employed age-cohort estimates",
+          "unit": "thousands of persons (survey estimate)",
+          "ageId": "age-75",
+          "dateWindow": {
+            "earliest": "2019-01-01",
+            "latest": "2019-12-31",
+            "precision": "annual-average"
+          },
+          "sourceFile": "src/core2/data/parameters.json",
+          "sourceRefs": ["national-cps-age-2019"],
+          "observedCounts": {
+            "population": 21626,
+            "employed": 1903
+          },
+          "uncertainty": "National fallback is not local/territorial coverage; no published uncertainty is reconstructed."
+        }
+      ],
+      "quantity": "Age employment/population denominators as aggregate opening reference, not labor-force employment rates or workplace positions",
+      "units": "persons; thousands of persons; employed/population ratio calculated separately by source",
+      "testRoute": {
+        "commandTemplate": "npx tsx src/core2/tooling/measure.ts --mode opening --opening-employment true --scheduled-work false --output /tmp/opening-employment-observables.json",
+        "evaluationContract": "Read openingEmploymentReceipt age denominator/rate/support omissions and actual opening jobs; preserve source vintage/coverage and candidate-supply constraints. Population source rates are contextual, not an equality requirement or coefficient interval.",
+        "implementationStatus": "planned-unexecuted",
+        "routeStatus": "Source adapter and reference records exist; a dedicated county-age actual-job-share evaluator and matched weighted local population remain incomplete."
+      },
+      "parameterApplicability": {
+        "openingMissingCountyEmploymentScale": "blocked: a national proxy with only one supplied county benchmark, omitted occupations and missing territorial comparability does not identify a generic multiplier interval"
+      },
+      "adapterGaps": [
+        "Only supplied county cells are sourced; missing counties/territories use a national TUNABLE proxy.",
+        "County survey resident employment is not town workforce, establishment capacity, opening vacancies or individual spread."
+      ],
+      "engineGaps": [
+        "Supported employer/occupation share is incomplete and intentionally not renormalized.",
+        "The generation prior affects who held an opening position, never future hiring."
+      ],
+      "calibrationStatus": "unmeasured; source rate observations and a structural pointer do not calibrate a missing-county multiplier."
+    },
+    {
+      "id": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "kind": "external empirical observable",
+      "scope": "Developer-only activity-plan contextual aggregate; no reported mean is a core person value, prescribed action, shift timetable or coefficient bound.",
+      "revision": "BLS-ATUS-2025-table3-retrieved-20261009",
+      "sources": [
+        {
+          "id": "atus-age-2025",
+          "title": "BLS ATUS 2025 Table 3: time spent in primary activities by age",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/news.release/atus.t03.htm"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437"
+      },
+      "observations": [
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.8,
+          "rawPublishedValue": "9.80",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.21,
+          "rawPublishedValue": "1.21",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.99,
+          "rawPublishedValue": "1.99",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.69,
+          "rawPublishedValue": "0.69",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.49,
+          "rawPublishedValue": "0.49",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.15,
+          "rawPublishedValue": "0.15",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 3.32,
+          "rawPublishedValue": "3.32",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.44,
+          "rawPublishedValue": "0.44",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.28,
+          "rawPublishedValue": "0.28",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 5.16,
+          "rawPublishedValue": "5.16",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.19,
+          "rawPublishedValue": "0.19",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "Total, 15 years and over",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.27,
+          "rawPublishedValue": "0.27",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 10.93,
+          "rawPublishedValue": "10.93",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.18,
+          "rawPublishedValue": "1.18",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.71,
+          "rawPublishedValue": "0.71",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.38,
+          "rawPublishedValue": "0.38",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.07,
+          "rawPublishedValue": "0.07",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.06,
+          "rawPublishedValue": "0.06",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.71,
+          "rawPublishedValue": "0.71",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 3.45,
+          "rawPublishedValue": "3.45",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.51,
+          "rawPublishedValue": "0.51",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 5.66,
+          "rawPublishedValue": "5.66",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.18,
+          "rawPublishedValue": "0.18",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "15 to 19 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.16,
+          "rawPublishedValue": "0.16",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 10.44,
+          "rawPublishedValue": "10.44",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.13,
+          "rawPublishedValue": "1.13",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.37,
+          "rawPublishedValue": "1.37",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.62,
+          "rawPublishedValue": "0.62",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.41,
+          "rawPublishedValue": "0.41",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.07,
+          "rawPublishedValue": "0.07",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 3.85,
+          "rawPublishedValue": "3.85",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.88,
+          "rawPublishedValue": "0.88",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.19,
+          "rawPublishedValue": "0.19",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.67,
+          "rawPublishedValue": "4.67",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.17,
+          "rawPublishedValue": "0.17",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "20 to 24 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.21,
+          "rawPublishedValue": "0.21",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.82,
+          "rawPublishedValue": "9.82",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.13,
+          "rawPublishedValue": "1.13",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.58,
+          "rawPublishedValue": "1.58",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.59,
+          "rawPublishedValue": "0.59",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.79,
+          "rawPublishedValue": "0.79",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.04,
+          "rawPublishedValue": "0.04",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.58,
+          "rawPublishedValue": "4.58",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.42,
+          "rawPublishedValue": "0.42",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.13,
+          "rawPublishedValue": "0.13",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.5,
+          "rawPublishedValue": "4.50",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.11,
+          "rawPublishedValue": "0.11",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "25 to 34 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.29,
+          "rawPublishedValue": "0.29",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.4,
+          "rawPublishedValue": "9.40",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.16,
+          "rawPublishedValue": "1.16",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.98,
+          "rawPublishedValue": "1.98",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.72,
+          "rawPublishedValue": "0.72",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.23,
+          "rawPublishedValue": "1.23",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.09,
+          "rawPublishedValue": "0.09",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.83,
+          "rawPublishedValue": "4.83",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.09,
+          "rawPublishedValue": "0.09",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.17,
+          "rawPublishedValue": "0.17",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 3.89,
+          "rawPublishedValue": "3.89",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.12,
+          "rawPublishedValue": "0.12",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "35 to 44 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.32,
+          "rawPublishedValue": "0.32",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.49,
+          "rawPublishedValue": "9.49",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.22,
+          "rawPublishedValue": "1.22",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 2.18,
+          "rawPublishedValue": "2.18",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.66,
+          "rawPublishedValue": "0.66",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.51,
+          "rawPublishedValue": "0.51",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.27,
+          "rawPublishedValue": "0.27",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.7,
+          "rawPublishedValue": "4.70",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.03,
+          "rawPublishedValue": "0.03",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.25,
+          "rawPublishedValue": "0.25",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 4.3,
+          "rawPublishedValue": "4.30",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.17,
+          "rawPublishedValue": "0.17",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "45 to 54 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.23,
+          "rawPublishedValue": "0.23",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.67,
+          "rawPublishedValue": "9.67",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.19,
+          "rawPublishedValue": "1.19",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 2.18,
+          "rawPublishedValue": "2.18",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.75,
+          "rawPublishedValue": "0.75",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.16,
+          "rawPublishedValue": "0.16",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.24,
+          "rawPublishedValue": "0.24",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 3.83,
+          "rawPublishedValue": "3.83",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.04,
+          "rawPublishedValue": "0.04",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.28,
+          "rawPublishedValue": "0.28",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 5.21,
+          "rawPublishedValue": "5.21",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.19,
+          "rawPublishedValue": "0.19",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "55 to 64 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.26,
+          "rawPublishedValue": "0.26",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.63,
+          "rawPublishedValue": "9.63",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.27,
+          "rawPublishedValue": "1.27",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 2.74,
+          "rawPublishedValue": "2.74",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.88,
+          "rawPublishedValue": "0.88",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.13,
+          "rawPublishedValue": "0.13",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.25,
+          "rawPublishedValue": "0.25",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.14,
+          "rawPublishedValue": "1.14",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: educationalActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "educationalActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.03,
+          "rawPublishedValue": "0.03",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.46,
+          "rawPublishedValue": "0.46",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 6.9,
+          "rawPublishedValue": "6.90",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.31,
+          "rawPublishedValue": "0.31",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "65 to 74 years",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.28,
+          "rawPublishedValue": "0.28",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: personalCare",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "personalCare",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 9.87,
+          "rawPublishedValue": "9.87",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: eatingAndDrinking",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "eatingAndDrinking",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 1.49,
+          "rawPublishedValue": "1.49",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: householdActivities",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "householdActivities",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 2.73,
+          "rawPublishedValue": "2.73",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: purchasingGoodsAndServices",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "purchasingGoodsAndServices",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.82,
+          "rawPublishedValue": "0.82",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "careHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.09,
+          "rawPublishedValue": "0.09",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: careNonHouseholdMembers",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "careNonHouseholdMembers",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.14,
+          "rawPublishedValue": "0.14",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: workingAndWorkRelated",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "workingAndWorkRelated",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.26,
+          "rawPublishedValue": "0.26",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: organizationalCivicReligious",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "organizationalCivicReligious",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.42,
+          "rawPublishedValue": "0.42",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: leisureAndSports",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "leisureAndSports",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 7.39,
+          "rawPublishedValue": "7.39",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: telephoneMailEmail",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "telephoneMailEmail",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.41,
+          "rawPublishedValue": "0.41",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        },
+        {
+          "quantity": "Unconditional primary-activity mean: other",
+          "unit": "hours per resident diary day",
+          "cohort": "75 years and over",
+          "activity": "other",
+          "dateWindow": {
+            "earliest": "2025-01-01",
+            "latest": "2025-12-31",
+            "precision": "annual-diary-estimate"
+          },
+          "sourceFile": "src/core2/data/time-use-reference.json",
+          "sourceRefs": ["atus-age-2025"],
+          "observedValue": 0.37,
+          "rawPublishedValue": "0.37",
+          "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
+        }
+      ],
+      "quantity": "Unconditional primary activity duration by dated age/person-day denominator",
+      "units": "hours per resident diary day; model minutes are converted with the central minutesPerHour unit",
+      "testRoute": {
+        "commandTemplate": "npx tsx src/core2/tooling/measure.ts --mode year --opening-employment true --scheduled-work true --player-id <same-recorded-worker-id> --output /tmp/work-age-observables.json",
+        "evaluationContract": "world.work exposes all-resident dated age diary exposure, actual paid-work minutes and explicit paid-subset/ATUS contextual difference; no pass/fail equality and no numerical coefficient interval is inferred. Verify source/work hashes, actual money conservation and dated segment counts.",
+        "implementationStatus": "planned-unexecuted",
+        "routeStatus": "The staged reporter is unexecuted; full activity crosswalk, weighted survey comparability and identifying schedule/attendance evidence remain blocked."
+      },
+      "parameterApplicability": {
+        "workCommitmentUrgency": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workSleepReserveHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workMorningStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workEarlyStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workEveningStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workNightStartMinute": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workFireCycleDays": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval",
+        "workWakingRecoveryHours": "blocked: normalized aggregate paid-work observability is useful but does not independently identify this parameter or its interval"
+      },
+      "adapterGaps": [
+        "The unweighted one-locality initialized roster is not the U.S. ATUS civilian noninstitutional survey sample.",
+        "Paid-job primary time is only part of work/work-related activities; commuting, search and other work-related time are missing.",
+        "Table 3 personal care is not a sleep measure; sleep reserve and waking recovery lack a complete diary output bridge."
+      ],
+      "engineGaps": [
+        "Two-offer attendance is an authored uncalibrated mechanism, not a measured absenteeism model.",
+        "Within-role schedules/holiday/leave/commute constraints and shift-wide overnight choices are incomplete.",
+        "One residual discretionary act per tier activation does not supply a complete 24-hour diary."
+      ],
+      "notValidFor": [
+        "A direct bound on clock start/cycle placement, attendance urgency, sleep reserve or waking-recovery duration.",
+        "Individual behavior decisions from a population mean.",
+        "A full ATUS work-hours equality pass."
+      ],
+      "calibrationStatus": "unmeasured; contextual paid-subset totals are observable, but coefficients/spreads remain unidentified."
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -3070,6 +5482,56 @@
       "parameter": "openingPeerGroupSize",
       "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
       "reason": "P9 education outcomes identify chronology, not school peer rosters or remembered acquaintance networks. The generated opening-network observable requires separate sources and evaluation; group-size calibration remains unmeasured."
+    },
+    {
+      "parameter": "workCommitmentUrgency",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workSleepReserveHours",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. The reserve is not actual recorded sleep; Table 3 personal care is broader and no complete diary or sleep bridge exists."
+    },
+    {
+      "parameter": "workMorningStartMinute",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workEarlyStartMinute",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workEveningStartMinute",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workNightStartMinute",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workFireCycleDays",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
+    },
+    {
+      "parameter": "workWakingRecoveryHours",
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
+    },
+    {
+      "parameter": "openingMissingCountyEmploymentScale",
+      "ref": "EMPIRICAL-RESIDENT-EMPLOYMENT-AGE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. County employed/resident-age counts benchmark aggregate initialization only; absent county, occupation-support and territorial gaps prevent an identified generic scaling interval."
+    },
+    {
+      "parameter": "workRoutineRetentionWeeks",
+      "ref": "P9-OUTCOME-WHOLE-LIFE",
+      "reason": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
     }
   ],
   "deletedUnusedParameters": [
@@ -3107,5 +5569,10 @@
   "contentMetadataCleanup": {
     "contact-known-person": "effectParameter now refers to the already-used relationContactGain key; handler behavior is unchanged because the contact handler reads relationContactGain directly.",
     "join-association|organize-meeting|approach-office": "effectParameter now refers to neutral one; the current civic handlers do not read this field."
+  },
+  "empiricalSourceFiles": {
+    "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
+    "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
+    "src/core2/data/parameters.json": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df"
   }
 }

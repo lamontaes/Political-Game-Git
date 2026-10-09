@@ -35,6 +35,8 @@ interface TargetRoute {
 
 interface CalibrationTarget {
   readonly id?: unknown;
+  readonly kind?: unknown;
+  readonly sources?: unknown;
   readonly revision?: unknown;
   readonly sourceFiles?: unknown;
   readonly observations?: unknown;
@@ -46,12 +48,14 @@ interface CalibrationTarget {
 interface CalibrationCatalog {
   readonly sourceRevision?: unknown;
   readonly p9SourceFiles?: unknown;
+  readonly empiricalSourceFiles?: unknown;
   readonly p8ParameterPreimage?: unknown;
   readonly parameterBindings?: unknown;
   readonly targets?: unknown;
 }
 
-const GENERIC_TARGET_ID = /^P9-[A-Z0-9]+(?:-[A-Z0-9]+)*$/;
+const GENERIC_TARGET_ID = /^(?:P9|EMPIRICAL)-[A-Z0-9]+(?:-[A-Z0-9]+)*$/;
+const EMPIRICAL_TARGET_ID = /^EMPIRICAL-[A-Z0-9]+(?:-[A-Z0-9]+)*$/;
 const PARAMETER_FILE = "src/core2/data/parameters.json";
 const CATALOG_FILE = "src/core2/tooling/calibration-targets.json";
 
@@ -77,6 +81,81 @@ function isRevision(value: unknown): value is string {
 
 function records(value: unknown): Record<string, unknown>[] | undefined {
   return Array.isArray(value) && value.every(isRecord) ? value : undefined;
+}
+
+/** External population evidence uses its own SHA-256 manifest, never P9 life facts. */
+function empiricalTargetHasSourceEvidence(
+  target: CalibrationTarget,
+  sourceManifest: Record<string, unknown>,
+  actualSourceHashes?: Readonly<Record<string, string>>,
+): boolean {
+  if (
+    target.kind !== "external empirical observable" ||
+    !nonemptyString(target.revision) ||
+    !isRecord(target.sourceFiles) ||
+    Object.keys(target.sourceFiles).length === 0
+  )
+    return false;
+  if (
+    !Object.entries(target.sourceFiles).every(
+      ([path, hash]) =>
+        (path.startsWith("src/core2/data/") ||
+          path.startsWith("data/research/")) &&
+        !path.split("/").includes("..") &&
+        isSha256(hash) &&
+        sourceManifest[path] === hash &&
+        (actualSourceHashes === undefined || actualSourceHashes[path] === hash),
+    )
+  )
+    return false;
+  const sources = records(target.sources);
+  if (
+    !sources ||
+    sources.length === 0 ||
+    !sources.every(
+      (source) =>
+        nonemptyString(source.id) &&
+        nonemptyString(source.title) &&
+        nonemptyString(source.publisher) &&
+        typeof source.url === "string" &&
+        /^https:\/\//i.test(source.url),
+    )
+  )
+    return false;
+  const sourceIds = new Set(sources.map((source) => source.id));
+  const observations = records(target.observations);
+  return (
+    !!observations &&
+    observations.length > 0 &&
+    observations.every((observation) => {
+      const window = observation.dateWindow;
+      return (
+        nonemptyString(observation.quantity) &&
+        nonemptyString(observation.unit) &&
+        nonemptyString(observation.sourceFile) &&
+        Object.hasOwn(
+          target.sourceFiles as Record<string, unknown>,
+          observation.sourceFile,
+        ) &&
+        isRecord(window) &&
+        isIsoDate(window.earliest) &&
+        isIsoDate(window.latest) &&
+        window.earliest <= window.latest &&
+        Array.isArray(observation.sourceRefs) &&
+        observation.sourceRefs.length > 0 &&
+        observation.sourceRefs.every(
+          (id) => nonemptyString(id) && sourceIds.has(id),
+        ) &&
+        ((typeof observation.observedValue === "number" &&
+          Number.isFinite(observation.observedValue)) ||
+          (isRecord(observation.observedCounts) &&
+            Object.values(observation.observedCounts).length > 0 &&
+            Object.values(observation.observedCounts).every(
+              (value) => typeof value === "number" && Number.isFinite(value),
+            )))
+      );
+    })
+  );
 }
 
 function targetHasSourceEvidence(
@@ -207,6 +286,7 @@ export function auditCheckRangeCoverage(
   parametersInput: unknown,
   catalogInput: unknown,
   actualParameterSourceSha256?: string,
+  actualEmpiricalSourceSha256s?: Readonly<Record<string, string>>,
 ): CalibrationAudit {
   const diagnostics: CalibrationDiagnostic[] = [];
   const blockers: CalibrationBlocker[] = [];
@@ -295,7 +375,8 @@ export function auditCheckRangeCoverage(
         code: "calibration-target-id",
         file: CATALOG_FILE,
         target: nonemptyString(id) ? id : undefined,
-        message: "Catalog target IDs must be generic P9 identifiers.",
+        message:
+          "Catalog target IDs must be generic P9 or EMPIRICAL identifiers.",
       });
       continue;
     }
@@ -311,28 +392,36 @@ export function auditCheckRangeCoverage(
     targetById.set(id, row as CalibrationTarget);
     if (
       !nonemptyString(row.revision) ||
-      row.revision !== catalog.sourceRevision
+      (!EMPIRICAL_TARGET_ID.test(id) && row.revision !== catalog.sourceRevision)
     ) {
       diagnostics.push({
         code: "calibration-target-revision",
         file: CATALOG_FILE,
         target: id,
         message:
-          "The target revision must match the pinned P9 source revision.",
+          "P9 target revisions must match the pinned P9 source revision; empirical targets require their own nonempty evidence revision.",
       });
     }
     if (
-      !targetHasSourceEvidence(
-        row as CalibrationTarget,
-        isRecord(catalog.p9SourceFiles) ? catalog.p9SourceFiles : {},
-      )
+      !(EMPIRICAL_TARGET_ID.test(id)
+        ? empiricalTargetHasSourceEvidence(
+            row as CalibrationTarget,
+            isRecord(catalog.empiricalSourceFiles)
+              ? catalog.empiricalSourceFiles
+              : {},
+            actualEmpiricalSourceSha256s,
+          )
+        : targetHasSourceEvidence(
+            row as CalibrationTarget,
+            isRecord(catalog.p9SourceFiles) ? catalog.p9SourceFiles : {},
+          ))
     ) {
       diagnostics.push({
         code: "calibration-target-evidence",
         file: CATALOG_FILE,
         target: id,
         message:
-          "A target needs pinned source hashes and dated observations with source references, checks, and ranges.",
+          "A target needs its independently pinned source hashes and dated source-linked observations. P9 checks/ranges and external empirical population observations use separate evidence schemas.",
       });
     }
     if (!routeIsPresent(row.testRoute)) {
@@ -396,7 +485,7 @@ export function auditCheckRangeCoverage(
         parameter: name,
         target: targetId,
         message:
-          "checkRange.ref must use a generic P9 target ID, without inline values or source metadata.",
+          "checkRange.ref must use a generic P9 or EMPIRICAL target ID, without inline values or source metadata.",
       });
       continue;
     }
@@ -597,6 +686,14 @@ export function evaluateP9Target(
   pairs: readonly P9ReplayPair[],
 ): P9TargetResult {
   const route = target.testRoute;
+  if (nonemptyString(target.id) && EMPIRICAL_TARGET_ID.test(target.id))
+    return {
+      status: "blocked",
+      reasons: [
+        "External population observables require their population evaluator; a P9 individual replay cannot pass them.",
+      ],
+      coefficientCalibration: "not-inferred",
+    };
   if (
     !route ||
     route.implementationStatus !== "ready" ||

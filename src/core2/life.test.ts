@@ -4,6 +4,8 @@ import { DEFAULT_DATA, extendData } from "./data";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
+import { LIFE_MODULE } from "./modules/life";
+import { WORK_MODULE } from "./modules/work";
 import type {
   ActionDefinition,
   CoreData,
@@ -809,7 +811,10 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    expect(core.modules.size).toBe(p("one"));
+    expect(core.modules.size).toBe(p("two"));
+    expect([...core.modules.keys()].sort()).toEqual(
+      [LIFE_MODULE.id, WORK_MODULE.id].sort(),
+    );
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
     const chosen = lastAct(core, actorId);
@@ -824,7 +829,10 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("one"));
+    expect(core.modules.size).toBe(p("two"));
+    expect([...core.modules.keys()].sort()).toEqual(
+      [LIFE_MODULE.id, WORK_MODULE.id].sort(),
+    );
     assertCoreIntegrity(core);
   });
 });

@@ -1,0 +1,369 @@
+{
+  "version": "p8-recorded-work-v1",
+  "stopgapId": "SG-P8-work-schedule-data",
+  "fallbackPatternId": "office",
+  "patterns": [
+    {
+      "id": "office",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "mondayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "tuesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "thursdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "farm",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "mondayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        },
+        {
+          "offsetParameter": "tuesdayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        },
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        },
+        {
+          "offsetParameter": "thursdayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        },
+        {
+          "offsetParameter": "saturdayIndex",
+          "startMinuteParameter": "workEarlyStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "clergy",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "sundayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "tuesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "thursdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "retail",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "tuesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "thursdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        },
+        {
+          "offsetParameter": "saturdayIndex",
+          "startMinuteParameter": "workMorningStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "service-evening",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workEveningStartMinute"
+        },
+        {
+          "offsetParameter": "thursdayIndex",
+          "startMinuteParameter": "workEveningStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workEveningStartMinute"
+        },
+        {
+          "offsetParameter": "saturdayIndex",
+          "startMinuteParameter": "workEveningStartMinute"
+        },
+        {
+          "offsetParameter": "sundayIndex",
+          "startMinuteParameter": "workEveningStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "care-night",
+      "periodDaysParameter": "daysPerWeek",
+      "slots": [
+        {
+          "offsetParameter": "mondayIndex",
+          "startMinuteParameter": "workNightStartMinute"
+        },
+        {
+          "offsetParameter": "wednesdayIndex",
+          "startMinuteParameter": "workNightStartMinute"
+        },
+        {
+          "offsetParameter": "fridayIndex",
+          "startMinuteParameter": "workNightStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "civil-week"
+    },
+    {
+      "id": "fire-cycle",
+      "periodDaysParameter": "workFireCycleDays",
+      "slots": [
+        {
+          "offsetParameter": "zero",
+          "startMinuteParameter": "workMorningStartMinute"
+        }
+      ],
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Authored workplace/shift shapes in src/simulation/living-world/work-schedules.ts; its header explicitly says GAME ASSUMPTION.",
+        "asOf": "2021-01-01",
+        "estimatedFrom": "Opening recorded weekly-hour total distributed over these declared slots, rather than claiming the authored shift length is a measured employer timetable."
+      },
+      "stopgapId": "SG-P8-work-schedule-data",
+      "anchorOperation": "opening-date"
+    }
+  ],
+  "classificationPatterns": [
+    {
+      "prefix": "enterprise:agriculture",
+      "patternId": "farm"
+    },
+    {
+      "prefix": "enterprise:retail",
+      "patternId": "retail"
+    },
+    {
+      "prefix": "enterprise:restaurant",
+      "patternId": "service-evening"
+    },
+    {
+      "prefix": "enterprise:hospital",
+      "patternId": "care-night"
+    },
+    {
+      "prefix": "enterprise:care",
+      "patternId": "care-night"
+    },
+    {
+      "prefix": "religion:",
+      "patternId": "clergy"
+    },
+    {
+      "prefix": "government:fire",
+      "patternId": "fire-cycle"
+    }
+  ],
+  "attendanceAction": {
+    "id": "attend-scheduled-work-date-segment",
+    "actKinds": ["follow-rules", "self-interest", "commit"],
+    "goalKinds": ["earn", "fulfil-work"],
+    "need": "money",
+    "effortParameter": "zero",
+    "effectParameter": "one",
+    "targetKind": "work-commitment",
+    "effect": "attend-recorded-work",
+    "stopgapId": "SG-P8-attendance-choice",
+    "emotion": {
+      "moodMultiplierParameter": "one",
+      "stressMultiplierParameter": "negativeOne"
+    }
+  },
+  "absenceAction": {
+    "id": "decline-scheduled-work-date-segment",
+    "actKinds": ["play-safe", "withdraw"],
+    "goalKinds": ["recover"],
+    "need": "time",
+    "effortParameter": "zero",
+    "effectParameter": "zero",
+    "targetKind": "work-commitment",
+    "effect": "miss-recorded-work",
+    "stopgapId": "SG-P8-attendance-choice",
+    "emotion": {
+      "moodMultiplierParameter": "negativeOne",
+      "stressMultiplierParameter": "one"
+    }
+  },
+  "sleepReserveParameter": "workSleepReserveHours",
+  "commitmentUrgencyParameter": "workCommitmentUrgency",
+  "routineRetentionWeeksParameter": "workRoutineRetentionWeeks",
+  "discretionaryExclusions": ["paid-work"],
+  "primaryActivityCrosswalk": [
+    {
+      "effect": "attend-recorded-work",
+      "category": "paid-job-work",
+      "atusRelation": "subset of work and work-related activities; excludes commute/search and other work-related categories"
+    },
+    {
+      "effect": "recover",
+      "category": "waking-recovery",
+      "atusRelation": "sleep is separately reserved as a tunable plan, not observed; waking recovery is not automatically sleep"
+    },
+    {
+      "effect": "contact",
+      "category": "contact",
+      "atusRelation": "purpose/media not recorded; cannot establish full ATUS socializing/communicating equivalence"
+    },
+    {
+      "effect": "care",
+      "category": "household-care-attempt",
+      "atusRelation": "attempt duration is an assumption, not care need or completed service"
+    },
+    {
+      "effect": "organize",
+      "category": "civic-attempt",
+      "atusRelation": "organizing plan/request does not establish a held meeting"
+    }
+  ],
+  "gaps": [
+    "No observed employer-specific shift timetables, holiday/leave calendar, care-school-health constraint coverage or licensed-role qualifications.",
+    "Weekday/cycle placement and finite sleep reserve are tunable, not empirical shift facts.",
+    "Recorded hourly terms are opening SOC wage proxies, not observed historical contracts. Original average-day job fields stay unchanged.",
+    "Employer revenue, consumption and household bill counterparties are absent. No cash sink or revenue injection is added.",
+    "Quiet outsider work is decided and paid chronologically on scheduled dates, then summarized weekly. An endpoint decision never determines past attendance.",
+    "Inherited rotating/cycle calendars are imported only at opening. Same recorded-role timetable copied to added workers does not establish observed roster staggering or realistic company headcounts.",
+    "Attendance is chosen independently for each dated portion of a scheduled shift. workedDays/missedDays/plannedDays count calendar-date segments or diary participation, never completed whole shifts. Overnight continuation and shift-wide absence contracts need a finer occurrence model."
+  ],
+  "discretionaryDurationParameters": {
+    "recover": "workWakingRecoveryHours"
+  },
+  "activityAgeRows": [
+    {
+      "id": "atus-age-15",
+      "minimumAgeParameter": "activityMinimumReferenceAge",
+      "maximumAgeParameter": "employment-age-20-minimumAge"
+    },
+    {
+      "id": "atus-age-20",
+      "minimumAgeParameter": "employment-age-20-minimumAge",
+      "maximumAgeParameter": "employment-age-25-minimumAge"
+    },
+    {
+      "id": "atus-age-25",
+      "minimumAgeParameter": "employment-age-25-minimumAge",
+      "maximumAgeParameter": "employment-age-35-minimumAge"
+    },
+    {
+      "id": "atus-age-35",
+      "minimumAgeParameter": "employment-age-35-minimumAge",
+      "maximumAgeParameter": "employment-age-45-minimumAge"
+    },
+    {
+      "id": "atus-age-45",
+      "minimumAgeParameter": "employment-age-45-minimumAge",
+      "maximumAgeParameter": "employment-age-55-minimumAge"
+    },
+    {
+      "id": "atus-age-55",
+      "minimumAgeParameter": "employment-age-55-minimumAge",
+      "maximumAgeParameter": "employment-age-65-minimumAge"
+    },
+    {
+      "id": "atus-age-65",
+      "minimumAgeParameter": "employment-age-65-minimumAge",
+      "maximumAgeParameter": "employment-age-75-minimumAge"
+    },
+    {
+      "id": "atus-age-75",
+      "minimumAgeParameter": "employment-age-75-minimumAge"
+    }
+  ]
+}

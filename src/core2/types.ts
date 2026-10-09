@@ -100,6 +100,8 @@ export interface JobInput {
   hoursDaily: number;
   source: Source;
   occupationClassification?: string;
+  /** Opening hourly SOC proxy; preserves existing calendar-average job fields. */
+  hourlyMinor?: number;
 }
 
 export interface OrganizationInput {
@@ -169,6 +171,8 @@ export interface ActOffer {
   targetId: string;
   driveId?: string;
   availableHours: number;
+  /** Per-offer actual commitment duration, not a universal activity mean. */
+  effortHours?: number;
 }
 
 export interface DecisionReason {
@@ -178,6 +182,13 @@ export interface DecisionReason {
   trait: number;
   emotion: number;
   effort: number;
+}
+
+export interface DecisionContext {
+  affect?: Affect;
+  needValues?: Readonly<Record<string, number>>;
+  goalUrgencies?: Readonly<Record<string, number>>;
+  goalRows?: readonly Goal[];
 }
 
 export interface DecisionResult {
@@ -231,12 +242,154 @@ export interface ActCounter {
   driveContribution: number;
 }
 
+export interface WorkScheduleSlot {
+  offsetDays: number;
+  startMinute: number;
+  minutes: number;
+}
+export interface WorkCommitmentInput {
+  id: string;
+  jobId: string;
+  personId: PersonId;
+  organizationId: string;
+  startsAt: IsoDate;
+  endsAt?: IsoDate;
+  anchorDate: IsoDate;
+  periodDays: number;
+  slots: readonly WorkScheduleSlot[];
+  expectedWeeklyMinutes: number;
+  scheduleTemplateJobId?: string;
+  hourlyMinor: number;
+  scheduleSource: Source;
+  paySource: Source;
+}
+/** One dated calendar segment result, not a completed whole shift count. */
+export interface WorkResult {
+  id: string;
+  commitmentId: string;
+  jobId: string;
+  personId: PersonId;
+  organizationId: string;
+  date: IsoDate;
+  plannedMinutes: number;
+  attendedMinutes: number;
+  absentMinutes: number;
+  requestedMinor: number;
+  paidMinor: number;
+  shortfallMinor: number;
+  payerCashBeforeMinor: number;
+  payerCashAfterMinor: number;
+  payeeCashBeforeMinor: number;
+  payeeCashAfterMinor: number;
+  /** Actual returned committed act/counter ID; quiet actors need not have a durable act trace. */
+  sourceActId: string;
+  jobSource: Source;
+  paySource: Source;
+  employerOpeningFundsSource: Source;
+  payRemainderMinor: number;
+  reasonKey: string;
+  decision?: DecisionResult;
+  source: Source;
+}
+export type WorkResultInput = Omit<
+  WorkResult,
+  | "paidMinor"
+  | "shortfallMinor"
+  | "payerCashBeforeMinor"
+  | "payerCashAfterMinor"
+  | "payeeCashBeforeMinor"
+  | "payeeCashAfterMinor"
+  | "sourceActId"
+  | "jobSource"
+  | "paySource"
+  | "employerOpeningFundsSource"
+>;
+
+export interface WorkRollup {
+  weekStartedAt: IsoDate;
+  jobId: string;
+  personId: PersonId;
+  /** Dated segment/diary participation units, not completed shifts. */
+  plannedDays: number;
+  workedDays: number;
+  missedDays: number;
+  plannedMinutes: number;
+  attendedMinutes: number;
+  requestedMinor: number;
+  paidMinor: number;
+  latestReasonKey: string;
+}
+export interface WorkTotals {
+  plannedMinutes: number;
+  attendedMinutes: number;
+  requestedMinor: number;
+  paidMinor: number;
+  workedDays: number;
+  missedDays: number;
+}
+export interface ActivityTimeTotal {
+  ageReferenceId: string;
+  category: string;
+  minutes: number;
+  source: Source;
+}
+export interface WorkRuntime {
+  commitments: Map<string, WorkCommitmentInput>;
+  commitmentsByPerson: Map<PersonId, Set<string>>;
+  /** Period then residue indexes only jobs with an intersecting date segment. */
+  byPeriodResidue: Map<number, Map<number, Set<string>>>;
+  plannedByCommitmentResidue: Map<string, Map<number, number>>;
+  lastResultByJob: Map<string, WorkResult>;
+  totalsByJob: Map<string, WorkTotals>;
+  rollups: Map<string, WorkRollup>;
+  rollupsByWeek: Map<IsoDate, Set<string>>;
+  detailedResults: Map<string, WorkResult>;
+  timeByPerson: Map<
+    PersonId,
+    { date: IsoDate; workMinutes: number; discretionaryMinutes: number }
+  >;
+  primaryTimeTotals: Map<string, ActivityTimeTotal>;
+}
+export interface WorkData {
+  version: string;
+  stopgapId: string;
+  fallbackPatternId: string;
+  patterns: readonly {
+    id: string;
+    periodDaysParameter: string;
+    anchorOperation: string;
+    slots: readonly { offsetParameter: string; startMinuteParameter: string }[];
+    source: Source;
+    stopgapId?: string;
+  }[];
+  classificationPatterns: readonly { prefix: string; patternId: string }[];
+  attendanceAction: ActionDefinition;
+  absenceAction: ActionDefinition;
+  sleepReserveParameter: string;
+  commitmentUrgencyParameter: string;
+  routineRetentionWeeksParameter: string;
+  discretionaryExclusions: readonly string[];
+  discretionaryDurationParameters?: Readonly<Record<string, string>>;
+  activityAgeRows: readonly {
+    id: string;
+    minimumAgeParameter: string;
+    maximumAgeParameter?: string;
+  }[];
+  primaryActivityCrosswalk: readonly {
+    effect: string;
+    category: string;
+    atusRelation: string;
+  }[];
+  gaps: readonly string[];
+}
+
 export interface CoreInput {
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
   households: readonly HouseholdInput[];
   jobs: readonly JobInput[];
+  workCommitments?: readonly WorkCommitmentInput[];
   organizations: readonly OrganizationInput[];
   publicOrganizations?: readonly PublicOrganization[];
   playerId?: PersonId;
@@ -296,6 +449,7 @@ export interface CoreState {
   husks: Map<PersonId, HuskInput>;
   households: Map<string, HouseholdInput>;
   jobs: Map<string, JobInput>;
+  work: WorkRuntime;
   organizations: Map<string, OrganizationInput>;
   publicOrganizations: Map<string, PublicOrganization>;
   publicOrganizationsByPlace: Map<PlaceId, Set<string>>;
@@ -360,6 +514,7 @@ export interface TierDefinition {
 
 export interface CoreData {
   version: string;
+  work?: WorkData;
   parameters: Readonly<Record<string, Parameter>>;
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
@@ -392,6 +547,20 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  /** Chronological indexed commitments precede remaining-time discretionary acts. */
+  onWorkResult?: (api: CoreAPI, receipt: Readonly<WorkResult>) => void;
+  onDay?: (
+    api: CoreAPI,
+    decide: (
+      personId: PersonId,
+      offers: readonly ActOffer[],
+      context?: DecisionContext,
+    ) => DecisionResult,
+    refresh: (
+      actor: PersonState,
+      needIds?: readonly string[],
+    ) => DecisionContext | undefined,
+  ) => { decisions: number; acts: number } | void;
   onEvent?: (
     api: CoreAPI,
     event: CoreEventInput,
@@ -450,6 +619,15 @@ export interface CoreAPI {
   observe(personId: PersonId, fact: KnownFact): void;
   knows(personId: PersonId, key: string): KnownFact | undefined;
   transfer(payerId: string, payeeId: string, minor: number): number;
+  addWorkCommitment(input: WorkCommitmentInput): void;
+  settleWorkResult(input: WorkResultInput): WorkResult;
+  recordActivityTime(
+    personId: PersonId,
+    category: string,
+    minutes: number,
+    source: Source,
+  ): void;
+  recordDiscretionaryTime(personId: PersonId, minutes: number): void;
   relationship(
     actorId: PersonId,
     otherId: PersonId,
@@ -458,12 +636,18 @@ export interface CoreAPI {
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
-  recordAct(
+  validateAct(
     actorId: PersonId,
     offer: ActOffer,
     date: IsoDate,
     reason: DecisionResult,
   ): void;
+  recordAct(
+    actorId: PersonId,
+    offer: ActOffer,
+    date: IsoDate,
+    reason: DecisionResult,
+  ): string;
   stopgap(id: string): void;
   updatePerson(
     personId: PersonId,

@@ -205,6 +205,27 @@ describe("P8 release tripwires", () => {
     expect(codes).not.toContain("numeric-literal");
   });
 
+  it("admits empty runtime result containers while rejecting authored definitions", () => {
+    const empty = fixtureRoot({
+      sourceFiles: {
+        "src/core2/runtime.ts":
+          "const needValues = {}; const actionResults = []; void [needValues, actionResults];",
+      },
+    });
+    expect(auditCore2Tripwires(empty).diagnostics).toEqual([]);
+    const authored = fixtureRoot({
+      sourceFiles: {
+        "src/core2/runtime.ts":
+          'const needs = { money: "authored-need" }; const actions = ["authored-action"]; void [needs, actions];',
+      },
+    });
+    expect(
+      auditCore2Tripwires(authored).diagnostics.filter(
+        (row) => row.code === "inline-content-registry",
+      ),
+    ).toHaveLength(2);
+  });
+
   it("rejects TypeScript branches on IDs held in content registries", () => {
     const root = fixtureRoot({
       sourceFiles: {

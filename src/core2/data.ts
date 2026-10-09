@@ -1,14 +1,16 @@
+import { DEFAULT_WORK_DATA } from "./modules/work";
 import content from "./data/content.json" with { type: "json" };
 import actKinds from "../../data/content/act-kinds.json" with { type: "json" };
 import traitPulls from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { PARAMETERS } from "./parameters";
 import type { CoreData } from "./types";
 
-export const CORE_API_VERSION = "core2-api-v4";
-export const CORE_SCHEMA_VERSION = "core2-schema-v4";
+export const CORE_API_VERSION = "core2-api-v5";
+export const CORE_SCHEMA_VERSION = "core2-schema-v5";
 
 export const DEFAULT_DATA: CoreData = {
   ...content,
+  work: DEFAULT_WORK_DATA,
   needs: content.needs.map((row) => ({
     ...row,
     parameters: Object.fromEntries(
@@ -39,6 +41,17 @@ export function extendData(
     ...base,
     ...extension,
     parameters: { ...base.parameters, ...extension.parameters },
+    work: extension.work
+      ? {
+          ...(base.work ?? extension.work),
+          ...extension.work,
+          patterns: merge(base.work?.patterns ?? [], extension.work.patterns),
+          classificationPatterns: [
+            ...(base.work?.classificationPatterns ?? []),
+            ...extension.work.classificationPatterns,
+          ],
+        }
+      : base.work,
     needs: merge(base.needs, extension.needs),
     actions: merge(base.actions, extension.actions),
     tiers: merge(base.tiers, extension.tiers),
