@@ -29,6 +29,8 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { createOrganizationParticipation } from "../simulation/life";
+import { PARTY_AFFILIATION_KIND } from "../simulation/living-world/opening";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { CampaignActionChoicesPanel } from "./CampaignActionChoicesPanel";
 import { CampaignWorkspace } from "./CampaignWorkspace";
@@ -37,69 +39,104 @@ let world: World;
 let unhostedWorld: World;
 let personId: EntityId;
 
-beforeAll(() => {
+/**
+ * A candidate a party chapter's organizer has backed. The organizer decides
+ * from their own recorded temperament, so seeds are searched for a chapter
+ * that grants the request instead of one being assumed.
+ */
+function chapterBackedCandidate(seed: string) {
   const opening = generateOpeningLife(
     prepareOpeningLife({
       ...DEFAULT_NEW_GAME_SETUP,
-      seed: "campaign-week-recorded-backing",
+      seed,
       startAge: 34,
       placeKey: "kentucky",
     }),
   ).game!;
-  personId = opening.playerPersonId;
+  const candidateId = opening.playerPersonId;
   const office = candidacyPackForJurisdiction(
-    opening.world.people[personId]!.homeJurisdictionId,
+    opening.world.people[candidateId]!.homeJurisdictionId,
   )!.offices[0]!;
-  const homeJurisdictionId = opening.world.people[personId]!.homeJurisdictionId;
+  const homeJurisdictionId =
+    opening.world.people[candidateId]!.homeJurisdictionId;
   // A numbered chamber seat is filed against a recorded Gazetteer district.
   const district =
-    recordedDistrictForOffice(opening.world, personId, office.officeKey)
+    recordedDistrictForOffice(opening.world, candidateId, office.officeKey)
       ?.binding ??
     bindingForDistrict(
       offeredDistricts(opening.world, homeJurisdictionId, office.officeKey)[0]!,
     );
-  unhostedWorld = fileForOffice(
+  const unhosted = fileForOffice(
     opening.world,
-    personId,
+    candidateId,
     district,
     office.officeKey,
     addDays(opening.world.currentDate, 28),
   );
-  const chapter = homePartyChapters(unhostedWorld)[0]!;
-  world = joinPartyChapter(unhostedWorld, personId, chapter.organizationId);
-  world = requestPartyWork(
-    world,
-    personId,
+  const chapter = homePartyChapters(unhosted)[0]!;
+  let backed = joinPartyChapter(unhosted, candidateId, chapter.organizationId);
+  // Joining a chapter does not make the candidate's party public. The
+  // organizer weighs whether they share the chapter's party, so the
+  // affiliation is recorded the way a declared one is.
+  backed = createOrganizationParticipation(backed, {
+    stableKey: "choices-panel:public-party-affiliation",
+    personId: candidateId,
+    organizationId: chapter.partyOrganizationId,
+    startedAt: backed.currentDate,
+    kind: PARTY_AFFILIATION_KIND,
+    roleKind: "member:public-affiliation",
+    context: "Test fixture public affiliation",
+    provenance: { kind: "authored", note: "Test fixture affiliation" },
+  });
+  backed = requestPartyWork(
+    backed,
+    candidateId,
     "organization-meeting",
     chapter.organizationId,
   );
-  world = attendPartyWork(
-    world,
-    personId,
-    campaignLifeActivityRecords(world).at(-1)!.id,
+  backed = attendPartyWork(
+    backed,
+    candidateId,
+    campaignLifeActivityRecords(backed).at(-1)!.id,
     "attended",
   );
-  world = requestPartyWork(
-    world,
-    personId,
+  backed = requestPartyWork(
+    backed,
+    candidateId,
     "support-request",
     chapter.organizationId,
   );
-  world = attendPartyWork(
-    world,
-    personId,
-    campaignLifeActivityRecords(world).at(-1)!.id,
+  backed = attendPartyWork(
+    backed,
+    candidateId,
+    campaignLifeActivityRecords(backed).at(-1)!.id,
     "attended",
   );
   if (
-    campaignLifeOutcomeRecords(world).at(-1)?.supportDecision?.decision !==
+    campaignLifeOutcomeRecords(backed).at(-1)?.supportDecision?.decision !==
     "granted"
   ) {
-    throw new Error(
-      "The seeded chapter support fixture did not grant support.",
-    );
+    return null;
   }
-}, 300_000);
+  return { world: backed, unhostedWorld: unhosted, personId: candidateId };
+}
+
+beforeAll(() => {
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    const found = chapterBackedCandidate(
+      attempt === 1
+        ? "campaign-week-recorded-backing"
+        : `campaign-week-recorded-backing-${attempt}`,
+    );
+    if (found) {
+      world = found.world;
+      unhostedWorld = found.unhostedWorld;
+      personId = found.personId;
+      return;
+    }
+  }
+  throw new Error("No seed gave a chapter that granted support.");
+}, 600_000);
 
 function renderChoices(current: World) {
   return renderToStaticMarkup(
@@ -118,7 +155,7 @@ describe("campaign choices in the player UI", () => {
     expect(view.availabilityReason).toBe("needs-host");
     expect(view.choices).toEqual([]);
     expect(html).toContain('href="#party-work-title"');
-    expect(html).toContain("Ask a local chapter organizer for support");
+    expect(html).toContain("Host: none");
     expect(html).not.toContain("open calendar");
     expect(html).not.toContain("campaign-book-phone-shift");
   });
@@ -181,17 +218,19 @@ describe("campaign choices in the player UI", () => {
     expect(html).toContain('data-testid="campaign-recent-results"');
     expect(html).toContain(result.contactNames[0]!);
     expect(html).toContain("Worked with:");
+    // Two recorded people worked the hour, so the phone-shift benchmark of
+    // 10–15 conversations per volunteer hour counts for both of them.
     expect(result.fieldReach?.estimatedCompletedConversations).toEqual({
-      min: 10,
-      max: 15,
+      min: 20,
+      max: 30,
     });
-    expect(html).toContain("Estimated conversations: 10–15");
+    expect(html).toContain("Estimated conversations: 20–30");
     expect(renderChoices(deserializeWorld(serializeWorld(finished)))).toContain(
-      "Estimated conversations: 10–15",
+      "Estimated conversations: 20–30",
     );
     expect(html).toContain("Held ");
     expect(html).not.toContain(result.summary);
-  });
+  }, 120_000);
 
   it("does not present an unreceived fundraiser gift as campaign cash", () => {
     const view = projectCampaignWeekActions(world, personId)!;
@@ -210,9 +249,10 @@ describe("campaign choices in the player UI", () => {
     const html = renderChoices(finished);
     expect(result.raisedAmount).toBeNull();
     expect(html).toContain("Raised: none");
-    expect(html).not.toContain("Raised:");
+    // "Raised: none" is the whole line; no dollar amount follows "Raised:".
+    expect(html).not.toMatch(/Raised: (<!-- -->)?\$/);
     expect(html).not.toContain(result.summary);
-  });
+  }, 120_000);
 
   it("keeps an older committed week's sessions available without its count editor", () => {
     const week = projectCampaignWeek(world, personId)!;

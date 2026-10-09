@@ -8,6 +8,25 @@ import {
   type World,
 } from "../simulation";
 import type { PlaceTravelOffer } from "./place-travel";
+import {
+  FILING_OFFICE_JOURNEY_KEY,
+  FILING_OFFICE_LOCATION_KEY,
+} from "../simulation/filing-visit";
+
+/**
+ * The places this return leg serves: the community room, and the clerk's
+ * office a filing visit goes to over the same authored local journey.
+ */
+const RETURN_PLACES = [
+  {
+    placeKey: "ordinary-life:meeting-room",
+    journeyKey: "ordinary-life:to-meeting-room",
+  },
+  {
+    placeKey: FILING_OFFICE_LOCATION_KEY,
+    journeyKey: FILING_OFFICE_JOURNEY_KEY,
+  },
+] as const;
 
 /** Reciprocal leg of the existing authored local-meeting scenario only.
  * It is not a rule that transit routes, fares or arbitrary venues are reversible.
@@ -59,16 +78,17 @@ function resolveMeetingHomeRoute(
         event.participants.some((entry) => entry.personId === personId),
     )
     .at(-1);
-  if (
-    !origin?.context.location ||
-    !origin.tags.includes("route:ordinary-life:to-meeting-room") ||
-    !origin.tags.includes("place:ordinary-life:meeting-room")
-  )
+  const place = RETURN_PLACES.find(
+    (candidate) =>
+      origin?.tags.includes(`route:${candidate.journeyKey}`) &&
+      origin.tags.includes(`place:${candidate.placeKey}`),
+  );
+  if (!origin?.context.location || !place)
     return unavailable("No return journey from this place is recorded.");
   const meetings = world.history.scheduledActivities.filter(
     (activity) =>
       origin.involvedEntityIds.includes(activity.id) &&
-      activity.location.locationKey === "ordinary-life:meeting-room" &&
+      activity.location.locationKey === place.placeKey &&
       activity.responsiblePersonId === personId &&
       canPersonAccess(activity.access, personId) &&
       (allowScheduled
@@ -84,7 +104,7 @@ function resolveMeetingHomeRoute(
     (activity) =>
       origin.involvedEntityIds.includes(activity.id) &&
       activity.kind === "travel" &&
-      activity.location.locationKey === "ordinary-life:to-meeting-room" &&
+      activity.location.locationKey === place.journeyKey &&
       activity.sourceEntityIds.includes(meeting.id) &&
       activity.responsiblePersonId === personId &&
       canPersonAccess(activity.access, personId) &&

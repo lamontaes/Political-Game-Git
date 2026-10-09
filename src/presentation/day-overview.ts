@@ -58,7 +58,11 @@ export interface TodayOverview {
   readonly dateLabel: string;
   readonly timeLabel: string;
   readonly placeName: string | null;
-  /** One sentence: the situation in front of the character right now. */
+  /**
+   * The situation in front of the character right now, or "" when nothing is
+   * happening: the day screen is a picture of the calendar, and words appear
+   * only when something actually happened (owner rule R4, Oct 8).
+   */
   readonly now: string;
   /**
    * Where "now" came from: a scene waiting in the room, a planned activity
@@ -111,11 +115,7 @@ export function projectToday(world: World, personId: EntityId): TodayOverview {
         : finished
           ? finished.location.label
           : (openingLocation?.context.location?.label ?? day.placeName),
-    now:
-      now ||
-      (upcoming
-        ? `Next: ${upcoming.title} at ${formatMinute(upcoming.start.minuteOfDay)}.`
-        : "It's a quiet day. Nothing is happening right now."),
+    now,
     nowKind:
       finished || openingLocation?.context.location?.setting === "work"
         ? "activity"

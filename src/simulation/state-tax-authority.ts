@@ -1,6 +1,7 @@
 import powers from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import type { IsoDate } from "./types";
 import type { TaxPowerEvidence } from "./tax-types";
+import { STATES } from "./state-reference";
 
 /**
  * What a state may do about its own sales, property and payroll taxes, read
@@ -11,7 +12,8 @@ import type { TaxPowerEvidence } from "./tax-types";
  * the evidence says that plainly.
  */
 
-export type StateTaxInstrument = "sales" | "property" | "payroll";
+export type StateTaxInstrument =
+  "sales" | "property" | "payroll" | "corporate-income";
 
 /** The catalog dial each state tax-terms question family turns on. */
 export const STATE_TAX_DIAL_BY_INSTRUMENT: Readonly<
@@ -20,16 +22,24 @@ export const STATE_TAX_DIAL_BY_INSTRUMENT: Readonly<
   sales: "sales-tax",
   property: "property-tax",
   payroll: "payroll-tax",
+  "corporate-income": "income-tax",
 };
 
 export const STATE_TAX_INSTRUMENT_BY_FAMILY: Readonly<
   Record<string, StateTaxInstrument>
-> = { sales: "sales", property: "property", payroll: "payroll" };
+> = {
+  sales: "sales",
+  property: "property",
+  payroll: "payroll",
+  corporate: "corporate-income",
+};
 
 export function isStateTaxInstrument(
   value: string | undefined,
 ): value is StateTaxInstrument {
-  return value === "sales" || value === "property" || value === "payroll";
+  return Object.values(STATE_TAX_INSTRUMENT_BY_FAMILY).some(
+    (instrument) => instrument === value,
+  );
 }
 
 /** The evidence a state tax proposal rests on, or null where the catalog says
@@ -39,7 +49,11 @@ export function stateTaxPowerEvidenceFor(
   instrument: StateTaxInstrument,
   asOf: IsoDate,
 ): TaxPowerEvidence | null {
-  if (!/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
+  if (
+    !/^US-[A-Z]{2}$/.test(jurisdictionKey) ||
+    !Object.hasOwn(STATES, jurisdictionKey.slice(3))
+  )
+    return null;
   const dial = powers.dials.find(
     (row) => row.id === STATE_TAX_DIAL_BY_INSTRUMENT[instrument],
   );

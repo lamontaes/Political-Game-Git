@@ -1,5 +1,6 @@
 import type { PolicyPack } from "./policy-packs";
 import { FEDERAL_MANDATORY_MINIMUM_ROW } from "./law-consequences/modules/federal-justice-rights";
+import { HOUSING_VOUCHER_ROWS } from "./law-consequences/housing-voucher-rows";
 
 /**
  * Positions on federal questions: one for each field of federal government,
@@ -102,7 +103,18 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
       key: "monetary-financial.cap-consumer-loan-interest",
       parameters: [
         { key: "cap", value: "annual-percentage-rate" },
-        { key: "coverage", value: "covered-loan-categories" },
+        {
+          key: "coverage",
+          value: "covered-loan-categories",
+          allowedValues: [
+            "mortgage",
+            "auto",
+            "student",
+            "credit-card",
+            "personal",
+            "payday",
+          ],
+        },
       ],
       issue: "us-federal:monetary-financial.consumer-finance",
       name: "Cap consumer loan interest",
@@ -444,6 +456,7 @@ export const US_FEDERAL_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "housing.vouchers-for-every-eligible-family",
+      consequences: HOUSING_VOUCHER_ROWS,
       parameters: [
         { key: "entitlement", value: "yes-or-no" },
         { key: "eligibility", value: "eligible-household-categories" },

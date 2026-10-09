@@ -1,4 +1,5 @@
 import { compiledTraitPacks } from "./compiled-trait-packs";
+import { CAMPAIGN_DOOR_ANSWER_EFFECTS } from "./traits/campaign-door-answer-effects";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,
@@ -58,7 +59,10 @@ export const BUILT_IN_TRAIT_DECISIONS = [
 ];
 
 /** Effect readers are separate packs so each trait can be added independently. */
-const EFFECT_PACKS = [FACET_AFFECTIONATE_EFFECTS] as const;
+const EFFECT_PACKS = [
+  FACET_AFFECTIONATE_EFFECTS,
+  CAMPAIGN_DOOR_ANSWER_EFFECTS,
+] as const;
 
 let cached: TraitRegistry | null = null;
 
