@@ -4,7 +4,9 @@ import {
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import { createDemoWorld } from "../../src/simulation/demo";
+import { jumpToDate } from "../../tests/fixtures/due-item-clock";
 import {
+  ELECTION_CONTEST_TRANSITION_KEY,
   electionContestResult,
   electionContestStatus,
   electionContestTransitionHandler,
@@ -29,11 +31,7 @@ import {
   CHIEF_EXECUTIVE_JURISDICTIONS,
   stateExecutiveIdentity,
 } from "../../src/simulation/nationwide-world/state-executive-candidacy-packs";
-import type {
-  ElectionContestRecord,
-  EntityId,
-  World,
-} from "../../src/simulation/types";
+import type { ElectionContestRecord, World } from "../../src/simulation/types";
 import {
   assertWorldIntegrity,
   createWorld,
@@ -45,17 +43,33 @@ beforeAll(() => {
   fixture = createDemoWorld("audit-a110-no-fabricated-electorate");
 });
 
-/** Authored on-date snapshot for direct writer tests, not a natural clock run. */
+/**
+ * Authored on-date snapshot for direct writer tests, not a natural clock run.
+ * Whatever falls due before election day is carried out first, so only the
+ * contest's own item is left waiting on its day.
+ */
 function onElectionDate(world: World): World {
   const contest = world.history.electionContests!.at(-1)!;
+  const eve = addDays(contest.electionDate, -1);
+  const settled = world.currentDate < eve ? jumpToDate(world, eve) : world;
   return {
-    ...world,
+    ...settled,
     currentDate: contest.electionDate,
     currentMoment: simulationMomentOnLocalDate(
-      world.currentMoment,
+      settled.currentMoment,
       contest.electionDate,
     ),
   };
+}
+
+/** The contest's own due item; other items may have been scheduled after it. */
+function contestDueItem(world: World) {
+  const contest = world.history.electionContests!.at(-1)!;
+  return world.history.futureDueItems.find(
+    (row) =>
+      row.transitionKey === ELECTION_CONTEST_TRANSITION_KEY &&
+      row.entityIds[0] === contest.id,
+  )!;
 }
 
 function localContest(candidates: number): World {
@@ -68,7 +82,7 @@ function localContest(candidates: number): World {
       seatKey: null,
       occupationClassification: "occupation:elected-official",
     },
-    electionDate: addDays(fixture.currentDate, 1),
+    electionDate: addDays(fixture.currentDate, 2),
     candidatePersonIds: fixture.personOrder.slice(0, candidates),
     provenance: {
       method: "authored",
@@ -82,7 +96,7 @@ describe("A110 automatic counts require an electorate", () => {
   it.each([1, 2])(
     "does not invent ballots for %i unsupported candidate(s)",
     (candidates) => {
-      const world = localContest(candidates);
+      const world = onElectionDate(localContest(candidates));
       const contest = world.history.electionContests!.at(-1)!;
       console.log(
         JSON.stringify({
@@ -118,7 +132,7 @@ describe("A110 automatic counts require an electorate", () => {
 
   it("blocks the existing scheduled handler without manufacturing a winner or future retry", () => {
     const world = onElectionDate(localContest(2));
-    const due = world.history.futureDueItems.at(-1)!;
+    const due = contestDueItem(world);
     const result = electionContestTransitionHandler(world, due);
     expect(result.status).toBe("blocked");
     expect(result.reasonKey).toBe("election:count-unavailable");
@@ -188,7 +202,7 @@ describe("A110 automatic counts require an electorate", () => {
   it.each([1, 2])(
     "does not borrow statewide ballots for %i candidate(s) in an unknown office or seat",
     (candidates) => {
-      const world = localContest(candidates);
+      const world = onElectionDate(localContest(candidates));
       const contest = world.history.electionContests!.at(-1)!;
       const jurisdictionId = chiefExecutiveJurisdictionId("OR")!;
       expect(
@@ -211,9 +225,13 @@ describe("A110 automatic counts require an electorate", () => {
     },
   );
 
-  it("uses existing calibrated ballots for a single supported candidate in 51 jurisdictions and refuses the five unsupported territories", () => {
+  // The count reads the recorded decisions of eligible voters the world holds
+  // (`countRecordedVoterBallots`); it no longer borrows the calibrated statewide
+  // ballots this test used to expect. A world with no eligible voter in a
+  // jurisdiction therefore gets no count anywhere, supported state or not.
+  it("gives a single candidate no count in any of the 56 jurisdictions when the world holds no eligible voter there", () => {
     expect(CHIEF_EXECUTIVE_JURISDICTIONS).toHaveLength(56);
-    const scheduled = localContest(1);
+    const scheduled = onElectionDate(localContest(1));
     const template = requireElectionContest(
       scheduled,
       scheduled.history.electionContests!.at(-1)!.id,
@@ -230,24 +248,18 @@ describe("A110 automatic counts require an electorate", () => {
           officeKey: stateExecutiveIdentity(usps)!.officeKey,
         },
       };
-      const outcome = evaluateDeterministicContestOutcome(scheduled, contest);
+      expect(
+        evaluateDeterministicContestOutcome(scheduled, contest),
+        usps,
+      ).toBeNull();
       if (isTerritoryUsps(usps)) {
         unsupported++;
-        expect(outcome, usps).toBeNull();
       } else {
         supported++;
-        const electorate = statewideElectorate(scheduled, jurisdictionId)!;
-        expect(outcome, usps).not.toBeNull();
-        expect(outcome!.winnerPersonId, usps).toBe(
-          template.candidatePersonIds[0],
-        );
-        expect(outcome!.tallies, usps).toEqual([
-          {
-            candidatePersonId: template.candidatePersonIds[0] as EntityId,
-            votes: electorate.ballots,
-            voteShare: 1,
-          },
-        ]);
+        expect(
+          statewideElectorate(scheduled, jurisdictionId),
+          usps,
+        ).not.toBeNull();
       }
     }
     expect(supported).toBe(51);
@@ -298,7 +310,7 @@ describe("A110 saved unsupported contests across all 56 jurisdictions", () => {
         });
         const world = onElectionDate(scheduled);
         const contest = world.history.electionContests!.at(-1)!;
-        const due = world.history.futureDueItems.at(-1)!;
+        const due = contestDueItem(world);
         expect(
           evaluateDeterministicContestOutcome(world, contest),
           usps,
