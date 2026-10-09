@@ -1,5 +1,6 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { Parameter } from "./parameters";
+import type { EventAppraisal } from "./emotion";
 import type { BusinessBooksData } from "./business-books";
 import type {
   BusinessBooksInput,
@@ -214,6 +215,35 @@ export type CoreEventListener = (
   api: CoreAPI,
   event: CoreEventInput,
   learnedBy: readonly PersonId[],
+) => void;
+
+/** One learned person's actual appraisal, after its affect was applied once. */
+export type CoreEventAppraisalListener = (
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+  appraisal: Readonly<EventAppraisal>,
+) => void;
+
+export type RelationshipMeasureChange =
+  | { measure: "level"; before: number; after: number }
+  | { measure: "lastContactDate"; before?: IsoDate; after: IsoDate };
+
+export interface RelationshipChangeNotice {
+  date: IsoDate;
+  relationshipId: string;
+  /** Endpoints of the actual API call, not sorted or inferred participants. */
+  actorId: PersonId;
+  otherId: PersonId;
+  kind: Relationship["kind"];
+  /** Existing relationships retain their stored kind under the current writer. */
+  requestedKind: Relationship["kind"];
+  created: boolean;
+  changes: readonly RelationshipMeasureChange[];
+}
+
+export type CoreRelationshipListener = (
+  api: CoreAPI,
+  notice: Readonly<RelationshipChangeNotice>,
 ) => void;
 
 export interface ActOffer {
@@ -547,6 +577,10 @@ export interface CoreState {
   reasonProviders: Map<string, ReasonProvider>;
   eventSubscribers: Map<string, CoreEventListener>;
   eventSubscribersByKind: Map<string, Set<string>>;
+  eventAppraisalSubscribers: Map<string, CoreEventAppraisalListener>;
+  eventAppraisalSubscribersByKind: Map<string, Set<string>>;
+  relationshipSubscribers: Map<string, CoreRelationshipListener>;
+  relationshipSubscribersByKind: Map<string, Set<string>>;
 }
 
 export interface KnownFact {
@@ -628,6 +662,12 @@ export interface CoreModule {
     ) => DecisionContext | undefined,
   ) => { decisions: number; acts: number } | void;
   onEvent?: CoreEventListener;
+  /** Optional learned-appraisal stream, indexed independently from old event listeners. */
+  appraisalEventKinds?: readonly string[];
+  onEventAppraisal?: CoreEventAppraisalListener;
+  /** Explicit '*' observes all kinds; notices never create events or knowledge. */
+  relationshipKinds?: readonly string[];
+  onRelationshipChange?: CoreRelationshipListener;
   needEvaluators?: Readonly<
     Record<
       string,
@@ -686,6 +726,9 @@ export interface CoreAPI {
   addCreditFacility(input: CreditFacilityInput): void;
   addBusinessBooks(input: BusinessBooksInput): void;
   settleFinanceContract(contractId: string): FinanceReceipt;
+  retireFinanceBudget(contractId: string): void;
+  /** Called after household bills and before any procurement in the dated batch. */
+  prepareFinanceProcurement(contractIds: readonly string[]): void;
   drawCredit(
     facilityId: string,
     requestedMinor: number,
@@ -727,6 +770,18 @@ export interface CoreAPI {
     subscriberId: string,
     kinds: readonly string[],
     listener: CoreEventListener,
+  ): () => void;
+  /** Model modules publish their already-applied result during the actual event dispatch. */
+  publishEventAppraisal(appraisal: Readonly<EventAppraisal>): void;
+  subscribeEventAppraisals(
+    subscriberId: string,
+    kinds: readonly string[],
+    listener: CoreEventAppraisalListener,
+  ): () => void;
+  subscribeRelationshipChanges(
+    subscriberId: string,
+    kinds: readonly string[],
+    listener: CoreRelationshipListener,
   ): () => void;
   validateAct(
     actorId: PersonId,

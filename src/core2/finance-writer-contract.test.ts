@@ -361,8 +361,8 @@ function assertClosureHistory(core: CoreState, closure: EmployerClosure): void {
 describe("conserving finance API/schema-v6 writer seam", () => {
   it("admits optional finance input and shares one versioned facade across callers", () => {
     const core = fixture();
-    expect(CORE_API_VERSION).toBe("core2-api-v7");
-    expect(CORE_SCHEMA_VERSION).toBe("core2-schema-v7");
+    expect(CORE_API_VERSION).toBe("core2-api-v8");
+    expect(CORE_SCHEMA_VERSION).toBe("core2-schema-v8");
     expect(coreAPI(core)).toBe(coreAPI(core));
     expect(coreAPI(core).version).toBe(core.apiVersion);
     expect(core.apiVersion).toBe(CORE_API_VERSION);

@@ -1,5 +1,5 @@
 {
-  "version": "p8-opening-finance-binding-candidate-v2",
+  "version": "p8-opening-finance-binding-candidate-v3",
   "periodMonthsParameter": "openingFinancePeriodMonths",
   "cadenceStopgap": {
     "stopgapId": "SG-P8-opening-finance-cadence"
@@ -72,6 +72,7 @@
     {
       "buyerClassifications": ["enterprise:retail", "enterprise:food-service"],
       "contractKind": "business.sales-input",
+      "salesReceiptBudget": true,
       "supplierClassifications": ["enterprise:wholesale"],
       "citation": "Actual generated Supply Company/warehouse/sales-representative organization classification can supply a provisional opening trade-input budget to actual stores/restaurants. IRS source sales-sensitive cost share identifies an aggregate component, not the product inventory, contract, delivery, credit approval, or individual supplier. Wholesale-to-buyer mapping remains an authored stopgap.",
       "stopgapId": "SG-P8-opening-finance-bindings"

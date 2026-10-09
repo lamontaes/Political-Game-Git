@@ -6,15 +6,16 @@ import actKinds from "../../data/content/act-kinds.json" with { type: "json" };
 import traitPulls from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { PARAMETERS } from "./parameters";
 import type { CoreData } from "./types";
+import type { FinancePolicyData } from "./finance-types";
 
-export const CORE_API_VERSION = "core2-api-v7";
-export const CORE_SCHEMA_VERSION = "core2-schema-v7";
+export const CORE_API_VERSION = "core2-api-v8";
+export const CORE_SCHEMA_VERSION = "core2-schema-v8";
 
 export const DEFAULT_DATA: CoreData = {
   ...content,
   work: DEFAULT_WORK_DATA,
   businessBooks: DEFAULT_BUSINESS_BOOKS_DATA,
-  finance,
+  finance: finance as FinancePolicyData,
   needs: content.needs.map((row) => ({
     ...row,
     parameters: Object.fromEntries(
