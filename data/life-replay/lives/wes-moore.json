@@ -1,0 +1,668 @@
+{
+  "version": "life-replay/v1",
+  "id": "wes-moore",
+  "cohort": "modern-2021",
+  "identity": {
+    "value": {
+      "name": "Wes Moore"
+    },
+    "sourceRefs": ["moore-archives"]
+  },
+  "birth": {
+    "value": {
+      "date": "1978-10-15",
+      "place": {
+        "key": "us/md/takoma-park",
+        "name": "Takoma Park",
+        "stateCode": "MD",
+        "country": "US"
+      }
+    },
+    "sourceRefs": ["moore-archives"]
+  },
+  "family": [
+    {
+      "value": {
+        "key": "father",
+        "name": "Westley Moore",
+        "relationship": "father",
+        "work": ["radio-journalist"]
+      },
+      "sourceRefs": ["moore-governor", "moore-parents"]
+    },
+    {
+      "value": {
+        "key": "mother",
+        "name": "Joy Moore",
+        "relationship": "mother",
+        "work": ["radio-media-professional"]
+      },
+      "sourceRefs": ["moore-governor", "moore-parents"]
+    },
+    {
+      "value": {
+        "key": "grandfather-faith",
+        "person": "maternal-grandfather",
+        "work": ["minister"],
+        "affiliation": "Dutch-Reformed-Church"
+      },
+      "sourceRefs": ["moore-family-faith"]
+    }
+  ],
+  "household": {
+    "value": {
+      "composition": ["subject", "parents"],
+      "birthPlace": "Takoma Park"
+    },
+    "sourceRefs": ["moore-archives"]
+  },
+  "checkpoints": [
+    {
+      "id": "modern-start",
+      "date": "2021-01-01",
+      "sourceRefs": ["moore-archives", "moore-launch"],
+      "knownState": {
+        "employer": "Robin Hood Foundation",
+        "role": "chief-executive-officer",
+        "homeStateCode": "MD",
+        "homePlace": "Baltimore"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "id": "childhood-recession",
+      "fromDate": "1981-07-01",
+      "throughDate": "1982-11-30",
+      "kind": "economy-cycle",
+      "scope": {
+        "country": "US"
+      },
+      "value": "recession",
+      "sourceRefs": ["recession-1981"]
+    },
+    {
+      "id": "family-dislocation",
+      "fromDate": "1981-10-15",
+      "throughDate": "1993-10-14",
+      "kind": "household-pressure",
+      "scope": {
+        "country": "US"
+      },
+      "value": [
+        "single-parent-household",
+        "grandparent-support",
+        "limited-employment-benefits"
+      ],
+      "sourceRefs": ["moore-governor", "moore-archives"],
+      "role": "reference"
+    },
+    {
+      "id": "financial-crisis",
+      "fromDate": "2007-12-01",
+      "throughDate": "2009-06-30",
+      "kind": "economy-cycle",
+      "scope": {
+        "country": "US"
+      },
+      "value": "recession",
+      "sourceRefs": ["great-recession"]
+    },
+    {
+      "id": "maryland-labor-2021",
+      "fromDate": "2021-01-01",
+      "throughDate": "2021-12-31",
+      "kind": "unemployment-rate-percent",
+      "scope": {
+        "country": "US",
+        "stateCode": "MD"
+      },
+      "value": {
+        "parameter": "md-unemployment-2021"
+      },
+      "sourceRefs": ["state-unemployment-2021"],
+      "role": "reference"
+    },
+    {
+      "id": "open-governor-seat",
+      "fromDate": "2021-06-07",
+      "throughDate": "2022-11-08",
+      "kind": "election-opportunity",
+      "scope": {
+        "country": "US",
+        "stateCode": "MD"
+      },
+      "value": {
+        "office": "governor",
+        "incumbent": "Larry Hogan",
+        "restriction": "term-limit"
+      },
+      "sourceRefs": ["moore-launch"]
+    },
+    {
+      "id": "covid-era",
+      "fromDate": "2020-03-11",
+      "throughDate": "2021-12-31",
+      "kind": "public-health-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "pandemic": "COVID-19",
+        "personalInfection": "not-specified"
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    },
+    {
+      "id": "transport-mask-law",
+      "fromDate": "2021-02-02",
+      "throughDate": "2021-12-31",
+      "kind": "law-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "publicTransportationMaskRequirement": true,
+        "observationWindowOnly": true
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "father-dies",
+      "date": {
+        "earliest": "1981-10-15",
+        "latest": "1982-10-14",
+        "precision": "age-interval",
+        "sourceRefs": ["moore-governor"]
+      },
+      "kind": "event",
+      "mechanism": "family-loss",
+      "payload": {
+        "person": "father"
+      },
+      "sourceRefs": ["moore-governor"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "family.father.alive",
+          "equals": false
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "move-to-grandparents",
+      "date": {
+        "earliest": "1981-10-15",
+        "latest": "1992-10-14",
+        "precision": "interval",
+        "sourceRefs": ["moore-governor"]
+      },
+      "kind": "event",
+      "mechanism": "residence-move",
+      "payload": {
+        "person": "household",
+        "destination": {
+          "key": "us/ny/bronx",
+          "name": "Bronx",
+          "stateCode": "NY",
+          "country": "US"
+        },
+        "composition": ["mother", "children", "maternal-grandparents"]
+      },
+      "sourceRefs": ["moore-governor"],
+      "requires": ["father-dies"],
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "equals": "us/ny/bronx"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "return-to-maryland",
+      "date": {
+        "earliest": "1992-10-15",
+        "latest": "1993-10-14",
+        "precision": "age-interval",
+        "sourceRefs": ["moore-archives", "moore-launch"]
+      },
+      "kind": "event",
+      "mechanism": "residence-move",
+      "payload": {
+        "person": "household",
+        "destination": {
+          "key": "us/md/baltimore",
+          "name": "Baltimore",
+          "stateCode": "MD",
+          "country": "US"
+        }
+      },
+      "sourceRefs": ["moore-archives", "moore-launch"],
+      "requires": ["move-to-grandparents"],
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "equals": "us/md/baltimore"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "military-college",
+      "date": {
+        "earliest": "1998-01-01",
+        "latest": "1998-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Valley Forge Military Academy and College",
+        "credential": "associates"
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "associates"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "army-commission",
+      "date": {
+        "earliest": "1998-01-01",
+        "latest": "1998-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-governor"]
+      },
+      "kind": "decision",
+      "mechanism": "military-service",
+      "payload": {
+        "service": "us-army",
+        "rank": "second-lieutenant",
+        "act": "accept-commission"
+      },
+      "sourceRefs": ["moore-governor"],
+      "requires": ["military-college"],
+      "checks": [
+        {
+          "metric": "military.service",
+          "equals": "us-army"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "johns-hopkins",
+      "date": {
+        "earliest": "2001-01-01",
+        "latest": "2001-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Johns Hopkins University",
+        "credential": "bachelors",
+        "fields": ["international-relations", "economics"]
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": ["military-college"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "bachelors"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "oxford",
+      "date": {
+        "earliest": "2004-01-01",
+        "latest": "2004-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Wolfson College, Oxford",
+        "credential": "masters",
+        "funding": "Rhodes-Scholarship"
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": ["johns-hopkins"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "masters"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "afghanistan",
+      "date": {
+        "earliest": "2005-01-01",
+        "latest": "2005-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-governor"]
+      },
+      "kind": "event",
+      "mechanism": "military-deployment",
+      "payload": {
+        "service": "us-army",
+        "unit": "82nd-Airborne",
+        "destination": "Afghanistan"
+      },
+      "sourceRefs": ["moore-governor"],
+      "requires": ["army-commission"],
+      "checks": [
+        {
+          "metric": "military.deployment",
+          "equals": "Afghanistan"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "bridge-edu",
+      "date": {
+        "earliest": "2014-01-01",
+        "latest": "2014-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "decision",
+      "mechanism": "business-formation",
+      "payload": {
+        "organization": "BridgeEdU",
+        "place": "Baltimore",
+        "purpose": "college-transition-support",
+        "act": "found"
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": ["johns-hopkins"],
+      "checks": [
+        {
+          "metric": "business.organization",
+          "equals": "BridgeEdU"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "robin-hood",
+      "date": {
+        "earliest": "2017-01-01",
+        "latest": "2017-12-31",
+        "precision": "year",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "decision",
+      "mechanism": "employment",
+      "payload": {
+        "organization": "Robin Hood Foundation",
+        "role": "chief-executive-officer",
+        "purpose": "anti-poverty"
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "employment.role",
+          "equals": "chief-executive-officer"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "governor-campaign",
+      "date": {
+        "earliest": "2021-06-07",
+        "latest": "2021-06-07",
+        "precision": "day",
+        "sourceRefs": ["moore-launch"]
+      },
+      "kind": "decision",
+      "mechanism": "candidacy",
+      "payload": {
+        "office": "governor",
+        "stateCode": "MD",
+        "act": "run"
+      },
+      "sourceRefs": ["moore-launch"],
+      "requires": ["robin-hood"],
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "equals": "governor"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "primary-win",
+      "date": {
+        "earliest": "2022-07-19",
+        "latest": "2022-07-19",
+        "precision": "day",
+        "sourceRefs": ["moore-primary"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "governor",
+        "stage": "primary",
+        "result": "won"
+      },
+      "sourceRefs": ["moore-primary"],
+      "requires": ["governor-campaign"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "minimumParameter": "moore-primary-2022",
+          "maximumParameter": "moore-primary-2022"
+        }
+      ]
+    },
+    {
+      "id": "general-win",
+      "date": {
+        "earliest": "2022-11-08",
+        "latest": "2022-11-08",
+        "precision": "day",
+        "sourceRefs": ["moore-election"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "governor",
+        "stage": "general",
+        "result": "won"
+      },
+      "sourceRefs": ["moore-election"],
+      "requires": ["primary-win"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "minimumParameter": "moore-general-2022",
+          "maximumParameter": "moore-general-2022"
+        }
+      ]
+    },
+    {
+      "id": "governor-service",
+      "date": {
+        "earliest": "2023-01-18",
+        "latest": "2023-01-18",
+        "precision": "day",
+        "sourceRefs": ["moore-archives"]
+      },
+      "kind": "outcome",
+      "mechanism": "office-service",
+      "payload": {
+        "office": "governor",
+        "stateCode": "MD"
+      },
+      "sourceRefs": ["moore-archives"],
+      "requires": ["general-win"],
+      "checks": [
+        {
+          "metric": "office.kind",
+          "equals": "governor"
+        }
+      ],
+      "ranges": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "great-recession",
+      "url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
+      "title": "The Great Recession",
+      "publisher": "Federal Reserve History",
+      "location": "December 2007–June 2009",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "state-unemployment-2021",
+      "url": "https://www.bls.gov/news.release/archives/srgune_03022022.htm",
+      "title": "State Unemployment, 2021 annual averages",
+      "publisher": "Bureau of Labor Statistics",
+      "location": "Table 1, Maryland and New York; release vintage March 2, 2022",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "constitution",
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "title": "Constitution of the United States",
+      "publisher": "National Archives",
+      "location": "Article I, sections 2–3; Article II, section 1",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-governor",
+      "url": "https://governor.maryland.gov/leadership/governor-wes-moore",
+      "title": "Governor Wes Moore",
+      "publisher": "Maryland Governor’s Office",
+      "location": "Birth, parents, loss, schools, deployment, family, business, nonprofit",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-archives",
+      "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html",
+      "title": "Wes Moore, Maryland Governor",
+      "publisher": "Maryland State Archives",
+      "location": "Birth; education dates; 2014 BridgeEdU; 2017–2021 Robin Hood; January 18, 2023 office start",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-launch",
+      "url": "https://wesmoore.com/wes-moore-author-and-former-nonprofit-executive-launches-campaign-for-maryland-governor/",
+      "title": "Wes Moore launches campaign for Maryland governor",
+      "publisher": "Wes Moore campaign, republishing The Baltimore Sun",
+      "location": "June 7, 2021; childhood; mother’s first job with benefits; Baltimore residence",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-parents",
+      "url": "https://time.com/6250784/wes-moore-interview/",
+      "title": "Where Wes Moore Comes From",
+      "publisher": "TIME",
+      "location": "Father radio journalist; mother worked on radio show",
+      "kind": "secondary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-family-faith",
+      "url": "https://marylandmatters.org/2021/08/26/wes-moore-work-wages-and-wealth-will-be-north-stars/",
+      "title": "Wes Moore: Work, Wages and Wealth Will Be North Stars",
+      "publisher": "Maryland Matters",
+      "location": "Grandfather a minister of the Dutch Reformed Church; no inherited wealth",
+      "kind": "secondary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "recession-1981",
+      "url": "https://www.federalreservehistory.org/essays/recession-of-1981-82",
+      "title": "Recession of 1981–82",
+      "publisher": "Federal Reserve History",
+      "location": "July 1981–November 1982",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-primary",
+      "url": "https://elections.maryland.gov/elections/archive/2022/primary_results/gen_results_2022_1.html",
+      "title": "Official 2022 Gubernatorial Primary Election Results",
+      "publisher": "Maryland State Board of Elections",
+      "location": "Moore/Miller; 217,524 votes; 32.41 percent",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "moore-election",
+      "url": "https://elections.maryland.gov/elections/archive/2022/general_results/gen_results_2022_1.html",
+      "title": "Official 2022 Gubernatorial General Election Results",
+      "publisher": "Maryland State Board of Elections",
+      "location": "Moore/Miller; 1,293,944 votes; 64.53 percent",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "cdc-pandemic",
+      "url": "https://www.cdc.gov/museum/timeline/covid19.html",
+      "title": "CDC Museum COVID-19 Timeline",
+      "publisher": "Centers for Disease Control and Prevention",
+      "location": "March 11, 2020 and Early 2021; global pandemic and public transportation mask rule",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    }
+  ],
+  "unknowns": [
+    {
+      "field": "family.exact-income-and-balances",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["moore-governor", "moore-archives"]
+    },
+    {
+      "field": "parents.faith",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["moore-governor", "moore-archives"]
+    },
+    {
+      "field": "person.numeric-traits-and-private-beliefs",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["moore-governor", "moore-archives"]
+    }
+  ]
+}

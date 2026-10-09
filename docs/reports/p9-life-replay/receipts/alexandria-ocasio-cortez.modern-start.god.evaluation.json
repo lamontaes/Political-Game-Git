@@ -1,0 +1,305 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "alexandria-ocasio-cortez",
+  "mode": "god",
+  "complete": true,
+  "steps": [
+    {
+      "stepId": "family-move",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "high-school",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["family-move"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "father-dies",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "family.father.alive",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "college-graduation",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["high-school", "family-move"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "restaurant-work",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "father-dies",
+        "college-graduation",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "standing-rock",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "participation.cause",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "house-campaign",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "restaurant-work",
+        "father-dies",
+        "college-graduation",
+        "high-school",
+        "family-move",
+        "standing-rock"
+      ],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "primary-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "house-campaign",
+        "restaurant-work",
+        "father-dies",
+        "college-graduation",
+        "high-school",
+        "family-move",
+        "standing-rock"
+      ],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "house-service",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "office.kind",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "person.ageYears",
+          "status": "unmeasured",
+          "minimum": 25,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": [
+        "primary-win",
+        "house-campaign",
+        "restaurant-work",
+        "father-dies",
+        "college-graduation",
+        "high-school",
+        "family-move",
+        "standing-rock"
+      ],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "green-new-deal",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "legislation.form",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "house-service",
+        "primary-win",
+        "house-campaign",
+        "restaurant-work",
+        "father-dies",
+        "college-graduation",
+        "high-school",
+        "family-move",
+        "standing-rock"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts legislative-proposal as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 10,
+    "full": 0,
+    "recordsOnly": 10,
+    "missing": 0,
+    "reproduced": 0,
+    "outOfRange": 0,
+    "unmeasuredRanges": 1
+  },
+  "firstBreak": {
+    "stepId": "green-new-deal",
+    "reason": "Earlier links were not reproduced: house-service, primary-win, house-campaign, restaurant-work, father-dies, college-graduation, high-school, family-move, standing-rock."
+  }
+}

@@ -1,0 +1,769 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "lyndon-b-johnson",
+  "mode": "god",
+  "complete": true,
+  "steps": [
+    {
+      "stepId": "family-move",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts residence-move as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The residence-move event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "high-school",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["family-move"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "college",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.enrolled",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "finance.educationLoanDollars",
+          "status": "unmeasured",
+          "minimum": 75,
+          "maximum": 75,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": ["high-school", "family-move"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-enrollment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "cotulla",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["college", "high-school", "family-move"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts employment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "college-degree",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["cotulla", "college", "high-school", "family-move"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "congressional-aide",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts employment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "marriage",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "partnership.status",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts partnership as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "nya-director",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts public-appointment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "house-campaign",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts candidacy as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "house-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "active-duty",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "military.service",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "senate-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "majority-leader",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "leadership.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts chamber-leadership as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "heart-attack",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "health.condition",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts health-shock as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The health-shock event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "vice-president",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "presidential-succession",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "office.kind",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "person.ageYears",
+          "status": "inside",
+          "actual": 55,
+          "minimum": 35,
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "chainBrokenBy": [
+        "vice-president",
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts office-succession as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The office-succession event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "civil-rights-signature",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "law.enacted",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "presidential-succession",
+        "vice-president",
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts law-signature as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "tonkin-request",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "military.authorizationRequested",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "presidential-succession",
+        "vice-president",
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-authorization-request as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "voting-rights-signature",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "law.enacted",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "presidential-succession",
+        "vice-president",
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts law-signature as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "decline-reelection",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "candidacy.seekingAnotherTerm",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "presidential-succession",
+        "vice-president",
+        "majority-leader",
+        "senate-win",
+        "house-win",
+        "house-campaign",
+        "nya-director",
+        "congressional-aide",
+        "college-degree",
+        "cotulla",
+        "college",
+        "high-school",
+        "family-move",
+        "tonkin-request"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts reelection-decision as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 20,
+    "full": 0,
+    "recordsOnly": 20,
+    "missing": 0,
+    "reproduced": 0,
+    "outOfRange": 0,
+    "unmeasuredRanges": 1
+  },
+  "firstBreak": {
+    "stepId": "family-move",
+    "reason": "The core emitted no decision or consequence record matching this documented step."
+  }
+}

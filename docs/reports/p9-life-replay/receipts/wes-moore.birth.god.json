@@ -1,0 +1,1067 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "wes-moore",
+  "mode": "god",
+  "seed": "p9-public-life-v1",
+  "core": {
+    "apiVersion": "life-replay/v1",
+    "id": "old-core/source-only-v1",
+    "revision": "19f63909a59b3227ef18dd92476aff1b53bff696",
+    "execution": "continuous"
+  },
+  "startDate": "1978-10-15",
+  "endDate": "2023-01-18",
+  "simulatedDays": 16166,
+  "complete": true,
+  "elapsedMilliseconds": 1351.347476,
+  "peakRssBytes": 968044544,
+  "initialization": {
+    "observations": [
+      {
+        "metric": "birth.date",
+        "value": "1978-10-15",
+        "date": "1978-10-15",
+        "origin": "initialized",
+        "recordIds": ["person_811960d7ae8ad573"]
+      }
+    ],
+    "recordIds": ["person_811960d7ae8ad573", "jurisdiction_f166d5f940bf0ccd"],
+    "gaps": [
+      {
+        "code": "source-only-world",
+        "detail": "The old-core diagnostic initializes one sourced subject and birthplace. Family, employers, offices, and an electorate were not fabricated. This run cannot establish nationwide political behavior.",
+        "evidence": [
+          "scripts/life-replay/old-core.ts",
+          "src/simulation/world.ts:448"
+        ]
+      },
+      {
+        "code": "public-background-incomplete",
+        "detail": "The checked life sources do not supply all family birth dates, dated pay, wealth, and traits needed for a fully specified old-core household. Public work and faith descriptions remain reference data.",
+        "evidence": [
+          "src/simulation/character-history.ts:175",
+          "scripts/life-replay/old-core.ts"
+        ]
+      },
+      {
+        "code": "native-clock-not-interruptible",
+        "detail": "God mode can select available native life-situation choices. This adapter cannot pause the old clock before an internal scheduled decision; undocumented activity follows the unchanged clock.",
+        "evidence": [
+          "scripts/life-replay/old-core.ts",
+          "src/simulation/world.ts"
+        ]
+      }
+    ]
+  },
+  "advances": [
+    {
+      "throughDate": "1981-07-01",
+      "simulatedDays": 990,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 2,
+          "date": "1981-07-01",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "1982-10-14",
+      "simulatedDays": 470,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 3,
+          "date": "1982-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "1992-10-14",
+      "simulatedDays": 3653,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 13,
+          "date": "1992-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "1993-10-14",
+      "simulatedDays": 365,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 14,
+          "date": "1993-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "1998-12-31",
+      "simulatedDays": 1904,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 20,
+          "date": "1998-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2001-12-31",
+      "simulatedDays": 1096,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 23,
+          "date": "2001-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2004-12-31",
+      "simulatedDays": 1096,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 26,
+          "date": "2004-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2005-12-31",
+      "simulatedDays": 365,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 27,
+          "date": "2005-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2007-12-01",
+      "simulatedDays": 700,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 29,
+          "date": "2007-12-01",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2014-12-31",
+      "simulatedDays": 2587,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 36,
+          "date": "2014-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2017-12-31",
+      "simulatedDays": 1096,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 39,
+          "date": "2017-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2020-03-11",
+      "simulatedDays": 801,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 41,
+          "date": "2020-03-11",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2021-02-02",
+      "simulatedDays": 328,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-02-02",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2021-06-07",
+      "simulatedDays": 125,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-06-07",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2022-07-19",
+      "simulatedDays": 407,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 43,
+          "date": "2022-07-19",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2022-11-08",
+      "simulatedDays": 112,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2022-11-08",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2023-01-18",
+      "simulatedDays": 71,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2023-01-18",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    }
+  ],
+  "inputs": [
+    {
+      "inputId": "childhood-recession",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_897a6363e6cd7fe1"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The economy-cycle input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "financial-crisis",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_897a6463e6cd8194"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The economy-cycle input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "covid-era",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_897a6563e6cd8347"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The public-health-context input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "transport-mask-law",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_897a5a63e6cd7096"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The law-context input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "open-governor-seat",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_897a5b63e6cd7249"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The election-opportunity input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steps": [
+    {
+      "stepId": "father-dies",
+      "representation": "records-only",
+      "attempted": true,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 3,
+          "date": "1982-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts family-loss as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The family-loss event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": ["event_7f5b4a11c918247c"],
+      "probeRecordIds": ["event_d4d3bcc94ac99d8d"]
+    },
+    {
+      "stepId": "move-to-grandparents",
+      "representation": "records-only",
+      "attempted": true,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 13,
+          "date": "1992-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts residence-move as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The residence-move event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": ["event_7f5b4b11c918262f"],
+      "probeRecordIds": ["event_6163fcee4b3db40a"]
+    },
+    {
+      "stepId": "return-to-maryland",
+      "representation": "records-only",
+      "attempted": true,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 14,
+          "date": "1993-10-14",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts residence-move as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The residence-move event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": ["event_7f5b4811c9182116"],
+      "probeRecordIds": ["event_616e75ee4b46d62a"]
+    },
+    {
+      "stepId": "military-college",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 20,
+          "date": "1998-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_44d29eae36c3097c"]
+    },
+    {
+      "stepId": "army-commission",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 20,
+          "date": "1998-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_e45d3259493c378e"]
+    },
+    {
+      "stepId": "johns-hopkins",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 23,
+          "date": "2001-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_3312d2ae2c9681a4"]
+    },
+    {
+      "stepId": "oxford",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 26,
+          "date": "2004-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_3c076bae31be9ec3"]
+    },
+    {
+      "stepId": "afghanistan",
+      "representation": "records-only",
+      "attempted": true,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 27,
+          "date": "2005-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-deployment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The military-deployment event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": ["event_7f5b4911c91822c9"],
+      "probeRecordIds": ["event_570589cb2d6e6c4f"]
+    },
+    {
+      "stepId": "bridge-edu",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 36,
+          "date": "2014-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts business-formation as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_9155994b14ccfc13"]
+    },
+    {
+      "stepId": "robin-hood",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 39,
+          "date": "2017-12-31",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts employment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_b468fa2cf7ff8cf5"]
+    },
+    {
+      "stepId": "governor-campaign",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-06-07",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts candidacy as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_7d41ee4df04b6b45"]
+    },
+    {
+      "stepId": "primary-win",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 43,
+          "date": "2022-07-19",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_d7b5f094576595a0"]
+    },
+    {
+      "stepId": "general-win",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2022-11-08",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_d7b975945768ad76"]
+    },
+    {
+      "stepId": "governor-service",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "1978-10-15",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2023-01-18",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts office-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_479d43b1b7568b04"]
+    }
+  ],
+  "stopgaps": []
+}

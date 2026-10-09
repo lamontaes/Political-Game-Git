@@ -55,7 +55,8 @@
     "tests/fixtures/**/*.ts",
     "tests/release/**/*.ts",
     "tests/source/**/*.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "scripts/life-replay/**/*.ts"
   ],
   "exclude": ["src/presentation/**/*.test.ts", "src/authoring/**/*.test.ts"]
 }

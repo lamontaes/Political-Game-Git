@@ -1,0 +1,524 @@
+{
+  "version": "life-replay/v1",
+  "id": "alexandria-ocasio-cortez",
+  "cohort": "modern-2021",
+  "identity": {
+    "value": {
+      "name": "Alexandria Ocasio-Cortez"
+    },
+    "sourceRefs": ["aoc-house"]
+  },
+  "birth": {
+    "value": {
+      "date": "1989-10-13",
+      "place": {
+        "key": "us/ny/bronx",
+        "name": "Bronx",
+        "stateCode": "NY",
+        "country": "US"
+      }
+    },
+    "sourceRefs": ["aoc-house"]
+  },
+  "family": [
+    {
+      "value": {
+        "key": "father",
+        "name": "Sergio Ocasio-Roman",
+        "relationship": "father",
+        "work": ["architect", "small-business-owner"]
+      },
+      "sourceRefs": ["aoc-museum"]
+    },
+    {
+      "value": {
+        "key": "mother",
+        "name": "Blanca Ocasio-Cortez",
+        "relationship": "mother",
+        "work": ["domestic-worker"]
+      },
+      "sourceRefs": ["aoc-museum"]
+    },
+    {
+      "value": {
+        "key": "brother",
+        "name": "Gabriel",
+        "relationship": "brother"
+      },
+      "sourceRefs": ["aoc-museum"],
+      "role": "reference"
+    },
+    {
+      "value": {
+        "key": "father-faith",
+        "person": "father",
+        "affiliation": "Catholic"
+      },
+      "sourceRefs": ["aoc-faith"]
+    },
+    {
+      "value": {
+        "key": "mother-faith",
+        "person": "mother",
+        "affiliation": "evangelical-Christian"
+      },
+      "sourceRefs": ["aoc-faith"]
+    }
+  ],
+  "household": {
+    "value": {
+      "composition": ["subject", "father", "mother"],
+      "childhoodHousing": "apartment"
+    },
+    "sourceRefs": ["aoc-museum"]
+  },
+  "checkpoints": [
+    {
+      "id": "modern-start",
+      "date": "2021-01-01",
+      "sourceRefs": ["aoc-house"],
+      "knownState": {
+        "office": "us-house",
+        "homeStateCode": "NY"
+      }
+    }
+  ],
+  "conditions": [
+    {
+      "id": "school-access",
+      "fromDate": "1989-10-13",
+      "throughDate": "2007-12-31",
+      "kind": "education-access",
+      "scope": {
+        "country": "US",
+        "stateCode": "NY"
+      },
+      "value": {
+        "origin": "us/ny/bronx",
+        "destination": "us/ny/yorktown-heights",
+        "reason": "stronger-public-school"
+      },
+      "sourceRefs": ["aoc-about"],
+      "role": "reference"
+    },
+    {
+      "id": "financial-crisis",
+      "fromDate": "2007-12-01",
+      "throughDate": "2009-06-30",
+      "kind": "economy-cycle",
+      "scope": {
+        "country": "US"
+      },
+      "value": "recession",
+      "sourceRefs": ["great-recession"]
+    },
+    {
+      "id": "student-and-medical-debt",
+      "fromDate": "2008-01-01",
+      "throughDate": "2011-12-31",
+      "kind": "household-pressure",
+      "scope": {
+        "country": "US",
+        "stateCode": "NY"
+      },
+      "value": ["medical-bills", "foreclosure-risk", "student-loans"],
+      "sourceRefs": ["aoc-museum"],
+      "role": "reference"
+    },
+    {
+      "id": "new-york-labor-2021",
+      "fromDate": "2021-01-01",
+      "throughDate": "2021-12-31",
+      "kind": "unemployment-rate-percent",
+      "scope": {
+        "country": "US",
+        "stateCode": "NY"
+      },
+      "value": {
+        "parameter": "ny-unemployment-2021"
+      },
+      "sourceRefs": ["state-unemployment-2021"],
+      "role": "reference"
+    },
+    {
+      "id": "covid-era",
+      "fromDate": "2020-03-11",
+      "throughDate": "2021-12-31",
+      "kind": "public-health-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "pandemic": "COVID-19",
+        "personalInfection": "not-specified"
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    },
+    {
+      "id": "transport-mask-law",
+      "fromDate": "2021-02-02",
+      "throughDate": "2021-12-31",
+      "kind": "law-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "publicTransportationMaskRequirement": true,
+        "observationWindowOnly": true
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "family-move",
+      "date": {
+        "earliest": "1994-10-13",
+        "latest": "1995-10-12",
+        "precision": "age-interval",
+        "sourceRefs": ["aoc-faith", "aoc-museum"]
+      },
+      "kind": "event",
+      "mechanism": "residence-move",
+      "payload": {
+        "person": "household",
+        "destination": {
+          "key": "us/ny/yorktown-heights",
+          "name": "Yorktown Heights",
+          "stateCode": "NY",
+          "country": "US"
+        }
+      },
+      "sourceRefs": ["aoc-faith", "aoc-museum"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "equals": "us/ny/yorktown-heights"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "high-school",
+      "date": {
+        "earliest": "2007-01-01",
+        "latest": "2007-12-31",
+        "precision": "year",
+        "sourceRefs": ["aoc-house"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Yorktown High School",
+        "credential": "high-school"
+      },
+      "sourceRefs": ["aoc-house"],
+      "requires": ["family-move"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "high-school"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "father-dies",
+      "date": {
+        "earliest": "2008-01-01",
+        "latest": "2008-12-31",
+        "precision": "year",
+        "sourceRefs": ["aoc-about"]
+      },
+      "kind": "event",
+      "mechanism": "family-loss",
+      "payload": {
+        "person": "father",
+        "cause": "cancer"
+      },
+      "sourceRefs": ["aoc-about"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "family.father.alive",
+          "equals": false
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "college-graduation",
+      "date": {
+        "earliest": "2011-01-01",
+        "latest": "2011-12-31",
+        "precision": "year",
+        "sourceRefs": ["aoc-house"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Boston University",
+        "credential": "bachelors",
+        "fields": ["economics", "international-relations"]
+      },
+      "sourceRefs": ["aoc-house"],
+      "requires": ["high-school"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "bachelors"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "restaurant-work",
+      "date": {
+        "earliest": "2011-01-01",
+        "latest": "2018-06-25",
+        "precision": "interval",
+        "sourceRefs": ["aoc-about", "aoc-museum"]
+      },
+      "kind": "decision",
+      "mechanism": "employment",
+      "payload": {
+        "role": "waitress-and-bartender",
+        "purpose": "support-family"
+      },
+      "sourceRefs": ["aoc-about", "aoc-museum"],
+      "requires": ["father-dies", "college-graduation"],
+      "checks": [
+        {
+          "metric": "employment.role",
+          "equals": "waitress-and-bartender"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "standing-rock",
+      "date": {
+        "earliest": "2016-01-01",
+        "latest": "2016-12-31",
+        "precision": "year",
+        "sourceRefs": ["aoc-museum"]
+      },
+      "kind": "decision",
+      "mechanism": "cause-participation",
+      "payload": {
+        "cause": "community-protection",
+        "place": "Standing Rock",
+        "act": "participate"
+      },
+      "sourceRefs": ["aoc-museum"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "participation.cause",
+          "equals": "community-protection"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "house-campaign",
+      "date": {
+        "earliest": "2017-01-01",
+        "latest": "2018-06-25",
+        "precision": "interval",
+        "sourceRefs": ["aoc-about", "aoc-museum"]
+      },
+      "kind": "decision",
+      "mechanism": "candidacy",
+      "payload": {
+        "office": "us-house",
+        "district": "NY-14",
+        "act": "run"
+      },
+      "sourceRefs": ["aoc-about", "aoc-museum"],
+      "requires": ["restaurant-work", "standing-rock"],
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "equals": "us-house"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "primary-win",
+      "date": {
+        "earliest": "2018-06-26",
+        "latest": "2018-06-26",
+        "precision": "day",
+        "sourceRefs": ["aoc-museum"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "us-house",
+        "stage": "primary",
+        "result": "won"
+      },
+      "sourceRefs": ["aoc-museum"],
+      "requires": ["house-campaign"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "house-service",
+      "date": {
+        "earliest": "2019-01-03",
+        "latest": "2019-01-03",
+        "precision": "day",
+        "sourceRefs": ["aoc-house"]
+      },
+      "kind": "outcome",
+      "mechanism": "office-service",
+      "payload": {
+        "office": "us-house",
+        "district": "NY-14"
+      },
+      "sourceRefs": ["aoc-house"],
+      "requires": ["primary-win"],
+      "checks": [
+        {
+          "metric": "office.kind",
+          "equals": "us-house"
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "person.ageYears",
+          "minimumParameter": "house-minimum-age"
+        }
+      ]
+    },
+    {
+      "id": "green-new-deal",
+      "date": {
+        "earliest": "2021-04-20",
+        "latest": "2021-04-20",
+        "precision": "day",
+        "sourceRefs": ["gnd-2021"]
+      },
+      "kind": "decision",
+      "mechanism": "legislative-proposal",
+      "payload": {
+        "form": "resolution",
+        "proposal": "Green New Deal",
+        "act": "introduce"
+      },
+      "sourceRefs": ["gnd-2021"],
+      "requires": ["house-service"],
+      "checks": [
+        {
+          "metric": "legislation.form",
+          "equals": "resolution"
+        }
+      ],
+      "ranges": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "great-recession",
+      "url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
+      "title": "The Great Recession",
+      "publisher": "Federal Reserve History",
+      "location": "December 2007–June 2009",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "state-unemployment-2021",
+      "url": "https://www.bls.gov/news.release/archives/srgune_03022022.htm",
+      "title": "State Unemployment, 2021 annual averages",
+      "publisher": "Bureau of Labor Statistics",
+      "location": "Table 1, Maryland and New York; release vintage March 2, 2022",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "constitution",
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "title": "Constitution of the United States",
+      "publisher": "National Archives",
+      "location": "Article I, sections 2–3; Article II, section 1",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "aoc-house",
+      "url": "https://history.house.gov/People/Detail/25769805196",
+      "title": "OCASIO-CORTEZ, Alexandria",
+      "publisher": "U.S. House of Representatives",
+      "location": "Concise Biography",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "aoc-about",
+      "url": "https://ocasio-cortez.house.gov/about",
+      "title": "About Representative Ocasio-Cortez",
+      "publisher": "U.S. House of Representatives",
+      "location": "Early life, father’s death, restaurant work, and 2018 campaign",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "aoc-museum",
+      "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez",
+      "title": "Alexandria Ocasio-Cortez",
+      "publisher": "National Women’s History Museum",
+      "location": "Family, education, work, Standing Rock, June 26, 2018 primary",
+      "kind": "secondary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "aoc-faith",
+      "url": "https://www.ncronline.org/news/aoc-credits-her-catholic-faith-positions-health-care-environment",
+      "title": "AOC credits her Catholic faith for positions on health care, environment",
+      "publisher": "National Catholic Reporter",
+      "location": "Parents’ religious affiliation and childhood move at age five",
+      "kind": "secondary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "gnd-2021",
+      "url": "https://www.markey.senate.gov/news/press-releases/senator-markey-and-representative-ocasio-cortez-reintroduce-green-new-deal-resolution",
+      "title": "Senator Markey and Representative Ocasio-Cortez Reintroduce Green New Deal Resolution",
+      "publisher": "U.S. Senate",
+      "location": "April 20, 2021; resolution, not an enacted statute",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "cdc-pandemic",
+      "url": "https://www.cdc.gov/museum/timeline/covid19.html",
+      "title": "CDC Museum COVID-19 Timeline",
+      "publisher": "Centers for Disease Control and Prevention",
+      "location": "March 11, 2020 and Early 2021; global pandemic and public transportation mask rule",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    }
+  ],
+  "unknowns": [
+    {
+      "field": "family.exact-income-and-balances",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["aoc-about", "aoc-museum"]
+    },
+    {
+      "field": "person.numeric-traits-and-private-beliefs",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["aoc-about", "aoc-museum"]
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "version": "life-replay/v1",
+  "parameters": {
+    "zero": {
+      "value": 0,
+      "tag": "SOURCED",
+      "citation": "https://tc39.es/ecma262/#sec-number-type",
+      "purpose": "Empty counts and arithmetic identity; not an outcome."
+    },
+    "one": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "https://tc39.es/ecma262/#sec-number-type",
+      "purpose": "Counting and indexing; not an outcome."
+    },
+    "jsonIndent": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "scripts/life-replay/README.md#diagnostic-format",
+      "purpose": "Diagnostic JSON indentation only."
+    },
+    "millisecondsPerDay": {
+      "value": 86400000,
+      "tag": "SOURCED",
+      "citation": "https://tc39.es/ecma262/#sec-time-values-and-time-range",
+      "purpose": "UTC date arithmetic."
+    },
+    "maxRunMilliseconds": {
+      "value": 300000,
+      "tag": "SOURCED",
+      "citation": "scripts/life-replay/README.md#measurement-budget",
+      "purpose": "Documented engineering timeout per cloud subprocess; not a simulated value or claimed CTO ceiling."
+    },
+    "ny-unemployment-2021": {
+      "value": 6.9,
+      "tag": "SOURCED",
+      "citation": "https://www.bls.gov/news.release/archives/srgune_03022022.htm",
+      "purpose": "New York 2021 annual average, March 2, 2022 BLS vintage; aggregate condition only, never a personal draw."
+    },
+    "md-unemployment-2021": {
+      "value": 5.8,
+      "tag": "SOURCED",
+      "citation": "https://www.bls.gov/news.release/archives/srgune_03022022.htm",
+      "purpose": "Maryland 2021 annual average, March 2, 2022 BLS vintage; aggregate condition only, never a personal draw."
+    },
+    "moore-primary-2022": {
+      "value": 32.41,
+      "tag": "SOURCED",
+      "citation": "https://elections.maryland.gov/elections/archive/2022/primary_results/gen_results_2022_1.html",
+      "purpose": "Documented primary vote percentage; evaluator target only."
+    },
+    "moore-general-2022": {
+      "value": 64.53,
+      "tag": "SOURCED",
+      "citation": "https://elections.maryland.gov/elections/archive/2022/general_results/gen_results_2022_1.html",
+      "purpose": "Documented general vote percentage; evaluator target only."
+    },
+    "lbj-college-loan": {
+      "value": 75,
+      "tag": "SOURCED",
+      "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+      "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+    },
+    "lbj-younger-siblings": {
+      "value": 4,
+      "tag": "SOURCED",
+      "citation": "https://www.lbjlibrary.org/life-and-legacy/the-man-himself/biography",
+      "purpose": "Documented count of younger siblings."
+    },
+    "house-minimum-age": {
+      "value": 25,
+      "tag": "SOURCED",
+      "citation": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "purpose": "Constitutional minimum age for U.S. House service."
+    },
+    "president-minimum-age": {
+      "value": 35,
+      "tag": "SOURCED",
+      "citation": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "purpose": "Constitutional minimum age for presidential service."
+    },
+    "bytesPerKiB": {
+      "value": 1024,
+      "tag": "SOURCED",
+      "citation": "https://nodejs.org/api/process.html#processresourceusage",
+      "purpose": "Node maxRSS is measured in kibibytes; report peak resident memory in bytes."
+    }
+  }
+}
