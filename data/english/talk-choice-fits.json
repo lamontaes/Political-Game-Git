@@ -7,8 +7,7 @@
     "wellbeing": "The other person greeted the player and asked how they are.",
     "question": "The other person asked something else.",
     "invitation": "The other person invited the player to do something together, and the invitation is still open.",
-    "statement": "The other person said something that is not a question or an invitation.",
-    "go-ahead": "The player asked to tell the other person something, and the other person answered."
+    "statement": "The other person said something that is not a question or an invitation."
   },
   "afterChoice": {
     "default": {
@@ -18,10 +17,6 @@
     "greet": {
       "asks": "wellbeing",
       "says": "greeting"
-    },
-    "share": {
-      "asks": "go-ahead",
-      "says": "go-ahead"
     }
   },
   "fits": {
@@ -53,7 +48,6 @@
       "remember": ["remember"],
       "cancelProposal": ["cancelProposal"],
       "spendTime": ["spendTime"]
-    },
-    "go-ahead": {}
+    }
   }
 }

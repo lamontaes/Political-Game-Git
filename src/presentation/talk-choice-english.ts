@@ -48,8 +48,7 @@ const AFTER_CHOICE = talkChoiceFits.afterChoice as Record<
 /**
  * The kind of the other person's last line, from what the player chose and
  * what came back: nothing yet, a greeting with or without "How are you?", an
- * open invitation, a go-ahead to say what is on the player's mind, another
- * question, or a statement.
+ * open invitation, another question, or a statement.
  */
 export function lastLineOf(
   previous: { readonly intent: string; readonly reply: string } | null,
