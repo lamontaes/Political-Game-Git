@@ -1,0 +1,43 @@
+{
+  "schema": "p10-drives-timing-v1",
+  "seed": "p10-drives-proof-2026-10-09",
+  "place": "Sacramento, California",
+  "startedAt": "2021-01-01",
+  "through": "2022-01-01",
+  "base": "pool/P8-part-1 at 7e28290901e83b1f73019f9b7abbd1b5b6d16945, merged into P10 at c8cf0ec6091b77deb9f2899014257b3709bbca37",
+  "method": "Separate processes run one after another (base, drives, base, drives) in a cloud container: npx tsx src/core2/tooling/drives-proof.ts --timing-only base|drives.",
+  "runs": [
+    {
+      "mode": "base",
+      "seconds": 326.498705092,
+      "peakRssMiB": 5502.84375,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 382.96691667299996,
+      "peakRssMiB": 5379.47265625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "base",
+      "seconds": 320.80745206200004,
+      "peakRssMiB": 5391.47265625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 360.643089659,
+      "peakRssMiB": 5464.31640625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    }
+  ],
+  "baseMeanSeconds": 323.65307857700003,
+  "drivesMeanSeconds": 371.805003166,
+  "ratio": 1.148776352756194,
+  "budgetRatio": 1.2
+}
