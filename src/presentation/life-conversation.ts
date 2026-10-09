@@ -457,6 +457,10 @@ function replyFor(
         ? say("can-we-play-a-game-we-both")
         : say("how-about-a-game-we-both-know");
     case "explain":
+      // Asked why they turned the player down, they answer from what was
+      // recorded then, even once the need for privacy has passed.
+      if (previous?.tags.includes("life.answer:private"))
+        return say("im-not-ready-to-talk-about-it");
       return previous?.tags.includes("life.answer:explore")
         ? say("i-want-to-try-something-i-havent")
         : previous?.tags.includes("life.answer:company")
@@ -688,7 +692,9 @@ export function commitLifeConversation(
         ? "company-accepted"
         : "company-declined"
       : input.intent === "activity"
-        ? leisure
+        ? newOffer
+          ? leisure
+          : "private"
         : input.intent === "matter" && view.matter
           ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
           : told

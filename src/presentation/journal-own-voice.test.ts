@@ -66,7 +66,7 @@ describe("the Journal speaks to its own subject", () => {
       const other = scene.presentPeople[0]!;
       const otherName = personName(world.people[other.personId]!);
       let next = say(world, playerPersonId, other.personId, "greet");
-      next = say(next, playerPersonId, other.personId, "leave");
+      next = say(next, playerPersonId, other.personId, "remember");
 
       const texts = projectWorld39Journal(next, playerPersonId).entries.map(
         (entry) => entry.text,
@@ -77,7 +77,10 @@ describe("the Journal speaks to its own subject", () => {
       expect(projectWorld39Journal(restored, playerPersonId)).toEqual(
         projectWorld39Journal(next, playerPersonId),
       );
-      expect(texts).toContain(`You said goodbye to ${otherName}.`);
+      // Leaving is the screen's own control, not a line (owner rule R2).
+      expect(texts).toContain(
+        `You talked with ${otherName} about an earlier conversation.`,
+      );
       const ownName = personName(next.people[playerPersonId]!);
       expect(texts.filter((text) => text.includes(`${ownName}:`))).toEqual([]);
       expect(texts.filter((text) => text.includes("Say hello"))).toEqual([]);
