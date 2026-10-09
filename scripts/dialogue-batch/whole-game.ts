@@ -160,7 +160,14 @@ function candidatesOf(
       relationship,
       // The path of choices is the setup: two exchanges that take the same
       // path teach the same thing.
-      setup: pair ? `pair:${seed}:${path}` : path,
+      // The setting and the first two choices are the setup: two exchanges
+      // that open the same way teach the same thing.
+      setup: pair
+        ? `pair:${seed}:${path}`
+        : `${context.setting}: ${exchange.turns
+            .slice(0, 2)
+            .map((turn) => turn.choice)
+            .join(" > ")}`,
       calibrates: [
         "register",
         `relationship (${relationship})`,
@@ -193,7 +200,8 @@ function candidatesOf(
       items.push({
         id: `${seed}:lie:${personId}`,
         moment: "lie",
-        screen: "Conversation box, after the Lie button",
+        // The Lie button sits in the conversation box (#3900, held).
+        screen: "Conversation box",
         place,
         relationship,
         setup: `lie:${answer}`,
@@ -278,7 +286,8 @@ function candidatesOf(
     items.push({
       id: `${seed}:story:${chapter.key}`,
       moment: "life story chapter",
-      screen: "Journal, the life told as a story",
+      // The story opens the Journal (#3834); it is the same screen.
+      screen: "Journal",
       place,
       relationship: null,
       setup: `story:${age < 30 ? "short life" : "long life"}`,
