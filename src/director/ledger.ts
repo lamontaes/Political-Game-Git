@@ -930,6 +930,7 @@ export function createDirector(
 
   const module: CoreModule = {
     id: "p13-story-director",
+    eventKinds: data.eventKinds,
     onEvent(api, event, learnedBy) {
       if (!started) return;
       onEvent(api.state, event, learnedBy);

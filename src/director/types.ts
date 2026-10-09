@@ -30,6 +30,8 @@ export interface DirectorData {
   keptFactKinds: readonly KeptFactKindRow[];
   /** Event flags that make an event broad (public or news). */
   broadEventFlags: readonly string[];
+  /** Core event kinds the director subscribes to; "*" is every kind, so no list of kinds is kept in code. */
+  eventKinds: readonly string[];
   kinTies: readonly { relation: string; parameter: string }[];
   /** Past-fact kind prefixes that are public background, not personal moments. */
   backdropPastFactPrefixes: readonly string[];
