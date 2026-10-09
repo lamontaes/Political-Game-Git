@@ -67,7 +67,7 @@
     "test:e2e": "playwright test",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --max-old-space-size=8192 --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:law-consequence-modules && npm run check:trait-effects",
+    "typecheck": "node --import tsx scripts/dev-lab/typecheck.ts && node --import tsx scripts/dev-lab/typecheck-test-imports.ts && npm run check:law-consequence-modules && npm run check:trait-effects",
     "generate:law-consequence-modules": "node scripts/law-consequence-modules/generate-manifest.mjs",
     "test:law-consequence-modules": "node --test scripts/law-consequence-modules/generate-manifest.test.mjs",
     "generate:trait-effects": "node scripts/trait-effects/generate-manifest.mjs",
