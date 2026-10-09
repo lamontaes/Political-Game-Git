@@ -1,12 +1,14 @@
 # Three fifths of the old political engines is plumbing; about one sixth is rules worth keeping
 
-The CTO needs to settle three things before any engine moves to the new core: how votes are counted, which additions the core's interface gets, and whether old saves are dropped. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
+The CTO has ruled on the three decisions this plan raised: one ballot rule, six interface additions, and no save conversion. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
 
-## Decisions for the CTO
+## Decisions the CTO made
 
-1. **How elections are decided.** Today two models coexist. One counts each voter's ballot from their recorded beliefs (src/simulation/election-contests.ts:211). The other splits a "support" share among candidates when the player runs (src/simulation/campaigns.ts:1929). Recommended: count real voters in the player's county and focus places, and use place cohorts everywhere else, with the same ballot rule. A cohort is a group of voters with the real turnout and lean spread.
-2. **Interface additions for the new core (its next interface version).** Every port needs six things the published prototype's interface (version 5) lacks; they are listed under "What the new core's interface lacks." SOL-1258 would build them. The CTO, the core's one architecture owner, approves them.
-3. **Old saves.** Seat holders, court cases, bill positions and campaign state are stored today as tagged history entries that the new core will not read. Recommended: no save conversion, following the standing "saves don't matter" ruling. Each port writes its tables fresh from world generation.
+The CTO ruled on all three on October 9, 2026, in the [pull request review](https://github.com/lamontaes/Political-Game-Git/pull/3921#issuecomment-6086164485).
+
+1. **How elections are decided.** Two models coexisted. One counts each voter's ballot from their recorded beliefs (src/simulation/election-contests.ts:211). The other splits a "support" share among candidates when the player runs (src/simulation/campaigns.ts:1929). Ruling: one ballot rule. Real voters are counted in focus places, and cohorts everywhere else; a cohort is a group of voters with the real turnout and lean spread. The separate support-share model is REDESIGN.
+2. **Interface additions for the new core.** All six additions under "What the new core's interface lacks" are approved for the next interface version, which SOL-1258 builds. The CTO, the core's one architecture owner, set the order there.
+3. **Old saves.** Seat holders, court cases, bill positions and campaign state are stored today as tagged history entries that the new core will not read. Ruling: no save conversion, the standing "saves don't matter" ruling. Each port writes its tables fresh from world generation.
 
 ## Terms used here
 
@@ -37,20 +39,20 @@ Measured on October 9, 2026, on main. "Code lines" counts functions, constants a
 | Courts and justice                        |      64 |      17,035 |      2,637 (15%) |     1,368 (8%) |      1,681 (10%) |      10,526 (62%) |        823 (5%) |       0 (0%) |
 | Economy                                   |     110 |      37,909 |     11,137 (29%) |       617 (2%) |       3,071 (8%) |      21,278 (56%) |      1,534 (4%) |     272 (1%) |
 | Press                                     |      47 |      15,251 |      1,477 (10%) |     1,049 (7%) |       1,013 (7%) |      11,420 (75%) |        292 (2%) |       0 (0%) |
-| Campaigns and civic groups                |      53 |      18,752 |      2,280 (12%) |     1,033 (6%) |         747 (4%) |      13,388 (71%) |      1,304 (7%) |       0 (0%) |
+| Campaigns and civic groups                |      53 |      18,752 |      1,998 (11%) |     1,315 (7%) |         747 (4%) |      13,388 (71%) |      1,304 (7%) |       0 (0%) |
 | Governing and executive                   |     135 |      49,836 |      5,238 (11%) |       705 (1%) |     15,959 (32%) |      25,142 (50%) |      2,783 (6%) |       9 (0%) |
-| **Eight political engines**               | **764** | **243,967** | **41,153 (17%)** | **7,016 (3%)** | **38,057 (16%)** | **146,345 (60%)** | **10,790 (4%)** | **606 (0%)** |
+| **Eight political engines**               | **764** | **243,967** | **40,871 (17%)** | **7,298 (3%)** | **38,057 (16%)** | **146,345 (60%)** | **10,790 (4%)** | **606 (0%)** |
 | Story director (consumer)                 |      44 |      20,391 |      3,405 (17%) |       184 (1%) |      3,947 (19%) |      11,976 (59%) |        832 (4%) |      47 (0%) |
 | English engine (consumer)                 |      26 |       6,751 |        857 (13%) |       194 (3%) |      3,246 (48%) |       1,872 (28%) |        257 (4%) |     325 (5%) |
 | Life substrate (replaced by core2 itself) |     248 |      76,315 |     12,978 (17%) |     1,055 (1%) |     15,560 (20%) |      43,459 (57%) |      3,147 (4%) |     116 (0%) |
 
-Measured: large functions that mix math with plumbing are counted whole under their stronger signal. Splitting each of those in half gives the political engines between 34,863 and 53,609 KEEP lines, or 14% to 22% of code lines.
+Measured: large functions that mix math with plumbing are counted whole under their stronger signal. Splitting each of those in half gives the political engines between 34,581 and 53,327 KEEP lines, or 14% to 22% of code lines.
 
 Measured: the readers hand-classified 342 sampled declarations into rule, data, plumbing and dead, and the script agrees on 279 (82%). KEEP and REDESIGN split the rules by the owner's list; TOOLING and VIEW split by the import graph and the screen folders. Those splits are exact rules, not estimates. The 63 disagreements are: 18 rules the script called plumbing, 11 plumbing it called rules, 17 data it called plumbing, 13 plumbing it called data, 2 data it called rules, 1 rule it called data, and 1 live function it called dead. The script therefore counts 6 too few rules among 342 sampled declarations. The first version agreed on only 211 (62%), because it called every helper that never touched the world a rule. Story and English were labeled after the script's last change. They agree on 51 of 62 (82%), the same rate as the samples used to fix the script, so the fixes did not just fit those samples.
 
 Measured: 16,211 lines in the eight political engines are whole-world validators that the new core does not have (26,498 across the game: the other 10,287 are in the life substrate, 9,299; screens, 797; the story director, 143; and source tools, 48). Another 9,596 lines across the game are per-place research tables written as TypeScript instead of data files. The old core keeps 159 add-only history tables. Each political engine reaches them through whole-list scans, from 95 scans in courts to 246 in the economy.
 
-Measured: REDESIGN holds 7,016 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. Another 317 lines decide outcomes by seeded draws, and 12 build election-night-only speeches. Outside the political engines, REDESIGN holds 2,406 lines. The life substrate has 1,055: 34 of decision scoring, 367 of the one everyday goal per person and 654 of labeled decision types. Screens have 973: 881 of the one-day pre-start run and 92 of labeled decision types. The story director has 184: 89 of fixed scene-selection weights and 95 of labeled decision types. The English engine has 194 of labeled decision types.
+Measured: REDESIGN holds 7,298 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. Another 317 lines decide outcomes by seeded draws, 282 are the separate support-share model the CTO ruled out, and 12 build election-night-only speeches. Outside the political engines, REDESIGN holds 2,406 lines. The life substrate has 1,055: 34 of decision scoring, 367 of the one everyday goal per person and 654 of labeled decision types. Screens have 973: 881 of the one-day pre-start run and 92 of labeled decision types. The story director has 184: 89 of fixed scene-selection weights and 95 of labeled decision types. The English engine has 194 of labeled decision types.
 
 Inferred: what the labeled decision types weigh (party cues, commitments, sponsor ties, harm to a victim) is still worth having, as data rows for the chooser's reason providers rather than as code.
 
@@ -62,7 +64,7 @@ Each engine becomes one or more core2 modules: state it owns, offers it makes to
 
 | Order | Module                                                                                   | Needs first                                   |     Life-replay steps it unlocks | Risk                                                                    |
 | ----: | ---------------------------------------------------------------------------------------- | --------------------------------------------- | -------------------------------: | ----------------------------------------------------------------------- |
-|     0 | Next interface version (below)                                                           | P8 core                                       |                                0 | Medium: every port waits on it                                          |
+|     0 | Next interface version (approved)                                                        | P8 core                                       |                                0 | Medium: every port waits on it                                          |
 |     1 | Law in force (law rows, enactments, effective dates, amount evaluator)                   | next interface                                |             0 directly, 2 with 5 | Low                                                                     |
 |     2 | Economy remainder (labor market, rent and housing, loans, public budgets, macro)         | SOL-1258's business books, interface accounts |                                5 | High, provisional: 23 of 27 firms closed in the latest funded-wage year |
 |     3 | Offices and seats, then elections (calendars, filing, nominations, counting, succession) | 1, people's political views in core2          |                               10 | High                                                                    |
@@ -116,16 +118,16 @@ Measured: the three life files on the P9 branch hold 44 documented steps: 10 for
 
 ## What the new core's interface lacks
 
-The prototype's interface (version 5) has the right shape: modules offer acts, a shared chooser picks, effect handlers apply, events go out, and everything passes through one versioned facade. Six additions recur in every port. They need a version bump; none needs a rewrite.
+The prototype's interface (version 5) has the right shape: modules offer acts, a shared chooser picks, effect handlers apply, events go out, and everything passes through one versioned facade. Six additions recur in every port. They need a version bump; none needs a rewrite. The CTO approved all six. SOL-1258 builds reason providers (3) and subscriptions by event kind (4) first, because P10 and P13 need them now. Accounts and postings (2) come after SOL-1258's purchasing repair. Module state (1), the module calendar (5) and cohorts (6) come before the first political port.
 
 1. **Module state.** The core's state is a fixed set of tables. Each engine needs its own registered tables with indexes and a schema version, so it does not hide data in organization facts.
-2. **Accounts and postings.** `transfer` moves cash between two people or organizations. Laws, taxes, budgets, bail and campaign money need named accounts (a government's general fund), postings with a reason, and obligations that come due. SOL-1258 answered in the shared work [log](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit) on October 9, 2026: the planned interface adds one atomic, balanced journal writer beyond `transfer`. It admits registered accounts, actual paid amounts and dated source record ids, and it rejects duplicate, unbalanced or future-dated entries. Taxes, laws and public budgets post through it; the work writer stays the only wage writer, and `transfer` becomes a wrapper. It is planned, not yet built. The laws, governing and economy specs here post through it rather than a second writer.
+2. **Accounts and postings.** The money call moves cash between two people or organizations. Laws, taxes, budgets, bail and campaign money need named accounts (a government's general fund), postings with a reason, and obligations that come due. SOL-1258 answered in the shared work [log](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit) on October 9, 2026: the planned interface adds one atomic, balanced journal writer, `postJournal`, beyond the money call. It admits registered accounts, actual paid amounts and dated source record ids, and it rejects duplicate, unbalanced or future-dated entries. Taxes, laws and public budgets post through it; the work writer stays the only wage writer, and the money call becomes a wrapper around it. It is planned, not yet built. The laws, governing and economy specs here post through it rather than a second writer.
 3. **Reason providers in the chooser.** Old decisions weigh party cues, constituent views, commitments, favors owed and sponsor ties. The chooser needs a hook through which a module adds named, data-weighted terms to an offer's score. Drives from P10 already need the same hook, and it is where the REDESIGN decisions' reasons land as data rows.
 4. **Subscriptions by event kind.** `onEvent` now sends every event to every module. The press, story and law-consequence modules need to subscribe by kind, with an index, to stay inside the speed budget.
 5. **Dated institutional work.** Election days, session sittings, filing deadlines and court dates need modules to place work on dates. That work belongs to institutions, not people. `requestCallback` covers one event; a module calendar with keys is needed.
-6. **Cohorts.** State and national outcomes cannot tick every voter. A cohort row (place, age band, lean, turnout, size) checked against real spreads lets elections, mood and readership run at coarse tiers. Named people stay individual.
+6. **Cohorts.** State and national outcomes cannot tick every voter. A cohort row (place, age band, lean, turnout, size) checked against real spreads lets elections, mood and readership run at coarse tiers. Named people stay individual, and cohort rows are checked against real spreads, never drawn.
 
-Inferred: the prototype also has no recorded political views or principles per person. Votes, opinions and member decisions all read them, so they come before the elections port.
+Inferred: the prototype also has no recorded political views or principles per person. Votes, opinions and member decisions all read them, so they come before the elections port. The CTO agreed and is taking where views come from to the owner, because that is one of the owner's open design areas.
 
 ## Elections
 
@@ -143,7 +145,7 @@ Measured from code unless marked; the elections audit note (`docs/design/core2-p
 
 - State: contests (by place and date, by office), seats (holder, term, party; by body, by person), candidacies, filings and petitions, nominations, parties and chapters, precinct membership by person and by precinct, each person's office-service list, recall petitions.
 - Offers: register a party, sign or circulate a petition, vote, file, withdraw, request a runoff, run again or decline, appoint to a vacancy, call a special election, certify.
-- Effects: seat holder and term, tallies and winner, vacancy, recall removal, ward maps; fees through accounts.
+- Effects: seat holder and term, tallies and winner, vacancy, recall removal, ward maps; filing fees through `postJournal`.
 - Events: election scheduled, candidate filed or refused, nomination result, contest result with tallies, seat vacated, seat filled, term started. Results and seats are public record and news; petition signatures are private.
 - Calendar and tier: election, filing and term-start dates on the module calendar; daily only for the player's race and focus places; cohorts elsewhere.
 - Data: the elections research files (nomination rules, filing terms, filing offices, petition terms, initiative rules, qualifications), municipal baselines, county calendars, apportionment and district tables.
@@ -197,7 +199,7 @@ Measured from code unless marked; the laws audit note (`docs/design/core2-portin
 
 - State: propositions, enactments by proposition and place, tax proposals and policies by place and series, tax bases by payer and year, programs and appropriations, duties and eligibility, office rule overrides, monthly place outcomes, exposures by person, permit applications.
 - Offers: apply for a permit or benefit, appeal, file and pay taxes. Officials adopt a levy, set a rate, appropriate, issue an order, or enforce or decline.
-- Effects: on enactment, run the fan-out through the consequence rows. On paydays and assessment days, post taxes through accounts. Each month, place outcomes and landings for the people indexed by each link.
+- Effects: on enactment, run the fan-out through the consequence rows. On paydays and assessment days, post taxes through `postJournal` against each payer's sourced obligation, to the government's registered account. Each month, place outcomes and landings for the people indexed by each link.
 - Events: law enacted, law took effect, rate changed, program started or ended, duty breached (public record and news); tax assessed, benefit decided, exposure noticed (private).
 - Calendar and tier: effective dates, January 1, assessment days, paydays, monthly outcome pass, sunsets.
 - Data: outcome-web links and bases, starting law, tax schedules, minimum-wage matrix, local tax authority, public programs; the policy packs move from TypeScript to data rows with their keys unchanged.
@@ -224,7 +226,7 @@ Measured from code unless marked; the courts audit note (`docs/design/core2-port
 
 - State: cases by defendant, court and prosecutor; holds and jail terms by person; courts, seats and tenures by place; clemency petitions; crime exposure clocks by target; voting and citizenship standing.
 - Offers: report a crime, plead, serve on a jury, post bail, petition for clemency, appeal. Police refer; prosecutors charge or decline; judges set bail, detain and sentence; governors and boards grant clemency; presidents nominate and senators confirm.
-- Effects: jail leave from jobs, removal from office, voting suspension and restoration, bail through accounts, fines, absence from relationships.
+- Effects: jail leave from jobs, removal from office, voting suspension and restoration, bail and fines through `postJournal`, absence from relationships.
 - Events: offense, report, charge, plea, verdict, sentence, release, clemency, appeal, seat filled. Charges, verdicts, sentences and rulings are public record and news.
 - Calendar and tier: monthly exposure per place; charge and trial dates; sittings; the day a law takes effect for judicial review.
 - Data: bail, sentencing, time-to-disposition, clemency and precedent research; judiciary tables move from TypeScript to data.
@@ -257,7 +259,7 @@ Inferred: two of the missing cash routes belong to modules in this plan. Public 
 
 - State: accounts; obligations by payer and payee; leases by household and dwelling; loans by borrower; openings by place and employer; applications; bank books; macro series by scope; budgets by government and fiscal year.
 - Offers: look for work, apply, accept, quit; hire, lay off, raise pay; pay rent, move out, buy a home, borrow and repay; landlords file an eviction; board members vote a rate; officials adopt, amend or cut a budget.
-- Effects: transfers, job start and end, tenure changes, closures, price and rent levels, budget lines.
+- Effects: rent, loan service, taxes and budget lines post through `postJournal`; wages stay with the work writer. Also job start and end, tenure changes, closures, and price and rent levels.
 - Events: job started or ended, eviction, business closed or bank failed (public record and news), recession began, rate decided, budget adopted.
 - Calendar and tier: paydays, rent day, monthly loan servicing and macro step, quarterly reviews, fiscal years, rate meetings.
 - Data: wage, rent, employment and bank tables (about 2.1 MB of generated TypeScript to move to data), and the money and housing research.
@@ -299,28 +301,28 @@ Measured from code unless marked; the press audit note (`docs/design/core2-porti
 
 Measured from code unless marked; the campaigns audit note (`docs/design/core2-porting-plan/audit/campaigns.md`) gives the file and line for each claim.
 
-**Split.** KEEP 12%, REDESIGN 6%, DATA 4%, PLUMBING 71%, DEAD 7%; 1,595 lines of validators. Stopgap markers: 7 PLACEHOLDER, 1 SET BY HAND.
+**Split.** KEEP 11%, REDESIGN 7%, DATA 4%, PLUMBING 71%, DEAD 7%; 1,595 lines of validators. Stopgap markers: 7 PLACEHOLDER, 1 SET BY HAND.
 
 **What it does today.** Only the player files a campaign; the only callers are two screen files (src/presentation/nationwide-candidacy.ts:203 is one). No other candidate creates one. A campaign's outcome splits support shares among candidates; no voter is simulated in that path. Support gains come from formulas for ads, field hours and door conversations. Donor asks, staff and helpers are decisions with reasons. An invented rival takes a weekly step. Speeches get reactions from each witness. Every grown resident gets a quarterly civic contact and attendance review. Law-interest groups form when a law exposure is recorded. Nothing in an ordinary world starts a protest (src/simulation/living-world/protests.ts:85 is called only by tests), and endorsement requests have no producer.
 
 **Stopgaps worth naming.** Every candidate starts at a support weight of 850. Ad gain is spend divided by 500. Six of eight money sources are not built. Pressure amounts are all estimates. The anger line, attempt line and polling tiers are thresholds.
 
-**Keep.** The diminishing support gain, the largest-remainder split, gain formulas, recognition, door conversations, canvass pacing, contribution rules, pressure contributions, and civic stake.
+**Keep.** Recognition, canvass pacing, contribution rules, pressure contributions, and civic stake.
 
 **Module spec.**
 
-- State: campaigns by candidate and contest, committees, support by contest, asks, purchases, rivals, filings, groups by cause and town, movement leaders, protests, pressure readings.
+- State: campaigns by candidate and contest, committees, asks, purchases, rivals, filings, groups by cause and town, movement leaders, protests, pressure readings.
 - Offers: ask a donor, hire, canvass, phone, hold a fundraiser or town hall, buy ads, give a speech, file a statement, endorse, write an official, attend, found or join a group, organize or attend a protest, lead or step down. NPC candidates get the same offers as the player.
-- Effects: support among candidates, transfers, favors, ties from shared events, membership and leadership, pressure on migration.
+- Effects: contact changes what voters know and think of a candidate, which the one ballot rule then counts; gifts and spending post through the journal writer; favors, ties from shared events, membership and leadership, pressure on migration.
 - Events: campaign filed, statement filed, speech given, result, protest held, group founded, leadership changed. Most are public.
 - Calendar and tier: weekly for NPC teams, daily for the player, filing dates before election day, quarterly pressure and civic contact.
 - Data: campaign research (action catalog, calibration, contribution limits, unit prices), compliance packs by place, filing offices, protest places.
 
-**Risks.** The support-share model conflicts with voter counting (decision 1). The scheduler hub lives in this engine's file. Per-resident scans; scratch copies of the world for door walks; thresholds.
+**Risks.** The support-share model is ruled out (decision 1), so contact effects must be re-expressed as changes to voters' views. The scheduler hub lives in this engine's file. Per-resident scans; scratch copies of the world for door walks; thresholds.
 
 **Life-replay.** Supports candidacy (3) once NPCs file, and cause participation (1) with P10.
 
-**Redesign.** Measured: 1,033 lines. Donor asks, the rival's weekly step, protest attendance, helper asks and speech reactions are labeled decision types; 12 lines build election-night-only speeches.
+**Redesign.** Measured: 1,315 lines. Donor asks, the rival's weekly step, protest attendance, helper asks and speech reactions are labeled decision types. The support-share model (282 lines: shares, ad, field and door gains, and the outcome split; src/simulation/campaign-support.ts) is ruled out. 12 lines build election-night-only speeches.
 
 ## Governing and executive offices
 
@@ -338,7 +340,7 @@ Measured from code unless marked; the governing audit note (`docs/design/core2-p
 
 - State: offices (place, holder, term, powers pack), matters by office, programs, commitments and installments, positions and incumbencies, pay, crisis episodes, personnel matters; residents indexed by service area.
 - Offers: sign, veto or return; delegate or defer; appoint staff; issue an order or regulation; commit funds; request a public service; open a constituent case; discipline, appeal or reinstate; request or grant a disaster declaration; respond to a crisis.
-- Effects: public-account transfers, employment starts, program capacity, damage and repair, knowledge.
+- Effects: appropriations, installments and repair spending post through `postJournal` from registered public accounts; employment starts, program capacity, damage and repair, knowledge.
 - Events: office vacated or succeeded, term began, bill signed or vetoed, funds committed, service delivered, disaster declared. Office and bill events are public record and news.
 - Calendar and tier: term commencements, fiscal years, session timetable, paydays, installment dates, War Powers clocks; daily for the player's circle.
 - Data: powers catalog, civil-personnel rules, county offices, local institutions, population and income rows; the 3,886-line civil-personnel table and other generated tables move to data.
@@ -399,6 +401,44 @@ Measured from code unless marked; the screens audit note (`docs/design/core2-por
 
 **Risks.** History scans; screens that now show everything will show only what the player knows, which changes displays and tests; whole-world saves; writers in screen code; "Lexington time" (src/player/CalendarWorkspace.tsx:105) and a Lexington-only economic context in player screens.
 
+## Crisis and political violence
+
+This section cuts across the engine rows; its files are counted above under governing (crisis), courts (the incident framework) and campaigns (the pressure layer), with health files in the life substrate. Measured from code unless marked.
+
+| Part                                                                    | Files | Code lines | KEEP | REDESIGN | DATA | PLUMBING | DEAD |
+| ----------------------------------------------------------------------- | ----: | ---------: | ---: | -------: | ---: | -------: | ---: |
+| Crisis: hazards, disasters, epidemics, international crises, continuity |    21 |      6,195 |  18% |       8% |   7% |      60% |   7% |
+| Crisis health: conditions, mortality, health coverage                   |    14 |      2,677 |  24% |       0% |   3% |      72% |   2% |
+| Incident framework and response                                         |     5 |      2,295 |   6% |       0% |   4% |      85% |   5% |
+| Political violence: pressure layer and attack intent                    |     9 |      1,347 |  24% |       0% |  11% |      43% |  23% |
+
+**What it does today.**
+
+- Hazards: each month, a national stream samples storm episodes from the federal Storm Events catalog's reported rates for 2000 to 2024, using a Poisson draw (src/simulation/crisis/hazard-producer.ts:286). A disaster then runs damage, local response, a governor's request, a federal decision and a finite repair queue. Damage, deaths and injuries are seeded draws (src/simulation/crisis/disaster.ts:148). Voters reward or punish the handling through a table marked ESTIMATED FROM AVERAGE.
+- Epidemics: each week, illness passes through the contacts people actually had that week (household, family, coworkers, school and acquaintances). Arrival from outside is accumulated exposure with a seasonal multiplier that slides by day, not a draw. Illness raises the risk of death through the one mortality model. Schools and councils decide closures.
+- International crises: incident, imperfect intelligence, options, the president's decision, the other side's and allies' responses, then another cycle or an end, with War Powers clocks (src/simulation/crisis/international.ts). The function that declares a crisis has no caller outside tests, so no international crisis starts in an ordinary world.
+- Political violence: a quarterly pressure reading per state (leave, arrive, anger, fear, hope) builds from hazards, tax changes, crime, unemployment gaps and failed disaster response. Anger over a fixed line of 0.3 starts unrest (src/simulation/pressure/ladder.ts:116). Lasting unrest starts a threat against a prominent official, and strain over a second fixed line records an attempt. A per-person attack-intent decision exists but has no caller (src/simulation/crisis/political-attack-intent.ts:105). No named person chooses violence today; a state's readings do.
+- Continuity: an official's death sends notices, triggers succession through governing, and schedules an official funeral.
+
+**Stopgaps worth naming.** The unrest and attempt lines are thresholds, against the sliding-scale rule. Hope is fed by nothing. Every pressure amount is an estimate. Disaster and international policies carry provisional day counts and shares.
+
+**Keep.** Epidemic contact spread and case severity, hazard exposure and the reported rates (as checks on totals), disaster warrant tests made continuous, handling verdicts and their memory, pressure contribution and fade math, the War Powers clocks, and the funeral rules.
+
+**Redesign.** Measured: 507 lines in the crisis files. The international crisis response is a labeled decision type (240 lines). Disaster damage, deaths and injuries (187 lines) and the monthly storm count (80 lines) are dice. Inferred: political violence should also be redesigned, though the script counts its lines as plumbing and dead. A threat or attempt is an act a named person chooses, from a grudge or cause drive (P10), means and the target's exposure. It is not a state's anger crossing a line.
+
+**Module spec.**
+
+- State: hazard episodes and damage by place; epidemic cases by person and weekly contacts; international crises (stage, options, clocks); pressure readings by state (current and the last four quarters); incidents by place and kind; threats by target.
+- Offers: officials request or grant declarations, respond to a crisis, close schools, and certify War Powers extensions. Residents evacuate, rebuild, stay home sick, or protest. A person carrying a grudge or cause drive may threaten or plan an attack; the prerequisites are means and the target's exposure, and the effect is an incident and a security response.
+- Effects: damage to homes and organizations from exposure, illness through the health module, repair spending through `postJournal`, and pressure that feeds migration and drives.
+- Events: hazard declared, disaster declared or denied, outbreak, school closed, crisis escalated, War Powers report due, unrest began, threat made, attempt. All are public record and news except a private intent.
+- Calendar and tier: monthly hazard sampling from recorded rates (checked as totals), a weekly epidemic step for focus places with cohorts elsewhere, quarterly pressure, and the War Powers 48-hour, 60-day and 30-day clocks.
+- Data: the storm catalog (generated JSON moved to data), disaster and international policy rows, and the epidemic, handling and pressure estimate rows.
+
+**Risks.** Dice in damage and storm counts; thresholds in the ladder; the crisis declaration and attack intent are unwired; pressure causes scan all events and policies each quarter; whole-world integrity checks.
+
+**Life-replay.** Partly supplies the military authorization request (the War Powers path exists, with no authorization act) and the succession after a death (with governing). Health shocks come through the health module, not crisis.
+
 ## Engines outside the list
 
 The life substrate (people, households, minds, relationships, schooling, health and the old clock) is what core2 replaces directly; its split is in the table for reference. Source tools are 95% TOOLING: research and acquisition code run from `scripts/`, outside the port totals.
@@ -406,7 +446,8 @@ The life substrate (people, households, minds, relationships, schooling, health 
 ## What happens next
 
 - SOL-1258 and the CTO: explain why 23 of 27 firms closed in the latest funded-wage year before the economy remainder is ported; the economy spec is provisional until then.
-- CTO: rule on the three decisions at the top, then order the next interface version before any port.
+- SOL-1258: build the approved interface additions in the CTO's order.
+- Owner and CTO: settle where people's political views come from, before the elections port.
 - Ports follow the order table, one module per pull request. Each proves itself in core2's own runs: people, money or places visibly move.
 - P6 and P3 keep their engines; their sections here say what core2 events they need.
 

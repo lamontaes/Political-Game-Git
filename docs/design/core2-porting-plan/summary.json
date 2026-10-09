@@ -264,26 +264,26 @@
         "DEAD": 27,
         "PLUMBING": 390,
         "DATA": 97,
-        "RULE": 78,
-        "REDESIGN": 8
+        "RULE": 67,
+        "REDESIGN": 19
       },
       "lines": {
         "TYPE": 1237,
         "DEAD": 1304,
         "PLUMBING": 13388,
         "DATA": 747,
-        "RULE": 2280,
-        "REDESIGN": 1033
+        "RULE": 1998,
+        "REDESIGN": 1315
       },
       "ruleEntangled": {
-        "units": 45,
-        "lines": 1766
+        "units": 38,
+        "lines": 1548
       },
       "rulePortable": {
-        "units": 33,
-        "lines": 514
+        "units": 29,
+        "lines": 450
       },
-      "numericLiteralsInRule": 250
+      "numericLiteralsInRule": 208
     },
     "legislatures": {
       "files": 107,

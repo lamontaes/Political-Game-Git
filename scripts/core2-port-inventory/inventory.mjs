@@ -471,6 +471,10 @@ const REDESIGN_FILES = [
     "speeches only on election night",
   ],
   [
+    /^src\/simulation\/campaign-support\.ts$/,
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
     /^src\/(presentation\/production-world|simulation\/historical-past-mode)\.ts$/,
     "one-day pre-start run; core2 generates the deep past and simulates 2021 to the start",
   ],
@@ -480,6 +484,53 @@ const SCHEDULED_DECISION =
 // Seeded draws that decide an outcome, found by the readers. Seeded generation
 // of who exists (names, birth dates, opening officeholders) is allowed and is
 // not listed here.
+// Units of rejected designs inside mixed files.
+const REDESIGN_UNITS = new Map([
+  [
+    "src/simulation/campaigns.ts:ensureCampaignSupportMetric",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:supportSegment",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:allocateBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:canonicalSupportBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:recordInitialSupport",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:requestedCampaignAdvertisingGainBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:requestedCampaignFieldGainBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:requestedCompletedCampaignFieldGainBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:requestedGainBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:doorConversationBasisPoints",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+  [
+    "src/simulation/campaigns.ts:evaluateCampaignAwareOutcome",
+    "a separate support-share model decides elections; one ballot rule counts voters (CTO ruling on #3921)",
+  ],
+]);
 const DICE_UNITS = new Map([
   [
     "src/simulation/crisis/disaster.ts:homeLevel",
@@ -530,6 +581,9 @@ function classify(file, r, u) {
         cls: "REDESIGN",
         why: "scheduled decision type; its reasons become chooser data rows",
       };
+    const unitRedesign = REDESIGN_UNITS.get(`${r}:${u.name}`);
+    if (unitRedesign)
+      return { cls: "REDESIGN", why: "owner-rejected: " + unitRedesign };
     const dice = DICE_UNITS.get(`${r}:${u.name}`);
     if (dice) return { cls: "REDESIGN", why: "dice: " + dice };
   }
