@@ -14,6 +14,7 @@ import type {
 } from "../core2/types";
 import { STATES } from "../simulation/state-reference";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { paceOf, SITUATION_LIBRARY } from "./scheduling";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
 
@@ -484,5 +485,115 @@ describe("story director on the new core", () => {
         expect(ids.has(marker[1]!)).toBe(true);
     }
     expect(literals).toEqual([]);
+  });
+
+  it("keeps situation types to human moments, with no election-night type", () => {
+    const types = SITUATION_LIBRARY.types;
+    expect(types).toHaveLength(31);
+    expect(types.some((row) => row.key.includes("election"))).toBe(false);
+    for (const type of types) {
+      const roles = new Set(type.roles.map((row) => row.key));
+      for (const cause of type.causes) {
+        expect(Boolean(cause.match) !== Boolean(cause.awaitingProducer)).toBe(
+          true,
+        );
+        for (const role of Object.keys(cause.bind ?? {}))
+          expect(roles.has(role)).toBe(true);
+      }
+    }
+    const folded = (key: string, producer: string) =>
+      types
+        .find((row) => row.key === key)!
+        .causes.some((row) => row.awaitingProducer === producer);
+    expect(folded("news-arrives", "election-result")).toBe(true);
+    expect(folded("celebration", "election-result")).toBe(true);
+    expect(folded("first-meeting", "canvass-visit")).toBe(true);
+    expect(folded("visit", "canvass-visit")).toBe(true);
+  });
+
+  it("schedules a job loss as news the household waits to hear, and as a journal line while skipping", () => {
+    const { director } = run("place:director-fixture", true);
+    const worker = director.ledger.people.get("person:worker")!;
+    const spouse = director.ledger.people.get("person:spouse")!;
+    const entry = worker.schedule.find((row) =>
+      row.momentId.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    expect(entry).toMatchObject({ outcome: "scene-waiting", rank: 1, pace: 4 });
+    const news = entry.bindings.find((row) => row.typeKey === "news-arrives")!;
+    expect(news.roles).toEqual([
+      { role: "bearer", personIds: ["person:worker"], bearing: "solemn" },
+      { role: "about", personIds: ["person:worker"] },
+      { role: "receiver", personIds: ["person:spouse"], bearing: "braced" },
+    ]);
+    expect(news.setting).toEqual({
+      kind: "home",
+      recordId: "household:worker",
+    });
+    const heard = spouse.schedule[0]!.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    expect(heard.roles.find((row) => row.role === "bearer")!.personIds).toEqual(
+      ["person:worker"],
+    );
+
+    const skipped = createDirector({ watch: ["person:worker"] });
+    const core = createLifeCore(town("place:director-fixture"), {
+      scheduledWork: false,
+      modules: [fixtureWorld("place:director-fixture"), skipped.module],
+    });
+    skipped.start(core);
+    skipped.setMode("skipping");
+    advanceCore(core, "2021-01-15");
+    expect(
+      skipped.ledger.people.get("person:worker")!.schedule[0],
+    ).toMatchObject({ outcome: "journal-line", stopsSkip: false });
+  });
+
+  it("lets a death take over the screen, stop a skip, and log a moment no type stages", () => {
+    const place = "place:director-fixture";
+    const director = createDirector({ watch: ["person:worker"] });
+    const events: CoreModule = {
+      id: "fixture-events",
+      onAfterDay(api) {
+        const emit = (kind: string, size: number) =>
+          api.emit({
+            id: `${kind}:${api.state.date}`,
+            date: api.state.date,
+            kind,
+            personIds: ["person:classmate"],
+            witnessIds: ["person:worker"],
+            placeId: place,
+            moodImpulse: -size,
+            stressImpulse: size,
+            source,
+          });
+        if (api.state.date === "2021-01-02") emit("fixture.news", 0.2);
+        if (api.state.date === "2021-01-03") emit("life.death", 1);
+      },
+    };
+    const core = createLifeCore(town(place), {
+      scheduledWork: false,
+      modules: [events, director.module],
+    });
+    director.start(core);
+    director.setMode("skipping");
+    advanceCore(core, "2021-01-04");
+    const [news, death] = director.ledger.people.get("person:worker")!.schedule;
+    expect(news).toMatchObject({
+      outcome: "journal-line",
+      coverage: { reason: "no-type", label: "feeling:event:fixture.news" },
+    });
+    expect(death).toMatchObject({ outcome: "scene-now", stopsSkip: true });
+    expect(death!.bindings.map((row) => row.typeKey)).toEqual([
+      "news-arrives",
+      "funeral",
+    ]);
+  });
+
+  it("paces scenes by age band", () => {
+    expect(paceOf(SITUATION_LIBRARY, "2015-03-01", "2021-03-01")).toBe(1);
+    expect(paceOf(SITUATION_LIBRARY, "2010-03-01", "2021-03-01")).toBe(2);
+    expect(paceOf(SITUATION_LIBRARY, "2005-03-01", "2021-03-01")).toBe(3);
+    expect(paceOf(SITUATION_LIBRARY, "1969-12-20", "2021-03-01")).toBe(4);
   });
 });
