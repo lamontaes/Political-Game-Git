@@ -8,6 +8,7 @@ import {
   projectPartyEncounters,
 } from "../simulation/living-world/party-chapters";
 import { personTrait } from "../simulation/people-traits";
+import { readRelationshipAbsence } from "../simulation/relationship-absence";
 import { deriveRelationshipSummary } from "../simulation/queries";
 import {
   answerContact,
@@ -53,6 +54,7 @@ import type {
 } from "./contextual-scenes";
 import { householdConversationRoom } from "./ordinary-life";
 import { proseDate } from "./prose-dates";
+import { situationFamily } from "./situation-scene";
 import type { ConversationRoomContext } from "./run-b-conversation";
 
 /**
@@ -561,8 +563,19 @@ const favor: SceneFamilyDefinition = {
       ]);
     }
     const spoken = spokenDay(context.binding.date!, context.world.currentDate);
+    // "A long time" only when the record shows the two have been apart; with
+    // no contact on record, the line would say what the world did not.
+    const apart = readRelationshipAbsence(
+      context.world,
+      context.player.id,
+      context.speaker.id,
+    );
+    const longApart =
+      apart.lastMeaningfulContactOn !== null && apart.currency !== "current";
     return says(context, [
-      `“It’s been a long time. Are you free ${spoken}?” {name} asks.`,
+      ...(longApart
+        ? [`“It’s been a long time. Are you free ${spoken}?” {name} asks.`]
+        : []),
       `“I was thinking about you. Could you make it ${spoken}?” {name} asks.`,
     ]);
   },
@@ -2013,6 +2026,7 @@ export const SCENE_FAMILY_DEFINITIONS: Readonly<
   "study-peer": studyPeer,
   "study-plan": studyPlan,
   "town-hall": townHall,
+  situation: situationFamily,
 };
 
 /** When a situation stops being offered, counted from a date. */

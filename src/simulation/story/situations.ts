@@ -43,6 +43,11 @@ export interface StoryMoveAftermath {
   readonly kind: RelationshipInteractionKind;
   readonly change: RelationshipChange;
   readonly significance: RelationshipSignificance;
+  /**
+   * The moves this aftermath answers; omitted means any. Agreeing to a request
+   * commits; agreeing that someone declined does not.
+   */
+  readonly when?: readonly string[];
 }
 
 export interface StoryMove {
@@ -75,6 +80,10 @@ export interface SituationCause {
   readonly threadTurn?: string;
   /** Which fill binds each role, from the opening record. */
   readonly bind: Readonly<Record<string, string>>;
+  /** The role that speaks first, when the opening record says who did. */
+  readonly opener?: string;
+  /** The move the opening record already is: a request to meet is a request. */
+  readonly opening?: string;
 }
 
 export interface SituationType {
@@ -104,6 +113,7 @@ interface TypesTable {
 const TYPES_TABLE = typesData as unknown as TypesTable;
 const MOVES_TABLE = movesData as unknown as {
   readonly always: readonly string[];
+  readonly answeredBy: Readonly<Record<string, readonly string[]>>;
   readonly moves: readonly StoryMove[];
 };
 
@@ -146,12 +156,27 @@ export function movesForRole(type: SituationType, roleKey: string): string[] {
   return [...new Set([...role.moves, ...ALWAYS_OPEN_MOVES])];
 }
 
+/**
+ * The moves that answer a move: a request is answered by agreeing, declining
+ * or offering something else (adjacency pairs, data). A move nobody answers,
+ * such as leaving, has none.
+ */
+export function answeringMoves(moveKey: string): readonly string[] {
+  return MOVES_TABLE.answeredBy[moveKey] ?? [];
+}
+
 /** The interaction a move writes in this type, or null when it writes none. */
 export function moveAftermath(
   type: SituationType,
   moveKey: string,
+  /** The move this one answers, or null for none; omitted reads the data as is. */
+  answering?: string | null,
 ): StoryMoveAftermath | null {
-  return type.aftermath?.[moveKey] ?? storyMove(moveKey).aftermath;
+  const aftermath = type.aftermath?.[moveKey] ?? storyMove(moveKey).aftermath;
+  if (!aftermath?.when || answering === undefined) return aftermath;
+  return answering !== null && aftermath.when.includes(answering)
+    ? aftermath
+    : null;
 }
 
 /** The act kinds the shared decision table gives a move. */
@@ -192,6 +217,12 @@ export interface ChooseMoveInput {
   readonly personId: EntityId;
   /** The people the move is toward, whose standing weighs in. */
   readonly towardPersonIds: readonly EntityId[];
+  /**
+   * The moves to choose among, when the person is answering a move: the moves
+   * that answer it. Without them, the role's own moves and the always-open
+   * three.
+   */
+  readonly candidates?: readonly string[];
 }
 
 /**
@@ -199,7 +230,8 @@ export interface ChooseMoveInput {
  * the type's own moves. Every reason slides with its evidence: a want weighs
  * by the share of the move's act kinds it names, and a relationship line by
  * its band. The always-open moves (ask, stay silent, leave) are there so a
- * player always has four replies; only a person's traits weigh on them.
+ * player always has four replies; only a person's traits weigh on them. A
+ * person answering a move weighs the same reasons on each answering move.
  */
 export function moveConsiderations(
   world: World,
@@ -207,7 +239,9 @@ export function moveConsiderations(
 ): DecisionConsideration[] {
   const type = situationType(input.typeKey);
   const role = type.roles.find((entry) => entry.key === input.roleKey)!;
-  const moves = role.moves.filter((move) => !ALWAYS_OPEN_MOVES.includes(move));
+  const moves =
+    input.candidates ??
+    role.moves.filter((move) => !ALWAYS_OPEN_MOVES.includes(move));
   const considerations: DecisionConsideration[] = [];
   const wants = new Set(role.wants);
   for (const moveKey of moves) {
@@ -270,11 +304,12 @@ export function chooseSituationMove(
   input: ChooseMoveInput,
 ): DecisionEvaluation {
   const type = situationType(input.typeKey);
-  const moves = movesForRole(type, input.roleKey);
-  if (moves.length === 0)
+  const own = movesForRole(type, input.roleKey);
+  if (own.length === 0)
     throw new Error(
       `Role ${input.roleKey} in ${type.key} is not present and makes no move.`,
     );
+  const moves = input.candidates ?? own;
   return evaluateDecision(world, {
     stableKey: input.stableKey,
     decisionType: "story.move",
