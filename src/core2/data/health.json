@@ -1,0 +1,30 @@
+{
+  "version": "p10-health-producer-v1",
+  "stopgapId": "SG-P10-health-minimal-port",
+  "calibrationCategory": "equal-mixture",
+  "onsetEventKind": "health.serious-illness",
+  "deathEventKind": "life.death",
+  "topicPrefix": "health",
+  "desiredChangePrefix": "care-and-cure",
+  "unconditionedTopic": "serious-illness",
+  "onsetSeverity": {
+    "lifeChangeUnitsParameter": "srrsFamilyMemberHealthChange",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  },
+  "deathSeverity": {
+    "lifeChangeUnitsParameter": "srrsDeathOfCloseFamilyMember",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
+  },
+  "source": {
+    "tag": "ESTIMATED",
+    "citation": "Ruling 29/38/39 ordinary all-cause mortality: SSA 2023 period life table hazard times recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) against one fixed strain threshold; src/simulation/crisis/mortality.ts, condition-pack.ts, death-causes.ts.",
+    "estimatedFrom": "Pure helpers of the existing no-dice mortality rule, applied to core2 residents from the world's opening day; no seeded roll decides a death date."
+  },
+  "gaps": [
+    "Conditions that begin during life, coverage records and the below-poverty-line onset cause are not ported; only opening conditions and the serious-illness onset and death they lead to run.",
+    "Injury, sudden illness and births have no core2 producer yet.",
+    "Household income for the opening condition ranking uses recorded job pay; households without recorded pay sort as unknown, as in the old rule."
+  ]
+}

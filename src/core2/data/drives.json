@@ -1,0 +1,629 @@
+{
+  "version": "p10-drives-v1",
+  "stopgapId": "SG-P10-response-model",
+  "causeGroupKind": "cause-group",
+  "replacedSituationIds": ["learned-adverse-condition"],
+  "eventKinds": {
+    "formed": "drive.formed",
+    "shared": "cause.shared",
+    "confronted": "grievance.confronted",
+    "founded": "cause-group.founded",
+    "joined": "cause-group.joined",
+    "donated": "cause.donated",
+    "volunteered": "cause.volunteered",
+    "soughtStanding": "standing.sought"
+  },
+  "civicActEvents": [
+    {
+      "eventKind": "association.requested",
+      "actionId": "join-association"
+    },
+    {
+      "eventKind": "initiative.organizing-started",
+      "actionId": "organize-meeting"
+    },
+    {
+      "eventKind": "office.approached",
+      "actionId": "approach-office"
+    }
+  ],
+  "factKeys": {
+    "responsible": "responsible",
+    "drive": "drive",
+    "origin": "origin",
+    "condition": "condition",
+    "driveKind": "drive-kind",
+    "sourceEvent": "source-event",
+    "organization": "organizationId",
+    "sourceEventLegacy": "sourceEventId"
+  },
+  "driveKinds": [
+    {
+      "id": "cause",
+      "goalKind": "change-condition",
+      "halfLifeParameter": "driveCauseHalfLifeDays",
+      "shareable": true
+    },
+    {
+      "id": "grudge",
+      "goalKind": "settle-score",
+      "halfLifeParameter": "driveGrudgeHalfLifeDays",
+      "shareable": false
+    },
+    {
+      "id": "protect-family",
+      "goalKind": "care",
+      "halfLifeParameter": "driveProtectFamilyHalfLifeDays",
+      "shareable": false
+    },
+    {
+      "id": "status-ambition",
+      "goalKind": "climb",
+      "halfLifeParameter": "driveStatusHalfLifeDays",
+      "shareable": false
+    },
+    {
+      "id": "calling",
+      "goalKind": "serve",
+      "halfLifeParameter": "driveCallingHalfLifeDays",
+      "shareable": true
+    }
+  ],
+  "responses": [
+    {
+      "id": "take-up-cause",
+      "driveKind": "cause",
+      "requires": ["event-topic"],
+      "fitParameter": "responseDriveFit",
+      "actKinds": ["speak-out", "commit", "help-others", "change", "engage"],
+      "goalKinds": ["respond:take-up-cause"],
+      "need": "safety",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "zero",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "hold-grudge",
+      "driveKind": "grudge",
+      "requires": ["event-responsible"],
+      "fitParameter": "responseDriveFit",
+      "actKinds": ["confront", "distrust", "refuse"],
+      "goalKinds": ["respond:hold-grudge"],
+      "need": "safety",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "guard-family",
+      "driveKind": "protect-family",
+      "requires": ["has-living-family"],
+      "fitParameter": "responseDriveFit",
+      "actKinds": ["help-others", "commit", "play-safe"],
+      "goalKinds": ["respond:guard-family"],
+      "need": "health",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "zero",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "prove-oneself",
+      "driveKind": "status-ambition",
+      "requires": [],
+      "fitParameter": "responseDriveFit",
+      "actKinds": ["self-interest", "take-risk", "engage", "change"],
+      "goalKinds": ["respond:prove-oneself"],
+      "need": "money",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "zero"
+      }
+    },
+    {
+      "id": "answer-calling",
+      "driveKind": "calling",
+      "requires": ["event-topic"],
+      "fitParameter": "responseDriveFit",
+      "actKinds": ["help-others", "commit", "follow-rules"],
+      "goalKinds": ["respond:answer-calling"],
+      "need": "company",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "zero",
+        "stressMultiplierParameter": "zero"
+      }
+    },
+    {
+      "id": "carry-on",
+      "requires": [],
+      "fitParameter": "responseCarryOnFit",
+      "actKinds": ["keep-same", "withdraw", "stay-quiet", "play-safe"],
+      "goalKinds": ["respond:carry-on"],
+      "need": "time",
+      "effortParameter": "zero",
+      "effectParameter": "zero",
+      "targetKind": "event-response",
+      "effect": "drive-response",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    }
+  ],
+  "roles": [
+    {
+      "id": "subject",
+      "operation": "event-subject",
+      "weightParameter": "perceptionRoleSubject"
+    },
+    {
+      "id": "family",
+      "operation": "family-of-subject",
+      "weightParameter": "perceptionRoleFamily"
+    },
+    {
+      "id": "household",
+      "operation": "household-of-subject",
+      "weightParameter": "perceptionRoleHousehold"
+    },
+    {
+      "id": "acquaintance",
+      "operation": "known-to-subject",
+      "weightParameter": "perceptionRoleAcquaintance"
+    },
+    {
+      "id": "witness",
+      "operation": "event-witness",
+      "weightParameter": "perceptionRoleWitness"
+    }
+  ],
+  "perception": {
+    "stopgapId": "SG-P10-perception-model",
+    "traitWeightParameter": "perceptionTraitWeight",
+    "closenessWeightParameter": "perceptionClosenessWeight",
+    "channels": [
+      {
+        "id": "loss",
+        "traits": [
+          {
+            "traitId": "personality-v1:facet-brooding",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:bond-loyalty",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-devoted",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-sensitive",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-contented",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-light-hearted",
+            "direction": "lowers"
+          }
+        ]
+      },
+      {
+        "id": "others-distress",
+        "traits": [
+          {
+            "traitId": "personality-v1:concern-for-distress",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-tender-hearted",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-comforting",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-nurturing",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-cynical",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-cruel",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-self-serving",
+            "direction": "lowers"
+          }
+        ]
+      },
+      {
+        "id": "injustice",
+        "traits": [
+          {
+            "traitId": "personality-v1:facet-fair-minded",
+            "direction": "raises"
+          },
+          {
+            "traitId": "people-mind-v1:conflict",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-defensive",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-vindictive",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-forgiving",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-deferential",
+            "direction": "lowers"
+          }
+        ]
+      },
+      {
+        "id": "threat",
+        "traits": [
+          {
+            "traitId": "personality-v1:facet-guarded",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-skeptical",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-cynical",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:initial-trust",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-calm",
+            "direction": "lowers"
+          }
+        ]
+      },
+      {
+        "id": "persuasion",
+        "traits": [
+          {
+            "traitId": "personality-v1:facet-open-minded",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:initial-trust",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-curious",
+            "direction": "raises"
+          },
+          {
+            "traitId": "personality-v1:facet-skeptical",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-analytical",
+            "direction": "lowers"
+          },
+          {
+            "traitId": "personality-v1:facet-guarded",
+            "direction": "lowers"
+          }
+        ]
+      }
+    ]
+  },
+  "eventRules": [
+    {
+      "id": "bereavement",
+      "eventKind": "life.death",
+      "roles": ["family", "household", "acquaintance"],
+      "channels": ["loss", "others-distress"],
+      "responses": [
+        "take-up-cause",
+        "guard-family",
+        "answer-calling",
+        "carry-on"
+      ]
+    },
+    {
+      "id": "serious-illness",
+      "eventKind": "health.serious-illness",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
+      "id": "job-loss",
+      "eventKind": "work.job-lost",
+      "roles": ["subject", "household"],
+      "channels": ["injustice", "threat"],
+      "responses": [
+        "take-up-cause",
+        "hold-grudge",
+        "prove-oneself",
+        "guard-family",
+        "carry-on"
+      ]
+    },
+    {
+      "id": "eviction",
+      "eventKind": "housing.eviction",
+      "roles": ["subject", "household", "family"],
+      "channels": ["injustice", "threat"],
+      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"]
+    },
+    {
+      "id": "crime-suffered",
+      "eventKind": "crime.victimized",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "injustice"],
+      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"]
+    },
+    {
+      "id": "injustice-seen",
+      "eventKind": "injustice.witnessed",
+      "roles": ["subject", "witness"],
+      "channels": ["injustice", "others-distress"],
+      "responses": ["take-up-cause", "hold-grudge", "carry-on"]
+    },
+    {
+      "id": "speech-heard",
+      "eventKind": "speech.heard",
+      "roles": ["witness"],
+      "channels": ["persuasion"],
+      "responses": ["take-up-cause", "carry-on"]
+    },
+    {
+      "id": "law-landed",
+      "eventKind": "law.effect-landed",
+      "roles": ["subject", "household"],
+      "channels": ["injustice", "threat"],
+      "responses": ["take-up-cause", "hold-grudge", "guard-family", "carry-on"]
+    },
+    {
+      "id": "cause-shared",
+      "eventKind": "cause.shared",
+      "roles": ["family", "household", "acquaintance", "witness"],
+      "channels": ["persuasion", "others-distress"],
+      "responses": ["take-up-cause", "answer-calling", "carry-on"]
+    },
+    {
+      "id": "confronted",
+      "eventKind": "grievance.confronted",
+      "roles": ["witness"],
+      "channels": ["threat", "injustice"],
+      "responses": ["hold-grudge", "carry-on"]
+    }
+  ],
+  "actions": [
+    {
+      "id": "share-cause",
+      "actKinds": ["speak-out", "engage", "help-others"],
+      "goalKinds": ["change-condition", "serve"],
+      "need": "company",
+      "effortParameter": "driveShareHours",
+      "effectParameter": "causeShareImpulseScale",
+      "targetKind": "drive-confidant",
+      "effect": "share-drive",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "found-cause-group",
+      "actKinds": ["commit", "take-risk", "cooperate", "speak-out"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "drive-topic",
+      "effect": "found-cause-group",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "has-organized-topic"
+        },
+        {
+          "operation": "no-known-group-on-topic"
+        }
+      ],
+      "stopgapId": "SG-P10-cause-group-founding",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "join-cause-group",
+      "actKinds": ["cooperate", "commit", "engage"],
+      "goalKinds": ["change-condition", "serve"],
+      "need": "company",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "known-cause-group",
+      "effect": "join-cause-group",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "not-member"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "donate-to-cause",
+      "actKinds": ["help-others", "commit"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "donateHours",
+      "effectParameter": "donationLivingCostDays",
+      "targetKind": "known-cause-group",
+      "effect": "donate",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "can-afford-donation"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+      }
+    },
+    {
+      "id": "volunteer-for-cause",
+      "actKinds": ["help-others", "commit", "cooperate"],
+      "goalKinds": ["change-condition", "serve"],
+      "need": "company",
+      "effortParameter": "volunteerHours",
+      "effectParameter": "one",
+      "targetKind": "member-cause-group",
+      "effect": "volunteer",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+      }
+    },
+    {
+      "id": "confront-grudge-target",
+      "actKinds": ["confront", "speak-out", "refuse"],
+      "goalKinds": ["settle-score"],
+      "need": "safety",
+      "effortParameter": "driveConfrontHours",
+      "effectParameter": "grudgeRelationshipChange",
+      "targetKind": "grudge-target",
+      "effect": "confront",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "seek-standing",
+      "actKinds": ["engage", "self-interest", "take-risk"],
+      "goalKinds": ["climb"],
+      "need": "company",
+      "effortParameter": "socialHours",
+      "effectParameter": "relationContactGain",
+      "targetKind": "known-public-figure",
+      "effect": "seek-standing",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ],
+      "stopgapId": "SG-P10-drive-acts",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "zero"
+      }
+    },
+    {
+      "id": "testify-at-hearing",
+      "actKinds": ["speak-out", "engage", "follow-rules"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "unbuilt-system",
+      "effect": "unbuilt-system",
+      "stopgapId": "SG-P10-testify-unbuilt"
+    },
+    {
+      "id": "run-for-office",
+      "actKinds": ["take-risk", "commit", "speak-out"],
+      "goalKinds": ["change-condition", "climb"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "unbuilt-system",
+      "effect": "unbuilt-system",
+      "stopgapId": "SG-P10-candidacy-unbuilt"
+    },
+    {
+      "id": "lobby-legislator",
+      "actKinds": ["engage", "speak-out", "cooperate"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "unbuilt-system",
+      "effect": "unbuilt-system",
+      "stopgapId": "SG-P10-lobbying-unbuilt"
+    }
+  ],
+  "gaps": [
+    "Producers for work.job-lost, housing.eviction, crime.victimized, injustice.witnessed, speech.heard and law.effect-landed do not exist in core2 yet; their formation rules are data rows waiting on those engines.",
+    "Testifying, running for office and lobbying have no core2 hearing, election or legislature; the rows are registered stopgaps and are never offered.",
+    "Cause groups carry a structured key, not a name; the English engine names them later."
+  ]
+}
