@@ -37,6 +37,20 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Calendar year has four fiscal quarters",
     range: { minimum: 1, maximum: 8 },
   },
+  payOutcomeLookbackDays: {
+    value: 45,
+    basis: "TUNABLE",
+    stopgapId: "economy.pay-outcome-lookback-days",
+    source:
+      "Legacy payroll reader looks back 45 days for late-recorded pay transfers",
+    range: { minimum: 1, maximum: 180 },
+  },
+  millisecondsPerDay: {
+    value: 86_400_000,
+    basis: "SOURCED",
+    source: "A UTC calendar day contains 86,400,000 milliseconds",
+    range: { minimum: 1, maximum: 100_000_000 },
+  },
   layoffPayCoverageToleranceDollars: {
     value: 1,
     basis: "TUNABLE",
