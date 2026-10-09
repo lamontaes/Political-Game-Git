@@ -15,6 +15,7 @@ The CTO needs to settle three things before any engine moves to the new core: ho
 - **Readers**: eleven read-only reviewing agents, one per engine group. Each read the code and hand-classified a sample of about 30 declarations.
 - **Five standing lines**: the five relationship measures every pair of people carries (warmth, trust, respect, commitment and tension).
 - **Person landing**: a law's effect reaching a named person, such as a raise from a new minimum wage.
+- **Focus places**: the places the core runs at full daily detail. These are the player's town and county, plus any place the player is acting in that day. Everyone else runs weekly, monthly or on calendar dates.
 - **Offer**: an act the core puts in front of one person, such as filing for office; the shared chooser picks among offers.
 
 ## The split, engine by engine
@@ -41,7 +42,7 @@ Measured: large functions that mix math with plumbing are counted whole under th
 
 Measured: the readers hand-classified 342 sampled declarations, and the final script agrees on 279 (82%). The 63 disagreements are: 18 rules the script called plumbing, 11 plumbing it called rules, 17 data it called plumbing, 13 plumbing it called data, 2 data it called rules, 1 rule it called data, and 1 live function it called dead. The script therefore counts 6 too few rules among 342 sampled declarations. The first version agreed on only 211 (62%), because it called every helper that never touched the world a rule. Story and English were labeled after the script's last change. They agree on 51 of 62 (82%), the same rate as the samples used to fix the script, so the fixes did not just fit those samples.
 
-Measured: 16,211 lines in the eight political engines are whole-world validators that the new core does not have (26,498 across the game; the life substrate holds 9,299 of the rest). Another 9,596 lines across the game are per-place research tables written as TypeScript instead of data files. The old core keeps 159 add-only history tables. Each political engine reaches them through whole-list scans, from 95 scans in courts to 246 in the economy.
+Measured: 16,211 lines in the eight political engines are whole-world validators that the new core does not have (26,498 across the game: the other 10,287 are in the life substrate, 9,299; screens, 797; the story director, 143; and source tools, 48). Another 9,596 lines across the game are per-place research tables written as TypeScript instead of data files. The old core keeps 159 add-only history tables. Each political engine reaches them through whole-list scans, from 95 scans in courts to 246 in the economy.
 
 Inferred: in the old core, each line of rule worth keeping comes with about three lines of plumbing that feeds it. Most of each port is new wiring: plain tables keyed by id, indexes, typed events and offers to people.
 
@@ -79,23 +80,29 @@ The riskiest work, measured across all reports:
 
 Measured: the three life files on the P9 branch hold 44 documented steps: 10 for Alexandria Ocasio-Cortez, 20 for Lyndon Johnson, and 14 for Wes Moore.
 
-| Step kind                                                    | Steps | Engine that must supply it      | Today                                                                      |
-| ------------------------------------------------------------ | ----: | ------------------------------- | -------------------------------------------------------------------------- |
-| Election result                                              |     6 | Elections                       | Counts recorded voters; no historic-era rules, write-ins or top-two splits |
-| Candidacy                                                    |     3 | Elections, campaigns            | Only the player files a campaign; NPC candidates are scheduled, not chosen |
-| Re-election decision                                         |     1 | Elections                       | Rules for governors and Congress; nothing for a president who declines     |
-| Office service                                               |     2 | Governing, legislatures         | Incumbents are invented; no act seats a recorded person on a date          |
-| Office succession                                            |     1 | Governing                       | Vice president to president works; governor succession is a placeholder    |
-| Public appointment                                           |     1 | Governing                       | Staff and Supreme Court only; no agency director with confirmation         |
-| Law signature                                                |     2 | Governing, legislatures, laws   | Governor desk works; no presidential desk for a named bill                 |
-| Legislative proposal                                         |     1 | Legislatures                    | Members file bills; no resolution kind                                     |
-| Chamber leadership                                           |     1 | Legislatures                    | Missing: no majority leader, whip or chair role                            |
-| Military authorization request                               |     1 | Legislatures, a military engine | Missing: no such measure kind                                              |
-| Employment                                                   |     4 | Economy                         | Openings, applications and pay work; employers are not yet funded in core2 |
-| Business formation                                           |     1 | Economy                         | Openings and closures by cash; no founding by choice with a loan           |
-| Residence move, schooling, family loss, partnership, illness |    16 | Core2 life loop                 | Prototype has needs and work; not these life events                        |
-| Cause participation                                          |     1 | P10 drives, campaigns           | Law-interest groups exist; drive-born joining is P10's proof               |
-| Military service and deployment                              |     3 | None                            | No engine                                                                  |
+| Step kind                      | Steps | Engine that must supply it      | Today                                                                      |
+| ------------------------------ | ----: | ------------------------------- | -------------------------------------------------------------------------- |
+| Election result                |     6 | Elections                       | Counts recorded voters; no historic-era rules, write-ins or top-two splits |
+| Candidacy                      |     3 | Elections, campaigns            | Only the player files a campaign; NPC candidates are scheduled, not chosen |
+| Re-election decision           |     1 | Elections                       | Rules for governors and Congress; nothing for a president who declines     |
+| Office service                 |     2 | Governing, legislatures         | Incumbents are invented; no act seats a recorded person on a date          |
+| Office succession              |     1 | Governing                       | Vice president to president works; governor succession is a placeholder    |
+| Public appointment             |     1 | Governing                       | Staff and Supreme Court only; no agency director with confirmation         |
+| Law signature                  |     2 | Governing, legislatures, laws   | Governor desk works; no presidential desk for a named bill                 |
+| Legislative proposal           |     1 | Legislatures                    | Members file bills; no resolution kind                                     |
+| Chamber leadership             |     1 | Legislatures                    | Missing: no majority leader, whip or chair role                            |
+| Military authorization request |     1 | Legislatures, a military engine | Missing: no such measure kind                                              |
+| Employment                     |     4 | Economy                         | Openings, applications and pay work; employers are not yet funded in core2 |
+| Business formation             |     1 | Economy                         | Openings and closures by cash; no founding by choice with a loan           |
+| Residence move                 |     4 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Education completion           |     7 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Education enrollment           |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Family loss                    |     2 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Partnership                    |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Health shock                   |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
+| Cause participation            |     1 | P10 drives, campaigns           | Law-interest groups exist; drive-born joining is P10's proof               |
+| Military service               |     2 | None                            | No engine                                                                  |
+| Military deployment            |     1 | None                            | No engine                                                                  |
 
 ## What the new core's interface lacks
 
@@ -145,7 +152,7 @@ Measured from code unless marked; the legislatures audit note (`docs/design/core
 
 **Stopgaps worth naming.** Congress takes one bill per House per month (src/simulation/governing/congress-lawmaking.ts:60). Vote weights and the "slight" trust reason are hand-set. Favor scores and half-lives are set by hand. Only five candidates run for Speaker, with no repeated ballots. Nevada's charter route (src/simulation/constitutional-process.ts:451) and the Kentucky, Kansas and Nebraska term rules are named in logic.
 
-**Keep.** Required-vote math, tallies, override thresholds and veto windows, session dates, filing caps, germaneness and single-subject tests, the member vote decision, favor standing, reliance, the governor's bill decision, and agenda, Speaker and committee seating. The member vote is the best decision logic in the old core; it needs knowledge and relationship reads in place of history.
+**Keep.** Required-vote math, tallies, override thresholds and veto windows, session dates, filing caps, germaneness and single-subject tests, the member vote decision, favor standing, reliance, the governor's bill decision, and agenda, Speaker and committee seating. Inferred: the member vote is the richest decision logic the readers found in the old core, because it weighs eight kinds of reasons with smooth weights and no dice. It needs knowledge and relationship reads in place of history.
 
 **Module spec.**
 
@@ -245,7 +252,7 @@ Measured from code unless marked; the press audit note (`docs/design/core2-porti
 
 **What it does today.** Outlets open by place size. A weekly desk reads every new event past a cursor, judges coverage and newsworthiness, assigns a reporter, waits for responses, decides to publish, narrow, hold or decline, and publishes. Ownership reviews cut staff or buy outlets from the books. Misconduct becomes a matter, then a proceeding with dated steps, then a public finding that costs support. Inquiries and subpoenas are written but not used. Word of mouth reaches household, kin and close ties.
 
-**Stopgaps worth naming.** Every state has the same statehouse newsroom. Every unresearched state follows the federal election commission's calendar. Finding penalties are game rules that research does not support. National mood counts only the president's party, only in midterm years. Seven decisions pass near-ties to a seeded tie-break (src/simulation/press/desk.ts:397 is one). Kentucky's ethics commission is defined in code (src/simulation/press/procedures.ts:214).
+**Stopgaps worth naming.** Every state has the same statehouse newsroom. Every unresearched state follows the federal election commission's calendar. Finding penalties are marked in code as game rules that research does not validate (src/simulation/press/findings.ts:37). National mood counts only the president's party, only in midterm years. Seven decisions pass near-ties to a seeded tie-break (src/simulation/press/desk.ts:397 is one). Kentucky's ethics commission is defined in code (src/simulation/press/procedures.ts:214).
 
 **Keep.** Coverage and newsworthiness, story corroboration and the editorial choice, reporter choice and beats, reporter workload, local outlet size, the proceeding step machines (as data plus one interpreter), finding effects, outlet purchase terms, who hears news, news habits, mood and memory strength.
 

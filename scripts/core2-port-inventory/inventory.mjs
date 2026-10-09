@@ -1,3 +1,4 @@
+/* global console, process */
 // Read-only inventory of old-core engines for the core2 porting plan (P11).
 // Usage: node scripts/core2-port-inventory/inventory.mjs . <outDir>  (needs the typescript devDependency)
 // Classifies every top-level declaration in src/ (tests excluded) as
