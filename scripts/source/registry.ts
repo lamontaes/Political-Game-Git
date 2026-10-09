@@ -41,6 +41,7 @@ const DOMAIN_LOADERS: Readonly<
     import("../../src/source/domains/government-finances/index"),
   "government-units": () =>
     import("../../src/source/domains/government-units/index"),
+  hospitals: () => import("../../src/source/domains/hospitals/index"),
   "hud-housing": () => import("../../src/source/domains/hud-housing/index"),
   "judicial-office-selection": () =>
     import("../../src/source/domains/judicial-office-selection/index"),

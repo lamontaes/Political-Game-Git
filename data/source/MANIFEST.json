@@ -667,21 +667,27 @@
           "sha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d",
           "sliceOfParent": null,
           "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "cms-provider-of-services-2026-q2-hospital-slice",
+          "sha256": "114bc9d8b3bd72ddf4deefae5f8ff9f4d24ba3d2fe2aaa304db15714a5c0fc82",
+          "sliceOfParent": "cms-provider-of-services-2026-q2",
+          "storage": "derived-qa-slice"
         }
       ],
       "asOf": "2026-07-22",
       "boundedSampleReason": "Medicare-certified hospitals only. Hospitals that do not participate in Medicare, and the hospitals a Hospital General Information release leaves out, are not here.",
-      "canonicalSha256": "5f2320a8971d73084c8048b1dd12f50d59106346575ab00ddc7786b3ac84ef50",
+      "canonicalSha256": "7c388b908700078c43e0a0ebc7ca45f452fe85d6a64d11ac08bf822dcdbec23e",
       "compiler": {
         "name": "hospitals",
         "version": "1.0.0"
       },
-      "corpusFileSha256": "5f2320a8971d73084c8048b1dd12f50d59106346575ab00ddc7786b3ac84ef50",
+      "corpusFileSha256": "7c388b908700078c43e0a0ebc7ca45f452fe85d6a64d11ac08bf822dcdbec23e",
       "corpusId": "hospitals",
       "domain": "hospitals",
       "isCompleteUniverse": false,
       "recordCount": 5419,
-      "universeDescription": "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to the Provider of Services file for certified beds and county FIPS."
+      "universeDescription": "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to a committed slice of the Provider of Services file for certified beds and county FIPS. The full Provider of Services file (30 MB, every provider category) is pinned in the lock and cached, not committed."
     },
     {
       "artifacts": [

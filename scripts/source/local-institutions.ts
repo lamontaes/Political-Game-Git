@@ -45,7 +45,7 @@ import type { HospitalRecord } from "../../src/source/domains/hospitals/types";
 import {
   HOSPITALS_AS_OF,
   HOSPITAL_GENERAL_ARTIFACT,
-  HOSPITAL_POS_ARTIFACT,
+  HOSPITAL_POS_SLICE_ARTIFACT,
 } from "../../src/source/domains/hospitals/acquisition";
 import {
   CCD_MEMBERSHIP_ARTIFACT,
@@ -1397,10 +1397,12 @@ export async function renderStateInstitutions(): Promise<StateInstitutionFiles> 
       PLACE_BOUNDARY_ARTIFACT,
       CCD_MEMBERSHIP_ARTIFACT,
     ].map((artifactId) => ({ domain: "education", artifactId })),
-    ...[HOSPITAL_GENERAL_ARTIFACT, HOSPITAL_POS_ARTIFACT].map((artifactId) => ({
-      domain: "hospitals",
-      artifactId,
-    })),
+    ...[HOSPITAL_GENERAL_ARTIFACT, HOSPITAL_POS_SLICE_ARTIFACT].map(
+      (artifactId) => ({
+        domain: "hospitals",
+        artifactId,
+      }),
+    ),
   ].map(({ domain, artifactId }) => ({
     domain,
     artifactId,

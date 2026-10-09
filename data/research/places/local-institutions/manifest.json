@@ -33,8 +33,8 @@
     },
     {
       "domain": "hospitals",
-      "artifactId": "cms-provider-of-services-2026-q2",
-      "sha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d"
+      "artifactId": "cms-provider-of-services-2026-q2-hospital-slice",
+      "sha256": "114bc9d8b3bd72ddf4deefae5f8ff9f4d24ba3d2fe2aaa304db15714a5c0fc82"
     }
   ],
   "report": {

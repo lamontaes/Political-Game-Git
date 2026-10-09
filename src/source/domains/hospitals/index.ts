@@ -1,6 +1,5 @@
 import {
   corpusCanonicalDigest,
-  openCachedProductionArtifacts,
   openProductionArtifacts,
   parseDelimited,
 } from "../../core/index";
@@ -15,7 +14,7 @@ import type {
 import {
   HOSPITALS_AS_OF,
   HOSPITAL_GENERAL_ARTIFACT,
-  HOSPITAL_POS_ARTIFACT,
+  HOSPITAL_POS_SLICE_ARTIFACT,
   hospitalsAcquisition,
 } from "./acquisition";
 import type { HospitalEvidence, HospitalRecord } from "./types";
@@ -139,7 +138,7 @@ export function compileHospitals(
         name: "cms-hospital-general-information-pos-join",
         version: "1.0.0",
       },
-      inputs: [HOSPITAL_GENERAL_ARTIFACT, HOSPITAL_POS_ARTIFACT].map(
+      inputs: [HOSPITAL_GENERAL_ARTIFACT, HOSPITAL_POS_SLICE_ARTIFACT].map(
         (artifactId) => ({ artifactId, sha256: sha(artifactId) }),
       ),
       asOf: HOSPITALS_AS_OF,
@@ -149,7 +148,7 @@ export function compileHospitals(
       coverage: {
         isCompleteUniverse: false,
         universeDescription:
-          "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to the Provider of Services file for certified beds and county FIPS.",
+          "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to a committed slice of the Provider of Services file for certified beds and county FIPS. The full Provider of Services file (30 MB, every provider category) is pinned in the lock and cached, not committed.",
         boundedSampleReason:
           "Medicare-certified hospitals only. Hospitals that do not participate in Medicare, and the hospitals a Hospital General Information release leaves out, are not here.",
       },
@@ -201,11 +200,8 @@ export const sourceDomain: SourceDomainModule<HospitalRecord> = {
     const general = openProductionArtifacts("hospitals", lock, {
       general: HOSPITAL_GENERAL_ARTIFACT,
     });
-    const pos = openCachedProductionArtifacts("hospitals", lock, {
-      pos: {
-        artifactId: HOSPITAL_POS_ARTIFACT,
-        cachePath: `.source-cache/hospitals/${HOSPITAL_POS_ARTIFACT}.csv`,
-      },
+    const pos = openProductionArtifacts("hospitals", lock, {
+      pos: HOSPITAL_POS_SLICE_ARTIFACT,
     });
     return compileHospitals(general.artifacts.general, pos.artifacts.pos, lock);
   },
