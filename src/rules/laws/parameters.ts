@@ -18,6 +18,12 @@ export const LAWS_PARAMETERS = {
     source: "One whole is 100 percent",
     range: { minimum: 1, maximum: 1000 },
   },
+  halfUpRoundingFactor: {
+    value: 2,
+    basis: "SOURCED",
+    source: "Half-up rounding splits a unit into two equal halves",
+    range: { minimum: 2, maximum: 2 },
+  },
   nonMoneyFeltSizeMonthsOfPay: {
     value: 0.1,
     basis: "PLACEHOLDER",
