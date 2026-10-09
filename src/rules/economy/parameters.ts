@@ -72,6 +72,12 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "One U.S. dollar contains 100 cents",
     range: { minimum: 1, maximum: 1000 },
   },
+  percentPerProportion: {
+    value: 100,
+    basis: "SOURCED",
+    source: "A proportion multiplied by 100 is expressed as a percentage",
+    range: { minimum: 1, maximum: 1000 },
+  },
   homePriceRoundingStepMinor: {
     value: 100_000,
     basis: "TUNABLE",
