@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "3b02f6ad2673181c66d7d6a4498e8731c70b83d787576ab0f5a6a4851d9b6626",
+    "sha256": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761",
     "meaning": "Exact proposed parameter metadata table including ten opening/work ref-only pointers. Values and unmeasured spreads are unchanged; source uncertainty fixes remain separate."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -1158,6 +1158,45 @@
       "parameter": "responseCarryOnBaseline",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "driveStrengthScale",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.3,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "driveRetireStrength",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.01,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "driveTraceRetention",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2000,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -3591,7 +3630,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "3b02f6ad2673181c66d7d6a4498e8731c70b83d787576ab0f5a6a4851d9b6626"
+        "src/core2/data/parameters.json": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761"
       },
       "observations": [
         {
@@ -5950,6 +5989,6 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "3b02f6ad2673181c66d7d6a4498e8731c70b83d787576ab0f5a6a4851d9b6626"
+    "src/core2/data/parameters.json": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761"
   }
 }

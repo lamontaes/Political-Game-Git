@@ -7,6 +7,7 @@
   "topicPrefix": "health",
   "desiredChangePrefix": "care-and-cure",
   "unconditionedTopic": "serious-illness",
+  "conditionFactKey": "condition",
   "onsetSeverity": {
     "lifeChangeUnitsParameter": "srrsFamilyMemberHealthChange",
     "maximumUnitsParameter": "srrsMaximumUnits",

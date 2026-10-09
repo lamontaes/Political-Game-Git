@@ -34,8 +34,7 @@
     "condition": "condition",
     "driveKind": "drive-kind",
     "sourceEvent": "source-event",
-    "organization": "organizationId",
-    "sourceEventLegacy": "sourceEventId"
+    "organization": "organizationId"
   },
   "driveKinds": [
     {

@@ -50,6 +50,7 @@ export interface HealthData {
   topicPrefix: string;
   desiredChangePrefix: string;
   unconditionedTopic: string;
+  conditionFactKey: string;
   onsetSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
@@ -244,7 +245,7 @@ function caseEvent(
     desiredChange: `${data.desiredChangePrefix}:${topicKey}`,
     ...severityImpulse(api, severity),
     source: { ...data.source, asOf: api.state.date },
-    facts: { [`event:${id}:condition`]: topicKey },
+    facts: { [`event:${id}:${data.conditionFactKey}`]: topicKey },
   };
 }
 

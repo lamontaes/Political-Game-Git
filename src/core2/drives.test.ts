@@ -210,6 +210,52 @@ describe("P10 drives and causes", () => {
     ).toMatchObject({ kind: "change-condition", sourceDriveId: drive.id });
   });
 
+  it("control: siblings with identical traits make the identical decision", () => {
+    const base = bereavementInput();
+    const carer = base.people.find((row) => row.id === carerId)!;
+    const core = bereavedCore(DEFAULT_DRIVES_DATA, {
+      ...base,
+      people: base.people.map((row) =>
+        row.id === steadyId
+          ? { ...row, traits: carer.traits, knownIds: carer.knownIds }
+          : row,
+      ),
+    });
+    const decisions = drivesReport(core).decisions;
+    const one = decisions.find((row) => row.personId === carerId)!;
+    const two = decisions.find((row) => row.personId === steadyId)!;
+    expect(two.chosen.responseId).toBe(one.chosen.responseId);
+    expect(two.attention).toBeCloseTo(one.attention);
+    expect(two.strengthAdded).toBeCloseTo(one.strengthAdded);
+  });
+
+  it("swapping one trait changes the decision: concern for distress tips a neutral sibling", () => {
+    const base = bereavementInput();
+    const withTraits = (traits: Record<string, number>) =>
+      drivesReport(
+        bereavedCore(DEFAULT_DRIVES_DATA, {
+          ...base,
+          people: base.people.map((row) =>
+            row.id === steadyId ? { ...row, traits } : row,
+          ),
+        }),
+      ).decisions.find((row) => row.personId === steadyId)!;
+    const shared = {
+      [trait("facet-zealous")]: p("traitScale"),
+      [trait("facet-informal")]: p("traitScale"),
+    };
+    const without = withTraits(shared);
+    const withConcern = withTraits({
+      ...shared,
+      [trait("concern-for-distress")]: p("traitScale"),
+    });
+    expect(withConcern.attention).toBeGreaterThan(without.attention);
+    const urgency = (row: typeof without) =>
+      row.considered.find((entry) => entry.responseId === "take-up-cause")!
+        .urgency;
+    expect(urgency(withConcern)).toBeGreaterThan(urgency(without));
+  });
+
   it("a young child with the activist's traits carries on: agency rises smoothly with age", () => {
     const base = bereavementInput();
     const carer = base.people.find((row) => row.id === carerId)!;

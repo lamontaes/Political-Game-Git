@@ -90,8 +90,7 @@ type FactKey =
   | "condition"
   | "driveKind"
   | "sourceEvent"
-  | "organization"
-  | "sourceEventLegacy";
+  | "organization";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
 
@@ -136,6 +135,11 @@ export interface FormationTrace {
   strengthAdded: number;
 }
 
+/**
+ * Reasons for an act the drive served. For this module's own acts they are
+ * scored before the effect, as the chooser scored them; for the life
+ * module's civic acts they are reconstructed from current state at the event.
+ */
 export interface DriveActTrace {
   date: IsoDate;
   actionId: string;
@@ -160,7 +164,9 @@ export interface HeldDrive {
   halfLifeDays: number;
   shareable: boolean;
   formations: FormationTrace[];
+  /** Most recent act traces (bounded); actCount is exact. */
   acts: DriveActTrace[];
+  actCount: number;
   told: Set<PersonId>;
 }
 
@@ -234,10 +240,14 @@ function writeDrive(api: CoreAPI, drive: HeldDrive, strength: number) {
   });
 }
 
-function reinforce(api: CoreAPI, drive: HeldDrive, added: number) {
-  drive.anchorStrength = currentStrength(api, drive) + added;
+/** Fills a share of the drive's unfilled strength; strength levels off below one. */
+function reinforce(api: CoreAPI, drive: HeldDrive, unfilledKept: number) {
+  const before = currentStrength(api, drive);
+  drive.anchorStrength =
+    api.parameter("one") - (api.parameter("one") - before) * unfilledKept;
   drive.anchorDate = api.state.date;
   writeDrive(api, drive, drive.anchorStrength);
+  return drive.anchorStrength - before;
 }
 
 function normalizedTrait(
@@ -329,16 +339,26 @@ export function perceive(
   rule: DrivesData["eventRules"][number],
 ) {
   const p = (key: string) => api.parameter(key);
-  const role = data.roles.find(
-    (row) =>
-      rule.roles.includes(row.id) &&
-      (
-        roleOperations[row.operation] ??
-        (() => {
-          throw new Error(`Unregistered perception role: ${row.operation}`);
-        })
-      )(api, actor, event),
-  );
+  // Among every role the person holds toward this event, the weightiest counts.
+  const role = data.roles
+    .filter(
+      (row) =>
+        rule.roles.includes(row.id) &&
+        (
+          roleOperations[row.operation] ??
+          (() => {
+            throw new Error(`Unregistered perception role: ${row.operation}`);
+          })
+        )(api, actor, event),
+    )
+    .reduce<DrivesData["roles"][number] | undefined>(
+      (best, row) =>
+        !best ||
+        api.parameter(row.weightParameter) > api.parameter(best.weightParameter)
+          ? row
+          : best,
+      undefined,
+    );
   if (!role) return undefined;
   api.stopgap(data.perception.stopgapId);
   const traitTerms: { traitId: string; channel: string; term: number }[] = [];
@@ -550,10 +570,9 @@ export function respond(
     if (row.driveKind && !kind)
       throw new Error(`Unregistered drive kind: ${row.driveKind}`);
     if (kind) {
-      const strength = considered.find(
+      const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      trace.strengthAdded = strength;
       const identity = driveIdentity(data, kind, actor, event);
       trace.driveId = identity.id;
       let mine = runtime.byPerson.get(actor.id);
@@ -576,6 +595,7 @@ export function respond(
           shareable: kind.shareable,
           formations: [],
           acts: [],
+          actCount: p("zero"),
           told: new Set(),
         };
         mine.set(drive.id, drive);
@@ -587,7 +607,11 @@ export function respond(
         );
       }
       drive.formations.push(trace);
-      reinforce(api, drive, strength);
+      trace.strengthAdded = reinforce(
+        api,
+        drive,
+        Math.exp(-urgency * p("driveStrengthScale")),
+      );
       api.emit({
         id: `${data.eventKinds.formed}:${actor.id}:${drive.id}:${api.state.date}`,
         date: api.state.date,
@@ -603,10 +627,18 @@ export function respond(
         },
       });
     }
-    runtime.decisions.push(trace);
+    retain(api, runtime.decisions, trace);
     out.push(trace);
   }
   return out;
+}
+
+/** Keeps the most recent traces within the registered budget; counts stay exact. */
+function retain<T>(api: CoreAPI, rows: T[], row: T) {
+  rows.push(row);
+  const limit = api.parameter("driveTraceRetention");
+  if (rows.length > limit + limit)
+    rows.splice(api.parameter("zero"), rows.length - limit);
 }
 
 function heldFor(api: CoreAPI, actorId: PersonId) {
@@ -671,7 +703,8 @@ function traceAct(
 ) {
   const decision = chooseAct(core(api), actorId, [offer]);
   const reasons = decision.selectedReasons!;
-  drive.acts.push({
+  drive.actCount += api.parameter("one");
+  retain(api, drive.acts, {
     date: api.state.date,
     actionId: offer.definition.id,
     targetId: offer.targetId,
@@ -679,7 +712,11 @@ function traceAct(
     reasons,
     strengthBefore: currentStrength(api, drive),
   });
-  reinforce(api, drive, api.parameter("driveActReinforcement"));
+  reinforce(
+    api,
+    drive,
+    api.parameter("one") - api.parameter("driveActReinforcement"),
+  );
 }
 
 function actEvent(
@@ -730,9 +767,19 @@ export function createDrivesModule(
     onDay(api) {
       const runtime = runtimeFor(api.state);
       for (const [personId, mine] of runtime.byPerson) {
-        if (!api.state.people.get(personId)?.alive) continue;
-        for (const drive of mine.values())
-          writeDrive(api, drive, currentStrength(api, drive));
+        if (!api.state.people.get(personId)?.alive) {
+          runtime.byPerson.delete(personId);
+          continue;
+        }
+        for (const drive of mine.values()) {
+          const strength = currentStrength(api, drive);
+          if (strength < api.parameter("driveRetireStrength")) {
+            // Faded: written once at zero and no longer rewritten daily.
+            writeDrive(api, drive, api.parameter("zero"));
+            mine.delete(drive.id);
+          } else writeDrive(api, drive, strength);
+        }
+        if (!mine.size) runtime.byPerson.delete(personId);
       }
     },
     onEvent(api, event, learnedBy) {
@@ -741,16 +788,23 @@ export function createDrivesModule(
       );
       if (civic) {
         const [actorId] = event.personIds;
-        const sourceEvent = event.facts?.[data.factKeys.sourceEventLegacy];
-        const drive = actorId
-          ? [...(heldFor(api, actorId)?.values() ?? [])].find(
-              (row) =>
-                row.sourceEventId === sourceEvent && row.topic === event.topic,
-            )
-          : undefined;
         const definition = api.state.data.actions.find(
           (row) => row.id === civic.actionId,
         );
+        // The drive the life module attached: its first drive goal serving this act.
+        const actor = actorId ? api.state.people.get(actorId) : undefined;
+        const attached =
+          actor && definition
+            ? [...actor.goals.values()].find(
+                (goal) =>
+                  goal.sourceDriveId &&
+                  definition.goalKinds.includes(goal.kind),
+              )?.sourceDriveId
+            : undefined;
+        const drive =
+          actorId && attached
+            ? heldFor(api, actorId)?.get(attached)
+            : undefined;
         if (drive && definition && actorId) {
           const override =
             api.state.data.work?.discretionaryDurationParameters?.[

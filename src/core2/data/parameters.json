@@ -1077,7 +1077,7 @@
   "driveActReinforcement": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Strength added each time a person acts on a drive (commitment and consistency). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -1355,6 +1355,45 @@
     "spread": {
       "status": "unmeasured",
       "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStrengthScale": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How quickly a response's urgency fills a drive toward its ceiling of one: strength rises as one minus the unfilled share times e to the minus urgency times this scale, so drives stay on the same unit as needs. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound links event urgency to the strength of a resulting drive."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveRetireStrength": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "Strength below which a faded drive stops being rewritten each day; its effect on choices is already negligible and it rejoins if a new event renews the topic. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A storage floor for speed, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveTraceRetention": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Most recent decision and act traces the drives module keeps in memory for observers; counts are always exact. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
