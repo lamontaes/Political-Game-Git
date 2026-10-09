@@ -1,4 +1,5 @@
 import type { IncomeTaxSchedule } from "./income-tax-schedule";
+import { LAWS_PARAMETERS } from "./parameters";
 
 export type StateTaxFilingStatus =
   | "single"
@@ -14,10 +15,14 @@ export function stateIncomeTaxScheduleFromSingleFact(
   if (status !== "married-filing-jointly") return single;
   return {
     ...single,
-    standardDeductionMinor: single.standardDeductionMinor * 2,
+    standardDeductionMinor:
+      single.standardDeductionMinor *
+      LAWS_PARAMETERS.jointScheduleThresholdMultiplier.value,
     brackets: single.brackets.map((bracket) => ({
       ...bracket,
-      overMinor: bracket.overMinor * 2,
+      overMinor:
+        bracket.overMinor *
+        LAWS_PARAMETERS.jointScheduleThresholdMultiplier.value,
     })),
   };
 }

@@ -12,6 +12,13 @@ export const LAWS_PARAMETERS = {
     source: "One whole rate is 10,000 basis points",
     range: { minimum: 1, maximum: 100_000 },
   },
+  jointScheduleThresholdMultiplier: {
+    value: 2,
+    basis: "SOURCED",
+    source:
+      "Married filing jointly applies double single-filer federal bracket thresholds in this state schedule estimate",
+    range: { minimum: 1, maximum: 4 },
+  },
   percentageMultiplier: {
     value: 100,
     basis: "SOURCED",
