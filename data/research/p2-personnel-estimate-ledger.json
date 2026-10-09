@@ -1,0 +1,14 @@
+{
+  "entries": [
+    {
+      "id": "classified-service-reference-procedure",
+      "estimatedFrom": "Cleveland Board of Education v. Loudermill, 470 U.S. 532 (1985); Minn. Stat. chapter 43A",
+      "recordedJurisdictions": ["US-MN"],
+      "method": "Modal compiled permanent classified service coverage; median recorded notice, filing and reinstatement terms. One compiled numerical sample is currently available.",
+      "missing": "Compile each jurisdiction\u2019s actual employee-class coverage, appeal forum, deadlines, collective agreements, selection rules and pay plans.",
+      "reader": "civil-personnel-jurisdiction-rules.json",
+      "boundaryReference": "AS 39.25.110(1); Minn. Stat. \u00a7 43A.08",
+      "limitation": "The source dates remain binding for compiled observations. Estimated terms do not establish an individual official\u2019s authority, tenure, employment class or agreement coverage."
+    }
+  ]
+}

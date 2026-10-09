@@ -1,3 +1,4 @@
+import { recordStoryMoments } from "./story/moments";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
@@ -58,7 +59,10 @@ import {
 import { composeWorldTimeHandlers } from "./campaigns";
 import { recordsWithFieldValue } from "./history-index";
 import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
-import { reconcileStateLegislatureQueue } from "./nationwide-world/state-legislature-queue";
+import {
+  STATE_LEGISLATURE_WAKE_TRANSITION,
+  reconcileStateLegislatureQueue,
+} from "./nationwide-world/state-legislature-queue";
 import { createCrisisTransitionRegistry } from "./crisis";
 import { ensureCrisisMortality } from "./crisis/mortality";
 import {
@@ -1130,20 +1134,43 @@ export function advanceWorldMinutes(
     PEOPLE_GOAL_HANDLERS,
   );
   return advanceWithWorldIntegrityAtEnd(() => {
-    if (!transitionHandlers.routine) {
-      if (
-        controlledCommitmentsBlockingMinuteAdvance(scheduledWorld, minutes)
-          .length > 0
-      )
-        return scheduledWorld;
-      return advanceStoppingAtNewCommitments(scheduledWorld, minutes, handlers);
-    }
-    return resolveAdvanceWithRoutine(
+    const advanced = advanceMinutesOnce(
       scheduledWorld,
-      addSimulationMinutes(scheduledWorld.currentMoment, minutes),
+      minutes,
+      transitionHandlers,
       handlers,
     );
+    // When time moved, the story director reads what was written since its
+    // last reading (story/moments.ts): the moments of people's lives, scored
+    // once. When it did not, the World comes back as it went in.
+    return compareSimulationMoments(
+      advanced.currentMoment,
+      scheduledWorld.currentMoment,
+    ) === 0
+      ? advanced
+      : recordStoryMoments(advanced);
   }, scheduledWorld);
+}
+
+function advanceMinutesOnce(
+  scheduledWorld: World,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  if (!transitionHandlers.routine) {
+    if (
+      controlledCommitmentsBlockingMinuteAdvance(scheduledWorld, minutes)
+        .length > 0
+    )
+      return scheduledWorld;
+    return advanceStoppingAtNewCommitments(scheduledWorld, minutes, handlers);
+  }
+  return resolveAdvanceWithRoutine(
+    scheduledWorld,
+    addSimulationMinutes(scheduledWorld.currentMoment, minutes),
+    handlers,
+  );
 }
 
 /** Spend real time while joining one already-started commitment. The caller
@@ -2039,6 +2066,10 @@ function resolveFutureDueItemsWithStateLegislatureQueue(
   throughDate: World["currentDate"],
   transitionHandlers: FutureTransitionHandlerRegistry,
 ): World {
+  // Wakes are only scheduled where the caller's registry can run them; a
+  // narrower registry would otherwise meet work it never asked for.
+  if (!transitionHandlers.get(STATE_LEGISLATURE_WAKE_TRANSITION))
+    return resolveFutureDueItemsThrough(world, throughDate, transitionHandlers);
   const packs = new Set<string>();
   for (const opening of recordsWithFieldValue(
     world.history.events,

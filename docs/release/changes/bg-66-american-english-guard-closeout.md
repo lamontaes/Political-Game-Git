@@ -1,8 +1,6 @@
 ---
 id: bg-66-american-english-guard-closeout
-impact: patch
-section: Changed
-title: American-English guard status
+impact: none
 ---
 
-Records the already merged American-English guard as complete in the work pool. No runtime behavior changes.
+Work-pool status only: the American-English guard is already on main and no runtime behavior changes.

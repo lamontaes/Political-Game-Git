@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { proseDate } from "../presentation/prose-dates";
 import "./TransitWorkspace.css";
 import { TransitCashSummary } from "./TransitCashSummary";
 import {
@@ -172,7 +173,7 @@ export function TransitWorkspace({
                     { style: "currency", currency: "USD" },
                   )}{" "}
                   <time dateTime={funding.mandate.endsAt}>
-                    {funding.mandate.endsAt}
+                    {proseDate(funding.mandate.endsAt)}
                   </time>
                 </p>
               )}
@@ -210,7 +211,9 @@ export function TransitWorkspace({
                   {periods.map((p) => (
                     <li key={p.due.id} data-state={p.state.status}>
                       <p>
-                        <time dateTime={p.due.dueAt}>{p.due.dueAt}</time>{" "}
+                        <time dateTime={p.due.dueAt}>
+                          {proseDate(p.due.dueAt)}
+                        </time>{" "}
                         <span data-testid="transit-period-state">
                           {p.state.status}
                         </span>

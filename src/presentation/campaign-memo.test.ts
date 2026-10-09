@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
+import {
+  fundCommitteeFromCandidate,
+  namedSeatForFixture,
+  withRecordedStartingConditions,
+} from "../../tests/fixtures/campaign-fixture";
 
 import {
   candidacyPackForJurisdiction,
@@ -30,7 +34,11 @@ function filedLife(seed: string, placeKey: string) {
     depth: "summarize-earlier-life",
   });
   const personId = built.playerPersonId;
-  const world = openOrdinaryLife(built.world, personId);
+  // The opening a player begins records district leans; this world is built
+  // without it, so the fixture records them before the campaign reads them.
+  const world = withRecordedStartingConditions(
+    openOrdinaryLife(built.world, personId),
+  );
   const office = candidacyPackForJurisdiction(
     world.people[personId]!.homeJurisdictionId,
   )!.offices[0]!;
@@ -83,7 +91,14 @@ describe("the field memo's move, week to week", () => {
     (_city, seed, placeKey) => {
       const filed = filedLife(seed, placeKey);
       const personId = filed.personId;
-      let world = spendAnAfternoon(filed.world, personId, "fundraising");
+      // A fundraising session raises money only with a recorded monetary ask,
+      // so the committee is funded from the candidate's own savings and the
+      // week below can buy advertising.
+      let world = fundCommitteeFromCandidate(
+        spendAnAfternoon(filed.world, personId, "fundraising"),
+        personId,
+        500_000,
+      );
       let shown = projectCampaign(world, personId).reading!;
       let falls = 0;
       let stated = 0;

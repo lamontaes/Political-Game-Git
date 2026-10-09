@@ -325,21 +325,25 @@ export function judicialOutlookConsideration(
       (item) =>
         item.personId === personId && item.formedAt <= world.currentDate,
     );
-  const subjectOutlook =
-    axis === "rights" && rightsSubject
-      ? record?.rightsBySubject?.[rightsSubject]
-      : undefined;
-  const selectedAxis = subjectOutlook ? undefined : axis;
-  const strength = subjectOutlook?.strength ?? record?.dimensions[axis];
+  // A rights subject with its own recorded outlook is read from that subject's
+  // strength, evidence and reason; otherwise the axis as a whole is.
+  const subject = axis === "rights" ? rightsSubject : undefined;
+  const subjectStrength = subject
+    ? record?.rightsBySubject?.[subject]
+    : undefined;
+  const subjectRecorded =
+    subjectStrength !== undefined && subjectStrength !== null;
+  const strength = subjectRecorded ? subjectStrength : record?.dimensions[axis];
   if (strength === undefined || strength === null || strength === 0)
     return null;
   const evidence =
-    subjectOutlook?.evidence ??
-    (selectedAxis ? record.dimensionEvidence?.[axis] : undefined) ??
-    [];
+    (subjectRecorded && subject
+      ? record?.rightsEvidence?.[subject]
+      : record?.dimensionEvidence?.[axis]) ?? [];
   const reason =
-    subjectOutlook?.reason ??
-    (selectedAxis ? record.dimensionReasons?.[axis] : undefined);
+    subjectRecorded && subject
+      ? record?.rightsReasons?.[subject]
+      : record?.dimensionReasons?.[axis];
   const sourceRefs = evidence
     .map((evidence): MindSourceReference | null => {
       switch (evidence.kind) {
@@ -388,7 +392,7 @@ export function judicialOutlookConsideration(
       ]!,
     confidence: "high",
     explanation:
-      reason ?? record.dimensionReasons?.[axis] ?? `judicial.outlook.${axis}`,
+      reason ?? record?.dimensionReasons?.[axis] ?? `judicial.outlook.${axis}`,
     sourceRefs,
   };
 }

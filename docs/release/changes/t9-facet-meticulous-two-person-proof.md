@@ -1,0 +1,6 @@
+---
+id: t9-facet-meticulous-two-person-proof
+impact: none
+---
+
+The meticulous career choice now has a seeded two-resident proof. Given the same recorded reason to step down, the high-pole resident keeps responsibility for unfinished office work while the low-pole resident leaves office.

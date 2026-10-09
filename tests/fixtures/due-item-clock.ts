@@ -47,3 +47,23 @@ export function resolveThroughOwnElection(
   if (!contest) throw new Error(`${personId} is in no contest.`);
   return resolveDueThrough(world, contest.electionDate, handlers);
 }
+
+/**
+ * Test fixture: set the date a legislative-day fixture needs, after resolving
+ * whatever fell due on the way. A scenario world starts with its crisis
+ * mortality window due on its first day, and a bare date change leaves that
+ * item behind, which world integrity then refuses ("skipped by authoritative
+ * time"). This resolves due items through the registry a passed day composes
+ * and then states the date asked for.
+ */
+export function jumpToDate(world: World, date: string): World {
+  const target = makeIsoDate(date);
+  const resolved = resolveDueThrough(world, target);
+  return resolved.currentDate === target
+    ? resolved
+    : {
+        ...resolved,
+        currentDate: target,
+        currentMoment: { ...resolved.currentMoment, date: target },
+      };
+}

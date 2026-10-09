@@ -741,7 +741,10 @@ export function npcContactAnswer(
       : null;
     return {
       answer,
-      counterOn: answer === "counter" ? addDays(on, 7) : null,
+      counterOn:
+        answer === "counter"
+          ? counterDayWithinNotice(world, addDays(on, 7))
+          : null,
       world,
     };
   }
@@ -915,9 +918,24 @@ export function npcContactAnswer(
     busy && chosen === "accept" ? "counter" : chosen;
   return {
     answer,
-    counterOn: answer === "counter" ? addDays(on, 7) : null,
+    counterOn:
+      answer === "counter"
+        ? counterDayWithinNotice(world, addDays(on, 7))
+        : null,
     world: recordedWorld,
   };
+}
+
+/**
+ * A counter-offer is a new request, so it obeys the notice window every request
+ * does, counted from today. A proposal made for a day far ahead, or answered
+ * late, would otherwise offer a day the writer refuses, and the refusal threw
+ * out of the clock.
+ */
+function counterDayWithinNotice(world: World, wanted: IsoDate): IsoDate {
+  const earliest = addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS);
+  const latest = addDays(world.currentDate, CONTACT_MAXIMUM_NOTICE_DAYS);
+  return wanted < earliest ? earliest : wanted > latest ? latest : wanted;
 }
 
 /**

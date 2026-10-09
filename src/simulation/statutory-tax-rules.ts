@@ -1,4 +1,4 @@
-import table from "../../data/research/money/statutory-tax-rules.json" with { type: "json" };
+import { researchRuleTable } from "./research-rule-tables";
 import { validatePlaceTable } from "./data-tables";
 
 /**
@@ -141,7 +141,7 @@ interface StatutoryTaxPlaceRow {
 
 const placeRows = validatePlaceTable(
   "statutory tax rules",
-  table.places as StatutoryTaxPlaceRow[],
+  researchRuleTable("statutoryTaxes").places as StatutoryTaxPlaceRow[],
 );
 const byPlace = new Map(placeRows.map((row) => [row.placeKey, row]));
 

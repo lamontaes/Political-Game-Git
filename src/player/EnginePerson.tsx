@@ -3,6 +3,7 @@ import type { EngineRecipe } from "../presentation/appearance-engine/pack";
 import { engineRecipeKey } from "../presentation/appearance-engine/pack";
 import {
   enginePersonImage,
+  showEnginePerson,
   type EnginePersonImage,
 } from "../presentation/appearance-engine/runtime";
 
@@ -19,6 +20,8 @@ export function useEnginePersonImage(
   } | null>(null);
   useEffect(() => {
     if (!recipe || !key) return;
+    // On screen: drawn before the people of screens already left.
+    const leave = showEnginePerson(recipe);
     let live = true;
     let retry: ReturnType<typeof setTimeout> | undefined;
     // A face that fails to draw is asked for again a few times rather than
@@ -34,6 +37,7 @@ export function useEnginePersonImage(
     void draw(0);
     return () => {
       live = false;
+      leave();
       if (retry) clearTimeout(retry);
     };
     // The key names the recipe completely.

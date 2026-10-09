@@ -519,6 +519,18 @@ function assertCampaignActionResults(
         `Campaign result consequence linkage is invalid: ${result.id}`,
       );
     }
+    // A canvass names only residents its outcome event says were there.
+    if (
+      result.canvass &&
+      (action.kind !== "outreach" ||
+        result.canvass.metPersonIds.some(
+          (personId) => !outcomeEvent.involvedEntityIds.includes(personId),
+        ))
+    ) {
+      throw new Error(
+        `Campaign canvass names somebody it did not meet: ${result.id}`,
+      );
+    }
 
     // Support has to move for everybody in the contest, not only the filer:
     // a campaign that recorded its own rise without recording whose it came
