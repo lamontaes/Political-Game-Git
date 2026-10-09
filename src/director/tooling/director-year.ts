@@ -102,9 +102,18 @@ async function drivesModules(): Promise<ExtraModules> {
   const health = (await import(healthPath)) as {
     createHealthModule: () => CoreModule;
   };
+  // Core API 7 requires a module with an event handler to name its kinds.
+  // A drives-package build from before that change names none; the run
+  // subscribes it to every kind, as the older core delivered them.
+  const declare = (module: CoreModule): CoreModule =>
+    module.onEvent && !module.eventKinds
+      ? { ...module, eventKinds: ["*"] }
+      : module;
   return {
     data: drives.withDrives(DEFAULT_DATA),
-    modules: [health.createHealthModule(), drives.createDrivesModule()],
+    modules: [health.createHealthModule(), drives.createDrivesModule()].map(
+      declare,
+    ),
   };
 }
 

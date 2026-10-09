@@ -4,20 +4,21 @@
   "parameters": {
     "directorMomentFloor": {
       "value": 0.11,
-      "tag": "TUNABLE",
-      "citation": "Owner question 1 (P13 design note): smallest adult row of the Holmes and Rahe Social Readjustment Rating Scale, 'Minor violations of the law', 11 life-change units divided by 100. Holmes, T. H., and Rahe, R. H. (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218.",
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 1, October 9, 2026: the smallest adult row of the Holmes and Rahe Social Readjustment Rating Scale, 'Minor violations of the law', 11 life-change units divided by 100. Holmes, T. H., and Rahe, R. H. (1967), Journal of Psychosomatic Research 11(2):213-218.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
       "stopgapId": "SG-P13-param-directorMomentFloor",
       "checkRange": {
-        "ref": "P13-OWNER-Q1"
+        "ref": "P13-STORED-MOMENTS-PER-ADULT-YEAR"
       }
     },
     "directorInterruptImpact": {
-      "value": 0.63,
+      "value": 0.5,
       "tag": "TUNABLE",
-      "citation": "Owner question 2 (P13 design note): Holmes and Rahe (1967) 'Death of a close family member', 63 life-change units divided by 100.",
+      "citation": "Owner ruling on answer 2, October 9, 2026: the scale's anchor event, 'Marriage', 50 life-change units divided by 100 (Holmes and Rahe 1967), so losing a household's only pay takes over the screen.",
       "stopgapId": "SG-P13-param-directorInterruptImpact",
       "checkRange": {
-        "ref": "P13-OWNER-Q2"
+        "ref": "P13-OWNER-INTERRUPT-LINE"
       }
     },
     "directorScaleFeeling": {
@@ -182,6 +183,71 @@
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       }
+    },
+    "directorAnniversaryHalfDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source.",
+      "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
+      "checkRange": {
+        "ref": "P13-OWNER-ANNIVERSARY"
+      }
+    },
+    "directorPastChildBorn": {
+      "value": 0.39,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastPartner": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastSchoolStage": {
+      "value": 0.26,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastWorkStart": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraJobLoss": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraFamilyDeath": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraIllness": {
+      "value": 0.53,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorPastEraFinancialLoss": {
+      "value": 0.38,
+      "tag": "ESTIMATED",
+      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
+      "stopgapId": "SG-P13-past-fact-estimates"
     }
   },
   "channels": [
@@ -291,5 +357,44 @@
       "parameter": "directorTiePartner"
     }
   ],
-  "backdropPastFactPrefixes": ["era:"]
+  "backdropPastFactPrefixes": ["era:"],
+  "pastFactMoments": [
+    {
+      "kindPrefix": "family:child",
+      "parameter": "directorPastChildBorn",
+      "counterpart": "child-born-that-day"
+    },
+    {
+      "kindPrefix": "family:partner",
+      "parameter": "directorPastPartner",
+      "counterpart": "partner"
+    },
+    {
+      "kindPrefix": "school:",
+      "parameter": "directorPastSchoolStage"
+    },
+    {
+      "kindPrefix": "work:",
+      "parameter": "directorPastWorkStart"
+    }
+  ],
+  "pastEraHits": [
+    {
+      "factKey": "personalJobLoss",
+      "parameter": "directorPastEraJobLoss"
+    },
+    {
+      "factKey": "personalLoss",
+      "parameter": "directorPastEraFamilyDeath"
+    },
+    {
+      "factKey": "personalInfection",
+      "parameter": "directorPastEraIllness"
+    },
+    {
+      "factKey": "personalFinancialLoss",
+      "parameter": "directorPastEraFinancialLoss"
+    }
+  ],
+  "pastNotRecordedValues": ["not-inferred", "not-established"]
 }

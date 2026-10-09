@@ -33,6 +33,16 @@ export interface DirectorData {
   /** Core event kinds the director subscribes to; "*" is every kind, so no list of kinds is kept in code. */
   eventKinds: readonly string[];
   kinTies: readonly { relation: string; parameter: string }[];
+  /** Recorded past facts that are personal moments, with the estimated impact parameter. */
+  pastFactMoments: readonly {
+    kindPrefix: string;
+    parameter: string;
+    counterpart?: string;
+  }[];
+  /** Fact keys on a public-era past fact that record it hit this person. */
+  pastEraHits: readonly { factKey: string; parameter: string }[];
+  /** Values of those keys that mean nothing is recorded. */
+  pastNotRecordedValues: readonly string[];
   /** Past-fact kind prefixes that are public background, not personal moments. */
   backdropPastFactPrefixes: readonly string[];
 }
@@ -72,6 +82,8 @@ export interface Moment {
   hindsight: number;
   hindsightAt: IsoDate;
   broadEventId?: string;
+  /** Scored from the recorded past at the opening, not observed in play. */
+  past?: boolean;
   /** The place the causing event names, when an event caused it. */
   placeId?: string;
   echoes: CallbackLink[];
