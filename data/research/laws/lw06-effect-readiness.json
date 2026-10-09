@@ -1,8 +1,12 @@
 {
   "batch": "LW-06",
-  "status": "unsupported-consequences-recorded",
-  "runtimeActivation": false,
-  "supportedQuestionKeys": ["us-tax-terms:city.sales-tax-terms"],
+  "status": "supported-saved-records-with-authority-refusals",
+  "runtimeActivation": true,
+  "supportedQuestionKeys": [
+    "us-tax-terms:city.sales-tax-terms",
+    "us-tax-terms:county.corporate-tax-terms",
+    "us-tax-terms:city.income-tax-terms"
+  ],
   "entries": [
     {
       "questionKey": "us-tax-terms:county.payroll-tax-terms",
@@ -18,23 +22,23 @@
     {
       "questionKey": "us-tax-terms:county.corporate-tax-terms",
       "candidateEffect": "county-corporate-income-tax-incidence",
-      "evidenceStatus": "no-person-corporate-tax-base-or-recorded-business-ownership",
-      "source": "src/simulation/law-consequences/tax.ts; docs/research/requests/businesses-owners-and-wealth.json; docs/research/outcome-web-2026-09-28.md",
+      "evidenceStatus": "built-saved-records",
+      "source": "src/simulation/law-consequences/tax.ts; src/simulation/tax-law-term-binding.ts; src/simulation/corporate-county-tax.test.ts; src/simulation/local-tax-law-term-binding.test.ts",
       "blockers": [
-        "The common tax consequence reader assesses saved payer bases, but no producer maps county corporate tax to a person-level taxable occurrence.",
-        "The business-owner research request says no private business has a recorded owner, balance, revenue or owner income, so the incidence cannot be assigned to named people without inventing ownership.",
-        "The corporate-incidence summary does not provide recorded owners or ownership shares for named local business owners."
+        "A levy requires actual adopted terms, a saved company taxable base and cash in its own account.",
+        "An owner exposure requires an active recorded business-owner relationship; no ownership share or personal distribution is inferred.",
+        "Completed receipts less completed payroll remain an incomplete operating-income estimate; nonpay costs, tax deductions and legal form are not inferred."
       ]
     },
     {
       "questionKey": "us-tax-terms:city.income-tax-terms",
       "candidateEffect": "city-personal-income-tax-assessment",
-      "evidenceStatus": "local-income-authority-source-incomplete",
-      "source": "docs/research/requests/local-income-tax-authority-56-places.json; src/fiscal-authority/query.ts; src/simulation/tax-law-term-binding.ts",
+      "evidenceStatus": "built-saved-records",
+      "source": "src/simulation/law-consequences/tax.ts; src/simulation/tax-law-term-binding.ts; src/simulation/corporate-county-tax.test.ts; src/simulation/local-tax-law-term-binding.test.ts",
       "blockers": [
-        "The checked-in authority request says the 56-place survey is incomplete; the production fiscal-authority corpus does not currently establish city income-tax authority nationwide.",
-        "A city income-tax consequence must remain inactive unless the saved government and adopted terms pass the shared authority binding.",
-        "No complete record identifies where city income taxes are authorized, their effective dates, rate caps or resident credits."
+        "The same authority reader supplies the recorded rule or marked modal estimate for every place; a legal prohibition still refuses the levy.",
+        "Only wage-income categories authorize this instrument; employer payroll and head taxes do not authorize a personal income tax.",
+        "The adopted rate and recorded taxable occurrence are required; missing wages create no base or payment."
       ]
     }
   ]

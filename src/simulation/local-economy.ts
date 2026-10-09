@@ -1,4 +1,5 @@
 import { aggregateCustomers } from "./aggregate-customers";
+import { canonicalJson } from "./canonical-json";
 export { aggregateCustomers } from "./aggregate-customers";
 import {
   LOCAL_BUSINESS_ESTIMATE,
@@ -32,6 +33,7 @@ import { recordsByStringField } from "./history-index";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { taxReachesPlace } from "./property-tax-bases";
 import { effectiveTaxPolicy, recordTaxBase } from "./tax-policy";
+import { recordedCorporateTaxpayerAt } from "./business-tax-payers";
 import { localBusinessSupplyFor } from "./local-business-counts";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
@@ -654,7 +656,7 @@ function businessFlows(
 }
 
 /**
- * Corporate-income terms need a person-level base in the shared tax engine.
+ * Corporate-income terms use the organization's base in the shared tax engine.
  * The town model records estimated receipts and wage commitments but not
  * nonpay costs. Use completed monthly receipts less completed payroll as an
  * explicitly incomplete operating-income estimate; the saved base keeps that
@@ -676,6 +678,7 @@ function recordLocalCorporateIncomeBases(
   const today = world.currentDate;
   let next = world;
   for (const organizationId of organizations) {
+    if (!recordedCorporateTaxpayerAt(world, organizationId)) continue;
     const revenueFlows = businessFlows(world, organizationId).filter(
       (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
     );
@@ -685,12 +688,7 @@ function recordLocalCorporateIncomeBases(
     if (revenueFlows.length === 0) continue;
     const profile = organizationProfileAt(world, organizationId);
     const place = profile?.locationJurisdictionId;
-    const owner = world.history.workRelationships.find(
-      (row) =>
-        row.organizationId === organizationId &&
-        row.kind === BUSINESS_OWNER_WORK_KIND,
-    );
-    if (!place || !owner || !world.people[owner.personId]) continue;
+    if (!place) continue;
     for (const period of periods) {
       const revenue = revenueFlows.reduce((sum, flow) => {
         const outcome = world.history.resourceTransferOutcomes.find(
@@ -739,18 +737,21 @@ function recordLocalCorporateIncomeBases(
           occurredAt: today,
           recordedAt: today,
           jurisdictionId: proposal.jurisdictionId,
-          involvedEntityIds: [owner.personId, organizationId],
+          involvedEntityIds: [organizationId],
           participants: [],
           personFactConstraints: [],
           visibility: "private",
           tags: ["tax", "tax-base:estimated-operating-income"],
-          summary:
-            "A local business's estimated operating income was assessed for corporate income tax.",
+          summary: canonicalJson({ organizationId, period, amountMinor }),
           context: {
             location: null,
             socialContext: null,
             pressure: null,
-            choice: null,
+            choice: canonicalJson({
+              amount: money(amountMinor, proposal.terms.currency),
+              baseKey: proposal.terms.baseKey,
+              payer: { kind: "organization", organizationId },
+            }),
             motivation: null,
             immediateReaction: null,
           },
@@ -762,7 +763,7 @@ function recordLocalCorporateIncomeBases(
           stableKey,
           sourceEventId: next.history.events.at(-1)!.id,
           jurisdictionId: proposal.jurisdictionId,
-          payer: { kind: "person", personId: owner.personId },
+          payer: { kind: "organization", organizationId },
           baseKey: proposal.terms.baseKey,
           occurredAt: today,
           amount: money(amountMinor, revenueCurrency),
@@ -772,7 +773,7 @@ function recordLocalCorporateIncomeBases(
           onDate: today,
           activity: "assessment",
           activityId: next.history.taxBases!.at(-1)!.id,
-          subjectIds: [owner.personId],
+          subjectIds: [organizationId],
           governingLawId: proposal.measureId,
         });
       }

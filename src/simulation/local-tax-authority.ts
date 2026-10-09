@@ -1,4 +1,5 @@
 import matrix from "../../data/research/money/local-tax-authority-matrix.json" with { type: "json" };
+import incomeScope from "../../data/research/money/local-income-tax-scope.json" with { type: "json" };
 import type { TaxPowerEvidence } from "./tax-types";
 import type { IsoDate } from "./types";
 import { governmentUnit } from "./government-units";
@@ -16,7 +17,7 @@ import { municipalGovernmentByKey } from "./municipal-government";
  */
 
 export type LocalTaxInstrument =
-  "property" | "sales" | "payroll" | "corporate-income";
+  "property" | "sales" | "payroll" | "corporate-income" | "wage-income";
 export type LocalTaxLevel = "COUNTY" | "MUNICIPALITY";
 export type LocalTaxAuthorityStatus =
   "allowed" | "piggyback" | "specific" | "prohibited" | "unknown-estimated";
@@ -59,6 +60,7 @@ export const LOCAL_TAX_INSTRUMENT_BY_FAMILY: Readonly<
   sales: "sales",
   payroll: "payroll",
   corporate: "corporate-income",
+  income: "wage-income",
 };
 
 export function localTaxAuthority(input: {
@@ -119,18 +121,30 @@ export function localTaxAuthority(input: {
       : instrument === "sales"
         ? row.sales
         : row.incomePayroll;
+  const incomeRule = incomeScope.rules.find(
+    (rule) => rule.taxType === row.incomePayroll.taxType,
+  );
+  const permittedScope =
+    instrument !== "wage-income" ||
+    Boolean(incomeRule?.levels.some((allowedLevel) => allowedLevel === level));
   return {
     stateUsps,
     level,
     instrument,
-    status: cellFor.status as LocalTaxAuthorityStatus,
-    permits: PERMITTING.has(cellFor.status),
+    status: (permittedScope
+      ? cellFor.status
+      : "prohibited") as LocalTaxAuthorityStatus,
+    permits: permittedScope && PERMITTING.has(cellFor.status),
     estimated: true,
     basis: "matrix-cell",
-    cell: cellFor.cell,
+    cell: permittedScope
+      ? cellFor.cell
+      : `${cellFor.cell}; ${incomeScope.source}; ${row.incomePayroll.taxType}`,
     generalRule,
     taxType:
-      instrument === "payroll" || instrument === "corporate-income"
+      instrument === "payroll" ||
+      instrument === "corporate-income" ||
+      instrument === "wage-income"
         ? row.incomePayroll.taxType
         : null,
   };

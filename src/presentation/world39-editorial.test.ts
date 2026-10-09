@@ -1,11 +1,18 @@
 import { describe, expect, it } from "vitest";
 
-import { serializeWorld, deserializeWorld } from "../simulation";
+import {
+  deserializeWorld,
+  organizationProfileAt,
+  serializeWorld,
+} from "../simulation";
 import { recordWorldEvent } from "../simulation/world";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { establishOpeningOfficeholders } from "./opening-officeholders";
 import { projectStoryMoment, chooseStoryOption } from "./life-story";
-import { projectWorld39News } from "./world39-news";
+import { institutionRestatesTitle, projectWorld39News } from "./world39-news";
+import { canonicalSavedPublicGovernmentAccountKey } from "../simulation/public-government-identity";
+import { ensureTaxPublicAccount } from "../simulation/tax-policy";
+import { drawRandomPlace } from "../../tests/support/random-place";
 import { projectWorld39Journal } from "./world39-journal";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 
@@ -65,9 +72,13 @@ function playedChild(seed: string, beats: number) {
 
 function newsText(model: ReturnType<typeof projectWorld39News>): string {
   return [
-    ...model.standing.map((item) => `${item.headline} ${item.sentence}`),
-    ...model.officeholders.map(
-      (holder) => `${holder.headline} ${holder.sentence}`,
+    ...model.standing.map((item) =>
+      [item.name, item.bodyName].filter(Boolean).join(" "),
+    ),
+    ...model.officeholders.map((holder) =>
+      [holder.title, holder.personName, holder.institution]
+        .filter(Boolean)
+        .join(" "),
     ),
     ...model.publicEvents.map((event) => event.summary),
   ].join("\n");
@@ -100,13 +111,13 @@ describe("WORLD39 News editorial pass", () => {
     const president = after.officeholders.find(
       (holder) => holder.title === "President of the United States",
     );
-    expect(president?.headline).toMatch(
-      /^.+ serves as President of the United States$/,
-    );
-    expect(president?.sentence).toMatch(
-      // UI FINISH: the institution only restated the title, so it is not named twice.
-      /^.+ has served as President of the United States since January \d{4}\.$/,
-    );
+    expect(president?.personName).toMatch(/\S/);
+    // UI FINISH: the institution only restated the title, so it is not
+    // named twice.
+    expect(
+      institutionRestatesTitle(president!.title, president!.institution!),
+    ).toBe(true);
+    expect(president?.startedAt).toMatch(/^\d{4}-01-\d{2}$/);
     // The office title bridges the opening's us-president key and the
     // authority packs' us-federal-president key.
     expect(
@@ -117,14 +128,12 @@ describe("WORLD39 News editorial pass", () => {
     // The office's own organization is told through its holder, and nothing
     // unlocated is placed in the lived town.
     expect(
-      after.standing.some((item) =>
-        /Presidency|Supreme Court/.test(item.headline),
-      ),
+      after.standing.some((item) => /Presidency|Supreme Court/.test(item.name)),
     ).toBe(false);
     expect(newsText(after)).not.toMatch(/(Presidency|Supreme Court)[^.]* in /);
     expect(newsText(after)).not.toMatch(DATABASE_WORDING);
-    // Every located institution is named in plain words and placed in the
-    // town it is actually recorded in. This used to name the hometown school
+    // Every listed institution is named by its record and is recorded in
+    // the reader's own town. This used to name the hometown school
     // specifically, which an adult life no longer invents: `context-v2`
     // declines to assume a school, employer or credential in a summarized
     // past, so there is nothing to find and nothing false said instead. The
@@ -132,19 +141,18 @@ describe("WORLD39 News editorial pass", () => {
     // does record. The school itself is proven below, where a life that is
     // actually in one can be asked about it.
     expect(after.standing.length).toBeGreaterThan(0);
-    // A government named for its form takes "the".
     const government = after.standing.find(
       (item) => item.kind === "government",
     );
-    expect(government?.headline).toBe(
-      "Minneapolis, Minnesota is governed by the City of Minneapolis",
-    );
+    expect(government?.name).toBe("City of Minneapolis");
+    const home = opened.people[created.playerPersonId]!.homeJurisdictionId;
     for (const item of after.standing.filter(
       (entry) => entry.kind !== "government",
     )) {
-      expect(item.sentence, item.headline).toMatch(
-        /^.+ is (?:a|an|the) [a-z ]+ in Minneapolis, Minnesota\.$/,
-      );
+      expect(
+        organizationProfileAt(opened, item.recordId)?.locationJurisdictionId,
+        item.name,
+      ).toBe(home);
     }
   });
 
@@ -157,13 +165,47 @@ describe("WORLD39 News editorial pass", () => {
     const government = model.standing.find(
       (item) => item.kind === "government",
     );
-    expect(government?.headline).toBe(
-      "Lexington, Kentucky is governed by Lexington-Fayette Urban County Government",
-    );
-    expect(government?.sentence).toBe(
-      "Its legislative body is the Urban County Council. It runs through a consolidated city and county government.",
-    );
+    expect(government?.name).toBe("Lexington-Fayette Urban County Government");
+    expect(government?.bodyName).toBe("Urban County Council");
     expect(newsText(model)).not.toMatch(DATABASE_WORDING);
+  });
+
+  const drawn = drawRandomPlace(
+    "p4-8-news",
+    (place) => place.scope === "locality",
+  );
+  it(`tells the town's government once and lists no account or repeated name (${drawn.displayName}, seed p4-8-news)`, () => {
+    const created = ordinaryLife("p4-8-news", drawn.key);
+    // The town's public account, opened by the writer town payrolls use.
+    const opened = ensureTaxPublicAccount(
+      establishOpeningOfficeholders(created.world, created.playerPersonId),
+      created.world.people[created.playerPersonId]!.homeJurisdictionId!,
+    );
+    expect(
+      opened.history.organizations.some(
+        (row) =>
+          canonicalSavedPublicGovernmentAccountKey(row.stableKey) !== null,
+      ),
+    ).toBe(true);
+    const model = projectWorld39News(opened, created.playerPersonId);
+    const names = model.standing.map((item) => item.name);
+    expect(new Set(names).size).toBe(names.length);
+    expect(
+      model.standing.filter((item) => item.kind === "government").length,
+    ).toBeLessThanOrEqual(1);
+    // A government's own public account is the government, not a listing.
+    for (const item of model.standing) {
+      const organization = opened.history.organizations.find(
+        (row) => row.id === item.recordId,
+      );
+      expect(
+        organization &&
+          canonicalSavedPublicGovernmentAccountKey(organization.stableKey),
+        item.name,
+      ).toBeFalsy();
+    }
+    expect(names.join("\n")).not.toMatch(/public government/);
+    expect(names.join("\n")).not.toMatch(DATABASE_WORDING);
   });
 
   it("lists a public event plainly, marks personal knowledge, and keeps private events out", () => {

@@ -107,12 +107,11 @@ export async function beginAfterCalibration(page: Page): Promise<void> {
 export async function leaveGame(page: Page): Promise<void> {
   await goTo(page, "leave-game");
   const withoutSaving = page.getByTestId("leave-without-saving");
-  const shown = await withoutSaving
-    .waitFor({ state: "visible", timeout: 2000 })
-    .then(() => true)
-    .catch(() => false);
-  if (shown) await withoutSaving.click();
-  await expect(page.getByTestId("title-screen")).toBeVisible();
+  const title = page.getByTestId("title-screen");
+  // Whichever comes first: the question, or the title when none is asked.
+  await expect(withoutSaving.or(title).first()).toBeVisible();
+  if (await withoutSaving.isVisible()) await withoutSaving.click();
+  await expect(title).toBeVisible();
 }
 
 /** Opens the creator and stops at the first stage. */
@@ -301,18 +300,28 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  * Begin lands on the play screen. A new life opens with the skippable world
  * introduction in front of the room; specs that are not about it skip it the
  * way a player would, so they start from the same room they always did.
+ *
+ * The room's menu is drawn only once the introduction is done or was never
+ * due (PlayerGame's `showOrientation`), so whichever of the two appears first
+ * settles it. A fixed wait for the introduction alone lost the race whenever
+ * it came late, and the spec then stalled behind it.
  */
 export async function enterLife(page: Page): Promise<void> {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  // Begin builds the world behind a progress screen first: 13.1 and 13.5
+  // seconds from Begin to the play screen on a warm development server
+  // (Georgetown, Connecticut and Holstein, Iowa), longer on a cold one, so
+  // the five-second default ended specs on "Preparing courts".
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 60_000,
+  });
   const intro = page.getByTestId("world-orientation");
-  const shown = await intro
-    .waitFor({ state: "visible", timeout: 2000 })
-    .then(() => true)
-    .catch(() => false);
-  if (shown) {
+  const menu = page.getByTestId("shell-nav");
+  await expect(intro.or(menu).first()).toBeVisible({ timeout: 60_000 });
+  if (await intro.isVisible()) {
     await page.getByTestId("orientation-skip").click();
     await expect(intro).toBeHidden();
   }
+  await expect(menu).toBeVisible();
 }
 
 /**

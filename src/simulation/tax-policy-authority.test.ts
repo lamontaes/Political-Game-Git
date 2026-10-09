@@ -76,7 +76,10 @@ describe("M7 new tax proposals require researched authority", () => {
       ]);
     const profile = stateTaxServiceProfileForJurisdictionKey(world, "US-KY")!;
     expect(profile).toBeDefined();
-    expect(taxPowerEvidenceFor(profile.jurisdictionKey)).toBeNull();
+    expect(taxPowerEvidenceFor(profile.jurisdictionKey)).toMatchObject({
+      jurisdictionKey: profile.jurisdictionKey,
+      instrument: "selective-excise",
+    });
     world = introduceMeasure(world, {
       stableKey: "m7:unsupported-profile-measure",
       jurisdictionId: profile.jurisdictionId,
