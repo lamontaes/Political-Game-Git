@@ -226,6 +226,34 @@ describe("the one thing per stop, in other lives", () => {
   });
 });
 
+describe("the one thing per stop, in a territory", () => {
+  // Seed p6-open-d draws Tafuna, American Samoa.
+  const { world, personId, place } = newLife("p6-open-d");
+  const things = openingOneThings(world, personId);
+
+  it("names the territory's delegate, with no senators", () => {
+    expect(place).toBe("Tafuna, American Samoa");
+    const representatives = thing(things, "representatives");
+    expect(representatives.facts.office).toBe("us-house");
+    expect(representatives.people.map((person) => person.role)).toEqual([
+      "us-house",
+    ]);
+  });
+
+  it("names the governor when no territorial law or legislator is on record", () => {
+    const state = thing(things, "state");
+    expect(state.kind).toBe("in-office");
+    expect(state.facts.office).toMatch(/governor$/);
+    expect(state.sourceRecordIds).toHaveLength(1);
+  });
+
+  it("says why the town stop has nothing, instead of inventing a tie", () => {
+    const town = things.find((entry) => entry.stop === "town")!;
+    expect(town.kind).toBe("none");
+    expect("reason" in town && town.reason).toMatch(/serving county/);
+  });
+});
+
 describe("one rule in all 56 places", () => {
   it("gives every stop a record-backed thing or the reason there is none", () => {
     const states = lifePlaceStateIdentities();

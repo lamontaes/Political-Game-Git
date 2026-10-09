@@ -311,9 +311,13 @@ function representatives(world: World, personId: EntityId): OpeningStopThing {
 function state(world: World, personId: EntityId): OpeningStopThing {
   const usps = homeStateUsps(world, personId);
   const office = usps ? stateExecutiveOffice(usps) : null;
-  const people = currentStateExecutiveHolders(world)
-    .filter((holder) => holder.officeKey === office?.officeKey)
-    .map((holder) => ({ personId: holder.personId, role: holder.officeKey }));
+  const governors = currentStateExecutiveHolders(world).filter(
+    (holder) => holder.officeKey === office?.officeKey,
+  );
+  const people = governors.map((holder) => ({
+    personId: holder.personId,
+    role: holder.officeKey,
+  }));
   const law = closestLaw(world, personId, "state");
   if (law) return lawThing("state", law, people);
   // Without a state law that reached them, the tie is the player's own
@@ -321,11 +325,21 @@ function state(world: World, personId: EntityId): OpeningStopThing {
   const seats = representationSeats(world, personId, "state");
   if (seats.length > 0)
     return representationThing(world, "state", seats, people);
+  // Without either, the tie is who leads the state or territory.
+  const governor = governors[0];
+  if (governor)
+    return {
+      stop: "state",
+      kind: "in-office",
+      people,
+      facts: { office: governor.officeKey, personId: governor.personId },
+      sourceRecordIds: [governor.termId],
+    };
   return {
     stop: "state",
     kind: "none",
     reason:
-      "No state law has reached this life and no state legislator is on record for this home.",
+      "No state law, state legislator or governor is on record for this home.",
   };
 }
 
