@@ -8,74 +8,72 @@
   },
   "startedAt": "2021-01-01",
   "through": "2022-01-01",
-  "buildSeconds": 6.285382163,
+  "buildSeconds": 5.622758681000001,
   "timing": {
-    "withDrivesSeconds": 351.09103077,
-    "baselineSeconds": 302.68102393600003,
-    "ratio": 1.1599373697250208,
+    "withDrivesSeconds": 373.166510762,
     "monthly": [
       {
         "month": "2021-01",
-        "seconds": 29.128088595999987,
-        "rssMiB": 5437.0234375
+        "seconds": 24.583195262,
+        "rssMiB": 1887.40625
       },
       {
         "month": "2021-02",
-        "seconds": 56.257235552,
-        "rssMiB": 5623
+        "seconds": 47.705808836,
+        "rssMiB": 2115.1875
       },
       {
         "month": "2021-03",
-        "seconds": 84.10701933699998,
-        "rssMiB": 5636.5
+        "seconds": 79.127420463,
+        "rssMiB": 3222.5625
       },
       {
         "month": "2021-04",
-        "seconds": 119.43954851399997,
-        "rssMiB": 5654.125
+        "seconds": 120.122941638,
+        "rssMiB": 3913.1484375
       },
       {
         "month": "2021-05",
-        "seconds": 147.70557256999996,
-        "rssMiB": 5631.52734375
+        "seconds": 149.76404463800003,
+        "rssMiB": 3928.7734375
       },
       {
         "month": "2021-06",
-        "seconds": 176.177949975,
-        "rssMiB": 5649.02734375
+        "seconds": 179.308761901,
+        "rssMiB": 3916.515625
       },
       {
         "month": "2021-07",
-        "seconds": 209.028191771,
-        "rssMiB": 5664.90234375
+        "seconds": 213.93613502500003,
+        "rssMiB": 3932.765625
       },
       {
         "month": "2021-08",
-        "seconds": 237.50766204899992,
-        "rssMiB": 5633.5703125
+        "seconds": 244.85446911499997,
+        "rssMiB": 4292.20703125
       },
       {
         "month": "2021-09",
-        "seconds": 270.2319895819999,
-        "rssMiB": 5645.4453125
+        "seconds": 279.191134753,
+        "rssMiB": 4310.33203125
       },
       {
         "month": "2021-10",
-        "seconds": 296.78545498499994,
-        "rssMiB": 5656.9453125
+        "seconds": 310.42397852399995,
+        "rssMiB": 5083.33203125
       },
       {
         "month": "2021-11",
-        "seconds": 322.26777842,
-        "rssMiB": 5636.1953125
+        "seconds": 340.29814976399996,
+        "rssMiB": 5365.28515625
       },
       {
         "month": "2021-12",
-        "seconds": 351.090852025,
-        "rssMiB": 5650.4453125
+        "seconds": 373.16633046199996,
+        "rssMiB": 5383.16015625
       }
     ],
-    "peakRssMiB": 5664.90234375
+    "peakRssMiB": 5383.16015625
   },
   "stopgapHits": [
     "SG-P10-drive-acts",
@@ -110,43 +108,43 @@
   "drives": {
     "formedByYearKind": {
       "2021:cause": 11,
-      "2021:calling": 6
+      "2021:calling": 12
     },
     "formedPerThousandResidents": {
       "2021:cause": 1.0998900109989003,
-      "2021:calling": 0.5999400059994001
+      "2021:calling": 1.1998800119988002
     },
-    "peopleHoldingDrives": 17,
+    "peopleHoldingDrives": 23,
     "responsesByRule": {
       "serious-illness:carry-on": 133,
       "serious-illness:take-up-cause": 11,
-      "bereavement:carry-on": 51,
+      "bereavement:answer-calling": 12,
       "bereavement:take-up-cause": 10,
-      "bereavement:answer-calling": 6,
+      "bereavement:carry-on": 45,
       "cause-shared:carry-on": 5
     },
     "perceivedDecisions": 216,
     "actsByAction": {
       "look-up-local-institution": 260,
-      "volunteer-for-cause": 191,
+      "volunteer-for-cause": 346,
       "share-cause": 5,
       "organize-meeting": 2
     },
     "actsByBasis": {
-      "scored": 456,
+      "scored": 611,
       "reconstructed": 2
     },
     "actsByKindAndAction": {
       "cause:look-up-local-institution": 260,
-      "calling:volunteer-for-cause": 191,
+      "calling:volunteer-for-cause": 346,
       "calling:share-cause": 5,
       "cause:organize-meeting": 2
     },
     "groupsFounded": 0,
     "decisionsRetained": 216,
-    "decisionsFormingDrive": 27,
+    "decisionsFormingDrive": 33,
     "adultDecisions": 168,
-    "adultDecisionsFormingDrive": 27,
+    "adultDecisionsFormingDrive": 33,
     "driveMinusCarryOnUrgency": {
       "min": -6.256746663076488,
       "p25": -2.8736530315627533,
@@ -261,25 +259,25 @@
           ],
           "chosen": {
             "responseId": "take-up-cause",
-            "score": 3.232280635535241,
+            "score": 3.10361432569636,
             "reasons": {
               "need": 0.25,
               "goal": 2.759169881251916,
               "drive": 0,
               "trait": 0.044444444444444446,
-              "emotion": 0.17866630983888088,
+              "emotion": 0.05,
               "effort": 0
             }
           },
           "runnerUp": {
             "responseId": "carry-on",
-            "score": 3.160310688811896,
+            "score": 2.902978069134134,
             "reasons": {
               "need": 0.25,
               "goal": 2.6125018786579437,
               "drive": 0,
               "trait": -0.009523809523809526,
-              "emotion": 0.3073326196777617,
+              "emotion": 0.05,
               "effort": 0
             }
           },
@@ -332,13 +330,13 @@
           ],
           "chosen": {
             "responseId": "take-up-cause",
-            "score": 4.522315192158779,
+            "score": 4.338775092751938,
             "reasons": {
               "need": 0.28641753800455827,
               "goal": 3.950629602702024,
               "drive": 0,
               "trait": 0.044444444444444446,
-              "emotion": 0.24082360700775296,
+              "emotion": 0.05728350760091166,
               "effort": 0
             }
           },
@@ -1039,25 +1037,25 @@
             ],
             "chosen": {
               "responseId": "take-up-cause",
-              "score": 3.232280588937733,
+              "score": 3.103614279098852,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.759169834654408,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.17866630983888088,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "carry-on",
-              "score": 3.160310688811896,
+              "score": 2.902978069134134,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.6125018786579437,
                 "drive": 0,
                 "trait": -0.009523809523809526,
-                "emotion": 0.3073326196777617,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -1124,25 +1122,25 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 5.38650366987963,
+              "score": 5.129171050201868,
               "reasons": {
                 "need": 0.25,
                 "goal": 4.762504383535202,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.3073326196777617,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "guard-family",
-              "score": 1.202001732469609,
+              "score": 1.0733354226307283,
               "reasons": {
                 "need": 0.125,
                 "goal": 0.8316687559640615,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.17866630983888088,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -1221,13 +1219,13 @@
             ],
             "chosen": {
               "responseId": "take-up-cause",
-              "score": 4.52231512812418,
+              "score": 4.338775028717338,
               "reasons": {
                 "need": 0.28641753800455827,
                 "goal": 3.950629538667424,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.24082360700775296,
+                "emotion": 0.05728350760091166,
                 "effort": 0
               }
             },
@@ -1312,13 +1310,13 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 7.173336623669723,
+              "score": 6.807172129536212,
               "reasons": {
                 "need": 0.2943934760800669,
                 "goal": 6.387222185516312,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.4250542954066767,
+                "emotion": 0.05888980127316638,
                 "effort": 0
               }
             },
@@ -1427,13 +1425,13 @@
             },
             "runnerUp": {
               "responseId": "take-up-cause",
-              "score": 4.387256488294784,
+              "score": 4.209626571673014,
               "reasons": {
                 "need": 0.3159684519299171,
                 "goal": 3.7860199849126697,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.24082360700775293,
+                "emotion": 0.06319369038598342,
                 "effort": 0
               }
             },
@@ -1506,13 +1504,13 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 7.194911599519573,
+              "score": 6.833095418727491,
               "reasons": {
                 "need": 0.3159684519299171,
                 "goal": 6.387222185516312,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.4250542954066767,
+                "emotion": 0.0632381146145954,
                 "effort": 0
               }
             },
@@ -1597,25 +1595,25 @@
             ],
             "chosen": {
               "responseId": "take-up-cause",
-              "score": 3.2322805797072944,
+              "score": 3.1036142698684133,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.759169825423969,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.17866630983888088,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "carry-on",
-              "score": 3.160310688811896,
+              "score": 2.902978069134134,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.6125018786579437,
                 "drive": 0,
                 "trait": -0.009523809523809526,
-                "emotion": 0.3073326196777617,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -1682,25 +1680,25 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 4.412544240662497,
+              "score": 4.155211620984734,
               "reasons": {
                 "need": 0.25,
                 "goal": 3.8218782876514017,
                 "drive": 0,
                 "trait": 0.03333333333333333,
-                "emotion": 0.3073326196777617,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "guard-family",
-              "score": 1.4642360041961355,
+              "score": 1.3355696943572546,
               "reasons": {
                 "need": 0.125,
                 "goal": 1.093903027690588,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.17866630983888088,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -1779,13 +1777,13 @@
             ],
             "chosen": {
               "responseId": "take-up-cause",
-              "score": 4.5223151154396515,
+              "score": 4.33877501603281,
               "reasons": {
                 "need": 0.28641753800455827,
                 "goal": 3.9506295259828956,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.24082360700775296,
+                "emotion": 0.05728350760091166,
                 "effort": 0
               }
             },
@@ -1870,13 +1868,13 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 5.774635952957393,
+              "score": 5.4071873738930165,
               "reasons": {
                 "need": 0.27785795687843706,
                 "goal": 5.040416639137234,
                 "drive": 0,
                 "trait": 0.03333333333333333,
-                "emotion": 0.42302802360838865,
+                "emotion": 0.055579444544012535,
                 "effort": 0
               }
             },
@@ -1961,25 +1959,25 @@
             ],
             "chosen": {
               "responseId": "take-up-cause",
-              "score": 3.2322806355424345,
+              "score": 3.1036143257035533,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.7591698812591092,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.17866630983888088,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "carry-on",
-              "score": 3.160310688811896,
+              "score": 2.902978069134134,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.6125018786579437,
                 "drive": 0,
                 "trait": -0.009523809523809526,
-                "emotion": 0.3073326196777617,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -2047,25 +2045,25 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 2.5453333333333332,
+              "score": 2.369333333333333,
               "reasons": {
                 "need": 0.25,
                 "goal": 2.056,
                 "drive": 0,
                 "trait": 0.013333333333333334,
-                "emotion": 0.22599999999999998,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
             "runnerUp": {
               "responseId": "take-up-cause",
-              "score": 1.7231111111111075,
+              "score": 1.6351111111111076,
               "reasons": {
                 "need": 0.25,
                 "goal": 1.290666666666663,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.13799999999999998,
+                "emotion": 0.05,
                 "effort": 0
               }
             },
@@ -2162,13 +2160,13 @@
             },
             "runnerUp": {
               "responseId": "take-up-cause",
-              "score": 4.387256512831977,
+              "score": 4.209626596210207,
               "reasons": {
                 "need": 0.3159684519299171,
                 "goal": 3.7860200094498624,
                 "drive": 0,
                 "trait": 0.044444444444444446,
-                "emotion": 0.24082360700775293,
+                "emotion": 0.06319369038598342,
                 "effort": 0
               }
             },
@@ -2241,13 +2239,13 @@
             ],
             "chosen": {
               "responseId": "carry-on",
-              "score": 7.194911599519573,
+              "score": 6.833095418727491,
               "reasons": {
                 "need": 0.3159684519299171,
                 "goal": 6.387222185516312,
                 "drive": 0,
                 "trait": 0.06666666666666667,
-                "emotion": 0.4250542954066767,
+                "emotion": 0.0632381146145954,
                 "effort": 0
               }
             },

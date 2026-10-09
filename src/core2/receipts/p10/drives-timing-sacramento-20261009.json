@@ -1,37 +1,37 @@
 {
   "schema": "p10-drives-timing-v1",
-  "method": "Four separate processes, one world each, same seed and prepared town; baseline = createLifeCore without the P10 modules; drives = with createHealthModule and createDrivesModule and withDrives data. Personal resilience lines. Cloud container, 4 vCPU; not the owner's Mac.",
+  "method": "Four separate processes, one world each, same seed and prepared town, run one after another with nothing else on the machine; baseline = createLifeCore without the P10 modules; drives = with createHealthModule and createDrivesModule and withDrives data. Prototype base 8108737d merged. Cloud container, 4 vCPU; not the owner's Mac.",
   "runs": [
     {
       "mode": "base",
-      "seconds": 290.40709146100005,
-      "peakRssMiB": 5296.79296875,
+      "seconds": 318.95568435600006,
+      "peakRssMiB": 5413.66015625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 368.182391843,
+      "peakRssMiB": 5386.42578125,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 367.33553449,
+      "peakRssMiB": 5489.4765625,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     },
     {
       "mode": "base",
-      "seconds": 290.35690402800003,
-      "peakRssMiB": 5508.6015625,
-      "place": "Sacramento, California",
-      "seed": "p10-drives-proof-2026-10-09"
-    },
-    {
-      "mode": "drives",
-      "seconds": 343.72358011,
-      "peakRssMiB": 5335.29296875,
-      "place": "Sacramento, California",
-      "seed": "p10-drives-proof-2026-10-09"
-    },
-    {
-      "mode": "drives",
-      "seconds": 341.724438026,
-      "peakRssMiB": 5389.46875,
+      "seconds": 318.055028998,
+      "peakRssMiB": 5377.90234375,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     }
   ],
-  "medianBaseSeconds": 290.38199774450004,
-  "medianDrivesSeconds": 342.724009068,
-  "ratio": 1.1802522598854575
+  "medianBaseSeconds": 318.505356677,
+  "medianDrivesSeconds": 367.7589631665,
+  "ratio": 1.1546398057582705
 }
