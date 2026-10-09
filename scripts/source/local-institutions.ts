@@ -923,6 +923,8 @@ export interface HospitalInput {
   readonly hospitalType: string;
   /** Five-digit county GEOID from the POS file's FIPS codes, when it lists the hospital. */
   readonly countyGeoid: string | null;
+  /** The county the General Information file names, resolved to a GEOID, when it names one uniquely. */
+  readonly namedCountyGeoid?: string | null;
   readonly beds: number | null;
   /** A Census place GEOID, when the source carries one. */
   readonly placeGeoid?: string;
@@ -939,6 +941,8 @@ export interface HospitalCompilation {
   readonly matchMethods: Record<InstitutionMatchMethod, number>;
   /** Name matches set aside because the place lies in another county than the hospital. */
   readonly countyContradictions: number;
+  /** Hospitals whose two CMS files name different counties, settled by the city's own place. */
+  readonly countyDisagreementsResolved: number;
 }
 
 /**
@@ -979,6 +983,7 @@ export function compileHospitals(input: {
   const places: Record<string, HospitalRow[]> = {};
   const counties: Record<string, HospitalRow[]> = {};
   let countyContradictions = 0;
+  let countyDisagreementsResolved = 0;
   const perState: Record<string, { source: number; kept: number }> = {};
   const dropped: Record<string, number> = {};
   const matchMethods: Record<InstitutionMatchMethod, number> = {
@@ -991,7 +996,28 @@ export function compileHospitals(input: {
   const ordered = [...input.hospitals].sort((a, b) =>
     a.ccn.localeCompare(b.ccn),
   );
-  for (const hospital of ordered) {
+  for (const source of ordered) {
+    // The two CMS files sometimes name different counties for one hospital. The
+    // one that holds a place named like the hospital's city is the county.
+    let hospital = source;
+    if (
+      input.consistency &&
+      source.countyGeoid &&
+      source.namedCountyGeoid &&
+      source.countyGeoid !== source.namedCountyGeoid
+    ) {
+      const cityCounties = new Set(
+        (
+          byName.get(`${source.state}:${normalizeLocalName(source.city)}`) ?? []
+        ).flatMap((place) => input.consistency!.countiesOfPlace(place.geoid)),
+      );
+      const posFits = cityCounties.has(source.countyGeoid);
+      const namedFits = cityCounties.has(source.namedCountyGeoid);
+      if (namedFits && !posFits) {
+        hospital = { ...source, countyGeoid: source.namedCountyGeoid };
+        countyDisagreementsResolved += 1;
+      }
+    }
     const tally = (perState[hospital.state] ??= { source: 0, kept: 0 });
     tally.source += 1;
     let geoid: string | null = null;
@@ -1065,6 +1091,7 @@ export function compileHospitals(input: {
     dropped,
     matchMethods,
     countyContradictions,
+    countyDisagreementsResolved,
   };
 }
 
@@ -1094,6 +1121,7 @@ export function readHospitalInputs(): HospitalInput[] {
       hospitalType: record.hospitalType,
       countyGeoid:
         record.countyGeoid ?? (named?.length === 1 ? named[0]! : null),
+      namedCountyGeoid: named?.length === 1 ? named[0]! : null,
       beds: record.certifiedBeds,
     };
   });

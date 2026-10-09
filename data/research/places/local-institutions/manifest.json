@@ -719,12 +719,13 @@
       "dropped": {},
       "matchMethods": {
         "place-code": 0,
-        "city-name": 5049,
+        "city-name": 5062,
         "zip": 0,
         "point-in-boundary": 0,
-        "county": 370
+        "county": 357
       },
-      "countyContradictions": 33
+      "countyContradictions": 20,
+      "countyDisagreementsResolved": 18
     }
   },
   "statesWithNoSchools": [],
@@ -743,8 +744,8 @@
       "sha256": "87f24a01fadde528a9e2637c3e40480729e46256cc20830152e4cfba85dda52c"
     },
     "AR": {
-      "bytes": 127295,
-      "sha256": "887e23681097d970d50f79f0ad7ffbd2d673f9ef7a363dfb16f2afd5496c4341"
+      "bytes": 127298,
+      "sha256": "a88286f39a57c2a6aa585a43d391dabe141403fcabdc206ed3da997b822eea3c"
     },
     "AS": {
       "bytes": 3446,
@@ -755,12 +756,12 @@
       "sha256": "fce9b79825c3b288e86120c34f5591702c66936331fd723151c256b0fade0fbc"
     },
     "CA": {
-      "bytes": 1075991,
-      "sha256": "d6635ccc34e38491a027e5a4652a3ee83413189a5ad8564cd618605d1ae4b304"
+      "bytes": 1075992,
+      "sha256": "297630d478707c3e0fec6fa8ba82124087c64ea4b61fb2275f575e5024501679"
     },
     "CO": {
-      "bytes": 209744,
-      "sha256": "d16c534adebff503a46be1144b5d2ef767087c15e3cc8d81ed3d392e322e7d83"
+      "bytes": 209737,
+      "sha256": "8f1e11dd6daa5beb2c9952118da5b03d5b4219ded74578f2522b33ce95144d65"
     },
     "CT": {
       "bytes": 107445,
@@ -775,8 +776,8 @@
       "sha256": "e881eaa9b803886fb24c0733521f291f86bb272b6f870f8a16391598a6450455"
     },
     "FL": {
-      "bytes": 465386,
-      "sha256": "19bd9dbfa0a4ee21b097affb2c9c8aa23c13e91095c7d852bb4ee852a896b4dc"
+      "bytes": 465374,
+      "sha256": "a506ad97a9095989eee019c77fffe5fa6180de70754753460f8cde855a39b341"
     },
     "GA": {
       "bytes": 262051,
@@ -795,8 +796,8 @@
       "sha256": "63ddf92a48d08c4e25bf092c8995999c23faab8478a9e5972631a9e0f4cc239a"
     },
     "ID": {
-      "bytes": 88524,
-      "sha256": "564e67d180d94872e24613d93a4693da4c5dd5bcf708934b13a11e679b70fea9"
+      "bytes": 88527,
+      "sha256": "6728d81d8d039169bb7dc4d3d76df658b1f5b41f1fdacbf912d68514b6becf67"
     },
     "IL": {
       "bytes": 472516,
@@ -871,8 +872,8 @@
       "sha256": "da3277de56319d9174755f07a05b386977e2129b91ba6abbbd34640dda6ef24a"
     },
     "NJ": {
-      "bytes": 279501,
-      "sha256": "373be82e259ca687154d8762604228f5c926c54bb6eca43cae6950ba1b5f5ebd"
+      "bytes": 279506,
+      "sha256": "e91abd973109773a9a2aa66f4e65eace0fa86f88aa73f1945a573389af69b076"
     },
     "NM": {
       "bytes": 96341,
@@ -883,8 +884,8 @@
       "sha256": "9fe83cc6f59e0b5e26c3de17678f950001cb05fc2a7ed5219134b563f2227b6e"
     },
     "NY": {
-      "bytes": 540681,
-      "sha256": "fb591c2c29e82a1c03d0ec7a7381bd0a9882f957cd95a065fc9e23cbd554f279"
+      "bytes": 540696,
+      "sha256": "f04f86bcdda887df5e3c544adc20bf2a63827087d6454e56f2d287d5f4fda0a8"
     },
     "OH": {
       "bytes": 392741,
@@ -923,16 +924,16 @@
       "sha256": "09956f351406ffc91b0eb2d4d7894b876f63d9e10b87b7bd1972a4a7fe0f24c8"
     },
     "TX": {
-      "bytes": 919876,
-      "sha256": "29d0e9300fee869faca6dd76f081f66f86d1a54a883005af687d30a08a5347a4"
+      "bytes": 919869,
+      "sha256": "47caff5a250743c3ff983788642d4dcee4ddc027f54235c5e512e02bcd1a1e54"
     },
     "UT": {
       "bytes": 113030,
       "sha256": "d270947c170ac1bfd029534b3e8bd4b594601b81285bec29e3863f99964b6098"
     },
     "VA": {
-      "bytes": 228904,
-      "sha256": "016a762a2ec978fafd52f3e1a93937a30a8b28fec9dbc52b3365f79545499262"
+      "bytes": 228900,
+      "sha256": "1d6bc2dc41dad76a90d998b91ea47b2c136cb5c215e6d7ef3dd0cb3874dbe459"
     },
     "VI": {
       "bytes": 2717,

@@ -370,6 +370,31 @@ describe("matching hospitals to places", () => {
     expect(result.dropped).toEqual({ "no place, no county": 1 });
   });
 
+  it("settles two CMS counties by the county that holds a place named like the city", () => {
+    const result = compileHospitals({
+      places,
+      asOf: "2026-07-22",
+      consistency: {
+        countiesOfPlace: (geoid) => (geoid === "0100300" ? ["01007"] : []),
+        isKnownCounty: () => true,
+      },
+      hospitals: [
+        // Provider of Services says 01001, General Information says 01007:
+        // Rivertown lies in 01007, so the named county wins and the city holds.
+        hospital("000001", "Rivertown", {
+          countyGeoid: "01001",
+          namedCountyGeoid: "01007",
+        }),
+      ],
+    });
+    expect(result.countyDisagreementsResolved).toBe(1);
+    expect(result.countyContradictions).toBe(0);
+    expect(result.places["0100300"]![0]).toMatchObject({
+      sourceId: "000001",
+      matchMethod: "city-name",
+    });
+  });
+
   it("reports certified beds, else the median of the state and type, marked estimated", () => {
     const result = compileHospitals({
       places,
