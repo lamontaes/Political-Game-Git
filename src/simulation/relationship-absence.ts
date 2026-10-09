@@ -1,5 +1,11 @@
+import { crisisRecords } from "./crisis/records";
+import type { CrisisRecord, HealthStateRecord } from "./crisis/types";
 import { addDays, daysBetween } from "./dates";
-import { recordsByStringField } from "./history-index";
+import {
+  growingIndex,
+  recordsByStringField,
+  type GrowingIndexKind,
+} from "./history-index";
 import {
   eventsOfType,
   PRETRIAL_HELD_EVENT,
@@ -52,8 +58,11 @@ import type { EntityId, IsoDate, World } from "./types";
  *   to 1 when the bond is dormant, in step with the unexplained days apart.
  *   The four states are bands of that one measure, for the words only.
  *
- * NOT YET REPRESENTED, and so not read: an illness or a hospital stay, travel,
- * an agreed break. Nothing in the world records them. A workplace keeps
+ * An illness that limits what someone can do explains time apart for as long
+ * as its recorded health states say so (crisis health episodes).
+ *
+ * NOT YET REPRESENTED, and so not read: travel and an agreed break. Nothing
+ * in the world records them. A workplace keeps
  * colleagues in touch but is not intimacy; it only stops the bond fading, it
  * adds nothing to any line.
  *
@@ -73,7 +82,7 @@ export type RelationshipCurrency =
 
 /** A recorded reason the two of them have been apart. */
 export type ApartReasonKind =
-  "moved" | "jailed" | "death-in-family" | "new-school" | "new-job";
+  "moved" | "jailed" | "death-in-family" | "new-school" | "new-job" | "ill";
 
 export interface ApartReason {
   readonly kind: ApartReasonKind;
@@ -82,7 +91,7 @@ export interface ApartReason {
   readonly from: IsoDate;
   /** The day the reason stops explaining the gap, or null while it still does. */
   readonly until: IsoDate | null;
-  /** The record that shows it: a move, a sentence, a death, an enrollment, a job. */
+  /** The record that shows it: a move, a sentence, a death, an enrollment, a job, a health state. */
   readonly sourceRecordId: EntityId;
 }
 
@@ -204,6 +213,67 @@ function thresholdsFor(contacts: readonly IsoDate[], kin: boolean): Thresholds {
   return { rhythm, lessCurrentAfter, dormantAfter };
 }
 
+/** Each person's recorded health states, in record order, kept as the list grows. */
+const HEALTH_STATES_BY_PERSON: GrowingIndexKind<
+  Map<EntityId, HealthStateRecord[]>
+> = {
+  create: () => new Map(),
+  add: (index, value) => {
+    const record = value as CrisisRecord;
+    if (record.kind !== "health-state") return;
+    const list = index.get(record.personId);
+    if (list) list.push(record);
+    else index.set(record.personId, [record]);
+  },
+};
+
+/**
+ * The stretches an illness limited what this person could do: from a health
+ * state that records a limitation to the first later state of the same
+ * episode that records none. A stretch still open has no end.
+ */
+function illnessSpans(
+  world: World,
+  personId: EntityId,
+): readonly {
+  from: IsoDate;
+  until: IsoDate | null;
+  sourceRecordId: EntityId;
+}[] {
+  const states = growingIndex(
+    HEALTH_STATES_BY_PERSON,
+    crisisRecords(world),
+  ).get(personId);
+  if (!states) return [];
+  const open = new Map<EntityId, HealthStateRecord>();
+  const spans: {
+    from: IsoDate;
+    until: IsoDate | null;
+    sourceRecordId: EntityId;
+  }[] = [];
+  for (const state of states) {
+    const started = open.get(state.episodeId);
+    const limited =
+      state.functionalLimitation !== "none" && state.state !== "deceased";
+    if (limited && !started) open.set(state.episodeId, state);
+    else if (!limited && started) {
+      spans.push({
+        from: started.effectiveAt,
+        until: state.effectiveAt,
+        sourceRecordId: started.id,
+      });
+      open.delete(state.episodeId);
+    }
+  }
+  for (const started of open.values())
+    spans.push({
+      from: started.effectiveAt,
+      until: null,
+      sourceRecordId: started.id,
+    });
+  return spans;
+}
+
 /** Whether the two of them live in different places now. */
 function liveApart(world: World, a: EntityId, b: EntityId): boolean {
   const left = world.people[a]?.homeJurisdictionId;
@@ -307,6 +377,16 @@ function apartReasonsBetween(
           sourceRecordId: enrollment.id,
         });
     }
+    // An illness that limited what they could do.
+    for (const span of illnessSpans(world, personId))
+      if (overlaps(span.from, span.until))
+        reasons.push({
+          kind: "ill",
+          personId,
+          from: span.from,
+          until: span.until,
+          sourceRecordId: span.sourceRecordId,
+        });
     if (world.people[personId])
       for (const job of workRelationshipHistoryForPerson(world, personId)) {
         const until = addDays(job.startedAt, APART_REASON_SPANS.newJobDays);
@@ -425,6 +505,58 @@ function askedAndUnanswered(
 }
 
 /**
+ * One entry per day the two of them were in touch. A conversation and the
+ * half hour after it are one day's contact, not two, and counting them twice
+ * would make a reunion read as ordinary and halve the pair's rhythm.
+ */
+function contactDays(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): readonly IsoDate[] {
+  if (viewerId === subjectId) return [];
+  return [
+    ...new Set(
+      relationshipHistory(world, viewerId, subjectId).map(
+        (interaction) => interaction.occurredAt,
+      ),
+    ),
+  ];
+}
+
+/**
+ * The first day this pair would read as dormant if nothing more happened,
+ * at their own rhythm and with today's recorded reasons for time apart; or
+ * null when nothing can make them dormant now: no contact on record, a
+ * shared home or a shared workplace. A check scheduled for that day re-reads
+ * the pair, since contact or a new reason may move it.
+ */
+export function relationshipDormantOn(
+  world: World,
+  viewerId: EntityId,
+  subjectId: EntityId,
+): IsoDate | null {
+  const contacts = contactDays(world, viewerId, subjectId);
+  const last = contacts.at(-1);
+  if (
+    last === undefined ||
+    sharesHomeNow(world, viewerId, subjectId) ||
+    sharesWorkNow(world, viewerId, subjectId)
+  )
+    return null;
+  const thresholds = thresholdsFor(
+    contacts,
+    areKin(world, viewerId, subjectId),
+  );
+  const explained = daysExplained(
+    apartReasonsBetween(world, [viewerId, subjectId], last),
+    last,
+    world.currentDate,
+  );
+  return addDays(last, Math.floor(thresholds.dormantAfter + explained) + 1);
+}
+
+/**
  * How current this relationship is for `viewerId`, as of the world's date.
  *
  * Returns "current" for a pair with no meaningful history at all: there is no
@@ -435,19 +567,7 @@ export function readRelationshipAbsence(
   viewerId: EntityId,
   subjectId: EntityId,
 ): RelationshipAbsence {
-  // One entry per day the two of them were in touch. A conversation and the
-  // half hour after it are one day's contact, not two, and counting them twice
-  // would make a reunion read as ordinary and halve the pair's rhythm.
-  const contacts =
-    viewerId === subjectId
-      ? []
-      : [
-          ...new Set(
-            relationshipHistory(world, viewerId, subjectId).map(
-              (interaction) => interaction.occurredAt,
-            ),
-          ),
-        ];
+  const contacts = contactDays(world, viewerId, subjectId);
   const last = contacts.at(-1) ?? null;
   const sharesHome = sharesHomeNow(world, viewerId, subjectId);
   const sharesWork = sharesWorkNow(world, viewerId, subjectId);

@@ -20,6 +20,7 @@
     "traitTiltAtFullStrength": 0.25,
     "closenessRange": [0.5, 1.5],
     "relationshipCap": 0.35,
+    "stakesAtFullYear": 0.5,
     "relationshipSignificance": {
       "minor": 0,
       "meaningful": 2,
@@ -256,6 +257,7 @@
         "roles": ["focus:defendant", "focus:subject"]
       },
       "acts": [],
+      "stakes": "freedom",
       "adult": {
         "source": "srrs-adult",
         "row": "Being jailed",
@@ -373,6 +375,7 @@
         "reasons": ["labor:laid-off", "labor:business-closed"]
       },
       "acts": [],
+      "stakes": "money",
       "adult": {
         "source": "srrs-adult",
         "row": "Being fired",

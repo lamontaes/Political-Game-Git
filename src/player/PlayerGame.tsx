@@ -5257,26 +5257,30 @@ function TodayView({
         {today.placeName ? ` · ${today.placeName}` : ""}
       </p>
 
-      <section className="pg-today-block" aria-labelledby="pg-today-now">
-        <h3 id="pg-today-now">Now</h3>
-        <p
-          className="game-scene"
-          data-testid={
-            today.nowKind === "activity" ? "day-now-activity" : "day-opening"
-          }
-        >
-          {today.now}
-        </p>
-        {today.nowKind === "scene" ? (
-          <p className="game-note" data-testid="day-now-scene">
-            It is waiting in the room. Close this to go back to it.
+      {/* Words only when something is happening (owner rule R4, Oct 8). */}
+      {today.now ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-now">
+          <h3 id="pg-today-now">Now</h3>
+          <p
+            className="game-scene"
+            data-testid={
+              today.nowKind === "activity" ? "day-now-activity" : "day-opening"
+            }
+          >
+            {today.now}
           </p>
-        ) : null}
-      </section>
+          {today.nowKind === "scene" ? (
+            <p className="game-note" data-testid="day-now-scene">
+              It is waiting in the room. Close this to go back to it.
+            </p>
+          ) : null}
+        </section>
+      ) : null}
 
-      <section className="pg-today-block" aria-labelledby="pg-today-next">
-        <h3 id="pg-today-next">Next</h3>
-        {today.next ? (
+      {/* Only a commitment that exists; an empty calendar shows no line. */}
+      {today.next ? (
+        <section className="pg-today-block" aria-labelledby="pg-today-next">
+          <h3 id="pg-today-next">Next</h3>
           <button
             type="button"
             className="ui-action ui-action--subtle pg-today-link"
@@ -5287,12 +5291,8 @@ function TodayView({
             {today.next.when} · {today.next.title}
             <small>{today.next.locationLabel} · Read it in the calendar</small>
           </button>
-        ) : (
-          <p className="game-note" data-testid="day-next-none">
-            Nothing else of yours is on the calendar.
-          </p>
-        )}
-      </section>
+        </section>
+      ) : null}
 
       {today.waiting.length > 0 ? (
         <section className="pg-today-block" aria-labelledby="pg-today-waiting">

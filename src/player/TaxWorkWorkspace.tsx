@@ -1,4 +1,12 @@
 import "./tax-work.css";
+import taxBaseUnits from "../../data/research/money/tax-base-units.json" with { type: "json" };
+import businessPayerScope from "../../data/research/money/business-taxpayer-scope.json" with { type: "json" };
+import {
+  businessTaxOwnersAt,
+  recordedCorporateTaxpayerAt,
+} from "../simulation/business-tax-payers";
+import { organizationProfileAt } from "../simulation/life-queries";
+import { isTaxQuantity } from "../simulation/tax-types";
 import { useEffect, useRef, useState } from "react";
 import { canonicalJson } from "../simulation/canonical-json";
 import {
@@ -17,6 +25,8 @@ import {
   declarePersonalTaxOccurrence,
   fileTaxProposalFromOffice,
   readPublicTaxReceipts,
+  exactTaxQuantityInput,
+  exactQuantityTaxRateInput,
 } from "../presentation/tax-work";
 import { LegislationWorkspace } from "./LegislationWorkspace";
 import { RecordedSittingAdmission } from "./RecordedSittingAdmission";
@@ -53,6 +63,11 @@ export function TaxWorkWorkspace({
   onWorldChange: (world: World) => void;
   onOpenMeasure: (measureId: EntityId) => void;
 }) {
+  const [baseUnit, setBaseUnit] = useState(taxBaseUnits.options[0]!.key);
+  const selectedUnit = taxBaseUnits.options.find(
+    (row) => row.key === baseUnit,
+  )!;
+  const quantityBase = baseUnit === "vehicle-mile";
   const [baseLabel, setBaseLabel] = useState("");
   const [rate, setRate] = useState("");
   const [allowance, setAllowance] = useState("");
@@ -61,8 +76,12 @@ export function TaxWorkWorkspace({
   const [assumptions, setAssumptions] = useState("");
   const [exempt, setExempt] = useState(false);
   const [occurrence, setOccurrence] = useState("");
+  const [companyPayer, setCompanyPayer] = useState<EntityId | null>(null);
   const [following, setFollowing] = useState<EntityId | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [previewValue, setPreviewValue] = useState<ReturnType<
+    typeof previewTax
+  > | null>(null);
   const [error, setError] = useState<string | null>(null);
   // A filed or already-pending proposal is where the player's next step is, so
   // it is brought into view and focused instead of appearing out of sight.
@@ -101,15 +120,22 @@ export function TaxWorkWorkspace({
     onWorldChange(publishLegislativeTransition(world, next));
   function terms(): TaxTerms {
     return {
-      seriesKey: "tax:authored-selective-excise",
-      baseKey: "tax-base:declared-activity",
+      seriesKey: selectedUnit.seriesKey,
+      baseKey: selectedUnit.baseKey,
+      ...(quantityBase
+        ? {
+            baseUnit: "vehicle-mile" as const,
+            allowanceUnits: exactTaxQuantityInput(allowance),
+          }
+        : {}),
       baseLabel,
-      rateNumerator: exactDollarInput(rate),
-      rateDenominator: 10000,
-      allowanceMinorUnits: exactDollarInput(allowance),
+      ...(quantityBase
+        ? exactQuantityTaxRateInput(rate)
+        : { rateNumerator: exactDollarInput(rate), rateDenominator: 10000 }),
+      allowanceMinorUnits: quantityBase ? 0 : exactDollarInput(allowance),
       currency: money(0, "USD").currency,
       collectionLagDays: /^\d+$/.test(lag) ? Number(lag) : NaN,
-      exemptBaseKeys: exempt ? ["tax-base:declared-activity"] : [],
+      exemptBaseKeys: exempt ? [selectedUnit.baseKey] : [],
       publicPurpose: purpose,
       assumptionNote: assumptions,
       legalBaselineAssumption: "carry-forward-acquired-baseline-in-game",
@@ -120,7 +146,23 @@ export function TaxWorkWorkspace({
       action();
       setError(null);
     } catch (caught) {
-      setError((caught as Error).message);
+      const message = caught instanceof Error ? caught.message : String(caught);
+      let label: string | undefined;
+      try {
+        const packet: unknown = JSON.parse(message);
+        if (
+          packet &&
+          typeof packet === "object" &&
+          "status" in packet &&
+          typeof packet.status === "string"
+        )
+          label = Object.entries(taxBaseUnits.validationLabels).find(
+            ([key]) => key === packet.status,
+          )?.[1];
+      } catch {
+        /* Existing free-text refusals already have their recorded message. */
+      }
+      setError(label ?? message);
     }
     setFeedbackSeq((count) => count + 1);
   }
@@ -162,22 +204,27 @@ export function TaxWorkWorkspace({
     act(() => {
       const result = previewTax(
         terms(),
-        "tax-base:declared-activity",
+        selectedUnit.baseKey,
         occurrence.trim() === ""
           ? null
-          : money(exactDollarInput(occurrence), "USD"),
+          : quantityBase
+            ? { unit: "vehicle-mile", units: exactTaxQuantityInput(occurrence) }
+            : money(exactDollarInput(occurrence), "USD"),
       );
-      setMessage(
-        result.status === "unavailable"
-          ? result.reason
-          : `Preview only: ${display(result.taxAmount.minorUnits)} on ${display(result.taxableAmount.minorUnits)} of taxable base. No funds moved.`,
-      );
+      setPreviewValue(result);
+      setMessage(result.status === "unavailable" ? result.reason : null);
     });
   }
   const proposals = (world.history.taxProposals ?? []).filter(
     (row) =>
       row.sponsorPersonId === personId ||
       world.history.taxPolicies?.some((policy) => policy.proposalId === row.id),
+  );
+  const companyPayers = world.history.organizations.filter(
+    (company) =>
+      businessTaxOwnersAt(world, company.id).some(
+        (owner) => owner.personId === personId,
+      ) && recordedCorporateTaxpayerAt(world, company.id),
   );
   return (
     <section
@@ -195,6 +242,21 @@ export function TaxWorkWorkspace({
       <div ref={feedbackRef} className="tax-work-feedback">
         {error ? <p role="alert">{error}</p> : null}
         {message ? <p role="status">{message}</p> : null}
+        {previewValue?.status === "available" ? (
+          <dl aria-label={taxBaseUnits.previewLabels.title}>
+            <dt>{taxBaseUnits.previewLabels.base}</dt>
+            <dd>
+              {isTaxQuantity(previewValue.taxableAmount)
+                ? `${previewValue.taxableAmount.units} ${previewValue.taxableAmount.unit}`
+                : `${display(previewValue.taxableAmount.minorUnits)} ${previewValue.taxableAmount.currency}`}
+            </dd>
+            <dt>{taxBaseUnits.previewLabels.tax}</dt>
+            <dd>
+              {display(previewValue.taxAmount.minorUnits)}{" "}
+              {previewValue.taxAmount.currency}
+            </dd>
+          </dl>
+        ) : null}
       </div>
       {power ? (
         /*
@@ -228,19 +290,30 @@ export function TaxWorkWorkspace({
           </fieldset>
           <fieldset className="tax-work-step">
             <legend>2. Proposal: the terms</legend>
+            <select
+              value={baseUnit}
+              onChange={(event) => setBaseUnit(event.target.value)}
+              aria-label={taxBaseUnits.unitControlLabel}
+            >
+              {taxBaseUnits.options.map((row) => (
+                <option key={row.key} value={row.key}>
+                  {row.label}
+                </option>
+              ))}
+            </select>
             <label>
-              Rate, percent{" "}
+              {selectedUnit.rateLabel}{" "}
               <input
-                aria-label="Tax rate percent"
+                aria-label={selectedUnit.rateLabel}
                 inputMode="decimal"
                 value={rate}
                 onChange={(event) => setRate(event.target.value)}
               />
             </label>
             <label>
-              Allowance per occurrence, USD{" "}
+              {selectedUnit.allowanceLabel}{" "}
               <input
-                aria-label="Tax allowance USD"
+                aria-label={selectedUnit.allowanceLabel}
                 inputMode="decimal"
                 value={allowance}
                 onChange={(event) => setAllowance(event.target.value)}
@@ -272,9 +345,9 @@ export function TaxWorkWorkspace({
               />
             </label>
             <label>
-              Declared occurrence base, USD{" "}
+              {selectedUnit.label}{" "}
               <input
-                aria-label="Declared occurrence base USD"
+                aria-label={selectedUnit.label}
                 inputMode="decimal"
                 value={occurrence}
                 onChange={(event) => setOccurrence(event.target.value)}
@@ -286,10 +359,6 @@ export function TaxWorkWorkspace({
           </fieldset>
           <fieldset className="tax-work-step">
             <legend>3. Commitment: file it</legend>
-            <p>
-              This proposal is written against the taxing power as this game
-              records it for Alaska.
-            </p>
             <p>
               This route uses the ninety-day default after enactment, exact
               half-up cent rounding and general public receipts. It models no
@@ -407,10 +476,43 @@ export function TaxWorkWorkspace({
             ) : null}
             {active?.id === policy?.id && policy ? (
               <>
+                {proposal.terms.instrument === "corporate-income" ? (
+                  <label>
+                    {businessPayerScope.payerControlLabel}
+                    <select
+                      aria-label={businessPayerScope.payerControlLabel}
+                      value={companyPayer ?? ""}
+                      onChange={(event) =>
+                        setCompanyPayer(
+                          companyPayers.find(
+                            (company) => company.id === event.target.value,
+                          )?.id ?? null,
+                        )
+                      }
+                    >
+                      <option value="">
+                        {businessPayerScope.chooseControlLabel}
+                      </option>
+                      {companyPayers.map((company) => (
+                        <option key={company.id} value={company.id}>
+                          {organizationProfileAt(world, company.id)?.name ??
+                            company.stableKey}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                ) : null}
                 <label>
-                  Occurrence base, USD{" "}
+                  {proposal.terms.baseLabel}{" "}
+                  {proposal.terms.baseUnit ?? proposal.terms.currency}{" "}
                   <input
-                    aria-label={`Occurrence base USD for ${proposal.terms.baseLabel}`}
+                    aria-label={
+                      proposal.terms.baseUnit
+                        ? taxBaseUnits.options.find(
+                            (unit) => unit.key === proposal.terms.baseUnit,
+                          )!.label
+                        : `${proposal.terms.baseLabel} ${proposal.terms.currency}`
+                    }
                     value={occurrence}
                     inputMode="decimal"
                     onChange={(event) => setOccurrence(event.target.value)}
@@ -422,10 +524,23 @@ export function TaxWorkWorkspace({
                     act(() => {
                       const next = declarePersonalTaxOccurrence(world, {
                         personId,
-                        stableKey: `tax-occurrence:ordinary-${world.history.nextSequence}`,
+                        ...(proposal.terms.instrument === "corporate-income" &&
+                        companyPayer
+                          ? { organizationId: companyPayer }
+                          : {}),
+                        stableKey: proposal.terms.baseUnit
+                          ? `tax-quantity:${proposal.id}:${personId}:${world.currentDate}`
+                          : `tax-occurrence:ordinary-${world.history.nextSequence}`,
                         proposalId: proposal.id,
                         baseKey: proposal.terms.baseKey,
-                        amountMinorUnits: exactDollarInput(occurrence),
+                        ...(proposal.terms.baseUnit
+                          ? {
+                              quantity: {
+                                unit: proposal.terms.baseUnit,
+                                units: exactTaxQuantityInput(occurrence),
+                              },
+                            }
+                          : { amountMinorUnits: exactDollarInput(occurrence) }),
                         assumptionNote:
                           "Explicitly declared fictional taxable occurrence; no underlying purchase, income or observed tax return is inferred.",
                       });
@@ -436,7 +551,9 @@ export function TaxWorkWorkspace({
                     })
                   }
                 >
-                  Declare personal occurrence
+                  {proposal.terms.instrument === "corporate-income"
+                    ? businessPayerScope.declarationControlLabel
+                    : "Declare personal occurrence"}
                 </button>
               </>
             ) : null}

@@ -20,12 +20,31 @@ import type {
   ResolvedAnyLawConsequence,
 } from "../law-consequence-types";
 import type { World } from "../types";
+import type { TaxBaseRecord } from "../tax-types";
 
 export const TAX_SELECTOR = "recorded-tax-base-payer";
 export const TAX_ACTION = "assess-enacted-tax-base";
 export const STATUTORY_TAX_ACTION = "attribute-saved-statutory-tax";
 export const TAX_PREDICATE = "has-operative-typed-tax-policy";
 export const TAX_AMOUNT = "enacted-tax-assessment";
+
+function payerSubject(
+  world: World,
+  base: TaxBaseRecord,
+  context: LawConsequenceContext,
+): ResolvedLawConsequence["subject"] | null {
+  const subject =
+    base.payer.kind === "person"
+      ? world.people[base.payer.personId]
+        ? { kind: "person" as const, id: base.payer.personId }
+        : null
+      : base.payer.kind === "organization"
+        ? recordById(world.history.organizations, base.payer.organizationId)
+          ? { kind: "organization" as const, id: base.payer.organizationId }
+          : null
+        : null;
+  return subject && context.subjectIds.includes(subject.id) ? subject : null;
+}
 
 function checkRow(row: LawConsequenceRow): void {
   if (
@@ -95,12 +114,8 @@ export function resolveTaxConsequences(
     base.recordedAt > context.onDate
   )
     return [];
-  if (
-    base.payer.kind !== "person" ||
-    !world.people[base.payer.personId] ||
-    !context.subjectIds.includes(base.payer.personId)
-  )
-    return [];
+  const subject = payerSubject(world, base, context);
+  if (!subject) return [];
   const proposition = Object.values(world.policyCatalog.propositions).find(
     (entry) => entry.stableKey === context.questionKey,
   );
@@ -176,7 +191,7 @@ export function resolveTaxConsequences(
       law,
       questionKey: context.questionKey,
       jurisdictionId: base.jurisdictionId,
-      subject: { kind: "person", id: base.payer.personId },
+      subject,
       activityId: base.id,
       effectiveAt: base.occurredAt,
       sourceRecordIds: [
@@ -306,12 +321,11 @@ export function resolveSavedTaxConsequences(
   if (
     !base ||
     base.occurredAt !== context.onDate ||
-    base.recordedAt > context.onDate ||
-    base.payer.kind !== "person" ||
-    !world.people[base.payer.personId] ||
-    !context.subjectIds.includes(base.payer.personId)
+    base.recordedAt > context.onDate
   )
     return [];
+  const subject = payerSubject(world, base, context);
+  if (!subject) return [];
   const results: ResolvedTypedTaxConsequence[] = [];
   for (const proposal of world.history.taxProposals ?? []) {
     if (
@@ -406,7 +420,7 @@ export function resolveSavedTaxConsequences(
         levyProvisionId: proposal.levyProvisionId,
       },
       jurisdictionId: base.jurisdictionId,
-      subject: { kind: "person", id: base.payer.personId },
+      subject,
       activityId: base.id,
       effectiveAt: base.occurredAt,
       sourceRecordIds,
@@ -426,7 +440,11 @@ export function applyTaxConsequence(
   world: World,
   resolved: ResolvedAnyLawConsequence,
 ): World {
-  if (resolved.subject.kind !== "person" || resolved.value.type !== "amount")
+  if (
+    (resolved.subject.kind !== "person" &&
+      resolved.subject.kind !== "organization") ||
+    resolved.value.type !== "amount"
+  )
     return world;
   if ("authority" in resolved) {
     if (resolved.authority.kind !== "enacted-typed-tax-policy") return world;

@@ -35,6 +35,10 @@ test("a random live Observer checkpoint opens recorded roots and advances throug
     .first();
   await person.click();
   await expect(page.getByTestId("causal-trace-view")).toBeVisible();
+  // The story director's threads show here, and only in observer mode.
+  await expect(page.getByTestId("observer-person-file")).toContainText(
+    "Their threads",
+  );
   await expect(page.getByTestId("trace-seed")).toHaveText(
     worldSeedFor(observerSetup(seed, place.key)),
   );
