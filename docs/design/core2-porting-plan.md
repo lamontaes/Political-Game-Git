@@ -1,6 +1,6 @@
 # Three fifths of the old political engines is plumbing; about one sixth is rules worth keeping
 
-The CTO has ruled on the three decisions this plan raised: one ballot rule, six interface additions, and no save conversion. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
+The owner has one decision before the elections port: where people's political views come from. The CTO has ruled on the rest. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
 
 ## Decisions the CTO made
 
@@ -92,36 +92,36 @@ The riskiest work, measured across all reports:
 
 Measured: the three life files on the P9 branch hold 44 documented steps: 10 for Alexandria Ocasio-Cortez, 20 for Lyndon Johnson, and 14 for Wes Moore.
 
-| Step kind                      | Steps | Engine that must supply it      | Today                                                                      |
-| ------------------------------ | ----: | ------------------------------- | -------------------------------------------------------------------------- |
-| Election result                |     6 | Elections                       | Counts recorded voters; no historic-era rules, write-ins or top-two splits |
-| Candidacy                      |     3 | Elections, campaigns            | Only the player files a campaign; NPC candidates are scheduled, not chosen |
-| Re-election decision           |     1 | Elections                       | Rules for governors and Congress; nothing for a president who declines     |
-| Office service                 |     2 | Governing, legislatures         | Incumbents are invented; no act seats a recorded person on a date          |
-| Office succession              |     1 | Governing                       | Vice president to president works; governor succession is a placeholder    |
-| Public appointment             |     1 | Governing                       | Staff and Supreme Court only; no agency director with confirmation         |
-| Law signature                  |     2 | Governing, legislatures, laws   | Governor desk works; no presidential desk for a named bill                 |
-| Legislative proposal           |     1 | Legislatures                    | Members file bills; no resolution kind                                     |
-| Chamber leadership             |     1 | Legislatures                    | Missing: no majority leader, whip or chair role                            |
-| Military authorization request |     1 | Legislatures, a military engine | Missing: no such measure kind                                              |
-| Employment                     |     4 | Economy                         | Openings, applications and pay work; employers are not yet funded in core2 |
-| Business formation             |     1 | Economy                         | Openings and closures by cash; no founding by choice with a loan           |
-| Residence move                 |     4 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Education completion           |     7 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Education enrollment           |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Family loss                    |     2 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Partnership                    |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Health shock                   |     1 | Core2 life loop                 | Not in the prototype yet                                                   |
-| Cause participation            |     1 | P10 drives, campaigns           | Law-interest groups exist; drive-born joining is P10's proof               |
-| Military service               |     2 | None                            | No engine                                                                  |
-| Military deployment            |     1 | None                            | No engine                                                                  |
+| Step kind                      | Steps | Engine that must supply it                                | Today                                                                      |
+| ------------------------------ | ----: | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Election result                |     6 | Elections                                                 | Counts recorded voters; no historic-era rules, write-ins or top-two splits |
+| Candidacy                      |     3 | Elections, campaigns                                      | Only the player files a campaign; NPC candidates are scheduled, not chosen |
+| Re-election decision           |     1 | Elections                                                 | Rules for governors and Congress; nothing for a president who declines     |
+| Office service                 |     2 | Governing, legislatures                                   | Incumbents are invented; no act seats a recorded person on a date          |
+| Office succession              |     1 | Governing, with crisis death notices                      | Vice president to president works; governor succession is a placeholder    |
+| Public appointment             |     1 | Governing                                                 | Staff and Supreme Court only; no agency director with confirmation         |
+| Law signature                  |     2 | Governing, legislatures, laws                             | Governor desk works; no presidential desk for a named bill                 |
+| Legislative proposal           |     1 | Legislatures                                              | Members file bills; no resolution kind                                     |
+| Chamber leadership             |     1 | Legislatures                                              | Missing: no majority leader, whip or chair role                            |
+| Military authorization request |     1 | Legislatures, a military engine, crisis War Powers clocks | Missing: no such measure kind                                              |
+| Employment                     |     4 | Economy                                                   | Openings, applications and pay work; employers are not yet funded in core2 |
+| Business formation             |     1 | Economy                                                   | Openings and closures by cash; no founding by choice with a loan           |
+| Residence move                 |     4 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Education completion           |     7 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Education enrollment           |     1 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Family loss                    |     2 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Partnership                    |     1 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Health shock                   |     1 | Core2 life loop                                           | Not in the prototype yet                                                   |
+| Cause participation            |     1 | P10 drives, campaigns                                     | Law-interest groups exist; drive-born joining is P10's proof               |
+| Military service               |     2 | None                                                      | No engine                                                                  |
+| Military deployment            |     1 | None                                                      | No engine                                                                  |
 
 ## What the new core's interface lacks
 
-The prototype's interface (version 5) has the right shape: modules offer acts, a shared chooser picks, effect handlers apply, events go out, and everything passes through one versioned facade. Six additions recur in every port. They need a version bump; none needs a rewrite. The CTO approved all six. SOL-1258 builds reason providers (3) and subscriptions by event kind (4) first, because P10 and P13 need them now. Accounts and postings (2) come after SOL-1258's purchasing repair. Module state (1), the module calendar (5) and cohorts (6) come before the first political port.
+The prototype's interface (version 5) has the right shape: modules offer acts, a shared chooser picks, effect handlers apply, events go out, and everything passes through one versioned facade. Six additions recur in every port. They need a version bump; none needs a rewrite. The CTO approved all six. SOL-1258 builds reason providers (3) and subscriptions by event kind (4) first, because the drives package (P10) and a later package need them now. Accounts and postings (2) come after SOL-1258 repairs how firms buy from suppliers, the first fix after the cash audit. Module state (1), the module calendar (5) and cohorts (6) come before the first political port.
 
 1. **Module state.** The core's state is a fixed set of tables. Each engine needs its own registered tables with indexes and a schema version, so it does not hide data in organization facts.
-2. **Accounts and postings.** The money call moves cash between two people or organizations. Laws, taxes, budgets, bail and campaign money need named accounts (a government's general fund), postings with a reason, and obligations that come due. SOL-1258 answered in the shared work [log](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit) on October 9, 2026: the planned interface adds one atomic, balanced journal writer, `postJournal`, beyond the money call. It admits registered accounts, actual paid amounts and dated source record ids, and it rejects duplicate, unbalanced or future-dated entries. Taxes, laws and public budgets post through it; the work writer stays the only wage writer, and the money call becomes a wrapper around it. It is planned, not yet built. The laws, governing and economy specs here post through it rather than a second writer.
+2. **Accounts and postings.** The money call moves cash between two people or organizations. Laws, taxes, budgets, bail and campaign money need named accounts (a government's general fund), postings with a reason, and obligations that come due. SOL-1258 answered in the shared work [log](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit) on October 9, 2026: the planned interface adds one atomic, balanced journal writer, `postJournal`, beyond the money call. It admits registered accounts, actual paid amounts and dated source record ids, and it rejects duplicate, unbalanced or future-dated entries. Taxes, laws and public budgets post through it; the work writer stays the only wage writer, and the money call becomes a wrapper around it. It is planned, not yet built. Every module spec here that moves money posts through it rather than a second writer.
 3. **Reason providers in the chooser.** Old decisions weigh party cues, constituent views, commitments, favors owed and sponsor ties. The chooser needs a hook through which a module adds named, data-weighted terms to an offer's score. Drives from P10 already need the same hook, and it is where the REDESIGN decisions' reasons land as data rows.
 4. **Subscriptions by event kind.** `onEvent` now sends every event to every module. The press, story and law-consequence modules need to subscribe by kind, with an index, to stay inside the speed budget.
 5. **Dated institutional work.** Election days, session sittings, filing deadlines and court dates need modules to place work on dates. That work belongs to institutions, not people. `requestCallback` covers one event; a module calendar with keys is needed.
@@ -424,7 +424,7 @@ This section cuts across the engine rows; its files are counted above under gove
 
 **Keep.** Epidemic contact spread and case severity, hazard exposure and the reported rates (as checks on totals), disaster warrant tests made continuous, handling verdicts and their memory, pressure contribution and fade math, the War Powers clocks, and the funeral rules.
 
-**Redesign.** Measured: 507 lines in the crisis files. The international crisis response is a labeled decision type (240 lines). Disaster damage, deaths and injuries (187 lines) and the monthly storm count (80 lines) are dice. Inferred: political violence should also be redesigned, though the script counts its lines as plumbing and dead. A threat or attempt is an act a named person chooses, from a grudge or cause drive (P10), means and the target's exposure. It is not a state's anger crossing a line.
+**Redesign.** Measured: 507 lines in the crisis files. The international crisis response is a labeled decision type (240 lines). Disaster damage, deaths and injuries (187 lines) and the monthly storm count (80 lines) are dice. Inferred: the political-violence ladder should also be redesigned. The script counts the ladder's line-crossing logic as plumbing and the unwired attack intent as dead, so neither appears in its REDESIGN figure; its KEEP lines are the pressure contribution and fade math. A threat or attempt is an act a named person chooses, from a grudge or cause drive (P10), means and the target's exposure. It is not a state's anger crossing a line.
 
 **Module spec.**
 
