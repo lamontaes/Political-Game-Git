@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { CRUNCH46_PROVISIONAL_POLICY } from "../../simulation/macro-economy/policy";
-import { stateJurisdictionForKey } from "../../simulation/life-places";
-import { STATES } from "../../simulation/state-reference";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../../simulation/life-places";
 import { mortgageFinancingQuote as legacyMortgageFinancingQuote } from "../../simulation/mortgage-financing";
 import { makeIsoDate } from "../../simulation/dates";
 import { money } from "../../simulation/resources";
@@ -10,6 +12,7 @@ import { mortgageQuoteFromFacts } from "./mortgage-financing";
 
 const effectiveDate = makeIsoDate("2026-01-01");
 const referenceRange = CRUNCH46_PROVISIONAL_POLICY.baseline.policyRateRangePct;
+const places = lifePlaceStateIdentities();
 
 function openingWorld(): World {
   return {
@@ -25,9 +28,10 @@ function openingWorld(): World {
 }
 
 describe("standalone mortgage quote rule", () => {
-  it.each(Object.keys(STATES).map((usps) => `US-${usps}`))(
-    "matches the legacy opening-rate quote in %s",
-    (key) => {
+  it.each(places)(
+    "matches the legacy opening-rate quote in $jurisdictionKey",
+    (identity) => {
+      const key = identity.jurisdictionKey;
       const place = stateJurisdictionForKey(key)!;
       const world = openingWorld();
       const cap = { capBasisPoints: 400, measureId: "measure:cap" as EntityId };

@@ -7,8 +7,10 @@ import {
   townMinimumHourly,
 } from "../../simulation/living-world/town-pay";
 import { TOWN_JOB_SOC } from "../../simulation/living-world/town-job-soc";
-import { stateJurisdictionForKey } from "../../simulation/life-places";
-import { STATES } from "../../simulation/state-reference";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../../simulation/life-places";
 import {
   interpolateAnnualWage,
   townJobRate,
@@ -54,9 +56,10 @@ describe("standalone town pay rules", () => {
     },
   );
 
-  it.each(Object.keys(STATES).map((usps) => `US-${usps}`))(
-    "matches legacy occupation pay in %s",
-    (key) => {
+  it.each(lifePlaceStateIdentities())(
+    "matches legacy occupation pay in $jurisdictionKey",
+    (placeIdentity) => {
+      const key = placeIdentity.jurisdictionKey;
       const place = stateJurisdictionForKey(key)!;
       const areas = townPayAreas(place.id);
       const minimumHourly = townMinimumHourly(place.id);

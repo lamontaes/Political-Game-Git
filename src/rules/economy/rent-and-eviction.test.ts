@@ -4,7 +4,6 @@ import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "../../simulation/life-places";
-import { STATES } from "../../simulation/state-reference";
 import {
   decideEvictionCase as legacyDecideEvictionCase,
   publicHousingRentMinor as legacyPublicHousingRentMinor,
@@ -95,9 +94,10 @@ describe("standalone housing rules", () => {
     );
   });
 
-  it.each(Object.keys(STATES).map((usps) => `US-${usps}`))(
-    "matches the legacy rent result in %s",
-    (key) => {
+  it.each(lifePlaceStateIdentities())(
+    "matches the legacy rent result in $jurisdictionKey",
+    (identity) => {
+      const key = identity.jurisdictionKey;
       const place = stateJurisdictionForKey(key)!;
       const world = {
         currentDate: makeIsoDate("2026-01-01"),

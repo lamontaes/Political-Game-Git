@@ -3,7 +3,7 @@ import {
   annualizedQuarterlyGrowthPct as legacyAnnualizedGrowth,
   twelveMonthChangePct as legacyTwelveMonthChange,
 } from "../../simulation/macro-economy/kernel";
-import { STATES } from "../../simulation/state-reference";
+import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import {
   annualizedQuarterlyGrowthPct,
   roundMacro,
@@ -11,9 +11,10 @@ import {
 } from "./macro-index-rules";
 
 describe("standalone macro index rules", () => {
-  it.each(Object.keys(STATES))(
-    "matches published index math for US-%s",
-    (usps) => {
+  it.each(lifePlaceStateIdentities())(
+    "matches published index math for $jurisdictionKey",
+    (place) => {
+      const usps = place.usps;
       const previousIndex = 90 + usps.charCodeAt(0) / 100;
       const quarterIndex = previousIndex * (0.96 + usps.charCodeAt(1) / 1000);
       const yearAgoIndex = previousIndex * 0.98;

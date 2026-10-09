@@ -3,13 +3,14 @@ import {
   monthlyInterestMinor,
   revolvingMinimumPaymentMinor,
 } from "../../simulation/public-benefit-formulas";
-import { STATES } from "../../simulation/state-reference";
+import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import { loanMonthAmountsFromFacts } from "./loan-servicing";
 
 describe("standalone monthly loan servicing amounts", () => {
-  it.each(Object.keys(STATES))(
-    "matches legacy loan amounts for US-%s",
-    (usps) => {
+  it.each(lifePlaceStateIdentities())(
+    "matches legacy loan amounts for $jurisdictionKey",
+    (place) => {
+      const usps = place.usps;
       const openingBalanceMinor = 1_000_000 + usps.charCodeAt(0) * 10_000;
       const annualRateBasisPoints = 900 + usps.charCodeAt(1) * 10;
       const interest = monthlyInterestMinor(

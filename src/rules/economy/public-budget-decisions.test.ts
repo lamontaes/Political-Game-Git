@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { STATES } from "../../simulation/state-reference";
+import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import { shortfallOrderFromFacts } from "./public-budget-decisions";
 
 describe("standalone public-budget shortfall decision", () => {
-  it.each(Object.keys(STATES))(
-    "uses the same principle rule for US-%s",
-    (usps, index) => {
+  it.each(lifePlaceStateIdentities())(
+    "uses the same principle rule for $jurisdictionKey",
+    (place) => {
+      const usps = place.usps;
+      const index = lifePlaceStateIdentities().indexOf(place);
       const score = [-1, 0, 1][index % 3]!;
       const recordIds = [`${usps}:belief`];
       const result = shortfallOrderFromFacts({
