@@ -2,7 +2,7 @@ import { setFutureDueItemTerminalState } from "./future-transitions";
 import { organizationParticipationStateAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "./demo";
-import { makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "./dates";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
@@ -27,14 +27,20 @@ import {
 } from "./living-world/local-elections";
 import { serializeWorldPayload, deserializeWorld } from "./serialization";
 import type { World } from "./types";
+import { jumpToDate } from "../../tests/fixtures/due-item-clock";
 
 // Authored boundary dates isolate the transition, not proof of the day clock.
+// Whatever else falls due on the way is resolved by the engine first, so the
+// date change leaves no skipped due item behind and only the item under test
+// waits on the stated day.
 function at(world: World, date: string): World {
   const currentDate = makeIsoDate(date);
+  const eve = addDays(currentDate, -1);
+  const settled = world.currentDate < eve ? jumpToDate(world, eve) : world;
   return {
-    ...world,
+    ...settled,
     currentDate,
-    currentMoment: { ...world.currentMoment, date: currentDate },
+    currentMoment: { ...settled.currentMoment, date: currentDate },
   };
 }
 function fixture() {
@@ -58,6 +64,9 @@ function fixture() {
     },
   });
   const office = localGoverningBodyIdentity(unit)!;
+  // Move the clock to the day before, through whatever fell due on the way, so
+  // the authored contest below is the only item left due on its election day.
+  world = jumpToDate(world, "2027-11-19");
   world = scheduleElectionContest(world, {
     stableKey: `local-elections/v1:${unit.id}:2027-11-20:seat-1:general`,
     jurisdictionId: governmentUnitJurisdictionId(unit),
