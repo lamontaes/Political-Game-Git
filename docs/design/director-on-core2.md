@@ -1,18 +1,18 @@
 # The story director reads the new core: what moves a person becomes a moment
 
-The owner has seven choices to make before the director's numbers are final; each is below with a recommendation. Until then, the parts the owner's October 9, 2026 answers already settle are being built, with each open number marked tunable. This note plans the director on the new core. It reads what the core records about a watched person: feelings, ties, causes, money, home and health. A change on any of them becomes a moment, sized by the person's own traits, with no list of kinds. In the test town, a cashier losing her household's only pay to a store closure is the strongest moment of her year. Twenty old classmates getting in touch barely registers.
+The owner's choices are made: the CTO answered the seven questions on October 9, 2026, and the owner lowered the interrupt line. A store closure that takes a household's only pay now takes over the screen. This note plans the director on the new core. It reads what the core records about a watched person: feelings, ties, causes, money, home and health. A change on any of them becomes a moment, sized by the person's own traits, with no list of kinds. In the test town, a cashier losing her household's only pay to a store closure is the strongest moment of her year. Twenty old classmates getting in touch barely registers.
 
-## Questions for the owner
+## The owner's answers
 
-The owner's answers change only the tunable numbers named in each question. Everything else in this note is settled by the owner's October 9, 2026 answers and is being built now.
+The CTO relayed these on October 9, 2026; the owner can overrule any of them. Each sets a number in the director's data file.
 
-1. **How big must a change be to count as a moment?** Recommended: the smallest life change on the Holmes and Rahe stress scale the old director used. That is "minor violations of the law", 11 points, or 0.11 on the director's scale. A smaller change still moves the person's thread with the other person, so nothing is lost; it is just not stored as a moment. Without a floor, every routine visit is a moment. Margaret, below, would hold about 4,000 by December.
-2. **Where is the line that takes over the screen?** Recommended: the scale's value for the death of a close family member, 63 points or 0.63, applied to the person's own trait-weighted impact. A death or a disaster interrupts play. Margaret's job loss, at 0.509, waits as a scene she can go to.
-3. **Does the pace rule still decide which moments wait as scenes?** The October 8, 2026 rule allows about 1 scene a year up to age 7, 2 from 8 to 12, 3 from 13 to 17 and 4 for an adult. It ranks moments over the trailing year. Recommended: yes. Moments that rank within the pace wait as scenes; the rest become journal lines.
-4. **How fast does closeness fade without contact?** Recommended: friends lose half their closeness in about 18 months without contact, and relatives in about 36 months. This is an estimate from Roberts and Dunbar's 2015 study of how friendships and family ties decay, labeled ESTIMATED. The owner has already ruled that the fact two people knew each other never fades.
-5. **How are the years before the game starts scored?** The new core gives each person a recorded past: children's births, a partner, school years, a first job, and dated public events such as the September 2001 attacks, the 2008 recession and the 2020 pandemic. Recommended: personal past facts become moments with an impact estimated from the stress scale, labeled ESTIMATED. Public events become background entries only, because the core records no personal exposure to them.
-6. **Should watching a person change how closely the core simulates them?** Measured from the code: the core gives daily detail to the player, the player's family, household, known people and coworkers, and anyone named in a focus list (`src/core2/focus.ts:4`, `src/core2/calendar.ts:77`); everyone else acts weekly. Recommended: the director watches without asking for more detail, so being watched never changes what happens to a person.
-7. **How close to an anniversary does a shared event come back?** The owner asked for "the flood on its anniversary." Recommended: a weight highest on the date that falls smoothly over two weeks either side, with no cut-off. Until this is answered, the director keeps event dates and builds no anniversary recall.
+1. **A moment must reach 0.11.** That is the smallest adult row of the Holmes and Rahe stress scale, "minor violations of the law", 11 points. It is labeled ESTIMATED, with a check range: a watched adult's stored moments in a year should fall in a plausible band from life-events research. A smaller change still moves the person's thread with the other person; it is just not stored as a moment. Without a floor, Margaret, below, would hold about 4,000 by December.
+2. **The interrupt line is 0.50, by the owner's ruling.** That is the scale's anchor event, marriage, 50 points, labeled TUNABLE with a check range. Margaret's job loss, at 0.509, ends her household's only pay and takes over the screen. A job loss that is not the only income stays under the line and waits. Deaths and disasters still interrupt.
+3. **The October 8, 2026 pace holds.** About 1 scene a year up to age 7, 2 from 8 to 12, 3 from 13 to 17 and 4 for an adult, ranked over the trailing year. Moments that rank within the pace wait as scenes; the rest become journal lines.
+4. **Closeness halves in about 18 months without contact for friends, and about 36 months for relatives.** These are ESTIMATED from Roberts and Dunbar's 2015 study of how friendships and family ties decay. The fact that two people knew each other never fades.
+5. **The years before the game.** Personal past facts become moments with an impact estimated from the stress scale: children's births, a partner, school years and a first job. Public events such as the September 2001 attacks, the 2008 recession and the 2020 pandemic are background for everyone who lived through them. Where a person's recorded past says one hit them, such as a job lost in 2008 or a death in 2020, it is a personal moment too.
+6. **Being watched never changes what happens.** The director only reads. Measured from the code: the core gives daily detail to the player, the player's family, household, known people and coworkers, and anyone named in a focus list (`src/core2/focus.ts:4`); everyone else acts weekly. Promotion to full detail is the core's own rule.
+7. **Anniversaries weigh in, but never stage a scene.** A weight is highest on the date and falls smoothly over the two weeks either side, with no cut-off; it is TUNABLE. Callbacks come through people, so the weight raises how strongly a later moment between two people who shared an event links back to it near the date.
 
 ## The test town
 
@@ -71,9 +71,9 @@ A trait weight works as the core's own appraisal does (`src/core2/emotion.ts:143
 
 **Margaret's job loss (inferred by applying the rule to the measured records).** Her yearly pay was all of the household's earned pay, so the share lost is 1.00. Her risk trait is −1, so her money weight is 1 + (−1 ÷ 3) × (−0.25) = 1.083. Her impact is 0.47 × 1.00 × 1.083 = 0.509. The money channel scores the lost pay, not the empty account. Her cash was already at zero two weeks before the closure.
 
-**The classmates (inferred the same way).** Tyler Short's first contact raised closeness by 0.05. They share no earlier moment, so re-entry adds nothing. Margaret's sociability is 0, so her tie weight is 1. The impact is 0.05 × 0.35 × 1 = 0.018, below the recommended floor in question 1. The thread records that it renewed, so if Tyler later matters, the start of it is there.
+**The classmates (inferred the same way).** Tyler Short's first contact raised closeness by 0.05. They share no earlier moment, so re-entry adds nothing. Margaret's sociability is 0, so her tie weight is 1. The impact is 0.05 × 0.35 × 1 = 0.018, below the floor of 0.11 (answer 1). The thread records that it renewed, so if Tyler later matters, the start of it is there.
 
-**Margaret's year under the recommended floor (inferred).** One moment clears 0.11: the job loss on March 14, at 0.509. The group requests change no channel and score zero. The 3,981 person-days on which one of 21 people was in touch each move closeness by 0.05 or less, at most 0.018 each, so all stay below the floor. Without a floor, each of those person-days would be stored as a moment, about 4,000 in all.
+**Margaret's year under the floor (inferred).** One moment clears 0.11: the job loss on March 14, at 0.509. The group requests change no channel and score zero. The 3,981 person-days on which one of 21 people was in touch each move closeness by 0.05 or less, at most 0.018 each, so all stay below the floor. Without a floor, each of those person-days would be stored as a moment, about 4,000 in all.
 
 **Importance in hindsight (planned).** A moment's impact is stored once, when it happens. Each time someone re-enters a life, the director recomputes the hindsight value of every earlier moment that person shared: the stored impact times one plus that person's thread importance now. Nothing predicts who will matter. If a classmate becomes mayor in 2040, every moment Margaret shared with them rises, back to 1984.
 
@@ -81,7 +81,7 @@ A trait weight works as the core's own appraisal does (`src/core2/emotion.ts:143
 
 **A thread (planned)** is one watched person's view of one other person. The director stores:
 
-- **closeness**, read from the core's relationship level and faded by the time since the last contact (question 4);
+- **closeness**, read from the core's relationship level and faded by the time since the last contact (answer 4);
 - **tone**, rising or souring with the sign of the last change;
 - **open questions**: kept facts not yet settled, such as a favor owed, a promise or an unanswered request;
 - **last contact**, from the core's relationship record;
@@ -99,13 +99,13 @@ Fading is computed when a thread is read, from the last contact and the date, so
 
 ## Callbacks: how a seed is found (planned)
 
-When a new moment names another person, the director looks the pair up in its index. It links the new moment to the earlier one it echoes, with one of three reasons:
+When a new moment names another person, the director looks the pair up in its index. It links the new moment to the earlier one it echoes, with one of four reasons:
 
 1. **The same people and the same kind of change.** An earlier moment between the pair on the same channel with a similar cause, such as an old argument when a new one starts. The link's strength is the earlier moment's hindsight value.
 2. **A kept fact comes due.** A favor is called in when its holder's recorded need is one the other person can meet. A lie is found out on the day the deceived person first learns a fact that contradicts it. Lies are indexed by person and by the fact they deny, so the check is one lookup per learned fact. This ports the old rule that a lie is checked when evidence could first exist (`src/simulation/claim-contradictions.ts:35`).
 3. **Re-entry after years.** A first contact after a long gap links to the pair's strongest shared moment, or failing that, to the kept fact of how they knew each other. Tyler Short's contact links to Magnolia High School, August 1984.
 
-Anniversary recall (question 7) is not built.
+4. **An anniversary.** A later moment between two people who went through the same broad event links back to it. The link is strongest on the event's anniversary and weaker further from the date (answer 7).
 
 ## Broad events (planned)
 
@@ -125,9 +125,9 @@ This is structure only. There are no screens, and the new core is not wired to t
 
 | Outcome       | When                                                                                                        |
 | ------------- | ----------------------------------------------------------------------------------------------------------- |
-| Nothing       | Impact below the floor (question 1). No moment is stored.                                                   |
-| Scene now     | Impact at or above the interrupt line (question 2), and a situation type binds from the records.            |
-| Scene waiting | The moment ranks within the life's pace over the trailing year (question 3), and a situation type binds.    |
+| Nothing       | Impact below the floor (answer 1). No moment is stored.                                                     |
+| Scene now     | Impact at or above the interrupt line (answer 2), and a situation type binds from the records.              |
+| Scene waiting | The moment ranks within the life's pace over the trailing year (answer 3), and a situation type binds.      |
 | Journal line  | Every other moment, and any moment whose type does not bind; that also writes a coverage row with a reason. |
 
 **Skipped time.** As the owner ruled, while time is being skipped, a moment that would wait as a scene becomes a journal line. A moment at the interrupt line still stops the skip.
@@ -152,10 +152,10 @@ The director runs only for watched people. Its daily work is one pass over each 
 
 ## What happens next
 
-- **Hooks asked of the core** go to SOL-1258, who owns it; the director edits none of the core's files. First, the appraisal with each event. Measured from the code: the core computes each person's appraisal inside its life module and keeps only the resulting mood and stress (`src/core2/modules/life.ts:319`). Until the core passes it on, the director recomputes it with the core's exported appraisal function, registered as a stopgap. Second, a notice when a tie changes. Ties change without an event (`src/core2/state.ts:561`), so the director reads them at the end of each day and loses their order within the day.
-- **Found in the core while measuring**, for SOL-1258; none of these four blocks the director. Measured: closeness stops at 0.50. Each contact sets closeness to the hyperbolic tangent of the old closeness plus 0.05, so repeated contact settles at 0.502 and no friendship grows closer (`src/core2/state.ts:579`). Measured: from January 12, each of Margaret's 20 classmates contacted her on 134 to 236 of the 355 days through January 1, 2022, in the run above. Real adults do not hear from 20 high school acquaintances that often. Measured: Margaret's household had zero cash on the first of every month from May on, and the core records no other income or help for it. Measured: her husband Peter and her children Alexis and Taylor, who share her household, had no recorded contact with her all year.
+- **Hooks asked of the core**: the CTO approved both on October 9, 2026 and passed them to SOL-1258, who owns the core; the director edits none of the core's files. The core's interface version 7 now requires each module to name the event kinds it hears; the director names every kind. First, the appraisal with each event. Measured from the code: the core computes each person's appraisal inside its life module and keeps only the resulting mood and stress (`src/core2/modules/life.ts:319`). Until the core passes it on, the director recomputes it with the core's exported appraisal function, registered as a stopgap. Second, a notice when a tie changes. Ties change without an event (`src/core2/state.ts:561`), so the director reads them at the end of each day and loses their order within the day.
+- **Found in the core while measuring**: the CTO passed these to SOL-1258 as defects to fix after the finance repair; none of these four blocks the director, and watched lives will look wrong until they are fixed. Measured: closeness stops at 0.50. Each contact sets closeness to the hyperbolic tangent of the old closeness plus 0.05, so repeated contact settles at 0.502 and no friendship grows closer (`src/core2/state.ts:579`). Measured: from January 12, each of Margaret's 20 classmates contacted her on 134 to 236 of the 355 days through January 1, 2022, in the run above. Real adults do not hear from 20 high school acquaintances that often. Measured: Margaret's household had zero cash on the first of every month from May on, and the core records no other income or help for it. Measured: her husband Peter and her children Alexis and Taylor, who share her household, had no recorded contact with her all year.
 - **Not checked:** whether the generated names in the family and among the classmates fit La Homa's population.
-- **Next in this package:** the story ledger for each watched person, then scheduling as structure, then a year proof in this town with two watched lives, a callback and the closure as a broad event, then a report of one life's year.
+- **Built in this package since:** the story ledger for each watched person, scheduling as structure, a year proof in this town with two watched lives, a callback and the closure as a broad event, and a report of one life's year. Each part is its own pull request, and the answers above are applied in the last.
 
 ## Method
 
