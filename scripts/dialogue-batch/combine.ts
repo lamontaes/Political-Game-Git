@@ -4,6 +4,9 @@
  *   node --import tsx scripts/dialogue-batch/combine.ts --batch 2 \
  *     test-results/dialogue-batch/seed-a.json test-results/dialogue-batch/seed-b.json
  *
+ * --max N caps the items (100 by default); --leave-out KIND, repeatable,
+ * leaves a kind of text out of the batch and lists it as absent.
+ *
  * One run draws at most eight worlds; a grading sitting is about 100 lines
  * (00s P3), so a batch combines runs drawn from different seeds. Every line is
  * exactly what the run recorded. A line whose wording repeats one already
@@ -41,7 +44,7 @@ export function askedKeys(batches: readonly GradingBatch[]): Set<string> {
       // A reply is "Voice: line"; the key reads the line the engine wrote.
       const line = item.reply.slice(item.reply.indexOf(": ") + 2);
       asked.add(
-        repeatKey(item.id.replace(/-\d+$/, ""), line, item.parts[0] ?? ""),
+        repeatKey(item.id.replace(/-\d+$/, ""), line, item.parts.join("+")),
       );
     }
   return asked;
@@ -81,6 +84,11 @@ export function leastGradedFirst(
 export function combineResults(
   results: readonly BatchResult[],
   asked: ReadonlySet<string> = new Set(),
+  /**
+   * Kinds left out of this batch on purpose, such as one the owner sent back
+   * whose replacement is not built yet. Each is listed as absent, saying so.
+   */
+  leaveOut: ReadonlySet<string> = new Set(),
 ): BatchResult {
   const lines: BatchLine[] = [];
   const shapes = new Set<string>(asked);
@@ -88,22 +96,35 @@ export function combineResults(
   const numbered = new Map<string, number>();
   const worlds: BatchResult["worlds"][number][] = [];
   const absent = new Map<string, string[]>();
+  // Lines each kind lost before the batch, by why, so a kind with none left
+  // says where they went rather than reading as one no situation reached.
+  const dropped = new Map<string, { repeated: number; overLimit: number }>();
+  const drop = (line: BatchLine, why: "repeated" | "overLimit") => {
+    const kind = kindOfLine(line);
+    const counts = dropped.get(kind) ?? { repeated: 0, overLimit: 0 };
+    counts[why] += 1;
+    dropped.set(kind, counts);
+  };
   for (const result of results) {
     for (const world of result.worlds)
       worlds.push({ ...world, index: worlds.length });
     for (const line of result.lines) {
+      if (leaveOut.has(kindOfLine(line))) continue;
       const kind = line.id.replace(/-\d+$/, "");
-      const shape = repeatKey(kind, line.line, line.parts[0] ?? "");
+      const shape = repeatKey(kind, line.line, line.parts.join("+"));
       const index =
         result.worlds.find((world) => world.place === line.world.place)
           ?.index ?? 0;
       const seed = line.seed ?? `${result.seed}:${index}`;
       const worldKind = `${seed}|${kind}`;
-      if (
-        shapes.has(shape) ||
-        (fromWorld.get(worldKind) ?? 0) >= PER_WORLD_KIND
-      )
+      if (shapes.has(shape)) {
+        drop(line, "repeated");
         continue;
+      }
+      if ((fromWorld.get(worldKind) ?? 0) >= PER_WORLD_KIND) {
+        drop(line, "overLimit");
+        continue;
+      }
       shapes.add(shape);
       fromWorld.set(worldKind, (fromWorld.get(worldKind) ?? 0) + 1);
       // Ids stay unique across runs: text-news-1, text-news-2, ...
@@ -115,17 +136,23 @@ export function combineResults(
     for (const row of result.absent ?? [])
       absent.set(row.kind, [...(absent.get(row.kind) ?? []), row.reason]);
   }
-  const produced = new Set(
-    lines.map((line) => /^text-(.+)-\d+$/.exec(line.id)?.[1]),
-  );
+  const produced = new Set(lines.map(kindOfLine));
   return {
     seed: results.map((result) => result.seed).join("+"),
     worlds,
     lines,
     skipped: results.flatMap((result) => result.skipped),
-    absent: [...absent]
-      .filter(([kind]) => !produced.has(kind))
-      .map(([kind, reasons]) => ({ kind, reason: reasons.join("; ") })),
+    absent: [
+      ...[...absent]
+        .filter(([kind]) => !produced.has(kind) && !leaveOut.has(kind))
+        .map(([kind, reasons]) => ({ kind, reason: reasons.join("; ") })),
+      ...[...leaveOut].map((kind) => ({
+        kind,
+        reason: "it was left out of this batch by its builder (--leave-out)",
+        leftOut: true,
+      })),
+    ],
+    dropped: Object.fromEntries(dropped),
     stats: batchStats(lines),
   };
 }
@@ -134,13 +161,15 @@ function main() {
   const args = process.argv.slice(2);
   const at = args.indexOf("--batch");
   const number = at >= 0 ? Number(args[at + 1]) : NaN;
-  const maxFlag = args.indexOf("--max");
-  const files = args.filter(
-    (_, i) =>
-      i !== at &&
-      i !== at + 1 &&
-      (maxFlag < 0 || (i !== maxFlag && i !== maxFlag + 1)),
-  );
+  // Flags that take a value: --batch N, --max N and --leave-out KIND (repeatable).
+  const flagged = new Set<number>();
+  const leaveOut = new Set<string>();
+  args.forEach((arg, i) => {
+    if (arg !== "--batch" && arg !== "--max" && arg !== "--leave-out") return;
+    flagged.add(i).add(i + 1);
+    if (arg === "--leave-out") leaveOut.add(args[i + 1] ?? "");
+  });
+  const files = args.filter((_, i) => !flagged.has(i));
   if (!Number.isInteger(number) || number < 1 || files.length === 0)
     throw new Error("Use --batch N and one or more batch run files.");
   const results = files.map(
@@ -158,7 +187,7 @@ function main() {
             ) as GradingBatch,
         )
     : [];
-  const combined = combineResults(results, askedKeys(earlier));
+  const combined = combineResults(results, askedKeys(earlier), leaveOut);
   const graded: GradedCoverage = existsSync(COVERAGE_FILE)
     ? ((
         JSON.parse(readFileSync(COVERAGE_FILE, "utf8")) as {
