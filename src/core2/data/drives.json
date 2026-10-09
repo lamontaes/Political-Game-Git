@@ -159,6 +159,7 @@
       "id": "carry-on",
       "requires": [],
       "fitParameter": "responseCarryOnFit",
+      "baselineParameter": "responseCarryOnBaseline",
       "actKinds": ["keep-same", "withdraw", "stay-quiet", "play-safe"],
       "goalKinds": ["respond:carry-on"],
       "need": "time",

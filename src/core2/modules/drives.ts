@@ -40,6 +40,7 @@ export interface ResponseRow extends ActionDefinition {
   driveKind?: string;
   requires: readonly string[];
   fitParameter: string;
+  baselineParameter?: string;
 }
 
 export interface DrivesData {
@@ -114,7 +115,15 @@ export interface FormationTrace {
   traitTerms: readonly { traitId: string; channel: string; term: number }[];
   attention: number;
   magnitude: number;
+  agency: number;
   pressure: number;
+  event: {
+    date: IsoDate;
+    subjects: readonly PersonId[];
+    topic?: string;
+    desiredChange?: string;
+    facts?: Readonly<Record<string, string>>;
+  };
   considered: readonly {
     responseId: string;
     fit: number;
@@ -430,6 +439,16 @@ export function respond(
       Math.abs(appraisal.moodImpulse) +
       Math.max(p("zero"), appraisal.stressImpulse);
     const pressure = seen.attention * magnitude;
+    // Agency to form a lasting drive of one's own rises smoothly through adolescence.
+    const age =
+      daysBetween(makeIsoDate(actor.birthDate), makeIsoDate(api.state.date)) /
+      p("daysPerMeanYear");
+    const agency =
+      p("one") /
+      (p("one") +
+        Math.exp(
+          (p("responseAgencyTurnAge") - age) / p("responseAgencyWidthYears"),
+        ));
     const rows = rule.responses
       .map((id) => {
         const row = data.responses.find((response) => response.id === id);
@@ -464,8 +483,10 @@ export function respond(
         fit,
         lean,
         urgency:
+          (row.baselineParameter ? p(row.baselineParameter) : p("zero")) +
           pressure *
-          Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
+            (row.driveKind ? agency : p("one")) *
+            Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
       };
     });
     const context: DecisionContext = {
@@ -506,7 +527,15 @@ export function respond(
       traitTerms: seen.traitTerms,
       attention: seen.attention,
       magnitude,
+      agency,
       pressure,
+      event: {
+        date: event.date,
+        subjects: event.personIds,
+        ...(event.topic ? { topic: event.topic } : {}),
+        ...(event.desiredChange ? { desiredChange: event.desiredChange } : {}),
+        ...(event.facts ? { facts: event.facts } : {}),
+      },
       considered,
       chosen,
       ...(runnerUp ? { runnerUp } : {}),

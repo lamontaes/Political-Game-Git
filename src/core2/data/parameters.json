@@ -1320,5 +1320,44 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "responseAgencyTurnAge": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Age at which a person's capacity to form a lasting drive of their own from an event is half of an adult's, rising smoothly (logistic) around it; starting value near the ages when adolescents form durable civic identities and two years below the age of majority. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Developmental studies describe identity formation across adolescence, not a measured midpoint for event-born drives."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyWidthYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Width in years of the smooth rise in drive-forming capacity around the turn age. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured width for this rise has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnBaseline": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }

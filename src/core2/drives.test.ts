@@ -167,8 +167,11 @@ function death(core: CoreState, data = DEFAULT_DRIVES_DATA): CoreEventInput {
   };
 }
 
-function bereavedCore(data: DrivesData = DEFAULT_DRIVES_DATA) {
-  const core = createLifeCore(bereavementInput(), {
+function bereavedCore(
+  data: DrivesData = DEFAULT_DRIVES_DATA,
+  input: CoreInput = bereavementInput(),
+) {
+  const core = createLifeCore(input, {
     data: withDrives(DEFAULT_DATA, data),
     modules: [createDrivesModule(data)],
   });
@@ -205,6 +208,27 @@ describe("P10 drives and causes", () => {
     expect(
       core.people.get(carerId)!.goals.get(`drive:${drive.id}`),
     ).toMatchObject({ kind: "change-condition", sourceDriveId: drive.id });
+  });
+
+  it("a young child with the activist's traits carries on: agency rises smoothly with age", () => {
+    const base = bereavementInput();
+    const carer = base.people.find((row) => row.id === carerId)!;
+    const core = bereavedCore(DEFAULT_DRIVES_DATA, {
+      ...base,
+      people: base.people.map((row) =>
+        row.id === steadyId
+          ? { ...row, traits: carer.traits, birthDate: "2013-01-01" }
+          : row,
+      ),
+    });
+    const decisions = drivesReport(core).decisions;
+    const adult = decisions.find((row) => row.personId === carerId)!;
+    const child = decisions.find((row) => row.personId === steadyId)!;
+    expect(adult.chosen.responseId).toBe("take-up-cause");
+    expect(child.chosen.responseId).toBe("carry-on");
+    expect(child.agency).toBeLessThan(adult.agency);
+    expect(child.agency).toBeGreaterThan(p("zero"));
+    expect(core.people.get(steadyId)!.drives.size).toBe(p("zero"));
   });
 
   it("replaces the undecided situation shortcut so nobody is assigned a cause", () => {
