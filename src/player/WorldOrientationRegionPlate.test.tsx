@@ -137,9 +137,11 @@ describe("which approved picture stands behind each card", () => {
       localChamber: "county-commission",
       homePlaces: ["rowhouse"],
     };
+    // The year is told from outside the Capitol: Congress stands on a floor
+    // at its own stop only (owner playtest, October 8, 2026).
     expect(orientationBackdrop("year", sources)).toMatchObject({
       kind: "place",
-      place: "us-senate-floor",
+      place: "us-capitol-exterior",
     });
     expect(orientationBackdrop("congress", sources)).toMatchObject({
       kind: "place",
