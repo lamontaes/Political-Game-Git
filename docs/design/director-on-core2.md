@@ -1,13 +1,13 @@
 # The story director reads the new core: what moves a person becomes a moment
 
-The owner may overrule any of the seven answers below; nothing else waits on the owner. The CTO gave the answers on October 9, 2026, under the owner's delegation, and the owner lowered the interrupt line from the recommended 0.63 to 0.50. A store closure that takes a household's only pay now takes over the screen. The director, now built, reads what the new core records about a watched person: feelings, ties, causes, money, home and health. A change on any of them becomes a moment, sized by the person's own traits, with no list of kinds. Watched lives will look wrong until the core's four defects listed below are fixed.
+The owner may overrule any of the seven answers below; nothing else waits on the owner. The CTO gave the answers on October 9, 2026, under the owner's delegation, and the owner lowered the interrupt line from the recommended 0.63 to 0.50. The director now marks a closure that takes a household's only pay as a scene that interrupts; no screen shows it yet. The director reads what the new core records about a watched person: feelings, ties, causes, money, home and health. A change on any of them becomes a moment, sized by the person's own traits, with no list of kinds. Watched lives will look wrong until the core's four defects listed below are fixed.
 
 ## The owner's answers
 
-The CTO relayed these on October 9, 2026; the owner can overrule any of them. Each sets a number in the director's data file.
+The CTO relayed these on October 9, 2026; the owner can overrule any of them. Each sets a number in the director's data file. The package is five stacked draft pull requests, 3926 to 3930, one per part; none is merged. The answers are applied in the last, 3930.
 
 1. **A moment must reach 0.11.** That is the smallest adult row of the Holmes and Rahe stress scale, "minor violations of the law", 11 points. It is labeled ESTIMATED. Its check is a plausible yearly count of stored moments for a watched adult, taken from life-events research; that band is not set yet. A smaller change still moves the person's thread with the other person; it is just not stored as a moment. Without a floor, Margaret, below, would hold about 4,000 by December.
-2. **The interrupt line is 0.50, by the owner's ruling.** That is the scale's anchor event, marriage, 50 points, labeled TUNABLE with a check range. Margaret's job loss, at 0.509, ends the household's only pay and takes over the screen. A job loss that is not the only income stays under the line and waits. Deaths and disasters still interrupt.
+2. **The interrupt line is 0.50, by the owner's ruling.** That is the scale's anchor event, marriage, 50 points, labeled TUNABLE. Its check range is the owner's ruling itself; the line moves only when the owner moves it. Margaret's job loss, at 0.509, ends the household's only pay and takes over the screen. A job loss that is not the only income stays under the line and waits. Deaths and disasters still interrupt.
 3. **The October 8, 2026 pace holds.** About 1 scene a year up to age 7, 2 from 8 to 12, 3 from 13 to 17 and 4 for an adult, ranked over the trailing year. Moments that rank within the pace wait as scenes; the rest become journal lines.
 4. **Closeness halves in about 18 months without contact for friends, and about 36 months for relatives.** These are ESTIMATED from Roberts and Dunbar's 2015 study of how friendships and family ties decay. The fact that two people knew each other never fades.
 5. **The years before the game.** Personal past facts become moments with an impact estimated from the stress scale: children's births, a partner, school years and a first job. Public events such as the September 2001 attacks, the 2008 recession and the 2020 pandemic are background for everyone who lived through them. Where a person's recorded past says one hit them, such as a job lost in 2008 or a death in 2020, it is a personal moment too.
@@ -27,7 +27,7 @@ Feelings and closeness in the core run from −1 to 1, with 0 meaning nothing re
 - **January 12:** a classmate, Tyler Short, contacted Margaret for the first time on record, and their closeness rose from 0 to 0.05. By January 13, all 20 classmates had been in touch. Each of them contacted Margaret on 134 to 236 of the 355 days from January 12, 2021 through January 1, 2022. Each pair's closeness settled at 0.50.
 - **March 1:** after the month's living costs were taken, Margaret's cash was $0. Margaret's pay does not cover the household's recorded costs.
 - **March 14:** Hidalgo County Mercantile closed because it could not pay its wages. The closure ended 218 jobs, Margaret's among them. The core recorded it as a public event naming every worker, with no feeling attached, so Margaret's mood and stress did not move.
-- **The rest of the year:** on April 1 Margaret's cash still held part of the last pay. From May 2021 through January 2022 it was $0 on the first of every month. No other income is on record. Not checked: how the core divides the monthly costs between Margaret and Peter. Margaret's mood was 0 all year, because no event in this core carries a feeling for Margaret.
+- **The rest of the year:** on April 1 Margaret's cash was $223.15, what was left of the last pay. From May 2021 through January 2022 it was $0 on the first of every month. No other income is on record. Not checked: how the core divides the monthly costs between Margaret and Peter. Margaret's mood was 0 all year, because no event in this core carries a feeling for Margaret.
 
 On the 365 simulated days from January 2, 2021 through January 1, 2022, Margaret's free-time choice was rest on 355, looking up a local office on 7, asking to join a group on 2, and contacting someone on 1. Margaret's partner Peter and the children Alexis and Taylor have family ties from the start of the run, and the core recorded no contact with any of them all year. Ava, another child, was in touch on 29 days.
 
@@ -35,7 +35,7 @@ The records hold a lost livelihood, a family with no earner, 20 old classmates a
 
 ## Where the director lives
 
-Built in pull request 3927: the director is a read-only module in a new folder, `src/director/`. A program installs it beside the core's own modules when it creates the core. Read from the code: the core's creation function accepts extra modules (`src/core2/life.ts:35`). The core hands each module every event it subscribes to, with the people who learned it, and calls each module at the end of the day after its own modules (`src/core2/life.ts:305`). It calls no writer and adds no story logic to the core. A test runs the same seeded town with and without the director and requires the core's records to come out identical.
+Built in pull request 3927, part 2: the director is a read-only module in a new folder, `src/director/`. A program installs it beside the core's own modules when it creates the core. Read from the code: the core's creation function accepts extra modules (`src/core2/life.ts:35`). The core hands each module every event it subscribes to, with the people who learned it, and calls each module at the end of the day after its own modules (`src/core2/life.ts:305`). The director calls no writer and adds no story logic to the core. A test runs the same seeded town with and without the director and requires the core's records to come out identical.
 
 What it reads, all through the core's interface (`src/core2/types.ts`):
 
@@ -54,7 +54,7 @@ Watched people are the player, anyone the player clicks into, and lives replayed
 
 ## Impact: what moves a person
 
-**The rule (built in pull request 3927).** At the end of each day the director compares each watched person with how they stood the day before, and reads the day's causes. Those are events that named or reached them, ties that changed, causes that formed or grew, and changes to work, money, home or health. Each change has a raw size on its channel. The raw size is multiplied by the channel's scale and by the person's trait weight for that channel, and the products are added. That sum is the moment's impact. A day with no such change scores zero and stores nothing. A moment's kind is a label made from the channel and the cause, such as `money:job-ended` or `tie:renewed`. Labels sort moments and decide nothing.
+**The rule (built in pull request 3927, part 2).** At the end of each day the director compares each watched person with how they stood the day before, and reads the day's causes. Those are events that named or reached them, ties that changed, causes that formed or grew, and changes to work, money, home or health. Each change has a raw size on its channel. The raw size is multiplied by the channel's scale and by the person's trait weight for that channel, and the products are added. That sum is the moment's impact. A day with no such change scores zero and stores nothing. A moment's kind is a label made from the channel and the cause, such as `money:job-ended` or `tie:renewed`. Labels sort moments and decide nothing.
 
 | Channel | Raw size                                                                                                       | Trait weight                                                         | Scale (ESTIMATED from the stress scale)   |
 | ------- | -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ----------------------------------------- |
@@ -69,7 +69,7 @@ The scales come from Holmes and Rahe's Social Readjustment Rating Scale of 1967,
 
 Read from the code: a trait weight works as the core's own appraisal does (`src/core2/emotion.ts:143`). The recorded trait is divided by the trait scale of 3, multiplied by the channel's weight, and added to 1. An unrecorded trait changes nothing and is never assumed. All weights are tunable, with a check range of −0.5 to 0.5.
 
-**Margaret's job loss (inferred by applying the rule to the measured records).** Margaret's yearly pay was all of the household's earned pay, so the share lost is 1.00. Margaret's risk trait is −1, so the money weight is 1 + (−1 ÷ 3) × (−0.25) = 1.083. The impact is 0.47 × 1.00 × 1.083 = 0.509. The money channel scores the lost pay, not the empty account. Margaret's cash was already at zero two weeks before the closure.
+**Margaret's job loss (worked by hand, then measured).** Margaret's yearly pay was all of the household's earned pay, so the share lost is 1.00. Margaret's risk trait is −1, so the money weight is 1 + (−1 ÷ 3) × (−0.25) = 1.083. The impact is 0.47 × 1.00 × 1.083 = 0.509. The money channel scores the lost pay, not the empty account. Margaret's cash was already at zero two weeks before the closure. The built director, run over the same year, recorded the same 0.509 for Margaret (see "What the built director recorded", below).
 
 **The classmates (inferred the same way).** Tyler Short's first contact raised closeness by 0.05. They share no earlier moment, so re-entry adds nothing. Margaret's sociability is 0, so the tie weight is 1. The impact is 0.05 × 0.35 × 1 = 0.018, below the floor of 0.11 (answer 1). The thread records that it renewed, so if Tyler later matters, the start of it is there.
 
@@ -93,7 +93,7 @@ Fading is computed when a thread is read, from the last contact and the date, so
 **Kept facts never fade on their own**, as the owner ruled. Four kinds are kept, each an open data row:
 
 - **Knew each other**: when and how two people first knew of each other, read from the names each person knows and their recorded past. Margaret's 20 classmates are kept from August 1984. This fact is never removed.
-- **Lies, favors and promises**: kept with the person holding each and the fact it concerns. Each ends only when a world event resolves it, and the director records which one. Measured from the code: the new core has no producer for any of the three; its relationship record has an unused promise field (`src/core2/types.ts:166`). Built in pull request 3927: the story ledger holds the structure for all three. The missing producer is registered as an open stopgap, the core's list of marked placeholders that block release.
+- **Lies, favors and promises**: kept with the person holding each and the fact it concerns. Each ends only when a world event resolves it, and the director records which one. Measured from the code: the new core has no producer for any of the three; its relationship record has an unused promise field (`src/core2/types.ts:166`). Built in pull request 3927, part 2: the story ledger holds the structure for all three. The missing producer is registered as an open stopgap, the core's list of marked placeholders that block release.
 
 **Flashbacks and "meanwhile" scenes** wait until the owner has played the game. Nothing is built on screen for them. Every kept fact and moment holds who knew what, and when, so either can be built later from the ledger.
 
@@ -111,7 +111,7 @@ When a new moment names another person, the director looks the pair up in its in
 
 An event is broad when the core makes it public or news: a closure, a storm, a recession, a pandemic or a new law. Every watched person who lived through it gets a background entry: those it named, and those who lived in its town or county when it was made public there. A background entry is not a moment. It sits in the person's journal at its date, in first person, woven with their own moments. The English engine and the journal package (P3) write the words later; the director stores the structure only.
 
-Those it actually hit also get personal moments, sized on their own channels by how it hit them. For the March 14 closure (inferred by applying the rule):
+Those it actually hit also get personal moments, sized on their own channels by how it hit them. For the March 14 closure, worked by hand from the rule:
 
 - Margaret was named and lost the job: a background entry and a money moment of 0.509.
 - Peter was not named, but Peter shares Margaret's household, so the household's lost pay reaches Peter's money channel. Peter's risk trait is +1, so the weight is 1 + (1 ÷ 3) × (−0.25) = 0.917, and the impact is 0.47 × 1.00 × 0.917 = 0.431.
@@ -146,9 +146,25 @@ This is structure only. There are no screens, and the new core is not wired to t
 | Lies (`src/simulation/claim-contradictions.ts`)  | Check a lie when evidence could first exist                                                       | The old scheduled check                                                    |
 | Door-knocking (pull request 3903)                | The canvass as the reason to be at a door                                                         | Its separate story flow                                                    |
 
+## What the built director recorded
+
+Measured in the year proof (pull request 3929, part 4), with the owner's answers applied, on the same town and seed, watching every one of the 10,002 people for 2021, with the drives package's feelings and health installed:
+
+- **Margaret's job loss** was stored at 0.509 and is a scene now: news arriving at home, with Margaret bringing it and Ava receiving it. It stops a skip.
+- **The closure as a broad event** reached all 10,002 watched people: 218 it named, 348 in their households and 9,436 who lived in the town. 564 of them stored a personal moment from it, with impacts from 0.157 to 0.509 and a median of 0.47. Peter's own moment was not printed in the run's summary, so the 0.431 above is not checked against it.
+- **A callback**: Erica Byrd, another La Homa resident, stored a partner's serious illness and then the partner's death; the death links back to the illness, as the same people and the same kind of change.
+- **The town's year**: 3,586 moments in 2021, of which 1,096 are scenes now, 2,277 scenes waiting and the rest journal lines, plus 33,247 moments scored from recorded pasts.
+
 ## Cost
 
-The director runs only for watched people. Its daily work is one pass over each watched person's ties, plus the events that name them. By December, Margaret had 24 ties: 20 classmates and 4 family members. Each pull request in this package will report the added time and memory per watched life against the same seeded year without the director.
+The director runs only for watched people. Its daily work is one pass over each watched person's ties, plus the events that name them. By December, Margaret had 24 ties: 20 classmates and 4 family members.
+
+Measured on the cloud machine, one year of La Homa with the drives package:
+
+- **Two watched lives**: 88.2 seconds, against 91.8 seconds for the same year without the director. The base year varied from 68.6 to 75.2 seconds between identical runs without the drives package, so the added time for two lives is within that variation. Heap use rose by 10.6 MiB, also within it.
+- **Every person watched**: 193.8 seconds without the drives package, against a base of 68.6 to 75.2 seconds. That is about 12 milliseconds and 0.1 MiB of heap per watched life per year.
+
+The speed budget allows a game year at most 20% slower than main. Two watched lives stay inside it. Watching everyone does not, and the director is not meant to.
 
 ## What happens next
 
@@ -156,7 +172,7 @@ The director runs only for watched people. Its daily work is one pass over each 
 - **The core's interface version 7** requires each module to name the event kinds it hears; the director names every kind.
 - **Found in the core while measuring**: the CTO passed these to SOL-1258 as defects to fix after the finance repair; none of these four blocks the director, and watched lives will look wrong until they are fixed. Measured: closeness stops at 0.50. Each contact sets closeness to the hyperbolic tangent of the old closeness plus 0.05, so repeated contact settles at 0.502 and no friendship grows closer (`src/core2/state.ts:579`). Measured: from January 12, each of Margaret's 20 classmates contacted Margaret on 134 to 236 of the 355 days through January 1, 2022, in the run above. Inferred: real adults rarely hear from 20 high school acquaintances that often; no measured contact rate was checked. Measured: Margaret's household had zero cash on the first of every month from May on, and the core records no other income or help for it. Measured: Margaret's partner Peter and the children Alexis and Taylor, who share the household, had no recorded contact with Margaret all year.
 - **Not checked:** whether the generated names in the family and among the classmates fit La Homa's population.
-- **Built in this package since:** the story ledger for each watched person, scheduling as structure, a year proof in this town with two watched lives, a callback and the closure as a broad event, and a report of one life's year. Each part is its own pull request, and the answers above are applied in the last.
+- **Built in this package since, not merged:** the story ledger for each watched person (3927), scheduling as structure (3928), the year proof above (3929), and a report of one life's year with the answers applied (3930).
 
 ## Method
 
