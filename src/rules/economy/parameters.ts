@@ -86,6 +86,29 @@ export const ECONOMY_RULE_PARAMETERS = {
       "Legacy home purchase price rounding retained for golden equivalence",
     range: { minimum: 1, maximum: 100_000_000 },
   },
+  homeBuyPaymentCoverageMultiple: {
+    value: 1 / 0.28,
+    basis: "SOURCED",
+    source:
+      "Fannie Mae's 28 percent front-end housing-cost guideline, expressed as a pay-to-payment multiple",
+    range: { minimum: 1, maximum: 10 },
+  },
+  homeOutrightOwnershipAgeYears: {
+    value: 60,
+    basis: "ESTIMATED",
+    stopgapId: "economy.home-outright-ownership-age",
+    source:
+      "Legacy home tenure rule uses age 60 as its paid-off ownership proxy",
+    range: { minimum: 18, maximum: 100 },
+  },
+  homeHouseholdSizeBands: {
+    value: { smallMaximum: 2, largeMinimum: 5 },
+    basis: "ESTIMATED",
+    stopgapId: "economy.home-household-size-bands",
+    source:
+      "Legacy home selection uses two residents for an apartment and five for a large house",
+    range: { minimum: 1, maximum: 20 },
+  },
   wagePercentiles: {
     value: [10, 25, 50, 75, 90],
     basis: "SOURCED",
