@@ -5,6 +5,12 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Standard annualization of 40 hours per week for 52 weeks",
     range: { minimum: 1, maximum: 8760 },
   },
+  macroPrecisionDecimalPlaces: {
+    value: 6,
+    basis: "TUNABLE",
+    source: "Legacy persisted macro precision retained for replay equivalence",
+    range: { minimum: 0, maximum: 12 },
+  },
   minorUnitsPerDollar: {
     value: 100,
     basis: "SOURCED",
