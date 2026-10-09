@@ -18,6 +18,7 @@ import { createMindProvenance, recordPersonalityTendency } from "../mind";
 import { PERSONALITY_TRAIT_REGISTRY } from "../personality-trait-registry";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import { latestPersonalityTendenciesForPerson } from "../queries";
+import { STORY_MOVES } from "../story/situations";
 import { SeededRng, pickDistinct } from "../rng";
 import { traitDefinitionFromPack, isOneSided } from "../trait-packs";
 import { registeredTraitConsiderations } from "../trait-readings";
@@ -304,6 +305,9 @@ const OPTION_SOURCES: Readonly<Record<string, () => readonly string[]>> = {
     "counterproposes",
     "unresolved",
   ],
+  // A role in a situation chooses among the story director's move kinds,
+  // which are data (data/content/story-moves.json).
+  "story.move": () => STORY_MOVES.map((move) => move.key),
 };
 
 describe("act kinds, option labels and trait pulls are one consistent table", () => {
