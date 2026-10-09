@@ -14,8 +14,57 @@
   },
   "stopgapIds": ["SG-P8-finance-settlement-policy"],
   "stopgapId": "SG-P8-finance-settlement-policy",
+  "salesReceiptBudgetStopgapId": "SG-P8-finance-sales-receipt-budgets",
   "gaps": {
     "conditions": "No dated price/macro series is supplied; finance holds its opening price indexes rather than inventing inflation or revenue.",
-    "income": "Business demand uses recorded local wages and opening payroll priors; nonwage income and external customer trade are not yet bound."
-  }
+    "income": "Business demand uses actual resident wages and admitted paid retirement income, with an opening payroll anchor where a month is absent. Other nonwage income and unadmitted external customer trade remain gaps."
+  },
+  "settlementPhases": [
+    {
+      "id": "funding",
+      "operation": "settle"
+    },
+    {
+      "id": "income",
+      "operation": "settle"
+    },
+    {
+      "id": "household-purchases",
+      "operation": "settle"
+    },
+    {
+      "id": "business-procurement",
+      "operation": "procure"
+    },
+    {
+      "id": "standing-services",
+      "operation": "settle"
+    }
+  ],
+  "defaultPhases": {
+    "funding": "funding",
+    "income": "income",
+    "household": "household-purchases",
+    "procurement": "business-procurement",
+    "other": "standing-services"
+  },
+  "wageIncomeKindId": "wage",
+  "recipientIncomeKinds": [
+    {
+      "id": "retirement",
+      "sourceKinds": [
+        "retirement:award",
+        "opening-income:retirement-award",
+        "income:monthly-award"
+      ],
+      "status": "in-payment",
+      "contractKind": "income.retirement",
+      "qualifyingFactsBySourceKind": {
+        "income:monthly-award": {
+          "basis": "standing-entitlement",
+          "paymentMedium": "cash"
+        }
+      }
+    }
+  ]
 }

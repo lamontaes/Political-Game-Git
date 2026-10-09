@@ -1589,5 +1589,190 @@
     "value": 35,
     "tag": "SOURCED",
     "citation": "BLS CPS 2019 annual averages, Table 8, employed persons by usual full- or part-time status at all jobs: full time is 35 hours or more per week. https://www.bls.gov/cps/aa2019/cpsaat08.htm . Definition-only observation boundary; not an employment probability, individual behavior threshold, coefficient, observed hours spread, or calibration pass. Archived source: src/core2/receipts/work-hours-v5-source-audit/evidence.json, BLS-CPS-2019-T8."
+  },
+  "openingRetirementCareerStartAgeYears": {
+    "value": 18,
+    "tag": "ESTIMATED",
+    "citation": "Canonical town-employment.ts WORKING_AGE_MIN=18 and current P8 adulthood convention, used only as a bounded fictional covered-career start prior; not observed past employment.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "stopgapId": "SG-P8-opening-retirement-income"
+  },
+  "openingRetirementSchoolContextYears": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "citation": "Existing shared school-calendar common high-school grades 9–12. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "stopgapId": "SG-P8-opening-retirement-income"
+  },
+  "openingRetirementClaimAgeYears": {
+    "value": 66,
+    "tag": "TUNABLE",
+    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementClaimAgeYears",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementClaimTraitPullYears": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Authored modest signed reliability-context adjustment to generated claim timing; no causal trait-retirement coefficient or bound is known.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementCoveredFraction": {
+    "value": 0.65,
+    "tag": "TUNABLE",
+    "citation": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementCoveredFraction",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementCoveredTraitPull": {
+    "value": 0.04,
+    "tag": "TUNABLE",
+    "citation": "Authored signed reliability-context contribution to the fictional covered-career fraction, smoothly bounded to its possible span; not an empirically measured work history effect.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementCoveredTraitPull",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementMinimumCoveredMonths": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Fictional prototype fund qualification requires this many modeled covered months. This is not reconstructed Social Security credits, public-plan vesting law or an observed individual entitlement.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementMinimumCoveredMonths",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementBenefitMonthlyMinor": {
+    "value": 201500,
+    "tag": "ESTIMATED",
+    "citation": "data/research/money/public-programs-2026.json federal.socialSecurity.averageRetiredWorkerMonthly.beforeCola=$2015; official SSA 2026 factsheet snippet only. Later-vintage participant-average amount proxy in USD minor units, not actual 2021 benefits or each individual award.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "stopgapId": "SG-P8-opening-retirement-income"
+  },
+  "openingRetirementBenefitReferenceCoveredMonths": {
+    "value": 420,
+    "tag": "TUNABLE",
+    "citation": "Authored normalization of modeled covered-career months for an award amount prior. It does not implement the historical highest-35-years indexed-earnings formula or establish individual earnings.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementBenefitReferenceCoveredMonths",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementBenefitFactorMinimum": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Authored lower amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMinimum",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementBenefitFactorMaximum": {
+    "value": 1.25,
+    "tag": "TUNABLE",
+    "citation": "Authored upper amount factor for fictional generated awards; no individual benefit-distribution percentile or parameter bound is inferred from the average.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementBenefitFactorMaximum",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementPayerReserveMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Unmeasured finite opening liquidity buffer for the represented retirement payer cohort, in months of saved current award terms. Generated once, independent of firm deficits, forecast revenue or a year-survival target. No tax/contribution/refill is supplied.",
+    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "openingRetirementPeriodMonths": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "A calendar month is the standing benefit cadence in preserved public-benefit-formulas.ts and SSA retired-worker monthly source context. Phase and first bill date remain an explicitly modeled opening calendar, not an observed award payment schedule."
+  },
+  "openingRetirementFundingEnvelopeShare": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Authored represented retirement portfolio annual funding allocation, bounded to at most its saved one-year award obligations and the independently published national flow cap. Not an observed appropriation share, individual participation outcome or firm-survival target.",
+    "estimatedFrom": "Explicit bounded opening WHO/terms and liquidity prior; future source-qualified appropriation/receipt generation is missing.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
+    "checkRange": {
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+    }
+  },
+  "openingRetirementFundingLiquidShare": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Authored share of the admitted one-year represented funding envelope supplied as a finite new external contributor opening cash stock. Explicit liquidity allocation assumption, not SSA reserve assets treated as cash or an observed 2021 Treasury balance. No refill or firm-deficit dependence.",
+    "estimatedFrom": "Explicit bounded opening WHO/terms and liquidity prior; future source-qualified appropriation/receipt generation is missing.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
+    },
+    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
+    "checkRange": {
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+    }
+  },
+  "openingRetirementFundingPublicAnnualOutlayMinor": {
+    "value": 158068578303383,
+    "tag": "SOURCED",
+    "citation": "data/research/money/federal-budget-fy2025.json outlays.socialSecurity = $1,580,685,783,033.83, Treasury MTS Table 9 FY2025 through 2025-09-30; exact USD minor-unit conversion. Published national functional outlay context and aggregate upper cap only; includes more than retired workers and does not identify 2021 liquidity or a generated portfolio appropriation."
   }
 }

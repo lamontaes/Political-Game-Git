@@ -476,42 +476,14 @@
     }
   },
   "actKindBindings": {
-    "work-shift": [
-      "follow-rules",
-      "self-interest",
-      "commit"
-    ],
-    "rest": [
-      "play-safe",
-      "withdraw"
-    ],
-    "contact-known-person": [
-      "engage",
-      "cooperate"
-    ],
-    "care-for-relative": [
-      "help-others",
-      "commit"
-    ],
-    "join-association": [
-      "cooperate",
-      "commit",
-      "engage"
-    ],
-    "organize-meeting": [
-      "speak-out",
-      "cooperate",
-      "take-risk"
-    ],
-    "approach-office": [
-      "engage",
-      "speak-out",
-      "follow-rules"
-    ],
-    "look-up-local-institution": [
-      "engage",
-      "follow-rules"
-    ]
+    "work-shift": ["follow-rules", "self-interest", "commit"],
+    "rest": ["play-safe", "withdraw"],
+    "contact-known-person": ["engage", "cooperate"],
+    "care-for-relative": ["help-others", "commit"],
+    "join-association": ["cooperate", "commit", "engage"],
+    "organize-meeting": ["speak-out", "cooperate", "take-risk"],
+    "approach-office": ["engage", "speak-out", "follow-rules"],
+    "look-up-local-institution": ["engage", "follow-rules"]
   },
   "actKindCountScope": "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
   "actKindTagsByMonth": {
