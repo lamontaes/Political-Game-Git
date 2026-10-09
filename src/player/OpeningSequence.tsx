@@ -207,8 +207,8 @@ export function OpeningSequence({
 /**
  * A plaque for each person who matters to the stop: their name, and under
  * it their relationship to the player as the records give it. It sits just
- * above a standing figure, or on the front edge of the furniture a seated
- * one sits behind, on the same cover-fitted picture the people layer uses.
+ * above a standing figure, or under a seated one, on the same cover-fitted
+ * picture the people layer uses.
  */
 function OpeningPlaques({
   people,
@@ -246,13 +246,11 @@ function OpeningPlaques({
             className="pg-opener-plaque"
             data-testid="opening-plaque"
             data-person-id={person.personId}
-            data-anchor={
-              person.clipBelowPercent !== null ? "furniture" : "head"
-            }
+            data-anchor={plaqueBelow(person) ? "below" : "head"}
             style={
               {
                 left: `${person.leftPercent + person.widthPercent / 2}%`,
-                top: `${person.clipBelowPercent ?? person.topPercent}%`,
+                top: `${plaqueTop(person)}%`,
               } satisfies CSSProperties
             }
             onClick={() => onOpenPerson(person.personId)}
@@ -264,6 +262,24 @@ function OpeningPlaques({
       })}
     </div>
   );
+}
+
+/**
+ * A seated figure is drawn in a standing figure's box, so the top of its box
+ * is not its head. Its plaque goes under what is seen of it instead: the
+ * front edge of the furniture it sits behind, or else its feet.
+ */
+function plaqueBelow(person: BackdropPerson): boolean {
+  return (
+    person.clipBelowPercent !== null || person.resolvedPose.startsWith("seated")
+  );
+}
+
+function plaqueTop(person: BackdropPerson): number {
+  if (person.clipBelowPercent !== null) return person.clipBelowPercent;
+  return plaqueBelow(person)
+    ? person.topPercent + person.heightPercent
+    : person.topPercent;
 }
 
 /** Every number the opening knows, under the label its record carries. */

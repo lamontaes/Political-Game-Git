@@ -24,13 +24,14 @@
 }
 
 /* The place is framed above the strip, so everyone in it is seen whole. */
-.pg-opener .pg-scene-chapters,
-.pg-opener-stage {
+.pg-opener .pg-scene-chapters {
   position: absolute;
   inset: 0 0 var(--pg-opener-strip-height);
 }
 
 .pg-opener-stage {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
 }
 
@@ -77,8 +78,8 @@
   cursor: pointer;
 }
 
-/* Someone seated behind furniture carries the plaque on its front edge. */
-.pg-opener-plaque[data-anchor="furniture"] {
+/* A seated person carries the plaque under what is seen of them. */
+.pg-opener-plaque[data-anchor="below"] {
   transform: translate(-50%, 6px);
 }
 
