@@ -321,7 +321,21 @@ export async function enterLife(page: Page): Promise<void> {
     await page.getByTestId("orientation-skip").click();
     await expect(intro).toBeHidden();
   }
+  await returnToRoom(page);
   await expect(menu).toBeVisible();
+}
+
+/**
+ * A new life's first moment opens over the room when the world introduction
+ * closes (owner playtest A9). Specs that are not about it return to the room
+ * the way a player would. The moment opens in the same step that hides the
+ * introduction, so once the introduction is gone it is already drawn.
+ */
+export async function returnToRoom(page: Page): Promise<void> {
+  const moment = page.getByTestId("pending-life-surface");
+  if (!(await moment.isVisible())) return;
+  await page.getByTestId("pending-life-return").click();
+  await expect(moment).toBeHidden();
 }
 
 /**

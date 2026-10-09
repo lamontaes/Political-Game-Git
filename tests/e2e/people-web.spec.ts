@@ -1,7 +1,7 @@
 import { expect, test } from "./fixtures";
 
 import { drawRandomPlace } from "../support/random-place";
-import { goTo, startLife } from "./support/creator";
+import { goTo, returnToRoom, startLife } from "./support/creator";
 
 test.describe.configure({ timeout: 120_000 });
 
@@ -22,6 +22,7 @@ test("People places the directory beside the selected record", async ({
   });
   const orientationSkip = page.getByTestId("orientation-skip");
   await orientationSkip.click();
+  await returnToRoom(page);
   await expect(page.getByTestId("play-screen")).toBeVisible({
     timeout: 60_000,
   });

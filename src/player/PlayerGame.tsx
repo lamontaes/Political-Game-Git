@@ -1571,6 +1571,14 @@ function PlayingScreen({
     [observing, session.world, session.personId],
   );
 
+  /*
+    A moment worth opening: a scene to play, or a quiet opening that says what
+    put a new life where it is.
+  */
+  const momentHasSomething =
+    projectedMoment.scene.kind !== "ordinary-stretch" ||
+    projectedMoment.scene.prose.length > 0;
+
   const sceneVisuals = useMemo(
     () => locationReviewVisuals(Boolean(artPreview) && import.meta.env.DEV),
     [artPreview],
@@ -2693,14 +2701,9 @@ function PlayingScreen({
                     so the moment is not offered underneath them.
                   */
                   pendingAvailable={
-                    !conversation &&
-                    !showOrientation &&
-                    projectedMoment.scene.kind !== "ordinary-stretch"
+                    !conversation && !showOrientation && momentHasSomething
                   }
-                  pendingOpen={
-                    shell.momentOpen &&
-                    projectedMoment.scene.kind !== "ordinary-stretch"
-                  }
+                  pendingOpen={shell.momentOpen && momentHasSomething}
                   pendingLife={
                     <StoryView
                       session={session}
@@ -2757,7 +2760,13 @@ function PlayingScreen({
                         homeStateUsps={orientation.homeStateUsps}
                         regionalPlate={orientation.regionalPlate}
                         mode="first"
-                        onClose={() => dispatch({ type: "finish-orientation" })}
+                        onClose={() => {
+                          dispatch({ type: "finish-orientation" });
+                          // A new life opens with its first moment: what put
+                          // the player where they are (owner playtest A9).
+                          if (momentHasSomething)
+                            dispatch({ type: "open-moment" });
+                        }}
                         onOpenPerson={(personId) =>
                           dispatch({ type: "open-quick-dossier", personId })
                         }

@@ -4,6 +4,7 @@ import {
   KENTUCKY_LEXINGTON_REGRESSION,
   startLife,
   enterLife,
+  returnToRoom,
 } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
 
@@ -26,6 +27,7 @@ test("a new game in a random place keeps every room figure's crown in frame", as
   await expect(orientation).toBeVisible({ timeout: 60_000 });
   await page.getByTestId("orientation-skip").click();
   await expect(orientation).toBeHidden();
+  await returnToRoom(page);
   await expect(page.getByTestId("play-screen")).toBeVisible();
 
   const scene = page.getByTestId("scene-backdrop");

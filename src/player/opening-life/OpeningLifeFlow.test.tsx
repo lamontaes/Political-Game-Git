@@ -4,6 +4,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
+import { currentOpeningLifeScene } from "../../presentation/life-scene-flow";
 import { OpeningLifeFlow } from "./OpeningLifeFlow";
 
 describe("ordinary life without a situation", () => {
@@ -47,5 +48,33 @@ describe("ordinary life without a situation", () => {
     expect(available).not.toContain(
       "Who is here with you, and what you can do",
     );
+  });
+
+  it("shows an opened moment over the room even when no authored opening beat is current", () => {
+    // A new life's first moment opens when the world introduction closes
+    // (owner playtest A9); it must not wait on an authored opening scene.
+    const life = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "ordinary-moment-hidden",
+      startKind: "custom",
+      startAge: 8,
+    });
+    expect(currentOpeningLifeScene(life.world, life.playerPersonId)).toBeNull();
+    const html = renderToStaticMarkup(
+      <OpeningLifeFlow
+        world={life.world}
+        playerPersonId={life.playerPersonId}
+        onWorldChange={() => {}}
+        onTalkTo={() => {}}
+        pendingAvailable
+        pendingOpen
+        pendingLife={<div data-testid="first-moment" />}
+        onOpenPending={() => {}}
+        onClosePending={() => {}}
+      />,
+    );
+    expect(html).toContain('data-testid="pending-life-surface"');
+    expect(html).toContain('data-testid="first-moment"');
+    expect(html).toContain('data-testid="pending-life-return"');
   });
 });

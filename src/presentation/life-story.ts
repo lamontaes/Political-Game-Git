@@ -18,6 +18,7 @@ import {
   abandonUnperformableCommitment,
   declineVenueActivity,
 } from "./scheduled-activity-choice";
+import { recordsByStringField } from "../simulation/history-index";
 import { passOrdinaryDays } from "./ordinary-life";
 import { performVenueActivity } from "./venue-activity";
 import {
@@ -291,7 +292,12 @@ export function projectStoryMoment(
     opening: previous.opening,
   });
 
-  const chosen = chooseStoryScene(world, personId, formativeYears);
+  const chosen = openingPlacement(
+    world,
+    personId,
+    previous.opening,
+    chooseStoryScene(world, personId, formativeYears),
+  );
 
   return {
     personName: name,
@@ -304,6 +310,36 @@ export function projectStoryMoment(
     people: recurringPeople(world, personId).slice(0, 5),
     formativeYears,
   };
+}
+
+/**
+ * Why a new life opens where it does (owner playtest, October 8, 2026, A9).
+ *
+ * Before the player has played a moment, a quiet opening says what put them
+ * here, in the words of the record that did: the scheduled shift that has
+ * them at work, or the arrival that has them at home. The story director adds
+ * no sentence of its own, and a day with no such record says nothing.
+ */
+function openingPlacement(
+  world: World,
+  personId: EntityId,
+  opening: boolean,
+  scene: StoryScene,
+): StoryScene {
+  if (!opening || scene.kind !== "ordinary-stretch" || scene.prose)
+    return scene;
+  const arrival = recordsByStringField(
+    world.history.events,
+    "type",
+    "life.scene.arrived",
+  )
+    .filter(
+      (event) =>
+        event.occurredAt === world.currentDate &&
+        event.participants.some((entry) => entry.personId === personId),
+    )
+    .at(-1);
+  return arrival ? { ...scene, prose: arrival.summary } : scene;
 }
 
 /* -------------------------------------------------------------------------- */
