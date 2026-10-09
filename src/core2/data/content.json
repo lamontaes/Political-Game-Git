@@ -1,0 +1,237 @@
+{
+  "version": "core2-content-v1",
+  "needs": [
+    {
+      "id": "money",
+      "evaluator": "resource-deficit",
+      "goalKind": "earn",
+      "parameters": {
+        "horizon": "moneyBufferDays"
+      },
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "time",
+      "evaluator": "time-load",
+      "goalKind": "recover",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "health",
+      "evaluator": "affect-load",
+      "goalKind": "care",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "company",
+      "evaluator": "contact-gap",
+      "goalKind": "connect",
+      "parameters": {
+        "horizon": "companyHorizonDays"
+      },
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "safety",
+      "evaluator": "stress-pressure",
+      "goalKind": "security",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    }
+  ],
+  "actions": [
+    {
+      "id": "work-shift",
+      "actKinds": [
+        "follow-rules",
+        "self-interest",
+        "commit"
+      ],
+      "goalKinds": [
+        "earn"
+      ],
+      "need": "money",
+      "effortParameter": "workHours",
+      "effectParameter": "one",
+      "targetKind": "job",
+      "effect": "paid-work",
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "rest",
+      "actKinds": [
+        "play-safe",
+        "withdraw"
+      ],
+      "goalKinds": [
+        "recover"
+      ],
+      "need": "time",
+      "effortParameter": "restHours",
+      "effectParameter": "restEffect",
+      "targetKind": "self",
+      "effect": "recover",
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "contact-known-person",
+      "actKinds": [
+        "engage",
+        "cooperate"
+      ],
+      "goalKinds": [
+        "connect"
+      ],
+      "need": "company",
+      "effortParameter": "socialHours",
+      "effectParameter": "contactEffect",
+      "targetKind": "known-person",
+      "effect": "contact",
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "care-for-relative",
+      "actKinds": [
+        "help-others",
+        "commit"
+      ],
+      "goalKinds": [
+        "care"
+      ],
+      "need": "health",
+      "effortParameter": "careHours",
+      "effectParameter": "careEffect",
+      "targetKind": "family",
+      "effect": "care",
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "join-association",
+      "actKinds": [
+        "cooperate",
+        "commit",
+        "engage"
+      ],
+      "goalKinds": [
+        "change-condition",
+        "connect"
+      ],
+      "need": "company",
+      "effortParameter": "civicHours",
+      "effectParameter": "civicEffect",
+      "targetKind": "known-group",
+      "effect": "join",
+      "prerequisites": [
+        {
+          "operation": "not-member"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress"
+    },
+    {
+      "id": "organize-meeting",
+      "actKinds": [
+        "speak-out",
+        "cooperate",
+        "take-risk"
+      ],
+      "goalKinds": [
+        "change-condition"
+      ],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "civicEffect",
+      "targetKind": "public-meeting-place",
+      "effect": "organize",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "not-organized-topic"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress"
+    },
+    {
+      "id": "approach-office",
+      "actKinds": [
+        "engage",
+        "speak-out",
+        "follow-rules"
+      ],
+      "goalKinds": [
+        "change-condition"
+      ],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "civicEffect",
+      "targetKind": "known-office",
+      "effect": "approach",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "has-organized-topic"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress"
+    }
+  ],
+  "tiers": [
+    {
+      "id": "daily",
+      "cadence": "days",
+      "intervalParameter": "one"
+    },
+    {
+      "id": "weekly",
+      "cadence": "days",
+      "intervalParameter": "daysPerWeek"
+    },
+    {
+      "id": "monthly",
+      "cadence": "months",
+      "intervalParameter": "one"
+    },
+    {
+      "id": "calendar",
+      "cadence": "calendar"
+    },
+    {
+      "id": "husk",
+      "cadence": "inactive"
+    }
+  ],
+  "situations": [
+    {
+      "id": "learned-adverse-condition",
+      "requiredFields": [
+        "topic",
+        "desiredChange"
+      ],
+      "goalKind": "change-condition",
+      "driveKind": "cause",
+      "stopgapId": "SG-P8-civic-progress"
+    }
+  ],
+  "appraisalTraits": [
+    {
+      "traitId": "personality-v1:concern-for-distress",
+      "weightParameter": "appraisalDistressTraitWeight",
+      "oneSided": false,
+      "stopgapId": "SG-P8-emotion-model"
+    },
+    {
+      "traitId": "personality-v1:facet-brooding",
+      "weightParameter": "appraisalBroodingTraitWeight",
+      "oneSided": true,
+      "stopgapId": "SG-P8-emotion-model"
+    }
+  ],
+  "openingVintageStopgap": "SG-P8-opening-vintage",
+  "openingTier": "daily"
+}

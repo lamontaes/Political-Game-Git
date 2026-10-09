@@ -1,0 +1,401 @@
+{
+  "zero": {
+    "value": 0,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
+  "one": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
+  "two": {
+    "value": 2,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
+  "negativeOne": {
+    "value": -1,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
+  "percent": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Number arithmetic; mathematical identities and unit conversions, not behavior coefficients."
+  },
+  "minorPerDollar": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "ISO 4217: USD minor unit has two decimal places."
+  },
+  "secondsPerMinute": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "SI: one minute is 60 seconds."
+  },
+  "minutesPerHour": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "SI: one hour is sixty minutes."
+  },
+  "millisecondsPerSecond": {
+    "value": 1000,
+    "tag": "SOURCED",
+    "citation": "SI: one second is one thousand milliseconds."
+  },
+  "hoursPerDay": {
+    "value": 24,
+    "tag": "SOURCED",
+    "citation": "Civil calendar: one day contains 24 nominal hours; date arithmetic uses UTC date-only days."
+  },
+  "daysPerWeek": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Gregorian civil calendar: seven days per week."
+  },
+  "monthsPerYear": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "Gregorian civil calendar: twelve months per year."
+  },
+  "isoYearCharacters": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "ISO 8601 calendar date: four-character year in the supported date range."
+  },
+  "isoMonthCharacters": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "ISO 8601 calendar date: YYYY-MM is seven characters."
+  },
+  "seedPlaceHashRadix": {
+    "value": 16,
+    "tag": "SOURCED",
+    "citation": "Hexadecimal stable identity hash representation; not a behavioral draw."
+  },
+  "seedHashDigits": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Existing stable-hash representation's leading eight hexadecimal digits used to select among recorded identity options only."
+  },
+  "emotionComparisonDigits": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "Technical floating-point test precision; not a model coefficient."
+  },
+  "workingDaysPerWeek": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Five weekdays out of the civil seven-day week for ordinary full-time job offers; individual work calendars remain a reported gap.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-workingDaysPerWeek"
+  },
+  "wageMedianPercentile": {
+    "value": 50,
+    "tag": "SOURCED",
+    "citation": "The median is the fiftieth percentile; exact wage source remains attached to each job."
+  },
+  "annualWorkHours": {
+    "value": 2080,
+    "tag": "SOURCED",
+    "citation": "BLS OEWS technical notes use 2080 hours for annualizing hourly wage estimates; https://www.bls.gov/oes/current/oes_tec.htm"
+  },
+  "sundayIndex": {
+    "value": 0,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay: Sunday is index zero."
+  },
+  "saturdayIndex": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "ECMAScript Date.getUTCDay: Saturday is index six."
+  },
+  "marriageReferenceAge": {
+    "value": 24,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype summarized adult partnership timing from the existing generated-household age bands; never a claim about a real person's wedding date.",
+    "citation": "Existing game town-residents household adults; Census historical median first-marriage ages vary by sex and cohort.",
+    "stopgapId": "SG-P8-param-marriageReferenceAge"
+  },
+  "censusPlaceGeoidLength": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Census place GEOID: two state FIPS digits and five place digits."
+  },
+  "populationTestMinimum": {
+    "value": 384,
+    "tag": "SOURCED",
+    "citation": "Technical population fixture size for complete-household test coverage, not a simulated population-rate parameter."
+  },
+  "populationTestIncrement": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "Technical fixture increment for the full-household admission test, not a behavioral parameter."
+  },
+  "daysPerMeanYear": {
+    "value": 365.2425,
+    "tag": "SOURCED",
+    "citation": "Gregorian leap-year cycle: 146097 days per 400 years."
+  },
+  "bytesPerMiB": {
+    "value": 1048576,
+    "tag": "SOURCED",
+    "citation": "IEC 80000-13: one mebibyte is 2^20 bytes."
+  },
+  "targetPopulation": {
+    "value": 10000,
+    "tag": "SOURCED",
+    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026."
+  },
+  "yearSecondsBudget": {
+    "value": 120,
+    "tag": "SOURCED",
+    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026."
+  },
+  "memoryMiBBudget": {
+    "value": 1024,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "A provisional prototype-process budget of one GiB within the P7 default-heap limit; measured RSS and heap reported separately.",
+    "citation": "00s P7 DIET requires default-heap typecheck memory under four GB. P8 does not specify a numeric memory cap.",
+    "stopgapId": "SG-P8-param-memoryMiBBudget"
+  },
+  "traitScale": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "Existing recorded trait strength scale, src/simulation/traits/act-pulls.ts; adapter checks the source scale before conversion."
+  },
+  "workHours": {
+    "value": 8.1,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
+  },
+  "restHours": {
+    "value": 9.03,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
+  },
+  "socialHours": {
+    "value": 1.92,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
+  },
+  "careHours": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype half-hour bounded family-care offer; not the ATUS population-average duration.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-careHours"
+  },
+  "civicHours": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "ATUS organization/civic activity is aggregated across nonparticipants; one hour is a prototype offer duration, not an observed population average.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-civicHours"
+  },
+  "stressBaseline": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype opening baseline on a normalized stress channel. No claim of a US population norm.",
+    "citation": "Cohen et al. (1983), Perceived Stress Scale, doi:10.2307/2136404; empirical calibration remains a gap.",
+    "stopgapId": "SG-P8-param-stressBaseline"
+  },
+  "moodBaseline": {
+    "value": 0,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Neutral signed prototype affect channel before any recorded event. PANAS uses separate positive and negative channels, so this is an approximation.",
+    "citation": "Watson et al. (1988), PANAS, doi:10.1037/0022-3514.54.6.1063.",
+    "stopgapId": "SG-P8-param-moodBaseline"
+  },
+  "moodHalfLifeDays": {
+    "value": 2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Smooth analytic decay spanning hours to days; prototype estimate pending empirical decay calibration.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-moodHalfLifeDays"
+  },
+  "stressHalfLifeDays": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Persistent stress can outlast transient affect; prototype estimate pending empirical decay calibration.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-stressHalfLifeDays"
+  },
+  "needWeight": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Equal normalized utility of a fully unsatisfied need; explicit prototype assumption, not an empirical coefficient.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-needWeight"
+  },
+  "goalWeight": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Equal normalized utility of an active goal; explicit prototype assumption awaiting documented P9 replay calibration.",
+    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
+    "stopgapId": "SG-P8-param-goalWeight"
+  },
+  "driveWeight": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Equal normalized utility of an event-born drive; explicit prototype assumption awaiting documented P9 replay calibration.",
+    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
+    "stopgapId": "SG-P8-param-driveWeight"
+  },
+  "traitWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "One-fifth normalized trait contribution from the existing direction table; magnitude remains uncalibrated.",
+    "citation": "data/content/trait-act-pulls.json; existing toward/away directions only.",
+    "stopgapId": "SG-P8-param-traitWeight"
+  },
+  "emotionWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "One-fifth normalized affect contribution; causal magnitude remains uncalibrated.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-emotionWeight"
+  },
+  "effortWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "One-fifth normalized time cost; causal magnitude remains uncalibrated.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-effortWeight"
+  },
+  "restEffect": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype recovery amount per available rest act; not a clinical estimate.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-restEffect"
+  },
+  "contactEffect": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype change in company need per successful contact; no empirical causal size claimed.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-contactEffect"
+  },
+  "careEffect": {
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype relief from a completed care task; does not cure illness.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-careEffect"
+  },
+  "civicEffect": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype progress per completed civic act; records approach only and never assumes a policy win.",
+    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
+    "stopgapId": "SG-P8-param-civicEffect"
+  },
+  "companyHorizonDays": {
+    "value": 7,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype contact gap normalization; ATUS measures daily contact activity, not this decay constant.",
+    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
+    "stopgapId": "SG-P8-param-companyHorizonDays"
+  },
+  "moneyBufferDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "One billing-cycle reserve against recorded living expenses; explicit opening estimate, not invented earned cash.",
+    "citation": "Existing game town-finances and monthly rent/pay records.",
+    "stopgapId": "SG-P8-param-moneyBufferDays"
+  },
+  "organizationReserveMonths": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype opening employer liquid reserve from recorded wages, not a measured balance sheet.",
+    "citation": "Existing game town-business-books opening funds; missing exact capital is an estimate.",
+    "stopgapId": "SG-P8-param-organizationReserveMonths"
+  },
+  "eventMoodImpulse": {
+    "value": -0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype loss appraisal; raw event impact varies continuously with actor traits and relationship strength.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-eventMoodImpulse"
+  },
+  "eventStressImpulse": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype loss appraisal; raw event impact varies continuously with actor traits and relationship strength.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-eventStressImpulse"
+  },
+  "appraisalRelationshipWeight": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Relationship continuity carries the full normalized event appraisal; explicit prototype assumption.",
+    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
+    "stopgapId": "SG-P8-param-appraisalRelationshipWeight"
+  },
+  "appraisalDistressTraitWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Concern for distress changes event appraisal continuously; half-scale magnitude remains uncalibrated.",
+    "citation": "data/content/trait-act-pulls.json; concern-for-distress direction.",
+    "stopgapId": "SG-P8-param-appraisalDistressTraitWeight"
+  },
+  "appraisalBroodingTraitWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Brooding changes ongoing appraisal continuously; half-scale magnitude remains uncalibrated.",
+    "citation": "data/content/trait-act-pulls.json; facet-brooding direction.",
+    "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight"
+  },
+  "emotionDurationMinHours": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "Verduyn and Lavrijsen (2015), doi:10.1007/s11031-014-9445-y, Fig. 1; recalled emotion-duration medians in 233 Belgian high-school students. Not an adult US range or exponential half-life."
+  },
+  "emotionDurationMaxHours": {
+    "value": 120,
+    "tag": "SOURCED",
+    "citation": "Verduyn and Lavrijsen (2015), doi:10.1007/s11031-014-9445-y, Fig. 1; recalled emotion-duration medians in 233 Belgian high-school students. Not an adult US range or exponential half-life."
+  },
+  "relationInitial": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Generated household kinship starts with positive continuity, not a recorded personal feeling.",
+    "citation": "Existing town-residents generated household relationship context.",
+    "stopgapId": "SG-P8-param-relationInitial"
+  },
+  "relationContactGain": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Prototype continuity reinforcement per successful reciprocal contact.",
+    "citation": "Existing game relationship interactions; no empirical causal magnitude claimed.",
+    "stopgapId": "SG-P8-param-relationContactGain"
+  },
+  "routineRetentionDays": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Owner October 8 result-only/weekly-compaction ruling and P8 STATE retention policy; durable visible records are exempt."
+  },
+  "fallbackAnnualWageMinor": {
+    "value": 4576000,
+    "tag": "ESTIMATED",
+    "citation": "BLS May 2021 OEWS national all-occupations row 00-0000: median hourly wage USD22.00; https://www.bls.gov/oes/2021/may/oes_nat.htm",
+    "estimatedFrom": "USD22.00/hour times the OEWS2080-hour annual conversion in USD minor units. Proxy only for a job with no recorded local or same-occupation rate; not an observed January 2021 contract.",
+    "stopgapId": "SG-P8-param-fallbackAnnualWageMinor"
+  },
+  "deepPastMiddleSchoolOffsetYears": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Common K\u20135 / grades 6\u20138 / grades 9\u201312 stages used by existing school-calendar.ts; not a measured historical attendance date.",
+    "citation": "Existing canonical school-calendar.ts kindergarten/cohort calendar.",
+    "stopgapId": "SG-P8-deep-past"
+  },
+  "deepPastHighSchoolOffsetYears": {
+    "value": 9,
+    "tag": "ESTIMATED",
+    "estimatedFrom": "Common K\u20135 / grades 6\u20138 / grades 9\u201312 stages used by existing school-calendar.ts; not a measured historical attendance date.",
+    "citation": "Existing canonical school-calendar.ts kindergarten/cohort calendar.",
+    "stopgapId": "SG-P8-deep-past"
+  }
+}

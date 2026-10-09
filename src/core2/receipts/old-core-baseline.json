@@ -1,0 +1,82 @@
+{
+  "scope": "Preserved old-core matched one-day receipts; these do not prove an annual rate.",
+  "oldHead": "ac0b6077c8befb5076c33880e7d44c43e5a4f204",
+  "measurements": [
+    {
+      "receipt": "au4-current-busy-semantic-before.json",
+      "receiptSha256": "c8ff733128044367cc7b294cba4296b3dc30c5ad767e758f7cf0af1eb71ebf8b",
+      "kind": "median of repeated warm runs from the identical immutable input",
+      "days": 1,
+      "warmupRuns": 1,
+      "samples": [
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 31.710941607000017,
+          "daysPerMinute": 1.8920914031375002
+        },
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 28.02202243200003,
+          "daysPerMinute": 2.141173077196684
+        },
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 25.209099635999998,
+          "daysPerMinute": 2.380092937326356
+        }
+      ],
+      "medianSeconds": 28.02202243200003,
+      "medianDaysPerMinute": 2.141173077196684,
+      "endingRecordCounts": {
+        "beliefs": 124225,
+        "routineResults": 108239
+      }
+    },
+    {
+      "receipt": "au4-weekly-retirement-busy-after.json",
+      "receiptSha256": "3e84cf5a61762b11efe73f8f32d72595d0c462da103dcda675499c471840667d",
+      "kind": "median of repeated warm runs from the identical immutable input",
+      "days": 1,
+      "warmupRuns": 1,
+      "samples": [
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 62.535377599,
+          "daysPerMinute": 0.9594569074923033
+        },
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 41.66304136900004,
+          "daysPerMinute": 1.4401253011894573
+        },
+        {
+          "seed": null,
+          "from": "2026-01-11",
+          "to": "2026-01-12",
+          "seconds": 55.773583655000024,
+          "daysPerMinute": 1.075778102607561
+        }
+      ],
+      "medianSeconds": 55.773583655000024,
+      "medianDaysPerMinute": 1.075778102607561,
+      "endingRecordCounts": {
+        "beliefs": 57225,
+        "routineResults": 41239
+      }
+    }
+  ],
+  "recordDelta": {
+    "beliefs": 67000,
+    "routineResults": 67000
+  }
+}

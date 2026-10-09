@@ -1,0 +1,140 @@
+{
+  "version": "p8-deep-past-v1",
+  "stopgapId": "SG-P8-deep-past",
+  "throughExclusive": "2021-01-01",
+  "birth": {
+    "kind": "birth-date",
+    "label": "Birth date",
+    "establishedKinds": ["birth-date", "identity:birth", "person:birth"]
+  },
+  "schools": {
+    "field": "school-cohorts",
+    "kind": "school:cohort-estimate",
+    "establishedKindPrefixes": ["school:", "schooling:", "education:"],
+    "locationKindPrefixes": ["residence", "housing:", "migration:"],
+    "birthplaceKinds": ["birthplace", "identity:birthplace"],
+    "source": "Existing game school-calendar.ts: common K–5, grades 6–8, grades 9–12 and a shared fall calendar. NCES CCD local-institutions.json supplies recent district/high-school identities, not historical attendance or historical existence. school-names.ts supplies generated landscape naming forms.",
+    "stages": [
+      {
+        "id": "elementary",
+        "label": "Elementary school cohort",
+        "nameSuffix": "Elementary School",
+        "startOffsetParameter": "zero",
+        "institutionColumn": "districts",
+        "namedCampus": false
+      },
+      {
+        "id": "middle",
+        "label": "Middle school cohort",
+        "nameSuffix": "Middle School",
+        "startOffsetParameter": "deepPastMiddleSchoolOffsetYears",
+        "institutionColumn": "districts",
+        "namedCampus": false
+      },
+      {
+        "id": "high",
+        "label": "High school cohort",
+        "nameSuffix": "High School",
+        "startOffsetParameter": "deepPastHighSchoolOffsetYears",
+        "institutionColumn": "highSchools",
+        "namedCampus": true
+      }
+    ]
+  },
+  "work": {
+    "field": "opening-job-tenure",
+    "kind": "work:tenure-summary",
+    "label": "Opening job tenure",
+    "startKinds": ["work:opening", "work:started", "employment:started"],
+    "source": "Existing generated work:opening start from town-employment.ts. Its opening tenure is derived from BLS Employee Tenure in January 2026 age-cohort medians and bounded by the person's working-age start. Preserve that source date; no reconstructed historical earnings or employer balance."
+  },
+  "preservedFields": [
+    {
+      "field": "family",
+      "kindPrefixes": ["family:", "kinship:", "partnership:"],
+      "gap": "No dated prior family record was supplied; current kinship alone does not date earlier events."
+    },
+    {
+      "field": "partnership-history",
+      "kindPrefixes": ["family:partner", "family:married", "partnership:"],
+      "gap": "No dated prior partnership record was supplied; a current partner link does not establish a wedding date or legal marriage."
+    },
+    {
+      "field": "moves",
+      "kindPrefixes": ["migration:", "housing:move", "residence:move"],
+      "gap": "Prior moves and addresses require a dated personal record; population mover rates do not choose an individual's history."
+    },
+    {
+      "field": "losses",
+      "kindPrefixes": ["family:loss", "bereavement:", "life:death"],
+      "gap": "No personal loss record was supplied; cohort mortality or a public disaster does not establish a relative's death."
+    },
+    {
+      "field": "faith",
+      "kindPrefixes": ["faith:", "religion:", "congregation:"],
+      "gap": "No personal faith or congregation record was supplied; family identity and local religious shares do not establish personal belief."
+    },
+    {
+      "field": "prior-money",
+      "kindPrefixes": ["money:", "resources:"],
+      "gap": "Opening cash and current pay do not establish older balances, income, taxes, debt, or prior employer funds."
+    },
+    {
+      "field": "prior-views",
+      "kindPrefixes": ["view:", "political:view"],
+      "gap": "No prior personal view record was supplied; living through an era does not establish a belief, vote, feeling, or quotation."
+    }
+  ],
+  "eras": [
+    {
+      "id": "september-attacks",
+      "date": "2001-09-11",
+      "kind": "era:public-context",
+      "title": "September attacks",
+      "facts": {
+        "scope": "public historical context",
+        "personalExposure": "not-established",
+        "memory": "not-inferred"
+      },
+      "source": {
+        "tag": "SOURCED",
+        "citation": "National September 11 Memorial & Museum, dated attacks: https://www.911memorial.org/911-faqs",
+        "asOf": "2001-09-11"
+      }
+    },
+    {
+      "id": "recession-dating-announcement",
+      "date": "2008-12-01",
+      "kind": "era:public-context",
+      "title": "Great Recession dating announcement",
+      "facts": {
+        "scope": "public economic context",
+        "recessionPeakMonth": "2007-12",
+        "personalJobLoss": "not-inferred",
+        "personalFinancialLoss": "not-inferred"
+      },
+      "source": {
+        "tag": "SOURCED",
+        "citation": "NBER Business Cycle Dating Committee announcement, December 1, 2008, determining the December 2007 peak: https://www.nber.org/news/business-cycle-dating-committee-announcement-december-1-2008",
+        "asOf": "2008-12-01"
+      }
+    },
+    {
+      "id": "pandemic-characterization",
+      "date": "2020-03-11",
+      "kind": "era:public-context",
+      "title": "COVID pandemic characterization",
+      "facts": {
+        "scope": "public health context",
+        "personalInfection": "not-inferred",
+        "personalLoss": "not-inferred",
+        "personalCompliance": "not-inferred"
+      },
+      "source": {
+        "tag": "SOURCED",
+        "citation": "WHO Timeline of response, March 11, 2020: https://www.who.int/news/item/29-06-2020-covidtimeline",
+        "asOf": "2020-03-11"
+      }
+    }
+  ]
+}
