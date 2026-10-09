@@ -284,6 +284,86 @@ describe("story director on the new core", () => {
     ).toBe(true);
   });
 
+  it("starts a housemate's thread at the opening, not at the younger one's birth", () => {
+    const place = "place:director-fixture";
+    const base = town(place);
+    const lodger = person("person:lodger", place, {
+      householdId: "household:worker",
+      birthDate: "1999-01-01",
+    });
+    const input: CoreInput = {
+      ...base,
+      people: [...base.people, lodger],
+      households: base.households.map((row) =>
+        row.id === "household:worker"
+          ? { ...row, memberIds: [...row.memberIds, lodger.id] }
+          : row,
+      ),
+    };
+    const director = createDirector({ watch: ["person:worker"] });
+    const meet: CoreModule = {
+      id: "fixture-meeting",
+      onAfterDay(api) {
+        if (api.state.date === "2021-01-03")
+          api.relationship(
+            "person:lodger",
+            "person:worker",
+            "contact",
+            api.parameter("relationContactGain"),
+          );
+      },
+    };
+    const core = createLifeCore(input, {
+      scheduledWork: false,
+      modules: [meet, director.module],
+    });
+    director.start(core);
+    advanceCore(core, "2021-01-04");
+    const worker = director.ledger.people.get("person:worker")!;
+    expect(
+      worker.keptFacts.get("knew-each-other:person:lodger:person:worker"),
+    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
+    expect(worker.threads.get("person:lodger")!.turns[0]?.turn).toBe("started");
+    expect(
+      worker.moments
+        .flatMap((row) => row.echoes)
+        .filter((row) => row.otherId === "person:lodger"),
+    ).toEqual([]);
+  });
+
+  it("reads an event's feeling once, averaging the core's mood and stress signals", () => {
+    const place = "place:director-fixture";
+    const director = createDirector({ watch: ["person:neighbor"] });
+    const news: CoreModule = {
+      id: "fixture-news",
+      onAfterDay(api) {
+        if (api.state.date === "2021-01-02")
+          api.emit({
+            id: "fixture-news:2021-01-02",
+            date: api.state.date,
+            kind: "fixture.news",
+            personIds: ["person:neighbor"],
+            placeId: place,
+            moodImpulse: -0.63,
+            stressImpulse: 0.63,
+            source,
+          });
+      },
+    };
+    const core = createLifeCore(town(place), {
+      scheduledWork: false,
+      modules: [news, director.module],
+    });
+    director.start(core);
+    advanceCore(core, "2021-01-03");
+    const [moment] = director.ledger.people.get("person:neighbor")!.moments;
+    expect(moment).toMatchObject({
+      label: "feeling:event:fixture.news",
+      causeId: "fixture-news:2021-01-02",
+    });
+    expect(moment!.impact).toBeCloseTo(0.63, 6);
+  });
+
   it("stores no moment on quiet days", () => {
     const { director } = run("place:director-fixture", true);
     const neighbor = director.ledger.people.get("person:neighbor")!;

@@ -308,7 +308,10 @@ export function createDirector(
       if (id === personId) continue;
       const other = core.people.get(id);
       ensureThread(book, id, kin.get(id) ?? [], home.has(id));
-      if (other)
+      const family = actor.familyIds.has(id) || kin.has(id);
+      // Relatives knew each other no later than the younger one's birth; a
+      // housemate with no family record is known only from the opening.
+      if (other && family)
         knewFact(
           book,
           id,
@@ -316,6 +319,8 @@ export function createDirector(
           "no-later-than-birth",
           `family:${personId}:${id}`,
         );
+      else if (other)
+        knewFact(book, id, core.startedAt, "opening", actor.householdId);
     }
     for (const id of actor.knownIds) {
       if (id === personId) continue;
@@ -478,7 +483,9 @@ export function createDirector(
 
     // Feeling: the appraised impulse of each event the person met.
     for (const row of today.events) {
-      const raw = Math.abs(row.mood) + Math.max(zero, row.stress);
+      const raw =
+        (Math.abs(row.mood) + Math.max(zero, row.stress)) /
+        param("directorFeelingSignals");
       if (raw > zero)
         change(
           row.event.id,
@@ -522,7 +529,8 @@ export function createDirector(
       const row2 = change(causeId, `contact:${row.kind}`, "tie", raw, [
         otherId,
       ]);
-      if (!hadHistory || renewal) {
+      const firstContact = thread.lastContact === undefined && !prior;
+      if (firstContact || renewal) {
         if (renewal) row2.renewal = { otherId };
         thread.turns.push({
           date,

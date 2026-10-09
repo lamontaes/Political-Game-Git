@@ -25,6 +25,11 @@
       "tag": "SOURCED",
       "citation": "Identity: the core's appraised event impulses are already expressed on the life-change scale divided by 100 (src/core2/emotion.ts appraiseEvent)."
     },
+    "directorFeelingSignals": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "The core's appraisal carries an event's size on two signals, mood and stress (src/core2/emotion.ts appraiseEvent); the drives package puts the same life-change share on each (src/core2/modules/health.ts severityImpulse). Averaging the two returns that share."
+    },
     "directorScaleTie": {
       "value": 0.35,
       "tag": "ESTIMATED",
