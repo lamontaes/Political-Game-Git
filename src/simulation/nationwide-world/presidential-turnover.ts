@@ -53,13 +53,14 @@ import type {
   NationalUnitResult,
   PresidentialTicket,
 } from "../national-election-types";
-import { nationalMoodDemocraticShift } from "../national-mood";
+import { countRecordedVoterBallots } from "../election-contests";
+import { recordedDistrictMembership } from "../district-residence";
+import { districtIdentityCatalog } from "../../districts/catalog";
+import { resolveDistrictBinding } from "../../districts/query";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { SeededRng } from "../rng";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo } from "../world-setup/deterministic-math";
-import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
   FEDERAL_TENURE_EVENT,
@@ -728,64 +729,68 @@ export function presidentialElectionDayHandler(
   const { cycle, election } = found;
   const key = cycleKey(cycle);
   const rules = nationalElectionRules(cycle);
-  // The same national mood every other race reads, in points of the
-  // two-party vote (zero in a presidential year by its own measured rule).
-  const mood = nationalMoodDemocraticShift(world, rules.electionDate);
-  const [democratic, republican] = election.tickets;
-  const stateResults = new Map<string, { share: number; total: number }>();
+  const candidatePersonIds = election.tickets.map(
+    (ticket) => ticket.presidentPersonId,
+  );
   let next = world;
   for (const unit of rules.units) {
     if (
       nationalRecords(next, election.id).some(
-        (record) =>
-          record.kind === "unit-result" && record.unitKey === unit.key,
+        (record) => record.kind === "unit-result" && record.unitKey === unit.key,
       )
     )
       continue;
-    if (!stateResults.has(unit.state)) {
-      const row = calibrationRow(`us-president:${unit.state}`);
-      stateResults.set(unit.state, {
-        share: roundTo(
-          applySwing(row?.democraticTwoPartyShare ?? 0.5, mood * 100),
-        ),
-        total: row?.totalVotes ?? 0,
-      });
-    }
-    const { share, total } = stateResults.get(unit.state)!;
-    const democraticVotes = Math.round(total * share);
-    const republicanVotes = total - democraticVotes;
-    // The counted votes decide. An exact tie is not broken here: the state's
-    // result is recorded without a winner, so its electors are not appointed
-    // and the count waits, as it would on the state's own recount or lot.
-    const winner =
-      democraticVotes > republicanVotes
-        ? democratic!.presidentPersonId
-        : democraticVotes < republicanVotes
-          ? republican!.presidentPersonId
-          : null;
+    const jurisdiction = nationalUnitJurisdiction(cycle, unit.key);
+    const districtNumber = unit.countsPopular
+      ? null
+      : Number(unit.key.slice(unit.key.lastIndexOf("-") + 1));
+    const counted = countRecordedVoterBallots(world, {
+      stableKey: `${key}:unit:${unit.key}:recorded-voters`,
+      jurisdictionId: jurisdiction.id,
+      electionDate: rules.electionDate,
+      candidatePersonIds,
+      ...(districtNumber === null
+        ? {}
+        : {
+            admitVoter: (personId: EntityId) => {
+              const membership = recordedDistrictMembership(
+                world,
+                personId,
+                "congressional",
+                rules.electionDate,
+              );
+              if (!membership) return false;
+              const district = resolveDistrictBinding(
+                districtIdentityCatalog(),
+                membership.binding,
+                { chamber: "congressional", stateUsps: unit.state },
+              );
+              return district.kind === "accepted" &&
+                Number(district.identity.districtCode) === districtNumber;
+            },
+          }),
+    });
+    if (!counted) continue;
     next = appendNationalRecord(next, {
       kind: "unit-result",
       stableKey: `${key}:unit:${unit.key}`,
       electionId: election.id,
       unitKey: unit.key,
-      tallies: [
-        {
-          candidatePersonId: democratic!.presidentPersonId,
-          votes: democraticVotes,
-        },
-        {
-          candidatePersonId: republican!.presidentPersonId,
-          votes: republicanVotes,
-        },
-      ],
+      tallies: counted.tallies.map(({ candidatePersonId, votes }) => ({
+        candidatePersonId,
+        votes,
+      })),
       sourceContestResultId: null,
-      allocationWinnerPersonId: winner,
+      allocationWinnerPersonId: counted.winnerPersonId,
       provenance: {
         method: "simulated",
-        sourceEntityIds: [election.id],
-        note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
-          : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
+        sourceEntityIds: [
+          ...new Set([
+            election.id,
+            ...counted.ballots.map((ballot) => ballot.voterPersonId),
+          ]),
+        ].sort(),
+        note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: ${key}:unit:${unit.key}:recorded-voters`,
       },
     });
   }

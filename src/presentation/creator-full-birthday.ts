@@ -5,7 +5,7 @@ import {
   lifePlaceByKey,
   type IsoDate,
 } from "../simulation";
-import { DEMO_START_DATE } from "../simulation/demo-jurisdiction-context";
+import { DEFAULT_START_DATE } from "../simulation/jurisdiction-context";
 import {
   MAXIMUM_START_AGE,
   MINIMUM_START_AGE,
@@ -33,7 +33,7 @@ export function creatorStartDate(
   const place = lifePlaceByKey(setup.placeKey);
   return (
     (place?.context.initialMoment.date as IsoDate | undefined) ??
-    DEMO_START_DATE
+    DEFAULT_START_DATE
   );
 }
 

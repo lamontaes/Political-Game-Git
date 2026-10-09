@@ -1,0 +1,101 @@
+{
+  "contexts": {
+    "KENTUCKY_CONTEXT": {
+      "jurisdiction": {
+        "id": "jurisdiction_6752b5a7cd79cafe",
+        "slug": "us-ky-commonwealth-placeholder",
+        "name": "Kentucky",
+        "kind": "state-placeholder",
+        "parentName": "United States",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_6752b5a7cd79cafe",
+          "status": "placeholder"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "creationSummary": "Seeded world created with a Kentucky placeholder for legislative play.",
+      "goalScope": "Kentucky placeholder",
+      "householdLocationLabel": "Synthetic Kentucky location"
+    },
+    "NEBRASKA_CONTEXT": {
+      "jurisdiction": {
+        "id": "jurisdiction_317641dc58effbce",
+        "slug": "us-ne-state-placeholder",
+        "name": "Nebraska",
+        "kind": "state-placeholder",
+        "parentName": "United States",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_317641dc58effbce",
+          "status": "placeholder"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Chicago",
+        "utcOffsetMinutes": -360
+      },
+      "creationSummary": "Seeded world created with a Nebraska placeholder for legislative play.",
+      "goalScope": "Nebraska placeholder",
+      "householdLocationLabel": "Synthetic Nebraska location"
+    },
+    "ALASKA_CONTEXT": {
+      "jurisdiction": {
+        "id": "jurisdiction_7a7ff2336824055b",
+        "slug": "us-ak-state-placeholder",
+        "name": "Alaska",
+        "kind": "state-placeholder",
+        "parentName": "United States",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_7a7ff2336824055b",
+          "status": "placeholder"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Anchorage",
+        "utcOffsetMinutes": -540
+      },
+      "creationSummary": "Seeded world created with a Alaska placeholder for legislative play.",
+      "goalScope": "Alaska placeholder",
+      "householdLocationLabel": "Synthetic Alaska location"
+    },
+    "LEXINGTON_DEMO_CONTEXT": {
+      "jurisdiction": {
+        "id": "jurisdiction_a4a6991ef3dd5879",
+        "slug": "us-ky-lexington-fayette-placeholder",
+        "name": "Lexington-Fayette, Kentucky",
+        "kind": "consolidated-city-county-placeholder",
+        "parentName": "Kentucky",
+        "provenance": {
+          "asOf": null,
+          "source": null,
+          "jurisdiction": "jurisdiction_a4a6991ef3dd5879",
+          "status": "placeholder"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/New_York",
+        "utcOffsetMinutes": -300
+      },
+      "creationSummary": "Seeded demonstration world created with a Lexington-Fayette placeholder.",
+      "goalScope": "Lexington-Fayette placeholder",
+      "householdLocationLabel": "Synthetic Lexington-area location"
+    }
+  },
+  "startDate": "2026-01-05"
+}

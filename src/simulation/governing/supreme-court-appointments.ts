@@ -323,7 +323,7 @@ export function choosePresidentialNominee(
       candidateReasons(world, candidate, input.presidentId),
     ),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) return null;

@@ -1,4 +1,4 @@
-import type { RunAFixture } from "../presentation/run-a-fixture";
+import type { RunAFixture } from "../presentation/office-scene-context";
 import { RUN_A_CIVIC_CONCEPT_ID } from "../presentation/run-a-learning";
 import type { RunAUiAction, RunAUiState } from "../presentation/run-a-state";
 import type { RunDAgendaEntry } from "../presentation/run-d-lite";

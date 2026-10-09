@@ -61,7 +61,7 @@ export const DECISION_IMPORTANCE_ORDER: readonly DecisionImportance[] = [
 ];
 const IMPORTANCES = DECISION_IMPORTANCE_ORDER;
 const CONFIDENCES = ["low", "medium", "high"] as const;
-const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
+const RANDOMNESS_POLICIES = ["none"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
 
 /** Only a selected result authorizes an option's consequence. An undecided

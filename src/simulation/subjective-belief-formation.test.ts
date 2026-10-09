@@ -77,7 +77,7 @@ function basicDecision(world: World, actorPersonId: EntityId): DecisionContext {
     constraints: [],
     considerations: [],
     perceptionIds: [],
-    randomness: "close-choices" as const,
+    randomness: "none" as const,
     retention: "ephemeral" as const,
   };
 }
@@ -695,7 +695,7 @@ describe("bounded and actor-isolated general decisions", () => {
       ]);
       expect(
         recorded.optionEvaluations.map((option) => option.randomContribution),
-      ).toEqual(["none", "none"]);
+      ).toEqual(["none"]);
       const reversed = evaluateDecision(world, {
         ...recorded.context,
         options: [...recorded.context.options].reverse(),
@@ -746,7 +746,7 @@ describe("bounded and actor-isolated general decisions", () => {
     expect(separated.selectedOptionKey).toBe("act");
     expect(
       separated.optionEvaluations.map((option) => option.randomContribution),
-    ).toEqual(["none", "none"]);
+    ).toEqual(["none"]);
   });
 });
 

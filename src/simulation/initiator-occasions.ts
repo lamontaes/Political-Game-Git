@@ -455,7 +455,7 @@ export function hostDecidesToAsk(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return isSelectedDecision(evaluation) &&

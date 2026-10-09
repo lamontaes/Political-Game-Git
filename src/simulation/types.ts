@@ -3635,7 +3635,7 @@ export type DecisionSourceNamespace =
 export type DecisionSourceType = `${DecisionSourceNamespace}:${string}`;
 export type DecisionDirection = "supports" | "opposes";
 export type DecisionImportance = "slight" | "moderate" | "strong" | "decisive";
-export type DecisionRandomnessPolicy = "none" | "close-choices";
+export type DecisionRandomnessPolicy = "none";
 export type DecisionTraceRetention = "ephemeral" | "durable";
 
 export interface DecisionSubject {

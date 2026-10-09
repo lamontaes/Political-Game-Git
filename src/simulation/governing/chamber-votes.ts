@@ -38,7 +38,7 @@ import {
 import { budgetDeadlineConsideration } from "./budget-stakes";
 import { constituentsConsideration } from "./constituent-views";
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
-import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
+import type { SeatedBody, SeatedMember } from "../legislative-content";
 import {
   LIVING_WORLD_KEYS,
   livingWorldOrganizationId,

@@ -387,7 +387,7 @@ describe("A124 A126 exact current-game peer estimates in the decision engine", (
 });
 
 describe("sourced motives, exact ties, and last recorded choices", () => {
-  it.each(["none", "close-choices"] as const)(
+  it.each(["none"] as const)(
     "keeps an empty apply/wait question undecided (%s)",
     (randomness) => {
       const { world, context } = sourcedChoice();
@@ -402,7 +402,7 @@ describe("sourced motives, exact ties, and last recorded choices", () => {
     },
   );
 
-  it.each(["none", "close-choices"] as const)(
+  it.each(["none"] as const)(
     "does not resolve equal sourced motives by order or random contribution (%s)",
     (randomness) => {
       const { world, context } = sourcedChoice();
@@ -424,7 +424,7 @@ describe("sourced motives, exact ties, and last recorded choices", () => {
     },
   );
 
-  it.each(["none", "close-choices"] as const)(
+  it.each(["none"] as const)(
     "retains the uniquely supported wait choice (%s)",
     (randomness) => {
       const { world, context } = sourcedChoice();
@@ -708,7 +708,7 @@ describe("A124 exact score comparison across seeds", () => {
       const world = { ...fixture.world, seed };
       const tie = evaluateDecision(world, {
         ...fixture.context,
-        randomness: "close-choices",
+        randomness: "none",
       });
       expectUndecided(tie);
       const extra = {
@@ -728,7 +728,7 @@ describe("A124 exact score comparison across seeds", () => {
       const lead = evaluateDecision(world, {
         ...fixture.context,
         considerations,
-        randomness: "close-choices",
+        randomness: "none",
       });
       expect(lead.outcomeKind).toBe("selected");
       expect(lead.selectedOptionKey).toBe("wait");
@@ -794,7 +794,7 @@ describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
     (usps) => {
       const fixture = sourcedChoice(0, smallDecisionWorld(usps));
       const untouched = serializeWorld(fixture.world);
-      for (const randomness of ["none", "close-choices"] as const) {
+      for (const randomness of ["none"] as const) {
         expectUndecided(
           evaluateDecision(fixture.world, {
             ...fixture.context,
@@ -881,7 +881,7 @@ describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
           ...fixture.context,
           stableKey: "a124:all56-recorded-tie",
           cutoff: currentHistoricalCutoff(prior),
-          randomness: "close-choices",
+          randomness: "none",
           retention: "durable",
         }),
       );
@@ -892,7 +892,7 @@ describe("A124 A126 recorded choices in all 56 seeded small worlds", () => {
       const result = evaluateDecision(reloaded, {
         ...fixture.context,
         cutoff: currentHistoricalCutoff(reloaded),
-        randomness: "close-choices",
+        randomness: "none",
       });
       expect(result.outcomeKind).toBe("selected");
       expect(result.selectedOptionKey).toBe("wait");

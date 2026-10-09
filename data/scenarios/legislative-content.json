@@ -1,0 +1,460 @@
+{
+  "notice": "Written for development. The procedure is sourced; the bill is not a real one.",
+  "authoredSeatCounts": {
+    "us-ky-general-assembly-v1": {
+      "house": 100,
+      "senate": 38
+    },
+    "us-ne-legislature-v1": {
+      "legislature": 49
+    },
+    "us-ak-legislature-v1": {
+      "house": 40,
+      "senate": 20
+    }
+  },
+  "rows": [
+    {
+      "scenarioKey": "kentucky",
+      "label": "Kentucky General Assembly",
+      "seed": "legislative-core-kentucky-2026",
+      "designation": "HB 214",
+      "shortTitle": "Transit Access Pilot",
+      "subjectClass": "general-policy",
+      "summary": "Funds a two-year pilot extending fare-free bus service to riders enrolled in state assistance programs.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 10,
+          "nay": 7
+        },
+        "committee:senate-transportation": {
+          "yea": 7,
+          "nay": 4
+        },
+        "floor:house:final-passage": {
+          "yea": 58,
+          "nay": 40,
+          "absent": 2
+        },
+        "floor:senate:final-passage": {
+          "yea": 22,
+          "nay": 15,
+          "absent": 1
+        },
+        "amendment:house": {
+          "yea": 61,
+          "nay": 37,
+          "absent": 2
+        },
+        "amendment:senate": {
+          "yea": 21,
+          "nay": 16,
+          "absent": 1
+        },
+        "concurrence:house": {
+          "yea": 55,
+          "nay": 43,
+          "absent": 2
+        },
+        "override:house": {
+          "yea": 56,
+          "nay": 42,
+          "absent": 2
+        },
+        "override:senate": {
+          "yea": 21,
+          "nay": 16,
+          "absent": 1
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor objected to committing the state to two years of ongoing cost.",
+      "propositionKeys": [
+        "us-policy-positions:transportation-infrastructure.fare-free-transit"
+      ],
+      "packId": "us-ky-general-assembly-v1",
+      "contextKey": "KENTUCKY_CONTEXT"
+    },
+    {
+      "scenarioKey": "nebraska",
+      "label": "Nebraska Legislature",
+      "seed": "legislative-core-nebraska-2026",
+      "designation": "LB 88",
+      "shortTitle": "Rural Transit Access",
+      "subjectClass": "general-policy",
+      "summary": "Extends the state transit assistance formula to counties without a fixed-route provider.",
+      "nonpartisan": true,
+      "votePlan": {
+        "committee:transportation-telecommunications": {
+          "yea": 6,
+          "nay": 2
+        },
+        "floor:legislature:general-file": {
+          "yea": 31,
+          "nay": 16,
+          "absent": 2
+        },
+        "floor:legislature:select-file": {
+          "yea": 30,
+          "nay": 17,
+          "absent": 2
+        },
+        "floor:legislature:final-reading": {
+          "yea": 30,
+          "nay": 17,
+          "absent": 2
+        },
+        "amendment:legislature": {
+          "yea": 27,
+          "nay": 20,
+          "absent": 2
+        },
+        "override:legislature": {
+          "yea": 30,
+          "nay": 17,
+          "absent": 2
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor questioned extending the formula without a funding source.",
+      "packId": "us-ne-legislature-v1",
+      "contextKey": "NEBRASKA_CONTEXT"
+    },
+    {
+      "scenarioKey": "alaska",
+      "label": "Alaska State Legislature",
+      "seed": "legislative-core-alaska-2026",
+      "designation": "HB 41",
+      "shortTitle": "Village Transit Support",
+      "subjectClass": "appropriation",
+      "summary": "Appropriates matching funds for community transit in unserved boroughs and census areas.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 4,
+          "nay": 3
+        },
+        "committee:senate-transportation": {
+          "yea": 4,
+          "nay": 3
+        },
+        "floor:house:final-passage": {
+          "yea": 24,
+          "nay": 15,
+          "absent": 1
+        },
+        "floor:senate:final-passage": {
+          "yea": 13,
+          "nay": 7
+        },
+        "override:joint": {
+          "yea": 45,
+          "nay": 14,
+          "absent": 1
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor returned the whole bill, objecting that the match commits the state before the boroughs have costed their routes.",
+      "packId": "us-ak-legislature-v1",
+      "contextKey": "ALASKA_CONTEXT"
+    },
+    {
+      "scenarioKey": "kentucky-signage",
+      "label": "Kentucky General Assembly — road signage",
+      "seed": "legislative-core-kentucky-signage-2026",
+      "designation": "HB 388",
+      "shortTitle": "Rural Road Sign Replacement",
+      "subjectClass": "general-policy",
+      "summary": "Sets a replacement schedule for damaged and illegible route markers on state-maintained rural roads.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 13,
+          "nay": 4
+        },
+        "committee:senate-transportation": {
+          "yea": 9,
+          "nay": 2
+        },
+        "floor:house:final-passage": {
+          "yea": 74,
+          "nay": 24,
+          "absent": 2
+        },
+        "floor:senate:final-passage": {
+          "yea": 29,
+          "nay": 8,
+          "absent": 1
+        },
+        "amendment:house": {
+          "yea": 66,
+          "nay": 32,
+          "absent": 2
+        },
+        "amendment:senate": {
+          "yea": 26,
+          "nay": 11,
+          "absent": 1
+        },
+        "concurrence:house": {
+          "yea": 71,
+          "nay": 27,
+          "absent": 2
+        }
+      },
+      "governorAction": "signed",
+      "governorRationale": "The Governor signed the bill, noting the schedule carries no new appropriation.",
+      "packId": "us-ky-general-assembly-v1",
+      "contextKey": "KENTUCKY_CONTEXT"
+    },
+    {
+      "scenarioKey": "nebraska-credentials",
+      "label": "Nebraska Legislature — driver credentials",
+      "seed": "legislative-core-nebraska-credentials-2026",
+      "designation": "LB 142",
+      "shortTitle": "School Transport Credential Recognition",
+      "subjectClass": "general-policy",
+      "summary": "Would recognize school transport driver credentials issued by adjoining states for drivers already licensed here.",
+      "nonpartisan": true,
+      "votePlan": {
+        "committee:transportation-telecommunications": {
+          "yea": 3,
+          "nay": 5
+        },
+        "floor:legislature:general-file": {
+          "yea": 24,
+          "nay": 23,
+          "absent": 2
+        },
+        "floor:legislature:select-file": {
+          "yea": 24,
+          "nay": 23,
+          "absent": 2
+        },
+        "floor:legislature:final-reading": {
+          "yea": 24,
+          "nay": 23,
+          "absent": 2
+        },
+        "amendment:legislature": {
+          "yea": 22,
+          "nay": 25,
+          "absent": 2
+        },
+        "override:legislature": {
+          "yea": 24,
+          "nay": 23,
+          "absent": 2
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor did not reach this bill; it was not reported out of committee.",
+      "packId": "us-ne-legislature-v1",
+      "contextKey": "NEBRASKA_CONTEXT"
+    },
+    {
+      "scenarioKey": "alaska-ferry-notice",
+      "label": "Alaska State Legislature — ferry notice",
+      "seed": "legislative-core-alaska-ferry-2026",
+      "designation": "HB 77",
+      "shortTitle": "Coastal Ferry Schedule Notice",
+      "subjectClass": "general-policy",
+      "summary": "Would require advance public notice before a scheduled coastal ferry sailing is canceled or rerouted.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 5,
+          "nay": 2
+        },
+        "committee:senate-transportation": {
+          "yea": 4,
+          "nay": 3
+        },
+        "floor:house:final-passage": {
+          "yea": 26,
+          "nay": 13,
+          "absent": 1
+        },
+        "floor:senate:final-passage": {
+          "yea": 12,
+          "nay": 8
+        },
+        "amendment:house": {
+          "yea": 23,
+          "nay": 16,
+          "absent": 1
+        },
+        "amendment:senate": {
+          "yea": 11,
+          "nay": 9
+        },
+        "concurrence:house": {
+          "yea": 25,
+          "nay": 14,
+          "absent": 1
+        },
+        "override:joint": {
+          "yea": 41,
+          "nay": 18,
+          "absent": 1
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor objected that the notice period would bind operations during weather cancellations.",
+      "packId": "us-ak-legislature-v1",
+      "contextKey": "ALASKA_CONTEXT"
+    },
+    {
+      "scenarioKey": "kentucky-crossing-signals",
+      "label": "Kentucky General Assembly — school crossing signals",
+      "seed": "legislative-core-kentucky-crossing-2026",
+      "designation": "HB 502",
+      "shortTitle": "School Crossing Signal Standards",
+      "subjectClass": "general-policy",
+      "summary": "Would set a common standard for pedestrian crossing signals on state-maintained roads within a quarter mile of a school entrance.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 11,
+          "nay": 6
+        },
+        "committee:senate-transportation": {
+          "yea": 8,
+          "nay": 3
+        },
+        "floor:house:final-passage": {
+          "yea": 62,
+          "nay": 36,
+          "absent": 2
+        },
+        "floor:senate:final-passage": {
+          "yea": 24,
+          "nay": 13,
+          "absent": 1
+        },
+        "amendment:house": {
+          "yea": 48,
+          "nay": 50,
+          "absent": 2
+        },
+        "amendment:senate": {
+          "yea": 24,
+          "nay": 13,
+          "absent": 1
+        },
+        "concurrence:house": {
+          "yea": 44,
+          "nay": 54,
+          "absent": 2
+        },
+        "override:house": {
+          "yea": 44,
+          "nay": 54,
+          "absent": 2
+        },
+        "override:senate": {
+          "yea": 24,
+          "nay": 13,
+          "absent": 1
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor never received this bill; the two chambers did not agree on one text.",
+      "packId": "us-ky-general-assembly-v1",
+      "contextKey": "KENTUCKY_CONTEXT"
+    },
+    {
+      "scenarioKey": "nebraska-winter-clearing",
+      "label": "Nebraska Legislature — winter route clearing",
+      "seed": "legislative-core-nebraska-clearing-2026",
+      "designation": "LB 219",
+      "shortTitle": "Winter Route Clearing Standards",
+      "subjectClass": "general-policy",
+      "summary": "Would set a minimum clearing standard for state-maintained routes serving school transport during winter weather.",
+      "nonpartisan": true,
+      "votePlan": {
+        "committee:transportation-telecommunications": {
+          "yea": 5,
+          "nay": 3
+        },
+        "floor:legislature:general-file": {
+          "yea": 27,
+          "nay": 20,
+          "absent": 2
+        },
+        "floor:legislature:select-file": {
+          "yea": 27,
+          "nay": 20,
+          "absent": 2
+        },
+        "floor:legislature:final-reading": {
+          "yea": 27,
+          "nay": 20,
+          "absent": 2
+        },
+        "amendment:legislature": {
+          "yea": 26,
+          "nay": 21,
+          "absent": 2
+        },
+        "override:legislature": {
+          "yea": 28,
+          "nay": 19,
+          "absent": 2
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor objected that a statewide clearing standard would bind counties with very different road mileage.",
+      "packId": "us-ne-legislature-v1",
+      "contextKey": "NEBRASKA_CONTEXT"
+    },
+    {
+      "scenarioKey": "alaska-harbor-dredging",
+      "label": "Alaska State Legislature — harbor dredging",
+      "seed": "legislative-core-alaska-harbor-2026",
+      "designation": "HB 95",
+      "shortTitle": "Harbor Dredging Schedule",
+      "subjectClass": "general-policy",
+      "summary": "Would require a published dredging schedule for state-maintained small-boat harbors before each season opens.",
+      "nonpartisan": false,
+      "votePlan": {
+        "committee:house-transportation": {
+          "yea": 5,
+          "nay": 2
+        },
+        "committee:senate-transportation": {
+          "yea": 4,
+          "nay": 3
+        },
+        "floor:house:final-passage": {
+          "yea": 23,
+          "nay": 16,
+          "absent": 1
+        },
+        "floor:senate:final-passage": {
+          "yea": 9,
+          "nay": 11
+        },
+        "amendment:house": {
+          "yea": 21,
+          "nay": 18,
+          "absent": 1
+        },
+        "amendment:senate": {
+          "yea": 9,
+          "nay": 11
+        },
+        "override:joint": {
+          "yea": 32,
+          "nay": 27,
+          "absent": 1
+        }
+      },
+      "governorAction": "vetoed",
+      "governorRationale": "The Governor never received this bill; the Senate voted it down.",
+      "packId": "us-ak-legislature-v1",
+      "contextKey": "ALASKA_CONTEXT"
+    }
+  ]
+}

@@ -202,7 +202,7 @@ export function nationalMoodDemocraticShift(
   electionDate: IsoDate,
 ): number {
   const year = Number(electionDate.slice(0, 4));
-  if (year % 2 !== 0 || year % 4 === 0) return 0;
+  if (year % 2 !== 0) return 0;
   const cached = shifts.get(world);
   if (cached !== undefined) return cached;
   const president = currentPresidentOf(world);

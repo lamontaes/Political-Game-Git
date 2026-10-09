@@ -28,7 +28,7 @@ import type {
   LegislativeSubjectClass,
   LegislativeMeasureRecord,
 } from "../types";
-import type { SeatedMember } from "../legislation-scenarios";
+import type { SeatedMember } from "../legislative-content";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { introduceMeasure, measurePosition } from "../legislation";
 import { recordsByKey, recordsByStringField } from "../history-index";

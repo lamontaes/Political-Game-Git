@@ -19,7 +19,7 @@ import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type {
   RunBFixture,
   RunBScenePersonContext,
-} from "../presentation/run-b-fixture";
+} from "../presentation/office-scene-context";
 import {
   bindSceneSurfaces,
   dynamicSurfacePayloads,

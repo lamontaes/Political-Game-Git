@@ -1,27 +1,17 @@
 import type { EntityId } from "../simulation";
-import {
-  createRunAFixture,
-  type RunAFixture,
-  type RunAScenePersonContext,
-} from "./run-a-fixture";
+import { createRunAFixture } from "./run-a-fixture";
+import type {
+  RunAFixture,
+  RunBFixture,
+  RunBScenePersonContext,
+} from "./office-scene-context";
+export type {
+  RunBFixture,
+  RunBSceneAnchorId,
+  RunBScenePersonVariant,
+  RunBScenePersonContext,
+} from "./office-scene-context";
 import type { ConversationRoomContext } from "./run-b-conversation";
-
-export type RunBSceneAnchorId = "primary-desk-chair" | "left-guest-chair";
-export type RunBScenePersonVariant = "primary" | "guest";
-
-export interface RunBScenePersonContext extends RunAScenePersonContext {
-  readonly anchorId: RunBSceneAnchorId;
-  readonly visualVariant: RunBScenePersonVariant;
-}
-
-export interface RunBFixture extends RunAFixture {
-  readonly scenePeople: readonly [
-    RunBScenePersonContext,
-    RunBScenePersonContext,
-  ];
-  readonly roomContext: ConversationRoomContext;
-  readonly privateCapableRoomContext: ConversationRoomContext;
-}
 
 function requirePersonId(fixture: RunAFixture, index: number): EntityId {
   const personId = fixture.world.personOrder[index];

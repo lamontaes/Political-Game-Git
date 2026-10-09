@@ -5,7 +5,7 @@ import { useEffect, useMemo, useReducer, useState } from "react";
 
 import type { EntityId } from "../simulation";
 
-import { parseRunAFixtureState } from "../presentation/run-a-fixture";
+import { parseRunAFixtureState } from "../presentation/office-scene-context";
 import {
   loadLearnedConcepts,
   persistLearnedConcepts,

@@ -776,7 +776,7 @@ export function shapedLinkFactor(
 /** The recorded central size for this place, or the link's central size.
  * Research ranges remain evidence checks; seeds do not change a coefficient.
  * The World argument preserves the existing callers' public contract. */
-export function drawnLinkSize(
+export function linkSize(
   _world: World,
   link: Pick<OutcomeLink, "key" | "size" | "range" | "evidence"> &
     Partial<Pick<OutcomeLink, "sizeByPlace">>,
@@ -830,7 +830,7 @@ export function outcomeFactor(
       continue;
     }
     let factor = shapedLinkFactor(
-      { shape: link.shape, size: drawnLinkSize(world, link, jurisdictionId) },
+      { shape: link.shape, size: linkSize(world, link, jurisdictionId) },
       value,
       baseline,
     );

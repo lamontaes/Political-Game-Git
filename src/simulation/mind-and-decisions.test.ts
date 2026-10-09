@@ -124,7 +124,7 @@ function basicDecisionContext(
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   };
 }
@@ -370,7 +370,7 @@ describe("general autonomous decisions", () => {
     });
     expect(
       evaluation.optionEvaluations.map((option) => option.randomContribution),
-    ).toEqual(["none", "none"]);
+    ).toEqual(["none"]);
     expect(evaluation.context.considerations).toHaveLength(2);
   });
 

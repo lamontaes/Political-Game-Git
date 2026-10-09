@@ -10,7 +10,7 @@ import {
   type LegislativeBlueprint,
   type SeatedBody,
   type SeatedMember,
-} from "../legislation-scenarios";
+} from "../legislative-content";
 import { projectCongress } from "../living-world/congress";
 import type { ChamberKey } from "../living-world/contract";
 import { activePartyUnitsAt } from "../living-world/party-registry";

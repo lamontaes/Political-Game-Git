@@ -321,7 +321,7 @@ export function askToBeACouple(
       ),
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) {

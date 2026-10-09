@@ -6,6 +6,14 @@ import {
   recordWorldEvent,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import type { RunAFixture } from "./office-scene-context";
+export {
+  RUN_A_FIXTURE_STATE_NAMES,
+  parseRunAFixtureState,
+  type RunAFixture,
+  type RunAFixtureStateName,
+  type RunAScenePersonContext,
+} from "./office-scene-context";
 
 export const RUN_A_SEED = "stage-6-5-run-a";
 export const RUN_A_HIDDEN_CANONICAL_TEXT =
@@ -21,42 +29,6 @@ export function runAPlaceDisplayName(canonicalName: string): string {
   return canonicalName === RUN_A_LEXINGTON_DISPLAY_NAMES.canonical
     ? RUN_A_LEXINGTON_DISPLAY_NAMES.full
     : canonicalName;
-}
-
-export const RUN_A_FIXTURE_STATE_NAMES = [
-  "normal",
-  "person-menu",
-  "dossier",
-  "civic-learning",
-  "mixed-pins",
-  "navigation",
-  "submenu",
-] as const;
-
-export type RunAFixtureStateName = (typeof RUN_A_FIXTURE_STATE_NAMES)[number];
-
-export interface RunAScenePersonContext {
-  readonly personId: EntityId;
-  readonly title: string;
-  readonly role: string;
-  readonly qualitativeRead: string;
-  readonly inferredRead: string;
-  /**
-   * The one working habit the player has actually noticed. Optional because the
-   * office fixture's is about constituent notes and a colleague on the floor's
-   * is about something else entirely.
-   */
-  readonly workingHabit?: string;
-}
-
-export interface RunAFixture {
-  readonly world: World;
-  readonly playerPersonId: EntityId;
-  readonly scenePerson: RunAScenePersonContext;
-  readonly officeEventId: EntityId;
-  readonly locationDisplayName: string;
-  readonly locationLabel: string;
-  readonly presentationTime: string;
 }
 
 function requirePersonId(world: World, index: number): EntityId {
@@ -179,12 +151,4 @@ export function createRunAFixture(seedInput?: string): RunAFixture {
     locationLabel: `${RUN_A_LEXINGTON_DISPLAY_NAMES.compact} · Legislative Office`,
     presentationTime: "9:10 AM",
   };
-}
-
-export function parseRunAFixtureState(
-  value: string | null | undefined,
-): RunAFixtureStateName {
-  return RUN_A_FIXTURE_STATE_NAMES.includes(value as RunAFixtureStateName)
-    ? (value as RunAFixtureStateName)
-    : "normal";
 }

@@ -916,7 +916,7 @@ export function pressLedgerReviewHandler(
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) {
@@ -1050,7 +1050,7 @@ function bookkeeperGoesOutside(
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) {
@@ -1647,7 +1647,7 @@ function produceCandidatePaymentComplaintFor(
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;
@@ -1752,7 +1752,7 @@ function produceVendorPaymentComplaint(world: World): World {
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;

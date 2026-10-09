@@ -1,0 +1,298 @@
+{
+  "source": {
+    "allocation": "https://www.archives.gov/electoral-college/allocation",
+    "qualifications": "https://www.archives.gov/founding-docs/constitution-transcript",
+    "termLimit": "https://www.archives.gov/founding-docs/amendments-11-27",
+    "nominationCalendar": "Federal Election Commission 2024 presidential convention dates: Republican July 18 and Democratic August 22, before the November 5 election"
+  },
+  "allocation": {
+    "AL": 9,
+    "AK": 3,
+    "AZ": 11,
+    "AR": 6,
+    "CA": 54,
+    "CO": 10,
+    "CT": 7,
+    "DE": 3,
+    "DC": 3,
+    "FL": 30,
+    "GA": 16,
+    "HI": 4,
+    "ID": 4,
+    "IL": 19,
+    "IN": 11,
+    "IA": 6,
+    "KS": 6,
+    "KY": 8,
+    "LA": 8,
+    "ME": 4,
+    "MD": 10,
+    "MA": 11,
+    "MI": 15,
+    "MN": 10,
+    "MS": 6,
+    "MO": 10,
+    "MT": 4,
+    "NE": 5,
+    "NV": 6,
+    "NH": 4,
+    "NJ": 14,
+    "NM": 5,
+    "NY": 28,
+    "NC": 16,
+    "ND": 3,
+    "OH": 17,
+    "OK": 7,
+    "OR": 8,
+    "PA": 19,
+    "RI": 4,
+    "SC": 9,
+    "SD": 3,
+    "TN": 11,
+    "TX": 40,
+    "UT": 6,
+    "VT": 3,
+    "VA": 13,
+    "WA": 12,
+    "WV": 4,
+    "WI": 10,
+    "WY": 3
+  },
+  "eligibility": {
+    "minimumAge": 35,
+    "nationalResidenceYears": 14,
+    "naturalBornCitizen": true,
+    "maxLifetimeTerms": 2
+  },
+  "nomination": {
+    "fieldClosesDaysBefore": 93,
+    "estimatedFrom": "Median of the 75-day and 110-day leads from the FEC 2024 presidential conventions; rounded to a whole day",
+    "primaryCountBasis": "recorded-voters"
+  },
+  "places": {
+    "AL": {
+      "popularElection": true,
+      "reason": null
+    },
+    "AK": {
+      "popularElection": true,
+      "reason": null
+    },
+    "AZ": {
+      "popularElection": true,
+      "reason": null
+    },
+    "AR": {
+      "popularElection": true,
+      "reason": null
+    },
+    "CA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "CO": {
+      "popularElection": true,
+      "reason": null
+    },
+    "CT": {
+      "popularElection": true,
+      "reason": null
+    },
+    "DE": {
+      "popularElection": true,
+      "reason": null
+    },
+    "DC": {
+      "popularElection": true,
+      "reason": null
+    },
+    "FL": {
+      "popularElection": true,
+      "reason": null
+    },
+    "GA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "HI": {
+      "popularElection": true,
+      "reason": null
+    },
+    "ID": {
+      "popularElection": true,
+      "reason": null
+    },
+    "IL": {
+      "popularElection": true,
+      "reason": null
+    },
+    "IN": {
+      "popularElection": true,
+      "reason": null
+    },
+    "IA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "KS": {
+      "popularElection": true,
+      "reason": null
+    },
+    "KY": {
+      "popularElection": true,
+      "reason": null
+    },
+    "LA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "ME": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MD": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MI": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MN": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MS": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MO": {
+      "popularElection": true,
+      "reason": null
+    },
+    "MT": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NE": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NV": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NH": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NJ": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NM": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NY": {
+      "popularElection": true,
+      "reason": null
+    },
+    "NC": {
+      "popularElection": true,
+      "reason": null
+    },
+    "ND": {
+      "popularElection": true,
+      "reason": null
+    },
+    "OH": {
+      "popularElection": true,
+      "reason": null
+    },
+    "OK": {
+      "popularElection": true,
+      "reason": null
+    },
+    "OR": {
+      "popularElection": true,
+      "reason": null
+    },
+    "PA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "RI": {
+      "popularElection": true,
+      "reason": null
+    },
+    "SC": {
+      "popularElection": true,
+      "reason": null
+    },
+    "SD": {
+      "popularElection": true,
+      "reason": null
+    },
+    "TN": {
+      "popularElection": true,
+      "reason": null
+    },
+    "TX": {
+      "popularElection": true,
+      "reason": null
+    },
+    "UT": {
+      "popularElection": true,
+      "reason": null
+    },
+    "VT": {
+      "popularElection": true,
+      "reason": null
+    },
+    "VA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "WA": {
+      "popularElection": true,
+      "reason": null
+    },
+    "WV": {
+      "popularElection": true,
+      "reason": null
+    },
+    "WI": {
+      "popularElection": true,
+      "reason": null
+    },
+    "WY": {
+      "popularElection": true,
+      "reason": null
+    },
+    "PR": {
+      "popularElection": false,
+      "reason": "The Constitution assigns presidential electors to states and the federal district; this territory has no electoral-college vote."
+    },
+    "GU": {
+      "popularElection": false,
+      "reason": "The Constitution assigns presidential electors to states and the federal district; this territory has no electoral-college vote."
+    },
+    "VI": {
+      "popularElection": false,
+      "reason": "The Constitution assigns presidential electors to states and the federal district; this territory has no electoral-college vote."
+    },
+    "AS": {
+      "popularElection": false,
+      "reason": "The Constitution assigns presidential electors to states and the federal district; this territory has no electoral-college vote."
+    },
+    "MP": {
+      "popularElection": false,
+      "reason": "The Constitution assigns presidential electors to states and the federal district; this territory has no electoral-college vote."
+    }
+  }
+}

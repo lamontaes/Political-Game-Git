@@ -317,7 +317,7 @@ function answerFamilyPlan(
       ],
     ),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) return null;

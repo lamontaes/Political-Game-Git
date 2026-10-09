@@ -3,6 +3,12 @@ import { describe, expect, it } from "vitest";
 import { createStableId, stableHash } from "./ids";
 
 describe("stable entity IDs", () => {
+  it("preserves the 32-bit English-part selection keys", () => {
+    expect(stableHash("", 32)).toBe(0x811c9dc5);
+    expect(stableHash("a", 32)).toBe(0xe40c292c);
+    expect(stableHash("foobar", 32)).toBe(0xbf9cf968);
+  });
+
   it("pins the version-one ID contract", () => {
     expect(createStableId("person", "golden-key")).toBe(
       "person_05efe39fb8775bf8",

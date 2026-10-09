@@ -33,7 +33,7 @@ import {
   MeasurePaperWorkspace,
   type PaperPanel,
 } from "./MeasurePaperWorkspace";
-import type { RunBFixture } from "../presentation/run-b-fixture";
+import type { RunBFixture } from "../presentation/office-scene-context";
 
 /**
  * The members' room, with a live bill in it.

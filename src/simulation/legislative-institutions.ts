@@ -1,7 +1,5 @@
-import {
-  DEMO_START_DATE,
-  type DemoJurisdictionContext,
-} from "./demo-jurisdiction-context";
+import { DEFAULT_START_DATE } from "./jurisdiction-context";
+import type { JurisdictionContext } from "./jurisdiction-context";
 import { US_CONGRESS_RULE_PACK } from "./congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { legislatureForState } from "./legislature-game-profile";
@@ -92,7 +90,7 @@ function stateLocalityPlace(stateKey: string): LifePlace | null {
 
 export function legislativeInstitutionContext(
   pack: LegislativeRulePack,
-): DemoJurisdictionContext {
+): JurisdictionContext {
   if (pack.institution?.government === "federal") {
     const context = pack.institution.context;
     if (!context)
@@ -102,7 +100,7 @@ export function legislativeInstitutionContext(
       // Only the static scenario blueprint reads this moment. A live Congress
       // assignment uses the save's current moment through congressBlueprint.
       initialMoment: {
-        date: DEMO_START_DATE,
+        date: DEFAULT_START_DATE,
         minuteOfDay: 9 * 60,
         timeZone: context.timeZone,
         utcOffsetMinutes: context.utcOffsetMinutes,
@@ -160,4 +158,4 @@ export function legislativeInstitutionContext(
   return context;
 }
 
-const STATE_INSTITUTION_CONTEXTS = new Map<string, DemoJurisdictionContext>();
+const STATE_INSTITUTION_CONTEXTS = new Map<string, JurisdictionContext>();
