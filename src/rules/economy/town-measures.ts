@@ -13,6 +13,18 @@ export interface TownMeasureFact {
   readonly basis: number;
 }
 
+/** Apply work, enrollment, and caregiving precedence to selected resident facts. */
+export function laborStatusFromFacts(facts: {
+  readonly hasActiveWork: boolean;
+  readonly hasActiveEnrollment: boolean;
+  readonly isPrimaryCaregiverForYoungChild: boolean;
+}): LaborForceStatus {
+  if (facts.hasActiveWork) return "employed";
+  if (facts.hasActiveEnrollment) return "student";
+  if (facts.isPrimaryCaregiverForYoungChild) return "parent-at-home";
+  return "employed";
+}
+
 /** Calculate the unemployment share after labor status and work are selected. */
 export function unemploymentRateFromFacts(
   residents: readonly ResidentLaborFacts[],

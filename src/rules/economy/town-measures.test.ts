@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import {
+  laborStatusFromFacts,
   medianHourlyPayFromFacts,
   unemploymentRateFromFacts,
 } from "./town-measures";
@@ -12,6 +13,34 @@ describe("town measure calculations", () => {
     "calculates labor and pay measures from selected facts in $jurisdictionKey",
     (place) => {
       const index = places.indexOf(place);
+      expect(
+        laborStatusFromFacts({
+          hasActiveWork: true,
+          hasActiveEnrollment: true,
+          isPrimaryCaregiverForYoungChild: true,
+        }),
+      ).toBe("employed");
+      expect(
+        laborStatusFromFacts({
+          hasActiveWork: false,
+          hasActiveEnrollment: true,
+          isPrimaryCaregiverForYoungChild: true,
+        }),
+      ).toBe("student");
+      expect(
+        laborStatusFromFacts({
+          hasActiveWork: false,
+          hasActiveEnrollment: false,
+          isPrimaryCaregiverForYoungChild: true,
+        }),
+      ).toBe("parent-at-home");
+      expect(
+        laborStatusFromFacts({
+          hasActiveWork: false,
+          hasActiveEnrollment: false,
+          isPrimaryCaregiverForYoungChild: false,
+        }),
+      ).toBe("employed");
       expect(
         unemploymentRateFromFacts([
           { status: "employed", holdsWork: true },
