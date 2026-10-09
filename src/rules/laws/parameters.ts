@@ -7,6 +7,13 @@ export const LAWS_PARAMETERS = {
       "Legacy similar-state tax deduction estimator uses reciprocal rank weights",
     range: { minimum: 0, maximum: 4 },
   },
+  paidWorkdaysPerWeek: {
+    value: 5,
+    basis: "SOURCED",
+    source:
+      "Standard Monday-through-Friday workweek used to prorate weekly paid leave caps",
+    range: { minimum: 1, maximum: 7 },
+  },
   defaultEnactmentDays: {
     value: 90,
     basis: "TUNABLE",
