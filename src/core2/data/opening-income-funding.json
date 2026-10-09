@@ -1,0 +1,43 @@
+{
+  "version": "p8-opening-retirement-funding-v2",
+  "stopgapId": "SG-P8-opening-retirement-funding",
+  "contractIdPrefix": "opening-retirement-contribution",
+  "contributorIdPrefix": "opening-retirement-contributor",
+  "settlementPhaseId": "funding",
+  "contractKind": "funding.retirement-contribution",
+  "contributorJurisdictionKey": "US-FEDERAL",
+  "contributorNameTemplate": "{publisher} retirement contribution portfolio for {payerName}",
+  "contributorKind": "public-institution",
+  "contributorClassification": "sector:modeled-external-retirement-contributor",
+  "contributorKinds": ["public-institution", "government"],
+  "eligiblePayerClassifications": [
+    "sector:modeled-retirement-income-account",
+    "sector:recorded-retirement-paying-account"
+  ],
+  "incomeKindIds": ["retirement"],
+  "parameters": {
+    "envelopeShare": "openingRetirementFundingEnvelopeShare",
+    "openingLiquidShare": "openingRetirementFundingLiquidShare",
+    "nationalAnnualOutlayMinor": "openingRetirementFundingPublicAnnualOutlayMinor",
+    "periodMonths": "openingRetirementPeriodMonths",
+    "windowMonths": "monthsPerYear"
+  },
+  "flowEvidence": {
+    "publisher": "U.S. Treasury",
+    "title": "Monthly Treasury Statement Table 9, FY2025 receipts and outlays at September 30, 2025",
+    "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_date:eq:2025-09-30",
+    "sourceFile": "data/research/money/federal-budget-fy2025.json",
+    "sourceField": "outlays.socialSecurity",
+    "sourceVintage": "Treasury FY2025 federal Social Security outlays; later-vintage contextual opening prior, not 2021 appropriation or liquid balance",
+    "scope": "Published annual Social Security functional outlays include more than retired-worker awards. Aggregate payroll receipts also include other retirement/unemployment; neither identifies this generated portfolio's appropriation, legal eligibility, liquidity or tax contributions."
+  },
+  "citation": "Authorized pre-start WHO/standing-terms generation bounded by saved qualified retirement awards and the independently preserved Treasury FY2025 Social Security outlay flow in federal-budget-fy2025.json. The generated external portfolio and opening cash allocation are explicit assumptions; no 2021 legal authority, national reserve liquidity, recipient membership or future receipts are asserted.",
+  "identityBasis": "Named external U.S. Treasury-context contributor portfolio at the canonical seat of government. The institution context is real; this represented opening portfolio, its terms and cash allocation are fictional input records, not a verified treasury bank account or public appropriation.",
+  "gaps": [
+    "opening-retirement-funding:one-year-covered-award-envelope-and-liquid-allocation-authored-not-observed-2021-fiscal-authority",
+    "opening-retirement-funding:public-flow-scope-and-vintage-crosswalk-not-calibrated",
+    "opening-retirement-funding:finite-contributor-cash-no-tax-or-contribution-refill-producer",
+    "opening-retirement-funding:no-reserve-asset-redemption-or-debt-created",
+    "opening-retirement-funding:private-or-operating-retirement-payers-not-implicitly-subsidized"
+  ]
+}

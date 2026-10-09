@@ -1,0 +1,231 @@
+{
+  "schema": "p8-finance-hooks-v8-wip",
+  "addedStopgaps": 23,
+  "openStopgaps": 70,
+  "apiVersion": "core2-api-v8",
+  "schemaVersion": "core2-schema-v8",
+  "sourceStatus": "held draft; composed focused tests, strict types, lint, structural source guards and formatting passed; no new annual result",
+  "annualWorldRunExecuted": false,
+  "newSpeedMeasured": false,
+  "earlierFinanceIncomeGate": {
+    "files": 10,
+    "tests": 124,
+    "passed": 124,
+    "failed": 0,
+    "exitCode": 0,
+    "scope": "Before finite funding, appraisal notices, immutable validity start and five REVIEW11 markers",
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-finance-v8-focused-tests-20261009.log",
+      "bytes": 573,
+      "sha256": "eef886bbbcf86a4c633e36153a9f454bd00ab0c84b5ee3761f343d2a5cbbfa77"
+    }
+  },
+  "earlierTypeGate": {
+    "exitCode": 0,
+    "scope": "Before finite funding and appraisal notices",
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-finance-v8-typecheck-final-20261009.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "earlierSourceGuards": {
+    "exitCode": 0,
+    "openStopgaps": 61,
+    "scope": "Before finite funding and appraisal notices",
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-finance-v8-source-guards-final-20261009.log",
+      "bytes": 18858,
+      "sha256": "0415ac655a6e38b6aa4d80ad9d823eef302d630dd914f7478aa9ca8040cdf4a6"
+    }
+  },
+  "preExpiryFixFundingGate": {
+    "files": 2,
+    "tests": 21,
+    "passed": 20,
+    "failed": 1,
+    "exitCode": 1,
+    "failure": "Future bill indexed at exclusive finite end; actual writer repaired and assertion retained, final repeat pending",
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-funding-v8-focused-tests-20261009.log",
+      "bytes": 1505,
+      "sha256": "84ca20ac12d88ad52e6df4569619b51981d4406b3aa4449f4282358759b1987e"
+    }
+  },
+  "preReviewComposedGate": {
+    "files": 8,
+    "tests": 111,
+    "passed": 110,
+    "failed": 1,
+    "exitCode": 1,
+    "failure": "New unexecuted helper fixture expected wildcard appraisal before existing exact-kind listener; corrected to preserve published API7 routing, final repeat pending",
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-focused-tests-20261009.log",
+      "bytes": 1631,
+      "sha256": "a0f0e7969195c4bc76e6ee15138fd939180e2af4da845818ceb06bf20737b7b1"
+    }
+  },
+  "knownAdditionalAdmissionRepairs": [
+    "Overlapping same award routes indexed by person and original validity start",
+    "Generic monthly-award requires recorded cash standing-entitlement basis",
+    "Copied nested recipientIncome metadata",
+    "Closed or ended finite terms clear ending/due indexes",
+    "Opening funding accepts the same recorded generic cash standing-entitlement retirement awards as the canonical writer"
+  ],
+  "pending": [
+    "Customer/public-route composition",
+    "Ordinary annual funding/closures/speed",
+    "Accounts and actual postJournal facade",
+    "REVIEW10 and REVIEW11 relationship/population repairs",
+    "School attendance real-data wiring",
+    "REVIEW12 shared-past generation repair"
+  ],
+  "preservedFailedBaseline": {
+    "beforeDaysPerMinute": 96.469205738,
+    "afterDaysPerMinute": 124.510561475,
+    "afterMedianSeconds": 175.888693622,
+    "closedEmployers": 23,
+    "bookedEmployers": 27,
+    "endedJobs": 1264,
+    "accepted": false
+  },
+  "failedGateLogs": [
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-finance-v8-typecheck-20261009.log",
+      "bytes": 3059,
+      "sha256": "78c34138bbb94f1699b43fb05f00ed66e90d791cc07bd91565abec47b3d331fe"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-finance-v8-source-guards-20261009.log",
+      "bytes": 25554,
+      "sha256": "905d08b34e23b97ae0eb320bd83f7a633bc628f7839ba4ba32585b73149a1ecf"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-typecheck-20261009.log",
+      "bytes": 96,
+      "sha256": "129fa380307e714c9bc57f441130c1d609be4eeb6233654c2d50b1898efd1b78"
+    }
+  ],
+  "finalComposedGate": {
+    "files": 10,
+    "tests": 139,
+    "passed": 139,
+    "failed": 0,
+    "exitCode": 0,
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-focused-tests-final-20261009.log",
+      "bytes": 571,
+      "sha256": "b536ea344d4a55693630ef6d9317be60c7a76ea4483f929d616a6e002cf00d2f"
+    }
+  },
+  "finalStrictTypes": {
+    "exitCode": 0,
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-typecheck-final-20261009.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "finalChecks": {
+    "eslint": {
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-eslint-final-20261009.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "source-guards": {
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-source-guards-final-20261009.log",
+        "bytes": 19965,
+        "sha256": "6b76a2d4f56c853bde5e51d044c017b0732988cb7798fe7cff86158392966a40"
+      },
+      "scope": "Structural source and metadata checks only; 70 open stopgaps and unmeasured calibration still block release"
+    },
+    "format": {
+      "exitCode": 0,
+      "log": {
+        "path": "/workspace/p8-benchmark-artifacts/p8-finance-hooks-v8-gates-20261009/p8-composed-v8-format-final-20261009.log",
+        "bytes": 66,
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+      }
+    }
+  },
+  "receiptFormatting": {
+    "filesChanged": 6,
+    "jsonValuesEqualToPreviousCommit": true,
+    "scope": "Six retained receipt JSON files reformatted; archived files were already removed from current tree"
+  },
+  "publicationArchive": {
+    "status": "Exact-byte archive verified before deleting seven old detailed profiling and harness receipts from current tree under CTO REVIEW 12",
+    "files": [
+      {
+        "path": "src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+        "bytes": 23427,
+        "sha256": "983c3c0da65dac71acdeace0c08b2f4f2341bacad2ed3b9d91fda5a617acb72f",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+        "bytes": 40291,
+        "sha256": "701d914966e158874293f34d7ce54322ac3cf136b6a72db0d36bf84006fc650e",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/prototype-v5-work-busy-day-before-summary.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+        "bytes": 23964,
+        "sha256": "8c6fc747a6158cc430d20ec0bbf3599a9c37e826bb192b1b1f2fe3e7a59d0ca0",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+        "bytes": 40201,
+        "sha256": "b706181441db095d7eb10efd76ba10cc53ee1efa404c5a4240115128eb7638e3",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+        "bytes": 47627,
+        "sha256": "0e77ffd44b753406865f648a0dd4aa6ef3373e299d3a8c99117a7dcf2aeca3f6",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+        "bytes": 549,
+        "sha256": "cbcbc3ac9045a8b471212fa841d2ae8ff68483a04401b7319ea0be12c831facf",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      },
+      {
+        "path": "src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+        "bytes": 45952,
+        "sha256": "8a2f8c8fd7300e727e60e7376c470e707a7e038a907ba7797c5a11e12efcfc01",
+        "externalArchivePath": "/workspace/p8-benchmark-artifacts/p8-v8-publication-profile-archive-20261009/src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+        "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/8108737da84c1fbfdef7369f852d774bff0cc64f/src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+        "parsedJsonEqualsPublishedArtifact": true
+      }
+    ],
+    "fileCount": 7,
+    "totalBytes": 222011,
+    "priorRecursiveFormatCheck": {
+      "exitCode": 1,
+      "failedNestedFiles": 3,
+      "log": "/tmp/p8-finance-hooks-v8-publication-20261009/archive-format-check.log",
+      "sha256": "40c9f351d09c5f373130dce47ac229d26edc91cb3a904d9b6a4a83654145c5f2",
+      "scope": "Earlier formatting checked top-level receipts; full recursive check found three retained harness JSON files"
+    }
+  }
+}
