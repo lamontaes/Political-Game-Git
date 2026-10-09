@@ -22,6 +22,10 @@ import {
 } from "./resource-queries";
 import { scheduleFutureDueItem } from "./future-transitions";
 import {
+  consumerLoanCapAt,
+  recordConsumerLoanCapSavings,
+} from "./consumer-loan-law";
+import {
   amortizedMonthlyPaymentMinor,
   cappedAnnualRateBasisPoints,
   monthlyInterestMinor,
@@ -182,12 +186,17 @@ export function openHouseholdLoan(
   if (input.principal.minorUnits <= 0)
     throw new Error("A loan needs a positive principal.");
   const firstDue = nextFirstOfMonth(world.currentDate);
+  const federalCap = consumerLoanCapAt(world, input.kind, world.currentDate);
+  const rateCap =
+    federalCap &&
+    (!input.rateCap || federalCap.capBasisPoints < input.rateCap.capBasisPoints)
+      ? federalCap
+      : input.rateCap;
   const rate = cappedAnnualRateBasisPoints(
     input.marketAnnualRateBasisPoints,
-    input.rateCap?.capBasisPoints ?? null,
+    rateCap?.capBasisPoints ?? null,
   );
-  const capped =
-    input.rateCap !== null && rate < input.marketAnnualRateBasisPoints;
+  const capped = rateCap !== null && rate < input.marketAnnualRateBasisPoints;
   const firstPayment =
     input.repayment.kind === "installment"
       ? amortizedMonthlyPaymentMinor(
@@ -237,7 +246,18 @@ export function openHouseholdLoan(
     lenderKind: input.lenderKind,
     annualRateBasisPoints: rate,
     rateBasis: capped ? "capped" : "written",
-    rateCapMeasureId: capped ? input.rateCap!.measureId : null,
+    rateCapMeasureId: capped ? rateCap!.measureId : null,
+    ...(capped
+      ? {
+          rateBeforeCapBasisPoints:
+            rateCap === federalCap
+              ? cappedAnnualRateBasisPoints(
+                  input.marketAnnualRateBasisPoints,
+                  input.rateCap?.capBasisPoints ?? null,
+                )
+              : input.marketAnnualRateBasisPoints,
+        }
+      : {}),
     repayment: input.repayment,
     lateFee: input.lateFee,
     missedPaymentsToDefault: input.missedPaymentsToDefault,
@@ -289,6 +309,12 @@ export function reviseLoanTerms(
     annualRateBasisPoints: revised.annualRateBasisPoints,
     rateBasis: revised.rateBasis,
     rateCapMeasureId: revised.rateCapMeasureId,
+    ...(revised.rateBasis === "capped" &&
+    revised.annualRateBasisPoints === current.annualRateBasisPoints &&
+    revised.rateCapMeasureId === current.rateCapMeasureId &&
+    current.rateBeforeCapBasisPoints !== undefined
+      ? { rateBeforeCapBasisPoints: current.rateBeforeCapBasisPoints }
+      : {}),
     repayment: revised.repayment,
     lateFee: revised.lateFee,
     missedPaymentsToDefault: current.missedPaymentsToDefault,
@@ -834,9 +860,26 @@ function serviceLoanMonth(
     )
   )
     return world;
-  const terms = loanTermsAt(world, obligation.id, dueOn)!;
+  let terms = loanTermsAt(world, obligation.id, dueOn)!;
   const key = `${obligation.stableKey}:${dueOn}`;
   let next = world;
+  const cap = consumerLoanCapAt(next, terms.kind, dueOn);
+  if (cap && cap.capBasisPoints < terms.annualRateBasisPoints) {
+    next = appendLoanTerms(next, {
+      ...terms,
+      stableKey: `${key}:law-cap`,
+      effectiveAt: dueOn,
+      annualRateBasisPoints: cap.capBasisPoints,
+      rateBasis: "capped",
+      rateCapMeasureId: cap.measureId,
+      rateBeforeCapBasisPoints:
+        terms.rateCapMeasureId === cap.measureId
+          ? (terms.rateBeforeCapBasisPoints ?? terms.annualRateBasisPoints)
+          : terms.annualRateBasisPoints,
+      supersedesTermsId: terms.id,
+    });
+    terms = loanTermsAt(next, obligation.id, dueOn)!;
+  }
   const opening = outstandingDebtAt(next, obligation.id)!;
   if (opening.minorUnits <= 0)
     return markPaidOff(next, obligation, flow, dueOn);
@@ -855,6 +898,7 @@ function serviceLoanMonth(
       amount: money(interest, currency),
       loanTermsId: terms.id,
     });
+  next = recordConsumerLoanCapSavings(next, flow, terms, opening, dueOn);
   const owed = opening.minorUnits + interest;
   const scheduled =
     terms.repayment.kind === "installment"
@@ -1168,6 +1212,9 @@ export function assertHouseholdLoanIntegrity(
     if (
       !Number.isFinite(row.annualRateBasisPoints) ||
       row.annualRateBasisPoints < 0 ||
+      (row.rateBeforeCapBasisPoints !== undefined &&
+        (!Number.isFinite(row.rateBeforeCapBasisPoints) ||
+          row.rateBeforeCapBasisPoints < row.annualRateBasisPoints)) ||
       (row.rateBasis === "capped") !== (row.rateCapMeasureId !== null)
     )
       throw new Error("Loan terms carry an invalid rate.");

@@ -175,7 +175,7 @@
       "kind": "roll",
       "build": "Build 6",
       "count": 1,
-      "code": "return draw(seed, question) < odds ? first : second;"
+      "code": "if (at < 0) return entry.pose;"
     },
     {
       "file": "src/presentation/appearance-engine/recipe.ts",
@@ -253,97 +253,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "peerDraw.integer(1, 183) * (peerDraw.next() < 0.5 ? -1 : 1);"
-    },
-    {
-      "file": "src/simulation/civil-personnel-actions.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 2,
-      "code": "if (position.jurisdictionKey !== \"US-MN\")"
-    },
-    {
-      "file": "src/simulation/civil-personnel-actions.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "position.jurisdictionKey === \"US-AK\""
-    },
-    {
-      "file": "src/simulation/civil-personnel-actions.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "formerPosition.jurisdictionKey === \"US-MN\" &&"
-    },
-    {
-      "file": "src/simulation/civil-personnel-actions.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "jurisdictionKey === \"US-MN\""
-    },
-    {
-      "file": "src/simulation/civil-personnel-actions.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": ": jurisdictionKey === \"US-AK\""
-    },
-    {
-      "file": "src/simulation/civil-personnel-integrity.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 2,
-      "code": "position.jurisdictionKey !== \"US-MN\" ||"
-    },
-    {
-      "file": "src/simulation/civil-personnel-integrity.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "formerPosition.jurisdictionKey !== \"US-MN\" ||"
-    },
-    {
-      "file": "src/simulation/civil-personnel-start.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "return personnelProcedure(\"mn-discipline-notice\").jurisdictionKey === \"US-MN\""
-    },
-    {
-      "file": "src/simulation/civil-personnel.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 2,
-      "code": "context.jurisdictionKey === \"US-MN\" &&"
-    },
-    {
-      "file": "src/simulation/civil-personnel.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (field === \"appealBody\" && context.jurisdictionKey === \"US-AK\")"
-    },
-    {
-      "file": "src/simulation/civil-personnel.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (context.jurisdictionKey === \"US-AK\") {"
-    },
-    {
-      "file": "src/simulation/civil-personnel.ts",
-      "kind": "place-in-logic",
-      "build": "Build 3",
-      "count": 1,
-      "code": "if (context.jurisdictionKey !== \"US-MN\") {"
-    },
-    {
-      "file": "src/simulation/constitutional-process.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (jurisdictionKey === \"US-CA\")"
     },
     {
       "file": "src/simulation/crisis/disaster.ts",
@@ -442,13 +351,6 @@
       "build": "Build 7",
       "count": 1,
       "code": "if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;"
-    },
-    {
-      "file": "src/simulation/governing/question-authority.ts",
-      "kind": "place-in-logic",
-      "build": "Build 27",
-      "count": 1,
-      "code": "if (place?.stateJurisdictionKey === \"US-DC\") return [\"dc\"];"
     },
     {
       "file": "src/simulation/justice/clemency.ts",
@@ -603,13 +505,6 @@
       "build": "Build 24",
       "count": 1,
       "code": "const WITHIN_REACH_PERMILLE = 100;"
-    },
-    {
-      "file": "src/simulation/outcome-web/place-outcome-store.ts",
-      "kind": "place-in-logic",
-      "build": "Build 2",
-      "count": 1,
-      "code": "if (place.stateJurisdictionKey === \"US-DC\") return null;"
     },
     {
       "file": "src/simulation/people.ts",

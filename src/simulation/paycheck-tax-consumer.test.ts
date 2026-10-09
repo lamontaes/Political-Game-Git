@@ -1,3 +1,4 @@
+import { isTaxQuantity } from "./tax-types";
 import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
@@ -393,7 +394,15 @@ describe("A33 saved paycheck and existing withholding lineage", () => {
           history: {
             ...reloaded.history,
             taxBases: [
-              { ...base, amount: money(base.amount.minorUnits + 1, "USD") },
+              {
+                ...base,
+                amount: money(
+                  (isTaxQuantity(base.amount)
+                    ? base.amount.units
+                    : base.amount.minorUnits) + 1,
+                  "USD",
+                ),
+              },
             ],
           },
         },

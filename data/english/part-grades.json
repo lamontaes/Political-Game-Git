@@ -1,6 +1,6 @@
 {
   "schema": "english-part-grades/1",
-  "batches": ["batch-1"],
+  "batches": ["batch-1", "batch-2"],
   "parts": {
     "bank:hearing.answer.thank-you-for-the-question": {
       "good": 0,
@@ -74,6 +74,78 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "bank:talk-choice.greet.good-morning": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:talk-choice.greet.good-to-see-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bank:talk-choice.scene.what-happened": {
+      "good": 0,
+      "bad": 0,
+      "fix": 1,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "day-opening:core:day-1": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 2,
+      "sharedFix": 0
+    },
+    "day-opening:core:day-2": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:housemate-2": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:nothing-waiting-3": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "day-opening:core:nothing-waiting-4": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 1,
+      "sharedFix": 0
+    },
+    "day-opening:core:nothing-waiting-5": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 1,
+      "sharedFix": 0
+    },
     "journal:chapter:phase:chapter:6": {
       "good": 0,
       "bad": 1,
@@ -145,6 +217,22 @@
       "sharedGood": 0,
       "sharedBad": 0,
       "sharedFix": 0
+    },
+    "life-reply.first-greeting:closer:ask-followup": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
+    },
+    "life-reply.first-greeting:core:core": {
+      "good": 0,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 1
     }
   }
 }

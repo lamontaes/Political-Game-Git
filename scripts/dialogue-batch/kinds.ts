@@ -23,7 +23,6 @@ import {
   type BankReading,
 } from "../../src/presentation/bank-english";
 import { ownElectionResultSentence } from "../../src/presentation/own-election";
-import { projectOrdinaryDay } from "../../src/presentation/ordinary-life";
 
 export interface KindText {
   readonly kind: string;
@@ -35,6 +34,8 @@ export interface KindText {
   readonly partKey: string;
   /** The engine parts the text was made from, when it was composed from parts. */
   readonly parts?: readonly string[];
+  /** What the item calibrates, when it is not the place. */
+  readonly axis?: "age";
 }
 
 export interface KindReading {
@@ -194,22 +195,6 @@ export function readKinds(world: World, playerId: EntityId): KindReading {
       `no ${kind} producer writes in the game yet`,
     );
 
-  // The line that opens the player's day, as the day screen shows it. It is
-  // built from engine parts, so a grade on it reaches the parts it used.
-  const day = projectOrdinaryDay(world, playerId);
-  const opening: KindText[] = day.opening
-    ? [
-        {
-          kind: "notices-and-screens",
-          composer: "composeDayOpening in day-opening-english.ts",
-          situation: "The line that opens the player's day on the day screen.",
-          text: day.opening,
-          partKey: day.openingParts[0] ?? "screen:day-opening",
-          parts: day.openingParts,
-        },
-      ]
-    : [];
-  texts.push(...opening);
   addBank(
     "notices-and-screens",
     [],

@@ -360,8 +360,17 @@ describe("lines built from parts", () => {
     expect(linePartsOf(["other"])).toBeNull();
   });
 
-  it("holds the brief's seventeen speech acts and refuses any other", () => {
-    expect(SPEECH_ACTS).toHaveLength(17);
+  it("holds the brief's seventeen speech acts, the owner's seven for the story director, and refuses any other", () => {
+    expect(SPEECH_ACTS).toHaveLength(24);
+    expect(SPEECH_ACTS.slice(17)).toEqual([
+      "comfort",
+      "blame",
+      "promise",
+      "thank",
+      "confess",
+      "farewell",
+      "recall",
+    ]);
     const line = composeGroundedLine(
       packet(),
       complaint("gossip" as SpeechAct),
