@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { createOrganization, createOrganizationParticipation } from "../life";
 import { organizationParticipationStateAt } from "../life-queries";
 import type { EntityId, PrivateBeliefRecord } from "../types";

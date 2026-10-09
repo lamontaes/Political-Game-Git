@@ -1,7 +1,7 @@
 import { setFutureDueItemTerminalState } from "./future-transitions";
 import { organizationParticipationStateAt } from "./life-queries";
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { makeIsoDate } from "./dates";
 import {
   governmentUnit,

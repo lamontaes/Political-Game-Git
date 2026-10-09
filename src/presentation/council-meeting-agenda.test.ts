@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { addDays } from "../simulation/dates";
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { scheduleFutureDueItem } from "../simulation/future-transitions";
 import { governmentUnitsForState } from "../simulation/government-units";
 import { lifePlaceByKey } from "../simulation/life-places";

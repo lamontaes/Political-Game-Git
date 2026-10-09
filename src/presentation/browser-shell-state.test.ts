@@ -11,13 +11,13 @@ import { DEFAULT_MAP_PREFERENCES } from "../maps/map-preferences";
 import type { EntityId } from "../simulation";
 import {
   cancelFutureDueItem,
-  createDemoWorld,
   createResourcePosition,
   money,
   recordWorldEvent,
   serializeWorld,
   type World,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import { enterLifePath } from "../simulation/life-paths2";
 import { migrateLegacyStudyProgression } from "../simulation/education-study-progression";
 import {

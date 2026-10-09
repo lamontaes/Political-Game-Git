@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 import { MunicipalWorkspace } from "../../src/player/MunicipalWorkspace";
-import { createScenarioWorld } from "../../src/simulation/demo";
+import { createScenarioWorld } from "../../src/scenarios/demo";
 import { requireLifePlace } from "../../src/simulation/life-places";
 import { serializeWorld, deserializeWorld } from "../../src/simulation";
 import {

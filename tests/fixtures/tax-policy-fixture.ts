@@ -1,5 +1,5 @@
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
-import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../../src/scenarios/legislation";
 import {
   introduceMeasure,
   availableMeasureSteps,

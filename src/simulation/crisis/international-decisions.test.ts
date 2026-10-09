@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { createMindProvenance, recordPersonalityTendency } from "../mind";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { advanceWorld } from "../world";
 import { traitDefinitionFromPack } from "../trait-packs";
 import { loadedTraitRegistry } from "../trait-registry";

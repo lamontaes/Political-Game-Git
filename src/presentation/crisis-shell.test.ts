@@ -1,7 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   beginHealthEpisode,
-  createDemoWorld,
   createWorld,
   crisisRecords,
   declareHazardEpisode,
@@ -11,6 +10,7 @@ import {
   type Person,
   type World,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   authorityDecisions,
   crisisStopAfter,

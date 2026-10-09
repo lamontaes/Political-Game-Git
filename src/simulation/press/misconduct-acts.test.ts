@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld, makeCurrencyCode } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { makeCurrencyCode } from "../index";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,

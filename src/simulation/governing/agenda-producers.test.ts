@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { ensureLivingWorldOpening } from "../living-world/opening";

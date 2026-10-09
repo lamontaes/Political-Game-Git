@@ -14,9 +14,9 @@ import {
   addDays,
   advanceWorld,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
 } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, World } from "../types";
 import {

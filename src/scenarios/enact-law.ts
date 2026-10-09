@@ -18,8 +18,8 @@ import {
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
   type AuthoredVoteCounts,
-} from "../simulation/legislation-scenarios";
-import { applyLegislativeStep } from "./legislation-session";
+} from "./legislation";
+import { applyLegislativeStep } from "../presentation/legislation-session";
 import { personName } from "../simulation/people";
 import { sittingLocalOfficers } from "../simulation/living-world/local-government-seats";
 import type { EntityId, World } from "../simulation/types";

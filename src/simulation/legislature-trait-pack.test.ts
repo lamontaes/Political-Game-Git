@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  createDemoWorld,
   createMindProvenance,
   recordPersonalityTendency,
   recordRelationshipInteraction,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, World } from "./index";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,

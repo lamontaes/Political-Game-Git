@@ -231,7 +231,6 @@ export {
   CAMPAIGN_ORGANIZATION_CLASSIFICATION,
   CAMPAIGN_STATUSES,
 } from "./campaign-integrity";
-export * from "./demo";
 export * from "./history";
 export {
   cancelFutureDueItem,

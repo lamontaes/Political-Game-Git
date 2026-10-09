@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { composeSceneProof, createSceneProofWorld } from "./scene-proof";
+import {
+  composeSceneProof,
+  createSceneProofWorld,
+} from "../scenarios/scene-proof";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_POSE_ART,

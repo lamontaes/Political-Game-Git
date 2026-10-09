@@ -1,10 +1,9 @@
 import { expect, test, type Page } from "./fixtures";
+import { ageOnDate, personName } from "../../src/simulation";
 import {
-  ageOnDate,
   createDemoWorld,
   createGeneratedWorld,
-  personName,
-} from "../../src/simulation";
+} from "../../src/scenarios/demo";
 
 test.describe("Player Flow: Seed Parameterization & Deterministic Replay", () => {
   test.beforeEach(async ({ page }) => {

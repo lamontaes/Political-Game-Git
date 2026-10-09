@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createWorld, recordWorldEvent } from "./world";
 import { stableHash } from "./ids";
 import {

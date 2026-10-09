@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { introduceMeasure } from "../legislation";
 import { memberVoteConsiderations } from "../legislative-member-decisions";
 import { createFormationContext, recordPrinciple } from "../politics";

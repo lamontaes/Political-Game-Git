@@ -5,12 +5,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import {
   advanceWorld,
   assertWorldIntegrity,
-  createScenarioWorld,
   createFutureTransitionHandlerRegistry,
   deserializeWorld,
   measurePosition,
   serializeWorld,
 } from "../simulation";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace } from "../simulation/life-places";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {

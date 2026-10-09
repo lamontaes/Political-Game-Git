@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "key": "presidential-field-close",
+      "value": 93,
+      "unit": "days-before-election",
+      "basis": "Median of the FEC 2024 convention leads, 75 and 110 days, rounded to a whole day",
+      "sourceUrl": "https://www.fec.gov/introduction-campaign-finance/election-and-voting-information/",
+      "limitation": "Estimated field close; per-state primary calendars and delegates are separate"
+    },
+    {
+      "key": "presidential-unread-birth-citizenship",
+      "basis": "Modal citizen-by-birth starting-person category; explicit citizenship and birth facts override",
+      "sourceUrl": "https://www.census.gov/topics/population/foreign-born.html",
+      "limitation": "Marked estimate; explicit naturalization or noncitizen status always governs"
+    },
+    {
+      "key": "presidential-unread-national-residence",
+      "basis": "Age since recorded U.S. birth absent dated residence transitions",
+      "sourceUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "limitation": "Marked residence estimate; dated household and residence facts govern"
+    }
+  ]
+}

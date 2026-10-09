@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { canonicalJson, createDemoWorld, worldContentId } from "../simulation";
+import { canonicalJson, worldContentId } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, MindSourceReference } from "../simulation";
 import {
   BUILT_IN_TRACE_SOURCES,

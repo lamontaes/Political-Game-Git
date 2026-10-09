@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { governmentUnit, governmentUnitsForPlace } from "./government-units";
 import { requireLifePlace } from "./life-places";
 import {

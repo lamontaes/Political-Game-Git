@@ -22,7 +22,7 @@ import {
 import {
   createLegislativeBargainingFixture,
   REQUESTED_PROVISION_KEY,
-} from "./legislative-bargaining-fixture";
+} from "../scenarios/legislative-bargaining";
 import {
   offerNegotiatedAmendment,
   takeNegotiatedFloorVote,

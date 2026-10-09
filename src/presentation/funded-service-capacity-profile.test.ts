@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-  availableMeasureSteps,
-  createLegislativeScenario,
-  measurePosition,
-} from "../simulation";
+import { availableMeasureSteps, measurePosition } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { publicTaxAccountForJurisdiction } from "../simulation/tax-policy";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { money } from "../simulation/resources";

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createCharacterHistoryContextPerson } from "../character-history";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { Person, World } from "../types";
 import { advanceWorld, assertWorldIntegrity, createWorld } from "../world";

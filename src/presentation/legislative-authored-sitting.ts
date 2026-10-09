@@ -1,3 +1,5 @@
+import { researchRuleTable } from "../simulation/research-rule-tables";
+const sittingContent = researchRuleTable("recordedSittings");
 import {
   authoredScenarioSeatCount,
   characterHistoryContextPersonId,
@@ -26,9 +28,8 @@ import {
   type StateFundedServiceGameProfile,
 } from "../simulation/state-funded-service-game-profiles";
 
-export const ALASKA_RECORDED_SITTING = "alaska-appropriation-recorded-v1";
-export const RECORDED_SITTING_NOTICE =
-  "Recorded fictional Alaska sitting. Its member ballots, committee membership and executive response are authored game content, not real officials, forecasts or assessments of this proposal.";
+export const ALASKA_RECORDED_SITTING = sittingContent.ALASKA_RECORDED_SITTING;
+export const RECORDED_SITTING_NOTICE = sittingContent.RECORDED_SITTING_NOTICE;
 
 /**
  * A second, bill-bound profile for a filed Alaska revenue measure. The owner
@@ -37,24 +38,11 @@ export const RECORDED_SITTING_NOTICE =
  * for a tax. Counts fill the authored 40/20 rosters, clear a majority of the
  * membership and end in a signature, so no veto-override threshold is claimed.
  */
-export const ALASKA_REVENUE_RECORDED_SITTING = "alaska-revenue-recorded-v1";
-export const REVENUE_SITTING_NOTICE =
-  "Recorded fictional Alaska revenue sitting. Its committee and floor ballots and the Governor's signature are authored game content bound to this exact filed tax text, not real officials, forecasts or assessments of the tax.";
-const ALASKA_REVENUE_SITTING_CONTENT: {
-  readonly votePlan: Readonly<Record<string, AuthoredVoteCounts>>;
-  readonly governorAction: "signed";
-  readonly governorRationale: string;
-} = {
-  votePlan: {
-    "committee:house-transportation": { yea: 4, nay: 3 },
-    "committee:senate-transportation": { yea: 4, nay: 3 },
-    "floor:house:final-passage": { yea: 22, nay: 17, absent: 1 },
-    "floor:senate:final-passage": { yea: 11, nay: 9 },
-  },
-  governorAction: "signed",
-  governorRationale:
-    "Recorded fictional sitting's executive signature. This authored response does not describe an actual official or assess the player's tax.",
-};
+export const ALASKA_REVENUE_RECORDED_SITTING =
+  sittingContent.ALASKA_REVENUE_RECORDED_SITTING;
+export const REVENUE_SITTING_NOTICE = sittingContent.REVENUE_SITTING_NOTICE;
+export const ALASKA_REVENUE_SITTING_CONTENT =
+  sittingContent.ALASKA_REVENUE_SITTING_CONTENT;
 
 interface AuthoredProfilePanel {
   readonly chamberKey: string;
@@ -129,12 +117,12 @@ function stateProfileSittingContent(
     (panel) => panel.sizeBasis === "compiled-formal-seat-count",
   )
     ? `${panelCounts} use compiled formal seat counts; the votes remain authored.`
-    : `${panelCounts} are game-profile stand-ins, not formal chamber seat counts.`;
+    : null;
   return {
     votePlan,
     governorAction: "signed",
     governorRationale: `Fictional ${state} game-profile signature. This authored outcome does not describe an actual official or forecast.`,
-    notice: `In ${state} (${panelDisclosure}), committee and floor votes and the governor’s signature are authored game outcomes, not forecasts or actual official actions; your ballot is separate, and the profile’s tax, appropriation, and service assumptions are fictional, not current state law or source evidence.`,
+    notice: `In ${state}${panelDisclosure ? ` (${panelDisclosure})` : ""}, committee and floor votes and the governor’s signature are authored game outcomes, not forecasts or actual official actions; your ballot is separate, and the profile’s tax, appropriation, and service assumptions are fictional, not current state law or source evidence.`,
   };
 }
 
@@ -184,18 +172,18 @@ function supportedMeasure(world: World, input: RecordedSittingInput) {
     seat.seat.legislativeRulePackId !== measure.rulePackId
   )
     return null;
-  const alaskaSource = legislativeBlueprint("alaska");
-  const alaskaRoute = alaskaSource.pack.packId === measure.rulePackId;
-  const source = alaskaRoute
-    ? alaskaSource
+  const authoredSource = legislativeBlueprint(sittingContent.scenarioKey);
+  const authoredRoute = authoredSource.pack.packId === measure.rulePackId;
+  const source = authoredRoute
+    ? authoredSource
     : legislativeBlueprint(`institution:${measure.rulePackId}`);
   if (source.pack.packId !== measure.rulePackId) return null;
-  const gameProfile = alaskaRoute
+  const gameProfile = authoredRoute
     ? null
     : stateFundedServiceGameProfileForJurisdictionKey(
         source.pack.jurisdictionKey,
       );
-  if (!alaskaRoute && !gameProfile) return null;
+  if (!authoredRoute && !gameProfile) return null;
   const lineage = draftLineageForMeasure(world, measure.id);
   let profile: RecordedSittingProfile;
   let content: {
@@ -209,7 +197,7 @@ function supportedMeasure(world: World, input: RecordedSittingInput) {
     measure.subjectClass === "appropriation" &&
     lineage?.familyKey === "appropriations"
   ) {
-    if (alaskaRoute) {
+    if (authoredRoute) {
       profile = ALASKA_RECORDED_SITTING;
       content = {
         votePlan: source.votePlan,
@@ -248,9 +236,9 @@ function supportedMeasure(world: World, input: RecordedSittingInput) {
     // grants nothing, and amended or tampered text withholds the sitting.
     const tax = readFiledTaxContentIdentity(world, measure.id);
     if (tax.kind !== "available") return null;
-    if (alaskaRoute) {
+    if (authoredRoute) {
       profile = ALASKA_REVENUE_RECORDED_SITTING;
-      content = ALASKA_REVENUE_SITTING_CONTENT;
+      content = { ...ALASKA_REVENUE_SITTING_CONTENT, governorAction: "signed" };
       identityInput = {
         profile,
         sourceDecisions: content.votePlan,
@@ -372,7 +360,7 @@ export function prepareRecordedLegislativeSitting(
   let next = world;
   const contextNamespace = supported.gameProfile
     ? `legislative-work:${supported.gameProfile.profileId}`
-    : "legislative-work:alaska";
+    : sittingContent.workKey;
   const colleagues = ["advocate", "guardian", "analyst"].map((role) => {
     const stableKey = `${contextNamespace}:${role}`;
     next = ensureContextPerson(next, {
@@ -441,7 +429,7 @@ export function readRecordedLegislativeSitting(
   if (!event) return null;
   const contextNamespace = supported.gameProfile
     ? `legislative-work:${supported.gameProfile.profileId}`
-    : "legislative-work:alaska";
+    : sittingContent.workKey;
   const expectedColleagues = ["advocate", "guardian", "analyst"].map((role) =>
     characterHistoryContextPersonId(world, `${contextNamespace}:${role}`),
   );

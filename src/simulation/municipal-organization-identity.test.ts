@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { municipalWorkspaceFor } from "../presentation/municipal-workspace";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { governmentUnitsForPlace } from "./government-units";
 import { requireLifePlace } from "./life-places";
 import { ensureMunicipalCouncilOpening } from "./municipal-council-opening";

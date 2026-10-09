@@ -53,15 +53,21 @@ interface ScenarioBlueprint {
   readonly propositionKeys?: readonly string[];
 }
 let BLUEPRINTS: readonly ScenarioBlueprint[] | null = null;
-function blueprints(): readonly ScenarioBlueprint[] {
+export function authoredLegislativeBlueprints(): readonly ScenarioBlueprint[] {
   return (BLUEPRINTS ??= content.rows.map(({ packId, contextKey, ...row }) => {
     const pack = rulePackById(packId, false);
-    if (!pack) throw new Error(`Authored legislative pack ${packId} is absent.`);
+    if (!pack)
+      throw new Error(`Authored legislative pack ${packId} is absent.`);
+    const votePlan: Record<string, AuthoredVoteCounts> = {};
+    for (const [key, counts] of Object.entries(row.votePlan)) {
+      if (counts) votePlan[key] = counts;
+    }
     return {
       ...row,
       subjectClass: row.subjectClass as "appropriation" | "general-policy",
       governorAction: row.governorAction as "signed" | "vetoed",
       pack,
+      votePlan,
       context: authoredJurisdictionContext(contextKey),
     };
   }));
@@ -228,7 +234,7 @@ export function authoredScenarioSeatCount(
 export function legislativeBlueprint(
   scenarioKey: string,
 ): LegislativeBlueprint {
-  const blueprint = blueprints().find(
+  const blueprint = authoredLegislativeBlueprints().find(
     (candidate) => candidate.scenarioKey === scenarioKey,
   );
   if (!blueprint) return institutionalWorkBlueprint(scenarioKey);
@@ -254,13 +260,15 @@ export function legislativeBlueprint(
 export function legislativeScenarioKeysForPlace(
   jurisdictionId: EntityId,
 ): readonly string[] {
-  return blueprints()
+  return authoredLegislativeBlueprints()
     .filter((blueprint) => blueprint.context.jurisdiction.id === jurisdictionId)
     .map((blueprint) => blueprint.scenarioKey);
 }
 
 export function legislativeScenarioKeys(): readonly string[] {
-  return blueprints().map((blueprint) => blueprint.scenarioKey);
+  return authoredLegislativeBlueprints().map(
+    (blueprint) => blueprint.scenarioKey,
+  );
 }
 
 /**

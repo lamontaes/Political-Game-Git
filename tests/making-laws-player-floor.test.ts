@@ -33,7 +33,7 @@ import {
   deserializeWorld,
   serializeWorld,
 } from "../src/simulation/serialization";
-import type { LegislativeProcedureContext } from "../src/simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../src/scenarios/legislation";
 import { applyLegislativeStep } from "../src/presentation/legislation-session";
 
 const seed = "making-laws-player-floor-all56-20261001";

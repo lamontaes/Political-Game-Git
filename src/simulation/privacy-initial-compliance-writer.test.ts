@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { observerPlace } from "../presentation/observer-world";
 import { createOrganization, createWorkRelationship } from "./life";
 import { advanceWorld } from "./world";
@@ -22,7 +22,7 @@ import {
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import { addDays, daysBetween } from "./dates";
 import { monthKeyOf, monthStart, nextMonthKey } from "./macro-economy/store";

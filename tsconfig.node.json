@@ -39,6 +39,7 @@
     "src/persistence/**/*.ts",
     "src/presentation/**/*.ts",
     "src/release/**/*.ts",
+    "src/scenarios/**/*.ts",
     "src/simulation/**/*.ts",
     "src/source/**/*.ts",
     "tests/e2e/**/*.ts",

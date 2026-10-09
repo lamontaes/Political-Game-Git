@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { evaluateDecision, recordDurableDecisionTrace } from "./decisions";
 import { makeIsoDate } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   createMindProvenance,
   recordAppraisal,

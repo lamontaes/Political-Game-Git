@@ -2,7 +2,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { MunicipalWorkspace } from "../player/MunicipalWorkspace";
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace } from "../simulation/life-places";
 import { municipalGovernmentForLifePlace } from "../simulation/municipal-government";
 import {

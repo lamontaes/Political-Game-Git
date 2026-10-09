@@ -3,7 +3,6 @@ import {
   assertWorldIntegrity,
   bodyForChamber,
   currentMeasureProvisions,
-  createLegislativeScenario,
   deserializeWorld,
   dispositionsFromCounts,
   measureAmendments,
@@ -12,6 +11,7 @@ import {
   type EntityId,
   type World,
 } from "./index";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import {
   adoptProvisionRevision,
@@ -20,7 +20,7 @@ import {
   type AdoptProvisionRevisionInput,
 } from "./legislative-politics";
 import { assertLegislativePoliticsIntegrity } from "./legislative-politics-integrity";
-import { createLegislativeBargainingFixture } from "../presentation/legislative-bargaining-fixture";
+import { createLegislativeBargainingFixture } from "../scenarios/legislative-bargaining";
 
 function setup(adopted = true) {
   const fixture = createLegislativeBargainingFixture();

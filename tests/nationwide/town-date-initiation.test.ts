@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createWorld } from "../../src/simulation/world";
-import { createDemoWorld } from "../../src/simulation/demo";
+import { createDemoWorld } from "../../src/scenarios/demo";
 import {
   createLifeMindCatalog,
   LIFE_MIND_IDS,

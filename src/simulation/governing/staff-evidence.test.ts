@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../demo";
+import { createScenarioWorld } from "../../scenarios/demo";
 import { createOrganization, createWorkRelationship } from "../life";
 import { workRelationshipHistoryForPerson } from "../life-queries";
 import {

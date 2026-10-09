@@ -5,7 +5,6 @@ import {
   ageOnDate,
   assertWorldIntegrity,
   availableLifeSituations,
-  createLegislativeScenario,
   deserializeWorld,
   legislativeScenarioKeys,
   lifePlaceByKey,
@@ -15,6 +14,7 @@ import {
   serializeWorld,
   AUTHORED_MEASURE_NOTICE,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import { CHARACTER_VISUAL_RECIPES } from "./visual-integration";
 import { chooseFormativeOption, projectFormativeYears } from "./formative-play";
@@ -23,8 +23,9 @@ import { openOrdinaryLife, projectOrdinaryDay } from "./ordinary-life";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import { projectPlayerConversation } from "./player-conversation";
 import { createEphemeralSeed, readReplaySeed } from "./session-seed";
-import { createRunDLiteFixture } from "./run-d-lite";
-import { createRunAFixture } from "./run-a-fixture";
+import { createRunDLiteFixture } from "../scenarios/run-d-lite";
+
+import { createRunAFixture } from "../scenarios/run-a";
 
 function setup(overrides: Partial<NewGameSetup> = {}): NewGameSetup {
   return {

@@ -42,7 +42,7 @@ import {
 import {
   committeeMembers,
   dispositionsFromCounts,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,

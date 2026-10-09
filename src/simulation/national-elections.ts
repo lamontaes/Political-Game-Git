@@ -12,6 +12,7 @@ import {
   nationalElectionRules,
   CONTINGENT_STATES,
 } from "./national-election-rules";
+import { STATES } from "./state-reference";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -187,9 +188,7 @@ export function registerNationalElection(
   for (const ticket of input.tickets) {
     if (
       ![ticket.presidentState, ticket.vicePresidentState].every((state) =>
-        nationalElectionRules(input.cycle).units.some(
-          (unit) => unit.countsPopular && unit.state === state,
-        ),
+        Object.hasOwn(STATES, state),
       )
     )
       throw new Error("Ticket residence state must be explicit and supported.");

@@ -4,11 +4,11 @@ import { describe, expect, it } from "vitest";
 import {
   advanceWorld,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
   deserializeWorld,
   serializeWorld,
 } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import type { EntityId, World } from "../types";
 import { resourcePositionAt } from "../resource-queries";
 import { reporterWorkBudget } from "./story-work";

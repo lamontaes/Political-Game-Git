@@ -15,7 +15,7 @@
  * Its companion, `enactThroughDesk` in enact-through-desk.ts, makes a bill
  * law only through the real executive desk.
  */
-import { createScenarioWorld } from "../../src/simulation/demo";
+import { createScenarioWorld } from "../../src/scenarios/demo";
 import {
   lifePlaceByKey,
   searchLifePlaces,

@@ -8,7 +8,6 @@ import {
   assertWorldIntegrity,
   buildSubjectivePerception,
   createDevelopmentProposal,
-  createDemoWorld,
   createFormationContext,
   createMindProvenance,
   createPartnership,
@@ -30,6 +29,7 @@ import {
   recordWorldEvent,
   serializeWorld,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   DecisionContext,
   EntityId,

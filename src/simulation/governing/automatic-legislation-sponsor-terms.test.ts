@@ -7,7 +7,7 @@ import { createProductionPolicyCatalog } from "../production-catalog";
 import {
   createLegislativeScenario,
   type LegislativeScenario,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { introduceMeasure } from "../legislation";
 import { recordFiledProvision } from "../legislative-politics";
 import { stateJurisdictionForKey } from "../life-places";

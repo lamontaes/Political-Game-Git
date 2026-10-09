@@ -176,7 +176,7 @@ export interface LifePlaceProvider {
 /**
  * Built on first use rather than at module load.
  *
- * The contexts below come from `legislation-scenarios`, which reaches the world
+ * The contexts below come from the authored context data, which reaches the world
  * builder, which reaches the integrity pass, which now has a reason to ask
  * which offices a place supports — and that question comes back here. Reading
  * the contexts while that chain is still unwinding gets a binding that exists

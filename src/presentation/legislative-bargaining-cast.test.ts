@@ -8,7 +8,7 @@ import {
 import {
   BENEFICIARY_LABEL,
   PLACE_LABEL,
-} from "./legislative-bargaining-fixture";
+} from "../scenarios/legislative-bargaining";
 import type { EntityId } from "../simulation";
 
 /**

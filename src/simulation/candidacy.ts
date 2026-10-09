@@ -38,7 +38,11 @@ import {
 } from "./nationwide-world/local-governing-body-candidacy-packs";
 import type { LocalGoverningBodyIdentity } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { municipalSeatChoices } from "./municipal-seat-identity";
-import { stateResidenceSince } from "./nationwide-world/residence-duration";
+import {
+  nationalResidenceSince,
+  stateResidenceSince,
+} from "./nationwide-world/residence-duration";
+import { researchRuleTable } from "./research-rule-tables";
 import { recordedTermsInOffice } from "./nationwide-world/prior-terms";
 import { checkExecutiveTermLimit } from "./nationwide-world/executive-term-limits";
 import { nextFilableStateExecutiveTerm } from "./nationwide-world/state-executive-turnover-calendar";
@@ -533,6 +537,126 @@ export function candidacyEligibility(
   world: World,
   input: CandidacyEligibilityInput,
 ): CandidacyEligibility {
+  const presidential = researchRuleTable("presidentialRules");
+  if (input.officeKey === presidential.office.key) {
+    const row = presidential.office;
+    const requirement = presidential.eligibility;
+    const person = world.people[input.personId];
+    const age = person ? ageOnDate(person.birthDate, world.currentDate) : 0;
+    const citizenship = citizenshipEligibility(world, input.personId);
+    const birthplace =
+      person &&
+      factsForPerson(person).find((fact) => fact.kind === "birthplace");
+    const residenceSince = nationalResidenceSince(
+      world,
+      input.personId,
+      world.currentDate,
+    );
+    const residenceYears = residenceSince
+      ? completedMonthsBetween(residenceSince, world.currentDate) / 12
+      : age;
+    const citizenAtBirth = citizenship.record
+      ? citizenship.record.status === "citizen-by-birth"
+      : birthplace?.kind === "birthplace"
+        ? (() => {
+            const birth = world.jurisdictions[birthplace.jurisdictionId];
+            const key = birth
+              ? stateKeyForJurisdiction(birth)
+              : lifePlaceByJurisdictionId(birthplace.jurisdictionId)
+                  ?.stateJurisdictionKey;
+            return key ? birthConfersCitizenship(key) : null;
+          })()
+        : null;
+    const source = {
+      authority: "constitution" as const,
+      citation: row.qualificationCitation,
+      sourceTitle: row.packName,
+      sourceUrl: presidential.source.qualifications,
+      retrievedAt: null,
+      verification: "verified" as const,
+      note: null,
+    };
+    const office: ElectiveOfficeOption = {
+      officeKey: row.key,
+      office: {
+        officeKey: row.key,
+        title: row.title,
+        seatKey: null,
+        occupationClassification: null,
+      },
+      chamberName: row.title,
+      seats: knownRule(row.seats, source),
+      recordedBy: { packId: row.packId, packName: row.packName },
+      qualification: {
+        minimumAge: knownRule(requirement.minimumAge, source),
+        residency: knownRule(
+          `${row.residenceLabel}: ${requirement.nationalResidenceYears}`,
+          source,
+        ),
+        termYears: knownRule(row.termYears, source),
+        filing: unknownRule(presidential.nomination.estimatedFrom),
+      },
+      unresolvedGaps: [presidential.nomination.estimatedFrom],
+    };
+    const assessments: QualificationAssessment[] = [
+      {
+        field: "MINIMUM_AGE",
+        verdict: age >= requirement.minimumAge ? "meets" : "fails",
+        reason: `${row.minimumAgeLabel}: ${requirement.minimumAge}`,
+        source: null,
+      },
+      {
+        field: "US_CITIZENSHIP",
+        verdict: citizenAtBirth === false ? "fails" : "meets",
+        reason:
+          citizenAtBirth === null
+            ? `ESTIMATED FROM AVERAGE: ${row.unreadCitizenshipEstimatedFrom}`
+            : row.citizenshipLabel,
+        source: null,
+      },
+      {
+        field: "STATE_RESIDENCE",
+        verdict:
+          residenceYears >= requirement.nationalResidenceYears
+            ? "meets"
+            : "fails",
+        reason:
+          residenceSince === null
+            ? `ESTIMATED FROM AVERAGE: ${row.unreadResidenceEstimatedFrom}`
+            : `${row.residenceLabel}: ${requirement.nationalResidenceYears}`,
+        source: null,
+      },
+    ];
+    const blocks: CandidacyBlock[] = assessments
+      .filter((x) => x.verdict === "fails")
+      .map((x) => ({
+        kind: "unproved-sourced-qualification",
+        reason: x.reason,
+        citation: row.qualificationCitation,
+      }));
+    if (!person) blocks.push({ kind: "no-sourced-office", reason: row.title });
+    if (input.alreadyACandidate)
+      blocks.push({ kind: "already-a-candidate", reason: row.title });
+    return {
+      eligible: blocks.length === 0,
+      minimumAgeEstimate: null,
+      minimumAgeRequirement: assessments[0]!.reason,
+      minimumAge: { value: requirement.minimumAge, estimated: false },
+      personId: input.personId,
+      pack: {
+        packId: row.packId,
+        jurisdictionKey: "US",
+        displayName: row.packName,
+        legislativeRulePackId: row.packId,
+        offices: [office],
+        unresolvedGaps: office.unresolvedGaps,
+      },
+      office,
+      filingTerms: null,
+      qualificationAssessments: assessments,
+      blocks,
+    };
+  }
   const blocks: CandidacyBlock[] = [];
   let minimumAgeEstimate: MunicipalMinimumAgeEstimate | null = null;
   let minimumAgeRequirement: string | null = null;

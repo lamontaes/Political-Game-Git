@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { recordWorldEvent } from "./world";
 import { recordGoalState, createMindProvenance } from "./mind";
 import {

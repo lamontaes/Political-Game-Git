@@ -33,7 +33,7 @@ import {
 import { sessionClosesOn } from "../simulation/governing/session-adjournments";
 import { stateSessionEnds } from "../simulation/governing/statute-effective-date";
 import { serializeWorld, deserializeWorld } from "../simulation/serialization";
-import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../scenarios/legislation";
 import type { LegislativeMeasureRecord } from "../simulation/types";
 import { applyLegislativeStep } from "./legislation-session";
 import {

@@ -4,7 +4,11 @@ import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
 import { legislatureProfilePack } from "../legislature-game-profile";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { LegislativeMeasureRecord } from "../types";
-import { billOnTheFloor, CHAMBER, type Setup } from "../vote-bundle.fixture";
+import {
+  billOnTheFloor,
+  CHAMBER,
+  type Setup,
+} from "../../scenarios/vote-bundle";
 import { assertWorldIntegrity } from "../world";
 import {
   amendmentAccessRule,

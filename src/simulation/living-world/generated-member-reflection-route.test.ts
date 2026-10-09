@@ -6,7 +6,7 @@ import {
   prepareOpeningLife,
 } from "../../presentation/opening-life";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { defaultOriginChamber } from "../legislature-rules";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
 import { createFormationContext, recordPrivateBelief } from "../politics";

@@ -1,6 +1,5 @@
 import {
   createWorkItem,
-  createDemoWorld,
   recordKinship,
   createDwelling,
   createHousingTenure,
@@ -14,6 +13,7 @@ import {
   evaluateIncident,
   occurIncident,
 } from "../../src/simulation";
+import { createDemoWorld } from "../../src/scenarios/demo";
 
 const authored = {
   kind: "authored" as const,

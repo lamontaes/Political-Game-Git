@@ -13,7 +13,7 @@ import {
   requireMeasure,
   takeFloorVote,
 } from "../legislation";
-import { bodyForChamber } from "../legislation-scenarios";
+import { bodyForChamber } from "../../scenarios/legislation";
 import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import {
@@ -22,7 +22,7 @@ import {
   amend,
   billOnTheFloor,
   everyone,
-} from "../vote-bundle.fixture";
+} from "../../scenarios/vote-bundle";
 import { measureAnswersAt } from "../vote-bundle";
 import { advanceWorld, assertWorldIntegrity } from "../world";
 import { BILL_RETURN, BILL_SIGN } from "./governor-bill-decision";

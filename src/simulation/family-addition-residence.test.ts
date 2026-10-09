@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { assertWorldIntegrity, createWorld } from "./world";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,

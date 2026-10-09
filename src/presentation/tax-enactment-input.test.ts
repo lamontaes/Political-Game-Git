@@ -18,7 +18,7 @@ import {
   recordedSittingAvailable,
   recordedSittingOffer,
 } from "./legislative-authored-sitting";
-import { legislativeBlueprint } from "../simulation/legislation-scenarios";
+import { legislativeBlueprint } from "../scenarios/legislation";
 import { resolveLegislativeAssignmentForMeasure } from "./legislation-world";
 import { resolveTaxEnactmentInputContract } from "./tax-enactment-input";
 import {

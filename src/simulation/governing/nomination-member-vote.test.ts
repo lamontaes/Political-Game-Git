@@ -27,7 +27,7 @@ import {
 import { currentLifeCutoff } from "../life-queries";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { advanceWorld } from "../world";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { FEDERAL_TENURE_EVENT } from "../federal-tenures";
 import { addJudicialCourt, seatJudge } from "../judiciary/courts";
 import { ensureLivingWorldOpening } from "../living-world/opening";

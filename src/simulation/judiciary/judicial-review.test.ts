@@ -10,7 +10,7 @@ import { introduceMeasure } from "../legislation";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { chamberByKey } from "../legislature-rules";
 import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { deserializeWorld, serializeWorld } from "../serialization";

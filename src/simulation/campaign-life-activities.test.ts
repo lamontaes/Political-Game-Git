@@ -48,14 +48,14 @@ import { campaignCompliancePackFor } from "./campaign-compliance";
 import { candidacyPackById } from "./candidacy-packs";
 import { addCampaignHelper } from "./campaign-helpers";
 import { workSchedulesFor } from "./living-world/work-schedules";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import {
   advanceWorld,
-  createScenarioWorld,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
 } from "./index";
+import { createScenarioWorld } from "../scenarios/demo";
 import {
   addDays,
   addSimulationMinutes,

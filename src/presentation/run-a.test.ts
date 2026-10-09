@@ -5,7 +5,7 @@ import {
   parseRunAFixtureState,
   RUN_A_FIXTURE_STATE_NAMES,
   RUN_A_HIDDEN_CANONICAL_TEXT,
-} from "./run-a-fixture";
+} from "../scenarios/run-a";
 import {
   loadLearnedConcepts,
   persistLearnedConcepts,

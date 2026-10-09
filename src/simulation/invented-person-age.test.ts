@@ -18,7 +18,6 @@ import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
 } from "./life-places";
-import { drawNominee } from "./nationwide-world/presidential-turnover";
 import { SeededRng, pickDistinct } from "./rng";
 import {
   materializeTownHousehold,
@@ -150,19 +149,20 @@ describe("A161: one age-window table and one birth-date helper", () => {
       );
     }
 
-    // presidential-turnover: a party's nominee for the next cycle.
+    // Legacy nominee fixtures retain age-window coverage. Live nominations
+    // now admit existing people, covered by presidential-recorded-residents.
     const cycle = Number(world.currentDate.slice(0, 4)) + 2;
     for (const party of ["democratic", "republican"] as const) {
-      const drawn = drawNominee(
-        world,
-        cycle,
-        `a161:nominee:${party}`,
-        null,
-        party,
+      const birthDate = inventedPersonBirthDate(
+        new SeededRng(`a161:nominee:${party}`),
+        {
+          role: "presidential-nominee",
+          referenceDate: makeIsoDate(`${cycle}-01-01`),
+        },
       );
       expectInside(
         "presidential-nominee",
-        drawn.world.people[drawn.nominee.personId]!.birthDate,
+        birthDate,
         makeIsoDate(`${cycle}-01-01`),
       );
     }

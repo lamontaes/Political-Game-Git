@@ -366,13 +366,9 @@ describe("recorded central effect sizes", () => {
     expect(link.size).toBeGreaterThanOrEqual(low);
     expect(link.size).toBeLessThanOrEqual(high);
     for (let index = 0; index < 40; index += 1) {
-      expect(linkSize(seeded(`world-${index}`), link, place)).toBe(
-        link.size,
-      );
+      expect(linkSize(seeded(`world-${index}`), link, place)).toBe(link.size);
     }
-    expect(linkSize(seeded("w"), link, "place_b" as EntityId)).toBe(
-      link.size,
-    );
+    expect(linkSize(seeded("w"), link, "place_b" as EntityId)).toBe(link.size);
   });
 
   it.each(Object.keys(STATES))(

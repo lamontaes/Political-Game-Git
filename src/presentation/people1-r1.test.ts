@@ -6,7 +6,7 @@ import {
   CHARACTER_PROOF_SEED,
   CHARACTER_PROOF_REAL_SEED,
   CHARACTER_PROOF_SCENE,
-} from "./character-proof";
+} from "../scenarios/character-proof";
 import {
   CANDIDATE_REVIEW_CHARACTER_LIBRARY,
   CANDIDATE_REVIEW_VISUAL_LIBRARY,
@@ -20,7 +20,7 @@ import {
   composeCandidateReviewSubject,
 } from "./candidate-review";
 import { resolveCharacterRecipe } from "./character-components";
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import { resolvePersonPortrait } from "./person-visual";
 
 const casual = {

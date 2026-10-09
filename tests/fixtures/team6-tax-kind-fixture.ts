@@ -19,7 +19,7 @@ import {
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 import {
   ensureNationalElectionJurisdiction,

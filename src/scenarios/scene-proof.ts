@@ -1,12 +1,12 @@
 import { personName } from "../simulation/people";
 import type { Person, World } from "../simulation/types";
-import type { CharacterComponentLibrary } from "./character-components";
+import type { CharacterComponentLibrary } from "../presentation/character-components";
 import { createCharacterProofWorld } from "./character-proof";
 import {
   composeSceneCharacter,
   type SceneCharacterPresentation,
-} from "./scene-composition";
-import { sortPlacementsByDepth } from "./scene-placement";
+} from "../presentation/scene-composition";
+import { sortPlacementsByDepth } from "../presentation/scene-placement";
 import {
   COMMITTEE_FIXTURE_SCENE_ID,
   OFFICE_FIXTURE_SCENE_ID,
@@ -14,9 +14,12 @@ import {
   requireSceneAnchor,
   SCENE_REGISTRY,
   type RegisteredScene,
-} from "./scene-registry";
-import type { PoseArtIndex, PoseFamilyRegistry } from "./pose-families";
-import type { RuntimeVisualLibrary } from "./visual-integration";
+} from "../presentation/scene-registry";
+import type {
+  PoseArtIndex,
+  PoseFamilyRegistry,
+} from "../presentation/pose-families";
+import type { RuntimeVisualLibrary } from "../presentation/visual-integration";
 
 /**
  * Developer proof for the scene and person presentation contract.

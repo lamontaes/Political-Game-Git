@@ -591,10 +591,12 @@ function FiledBillPanel({
                 : "No sponsor is recorded on this measure."}
           </dd>
         </div>
-        <div>
-          <dt>Before</dt>
-          <dd>{bill.chamberName ?? "Not yet before a chamber"}</dd>
-        </div>
+        {bill.chamberName ? (
+          <div>
+            <dt>Before</dt>
+            <dd>{bill.chamberName}</dd>
+          </div>
+        ) : null}
         <div>
           <dt>Filed</dt>
           <dd data-testid="docket-filed-on">{bill.filedOn}</dd>
@@ -2174,7 +2176,7 @@ function FiscalNoteView({
 function stageLabel(bill: DocketBill): string {
   switch (bill.stage) {
     case "drafting":
-      return "Being drafted, not yet filed";
+      return "Being drafted";
     case "filed":
       return "Filed, awaiting referral";
     case "in-committee":

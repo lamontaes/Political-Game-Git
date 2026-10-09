@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createLegislativeScenario } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import {
   availableMeasureSteps,

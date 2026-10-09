@@ -1,4 +1,4 @@
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import {
   lifePlaceByJurisdictionId,
   requireLifePlace,

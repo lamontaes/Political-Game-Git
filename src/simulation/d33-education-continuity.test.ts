@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-  createDemoWorld,
   createWorld,
   createResourcePosition,
   money,
@@ -15,6 +14,7 @@ import {
   futureDueItemStateAt,
   addDays,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   enterLifePath,
   pathForRelationship,

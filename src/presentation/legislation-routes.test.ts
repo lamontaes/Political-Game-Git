@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  createLegislativeScenario,
-  legislativeScenarioKeys,
-  measurePosition,
-} from "../simulation";
+import { legislativeScenarioKeys, measurePosition } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { MeasureStepKey, World } from "../simulation";
 import { applyLegislativeStep } from "./legislation-session";
 import { projectMeasureBriefing } from "./legislation-projection";

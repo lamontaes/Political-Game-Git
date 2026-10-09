@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
-import {
-  createLegislativeScenario,
-  makeIsoDate,
-  serializeWorld,
-} from "../simulation";
+import { makeIsoDate, serializeWorld } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { fileDraft } from "./legislation-docket";
 import {
   prepareBillEstimateAction,

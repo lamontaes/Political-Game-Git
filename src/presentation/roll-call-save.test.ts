@@ -13,7 +13,7 @@ import {
   serializeWorldAs,
 } from "../simulation/serialization";
 import { CONTENT_PACK_API } from "../simulation/runtime-content-packs";
-import { createDemoWorld } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import type { LegislativeVoteRecord, World } from "../simulation/types";
 import {
   createBrowserWorldRecord,

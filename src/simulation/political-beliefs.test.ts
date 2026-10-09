@@ -13,7 +13,6 @@ import {
   createPolicyDomainDefinition,
   createPolicyIssueDefinition,
   createPolicyPropositionDefinition,
-  createDemoWorld,
   createWorld,
   dateAtAge,
   deserializeWorld,
@@ -50,6 +49,7 @@ import {
   serializeWorld,
   subjectKnowledgeProfile,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, IsoDate, Person, PolicyCatalog, World } from "./types";
 
 function personId(world: World, index = 1): EntityId {

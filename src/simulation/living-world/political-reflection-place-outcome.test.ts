@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { introduceMeasure } from "../legislation";
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { stateJurisdictionForKey } from "../life-places";
 import { lifePlaceStateIdentities } from "../life-places";
 import { policyOutcomeLinks } from "../policy-semantics";

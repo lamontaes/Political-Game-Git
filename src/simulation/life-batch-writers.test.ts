@@ -10,7 +10,7 @@ import {
   type CreateOrganizationParticipationInput,
   type CreateWorkRelationshipInput,
 } from "./life";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   assertWorldIntegrity,
   deserializeWorld,

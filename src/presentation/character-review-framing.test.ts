@@ -5,7 +5,7 @@ import {
   WAVE_A_REVIEW_CHARACTER_LIBRARY,
   WAVE_A_REVIEW_VISUAL_LIBRARY,
 } from "./candidate-review";
-import { CHARACTER_PROOF_SCENE } from "./character-proof";
+import { CHARACTER_PROOF_SCENE } from "../scenarios/character-proof";
 import { frameCharacterReview } from "./character-review-framing";
 import { resolveSceneTransform } from "./scene-transform";
 

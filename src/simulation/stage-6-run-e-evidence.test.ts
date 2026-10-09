@@ -3,7 +3,6 @@ import { describe, expect, it } from "vitest";
 import {
   addDays,
   assertWorldIntegrity,
-  createDemoWorld,
   createExactQuantity,
   createStableId,
   deserializeWorld,
@@ -20,6 +19,7 @@ import {
   recordWorldEvent,
   serializeWorld,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   EvidenceAccess,

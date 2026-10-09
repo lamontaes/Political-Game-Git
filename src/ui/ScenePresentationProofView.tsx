@@ -7,7 +7,7 @@ import {
   createSceneProofWorld,
   SCENE_PROOF_SEED,
   type SceneProofContext,
-} from "../presentation/scene-proof";
+} from "../scenarios/scene-proof";
 import {
   PRODUCTION_CHARACTER_LIBRARY,
   PRODUCTION_POSE_ART,

@@ -18,7 +18,7 @@ import {
   makeIsoDate,
   simulationMomentAtLocalTime,
 } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { projectCongress } from "../living-world/congress";
 import { senateVacancyLaw } from "../nationwide-world/senate-vacancy-law";
 import {

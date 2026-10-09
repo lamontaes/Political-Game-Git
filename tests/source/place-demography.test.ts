@@ -17,11 +17,8 @@ import type {
   EconomicContextReadModel,
 } from "../../src/source/adapters/economic-context";
 import { readPlaceDemography } from "../../src/simulation/place-demography";
-import {
-  LEXINGTON_PLACEHOLDER_ID,
-  lifePlaceByKey,
-  searchLifePlaces,
-} from "../../src/simulation/index";
+import { lifePlaceByKey, searchLifePlaces } from "../../src/simulation/index";
+import { LEXINGTON_PLACEHOLDER_ID } from "../../src/scenarios/demo";
 
 const REPO = resolve(import.meta.dirname, "../..");
 

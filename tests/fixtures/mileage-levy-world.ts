@@ -11,7 +11,7 @@ import {
   introduceMeasure,
   measurePosition,
 } from "../../src/simulation/legislation";
-import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../../src/scenarios/legislation";
 import { recordTaxDraftIdentity } from "../../src/simulation/legislation-tax-identity";
 import { createProductionPolicyCatalog } from "../../src/simulation/production-catalog";
 import { MILEAGE_FEE_QUESTION } from "../../src/simulation/public-budgets/road-usage-charge-constants";

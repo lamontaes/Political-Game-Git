@@ -8,7 +8,6 @@ import {
   applyNpcPoliticalBeliefFormation,
   assertWorldIntegrity,
   buildSubjectivePerception,
-  createDemoWorld,
   createMindProvenance,
   evaluateDecision,
   evaluatePoliticalBeliefFormation,
@@ -21,6 +20,7 @@ import {
   recordTemporaryState,
   recordWorldEvent,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   DecisionContext,
   EntityId,

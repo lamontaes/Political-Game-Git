@@ -16,11 +16,11 @@ import { BILL_SIGN } from "../simulation/governing/governor-bill-decision";
 import { describe, expect, it } from "vitest";
 
 import {
-  createLegislativeScenario,
   nextMeasureStableKey,
   recordEnactment,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import {
   applyEnactedLawEffects,
@@ -38,7 +38,7 @@ import { fileDraft } from "./legislation-docket";
 import { projectMeasureBriefing } from "./legislation-projection";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import {
   addDays,
   addSimulationMinutes,
@@ -59,7 +59,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   STATE_TRANSIT_SERVICE_QUESTION,
   STATE_TRANSIT_VARIANT_KEY,

@@ -9,7 +9,7 @@ import {
 // Loaded first, as the game loads it: the conversation modules import one
 // another, and this is the order that resolves them.
 import "./player-conversation";
-import { RUN_A_HIDDEN_CANONICAL_TEXT } from "./run-a-fixture";
+import { RUN_A_HIDDEN_CANONICAL_TEXT } from "../scenarios/run-a";
 import {
   createRunAUiState,
   resolveRunAPinSize,
@@ -38,7 +38,7 @@ import {
   runBConversationReducer,
   type RunBConversationState,
 } from "./run-b-conversation-state";
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import { validateRunBSceneLayouts } from "./run-b-layout";
 
 function setup() {

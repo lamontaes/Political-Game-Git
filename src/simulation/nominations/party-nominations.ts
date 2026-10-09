@@ -1,4 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { countRecordedVoterBallots } from "../election-contests";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type {
   DecisionConsideration,
@@ -135,7 +136,7 @@ function tally(
   return pulls
     .map((row) => ({
       entrant: row.entrant,
-      permille: Math.round((row.pull / total) * 1000),
+      permille: total === 0 ? 0 : Math.round((row.pull / total) * 1000),
     }))
     .sort(
       (a, b) =>
@@ -240,6 +241,11 @@ export interface HoldNominationInput {
   readonly entrants: readonly NominationEntrant[];
   /** The party's share of the district's voters, for an all-party primary. */
   readonly partyShare: (party: string) => number | null;
+  /** A dated primary may use actual residents through the canonical ballot counter. */
+  readonly recordedVoters?: {
+    readonly jurisdictionIds: readonly EntityId[];
+    readonly admitVoter: (personId: EntityId, party: string) => boolean;
+  };
 }
 
 function isAllParty(method: NominationMethod): boolean {
@@ -257,6 +263,7 @@ export function holdNominationPrimary(
   let next = world;
   const rows: { tally: Tally; status: Status; party: string }[] = [];
   const runoffParties: string[] = [];
+  const voterIds = new Set<EntityId>();
   const groups = isAllParty(plan.method)
     ? [{ party: "all", entrants: input.entrants }]
     : [...new Set(input.entrants.map((entrant) => entrant.party))]
@@ -266,8 +273,30 @@ export function holdNominationPrimary(
           entrants: input.entrants.filter((entrant) => entrant.party === party),
         }));
   for (const group of groups) {
+    const votes = new Map<EntityId, number>();
+    if (input.recordedVoters && group.entrants.length) {
+      for (const jurisdictionId of input.recordedVoters.jurisdictionIds) {
+        const counted = countRecordedVoterBallots(next, {
+          stableKey: `${stableKey}:${group.party}:${jurisdictionId}`,
+          jurisdictionId,
+          electionDate: plan.primaryDate,
+          candidatePersonIds: group.entrants.map((x) => x.personId),
+          admitVoter: (personId) =>
+            input.recordedVoters!.admitVoter(personId, group.party),
+        });
+        for (const ballot of counted?.ballots ?? [])
+          voterIds.add(ballot.voterPersonId);
+        for (const row of counted?.tallies ?? [])
+          votes.set(
+            row.candidatePersonId,
+            (votes.get(row.candidatePersonId) ?? 0) + row.votes,
+          );
+      }
+    }
     const tallies = tally(group.entrants, (entrant) =>
-      pullOf(entrant, isAllParty(plan.method) ? input.partyShare : null),
+      input.recordedVoters
+        ? (votes.get(entrant.personId) ?? 0)
+        : pullOf(entrant, isAllParty(plan.method) ? input.partyShare : null),
     );
     if (isAllParty(plan.method)) {
       const majority =
@@ -354,6 +383,7 @@ export function holdNominationPrimary(
     involvedEntityIds: [
       ...new Set([
         ...input.involvedEntityIds,
+        ...voterIds,
         ...rows.map((row) => row.tally.entrant.personId),
       ]),
     ].sort(),
@@ -366,7 +396,7 @@ export function holdNominationPrimary(
     visibility: "public",
     tags: [
       NOMINATION_VERSION,
-      NOMINATION_PULL.id,
+      input.recordedVoters ? "count:recorded-voters" : NOMINATION_PULL.id,
       `seat:${input.seatKey}`,
       `method:${plan.method}`,
       `date-basis:${plan.dateBasis}`,

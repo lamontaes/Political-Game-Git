@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { scheduleFutureDueItem } from "../simulation/future-transitions";
 import { addDays } from "../simulation/dates";
-import { createLegislativeScenario } from "../simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   introduceMeasure,
   nextMeasureStableKey,

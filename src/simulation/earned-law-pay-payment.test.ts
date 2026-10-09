@@ -1,7 +1,7 @@
 import { expect, it } from "vitest";
 import { applyLegislativeStep } from "../presentation/legislation-session";
 import { addDays, daysBetween, simulationMinutesBetween } from "./dates";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { advanceWorld } from "./world";
 import { settleJobPay } from "./job-market";
@@ -29,7 +29,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type AuthoredVoteCounts,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { createOrganization, createWorkRelationship } from "./life";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";

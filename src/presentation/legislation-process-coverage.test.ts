@@ -32,7 +32,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { rulePackById } from "../simulation/legislature-rule-packs";
 import {
   legislativeProcedureForJurisdiction,

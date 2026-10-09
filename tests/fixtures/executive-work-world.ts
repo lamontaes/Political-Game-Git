@@ -1,5 +1,5 @@
-import { createDemoWorld } from "../../src/simulation/demo";
-import { LEXINGTON_DEMO_CONTEXT } from "../../src/simulation/demo-jurisdiction-context";
+import { createDemoWorld } from "../../src/scenarios/demo";
+import { LEXINGTON_DEMO_CONTEXT } from "../../src/scenarios/demo-jurisdiction-context";
 import { stateJurisdictionForKey } from "../../src/simulation/life-places";
 import { initializeExecutiveOfficePremiseForReview } from "../../src/simulation/executive-work-entry";
 import { resolveExecutiveOffice } from "../../src/simulation/executive-work-context";

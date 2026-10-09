@@ -16,7 +16,7 @@ import {
   seatBodyForPack,
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { lawInForce } from "./governing/law-in-force";
 import { PAID_LEAVE_QUESTION } from "./state-paid-leave-law";
 import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";

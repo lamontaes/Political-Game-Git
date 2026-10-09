@@ -16,7 +16,6 @@ import {
   campaignState,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
   deserializeWorld,
   electionContestResult,
   electiveOfficesForJurisdiction,
@@ -29,6 +28,7 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
 } from "./index";
+import { createScenarioWorld } from "../scenarios/demo";
 import {
   CAMPAIGN_CONTACT_MET_KIND,
   CAMPAIGN_CONTACT_RECURRING_KIND,
@@ -48,7 +48,7 @@ import { canonicalJson } from "./canonical-json";
 import { daysBetween } from "./dates";
 import { cancelFutureDueItem } from "./future-transitions";
 import * as decisions from "./decisions";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { doorKnockingReturn } from "./campaign-recognition";
 import { recordRelationshipInteraction } from "./records";

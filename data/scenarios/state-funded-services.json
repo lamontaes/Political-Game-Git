@@ -1,0 +1,179 @@
+{
+  "notice": "Fictional game-profile mechanics for a modeled school-facilities service. These values do not describe current state tax, appropriation, or service law, and they are not source evidence.",
+  "definitions": [
+    {
+      "profileId": "state-funded-service:us-ky",
+      "jurisdictionKey": "US-KY",
+      "note": "Fictional game-profile mechanics for a modeled school-facilities service. These values do not describe current state tax, appropriation, or service law, and they are not source evidence.",
+      "taxTerms": {
+        "seriesKey": "state-personal-occurrence:us-ky",
+        "baseKey": "tax-base:declared-personal-occurrence",
+        "baseLabel": "declared personal occurrence",
+        "rateNumerator": 5,
+        "rateDenominator": 100,
+        "exemptBaseKeys": [],
+        "allowanceMinorUnits": 0,
+        "currency": "USD",
+        "collectionLagDays": 30,
+        "effectiveDelayDays": 90,
+        "publicPurpose": "modeled school-facilities maintenance service",
+        "assumptionNote": "The 5% rate, declared occurrence base, timing, and purpose are fictional KY game-profile assumptions, not Kentucky law or sourced tax authority.",
+        "legalBaselineAssumption": "authored-state-game-profile"
+      },
+      "appropriation": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional KY game-profile spending authority for the modeled school-facilities service; this is not a claim about Kentucky's appropriation law or cash."
+        },
+        "familyKey": "appropriations",
+        "variantKey": "single-programme",
+        "authorityKey": "standing:school-facilities",
+        "amountMinorUnits": 100000000,
+        "availabilityDays": 365,
+        "programKey": "appropriations:ky"
+      },
+      "capacity": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional KY starting service capacity used by the modeled route; restoration cost and units are not observed state facts."
+        },
+        "serviceLabel": "modeled school-facilities service",
+        "unitLabel": "facility repair unit",
+        "unitsTotal": 1,
+        "unitsOperational": 0,
+        "monthlyOperatingNeedMinorUnits": 1,
+        "completedPermille": null,
+        "restorationCostPerUnitMinorUnits": 2500,
+        "currency": "USD"
+      },
+      "panelSeatsByChamber": {
+        "house": {
+          "seats": 24,
+          "basis": "game-profile-stand-in",
+          "note": "A 24-member authored voting panel is a game-profile stand-in, not the formal Kentucky House seat count."
+        },
+        "senate": {
+          "seats": 12,
+          "basis": "game-profile-stand-in",
+          "note": "A 12-member authored voting panel is a game-profile stand-in, not the formal Kentucky Senate seat count."
+        }
+      }
+    },
+    {
+      "profileId": "state-funded-service:us-mn",
+      "jurisdictionKey": "US-MN",
+      "note": "Fictional game-profile mechanics for a modeled school-facilities service. These values do not describe current state tax, appropriation, or service law, and they are not source evidence.",
+      "taxTerms": {
+        "seriesKey": "state-personal-occurrence:us-mn",
+        "baseKey": "tax-base:declared-personal-occurrence",
+        "baseLabel": "declared personal occurrence",
+        "rateNumerator": 9,
+        "rateDenominator": 200,
+        "exemptBaseKeys": [],
+        "allowanceMinorUnits": 0,
+        "currency": "USD",
+        "collectionLagDays": 30,
+        "effectiveDelayDays": 90,
+        "publicPurpose": "modeled school-facilities maintenance service",
+        "assumptionNote": "The 4.5% rate, declared occurrence base, timing, and purpose are fictional MN game-profile assumptions, not Minnesota law or sourced tax authority.",
+        "legalBaselineAssumption": "authored-state-game-profile"
+      },
+      "appropriation": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional MN game-profile spending authority for the modeled school-facilities service; this is not a claim about Minnesota's appropriation law or cash."
+        },
+        "familyKey": "appropriations",
+        "variantKey": "single-programme",
+        "authorityKey": "standing:school-facilities",
+        "amountMinorUnits": 100000000,
+        "availabilityDays": 365,
+        "programKey": "appropriations:mn"
+      },
+      "capacity": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional MN starting service capacity used by the modeled route; restoration cost and units are not observed state facts."
+        },
+        "serviceLabel": "modeled school-facilities service",
+        "unitLabel": "facility repair unit",
+        "unitsTotal": 1,
+        "unitsOperational": 0,
+        "monthlyOperatingNeedMinorUnits": 1,
+        "completedPermille": null,
+        "restorationCostPerUnitMinorUnits": 2500,
+        "currency": "USD"
+      },
+      "panelSeatsByChamber": {
+        "house": {
+          "seats": 134,
+          "basis": "compiled-formal-seat-count",
+          "note": "The 134-member panel size matches this repository's compiled Minnesota formal seat count (Minn. Stat. § 2.021); the recorded votes remain authored game outcomes."
+        },
+        "senate": {
+          "seats": 67,
+          "basis": "compiled-formal-seat-count",
+          "note": "The 67-member panel size matches this repository's compiled Minnesota formal seat count (Minn. Stat. § 2.021); the recorded votes remain authored game outcomes."
+        }
+      }
+    },
+    {
+      "profileId": "state-funded-service:us-nv",
+      "jurisdictionKey": "US-NV",
+      "note": "Fictional game-profile mechanics for a modeled school-facilities service. These values do not describe current state tax, appropriation, or service law, and they are not source evidence.",
+      "taxTerms": {
+        "seriesKey": "state-personal-occurrence:us-nv",
+        "baseKey": "tax-base:declared-personal-occurrence",
+        "baseLabel": "declared personal occurrence",
+        "rateNumerator": 4,
+        "rateDenominator": 100,
+        "exemptBaseKeys": [],
+        "allowanceMinorUnits": 0,
+        "currency": "USD",
+        "collectionLagDays": 30,
+        "effectiveDelayDays": 90,
+        "publicPurpose": "modeled school-facilities maintenance service",
+        "assumptionNote": "The 4% rate, declared occurrence base, timing, and purpose are fictional NV game-profile assumptions, not Nevada law or sourced tax authority.",
+        "legalBaselineAssumption": "authored-state-game-profile"
+      },
+      "appropriation": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional NV game-profile spending authority for the modeled school-facilities service; this is not a claim about Nevada's appropriation law or cash."
+        },
+        "familyKey": "appropriations",
+        "variantKey": "single-programme",
+        "authorityKey": "standing:school-facilities",
+        "amountMinorUnits": 100000000,
+        "availabilityDays": 365,
+        "programKey": "appropriations:nv"
+      },
+      "capacity": {
+        "basis": {
+          "kind": "game-profile",
+          "note": "Fictional NV starting service capacity used by the modeled route; restoration cost and units are not observed state facts."
+        },
+        "serviceLabel": "modeled school-facilities service",
+        "unitLabel": "facility repair unit",
+        "unitsTotal": 1,
+        "unitsOperational": 0,
+        "monthlyOperatingNeedMinorUnits": 1,
+        "completedPermille": null,
+        "restorationCostPerUnitMinorUnits": 2500,
+        "currency": "USD"
+      },
+      "panelSeatsByChamber": {
+        "assembly": {
+          "seats": 24,
+          "basis": "game-profile-stand-in",
+          "note": "A 24-member authored voting panel is a game-profile stand-in, not the formal Nevada Assembly seat count."
+        },
+        "senate": {
+          "seats": 12,
+          "basis": "game-profile-stand-in",
+          "note": "A 12-member authored voting panel is a game-profile stand-in, not the formal Nevada Senate seat count."
+        }
+      }
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import {
 } from "../../src/simulation/index";
 import { useState } from "react";
 import { createRoot } from "react-dom/client";
-import { responseFixture } from "../../src/simulation/incident-response.fixture";
+import { responseFixture } from "../../src/scenarios/incident-response";
 import { IncidentResponsePanel } from "../../src/player/IncidentResponsePanel";
 import { advanceWorldMinutes } from "../../src/simulation/time-work";
 import { BrowserSaveStore } from "../../src/presentation/browser-world-repository";

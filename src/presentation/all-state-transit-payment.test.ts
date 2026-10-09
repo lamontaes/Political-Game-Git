@@ -33,7 +33,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   STATE_TRANSIT_VARIANT_KEY,
   TRANSIT_PROGRAM_KEY,

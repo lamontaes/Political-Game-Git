@@ -5,9 +5,9 @@ import {
   advanceWorld,
   candidacyEligibility,
   candidacyPackForJurisdiction,
-  createScenarioWorld,
   lifePlaces,
 } from "../simulation";
+import { createScenarioWorld } from "../scenarios/demo";
 import { resolvePlayerCapabilities } from "./player-capabilities";
 import type { World } from "../simulation";
 

@@ -3,13 +3,13 @@ import { describe, expect, it } from "vitest";
 import {
   addSimulationMinutes,
   assertWorldIntegrity,
-  createDemoWorld,
   createOrganization,
   createScheduledActivity,
   createWorkRelationship,
   deserializeWorld,
   serializeWorld,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type { World } from "./index";
 import {
   applyJudicialGameplayPlan,

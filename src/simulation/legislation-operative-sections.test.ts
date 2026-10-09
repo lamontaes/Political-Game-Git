@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
-import { legislativeBlueprint } from "./legislation-scenarios";
+import { legislativeBlueprint } from "../scenarios/legislation";
 import { compileBillDraft } from "./legislation-drafting";
 import {
   assertOperativeDraft,

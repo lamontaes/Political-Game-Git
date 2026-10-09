@@ -20,7 +20,7 @@ import {
   createRunBConversationProgress,
   type RunBConversationProgress,
 } from "./run-b-conversation-progress";
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 
 /**
  * What people say they will do in the office conversation becomes their own

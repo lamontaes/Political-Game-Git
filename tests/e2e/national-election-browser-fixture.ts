@@ -1,5 +1,4 @@
 import {
-  createDemoWorld,
   makeIsoDate,
   simulationMomentAtLocalTime,
   registerNationalElection,
@@ -7,6 +6,7 @@ import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "../../src/simulation";
+import { createDemoWorld } from "../../src/scenarios/demo";
 /** Supplied fictional unit counts for UI QA; no election forecast or campaign simulation. */
 let world = ensureNationalElectionJurisdiction(
   createDemoWorld("s30-n-browser-fixture"),

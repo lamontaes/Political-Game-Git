@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { canonicalJson } from "./canonical-json";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createWorldSnapshot, worldContentId } from "./serialization";
 import type { World } from "./types";
 

@@ -14,7 +14,7 @@ import {
   measurePosition,
   recordEnactment,
 } from "../../src/simulation/legislation";
-import type { LegislativeProcedureContext } from "../../src/simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../../src/scenarios/legislation";
 import { legislativeBlueprintForMeasure } from "../../src/simulation/governing/legislative-clock";
 import {
   decideGoverningMatter,

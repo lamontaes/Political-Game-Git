@@ -10,7 +10,7 @@ import {
   KENTUCKY_CONTEXT,
   legislativeScenarioKeys,
   type LegislativeScenario,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 import { addDays, daysBetween } from "./dates";
 import { createFutureTransitionHandlerRegistry } from "./future-transitions";

@@ -1,13 +1,13 @@
 import {
-  createDemoWorld,
   createOrganization,
   createWorkRelationship,
   evaluateIncident,
   occurIncident,
   recordEventKnowledge,
-} from "./index";
-import { reportIncident } from "./incident-response";
-import { declareHazardEpisode } from "./crisis/disaster";
+} from "../simulation/index";
+import { createDemoWorld } from "./demo";
+import { reportIncident } from "../simulation/incident-response";
+import { declareHazardEpisode } from "../simulation/crisis/disaster";
 const provenance = {
   kind: "authored" as const,
   note: "Explicit fictional incident response diagnostic premises, not empirical cadence or public assistance law.",

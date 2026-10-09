@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import {
   containsSceneRect,
   measureRasterFidelity,

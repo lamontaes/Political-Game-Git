@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../demo";
+import { createScenarioWorld } from "../../scenarios/demo";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
 import { recordWorldEvent } from "../world";
 import { deserializeWorld, serializeWorld } from "../serialization";

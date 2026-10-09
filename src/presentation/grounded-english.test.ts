@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  createLegislativeScenario,
   currentMeasureProvisions,
   deserializeWorld,
   organizationProfileAt,
   serializeWorld,
   workRoleAt,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { fileDraft } from "./legislation-docket";
 import { createNewGameWorld } from "./new-game";
 import {

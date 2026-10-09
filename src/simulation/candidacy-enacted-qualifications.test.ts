@@ -15,7 +15,7 @@ import {
   fileRuleChangeProvision,
 } from "./enacted-rule-changes";
 import { availableMeasureSteps, measurePosition } from "./legislation";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { advanceWorld } from "./world";
 import type { World } from "./types";
 

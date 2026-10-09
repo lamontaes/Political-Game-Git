@@ -203,8 +203,11 @@ export function nationalResidenceSince(
     personId,
     (jurisdictionId) => {
       const jurisdiction = world.jurisdictions[jurisdictionId];
-      return (jurisdiction !== undefined && stateKeyForJurisdiction(jurisdiction) !== null)
-        || lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey != null;
+      return (
+        (jurisdiction !== undefined &&
+          stateKeyForJurisdiction(jurisdiction) !== null) ||
+        lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey != null
+      );
     },
     onDate,
   );

@@ -28,7 +28,7 @@ import {
   REQUESTED_PROVISION_KEY,
   PROGRAM_PROVISION_KEY,
   type LegislativeBargainingFixture,
-} from "./legislative-bargaining-fixture";
+} from "../scenarios/legislative-bargaining";
 import {
   offerNegotiatedAmendment,
   takeNegotiatedFloorVote,

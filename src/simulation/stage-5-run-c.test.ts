@@ -17,7 +17,6 @@ import {
   characterHistoryContextPersonId,
   composeApprenticeshipPlan,
   createCareResponsibility,
-  createDemoWorld,
   createExactQuantity,
   createFutureTransitionHandlerRegistry,
   createPolicyDecisionContext,
@@ -95,6 +94,7 @@ import {
   recordPersonFunctionalCapacity,
   recordPersonDeath,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   CharacterHistoryMode,
   CharacterHistoryPlan,

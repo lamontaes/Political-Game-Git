@@ -15,7 +15,7 @@ import {
 } from "../simulation/constitutional-process";
 import type { ConstitutionalRuleDelta } from "../simulation/constitutional-types";
 import { municipalLawOfficeKey } from "../simulation/enacted-rule-changes";
-import { dispositionsFromCounts } from "../simulation/legislation-scenarios";
+import { dispositionsFromCounts } from "../scenarios/legislation";
 import {
   CONSTITUTIONAL_REFORM_REVIEW,
   constitutionalReformReviewHandler,

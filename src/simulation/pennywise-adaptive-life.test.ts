@@ -47,7 +47,7 @@ import type {
   SetupAnswerRecord,
   SituationCandidate,
 } from "./index";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   openOrdinaryLifeRecords,
   refreshLifeOpportunities,

@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { createScenarioWorld } from "../demo";
+import { createScenarioWorld } from "../../scenarios/demo";
 import { createPolicyCatalog, createSyntheticPolicyCatalog } from "../policy";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";

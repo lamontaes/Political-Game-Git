@@ -20,7 +20,7 @@ import type {
 import {
   createDemoWorld,
   LEXINGTON_PLACEHOLDER_ID,
-} from "../../src/simulation/index";
+} from "../../src/scenarios/demo";
 
 const REPO = resolve(import.meta.dirname, "../..");
 

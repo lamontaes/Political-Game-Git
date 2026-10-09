@@ -11,7 +11,7 @@ import {
   seatBodyForPack,
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { governorOfficeForJurisdiction } from "../../src/simulation/governing/state-governing";
 import {
   deserializeWorld,

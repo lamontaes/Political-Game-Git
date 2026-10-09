@@ -6,7 +6,7 @@ import {
   createLegislativeScenario,
   dispositionsFromCounts,
   type LegislativeScenario,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { applyLegislativeStep } from "./legislation-session";
 import {
   electedMembersFor,

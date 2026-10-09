@@ -18,7 +18,7 @@ import {
   ensurePressStateCoverage,
   storyLeads,
 } from "./index";
-import { ALASKA_CONTEXT } from "../legislation-scenarios";
+import { ALASKA_CONTEXT } from "../../scenarios/legislation";
 import { PLACE_POPULATION_ROWS } from "../nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../territory-places";
 

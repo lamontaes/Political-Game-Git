@@ -6,7 +6,7 @@ import {
   createLegislativeScenario,
   dispositionsFromCounts,
   type LegislativeScenario,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { addDays } from "../dates";
 import { createFutureTransitionHandlerRegistry } from "../future-transitions";
 import {

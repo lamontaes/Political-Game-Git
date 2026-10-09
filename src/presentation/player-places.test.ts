@@ -18,10 +18,8 @@ import { createAuthoredMunicipalPublicSession } from "./municipal-workspace";
 import { projectPlacesWorkspace } from "./player-places";
 import { openOrdinaryLife, passOrdinaryDays } from "./ordinary-life";
 import { declineVenueActivity, performVenueActivity } from "./venue-activity";
-import {
-  createRunDLiteFixture,
-  performRunDScheduledActivity,
-} from "./run-d-lite";
+import { performRunDScheduledActivity } from "./run-d-lite";
+import { createRunDLiteFixture } from "../scenarios/run-d-lite";
 
 function childAtHome(seed = "places11-child") {
   const game = createNewGameWorld({

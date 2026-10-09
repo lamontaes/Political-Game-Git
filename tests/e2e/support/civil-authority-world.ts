@@ -1,4 +1,4 @@
-import { createScenarioWorld } from "../../../src/simulation/demo";
+import { createScenarioWorld } from "../../../src/scenarios/demo";
 import { ageOnDate, makeIsoDate } from "../../../src/simulation/dates";
 import {
   createOrganization,

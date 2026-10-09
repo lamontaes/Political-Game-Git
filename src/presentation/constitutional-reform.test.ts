@@ -14,7 +14,7 @@ import {
   stateAmendmentProfile,
 } from "../simulation/constitutional-process";
 import { makeIsoDate } from "../simulation/dates";
-import { dispositionsFromCounts } from "../simulation/legislation-scenarios";
+import { dispositionsFromCounts } from "../scenarios/legislation";
 import {
   CONSTITUTIONAL_REFORM_BALLOT,
   CONSTITUTIONAL_REFORM_REVIEW,

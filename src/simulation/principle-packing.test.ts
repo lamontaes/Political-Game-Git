@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createFormationContext, recordPrinciple } from "./politics";
 import { packPrinciples, unpackPrinciples } from "./principle-packing";
 import { CONTENT_PACK_API } from "./runtime-content-packs";

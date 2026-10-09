@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace } from "../simulation/life-places";
 import {
   municipalGovernmentForLifePlace,

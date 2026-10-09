@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "../decisions";
-import { createPortabilityFixture } from "../portability-fixture";
+import { createPortabilityFixture } from "../../scenarios/portability";
 import { recordRelationshipInteraction } from "../records";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { chooseAppointee } from "./appointments";

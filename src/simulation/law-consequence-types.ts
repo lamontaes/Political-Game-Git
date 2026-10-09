@@ -29,7 +29,6 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "business-incentive",
     "snap-participation",
     "public-library-service",
-    "parks-service-spending",
     "justice-person-exposure",
   ],
   legacy: [

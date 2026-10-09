@@ -2,12 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import {
   createSyntheticIncidentCatalog,
-  createDemoWorld,
   declareHazardEpisode,
   deserializeWorld,
   evaluateIncident,
   serializeWorld,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, IncidentEvaluation, World } from "../simulation";
 import { writeCanonicalJson } from "../simulation/canonical-json";
 import { createStableIdFromParts } from "../simulation/ids";

@@ -23,8 +23,8 @@ import {
   type CharacterProofCharacter,
   type CharacterProofSetId,
   type CharacterProofWorldSource,
-} from "../presentation/character-proof";
-import { createRunBFixture } from "../presentation/run-b-fixture";
+} from "../scenarios/character-proof";
+import { createRunBFixture } from "../scenarios/run-b";
 import {
   composeOfficeVisuals,
   CANDIDATE_REVIEW_CHARACTER_LIBRARY,

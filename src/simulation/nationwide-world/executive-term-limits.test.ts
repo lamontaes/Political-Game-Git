@@ -25,8 +25,8 @@ import {
   committeeMembers,
   createLegislativeScenario,
   dispositionsFromCounts,
-} from "../legislation-scenarios";
-import type { LegislativeScenario } from "../legislation-scenarios";
+} from "../../scenarios/legislation";
+import type { LegislativeScenario } from "../../scenarios/legislation";
 import { chamberByKey } from "../legislature-rules";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, IsoDate, World } from "../types";

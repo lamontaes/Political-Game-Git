@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createLegislativeScenario } from "../src/simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../src/scenarios/legislation";
 import { measurePosition } from "../src/simulation/legislation";
 import { ensureStateExecutiveIncumbent } from "../src/simulation/nationwide-world/state-executives";
 import { governorOfficeForJurisdiction } from "../src/simulation/governing/state-governing";

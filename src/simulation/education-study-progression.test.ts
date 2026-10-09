@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  createDemoWorld,
   createWorld,
   serializeWorld,
   deserializeWorld,
@@ -11,6 +10,7 @@ import {
   futureDueItemStateAt,
   recordWorldEvent,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   enterLifePath,
   changeLifePathStatus,

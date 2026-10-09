@@ -8,7 +8,7 @@ import {
   type ConversationRoomContext,
   type ConversationSemanticResult,
 } from "../presentation/run-b-conversation";
-import { createRunBFixture } from "../presentation/run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import type { ObserverHistorySpan } from "./observer-trace";
 
 /**

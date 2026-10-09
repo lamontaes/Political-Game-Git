@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createLegislativeScenario,
   legislativeScenarioKeys,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { applyLegislativeStep } from "./legislation-session";
 import { projectMeasureBriefing } from "./legislation-projection";
 import { measurePosition } from "../simulation/legislation";

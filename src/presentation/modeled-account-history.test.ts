@@ -3,7 +3,7 @@ import {
   enactedTaxFixture,
   TEST_TAX_TERMS,
 } from "../../tests/fixtures/tax-policy-fixture";
-import { createLegislativeScenario } from "../simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { createTaxTransitionHandlerRegistry } from "../simulation/tax-policy";
 import {
   createResourceFlow,

@@ -14,7 +14,7 @@ import {
   WAVE_A_REVIEW_VISUAL_LIBRARY,
   type CandidateReviewSubject,
 } from "../presentation/candidate-review";
-import { CHARACTER_PROOF_SCENE } from "../presentation/character-proof";
+import { CHARACTER_PROOF_SCENE } from "../scenarios/character-proof";
 import { ModularCharacter } from "../player/ModularCharacter";
 import { useSceneTransform } from "../player/useSceneTransform";
 

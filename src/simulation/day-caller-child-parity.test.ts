@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld, LEXINGTON_DEMO_CONTEXT } from "./demo";
+import { createDemoWorld, LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo";
 import { createWorld } from "./world";
 import { createStartingPerson } from "./people";
 import { recordKinship } from "./life";

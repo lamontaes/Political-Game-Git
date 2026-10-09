@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { drawCanonicalName } from "../people";
 import { givenNamePoolForStatedGender } from "../names-data";
 import { SeededRng } from "../rng";

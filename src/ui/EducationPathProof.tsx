@@ -8,14 +8,14 @@ import {
 } from "../player/time-command-runner";
 import { DEFAULT_INTERRUPTIONS } from "../presentation/shell-navigation";
 import {
-  createDemoWorld,
   createWorld,
   createResourcePosition,
   money,
   serializeWorld,
   deserializeWorld,
 } from "../simulation";
-import { LEXINGTON_DEMO_CONTEXT } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo";
 import type { World } from "../simulation";
 const key = "edu-path7-diagnostic-v1";
 function initial() {

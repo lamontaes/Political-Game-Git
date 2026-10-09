@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../demo";
+import { createScenarioWorld } from "../../scenarios/demo";
 import { searchLifePlaces, stateJurisdictionForKey } from "../life-places";
 import { stateCandidacyPack } from "../candidacy-packs";
 import { personName } from "../people";

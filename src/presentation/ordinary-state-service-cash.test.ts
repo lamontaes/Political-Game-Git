@@ -35,7 +35,7 @@ import {
   nextMeasureStableKey,
   recordEnactment,
 } from "../simulation/legislation";
-import { legislativeBlueprint } from "../simulation/legislation-scenarios";
+import { legislativeBlueprint } from "../scenarios/legislation";
 import {
   searchLifePlaces,
   stateJurisdictionForKey,

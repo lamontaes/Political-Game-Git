@@ -32,12 +32,12 @@ import {
   simulationMinutesBetween,
 } from "./dates";
 import {
-  createScenarioWorld,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
 } from "./index";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { createScenarioWorld } from "../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import { createOrganizationParticipation } from "./life";
 import {
   homePartyChapters,

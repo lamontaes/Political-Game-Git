@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,
@@ -12,7 +12,7 @@ import {
 } from "./living-world/civic-actions";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
-import { createPortabilityFixture } from "./portability-fixture";
+import { createPortabilityFixture } from "../scenarios/portability";
 import { STATES } from "./state-reference";
 import type { EntityId, PrivateBeliefRecord, World } from "./types";
 

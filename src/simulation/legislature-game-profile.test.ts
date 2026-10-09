@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { districtIdentityCatalog } from "../districts/catalog";
 import { listDistrictIdentities } from "../districts/query";
 import { makeIsoDate } from "./dates";
-import { createScenarioWorld } from "./demo";
-import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
+import { createScenarioWorld } from "../scenarios/demo";
+import type { DemoJurisdictionContext } from "../scenarios/demo-jurisdiction-context";
 import { createStableId } from "./ids";
 import { introduceMeasure, measuresForJurisdiction } from "./legislation";
 import {

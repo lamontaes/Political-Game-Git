@@ -4,7 +4,7 @@ import { derivePersonAppearance } from "../simulation/person-appearance";
 import {
   createRunBFixture,
   type RunBScenePersonContext,
-} from "./run-b-fixture";
+} from "../scenarios/run-b";
 import {
   CHARACTER_VISUAL_RECIPES,
   composeOfficeVisuals,

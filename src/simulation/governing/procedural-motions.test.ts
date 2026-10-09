@@ -12,8 +12,8 @@ import {
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { legislativePackForJurisdiction } from "../legislative-institutions";
 import { minorityPartyProcedureRows } from "../minority-party-procedure";
-import { billOnTheFloor, CHAMBER, everyone } from "../vote-bundle.fixture";
-import { bodyForChamber } from "../legislation-scenarios";
+import { billOnTheFloor, CHAMBER, everyone } from "../../scenarios/vote-bundle";
+import { bodyForChamber } from "../../scenarios/legislation";
 import { decideProceduralMotion, seatedChamberForPack } from "./chamber-votes";
 
 describe("recorded procedural motions", () => {

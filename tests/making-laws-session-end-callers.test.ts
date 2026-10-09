@@ -6,7 +6,7 @@ import { applyLegislativeStep } from "../src/presentation/legislation-session";
 import {
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../src/simulation/legislation-scenarios";
+} from "../src/scenarios/legislation";
 import {
   measurePosition,
   introduceMeasure,

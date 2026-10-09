@@ -1,17 +1,17 @@
 import type { EntityId } from "../simulation";
-import { createRunAFixture } from "./run-a-fixture";
+import { createRunAFixture } from "./run-a";
 import type {
   RunAFixture,
   RunBFixture,
   RunBScenePersonContext,
-} from "./office-scene-context";
+} from "../presentation/office-scene-context";
 export type {
   RunBFixture,
   RunBSceneAnchorId,
   RunBScenePersonVariant,
   RunBScenePersonContext,
-} from "./office-scene-context";
-import type { ConversationRoomContext } from "./run-b-conversation";
+} from "../presentation/office-scene-context";
+import type { ConversationRoomContext } from "../presentation/run-b-conversation";
 
 function requirePersonId(fixture: RunAFixture, index: number): EntityId {
   const personId = fixture.world.personOrder[index];

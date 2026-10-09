@@ -8,7 +8,7 @@ import {
   statePayFor,
   paidOfficeOf,
 } from "./office-pay";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace, stateJurisdictionForKey } from "./life-places";
 import { ensureStateJurisdictionForKey } from "./nationwide-world/state-executives";
 import {

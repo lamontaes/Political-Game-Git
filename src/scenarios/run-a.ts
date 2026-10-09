@@ -1,19 +1,18 @@
 import {
-  createDemoWorld,
-  createGeneratedWorld,
   personName,
   recordRelationshipInteraction,
   recordWorldEvent,
 } from "../simulation";
+import { createDemoWorld, createGeneratedWorld } from "./demo";
 import type { EntityId, World } from "../simulation";
-import type { RunAFixture } from "./office-scene-context";
+import type { RunAFixture } from "../presentation/office-scene-context";
 export {
   RUN_A_FIXTURE_STATE_NAMES,
   parseRunAFixtureState,
   type RunAFixture,
   type RunAFixtureStateName,
   type RunAScenePersonContext,
-} from "./office-scene-context";
+} from "../presentation/office-scene-context";
 
 export const RUN_A_SEED = "stage-6-5-run-a";
 export const RUN_A_HIDDEN_CANONICAL_TEXT =

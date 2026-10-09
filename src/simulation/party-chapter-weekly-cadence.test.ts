@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { ageOnDate, addDays, daysBetween, makeIsoDate } from "./dates";
 import { searchLifePlaces } from "./life-places";
 import { createOrganization } from "./life";

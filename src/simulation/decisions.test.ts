@@ -25,7 +25,7 @@ describe("decision consequence contract", () => {
 });
 
 import { beforeAll } from "vitest";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createLightweightPerson } from "./people";
 import { createWorld, createWorldId, materializePerson } from "./world";
 import { createStableId } from "./ids";

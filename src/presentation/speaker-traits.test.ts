@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   createMindProvenance,
   recordPersonalityTendency,

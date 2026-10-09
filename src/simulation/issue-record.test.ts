@@ -4,7 +4,7 @@ import {
   bodyForChamber,
   createLegislativeScenario,
   type LegislativeScenario,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   introduceMeasure,
   placeMeasureOnCalendar,

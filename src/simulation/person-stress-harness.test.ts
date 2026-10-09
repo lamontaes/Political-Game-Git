@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "./dates";
-import { createScenarioWorld } from "./demo";
-import { PORTABILITY_CONTEXT } from "./portability-fixture";
+import { createScenarioWorld } from "../scenarios/demo";
+import { PORTABILITY_CONTEXT } from "../scenarios/portability";
 import { assertWorldIntegrity } from "./world";
 import {
   formatPersonStressHarnessReport,

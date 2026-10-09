@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   advanceWorld,
   assertWorldIntegrity,
-  createDemoWorld,
   createExactQuantity,
   createPolicyDecisionContext,
   createStableId,
@@ -30,6 +29,7 @@ import {
   serializeWorld,
   worldMetricDefinitionByStableKey,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   HistoricalCutoff,

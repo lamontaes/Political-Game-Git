@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bodyForChamber } from "../legislation-scenarios";
+import { bodyForChamber } from "../../scenarios/legislation";
 import { offerFloorAmendment } from "../legislation";
 import { lifePlaceStateIdentities } from "../life-places";
 import { deserializeWorld, serializeWorld } from "../serialization";
@@ -14,7 +14,7 @@ import {
   billOnTheFloor,
   CHAMBER,
   everyone,
-} from "../vote-bundle.fixture";
+} from "../../scenarios/vote-bundle";
 import { singleSubjectRule } from "./chamber-procedure";
 import { potentialRiderRuleIssue } from "./rider-rule-trail";
 

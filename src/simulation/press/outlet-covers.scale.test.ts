@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import { ensurePressMediaOpening, mediaOutlets } from "./outlets";
 import { outletCovers, recordedScale } from "./desk";
 import { recordWorldEvent } from "../world";

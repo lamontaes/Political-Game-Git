@@ -1,4 +1,4 @@
-import { createDemoWorld } from "../../../src/simulation/demo";
+import { createDemoWorld } from "../../../src/scenarios/demo";
 import {
   createOrganization,
   createWorkRelationship,

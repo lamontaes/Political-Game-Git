@@ -94,6 +94,51 @@ export default tseslint.config(
     },
   },
   {
+    files: [
+      "src/simulation/**/*.{ts,tsx}",
+      "src/presentation/**/*.{ts,tsx}",
+      "src/player/**/*.{ts,tsx}",
+    ],
+    ignores: ["**/*.test.{ts,tsx}"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "**/source/core",
+                "**/source/core/**",
+                "**/source/domains/**",
+              ],
+              message:
+                "The source substrate is evidence, not world truth. Reach it through a named one-way adapter instead.",
+            },
+            {
+              group: ["**/prose-corpus", "**/prose-corpus/**"],
+              message:
+                "scripts/prose-corpus is a development-time review tool. Production runtime may never import it.",
+            },
+            {
+              group: [
+                "**/scenarios/**",
+                "**/demo",
+                "**/demo-jurisdiction-context",
+                "**/legislation-scenarios",
+                "**/portability-fixture",
+                "**/run-a-fixture",
+                "**/run-b-fixture",
+                "**/*.fixture",
+              ],
+              message:
+                "Live code reads world records and neutral contracts. Scenario constructors belong to developer routes and tests.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // A source domain reads the core and its own files. Cross-domain
     // relationships belong in an adapter or a crosswalk domain that declares
     // both as inputs, not in an import.

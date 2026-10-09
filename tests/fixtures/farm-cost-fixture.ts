@@ -14,7 +14,7 @@ import { chamberByKey } from "../../src/simulation/legislature-rules";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 import { FARM_PAYMENT_QUESTION } from "../../src/simulation/federal-farm-payments";
 import { federalProgramCostsForMonth } from "../../src/simulation/federal-cost-ledger";

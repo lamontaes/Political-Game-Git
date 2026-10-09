@@ -4,7 +4,7 @@ import { STATES } from "./state-reference";
 import { stateJurisdictionForKey } from "./life-places";
 import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
 import { describe, expect, it } from "vitest";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   appendWorldConditions,
   ensureWorldStartingConditions,

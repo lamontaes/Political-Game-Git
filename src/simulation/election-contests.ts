@@ -371,9 +371,9 @@ export function countRecordedVoterBallots(
       candidatePersonId:
         isSelectedDecision(evaluation) &&
         candidates.has(evaluation.selectedOptionKey)
-          ? input.candidatePersonIds.find(
+          ? (input.candidatePersonIds.find(
               (id) => id === evaluation.selectedOptionKey,
-            ) ?? null
+            ) ?? null)
           : null,
       sourceBeliefIds: [...(views.get(voterId)?.values() ?? [])].map(
         (belief) => belief.id,

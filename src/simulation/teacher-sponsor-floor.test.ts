@@ -33,7 +33,7 @@ import { addDays, simulationMomentOnLocalDate } from "./dates";
 import { createStableId } from "./ids";
 import { withWorldIntegrityDeferred } from "./world";
 import type { World, EntityId, FutureDueItem, IsoDate } from "./types";
-import type { LegislativeProcedureContext } from "./legislation-scenarios";
+import type { LegislativeProcedureContext } from "../scenarios/legislation";
 
 let world: World;
 let stateId: EntityId;

@@ -12,7 +12,7 @@ import {
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
   type AuthoredVoteCounts,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import {
   introduceMeasure,
   measurePosition,

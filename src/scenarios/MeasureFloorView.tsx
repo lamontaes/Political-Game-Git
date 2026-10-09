@@ -3,8 +3,8 @@ import { useReviewEnvironment } from "../ui/review-context";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import { useMemo, useState } from "react";
 
-import { createLegislativeBargainingFixture } from "../presentation/legislative-bargaining-fixture";
-import { MeasureFloorSurface } from "./MeasureFloorSurface";
+import { createLegislativeBargainingFixture } from "./legislative-bargaining";
+import { MeasureFloorSurface } from "../player/MeasureFloorSurface";
 
 /**
  * The developer floor route (`?view=floor`).

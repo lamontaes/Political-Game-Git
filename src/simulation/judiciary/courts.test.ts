@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import type { EntityId } from "../types";
 import {
   addJudicialCourt,

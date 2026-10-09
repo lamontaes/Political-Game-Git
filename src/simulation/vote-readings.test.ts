@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { amend, billOnTheFloor, floor } from "./vote-bundle.fixture";
+import { amend, billOnTheFloor, floor } from "../scenarios/vote-bundle";
 import { voteBundle } from "./vote-bundle";
 import { classifyVoteReading } from "./vote-readings";
 import type { EntityId, LegislativeVoteRecord, World } from "./types";

@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
-  createDemoWorld,
   createWorld,
   serializeWorld,
   deserializeWorld,
@@ -10,13 +9,13 @@ import {
   advanceWorld,
   recordKinship,
   recordGoalState,
-  createScenarioWorld,
   candidacyPackById,
   fileCampaign,
   ensureCampaignOpponents,
   ageOnDate,
   addDays,
 } from "./index";
+import { createDemoWorld, createScenarioWorld } from "../scenarios/demo";
 import {
   acceptLifePathCounteroffer,
   enterLifePath,
@@ -38,7 +37,7 @@ import {
 } from "./time-work";
 import { resourcePositionAt } from "./resource-queries";
 import type { World } from "./types";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 const provenance = {
   kind: "authored",
   note: "Explicit synthetic LIFE-PATHS2 proof.",

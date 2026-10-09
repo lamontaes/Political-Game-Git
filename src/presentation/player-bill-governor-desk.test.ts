@@ -6,7 +6,7 @@ import {
   GOVERNING_MATTER_OPENED,
   governorOfficeForJurisdiction,
 } from "../simulation/governing/state-governing";
-import { legislativeBlueprint } from "../simulation/legislation-scenarios";
+import { legislativeBlueprint } from "../scenarios/legislation";
 import {
   applyLegislativeCommand,
   institutionOwnsStep,

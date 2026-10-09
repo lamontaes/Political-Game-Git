@@ -19,7 +19,7 @@ import {
   seatBodyForPack,
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { currentStateExecutiveHolders } from "./nationwide-world/state-executives";
 import { createOrganization } from "./life";
 import { createResourcePosition, money } from "./resources";

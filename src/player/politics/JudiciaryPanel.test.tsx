@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../../simulation/demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { makeIsoDate } from "../../simulation/dates";
 import { personName } from "../../simulation/people";
 import type { JudiciaryView } from "../../presentation/judiciary";

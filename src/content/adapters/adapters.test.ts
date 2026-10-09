@@ -13,7 +13,7 @@ import {
   AUTHORED_MEASURE_NOTICE,
   legislativeBlueprint,
   legislativeScenarioKeys,
-} from "../../simulation/legislation-scenarios";
+} from "../../scenarios/legislation";
 import { LEGISLATIVE_RULE_PACKS } from "../../simulation/legislature-rule-packs";
 import { SETUP_QUESTIONNAIRE_BANK } from "../../simulation/setup-questionnaire-bank";
 import { createSyntheticVitalityCatalog } from "../../simulation/vitality-catalog";

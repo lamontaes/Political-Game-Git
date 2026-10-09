@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { composeWorldTimeHandlers } from "../campaigns";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import {
   createWorld,
   recordWorldEvent,

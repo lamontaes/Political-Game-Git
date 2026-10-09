@@ -7,7 +7,7 @@ import {
   enactedTaxFixture,
   enactSecondTaxVersion,
 } from "../../tests/fixtures/tax-policy-fixture";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   fileTaxProposalFromOffice,
   declarePersonalTaxOccurrence,

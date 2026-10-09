@@ -1,0 +1,32 @@
+{
+  "ALASKA_RECORDED_SITTING": "alaska-appropriation-recorded-v1",
+  "RECORDED_SITTING_NOTICE": "Recorded fictional Alaska sitting. Its member ballots, committee membership and executive response are authored game content, not real officials, forecasts or assessments of this proposal.",
+  "ALASKA_REVENUE_RECORDED_SITTING": "alaska-revenue-recorded-v1",
+  "REVENUE_SITTING_NOTICE": "Recorded fictional Alaska revenue sitting. Its committee and floor ballots and the Governor's signature are authored game content bound to this exact filed tax text, not real officials, forecasts or assessments of the tax.",
+  "ALASKA_REVENUE_SITTING_CONTENT": {
+    "votePlan": {
+      "committee:house-transportation": {
+        "yea": 4,
+        "nay": 3
+      },
+      "committee:senate-transportation": {
+        "yea": 4,
+        "nay": 3
+      },
+      "floor:house:final-passage": {
+        "yea": 22,
+        "nay": 17,
+        "absent": 1
+      },
+      "floor:senate:final-passage": {
+        "yea": 11,
+        "nay": 9
+      }
+    },
+    "governorAction": "signed",
+    "governorRationale": "Recorded fictional sitting's executive signature. This authored response does not describe an actual official or assess the player's tax."
+  },
+  "packId": "us-ak-legislature-v1",
+  "scenarioKey": "alaska",
+  "workKey": "legislative-work:alaska"
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../simulation/demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { searchLifePlaces } from "../simulation/life-places";
 import { candidacyEligibility } from "../simulation/candidacy";

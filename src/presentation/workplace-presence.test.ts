@@ -1,7 +1,7 @@
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { ensureJurisdiction } from "../simulation/national-election-geography";
 import { expect, it } from "vitest";
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import {
   activeWorkRelationshipsAt,
   createOrganization,

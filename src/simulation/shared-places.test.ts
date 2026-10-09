@@ -11,7 +11,7 @@ import {
   recordKinship,
 } from "./life";
 import { peopleKnownTo } from "./living-world/official-views";
-import { createPortabilityFixture } from "./portability-fixture";
+import { createPortabilityFixture } from "../scenarios/portability";
 import { sharedPlaceAcquaintances } from "./shared-places";
 import type { EntityId, OrganizationParticipationKind, World } from "./types";
 

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { createLegislativeBargainingFixture } from "../presentation/legislative-bargaining-fixture";
+import { createLegislativeBargainingFixture } from "../scenarios/legislative-bargaining";
 import { recordLegislativeNegotiation, type World } from "../simulation";
 import { MeasurePaperWorkspace } from "./MeasurePaperWorkspace";
 

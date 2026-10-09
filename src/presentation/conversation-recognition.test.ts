@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  createDemoWorld,
   createWorld,
   createOrganization,
   createWorkRelationship,
@@ -10,6 +9,7 @@ import {
   type IsoDate,
   type World,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import { recognizes } from "./conversation-continuity";
 import {
   activeWorkRelationshipsAt,

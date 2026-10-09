@@ -9,7 +9,7 @@ import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
 import {
   bodyForChamber,
   dispositionsFromCounts,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import {
   introduceMeasure,
   placeMeasureOnCalendar,
@@ -18,7 +18,7 @@ import {
   takeFloorVote,
 } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
-import { billOnTheFloor } from "../vote-bundle.fixture";
+import { billOnTheFloor } from "../../scenarios/vote-bundle";
 import {
   applyQuorumAttendanceToBallots,
   decideQuorumAttendance,

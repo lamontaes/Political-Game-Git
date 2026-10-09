@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
-import { createLegislativeScenario, serializeWorld } from "../simulation";
+import { serializeWorld } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { BillConfigurationError } from "../simulation/legislation-drafting";
 import {
   legalInstrumentRule,

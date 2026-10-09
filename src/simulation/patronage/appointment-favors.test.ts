@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { favorRecords, favorStandingBetween, recordFavor } from "../favors";
-import { createPortabilityFixture } from "../portability-fixture";
+import { createPortabilityFixture } from "../../scenarios/portability";
 import type { EntityId, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {

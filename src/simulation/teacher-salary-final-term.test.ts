@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { makeIsoDate } from "./dates";
 import {
   lifePlaceStateIdentities,

@@ -18,7 +18,7 @@ import { makeIsoDate } from "./dates";
 import { appendChildhoodEntry } from "./childhood-record";
 import { recordFamilyAddition } from "./people-family";
 import { currentFaithForPerson, faithRecordForPerson } from "./faith-record";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { recordWorldEvent } from "./world";
 import { recordFormativePlayerTraitChoice } from "./people-player-traits";
 
