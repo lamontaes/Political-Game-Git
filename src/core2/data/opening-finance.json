@@ -1,0 +1,80 @@
+{
+  "version": "p8-opening-finance-binding-candidate-v2",
+  "periodMonthsParameter": "openingFinancePeriodMonths",
+  "cadenceStopgap": {
+    "stopgapId": "SG-P8-opening-finance-cadence"
+  },
+  "marketAdjustedHouseholdBudgets": true,
+  "excludedOrganizationKinds": [
+    "nonprofit",
+    "public-institution",
+    "government"
+  ],
+  "stopgapIds": [
+    "SG-P8-opening-finance-bindings",
+    "SG-P8-opening-finance-cadence"
+  ],
+  "categories": [
+    {
+      "key": "food",
+      "contractKind": "household.food",
+      "supplierClassifications": [
+        "enterprise:retail",
+        "enterprise:food-service"
+      ],
+      "citation": "Existing retained CEX food category and generated general-store/restaurant classifications in src/simulation/living-world/town-employment.ts. The combined food category does not identify food-at-home versus food-away-from-home shares; projected firm capacity weights are an authored opening crosswalk.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "apparelAndServices",
+      "contractKind": "household.apparelAndServices",
+      "supplierClassifications": ["enterprise:retail"],
+      "citation": "Existing CEX apparel-and-services category and generated general-store classification; general merchandise is a provisional aggregate crosswalk, not proof of a recorded apparel purchase or service inventory.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "maintenanceAndRepairs",
+      "contractKind": "household.maintenanceAndRepairs",
+      "supplierClassifications": ["enterprise:repair"],
+      "citation": "Existing retained CEX vehicle maintenance/repair category and generated Auto Service/mechanic workplace in src/simulation/living-world/town-employment.ts. No repair appointment or recorded bill is implied.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "miscellaneous",
+      "contractKind": "household.miscellaneous",
+      "supplierClassifications": [],
+      "citation": "Retained CEX miscellaneous spending has no admitted supplier-product crosswalk in the input; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "gasoline",
+      "contractKind": "household.gasoline",
+      "supplierClassifications": [],
+      "citation": "Retained CEX gasoline category does not make the generated general store a gas station; requires an actual mapped gasoline supplier.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "drugs",
+      "contractKind": "household.drugs",
+      "supplierClassifications": [],
+      "citation": "Retained CEX drug category does not establish a pharmacy, prescription, or reimbursement payer; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    },
+    {
+      "key": "medicalSupplies",
+      "contractKind": "household.medicalSupplies",
+      "supplierClassifications": [],
+      "citation": "Retained CEX medical-supply category has no recorded product/provider binding; remains unbound.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    }
+  ],
+  "supplierRules": [
+    {
+      "buyerClassifications": ["enterprise:retail", "enterprise:food-service"],
+      "contractKind": "business.sales-input",
+      "supplierClassifications": ["enterprise:wholesale"],
+      "citation": "Actual generated Supply Company/warehouse/sales-representative organization classification can supply a provisional opening trade-input budget to actual stores/restaurants. IRS source sales-sensitive cost share identifies an aggregate component, not the product inventory, contract, delivery, credit approval, or individual supplier. Wholesale-to-buyer mapping remains an authored stopgap.",
+      "stopgapId": "SG-P8-opening-finance-bindings"
+    }
+  ]
+}

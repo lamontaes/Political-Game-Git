@@ -50,7 +50,6 @@ export interface DrivesData {
   stopgapId: string;
   causeGroupKind: string;
   volunteerAffordances: readonly string[];
-  replacedSituationIds: readonly string[];
   eventKinds: Readonly<Record<EventKindKey, string>>;
   civicActEvents: readonly { eventKind: string; actionId: string }[];
   factKeys: Readonly<Record<FactKey, string>>;
@@ -899,6 +898,13 @@ export function createDrivesModule(
 ): CoreModule {
   return {
     id: "core2-drives-p10-v1",
+    // Only the events a rule answers or a drive act emits reach this module.
+    eventKinds: [
+      ...new Set([
+        ...data.eventRules.map((rule) => rule.eventKind),
+        ...data.civicActEvents.map((row) => row.eventKind),
+      ]),
+    ],
     onDay(api, _decide, refresh) {
       const runtime = runtimeFor(api.state);
       for (const [personId, mine] of runtime.byPerson) {
@@ -1289,18 +1295,12 @@ export function createDrivesModule(
 
 export const DRIVES_MODULE = createDrivesModule();
 
-/** Adds the drive act rows and replaces the undecided situation shortcut. */
+/** Adds the drive act rows to the shared data; mods add rows the same way. */
 export function withDrives(
   base: CoreData,
   data: DrivesData = DEFAULT_DRIVES_DATA,
 ): CoreData {
-  const extended = extendData(base, { actions: data.actions });
-  return {
-    ...extended,
-    situations: extended.situations.filter(
-      (row) => !data.replacedSituationIds.includes(row.id),
-    ),
-  };
+  return extendData(base, { actions: data.actions });
 }
 
 /** Read-only report for observers and proofs; writes nothing. */

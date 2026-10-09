@@ -1,0 +1,493 @@
+{
+  "version": "p8-pure-business-books-candidate-v1",
+  "source": {
+    "citation": "IRS Statistics of Income, corporation returns for tax year 2022, Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; existing compiled src/simulation/living-world/town-business-books.generated.ts and compiler scripts/research/compile-irs-business-books.py.",
+    "vintage": "Tax year 2022; the existing compiler reports publication in September 2025",
+    "availableBy": "September 2025, publication month only; precise release day not independently pinned",
+    "limit": "Aggregate ratios over corporate returns, not measured individual-firm books or a within-firm spread. Applied to generated firms as explicit later-vintage priors, not as actor knowledge at a 2021 opening."
+  },
+  "kinds": [
+    {
+      "id": "farm",
+      "industry": "Agricultural production",
+      "marginParameter": "businessIrsFarmMargin",
+      "payrollShareParameter": "businessIrsFarmPayrollShare",
+      "salesCostShareParameter": "businessIrsFarmSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "quarry",
+      "industry": "Nonmetallic mineral mining and quarrying",
+      "marginParameter": "businessIrsQuarryMargin",
+      "payrollShareParameter": "businessIrsQuarryPayrollShare",
+      "salesCostShareParameter": "businessIrsQuarrySalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "construction",
+      "industry": "Construction",
+      "marginParameter": "businessIrsConstructionMargin",
+      "payrollShareParameter": "businessIrsConstructionPayrollShare",
+      "salesCostShareParameter": "businessIrsConstructionSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysConstruction",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "manufacturing",
+      "industry": "Manufacturing",
+      "marginParameter": "businessIrsManufacturingMargin",
+      "payrollShareParameter": "businessIrsManufacturingPayrollShare",
+      "salesCostShareParameter": "businessIrsManufacturingSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysManufacturing",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "wholesale",
+      "industry": "Wholesale trade",
+      "marginParameter": "businessIrsWholesaleMargin",
+      "payrollShareParameter": "businessIrsWholesalePayrollShare",
+      "salesCostShareParameter": "businessIrsWholesaleSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysWholesale",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "retail",
+      "industry": "Retail trade",
+      "marginParameter": "businessIrsRetailMargin",
+      "payrollShareParameter": "businessIrsRetailPayrollShare",
+      "salesCostShareParameter": "businessIrsRetailSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysRetail",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "trucking",
+      "industry": "Truck transportation",
+      "marginParameter": "businessIrsTruckingMargin",
+      "payrollShareParameter": "businessIrsTruckingPayrollShare",
+      "salesCostShareParameter": "businessIrsTruckingSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "information",
+      "industry": "Telecommunications",
+      "marginParameter": "businessIrsInformationMargin",
+      "payrollShareParameter": "businessIrsInformationPayrollShare",
+      "salesCostShareParameter": "businessIrsInformationSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysInformation",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "insurance",
+      "industry": "Insurance agencies and brokerages",
+      "marginParameter": "businessIrsInsuranceMargin",
+      "payrollShareParameter": "businessIrsInsurancePayrollShare",
+      "salesCostShareParameter": "businessIrsInsuranceSalesCostShare",
+      "salesCostEstimated": true,
+      "creditLineDaysParameter": "businessLineDaysInsurance",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "realty",
+      "industry": "Offices of real estate agents and brokers",
+      "marginParameter": "businessIrsRealtyMargin",
+      "payrollShareParameter": "businessIrsRealtyPayrollShare",
+      "salesCostShareParameter": "businessIrsRealtySalesCostShare",
+      "salesCostEstimated": true,
+      "creditLineDaysParameter": "businessLineDaysRealty",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "professional",
+      "industry": "Professional, scientific, and technical services",
+      "marginParameter": "businessIrsProfessionalMargin",
+      "payrollShareParameter": "businessIrsProfessionalPayrollShare",
+      "salesCostShareParameter": "businessIrsProfessionalSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysProfessional",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "building-services",
+      "industry": "Other administrative and support services",
+      "marginParameter": "businessIrsBuildingServicesMargin",
+      "payrollShareParameter": "businessIrsBuildingServicesPayrollShare",
+      "salesCostShareParameter": "businessIrsBuildingServicesSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysBuildingServices",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "private-school",
+      "industry": "Educational services",
+      "marginParameter": "businessIrsPrivateSchoolMargin",
+      "payrollShareParameter": "businessIrsPrivateSchoolPayrollShare",
+      "salesCostShareParameter": "businessIrsPrivateSchoolSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysPrivateSchool",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "clinic",
+      "industry": "Offices of physicians",
+      "marginParameter": "businessIrsClinicMargin",
+      "payrollShareParameter": "businessIrsClinicPayrollShare",
+      "salesCostShareParameter": "businessIrsClinicSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysClinic",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "care-home",
+      "industry": "Hospitals, nursing, and residential care facilities",
+      "marginParameter": "businessIrsCareHomeMargin",
+      "payrollShareParameter": "businessIrsCareHomePayrollShare",
+      "salesCostShareParameter": "businessIrsCareHomeSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysCareHome",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "recreation",
+      "industry": "Amusement, gambling, and recreation industries",
+      "marginParameter": "businessIrsRecreationMargin",
+      "payrollShareParameter": "businessIrsRecreationPayrollShare",
+      "salesCostShareParameter": "businessIrsRecreationSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "restaurant",
+      "industry": "Food services and drinking places",
+      "marginParameter": "businessIrsRestaurantMargin",
+      "payrollShareParameter": "businessIrsRestaurantPayrollShare",
+      "salesCostShareParameter": "businessIrsRestaurantSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysRestaurant",
+      "ownPriceElasticityParameter": "businessRestaurantOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "inn",
+      "industry": "Accommodation",
+      "marginParameter": "businessIrsInnMargin",
+      "payrollShareParameter": "businessIrsInnPayrollShare",
+      "salesCostShareParameter": "businessIrsInnSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "repair",
+      "industry": "Automotive repair and maintenance",
+      "marginParameter": "businessIrsRepairMargin",
+      "payrollShareParameter": "businessIrsRepairPayrollShare",
+      "salesCostShareParameter": "businessIrsRepairSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysRepair",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "personal-care",
+      "industry": "Personal and laundry services",
+      "marginParameter": "businessIrsPersonalCareMargin",
+      "payrollShareParameter": "businessIrsPersonalCarePayrollShare",
+      "salesCostShareParameter": "businessIrsPersonalCareSalesCostShare",
+      "salesCostEstimated": false,
+      "creditLineDaysParameter": "businessLineDaysPersonalCare",
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    },
+    {
+      "id": "*",
+      "industry": "All active corporations",
+      "marginParameter": "businessIrsAllMargin",
+      "payrollShareParameter": "businessIrsAllPayrollShare",
+      "salesCostShareParameter": "businessIrsAllSalesCostShare",
+      "salesCostEstimated": true,
+      "creditLineDaysParameter": null,
+      "ownPriceElasticityParameter": "businessOwnPriceElasticity",
+      "stopgapIds": ["SG-P8-business-books-priors"]
+    }
+  ],
+  "classifications": [
+    {
+      "classification": "enterprise:agriculture",
+      "kindId": "farm",
+      "fundingRoute": "business",
+      "citation": "TOWN_WORKPLACES in src/simulation/living-world/town-employment.ts and TOWN_BUSINESS_WORKPLACES in town-business-books.ts; authored representation, not legal-form evidence.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:mining",
+      "kindId": "quarry",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:construction",
+      "kindId": "construction",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:manufacturing",
+      "kindId": "manufacturing",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:wholesale",
+      "kindId": "wholesale",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:retail",
+      "kindId": "retail",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:transportation",
+      "kindId": "trucking",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:telecommunications",
+      "kindId": "information",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:insurance",
+      "kindId": "insurance",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; agency/brokerage prior, not insurer balance sheets.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:real-estate",
+      "kindId": "realty",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:professional-services",
+      "kindId": "professional",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:building-services",
+      "kindId": "building-services",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "service:private-school",
+      "kindId": "private-school",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; corporate educational-service prior is not proof of legal form or tuition receipts.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "service:clinic",
+      "kindId": "clinic",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; no reimbursement payer is invented.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "service:nursing-home",
+      "kindId": "care-home",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; broad hospital/nursing industry prior, not the firm's actual payer mix.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:recreation",
+      "kindId": "recreation",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:food-service",
+      "kindId": "restaurant",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:lodging",
+      "kindId": "inn",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:repair",
+      "kindId": "repair",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:personal-services",
+      "kindId": "personal-care",
+      "fundingRoute": "business",
+      "citation": "Existing TOWN_WORKPLACES/TOWN_BUSINESS_WORKPLACES mapping; authored representation.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:banking",
+      "kindId": null,
+      "fundingRoute": "bank-books-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES excludes banks; bank facilities require their own finite cash/debt ledger.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:utility",
+      "kindId": null,
+      "fundingRoute": "branch-or-institution-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes utilities.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "enterprise:corporate-office",
+      "kindId": null,
+      "fundingRoute": "branch-or-institution-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes the regional office.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "service:hospital",
+      "kindId": null,
+      "fundingRoute": "branch-or-institution-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes the hospital.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "sector:local-government-office",
+      "kindId": null,
+      "fundingRoute": "public-finance-required",
+      "citation": "Existing public-government workplace classification; no corporate sales or tax funds are inferred.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "sector:state-government-office",
+      "kindId": null,
+      "fundingRoute": "public-finance-required",
+      "citation": "Existing public-government workplace classification; no corporate sales or tax funds are inferred.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "sector:federal-government-office",
+      "kindId": null,
+      "fundingRoute": "public-finance-required",
+      "citation": "Existing public-government workplace classification; no corporate sales or tax funds are inferred.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "service:school",
+      "kindId": null,
+      "fundingRoute": "public-finance-required",
+      "citation": "Existing public school classification; no corporate sales or tax funds are inferred.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "community:congregation",
+      "kindId": null,
+      "fundingRoute": "nonprofit-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES excludes congregations.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "community:organizing-nonprofit",
+      "kindId": null,
+      "fundingRoute": "nonprofit-budget-required",
+      "citation": "Existing nonprofit classification; no donation receipts are inferred.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "membership:labor-union",
+      "kindId": null,
+      "fundingRoute": "membership-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES excludes unions.",
+      "stopgapId": "SG-P8-business-books-classification"
+    },
+    {
+      "classification": "membership:party-chapter",
+      "kindId": null,
+      "fundingRoute": "membership-budget-required",
+      "citation": "Old TOWN_BUSINESS_WORKPLACES excludes parties.",
+      "stopgapId": "SG-P8-business-books-classification"
+    }
+  ],
+  "policy": {
+    "incomeElasticityParameter": "businessIncomeElasticity",
+    "incomeHalfLifeDaysParameter": "businessIncomeHalfLifeDays",
+    "crowdingResponseParameter": "businessCrowdingResponse",
+    "priceStepMaximumParameter": "businessPriceStepMaximum",
+    "rivalPriceElasticityParameter": "businessRivalPriceElasticity",
+    "repaymentShareParameter": "businessRepaymentShare",
+    "lineReferenceDaysParameter": "businessCreditLimitReferenceDaysPerYear"
+  },
+  "stopgapIds": [
+    "SG-P8-business-books-priors",
+    "SG-P8-business-books-classification",
+    "SG-P8-business-books-dynamics",
+    "SG-P8-business-books-credit-policy"
+  ],
+  "reasons": {
+    "unknownClassification": "business-books:classification-unbound",
+    "outsideBusinessScope": "business-books:separate-institution-funding-required",
+    "missingIncomeAnchor": "business-books:positive-income-anchor-missing",
+    "missingCapacity": "business-books:market-capacity-missing",
+    "missingFacility": "business-books:actual-credit-facility-missing",
+    "facilityNotHonored": "business-books:actual-facility-not-honored",
+    "lineExhausted": "business-books:admitted-line-exhausted",
+    "lenderCashExhausted": "business-books:actual-lender-cash-exhausted"
+  }
+}

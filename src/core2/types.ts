@@ -1,5 +1,18 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { Parameter } from "./parameters";
+import type { BusinessBooksData } from "./business-books";
+import type {
+  BusinessBooksInput,
+  CreditFacilityInput,
+  CreditReceipt,
+  EmployerClosure,
+  FinanceConditionInput,
+  FinanceContractInput,
+  FinanceInput,
+  FinancePolicyData,
+  FinanceReceipt,
+  FinanceRuntime,
+} from "./finance-types";
 export type PersonId = string;
 export type PlaceId = string;
 export type IsoDate = string;
@@ -12,6 +25,8 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
+  /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
+  generationPriorVintage?: string;
 }
 
 export interface Affect {
@@ -102,6 +117,8 @@ export interface JobInput {
   occupationClassification?: string;
   /** Opening hourly SOC proxy; preserves existing calendar-average job fields. */
   hourlyMinor?: number;
+  /** Historical jobs remain after the actual employment relationship ends. */
+  endsAt?: IsoDate;
 }
 
 export interface OrganizationInput {
@@ -164,7 +181,40 @@ export interface ActionDefinition {
   };
   stopgapId?: string;
   prerequisites?: readonly { operation: string; argument?: string }[];
+  reasonBindings?: readonly ReasonBinding[];
 }
+
+/** A content row names the mechanism and the tagged weight used by the chooser. */
+export interface ReasonBinding {
+  id: string;
+  provider: string;
+  weightParameter: string;
+  arguments?: Readonly<Record<string, string>>;
+  stopgapId?: string;
+}
+
+export interface ReasonValue {
+  value: number;
+  sourceIds?: readonly string[];
+}
+
+export interface WeightedReason extends ReasonBinding, ReasonValue {
+  contribution: number;
+}
+
+export type ReasonProvider = (
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  offer: Readonly<ActOffer>,
+  binding: Readonly<ReasonBinding>,
+  context?: Readonly<DecisionContext>,
+) => ReasonValue | undefined;
+
+export type CoreEventListener = (
+  api: CoreAPI,
+  event: CoreEventInput,
+  learnedBy: readonly PersonId[],
+) => void;
 
 export interface ActOffer {
   definition: ActionDefinition;
@@ -173,6 +223,7 @@ export interface ActOffer {
   availableHours: number;
   /** Per-offer actual commitment duration, not a universal activity mean. */
   effortHours?: number;
+  reasonBindings?: readonly ReasonBinding[];
 }
 
 export interface DecisionReason {
@@ -182,6 +233,7 @@ export interface DecisionReason {
   trait: number;
   emotion: number;
   effort: number;
+  module?: number;
 }
 
 export interface DecisionContext {
@@ -197,11 +249,13 @@ export interface DecisionResult {
   selected?: ActOffer;
   reasonKey: string;
   selectedReasons?: DecisionReason;
+  selectedReasonTerms?: readonly WeightedReason[];
   scores?: readonly {
     actionId: string;
     targetId: string;
     score: number;
     reasons: DecisionReason;
+    reasonTerms?: readonly WeightedReason[];
   }[];
 }
 
@@ -390,6 +444,7 @@ export interface CoreInput {
   households: readonly HouseholdInput[];
   jobs: readonly JobInput[];
   workCommitments?: readonly WorkCommitmentInput[];
+  finance?: FinanceInput;
   organizations: readonly OrganizationInput[];
   publicOrganizations?: readonly PublicOrganization[];
   playerId?: PersonId;
@@ -450,6 +505,7 @@ export interface CoreState {
   households: Map<string, HouseholdInput>;
   jobs: Map<string, JobInput>;
   work: WorkRuntime;
+  finance: FinanceRuntime;
   organizations: Map<string, OrganizationInput>;
   publicOrganizations: Map<string, PublicOrganization>;
   publicOrganizationsByPlace: Map<PlaceId, Set<string>>;
@@ -488,6 +544,9 @@ export interface CoreState {
   knowledgeByPerson: Map<PersonId, Map<string, KnownFact>>;
   data: CoreData;
   modules: Map<string, CoreModule>;
+  reasonProviders: Map<string, ReasonProvider>;
+  eventSubscribers: Map<string, CoreEventListener>;
+  eventSubscribersByKind: Map<string, Set<string>>;
 }
 
 export interface KnownFact {
@@ -515,6 +574,8 @@ export interface TierDefinition {
 export interface CoreData {
   version: string;
   work?: WorkData;
+  businessBooks?: BusinessBooksData;
+  finance?: FinancePolicyData;
   parameters: Readonly<Record<string, Parameter>>;
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
@@ -547,8 +608,13 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  reasonProviders?: Readonly<Record<string, ReasonProvider>>;
+  /** Explicit '*' subscribes to every kind; no implicit broadcast subscription. */
+  eventKinds?: readonly string[];
   /** Chronological indexed commitments precede remaining-time discretionary acts. */
   onWorkResult?: (api: CoreAPI, receipt: Readonly<WorkResult>) => void;
+  /** End-of-day settlement/closure observes all chronological work receipts. */
+  onAfterDay?: (api: CoreAPI) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -561,11 +627,7 @@ export interface CoreModule {
       needIds?: readonly string[],
     ) => DecisionContext | undefined,
   ) => { decisions: number; acts: number } | void;
-  onEvent?: (
-    api: CoreAPI,
-    event: CoreEventInput,
-    learnedBy: readonly PersonId[],
-  ) => void;
+  onEvent?: CoreEventListener;
   needEvaluators?: Readonly<
     Record<
       string,
@@ -619,6 +681,30 @@ export interface CoreAPI {
   observe(personId: PersonId, fact: KnownFact): void;
   knows(personId: PersonId, key: string): KnownFact | undefined;
   transfer(payerId: string, payeeId: string, minor: number): number;
+  addFinanceContract(input: FinanceContractInput): void;
+  addFinanceCondition(input: FinanceConditionInput): void;
+  addCreditFacility(input: CreditFacilityInput): void;
+  addBusinessBooks(input: BusinessBooksInput): void;
+  settleFinanceContract(contractId: string): FinanceReceipt;
+  drawCredit(
+    facilityId: string,
+    requestedMinor: number,
+    reasonKey: string,
+    sourceId: string,
+  ): CreditReceipt;
+  repayCredit(
+    facilityId: string,
+    requestedMinor: number,
+    reasonKey: string,
+    sourceId: string,
+  ): CreditReceipt;
+  reviewBusiness(organizationId: string): void;
+  closeEmployer(
+    organizationId: string,
+    sourceReceiptId: string,
+    reasonKey: string,
+  ): EmployerClosure;
+  finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   settleWorkResult(input: WorkResultInput): WorkResult;
   recordActivityTime(
@@ -636,6 +722,12 @@ export interface CoreAPI {
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
+  /** External consumers can subscribe without owning or scanning world state. */
+  subscribeEvents(
+    subscriberId: string,
+    kinds: readonly string[],
+    listener: CoreEventListener,
+  ): () => void;
   validateAct(
     actorId: PersonId,
     offer: ActOffer,

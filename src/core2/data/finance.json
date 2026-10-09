@@ -1,0 +1,21 @@
+{
+  "version": "core2-finance-v1",
+  "reviewPeriodMonthsParameter": "one",
+  "interestDayCountParameter": "financeAct365FixedDays",
+  "kinds": {
+    "purchase": "household-purchase",
+    "operating": "business-operating",
+    "interest": "business-interest"
+  },
+  "reasons": {
+    "borrowing": "finance.recorded-obligation-credit",
+    "repayment": "finance.remaining-cash-debt-repayment",
+    "closure": "finance.unfunded-obligation-cash-and-credit-exhausted"
+  },
+  "stopgapIds": ["SG-P8-finance-settlement-policy"],
+  "stopgapId": "SG-P8-finance-settlement-policy",
+  "gaps": {
+    "conditions": "No dated price/macro series is supplied; finance holds its opening price indexes rather than inventing inflation or revenue.",
+    "income": "Business demand uses recorded local wages and opening payroll priors; nonwage income and external customer trade are not yet bound."
+  }
+}

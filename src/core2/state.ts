@@ -5,6 +5,19 @@ import {
   recordActivityTime,
   recordDiscretionaryTime,
 } from "./work-state";
+import {
+  emptyFinanceRuntime,
+  financeIndex,
+  admitFinanceContract,
+  admitCreditFacility,
+  admitBusinessBooks,
+  admitFinanceCondition,
+  settleFinanceContract,
+  transferCredit,
+  reviewBusiness,
+  closeEmployer,
+  finishFinanceDay,
+} from "./finance-state";
 import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter } from "./parameters";
@@ -16,6 +29,7 @@ import type {
   CoreAPI,
   CoreData,
   CoreEventInput,
+  CoreEventListener,
   CoreInput,
   CoreModule,
   CoreState,
@@ -117,6 +131,7 @@ export function createCore(
     households: new Map(),
     jobs: new Map(),
     work: emptyWorkRuntime(),
+    finance: emptyFinanceRuntime(date),
     organizations: new Map(),
     publicOrganizations: new Map(),
     publicOrganizationsByPlace: new Map(),
@@ -152,6 +167,9 @@ export function createCore(
     knowledgeByPerson: new Map(),
     data,
     modules: new Map(),
+    reasonProviders: new Map(),
+    eventSubscribers: new Map(),
+    eventSubscribersByKind: new Map(),
   };
   for (const tier of data.tiers) core.peopleByTier.set(tier.id, new Set());
   for (const row of input.households) {
@@ -180,9 +198,20 @@ export function createCore(
       throw new Error(`Job references an absent actor or employer: ${row.id}`);
     admitNumber(row.wageDailyMinor, "job pay", p("zero"));
     admitNumber(row.hoursDaily, "job hours", p("zero"));
+    if (row.endsAt !== undefined && makeIsoDate(row.endsAt) > core.date)
+      throw new Error(
+        `Opening job end cannot be a future completed fact: ${row.id}`,
+      );
     core.jobs.set(row.id, { ...row });
+    financeIndex(core.finance.jobsByOrganization, row.organizationId, row.id);
   }
   for (const row of input.workCommitments ?? []) api.addWorkCommitment(row);
+  for (const row of input.finance?.facilities ?? []) api.addCreditFacility(row);
+  for (const row of input.finance?.contracts ?? []) api.addFinanceContract(row);
+  for (const row of input.finance?.businesses ?? []) api.addBusinessBooks(row);
+  for (const row of input.finance?.conditions ?? [])
+    api.addFinanceCondition(row);
+  for (const gap of input.finance?.gaps ?? []) core.gaps.add(gap);
   for (const gap of core.data.work?.gaps ?? []) core.gaps.add(gap);
   for (const row of input.publicOrganizations ?? []) {
     if (core.publicOrganizations.has(row.id))
@@ -238,7 +267,10 @@ export function createCore(
       });
     }
     const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
-    if (actor.jobId && (!job || job.personId !== actor.id))
+    if (
+      actor.jobId &&
+      (!job || job.personId !== actor.id || job.endsAt !== undefined)
+    )
       throw new Error(`Person has no owned job: ${actor.id}`);
     if (job) {
       api.observe(actor.id, {
@@ -264,7 +296,8 @@ export function createCore(
 
 function admitPerson(core: CoreState, row: PersonInput): PersonState {
   const p = (key: string) => parameter(key, core.data.parameters);
-  if (core.people.has(row.id)) throw new Error(`Duplicate person: ${row.id}`);
+  if (core.people.has(row.id) || core.organizations.has(row.id))
+    throw new Error(`Duplicate cash endpoint/person: ${row.id}`);
   if (!core.peopleByTier.has(row.tier))
     throw new Error(`Unregistered tier: ${row.tier}`);
   makeIsoDate(row.birthDate);
@@ -307,8 +340,21 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
 }
 
 export function registerModule(core: CoreState, module: CoreModule): void {
+  if (!module.id.trim()) throw new Error("Module identity is empty.");
   if (core.modules.has(module.id))
     throw new Error(`Duplicate module: ${module.id}`);
+  if (module.onEvent && !module.eventKinds)
+    throw new Error(
+      "Event handlers require explicit event-kind subscriptions.",
+    );
+  if (module.eventKinds && !module.onEvent)
+    throw new Error("Event-kind subscriptions require a handler.");
+  for (const [name, provider] of Object.entries(module.reasonProviders ?? {})) {
+    if (!name.trim() || typeof provider !== "function")
+      throw new Error("Invalid reason provider.");
+    if (core.reasonProviders.has(name))
+      throw new Error(`Duplicate reason provider: ${name}`);
+  }
   for (const category of [
     "needEvaluators",
     "offerProviders",
@@ -320,7 +366,48 @@ export function registerModule(core: CoreState, module: CoreModule): void {
         throw new Error(`Duplicate engine operation: ${category}:${name}`);
     }
   }
+  if (module.onEvent)
+    subscribeEvents(
+      core,
+      `module:${module.id}`,
+      module.eventKinds!,
+      module.onEvent,
+    );
   core.modules.set(module.id, module);
+  for (const [name, provider] of Object.entries(module.reasonProviders ?? {}))
+    core.reasonProviders.set(name, provider);
+}
+
+function subscribeEvents(
+  core: CoreState,
+  id: string,
+  kinds: readonly string[],
+  listener: CoreEventListener,
+): () => void {
+  if (
+    !id.trim() ||
+    typeof listener !== "function" ||
+    !kinds.length ||
+    kinds.some((kind) => !kind.trim() || kind !== kind.trim())
+  )
+    throw new Error("Invalid event subscription.");
+  if (core.eventSubscribers.has(id))
+    throw new Error(`Duplicate event subscriber: ${id}`);
+  const uniqueKinds = new Set(kinds);
+  let active = true;
+  core.eventSubscribers.set(id, listener);
+  for (const kind of uniqueKinds) index(core.eventSubscribersByKind, kind, id);
+  return () => {
+    if (!active) return;
+    active = false;
+    if (core.eventSubscribers.get(id) !== listener) return;
+    core.eventSubscribers.delete(id);
+    for (const kind of uniqueKinds) {
+      const ids = core.eventSubscribersByKind.get(kind);
+      ids?.delete(id);
+      if (!ids?.size) core.eventSubscribersByKind.delete(kind);
+    }
+  };
 }
 
 export function resolveOperation<
@@ -417,10 +504,6 @@ function validateCommittedAct(
     throw new Error("Act reason/counter contribution is non-finite.");
 }
 
-// Derived read index only; actor knowledge remains authoritative and private.
-// Canonical fact writes enter through observe; new/replaced fact Maps get a new
-// WeakMap entry. This index is never a CoreState field or serialized evidence.
-const publicKnowledgeIds = new WeakMap<Map<string, KnownFact>, Set<string>>();
 const noPublicKnowledgeIds: ReadonlySet<string> = new Set<string>();
 
 function publicOrganizationId(key: string): string | undefined {
@@ -434,21 +517,18 @@ function publicOrganizationId(key: string): string | undefined {
     : undefined;
 }
 
-/** Internal default-provider read; no fact is learned by building this index. */
+/** Read-only inspection helper. Normal providers use direct fact lookups. */
 export function knownPublicOrganizationIds(
   core: Readonly<CoreState>,
   personId: string,
 ): ReadonlySet<string> {
   const facts = core.knowledgeByPerson.get(personId);
   if (!facts) return noPublicKnowledgeIds;
-  const prior = publicKnowledgeIds.get(facts);
-  if (prior) return prior;
   const ids = new Set<string>();
   for (const [key, fact] of facts) {
     const id = publicOrganizationId(key);
     if (fact && id !== undefined) ids.add(id);
   }
-  publicKnowledgeIds.set(facts, ids);
   return ids;
 }
 
@@ -477,16 +557,13 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
       known.set(fact.key, { ...fact });
-      const publicIds = publicKnowledgeIds.get(known);
-      if (publicIds) {
-        const id = publicOrganizationId(fact.key);
-        if (id !== undefined) publicIds.add(id);
-      }
     },
     knows: (personId, key) => core.knowledgeByPerson.get(personId)?.get(key),
     transfer(payerId, payeeId, minor) {
       if (!Number.isSafeInteger(minor) || minor < p("zero"))
         throw new Error("Transfers require nonnegative integer minor units.");
+      if (payerId === payeeId)
+        throw new Error("Transfers require distinct endpoints.");
       const payer = core.people.get(payerId) ?? core.organizations.get(payerId);
       const payee = core.people.get(payeeId) ?? core.organizations.get(payeeId);
       if (!payer || !payee) throw new Error("Transfer endpoint is absent.");
@@ -499,6 +576,36 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addWorkCommitment(row) {
       admitWorkCommitment(core, api, row);
+    },
+    addFinanceContract(row) {
+      admitFinanceContract(core, api, row);
+    },
+    addFinanceCondition(row) {
+      admitFinanceCondition(core, api, row);
+    },
+    addCreditFacility(row) {
+      admitCreditFacility(core, api, row);
+    },
+    addBusinessBooks(row) {
+      admitBusinessBooks(core, api, row);
+    },
+    settleFinanceContract(id) {
+      return settleFinanceContract(core, api, id);
+    },
+    drawCredit(id, minor, reason, sourceId) {
+      return transferCredit(core, api, id, minor, reason, sourceId);
+    },
+    repayCredit(id, minor, reason, sourceId) {
+      return transferCredit(core, api, id, minor, reason, sourceId, true);
+    },
+    reviewBusiness(id) {
+      reviewBusiness(core, api, id);
+    },
+    closeEmployer(id, sourceId, reason) {
+      return closeEmployer(core, api, id, sourceId, reason);
+    },
+    finishFinanceDay() {
+      finishFinanceDay(core, api);
     },
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
@@ -556,6 +663,11 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     emit(event) {
       applyCoreEvent(core, event);
+    },
+    subscribeEvents(id, kinds, listener) {
+      if (!id.trim() || id !== id.trim())
+        throw new Error("Invalid event subscriber identity.");
+      return subscribeEvents(core, `consumer:${id}`, kinds, listener);
     },
     validateAct(actorId, offer, date, reason) {
       validateCommittedAct(core, actorId, offer, date, reason);
@@ -649,7 +761,11 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Last act date must advance within the current date.");
       if (
         changes.jobId !== undefined &&
-        core.jobs.get(changes.jobId)?.personId !== personId
+        (core.jobs.get(changes.jobId)?.personId !== personId ||
+          core.jobs.get(changes.jobId)?.endsAt !== undefined ||
+          core.finance.businesses.get(
+            core.jobs.get(changes.jobId)!.organizationId,
+          )?.closedAt !== undefined)
       )
         throw new Error("A person can only hold their own recorded job.");
       if (changes.tier !== undefined && changes.tier !== actor.tier) {
@@ -659,7 +775,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       Object.assign(actor, changes);
     },
     addOrganization(row) {
-      if (core.organizations.has(row.id))
+      if (
+        core.organizations.has(row.id) ||
+        core.people.has(row.id) ||
+        core.husks.has(row.id)
+      )
         throw new Error(`Duplicate organization: ${row.id}`);
       admitCash(row.liquidMinor, "organization cash", p("zero"));
       core.organizations.set(row.id, { ...row });
@@ -807,8 +927,12 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
   const learnedBy = [
     ...new Set([...(event.witnessIds ?? []), ...event.personIds]),
   ].filter((id) => core.people.has(id));
-  for (const module of core.modules.values())
-    module.onEvent?.(api, event, learnedBy);
+  const subscribers = new Set([
+    ...(core.eventSubscribersByKind.get(event.kind) ?? []),
+    ...(core.eventSubscribersByKind.get("*") ?? []),
+  ]);
+  for (const id of subscribers)
+    core.eventSubscribers.get(id)?.(api, event, learnedBy);
 }
 
 export function inspectPerson(
@@ -853,7 +977,13 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   if (input.knownIds.some((id) => !core.people.has(id) && !core.husks.has(id)))
     throw new Error("Promotion requires recorded contacts.");
   const job = input.jobId ? core.jobs.get(input.jobId) : undefined;
-  if (input.jobId && (!job || job.personId !== input.id))
+  if (
+    input.jobId &&
+    (!job ||
+      job.personId !== input.id ||
+      job.endsAt !== undefined ||
+      core.finance.businesses.get(job.organizationId)?.closedAt !== undefined)
+  )
     throw new Error("Promotion requires an owned job.");
   const actor = admitPerson(core, {
     ...input,

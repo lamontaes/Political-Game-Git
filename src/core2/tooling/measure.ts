@@ -160,7 +160,7 @@ function progress(phase: string, detail: Record<string, unknown> = {}): void {
   );
 }
 
-function memorySample(): MemorySample {
+export function memorySample(): MemorySample {
   const usage = process.memoryUsage();
   return {
     heapUsedMiB: usage.heapUsed / bytesPerMiB,
@@ -171,7 +171,7 @@ function memorySample(): MemorySample {
   };
 }
 
-function deepFreeze<T>(value: T): T {
+export function deepFreeze<T>(value: T): T {
   if (!value || typeof value !== "object" || Object.isFrozen(value))
     return value;
   for (const child of Object.values(value as Record<string, unknown>))
@@ -475,10 +475,11 @@ function lastDayOfMonth(date: string): string {
   );
 }
 
-function advanceInMonthChunks(
+export function advanceInMonthChunks(
   core: CoreState,
   throughDate: string,
   includeDetailedActStats: boolean,
+  onSnapshot?: (core: CoreState) => void,
 ): {
   receipt: { simulatedDays: number; decisions: number; acts: number };
   reasonSummary: RunWindowReasonSummary;
@@ -517,6 +518,7 @@ function advanceInMonthChunks(
     }
   };
   captureAffect();
+  onSnapshot?.(core);
 
   while (core.date < target) {
     let chunkEnd = lastDayOfMonth(core.date);
@@ -530,6 +532,7 @@ function advanceInMonthChunks(
     decisions += chunk.decisions;
     acts += chunk.acts;
     captureAffect();
+    onSnapshot?.(core);
     progress("month-advanced", {
       throughDate: core.date,
       simulatedDays: chunk.simulatedDays,
@@ -644,7 +647,7 @@ function assertMonthlyRowsMatchCore(
     throw new Error("Monthly person/action rows name an absent actor.");
 }
 
-function summarizeWorld(
+export function summarizeWorld(
   core: CoreState,
   includeDetailedActStats: boolean,
   reasonSummary: RunWindowReasonSummary,
@@ -739,7 +742,7 @@ function summarizeWorld(
   };
 }
 
-function median(values: readonly number[]): number {
+export function median(values: readonly number[]): number {
   if (values.length === zero) throw new Error("Cannot take an empty median.");
   const sorted = [...values].sort((left, right) => left - right);
   const middle = Math.floor(sorted.length / P("two"));
@@ -748,7 +751,7 @@ function median(values: readonly number[]): number {
     : sorted[middle]!;
 }
 
-function sourceHash(): {
+export function sourceHash(): {
   scope: string;
   dependencyNote: string;
   sha256: string;
@@ -796,13 +799,16 @@ function sourceHash(): {
     scope:
       "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded",
     dependencyNote:
-      "The direct runtime dependencies simulation/dates, simulation/ids, act-kinds.json and trait-act-pulls.json are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "Direct runtime dependencies dates, IDs, place lookup, retained CEX category data, act kinds and trait pulls are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
     sha256: hash.digest("hex"),
     fileCount: files.length,
     files: manifest,
     directRuntimeDependencies: [
       "src/simulation/dates.ts",
       "src/simulation/ids.ts",
+      "src/simulation/life-places.ts",
+      "src/simulation/living-costs-data.ts",
+      "src/simulation/living-costs-category-data.ts",
       "data/content/act-kinds.json",
       "data/content/trait-act-pulls.json",
     ].map((path) => {

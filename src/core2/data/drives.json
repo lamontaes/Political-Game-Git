@@ -3,7 +3,6 @@
   "stopgapId": "SG-P10-response-model",
   "causeGroupKind": "cause-group",
   "volunteerAffordances": ["known-group"],
-  "replacedSituationIds": ["learned-adverse-condition"],
   "eventKinds": {
     "formed": "drive.formed",
     "shared": "cause.shared",

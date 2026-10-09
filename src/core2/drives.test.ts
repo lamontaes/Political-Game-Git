@@ -282,7 +282,11 @@ describe("P10 drives and causes", () => {
   it("emits a drive moment with who, the causing event and the strength", () => {
     const seen: CoreEventInput[] = [];
     bereavedCore(DEFAULT_DRIVES_DATA, bereavementInput(), [
-      { id: "moment-spy", onEvent: (_api, event) => void seen.push(event) },
+      {
+        id: "moment-spy",
+        eventKinds: [DEFAULT_DRIVES_DATA.eventKinds.formed],
+        onEvent: (_api, event) => void seen.push(event),
+      },
     ]);
     const moment = seen.find(
       (event) => event.kind === DEFAULT_DRIVES_DATA.eventKinds.formed,
@@ -299,17 +303,9 @@ describe("P10 drives and causes", () => {
     expect(Number(fact("strength"))).toBeLessThan(p("one"));
   });
 
-  it("replaces the undecided situation shortcut so nobody is assigned a cause", () => {
-    expect(
-      withDrives(DEFAULT_DATA).situations.some((row) =>
-        DEFAULT_DRIVES_DATA.replacedSituationIds.includes(row.id),
-      ),
-    ).toBe(false);
-    expect(
-      DEFAULT_DATA.situations.some((row) =>
-        DEFAULT_DRIVES_DATA.replacedSituationIds.includes(row.id),
-      ),
-    ).toBe(true);
+  it("no data row hands anyone a drive without their decision", () => {
+    for (const data of [DEFAULT_DATA, withDrives(DEFAULT_DATA)])
+      expect(data.situations.filter((row) => row.driveKind)).toEqual([]);
   });
 
   it("is deterministic: the same inputs give the same drives, acts and reasons", () => {
