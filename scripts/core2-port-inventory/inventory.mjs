@@ -26,11 +26,28 @@ function walk(dir, out = []) {
 }
 const all = walk(SRC);
 const files = all.filter((f) => !isTest(f));
+// Tooling entry points: everything under scripts/ that package.json scripts run.
+function walkScripts(dir, out = []) {
+  if (!fs.existsSync(dir)) return out;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) {
+      if (e.name !== "node_modules") walkScripts(p, out);
+    } else if (
+      /\.(ts|tsx|mts|mjs|js)$/.test(e.name) &&
+      !e.name.endsWith(".d.ts") &&
+      !isTest(p)
+    )
+      out.push(p);
+  }
+  return out;
+}
+const scriptFiles = walkScripts(path.join(root, "scripts"));
 const rel = (f) => path.relative(root, f);
 
 // ---------- parse ----------
 const parsed = new Map();
-for (const f of all) {
+for (const f of [...all, ...scriptFiles]) {
   const text = fs.readFileSync(f, "utf8");
   parsed.set(
     f,
@@ -39,7 +56,11 @@ for (const f of all) {
       text,
       ts.ScriptTarget.Latest,
       true,
-      f.endsWith("x") ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
+      f.endsWith("x")
+        ? ts.ScriptKind.TSX
+        : /\.m?js$/.test(f)
+          ? ts.ScriptKind.JS
+          : ts.ScriptKind.TS,
     ),
   );
 }
@@ -52,8 +73,10 @@ function resolveSpec(from, spec) {
     base,
     base.replace(/\.js$/, ".ts"),
     base.replace(/\.js$/, ".tsx"),
+    base.replace(/\.mjs$/, ".mts"),
     base + ".ts",
     base + ".tsx",
+    base + ".mjs",
     path.join(base, "index.ts"),
     path.join(base, "index.tsx"),
   ];
@@ -103,6 +126,24 @@ while (stack.length) {
   if (reachable.has(f) || isTest(f)) continue;
   reachable.add(f);
   for (const d of imports.get(f) ?? []) stack.push(d);
+}
+// Reachable from tooling (scripts/) but not from the game: TOOLING, not DEAD.
+const toolingReachable = new Set();
+const toolStack = [...scriptFiles];
+while (toolStack.length) {
+  const f = toolStack.pop();
+  if (toolingReachable.has(f) || isTest(f)) continue;
+  toolingReachable.add(f);
+  for (const d of imports.get(f) ?? []) toolStack.push(d);
+}
+const toolingIds = new Set();
+for (const f of toolingReachable) {
+  if (reachable.has(f)) continue;
+  const visit = (n) => {
+    if (ts.isIdentifier(n)) toolingIds.add(n.text);
+    ts.forEachChild(n, visit);
+  };
+  visit(parsed.get(f));
 }
 // Reachable from tests only (wired nowhere in the game).
 const importedByTests = new Set();
@@ -409,11 +450,104 @@ function unitsOf(sf) {
   return units;
 }
 
+// Designs the owner has rejected (00s P8 and the CTO review of #3921). Their
+// rule code is REDESIGN, not KEEP: lifting it into core2 would carry the
+// rejected design along with its tests.
+const REDESIGN_FILES = [
+  [
+    /^src\/simulation\/(decision-scores|decisions|decision-peer-estimates)\.ts$/,
+    "labeled decision types scored as importance times confidence; core2 scores offers through the shared trait-act chooser with need, goal and drive utility",
+  ],
+  [
+    /^src\/simulation\/situation-selection\.ts$/,
+    "fixed scene-selection weights; scenes follow salience and threads (P6)",
+  ],
+  [
+    /^src\/simulation\/people-goal-(pursuit|pursuit-content|review)\.ts$/,
+    "one everyday goal per person; core2 people carry needs, drives and goals",
+  ],
+  [
+    /^src\/simulation\/(speech-moves|campaign-speeches)\.ts$/,
+    "speeches only on election night",
+  ],
+  [
+    /^src\/(presentation\/production-world|simulation\/historical-past-mode)\.ts$/,
+    "one-day pre-start run; core2 generates the deep past and simulates 2021 to the start",
+  ],
+];
+const SCHEDULED_DECISION =
+  /\bevaluateDecision\(|importance:\s*"(slight|moderate|strong|decisive)"/;
+// Seeded draws that decide an outcome, found by the readers. Seeded generation
+// of who exists (names, birth dates, opening officeholders) is allowed and is
+// not listed here.
+const DICE_UNITS = new Map([
+  [
+    "src/simulation/crisis/disaster.ts:homeLevel",
+    "disaster damage to a home is a seeded draw",
+  ],
+  [
+    "src/simulation/crisis/disaster.ts:applyDamage",
+    "deaths, injuries and damaged organizations are seeded draws",
+  ],
+  [
+    "src/simulation/crisis/hazard-producer.ts:poisson",
+    "monthly storm count is a Poisson draw",
+  ],
+  [
+    "src/simulation/crisis/hazard-producer.ts:sampleMonthlyHazards",
+    "monthly storm count is a Poisson draw",
+  ],
+  [
+    "src/simulation/living-world/town-pay.ts:townPayPeriod",
+    "an employer's pay period is drawn from national shares",
+  ],
+  [
+    "src/simulation/nationwide-world/presidential-turnover.ts:drawState",
+    "a nominee's home state is drawn by electors",
+  ],
+]);
+const VIEW_WHY = new Set([
+  "view",
+  "hook",
+  "prose-or-label",
+  "glue",
+  "cache",
+  "string-key",
+  "key-constant",
+  "key-builder",
+  "constant",
+]);
+
 function classify(file, r, u) {
+  const c = classifyBase(file, r, u);
+  if (c.cls === "RULE") {
+    const redesign = REDESIGN_FILES.find(([re]) => re.test(r));
+    if (redesign)
+      return { cls: "REDESIGN", why: "owner-rejected: " + redesign[1] };
+    const text = u.node.getText();
+    if (SCHEDULED_DECISION.test(text))
+      return {
+        cls: "REDESIGN",
+        why: "scheduled decision type; its reasons become chooser data rows",
+      };
+    const dice = DICE_UNITS.get(`${r}:${u.name}`);
+    if (dice) return { cls: "REDESIGN", why: "dice: " + dice };
+  }
+  if (
+    groupOf(r) === "screens" &&
+    (c.cls === "RULE" || (c.cls === "PLUMBING" && VIEW_WHY.has(c.why)))
+  )
+    return { cls: "VIEW", why: c.why };
+  return c;
+}
+
+function classifyBase(file, r, u) {
   if (u.kind === "type") return { cls: "TYPE", why: "type" };
   const s = signals(u.node);
   u.signals = s;
   const reachableFile = reachable.has(file);
+  if (!reachableFile && toolingReachable.has(file))
+    return { cls: "TOOLING", why: "file-tooling" };
   if (!reachableFile)
     return {
       cls: "DEAD",
@@ -424,7 +558,9 @@ function classify(file, r, u) {
   let elsewhere = 0;
   if (refs) for (const [f, c] of refs) if (f !== file) elsewhere += c;
   if (inOwn <= 0 && elsewhere === 0)
-    return { cls: "DEAD", why: "unreferenced" };
+    return toolingIds.has(u.name)
+      ? { cls: "TOOLING", why: "tooling-only" }
+      : { cls: "DEAD", why: "unreferenced" };
   const base = path.basename(file);
   const literalRatio = s.literalNodes / Math.max(1, s.nodes);
   const dataFile =
@@ -615,6 +751,10 @@ fs.writeFileSync(
     1,
   ),
 );
+const csvField = (value) => {
+  const text = String(value);
+  return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+};
 const header =
   "engine,file,line,name,kind,exported,lines,class,why,entangled,worldTyped,numericLiterals";
 fs.writeFileSync(
@@ -635,7 +775,9 @@ fs.writeFileSync(
         x.entangled,
         x.worldTyped,
         x.numericLiterals,
-      ].join(","),
+      ]
+        .map(csvField)
+        .join(","),
     ),
   ].join("\n") + "\n",
 );

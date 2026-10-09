@@ -8,28 +8,32 @@
       "deadFiles": 62,
       "fileLines": 201532,
       "units": {
-        "PLUMBING": 2599,
+        "VIEW": 2310,
         "TYPE": 1638,
         "DATA": 679,
-        "RULE": 515,
-        "DEAD": 550
+        "PLUMBING": 799,
+        "DEAD": 379,
+        "TOOLING": 171,
+        "REDESIGN": 5
       },
       "lines": {
-        "PLUMBING": 108125,
+        "VIEW": 92587,
         "TYPE": 15441,
         "DATA": 6039,
-        "RULE": 21937,
-        "DEAD": 18955
+        "PLUMBING": 36502,
+        "DEAD": 11517,
+        "TOOLING": 7438,
+        "REDESIGN": 973
       },
       "ruleEntangled": {
-        "units": 159,
-        "lines": 12671
+        "units": 0,
+        "lines": 0
       },
       "rulePortable": {
-        "units": 356,
-        "lines": 9266
+        "units": 0,
+        "lines": 0
       },
-      "numericLiteralsInRule": 2199
+      "numericLiteralsInRule": 0
     },
     "source-data": {
       "files": 205,
@@ -40,14 +44,16 @@
         "DATA": 13,
         "TYPE": 469,
         "RULE": 3,
-        "DEAD": 1241
+        "DEAD": 1,
+        "TOOLING": 1240
       },
       "lines": {
         "PLUMBING": 1705,
         "DATA": 151,
         "TYPE": 4039,
         "RULE": 13,
-        "DEAD": 36565
+        "DEAD": 6,
+        "TOOLING": 36559
       },
       "ruleEntangled": {
         "units": 0,
@@ -68,24 +74,26 @@
         "DATA": 211,
         "PLUMBING": 730,
         "DEAD": 47,
-        "RULE": 174
+        "RULE": 164,
+        "REDESIGN": 10
       },
       "lines": {
         "TYPE": 2185,
         "DATA": 1784,
         "PLUMBING": 18347,
         "DEAD": 738,
-        "RULE": 7590
+        "RULE": 6192,
+        "REDESIGN": 1398
       },
       "ruleEntangled": {
-        "units": 67,
-        "lines": 4980
+        "units": 58,
+        "lines": 3595
       },
       "rulePortable": {
-        "units": 107,
-        "lines": 2610
+        "units": 106,
+        "lines": 2597
       },
-      "numericLiteralsInRule": 797
+      "numericLiteralsInRule": 726
     },
     "substrate": {
       "files": 248,
@@ -94,26 +102,30 @@
       "units": {
         "TYPE": 1095,
         "PLUMBING": 1747,
-        "RULE": 355,
-        "DEAD": 131,
-        "DATA": 666
+        "RULE": 342,
+        "TOOLING": 6,
+        "DATA": 666,
+        "DEAD": 125,
+        "REDESIGN": 13
       },
       "lines": {
         "TYPE": 9731,
         "PLUMBING": 43459,
-        "RULE": 14033,
-        "DEAD": 3263,
-        "DATA": 15560
+        "RULE": 12978,
+        "TOOLING": 116,
+        "DATA": 15560,
+        "DEAD": 3147,
+        "REDESIGN": 1055
       },
       "ruleEntangled": {
-        "units": 129,
-        "lines": 7092
+        "units": 119,
+        "lines": 6071
       },
       "rulePortable": {
-        "units": 226,
-        "lines": 6941
+        "units": 223,
+        "lines": 6907
       },
-      "numericLiteralsInRule": 2066
+      "numericLiteralsInRule": 2003
     },
     "governing": {
       "files": 135,
@@ -122,26 +134,30 @@
       "units": {
         "TYPE": 420,
         "DATA": 258,
-        "DEAD": 131,
+        "DEAD": 130,
         "PLUMBING": 862,
-        "RULE": 147
+        "RULE": 140,
+        "REDESIGN": 7,
+        "TOOLING": 1
       },
       "lines": {
         "TYPE": 3593,
         "DATA": 15959,
-        "DEAD": 2792,
+        "DEAD": 2783,
         "PLUMBING": 25142,
-        "RULE": 5943
+        "RULE": 5238,
+        "REDESIGN": 705,
+        "TOOLING": 9
       },
       "ruleEntangled": {
-        "units": 68,
-        "lines": 3898
+        "units": 62,
+        "lines": 3204
       },
       "rulePortable": {
-        "units": 79,
-        "lines": 2045
+        "units": 78,
+        "lines": 2034
       },
-      "numericLiteralsInRule": 503
+      "numericLiteralsInRule": 447
     },
     "economy": {
       "files": 110,
@@ -150,26 +166,30 @@
       "units": {
         "TYPE": 281,
         "PLUMBING": 775,
-        "DEAD": 58,
+        "DEAD": 51,
         "DATA": 302,
-        "RULE": 283
+        "RULE": 276,
+        "TOOLING": 7,
+        "REDESIGN": 7
       },
       "lines": {
         "TYPE": 2712,
         "PLUMBING": 21278,
-        "DEAD": 1806,
+        "DEAD": 1534,
         "DATA": 3071,
-        "RULE": 11754
+        "RULE": 11137,
+        "TOOLING": 272,
+        "REDESIGN": 617
       },
       "ruleEntangled": {
-        "units": 130,
-        "lines": 9048
+        "units": 124,
+        "lines": 8491
       },
       "rulePortable": {
-        "units": 153,
-        "lines": 2706
+        "units": 152,
+        "lines": 2646
       },
-      "numericLiteralsInRule": 1599
+      "numericLiteralsInRule": 1580
     },
     "english": {
       "files": 26,
@@ -179,25 +199,29 @@
         "TYPE": 78,
         "DATA": 72,
         "PLUMBING": 88,
-        "RULE": 20,
-        "DEAD": 31
+        "RULE": 19,
+        "TOOLING": 12,
+        "DEAD": 19,
+        "REDESIGN": 1
       },
       "lines": {
         "TYPE": 579,
         "DATA": 3246,
         "PLUMBING": 1872,
-        "RULE": 1051,
-        "DEAD": 582
+        "RULE": 857,
+        "TOOLING": 325,
+        "DEAD": 257,
+        "REDESIGN": 194
       },
       "ruleEntangled": {
-        "units": 4,
-        "lines": 364
+        "units": 3,
+        "lines": 170
       },
       "rulePortable": {
         "units": 16,
         "lines": 687
       },
-      "numericLiteralsInRule": 149
+      "numericLiteralsInRule": 144
     },
     "story": {
       "files": 44,
@@ -205,27 +229,31 @@
       "fileLines": 26862,
       "units": {
         "TYPE": 169,
-        "RULE": 81,
+        "RULE": 74,
         "PLUMBING": 353,
         "DATA": 112,
-        "DEAD": 28
+        "DEAD": 25,
+        "REDESIGN": 7,
+        "TOOLING": 3
       },
       "lines": {
         "TYPE": 2191,
-        "RULE": 3589,
+        "RULE": 3405,
         "PLUMBING": 11976,
         "DATA": 3947,
-        "DEAD": 879
+        "DEAD": 832,
+        "REDESIGN": 184,
+        "TOOLING": 47
       },
       "ruleEntangled": {
-        "units": 39,
-        "lines": 2335
+        "units": 38,
+        "lines": 2240
       },
       "rulePortable": {
-        "units": 42,
-        "lines": 1254
+        "units": 36,
+        "lines": 1165
       },
-      "numericLiteralsInRule": 301
+      "numericLiteralsInRule": 289
     },
     "campaigns": {
       "files": 53,
@@ -236,24 +264,26 @@
         "DEAD": 27,
         "PLUMBING": 390,
         "DATA": 97,
-        "RULE": 86
+        "RULE": 78,
+        "REDESIGN": 8
       },
       "lines": {
         "TYPE": 1237,
         "DEAD": 1304,
         "PLUMBING": 13388,
         "DATA": 747,
-        "RULE": 3313
+        "RULE": 2280,
+        "REDESIGN": 1033
       },
       "ruleEntangled": {
-        "units": 53,
-        "lines": 2799
+        "units": 45,
+        "lines": 1766
       },
       "rulePortable": {
         "units": 33,
         "lines": 514
       },
-      "numericLiteralsInRule": 295
+      "numericLiteralsInRule": 250
     },
     "legislatures": {
       "files": 107,
@@ -263,25 +293,29 @@
         "TYPE": 320,
         "PLUMBING": 795,
         "DATA": 242,
-        "RULE": 146,
-        "DEAD": 61
+        "RULE": 139,
+        "TOOLING": 2,
+        "DEAD": 59,
+        "REDESIGN": 7
       },
       "lines": {
         "TYPE": 3483,
         "PLUMBING": 22205,
         "DATA": 5043,
-        "RULE": 7378,
-        "DEAD": 2075
+        "RULE": 6532,
+        "TOOLING": 84,
+        "DEAD": 1991,
+        "REDESIGN": 846
       },
       "ruleEntangled": {
-        "units": 72,
-        "lines": 5625
+        "units": 65,
+        "lines": 4779
       },
       "rulePortable": {
         "units": 74,
         "lines": 1753
       },
-      "numericLiteralsInRule": 554
+      "numericLiteralsInRule": 521
     },
     "laws": {
       "files": 159,
@@ -292,14 +326,16 @@
         "TYPE": 302,
         "RULE": 138,
         "DATA": 234,
-        "DEAD": 62
+        "DEAD": 56,
+        "TOOLING": 6
       },
       "lines": {
         "PLUMBING": 24039,
         "TYPE": 2904,
         "RULE": 5660,
         "DATA": 8759,
-        "DEAD": 1566
+        "DEAD": 1325,
+        "TOOLING": 241
       },
       "ruleEntangled": {
         "units": 60,
@@ -316,28 +352,30 @@
       "deadFiles": 0,
       "fileLines": 21558,
       "units": {
-        "RULE": 86,
+        "RULE": 70,
         "TYPE": 147,
         "DEAD": 33,
         "DATA": 108,
-        "PLUMBING": 419
+        "PLUMBING": 419,
+        "REDESIGN": 16
       },
       "lines": {
-        "RULE": 4005,
+        "RULE": 2637,
         "TYPE": 1364,
         "DEAD": 823,
         "DATA": 1681,
-        "PLUMBING": 10526
+        "PLUMBING": 10526,
+        "REDESIGN": 1368
       },
       "ruleEntangled": {
-        "units": 66,
-        "lines": 3747
+        "units": 50,
+        "lines": 2379
       },
       "rulePortable": {
         "units": 20,
         "lines": 258
       },
-      "numericLiteralsInRule": 261
+      "numericLiteralsInRule": 228
     },
     "press": {
       "files": 47,
@@ -346,26 +384,28 @@
       "units": {
         "TYPE": 162,
         "PLUMBING": 419,
-        "RULE": 61,
+        "RULE": 53,
         "DATA": 91,
-        "DEAD": 12
+        "DEAD": 12,
+        "REDESIGN": 8
       },
       "lines": {
         "TYPE": 1265,
         "PLUMBING": 11420,
-        "RULE": 2526,
+        "RULE": 1477,
         "DATA": 1013,
-        "DEAD": 292
+        "DEAD": 292,
+        "REDESIGN": 1049
       },
       "ruleEntangled": {
-        "units": 42,
-        "lines": 2286
+        "units": 34,
+        "lines": 1237
       },
       "rulePortable": {
         "units": 19,
         "lines": 240
       },
-      "numericLiteralsInRule": 203
+      "numericLiteralsInRule": 175
     }
   }
 }
