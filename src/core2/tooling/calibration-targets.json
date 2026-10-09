@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761",
+    "sha256": "bb75e881bc2ba0031059e6c612df2d7dc2e8ab061b9def7d7ee2e591135bfda1",
     "meaning": "Exact proposed parameter metadata table including ten opening/work ref-only pointers. Values and unmeasured spreads are unchanged; source uncertainty fixes remain separate."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -3630,7 +3630,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761"
+        "src/core2/data/parameters.json": "bb75e881bc2ba0031059e6c612df2d7dc2e8ab061b9def7d7ee2e591135bfda1"
       },
       "observations": [
         {
@@ -5989,6 +5989,6 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "cef4e94f9846102e56544718c1925408a8345d3a7c7f570e100d8e0fb8872761"
+    "src/core2/data/parameters.json": "bb75e881bc2ba0031059e6c612df2d7dc2e8ab061b9def7d7ee2e591135bfda1"
   }
 }

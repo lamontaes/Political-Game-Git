@@ -1296,7 +1296,7 @@
     }
   },
   "responseDriveFit": {
-    "value": 0.7,
+    "value": 0.8,
     "tag": "TUNABLE",
     "citation": "How strongly a perceived event pushes toward forming a drive (a cause, grudge, protective resolve, ambition or calling) before traits lean the person; below the carry-on fit so that only leaning traits form drives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
     "stopgapId": "SG-P10-params-uncalibrated",
@@ -1309,9 +1309,9 @@
     }
   },
   "responseTraitLeanGain": {
-    "value": 1,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. Starting value equals the recorded trait scale (traitScale, 3): generated people carry trait values of one on that scale, so the shared table's lean reaches a third of its range, and this gain restores the full range. P10 prototype starting value; calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",

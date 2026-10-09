@@ -37,6 +37,7 @@ function args(argv: readonly string[]) {
     people: Number(value("--people") ?? P.targetPopulation),
     output: value("--output"),
     baseline: argv.includes("--baseline"),
+    timingOnly: value("--timing-only"),
   };
 }
 
@@ -166,6 +167,24 @@ function summarize(core: CoreState, input: CoreInput) {
     for (const act of drive.acts)
       actsByAction[act.actionId] = (actsByAction[act.actionId] ?? zero) + one;
   const holders = new Set(drives.drives.map((drive) => drive.personId));
+  // How close each decision came: best drive-forming urgency minus carry-on urgency.
+  const margins = drives.decisions
+    .map((row) => {
+      const carry = row.considered.find(
+        (entry) => entry.responseId === "carry-on",
+      );
+      const best = Math.max(
+        ...row.considered
+          .filter((entry) => entry.responseId !== "carry-on")
+          .map((entry) => entry.urgency),
+      );
+      return carry ? best - carry.urgency : Number.NaN;
+    })
+    .filter(Number.isFinite)
+    .sort((a, b) => a - b);
+  const quantile = (q: number) =>
+    margins.length ? margins[Math.floor(q * (margins.length - 1))] : null;
+  const adultDecisions = drives.decisions.filter((row) => row.agency > 0.5);
   return {
     population,
     health: {
@@ -182,6 +201,20 @@ function summarize(core: CoreState, input: CoreInput) {
       perceivedDecisions: drives.perceived,
       actsByAction,
       groupsFounded: drives.groups.length,
+      decisionsRetained: drives.decisions.length,
+      decisionsFormingDrive: drives.decisions.filter((row) => row.driveId)
+        .length,
+      adultDecisions: adultDecisions.length,
+      adultDecisionsFormingDrive: adultDecisions.filter((row) => row.driveId)
+        .length,
+      driveMinusCarryOnUrgency: {
+        min: quantile(0),
+        p25: quantile(0.25),
+        median: quantile(0.5),
+        p75: quantile(0.75),
+        p90: quantile(0.9),
+        max: quantile(1),
+      },
     },
     chain: chain
       ? {
@@ -222,7 +255,21 @@ function main() {
   process.stderr.write(
     `built ${input.people.length} people at ${input.placeMetadata?.placeName} in ${buildSeconds}s\n`,
   );
-  const baseline = options.baseline ? run(input, through, false) : undefined;
+  if (options.timingOnly) {
+    // Separate-process timing: one world per process, nothing else retained.
+    const timed = run(input, through, options.timingOnly === "drives");
+    process.stdout.write(
+      `${JSON.stringify({ mode: options.timingOnly, seconds: timed.seconds, peakRssMiB: Math.max(...timed.monthly.map((row) => row.rssMiB)), place: input.placeMetadata?.placeName, seed: options.seed })}\n`,
+    );
+    return;
+  }
+  // The baseline world is dropped before the drives year so it holds no memory.
+  const baseline = options.baseline
+    ? (() => {
+        const timed = run(input, through, false);
+        return { seconds: timed.seconds, monthly: timed.monthly };
+      })()
+    : undefined;
   const result = run(input, through, true);
   const receipt = {
     schema: "p10-drives-proof-v1",
