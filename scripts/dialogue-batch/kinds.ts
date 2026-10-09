@@ -34,6 +34,8 @@ export interface KindText {
   readonly partKey: string;
   /** The engine parts the text was made from, when it was composed from parts. */
   readonly parts?: readonly string[];
+  /** What the item calibrates, when it is not the place. */
+  readonly axis?: "age";
 }
 
 export interface KindReading {
