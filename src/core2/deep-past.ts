@@ -113,6 +113,7 @@ export function buildDeepPast(
   const data = options.data ?? DEFAULT_DEEP_PAST_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
   const marker = stopgap(data.stopgapId);
+  stopgap("SG-P8-shared-past-history");
   const opening = makeIsoDate(input.startedAt);
   const boundary = makeIsoDate(data.throughExclusive);
   const cutoff = opening < boundary ? opening : boundary;

@@ -9,6 +9,8 @@ export interface FinanceContractInput {
   kind: string;
   amountMinor: number;
   dueAt: IsoDate;
+  /** Exclusive end of a finite purchase/funding budget; accrued debt cannot expire here. */
+  endsAt?: IsoDate;
   periodMonths: number;
   /** A purchase budget can go unfilled without becoming a debt. */
   accruesArrears: boolean;
@@ -16,10 +18,23 @@ export interface FinanceContractInput {
   interestFacilityId?: string;
   /** A dated standing budget can follow the bound firm's prices and demand. */
   marketAdjusted?: boolean;
+  /** Procurement budget proportional to already received sales; never legal arrears. */
+  salesReceiptBudget?: boolean;
+  /** Actual payment for a purchase; funding/capital/loan receipts are distinct. */
+  salesReceipt?: boolean;
+  settlementPhaseId?: string;
+  recipientIncome?: {
+    personId: PersonId;
+    householdId: string;
+    kindId: string;
+    sourceFactId: string;
+  };
   source: Source;
 }
 
 export interface FinanceContractState extends FinanceContractInput {
+  /** Original admission date; dueAt advances and cannot define source validity. */
+  firstDueAt: IsoDate;
   billingDay: number;
   lastSettledAt?: IsoDate;
   endedAt?: IsoDate;
@@ -73,6 +88,7 @@ export interface BusinessBooksState extends BusinessBooksInput {
   lastWagePriceFactor: number;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
+  salesReceivedMinor: number;
   operatingPaidMinor: number;
   wagesRequestedMinor: number;
   wagesPaidMinor: number;
@@ -122,6 +138,21 @@ export interface FinanceReceipt {
   payeeBeforeMinor: number;
   payeeAfterMinor: number;
   creditReceiptId?: string;
+  salesBudget?: {
+    payerId: string;
+    previousReceivedMinor: number;
+    receivedThroughMinor: number;
+    receiptsMinor: number;
+    routeCostShare: number;
+    allocatedMinor: number;
+    /** The dated pool is shared; these fields identify this route's due budget. */
+    allocatedForContractMinor: number;
+    pendingBeforeMinor: number;
+    consumedBudgetMinor: number;
+    budgetFirstAllocatedAt: IsoDate;
+    budgetPreviousReceivedMinor: number;
+    budgetReceivedThroughMinor: number;
+  };
   source: Source;
 }
 
@@ -161,18 +192,54 @@ export interface FinanceTotals {
   repaidMinor: number;
 }
 
+export interface SalesReceiptBudgetAllocation {
+  payerId: string;
+  date: IsoDate;
+  previousReceivedMinor: number;
+  receivedThroughMinor: number;
+  receiptsMinor: number;
+  routeCostShare: number;
+  allocatedMinor: number;
+  allocatedByContract: ReadonlyMap<string, number>;
+}
+
+/** An unspent purchasing allowance, never earmarked cash or a legal liability. */
+export interface SalesReceiptPendingBudget {
+  payerId: string;
+  amountMinor: number;
+  firstAllocatedAt: IsoDate;
+  previousReceivedMinor: number;
+  receivedThroughMinor: number;
+}
+
+export interface SalesReceiptBudgetPool extends SalesReceiptBudgetAllocation {
+  /** Only due routes consume their accrued allocation in this dated phase. */
+  requestedByContract: ReadonlyMap<string, number>;
+  basisByContract: ReadonlyMap<string, SalesReceiptPendingBudget>;
+  pendingBeforeByContract: ReadonlyMap<string, number>;
+}
+
 export interface FinanceRuntime {
   creditRequestsAt: IsoDate;
   creditRequestIds: Set<string>;
   contracts: Map<string, FinanceContractState>;
   contractsDueAt: Map<IsoDate, Set<string>>;
+  contractsEndingAt: Map<IsoDate, Set<string>>;
   contractsByBusiness: Map<string, Set<string>>;
+  incomeContractsByPerson: Map<string, Set<string>>;
   facilities: Map<string, CreditFacilityState>;
   facilitiesByBorrower: Map<string, Set<string>>;
   businesses: Map<string, BusinessBooksState>;
   businessesByPlace: Map<string, Set<string>>;
   reviewsDueAt: Map<IsoDate, Set<string>>;
   paidIncomeByPlaceMonth: Map<string, number>;
+  paidIncomeByPlaceMonthKind: Map<string, number>;
+  salesReceivedThroughByPayer: Map<
+    string,
+    { date: IsoDate; receivedMinor: number }
+  >;
+  salesBudgetPoolsByPayer: Map<string, SalesReceiptBudgetPool>;
+  salesPendingBudgetByContract: Map<string, SalesReceiptPendingBudget>;
   unfundedBusinessReceipts: Map<string, { date: IsoDate; id: string }>;
   repaymentDueFacilityIds: Set<string>;
   conditionsByPlace: Map<string, readonly FinanceConditionInput[]>;
@@ -192,5 +259,24 @@ export interface FinancePolicyData {
   reasons: { borrowing: string; repayment: string; closure: string };
   stopgapIds: readonly string[];
   stopgapId: string;
+  salesReceiptBudgetStopgapId: string;
+  settlementPhases: readonly { id: string; operation: "settle" | "procure" }[];
+  defaultPhases: {
+    funding: string;
+    income: string;
+    household: string;
+    procurement: string;
+    other: string;
+  };
+  wageIncomeKindId: string;
+  recipientIncomeKinds: readonly {
+    id: string;
+    sourceKinds: readonly string[];
+    status: string;
+    contractKind: string;
+    qualifyingFactsBySourceKind?: Readonly<
+      Record<string, Readonly<Record<string, string>>>
+    >;
+  }[];
   gaps: { conditions: string; income: string };
 }
