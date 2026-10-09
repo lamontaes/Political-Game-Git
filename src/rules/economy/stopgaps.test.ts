@@ -12,6 +12,7 @@ const files = [
   "town-pay.ts",
   "home-price-levels.ts",
   "bank-credit.ts",
+  "town-employment-mix.ts",
 ].map((name) => new URL(`./${name}`, import.meta.url));
 const registry = JSON.parse(
   readFileSync(new URL("./stopgaps.json", import.meta.url), "utf8"),

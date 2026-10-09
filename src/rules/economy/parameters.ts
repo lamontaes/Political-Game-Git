@@ -109,6 +109,14 @@ export const ECONOMY_RULE_PARAMETERS = {
       "Legacy home selection uses two residents for an apartment and five for a large house",
     range: { minimum: 1, maximum: 20 },
   },
+  townCountyMixWeightNumerator: {
+    value: 1,
+    basis: "TUNABLE",
+    stopgapId: "economy.equal-county-employment-weighting",
+    source:
+      "Legacy employment mix weights every county intersecting a town equally",
+    range: { minimum: 0, maximum: 10 },
+  },
   wagePercentiles: {
     value: [10, 25, 50, 75, 90],
     basis: "SOURCED",
