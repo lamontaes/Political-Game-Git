@@ -10,6 +10,34 @@ export interface PaidLeaveBenefitRateFacts {
   readonly maxWeeklyMinor: number | null;
 }
 
+export interface PaidLeavePremiumFacts {
+  readonly employeeRatePerMillion: number;
+  readonly annualWageCapMinor: number | null;
+}
+
+export function paidLeavePremiumOnFromFacts(
+  wagesMinor: number,
+  paidEarlierThisYearMinor: number,
+  premium: PaidLeavePremiumFacts,
+): { readonly taxableMinor: number; readonly premiumMinor: number } {
+  const taxableMinor =
+    premium.annualWageCapMinor === null
+      ? wagesMinor
+      : Math.min(
+          wagesMinor,
+          Math.max(0, premium.annualWageCapMinor - paidEarlierThisYearMinor),
+        );
+  const numerator =
+    BigInt(taxableMinor) * BigInt(premium.employeeRatePerMillion);
+  const denominator = BigInt(
+    parameters.paidLeavePremiumRateUnitsPerWholeRate.value,
+  );
+  return {
+    taxableMinor,
+    premiumMinor: Number((numerator * 2n + denominator) / (denominator * 2n)),
+  };
+}
+
 export function paidLeaveCoveredDaysFromFacts(
   absence: PaidLeaveAbsenceFacts,
   unpaidDays: number,

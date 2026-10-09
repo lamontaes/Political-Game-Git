@@ -5,10 +5,12 @@ import {
   PAID_LEAVE_BENEFIT_RULES,
   type PaidLeaveBenefitRate,
 } from "../../simulation/paid-leave-benefits";
+import { premiumOn as legacyPremiumOn } from "../../simulation/state-paid-leave-law";
 import { STATES } from "../../simulation/state-reference";
 import {
   paidLeaveBenefitFromFacts,
   paidLeaveCoveredDaysFromFacts,
+  paidLeavePremiumOnFromFacts,
 } from "./paid-leave";
 
 describe("standalone paid-leave benefit rules", () => {
@@ -39,6 +41,21 @@ describe("standalone paid-leave benefit rules", () => {
       expect(
         paidLeaveBenefitFromFacts(rate, periodPayMinor, workdays, covered),
       ).toBe(legacyBenefit(rate, periodPayMinor, workdays, covered));
+
+      const premium = {
+        employeeRatePerMillion: 4_400 + base,
+        annualWageCapMinor: 8_000_000 + base * 10_000,
+        sourceUrl: null,
+      } as const;
+      const wagesMinor = 250_000 + base * 100;
+      const paidEarlierThisYearMinor = 3_000_000 + base * 10_000;
+      expect(
+        paidLeavePremiumOnFromFacts(
+          wagesMinor,
+          paidEarlierThisYearMinor,
+          premium,
+        ),
+      ).toEqual(legacyPremiumOn(wagesMinor, paidEarlierThisYearMinor, premium));
     },
   );
 });

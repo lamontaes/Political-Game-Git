@@ -14,6 +14,12 @@ export const LAWS_PARAMETERS = {
       "Standard Monday-through-Friday workweek used to prorate weekly paid leave caps",
     range: { minimum: 1, maximum: 7 },
   },
+  paidLeavePremiumRateUnitsPerWholeRate: {
+    value: 1_000_000,
+    basis: "SOURCED",
+    source: "Paid-leave employee premium rates are stored in millionths",
+    range: { minimum: 1, maximum: 100_000_000 },
+  },
   defaultEnactmentDays: {
     value: 90,
     basis: "TUNABLE",
