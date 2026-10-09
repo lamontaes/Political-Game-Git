@@ -377,7 +377,10 @@ export function applySnapParticipation(
     resolved.subject.id,
     resolved.effectiveAt,
   );
-  if (!participation || participation.enrolled === prior?.enrolled) return next;
+  // A household with no earlier record was not enrolled, so a first record
+  // that leaves it unenrolled changed nothing and cost it nothing.
+  if (!participation || participation.enrolled === (prior?.enrolled ?? false))
+    return next;
 
   // A saved enrollment change reaches every recorded household member through
   // the existing person-level law exposure path. The participation record is

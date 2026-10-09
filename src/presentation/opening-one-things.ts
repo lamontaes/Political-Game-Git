@@ -72,7 +72,7 @@ export interface OpeningOneThing {
     | "law-reached-you"
     | "represents-you"
     | "town-matter"
-    | "runs-your-town"
+    | "in-office"
     | "family-member"
     | "why-you-are-here";
   readonly people: readonly OpeningPerson[];
@@ -205,10 +205,22 @@ function country(world: World, personId: EntityId): OpeningStopThing {
   ]).map((holder) => ({ personId: holder.personId, role: holder.officeKey }));
   const law = closestLaw(world, personId, "country");
   if (law) return lawThing("country", law, people);
+  // Without a federal law that reached them, the tie is who leads the country.
+  const terms = officeholders(world, ["us-president", "us-vice-president"]);
+  const president = terms.find((holder) => holder.officeKey === "us-president");
+  if (president)
+    return {
+      stop: "country",
+      kind: "in-office",
+      people,
+      facts: { office: president.officeKey, personId: president.personId },
+      sourceRecordIds: terms.map((holder) => holder.termId),
+    };
   return {
     stop: "country",
     kind: "none",
-    reason: "No federal law on record has reached this life.",
+    reason:
+      "No federal law has reached this life and no president is on record.",
   };
 }
 
@@ -384,7 +396,7 @@ function town(world: World, personId: EntityId): OpeningStopThing {
   if (head)
     return {
       stop: "town",
-      kind: "runs-your-town",
+      kind: "in-office",
       people: seated.map((seat) => ({
         personId: seat.personId,
         role: seat.role,
@@ -402,7 +414,7 @@ function town(world: World, personId: EntityId): OpeningStopThing {
   if (county)
     return {
       stop: "town",
-      kind: "runs-your-town",
+      kind: "in-office",
       people: [],
       facts: {
         government: county.title,

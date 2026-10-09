@@ -1,11 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { lawExposuresOf } from "../simulation/law-exposure";
+import {
+  lawExposuresOf,
+  recordHeardExposure,
+  recordLawExposure,
+} from "../simulation/law-exposure";
+import { money } from "../simulation/resources";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { recordStoryMoments } from "../simulation/story/moments";
 import { storyThreadsOf } from "../simulation/story/threads";
-import type { World } from "../simulation/types";
+import type { EntityId, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
   OPENING_STOPS,
@@ -20,6 +25,10 @@ import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
  * for each stop, the record that ties it closest to this life, with its
  * sources, or the reason nothing does.
  */
+
+/** A federal law in force when every new life begins. */
+const FEDERAL_LAW =
+  "starting-law:US:us-policy-positions:health-human-services.work-requirement-for-assistance" as EntityId;
 
 function newLife(seed: string) {
   const place = drawRandomPlace(seed, (entry) => entry.scope === "locality");
@@ -60,15 +69,60 @@ describe("the one thing per opening stop, in a new life", () => {
     expect(things.map((entry) => entry.stop)).toEqual([...OPENING_STOPS]);
   });
 
-  it("ties the country to the federal law that reached the player's own life", () => {
+  it("names who leads the country when no federal law has reached the life", () => {
+    // A new life has no law on record that reached it yet: a household's
+    // first food-assistance record that leaves it unenrolled is no loss.
+    expect(lawExposuresOf(world, personId)).toEqual([]);
     const country = thing(things, "country");
-    expect(country.kind).toBe("law-reached-you");
-    expect(country.facts.measureId).toMatch(/^starting-law:US:/);
-    expect(country.facts.relation).toBe("own");
-    const exposure = lawExposuresOf(world, personId).find(
-      (row) => row.id === country.sourceRecordIds[0],
+    expect(country.kind).toBe("in-office");
+    expect(country.facts.office).toBe("us-president");
+    expect(country.people.map((person) => person.role)).toEqual([
+      "us-president",
+      "us-vice-president",
+    ]);
+    expect(country.sourceRecordIds).toHaveLength(2);
+  });
+
+  it("ties the country to the federal law that reached the player most closely", () => {
+    // Edge-case fixture: two exposures to a federal law in force, one heard
+    // from the parent with an amount, one the player's own without.
+    const law = FEDERAL_LAW;
+    const parent = thing(things, "home").facts.personId as EntityId;
+    const arrival = thing(things, "you").sourceRecordIds[0]!;
+    let reached = recordLawExposure(world, {
+      stableKey: "p6-opening:parent",
+      personId: parent,
+      measureId: law,
+      channel: "paycheck",
+      direction: "cost",
+      amount: money(5000, "USD"),
+      cadence: "monthly",
+      sourceRecordId: arrival,
+      includeFamily: false,
+    });
+    reached = recordHeardExposure(
+      reached,
+      lawExposuresOf(reached, parent)[0]!,
+      personId,
     );
-    expect(exposure?.measureId).toBe(country.facts.measureId);
+    reached = recordLawExposure(reached, {
+      stableKey: "p6-opening:own",
+      personId,
+      measureId: law,
+      channel: "benefit",
+      direction: "cost",
+      amount: null,
+      cadence: null,
+      sourceRecordId: arrival,
+      includeFamily: false,
+    });
+    const country = thing(openingOneThings(reached, personId), "country");
+    const own = lawExposuresOf(reached, personId).find(
+      (row) => row.relation === "own",
+    )!;
+    expect(country.kind).toBe("law-reached-you");
+    expect(country.facts.relation).toBe("own");
+    expect(country.sourceRecordIds).toEqual([own.id, arrival]);
     expect(country.people.map((person) => person.role)).toEqual([
       "us-president",
       "us-vice-president",
@@ -97,7 +151,7 @@ describe("the one thing per opening stop, in a new life", () => {
 
   it("names who runs the player's town, each by their own seat record", () => {
     const town = thing(things, "town");
-    expect(town.kind).toBe("runs-your-town");
+    expect(town.kind).toBe("in-office");
     expect(town.facts.office).toBe("leader:municipal-mayor");
     expect(town.people[0]!.personId).toBe(town.facts.personId);
     expect(town.sourceRecordIds).toHaveLength(town.people.length);
@@ -165,7 +219,7 @@ describe("the one thing per stop, in other lives", () => {
     const { world, personId, place } = newLife("p6-open-f");
     expect(place).toBe("Karns, Tennessee");
     const town = thing(openingOneThings(world, personId), "town");
-    expect(town.kind).toBe("runs-your-town");
+    expect(town.kind).toBe("in-office");
     expect(town.facts.government).toBe("Knox County");
     expect(town.facts.servesPlace).toBe("Karns, Tennessee");
     expect(town.people).toEqual([]);

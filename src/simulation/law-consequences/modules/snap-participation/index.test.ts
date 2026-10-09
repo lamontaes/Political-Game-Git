@@ -73,3 +73,49 @@ describe("SNAP work-requirement participation reaches household members", () => 
     }
   });
 });
+
+describe("a household's first SNAP record", () => {
+  it("records no loss when it leaves a never-enrolled household unenrolled, in all 56 places", () => {
+    for (const place of lifePlaceStateIdentities()) {
+      const fixture = smallWorld({
+        place: place.jurisdictionKey,
+        household: true,
+        laws: [SNAP_WORK_REQUIREMENT_QUESTION],
+        seed: `p6-snap-first-record:${place.jurisdictionKey}`,
+      });
+      const { world: initial, personId, stateJurisdictionId } = fixture;
+      const household = householdMembershipsAt(initial, personId)[0]!.household;
+      const law = readEligibilityLawsInForce(
+        initial,
+        stateJurisdictionId,
+        [SNAP_WORK_REQUIREMENT_QUESTION],
+        initial.currentDate,
+      ).get(SNAP_WORK_REQUIREMENT_QUESTION)!;
+      const world = applySnapParticipation(initial, {
+        row: SNAP_PARTICIPATION_ROW,
+        law,
+        questionKey: SNAP_WORK_REQUIREMENT_QUESTION,
+        jurisdictionId: stateJurisdictionId,
+        subject: { kind: "household", id: household.id },
+        activityId:
+          `p6-snap-first-record:${place.jurisdictionKey}:review` as EntityId,
+        effectiveAt: initial.currentDate,
+        sourceRecordIds: [],
+        value: { type: "boolean", value: false },
+      });
+      // The record is kept; it just reached no one as a loss.
+      expect(
+        snapParticipationRecords(world).some(
+          (record) =>
+            record.householdId === household.id && record.enrolled === false,
+        ),
+        place.jurisdictionKey,
+      ).toBe(true);
+      for (const memberId of peopleInHouseholdAt(world, household.id))
+        expect(
+          lawExposuresOf(world, memberId),
+          `${place.jurisdictionKey}:${memberId}`,
+        ).toEqual([]);
+    }
+  });
+});
