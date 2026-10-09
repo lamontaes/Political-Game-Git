@@ -18,6 +18,24 @@
     "status": "NOT MODELED"
   },
   {
+    "id": "economy.home-price-mortgage-rate-proxy",
+    "behavior": "Policy-rate midpoint stands in for 30-year mortgage-rate changes; a measured pass-through is unavailable in the macro records.",
+    "source": "src/simulation/living-world/housing-price-model.ts",
+    "status": "PLACEHOLDER"
+  },
+  {
+    "id": "economy.home-price-supply-elasticity",
+    "behavior": "Home-price growth has no supply-response term until a place-level housing-supply elasticity is measured.",
+    "source": "src/simulation/living-world/housing-price-model.ts",
+    "status": "PLACEHOLDER"
+  },
+  {
+    "id": "economy.home-price-opening-level",
+    "behavior": "Before the first recorded macro month, home-price levels are assumed to have grown with income and sit at the usual price-to-income ratio.",
+    "source": "src/simulation/living-world/housing-market.ts",
+    "status": "GAME ASSUMPTION"
+  },
+  {
     "id": "economy.eviction-case-thresholds",
     "behavior": "The legacy estimated eviction disposition uses a four-month counsel threshold and two-month lenient-judge threshold; both remain estimates until supported by broader records.",
     "source": "src/simulation/living-world/town-rent.ts",

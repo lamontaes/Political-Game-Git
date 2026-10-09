@@ -1,4 +1,10 @@
 export const ECONOMY_RULE_PARAMETERS = {
+  noHousingEventPriceEffectLogPoints: {
+    value: 0,
+    basis: "TUNABLE",
+    source: "No housing event is supplied for this macro month",
+    range: { minimum: -1, maximum: 1 },
+  },
   housingPriceWindowMonths: {
     value: 12,
     basis: "SOURCED",

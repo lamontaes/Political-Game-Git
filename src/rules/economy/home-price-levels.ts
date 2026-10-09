@@ -23,7 +23,8 @@ function rateMidpoint(month: HomePriceMonthFact): number {
 /** Rebuild the monthly home-price index from caller-selected macro months. */
 export function homePriceLevelsFromFacts(
   months: readonly HomePriceMonthFact[],
-  townEffect: (month: HomePriceMonthFact) => number = () => 0,
+  townEffect: (month: HomePriceMonthFact) => number = () =>
+    parameters.noHousingEventPriceEffectLogPoints.value,
 ): readonly HomePriceLevelFact[] {
   if (months.length === 0) return [];
   const window = parameters.housingPriceWindowMonths.value;
