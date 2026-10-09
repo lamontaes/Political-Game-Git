@@ -1,0 +1,109 @@
+{
+  "schema": "english-parts/1",
+  "register": "government-form",
+  "description": "How a town's government is organized, as the record value News shows under the government's name: the term public sources use for its recorded form of government. Each move is a recorded form; data/english/government-form-moves.json files each recorded form under its move. Mostly from the U.S. Census Bureau's Individual State Descriptions for the 2017 Census of Governments, with a city's own page where the Census Bureau does not use the term.",
+  "slots": {},
+  "maxWords": 5,
+  "mining": {
+    "read": "U.S. Census Bureau, Individual State Descriptions: 2017 Census of Governments (issued April 2019), its municipal sections for every state and its Appendix A; City of Dunedin, Florida, page on 100 years of its commission-manager government (March 3, 2026); Lexington-Fayette Urban County Government, news release on the 50th anniversary of its merged government (January 19, 2024).",
+    "rule": "Each part is the source's own term for the form, cut from its sentence and capitalized as the first words under a heading."
+  },
+  "parts": [
+    {
+      "key": "government-form.mayor-council.form-of-government",
+      "move": "mayor-council",
+      "kind": "written",
+      "text": "Mayor-council form of government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments (\"Most cities have an elected mayor-council form of government\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    },
+    {
+      "key": "government-form.council-manager.form-of-government",
+      "move": "council-manager",
+      "kind": "written",
+      "text": "Council-manager form of government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments (\"They are administered by a mayor-council, council, or council-manager form of government.\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    },
+    {
+      "key": "government-form.commission-manager.form-of-government",
+      "move": "commission-manager",
+      "kind": "written",
+      "text": "Commission-manager form of government",
+      "shippable": true,
+      "source": {
+        "document": "City of Dunedin, Celebrating 100 Years of Commission-Manager Leadership in Dunedin (\"The City of Dunedin operates under a non-partisan commission-manager form of government\")",
+        "date": "2026-03-03",
+        "url": "https://www.dunedin.gov/Your-Government/Learn-and-Engage/Dunedin-insights/City-Information-Resources/Celebrating-100-Years-of-Commission-Manager-Leadership-in-Dunedin"
+      }
+    },
+    {
+      "key": "government-form.commission.plan-of-government",
+      "move": "commission",
+      "kind": "written",
+      "text": "Commission plan of government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments (\"operating under either the city manager plan, the mayor-council plan, or the commission plan of government\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    },
+    {
+      "key": "government-form.town-meeting.form-of-government",
+      "move": "town-meeting",
+      "kind": "written",
+      "text": "Town meeting form of government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments (\"Most towns have either an open town meeting or a representative town meeting form of government.\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    },
+    {
+      "key": "government-form.consolidated.city-county-government",
+      "move": "consolidated",
+      "kind": "written",
+      "text": "Consolidated city-county government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments, Appendix A (\"Areas with governments legally designated as consolidated city-county governments and operating primarily as cities\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    },
+    {
+      "key": "government-form.urban-county.urban-county-government",
+      "move": "urban-county",
+      "kind": "written",
+      "text": "Urban county government",
+      "shippable": true,
+      "source": {
+        "document": "Lexington-Fayette Urban County Government, Lexington to commemorate 50th anniversary of merged government (\"On Jan. 1, 1974, the merged government became Kentucky's first urban county government.\")",
+        "date": "2024-01-19",
+        "url": "https://www.lexingtonky.gov/news/lexington-commemorate-50th-anniversary-merged-government"
+      }
+    },
+    {
+      "key": "government-form.metropolitan.metropolitan-government",
+      "move": "metropolitan",
+      "kind": "written",
+      "text": "Metropolitan government",
+      "shippable": true,
+      "source": {
+        "document": "Individual State Descriptions: 2017 Census of Governments, Appendix A (\"Areas designated as metropolitan governments and operating primarily as cities\")",
+        "date": "2019-04-25",
+        "url": "https://www.census.gov/content/dam/Census/library/publications/2017/econ/2017isd.pdf"
+      }
+    }
+  ]
+}

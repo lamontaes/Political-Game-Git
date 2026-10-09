@@ -21,11 +21,12 @@ import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { lawEffectSentences } from "./law-effects-prose";
 import { readNoticesBank } from "./bank-english";
+import { governmentFormTerm } from "./government-form-english";
 
 /**
  * A standing public fact about the place, as record values (menu reset: no
- * sentences): the government that governs it, with its legislative body, or
- * a public institution that serves it.
+ * sentences): the government that governs it, with its legislative body and
+ * its form of government, or a public institution that serves it.
  */
 export interface World39StandingItem {
   readonly key: string;
@@ -34,6 +35,11 @@ export interface World39StandingItem {
   readonly name: string;
   /** A government's legislative body, where the record names one. */
   readonly bodyName: string | null;
+  /**
+   * A government's form of government, in the term public sources use for
+   * it, where the record names one (government-form-english.ts).
+   */
+  readonly formTerm: string | null;
   readonly recordId: string;
 }
 
@@ -337,6 +343,7 @@ function projectStanding(
       kind: "institution",
       name: profile.name,
       bodyName: null,
+      formTerm: null,
       recordId: organization.id,
     });
   }
@@ -347,6 +354,7 @@ function projectStanding(
           kind: "government",
           name: government.displayName,
           bodyName: primaryReading(government).bodyName ?? null,
+          formTerm: governmentFormTerm(government)?.text ?? null,
           recordId: governmentRecordId,
         },
         ...items,

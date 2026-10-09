@@ -1,0 +1,14 @@
+{
+  "schema": "government-form-moves/1",
+  "description": "Which part of the government-form bank words each recorded form of government (src/source/domains/municipal-governance/types.ts, GovernmentForm). A form not listed here, such as OTHER, has no term of its own, and News shows nothing for it.",
+  "moves": {
+    "MAYOR_COUNCIL": "mayor-council",
+    "COUNCIL_MANAGER": "council-manager",
+    "COMMISSION_MANAGER": "commission-manager",
+    "COMMISSION": "commission",
+    "TOWN_MEETING": "town-meeting",
+    "CITY_COUNTY_CONSOLIDATED": "consolidated",
+    "URBAN_COUNTY_CONSOLIDATED": "urban-county",
+    "METRO_CONSOLIDATED": "metropolitan"
+  }
+}

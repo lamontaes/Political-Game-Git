@@ -277,6 +277,7 @@ export function World39Standing({
         <article key={item.key} data-standing-kind={item.kind}>
           <h5>{item.name}</h5>
           {item.bodyName ? <p>{item.bodyName}</p> : null}
+          {item.formTerm ? <p>{item.formTerm}</p> : null}
         </article>
       ))}
     </section>

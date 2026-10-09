@@ -1,7 +1,13 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
+import { drawRandomPlace } from "../../tests/support/random-place";
 import type { EntityId, IsoDate } from "../simulation";
+import {
+  municipalGovernmentForLifePlace,
+  primaryReading,
+} from "../simulation/municipal-government";
+import { governmentFormTerm } from "../presentation/government-form-english";
 import { World39Standing } from "./World39News";
 
 /*
@@ -66,6 +72,35 @@ describe("News: who holds office", () => {
     const html = markup([holder("Governor of Nevada", null, null)]);
     expect(html).toContain("Dana Ortiz");
     expect(html).not.toContain("In office since");
+  });
+
+  it("shows a town government's legislative body and form of government under its name", () => {
+    const place = drawRandomPlace("news-standing-form-oct9", (candidate) => {
+      const government = municipalGovernmentForLifePlace(candidate);
+      return government !== null && governmentFormTerm(government) !== null;
+    });
+    const government = municipalGovernmentForLifePlace(place)!;
+    const bodyName = primaryReading(government).bodyName;
+    const formTerm = governmentFormTerm(government)!.text;
+    const html = renderToStaticMarkup(
+      <World39Standing
+        officeholders={[]}
+        standing={[
+          {
+            key: `government:${government.key}`,
+            kind: "government",
+            name: government.displayName,
+            bodyName,
+            formTerm,
+            recordId: government.key,
+          },
+        ]}
+        onOpenPerson={() => {}}
+      />,
+    );
+    expect(html, place.displayName).toContain(
+      `<h5>${government.displayName}</h5>${bodyName ? `<p>${bodyName}</p>` : ""}<p>${formTerm}</p>`,
+    );
   });
 
   it("shows nothing when nobody and nothing is recorded", () => {
