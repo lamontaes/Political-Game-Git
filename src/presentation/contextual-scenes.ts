@@ -65,6 +65,7 @@ export const CONTEXTUAL_SCENE_SUBJECT = {
   "study-peer": "scene-study-peer",
   "study-plan": "scene-study-plan",
   "town-hall": "scene-town-hall",
+  situation: "scene-situation",
 } as const satisfies Record<SceneFamily, string>;
 
 export type ContextualSceneSubject =

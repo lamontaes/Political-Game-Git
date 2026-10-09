@@ -1,7 +1,28 @@
 {
   "version": 1,
-  "note": "Developer data for the story director (docs/design/story-director.md, part 3). The moves a role can make in a situation. Each names one speech act from the English engine's list, or none for a move that says nothing. A move's act kinds are its labels in decision-option-acts.json under story.move. The default aftermath is the relationship interaction the move writes; a situation type may override it. Never shown to a player.",
+  "note": "Developer data for the story director (docs/design/story-director.md, part 3). The moves a role can make in a situation. Each names one speech act from the English engine's list, or none for a move that says nothing. A move's act kinds are its labels in decision-option-acts.json under story.move. The default aftermath is the relationship interaction the move writes; a situation type may override it. An aftermath with when applies only when the move answers one of those moves: agreeing to a request commits, agreeing that someone declined does not. answeredBy lists the moves that can answer each move, so the other person replies with a matching move. Never shown to a player.",
   "always": ["ask", "stay-silent", "leave"],
+  "answeredBy": {
+    "comfort": ["thank", "deflect"],
+    "blame": ["apologize", "confront", "deflect"],
+    "promise": ["thank", "agree"],
+    "refuse": ["agree", "request", "blame"],
+    "lie": ["agree", "ask"],
+    "apologize": ["agree", "refuse"],
+    "confess": ["comfort", "blame", "thank"],
+    "thank": ["agree"],
+    "ask": ["tell", "deflect"],
+    "tell": ["thank", "ask", "agree"],
+    "request": ["agree", "decline", "offer"],
+    "offer": ["agree", "decline", "thank"],
+    "agree": ["thank", "tell"],
+    "decline": ["agree", "request"],
+    "deflect": ["ask", "confront"],
+    "confront": ["apologize", "deflect", "blame"],
+    "farewell": ["farewell"],
+    "recall": ["recall", "tell"]
+  },
+  "answeredBySource": "Adjacency pairs: a first move makes a matching second move relevant from the other person, such as a greeting for a greeting, acceptance or refusal for an offer, granting or rejecting a request, accepting an apology, and apology or denial for a complaint. Schegloff, E. A. (2007). Sequence Organization in Interaction: A Primer in Conversation Analysis, vol. 1. Cambridge University Press, chapters 2 and 4.",
   "moves": [
     {
       "key": "comfort",
@@ -114,7 +135,8 @@
       "aftermath": {
         "kind": "commitment:agreed",
         "change": "strengthened",
-        "significance": "minor"
+        "significance": "minor",
+        "when": ["request", "offer", "promise"]
       }
     },
     {
