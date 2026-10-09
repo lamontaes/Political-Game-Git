@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  createLegislativeScenario,
   currentMeasureProvisions,
   deserializeWorld,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import { BillConfigurationError } from "../simulation/legislation-drafting";
 import {

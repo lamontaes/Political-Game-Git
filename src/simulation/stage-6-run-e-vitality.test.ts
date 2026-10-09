@@ -5,7 +5,7 @@ import {
   createCharacterHistoryContextPerson,
 } from "./character-history";
 import { makeIsoDate } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createStableId } from "./ids";
 import {
   evaluateIncident,

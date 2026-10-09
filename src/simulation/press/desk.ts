@@ -394,7 +394,7 @@ export function assignStory(world: World, leadId: EntityId): World {
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;
@@ -838,7 +838,7 @@ function produceNonPlayerResponses(world: World, lead: StoryLeadRecord): World {
         },
       ],
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "durable",
     });
     if (!isSelectedDecision(evaluation)) continue;

@@ -3,7 +3,7 @@ import {
   createDemoWorld,
   advanceDemoWorld,
   LEXINGTON_DEMO_CONTEXT,
-} from "./demo";
+} from "../scenarios/demo";
 import { advanceFormativeInterval } from "./character-history";
 import { waitThenContinue } from "./people-continuation";
 import {

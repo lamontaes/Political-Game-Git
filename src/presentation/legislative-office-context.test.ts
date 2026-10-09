@@ -1,11 +1,7 @@
 import { enterSupportedTerm } from "../../tests/fixtures/recorded-legislative-term";
 import { describe, expect, it } from "vitest";
-import {
-  createLegislativeScenario,
-  referMeasure,
-  serializeWorld,
-  type EntityId,
-} from "../simulation";
+import { referMeasure, serializeWorld, type EntityId } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { openOrdinaryLife } from "./ordinary-life";
 import { projectCampaign } from "./campaign-projection";

@@ -169,35 +169,20 @@ function dutySentence(line: Extract<LawEffectLine, { kind: "duty" }>): string {
     return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. There are none on record here yet.`;
   const found = [
     line.complied > 0 ? `${line.complied} of ${total} met it` : null,
-    line.complianceUnknown > 0
-      ? `for ${line.complianceUnknown}, whether it was met is not known`
-      : null,
-    line.coverageUnknown > 0
-      ? `for ${line.coverageUnknown}, whether it applies is not known`
-      : null,
   ].filter((part): part is string => part !== null);
-  return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}. Of those on record, ${found.join("; ")}.`;
+  return `${line.heading}: this applies to ${line.coveredLabel}, in effect since ${from}.${found.length ? ` Of those on record, ${found.join("; ")}.` : ""}`;
 }
 
 function eligibilitySentence(
   line: Extract<LawEffectLine, { kind: "eligibility" }>,
 ): string {
   const who = `${line.heading}: it applies to ${line.coveredLabel}.`;
-  const unsure =
-    line.unknown === 1
-      ? "1 more is on record, but whether it applies to it is not known"
-      : `${line.unknown} more are on record, but whether it applies to them is not known`;
-  if (line.qualifying === null)
-    return line.unknown === 0
-      ? `${who} Who meets that test is not known yet.`
-      : `${who} ${unsure.replace(" more", "")}.`;
+  if (line.qualifying === null) return who;
   const count =
     line.qualifying === 0
       ? "None are on record here yet"
       : line.qualifying === 1
         ? "1 is on record here"
         : `${line.qualifying} are on record here`;
-  return line.unknown === 0
-    ? `${who} ${count}.`
-    : `${who} ${count}; ${unsure}.`;
+  return `${who} ${count}.`;
 }

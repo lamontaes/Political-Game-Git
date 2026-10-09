@@ -9,7 +9,7 @@ import { legislativePackForJurisdiction } from "./legislative-institutions";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   enterLifePath,
   scheduleLifePathSession,

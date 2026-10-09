@@ -11,7 +11,7 @@ import type {
   World,
 } from "../types";
 import {
-  drawnLinkSize,
+  linkSize,
   type OutcomeEvidence,
   LAW_QUESTION_MEASURES,
   OUTCOME_LINKS,
@@ -366,13 +366,9 @@ describe("recorded central effect sizes", () => {
     expect(link.size).toBeGreaterThanOrEqual(low);
     expect(link.size).toBeLessThanOrEqual(high);
     for (let index = 0; index < 40; index += 1) {
-      expect(drawnLinkSize(seeded(`world-${index}`), link, place)).toBe(
-        link.size,
-      );
+      expect(linkSize(seeded(`world-${index}`), link, place)).toBe(link.size);
     }
-    expect(drawnLinkSize(seeded("w"), link, "place_b" as EntityId)).toBe(
-      link.size,
-    );
+    expect(linkSize(seeded("w"), link, "place_b" as EntityId)).toBe(link.size);
   });
 
   it.each(Object.keys(STATES))(
@@ -389,7 +385,7 @@ describe("recorded central effect sizes", () => {
         for (const candidate of OUTCOME_LINKS) {
           const own = candidate.sizeByPlace?.[`US-${usps}`];
           expect(
-            drawnLinkSize(world, candidate, jurisdiction.id),
+            linkSize(world, candidate, jurisdiction.id),
             candidate.key,
           ).toBe(own?.size ?? candidate.size ?? 0);
         }
@@ -406,15 +402,15 @@ describe("recorded central effect sizes", () => {
           evidence,
         } as const;
         for (let index = 0; index < 20; index += 1) {
-          expect(drawnLinkSize(seeded(`s${index}`), central, place)).toBe(size);
+          expect(linkSize(seeded(`s${index}`), central, place)).toBe(size);
         }
       }
     }
     for (const zero of OUTCOME_LINKS.filter(
       (candidate) => candidate.evidence === "about-zero",
     ))
-      expect(drawnLinkSize(seeded("w"), zero, place)).toBe(0);
-    expect(drawnLinkSize({} as World, link, place)).toBe(link.size);
+      expect(linkSize(seeded("w"), zero, place)).toBe(0);
+    expect(linkSize({} as World, link, place)).toBe(link.size);
   });
 });
 

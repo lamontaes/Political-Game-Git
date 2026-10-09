@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { SeatedMember } from "../legislation-scenarios";
+import type { SeatedMember } from "../../scenarios/legislation";
 import { measureAmendments } from "../legislation";
 import { chamberByKey } from "../legislature-rules";
 import {
@@ -14,7 +14,7 @@ import {
   billOnTheFloor,
   seatEveryone,
   type Setup,
-} from "../vote-bundle.fixture";
+} from "../../scenarios/vote-bundle";
 import { measureAnswersAt, voteBundle } from "../vote-bundle";
 import { assertWorldIntegrity } from "../world";
 import {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { makeIsoDate } from "./dates";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { createStableId } from "./ids";
 import { introduceMeasure, measureActions, replayMeasure } from "./legislation";
 import {
@@ -13,7 +13,7 @@ import {
 } from "./legislature-rule-packs";
 import { assertLegislationIntegrity } from "./legislation-integrity";
 import { assertWorldIntegrity } from "./world";
-import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
+import type { DemoJurisdictionContext } from "../scenarios/demo-jurisdiction-context";
 import type {
   EntityId,
   LegislativeMeasureRecord,

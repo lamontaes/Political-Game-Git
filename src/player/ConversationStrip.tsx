@@ -16,7 +16,7 @@ import type {
   RunBConversationAction,
   RunBConversationState,
 } from "../presentation/run-b-conversation-state";
-import type { RunBScenePersonContext } from "../presentation/run-b-fixture";
+import type { RunBScenePersonContext } from "../presentation/office-scene-context";
 
 interface ConversationStripProps {
   readonly world: World;

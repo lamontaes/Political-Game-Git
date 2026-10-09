@@ -1,6 +1,6 @@
 import type { EntityId, IsoDate } from "../simulation";
 import { RUN_A_CIVIC_CONCEPT_ID } from "./run-a-learning";
-import type { RunAFixtureStateName } from "./run-a-fixture";
+import type { RunAFixtureStateName } from "./office-scene-context";
 
 export const RUN_A_PIN_IDS = ["person", "person-b"] as const;
 export type RunAPinId = (typeof RUN_A_PIN_IDS)[number];

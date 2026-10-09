@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { TEST_TAX_TERMS } from "../../../tests/fixtures/tax-policy-fixture";
-import { createLegislativeScenario } from "../legislation-scenarios";
+import { createLegislativeScenario } from "../../scenarios/legislation";
 import {
   introduceMeasure,
   availableMeasureSteps,

@@ -13,7 +13,6 @@ import {
   campaignTreasuryPosition,
   candidacyPackById,
   commitCampaignWeek,
-  createScenarioWorld,
   deserializeWorld,
   ensureCampaignOpponents,
   fileCampaign,
@@ -26,6 +25,7 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
 } from "../index";
+import { createScenarioWorld } from "../../scenarios/demo";
 import type {
   CampaignRecord,
   CampaignWeekView,
@@ -34,7 +34,7 @@ import type {
   World,
 } from "../index";
 import { passOrdinaryDays } from "../../presentation/ordinary-life";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 
 /**
  * The weekly plan across the shared clock.

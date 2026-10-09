@@ -925,7 +925,7 @@ const campaignReaction: SceneFamilyDefinition = {
     }
     return context.has("termStart")
       ? `You won the election for ${office}. The term begins on ${proseDate(context.fact("termStart"))}.`
-      : `You won the election for ${office}. The record does not yet give a start date for the term.`;
+      : `You won the election for ${office}.`;
   },
   opening(context) {
     if (context.binding.variant === "filed") {

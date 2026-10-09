@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../../src/simulation/demo";
+import { createDemoWorld } from "../../src/scenarios/demo";
 import { createWorld, advanceWorld } from "../../src/simulation/world";
 import {
   advanceWorldMinutes,

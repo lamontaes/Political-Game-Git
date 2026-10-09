@@ -188,12 +188,15 @@ export function evaluateDeterministicContestOutcome(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
     );
   }
-  return countRecordedVoterBallots(world, {
+  const result = countRecordedVoterBallots(world, {
     stableKey: contest.stableKey,
     jurisdictionId: contest.jurisdictionId,
     electionDate: contest.electionDate,
     candidatePersonIds: contest.candidatePersonIds,
   });
+  return result?.winnerPersonId
+    ? { ...result, winnerPersonId: result.winnerPersonId }
+    : null;
 }
 
 export interface RecordedVoterCountInput {
@@ -212,9 +215,14 @@ export function countRecordedVoterBallots(
   world: World,
   input: RecordedVoterCountInput,
 ): {
-  readonly winnerPersonId: EntityId;
+  readonly winnerPersonId: EntityId | null;
   readonly tallies: readonly CandidateTally[];
   readonly byPrecinct: readonly ElectionPrecinctTally[] | null;
+  readonly ballots: readonly {
+    readonly voterPersonId: EntityId;
+    readonly candidatePersonId: EntityId | null;
+    readonly sourceBeliefIds: readonly EntityId[];
+  }[];
 } | null {
   const candidates = new Set<string>(input.candidatePersonIds);
   if (
@@ -319,7 +327,6 @@ export function countRecordedVoterBallots(
       retention: "ephemeral",
     });
   }
-  if (contexts.size === 0) return null;
   const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
   const votesByPrecinct = new Map<
     string,
@@ -330,6 +337,11 @@ export function countRecordedVoterBallots(
       readonly votes: Map<EntityId, number>;
     }
   >();
+  const ballots: {
+    voterPersonId: EntityId;
+    candidatePersonId: EntityId | null;
+    sourceBeliefIds: readonly EntityId[];
+  }[] = [];
   let allBallotsHavePrecinct = true;
   for (const [voterId, context] of contexts) {
     if (
@@ -354,6 +366,19 @@ export function countRecordedVoterBallots(
     )
       return null;
     const evaluation = evaluateDecision(world, context);
+    ballots.push({
+      voterPersonId: voterId,
+      candidatePersonId:
+        isSelectedDecision(evaluation) &&
+        candidates.has(evaluation.selectedOptionKey)
+          ? (input.candidatePersonIds.find(
+              (id) => id === evaluation.selectedOptionKey,
+            ) ?? null)
+          : null,
+      sourceBeliefIds: [...(views.get(voterId)?.values() ?? [])].map(
+        (belief) => belief.id,
+      ),
+    });
     if (isSelectedDecision(evaluation)) {
       if (evaluation.selectedOptionKey === "abstain") continue;
       const id = input.candidatePersonIds.find(
@@ -389,16 +414,13 @@ export function countRecordedVoterBallots(
     }
   }
   const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
-  if (total === 0) return null;
   const tallies = input.candidatePersonIds
     .map((candidatePersonId) => ({
       candidatePersonId,
       votes: votes.get(candidatePersonId)!,
-      voteShare: votes.get(candidatePersonId)! / total,
+      voteShare: total === 0 ? 0 : votes.get(candidatePersonId)! / total,
     }))
     .sort((a, b) => b.votes - a.votes);
-  if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
-    return null;
   const byPrecinct = allBallotsHavePrecinct
     ? [...votesByPrecinct.values()]
         .map((precinct) => {
@@ -429,9 +451,14 @@ export function countRecordedVoterBallots(
         )
     : null;
   return {
-    winnerPersonId: tallies[0]!.candidatePersonId,
+    winnerPersonId:
+      total === 0 ||
+      (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
+        ? null
+        : tallies[0]!.candidatePersonId,
     tallies,
     byPrecinct,
+    ballots,
   };
 }
 

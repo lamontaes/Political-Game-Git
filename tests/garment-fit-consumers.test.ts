@@ -20,7 +20,7 @@ import {
 } from "../src/presentation/garment-fit";
 import { composePoseProof } from "../src/presentation/pose-proof";
 import { composeSceneCharacter } from "../src/presentation/scene-composition";
-import { createSceneProofWorld } from "../src/presentation/scene-proof";
+import { createSceneProofWorld } from "../src/scenarios/scene-proof";
 import {
   requireScene,
   SCENE_REGISTRY,

@@ -23,7 +23,7 @@ import {
   congressionalElectionDay,
 } from "../living-world/congress-turnover";
 import { SENATE_SELECTION_OFFICE_KEY } from "../enacted-rule-changes";
-import { dispositionsFromCounts } from "../legislation-scenarios";
+import { dispositionsFromCounts } from "../../scenarios/legislation";
 import { projectCongress } from "../living-world/congress";
 import {
   NATIONAL_ELECTION_JURISDICTION,

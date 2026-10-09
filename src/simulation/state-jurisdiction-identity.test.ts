@@ -5,7 +5,7 @@ import {
   ALASKA_CONTEXT,
   KENTUCKY_CONTEXT,
   NEBRASKA_CONTEXT,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   STATES,
   lifePlaces,
@@ -13,7 +13,7 @@ import {
   stateKeyForJurisdiction,
   stateKeyForJurisdictionSlug,
 } from "./life-places";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo-jurisdiction-context";
 import { makeIsoDate } from "./dates";
 import { createWorld } from "./world";
 import { deserializeWorld, serializeWorld } from "./serialization";

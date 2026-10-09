@@ -136,7 +136,7 @@ export function decidePromiseRenegotiation(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return {

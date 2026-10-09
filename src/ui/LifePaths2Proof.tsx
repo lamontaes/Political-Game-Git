@@ -7,7 +7,6 @@ import {
 } from "../player/time-command-runner";
 import { DEFAULT_INTERRUPTIONS } from "../presentation/shell-navigation";
 import {
-  createDemoWorld,
   createWorld,
   createResourcePosition,
   money,
@@ -16,6 +15,7 @@ import {
   recordKinship,
   recordGoalState,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import type { World } from "../simulation";
 const namespace = "life-paths2-isolated-proof-v1";
 function initial(): World {

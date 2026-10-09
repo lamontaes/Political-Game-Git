@@ -2,7 +2,6 @@ import { addSimulationMinutes } from "./dates";
 import type { EntityId, World } from "./types";
 import { describe, it, expect } from "vitest";
 import {
-  createDemoWorld,
   createWorld,
   serializeWorld,
   deserializeWorld,
@@ -12,6 +11,7 @@ import {
   recordWorldEvent,
   money,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   startCareerWork,
   seekCareerOffer,

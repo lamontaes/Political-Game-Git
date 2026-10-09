@@ -1,7 +1,7 @@
 import { makeIsoDate } from "../dates";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
-import type { EntityId, IsoDate, World } from "../types";
+import type { DecisionConsideration, EntityId, IsoDate, World } from "../types";
 import type { NominationPlan } from "./nomination-rules";
 
 /**
@@ -88,6 +88,7 @@ export function decideSelfStarterRun(
     readonly personId: EntityId;
     readonly seatKey: string;
     readonly intakeDate: IsoDate;
+    readonly considerations?: readonly DecisionConsideration[];
   },
 ): { world: World; runs: boolean; decisionTraceId: EntityId } {
   const { stableKey: key, personId } = input;
@@ -112,7 +113,7 @@ export function decideSelfStarterRun(
       { key: "decline", label: "Decline", description: "Do not enter." },
     ],
     constraints: [],
-    considerations: [
+    considerations: input.considerations ?? [
       {
         stableKey: `${key}:open-seat`,
         optionKey: "run",

@@ -18,7 +18,7 @@ import {
   recordConstitutionalPosition,
   constitutionalMemberBody,
 } from "./constitutional-process";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { resolveRequiredVotes } from "./legislature-rules";
 import {
   buildLegislativeVoteRecord,

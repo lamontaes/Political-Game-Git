@@ -18,7 +18,7 @@ import { chamberByKey } from "../legislature-rules";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { federalProgramCostsForMonth } from "../federal-cost-ledger";
 import { EXPAND_PASSENGER_RAIL_QUESTION } from "../federal-passenger-rail";

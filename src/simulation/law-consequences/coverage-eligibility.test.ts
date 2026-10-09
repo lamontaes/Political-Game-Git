@@ -3,7 +3,7 @@ import {
   authoredScenarioSeatCount,
   seatBodyForPack,
   dispositionsFromCounts,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import {
   introduceMeasure,
   referMeasure,

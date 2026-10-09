@@ -86,7 +86,8 @@ export function voiceStoryLine(
       return line ? [line] : [];
     });
     // One line among the fitting moves, by a stable hash of the line's key.
-    const line = lines[stableHash(`${packet.momentKey}:fit`) % lines.length];
+    const line =
+      lines[stableHash(`${packet.momentKey}:fit`, 32) % lines.length];
     if (line)
       return {
         text: line.text,

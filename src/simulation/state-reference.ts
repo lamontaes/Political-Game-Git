@@ -1,3 +1,7 @@
+import { researchRuleTable } from "./research-rule-tables";
+
+const reference = researchRuleTable("stateReference");
+
 /**
  * Postal state reference, standing alone so anything may read it.
  *
@@ -68,14 +72,9 @@ export function isFederalDistrictJurisdictionKey(
  */
 export const NONVOTING_HOUSE_MEMBER_TITLE: Readonly<
   Record<string, "Resident Commissioner" | "Delegate">
-> = {
-  PR: "Resident Commissioner",
-  DC: "Delegate",
-  GU: "Delegate",
-  VI: "Delegate",
-  AS: "Delegate",
-  MP: "Delegate",
-};
+> = reference.nonvotingHouseMemberTitles as Readonly<
+  Record<string, "Resident Commissioner" | "Delegate">
+>;
 
 /** The nonvoting House member's title for a place that sends one, else null. */
 export function nonvotingHouseMemberTitle(
@@ -95,13 +94,9 @@ export function nonvotingHouseMemberTitle(
  */
 export const TERRITORY_BIRTH_STATUS: Readonly<
   Record<string, "citizen" | "national">
-> = {
-  PR: "citizen",
-  VI: "citizen",
-  GU: "citizen",
-  MP: "citizen",
-  AS: "national",
-};
+> = reference.territoryBirthStatus as Readonly<
+  Record<string, "citizen" | "national">
+>;
 
 /**
  * Whether a birth in this state or territory, keyed `US-KY`, makes a person a
@@ -111,364 +106,16 @@ export function birthConfersCitizenship(stateJurisdictionKey: string): boolean {
   const usps = /^US-([A-Z]{2})$/.exec(stateJurisdictionKey)?.[1];
   if (usps === undefined) return false;
   if (isTerritoryUsps(usps)) return TERRITORY_BIRTH_STATUS[usps] === "citizen";
-  return true;
+  return Object.hasOwn(STATES, usps);
 }
 
-export const EASTERN = { timeZone: "America/New_York", utcOffsetMinutes: -300 };
-const CENTRAL = { timeZone: "America/Chicago", utcOffsetMinutes: -360 };
-const MOUNTAIN = { timeZone: "America/Denver", utcOffsetMinutes: -420 };
-const PACIFIC = { timeZone: "America/Los_Angeles", utcOffsetMinutes: -480 };
-
-export const STATES: Readonly<Record<string, StateReference>> = {
-  AL: {
-    name: "Alabama",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  AK: {
-    name: "Alaska",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    timeZone: "America/Anchorage",
-    utcOffsetMinutes: -540,
-  },
-  AZ: {
-    name: "Arizona",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    timeZone: "America/Phoenix",
-    utcOffsetMinutes: -420,
-  },
-  AR: {
-    name: "Arkansas",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  CA: {
-    name: "California",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...PACIFIC,
-  },
-  CO: {
-    name: "Colorado",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  CT: {
-    name: "Connecticut",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  DE: {
-    name: "Delaware",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  DC: {
-    name: "District of Columbia",
-    jurisdictionKind: "federal-district",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  FL: {
-    name: "Florida",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  GA: {
-    name: "Georgia",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  HI: {
-    name: "Hawaii",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    timeZone: "Pacific/Honolulu",
-    utcOffsetMinutes: -600,
-  },
-  ID: {
-    name: "Idaho",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  IL: {
-    name: "Illinois",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  IN: {
-    name: "Indiana",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  IA: {
-    name: "Iowa",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  KS: {
-    name: "Kansas",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  KY: {
-    name: "Kentucky",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  LA: {
-    name: "Louisiana",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  ME: {
-    name: "Maine",
-    jurisdictionKind: "state",
-    electorAllocation: "congressional-district",
-    ...EASTERN,
-  },
-  MD: {
-    name: "Maryland",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  MA: {
-    name: "Massachusetts",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  MI: {
-    name: "Michigan",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  MN: {
-    name: "Minnesota",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  MS: {
-    name: "Mississippi",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  MO: {
-    name: "Missouri",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  MT: {
-    name: "Montana",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  NE: {
-    name: "Nebraska",
-    jurisdictionKind: "state",
-    electorAllocation: "congressional-district",
-    ...CENTRAL,
-  },
-  NV: {
-    name: "Nevada",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...PACIFIC,
-  },
-  NH: {
-    name: "New Hampshire",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  NJ: {
-    name: "New Jersey",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  NM: {
-    name: "New Mexico",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  NY: {
-    name: "New York",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  NC: {
-    name: "North Carolina",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  ND: {
-    name: "North Dakota",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  OH: {
-    name: "Ohio",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  OK: {
-    name: "Oklahoma",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  OR: {
-    name: "Oregon",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...PACIFIC,
-  },
-  PA: {
-    name: "Pennsylvania",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  RI: {
-    name: "Rhode Island",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  SC: {
-    name: "South Carolina",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  SD: {
-    name: "South Dakota",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  TN: {
-    name: "Tennessee",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  TX: {
-    name: "Texas",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  UT: {
-    name: "Utah",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  VT: {
-    name: "Vermont",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  VA: {
-    name: "Virginia",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  WA: {
-    name: "Washington",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...PACIFIC,
-  },
-  WV: {
-    name: "West Virginia",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...EASTERN,
-  },
-  WI: {
-    name: "Wisconsin",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...CENTRAL,
-  },
-  WY: {
-    name: "Wyoming",
-    jurisdictionKind: "state",
-    electorAllocation: "winner-take-all",
-    ...MOUNTAIN,
-  },
-  PR: {
-    name: "Puerto Rico",
-    jurisdictionKind: "territory",
-    electorAllocation: "none",
-    timeZone: "America/Puerto_Rico",
-    utcOffsetMinutes: -240,
-  },
-  // The four other inhabited territories. Each is its own government and
-  // electorate, never a state; listing one here gives it a name and a clock
-  // and nothing else. Their places come from `territory-places.ts`, because
-  // the Census Gazetteer behind the national place list does not cover them.
-  GU: {
-    name: "Guam",
-    jurisdictionKind: "territory",
-    electorAllocation: "none",
-    timeZone: "Pacific/Guam",
-    utcOffsetMinutes: 600,
-  },
-  VI: {
-    name: "U.S. Virgin Islands",
-    jurisdictionKind: "territory",
-    electorAllocation: "none",
-    timeZone: "America/St_Thomas",
-    utcOffsetMinutes: -240,
-  },
-  AS: {
-    name: "American Samoa",
-    jurisdictionKind: "territory",
-    electorAllocation: "none",
-    timeZone: "Pacific/Pago_Pago",
-    utcOffsetMinutes: -660,
-  },
-  MP: {
-    name: "Northern Mariana Islands",
-    jurisdictionKind: "territory",
-    electorAllocation: "none",
-    timeZone: "Pacific/Saipan",
-    utcOffsetMinutes: 600,
-  },
+export const EASTERN = reference.defaultClockZone as {
+  readonly timeZone: string;
+  readonly utcOffsetMinutes: number;
 };
+
+export const STATES: Readonly<Record<string, StateReference>> =
+  reference.places as Readonly<Record<string, StateReference>>;
 
 /** Postal code to reference name, shared by simulation and presentation readers. */
 export const US_POSTAL_NAMES: Readonly<Record<string, string>> = Object.freeze(

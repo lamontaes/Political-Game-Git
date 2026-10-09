@@ -6,7 +6,7 @@ import {
   legislativeInstitutionContext,
   legislativePackForJurisdiction,
 } from "../legislative-institutions";
-import { procedureOnlyBlueprint } from "../legislation-scenarios";
+import { procedureOnlyBlueprint } from "../../scenarios/legislation";
 import { assertRulePackIntegrity } from "../legislature-rules";
 import { legislativeRulePackForWorld } from "../legislative-procedure-world";
 import { lifePlaceStateIdentities } from "../life-places";

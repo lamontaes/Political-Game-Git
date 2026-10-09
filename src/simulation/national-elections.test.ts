@@ -6,7 +6,7 @@ import {
 } from "./national-election-geography";
 import { describe, it, expect } from "vitest";
 import { createLightweightPerson } from "./people";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
 import {
   registerNationalElection,

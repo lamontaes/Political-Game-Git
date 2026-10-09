@@ -52,7 +52,7 @@ import { MEDIAN_FILING_GAP_DAYS } from "./filing-gap";
  */
 
 export type NominationOfficeFamily =
-  "us-house" | "us-senate" | "governor" | "state-legislature";
+  "us-house" | "us-senate" | "us-president" | "governor" | "state-legislature";
 
 /** Every method the starting law uses, including one only a legislature uses. */
 export type NominationMethod = NominationMethodChoice | "nonpartisan-top-two";

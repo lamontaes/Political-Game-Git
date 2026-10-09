@@ -10,7 +10,7 @@ import {
   recordDebateExtension,
   referMeasure,
 } from "../legislation";
-import { billOnTheFloor } from "../vote-bundle.fixture";
+import { billOnTheFloor } from "../../scenarios/vote-bundle";
 import { US_CONGRESS_RULE_PACK } from "../congress-rule-pack";
 import {
   decideChamberVote,
@@ -18,7 +18,7 @@ import {
   seatedChamberForPack,
 } from "./chamber-votes";
 import { chamberByKey } from "../legislature-rules";
-import { seatEveryone } from "../vote-bundle.fixture";
+import { seatEveryone } from "../../scenarios/vote-bundle";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,

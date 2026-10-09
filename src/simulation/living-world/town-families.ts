@@ -106,23 +106,6 @@ export const TOWN_FAMILY_EVENTS = {
 
 type Stage = keyof typeof TOWN_PARTNERSHIP_KINDS;
 
-/** GAME ASSUMPTIONS: chances per quarter, before conditions are weighed. */
-export const TOWN_FAMILY_CHANCES = {
-  breakUp: { dating: 0.09, cohabiting: 0.035, married: 0.005 },
-  /** Dating couples, after at least six months together. */
-  moveIn: 0.12,
-  /** Couples living together, after at least a year of it. */
-  marry: 0.07,
-  /** A single adult's chance of starting to date somebody, by age. */
-  dateByAge: [
-    [20, 0.035],
-    [25, 0.04],
-    [35, 0.025],
-    [45, 0.012],
-    [65, 0],
-  ] as readonly (readonly [number, number])[],
-} as const;
-
 /** The widest age gap between two people who start dating, in years. */
 export const TOWN_DATING_AGE_GAP = 8;
 

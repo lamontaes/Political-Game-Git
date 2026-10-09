@@ -1228,7 +1228,7 @@ function produceReporterQuestion(world: World, personId: EntityId): World {
     ],
     constraints: [],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) return world;

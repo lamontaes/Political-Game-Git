@@ -5,7 +5,7 @@ import {
   coupleStageOptions,
 } from "../couple-stage-contract";
 import type { CoupleStage } from "../couple-stage-data";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { createWorld } from "../world";
 import { deserializeWorld, serializeWorldPayload } from "../serialization";
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";

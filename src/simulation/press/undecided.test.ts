@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "../decisions";
-import { createScenarioWorld } from "../demo";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { createOrganization, createWorkRelationship } from "../life";
 import { recordEventKnowledge } from "../records";

@@ -14,7 +14,6 @@ import {
   childAuthorityStateHistory,
   createCareResponsibility,
   createChildAuthority,
-  createDemoWorld,
   createEducationEnrollment,
   createHousehold,
   createOrganization,
@@ -54,6 +53,7 @@ import {
   startHouseholdMembership,
   workRelationshipHistoryForPerson,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   Jurisdiction,

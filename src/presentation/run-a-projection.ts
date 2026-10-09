@@ -5,7 +5,10 @@ import {
   personName,
 } from "../simulation";
 import type { EntityId, Jurisdiction, World } from "../simulation";
-import type { RunAFixture, RunAScenePersonContext } from "./run-a-fixture";
+import type {
+  RunAFixture,
+  RunAScenePersonContext,
+} from "./office-scene-context";
 
 /**
  * What a person would call the place, on the dossier a player reads.

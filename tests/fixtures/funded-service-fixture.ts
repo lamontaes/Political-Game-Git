@@ -1,6 +1,6 @@
 import { expect } from "vitest";
 import { daysBetween } from "../../src/simulation/dates";
-import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../../src/scenarios/legislation";
 import {
   introduceMeasure,
   availableMeasureSteps,

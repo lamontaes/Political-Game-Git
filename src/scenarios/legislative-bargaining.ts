@@ -1,5 +1,4 @@
 import {
-  createLegislativeScenario,
   floorStageByKey,
   chamberByKey,
   measurePosition,
@@ -9,20 +8,23 @@ import {
   recordWorldEvent,
   type EntityId,
   type LegislativeProvisionBeneficiary,
-  type LegislativeScenario,
   type MetricSegmentKey,
   type SeatedBody,
   type World,
 } from "../simulation";
-import { applyLegislativeStep } from "./legislation-session";
-import { createLegislativeBargainingProgress } from "./legislative-bargaining";
-import type { LegislativeBargainingSubjectFacts } from "./run-b-conversation-progress";
+import {
+  createLegislativeScenario,
+  type LegislativeScenario,
+} from "./legislation";
+import { applyLegislativeStep } from "../presentation/legislation-session";
+import { createLegislativeBargainingProgress } from "../presentation/legislative-bargaining";
+import type { LegislativeBargainingSubjectFacts } from "../presentation/run-b-conversation-progress";
 import {
   bargainingRoomContexts,
   bargainingScenePeople,
   formatPresentationTime,
   type LegislativeBargainingSeat,
-} from "./legislative-bargaining-brief";
+} from "../presentation/legislative-bargaining-brief";
 
 export const BARGAINING_BRIEF_SCENARIO_KEY = "kentucky";
 export const PROGRAM_PROVISION_KEY = "pilot-support-limit";

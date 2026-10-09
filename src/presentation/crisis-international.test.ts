@@ -1,7 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   certifyWarPowersExtension,
-  createDemoWorld,
   createWorld,
   crisisEnvelopesBetween,
   crisisProtectedDecisions,
@@ -16,6 +15,7 @@ import {
   recordWorldEvent,
   serializeWorld,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import { internationalTestActors } from "../simulation/crisis/international-test-actors";
 import type { IsoDate, Person, TensionLevel, World } from "../simulation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";

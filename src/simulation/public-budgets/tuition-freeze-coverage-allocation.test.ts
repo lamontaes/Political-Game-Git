@@ -63,7 +63,7 @@ import {
   seatBodyForPack,
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { governorOfficeForJurisdiction } from "../governing/state-governing";
 import { operativeDateInWorld } from "../governing/law-in-force";
 import {

@@ -3,7 +3,7 @@ import {
   validateRunASceneLayout,
   type SceneRect,
 } from "./run-a-layout";
-import type { RunBSceneAnchorId } from "./run-b-fixture";
+import type { RunBSceneAnchorId } from "./office-scene-context";
 
 export interface RunBSecondaryPersonLayout {
   readonly measurementConfidence: "visual-estimate";

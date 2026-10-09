@@ -25,7 +25,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { resolveTransitFunding } from "../simulation/transit-funding";
 import { applyLegislativeStep } from "./legislation-session";
 import { publishLegislativeTransition } from "./publish-legislative-transition";

@@ -6,7 +6,7 @@ import {
   buildAdultLifeContext,
 } from "./adult-situations";
 import type { AdultLifeContext } from "./adult-situations";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { RETURN_SUMMARY } from "./life-callbacks";
 import type { EntityId } from "./types";
 

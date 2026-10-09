@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createDemoWorld } from "../src/simulation/demo";
+import { createDemoWorld } from "../src/scenarios/demo";
 import {
   planLifeScenePeople,
   type LifeSceneWardrobeOptions,

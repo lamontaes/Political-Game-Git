@@ -19,7 +19,7 @@ import {
   createLegislativeScenario,
   dispositionsFromCounts,
   legislativeBlueprint,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { lifePlaceStateIdentities } from "../life-places";
 import { ensureStateExecutiveIncumbent } from "../nationwide-world/state-executives";
 import { personName } from "../people";

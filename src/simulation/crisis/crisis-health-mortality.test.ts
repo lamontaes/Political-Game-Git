@@ -6,7 +6,7 @@ import {
 } from "../character-history";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
 import { addDays, makeIsoDate } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, IsoDate, Person, World } from "../types";
 import * as vitality from "../vitality";

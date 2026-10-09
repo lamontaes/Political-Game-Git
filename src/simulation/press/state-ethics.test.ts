@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld } from "../index";
-import { KENTUCKY_CONTEXT, NEBRASKA_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import {
+  KENTUCKY_CONTEXT,
+  NEBRASKA_CONTEXT,
+} from "../../scenarios/legislation";
 import { canInstitutionAct } from "../governing/institution-authority";
 import { LEGISLATIVE_RULE_PACKS } from "../legislature-rule-packs";
 import { procedureForSubject } from "./matters";

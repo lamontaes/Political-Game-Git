@@ -8,7 +8,6 @@ import {
   composeApprenticeshipPlan,
   composeGuardReservePlan,
   composePcsRelocationPlan,
-  createDemoWorld,
   createStableId,
   createWorld,
   dateAtAge,
@@ -21,6 +20,7 @@ import {
   resolveLifeSituation,
   serializeWorld,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   CharacterHistoryPlan,
   EntityId,

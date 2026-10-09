@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { governmentUnit } from "./government-units";
 import { rulePackById } from "./legislature-rule-packs";
 import { requireLifePlace } from "./life-places";

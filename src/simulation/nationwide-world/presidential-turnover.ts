@@ -1,17 +1,21 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
-import { decideAnotherTerm } from "../careers/another-term";
+import { researchRuleTable } from "../research-rule-tables";
+import { candidacyEligibility } from "../candidacy";
+import { currentStateExecutiveHolders } from "./state-executives";
+import { decideSelfStarterRun } from "../nominations/field-entry";
 import {
-  characterHistoryContextPersonId,
-  createCharacterHistoryContextPeople,
-} from "../character-history";
+  holdNominationPrimary,
+  nominationNominees,
+  type NominationEntrant,
+} from "../nominations/party-nominations";
+import { stateJurisdictionForKey } from "../life-places";
+import { STATES } from "../state-reference";
+import { decideAnotherTerm } from "../careers/another-term";
 import { currentPresidentOf } from "../crisis/offices";
 import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import {
   LIVING_WORLD_KEYS,
-  PARTY_AFFILIATION_KIND,
   livingWorldOrganizationId,
 } from "../living-world/opening";
 import {
@@ -27,13 +31,11 @@ import {
 } from "../national-election-consumer";
 import {
   NATIONAL_ELECTION_JURISDICTION,
-  ensureJurisdiction,
   ensureNationalElectionJurisdiction,
   nationalUnitJurisdiction,
 } from "../national-election-geography";
 import {
   CONTINGENT_STATES,
-  ELECTORAL_ALLOCATION,
   FIRST_NATIONAL_CYCLE,
   nationalElectionRules,
 } from "../national-election-rules";
@@ -53,13 +55,11 @@ import type {
   NationalUnitResult,
   PresidentialTicket,
 } from "../national-election-types";
-import { nationalMoodDemocraticShift } from "../national-mood";
-import { drawCanonicalNamedIdentity } from "../people";
-import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { countRecordedVoterBallots } from "../election-contests";
+import { recordedDistrictMembership } from "../district-residence";
+import { districtIdentityCatalog } from "../../districts/catalog";
+import { resolveDistrictBinding } from "../../districts/query";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo } from "../world-setup/deterministic-math";
-import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
   FEDERAL_TENURE_EVENT,
@@ -79,83 +79,29 @@ import type {
   World,
 } from "../types";
 
-/**
- * PRESIDENTIAL CONTINUITY — the presidency is elected on the canonical clock,
- * every fourth November from 2028, whether or not the player takes part.
- *
- * The constitutional sequence runs through the national election records that
- * already existed and had nothing feeding them: two party tickets are
- * nominated when the field closes, every state and the District reports a
- * popular result on election day, the states certify and the electors vote on
- * their statutory day, Congress counts on January 6, and the winners take the
- * oath at noon on January 20 and hold the office through the canonical work
- * records until the next inauguration. A President who dies in an elected term
- * is succeeded by the Vice President through the Twenty-Fifth Amendment
- * receiver, which reads these same records.
- *
- * What is law here: the dates (3 U.S.C. §§ 1, 7, 15; U.S. Const. amend. XX),
- * the elector allocation, the Twelfth Amendment's two-state rule, the
- * Twenty-Second Amendment's two-term limit, and the Article II minimum age.
- * The term limit is read through the rule layer (`presidentialTermLimitAt`),
- * so an amendment ratified in the World (`living-world/federal-reform.ts`)
- * replaces it.
- *
- * PLACEHOLDERS, NOT LAW OR RESEARCH, each filed as research question
- * `how-a-presidential-election-plays-out`:
- * - Each state's popular vote starts from its certified 2024 two-party share
- *   and moves by a national, regional and state swing drawn fresh each cycle
- *   with the spreads the world's starting politics already uses. How much a
- *   presidential result really moves between cycles is not researched, and
- *   the answered `should-partisan-geography-move` says a state's lean should
- *   come from its people's current opinion; this stands in until that
- *   producer exists.
- * - Nominees are drawn aged 45 to 69 from a state weighted by its electors.
- *   How parties choose nominees (primaries, conventions) is NOT MODELED.
- * - An incumbent eligible to stand runs again four times in five, and not at
- *   78 or older, as governors do.
- *
- * NOT MODELED, with the rule that applies meanwhile:
- * - Campaigns, including the player's own: the player cannot yet run for
- *   President. The contest is decided from the popular vote above alone.
- * - Maine's and Nebraska's district electors follow their state's result, as
- *   the world's opening presidency already does.
- * - Faithless electors: every elector votes for the ticket that carried their
- *   unit.
- * - How members vote in a contingent election. When no ticket wins a majority
- *   of the electoral votes (a 269-269 tie), the House chooses the President
- *   with one vote per state delegation and the Senate chooses the Vice
- *   President (U.S. Const. amend. XII). The procedure is law; the votes are a
- *   PLACEHOLDER: each member votes for their own party's nominee, a
- *   delegation votes for whichever nominee most of its voting members chose,
- *   and an evenly divided delegation casts no vote. A vacant Senate seat
- *   counts as a vote for no one, so a majority is 51 whatever the
- *   vacancies. Both are filed with
- *   `when-the-presidency-and-vice-presidency-are-both-empty`. Each body
- *   votes once. A deadlocked House leaves the presidency unfilled, because
- *   the Vice President-elect acting as President (amend. XX, § 3) is NOT
- *   MODELED.
- * - A President-elect who dies before the inauguration (Twentieth Amendment,
- *   § 3): the term is not entered.
- * - Natural-born citizenship and fourteen years' residence: every nominee is
- *   born and resident in the state they are nominated from.
- * - Reapportionment after 2030: see `CARRIED_FORWARD_ALLOCATION_VERSION`.
+/** Presidential elections follow dated national records. Nominees are existing
+ * eligible people admitted through the shared field-entry and primary engines.
+ * Popular results count residents' current candidate views through the same
+ * counter as local elections. Calibration shares never supply ballots.
+ * District electors require actual district-membership records. An unread
+ * preference, empty field or tied nomination creates no invented winner.
  */
+const presidentialData = researchRuleTable("presidentialRules");
 
 export const PRESIDENTIAL_TURNOVER_VERSION = "presidential-turnover/v1";
 
 export const PRESIDENTIAL_TURNOVER_PROFILE = {
   id: "ocd-presidential-turnover-game-profile/v1",
   /** The nominating field closes this many days before election day. */
-  fieldClosesDaysBefore: 60,
-  /** Age range of a newly drawn nominee, inclusive of the minimum. */
+  fieldClosesDaysBefore: presidentialData.nomination.fieldClosesDaysBefore,
 } as const;
 
 /** U.S. Const. art. II, § 1, cl. 5. */
-export const PRESIDENTIAL_MINIMUM_AGE = 35;
+export const PRESIDENTIAL_MINIMUM_AGE = presidentialData.eligibility.minimumAge;
 /** U.S. Const. amend. XXII, § 1: elected no more than twice. */
 export const TWENTY_SECOND_AMENDMENT_LIMIT: TermLimitRule = Object.freeze({
   maxConsecutiveTerms: null,
-  maxLifetimeTerms: 2,
+  maxLifetimeTerms: presidentialData.eligibility.maxLifetimeTerms,
   lookbackYears: null,
 });
 
@@ -176,7 +122,6 @@ const PARTIES = ["democratic", "republican"] as const;
 type MajorParty = (typeof PARTIES)[number];
 
 const NOMINATION_EVENT = "election.presidential-nomination";
-const INTENT_EVENT = "election.presidential-candidacy-intent";
 const RESULT_EVENT = "election.presidential-popular-vote";
 const COUNT_EVENT = "election.presidential-electoral-count";
 
@@ -241,20 +186,13 @@ export function nextPresidentialCycle(world: World): number {
 
 /** A person's public party, read from their recorded affiliation. */
 function partyOf(world: World, personId: EntityId): MajorParty | null {
+  const affiliation = publicPartyAffiliation(world, personId);
   for (const party of PARTIES) {
     const organizationId = livingWorldOrganizationId(
       world,
       LIVING_WORLD_KEYS.nationalParty(party),
     );
-    if (
-      world.history.organizationParticipations.some(
-        (participation) =>
-          participation.personId === personId &&
-          participation.organizationId === organizationId &&
-          participation.kind === PARTY_AFFILIATION_KIND,
-      )
-    )
-      return party;
+    if (affiliation === organizationId) return party;
   }
   return null;
 }
@@ -386,33 +324,14 @@ export function presidentialTermBar(
     : null;
 }
 
-function unitStates(): readonly string[] {
-  return Object.keys(ELECTORAL_ALLOCATION).sort();
-}
-
-/** A state drawn with weight proportional to its electors. */
-function drawState(rng: SeededRng, exclude: string | null): string {
-  const states = unitStates().filter((usps) => usps !== exclude);
-  const total = states.reduce(
-    (sum, usps) => sum + ELECTORAL_ALLOCATION[usps]!,
-    0,
-  );
-  let roll = rng.integer(0, total);
-  for (const usps of states) {
-    roll -= ELECTORAL_ALLOCATION[usps]!;
-    if (roll < 0) return usps;
-  }
-  return states.at(-1)!;
-}
-
-/** The unit state a person lives in, when it is one. */
+/** A person's recorded home state or territory. */
 function homeState(world: World, personId: EntityId): string | null {
   const person = world.people[personId];
   const key = person
     ? lifePlaceByJurisdictionId(person.homeJurisdictionId)?.stateJurisdictionKey
     : null;
   const usps = key?.startsWith("US-") ? key.slice(3) : null;
-  return usps && ELECTORAL_ALLOCATION[usps] !== undefined ? usps : null;
+  return usps && Object.hasOwn(STATES, usps) ? usps : null;
 }
 
 interface Nominee {
@@ -420,60 +339,169 @@ interface Nominee {
   readonly state: string;
 }
 
-/** A party's nominee, a person invented for the cycle (exported for A161's test). */
-export function drawNominee(
+/** No new people: the existing filed campaigns and officeholders supply the field. */
+export function nominatePresidentialField(
   world: World,
   cycle: number,
-  stableKey: string,
-  excludeState: string | null,
-  party: MajorParty,
-): { world: World; nominee: Nominee } {
-  const rng = new SeededRng(world.seed).fork(stableKey);
-  const state = drawState(rng.fork("state"), excludeState);
-  const jurisdiction = nationalUnitJurisdiction(cycle, state);
-  let next = ensureJurisdiction(world, jurisdiction);
-  next = createCharacterHistoryContextPeople(next, [
-    {
-      stableKey,
-      ...drawCanonicalNamedIdentity(
-        rng.fork("name"),
-        generatePersonIdentity(rng.fork("identity")),
-      ),
-      // Born before the election's field closes, so the minimum age holds on
-      // election day and at the oath.
-      birthDate: inventedPersonBirthDate(rng, {
-        role: "presidential-nominee",
-        referenceDate: makeIsoDate(`${cycle}-01-01`),
-      }),
-      homeJurisdictionId: jurisdiction.id,
-      birthplaceJurisdictionId: jurisdiction.id,
-    },
+): {
+  world: World;
+  nominees: readonly { party: string; personId: EntityId }[];
+} {
+  let next = world;
+  const key = `${cycleKey(cycle)}:field`;
+  const incumbent = incumbentStands(next, cycle);
+  next = incumbent.world;
+  const congress = projectCongress(next);
+  const pool = new Set<EntityId>([
+    ...currentStateExecutiveHolders(next).map((x) => x.personId),
+    ...[
+      ...(congress?.house.seats ?? []),
+      ...(congress?.senate.seats ?? []),
+    ].flatMap((x) =>
+      x.occupant.kind === "member" ? [x.occupant.member.personId] : [],
+    ),
+    ...(next.history.campaigns ?? [])
+      .filter((x) => x.officeKey === PRESIDENT_OFFICE_KEY)
+      .map((x) => x.candidatePersonId),
+    ...(currentVicePresident(next) ? [currentVicePresident(next)!] : []),
+    ...(incumbent.personId ? [incumbent.personId] : []),
   ]);
-  const personId = characterHistoryContextPersonId(next, stableKey);
-  const partyOrganizationId = livingWorldOrganizationId(
-    next,
-    LIVING_WORLD_KEYS.nationalParty(party),
-  );
-  if (
-    next.history.organizations.some(
-      (organization) => organization.id === partyOrganizationId,
+  const entrants: NominationEntrant[] = [];
+  for (const personId of [...pool].sort()) {
+    const party = partyOf(next, personId);
+    const state = homeState(next, personId);
+    if (
+      !party ||
+      !state ||
+      !nationalPersonAlive(next, personId) ||
+      !candidacyEligibility(next, {
+        personId,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        officeKey: PRESIDENT_OFFICE_KEY,
+        alreadyACandidate: false,
+      }).eligible ||
+      presidentialTermBar(next, personId, makeIsoDate(`${cycle + 1}-01-20`))
     )
-  )
-    next = createOrganizationParticipation(next, {
-      stableKey: `${stableKey}:affiliation`,
+      continue;
+    const filed = (next.history.campaigns ?? []).some(
+      (x) =>
+        x.candidatePersonId === personId &&
+        x.officeKey === PRESIDENT_OFFICE_KEY,
+    );
+    if (personId === incumbent.personId) {
+      if (incumbent.party !== party && !filed) continue;
+    } else if (!filed) {
+      if (next.control.kind === "person" && next.control.personId === personId)
+        continue;
+      const decision = decideSelfStarterRun(next, {
+        stableKey: `${key}:${personId}:entry`,
+        decisionType: "election.consider-primary",
+        personId,
+        seatKey: PRESIDENT_OFFICE_KEY,
+        intakeDate: next.currentDate,
+        considerations: [
+          {
+            stableKey: `${key}:${personId}:office`,
+            optionKey: "run",
+            sourceType: "context:current-office",
+            direction: "supports",
+            importance: "moderate",
+            confidence: "high",
+            explanation:
+              currentStateExecutiveHolders(next).find(
+                (x) => x.personId === personId,
+              )?.title ??
+              [
+                ...(congress?.house.seats ?? []),
+                ...(congress?.senate.seats ?? []),
+              ].flatMap((x) =>
+                x.occupant.kind === "member" &&
+                x.occupant.member.personId === personId
+                  ? [x.occupant.member.title]
+                  : [],
+              )[0] ??
+              presidentialData.office.title,
+            sourceRefs: [],
+          },
+        ],
+      });
+      next = decision.world;
+      if (!decision.runs) continue;
+    }
+    entrants.push({
       personId,
-      organizationId: partyOrganizationId,
-      startedAt: next.currentDate,
-      initialStatus: "active",
-      kind: PARTY_AFFILIATION_KIND,
-      roleKind: "member:public-affiliation",
-      context: "Public party affiliation",
-      provenance: {
-        kind: "authored",
-        note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: nominated by this party.`,
-      },
+      party,
+      incumbent: personId === incumbent.personId,
+      partyBacked: false,
     });
-  return { world: next, nominee: { personId, state } };
+  }
+  if (!entrants.length) return { world: next, nominees: [] };
+  next = holdNominationPrimary(next, {
+    stableKey: key,
+    seatKey: PRESIDENT_OFFICE_KEY,
+    title: presidentialData.office.title,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    involvedEntityIds: entrants.map((x) => x.personId),
+    entrants,
+    partyShare: () => null,
+    plan: {
+      known: true,
+      stateUsps: "US",
+      family: "us-president",
+      year: cycle,
+      method: "party-primary",
+      primaryDate: next.currentDate,
+      dateBasis: "estimated-from-average",
+      estimated: ["primary-date"],
+      runoff: null,
+      advance: 1,
+      filingDeadline: next.currentDate,
+      filingBasis: "estimated-from-average",
+    },
+    recordedVoters: {
+      jurisdictionIds: Object.keys(STATES).map(
+        (code) => stateJurisdictionForKey(`US-${code}`)!.id,
+      ),
+      admitVoter: (personId, party) => partyOf(next, personId) === party,
+    },
+  });
+  return { world: next, nominees: nominationNominees(next, key) ?? [] };
+}
+
+function chooseRunningMate(
+  world: World,
+  cycle: number,
+  president: Nominee,
+  party: string,
+): Nominee | null {
+  const candidates = world.personOrder.filter(
+    (personId) =>
+      personId !== president.personId &&
+      partyOf(world, personId) === party &&
+      homeState(world, personId) !== null &&
+      nationalPersonAlive(world, personId) &&
+      candidacyEligibility(world, {
+        personId,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        officeKey: PRESIDENT_OFFICE_KEY,
+        alreadyACandidate: false,
+      }).eligible,
+  );
+  if (!candidates.length) return null;
+  const home = world.people[president.personId]!.homeJurisdictionId;
+  const count = countRecordedVoterBallots(world, {
+    stableKey: `${cycleKey(cycle)}:${president.personId}:running-mate`,
+    jurisdictionId: home,
+    electionDate: world.currentDate,
+    candidatePersonIds: candidates,
+    admitVoter: (personId) => personId === president.personId,
+  });
+  return count?.winnerPersonId
+    ? {
+        personId: count.winnerPersonId,
+        state: homeState(world, count.winnerPersonId)!,
+      }
+    : null;
 }
 
 function personName(world: World, personId: EntityId): string {
@@ -600,60 +628,20 @@ export function presidentialFieldCloseHandler(
   const rules = nationalElectionRules(cycle);
   const key = cycleKey(cycle);
   let next = ensureNationalElectionJurisdiction(world);
-  const incumbent = incumbentStands(next, cycle);
-  next = incumbent.world;
-  if (incumbent.personId)
-    next = recordPublicEvent(next, {
-      stableKey: `${key}:intent`,
-      type: INTENT_EVENT,
-      personIds: [incumbent.personId],
-      tags: [`intent:${incumbent.party ? "seeking" : "not-seeking"}`],
-      summary: incumbent.party
-        ? "The President is seeking a second term."
-        : `The President is not on the ballot: ${incumbent.reason}`,
-    });
+  const nominated = nominatePresidentialField(next, cycle);
+  next = nominated.world;
   const tickets: PresidentialTicket[] = [];
-  for (const party of PARTIES) {
-    let president: Nominee;
-    let vicePresident: Nominee | null = null;
-    if (incumbent.party === party && incumbent.personId) {
-      const state =
-        homeState(next, incumbent.personId) ??
-        drawState(new SeededRng(next.seed).fork(`${key}:${party}:state`), null);
-      president = { personId: incumbent.personId, state };
-      const sittingVice = currentVicePresident(next);
-      const viceState = sittingVice ? homeState(next, sittingVice) : null;
-      if (
-        sittingVice &&
-        viceState &&
-        viceState !== state &&
-        partyOf(next, sittingVice) === party
-      )
-        vicePresident = { personId: sittingVice, state: viceState };
-    } else {
-      const drawn = drawNominee(
-        next,
-        cycle,
-        `${key}:${party}:president`,
-        null,
-        party,
-      );
-      next = drawn.world;
-      president = drawn.nominee;
-    }
-    if (!vicePresident) {
-      // Twelfth Amendment: a ticket from one state could not receive that
-      // state's electoral votes, so the running mate lives elsewhere.
-      const drawn = drawNominee(
-        next,
-        cycle,
-        `${key}:${party}:vice-president`,
-        president.state,
-        party,
-      );
-      next = drawn.world;
-      vicePresident = drawn.nominee;
-    }
+  for (const nomination of nominated.nominees) {
+    const state = homeState(next, nomination.personId);
+    if (!state) continue;
+    const president = { personId: nomination.personId, state };
+    const vicePresident = chooseRunningMate(
+      next,
+      cycle,
+      president,
+      nomination.party,
+    );
+    if (!vicePresident) continue;
     tickets.push({
       presidentPersonId: president.personId,
       vicePresidentPersonId: vicePresident.personId,
@@ -661,13 +649,14 @@ export function presidentialFieldCloseHandler(
       vicePresidentState: vicePresident.state,
     });
     next = recordPublicEvent(next, {
-      stableKey: `${key}:${party}:nomination`,
+      stableKey: `${key}:${nomination.party}:nomination`,
       type: NOMINATION_EVENT,
       personIds: [president.personId, vicePresident.personId],
-      tags: [`party:${party}`],
-      summary: `${personName(next, president.personId)} is the ${SETTING_PARTY_NAMES[party]!.replace(/ Party$/, "")} nominee for President, with ${personName(next, vicePresident.personId)} for Vice President.`,
+      tags: [`party:${nomination.party}`],
+      summary: `${personName(next, president.personId)} is the ${SETTING_PARTY_NAMES[nomination.party]!.replace(/ Party$/, "")} nominee for President, with ${personName(next, vicePresident.personId)} for Vice President.`,
     });
   }
+  if (!tickets.length) return done(next, "No presidential election matches.");
   const people = tickets.flatMap((ticket) => [
     ticket.presidentPersonId,
     ticket.vicePresidentPersonId,
@@ -728,11 +717,9 @@ export function presidentialElectionDayHandler(
   const { cycle, election } = found;
   const key = cycleKey(cycle);
   const rules = nationalElectionRules(cycle);
-  // The same national mood every other race reads, in points of the
-  // two-party vote (zero in a presidential year by its own measured rule).
-  const mood = nationalMoodDemocraticShift(world, rules.electionDate);
-  const [democratic, republican] = election.tickets;
-  const stateResults = new Map<string, { share: number; total: number }>();
+  const candidatePersonIds = election.tickets.map(
+    (ticket) => ticket.presidentPersonId,
+  );
   let next = world;
   for (const unit of rules.units) {
     if (
@@ -742,50 +729,59 @@ export function presidentialElectionDayHandler(
       )
     )
       continue;
-    if (!stateResults.has(unit.state)) {
-      const row = calibrationRow(`us-president:${unit.state}`);
-      stateResults.set(unit.state, {
-        share: roundTo(
-          applySwing(row?.democraticTwoPartyShare ?? 0.5, mood * 100),
-        ),
-        total: row?.totalVotes ?? 0,
-      });
-    }
-    const { share, total } = stateResults.get(unit.state)!;
-    const democraticVotes = Math.round(total * share);
-    const republicanVotes = total - democraticVotes;
-    // The counted votes decide. An exact tie is not broken here: the state's
-    // result is recorded without a winner, so its electors are not appointed
-    // and the count waits, as it would on the state's own recount or lot.
-    const winner =
-      democraticVotes > republicanVotes
-        ? democratic!.presidentPersonId
-        : democraticVotes < republicanVotes
-          ? republican!.presidentPersonId
-          : null;
+    const jurisdiction = nationalUnitJurisdiction(cycle, unit.key);
+    const districtNumber = unit.countsPopular
+      ? null
+      : Number(unit.key.slice(unit.key.lastIndexOf("-") + 1));
+    const counted = countRecordedVoterBallots(world, {
+      stableKey: `${key}:unit:${unit.key}:recorded-voters`,
+      jurisdictionId: jurisdiction.id,
+      electionDate: rules.electionDate,
+      candidatePersonIds,
+      ...(districtNumber === null
+        ? {}
+        : {
+            admitVoter: (personId: EntityId) => {
+              const membership = recordedDistrictMembership(
+                world,
+                personId,
+                "congressional",
+                rules.electionDate,
+              );
+              if (!membership) return false;
+              const district = resolveDistrictBinding(
+                districtIdentityCatalog(),
+                membership.binding,
+                { chamber: "congressional", stateUsps: unit.state },
+              );
+              return (
+                district.kind === "accepted" &&
+                Number(district.identity.districtCode) === districtNumber
+              );
+            },
+          }),
+    });
+    if (!counted) continue;
     next = appendNationalRecord(next, {
       kind: "unit-result",
       stableKey: `${key}:unit:${unit.key}`,
       electionId: election.id,
       unitKey: unit.key,
-      tallies: [
-        {
-          candidatePersonId: democratic!.presidentPersonId,
-          votes: democraticVotes,
-        },
-        {
-          candidatePersonId: republican!.presidentPersonId,
-          votes: republicanVotes,
-        },
-      ],
+      tallies: counted.tallies.map(({ candidatePersonId, votes }) => ({
+        candidatePersonId,
+        votes,
+      })),
       sourceContestResultId: null,
-      allocationWinnerPersonId: winner,
+      allocationWinnerPersonId: counted.winnerPersonId,
       provenance: {
         method: "simulated",
-        sourceEntityIds: [election.id],
-        note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
-          : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
+        sourceEntityIds: [
+          ...new Set([
+            election.id,
+            ...counted.ballots.map((ballot) => ballot.voterPersonId),
+          ]),
+        ].sort(),
+        note: `${PRESIDENTIAL_TURNOVER_PROFILE.id}: ${key}:unit:${unit.key}:recorded-voters`,
       },
     });
   }
@@ -813,9 +809,11 @@ export function presidentialElectionDayHandler(
     personIds: election.tickets.map((ticket) => ticket.presidentPersonId),
     tags: ["election"],
     summary:
-      first!.electors === second!.electors
+      second && first!.electors === second.electors
         ? `The presidential election is tied: ${personName(next, first!.personId)} and ${personName(next, second!.personId)} each carried states holding ${first!.electors} electoral votes.`
-        : `${personName(next, first!.personId)} carried states holding ${first!.electors} electoral votes to ${personName(next, second!.personId)}'s ${second!.electors}.`,
+        : second
+          ? `${personName(next, first!.personId)} carried states holding ${first!.electors} electoral votes to ${personName(next, second.personId)}'s ${second.electors}.`
+          : `${personName(next, first!.personId)}: ${first!.electors}`,
   });
   return done(
     next,

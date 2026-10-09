@@ -6,7 +6,7 @@ import { principledLeaning } from "../governing/officeholder-principles";
 import { publicPartyOf } from "../governing/chamber-votes";
 import { nextMeasureDesignation } from "../measure-numbering";
 import { introduceMeasure, measurePosition } from "../legislation";
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { defaultOriginChamber } from "../legislature-rules";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";
 import {

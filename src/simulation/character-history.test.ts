@@ -2,11 +2,9 @@ import { describe, expect, it } from "vitest";
 import { addDays } from "./dates";
 
 import {
-  LEXINGTON_PLACEHOLDER_ID,
   advanceWorld,
   appendPersonFact,
   claimsForEvent,
-  createDemoWorld,
   createStableId,
   createWorld,
   dateAtAge,
@@ -29,6 +27,7 @@ import {
   relationshipHistory,
   serializeWorld,
 } from "./index";
+import { LEXINGTON_PLACEHOLDER_ID, createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   EventContext,

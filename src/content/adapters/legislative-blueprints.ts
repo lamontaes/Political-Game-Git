@@ -2,8 +2,8 @@ import {
   AUTHORED_MEASURE_NOTICE,
   legislativeBlueprint,
   legislativeScenarioKeys,
-} from "../../simulation/legislation-scenarios";
-import type { LegislativeBlueprint } from "../../simulation/legislation-scenarios";
+} from "../../simulation/legislative-content";
+import type { LegislativeBlueprint } from "../../simulation/legislative-content";
 import {
   contentItemId,
   declared,
@@ -15,7 +15,7 @@ import {
 } from "../content-bank";
 
 const BANK_ID: ContentBankId = "content.legislative-measures";
-const SOURCE_MODULE = "src/simulation/legislation-scenarios.ts";
+const SOURCE_MODULE = "data/scenarios/legislative-content.json";
 
 /**
  * The bills.

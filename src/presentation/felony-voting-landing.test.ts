@@ -18,7 +18,7 @@ import { SeededRng, pickDistinct } from "../simulation/rng";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, World } from "../simulation/types";
 import { recordWorldEvent } from "../simulation/world";
-import { enactLawFixture } from "./enact-law-fixture";
+import { enactLawFixture } from "../scenarios/enact-law";
 import { lawExposureSentence } from "./law-exposure-lines";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";

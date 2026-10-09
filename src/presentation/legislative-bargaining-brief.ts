@@ -9,7 +9,7 @@ import type {
   LegislativeBargainingSubjectFacts,
 } from "./run-b-conversation-progress";
 import type { ConversationRoomContext } from "./run-b-conversation";
-import type { RunBScenePersonContext } from "./run-b-fixture";
+import type { RunBScenePersonContext } from "./office-scene-context";
 import type { LegislativeBargainingIntent } from "./legislative-bargaining";
 import type { PriorWorkEvidence } from "./prior-work-evidence";
 import type { CompiledBillDraft } from "../simulation/legislation-drafting";

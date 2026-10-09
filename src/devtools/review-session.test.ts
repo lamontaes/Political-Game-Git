@@ -1,10 +1,7 @@
 import { describe, it, expect } from "vitest";
-import {
-  createDemoWorld,
-  materializePerson,
-  advanceDemoWorld,
-  serializeWorld,
-} from "../simulation";
+import { materializePerson, serializeWorld } from "../simulation";
+import { advanceDemoWorld } from "../scenarios/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   cloneForReview,
   resetReview,

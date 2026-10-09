@@ -283,7 +283,7 @@ function respond(
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;

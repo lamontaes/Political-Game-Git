@@ -14,7 +14,7 @@ import {
 import {
   votePlanKeyForCommittee,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,

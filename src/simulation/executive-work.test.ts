@@ -5,7 +5,7 @@ import {
   committeeMembers,
   dispositionsFromCounts,
   type LegislativeScenario,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import {
   introduceMeasure,
   referMeasure,
@@ -39,8 +39,8 @@ import {
   scheduledActivityState,
 } from "./time-work";
 import { describe, it, expect } from "vitest";
-import { createDemoWorld } from "./demo";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+import { createDemoWorld } from "../scenarios/demo";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo-jurisdiction-context";
 import { stateJurisdictionForKey } from "./life-places";
 import { initializeExecutiveOfficePremiseForReview } from "./executive-work-entry";
 import {

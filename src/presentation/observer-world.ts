@@ -253,7 +253,7 @@ const AMENDMENT_PHASE: Readonly<
   consideration: "Before the legislature",
   "awaiting-nevada": "Awaiting approval",
   ratification: "Out for ratification",
-  ratified: "Ratified, not yet in force",
+  ratified: "Ratified",
   operative: "In force",
   rejected: "Rejected",
   expired: "Expired",

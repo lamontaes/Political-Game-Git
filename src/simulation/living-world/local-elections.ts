@@ -1148,7 +1148,7 @@ function countVotes(
           },
         }),
   });
-  return result ? [...result.tallies] : null;
+  return result?.winnerPersonId ? [...result.tallies] : null;
 }
 
 export function localElectionCountHandler(

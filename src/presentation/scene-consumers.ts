@@ -207,7 +207,7 @@ export const SCENE_CONSUMERS: readonly SceneConsumerDeclaration[] = [
   {
     consumerId: "council-staff-office",
     label: "A municipal council staff office",
-    runtimeComponent: "src/player/PlayerOffice.tsx",
+    runtimeComponent: "src/scenarios/PlayerOffice.tsx",
     canonicalGate:
       "A legislative job whose jurisdiction is Lexington-Fayette. Nothing weaker: this plate has a Fayette County map on its wall.",
     sceneId: OFFICE_FIXTURE_SCENE_ID,

@@ -204,7 +204,7 @@ export function peerStudyApproach(
     constraints: [],
     considerations: [],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return {
@@ -521,7 +521,7 @@ export function decideStudyPlanOutcome(
     constraints: [],
     considerations: [],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   return {

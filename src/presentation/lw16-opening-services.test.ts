@@ -4,7 +4,7 @@ import {
   observerSetup,
   openObserverWorld,
 } from "./observer-world";
-import { enactLawFixture } from "./enact-law-fixture";
+import { enactLawFixture } from "../scenarios/enact-law";
 import { fundedServiceFixture } from "../../tests/fixtures/funded-service-fixture";
 import { stateJurisdictionForKey } from "../simulation/life-places";
 import { requestPublicService } from "../simulation/public-service-requests";

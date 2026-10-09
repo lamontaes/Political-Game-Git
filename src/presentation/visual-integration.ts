@@ -28,7 +28,7 @@ import type {
   RunBSceneAnchorId,
   RunBScenePersonContext,
   RunBScenePersonVariant,
-} from "./run-b-fixture";
+} from "./office-scene-context";
 import {
   createRasterTierLadder,
   type RasterTier,

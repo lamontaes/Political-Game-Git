@@ -1,6 +1,6 @@
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
-import type { Jurisdiction, SimulationMoment } from "./types";
+import { makeIsoDate } from "../simulation/dates";
+import { createStableId } from "../simulation/ids";
+import type { Jurisdiction, SimulationMoment } from "../simulation/types";
 
 /** Authored scenario inputs, not jurisdiction rules or a persisted hierarchy. */
 export interface DemoJurisdictionContext {

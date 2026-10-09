@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createCampaignElectionTransitionRegistry } from "../campaigns";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { DEFAULT_NEW_GAME_SETUP } from "../../presentation/new-game";
 import {
   generateOpeningLife,

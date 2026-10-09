@@ -16,14 +16,14 @@ import {
   measurePosition,
 } from "../../src/simulation/legislation";
 import { committeeRoster } from "../../src/simulation/governing/committee-assignment";
-import type { LegislativeProcedureContext } from "../../src/simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../../src/scenarios/legislation";
 import { nextMeasureNumbering } from "../../src/simulation/measure-numbering";
 import {
   addDays,
   daysBetween,
   simulationMomentAtLocalTime,
 } from "../../src/simulation/dates";
-import * as demo from "../../src/simulation/demo";
+import * as demo from "../../src/scenarios/demo";
 import { advanceWorld } from "../../src/simulation/world";
 import type { IsoDate, World } from "../../src/simulation/types";
 

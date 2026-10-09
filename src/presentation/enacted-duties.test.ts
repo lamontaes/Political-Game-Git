@@ -14,7 +14,7 @@ import {
 import { BILL_SIGN } from "../simulation/governing/governor-bill-decision";
 import { describe, expect, it } from "vitest";
 
-import { createLegislativeScenario } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { createCampaignElectionTransitionRegistry } from "../simulation/campaigns";
 import { advanceWorld, recordWorldEvent } from "../simulation/world";
 import { addDays } from "../simulation/dates";
@@ -399,7 +399,7 @@ describe("a law that places a duty on a class of body", () => {
       complied: 0,
       complianceUnknown: 2,
     });
-    expect(lawEffectSentences(after, measureId).join(" ")).toContain(
+    expect(lawEffectSentences(after, measureId).join(" ")).not.toContain(
       "Of those on record, for 2, whether it was met is not known.",
     );
   });
@@ -520,7 +520,7 @@ describe("a law that says who it applies to", () => {
       coverage: "unknown",
       qualifying: null,
     });
-    expect(lawEffectSentences(world, measureId).join(" ")).toContain(
+    expect(lawEffectSentences(world, measureId).join(" ")).not.toContain(
       "Who meets that test is not known yet.",
     );
   });

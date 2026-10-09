@@ -16,7 +16,6 @@ import {
   campaignTreasuryPosition,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
   deserializeWorld,
   ensureCampaignOpponents,
   fileCampaign,
@@ -27,7 +26,8 @@ import {
   serializeWorld,
   simulationMomentAtLocalTime,
 } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import { correctPublication } from "../public-information";
 import { recordEventKnowledge } from "../records";
 import type { CampaignRecord, EntityId, World } from "../types";

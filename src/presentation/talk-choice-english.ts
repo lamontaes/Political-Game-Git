@@ -134,6 +134,7 @@ export function composeTalkChoice(
     );
     return line ? [line] : [];
   });
-  const line = lines[stableHash(`${pick}:move`) % Math.max(1, lines.length)];
+  const line =
+    lines[stableHash(`${pick}:move`, 32) % Math.max(1, lines.length)];
   return line ? { text: line.text, parts: [`bank:${line.partKey}`] } : null;
 }

@@ -34,7 +34,7 @@ import {
   committeeMembers,
   createLegislativeScenario,
   dispositionsFromCounts,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
 import { lifePlaceByKey } from "../../src/simulation/life-places";
 import {

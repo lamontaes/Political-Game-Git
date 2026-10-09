@@ -31,7 +31,7 @@ import {
   committeeMembers,
   createLegislativeScenario,
   dispositionsFromCounts,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
 import { NOMINATION_EVENT } from "../../src/simulation/nominations/party-nominations";
 import type { EntityId, HistoricalEvent, World } from "../../src/simulation";

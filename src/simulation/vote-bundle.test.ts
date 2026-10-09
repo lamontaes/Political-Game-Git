@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { bodyForChamber } from "./legislation-scenarios";
+import { bodyForChamber } from "../scenarios/legislation";
 import { offerFloorAmendment } from "./legislation";
 import { adoptProvisionRevisions } from "./legislative-politics";
 import { memberVoteConsiderations } from "./legislative-member-decisions";
@@ -18,7 +18,7 @@ import {
   billOnTheFloor,
   everyone,
   floor,
-} from "./vote-bundle.fixture";
+} from "../scenarios/vote-bundle";
 import {
   measureAnswersAt,
   stancesFromVote,

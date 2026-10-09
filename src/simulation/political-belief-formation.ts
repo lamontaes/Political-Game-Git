@@ -60,7 +60,7 @@ export interface PoliticalBeliefFormationInput {
   readonly perceptionIds?: readonly EntityId[];
   readonly factors?: readonly PoliticalBeliefFormationFactor[];
   readonly constraints?: readonly DecisionConstraint[];
-  readonly randomness?: "none" | "close-choices";
+  readonly randomness?: "none";
   readonly beliefDimensions?: PoliticalBeliefDimensions;
   /** A dated caller may state different dimensions for tentative and firm outcomes. */
   readonly beliefDimensionsByOutcome?: Partial<
@@ -189,7 +189,7 @@ export function evaluatePoliticalBeliefFormation(
     constraints: input.constraints ?? [],
     considerations,
     perceptionIds,
-    randomness: input.randomness ?? "close-choices",
+    randomness: input.randomness ?? "none",
     retention: "durable",
   });
   const outcome = evaluation.selectedOptionKey;

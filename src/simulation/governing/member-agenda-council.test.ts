@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { createScenarioWorld } from "../demo";
+import { createScenarioWorld } from "../../scenarios/demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { requireLifePlace, stateJurisdictionForKey } from "../life-places";

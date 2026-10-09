@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { makeIsoDate } from "./dates";
 import { buildHouseholdLocationRecord, createHousehold } from "./life";
 import { canonicalJson } from "./canonical-json";

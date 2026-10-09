@@ -16,7 +16,7 @@ import {
   scheduleLifePathSession,
 } from "../../src/simulation/life-paths2";
 import { introduceMeasure } from "../../src/simulation/legislation";
-import { createLegislativeScenario } from "../../src/simulation/legislation-scenarios";
+import { createLegislativeScenario } from "../../src/scenarios/legislation";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { SeededRng } from "../../src/simulation/rng";
 import type * as TaxLaw from "../../src/simulation/state-income-tax-law";

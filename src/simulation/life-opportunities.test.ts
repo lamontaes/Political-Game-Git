@@ -1,7 +1,7 @@
 import process from "node:process";
 import { describe, expect, it } from "vitest";
 
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { addDays, ageOnDate } from "./dates";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };

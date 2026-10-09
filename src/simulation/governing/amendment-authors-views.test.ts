@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 
 import { introduceMeasure } from "../legislation";
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { defaultOriginChamber } from "../legislature-rules";
 import { nextMeasureDesignation } from "../measure-numbering";
 import { stateLegislators } from "../nationwide-world/state-legislature-opening";

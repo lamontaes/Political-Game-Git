@@ -3,7 +3,7 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   simulationMinutesBetween,
-} from "./dates";
+} from "../simulation/dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
@@ -15,7 +15,7 @@ export {
   LEXINGTON_PLACEHOLDER_ID,
 } from "./demo-jurisdiction-context";
 export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../simulation/ids";
 import {
   createCareResponsibility,
   createHousehold,
@@ -24,7 +24,7 @@ import {
   recordHouseholdLocation,
   recordLifeCommitment,
   startHouseholdMembership,
-} from "./life";
+} from "../simulation/life";
 import {
   createMindProvenance,
   recordAppraisal,
@@ -33,16 +33,19 @@ import {
   recordPersonalityTendency,
   recordPerception,
   recordTemporaryState,
-} from "./mind";
-import { SYNTHETIC_MIND_IDS } from "./mind-catalog";
+} from "../simulation/mind";
+import { SYNTHETIC_MIND_IDS } from "../simulation/mind-catalog";
 import {
   DEFAULT_PERSON_GENERATOR_VERSION,
   LEGACY_DEMO_PERSON_GENERATOR_VERSION,
   createLightweightPerson,
   personName,
-} from "./people";
-import { DEFAULT_CORPUS_VERSION, DEMO_NAMES_V4 } from "./names-data";
-import { SYNTHETIC_POLICY_IDS } from "./policy";
+} from "../simulation/people";
+import {
+  DEFAULT_CORPUS_VERSION,
+  DEMO_NAMES_V4,
+} from "../simulation/names-data";
+import { SYNTHETIC_POLICY_IDS } from "../simulation/policy";
 import {
   createFormationContext,
   recordCampaignCommitment,
@@ -51,28 +54,32 @@ import {
   recordPropositionExposure,
   recordPublicPosition,
   recordSubjectKnowledge,
-} from "./politics";
+} from "../simulation/politics";
 import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
-} from "./political-belief-formation";
-import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
+} from "../simulation/political-belief-formation";
+import { pickDistinct, SeededRng, normalizeSeed } from "../simulation/rng";
 import {
   recordClaim,
   recordEventKnowledge,
   recordMemory,
   recordRelationshipInteraction,
-} from "./records";
-import type { EntityId, PersonGenerationProfile, World } from "./types";
+} from "../simulation/records";
+import type {
+  EntityId,
+  PersonGenerationProfile,
+  World,
+} from "../simulation/types";
 import {
   createWorld,
   createWorldId,
   materializePerson,
   recordWorldEvent,
-} from "./world";
-import { advanceWorldMinutes } from "./time-work";
-import { composeWorldTimeHandlers } from "./campaigns";
-import { ensureCrisisMortality } from "./crisis/mortality";
+} from "../simulation/world";
+import { advanceWorldMinutes } from "../simulation/time-work";
+import { composeWorldTimeHandlers } from "../simulation/campaigns";
+import { ensureCrisisMortality } from "../simulation/crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 

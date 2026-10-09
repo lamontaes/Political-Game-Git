@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { recordWorldEvent } from "./world";
 import { addDays } from "./dates";

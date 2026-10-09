@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { addDays } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   ELECTION_CONTEST_TRANSITION_KEY,
   cancelElectionContest,
@@ -27,7 +27,7 @@ import { createFormationContext, recordPrivateBelief } from "./politics";
 import { establishVotingPrecinctMembership } from "./living-world/town-wards";
 import { smallWorld } from "../../tests/fixtures/small-world";
 import { lifePlaceStateIdentities } from "./life-places";
-import { createPortabilityFixture } from "./portability-fixture";
+import { createPortabilityFixture } from "../scenarios/portability";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import type {
   EntityId,

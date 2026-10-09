@@ -4,14 +4,11 @@ import {
   SYNTHETIC_POLICY_IDS,
   addDays,
   activateEffect,
-  advanceDemoWorld,
   advanceWorld,
   applyCharacterHistoryPlan,
   createChildAuthority,
   createDwelling,
   createFormationContext,
-  createDemoWorld,
-  createPortabilityFixture,
   advanceWorldMinutes,
   serializeWorld,
   createHousingTenure,
@@ -62,6 +59,9 @@ import {
   startDwellingOccupancy,
   worldMetricDefinitionByStableKey,
 } from "../simulation";
+import { advanceDemoWorld } from "../scenarios/demo";
+import { createDemoWorld } from "../scenarios/demo";
+import { createPortabilityFixture } from "../scenarios/portability";
 import type { EntityId } from "../simulation";
 import { SqliteWorldRepository } from "./sqlite-world-repository";
 

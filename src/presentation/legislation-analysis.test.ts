@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import {
   createExactQuantity,
-  createLegislativeScenario,
   makeQuantityUnitKey,
   recordPolicyBaseline,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   createWorldMetricCatalog,
   createWorldMetricDefinition,

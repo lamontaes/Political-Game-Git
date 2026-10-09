@@ -6,7 +6,7 @@ import {
   generateOpeningLife,
   prepareOpeningLife,
 } from "../../presentation/opening-life";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createFutureTransitionHandlerRegistry } from "../future-transition-registry";

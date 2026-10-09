@@ -39,7 +39,7 @@ import {
 import { townLeases } from "./living-world/town-rent";
 import { recordSalesTaxBases } from "./sales-tax-bases";
 import { recordWorldEvent } from "./world";
-import { drawnLinkSize } from "./outcome-web";
+import { linkSize } from "./outcome-web";
 import type {
   EntityId,
   IsoDate,
@@ -166,9 +166,9 @@ export function estimatedHouseholdLivingCostsAt(
     jurisdictionId,
     ...estimate,
     averageMonthlyMinor: estimate.monthlyMinor,
-    // Reuse the world's established estimate spread, never a payment/outcome roll.
+    // Read the sourced central estimate; seeds do not change household costs.
     monthlyMinor: Math.round(
-      drawnLinkSize(
+      linkSize(
         world,
         {
           key: `living-costs:household:${householdId}:size:${estimate.sizeColumn}`,

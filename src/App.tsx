@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 import { LocationCompositionReview } from "./ui/LocationCompositionReview";
 import { DeveloperReviewHub } from "./ui/DeveloperReviewHub";
-import { LegislationDevRoute } from "./player/LegislationWorkspace";
-import { MeasureFloorView } from "./player/MeasureFloorView";
+import { LegislationDevRoute } from "./scenarios/LegislationDevRoute";
+import { MeasureFloorView } from "./scenarios/MeasureFloorView";
 import { PlayerGame } from "./player/PlayerGame";
-import { PlayerOffice } from "./player/PlayerOffice";
+import { PlayerOffice } from "./scenarios/PlayerOffice";
 import { CharacterProofView } from "./ui/CharacterProofView";
 import { ContentBrowserView } from "./ui/ContentBrowserView";
 import { DeveloperViewer } from "./ui/DeveloperViewer";

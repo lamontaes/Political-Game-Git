@@ -1,9 +1,6 @@
 import { expect, it } from "vitest";
-import {
-  createLegislativeScenario,
-  deserializeWorld,
-  serializeWorld,
-} from "../simulation";
+import { deserializeWorld, serializeWorld } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { fileDraft } from "./legislation-docket";
 import {
   selectedDocketKey,

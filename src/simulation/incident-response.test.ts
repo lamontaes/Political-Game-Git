@@ -41,7 +41,7 @@ const provenance = {
   kind: "authored" as const,
   note: "Explicit fictional resource fixture.",
 };
-import { responseFixture } from "./incident-response.fixture";
+import { responseFixture } from "../scenarios/incident-response";
 function followThrough(
   w: World,
   reportId: ReturnType<typeof responseFixture>["reportId"],

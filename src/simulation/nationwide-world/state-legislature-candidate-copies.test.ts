@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { canonicalJson } from "../canonical-json";
 import { addDays } from "../dates";
-import { createScenarioWorld, LEXINGTON_DEMO_CONTEXT } from "../demo";
-import { PORTABILITY_CONTEXT } from "../portability-fixture";
+import {
+  createScenarioWorld,
+  LEXINGTON_DEMO_CONTEXT,
+} from "../../scenarios/demo";
+import { PORTABILITY_CONTEXT } from "../../scenarios/portability";
 import { withHistoryAppendTransaction } from "../history-index";
 import { decideSelfStarterRun } from "../nominations/field-entry";
 

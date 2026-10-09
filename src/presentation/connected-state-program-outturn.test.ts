@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  createLegislativeScenario,
   deserializeWorld,
   nextMeasureStableKey,
   recordEnactment,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import {
   ensureStateExecutiveIncumbent,

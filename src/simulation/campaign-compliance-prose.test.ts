@@ -9,14 +9,14 @@ import {
   assessContribution,
   assessSecondCommittee,
   campaignObligations,
-  createScenarioWorld,
   ensureCampaignOpponents,
   fileCampaign,
   lifePlaces,
   makeCurrencyCode,
   makeIsoDate,
 } from "./index";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { createScenarioWorld } from "../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import type { CampaignRecord, EntityId, World } from "./types";
 
 /**

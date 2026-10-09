@@ -29,7 +29,6 @@ import {
 } from "../simulation";
 import { createRunDUiState, runDUiReducer } from "./run-d-lite-state";
 import {
-  createRunDLiteFixture,
   delegateRunDMeetingBrief,
   hiddenRunDStateIsFiltered,
   performRunDScheduledActivity,
@@ -38,6 +37,7 @@ import {
   RUN_D_LITE_TIME_ZONE,
   RUN_D_LITE_UTC_OFFSET_MINUTES,
 } from "./run-d-lite";
+import { createRunDLiteFixture } from "../scenarios/run-d-lite";
 
 function fixtureMoment(
   world: World,

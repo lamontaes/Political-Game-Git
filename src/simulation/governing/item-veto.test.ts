@@ -7,7 +7,7 @@ import {
   municipalRulePackFor,
 } from "../municipal-government";
 import { DC_GOVERNMENT_KEY } from "../nationwide-world/district-of-columbia-council-opening";
-import { bodyForChamber } from "../legislation-scenarios";
+import { bodyForChamber } from "../../scenarios/legislation";
 import {
   enrollMeasure,
   measurePosition,
@@ -31,7 +31,7 @@ import {
   billOnTheFloor,
   everyone,
   type Setup,
-} from "../vote-bundle.fixture";
+} from "../../scenarios/vote-bundle";
 import { measureAnswersAt, voteBundle } from "../vote-bundle";
 import { assertWorldIntegrity } from "../world";
 import { jumpToDate } from "../../../tests/fixtures/due-item-clock";

@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   assertWorldIntegrity,
-  createDemoWorld,
   createExactQuantity,
   createIncidentCatalog,
   createIncidentDefinition,
@@ -22,6 +21,7 @@ import {
   serializeWorld,
   worldMetricDefinitionByStableKey,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   ExactQuantity,

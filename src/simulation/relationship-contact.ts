@@ -905,7 +905,7 @@ export function npcContactAnswer(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   const recordedWorld = recordDurableDecisionTrace(withTraits, evaluation);
@@ -1333,7 +1333,7 @@ export function produceReachingOut(
       constraints: [],
       considerations,
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "ephemeral",
     });
     if (

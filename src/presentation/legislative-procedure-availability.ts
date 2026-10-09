@@ -7,8 +7,8 @@ import {
   votePlanKeyForConcurrence,
   votePlanKeyForFloor,
   votePlanKeyForOverride,
-} from "../simulation/legislation-scenarios";
-import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
+} from "../simulation/legislative-content";
+import type { LegislativeProcedureContext } from "../simulation/legislative-content";
 import type { MeasureStepKey } from "../simulation/legislation";
 import type { World } from "../simulation/types";
 import { currentGoverningOffices } from "../simulation/governing/state-governing";

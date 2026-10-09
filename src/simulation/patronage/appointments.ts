@@ -457,7 +457,7 @@ export function chooseAppointee(
     constraints: [],
     considerations: shortList.flatMap((entry) => entry.considerations),
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return null;

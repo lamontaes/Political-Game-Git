@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { createRunBFixture } from "./run-b-fixture";
-import { createCharacterProofWorld } from "./character-proof";
+import { createRunBFixture } from "../scenarios/run-b";
+import { createCharacterProofWorld } from "../scenarios/character-proof";
 import { PRODUCTION_CHARACTER_LIBRARY } from "./visual-integration";
 import { resolvePersonPortrait } from "./person-visual";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";

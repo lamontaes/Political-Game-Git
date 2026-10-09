@@ -10,13 +10,13 @@ import {
   advanceWorld,
   createFutureTransitionHandlerRegistry,
   assertWorldIntegrity,
-  createDemoWorld,
   deserializeWorld,
   recordMemory,
   recordWorldEvent,
   scheduleFutureDueItem,
   serializeWorld,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 
 // The saved origin is deliberately recorded through the canonical historical
 // writer: old saves must remain readable even when new offers are withheld.

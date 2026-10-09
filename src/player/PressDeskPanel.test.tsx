@@ -14,7 +14,6 @@ import {
   advanceWorld,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
   ensureCampaignOpponents,
   ensurePressDeskSchedule,
   ensurePressMediaOpening,
@@ -32,7 +31,8 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
-import { KENTUCKY_CONTEXT } from "../simulation/legislation-scenarios";
+import { createScenarioWorld } from "../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import {
   bindingForDistrict,
   offeredDistricts,

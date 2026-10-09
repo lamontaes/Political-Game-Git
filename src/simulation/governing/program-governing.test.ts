@@ -19,7 +19,7 @@ import {
   nextMeasureStableKey,
   recordEnactment,
 } from "../legislation";
-import { createLegislativeScenario } from "../legislation-scenarios";
+import { createLegislativeScenario } from "../../scenarios/legislation";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { stateJurisdictionForKey } from "../life-places";
 import { legislatureProfilePackId } from "../legislature-game-profile";

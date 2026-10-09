@@ -81,7 +81,7 @@ import {
   tallyDispositions,
 } from "./legislation";
 import { resolveRequiredVotes } from "./legislature-rules";
-import type { SeatedMember } from "./legislation-scenarios";
+import type { SeatedMember } from "./legislative-content";
 import { personName } from "./people";
 import {
   municipalGovernmentByKey,

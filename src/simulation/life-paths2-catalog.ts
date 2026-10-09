@@ -1,4 +1,15 @@
 import type { EducationProgramKind, TimeDemandProfile } from "./types";
+import { researchRuleTable } from "./research-rule-tables";
+
+const periodTerms = researchRuleTable("lifePathTerms");
+for (const cost of Object.values(periodTerms.periodCosts)) {
+  if (
+    !Number.isSafeInteger(cost.minorUnits) ||
+    cost.minorUnits < 0 ||
+    cost.currency !== "USD"
+  )
+    throw new Error("Invalid LIFE-PATHS2 tuition terms.");
+}
 
 /** Versioned fictional offers, not occupation statistics or real vacancies. */
 export interface LifePathDefinition {
@@ -77,7 +88,8 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 1,
     periodsPerYear: 1,
     daysPerPeriod: 161,
-    periodCostMinor: 60_000,
+    periodCostMinor:
+      periodTerms.periodCosts["college-office-certificate"].minorUnits,
     creditsRequired: 30,
     timeDemand: time(3, true),
     provenance,
@@ -107,7 +119,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 2,
     periodsPerYear: 2,
     daysPerPeriod: 166,
-    periodCostMinor: 96_000,
+    periodCostMinor: periodTerms.periodCosts["college-associate"].minorUnits,
     creditsRequired: 60,
     timeDemand: time(4, true),
     provenance,
@@ -137,7 +149,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 4,
     periodsPerYear: 2,
     daysPerPeriod: 182,
-    periodCostMinor: 500000,
+    periodCostMinor: periodTerms.periodCosts["college-bachelors"].minorUnits,
     creditsRequired: 120,
     timeDemand: time(30, true),
     provenance,
@@ -167,7 +179,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 2,
     periodsPerYear: 2,
     daysPerPeriod: 182,
-    periodCostMinor: 600000,
+    periodCostMinor: periodTerms.periodCosts["college-graduate"].minorUnits,
     creditsRequired: 36,
     timeDemand: time(25, true),
     provenance,
@@ -197,7 +209,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 3,
     periodsPerYear: 2,
     daysPerPeriod: 182,
-    periodCostMinor: 750000,
+    periodCostMinor: periodTerms.periodCosts["law-school"].minorUnits,
     creditsRequired: 83,
     timeDemand: time(35, true),
     provenance,
@@ -227,7 +239,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     academicYears: 1,
     periodsPerYear: 1,
     daysPerPeriod: 77,
-    periodCostMinor: 18_000,
+    periodCostMinor: periodTerms.periodCosts["trade-training"].minorUnits,
     creditsRequired: 30,
     timeDemand: time(4, true),
     provenance,

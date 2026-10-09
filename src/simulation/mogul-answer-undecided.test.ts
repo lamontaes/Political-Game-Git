@@ -1,5 +1,5 @@
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { searchLifePlaces, stateJurisdictionForKey } from "./life-places";
 import { ensureStateJurisdiction } from "./nationwide-world/state-executives";
 import { stateExecutiveIdentity } from "./nationwide-world/state-executive-candidacy-packs";

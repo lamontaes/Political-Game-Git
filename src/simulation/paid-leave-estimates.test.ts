@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { rankedPaidLeaveEstimate } from "./paid-leave-estimates";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace } from "./life-places";
 import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import { createPolicyCatalog } from "./policy";

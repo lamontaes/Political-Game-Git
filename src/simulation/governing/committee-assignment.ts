@@ -1,4 +1,4 @@
-import type { SeatedBody, SeatedMember } from "../legislation-scenarios";
+import type { SeatedBody, SeatedMember } from "../legislative-content";
 
 /**
  * Who sits on which committee. No acquired source establishes the roster of a

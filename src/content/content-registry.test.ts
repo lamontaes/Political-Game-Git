@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { conversationSubjectKeys } from "../presentation/conversation-subjects";
 import { ORDINARY_LIFE_WORK_ITEMS } from "../presentation/ordinary-life";
 import { lifeSituationCatalog } from "../simulation/character-history";
-import { legislativeScenarioKeys } from "../simulation/legislation-scenarios";
+import { legislativeScenarioKeys } from "../scenarios/legislation";
 import { LEGISLATIVE_RULE_PACKS } from "../simulation/legislature-rule-packs";
 import { createProductionMindCatalog } from "../simulation/production-catalog";
 import { DEFAULT_CONTENT_BANK_ADAPTERS } from "./adapters";

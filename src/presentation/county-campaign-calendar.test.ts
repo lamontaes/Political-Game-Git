@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { lifePlaceByKey } from "../simulation/life-places";
 import { localGoverningBodiesForJurisdiction } from "../simulation/candidacy";
 import { activeCampaignForCandidate } from "../simulation";

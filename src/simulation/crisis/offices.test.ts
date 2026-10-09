@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { congressSeats } from "../living-world/congress-seats";
 import { createWorkRelationship, recordWorkStatus } from "../life";
 import { officesHeldOverLife } from "./offices";

@@ -367,7 +367,7 @@ function promiseCheck(
       constraints: [],
       considerations: [],
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "ephemeral",
     });
     if (!isSelectedDecision(evaluation)) {

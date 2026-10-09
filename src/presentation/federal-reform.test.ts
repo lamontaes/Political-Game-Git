@@ -15,7 +15,7 @@ import {
 } from "../simulation/constitutional-process";
 import { currentPresidentOf } from "../simulation/crisis/offices";
 import { makeIsoDate } from "../simulation/dates";
-import { dispositionsFromCounts } from "../simulation/legislation-scenarios";
+import { dispositionsFromCounts } from "../scenarios/legislation";
 import { congressVoters } from "../simulation/governing/article-v";
 import { ensureOfficeholderPrinciples } from "../simulation/governing/officeholder-principles";
 import {

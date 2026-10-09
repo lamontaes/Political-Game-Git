@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import {
-  createDemoWorld,
   serializeWorld,
   deserializeWorld,
   addSimulationMinutes,
@@ -13,6 +12,7 @@ import {
   createHousehold,
   startHouseholdMembership,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import { initializeJudicialOfficePractice } from "./judicial-office-start";
 import {
   judicialOfficeContexts,

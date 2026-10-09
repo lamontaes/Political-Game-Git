@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 import { makeIsoDate } from "./dates";
-import { createGeneratedWorld } from "./demo";
+import { createGeneratedWorld } from "../scenarios/demo";
 import { createLightweightPerson } from "./people";
 import { derivePersonAppearance } from "./person-appearance";
 import { deserializeWorld, serializeWorld } from "./serialization";

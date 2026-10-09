@@ -8,7 +8,7 @@ import { US_CONGRESS_RULE_PACK } from "../simulation/congress-rule-pack";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";
 import { rulePackById } from "../simulation/legislature-rule-packs";
 import type { LegislativeRulePack } from "../simulation/legislature-rules";
-import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../scenarios/legislation";
 import { LEGISLATIVE_SESSION_CALENDARS } from "../simulation/legislative-session-calendar-data";
 import {
   COMMITTEE_HEARING_TRANSITION_KEY,

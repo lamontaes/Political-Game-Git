@@ -6,7 +6,7 @@ import {
 } from "./couple-stage-contract";
 import { addDays, makeIsoDate } from "./dates";
 import { evaluateDecision } from "./decisions";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createStableId } from "./ids";
 import type { DecisionEvaluation } from "./types";
 

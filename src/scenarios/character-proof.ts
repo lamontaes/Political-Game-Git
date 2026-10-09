@@ -1,19 +1,22 @@
-import { createGeneratedWorld } from "../simulation/demo";
+import { createGeneratedWorld } from "./demo";
 import { personName } from "../simulation/people";
 import { deserializeWorld, serializeWorld } from "../simulation/serialization";
 import type { EntityId, Person, World } from "../simulation/types";
 import type {
   CharacterComponentLibrary,
   CharacterWardrobeContext,
-} from "./character-components";
+} from "../presentation/character-components";
 import {
   buildCharacterRenderPlan,
   type CharacterRenderPlan,
   type ModularSceneAnchor,
-} from "./character-render-plan";
-import type { StorageLike } from "./run-a-learning";
-import type { SceneCameraPolicy, SceneSize } from "./scene-transform";
-import type { RuntimeVisualLibrary } from "./visual-integration";
+} from "../presentation/character-render-plan";
+import type { StorageLike } from "../presentation/run-a-learning";
+import type {
+  SceneCameraPolicy,
+  SceneSize,
+} from "../presentation/scene-transform";
+import type { RuntimeVisualLibrary } from "../presentation/visual-integration";
 
 /**
  * Developer proof: four generated people from one seeded world rendered

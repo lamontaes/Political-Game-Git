@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useMemo, useRef, useState } from "react";
-import { createGeneratedWorld, personName } from "../simulation";
+import { personName } from "../simulation";
+import { createGeneratedWorld } from "../scenarios/demo";
 import type { EntityId, World } from "../simulation/types";
 import {
   activeWorkRelationshipsAt,
@@ -66,17 +67,17 @@ const ArtDeskView = lazy(() =>
   })),
 );
 const PlayerOffice = lazy(() =>
-  import("../player/PlayerOffice").then((module) => ({
+  import("../scenarios/PlayerOffice").then((module) => ({
     default: module.PlayerOffice,
   })),
 );
 const MeasureFloorView = lazy(() =>
-  import("../player/MeasureFloorView").then((module) => ({
+  import("../scenarios/MeasureFloorView").then((module) => ({
     default: module.MeasureFloorView,
   })),
 );
 const LegislationDevRoute = lazy(() =>
-  import("../player/LegislationWorkspace").then((module) => ({
+  import("../scenarios/LegislationDevRoute").then((module) => ({
     default: module.LegislationDevRoute,
   })),
 );

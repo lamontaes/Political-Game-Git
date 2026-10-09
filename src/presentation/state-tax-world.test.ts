@@ -23,7 +23,7 @@ import {
   votePlanKeyForFloor,
   type AuthoredVoteCounts,
   type LegislativeProcedureContext,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { seatedChamberForPack } from "../simulation/governing/chamber-votes";
 import { organizationProfileAt } from "../simulation/life-queries";
 import { SALES_BASE_KEY } from "../simulation/sales-tax-bases";

@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
   advanceWorld,
-  createLegislativeScenario,
   daysBetween,
   deserializeWorld,
   makeIsoDate,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   applyLegislativeCommand,
   openLegislativeWork,

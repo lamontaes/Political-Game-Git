@@ -9,7 +9,7 @@ import {
   currentMeasureProvisions,
 } from "../legislative-politics";
 import type { MemberVoteQuestion } from "../legislative-member-decisions";
-import type { SeatedMember } from "../legislation-scenarios";
+import type { SeatedMember } from "../legislative-content";
 import type { ChamberRule, FloorStageRule } from "../legislature-rules";
 import { formViewFromRecordedPrinciples } from "../principled-view-formation";
 import { latestPrivateBelief } from "../queries";

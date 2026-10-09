@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import startingLaw from "../../data/research/laws/starting-law-2026/index";
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { searchLifePlaces, stateJurisdictionForKey } from "./life-places";
 import { ensureJurisdiction } from "./national-election-geography";
 import { createPolicyCatalog, createSyntheticPolicyCatalog } from "./policy";

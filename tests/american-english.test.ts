@@ -388,9 +388,18 @@ function scanSource(file: string, hits: Hit[]): void {
   }
 }
 
-function scanJson(file: string, hits: Hit[]): void {
-  const relative = path.relative(ROOT, file);
+function scanJsonPayload(
+  relative: string,
+  payload: unknown,
+  hits: Hit[],
+): void {
   const visit = (value: unknown, where: string): void => {
+    // Grading diagnostics describe missing composers; they are never spoken.
+    if (
+      /^data\/english\/batches\/batch-[^/]+\.json$/.test(relative) &&
+      /^\.absent\[\d+\]\.reason$/.test(where)
+    )
+      return;
     if (typeof value === "string")
       scanText(relative, `${relative}${where}`, value, hits);
     else if (Array.isArray(value))
@@ -400,7 +409,15 @@ function scanJson(file: string, hits: Hit[]): void {
         visit(item, `${where}.${key}`);
     }
   };
-  visit(JSON.parse(readFileSync(file, "utf8")), "");
+  visit(payload, "");
+}
+
+function scanJson(file: string, hits: Hit[]): void {
+  scanJsonPayload(
+    path.relative(ROOT, file),
+    JSON.parse(readFileSync(file, "utf8")),
+    hits,
+  );
 }
 
 function playerFacingHits(): Hit[] {
@@ -423,6 +440,32 @@ function playerFacingHits(): Hit[] {
   for (const file of data) scanJson(file, hits);
   return hits;
 }
+
+describe("grading diagnostics and spoken lines", () => {
+  it("still checks spoken output when a grading report includes diagnostics", () => {
+    const hits: Hit[] = [];
+    scanJsonPayload(
+      "data/english/batches/batch-proof.json",
+      {
+        absent: [{ reason: "The programme has no composer." }],
+        items: [{ line: "The programme starts today." }],
+      },
+      hits,
+    );
+    expect(hits).toHaveLength(1);
+    expect(hits[0]?.where).toBe(
+      "data/english/batches/batch-proof.json.items[0].line",
+    );
+    expect(hits[0]?.word).toBe("programme");
+    const ordinary: Hit[] = [];
+    scanJsonPayload(
+      "data/scenarios/proof.json",
+      { absent: [{ reason: "The programme starts today." }] },
+      ordinary,
+    );
+    expect(ordinary).toHaveLength(1);
+  });
+});
 
 describe("Player-facing text is American English", () => {
   it("contains no British form from the curated list", () => {

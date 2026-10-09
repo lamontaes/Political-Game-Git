@@ -20,7 +20,7 @@ import {
 import {
   KENTUCKY_CONTEXT,
   createLegislativeScenario,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { ensureStateExecutiveIncumbent } from "../../src/simulation/nationwide-world/state-executives";
 import { governorOfficeForJurisdiction } from "../../src/simulation/governing/state-governing";
 import { officialViewReflectionEventKey } from "../../src/simulation/official-view-reads";

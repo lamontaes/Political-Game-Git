@@ -3,7 +3,7 @@ import * as capReader from "./member-filing-caps";
 const actualMemberFilingCap = capReader.memberFilingCap;
 import { writeFileSync } from "node:fs";
 import { personName } from "../people";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { makeIsoDate } from "../dates";

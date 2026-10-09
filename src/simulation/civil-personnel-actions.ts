@@ -1907,7 +1907,7 @@ function offerDecisionContext(
         ]
       : [],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   };
 }

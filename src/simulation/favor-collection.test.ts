@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import { deserializeWorld, serializeWorld } from "./serialization";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   answerFavorAsk,
   FAVOR_ASK_SPACING_DAYS,

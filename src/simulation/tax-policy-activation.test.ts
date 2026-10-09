@@ -10,7 +10,7 @@ import {
   introduceMeasure,
   measurePosition,
 } from "./legislation";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import { recordTaxDraftIdentity } from "./legislation-tax-identity";
 import { recordFiledProvision } from "./legislative-politics";
 import {

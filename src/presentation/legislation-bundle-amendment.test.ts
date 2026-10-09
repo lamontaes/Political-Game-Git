@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  createLegislativeScenario,
-  deserializeWorld,
-  serializeWorld,
-} from "../simulation";
+import { deserializeWorld, serializeWorld } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import type { EntityId, World } from "../simulation";
 import { currentMeasureProvisions } from "../simulation/legislative-politics";
 import { BillConfigurationError } from "../simulation/legislation-drafting";

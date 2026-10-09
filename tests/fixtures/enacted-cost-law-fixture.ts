@@ -23,7 +23,7 @@ import {
   votePlanKeyForFloor,
   votePlanKeyForConcurrence,
   type LegislativeProcedureContext,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { recordWorldEvent } from "../../src/simulation/world";
 import {
   playerRequiredWorkIds,

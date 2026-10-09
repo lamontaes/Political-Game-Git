@@ -24,7 +24,6 @@ import {
   candidacyEligibility,
   candidacyPackById,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
   deserializeWorld,
   electionContestResult,
   ensureCampaignOpponents,
@@ -50,14 +49,15 @@ import {
   assessContribution,
   assessSecondCommittee,
 } from "./index";
+import { createScenarioWorld } from "../scenarios/demo";
 import {
   contributeOwnMoneyToCampaign,
   leftoverCampaignBalance,
   leftoverFundsRuleForState,
 } from "./campaign-money-sources";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import { compliancePackFor as resolveCompliancePackFor } from "./campaign-compliance";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo-jurisdiction-context";
 import {
   CAMPAIGN_SUPPORT_METRIC_STABLE_KEY,
   canonicalSupportBasisPoints,

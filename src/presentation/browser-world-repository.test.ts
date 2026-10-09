@@ -1,8 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  advanceDemoWorld,
-  createDemoWorld,
   createWorldSnapshot,
   deserializeWorld,
   introduceMeasure,
@@ -11,6 +9,8 @@ import {
   recordWorldEvent,
   serializeWorld,
 } from "../simulation";
+import { advanceDemoWorld } from "../scenarios/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, World } from "../simulation";
 import { COHERENT_APPEARANCE_RECIPE_VERSION } from "../simulation";
 import {

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "source": {
+    "kind": "authored",
+    "note": "LIFE-PATHS2 v1 fictional opportunity and terms. Durations, fees and pay are game design, not empirical or legal claims."
+  },
+  "periodCosts": {
+    "college-office-certificate": { "minorUnits": 60000, "currency": "USD" },
+    "college-associate": { "minorUnits": 96000, "currency": "USD" },
+    "college-bachelors": { "minorUnits": 500000, "currency": "USD" },
+    "college-graduate": { "minorUnits": 600000, "currency": "USD" },
+    "law-school": { "minorUnits": 750000, "currency": "USD" },
+    "trade-training": { "minorUnits": 18000, "currency": "USD" }
+  }
+}

@@ -9,7 +9,6 @@
  */
 import {
   US_STATE_USPS,
-  createScenarioWorld,
   searchLifePlaces,
   unadmittedRuleCapabilityResolver,
   ELECTION_CONTEST_TRANSITION_KEY,
@@ -19,6 +18,7 @@ import {
   resolveCampaignElectionFromRecordedInput,
   stateExecutiveTermRule,
 } from "../../src/simulation";
+import { createScenarioWorld } from "../../src/scenarios/demo";
 import type {
   EntityId,
   FutureTransitionHandlerRegistry,

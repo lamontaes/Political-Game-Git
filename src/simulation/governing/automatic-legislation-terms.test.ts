@@ -6,7 +6,7 @@ import {
   bodyForChamber,
   dispositionsFromCounts,
   type LegislativeScenario,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import {
   introduceMeasure,
   availableMeasureSteps,

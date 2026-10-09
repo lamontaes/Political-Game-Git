@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { changeHealthState, beginHealthEpisode } from "./crisis/health";
 import { crisisRecords } from "./crisis/records";
 import { addDays, simulationMomentAtLocalTime } from "./dates";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { createWorld, recordWorldEvent } from "./world";
 import { stableHash } from "./ids";
 import {

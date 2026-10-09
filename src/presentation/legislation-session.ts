@@ -30,7 +30,7 @@ import {
   votePlanKeyForOverride,
   type LegislativeProcedureContext,
   type SeatedMember,
-} from "../simulation/legislation-scenarios";
+} from "../simulation/legislative-content";
 import { chamberByKey, floorStageByKey } from "../simulation/legislature-rules";
 import { legislativeRulePackForWorld } from "../simulation/legislative-procedure-world";
 import { futureDueItemStateAt } from "../simulation/future-transitions";

@@ -11,7 +11,7 @@ import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { stableHash } from "../ids";
 import { isEligibleVoterIn } from "../issue-record";
-import { dispositionsFromCounts } from "../legislation-scenarios";
+import { dispositionsFromCounts } from "../../scenarios/legislation";
 import { lifePlaceStateIdentities } from "../life-places";
 import { chiefExecutiveJurisdictionId } from "../nationwide-world/government-jurisdiction";
 import { ensureStateJurisdiction } from "../nationwide-world/state-executives";

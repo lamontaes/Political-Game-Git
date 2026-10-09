@@ -46,7 +46,7 @@ import { lawExposureSentence } from "./law-exposure-lines";
 import { LEGISLATIVE_TERM_LIMIT_QUESTION } from "../simulation/nationwide-world/state-legislative-term-limits";
 import { applyStateLegislatureTurnover } from "../simulation/nationwide-world/state-legislature-turnover";
 import { observerSetup, openObserverWorld } from "./observer-world";
-import { enactLawFixture } from "./enact-law-fixture";
+import { enactLawFixture } from "../scenarios/enact-law";
 
 /**
  * An independent ward commission (the policy question "Should an independent

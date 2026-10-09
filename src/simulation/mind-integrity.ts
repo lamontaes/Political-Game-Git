@@ -725,7 +725,7 @@ function validateDecisionTrace(world: World, trace: DecisionTraceRecord): void {
     trace.recordedAt !== context.cutoff.asOfDate ||
     trace.rngVersion !== "decision-rng-v1" ||
     context.retention !== "durable" ||
-    (context.randomness !== "none" && context.randomness !== "close-choices")
+    context.randomness !== "none"
   ) {
     throw new Error(
       `Decision trace has invalid identity or policy: ${trace.id}`,

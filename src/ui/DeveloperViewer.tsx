@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 
 import {
   DEFAULT_CORPUS_VERSION,
-  DEFAULT_DEMO_SEED,
   DEFAULT_PERSON_GENERATOR_VERSION,
-  advanceDemoWorld,
-  createDemoWorld,
-  createGeneratedWorld,
   materializePerson,
 } from "../simulation";
+import { advanceDemoWorld } from "../scenarios/demo";
+import {
+  DEFAULT_DEMO_SEED,
+  createDemoWorld,
+  createGeneratedWorld,
+} from "../scenarios/demo";
 import type { EntityId, World } from "../simulation";
 import { EventHistory } from "./EventHistory";
 import { PeopleList } from "./PeopleList";

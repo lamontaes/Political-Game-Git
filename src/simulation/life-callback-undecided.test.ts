@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import type { World, DecisionContext } from "./types";
 import { currentLifeCutoff } from "./life-queries";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { addDays } from "./dates";
 import { recordWorldEvent, advanceWorld } from "./world";
 import {

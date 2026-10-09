@@ -1,4 +1,4 @@
-import { runDemoScenario } from "../simulation";
+import { runDemoScenario } from "../scenarios/demo";
 
 const seed = process.argv[2];
 const result = runDemoScenario(seed);

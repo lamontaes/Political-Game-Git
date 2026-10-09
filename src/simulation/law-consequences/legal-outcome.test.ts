@@ -29,7 +29,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { seatsForChamber } from "../legislature-game-profile";
 import { applyLegislativeStep } from "../../presentation/legislation-session";
 import { recordGovernorDecisionOnMeasure } from "../governing/legislative-clock";

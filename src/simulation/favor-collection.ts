@@ -282,7 +282,7 @@ export function produceFavorCollection(
       constraints: [],
       considerations,
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "ephemeral",
     });
     if (!isSelectedDecision(evaluation)) continue;
@@ -542,7 +542,7 @@ function tellOfRefusal(start: World, input: RefusalToTell): World {
       },
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (!isSelectedDecision(evaluation)) return start;

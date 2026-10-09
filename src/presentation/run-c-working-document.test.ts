@@ -22,13 +22,13 @@ import {
   RUN_C_TARGET_SEGMENT_KEY,
   RUN_C_WIDE_VARIANT_KEY,
   commitRunCWorkingDraftRevision,
-  createRunCFixture,
   createRunCLegislativeConversationProgress,
   policyAnalysisKnowledgeFor,
   projectRunCWorkingDocument,
   recordRunCPlayerAnalysisReview,
   runCOperationForVariant,
 } from "./run-c-working-document";
+import { createRunCFixture } from "../scenarios/run-c";
 
 describe("Stage 6.5 Run C working document", () => {
   const sharedFixture = createRunCFixture();

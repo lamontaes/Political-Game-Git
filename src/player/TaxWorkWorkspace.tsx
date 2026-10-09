@@ -183,9 +183,7 @@ export function TaxWorkWorkspace({
         setFollowing(pending.id);
         setRevealFollowed(true);
         setMessage(null);
-        throw new Error(
-          "An identical tax proposal is already filed and not yet enacted. Its procedure is shown below.",
-        );
+        return;
       }
       const result = fileTaxProposalFromOffice(world, {
         personId,

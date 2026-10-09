@@ -16,7 +16,7 @@ import {
   recordExecutiveAction,
   referMeasure,
 } from "./legislation";
-import { createLegislativeScenario } from "./legislation-scenarios";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   drawLegislativeStartingProcedures,
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,

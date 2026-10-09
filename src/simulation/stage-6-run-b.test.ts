@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   activateEffect,
   advanceWorld,
-  createDemoWorld,
   createExactQuantity,
   deriveFiscalBalanceAt,
   deriveFiscalBalanceFromStates,
@@ -22,6 +21,7 @@ import {
   serializeWorld,
   worldMetricDefinitionByStableKey,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   ActivateEffectInput,
   CausalProcessRecord,

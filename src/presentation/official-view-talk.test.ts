@@ -29,7 +29,7 @@ import {
 import {
   committeeMembers,
   dispositionsFromCounts,
-} from "../simulation/legislation-scenarios";
+} from "../scenarios/legislation";
 import { createPartnership } from "../simulation/life";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { followsNewsClosely } from "../simulation/living-world/official-views";

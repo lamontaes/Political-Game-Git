@@ -10,7 +10,7 @@ import {
   COHERENT_APPEARANCE_RECIPE_VERSION,
   derivePersonAppearance,
 } from "../simulation/person-appearance";
-import { createDemoWorld } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import type { PersonAppearance } from "../simulation/types";
 import {
   computeCharacterGenerationSignature,

@@ -1,7 +1,7 @@
 import { addSimulationMinutes } from "./dates";
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { requireLifePlace } from "./life-places";
 import {

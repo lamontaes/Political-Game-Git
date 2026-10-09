@@ -4,7 +4,7 @@ import {
   createCharacterHistoryContextPerson,
 } from "../character-history";
 import { makeIsoDate } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { recordKinship } from "../life";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import type { EntityId, Person, World } from "../types";

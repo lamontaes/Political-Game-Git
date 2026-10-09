@@ -1,15 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  KENTUCKY_CONTEXT,
   assertWorldIntegrity,
-  createLegislativeScenario,
   createPolicyDomainDefinition,
   createPolicyIssueDefinition,
   createPolicyPropositionDefinition,
   introduceMeasure,
   measurePropositions,
 } from "./index";
+import {
+  KENTUCKY_CONTEXT,
+  createLegislativeScenario,
+} from "../scenarios/legislation";
 import { createProductionPolicyCatalog } from "./production-catalog";
 import type { EntityId, World } from "./index";
 

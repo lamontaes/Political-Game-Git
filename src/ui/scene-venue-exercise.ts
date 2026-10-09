@@ -12,7 +12,8 @@ import {
   type NewGameSetup,
 } from "../presentation/new-game";
 import { openOrdinaryLife } from "../presentation/ordinary-life";
-import { createRunDLiteFixture } from "../presentation/run-d-lite";
+import { createRunDLiteFixture } from "../scenarios/run-d-lite";
+
 import {
   PRODUCTION_OFFICE_SCENE_ID,
   PUBLIC_MEETING_ROOM_SCENE_ID,

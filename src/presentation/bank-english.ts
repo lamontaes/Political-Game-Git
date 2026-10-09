@@ -12,6 +12,8 @@ import noticesBank from "../../data/english/parts/notices.json" with { type: "js
 import newspaperLedesBank from "../../data/english/parts/newspaper-ledes.json" with { type: "json" };
 import winningLosingBank from "../../data/english/parts/winning-losing.json" with { type: "json" };
 import type { EntityId, World } from "../simulation";
+import { stableHash } from "../simulation/ids";
+export { stableHash } from "../simulation/ids";
 import { personName, spokenDate } from "../simulation";
 import { postedMeetingVoteSentence } from "../simulation/living-world/local-council-meetings";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
@@ -50,16 +52,6 @@ export type BankReading = readonly BankLine[] | string;
 
 const PER_KIND = 3;
 
-/** A stable 32-bit string hash (FNV-1a). */
-export function stableHash(value: string): number {
-  let hash = 0x811c9dc5;
-  for (let i = 0; i < value.length; i += 1) {
-    hash ^= value.charCodeAt(i);
-    hash = Math.imul(hash, 0x01000193) >>> 0;
-  }
-  return hash >>> 0;
-}
-
 function slotsOf(text: string): string[] {
   return [...text.matchAll(/\{(\w+)\}/g)].map((match) => match[1]!);
 }
@@ -84,7 +76,7 @@ export function composeFromBank(
       slotsOf(part.text).every((slot) => (facts[slot] ?? "").trim() !== ""),
   );
   if (fits.length === 0) return null;
-  const part = fits[stableHash(pickKey) % fits.length]!;
+  const part = fits[stableHash(pickKey, 32) % fits.length]!;
   const text = part.text.replace(/\{(\w+)\}/g, (_m, slot: string) =>
     facts[slot]!.trim(),
   );

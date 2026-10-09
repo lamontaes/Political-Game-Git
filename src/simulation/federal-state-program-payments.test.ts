@@ -15,7 +15,7 @@ import { chamberByKey } from "./legislature-rules";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import { enactThroughDesk } from "../../tests/fixtures/enact-through-desk";

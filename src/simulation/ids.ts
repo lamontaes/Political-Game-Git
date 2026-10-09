@@ -9,7 +9,17 @@ import type { EntityId, EntityKind } from "./types";
  * this function sits on the path of every action in the game. The limb
  * arithmetic stays exact: no intermediate exceeds 2^26.
  */
-export function stableHash(value: string): string {
+export function stableHash(value: string): string;
+export function stableHash(value: string, width: 32): number;
+export function stableHash(value: string, width?: 32): string | number {
+  if (width === 32) {
+    let hash = 0x811c9dc5;
+    for (let index = 0; index < value.length; index += 1) {
+      hash ^= value.charCodeAt(index);
+      hash = Math.imul(hash, 0x01000193) >>> 0;
+    }
+    return hash >>> 0;
+  }
   // 0xcbf29ce484222325, least significant limb first.
   let h0 = 0x2325;
   let h1 = 0x8422;

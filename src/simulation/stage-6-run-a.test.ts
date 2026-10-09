@@ -6,7 +6,6 @@ import {
   assertWorldIntegrity,
   cancelFutureDueItem,
   compareExactQuantities,
-  createDemoWorld,
   createExactQuantity,
   createFutureTransitionHandlerRegistry,
   createStableId,
@@ -31,6 +30,7 @@ import {
   worldMetricStateForPeriodAt,
   worldMetricStateHistory,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   setFutureDueItemTerminalState,
   futureTransitionEntityExists,

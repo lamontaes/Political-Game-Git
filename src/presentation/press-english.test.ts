@@ -1,5 +1,6 @@
 import { expect, it } from "vitest";
-import { createRunCFixture } from "./run-c-working-document";
+import { createRunCFixture } from "../scenarios/run-c";
+
 import {
   createWorkRelationship,
   recordWorldEvent,

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createRunCFixture } from "../presentation/run-c-working-document";
+import { createRunCFixture } from "../scenarios/run-c";
+
 import {
   projectPublicInformationHeadline,
   projectPublicInformationPanel,

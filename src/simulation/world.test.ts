@@ -3,19 +3,9 @@ import { createHash } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
 
 import {
-  LEXINGTON_DEMO_CONTEXT,
-  LEXINGTON_PLACEHOLDER_ID,
-  PORTABILITY_CONTEXT,
-  PORTABILITY_FIXTURE_SEED,
-  PORTABILITY_JURISDICTION_ID,
-  advanceDemoWorld,
   advanceWorld,
   advanceWorldMinutes,
   assertWorldIntegrity,
-  createDemoWorld,
-  createGeneratedWorld,
-  createPortabilityFixture,
-  createScenarioWorld,
   createScenePlacement,
   createStableId,
   createWorld,
@@ -26,10 +16,24 @@ import {
   makeIsoDate,
   materializePerson,
   recordWorldEvent,
-  runDemoScenario,
   selectPersonHistory,
   serializeWorld,
 } from "./index";
+import { runDemoScenario } from "../scenarios/demo";
+import { advanceDemoWorld } from "../scenarios/demo";
+import {
+  LEXINGTON_DEMO_CONTEXT,
+  LEXINGTON_PLACEHOLDER_ID,
+  createDemoWorld,
+  createGeneratedWorld,
+  createScenarioWorld,
+} from "../scenarios/demo";
+import {
+  PORTABILITY_CONTEXT,
+  PORTABILITY_FIXTURE_SEED,
+  PORTABILITY_JURISDICTION_ID,
+  createPortabilityFixture,
+} from "../scenarios/portability";
 import type {
   EntityId,
   EventContext,

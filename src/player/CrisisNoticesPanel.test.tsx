@@ -2,12 +2,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it } from "vitest";
 import {
   beginHealthEpisode,
-  createDemoWorld,
   createWorld,
   type EntityId,
   type Person,
   type World,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import { CrisisNoticesPanel } from "./CrisisNoticesPanel";
 
 /** The surface itself, populated and empty, on the ordinary player route. */

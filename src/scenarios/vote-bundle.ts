@@ -1,14 +1,14 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../simulation/dates";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
-} from "./character-history";
+} from "../simulation/character-history";
 import {
   bodyForChamber,
   createLegislativeScenario,
   type LegislativeScenario,
   type SeatedMember,
-} from "./legislation-scenarios";
+} from "./legislation";
 import {
   introduceMeasure,
   offerFloorAmendment,
@@ -16,20 +16,20 @@ import {
   recordCommitteeDisposition,
   referMeasure,
   takeFloorVote,
-} from "./legislation";
-import { adoptProvisionRevisions } from "./legislative-politics";
-import { chamberByKey } from "./legislature-rules";
+} from "../simulation/legislation";
+import { adoptProvisionRevisions } from "../simulation/legislative-politics";
+import { chamberByKey } from "../simulation/legislature-rules";
 import {
   createPolicyDomainDefinition,
   createPolicyIssueDefinition,
   createPolicyPropositionDefinition,
-} from "./policy";
+} from "../simulation/policy";
 import type {
   EntityId,
   LegislativeMemberDisposition,
   LegislativeSubjectClass,
   World,
-} from "./types";
+} from "../simulation/types";
 
 /**
  * A one-house legislature with a bill on the floor and two catalog

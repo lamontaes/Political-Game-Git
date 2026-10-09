@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../simulation/demo";
+import { createDemoWorld } from "../scenarios/demo";
 import { recordWorldEvent } from "../simulation/world";
 import { ObserverRunController } from "./observer-run-controller";
 import {

@@ -6,11 +6,8 @@ import {
 } from "./character-components";
 import { buildProductionWorld } from "./production-world";
 import { PRODUCTION_CHARACTER_LIBRARY } from "./visual-integration";
-import {
-  createDemoWorld,
-  createGeneratedWorld,
-  requireLifePlace,
-} from "../simulation";
+import { requireLifePlace } from "../simulation";
+import { createDemoWorld, createGeneratedWorld } from "../scenarios/demo";
 import { deserializeWorld } from "../simulation/serialization";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {

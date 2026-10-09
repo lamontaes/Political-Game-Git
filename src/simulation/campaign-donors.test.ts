@@ -4,12 +4,12 @@ import { namedSeatForFixture } from "../../tests/fixtures/campaign-fixture";
 import {
   addDays,
   candidacyPackById,
-  createScenarioWorld,
   ensureCampaignOpponents,
   fileCampaign,
   makeCurrencyCode,
 } from "./index";
-import { KENTUCKY_CONTEXT } from "./legislation-scenarios";
+import { createScenarioWorld } from "../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../scenarios/legislation";
 import { ensureWorldStartingConditions } from "./world-setup/conditions";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./world-setup/types";
 import { generatePoliticalStartingConditions } from "./world-setup/political-start";

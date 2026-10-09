@@ -512,7 +512,7 @@ export function chapterOutreachTransitionHandler(
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "ephemeral",
   });
   if (

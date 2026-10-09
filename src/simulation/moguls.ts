@@ -654,7 +654,7 @@ function considerApproach(world: World, mogulId: EntityId): World {
     constraints: [],
     considerations,
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;
@@ -1092,7 +1092,7 @@ function npcAnswers(world: World, offerEventId: EntityId): World {
         : []),
     ],
     perceptionIds: [],
-    randomness: "close-choices",
+    randomness: "none",
     retention: "durable",
   });
   if (!isSelectedDecision(evaluation)) return world;
@@ -1172,7 +1172,7 @@ function reviewAcceptedDeals(world: World): World {
         },
       ],
       perceptionIds: [],
-      randomness: "close-choices",
+      randomness: "none",
       retention: "durable",
     });
     next = recordDurableDecisionTrace(next, evaluation);

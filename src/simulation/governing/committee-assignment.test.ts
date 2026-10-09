@@ -9,7 +9,7 @@ import { pickDistinct, SeededRng } from "../rng";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { seatedChamberForPack } from "./chamber-votes";
 
-import type { SeatedBody } from "../legislation-scenarios";
+import type { SeatedBody } from "../../scenarios/legislation";
 import type { EntityId } from "../types";
 import {
   committeeRoster,

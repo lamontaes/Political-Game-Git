@@ -2,15 +2,10 @@ import authoredPlaces from "../../data/research/authored-life-places.json" with 
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { legislativeWorkKey } from "./legislative-work-key";
 import {
-  ALASKA_CONTEXT,
-  KENTUCKY_CONTEXT,
-  NEBRASKA_CONTEXT,
-} from "./legislation-scenarios";
-import {
-  DEMO_START_DATE,
-  LEXINGTON_DEMO_CONTEXT,
-  type DemoJurisdictionContext,
-} from "./demo-jurisdiction-context";
+  DEFAULT_START_DATE,
+  authoredJurisdictionContext,
+} from "./jurisdiction-context";
+import type { JurisdictionContext } from "./jurisdiction-context";
 import { createStableId } from "./ids";
 import { makeIsoDate } from "./dates";
 import {
@@ -99,7 +94,7 @@ export interface LifePlace {
   readonly formalName: string | null;
   /** The wider place this one sits inside, when the data names one. */
   readonly withinName: string | null;
-  readonly context: DemoJurisdictionContext;
+  readonly context: JurisdictionContext;
   /**
    * Whether this entry is a whole state or a place inside one.
    *
@@ -181,7 +176,7 @@ export interface LifePlaceProvider {
 /**
  * Built on first use rather than at module load.
  *
- * The contexts below come from `legislation-scenarios`, which reaches the world
+ * The contexts below come from the authored context data, which reaches the world
  * builder, which reaches the integrity pass, which now has a reason to ask
  * which offices a place supports — and that question comes back here. Reading
  * the contexts while that chain is still unwinding gets a binding that exists
@@ -192,15 +187,9 @@ export interface LifePlaceProvider {
 let places: readonly LifePlace[] | null = null;
 
 function allPlaces(): readonly LifePlace[] {
-  const contexts = {
-    KENTUCKY_CONTEXT,
-    NEBRASKA_CONTEXT,
-    ALASKA_CONTEXT,
-    LEXINGTON_DEMO_CONTEXT,
-  };
   places ??= authoredPlaces.map(({ contextKey, ...row }) => ({
     ...row,
-    context: contexts[contextKey as keyof typeof contexts],
+    context: authoredJurisdictionContext(contextKey),
   })) as readonly LifePlace[];
   const existingKeys = new Set(
     places.map((place) => place.stateJurisdictionKey),
@@ -235,7 +224,7 @@ function allPlaces(): readonly LifePlace[] {
             },
           },
           initialMoment: {
-            date: DEMO_START_DATE,
+            date: DEFAULT_START_DATE,
             minuteOfDay: 550,
             timeZone: state.timeZone,
             utcOffsetMinutes: state.utcOffsetMinutes,
@@ -506,14 +495,14 @@ function synthesizeNationwidePlace(
         kind: county ? "census-county" : "census-place",
         parentName: stateName(usps),
         provenance: {
-          asOf: county ? makeIsoDate(provenance.asOf) : DEMO_START_DATE,
+          asOf: county ? makeIsoDate(provenance.asOf) : DEFAULT_START_DATE,
           source: provenance.source,
           jurisdiction: jurisdictionId,
           status: "approved",
         },
       },
       initialMoment: {
-        date: DEMO_START_DATE,
+        date: DEFAULT_START_DATE,
         minuteOfDay: 9 * 60 + 10,
         timeZone: state?.timeZone ?? EASTERN.timeZone,
         utcOffsetMinutes: state?.utcOffsetMinutes ?? EASTERN.utcOffsetMinutes,
@@ -568,7 +557,7 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
         },
       },
       initialMoment: {
-        date: DEMO_START_DATE,
+        date: DEFAULT_START_DATE,
         minuteOfDay: 9 * 60 + 10,
         timeZone: territory?.timeZone ?? EASTERN.timeZone,
         utcOffsetMinutes:

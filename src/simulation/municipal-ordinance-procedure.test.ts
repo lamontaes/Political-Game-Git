@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import * as municipalGovernment from "./municipal-government";
 import * as legislativeProcedureWorld from "./legislative-procedure-world";
 
-import { createScenarioWorld } from "./demo";
+import { createScenarioWorld } from "../scenarios/demo";
 import { requireLifePlace } from "./life-places";
 import {
   measureActions,

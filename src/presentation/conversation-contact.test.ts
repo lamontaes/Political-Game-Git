@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import "./player-conversation";
-import { createRunBFixture } from "./run-b-fixture";
+import { createRunBFixture } from "../scenarios/run-b";
 import { createRunBConversationProgress } from "./run-b-conversation-progress";
 import {
   commitConversationTurn,

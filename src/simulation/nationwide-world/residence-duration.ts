@@ -7,6 +7,7 @@ import {
 } from "../life-queries";
 import {
   lifePlaceByJurisdictionId,
+  stateKeyForJurisdiction,
   stateJurisdictionForKey,
 } from "../life-places";
 import { recordsWithFieldValue } from "../history-index";
@@ -187,6 +188,27 @@ export function homeJurisdictionResidenceSince(
     world,
     personId,
     (jurisdictionId) => isSamePlace(jurisdictionId, homeJurisdictionId),
+    onDate,
+  );
+}
+
+/** Continuous recorded residence across the country's state and territory homes. */
+export function nationalResidenceSince(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate = world.currentDate,
+): IsoDate | null {
+  return continuousResidenceSince(
+    world,
+    personId,
+    (jurisdictionId) => {
+      const jurisdiction = world.jurisdictions[jurisdictionId];
+      return (
+        (jurisdiction !== undefined &&
+          stateKeyForJurisdiction(jurisdiction) !== null) ||
+        lifePlaceByJurisdictionId(jurisdictionId)?.stateJurisdictionKey != null
+      );
+    },
     onDate,
   );
 }

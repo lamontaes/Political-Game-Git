@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { createPortabilityFixture } from "../portability-fixture";
+import { createPortabilityFixture } from "../../scenarios/portability";
 import { recordRelationshipInteraction } from "../records";
 import { readRelationshipStanding } from "../relationship-standing";
 import type { EntityId, World } from "../types";

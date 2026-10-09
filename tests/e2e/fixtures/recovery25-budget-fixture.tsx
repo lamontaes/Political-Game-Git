@@ -4,12 +4,12 @@ import { createRoot } from "react-dom/client";
 import { BudgetEconomyWorkspace } from "../../../src/player/BudgetEconomyWorkspace";
 import {
   advanceWorld,
-  createDemoWorld,
   money,
   recordWorldMetricState,
   worldMetricDefinitionByStableKey,
   type World,
 } from "../../../src/simulation";
+import { createDemoWorld } from "../../../src/scenarios/demo";
 import "../../../src/player/player.css";
 
 function withFiscalHistory(): World {

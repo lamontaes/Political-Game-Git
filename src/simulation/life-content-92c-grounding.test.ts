@@ -5,7 +5,7 @@ import { addDays, dateAtAge, simulationMomentOnLocalDate } from "./dates";
 import { createStableId } from "./ids";
 import { createStartingPerson } from "./people";
 import { createWorld, recordWorldEvent } from "./world";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   createIncidentDefinition,
   createIncidentCatalog,

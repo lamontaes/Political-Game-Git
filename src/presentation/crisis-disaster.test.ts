@@ -1,6 +1,5 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import {
-  createDemoWorld,
   createWorld,
   crisisEnvelopesBetween,
   crisisProtectedDecisions,
@@ -17,6 +16,7 @@ import {
   householdLocationAt,
   serializeWorld,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import type {
   DeclareHazardEpisodeInput,
   EntityId,

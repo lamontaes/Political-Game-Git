@@ -27,7 +27,7 @@ import {
   committeeMembers,
   createLegislativeScenario,
   dispositionsFromCounts,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { chamberByKey } from "../../src/simulation/legislature-rules";
 import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 

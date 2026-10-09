@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 import {
   advanceWorld,
   createCampaignElectionTransitionRegistry,
-  createScenarioWorld,
 } from "../index";
-import { KENTUCKY_CONTEXT } from "../legislation-scenarios";
+import { createScenarioWorld } from "../../scenarios/demo";
+import { KENTUCKY_CONTEXT } from "../../scenarios/legislation";
 import type { EntityId, HistoricalEvent, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { newsworthiness, NATIONAL_REACH_SCALE, outletCovers } from "./desk";

@@ -16,7 +16,7 @@ import {
   measureActions,
   measurePosition,
 } from "../simulation/legislation";
-import type { LegislativeProcedureContext } from "../simulation/legislation-scenarios";
+import type { LegislativeProcedureContext } from "../scenarios/legislation";
 import type { LegislativeRulePack } from "../simulation/legislature-rules";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import {

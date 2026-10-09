@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import type { DecisionContext, World } from "./types";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import {
   lifePlaceStateIdentities,
   stateJurisdictionForKey,

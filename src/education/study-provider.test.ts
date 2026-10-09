@@ -1,5 +1,5 @@
 import { makeIsoDate } from "../simulation/dates";
-import { LEXINGTON_DEMO_CONTEXT } from "../simulation/demo-jurisdiction-context";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo-jurisdiction-context";
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import {
@@ -9,7 +9,6 @@ import {
 } from "./compact";
 import { schoolTuitionQuote, type SchoolTuitionInput } from "./tuition-prices";
 import {
-  createDemoWorld,
   createWorld,
   createResourcePosition,
   money,
@@ -17,6 +16,7 @@ import {
   deserializeWorld,
   advanceWorld,
 } from "../simulation/index";
+import { createDemoWorld } from "../scenarios/demo";
 import { resourcePositionAt } from "../simulation/resource-queries";
 import { educationEnrollmentStateAt } from "../simulation/life-queries";
 import {

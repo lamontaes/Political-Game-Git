@@ -10,7 +10,7 @@ import { chamberByKey } from "./legislature-rules";
 import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
-} from "./legislation-scenarios";
+} from "../scenarios/legislation";
 import { federalProgramCostsForMonth } from "./federal-cost-ledger";
 import {
   FARM_PAYMENT_QUESTION,

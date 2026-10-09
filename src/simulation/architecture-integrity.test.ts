@@ -5,7 +5,6 @@ import {
   appendPersonFact,
   applyNpcPoliticalBeliefFormation,
   assertWorldIntegrity,
-  createDemoWorld,
   createFormationContext,
   didPeoplePreviouslyWorkTogether,
   evaluateDecision,
@@ -16,6 +15,7 @@ import {
   recordRelationshipInteraction,
   recordWorldEvent,
 } from "./index";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId, World } from "./types";
 
 function personId(world: World, index: number): EntityId {

@@ -20,7 +20,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import { deserializeWorld, serializeWorld } from "../serialization";
 import { personName } from "../people";
 import { SeededRng } from "../rng";

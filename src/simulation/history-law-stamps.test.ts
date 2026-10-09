@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 import type { EntityId } from "./types";
 import type { HistoricalEventInput } from "./history";
 import type { LawEffectStamp } from "./law-effect-stamp";

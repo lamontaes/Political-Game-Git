@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { addDays } from "../dates";
 import { jumpToDate } from "../../../tests/fixtures/due-item-clock";
 import { enactmentStatuteDateContext } from "../enacted-rule-changes";
-import { bodyForChamber } from "../legislation-scenarios";
+import { bodyForChamber } from "../../scenarios/legislation";
 import {
   enrollMeasure,
   measurePosition,
@@ -20,7 +20,7 @@ import {
   billOnTheFloor,
   everyone,
   type Setup,
-} from "../vote-bundle.fixture";
+} from "../../scenarios/vote-bundle";
 import { assertWorldIntegrity } from "../world";
 import {
   considerSessionAdjournment,

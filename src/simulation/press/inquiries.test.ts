@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { recordEvidenceArtifact } from "../evidence";
 import type { EntityId, EvidenceAccess, World } from "../types";
 import { advanceInquiry, openInquiry } from "./inquiries";

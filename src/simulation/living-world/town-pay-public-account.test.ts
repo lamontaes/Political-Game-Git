@@ -6,7 +6,7 @@ import {
 } from "../../presentation/opening-life";
 import { observerSetup } from "../../presentation/observer-world";
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { makeIsoDate } from "../dates";
 import { createOrganization, createWorkRelationship } from "../life";
 import {

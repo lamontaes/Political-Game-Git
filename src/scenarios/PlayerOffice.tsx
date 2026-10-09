@@ -5,7 +5,7 @@ import { useEffect, useMemo, useReducer, useState } from "react";
 
 import type { EntityId } from "../simulation";
 
-import { parseRunAFixtureState } from "../presentation/run-a-fixture";
+import { parseRunAFixtureState } from "../presentation/office-scene-context";
 import {
   loadLearnedConcepts,
   persistLearnedConcepts,
@@ -44,23 +44,24 @@ import {
   recordRunCPlayerAnalysisReview,
 } from "../presentation/run-c-working-document";
 import {
-  createRunDLiteFixture,
   delegateRunDMeetingBrief,
   performRunDScheduledActivity,
   projectRunDLite,
   rescheduleRunDFlexibleBlock,
 } from "../presentation/run-d-lite";
+import { createRunDLiteFixture } from "./run-d-lite";
+
 import {
   createRunDUiState,
   runDUiReducer,
 } from "../presentation/run-d-lite-state";
-import { CalendarWorkspace } from "./CalendarWorkspace";
-import { ConversationStrip } from "./ConversationStrip";
+import { CalendarWorkspace } from "../player/CalendarWorkspace";
+import { ConversationStrip } from "../player/ConversationStrip";
 import { projectDynamicSurfaces } from "../presentation/surface-projection";
-import { OfficeScene } from "./OfficeScene";
-import { PermanentShell } from "./PermanentShell";
-import { WorkPendingWorkspace } from "./WorkPendingWorkspace";
-import { WorkingDocumentWorkspace } from "./WorkingDocumentWorkspace";
+import { OfficeScene } from "../player/OfficeScene";
+import { PermanentShell } from "../player/PermanentShell";
+import { WorkPendingWorkspace } from "../player/WorkPendingWorkspace";
+import { WorkingDocumentWorkspace } from "../player/WorkingDocumentWorkspace";
 
 function formatRunADate(date: string): string {
   return new Intl.DateTimeFormat("en-US", {

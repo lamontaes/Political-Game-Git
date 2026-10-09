@@ -1,4 +1,4 @@
-import { createScenarioWorld } from "../../src/simulation/demo";
+import { createScenarioWorld } from "../../src/scenarios/demo";
 import { requireLifePlace } from "../../src/simulation/life-places";
 import { ensureJurisdiction } from "../../src/simulation/national-election-geography";
 import {

@@ -3,7 +3,7 @@ import {
   addDays,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
-import { createDemoWorld } from "../../src/simulation/demo";
+import { createDemoWorld } from "../../src/scenarios/demo";
 import {
   electionContestResult,
   electionContestStatus,

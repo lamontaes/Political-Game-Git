@@ -1,5 +1,5 @@
 import { addDays } from "../../src/simulation/dates";
-import { createScenarioWorld } from "../../src/simulation/demo";
+import { createScenarioWorld } from "../../src/scenarios/demo";
 import {
   declareProgramCapacity,
   programAppropriations,

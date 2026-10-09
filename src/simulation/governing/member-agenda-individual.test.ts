@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { createWorld } from "../world";
 import { createProductionPolicyCatalog } from "../production-catalog";
 import { makeIsoDate } from "../dates";

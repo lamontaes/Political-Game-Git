@@ -1,5 +1,5 @@
 import { addDays, ageOnDate } from "./dates";
-import { DEMO_START_DATE } from "./demo";
+import { DEFAULT_START_DATE as DEMO_START_DATE } from "./jurisdiction-context";
 import { createWorldId } from "./world";
 import { DEFAULT_CORPUS_VERSION } from "./names-data";
 import {

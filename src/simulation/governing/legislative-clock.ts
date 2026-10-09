@@ -59,7 +59,7 @@ import {
   votePlanKeyForOverride,
   type LegislativeBlueprint,
   type SeatedBody,
-} from "../legislation-scenarios";
+} from "../legislative-content";
 import { committeeRoster } from "./committee-assignment";
 import {
   chamberQuestionKey,

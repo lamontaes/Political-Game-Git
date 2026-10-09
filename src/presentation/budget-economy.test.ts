@@ -2,7 +2,6 @@ import federalFiscalYear from "../../data/research/money/federal-budget-fy2025.j
 import { describe, expect, it } from "vitest";
 
 import {
-  createDemoWorld,
   deserializeWorld,
   money,
   recordWorldMetricState,
@@ -12,6 +11,7 @@ import {
   type MetricReferencePeriod,
   type World,
 } from "../simulation";
+import { createDemoWorld } from "../scenarios/demo";
 import { buildProductionWorld } from "./production-world";
 import { projectBudgetEconomy } from "./budget-economy";
 import { NATIONAL_ELECTION_JURISDICTION } from "../simulation/national-election-geography";

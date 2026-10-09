@@ -21,7 +21,7 @@ import {
   votePlanKeyForCommittee,
   votePlanKeyForFloor,
   type LegislativeProcedureContext,
-} from "../../src/simulation/legislation-scenarios";
+} from "../../src/scenarios/legislation";
 import { ensureStateLegislatureOpening } from "../../src/simulation/nationwide-world/state-legislature-opening";
 import {
   governorOfficeForJurisdiction,

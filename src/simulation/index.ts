@@ -231,7 +231,6 @@ export {
   CAMPAIGN_ORGANIZATION_CLASSIFICATION,
   CAMPAIGN_STATUSES,
 } from "./campaign-integrity";
-export * from "./demo";
 export * from "./history";
 export {
   cancelFutureDueItem,
@@ -261,7 +260,7 @@ export * from "./decisions";
 export * from "./economy";
 export * from "./election-contests";
 export * from "./legislation";
-export * from "./legislation-scenarios";
+export * from "./legislative-content";
 export * from "./legislative-politics";
 export * from "./legislative-member-decisions";
 export * from "./legislature-rules";
@@ -285,7 +284,6 @@ export * from "./person-context";
 export * from "./person-identity";
 export * from "./voice-bands";
 export * from "./person-stress-harness";
-export * from "./portability-fixture";
 export * from "./perception";
 export * from "./policy";
 export * from "./production-catalog";

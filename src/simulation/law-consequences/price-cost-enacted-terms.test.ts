@@ -31,7 +31,7 @@ import {
   createLegislativeScenario,
   bodyForChamber,
   dispositionsFromCounts,
-} from "../legislation-scenarios";
+} from "../../scenarios/legislation";
 import {
   introduceMeasure,
   availableMeasureSteps,

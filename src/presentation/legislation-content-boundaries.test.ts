@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   availableMeasureSteps,
-  createLegislativeScenario,
   currentMeasureProvisions,
   deserializeWorld,
   measurePosition,
   recordFiledProvision,
   serializeWorld,
 } from "../simulation";
+import { createLegislativeScenario } from "../scenarios/legislation";
 import {
   programVariant,
   standingAuthorities,

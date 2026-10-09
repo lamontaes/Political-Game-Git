@@ -484,7 +484,7 @@ describe(`recorded presidential standing (${place!.name}; seed ${seed})`, () => 
       -f.sign / f.adults,
     );
   });
-  it("adds nothing in a presidential year or an odd year", () => {
+  it("adds nothing when presidential approval is unchanged or in an odd year", () => {
     const { world } = fixture();
     expect(nationalMoodDemocraticShift(world, makeIsoDate("2028-11-07"))).toBe(
       0,
@@ -492,5 +492,18 @@ describe(`recorded presidential standing (${place!.name}; seed ${seed})`, () => 
     expect(nationalMoodDemocraticShift(world, makeIsoDate("2027-11-02"))).toBe(
       0,
     );
+  });
+  it("reads a changed presidential view in a presidential election year", () => {
+    const f = fixture();
+    const changed = support(
+      f.world,
+      f.voters[0]!,
+      f.president,
+      false,
+      "p2-f:presidential-year",
+    );
+    expect(
+      nationalMoodDemocraticShift(changed, makeIsoDate("2028-11-07")),
+    ).toBe(-f.sign / f.adults);
   });
 });

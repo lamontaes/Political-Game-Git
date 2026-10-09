@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { createScenarioWorld } from "./demo";
-import { LEXINGTON_DEMO_CONTEXT } from "./demo-jurisdiction-context";
+import { createScenarioWorld } from "../scenarios/demo";
+import { LEXINGTON_DEMO_CONTEXT } from "../scenarios/demo-jurisdiction-context";
 import { makeIsoDate } from "./dates";
 import {
   OFFICE_QUALIFICATIONS_META,

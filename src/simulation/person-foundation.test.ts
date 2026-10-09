@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { SqliteWorldRepository } from "../persistence/sqlite-world-repository";
 import { ageOnDate, makeIsoDate } from "./dates";
-import { createDemoWorld, createGeneratedWorld } from "./demo";
+import { createDemoWorld, createGeneratedWorld } from "../scenarios/demo";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,

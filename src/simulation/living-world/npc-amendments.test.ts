@@ -23,7 +23,7 @@ import {
   recordCommitteeDisposition,
   referMeasure,
 } from "../legislation";
-import { legislativeBlueprint } from "../legislation-scenarios";
+import { legislativeBlueprint } from "../../scenarios/legislation";
 import { defaultOriginChamber } from "../legislature-rules";
 import { lifePlaces } from "../life-places";
 import { nextMeasureDesignation } from "../measure-numbering";

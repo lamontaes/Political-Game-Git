@@ -13,7 +13,7 @@ import {
 import * as decisions from "../decisions";
 import { composeWorldTimeHandlers } from "../campaigns";
 import { addDays } from "../dates";
-import { createDemoWorld } from "../demo";
+import { createDemoWorld } from "../../scenarios/demo";
 import { FEDERAL_TENURE_EVENT } from "../federal-tenures";
 import {
   createFutureTransitionHandlerRegistry,

@@ -4,7 +4,7 @@ import { drawFamilyShape, recordedFamilyEstimates } from "./family-shape";
 import { recordKinship } from "./life";
 import { establishDrawnAdultFamily } from "./character-history";
 import { createWorld } from "./world";
-import { createDemoWorld } from "./demo";
+import { createDemoWorld } from "../scenarios/demo";
 
 function fixture() {
   const demo = createDemoWorld("recorded-family-estimate-fixture");

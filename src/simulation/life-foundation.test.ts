@@ -3,7 +3,6 @@ import { recordsByStringField } from "./history-index";
 import { makeIsoDate } from "./dates";
 
 import {
-  LEXINGTON_PLACEHOLDER_ID,
   activeCareResponsibilitiesAt,
   activePartnershipsAt,
   activeWorkRelationshipsAt,
@@ -11,7 +10,6 @@ import {
   assessLifeLoadAt,
   assertWorldIntegrity,
   createCareResponsibility,
-  createDemoWorld,
   createHousehold,
   createOrganization,
   createPartnership,
@@ -49,6 +47,7 @@ import {
   workStatusHistory,
   createWorkRelationship,
 } from "./index";
+import { LEXINGTON_PLACEHOLDER_ID, createDemoWorld } from "../scenarios/demo";
 import type {
   EntityId,
   Jurisdiction,
