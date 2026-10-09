@@ -1,0 +1,14 @@
+[
+  {
+    "id": "economy.tenure-pay-percentiles",
+    "behavior": "A new hire starts at the 25th wage percentile and reaches the 75th over 20 years at the employer; this is a retained game calibration, not a sourced tenure curve.",
+    "source": "src/simulation/living-world/town-pay.ts",
+    "status": "GAME ASSUMPTION"
+  },
+  {
+    "id": "economy.local-minimum-wages",
+    "behavior": "The legacy job-rate reader applies federal and state minimum wages; local minimum wages are not modeled.",
+    "source": "src/simulation/living-world/town-pay.ts",
+    "status": "NOT MODELED"
+  }
+]
