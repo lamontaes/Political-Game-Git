@@ -1,0 +1,43 @@
+{
+  "alreadySearched": [
+    "art/people-engine/v1/manifest.json — the back view's poses are back-arms-folded, back-hands-in-pockets, back-hands-on-hips, back-pointing and back-walking for the feminine presentation, and the same less back-pointing for the masculine. None is seated.",
+    "Every tracked file under art/ whose name says seated and back, rear, side or three-quarter, searched October 9, 2026: the only turned seated bodies are the three-quarter guest candidates (ocd_body_adult_fem_seated_guest_three_quarter_v1 and its derivatives) and two three-quarter pose control plates. No seated body seen from behind is banked.",
+    "art/requests/asset-requests.json — the queued request seated-guest-three-quarter-right covers a turned seated body; no queued or incoming request asks for a seated body seen from behind."
+  ],
+  "consumerSite": {
+    "consumerId": "serves-many-consumers",
+    "playerVisibleUse": "Any room seat that faces away from the viewer: the members' seats in the House chamber during the opening's State of the Union, the public rows of a council chamber, pews, theater and gallery seats. The player sees the backs of people facing a podium or a dais.",
+    "runtimeComponent": "src/presentation/backdrop-people.ts"
+  },
+  "figureContext": {
+    "facing": "away from the viewer, the back view, square to the camera",
+    "note": "For the people engine pack's back view, in both presentations and all three body types (lean, average, fuller), drawn on the pack's existing canvas so the back hair layers and the seat row line up as they do for the front seated poses.",
+    "postureClass": "seated",
+    "postureCues": [
+      "back-of-head-and-shoulders-visible",
+      "bent-knees-hidden-in-front-of-the-body",
+      "hips-on-the-seat-plane",
+      "upper-back-upright-or-slightly-forward",
+      "elbows-in-at-the-sides"
+    ]
+  },
+  "filedAt": "2026-10-09T06:30:00.000Z",
+  "intakeVersion": "art-request-intake/v1",
+  "jurisdiction": {
+    "reason": "A body seen from behind is the same in every place; the seats that need it are in rooms every state and territory uses.",
+    "scope": "jurisdiction-independent"
+  },
+  "missing": "The people engine pack has no seated pose seen from behind. Its back view has standing and walking poses only, so a seat that faces away from the viewer can hold nobody drawn facing the way the seat faces.",
+  "notes": [
+    "Measured October 9, 2026, in art/backdrops/staging.json: 702 of the 1,016 seats in the 138 staged rooms face away from the viewer, and 135 more face left or right. Only 179 seats face the viewer.",
+    "What happens today: the placement code draws a seat in its own facing (spotView in src/presentation/backdrop-people.ts), finds no seated pose in the back view, and moves the person to a seat facing the viewer, or, in the opening, turns them to face the room. In the opening's House chamber, Congress faces the camera instead of the President at the podium.",
+    "Owner playtest of October 8, 2026, row A2: seated people should sit in real seated poses, behind furniture that hides them, facing the dais or each other.",
+    "The turned seated body is already queued as seated-guest-three-quarter-right; this request is only the view from behind."
+  ],
+  "origin": "playtest",
+  "priority": "P1",
+  "requestId": "people-engine-seated-back-view",
+  "requestedBy": "P4 presentation lane, Session P4-1706",
+  "title": "A seated body seen from behind, for seats that face a podium or a dais",
+  "whyNeeded": "Most seats in the game's rooms face a podium, a dais or a stage, away from the viewer. Without a seated body seen from behind, those rooms show their audiences and their legislatures turned around to face the player, or leave the seats empty."
+}
