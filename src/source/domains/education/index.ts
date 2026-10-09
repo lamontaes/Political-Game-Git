@@ -78,7 +78,9 @@ export function compileEducation(
   lock: ArtifactLock,
 ): CompiledCorpus<CompactInstitution, "production"> {
   const roles = Object.fromEntries(
-    educationAcquisition.requests.map((r) => [r.artifactId, r.artifactId]),
+    educationAcquisition.requests
+      .filter((r) => r.storage === "committed")
+      .map((r) => [r.artifactId, r.artifactId]),
   );
   const opened = openProductionArtifacts("education", lock, roles).artifacts;
   const ccd = opened[CCD]!;
@@ -267,10 +269,14 @@ export function compileEducation(
       corpusId: "education",
       compiler: { name: "education", version: "1.0.0" },
       parser: { name: "nces-directory-offerings", version: "1.0.0" },
-      inputs: lock.artifacts.map((a) => ({
-        artifactId: a.artifactId,
-        sha256: a.bytes.sha256,
-      })),
+      // The cached files (school membership, geocodes, place outlines) feed the
+      // local-institutions compiler, not this corpus.
+      inputs: lock.artifacts
+        .filter((a) => a.storage === "committed")
+        .map((a) => ({
+          artifactId: a.artifactId,
+          sha256: a.bytes.sha256,
+        })),
       asOf: "2024-07-01",
       recordCount: result.length,
       canonicalSha256: corpusCanonicalDigest(compact),
