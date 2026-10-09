@@ -295,9 +295,9 @@
       "stand-aside": ["play-safe", "self-interest", "keep-same"]
     },
     "crisis.international-response": {
-      "de-escalate": ["withdraw", "concede", "cooperate", "delay"],
+      "de-escalate": ["withdraw", "concede", "cooperate"],
       "hold": ["keep-same", "play-safe"],
-      "escalate": ["confront", "speak-out", "take-risk", "bend-rules"]
+      "escalate": ["confront", "speak-out", "take-risk"]
     },
     "speech.react": {
       "cheered": ["engage", "speak-out"],
@@ -352,6 +352,28 @@
     "run-a-source-cutoff": {
       "use": ["trust", "engage"],
       "omit": ["keep-same", "stay-quiet"]
+    },
+    "story.move": {
+      "comfort": ["help-others", "engage"],
+      "blame": ["confront", "speak-out"],
+      "promise": ["commit", "cooperate"],
+      "refuse": ["refuse", "keep-same"],
+      "lie": ["self-interest", "bend-rules"],
+      "apologize": ["concede", "cooperate"],
+      "confess": ["speak-out", "take-risk", "concede"],
+      "thank": ["cooperate", "engage"],
+      "ask": ["engage"],
+      "tell": ["speak-out", "engage"],
+      "request": ["self-interest", "engage"],
+      "offer": ["help-others", "cooperate"],
+      "agree": ["cooperate", "commit"],
+      "decline": ["refuse", "play-safe"],
+      "deflect": ["stay-quiet", "play-safe"],
+      "stay-silent": ["stay-quiet", "withdraw"],
+      "leave": ["withdraw"],
+      "confront": ["confront", "speak-out", "take-risk"],
+      "farewell": ["engage", "change"],
+      "recall": ["engage", "keep-same"]
     }
   },
   "unlabeled": [
