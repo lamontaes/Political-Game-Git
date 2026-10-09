@@ -1,4 +1,17 @@
 export const ECONOMY_RULE_PARAMETERS = {
+  quartersPerYear: {
+    value: 4,
+    basis: "SOURCED",
+    source: "Calendar year has four fiscal quarters",
+    range: { minimum: 1, maximum: 8 },
+  },
+  noAveragePayEstimateDollars: {
+    value: 0,
+    basis: "TUNABLE",
+    source:
+      "Legacy hiring rule has no town pay estimate unless caller supplies one",
+    range: { minimum: 0, maximum: 1_000_000 },
+  },
   annualWorkHours: {
     value: 2080,
     basis: "SOURCED",
