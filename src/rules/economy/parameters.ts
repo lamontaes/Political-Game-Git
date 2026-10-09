@@ -5,6 +5,12 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "No housing event is supplied for this macro month",
     range: { minimum: -1, maximum: 1 },
   },
+  bankProfileAssetUnitDollars: {
+    value: 1000,
+    basis: "SOURCED",
+    source: "FDIC total-assets source values are in thousands of dollars",
+    range: { minimum: 1, maximum: 1_000_000 },
+  },
   housingPriceWindowMonths: {
     value: 12,
     basis: "SOURCED",
