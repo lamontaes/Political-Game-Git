@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629",
+    "sha256": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -985,6 +985,30 @@
       },
       "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
       "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingCustomerPeriodMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerAgreementLeadDays",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     }
   ],
   "unreferencedRemovalReview": {
@@ -3410,7 +3434,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629"
+        "src/core2/data/parameters.json": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5"
       },
       "observations": [
         {
@@ -5733,6 +5757,48 @@
       },
       "parameterApplicability": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient.",
       "calibrationStatus": "blocked and unmeasured; aggregate annual flow does not identify allocation coefficients."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "kind": "external empirical observable",
+      "revision": "preserved-bls-cex-calendar-2024-opening-customer-context",
+      "scope": "Developer-only aggregate spending context; no individual outcome, invoice, trip or firm-survival target is injected.",
+      "sources": [
+        {
+          "id": "bls-cex-region-2024",
+          "title": "Consumer Expenditure Survey calendar 2024 regional annual means",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
+      },
+      "observations": [
+        {
+          "quantity": "Personal care aggregate annual expenditure; parent category context only",
+          "unit": "annual USD per consumer unit",
+          "cohort": "All consumer units in the published national aggregate",
+          "dateWindow": {
+            "earliest": "2024-01-01",
+            "latest": "2024-12-31",
+            "precision": "calendar-year"
+          },
+          "sourceFile": "data/research/money/opening-customer-cex-2024.json",
+          "sourceRefs": ["bls-cex-region-2024"],
+          "observedValue": 978.0,
+          "rawPublishedValue": "978.0",
+          "uncertainty": "Published aggregate mean and sampling error are not individual dispersion or an identified allocation/cadence coefficient interval."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched source/counterparty/generated-budget calibration evaluator exists",
+        "commandTemplate": "Root-owned opening-economy cash/receipt capture followed by matched source-specific budget comparison",
+        "evaluationContract": "Report original cost envelope, supported provider share, retained qualification source, actual requested/paid/unfilled purchases, finite outside stocks and unbound needs; never tune firm survival or call a plan an observed payment."
+      },
+      "parameterApplicability": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed.",
+      "calibrationStatus": "blocked and unmeasured; contextual source observations do not identify individual crosswalks or these coefficients."
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -5866,6 +5932,21 @@
       "parameter": "openingRetirementFundingLiquidShare",
       "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
       "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingCustomerPeriodMonths",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerAgreementLeadDays",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     }
   ],
   "deletedUnusedParameters": [
@@ -5907,8 +5988,9 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629",
+    "src/core2/data/parameters.json": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
-    "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac"
+    "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
+    "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
   }
 }
