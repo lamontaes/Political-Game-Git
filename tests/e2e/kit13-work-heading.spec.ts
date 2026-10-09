@@ -41,7 +41,9 @@ test("work shows a decision heading only beside actual recorded decisions", asyn
   await goTo(page, "elsewhere-campaign");
   const workspace = page.getByTestId("candidacy-workspace");
   await expect(workspace).toBeVisible();
-  await expect(workspace.getByTestId("work-role")).toBeVisible();
+  // Running starts at a filing office, not from a work role, so Campaigns
+  // does not open on the role sentence (owner, October 8, 2026).
+  await expect(workspace.getByTestId("work-role")).toHaveCount(0);
   await page.screenshot({
     path: join(info.config.metadata.artifacts, "work.png"),
   });

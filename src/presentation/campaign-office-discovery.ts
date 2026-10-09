@@ -8,6 +8,7 @@ import {
   personName,
 } from "../simulation";
 import type { EntityId, World } from "../simulation";
+import { filingOfficeForSeat } from "../simulation/filing-office";
 import {
   availableCampaignElectionDate,
   campaignElectionDateIsEstimated,
@@ -113,5 +114,17 @@ export function projectCampaignOffices(world: World, personId: EntityId) {
           timing: `Next election: ${proseDate(estimate)} (estimated)`,
         }
       : office,
+  );
+}
+
+/**
+ * The offices the Campaigns screen lists for filing. A seat whose filing goes
+ * to a counter in the world is filed only there (owner, October 8, 2026:
+ * "running starts only at the clerk's office"), so it leaves the list; the
+ * list keeps the seats that have no counter yet.
+ */
+export function projectCampaignListOffices(world: World, personId: EntityId) {
+  return projectCampaignOffices(world, personId).filter(
+    (office) => filingOfficeForSeat(world, office.officeKey) === null,
   );
 }

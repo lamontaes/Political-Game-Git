@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import { officeLabel, runForPhrase } from "../presentation/english-grammar";
 import "./campaign-workspace.css";
-import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
+import { projectCampaignListOffices } from "../presentation/campaign-office-discovery";
 import { displayMoney } from "../presentation/money-display";
 
 import {
@@ -29,7 +29,6 @@ import type {
   World,
 } from "../simulation";
 import { candidacyEligibility, districtSeatMustBeNamed } from "../simulation";
-import { municipalSeatChoices } from "../simulation/municipal-seat-identity";
 import { CampaignLifePanel } from "./CampaignLifePanel";
 import { DistrictResidencePanel } from "./DistrictResidencePanel";
 import { CampaignWeekPanel } from "./CampaignWeekPanel";
@@ -139,7 +138,7 @@ export function CampaignWorkspace({
     null,
   );
   const offices = useMemo(
-    () => projectCampaignOffices(world, personId),
+    () => projectCampaignListOffices(world, personId),
     [world, personId],
   );
   const selectedOffice =
@@ -196,21 +195,7 @@ export function CampaignWorkspace({
   // Gazetteer identity even when its qualification has no residence rule.
   const [districtBinding, setDistrictBinding] =
     useState<DistrictSeatBinding | null>(null);
-  const [selectedMunicipalSeatKey, setSelectedMunicipalSeatKey] = useState<
-    string | null
-  >(null);
   const person = world.people[personId] ?? null;
-  const municipalSeatOfficeKey = selectedOffice?.officeKey ?? null;
-  const municipalSeats = useMemo(
-    () =>
-      municipalSeatOfficeKey
-        ? municipalSeatChoices(world, personId, municipalSeatOfficeKey)
-        : [],
-    [world, personId, municipalSeatOfficeKey],
-  );
-  const chosenMunicipalSeat =
-    municipalSeats.find((seat) => seat.key === selectedMunicipalSeatKey) ??
-    null;
   const needsDistrict =
     person !== null &&
     selectedOffice !== null &&
@@ -253,14 +238,11 @@ export function CampaignWorkspace({
           personId,
           needsDistrict ? districtBinding : null,
           selectedOfficeKey,
-          null,
-          selectedMunicipalSeatKey,
         ),
       (next) => {
         // The choice is spent on this filing. Picking an office again once the
         // race is over is what offers the next filing.
         setSelectedOfficeKey(null);
-        setSelectedMunicipalSeatKey(null);
         onWorldChange(next);
       },
     );
@@ -419,7 +401,6 @@ export function CampaignWorkspace({
                           onChange={() => {
                             setSelectedOfficeKey(office.officeKey);
                             setDistrictBinding(null);
-                            setSelectedMunicipalSeatKey(null);
                             setProblem(null);
                           }}
                         />
@@ -510,32 +491,6 @@ export function CampaignWorkspace({
               onBindingChange={setDistrictBinding}
             />
           ) : null}
-          {municipalSeats.length > 0 ? (
-            <fieldset
-              className="game-campaign-strategy"
-              data-testid="municipal-seat-choices"
-            >
-              <legend>Which seat are you running for?</legend>
-              {municipalSeats.map((seat) => (
-                <label key={seat.key}>
-                  <input
-                    type="radio"
-                    name="municipal-seat"
-                    data-testid={`municipal-seat-choice-${seat.key}`}
-                    value={seat.key}
-                    checked={selectedMunicipalSeatKey === seat.key}
-                    disabled={!seat.eligible}
-                    onChange={() => {
-                      setSelectedMunicipalSeatKey(seat.key);
-                      setProblem(null);
-                    }}
-                  />
-                  {seat.label}
-                  {seat.reason ? ` — ${seat.reason}` : null}
-                </label>
-              ))}
-            </fieldset>
-          ) : null}
           <button
             type="button"
             data-testid="file-candidacy"
@@ -543,7 +498,6 @@ export function CampaignWorkspace({
             disabled={
               !selectedOffice?.eligible ||
               (needsDistrict && !districtBinding) ||
-              (municipalSeats.length > 0 && !chosenMunicipalSeat?.eligible) ||
               boundRefusal !== null
             }
             onClick={file}

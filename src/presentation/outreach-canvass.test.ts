@@ -6,6 +6,7 @@ import {
 } from "../simulation";
 import {
   CANVASS_DOORS_PER_HOUR,
+  CANVASS_SUPPORT_EFFECT,
   DOOR_ANSWER_DECISION_ID,
   residentComesToTheDoor,
   walkCampaignCanvass,
@@ -289,14 +290,24 @@ describe(`a candidate's afternoon on the doors in a generated world (${place.dis
       expect(recognition.electorate).toBeGreaterThanOrEqual(
         recognition.adultResidentIds.length,
       );
-      // The conversations moved support by the residents who took to the
-      // candidate, less those who took against them.
-      const net =
-        conversations.filter((row) => row.response === "warm").length -
-        conversations.filter((row) => row.response === "cool").length;
+      // Every conversation moved support toward the candidate by the visit's
+      // base; what was said moved each a little, never past zero.
       expect(
-        Math.sign(doorConversationBasisPoints(world, campaign, conversations)),
-      ).toBe(Math.sign(net));
+        doorConversationBasisPoints(world, campaign, conversations),
+      ).toBeGreaterThan(0);
+      const as = (response: (typeof conversations)[number]["response"]) =>
+        doorConversationBasisPoints(
+          world,
+          campaign,
+          conversations.map((row) => ({ ...row, response })),
+        );
+      expect(as("warm")).toBeGreaterThan(as("heard"));
+      expect(as("heard")).toBeGreaterThan(as("cool"));
+      expect(as("cool")).toBeGreaterThan(0);
+      expect(as("cool") / as("heard")).toBeCloseTo(
+        CANVASS_SUPPORT_EFFECT.cool,
+        6,
+      );
 
       // The next session picks up at the next doors.
       const nextDoors = walkCampaignCanvass(world, campaign, action);

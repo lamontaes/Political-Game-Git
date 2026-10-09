@@ -3,7 +3,11 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
-import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
+import {
+  projectCampaignListOffices,
+  projectCampaignOffices,
+} from "../presentation/campaign-office-discovery";
+import { filingOfficeForSeat } from "../simulation/filing-office";
 import { stateExecutiveCandidacyForPerson } from "../presentation/nationwide-candidacy";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
@@ -99,6 +103,12 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
       ["South Dakota Legislature", "Seat in the South Dakota Senate"],
       ["City of Rapid City", "Council member"],
       ["City of Rapid City", "Mayor"],
+      ["Pennington County", "Commissioner"],
+      ["Pennington County", "Sheriff"],
+      ["Pennington County", "State's attorney"],
+      ["Pennington County", "County auditor"],
+      ["Pennington County", "County treasurer"],
+      ["Pennington County", "Coroner"],
     ]);
 
     const markup = renderToStaticMarkup(
@@ -109,23 +119,40 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
       />,
     );
     expect(markup).toContain('data-testid="campaign-office-browser"');
+    // A seat with a filing counter in the world is filed only there (owner,
+    // October 8, 2026); the list keeps the seats that have none yet.
+    const listed = projectCampaignListOffices(world, personId);
+    expect(listed.map((office) => office.title)).toEqual([
+      "Seat in the South Dakota House of Representatives",
+      "Seat in the South Dakota Senate",
+    ]);
     for (const office of offices) {
-      expect(markup).toContain(`value="${office.officeKey}"`);
-      expect(markup).toContain(
-        `data-testid="campaign-office-status-${office.officeKey}"`,
+      const atCounter = filingOfficeForSeat(world, office.officeKey) !== null;
+      expect(atCounter).toBe(
+        !listed.some((entry) => entry.officeKey === office.officeKey),
       );
+      expect(markup.includes(`value="${office.officeKey}"`)).toBe(!atCounter);
+      expect(
+        markup.includes(
+          `data-testid="campaign-office-status-${office.officeKey}"`,
+        ),
+      ).toBe(!atCounter);
     }
   });
 
   it("holds each office to one minimum age, the same wherever it is read", () => {
     const offices = projectCampaignOffices(world, personId);
     for (const office of offices) {
-      expect(office.eligible).toBe(false);
       expect(
         new Set(ageMinimums(office.eligibility)).size,
         `${office.title}: ${office.eligibility}`,
       ).toBe(1);
-      expect(office.eligibility).toMatch(/^Minimum age: \d+( \(estimated\))?$/);
+      expect(office.eligibility).toMatch(
+        /^(Eligible · )?Minimum age: \d+( \(estimated\))?$/,
+      );
+      expect(office.eligibility.startsWith("Eligible · ")).toBe(
+        office.eligible,
+      );
     }
     const governor = stateExecutiveCandidacyForPerson(world, personId)!;
     expect(governor.identity.stateUsps).toBe("SD");
@@ -149,9 +176,11 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
         /data-testid="campaign-office-status-([^"]+)">([^<]*)</g,
       ),
     ];
-    expect(statuses).toHaveLength(offices.length);
+    // The screen lists the offices no counter takes; each reads its own age.
+    const listed = projectCampaignListOffices(world, personId);
+    expect(statuses).toHaveLength(listed.length);
     for (const [, officeKey, text] of statuses) {
-      const office = offices.find((entry) => entry.officeKey === officeKey)!;
+      const office = listed.find((entry) => entry.officeKey === officeKey)!;
       expect(text).toBe(office.eligibility);
     }
   });

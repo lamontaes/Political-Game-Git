@@ -23,7 +23,10 @@ import {
   FILING_VISIT_REQUESTED,
   scheduledFilingVisits,
 } from "../simulation/filing-visit";
-import { municipalSeatChoices } from "../simulation/municipal-seat-identity";
+import {
+  municipalSeatChoices,
+  type MunicipalSeatChoice,
+} from "../simulation/municipal-seat-identity";
 import { recordEventKnowledge } from "../simulation/records";
 import { cancelScheduledActivity } from "../simulation/time-work";
 import { recordWorldEvent } from "../simulation/world";
@@ -295,6 +298,8 @@ function seatsFiledHere(
   readonly officeName: string;
   readonly eligible: boolean;
   readonly blockKinds: readonly string[];
+  /** The numbered seats a filing for this office names, where it names one. */
+  readonly seatChoices: readonly MunicipalSeatChoice[];
 }[] {
   const person = world.people[personId]!;
   const office = filingOfficeForSeat(world, officeKey);
@@ -328,6 +333,7 @@ function seatsFiledHere(
             option.officeKey,
           ) !== null,
         blockKinds: eligibility.blocks.map((block) => block.kind),
+        seatChoices: municipalSeatChoices(world, personId, option.officeKey),
       };
     });
 }
@@ -553,14 +559,16 @@ export function askClerk(
 
 /**
  * File at the counter: the clerk takes the declaration through the one filing
- * writer, and the visit records which campaign it started. Returns the same
- * World when the seat cannot be filed for here.
+ * writer, and the visit records which campaign it started. An office filed by
+ * numbered seat takes the seat the player names. Returns the same World when
+ * the seat cannot be filed for here.
  */
 export function fileAtClerk(
   world: World,
   personId: EntityId,
   activityId: EntityId,
   officeKey: string,
+  seatChoiceKey: string | null = null,
 ): World {
   const scene = projectClerkFilingScene(world, personId);
   if (
@@ -569,10 +577,14 @@ export function fileAtClerk(
     !scene.availableActions.includes(`file:${officeKey}`)
   )
     return world;
+  const choices = municipalSeatChoices(world, personId, officeKey);
   const seat =
-    municipalSeatChoices(world, personId, officeKey).find(
-      (choice) => choice.eligible,
-    )?.key ?? null;
+    choices.length === 0
+      ? null
+      : (choices.find(
+          (choice) => choice.key === seatChoiceKey && choice.eligible,
+        )?.key ?? null);
+  if (choices.length > 0 && seat === null) return world;
   const filed = fileForOffice(world, personId, null, officeKey, null, seat);
   const campaign = activeCampaignForCandidate(filed, personId);
   if (!campaign) return world;

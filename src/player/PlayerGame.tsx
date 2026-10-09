@@ -4885,6 +4885,9 @@ function renderWorkspace({
           {half === "campaign" ? politicsTabs("campaigns") : null}
           <WorkLayout
             showIntro={half !== "jobs"}
+            // Running starts at a filing office, not from a work role, so
+            // Campaigns does not open on one (owner, October 8, 2026).
+            showRole={half !== "campaign"}
             roleSentence={role.sentence}
             pending={
               half === "office" ? null : (
@@ -5434,12 +5437,15 @@ interface WorkSection {
  */
 function WorkLayout({
   showIntro = true,
+  showRole = true,
   roleSentence,
   pending,
   sections,
   timeControl,
 }: {
   readonly showIntro?: boolean;
+  /** Whether the intro opens with who the character is at work. */
+  readonly showRole?: boolean;
   readonly roleSentence: string;
   /** What is waiting on the character, said right after who they are. */
   readonly pending: ReactNode;
@@ -5455,9 +5461,11 @@ function WorkLayout({
     <div className="pg-work" data-testid="work-layout">
       {showIntro ? (
         <>
-          <p className="game-scene" data-testid="work-role">
-            {roleSentence}
-          </p>
+          {showRole ? (
+            <p className="game-scene" data-testid="work-role">
+              {roleSentence}
+            </p>
+          ) : null}
           {pending}
         </>
       ) : null}

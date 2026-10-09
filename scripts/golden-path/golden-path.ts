@@ -276,14 +276,15 @@ export function startGoldenPath(seed: string): GoldenPathState {
   };
 }
 
-/** The local governing body's seat, as the Campaigns list offers it. */
+/** The local governing body's seat, as a filing counter in the world takes it. */
 function councilOffice(state: GoldenPathState) {
   const offices = projectCampaignOffices(state.world, state.playerPersonId);
   return (
     offices.find(
       (office) =>
         localGoverningBodyIdentityForOfficeKey(office.officeKey)?.seat ===
-        "governing-body",
+          "governing-body" &&
+        filingOfficeForSeat(state.world, office.officeKey) !== null,
     ) ?? null
   );
 }
@@ -478,7 +479,7 @@ const fileForCouncil: GoldenPathStep = {
         state,
         "file",
         "missing-choice",
-        "The Campaigns list offers no seat on a local governing body.",
+        "No filing counter takes a seat on a local governing body.",
         offices.map((office) => `${office.officeKey}: ${office.eligibility}`),
       );
     else if (!council.eligible)
