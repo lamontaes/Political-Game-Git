@@ -68,7 +68,8 @@ interface Change {
   raw: Map<string, number>;
   broadEventId?: string;
   placeId?: string;
-  renewal?: { otherId: PersonId };
+  /** Counterparts whose faded thread this change renewed. */
+  renewals: Set<PersonId>;
 }
 
 export interface Director {
@@ -93,6 +94,7 @@ export function createDirector(
   const ledger: Ledger = {
     people: new Map(),
     broadEvents: new Map(),
+    hitBy: new Map(),
     liesByLearner: new Map(),
     stopgapHits: new Set(),
   };
@@ -373,6 +375,8 @@ export function createDirector(
   }
 
   function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
+    // Living in one home is contact, whether or not the core records it.
+    if (thread.sharedHome) return zero;
     const fact = book.keptFacts.get(
       `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`,
     );
@@ -394,6 +398,16 @@ export function createDirector(
     );
   }
 
+  /** The pair's own moments, plus broad events that hit both of them. */
+  function pairHistory(book: PersonLedger, otherId: PersonId): Moment[] {
+    const shared = book.moments.filter(
+      (moment) =>
+        moment.broadEventId !== undefined &&
+        ledger.hitBy.get(moment.broadEventId)?.has(otherId) === true,
+    );
+    return [...new Set([...pairMoments(book, otherId), ...shared])];
+  }
+
   function importanceOf(
     book: PersonLedger,
     thread: Thread,
@@ -403,7 +417,7 @@ export function createDirector(
     const discount = one - param("directorFadingDiscount") * fading;
     return (
       thread.tie +
-      pairMoments(book, thread.otherId).reduce(
+      pairHistory(book, thread.otherId).reduce(
         (sum, moment) => sum + moment.impact * discount,
         zero,
       )
@@ -478,6 +492,7 @@ export function createDirector(
             causeKind,
             counterparts: new Set(),
             raw: new Map(),
+            renewals: new Set(),
           }),
         );
       for (const id of counterparts)
@@ -504,6 +519,7 @@ export function createDirector(
 
     // Ties: every change in closeness, read once at the end of the day.
     directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
+    const fadedBefore = new Map<PersonId, number>();
     for (const id of core.relationshipsByPerson.get(book.personId) ?? []) {
       const row = core.relationships.get(id)!;
       const otherId = row.actorId === book.personId ? row.otherId : row.actorId;
@@ -520,32 +536,20 @@ export function createDirector(
         thread.lastContact !== undefined ||
         (knew !== undefined && knew.since < date);
       const fadingBefore = hadHistory ? fadingOf(thread, book, date) : zero;
-      const renewal =
-        hadHistory && fadingBefore >= param("directorRenewedFading");
-      const importanceBefore =
-        thread.tie +
-        pairMoments(book, otherId).reduce(
-          (sum, moment) => sum + moment.impact,
-          zero,
-        );
-      // A first contact after years adds the pair's importance from before it faded.
-      const raw =
-        Math.abs(delta) + (renewal ? importanceBefore * fadingBefore : zero);
+      fadedBefore.set(otherId, fadingBefore);
       const causeId = `tie:${id}:${date}`;
-      const row2 = change(causeId, `contact:${row.kind}`, "tie", raw, [
-        otherId,
-      ]);
-      const firstContact = thread.lastContact === undefined && !prior;
-      if (firstContact || renewal) {
-        if (renewal) row2.renewal = { otherId };
+      change(causeId, `contact:${row.kind}`, "tie", Math.abs(delta), [otherId]);
+      if (
+        thread.lastContact === undefined &&
+        !prior &&
+        fadingBefore < param("directorRenewedFading")
+      )
         thread.turns.push({
           date,
-          turn: renewal ? "renewed" : "started",
+          turn: "started",
           causeId,
           closeness: row.level,
         });
-        rescoreHindsight(book, otherId, date);
-      }
       thread.tone =
         delta > zero ? "rising" : delta < zero ? "souring" : thread.tone;
       thread.closeness = row.level;
@@ -636,6 +640,48 @@ export function createDirector(
         });
       }
 
+    // Re-entry: a change that names someone whose thread had faded adds the
+    // pair's importance from before it faded, shared broad events included
+    // (October 8, 2026 design, part 5, rule 1). One renewal per pair a day.
+    const renewedToday = new Set<PersonId>();
+    for (const row of changes.values())
+      for (const otherId of row.counterparts) {
+        const thread = book.threads.get(otherId);
+        if (!thread || renewedToday.has(otherId)) continue;
+        // Only someone with a recorded past can come back; a stranger cannot.
+        const knew = book.keptFacts.get(
+          `knew-each-other:${[book.personId, otherId].sort().join(":")}`,
+        );
+        if (
+          !fadedBefore.has(otherId) &&
+          thread.lastContact === undefined &&
+          !(knew && knew.since < date)
+        )
+          continue;
+        const fading = fadedBefore.get(otherId) ?? fadingOf(thread, book, date);
+        if (fading < param("directorRenewedFading")) continue;
+        renewedToday.add(otherId);
+        row.renewals.add(otherId);
+        const importance =
+          thread.tie +
+          pairHistory(book, otherId).reduce(
+            (sum, moment) => sum + moment.impact,
+            zero,
+          );
+        if (importance > zero)
+          row.raw.set(
+            "re-entry",
+            (row.raw.get("re-entry") ?? zero) + importance * fading,
+          );
+        thread.turns.push({
+          date,
+          turn: "renewed",
+          causeId: row.causeId,
+          closeness: thread.closeness,
+        });
+        rescoreHindsight(book, otherId, date);
+      }
+
     book.observedDays += one;
     let scored = false;
     for (const row of changes.values()) {
@@ -702,7 +748,8 @@ export function createDirector(
       ...(row.placeId ? { placeId: row.placeId } : {}),
       echoes: [],
     };
-    const strongest = contributions[zero]?.channel;
+    // The label's channel is the strongest contribution.
+    const strongest = label.slice(zero, label.indexOf(":"));
     for (const otherId of counterpartIds) {
       const earlier = pairMoments(book, otherId);
       const sameChannel = earlier
@@ -733,10 +780,10 @@ export function createDirector(
           ),
         );
       }
-      if (row.renewal?.otherId === otherId) {
-        const best = [...earlier].sort((a, b) => b.hindsight - a.hindsight)[
-          zero
-        ];
+      if (row.renewals.has(otherId)) {
+        const best = pairHistory(book, otherId)
+          .filter((entry) => entry.id !== moment.id)
+          .sort((a, b) => b.hindsight - a.hindsight)[zero];
         const knew = book.keptFacts.get(
           `knew-each-other:${[book.personId, otherId].sort().join(":")}`,
         );
@@ -752,6 +799,11 @@ export function createDirector(
     }
     book.moments.push(moment);
     book.momentsById.set(moment.id, moment);
+    if (moment.broadEventId) {
+      let hit = ledger.hitBy.get(moment.broadEventId);
+      if (!hit) ledger.hitBy.set(moment.broadEventId, (hit = new Set()));
+      hit.add(book.personId);
+    }
     for (const otherId of counterpartIds) {
       const list = book.momentsByOther.get(otherId) ?? [];
       list.push(moment.id);

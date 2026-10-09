@@ -154,6 +154,8 @@ export interface PersonLedger {
 export interface Ledger {
   people: Map<PersonId, PersonLedger>;
   broadEvents: Map<string, BroadEventRecord>;
+  /** Watched people who stored a personal moment from each broad event. */
+  hitBy: Map<string, Set<PersonId>>;
   /** Open lies indexed by the deceived person and the fact they deny. */
   liesByLearner: Map<string, Set<string>>;
   stopgapHits: Set<string>;

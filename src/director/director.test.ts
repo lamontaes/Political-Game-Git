@@ -560,7 +560,7 @@ describe("story director on the new core", () => {
             id: `${kind}:${api.state.date}`,
             date: api.state.date,
             kind,
-            personIds: ["person:classmate"],
+            personIds: ["person:neighbor"],
             witnessIds: ["person:worker"],
             placeId: place,
             moodImpulse: -size,
@@ -588,6 +588,87 @@ describe("story director on the new core", () => {
       "news-arrives",
       "funeral",
     ]);
+  });
+
+  it("brings an old classmate back with stakes when the same closure hit both", () => {
+    const place = "place:director-fixture";
+    const base = town(place);
+    // Neither acts on their own here, so the only contact is the fixture's.
+    const quiet = (row: PersonInput): PersonInput =>
+      row.id === "person:worker" || row.id === "person:classmate"
+        ? { ...row, tier: "calendar" }
+        : row;
+    const input: CoreInput = {
+      ...base,
+      people: base.people.map((row) =>
+        quiet(
+          row.id === "person:classmate"
+            ? { ...row, jobId: "job:classmate", traits: { [risk]: 0 } }
+            : row,
+        ),
+      ),
+      jobs: [
+        ...base.jobs,
+        { ...base.jobs[0]!, id: "job:classmate", personId: "person:classmate" },
+      ],
+    };
+    const world: CoreModule = {
+      id: "fixture-shared-closure",
+      onAfterDay(api) {
+        if (api.state.date === "2021-01-10") {
+          for (const id of ["job:worker", "job:classmate"]) {
+            const job = api.state.jobs.get(id)!;
+            (job as { endsAt?: string }).endsAt = api.state.date;
+            delete (api.state.people.get(job.personId) as { jobId?: string })
+              .jobId;
+          }
+          api.emit({
+            id: "fixture-closed:2021-01-10",
+            date: api.state.date,
+            kind: "organization.closed",
+            personIds: ["person:classmate", "person:worker"],
+            placeId: place,
+            publicRecord: true,
+            source,
+          });
+        }
+        if (api.state.date === "2021-01-20")
+          api.relationship(
+            "person:classmate",
+            "person:worker",
+            "contact",
+            api.parameter("relationContactGain"),
+          );
+      },
+    };
+    const director = createDirector({
+      watch: ["person:worker", "person:classmate"],
+    });
+    const core = createLifeCore(input, {
+      scheduledWork: false,
+      modules: [world, director.module],
+    });
+    director.start(core);
+    advanceCore(core, "2021-01-21");
+    const worker = director.ledger.people.get("person:worker")!;
+    const loss = worker.moments.find((row) => row.causeKind === "job-ended")!;
+    const back = worker.moments.find((row) => row.date === "2021-01-20")!;
+    expect(back.label).toBe("re-entry:contact:contact");
+    expect(back.impact).toBeGreaterThan(loss.impact * 0.9);
+    expect(back.echoes).toEqual([
+      {
+        earlierId: loss.id,
+        earlierKind: "moment",
+        otherId: "person:classmate",
+        reason: "re-entry",
+        strength: expect.any(Number),
+      },
+    ]);
+    expect(
+      worker.threads.get("person:classmate")!.turns.map((row) => row.turn),
+    ).toEqual(["renewed", "grew"]);
+    const entry = worker.schedule.find((row) => row.momentId === back.id)!;
+    expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
   });
 
   it("paces scenes by age band", () => {
