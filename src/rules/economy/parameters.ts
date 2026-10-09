@@ -55,4 +55,40 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Legacy estimated case rule; retained for golden equivalence",
     range: { minimum: 0, maximum: 12 },
   },
+  mortgageTermMonths: {
+    value: 360,
+    basis: "TUNABLE",
+    source: "Owner-approved fixed mortgage term in the legacy rule",
+    range: { minimum: 1, maximum: 600 },
+  },
+  mortgageSpreadReference: {
+    value: {
+      mortgageRatePercent: 6.15,
+      policyLowerPercent: 3.5,
+      policyUpperPercent: 3.75,
+      referenceKey: "fred-mortgage-policy-spread:2025-12-31",
+    },
+    basis: "SOURCED",
+    source:
+      "Freddie Mac PMMS via FRED MORTGAGE30US and Federal Reserve FRED DFEDTARL/DFEDTARU, December 31, 2025",
+    range: { minimum: 0, maximum: 20 },
+  },
+  basisPointsPerPercent: {
+    value: 100,
+    basis: "SOURCED",
+    source: "One percentage point is 100 basis points",
+    range: { minimum: 1, maximum: 1000 },
+  },
+  basisPointsPerWholeRate: {
+    value: 10000,
+    basis: "SOURCED",
+    source: "One whole rate is 10,000 basis points",
+    range: { minimum: 1, maximum: 100000 },
+  },
+  monthsPerYear: {
+    value: 12,
+    basis: "SOURCED",
+    source: "Calendar year contains 12 months",
+    range: { minimum: 1, maximum: 12 },
+  },
 } as const;
