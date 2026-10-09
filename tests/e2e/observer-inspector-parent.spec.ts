@@ -50,6 +50,18 @@ test("a fresh observed world does not repeat the nobody-played explanation", asy
 
   await page.getByTestId("open-world-record").click();
   await expect(page.getByTestId("world-record-summary")).toBeVisible();
+  await expect(page.getByTestId("world-record-laws")).not.toContainText(
+    "No bill has been introduced anywhere in this world yet.",
+  );
+  await expect(page.getByTestId("world-record-amendments")).not.toContainText(
+    "No amendment has been proposed yet.",
+  );
+  await expect(page.getByTestId("world-record-elections")).not.toContainText(
+    "No election has been decided yet.",
+  );
+  await expect(page.getByTestId("world-record-news")).not.toContainText(
+    "Nothing has been published yet.",
+  );
   await expect(
     page.getByText("Nobody is being played.", { exact: false }),
   ).toHaveCount(0);

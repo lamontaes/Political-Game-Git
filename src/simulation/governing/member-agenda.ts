@@ -1189,7 +1189,7 @@ export function localMemberAgendaIntakeHandler(
     world: next,
     status: "resolved",
     reasonKey: null,
-    context: "The local council reached its shared timetable agenda date.",
+    context: "The local council reached its shared agenda date.",
     outcomeEventId: null,
   };
 }

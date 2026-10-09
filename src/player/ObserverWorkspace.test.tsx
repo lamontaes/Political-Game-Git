@@ -158,14 +158,16 @@ describe("ObserverPersonStory", () => {
     );
   });
 
-  it("says plainly when nothing is on record", () => {
+  it("omits empty story rows and their placeholder sentences", () => {
     const html = renderToStaticMarkup(
       <ObserverPersonStory
         story={{ threads: [], moreThreads: 0, moments: [] }}
         personLink={(_, name) => name}
       />,
     );
-    expect(html).toContain("No threads on record.");
-    expect(html).toContain("No moments on record.");
+    expect(html).not.toContain("No threads on record.");
+    expect(html).not.toContain("No moments on record.");
+    expect(html).not.toContain('data-testid="observer-person-threads"');
+    expect(html).not.toContain('data-testid="observer-person-moments"');
   });
 });

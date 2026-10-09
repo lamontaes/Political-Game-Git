@@ -201,7 +201,7 @@ export function recordStoryHeardOfficialViews(
         act.officialId,
         { factor, felt },
         stableKey,
-        "This reported act runs against the view of this official the person already held.",
+        "This act runs against the view of this official the person already held.",
       );
     }
   }

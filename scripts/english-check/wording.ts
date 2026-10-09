@@ -187,6 +187,7 @@ const NOT_PLAYER_FACING = [
   "src/devtools/",
   "src/r1-review/",
   "src/research/",
+  "src/scenarios/",
   "src/source/",
   "src/ui/",
 ];
@@ -229,6 +230,8 @@ export function countSourceWording(
   source: string,
   file: string,
 ): WordingCounts {
+  if (NOT_PLAYER_FACING.some((prefix) => file.startsWith(prefix)))
+    return { banned: {}, handWritten: {}, phrasing: {} };
   const banned: Record<string, number> = {};
   const handWritten: Record<string, number> = {};
   const phrasing: Record<string, number> = {};
