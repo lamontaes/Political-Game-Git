@@ -202,8 +202,10 @@ function candidatesOf(
           `the answer to a lie (${answer})`,
           `relationship (${relationship})`,
         ],
-        situation: `${life}. Right after this exchange with ${other}, ${relationship}, ${playerName} denies what was just said. ${other} answers.`,
+        situation: `${life}. ${playerName} talks with ${other}, ${relationship}, then denies what ${other} just said. ${other} answers.`,
+        // The exchange the lie follows, then the lie and its answer.
         exchange: [
+          ...exchange.turns,
           {
             ...last,
             choice: "Lie",
