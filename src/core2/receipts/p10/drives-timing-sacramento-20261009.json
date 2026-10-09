@@ -1,0 +1,37 @@
+{
+  "schema": "p10-drives-timing-v1",
+  "method": "Four separate processes, one world each, same seed and prepared town; baseline = createLifeCore without the P10 modules; drives = with createHealthModule and createDrivesModule and withDrives data. Cloud container, 4 vCPU; not the owner's Mac.",
+  "runs": [
+    {
+      "mode": "base",
+      "seconds": 293.832602725,
+      "peakRssMiB": 5342.0390625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "base",
+      "seconds": 285.611022374,
+      "peakRssMiB": 5373.3828125,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 312.291480265,
+      "peakRssMiB": 5362.76953125,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    },
+    {
+      "mode": "drives",
+      "seconds": 310.93502741500004,
+      "peakRssMiB": 5355.3828125,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09"
+    }
+  ],
+  "medianBaseSeconds": 289.7218125495,
+  "medianDrivesSeconds": 311.61325384,
+  "ratio": 1.0755602110102076
+}

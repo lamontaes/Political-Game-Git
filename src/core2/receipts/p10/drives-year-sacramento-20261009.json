@@ -1,0 +1,2575 @@
+{
+  "schema": "p10-drives-proof-v1",
+  "seed": "p10-drives-proof-2026-10-09",
+  "place": {
+    "placeName": "Sacramento, California",
+    "countyNames": "Sacramento County, California",
+    "placeKey": "0664000"
+  },
+  "startedAt": "2021-01-01",
+  "through": "2022-01-01",
+  "buildSeconds": 6.302713990999999,
+  "timing": {
+    "withDrivesSeconds": 314.874450821,
+    "monthly": [
+      {
+        "month": "2021-01",
+        "seconds": 23.279329852000004,
+        "rssMiB": 1990.671875
+      },
+      {
+        "month": "2021-02",
+        "seconds": 44.590478401,
+        "rssMiB": 2101.90234375
+      },
+      {
+        "month": "2021-03",
+        "seconds": 68.34579617399999,
+        "rssMiB": 2411.91015625
+      },
+      {
+        "month": "2021-04",
+        "seconds": 97.22115699399998,
+        "rssMiB": 3230.30078125
+      },
+      {
+        "month": "2021-05",
+        "seconds": 122.749374327,
+        "rssMiB": 3232.05078125
+      },
+      {
+        "month": "2021-06",
+        "seconds": 147.181277249,
+        "rssMiB": 3682.30078125
+      },
+      {
+        "month": "2021-07",
+        "seconds": 179.646662111,
+        "rssMiB": 4836.92578125
+      },
+      {
+        "month": "2021-08",
+        "seconds": 206.201750284,
+        "rssMiB": 5169.83203125
+      },
+      {
+        "month": "2021-09",
+        "seconds": 234.75441756,
+        "rssMiB": 5172.33203125
+      },
+      {
+        "month": "2021-10",
+        "seconds": 259.26766505899997,
+        "rssMiB": 5180.33203125
+      },
+      {
+        "month": "2021-11",
+        "seconds": 285.52276930399995,
+        "rssMiB": 5393.484375
+      },
+      {
+        "month": "2021-12",
+        "seconds": 314.874197924,
+        "rssMiB": 5412.484375
+      }
+    ],
+    "peakRssMiB": 5412.484375
+  },
+  "stopgapHits": [
+    "SG-P10-drive-acts",
+    "SG-P10-event-severity",
+    "SG-P10-health-minimal-port",
+    "SG-P10-params-uncalibrated",
+    "SG-P10-perception-model",
+    "SG-P10-response-model",
+    "SG-P8-attendance-choice",
+    "SG-P8-civic-progress",
+    "SG-P8-emotion-model",
+    "SG-P8-life-utility",
+    "SG-P8-param-careHours",
+    "SG-P8-param-civicHours",
+    "SG-P8-param-companyHorizonDays",
+    "SG-P8-param-moneyBufferDays",
+    "SG-P8-param-relationContactGain",
+    "SG-P8-param-restEffect",
+    "SG-P8-param-traitWeight",
+    "SG-P8-work-pay-terms",
+    "SG-P8-work-result-retention",
+    "SG-P8-work-schedule-data",
+    "SG-P8-work-time-reserve"
+  ],
+  "population": 10001,
+  "health": {
+    "onsets": 79,
+    "deaths": 74,
+    "casesWithOnsetInRun": 79
+  },
+  "drives": {
+    "formedByYearKind": {
+      "2021:cause": 10,
+      "2021:calling": 9
+    },
+    "formedPerThousandResidents": {
+      "2021:cause": 0.9999000099990001,
+      "2021:calling": 0.8999100089991
+    },
+    "peopleHoldingDrives": 19,
+    "responsesByRule": {
+      "serious-illness:carry-on": 128,
+      "serious-illness:take-up-cause": 10,
+      "bereavement:carry-on": 39,
+      "bereavement:take-up-cause": 9,
+      "bereavement:answer-calling": 9,
+      "cause-shared:carry-on": 2
+    },
+    "perceivedDecisions": 197,
+    "actsByAction": {
+      "look-up-local-institution": 339,
+      "share-cause": 2,
+      "volunteer-for-cause": 252,
+      "organize-meeting": 2
+    },
+    "actsByBasis": {
+      "scored": 593,
+      "reconstructed": 2
+    },
+    "actsByKindAndAction": {
+      "cause:look-up-local-institution": 339,
+      "calling:share-cause": 2,
+      "calling:volunteer-for-cause": 252,
+      "cause:organize-meeting": 2
+    },
+    "groupsFounded": 0,
+    "decisionsRetained": 197,
+    "decisionsFormingDrive": 28,
+    "adultDecisions": 172,
+    "adultDecisionsFormingDrive": 28,
+    "driveMinusCarryOnUrgency": {
+      "min": -5.914917001147784,
+      "p25": -2.0120000000001657,
+      "median": -0.8240000000030365,
+      "p75": -0.4612777814483846,
+      "p90": 0.14666800260119972,
+      "max": 0.6418200946335411
+    }
+  },
+  "chain": {
+    "person": {
+      "id": "person_3ff03659688ec835",
+      "name": "Barbara Hawkins",
+      "birthDate": "1951-06-06",
+      "traits": {
+        "people-mind-v1:deliberation": 0,
+        "people-mind-v1:sociability": 1,
+        "people-mind-v1:conflict": 0,
+        "people-mind-v1:reliability": 1,
+        "people-mind-v1:risk": 1,
+        "personality-v1:facet-duty-bound": 1,
+        "personality-v1:facet-practical": 1,
+        "personality-v1:facet-acquisitive": 1
+      }
+    },
+    "sourceEvent": {
+      "date": "2021-03-17",
+      "subjects": ["person_3ff03559688ec682"],
+      "topic": "health:diabetes",
+      "desiredChange": "care-and-cure:diabetes",
+      "facts": {
+        "event:health.serious-illness:person_3ff03559688ec682:2021-03-17:condition": "diabetes"
+      },
+      "id": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+      "kind": "health.serious-illness",
+      "healthCase": {
+        "personId": "person_3ff03559688ec682",
+        "conditions": ["cancer", "copd", "diabetes"],
+        "conditionKey": "diabetes",
+        "severity": 443.055941,
+        "onsetDate": "2021-03-17",
+        "onsetEventId": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+        "deathDate": "2021-04-16",
+        "deathEventId": "life.death:person_3ff03559688ec682:2021-04-16"
+      },
+      "subject": {
+        "id": "person_3ff03559688ec682",
+        "name": "Andre Hawkins",
+        "birthDate": "1951-04-09",
+        "traits": {
+          "people-mind-v1:deliberation": 0,
+          "people-mind-v1:sociability": 1,
+          "people-mind-v1:conflict": 0,
+          "people-mind-v1:reliability": 1,
+          "people-mind-v1:risk": 0,
+          "personality-v1:facet-duty-bound": 1,
+          "personality-v1:facet-practical": 1,
+          "personality-v1:facet-acquisitive": 1
+        }
+      }
+    },
+    "drive": {
+      "id": "cause:health:diabetes",
+      "kind": "cause",
+      "topic": "health:diabetes",
+      "formedAt": "2021-03-17",
+      "halfLifeDays": 365,
+      "formations": [
+        {
+          "date": "2021-03-17",
+          "personId": "person_3ff03659688ec835",
+          "eventId": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+          "eventKind": "health.serious-illness",
+          "ruleId": "serious-illness",
+          "role": "family",
+          "roleWeight": 1,
+          "closeness": 0.46211715726000974,
+          "channelGain": 1,
+          "traitTerms": [],
+          "attention": 1.4621171572600098,
+          "magnitude": 1.2866630983888085,
+          "agency": 0.999999999997903,
+          "pressure": 1.881252191767601,
+          "event": {
+            "date": "2021-03-17",
+            "subjects": ["person_3ff03559688ec682"],
+            "topic": "health:diabetes",
+            "desiredChange": "care-and-cure:diabetes",
+            "facts": {
+              "event:health.serious-illness:person_3ff03559688ec682:2021-03-17:condition": "diabetes"
+            }
+          },
+          "considered": [
+            {
+              "responseId": "take-up-cause",
+              "fit": 0.8,
+              "lean": 0.2222222222222222,
+              "urgency": 2.7591698812533623
+            },
+            {
+              "responseId": "guard-family",
+              "fit": 0.7,
+              "lean": 0.06666666666666667,
+              "urgency": 1.6931269725872902
+            },
+            {
+              "responseId": "carry-on",
+              "fit": 1,
+              "lean": -0.04761904761904763,
+              "urgency": 2.6125018786579437
+            }
+          ],
+          "chosen": {
+            "responseId": "take-up-cause",
+            "score": 3.2322806355366875,
+            "reasons": {
+              "need": 0.25,
+              "goal": 2.7591698812533623,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0.17866630983888088,
+              "effort": 0
+            }
+          },
+          "runnerUp": {
+            "responseId": "carry-on",
+            "score": 3.160310688811896,
+            "reasons": {
+              "need": 0.25,
+              "goal": 2.6125018786579437,
+              "drive": 0,
+              "trait": -0.009523809523809526,
+              "emotion": 0.3073326196777617,
+              "effort": 0
+            }
+          },
+          "strengthAdded": 0.5629689196686989,
+          "driveId": "cause:health:diabetes"
+        },
+        {
+          "date": "2021-04-16",
+          "personId": "person_3ff03659688ec835",
+          "eventId": "life.death:person_3ff03559688ec682:2021-04-16",
+          "eventKind": "life.death",
+          "ruleId": "bereavement",
+          "role": "family",
+          "roleWeight": 1,
+          "closeness": 0.46211715726000974,
+          "channelGain": 1,
+          "traitTerms": [],
+          "attention": 1.4621171572600098,
+          "magnitude": 1.8422676181476123,
+          "agency": 0.9999999999979874,
+          "pressure": 2.693611092758156,
+          "event": {
+            "date": "2021-04-16",
+            "subjects": ["person_3ff03559688ec682"],
+            "topic": "health:diabetes",
+            "desiredChange": "care-and-cure:diabetes",
+            "facts": {
+              "event:life.death:person_3ff03559688ec682:2021-04-16:condition": "diabetes"
+            }
+          },
+          "considered": [
+            {
+              "responseId": "take-up-cause",
+              "fit": 0.8,
+              "lean": 0.2222222222222222,
+              "urgency": 3.9506296027040118
+            },
+            {
+              "responseId": "answer-calling",
+              "fit": 0.55,
+              "lean": 0.2222222222222222,
+              "urgency": 3.2772268295158278
+            },
+            {
+              "responseId": "carry-on",
+              "fit": 1,
+              "lean": -0.04761904761904763,
+              "urgency": 3.3088095080784194
+            }
+          ],
+          "chosen": {
+            "responseId": "take-up-cause",
+            "score": 4.522315192160767,
+            "reasons": {
+              "need": 0.28641753800455827,
+              "goal": 3.9506296027040118,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0.24082360700775296,
+              "effort": 0
+            }
+          },
+          "runnerUp": {
+            "responseId": "answer-calling",
+            "score": 4.321671273960272,
+            "reasons": {
+              "need": 1,
+              "goal": 3.2772268295158278,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0,
+              "effort": 0
+            }
+          },
+          "strengthAdded": 0.2686340567133483,
+          "driveId": "cause:health:diabetes"
+        }
+      ],
+      "acts": [
+        {
+          "date": "2021-03-19",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:114460",
+          "score": 2.7155928163378356,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.5608347815027414,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09121636816842697,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:117900",
+            "score": 2.7155928163378356
+          },
+          "strengthBefore": 0.5597707481739983
+        },
+        {
+          "date": "2021-03-26",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:117900",
+          "score": 2.735821017437522,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.575190890489254,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09708846028160108,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:118198",
+            "score": 2.735821017437522
+          },
+          "strengthBefore": 0.5740996203005005
+        },
+        {
+          "date": "2021-04-02",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:118198",
+          "score": 2.7280755412283497,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.5886490965625241,
+            "trait": 0.06666666666666667,
+            "emotion": 0.07588477799915873,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:122180",
+            "score": 2.7280755412283497
+          },
+          "strengthBefore": 0.5875322930433151
+        },
+        {
+          "date": "2021-04-09",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:122180",
+          "score": 2.7279564918890946,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.6012655590650564,
+            "trait": 0.06666666666666667,
+            "emotion": 0.06314926615737146,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:123493",
+            "score": 2.7279564918890946
+          },
+          "strengthBefore": 0.6001248191976817
+        },
+        {
+          "date": "2021-04-16",
+          "actionId": "organize-meeting",
+          "targetId": "organization_20c62303389f37ce",
+          "basis": "reconstructed",
+          "score": 3.051664916780248,
+          "reasons": {
+            "need": 1.2041180350387648,
+            "goal": 0.8817269815663271,
+            "drive": 0.8817269815663271,
+            "trait": 0.04000000000000001,
+            "emotion": 0.05659291860882916,
+            "effort": -0.0125
+          },
+          "reasonKey": "utility:safety:cause:health:diabetes",
+          "strengthBefore": 0.8817269815663271
+        },
+        {
+          "date": "2021-04-23",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:123493",
+          "score": 3.068588723392473,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8759190993556226,
+            "trait": 0.06666666666666667,
+            "emotion": 0.12912795737018345,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:124487",
+            "score": 3.068588723392473
+          },
+          "strengthBefore": 0.8742572781816581
+        },
+        {
+          "date": "2021-04-30",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:124487",
+          "score": 3.0303765241645375,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8705682579990487,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09626659949882171,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:125532",
+            "score": 3.0303765241645375
+          },
+          "strengthBefore": 0.8689165886090462
+        },
+        {
+          "date": "2021-05-07",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:125532",
+          "score": 3.0028194850384193,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8655520850437023,
+            "trait": 0.06666666666666667,
+            "emotion": 0.0737257333280497,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:439747",
+            "score": 3.0028194850384193
+          },
+          "strengthBefore": 0.8639099324942797
+        },
+        {
+          "date": "2021-05-14",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:439747",
+          "score": 2.9863065462084406,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8608496486526412,
+            "trait": 0.06666666666666667,
+            "emotion": 0.06191523088913212,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:447777",
+            "score": 2.9863065462084406
+          },
+          "strengthBefore": 0.8592164177129538
+        },
+        {
+          "date": "2021-05-21",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:447777",
+          "score": 2.9759452366693426,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8564413261707765,
+            "trait": 0.06666666666666667,
+            "emotion": 0.055962243831899176,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:448433",
+            "score": 2.9759452366693426
+          },
+          "strengthBefore": 0.8548164588386955
+        },
+        {
+          "date": "2021-05-28",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:448433",
+          "score": 2.968831919920212,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8523087222420865,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05298153101145824,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:455761",
+            "score": 2.968831919920212
+          },
+          "strengthBefore": 0.8506916954157295
+        },
+        {
+          "date": "2021-06-04",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:455761",
+          "score": 2.9634670603798625,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8484345920481902,
+            "trait": 0.06666666666666667,
+            "emotion": 0.051490801665005165,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:485467",
+            "score": 2.9634670603798625
+          },
+          "strengthBefore": 0.8468249153430848
+        },
+        {
+          "date": "2021-06-11",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:485467",
+          "score": 2.9590898400431924,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8448027693479642,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05074540402856124,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:490160",
+            "score": 2.9590898400431924
+          },
+          "strengthBefore": 0.8431999830507375
+        },
+        {
+          "date": "2021-06-18",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:490160",
+          "score": 2.9553124679813645,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8413980990179226,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050372702296774964,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:491880",
+            "score": 2.9553124679813645
+          },
+          "strengthBefore": 0.8398017721679771
+        },
+        {
+          "date": "2021-06-25",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:491880",
+          "score": 2.951934391651883,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.838206373811859,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050186351173356694,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:493761",
+            "score": 2.951934391651883
+          },
+          "strengthBefore": 0.83661610240303
+        },
+        {
+          "date": "2021-07-02",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:493761",
+          "score": 2.948849117331409,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8352142750758569,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05009317558888535,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:494357",
+            "score": 2.948849117331409
+          },
+          "strengthBefore": 0.8336296803705473
+        },
+        {
+          "date": "2021-07-09",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:494357",
+          "score": 2.9459975716325846,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8324093171712799,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050046587794637734,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:501673",
+            "score": 2.9459975716325846
+          },
+          "strengthBefore": 0.8308300441200378
+        },
+        {
+          "date": "2021-07-16",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:501673",
+          "score": 2.9433447559378303,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.829779795373827,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05002329389733612,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0600036",
+            "score": 2.9433447559378303
+          },
+          "strengthBefore": 0.8282055111337703
+        },
+        {
+          "date": "2021-07-23",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0600036",
+          "score": 2.9408680506465776,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8273147370312409,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05001164694866959,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003603755",
+            "score": 2.9408680506465776
+          },
+          "strengthBefore": 0.8257451295771475
+        },
+        {
+          "date": "2021-07-30",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003603755",
+          "score": 2.938551345916861,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8250038557758587,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000582347433492,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611084",
+            "score": 2.938551345916861
+          },
+          "strengthBefore": 0.8234386325981254
+        },
+        {
+          "date": "2021-08-06",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611084",
+          "score": 2.9363820870047723,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8228375086009376,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000291173716749,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611735",
+            "score": 2.9363820870047723
+          },
+          "strengthBefore": 0.8212763954849761
+        },
+        {
+          "date": "2021-08-13",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611735",
+          "score": 2.934349778156894,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8208066556216431,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000145586858375,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003613189",
+            "score": 2.934349778156894
+          },
+          "strengthBefore": 0.819249395503618
+        },
+        {
+          "date": "2021-08-20",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003613189",
+          "score": 2.932445216953745,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8189028223527862,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000072793429187,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201985",
+            "score": 2.932445216953745
+          },
+          "strengthBefore": 0.8173491742469209
+        },
+        {
+          "date": "2021-08-27",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201985",
+          "score": 2.930660094979712,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.817118064345899,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000036396714594,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201987",
+            "score": 2.930660094979712
+          },
+          "strengthBefore": 0.8155678023388736
+        },
+        {
+          "date": "2021-09-03",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201987",
+          "score": 2.9289867826883254,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8154449340380855,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000018198357298,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601480",
+            "score": 2.9289867826883254
+          },
+          "strengthBefore": 0.8138978463463301
+        },
+        {
+          "date": "2021-09-10",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601480",
+          "score": 2.9274182073327646,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.813876449674311,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000009099178648,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601598",
+            "score": 2.9274182073327646
+          },
+          "strengthBefore": 0.81233233776026
+        },
+        {
+          "date": "2021-09-17",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601598",
+          "score": 2.9259477783360066,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8124060661734466,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000004549589324,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601703",
+            "score": 2.9259477783360066
+          },
+          "strengthBefore": 0.8108647439170676
+        },
+        {
+          "date": "2021-09-24",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601703",
+          "score": 2.924569337231111,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8110276478164977,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000002274794662,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060170312785",
+            "score": 2.924569337231111
+          },
+          "strengthBefore": 0.8094889407386368
+        },
+        {
+          "date": "2021-10-01",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060170312785",
+          "score": 2.923277120683687,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8097354426430469,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000001137397332,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601767",
+            "score": 2.923277120683687
+          },
+          "strengthBefore": 0.8081991871773495
+        },
+        {
+          "date": "2021-10-08",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601767",
+          "score": 2.9220657308027254,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8085240584490715,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000568698666,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601775",
+            "score": 2.9220657308027254
+          },
+          "strengthBefore": 0.8069901012594419
+        },
+        {
+          "date": "2021-10-15",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601775",
+          "score": 2.920930109796139,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8073884402859787,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000284349333,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060177511070",
+            "score": 2.920930109796139
+          },
+          "strengthBefore": 0.805856637626728
+        },
+        {
+          "date": "2021-10-22",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060177511070",
+          "score": 2.919865517455376,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8063238493669623,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050000001421746654,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601786",
+            "score": 2.919865517455376
+          },
+          "strengthBefore": 0.8047940664829765
+        },
+        {
+          "date": "2021-10-29",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601786",
+          "score": 2.9188675106702027,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8053258432926623,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000071087332,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601824",
+            "score": 2.9188675106702027
+          },
+          "strengthBefore": 0.8037979538570865
+        },
+        {
+          "date": "2021-11-05",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601824",
+          "score": 2.917931924535714,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8043902575136102,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000035543666,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602003",
+            "score": 2.917931924535714
+          },
+          "strengthBefore": 0.8028641431007034
+        },
+        {
+          "date": "2021-11-12",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602003",
+          "score": 2.9170548547964916,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.803513187952106,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000017771834,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602034",
+            "score": 2.9170548547964916
+          },
+          "strengthBefore": 0.8019887375430661
+        },
+        {
+          "date": "2021-11-19",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602034",
+          "score": 2.9162326414665367,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8026909747110108,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050000000088859166,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602094",
+            "score": 2.9162326414665367
+          },
+          "strengthBefore": 0.8011680842307071
+        },
+        {
+          "date": "2021-11-26",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602094",
+          "score": 2.9154618535125687,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8019201868014718,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000004442959,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602123",
+            "score": 2.9154618535125687
+          },
+          "strengthBefore": 0.8003987586841529
+        },
+        {
+          "date": "2021-12-03",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602123",
+          "score": 2.914739274514734,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8011976078258518,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000002221479,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602183",
+            "score": 2.914739274514734
+          },
+          "strengthBefore": 0.7996775506080173
+        },
+        {
+          "date": "2021-12-10",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602183",
+          "score": 2.914061889233896,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8005202225561217,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050000000011107396,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602188",
+            "score": 2.914061889233896
+          },
+          "strengthBefore": 0.7990014504948557
+        },
+        {
+          "date": "2021-12-17",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602188",
+          "score": 2.9134268710239257,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.7998852043517048,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000000555369,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602285",
+            "score": 2.9134268710239257
+          },
+          "strengthBefore": 0.7983676370668832
+        },
+        {
+          "date": "2021-12-24",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602285",
+          "score": 2.912831570033719,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.7992899033642752,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000000277685,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060228511951",
+            "score": 2.912831570033719
+          },
+          "strengthBefore": 0.7977734655031486
+        },
+        {
+          "date": "2021-12-31",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:diabetes",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060228511951",
+          "score": 2.9122735021483397,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.7987318354802841,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000000000138843,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602303",
+            "score": 2.9122735021483397
+          },
+          "strengthBefore": 0.7972164564030415
+        }
+      ],
+      "told": []
+    }
+  },
+  "sameEventDifferentResponse": [
+    {
+      "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-01-11",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_95270d986bb6504d",
+          "name": "Jennifer Sellers",
+          "birthDate": "1969-10-13",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-01-11",
+            "personId": "person_95270d986bb6504d",
+            "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-01-11",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.99999997781993,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-01-11",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_95270c986bb64e9a:2021-01-11:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698200605674
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.693126935037166
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.2322805743438927,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698200605674,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 3.160310688811896,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689116457529,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_952709986bb64981",
+          "name": "Megan Sellers",
+          "birthDate": "2006-07-10",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-01-11",
+            "personId": "person_952709986bb64981",
+            "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-01-11",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.3217119686080976,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-01-11",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_95270c986bb64e9a:2021-01-11:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.20000000000000004,
+                "urgency": 0.8473098844865947
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.0288762883051505
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.16666666666666666,
+                "urgency": 3.8218782876514017
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 4.412544240662497,
+              "reasons": {
+                "need": 0.25,
+                "goal": 3.8218782876514017,
+                "drive": 0,
+                "trait": 0.03333333333333333,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "guard-family",
+              "score": 1.3992092648106982,
+              "reasons": {
+                "need": 0.125,
+                "goal": 1.0288762883051505,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_cd53fee3c916332c:2021-02-04",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_cd53ffe3c91634df",
+          "name": "Rodney Cobb",
+          "birthDate": "1952-02-22",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-02-04",
+            "personId": "person_cd53ffe3c91634df",
+            "eventId": "health.serious-illness:person_cd53fee3c916332c:2021-02-04",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999999968294,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-02-04",
+              "subjects": ["person_cd53fee3c916332c"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_cd53fee3c916332c:2021-02-04:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698812504006
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269725854727
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.232280635533726,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698812504006,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 3.160310688811896,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689196683106,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_cd53fee3c916332c",
+          "name": "Rose Cobb",
+          "birthDate": "1949-02-08",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 0,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-contented": 1,
+            "personality-v1:facet-generous": 1
+          },
+          "decision": {
+            "date": "2021-02-04",
+            "personId": "person_cd53fee3c916332c",
+            "eventId": "health.serious-illness:person_cd53fee3c916332c:2021-02-04",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "subject",
+            "roleWeight": 1,
+            "closeness": 0,
+            "channelGain": 0.9583333333333333,
+            "traitTerms": [
+              {
+                "traitId": "personality-v1:facet-contented",
+                "channel": "loss",
+                "term": -0.08333333333333333
+              }
+            ],
+            "attention": 0.9583333333333333,
+            "magnitude": 0.88,
+            "agency": 0.9999999999993052,
+            "pressure": 0.8433333333333333,
+            "event": {
+              "date": "2021-02-04",
+              "subjects": ["person_cd53fee3c916332c"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_cd53fee3c916332c:2021-02-04:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 1.0963333333325715
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.4336666666656703
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 2.6866666666666665
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 3.2293333333333334,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6866666666666665,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.22599999999999998,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "guard-family",
+              "score": 1.7633333333323369,
+              "reasons": {
+                "need": 0.125,
+                "goal": 1.4336666666656703,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.13799999999999998,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_95270c986bb64e9a:2021-02-10",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_95270d986bb6504d",
+          "name": "Jennifer Sellers",
+          "birthDate": "1969-10-13",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-02-10",
+            "personId": "person_95270d986bb6504d",
+            "eventId": "life.death:person_95270c986bb64e9a:2021-02-10",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999787123832,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-02-10",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:life.death:person_95270c986bb64e9a:2021-02-10:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.9506295186124736
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 2.4242499318758357
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.2222222222222222,
+                "urgency": 3.2772267597580744
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 3.3088095080784194
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 4.522315108069229,
+              "reasons": {
+                "need": 0.28641753800455827,
+                "goal": 3.9506295186124736,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.24082360700775296,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 4.321671204202518,
+              "reasons": {
+                "need": 1,
+                "goal": 3.2772267597580744,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.2681586343649651,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_952709986bb64981",
+          "name": "Megan Sellers",
+          "birthDate": "2006-07-10",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-02-10",
+            "personId": "person_952709986bb64981",
+            "eventId": "life.death:person_95270c986bb64e9a:2021-02-10",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.33073851170075036,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-02-10",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:life.death:person_95270c986bb64e9a:2021-02-10:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.20000000000000004,
+                "urgency": 1.2472332934872503
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.5144975706630894
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 1.3808654320751699
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.16666666666666666,
+                "urgency": 5.040416639137234
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 5.802920521376446,
+              "reasons": {
+                "need": 0.3041162534992013,
+                "goal": 5.040416639137234,
+                "drive": 0,
+                "trait": 0.03333333333333333,
+                "emotion": 0.4250542954066767,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 2.4475320987418367,
+              "reasons": {
+                "need": 1,
+                "goal": 1.3808654320751699,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_a1919a154b8d3a4c:2021-03-16",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_a1919b154b8d3bff",
+          "name": "Gina Simpson",
+          "birthDate": "1967-10-17",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-contented": 1,
+            "personality-v1:facet-generous": 1
+          },
+          "decision": {
+            "date": "2021-03-16",
+            "personId": "person_a1919b154b8d3bff",
+            "eventId": "life.death:person_a1919a154b8d3a4c:2021-03-16",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 0.9583333333333333,
+            "traitTerms": [
+              {
+                "traitId": "personality-v1:facet-contented",
+                "channel": "loss",
+                "term": -0.08333333333333333
+              }
+            ],
+            "attention": 1.4011956090408426,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999924891253,
+            "pressure": 2.5813772972265663,
+            "event": {
+              "date": "2021-03-16",
+              "subjects": ["person_a1919a154b8d3a4c"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_a1919a154b8d3a4c:2021-03-16:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.786020007495975
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.20000000000000004,
+                "urgency": 3.3557904611896143
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 4.0011347806491555
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -1.3877787807814457e-17,
+                "urgency": 3.5813772972265663
+              }
+            ],
+            "chosen": {
+              "responseId": "answer-calling",
+              "score": 5.067801447315822,
+              "reasons": {
+                "need": 1,
+                "goal": 4.0011347806491555,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 4.3703024303637035,
+              "reasons": {
+                "need": 0.29901437141553106,
+                "goal": 3.786020007495975,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.24082360700775293,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.698908307445255,
+            "driveId": "calling:health:cancer"
+          }
+        },
+        {
+          "id": "person_a1919c154b8d3db2",
+          "name": "Jeremiah Simpson",
+          "birthDate": "2004-11-19",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-03-16",
+            "personId": "person_a1919c154b8d3db2",
+            "eventId": "life.death:person_a1919a154b8d3a4c:2021-03-16",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.5399973133675481,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-03-16",
+              "subjects": ["person_a1919a154b8d3a4c"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_a1919a154b8d3a4c:2021-03-16:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 1.8909055793503586
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 2.47272268068893
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 2.254541267686966
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 6.387222185516312
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 7.1779575190051865,
+              "reasons": {
+                "need": 0.29901437141553106,
+                "goal": 6.387222185516312,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.4250542954066767,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 3.321207934353633,
+              "reasons": {
+                "need": 1,
+                "goal": 2.254541267686966,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_3ff03659688ec835",
+          "name": "Barbara Hawkins",
+          "birthDate": "1951-06-06",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-03-17",
+            "personId": "person_3ff03659688ec835",
+            "eventId": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.999999999997903,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-03-17",
+              "subjects": ["person_3ff03559688ec682"],
+              "topic": "health:diabetes",
+              "desiredChange": "care-and-cure:diabetes",
+              "facts": {
+                "event:health.serious-illness:person_3ff03559688ec682:2021-03-17:condition": "diabetes"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698812533623
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269725872902
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.2322806355366875,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698812533623,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 3.160310688811896,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689196686989,
+            "driveId": "cause:health:diabetes"
+          }
+        },
+        {
+          "id": "person_3ff03559688ec682",
+          "name": "Andre Hawkins",
+          "birthDate": "1951-04-09",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 0,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-03-17",
+            "personId": "person_3ff03559688ec682",
+            "eventId": "health.serious-illness:person_3ff03559688ec682:2021-03-17",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "subject",
+            "roleWeight": 1,
+            "closeness": 0,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1,
+            "magnitude": 0.88,
+            "agency": 0.9999999999980631,
+            "pressure": 0.88,
+            "event": {
+              "date": "2021-03-17",
+              "subjects": ["person_3ff03559688ec682"],
+              "topic": "health:diabetes",
+              "desiredChange": "care-and-cure:diabetes",
+              "facts": {
+                "event:health.serious-illness:person_3ff03559688ec682:2021-03-17:condition": "diabetes"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.20000000000000004,
+                "urgency": 1.231999999997614
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.16666666666666669,
+                "urgency": 1.0559999999979546
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.06666666666666667,
+                "urgency": 2.056
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 2.5453333333333332,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.056,
+                "drive": 0,
+                "trait": 0.013333333333333334,
+                "emotion": 0.22599999999999998,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 1.6599999999976138,
+              "reasons": {
+                "need": 0.25,
+                "goal": 1.231999999997614,
+                "drive": 0,
+                "trait": 0.04000000000000001,
+                "emotion": 0.13799999999999998,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_a910e31b63bcf7c9:2021-04-01",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_a910e21b63bcf616",
+          "name": "Garrett Newman",
+          "birthDate": "1963-03-01",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-01",
+            "personId": "person_a910e21b63bcf616",
+            "eventId": "health.serious-illness:person_a910e31b63bcf7c9:2021-04-01",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999992741788,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-04-01",
+              "subjects": ["person_a910e31b63bcf7c9"],
+              "topic": "health:diabetes",
+              "desiredChange": "care-and-cure:diabetes",
+              "facts": {
+                "event:health.serious-illness:person_a910e31b63bcf7c9:2021-04-01:condition": "diabetes"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698792564845
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269713619335
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.2322806335398098,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698792564845,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 3.160310688811896,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689194068896,
+            "driveId": "cause:health:diabetes"
+          }
+        },
+        {
+          "id": "person_a910e31b63bcf7c9",
+          "name": "Robin Newman",
+          "birthDate": "1958-01-14",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-contented": 1,
+            "personality-v1:facet-generous": 1
+          },
+          "decision": {
+            "date": "2021-04-01",
+            "personId": "person_a910e31b63bcf7c9",
+            "eventId": "health.serious-illness:person_a910e31b63bcf7c9:2021-04-01",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "subject",
+            "roleWeight": 1,
+            "closeness": 0,
+            "channelGain": 0.9583333333333333,
+            "traitTerms": [
+              {
+                "traitId": "personality-v1:facet-contented",
+                "channel": "loss",
+                "term": -0.08333333333333333
+              }
+            ],
+            "attention": 0.9583333333333333,
+            "magnitude": 0.88,
+            "agency": 0.9999999999440408,
+            "pressure": 0.8433333333333333,
+            "event": {
+              "date": "2021-04-01",
+              "subjects": ["person_a910e31b63bcf7c9"],
+              "topic": "health:diabetes",
+              "desiredChange": "care-and-cure:diabetes",
+              "facts": {
+                "event:health.serious-illness:person_a910e31b63bcf7c9:2021-04-01:condition": "diabetes"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 1.2368888888196736
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.20000000000000004,
+                "urgency": 1.0963333332719833
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -1.3877787807814457e-17,
+                "urgency": 1.8433333333333333
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 2.3193333333333332,
+              "reasons": {
+                "need": 0.25,
+                "goal": 1.8433333333333333,
+                "drive": 0,
+                "trait": -2.7755575615628915e-18,
+                "emotion": 0.22599999999999998,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 1.669333333264118,
+              "reasons": {
+                "need": 0.25,
+                "goal": 1.2368888888196736,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.13799999999999998,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_859d67830ff61a14:2021-04-22",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_859d68830ff61bc7",
+          "name": "Lawrence Pratt",
+          "birthDate": "1942-09-23",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-22",
+            "personId": "person_859d68830ff61bc7",
+            "eventId": "health.serious-illness:person_859d67830ff61a14:2021-04-22",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999999999742,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-04-22",
+              "subjects": ["person_859d67830ff61a14"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_859d67830ff61a14:2021-04-22:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698812590773
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269725907971
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.2322806355424025,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698812590773,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.17866630983888088,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 3.160310688811896,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.3073326196777617,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689196694482,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_859d67830ff61a14",
+          "name": "Priya Pratt",
+          "birthDate": "1943-12-08",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": 1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-22",
+            "personId": "person_859d67830ff61a14",
+            "eventId": "health.serious-illness:person_859d67830ff61a14:2021-04-22",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "subject",
+            "roleWeight": 1,
+            "closeness": 0,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1,
+            "magnitude": 0.88,
+            "agency": 0.9999999999999529,
+            "pressure": 0.88,
+            "event": {
+              "date": "2021-04-22",
+              "subjects": ["person_859d67830ff61a14"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_859d67830ff61a14:2021-04-22:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 1.290666666666606
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 0.7919999999999626
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.06666666666666667,
+                "urgency": 2.056
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 2.5453333333333332,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.056,
+                "drive": 0,
+                "trait": 0.013333333333333334,
+                "emotion": 0.22599999999999998,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 1.7231111111110504,
+              "reasons": {
+                "need": 0.25,
+                "goal": 1.290666666666606,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.13799999999999998,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    }
+  ],
+  "populationProbe": {
+    "method": "buildPopulation with the same seed and 10,000 minimum people, read only; separate process after the year run.",
+    "residents": 10001,
+    "distinctNonzeroTraitProfiles": 68,
+    "largestProfileShares": [1198, 825, 634],
+    "residentsWithRecordedFamily": 6481,
+    "meanRecordedFamilyLinks": 1.4714528547145285,
+    "meanRecordedAcquaintances": 1.6732326767323267,
+    "namedPeople": {
+      "person_95270c986bb64e9a": "Russell Sellers, born August 25, 1964; partner Jennifer Sellers; children Megan, Robert and Ryan; one household",
+      "person_3ff03559688ec682": "Andre Hawkins, born April 9, 1951; partner Barbara Hawkins; one household"
+    }
+  }
+}
