@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { expect, test } from "./fixtures";
-import { fileCandidacy } from "./support/campaign";
+import { fileAtCounter } from "./support/campaign";
 import {
   chooseCreatorLocation,
   completeCharacterStep,
@@ -55,12 +55,9 @@ test("a new random-place campaign asks a named person to help", async ({
     timeout: 180_000,
   });
   await enterLife(page);
+  // A city seat is filed at the city's counter (owner, October 8, 2026).
+  expect(await fileAtCounter(page, office.officeKey)).toBe(true);
   await openElsewhere(page, "campaign");
-  const officeBrowser = page.getByTestId("campaign-office-browser");
-  await expect(officeBrowser).toBeVisible();
-  await officeBrowser.locator(`input[value="${office.officeKey}"]`).check();
-  await expect(page.getByTestId("file-candidacy")).toBeEnabled();
-  await fileCandidacy(page, office.officeKey);
 
   const helperSection = page.getByTestId("campaign-helpers");
   await expect(helperSection).toBeVisible();

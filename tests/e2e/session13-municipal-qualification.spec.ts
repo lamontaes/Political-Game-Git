@@ -7,6 +7,7 @@ import {
   saveLife,
 } from "./support/creator";
 import { drawRandomPlace } from "../support/random-place";
+import { attendFilingCounter, fileAtCounter } from "./support/campaign";
 
 const random = drawRandomPlace("session13-municipal-estimate-random-town");
 const cases = [
@@ -40,23 +41,23 @@ for (const row of cases) {
     await expect(page.getByTestId("play-screen")).toBeVisible();
     await capture(page, "01-generated-life", info);
     await enterLife(page);
-    await openElsewhere(page, "campaign");
-    const status = page.getByTestId(`campaign-office-status-${row.officeKey}`);
-    await expect(status).toContainText(
-      "estimated from similar elected offices",
-    );
-    await expect(status).toContainText(
-      "municipality's own age rule is unconfirmed",
-    );
-    await status.scrollIntoViewIfNeeded();
+    // A city seat is filed at the city's counter (owner, October 8, 2026).
+    // Its age rule is the estimated one until the municipality's own is
+    // read, and the counter says so when asked.
+    await attendFilingCounter(page, row.officeKey);
+    await page.getByTestId("clerk-filing-continue").click();
+    await expect(
+      page
+        .getByTestId("clerk-filing-turn")
+        .first()
+        .getByTestId(`clerk-filing-answer-${row.officeKey}`),
+    ).toContainText("(estimated)");
     await capture(page, "02-office-offer", info);
-    const office = page
-      .getByTestId("campaign-office-browser")
-      .locator(`input[value="${row.officeKey}"]`);
-    await office.check();
-    await expect(page.getByTestId("file-candidacy")).toBeEnabled();
+    expect(await fileAtCounter(page, row.officeKey, undefined, true)).toBe(
+      true,
+    );
     await capture(page, "03-selected-office", info);
-    await page.getByTestId("file-candidacy").click();
+    await openElsewhere(page, "campaign");
     await expect(page.getByTestId("campaign-band")).toBeVisible();
     await page.getByTestId("campaign-band").scrollIntoViewIfNeeded();
     await capture(page, "04-filed", info);

@@ -69,7 +69,10 @@ export function ClerkFilingPanel({
       {scene.turns.map((turn) => (
         <dl key={turn.eventId} data-testid="clerk-filing-turn">
           {turn.answer.map((seat) => (
-            <div key={seat.officeKey}>
+            <div
+              key={seat.officeKey}
+              data-testid={`clerk-filing-answer-${seat.officeKey}`}
+            >
               <dt>{seat.officeName}</dt>
               {seat.minimumAge ? <dd>{rule(seat.minimumAge)}</dd> : null}
               {seat.residency ? <dd>{rule(seat.residency)}</dd> : null}
@@ -134,27 +137,47 @@ export function ClerkFilingPanel({
         .filter((seat) =>
           scene.availableActions.includes(`file:${seat.officeKey}`),
         )
-        .map((seat) => (
-          <button
-            key={seat.officeKey}
-            type="button"
-            className="ui-action ui-action--primary"
-            disabled={runner.pending}
-            data-testid={`clerk-filing-file-${seat.officeKey}`}
-            onClick={() =>
-              perform((current) =>
-                fileAtClerk(
-                  current,
-                  personId,
-                  scene.activityId,
-                  seat.officeKey,
-                ),
-              )
-            }
-          >
-            {seat.officeName}
-          </button>
-        ))}
+        .flatMap((seat) =>
+          // An office filed by numbered seat offers each seat the player can
+          // name; any other office is one filing.
+          (seat.seatChoices.length > 0
+            ? seat.seatChoices
+                .filter((choice) => choice.eligible)
+                .map((choice) => ({
+                  key: `${seat.officeKey}-${choice.key}`,
+                  label: `${seat.officeName}, ${choice.label}`,
+                  choiceKey: choice.key as string | null,
+                }))
+            : [
+                {
+                  key: seat.officeKey,
+                  label: seat.officeName,
+                  choiceKey: null,
+                },
+              ]
+          ).map((filing) => (
+            <button
+              key={filing.key}
+              type="button"
+              className="ui-action ui-action--primary"
+              disabled={runner.pending}
+              data-testid={`clerk-filing-file-${filing.key}`}
+              onClick={() =>
+                perform((current) =>
+                  fileAtClerk(
+                    current,
+                    personId,
+                    scene.activityId,
+                    seat.officeKey,
+                    filing.choiceKey,
+                  ),
+                )
+              }
+            >
+              {filing.label}
+            </button>
+          )),
+        )}
       <button
         type="button"
         className="ui-action"

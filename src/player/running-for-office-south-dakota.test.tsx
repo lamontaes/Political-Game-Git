@@ -3,7 +3,11 @@ import { beforeAll, describe, expect, it } from "vitest";
 
 import { CampaignWorkspace } from "./CampaignWorkspace";
 import { NationwideCandidacyWorkspace } from "./NationwideCandidacyWorkspace";
-import { projectCampaignOffices } from "../presentation/campaign-office-discovery";
+import {
+  projectCampaignListOffices,
+  projectCampaignOffices,
+} from "../presentation/campaign-office-discovery";
+import { filingOfficeForSeat } from "../simulation/filing-office";
 import { stateExecutiveCandidacyForPerson } from "../presentation/nationwide-candidacy";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
@@ -109,11 +113,24 @@ describe("Running for office from Rapid City, South Dakota, at eighteen", () => 
       />,
     );
     expect(markup).toContain('data-testid="campaign-office-browser"');
+    // A seat with a filing counter in the world is filed only there (owner,
+    // October 8, 2026); the list keeps the seats that have none yet.
+    const listed = projectCampaignListOffices(world, personId);
+    expect(listed.map((office) => office.title)).toEqual([
+      "Seat in the South Dakota House of Representatives",
+      "Seat in the South Dakota Senate",
+    ]);
     for (const office of offices) {
-      expect(markup).toContain(`value="${office.officeKey}"`);
-      expect(markup).toContain(
-        `data-testid="campaign-office-status-${office.officeKey}"`,
+      const atCounter = filingOfficeForSeat(world, office.officeKey) !== null;
+      expect(atCounter).toBe(
+        !listed.some((entry) => entry.officeKey === office.officeKey),
       );
+      expect(markup.includes(`value="${office.officeKey}"`)).toBe(!atCounter);
+      expect(
+        markup.includes(
+          `data-testid="campaign-office-status-${office.officeKey}"`,
+        ),
+      ).toBe(!atCounter);
     }
   });
 
