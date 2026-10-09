@@ -5,7 +5,6 @@ import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
-import { knownPublicOrganizationIds } from "../state";
 import { discretionaryHours } from "./work";
 import type {
   ActOffer,
@@ -1011,19 +1010,29 @@ export function createDrivesModule(
         return out;
       },
       "volunteer-place": (api, actor, action) => {
+        const serving = servingDrives(api, actor, action);
+        if (!serving.length) return [];
         const groups = runtimeFor(api.state).groupsByTopic;
-        const known = knownPublicOrganizationIds(api.state, actor.id);
-        const associations = [...known]
-          .filter((id) =>
-            api.state.publicOrganizations
-              .get(id)
-              ?.affordances?.some((kind) =>
-                data.volunteerAffordances.includes(kind),
-              ),
-          )
-          .sort();
+        // Known associations in the person's place and county, by direct fact lookup.
+        const associations: string[] = [];
+        for (const placeId of new Set([
+          actor.placeId,
+          ...(actor.countyId ? [actor.countyId] : []),
+        ]))
+          for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
+            [])
+            if (
+              api.state.publicOrganizations
+                .get(id)
+                ?.affordances?.some((kind) =>
+                  data.volunteerAffordances.includes(kind),
+                ) &&
+              api.knows(actor.id, `organization:${id}:public`)
+            )
+              associations.push(id);
+        associations.sort();
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action)) {
+        for (const drive of serving) {
           for (const id of [...(groups.get(drive.topic) ?? [])].sort())
             if (api.state.memberships.has(`${actor.id}:${id}`))
               out.push(driveOffer(api, action, id, drive));
