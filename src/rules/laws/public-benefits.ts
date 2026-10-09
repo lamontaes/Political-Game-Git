@@ -1,3 +1,5 @@
+import { LAWS_PARAMETERS as parameters } from "./parameters";
+
 /** Whether monthly income is at or below a selected share of the annual line. */
 export function withinPovertyShare(
   monthlyIncomeMinor: number,
@@ -5,7 +7,9 @@ export function withinPovertyShare(
   shareBasisPoints: number,
 ): boolean {
   return (
-    monthlyIncomeMinor * 12 * 10_000 <=
+    monthlyIncomeMinor *
+      parameters.monthsPerYear.value *
+      parameters.basisPointsPerWholeRate.value <=
     annualPovertyLineMinor * shareBasisPoints
   );
 }

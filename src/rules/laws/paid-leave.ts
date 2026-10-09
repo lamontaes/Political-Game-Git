@@ -57,7 +57,9 @@ export function paidLeaveBenefitFromFacts(
 ): number {
   if (coveredDays <= 0 || workdays <= 0) return 0;
   const lost = (periodPayMinor * coveredDays) / workdays;
-  const replaced = Math.round((lost * rate.percent) / 100);
+  const replaced = Math.round(
+    (lost * rate.percent) / parameters.percentageMultiplier.value,
+  );
   if (rate.maxWeeklyMinor === null) return replaced;
   const cap = Math.round(
     (rate.maxWeeklyMinor * coveredDays) / parameters.paidWorkdaysPerWeek.value,

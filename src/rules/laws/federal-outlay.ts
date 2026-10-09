@@ -1,3 +1,5 @@
+import { LAWS_PARAMETERS as parameters } from "./parameters";
+
 /** Calculate a spending offset's share of selected annual GDP facts. */
 export function federalDeficitChangePctOfGdpFromFacts(
   cutDollars: number | null,
@@ -11,7 +13,10 @@ export function federalDeficitChangePctOfGdpFromFacts(
     nationalGdpDollars <= 0
   )
     return null;
-  return (100 * (aidDollars - cutDollars)) / nationalGdpDollars;
+  return (
+    (parameters.percentageMultiplier.value * (aidDollars - cutDollars)) /
+    nationalGdpDollars
+  );
 }
 
 /** Apply an adopted spending offset to a selected complete spending base. */

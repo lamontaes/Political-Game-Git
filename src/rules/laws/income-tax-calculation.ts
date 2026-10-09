@@ -21,7 +21,8 @@ export function annualTaxMinor(
     const inBracket = Math.min(taxableMinor, top) - bracket.overMinor;
     tax += BigInt(inBracket) * BigInt(bracket.rateBasisPoints);
   }
-  return Number((tax * 2n + 10_000n) / 20_000n);
+  const basisPoints = BigInt(parameters.basisPointsPerWholeRate.value);
+  return Number((tax * 2n + basisPoints) / (basisPoints * 2n));
 }
 
 /** Calculate one paycheck's withholding from its annualized wages and schedule. */
@@ -41,3 +42,4 @@ export function withholdingForPaycheckFromFacts(
     withheldMinor: Math.round(yearTax / periodsPerYear),
   };
 }
+import { LAWS_PARAMETERS as parameters } from "./parameters";

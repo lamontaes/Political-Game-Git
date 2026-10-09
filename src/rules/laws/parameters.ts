@@ -1,5 +1,23 @@
 /** Numeric assumptions for the standalone laws rules. */
 export const LAWS_PARAMETERS = {
+  monthsPerYear: {
+    value: 12,
+    basis: "SOURCED",
+    source: "Calendar year contains 12 months",
+    range: { minimum: 1, maximum: 12 },
+  },
+  basisPointsPerWholeRate: {
+    value: 10_000,
+    basis: "SOURCED",
+    source: "One whole rate is 10,000 basis points",
+    range: { minimum: 1, maximum: 100_000 },
+  },
+  percentageMultiplier: {
+    value: 100,
+    basis: "SOURCED",
+    source: "One whole is 100 percent",
+    range: { minimum: 1, maximum: 1000 },
+  },
   referenceWeightExponent: {
     value: 1,
     basis: "TUNABLE",
