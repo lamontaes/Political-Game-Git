@@ -17,7 +17,8 @@ import {
   thresholdUnits,
 } from "../../simulation/crisis/hazard";
 import { SSA_2023_MAX_AGE } from "../../simulation/crisis/mortality-table";
-import { STRAIN_THRESHOLD } from "../../simulation/crisis/mortality";
+import { survivalThresholdFromDraws } from "../../simulation/crisis/fixed-point";
+import { stableHash } from "../../simulation/ids";
 import { parameter } from "../parameters";
 import type { EntityId } from "../../simulation/types";
 import type {
@@ -37,7 +38,7 @@ import type {
  * come from the condition pack's prevalence cells (income-ranked, evenly
  * spaced; no roll), their strain accumulates from the SSA 2023 hazard times
  * those recorded weights from the world's opening day, and a serious illness
- * begins on the day the strain crosses the one fixed threshold. The death
+ * begins on the day the strain crosses the person's own resilience line. The death
  * follows after the old rule's remaining days. Both are typed events the
  * family hears; words come later from the English engine.
  */
@@ -51,6 +52,10 @@ export interface HealthData {
   desiredChangePrefix: string;
   unconditionedTopic: string;
   conditionFactKey: string;
+  resilienceKey: string;
+  resilienceScaleParameter: string;
+  resilience: { stopgapId: string };
+  resilienceSpread: string;
   onsetSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
@@ -83,6 +88,8 @@ interface HealthRuntime {
   onsetsByDate: Map<IsoDate, Set<PersonId>>;
   deathsByDate: Map<IsoDate, Set<PersonId>>;
   conditionsByPerson: Map<PersonId, readonly string[]>;
+  /** Generation fact per person: their own resilience line (fixed-point integrated hazard). */
+  resilienceLines: Map<PersonId, bigint>;
   onsets: number;
   deaths: number;
 }
@@ -99,6 +106,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       onsetsByDate: new Map(),
       deathsByDate: new Map(),
       conditionsByPerson: new Map(),
+      resilienceLines: new Map(),
       onsets: zero,
       deaths: zero,
     };
@@ -138,6 +146,26 @@ function exactAge(api: CoreAPI, birthDate: IsoDate, date: IsoDate): number {
   );
 }
 
+/**
+ * Owner ruling, October 9, 2026: each person carries their own resilience
+ * line, a generation fact keyed to them. Under the life table's proportional
+ * hazards, the integrated hazard a person reaches at death is spread as a unit
+ * exponential, so the line is that spread read at the person's stable key.
+ * No decision reads it as a chance; strain still builds smoothly from causes.
+ */
+function resilienceLine(api: CoreAPI, data: HealthData, personId: string) {
+  api.stopgap(data.resilience.stopgapId);
+  const digits = api.parameter("resilienceHashDigits");
+  const radix = api.parameter("seedPlaceHashRadix");
+  const hash = stableHash(
+    `${api.state.seed}:${data.resilienceKey}:${personId}`,
+  );
+  return survivalThresholdFromDraws(
+    Number.parseInt(hash.slice(api.parameter("zero"), digits), radix),
+    Number.parseInt(hash.slice(digits, digits + digits), radix),
+  );
+}
+
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   const p = (key: string) => api.parameter(key);
   api.stopgap(data.stopgapId);
@@ -153,8 +181,13 @@ function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
       monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
     })),
   );
-  const threshold = thresholdUnits(STRAIN_THRESHOLD);
   for (const person of alive) {
+    const line = resilienceLine(api, data, person.id);
+    row.resilienceLines.set(person.id, line);
+    const threshold = thresholdUnits(
+      (line * BigInt(MULTIPLIER_ONE)) /
+        BigInt(Math.round(p(data.resilienceScaleParameter) * MULTIPLIER_ONE)),
+    );
     const conditions = assignments.get(person.id as EntityId) ?? [];
     row.conditionsByPerson.set(person.id, conditions);
     const age = exactAge(api, person.birthDate, start);
@@ -317,5 +350,6 @@ export function healthReport(core: Readonly<CoreState>) {
     deaths: row?.deaths,
     cases: row ? [...row.cases.values()] : [],
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
+    resilienceLines: row?.resilienceLines ?? new Map(),
   };
 }

@@ -1450,5 +1450,17 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "resilienceBaseRateScale": {
+    "value": 0.106,
+    "tag": "ESTIMATED",
+    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "stopgapId": "SG-P10-resilience-scale"
+  },
+  "resilienceHashDigits": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
   }
 }

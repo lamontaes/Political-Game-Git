@@ -591,7 +591,7 @@
     "id": "SG-P10-event-severity",
     "kind": "estimated-behavior",
     "file": "src/core2/data/health.json",
-    "line": 14,
+    "line": 20,
     "whatItFakes": "Event impulses scale Holmes-Rahe life change units into core2 stress and mood impulses with tunable conversions.",
     "why": "Events need a sized emotional impact; the life-change ranking is sourced but its conversion to the affect scale is not.",
     "addedBy": "OPUS-DRIVES",
@@ -609,6 +609,18 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P10-resilience-scale",
+    "kind": "estimated-calibration",
+    "file": "src/core2/data/health.json",
+    "line": 14,
+    "whatItFakes": "One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not refit.",
+    "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
+    "addedBy": "OPUS-DRIVES",
+    "addedAt": "2026-10-09",
+    "replacement": "A cohort calibration of base scale and condition weights together, checked across many places and ages against the life table.",
     "status": "open"
   }
 ]

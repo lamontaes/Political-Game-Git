@@ -8,6 +8,12 @@
   "desiredChangePrefix": "care-and-cure",
   "unconditionedTopic": "serious-illness",
   "conditionFactKey": "condition",
+  "resilienceKey": "resilience-line",
+  "resilienceScaleParameter": "resilienceBaseRateScale",
+  "resilience": {
+    "stopgapId": "SG-P10-resilience-scale"
+  },
+  "resilienceSpread": "Owner ruling, October 9, 2026: a personal resilience line for each person replaces the same-for-everyone threshold of Ruling 29. Spread: under the SSA 2023 period life table's proportional hazards, the integrated hazard reached at death is a unit exponential (the standard survival-analysis result, e.g. Cox and Oakes, Analysis of Survival Data, 1984, chapter 1); each person's line is that spread read at their stable generation key.",
   "onsetSeverity": {
     "lifeChangeUnitsParameter": "srrsFamilyMemberHealthChange",
     "maximumUnitsParameter": "srrsMaximumUnits",
