@@ -273,7 +273,10 @@ function OpeningPlaques({
 /** About the size a two-line plaque is drawn at, in pixels. */
 const PLAQUE_PX = { width: 192, height: 46 } as const;
 
-/** Every number the opening knows, under the label its record carries. */
+/**
+ * Every number the opening knows, under the label its record carries, on a
+ * glass panel with the approved Kit 13 corner ornaments on its border.
+ */
 export function OpeningLedger({
   rows,
   stateUsps,
@@ -293,18 +296,26 @@ export function OpeningLedger({
       className="pg-opener-ledger pg-glass-panel"
       data-testid="opening-ledger"
     >
-      <dl>
-        {rows.map((row) => (
-          <div key={row.key}>
-            <dt>{row.label}</dt>
-            <dd>{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <OpeningStatePopulation stateUsps={stateUsps} asOf={asOf} />
-      {isTerritoryUsps(stateUsps) ? null : (
-        <OpeningStateVoting stateUsps={stateUsps} asOf={asOf} />
-      )}
+      <span className="pg-opener-corners" aria-hidden="true">
+        <span data-corner="top-left" />
+        <span data-corner="top-right" />
+        <span data-corner="bottom-left" />
+        <span data-corner="bottom-right" />
+      </span>
+      <div className="pg-opener-ledger-body">
+        <dl>
+          {rows.map((row) => (
+            <div key={row.key}>
+              <dt>{row.label}</dt>
+              <dd>{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <OpeningStatePopulation stateUsps={stateUsps} asOf={asOf} />
+        {isTerritoryUsps(stateUsps) ? null : (
+          <OpeningStateVoting stateUsps={stateUsps} asOf={asOf} />
+        )}
+      </div>
     </aside>
   );
 }
