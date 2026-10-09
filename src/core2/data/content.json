@@ -209,21 +209,7 @@
       "cadence": "inactive"
     }
   ],
-  "situations": [
-    {
-      "id": "learned-adverse-condition",
-      "requiredFields": ["topic", "desiredChange"],
-      "goalKind": "change-condition",
-      "driveKind": "cause",
-      "stopgapId": "SG-P8-civic-progress",
-      "conditions": [
-        {
-          "field": "stressImpulse",
-          "operation": "positive"
-        }
-      ]
-    }
-  ],
+  "situations": [],
   "appraisalTraits": [
     {
       "traitId": "personality-v1:concern-for-distress",
