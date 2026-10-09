@@ -1,5 +1,7 @@
 import { lawInForce } from "../governing/law-in-force";
+import { latestLawPermission } from "../law-consequences/permission-records";
 import { personName } from "../people";
+import { APPEAL_DECIDED_EVENT } from "./appeals";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -56,6 +58,26 @@ function restoreQuestionId(world: World): EntityId | null {
       (row) => row.stableKey === RESTORE_VOTING_QUESTION_KEY,
     )?.id ?? null
   );
+}
+
+function restoredByPolicyOn(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId | null,
+  questionId: EntityId | null,
+  date: IsoDate,
+): boolean {
+  const law =
+    questionId && jurisdictionId
+      ? lawInForce(world, jurisdictionId, questionId, date)
+      : null;
+  const permission = latestLawPermission(
+    world,
+    { kind: "person", id: personId },
+    RESTORE_VOTING_QUESTION_KEY,
+    date,
+  );
+  return permission ? permission.status === "permitted" : law?.answer === "yes";
 }
 
 /**
@@ -134,20 +156,77 @@ export function votingStandingOn(
       next = { standing: "suspended-serving", sentenceEventId: sentenced.id };
     else if (sentence.clemency?.kind === "pardon")
       next = { standing: "restored", sentenceEventId: sentenced.id };
-    else {
-      const law =
-        questionId && sentenced.jurisdictionId
-          ? lawInForce(world, sentenced.jurisdictionId, questionId, date)
-          : null;
-      next =
-        law?.answer === "yes"
-          ? { standing: "restored", sentenceEventId: sentenced.id }
-          : {
-              standing: "withheld-after-sentence",
-              sentenceEventId: sentenced.id,
-            };
-    }
+    else
+      next = restoredByPolicyOn(
+        world,
+        personId,
+        sentenced.jurisdictionId,
+        questionId,
+        date,
+      )
+        ? { standing: "restored", sentenceEventId: sentenced.id }
+        : {
+            standing: "withheld-after-sentence",
+            sentenceEventId: sentenced.id,
+          };
     if (rank[next.standing] > rank[worst.standing]) worst = next;
   }
   return worst;
+}
+
+/**
+ * Whether a person has a recorded felony sentence whose vote is restored by
+ * the governing post-sentence law in the specified jurisdiction. Pardons and
+ * reversed convictions are excluded because neither is a policy restoration.
+ */
+export function hasPolicyRestoredVotingRightOn(
+  world: World,
+  personId: EntityId,
+  jurisdictionId: EntityId,
+  date: IsoDate = world.currentDate,
+): boolean {
+  if (votingStandingOn(world, personId, date).standing !== "restored")
+    return false;
+
+  const reversedSentenceIds = new Set(
+    eventsOfType(world, APPEAL_DECIDED_EVENT)
+      .filter(
+        (event) =>
+          event.occurredAt <= date && event.tags.includes("outcome:reverse"),
+      )
+      .flatMap((event) =>
+        event.tags
+          .filter((tag) => tag.startsWith("judgment:"))
+          .map((tag) => tag.slice("judgment:".length)),
+      ),
+  );
+  const questionId = restoreQuestionId(world);
+
+  return sentencesOf(world, personId).some((sentence) => {
+    if (
+      sentence.from > date ||
+      sentence.until === null ||
+      sentence.until > date ||
+      sentence.clemency?.kind === "pardon" ||
+      reversedSentenceIds.has(sentence.sentencedEventId)
+    )
+      return false;
+
+    const sentenced = world.history.events.find(
+      (row) => row.id === sentence.sentencedEventId,
+    );
+    if (
+      !sentenced ||
+      sentenced.jurisdictionId !== jurisdictionId ||
+      !isFelonySentence(sentenced)
+    )
+      return false;
+    return restoredByPolicyOn(
+      world,
+      personId,
+      jurisdictionId,
+      questionId,
+      date,
+    );
+  });
 }

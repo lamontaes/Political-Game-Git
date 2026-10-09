@@ -341,10 +341,13 @@ describe("CRUNCH46 opponent campaigns", () => {
     // Pinned seeds whose rival raises enough to ask within the window. The
     // organizer reads the same records in both: a candidate of the
     // chapter's own party, no finding against them, and no other candidate
-    // already helped. Those records grant the request.
-    ["opponents-support-8", "granted"],
-    ["opponents-support-2", "granted"],
-  ] as const)(
+    // already helped. The organizer's own recorded temperament now weighs
+    // too (practical, acquisitive, wary of conflict), and in these worlds
+    // every organizer's upbringing seeds that same cautious temperament, so
+    // the chapter declines.
+    ["opponents-support-8", "declined"],
+    ["opponents-support-2", "declined"],
+  ] as readonly (readonly [string, "granted" | "declined"])[])(
     "records a chapter's decision on a support request without touching the race (%s)",
     (seed, expectedDecision) => {
       const filed = withRelationshipsRival(

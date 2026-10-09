@@ -22,9 +22,6 @@ import {
   censusRegionStates,
 } from "../world-setup/census-regions";
 import { lawInForce, type LawInForce } from "../governing/law-in-force";
-import { resourcePositionAt } from "../resource-queries";
-import { money } from "../resources";
-import { ensureStartingPersonalMoney } from "../starting-money";
 import type { EntityId, World } from "../types";
 
 /**
@@ -33,7 +30,7 @@ import type { EntityId, World } from "../types";
  *
  * The question "Should release before trial be decided without money bail?"
  * is answered for every place by the starting law
- * (`data/research/laws/starting-law-2026.json`), and an enacted law changes
+ * (`data/research/laws/starting-law-2026/justice-public-safety.json`), and an enacted law changes
  * the answer from its effective date. Where the answer is no, the court sets
  * money bail and the defendant goes home only if they can pay. Where it is
  * yes, nobody is held for want of money; a judge may hold a defendant only
@@ -305,21 +302,4 @@ export function pretrialGoverningLawAt(
   const propositionId = propositionIdByKey(world, END_CASH_BAIL_QUESTION);
   if (!propositionId) return null;
   return lawInForce(world, venueJurisdictionId, propositionId);
-}
-
-/**
- * The money a person has on hand today, in cents, read without changing the
- * saved world. A life whose money the game does not track has none it can
- * spend, the same as a candidate's own money reads.
- */
-export function moneyOnHandMinorUnits(
-  world: World,
-  personId: EntityId,
-): number {
-  const opened = ensureStartingPersonalMoney(world, personId).world;
-  const currency = money(0, "USD").currency;
-  return (
-    resourcePositionAt(opened, { kind: "person", personId }, currency)
-      ?.liquidBalance.minorUnits ?? 0
-  );
 }

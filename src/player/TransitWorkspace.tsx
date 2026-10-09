@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { proseDate } from "../presentation/prose-dates";
 import "./TransitWorkspace.css";
 import { TransitCashSummary } from "./TransitCashSummary";
 import {
@@ -16,8 +17,8 @@ import { dollarsText, serviceHoursText } from "../simulation/transit-service";
 import { money } from "../simulation/resources";
 import type { EntityId, World, WorldMetricValue } from "../simulation/types";
 
-function serviceUnits(value: WorldMetricValue | null) {
-  if (!value || value.kind !== "quantity") return "—";
+function serviceUnits(value: WorldMetricValue | null): string | null {
+  if (!value || value.kind !== "quantity") return null;
   const q = value.quantity;
   // Recorded hours are paid cents over the contract price, so they convert
   // back exactly; the shared wording then gets "1 hour" and partial hours right.
@@ -92,10 +93,7 @@ export function TransitWorkspace({
             }
           }}
         >
-          <h3>Propose added service</h3>
-          <h4>1. Objective: which service to add</h4>
           <fieldset>
-            <legend>Service period</legend>
             {TRANSIT_SERVICE_CHOICES.map((c) => (
               <label key={c.value} className="transit-service-choice">
                 <input
@@ -110,9 +108,7 @@ export function TransitWorkspace({
               </label>
             ))}
           </fieldset>
-          <h4>2. Proposal: how much to provide</h4>
           <label>
-            Total amount provided (USD)
             <input
               type="number"
               required
@@ -123,7 +119,6 @@ export function TransitWorkspace({
               onChange={(e) => setAmount(e.target.value)}
             />
           </label>
-          <h4>3. Commitment: file it</h4>
           <button type="submit">File transit appropriation</button>
         </form>
       )}
@@ -178,7 +173,7 @@ export function TransitWorkspace({
                     { style: "currency", currency: "USD" },
                   )}{" "}
                   <time dateTime={funding.mandate.endsAt}>
-                    {funding.mandate.endsAt}
+                    {proseDate(funding.mandate.endsAt)}
                   </time>
                 </p>
               )}
@@ -216,17 +211,19 @@ export function TransitWorkspace({
                   {periods.map((p) => (
                     <li key={p.due.id} data-state={p.state.status}>
                       <p>
-                        <time dateTime={p.due.dueAt}>{p.due.dueAt}</time>{" "}
+                        <time dateTime={p.due.dueAt}>
+                          {proseDate(p.due.dueAt)}
+                        </time>{" "}
                         <span data-testid="transit-period-state">
                           {p.state.status}
                         </span>
                       </p>
-                      <dl>
-                        <dt>If paid</dt>
-                        <dd>{serviceUnits(p.forecast)}</dd>
-                        <dt>Delivered</dt>
-                        <dd>{serviceUnits(p.delivered)}</dd>
-                      </dl>
+                      {serviceUnits(p.forecast) !== null ? (
+                        <p>{serviceUnits(p.forecast)}</p>
+                      ) : null}
+                      {serviceUnits(p.delivered) !== null ? (
+                        <p>{serviceUnits(p.delivered)}</p>
+                      ) : null}
                       {p.state.status !== "resolved" && p.state.context && (
                         <p data-reason={p.state.context} />
                       )}
@@ -252,30 +249,13 @@ export function TransitWorkspace({
                 <section
                   className="transit-outcome"
                   data-testid="transit-outcome"
-                  aria-label="What this appropriation has done"
                 >
-                  <h4>What changed</h4>
                   <dl>
-                    <dt>Delivered</dt>
-                    <dd data-problem={paidMinorUnits > 0 ? undefined : "none"}>
-                      {paidMinorUnits > 0
-                        ? serviceHoursText(paidMinorUnits)
-                        : "—"}
-                    </dd>
-                    <dt>Paid</dt>
+                    <dd>{serviceHoursText(paidMinorUnits)}</dd>
                     <dd>{usd(paidMinorUnits)}</dd>
-                    <dt>Public account</dt>
-                    <dd
-                      data-problem={
-                        publicCashMinorUnits === null
-                          ? "no-balance-on-record"
-                          : undefined
-                      }
-                    >
-                      {publicCashMinorUnits === null
-                        ? "—"
-                        : usd(publicCashMinorUnits)}
-                    </dd>
+                    {publicCashMinorUnits !== null ? (
+                      <dd>{usd(publicCashMinorUnits)}</dd>
+                    ) : null}
                   </dl>
                 </section>
               )}
@@ -285,7 +265,6 @@ export function TransitWorkspace({
       )}
       {view.reports.length > 0 && (
         <div className="transit-reports">
-          <h3>Contract records and reports</h3>
           {view.reports.map(({ event, published }) => (
             <article key={event.id}>
               <p>

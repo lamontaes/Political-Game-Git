@@ -92,12 +92,14 @@ import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
+import { recordLawExposure } from "../law-exposure";
 import {
   seatHolderAt,
   seatsForCourt,
   type JudicialSeatHolder,
 } from "../judiciary/courts";
 import { courtFor } from "../judiciary/court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import { personTrait } from "../people-traits";
 import {
   macroConditionsAt,
@@ -134,6 +136,9 @@ import type {
 } from "../types";
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
+import { RENT_STABILIZATION_QUESTION } from "../law-consequences/rent-stabilization-row";
+import { HOUSING_VOUCHER_QUESTION } from "../law-consequences/housing-voucher-rows";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import {
@@ -582,6 +587,31 @@ export function marketRentMinor(
 ): number {
   const fmr = row.rents[Math.max(0, Math.min(4, bedrooms))]!;
   return Math.round(fmr * marketRentLevel(world, town, date)) * 100;
+}
+
+/** Record the affordable-rent change for the leaseholder named by the saved flow. */
+export function recordInclusionaryRentExposure(
+  world: World,
+  input: {
+    readonly stableKey: string;
+    readonly personId: EntityId;
+    readonly measureId: EntityId;
+    readonly rentMinor: number;
+    readonly marketMinor: number;
+    readonly sourceRecordId: EntityId;
+  },
+): World {
+  const difference = input.marketMinor - input.rentMinor;
+  return recordLawExposure(world, {
+    stableKey: input.stableKey,
+    personId: input.personId,
+    measureId: input.measureId,
+    channel: "rent",
+    direction: difference === 0 ? "none" : difference > 0 ? "gain" : "cost",
+    amount: difference === 0 ? null : money(Math.abs(difference), "USD"),
+    cadence: difference === 0 ? null : "monthly",
+    sourceRecordId: input.sourceRecordId,
+  });
 }
 
 // ─── What the history holds ─────────────────────────────────────────────
@@ -1399,7 +1429,7 @@ export function startTownLeases(
           leaseholderId,
         ],
       });
-      if (stamp)
+      if (stamp) {
         next = {
           ...next,
           history: {
@@ -1413,6 +1443,15 @@ export function startTownLeases(
             ],
           },
         };
+        next = recordInclusionaryRentExposure(next, {
+          stableKey: `inclusionary-rent:${terms.id}`,
+          personId: leaseholderId,
+          measureId: inclusionary.law.measureId,
+          rentMinor,
+          marketMinor: marketRentMinor(next, town, row, bedrooms, dueOn),
+          sourceRecordId: terms.id,
+        });
+      }
     }
     next = createResourceObligation(next, {
       stableKey: `${stableKey}:lease`,
@@ -1712,6 +1751,29 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       const homePrices =
         marketRentLevel(next, lease.town, dueOn) /
         marketRentLevel(next, lease.town, lastYear);
+      const rule = housingLawYes(
+        next,
+        lease.town,
+        RENT_LAW_KEYS.rentStabilization,
+        dueOn,
+      );
+      const finalCap = rule
+        ? readFinalEnactedLawTerm(next, rule, {
+            questionKey: RENT_LAW_KEYS.rentStabilization,
+            termKey: "cap",
+            unit: "ratio",
+            onDate: dueOn,
+          })
+        : null;
+      // A yes answer alone does not establish a numeric cap. Preserve the
+      // recorded rent until the shared price-cost consumer has a supported
+      // final term to apply.
+      if (
+        rule &&
+        landlordKindOf(next, lease.flow.recipient) !== "public" &&
+        finalCap === null
+      )
+        continue;
       // The shared price-cost consequence applies an adopted cap from recorded terms.
       amount = Math.round((old * homePrices) / 100) * 100;
       reason = marketRentRenewalReason(
@@ -1733,12 +1795,51 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       ...(lawEffectStamps ? { lawEffectStamps } : {}),
     });
     const renewal = next.history.resourceFlowTerms.at(-1)!;
+    const inclusionaryStamp = lawEffectStamps?.find(
+      (stamp) => stamp.effectKind === "inclusionary-affordable-rent",
+    );
+    if (inclusionaryStamp) {
+      next = recordInclusionaryRentExposure(next, {
+        stableKey: `inclusionary-rent:${renewal.id}`,
+        personId: lease.leaseholderId,
+        measureId: inclusionaryStamp.governingLawKey,
+        rentMinor: amount,
+        marketMinor: marketRentMinor(
+          next,
+          lease.town,
+          row,
+          lease.bedrooms,
+          dueOn,
+        ),
+        sourceRecordId: renewal.id,
+      });
+    }
     next = applyLawConsequences(next, {
       activity: "renewal",
       activityId: renewal.id,
       subjectIds: [lease.leaseholderId],
       onDate: dueOn,
+      questionKey: RENT_STABILIZATION_QUESTION,
     });
+    const voucherQuestion = Object.values(next.policyCatalog.propositions).find(
+      (question) => question.stableKey === HOUSING_VOUCHER_QUESTION,
+    );
+    if (
+      voucherQuestion &&
+      lawInForce(
+        next,
+        NATIONAL_ELECTION_JURISDICTION.id,
+        voucherQuestion.id,
+        dueOn,
+      )?.origin === "enacted"
+    )
+      next = applyLawConsequences(next, {
+        activity: "renewal",
+        activityId: renewal.id,
+        subjectIds: [lease.leaseholderId],
+        onDate: dueOn,
+        questionKey: HOUSING_VOUCHER_QUESTION,
+      });
   }
   return next;
 }
@@ -2110,7 +2211,12 @@ function trialJudge(
   const courtId = court.courtId;
   for (const seat of seatsForCourt(world, courtId, onDate)) {
     const holder = seatHolderAt(world, seat.seatId, onDate);
-    if (holder && world.people[holder.personId]) return { ...holder, courtId };
+    if (
+      holder &&
+      world.people[holder.personId] &&
+      !playerHandlesJudicialCase(world, holder.personId, "civil")
+    )
+      return { ...holder, courtId };
   }
   return null;
 }

@@ -5,8 +5,11 @@ import { officialViewReflectionEventKey } from "../official-view-reads";
 import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import { storyLeads } from "./index";
+import { mediaOutlets } from "./outlets";
 import { LAW_EFFECT_MEASURE_TAG } from "./law-effect-news";
 import { recordStoryHeardExposure } from "./story-exposure";
+import { newsHabitOf } from "../living-world/news-habits";
+import { mediaOutletKey } from "./records";
 
 const news = (world: World) =>
   (world.history.lawExposures ?? []).filter((row) => row.relation === "news");
@@ -21,7 +24,13 @@ describe("a story about what a law did is heard from the news", () => {
     const heard = news(world);
     expect(heard.length).toBeGreaterThan(0);
     expect(heard.map((row) => row.personId)).toContain(resident.id);
-    expect(new Set(heard.map((row) => row.personId)).size).toBe(heard.length);
+    expect(
+      new Set(
+        heard.map(
+          (row) => `${row.news!.knowledgeId}:${row.news!.basisEventId}`,
+        ),
+      ).size,
+    ).toBe(heard.length);
     for (const row of heard) {
       expect(row.measureId).toBe(measureId);
       expect(row.channel).toBe("public-service");
@@ -61,6 +70,38 @@ describe("a story about what a law did is heard from the news", () => {
         ),
       ).toBe(false);
     }
+  });
+
+  it("records a local publication for represented residents who follow it", () => {
+    const localOutlet = mediaOutlets(world).find(
+      (outlet) => outlet.scope === "local",
+    )!;
+    const publication = world.history.publications!.find(
+      (row) => row.outletKey === mediaOutletKey(localOutlet.id),
+    )!;
+    const reader = world.personOrder
+      .map((id) => world.people[id]!)
+      .find(
+        (person) =>
+          localOutlet.primaryJurisdictionIds.includes(
+            person.homeJurisdictionId,
+          ) &&
+          newsHabitOf(world, person.id).outletKeys.includes(
+            publication.outletKey,
+          ),
+      )!;
+    const story = world.history.events.find(
+      (event) => event.id === publication.sourceEventId,
+    )!;
+    expect(
+      world.history.knowledge.some(
+        (row) =>
+          row.personId === reader.id &&
+          row.eventId === story.id &&
+          row.source.kind === "media" &&
+          row.source.reference === publication.id,
+      ),
+    ).toBe(true);
   });
 
   it("rejects a saved exposure whose story provenance was broken", () => {

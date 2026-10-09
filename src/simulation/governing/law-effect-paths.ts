@@ -38,6 +38,9 @@ import { TEACHER_SALARY_FLOOR_QUESTION } from "../teacher-salary-floor";
 import type { PolicyCatalog } from "../types";
 import { STATE_TRANSIT_SERVICE_QUESTION } from "../legislation-transit-families";
 import { HOME_RULE_QUESTION } from "./question-authority";
+import { createProductionPolicyCatalog } from "../production-catalog";
+import { createLawConsequenceRegistry } from "../law-consequence-registry";
+import { validateLawConsequences } from "../law-consequence-validation";
 
 /**
  * WHICH LAWS ACT IN THE WORLD (Claude CTO's 8:00 a.m. all-hands, September
@@ -67,7 +70,8 @@ export type LawEffectPathKind =
   | "authority-gate"
   | "local-powers"
   | "court-and-jail"
-  | "business-costs";
+  | "business-costs"
+  | "registered-consequence";
 
 export interface LawEffectPath {
   readonly questionKey: string;
@@ -254,7 +258,23 @@ const JUSTICE_PATHS: readonly LawEffectPath[] = [
 ];
 
 /** Every sized, built path by which a law on a question acts in the world. */
-export function lawEffectPaths(): readonly LawEffectPath[] {
+export function lawEffectPaths(
+  catalog: PolicyCatalog = createProductionPolicyCatalog(),
+): readonly LawEffectPath[] {
+  const { capabilities } = createLawConsequenceRegistry();
+  const registered = catalog.propositionOrder.flatMap((id) => {
+    const proposition = catalog.propositions[id];
+    if (!proposition) return [];
+    return (proposition.consequences ?? [])
+      .filter(
+        (row) => validateLawConsequences([row], capabilities).length === 0,
+      )
+      .map((row): LawEffectPath => ({
+        questionKey: proposition.stableKey,
+        kind: "registered-consequence",
+        via: row.id,
+      }));
+  });
   const web = OUTCOME_LINKS.filter(
     (link) =>
       link.from.startsWith(LAW_CAUSE_PREFIX) &&
@@ -279,7 +299,13 @@ export function lawEffectPaths(): readonly LawEffectPath[] {
         via: link.key,
       })),
   );
-  return [...web, ...viaMeasure, ...DIRECT_PATHS, ...JUSTICE_PATHS];
+  return [
+    ...web,
+    ...viaMeasure,
+    ...DIRECT_PATHS,
+    ...JUSTICE_PATHS,
+    ...registered,
+  ];
 }
 
 export interface UnwiredQuestion {
@@ -298,7 +324,9 @@ export interface UnwiredQuestion {
 export function unwiredQuestions(
   catalog: PolicyCatalog,
 ): readonly UnwiredQuestion[] {
-  const wired = new Set(lawEffectPaths().map((path) => path.questionKey));
+  const wired = new Set(
+    lawEffectPaths(catalog).map((path) => path.questionKey),
+  );
   return catalog.propositionOrder.flatMap((id) => {
     const proposition = catalog.propositions[id]!;
     if (wired.has(proposition.stableKey)) return [];

@@ -24,8 +24,14 @@ import {
   arriveAtCandidateGuidance,
   projectCandidateGuidanceScene,
 } from "./candidate-guidance-scene";
+import {
+  arriveAtFilingVisit,
+  isFilingVisit,
+  projectClerkFilingScene,
+} from "./clerk-filing-scene";
 import { campaignLifeActivityForScheduledActivity } from "../simulation/campaign-life-activities";
 import { PUBLIC_MEETING_KEY } from "../simulation/life-opportunities";
+import { playSettingsOf } from "../simulation/play-settings";
 import { arriveAtOrdinaryMeeting } from "./ordinary-meeting-actions";
 import { projectOrdinaryMeetingScene } from "./ordinary-meeting-scene";
 import {
@@ -480,6 +486,7 @@ export function traceStorySelection(
     candidates: candidates.map((entry) => entry.candidate),
     recentKeys: history.slice(-6),
     recentStakes: history.slice(-6).map(stakesOfKey),
+    challenge: playSettingsOf(world).challengeIntensity,
   });
   if (!selection) {
     return {
@@ -526,6 +533,7 @@ function chooseStoryScene(
       candidates: candidates.map((entry) => entry.candidate),
       recentKeys: history.slice(-6),
       recentStakes: history.slice(-6).map(stakesOfKey),
+      challenge: playSettingsOf(world).challengeIntensity,
     });
     const winner = selection
       ? candidates.find(
@@ -696,6 +704,16 @@ export function chooseTodayCalendarOption(
         activity.id
     )
       return arriveAtCandidateGuidance(
+        world,
+        input.personId,
+        activity.id,
+        input.transitionHandlers,
+      );
+    if (
+      isFilingVisit(world, activity.id) &&
+      projectClerkFilingScene(world, input.personId)?.activityId !== activity.id
+    )
+      return arriveAtFilingVisit(
         world,
         input.personId,
         activity.id,

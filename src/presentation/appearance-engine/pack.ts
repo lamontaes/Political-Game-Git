@@ -1,3 +1,4 @@
+import poseData from "../../../data/content/pose-by-activity.json" with { type: "json" };
 import type { SceneSlotKind } from "../scene-slot-contract";
 import type { BodyAnchors } from "./anchors";
 import { OPAQUE_ALPHA } from "./anchors";
@@ -120,6 +121,39 @@ export const BODY_POSES = [
   "seated-hands-folded",
   "seated-listening",
   "seated-relaxed",
+  // Oct. 7, 2026 sheets: what a standing person is doing or feeling, and
+  // (back-*) what a person seen from behind is doing.
+  "angry",
+  "arms-wide",
+  "checking-phone",
+  "clapping",
+  "fidgeting",
+  "fist-raised",
+  "hand-on-heart",
+  "hands-behind-back",
+  "hands-clasped",
+  "hands-on-hips",
+  "handshake",
+  "head-in-hand",
+  "holding-cup",
+  "holding-folder",
+  "laughing",
+  "phone-call",
+  "pointing",
+  "shrug",
+  "slumped",
+  "stern",
+  "thinking",
+  "walking",
+  "waving",
+  "weight-shift",
+  "lean",
+  "back-addressing",
+  "back-arms-folded",
+  "back-hands-in-pockets",
+  "back-hands-on-hips",
+  "back-pointing",
+  "back-walking",
 ] as const;
 export type BodyPose = (typeof BODY_POSES)[number];
 
@@ -148,6 +182,37 @@ export const POSES_BY_PRESENTATION: Readonly<
     "seated-hands-folded",
     "seated-listening",
     "seated-relaxed",
+    "angry",
+    "arms-wide",
+    "checking-phone",
+    "clapping",
+    "fidgeting",
+    "fist-raised",
+    "hand-on-heart",
+    "hands-behind-back",
+    "hands-clasped",
+    "hands-on-hips",
+    "handshake",
+    "head-in-hand",
+    "holding-cup",
+    "holding-folder",
+    "laughing",
+    "phone-call",
+    "pointing",
+    "shrug",
+    "slumped",
+    "stern",
+    "thinking",
+    "walking",
+    "waving",
+    "weight-shift",
+    "lean",
+    "back-addressing",
+    "back-arms-folded",
+    "back-hands-in-pockets",
+    "back-hands-on-hips",
+    "back-pointing",
+    "back-walking",
   ],
   masculine: [
     "standing",
@@ -164,6 +229,36 @@ export const POSES_BY_PRESENTATION: Readonly<
     "seated-hands-folded",
     "seated-listening",
     "seated-relaxed",
+    "angry",
+    "arms-wide",
+    "checking-phone",
+    "clapping",
+    "fidgeting",
+    "fist-raised",
+    "hand-on-heart",
+    "hands-behind-back",
+    "hands-clasped",
+    "hands-on-hips",
+    "handshake",
+    "head-in-hand",
+    "holding-cup",
+    "holding-folder",
+    "laughing",
+    "phone-call",
+    "pointing",
+    "shrug",
+    "slumped",
+    "stern",
+    "thinking",
+    "walking",
+    "waving",
+    "weight-shift",
+    "back-addressing",
+    "back-arms-folded",
+    "back-hands-in-pockets",
+    "back-hands-on-hips",
+    "back-pointing",
+    "back-walking",
   ],
 };
 
@@ -219,8 +314,39 @@ export function isSeatedPose(pose: BodyPose): boolean {
 export function poseFallbacks(pose: BodyPose): readonly BodyPose[] {
   if (pose === "standing") return ["standing"];
   if (pose === "seated") return ["seated", "standing"];
-  return isSeatedPose(pose) ? [pose, "seated", "standing"] : [pose, "standing"];
+  if (isSeatedPose(pose)) return [pose, "seated", "standing"];
+  // A pose painted after the first ones stands in for the nearest one with
+  // art everywhere (data/content/pose-by-activity.json `standIn`) until its
+  // own outfits are painted, so no one is ever left without a pose.
+  const standIn = POSE_STAND_IN[pose];
+  return standIn && standIn !== "standing"
+    ? [pose, standIn, "standing"]
+    : [pose, "standing"];
 }
+
+/**
+ * The poses tried for a person of a presentation: the pose and its
+ * fallbacks, each as that presentation strikes it (a man's hands in his
+ * pockets where the chain has a woman's hand on the hip).
+ */
+export function presentationFallbacks(
+  pose: BodyPose,
+  presentation: BodyPresentation,
+): readonly BodyPose[] {
+  const own = presentationPose(pose, presentation);
+  return [
+    ...new Set(
+      poseFallbacks(own).map((fallback) =>
+        presentationPose(fallback, presentation),
+      ),
+    ),
+  ];
+}
+
+/** The pose each later-painted pose is drawn as while it has no art for a body. */
+const POSE_STAND_IN = (
+  poseData as { readonly standIn: Record<string, BodyPose> }
+).standIn as Readonly<Partial<Record<BodyPose, BodyPose>>>;
 
 /**
  * Which way a pose's painting turns toward: the side of the picture its
@@ -249,6 +375,37 @@ export const POSE_PAINTED_TOWARD: Readonly<
   "seated-hands-folded": null,
   "seated-listening": null,
   "seated-relaxed": null,
+  angry: null,
+  "arms-wide": null,
+  "checking-phone": null,
+  clapping: null,
+  fidgeting: null,
+  "fist-raised": null,
+  "hand-on-heart": null,
+  "hands-behind-back": null,
+  "hands-clasped": null,
+  "hands-on-hips": null,
+  handshake: null,
+  "head-in-hand": null,
+  "holding-cup": null,
+  "holding-folder": null,
+  laughing: null,
+  "phone-call": null,
+  pointing: null,
+  shrug: null,
+  slumped: null,
+  stern: null,
+  thinking: null,
+  walking: null,
+  waving: null,
+  "weight-shift": null,
+  lean: null,
+  "back-addressing": null,
+  "back-arms-folded": null,
+  "back-hands-in-pockets": null,
+  "back-hands-on-hips": null,
+  "back-pointing": null,
+  "back-walking": null,
 };
 
 export interface PackBody {
@@ -259,7 +416,9 @@ export interface PackBody {
 
 /**
  * Which way the whole person is turned: front, three-quarter, side or back.
- * Three-quarter and side paintings can be mirrored for the other direction.
+ * Three-quarter and side paintings can be mirrored for the other direction; a
+ * person seen from behind (body, outfit and the back of the head, no face) is
+ * drawn the same either way.
  */
 export const BODY_VIEWS = ["front", "three-quarter", "side", "back"] as const;
 export type BodyView = (typeof BODY_VIEWS)[number];
@@ -431,8 +590,17 @@ export interface PackView extends PackPostures {
   readonly facialHair?: readonly PackHeadLayer[];
   readonly glasses?: readonly PackHeadLayer[];
   readonly accessories?: readonly PackAccessory[];
-  /** The side of the picture the painted person is turned toward. */
-  readonly toward: "left" | "right";
+  /**
+   * The side of the picture the painted person is turned toward; null for a
+   * person seen from behind, who is drawn the same either way.
+   */
+  readonly toward: "left" | "right" | null;
+  /**
+   * A view in which no face is painted (a person seen from behind): the head
+   * is the bare head of the body under the hair's back (each hair entry's
+   * `front` is then the hair as seen from behind), and `faces` is empty.
+   */
+  readonly faceless?: true;
 }
 
 export interface PackPresentation extends PackPostures {
@@ -564,8 +732,9 @@ export function posedPieces(
       : recipe.view === "three-quarter"
         ? ["three-quarter", "front"]
         : ["front"];
-  for (const pose of poseFallbacks(
-    presentationPose(recipe.pose ?? "standing", recipe.presentation),
+  for (const pose of presentationFallbacks(
+    recipe.pose ?? "standing",
+    recipe.presentation,
   ))
     for (const view of views) {
       const turned = view === "front" ? undefined : pack.views?.[view];
@@ -577,13 +746,14 @@ export function posedPieces(
       const worn = outfitPostures
         ? poseOutfit(outfitPostures, pose, recipe.build)
         : undefined;
+      const faceless = turned?.faceless === true;
       const viewFace = turned
         ? turned.faces.find((f) => f.id === face.id)
         : face;
       const viewHair = turned
         ? turned.hair.find((h) => h.id === hair.id)
         : hair;
-      if (!body || !viewFace || !viewHair) continue;
+      if (!body || (!viewFace && !faceless) || !viewHair) continue;
       const plain = pose === "standing" && view === "front";
       if (
         !plain &&
@@ -591,11 +761,19 @@ export function posedPieces(
           ![
             body.file,
             ...(worn ? outfitFiles(worn) : []),
-            ...(turned ? [viewFace.file, viewHair.back, viewHair.front] : []),
+            ...(turned
+              ? [
+                  ...(viewFace ? [viewFace.file] : []),
+                  viewHair.back,
+                  viewHair.front,
+                ]
+              : []),
           ].every(available))
       )
         continue;
-      const expressed = expressedFace(viewFace, recipe.expression, available);
+      const expressed = viewFace
+        ? expressedFace(viewFace, recipe.expression, available)
+        : { face: undefined, expression: "neutral" as const };
       const headLayer = (
         layers: readonly PackHeadLayer[] | undefined,
         id: string | undefined,
@@ -656,29 +834,6 @@ export function posedPieces(
   throw new Error("unreachable: standing in front always resolves");
 }
 
-function mirrorForFacing(
-  pack: PackPresentation,
-  pose: BodyPose,
-  view: BodyView,
-  recipe: EngineRecipe,
-): boolean {
-  if (!recipe.facing) return recipe.mirrored === true;
-  if (view !== "three-quarter" && view !== "side") return false;
-  const painted = towardOf(pack, pose, view, false);
-  return painted !== null && recipe.facing !== painted;
-}
-
-function facingOf(
-  pack: PackPresentation,
-  pose: BodyPose,
-  view: BodyView,
-  recipe: EngineRecipe,
-): "left" | "right" | null {
-  if (!recipe.facing)
-    return towardOf(pack, pose, view, recipe.mirrored === true);
-  return towardOf(pack, pose, view, mirrorForFacing(pack, pose, view, recipe));
-}
-
 function towardOf(
   pack: PackPresentation,
   pose: BodyPose,
@@ -686,9 +841,15 @@ function towardOf(
   mirrored: boolean,
 ): "left" | "right" | null {
   const posed = pack.views?.[view as TurnedBodyView] ?? pack;
+  const turnedPose =
+    view !== "front" && pose !== "standing" && pose !== "seated"
+      ? posed.poses?.[pose]?.toward
+      : undefined;
   const painted =
     view !== "front"
-      ? pack.views![view]!.toward
+      ? turnedPose !== undefined
+        ? turnedPose
+        : pack.views![view]!.toward
       : pose === "standing" || pose === "seated"
         ? POSE_PAINTED_TOWARD[pose]
         : posed.poses?.[pose]?.toward !== undefined
@@ -893,7 +1054,7 @@ export function recipeFiles(
     posedPieces(pack, recipe, available);
   return [
     body.file,
-    face.file,
+    ...(face ? [face.file] : []),
     hair.back,
     hair.front,
     ...(facialHair ? [facialHair.file] : []),
@@ -945,7 +1106,16 @@ function recolorPart(layer: Raster, mask: Raster, color: FabricRamp): Raster {
     height: layer.height,
     data: part,
   });
-  const tinted = recolorFabric(layer, color, source);
+  // Only the part's own pixels are recolored: recolorFabric reads each pixel
+  // alone, and the blend below takes nothing from anywhere else.
+  const scope = new Uint8ClampedArray(layer.data.length);
+  for (let i = 3; i < scope.length; i += 4)
+    if (mask.data[i]! > 0) scope.set(layer.data.subarray(i - 3, i + 1), i - 3);
+  const tinted = recolorFabric(
+    { width: layer.width, height: layer.height, data: scope },
+    color,
+    source,
+  );
   const out = new Uint8ClampedArray(layer.data);
   for (let i = 3; i < out.length; i += 4) {
     const t = mask.data[i]! / 255;
@@ -1043,88 +1213,98 @@ export function composeEnginePerson(
     }
     layers.push({ slot: "outfit", raster: clothes, hidesBody: mask });
   }
-  // The face's widest opaque row marks its cheek/ear band. Below it, the
-  // outer quarters belong to the visible face sides, rather than front hair.
-  // Measure the selected face, so the same contract follows every head/view;
-  // bangs above that band and hair outside face support retain their pixels.
-  const faceRaster = image(face.file);
-  const faceSides = new Int32Array(front.height * 2).fill(-1);
-  let cheekRow = canonical.head.top;
-  let widest = 0;
-  for (let y = canonical.head.top; y < faceRaster.height; y += 1) {
-    let left = -1;
-    let right = -1;
-    for (let x = 0; x < faceRaster.width; x += 1)
-      if (faceRaster.data[(y * faceRaster.width + x) * 4 + 3]! >= 250) {
-        if (left < 0) left = x;
-        right = x;
-      }
-    faceSides[y * 2] = left;
-    faceSides[y * 2 + 1] = right;
-    if (left >= 0 && right - left + 1 > widest) {
-      widest = right - left + 1;
-      cheekRow = y;
-    }
-  }
-  const windowed = hairWithFaceWindow(
-    front,
-    faceRaster,
-    hair.front,
-    hair.faceWindow,
-  );
-  let sideHair: Uint8ClampedArray | undefined;
-  for (let y = cheekRow; y < faceRaster.height; y += 1) {
-    const left = faceSides[y * 2]!;
-    const right = faceSides[y * 2 + 1]!;
-    if (left < 0) continue;
-    const sideWidth = Math.floor((right - left + 1) / 4);
-    for (let x = left; x <= right; x += 1) {
-      if (x >= left + sideWidth && x <= right - sideWidth) continue;
-      const at = (y * front.width + x) * 4 + 3;
-      if (windowed.data[at] === 0 || faceRaster.data[at] === 0) continue;
-      sideHair ??= new Uint8ClampedArray(windowed.data);
-      sideHair[at] = windowed.data[at]! * (1 - faceRaster.data[at]! / 255);
-    }
-  }
-  layers.push(
-    {
-      slot: "head",
-      raster: recolorSkin(image(face.file), ramp, face.skin),
-      authoredFor: canonical,
-    },
-    ...(facialHair
-      ? [
-          {
-            slot: "facial-hair" as const,
-            raster: tint(image(facialHair.file)),
-            authoredFor: canonical,
-          },
-        ]
-      : []),
-    ...(glasses
-      ? [
-          {
-            slot: "glasses" as const,
-            raster: image(glasses.file),
-            authoredFor: canonical,
-          },
-        ]
-      : []),
-    ...accessories.map((accessory) =>
-      accessory.placement === "head"
-        ? {
-            slot: "earrings" as const,
-            raster: image(accessory.file),
-            authoredFor: canonical,
-          }
-        : { slot: "jewelry" as const, raster: image(accessory.file) },
-    ),
-    {
+  // A person seen from behind has no face: the bare head of the body shows
+  // under the hair as seen from behind (the view's own `front` layer).
+  if (!face) {
+    layers.push({
       slot: "front-hair",
-      raster: tint(sideHair ? { ...windowed, data: sideHair } : windowed),
+      raster: tint(front),
       authoredFor: canonical,
-    },
-  );
+    });
+  } else {
+    // The face's widest opaque row marks its cheek/ear band. Below it, the
+    // outer quarters belong to the visible face sides, rather than front hair.
+    // Measure the selected face, so the same contract follows every head/view;
+    // bangs above that band and hair outside face support retain their pixels.
+    const faceRaster = image(face.file);
+    const faceSides = new Int32Array(front.height * 2).fill(-1);
+    let cheekRow = canonical.head.top;
+    let widest = 0;
+    for (let y = canonical.head.top; y < faceRaster.height; y += 1) {
+      let left = -1;
+      let right = -1;
+      for (let x = 0; x < faceRaster.width; x += 1)
+        if (faceRaster.data[(y * faceRaster.width + x) * 4 + 3]! >= 250) {
+          if (left < 0) left = x;
+          right = x;
+        }
+      faceSides[y * 2] = left;
+      faceSides[y * 2 + 1] = right;
+      if (left >= 0 && right - left + 1 > widest) {
+        widest = right - left + 1;
+        cheekRow = y;
+      }
+    }
+    const windowed = hairWithFaceWindow(
+      front,
+      faceRaster,
+      hair.front,
+      hair.faceWindow,
+    );
+    let sideHair: Uint8ClampedArray | undefined;
+    for (let y = cheekRow; y < faceRaster.height; y += 1) {
+      const left = faceSides[y * 2]!;
+      const right = faceSides[y * 2 + 1]!;
+      if (left < 0) continue;
+      const sideWidth = Math.floor((right - left + 1) / 4);
+      for (let x = left; x <= right; x += 1) {
+        if (x >= left + sideWidth && x <= right - sideWidth) continue;
+        const at = (y * front.width + x) * 4 + 3;
+        if (windowed.data[at] === 0 || faceRaster.data[at] === 0) continue;
+        sideHair ??= new Uint8ClampedArray(windowed.data);
+        sideHair[at] = windowed.data[at]! * (1 - faceRaster.data[at]! / 255);
+      }
+    }
+    layers.push(
+      {
+        slot: "head",
+        raster: recolorSkin(image(face.file), ramp, face.skin),
+        authoredFor: canonical,
+      },
+      ...(facialHair
+        ? [
+            {
+              slot: "facial-hair" as const,
+              raster: tint(image(facialHair.file)),
+              authoredFor: canonical,
+            },
+          ]
+        : []),
+      ...(glasses
+        ? [
+            {
+              slot: "glasses" as const,
+              raster: image(glasses.file),
+              authoredFor: canonical,
+            },
+          ]
+        : []),
+      ...accessories.map((accessory) =>
+        accessory.placement === "head"
+          ? {
+              slot: "earrings" as const,
+              raster: image(accessory.file),
+              authoredFor: canonical,
+            }
+          : { slot: "jewelry" as const, raster: image(accessory.file) },
+      ),
+      {
+        slot: "front-hair",
+        raster: tint(sideHair ? { ...windowed, data: sideHair } : windowed),
+        authoredFor: canonical,
+      },
+    );
+  }
   const raster = assemblePerson(body.anchors, layers);
   const seatRow = seated ? body.seatRow : undefined;
   return mirrored

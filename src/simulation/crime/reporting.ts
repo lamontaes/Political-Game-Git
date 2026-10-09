@@ -60,7 +60,7 @@ export const REPORTING_WEIGHTS = {
   provenance: "estimated-from-average",
   estimated: true,
   estimatedFrom:
-    "BJS, Criminal Victimization, 2023 (NCJ 309335), table 4: shares of victimizations reported to police by offense; BJS, Repeat Violent Victimization, 2005-14 (NCJ 250567)",
+    "BJS, Criminal Victimization, 2023 (NCJ 309335), table 4; BJS, Repeat Violent Victimization, 2005-14 (NCJ 250567)",
   /**
    * How much the offense itself argues for calling the police, set so the
    * town's shares land near the national shares reported (2022 and 2023):

@@ -5,6 +5,7 @@ import {
   observerPeople,
   projectObserverPerson,
   projectObserverRecord,
+  type ObserverPersonFile,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
 import type { ObserverRunController } from "./observer-run-controller";
@@ -189,6 +190,29 @@ export function ObserverRecordWorkspace({
               : "No current job on record."}{" "}
             {file.party ? `Belongs to the ${file.party}.` : "No party."}
           </p>
+          <p data-testid="observer-person-pay">
+            Pay:{" "}
+            {file.monthlyPay === null
+              ? "No current pay on record."
+              : `${(file.monthlyPay / 100).toLocaleString("en-US", { style: "currency", currency: "USD" })} a month.`}
+          </p>
+          <p data-testid="observer-person-household">
+            Household:{" "}
+            {file.household.length > 0
+              ? file.household.join(", ")
+              : "Lives alone."}
+          </p>
+          <h4>Their career</h4>
+          {file.career.length === 0 ? null : (
+            <ul data-testid="observer-person-career">
+              {file.career.map((item) => (
+                <li key={item.id}>
+                  {proseDate(item.at)}: {item.text}
+                </li>
+              ))}
+            </ul>
+          )}
+          <ObserverPersonStory story={file} personLink={personLink} />
           {onTrace ? (
             <section aria-label="Recorded decisions">
               <h4>Their decisions</h4>
@@ -209,9 +233,7 @@ export function ObserverRecordWorkspace({
             </section>
           ) : null}
           <h4>Everything recorded about them</h4>
-          {file.record.length === 0 ? (
-            <p className="game-note">Nothing has been recorded yet.</p>
-          ) : (
+          {file.record.length === 0 ? null : (
             <ul>
               {file.record.map((item) => (
                 <li key={item.id}>
@@ -270,11 +292,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-laws">
         <h3>Bills and laws</h3>
-        {record.laws.length === 0 ? (
-          <p className="game-note">
-            No bill has been introduced anywhere in this world yet.
-          </p>
-        ) : (
+        {record.laws.length === 0 ? null : (
           <table>
             <thead>
               <tr>
@@ -305,9 +323,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-amendments">
         <h3>Constitutional amendments</h3>
-        {record.amendments.length === 0 ? (
-          <p className="game-note">No amendment has been proposed yet.</p>
-        ) : (
+        {record.amendments.length === 0 ? null : (
           <ul>
             {record.amendments.map((amendment) => (
               <li key={amendment.id}>
@@ -322,10 +338,6 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-elections">
         <h3>Elections</h3>
-        {record.elections.length === 0 &&
-        record.electionSummaries.length === 0 ? (
-          <p className="game-note">No election has been decided yet.</p>
-        ) : null}
         {record.elections.length > 0 ? (
           <ul>
             {record.elections.slice(0, 60).map((election) => (
@@ -475,9 +487,7 @@ export function ObserverRecordWorkspace({
 
       <section data-testid="world-record-news">
         <h3>The news</h3>
-        {record.news.length === 0 ? (
-          <p className="game-note">Nothing has been published yet.</p>
-        ) : (
+        {record.news.length === 0 ? null : (
           <ul>
             {record.news.map((item) => (
               <li key={item.id}>
@@ -507,5 +517,61 @@ export function ObserverRecordWorkspace({
         </ul>
       </section>
     </div>
+  );
+}
+
+/**
+ * A person's threads and recent moments, as the story director reads them.
+ * Hidden from players; shown only in developer and observer mode.
+ */
+export function ObserverPersonStory({
+  story,
+  personLink,
+}: {
+  readonly story: Pick<
+    ObserverPersonFile,
+    "threads" | "moreThreads" | "moments"
+  >;
+  readonly personLink: (
+    personId: EntityId | null,
+    name: string | null,
+  ) => React.ReactNode;
+}) {
+  return (
+    <>
+      <h4>Their threads</h4>
+      {story.threads.length === 0 ? null : (
+        <ul data-testid="observer-person-threads">
+          {story.threads.map((thread) => (
+            <li key={thread.personId}>
+              {personLink(thread.personId, thread.name)}: importance{" "}
+              {thread.importance.toFixed(2)}
+              {thread.tie
+                ? `, ${thread.tie === "sharedHome" ? "shared home" : thread.tie}`
+                : ""}
+              {thread.turns.length > 0
+                ? `; ${thread.turns.map((turn) => `${turn.turn} ${proseDate(turn.at)} (${turn.importance.toFixed(2)})`).join(", ")}`
+                : "; no moments yet"}
+              {thread.lastContactOn
+                ? `; last in touch ${proseDate(thread.lastContactOn)}`
+                : ""}
+            </li>
+          ))}
+          {story.moreThreads > 0 ? <li>{story.moreThreads} more</li> : null}
+        </ul>
+      )}
+      <h4>Their recent moments</h4>
+      {story.moments.length === 0 ? null : (
+        <ul data-testid="observer-person-moments">
+          {story.moments.map((moment) => (
+            <li key={moment.id}>
+              {proseDate(moment.at)}: {moment.kind} (
+              {moment.salience.toFixed(3)})
+              {moment.with.length > 0 ? ` with ${moment.with.join(", ")}` : ""}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

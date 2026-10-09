@@ -99,7 +99,7 @@ export type PersonnelProcedureTerm = number | readonly string[];
 
 export interface PersonnelProcedure {
   readonly key: PersonnelProcedureKey;
-  readonly jurisdictionKey: "US-MN" | "US-AK";
+  readonly jurisdictionKey: string;
   /** Current publisher text; it applies only on or after this date. */
   readonly validity: {
     readonly state: "CURRENT_OBSERVATION";

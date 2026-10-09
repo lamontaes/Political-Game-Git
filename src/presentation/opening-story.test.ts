@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { ageOnDate } from "../simulation";
+
 import { stateNameForUsps } from "../player/useWorldOrientation";
+import { orientationBackdrop } from "../player/WorldOrientationPanel";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -40,7 +44,7 @@ const NEBRASKA = opening("nebraska", 40);
 const ALL = [LEXINGTON, MINNEAPOLIS, NEBRASKA];
 
 describe("In the year 2026", () => {
-  it("names the President, divides Congress, gives the economy and real headlines", () => {
+  it("names the President, gives the economy and real headlines, and leaves Congress to its own stop", () => {
     for (const { world, personId } of ALL) {
       const view = projectOpeningYear(
         world,
@@ -51,16 +55,21 @@ describe("In the year 2026", () => {
         ),
       );
       expect(view.year).toBe(world.currentDate.slice(0, 4));
-      expect(view.lines[0]).toMatch(/ is President/);
-      expect(view.lines.some((line) => /Senate: \d+ /.test(line))).toBe(true);
+      // Record values under labels, never sentences (menu reset).
+      const value = (label: RegExp) =>
+        view.facts.find((fact) => label.test(fact.label))?.value;
+      expect(view.facts[0]!.label).toBe("President");
+      // Congress is told once, on its own stop beside its chart (owner
+      // playtest, October 8, 2026: the year card counted it a second time).
       expect(
-        view.lines.some((line) => /House of Representatives: \d+ /.test(line)),
-      ).toBe(true);
-      expect(
-        view.lines.some((line) =>
-          /\d\.\d% of people looking for work/.test(line),
+        view.facts.filter((fact) =>
+          /Senate|House of Representatives/.test(fact.label),
         ),
-      ).toBe(true);
+      ).toEqual([]);
+      expect(value(/^Unemployment$/)).toMatch(/^\d+\.\d%$/);
+      expect(value(/^Prices over a year$/)).toMatch(/^[+-]?\d+\.\d%$/);
+      for (const fact of view.facts)
+        expect(`${fact.label} ${fact.value}`).not.toMatch(/[.!?]$/);
       // Every masthead and headline comes from the same published record.
       expect(view.publications.length).toBeLessThanOrEqual(2);
       for (const publication of view.publications)
@@ -71,15 +80,56 @@ describe("In the year 2026", () => {
   });
 });
 
-describe("The Senate on the opening card", () => {
+describe("Congress in the opening", () => {
+  // Owner playtest, October 8, 2026: Congress showed twice, once as the
+  // year's Senate floor with its senators and party counts, and again as its
+  // own stop. Only the Congress stop stands on a chamber of Congress.
+  it("stands on a floor of Congress at one stop only", () => {
+    const sources = {
+      whiteHouse: null,
+      regionalPlate: null,
+      regionScene: null,
+      homeStateUsps: "KS",
+      homePlaces: ["suburban-house"],
+    };
+    const floors = [
+      "year",
+      "executive",
+      "state",
+      "legislature",
+      "congress",
+      "parents",
+      "your-life",
+    ].filter((key) => {
+      const backdrop = orientationBackdrop(key, sources);
+      return (
+        backdrop.kind === "place" &&
+        /^us-(senate|house)-floor$/.test(backdrop.place)
+      );
+    });
+    expect(floors).toEqual(["congress"]);
+    expect(orientationBackdrop("year", sources)).toMatchObject({
+      kind: "place",
+      place: "us-capitol-exterior",
+    });
+  });
+});
+
+describe("The Senate on the Congress stop", () => {
   // Lamontae's playtest showed 58 + 39 + 2 = 99 senators: the opening drew a
   // vacant seat and the card left it out. Places are drawn from all 56;
-  // seed s99-b drew a vacant Hawaii seat before the fix.
-  const senateCount = (line: string) =>
-    [...line.matchAll(/(\d+) [A-Za-z]/g)].reduce(
-      (sum, match) => sum + Number(match[1]),
-      0,
-    );
+  // seed s99-b drew a vacant Hawaii seat before the fix. The year card no
+  // longer counts Congress, so the stop's chart, which draws each party's
+  // members, the vacant seats and the seats with no recorded holder, is the
+  // one place that has to account for all 100.
+  const seatsDrawn = (chamber: {
+    readonly parties: readonly { readonly members: number }[];
+    readonly vacancies: number;
+    readonly unrecorded: number;
+  }) =>
+    chamber.parties.reduce((sum, party) => sum + party.members, 0) +
+    chamber.vacancies +
+    chamber.unrecorded;
   it.each(["senate-100-a", "s99-b"])(
     "seats 100 senators in a new world (seed %s)",
     (seed) => {
@@ -87,68 +137,59 @@ describe("The Senate on the opening card", () => {
       const game = generateOpeningLife(
         prepareOpeningLife({ ...observerSetup(seed), startAge: 25 }),
       ).game!;
-      const orientation = projectOrientationView(
-        projectWorldOrientation(game.world, game.playerPersonId),
-        stateNameForUsps,
-      );
-      const senate = orientation.steps
-        .find((step) => step.key === "congress")!
-        .chambers.find((chamber) => chamber.chamberKey === "us-senate")!;
+      const recorded = projectWorldOrientation(game.world, game.playerPersonId);
+      const senateOf = (orientation: typeof recorded) =>
+        projectOrientationView(orientation, stateNameForUsps)
+          .steps.find((step) => step.key === "congress")!
+          .chambers.find((chamber) => chamber.chamberKey === "us-senate")!;
+      const senate = senateOf(recorded);
       expect(senate.members, place.key).toBe(100);
-      const line = projectOpeningYear(
-        game.world,
-        game.playerPersonId,
-        orientation,
-      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
-      expect(senateCount(line), `${place.key}: ${line}`).toBe(100);
+      expect(seatsDrawn(senate), place.key).toBe(100);
 
-      // A seat a death or resignation leaves empty is named, so the card
+      // A seat a death or resignation leaves empty is counted, so the stop
       // still accounts for all 100.
-      const [first, ...rest] = senate.roster;
-      const leaving = senate.parties.find(
-        (party) =>
-          party.partyOrganizationId ===
-          (first!.person?.partyOrganizationId ?? null),
-      )!;
-      const withVacancy = {
-        ...orientation,
-        steps: orientation.steps.map((step) =>
-          step.key !== "congress"
-            ? step
-            : {
-                ...step,
-                chambers: step.chambers.map((chamber) =>
-                  chamber !== senate
-                    ? chamber
-                    : {
-                        ...chamber,
-                        members: 99,
-                        vacancies: 1,
-                        parties: chamber.parties.map((party) =>
-                          party === leaving
-                            ? { ...party, members: party.members - 1 }
-                            : party,
-                        ),
-                        roster: [
-                          {
-                            ...first!,
-                            status: "vacancy" as const,
-                            person: null,
-                          },
-                          ...rest,
-                        ],
-                      },
-                ),
-              },
-        ),
-      };
-      const vacantLine = projectOpeningYear(
-        game.world,
-        game.playerPersonId,
-        withVacancy,
-      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
-      expect(senateCount(vacantLine)).toBe(99);
-      expect(vacantLine).toContain(`a ${first!.seatLabel} seat is vacant`);
+      const chamber = recorded.congress!.senate;
+      const leaving = chamber.seats.findIndex(
+        (seat) =>
+          seat.occupant.kind === "member" &&
+          seat.occupant.member.partyOrganizationId !== null,
+      );
+      const occupant = chamber.seats[leaving]!.occupant;
+      const party =
+        occupant.kind === "member" ? occupant.member.partyOrganizationId : null;
+      const withVacancy = senateOf({
+        ...recorded,
+        congress: {
+          ...recorded.congress!,
+          senate: {
+            ...chamber,
+            seats: chamber.seats.map((seat, index) =>
+              index === leaving
+                ? {
+                    ...seat,
+                    occupant: {
+                      kind: "vacancy" as const,
+                      since: game.world.currentDate,
+                      eventId: "event_vacancy" as typeof chamber.organizationId,
+                    },
+                  }
+                : seat,
+            ),
+            totals: {
+              ...chamber.totals,
+              members: chamber.totals.members - 1,
+              vacancies: chamber.totals.vacancies + 1,
+              byParty: chamber.totals.byParty.map((entry) =>
+                entry.partyOrganizationId === party
+                  ? { ...entry, members: entry.members - 1 }
+                  : entry,
+              ),
+            },
+          },
+        },
+      });
+      expect(withVacancy.vacancies).toBe(senate.vacancies + 1);
+      expect(seatsDrawn(withVacancy)).toBe(100);
     },
   );
 });
@@ -161,24 +202,31 @@ describe("Your legislature", () => {
     );
     expect(kentucky.bodyName).toBe("Kentucky General Assembly");
     expect(kentucky.chambers).toHaveLength(2);
-    for (const line of kentucky.chambers)
-      expect(line).toMatch(
-        /^Kentucky (House of Representatives|Senate): \d+ [A-Z]/,
+    for (const chamber of kentucky.chambers) {
+      expect(chamber.label).toMatch(
+        /^Kentucky (House of Representatives|Senate)$/,
       );
+      expect(chamber.value).toMatch(/^\d+ [A-Z]/);
+    }
     // Party names, never internal keys.
-    expect(kentucky.chambers.join(" ")).not.toMatch(
-      /\b(republican|democratic)\b/,
-    );
+    expect(
+      kentucky.chambers.map((chamber) => chamber.value).join(" "),
+    ).not.toMatch(/\b(republican|democratic)\b/);
+    // Your own members: the office and district, then the member's name.
     expect(kentucky.yours).toHaveLength(2);
-    for (const line of kentucky.yours)
-      expect(line).toMatch(/ represents you in the /);
+    for (const member of kentucky.yours) {
+      expect(member.label).toMatch(/Senate|House/);
+      expect(member.value).toMatch(/^[A-Z][a-z]+ /);
+      expect(`${member.label} ${member.value}`).not.toMatch(/[.!?]$/);
+    }
 
     const nebraska = projectOpeningLegislature(
       NEBRASKA.world,
       NEBRASKA.personId,
     );
     expect(nebraska.chambers).toHaveLength(1);
-    expect(nebraska.chambers[0]).toMatch(/^Nebraska Legislature: \d+ /);
+    expect(nebraska.chambers[0]!.label).toBe("Nebraska Legislature");
+    expect(nebraska.chambers[0]!.value).toMatch(/^\d+ /);
   });
 });
 
@@ -224,5 +272,33 @@ describe("Your family", () => {
     const parents = new Set(child.parents.map((member) => member.personId));
     for (const member of child.household)
       expect(parents.has(member.personId)).toBe(false);
+  });
+
+  const drawn = drawRandomPlace("opening-story-family");
+  it(`gives each parent the age their birth record holds (${drawn.displayName}, seed opening-story-family)`, () => {
+    // A child's opening in a place drawn from all 56, beside the two above.
+    const life = opening(drawn.key, 12);
+    for (const [world, personId] of [
+      [LEXINGTON.world, LEXINGTON.personId],
+      [MINNEAPOLIS.world, MINNEAPOLIS.personId],
+      [life.world, life.personId],
+    ] as const) {
+      const family = projectOpeningFamily(world, personId);
+      expect(family.parents.length).toBeGreaterThan(0);
+      const own = ageOnDate(
+        world.people[personId]!.birthDate,
+        world.currentDate,
+      );
+      for (const member of [...family.parents, ...family.household])
+        expect(member.age).toBe(
+          ageOnDate(
+            world.people[member.personId]!.birthDate,
+            world.currentDate,
+          ),
+        );
+      // A parent is older than the child they raised.
+      for (const parent of family.parents)
+        expect(parent.age).toBeGreaterThan(own);
+    }
   });
 });

@@ -1,4 +1,4 @@
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
+import { campaignUntilDecided, fileAtCounter } from "./support/campaign";
 import { expect, test, type Page } from "./fixtures";
 import {
   enterLife,
@@ -11,6 +11,7 @@ import {
   lifePlaceByKey,
   localGoverningBodiesForJurisdiction,
 } from "../../src/simulation";
+import { filingUnitIdForSeat } from "../../src/simulation/filing-office";
 
 /**
  * Standing for the town's own governing body, in a town the game has read in
@@ -79,21 +80,20 @@ for (const town of TOWNS) {
     await openElsewhere(page, "campaign");
     await expect(page.getByTestId("work-section-campaign")).toBeVisible();
 
-    const browser = page.getByTestId("campaign-office-browser");
+    // The town's body is filed at its counter, not from the Campaigns list
+    // (owner, October 8, 2026).
     await expect(
-      browser.locator(`input[value="${body.officeKey}"]`),
-    ).toHaveCount(1);
+      page.locator(`input[name="campaign-office"][value="${body.officeKey}"]`),
+    ).toHaveCount(0);
     // The state's own race is still offered on the same screen. In Maine the
     // legislature is not on the office list yet, so the governorship is what
     // stands beside the town's body.
     await expect(
       page.getByRole("heading", { name: "The state's top office" }),
     ).toBeVisible();
-    await expect(browser).toContainText(
-      `Local governmentCouncil member${town.government}`,
-    );
 
-    await fileCandidacy(page, body.officeKey);
+    await fileAtCounter(page, body.officeKey);
+    await openElsewhere(page, "campaign");
     await expect(page.getByTestId("campaign-band")).toContainText(
       town.bodyName,
     );
@@ -126,15 +126,15 @@ for (const town of TOWNS) {
       );
     }
 
-    // The race being over does not close the office: picking it again offers
-    // the next filing, as it did before the first. (Found in Ely, Minnesota,
+    // The race being over does not close the office: its counter offers the
+    // next filing, as it did before the first. (Found in Ely, Minnesota,
     // where no second race could ever be filed.)
-    await openElsewhere(page, "campaign");
-    await page
-      .getByTestId("campaign-office-browser")
-      .locator(`input[value="${body.officeKey}"]`)
-      .check();
-    await expect(page.getByTestId("file-candidacy")).toBeEnabled();
+    await goTo(page, "nav-places");
+    await expect(
+      page.getByTestId(
+        `places-offer-filing-office-${filingUnitIdForSeat(body.officeKey)}-action`,
+      ),
+    ).toBeEnabled();
   });
 }
 
@@ -153,12 +153,13 @@ test("Presque Isle, Maine: the town's mayor is a race a life can run and win", a
   await startLife(page, { age: 34, state: "Maine", place: "Presque Isle" });
   await enterLife(page);
   await openElsewhere(page, "campaign");
-  const browser = page.getByTestId("campaign-office-browser");
-  await expect(browser).toContainText(
-    "You can run for this office.The next election is February 2, 2026.MayorCity of Presque Isle",
-  );
+  // The mayor's race is filed at the city's counter, not from the list.
+  await expect(
+    page.locator(`input[name="campaign-office"][value="${mayor.officeKey}"]`),
+  ).toHaveCount(0);
 
-  await fileCandidacy(page, mayor.officeKey);
+  await fileAtCounter(page, mayor.officeKey);
+  await openElsewhere(page, "campaign");
   await expect(page.getByTestId("campaign-band")).toContainText(
     " for Mayor · ",
   );

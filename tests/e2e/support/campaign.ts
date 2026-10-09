@@ -6,6 +6,59 @@ import {
   waitForClockIdle,
 } from "./creator";
 import { chooseStateLegislativeOffice } from "./jurisdictions";
+import { filingUnitIdForSeat } from "../../../src/simulation/filing-office";
+
+/**
+ * Goes to the counter that takes a filing for this seat, the way a player
+ * does: Places offers the government whose officer takes the filing, the
+ * visit goes on the calendar, and the player attends it.
+ */
+export async function attendFilingCounter(
+  page: Page,
+  officeKey: string,
+): Promise<void> {
+  const unitId = filingUnitIdForSeat(officeKey);
+  if (!unitId) throw new Error(`No filing counter takes ${officeKey}.`);
+  await goTo(page, "nav-places");
+  const office = page.getByTestId(`places-offer-filing-office-${unitId}`);
+  await expect(office).toBeVisible();
+  const government = (
+    await office.locator(".places-offer-title").innerText()
+  ).trim();
+  await page.getByTestId(`places-offer-filing-office-${unitId}-action`).click();
+  // The booked visit is offered by the same government's name.
+  const visit = page
+    .locator('[data-testid^="places-offer-venue-"]')
+    .filter({ hasText: government });
+  await expect(visit).toHaveCount(1);
+  await visit.locator('[data-testid$="-action"]').click();
+  // Places stays open over the counter once the player arrives; close it, as
+  // a player does, to stand at the counter.
+  await expect(page.getByTestId("clerk-filing-leave")).toBeAttached();
+  await page.getByTestId("places-workspace-close").click();
+  await expect(page.getByTestId("clerk-filing-leave")).toBeVisible();
+}
+
+/**
+ * Files at the counter for a seat a counter in the world takes. A seat filed
+ * by number names it with `seatChoiceKey`. Returns false, having attended,
+ * when the counter offers no filing for the seat (the person does not
+ * qualify, or the seat has no election on record).
+ */
+export async function fileAtCounter(
+  page: Page,
+  officeKey: string,
+  seatChoiceKey?: string,
+  attended = false,
+): Promise<boolean> {
+  if (!attended) await attendFilingCounter(page, officeKey);
+  const file = page.getByTestId(
+    `clerk-filing-file-${seatChoiceKey ? `${officeKey}-${seatChoiceKey}` : officeKey}`,
+  );
+  if ((await file.count()) === 0) return false;
+  await file.click();
+  return true;
+}
 
 /**
  * Deliberate office selection, in whatever state the life was started in.

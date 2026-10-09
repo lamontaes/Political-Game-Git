@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { fileCandidacy } from "./support/campaign";
+import { fileAtCounter } from "./support/campaign";
 import { enterLife, openElsewhere, startLife } from "./support/creator";
 import { localGoverningBodiesForJurisdiction } from "../../src/simulation";
 import { drawRandomPlace } from "../support/random-place";
@@ -48,12 +48,9 @@ test("a new campaign asks named people for help and contributions", async ({
     timeout: 30_000,
   });
   await enterLife(page);
+  // A city seat is filed at the city's counter (owner, October 8, 2026).
+  expect(await fileAtCounter(page, office.officeKey)).toBe(true);
   await openElsewhere(page, "campaign");
-  const browser = page.getByTestId("campaign-office-browser");
-  await expect(browser).toBeVisible();
-  await browser.locator(`input[value="${office.officeKey}"]`).check();
-  await expect(page.getByTestId("file-candidacy")).toBeEnabled();
-  await fileCandidacy(page, office.officeKey);
   await expect(page.getByTestId("campaign-donors")).toBeVisible();
   await expect(page.getByTestId("campaign-helpers")).toBeVisible();
   const donorButton = page

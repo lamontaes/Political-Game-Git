@@ -3,7 +3,12 @@ import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../simulation/demo";
 import { recordWorldEvent } from "../simulation/world";
 import { ObserverRunController } from "./observer-run-controller";
-import { ObserverClock, ObserverRecordWorkspace } from "./ObserverWorkspace";
+import {
+  ObserverClock,
+  ObserverPersonStory,
+  ObserverRecordWorkspace,
+} from "./ObserverWorkspace";
+import type { EntityId, IsoDate } from "../simulation/types";
 
 describe("ObserverClock", () => {
   it("leaves the current date on the player card instead of repeating it in the Observing bar", () => {
@@ -66,5 +71,103 @@ describe("ObserverRecordWorkspace legislative results", () => {
     expect(html).toContain("Page 1 of 2");
     expect(html).toContain("1 winner named in this summary");
     expect(html).not.toContain("No election has been decided yet.");
+  });
+});
+
+describe("ObserverPersonStory", () => {
+  it("lists a person's threads by importance with their turns, and their recent moments", () => {
+    const sarah = "person_sarah" as EntityId;
+    const wyatt = "person_wyatt" as EntityId;
+    const html = renderToStaticMarkup(
+      <ObserverPersonStory
+        story={{
+          threads: [
+            {
+              personId: sarah,
+              name: "Sarah McKenzie",
+              tie: "parent",
+              importance: 0.8,
+              since: "1997-05-12" as IsoDate,
+              turns: [
+                {
+                  at: "1997-05-12" as IsoDate,
+                  turn: "started",
+                  importance: 0.8,
+                },
+              ],
+              lastContactOn: null,
+            },
+            {
+              personId: wyatt,
+              name: "Wyatt Murray",
+              tie: null,
+              importance: 0.233333,
+              since: "2001-05-12" as IsoDate,
+              turns: [
+                {
+                  at: "2001-05-12" as IsoDate,
+                  turn: "started",
+                  importance: 0.058333,
+                },
+                {
+                  at: "2026-01-12" as IsoDate,
+                  turn: "renewed",
+                  importance: 0.233333,
+                },
+              ],
+              lastContactOn: "2026-01-12" as IsoDate,
+            },
+            {
+              personId: "person_jacob" as EntityId,
+              name: "Jacob Gomez",
+              tie: "sharedHome",
+              importance: 0.3,
+              since: null,
+              turns: [],
+              lastContactOn: null,
+            },
+          ],
+          moreThreads: 4,
+          moments: [
+            {
+              id: "story-moment_1" as EntityId,
+              at: "2026-01-12" as IsoDate,
+              kind: "reached-out",
+              salience: 0.225,
+              with: ["Audrey McKenzie"],
+            },
+          ],
+        }}
+        personLink={(_, name) => name}
+      />,
+    );
+    expect(html).toContain('data-testid="observer-person-threads"');
+    expect(html).toContain(
+      "Sarah McKenzie: importance 0.80, parent; started May 12, 1997 (0.80)",
+    );
+    expect(html).toContain(
+      "started May 12, 2001 (0.06), renewed January 12, 2026 (0.23); last in touch January 12, 2026",
+    );
+    expect(html).toContain(
+      "Jacob Gomez: importance 0.30, shared home; no moments yet",
+    );
+    expect(html).toContain("4 more");
+    expect(html).toContain('data-testid="observer-person-moments"');
+    expect(html).toContain(
+      "January 12, 2026: reached-out (0.225) with Audrey McKenzie",
+    );
+  });
+
+  it("omits empty story rows and their placeholder sentences", () => {
+    const html = renderToStaticMarkup(
+      <ObserverPersonStory
+        story={{ threads: [], moreThreads: 0, moments: [] }}
+        personLink={(_, name) => name}
+      />,
+    );
+    expect(html).not.toContain("No threads on record.");
+    expect(html).not.toContain("No moments on record.");
+    expect(html).not.toContain('data-testid="observer-person-threads"');
+    expect(html).not.toContain('data-testid="observer-person-moments"');
   });
 });

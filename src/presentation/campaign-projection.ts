@@ -1,3 +1,5 @@
+import { CANVASS_SESSION_MINUTES } from "../simulation/campaign-canvass";
+import { describeInterval } from "./time-target-label";
 import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
 import { electionSpeechWords } from "./election-speech-english";
 import {
@@ -61,6 +63,7 @@ import type {
   DistrictSeatBinding,
   ElectionContestRecord,
   ElectionContestResultRecord,
+  ElectionPrecinctTally,
   ElectiveOfficeOption,
   EntityId,
   IsoDate,
@@ -69,6 +72,10 @@ import type {
   CampaignAsk,
   World,
 } from "../simulation";
+import {
+  electionNightWitnesses,
+  electionReportReactionOf,
+} from "../simulation/speech-reception";
 import { moneyText } from "../simulation/money-text";
 import {
   campaignManagerCandidates,
@@ -84,6 +91,11 @@ import { personPronouns } from "../simulation/person-identity";
 import { municipalSeatChoiceByKey } from "../simulation/municipal-seat-identity";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { stateSeatsInDistrict } from "../simulation/nationwide-world/state-legislature-opening";
+import { stateExecutiveIdentityForOfficeKey } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 
 /**
  * What a candidate can actually see.
@@ -233,6 +245,126 @@ export interface CampaignTallyLine extends CandidateTally {
   readonly displayedSharePercent: string;
 }
 
+export interface ElectionNightReportingBeat {
+  readonly number: number;
+  readonly precinctKeys: readonly string[];
+  readonly ballotsCast: number;
+  readonly tallies: readonly CampaignTallyLine[];
+  readonly runningTallies: readonly CampaignTallyLine[];
+  readonly reactions: readonly {
+    readonly personId: EntityId;
+    readonly reaction: string;
+  }[];
+}
+
+/** Saved precinct returns and the people already recorded in the room. */
+export interface ElectionNightProjection {
+  readonly participants: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly reportingBeats: readonly ElectionNightReportingBeat[];
+}
+
+function electionNightReportingBeats(
+  world: World,
+  personId: EntityId,
+  contestId: EntityId,
+  precinctTallies: readonly ElectionPrecinctTally[] | undefined,
+): readonly ElectionNightReportingBeat[] {
+  if (!precinctTallies?.length) return [];
+  const precincts = [...precinctTallies].sort(
+    (left, right) =>
+      left.ballotsCast - right.ballotsCast ||
+      left.precinctKey.localeCompare(right.precinctKey) ||
+      left.mapId.localeCompare(right.mapId),
+  );
+  const count = Math.min(6, precincts.length);
+  const running = new Map<string, number>();
+  return Array.from({ length: count }, (_, index) => {
+    const first = Math.floor((index * precincts.length) / count);
+    const after = Math.floor(((index + 1) * precincts.length) / count);
+    const batch = precincts.slice(first, after);
+    const previousLeaderMargin =
+      (running.get(personId) ?? 0) -
+      Math.max(
+        0,
+        ...[...running.entries()]
+          .filter(([candidateId]) => candidateId !== personId)
+          .map(([, votes]) => votes),
+      );
+    const batchVotes = new Map<string, number>();
+    for (const precinct of batch)
+      for (const tally of precinct.tallies)
+        batchVotes.set(
+          tally.candidatePersonId,
+          (batchVotes.get(tally.candidatePersonId) ?? 0) + tally.votes,
+        );
+    for (const [candidateId, votes] of batchVotes)
+      running.set(candidateId, (running.get(candidateId) ?? 0) + votes);
+    const batchTotal = [...batchVotes.values()].reduce(
+      (sum, votes) => sum + votes,
+      0,
+    );
+    const runningTotal = [...running.values()].reduce(
+      (sum, votes) => sum + votes,
+      0,
+    );
+    const candidateIds = [...running.keys()].sort();
+    const currentLeaderMargin =
+      (running.get(personId) ?? 0) -
+      Math.max(
+        0,
+        ...[...running.entries()]
+          .filter(([candidateId]) => candidateId !== personId)
+          .map(([, votes]) => votes),
+      );
+    const batchShares = displayedSharePercents(
+      candidateIds.map((candidateId) =>
+        batchTotal === 0 ? 0 : (batchVotes.get(candidateId) ?? 0) / batchTotal,
+      ),
+    );
+    const runningShares = displayedSharePercents(
+      candidateIds.map((candidateId) =>
+        runningTotal === 0 ? 0 : (running.get(candidateId) ?? 0) / runningTotal,
+      ),
+    );
+    const lines = (values: Map<string, number>, shares: readonly string[]) =>
+      candidateIds.map((candidatePersonId, candidateIndex) => ({
+        candidatePersonId: candidatePersonId as EntityId,
+        votes: values.get(candidatePersonId) ?? 0,
+        voteShare:
+          (values.get(candidatePersonId) ?? 0) /
+          (values === batchVotes ? batchTotal || 1 : runningTotal || 1),
+        candidateName: displayName(world, candidatePersonId as EntityId),
+        isThisCandidate: candidatePersonId === personId,
+        displayedSharePercent: shares[candidateIndex]!,
+      }));
+    return {
+      number: index + 1,
+      precinctKeys: batch.map((precinct) => precinct.precinctKey),
+      ballotsCast: batch.reduce(
+        (sum, precinct) => sum + precinct.ballotsCast,
+        0,
+      ),
+      tallies: lines(batchVotes, batchShares),
+      runningTallies: lines(running, runningShares),
+      reactions: electionNightWitnesses(world, personId, contestId).map(
+        (witnessId) => ({
+          personId: witnessId,
+          reaction: electionReportReactionOf(
+            world,
+            `${contestId}:report:${index + 1}`,
+            personId,
+            witnessId,
+            currentLeaderMargin - previousLeaderMargin,
+          ),
+        }),
+      ),
+    };
+  });
+}
+
 /**
  * Rounds shares for display so that what is printed still adds up.
  *
@@ -349,6 +481,7 @@ export interface CampaignView {
   }[];
   readonly sessions: readonly CampaignSessionRecord[];
   readonly reading: CampaignReading | null;
+  readonly electionNight: ElectionNightProjection | null;
   readonly tallies: readonly CampaignTallyLine[];
   /** After the election: what happened, and that life carries on. */
   readonly afterword: string | null;
@@ -429,13 +562,14 @@ function freeSlotToday(
   world: World,
   personId: EntityId,
   kind: CampaignActionKind,
+  minutes: number = SESSION_MINUTES,
 ): { readonly startMinute: number; readonly endMinute: number } | null {
   const preferred = kind === "fundraising" ? 10 * 60 : 14 * 60;
   const startMinute = Math.max(
     world.currentMoment.minuteOfDay + SOONEST_START_OFFSET,
     preferred,
   );
-  const endMinute = startMinute + SESSION_MINUTES;
+  const endMinute = startMinute + minutes;
   if (endMinute > LATEST_SESSION_END) return null;
 
   // Only a commitment that has not finished yet can get in the way, and only
@@ -595,24 +729,27 @@ export function projectCampaign(
     treasury,
     offers:
       state.status === "active" ? offersFor(world, campaign, treasury) : [],
-    donors: campaignAsks(world, campaign.id).map((ask, index, asks) => ({
-      personId: ask.residentId,
-      name: world.people[ask.residentId]
-        ? personName(world.people[ask.residentId]!)
-        : "Unknown",
-      outcome: ask.outcome,
-      amountMinorUnits: ask.amountMinorUnits,
-      reasonBeliefId: ask.reasonBeliefId,
-      reason: campaignAskReason(world, campaign, asks, index),
-    })),
+    donors: campaignAsks(world, campaign.id).flatMap((ask, index, asks) => {
+      const person = world.people[ask.residentId];
+      return person
+        ? [
+            {
+              personId: ask.residentId,
+              name: personName(person),
+              outcome: ask.outcome,
+              amountMinorUnits: ask.amountMinorUnits,
+              reasonBeliefId: ask.reasonBeliefId,
+              reason: campaignAskReason(world, campaign, asks, index),
+            },
+          ]
+        : [];
+    }),
     donorCandidates:
       state.status === "active"
-        ? campaignDonorCandidates(world, campaign.id).map((personId) => ({
-            personId,
-            name: world.people[personId]
-              ? personName(world.people[personId]!)
-              : "Unknown",
-          }))
+        ? campaignDonorCandidates(world, campaign.id).flatMap((personId) => {
+            const person = world.people[personId];
+            return person ? [{ personId, name: personName(person) }] : [];
+          })
         : [],
     managerCandidates:
       state.status === "active"
@@ -649,6 +786,26 @@ export function projectCampaign(
         : [],
     sessions: sessionsFor(world, campaign),
     reading: latestReading(world, campaign),
+    electionNight: result
+      ? {
+          participants: electionNightWitnesses(
+            world,
+            personId,
+            contest.id,
+          ).flatMap((witnessId) => {
+            const witness = world.people[witnessId];
+            return witness
+              ? [{ personId: witnessId, name: personName(witness) }]
+              : [];
+          }),
+          reportingBeats: electionNightReportingBeats(
+            world,
+            personId,
+            contest.id,
+            result.precinctTallies,
+          ),
+        }
+      : null,
     // A speech already given stays on the record; one not given is offered
     // only while it is still election night's to give.
     speech:
@@ -884,6 +1041,7 @@ function notYetFiled(
     sessions: [] as readonly CampaignSessionRecord[],
     reading: null,
     tallies: [] as readonly CampaignTallyLine[],
+    electionNight: null,
     afterword: null,
     speech: null,
   };
@@ -920,6 +1078,10 @@ function offersFor(
   const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
+    // An afternoon on the doors takes the shortest length a real canvass
+    // shift runs; the screen offers no other until its redesign.
+    const minutes =
+      kind === "outreach" ? CANVASS_SESSION_MINUTES[0]! : SESSION_MINUTES;
     const unavailable = jailed
       ? jailed.until === null
         ? "You are serving life imprisonment. Your name stays on the ballot, but you cannot campaign."
@@ -928,7 +1090,8 @@ function offersFor(
         ? "Election day has arrived. There is nothing left to do but wait for the count."
         : kind === "advertising" && treasury.minorUnits <= 0
           ? "There is nothing in the account to spend."
-          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+          : freeSlotToday(world, campaign.candidatePersonId, kind, minutes) ===
+              null
             ? "The rest of today is already spoken for."
             : null;
     return {
@@ -942,7 +1105,9 @@ function offersFor(
       cost:
         kind === "advertising"
           ? `An hour and a half, and ${money(buy)} of what the committee has raised.`
-          : "An hour and a half of a day that has other things in it.",
+          : kind === "outreach"
+            ? `${describeInterval(minutes)} of a day that has other things in it.`
+            : "An hour and a half of a day that has other things in it.",
       unavailable,
       spend,
     };
@@ -1107,20 +1272,20 @@ function latestReading(
  * day where the state's municipal election law puts it there, and otherwise
  * on the short placeholder schedule until the town's calendar is read.
  */
-/** County identity and calendar do not establish qualification or district domicile. */
-export function countyCandidacyUnavailableReason(
+/** A missing county calendar remains unknown for read-only consumers. */
+export function campaignElectionDateIsEstimated(
+  world: World,
   officeKey: string,
-): string | null {
-  const office = localGoverningBodyIdentityForOfficeKey(officeKey);
-  // A county's executive and its row offices carry the disclosed age estimate
-  // and county residence, so they are not refused; a county board seat stays
-  // unavailable until its own requirements are read.
-  return office?.unit.unitType === "county" && office.seat === "governing-body"
-    ? "The requirements for this county office have not been established."
-    : null;
+): boolean {
+  const local = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (local?.unit.unitType === "county") {
+    const read = nextCountyElection(local.unit, world.currentDate);
+    return read.status === "read" && read.dates.estimated;
+  }
+  if (local) return true;
+  return false;
 }
 
-/** A missing county calendar remains unknown for read-only consumers. */
 export function availableCampaignElectionDate(
   world: World,
   jurisdictionId: EntityId,
@@ -1158,15 +1323,23 @@ export function campaignElectionDate(
   if (town) {
     // The state's municipal election law where it fixes the day; otherwise
     // the marked placeholder in town-election-calendar.ts.
-    const placeGeoid = town.unit.placeGeoid;
+    // The same place key the election scheduler uses (`nextTownElectionDay`),
+    // so a town or township without a Census place code still reads its
+    // state's municipal election law, and the race filed for is the one held.
     return (
-      (placeGeoid
-        ? nextTownElection(town.unit.stateUsps, placeGeoid, world.currentDate)
-            ?.electionDate
-        : null) ?? addDays(world.currentDate, FILING_LEAD_DAYS)
+      nextTownElection(
+        town.unit.stateUsps,
+        town.unit.placeGeoid ?? town.unit.publisherId,
+        world.currentDate,
+      )?.electionDate ?? addDays(world.currentDate, FILING_LEAD_DAYS)
     );
   }
   if (!stateKey) return addDays(world.currentDate, 28);
+  const executive = stateExecutiveIdentityForOfficeKey(officeKey);
+  if (executive) {
+    const rule = stateExecutiveTermRule(executive.stateUsps);
+    if (rule) return nextRegularElection(rule, world.currentDate);
+  }
   const pack = stateCandidacyPack(stateKey);
   const matchingSeats =
     pack && districtBinding
@@ -1214,10 +1387,6 @@ export function fileForOffice(
   if (!option) {
     throw new Error("There is no office here the game has read the rules for.");
   }
-  // Refuse new admission before generating opponents or writing a candidate.
-  // Existing recorded campaigns are not changed by this filing preflight.
-  const countyRefusal = countyCandidacyUnavailableReason(option.officeKey);
-  if (countyRefusal) throw new Error(countyRefusal);
   const stableKey = `candidacy:${personId}:${world.currentDate}`;
   const electionDate =
     authoredElectionDate ??
@@ -1266,6 +1435,10 @@ export function spendAnAfternoon(
   world: World,
   personId: EntityId,
   kind: CampaignActionKind,
+  /** How long to give it; an afternoon on the doors takes its shortest length when none is given. */
+  minutes: number = kind === "outreach"
+    ? CANVASS_SESSION_MINUTES[0]!
+    : SESSION_MINUTES,
 ): World {
   const campaign = activeCampaignForCandidate(world, personId);
   if (!campaign) throw new Error("There is no campaign to work on.");
@@ -1276,7 +1449,9 @@ export function spendAnAfternoon(
   if (kind === "advertising" && treasury.minorUnits <= 0) {
     throw new Error("There is nothing in the account to spend.");
   }
-  const slot = freeSlotToday(world, personId, kind);
+  if (kind === "outreach" && !CANVASS_SESSION_MINUTES.includes(minutes))
+    throw new Error("A session on the doors takes one of its offered lengths.");
+  const slot = freeSlotToday(world, personId, kind, minutes);
   if (!slot) {
     throw new Error("The rest of today is already spoken for.");
   }
@@ -1298,6 +1473,8 @@ export interface PlannedCampaignActionInput {
   readonly kind: CampaignActionKind;
   readonly spend: MoneyAmount | null;
   readonly strategy: CampaignActionStrategyRecord;
+  /** How long to give it, for a session with a choice of lengths. */
+  readonly minutes?: number;
 }
 
 /**
@@ -1329,7 +1506,12 @@ export function spendPlannedCampaignAction(
   if (input.kind !== "advertising" && input.spend !== null) {
     throw new Error("This campaign action does not spend committee money.");
   }
-  const slot = freeSlotToday(world, personId, input.kind);
+  const minutes =
+    input.minutes ??
+    (input.kind === "outreach" ? CANVASS_SESSION_MINUTES[0]! : SESSION_MINUTES);
+  if (input.kind === "outreach" && !CANVASS_SESSION_MINUTES.includes(minutes))
+    throw new Error("A session on the doors takes one of its offered lengths.");
+  const slot = freeSlotToday(world, personId, input.kind, minutes);
   if (!slot) {
     throw new Error("The rest of today is already spoken for.");
   }

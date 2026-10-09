@@ -25,6 +25,20 @@ export const VOTES_AND_OUTREACH_DECISIONS: readonly DecisionDeclaration[] = [
     ],
   },
   {
+    // A resident at home when a candidate knocks: come to the door and talk,
+    // or not. Read by the campaign canvass, `campaign-canvass.ts`.
+    id: "campaign.door-answer",
+    scope: "life:ordinary",
+    options: ["talk", "decline"],
+  },
+  {
+    // How a resident takes the candidate after talking at the door: warmer or
+    // cooler. Read by `door-conversations.ts`.
+    id: "campaign.door-conversation",
+    scope: "life:ordinary",
+    options: ["warm", "cool"],
+  },
+  {
     id: "campaign.support-request",
     scope: "life:ordinary",
     options: ["grant", "decline", "defer"],

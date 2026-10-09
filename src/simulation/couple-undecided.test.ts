@@ -2,6 +2,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import type { DecisionContext, World } from "./types";
 import { createDemoWorld } from "./demo";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "./life-places";
 import { recordWorldEvent, assertWorldIntegrityFully } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -9,12 +13,14 @@ import {
   COUPLE_DECLINED_EVENT,
   COUPLE_FORMED_EVENT,
   DATE_KIND,
-  DATES_BEFORE_ASKING,
   coupleAskRefusal,
   coupleBetween,
   dateRefusal,
 } from "./couples";
 import { askToBeTogether } from "../presentation/people-contacts";
+import { createMindProvenance, recordPersonalityTendency } from "./mind";
+import { loadedTraitRegistry } from "./trait-registry";
+import { traitDefinitionFromPack } from "./trait-packs";
 
 function eligibleRequest() {
   let world = createDemoWorld("c8-couple-undecided");
@@ -30,7 +36,7 @@ function eligibleRequest() {
     throw new Error("The fixture requires two eligible recorded adults.");
   // Control is fixture context; people and the dated history remain canonical.
   world = { ...world, control: { kind: "person", personId: pair.personId } };
-  for (let date = 0; date < DATES_BEFORE_ASKING; date++) {
+  for (const date of [0]) {
     world = recordWorldEvent(world, {
       stableKey: `c8:kept-date:${date}`,
       type: "life.date-held",
@@ -81,6 +87,66 @@ function eligibleRequest() {
 }
 afterEach(() => vi.restoreAllMocks());
 describe("an unanswered couple request reaches the actual contact consumer", () => {
+  it("passes the answerer's recorded affection into the actual decision", () => {
+    const fixture = eligibleRequest();
+    const trait = loadedTraitRegistry().traits.get(
+      "personality-v1:facet-affectionate",
+    )!;
+    const definition = traitDefinitionFromPack(trait);
+    const prepared: World = {
+      ...fixture.world,
+      mindCatalog: {
+        ...fixture.world.mindCatalog,
+        tendencies: {
+          ...fixture.world.mindCatalog.tendencies,
+          [definition.id]: definition,
+        },
+        tendencyOrder: fixture.world.mindCatalog.tendencyOrder.includes(
+          definition.id,
+        )
+          ? fixture.world.mindCatalog.tendencyOrder
+          : [...fixture.world.mindCatalog.tendencyOrder, definition.id],
+      },
+    };
+    const world = recordPersonalityTendency(prepared, {
+      stableKey: `c8:affection:${fixture.pair.otherPersonId}`,
+      personId: fixture.pair.otherPersonId,
+      tendencyId: definition.id,
+      recordedAt: prepared.currentDate,
+      expressionKey: trait.poles.high.key,
+      strength: "strong",
+      confidence: "high",
+      scopeTags: ["life:ordinary", "relationship:choice"],
+      provenance: createMindProvenance("authored", {
+        note: "Focused proof of the answerer's recorded affection.",
+      }),
+      supersedesTendencyId: null,
+    });
+    const evaluate = decisions.evaluateDecision;
+    const spy = vi
+      .spyOn(decisions, "evaluateDecision")
+      .mockImplementation((current: World, context: DecisionContext) =>
+        evaluate(current, context),
+      );
+
+    askToBeTogether(world, fixture.pair);
+
+    expect(spy).toHaveBeenCalledWith(
+      world,
+      expect.objectContaining({
+        decisionType: "people.couple-answer",
+        actorPersonId: fixture.pair.otherPersonId,
+        considerations: expect.arrayContaining([
+          expect.objectContaining({
+            sourceType: "mind:personality",
+            optionKey: "accept",
+            explanation: expect.stringContaining("warmth"),
+          }),
+        ]),
+      }),
+    );
+  });
+
   it.each(["undecided", "no-available-option", "selected-null"] as const)(
     "does not record or say no for %s, including reload and repeat",
     (outcome: "undecided" | "no-available-option" | "selected-null") => {
@@ -177,4 +243,39 @@ describe("an unanswered couple request reaches the actual contact consumer", () 
       expect(serializeWorld(reloaded)).toBe(serializeWorld(result.world));
     },
   );
+});
+
+describe("couple eligibility has one shared rule for every jurisdiction", () => {
+  it("does not add a place-specific date-count prerequisite across all 56", () => {
+    const fixture = eligibleRequest();
+    const places = lifePlaceStateIdentities();
+    expect(places).toHaveLength(56);
+
+    for (const place of places) {
+      const atPlace: World = {
+        ...fixture.world,
+        people: {
+          ...fixture.world.people,
+          [fixture.pair.personId]: {
+            ...fixture.world.people[fixture.pair.personId]!,
+            homeJurisdictionId: stateJurisdictionForKey(place.jurisdictionKey)!
+              .id,
+          },
+          [fixture.pair.otherPersonId]: {
+            ...fixture.world.people[fixture.pair.otherPersonId]!,
+            homeJurisdictionId: stateJurisdictionForKey(place.jurisdictionKey)!
+              .id,
+          },
+        },
+      };
+      expect(
+        coupleAskRefusal(
+          atPlace,
+          fixture.pair.personId,
+          fixture.pair.otherPersonId,
+        ),
+        place.jurisdictionKey,
+      ).toBeNull();
+    }
+  });
 });

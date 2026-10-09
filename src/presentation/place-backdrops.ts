@@ -22,6 +22,7 @@ import { backdropUrl } from "./backdrop-urls";
 import { openingWorkLocation } from "./opening-work-location";
 import { townWorkplaceFor } from "../simulation/living-world/town-employment";
 import { WORKPLACE_PLACE } from "../simulation/living-world/work-schedules";
+import { placeForJourneyLocationKey } from "./place-journey-backdrop";
 import type {
   DwellingClassification,
   EntityId,
@@ -407,9 +408,9 @@ const WORK_NAME_PLACE: readonly (readonly [RegExp, string])[] = [
 ];
 
 /**
- * Where the player is on election night: the venue, on the day they gave
- * their victory speech or conceded. The speech event carries the location key.
- * Null on every other day.
+ * Where the player is on election night: the venue on the result day, including
+ * while returns and the speech choice are being shown. The speech event keeps
+ * the same location after it is given.
  */
 export function electionNightLocationKey(
   world: World,
@@ -417,16 +418,26 @@ export function electionNightLocationKey(
 ): string | null {
   const key = `place:${ELECTION_NIGHT_LOCATION_KEY}`;
   const today = world.currentDate;
-  return world.history.events.some(
-    (event) =>
-      event.occurredAt === today &&
-      event.tags.includes(key) &&
-      event.participants.some(
-        (participant) =>
-          participant.personId === personId &&
-          participant.role === "focus:subject",
+  const resultToday = (world.history.electionContestResults ?? []).some(
+    (result) =>
+      result.resolvedAt === today &&
+      (world.history.electionContests ?? []).some(
+        (contest) =>
+          contest.id === result.contestId &&
+          contest.candidatePersonIds.includes(personId),
       ),
-  )
+  );
+  return resultToday ||
+    world.history.events.some(
+      (event) =>
+        event.occurredAt === today &&
+        event.tags.includes(key) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === personId &&
+            participant.role === "focus:subject",
+        ),
+    )
     ? ELECTION_NIGHT_LOCATION_KEY
     : null;
 }
@@ -492,6 +503,8 @@ export function placeForLocationKey(
   if (exact === "home") return homePlaceForPerson(world, personId);
   if (exact) return exact;
   const prefix = locationKey.slice(0, locationKey.indexOf(":"));
+  if (prefix === "journey" || prefix === "journey-to-neighborhood")
+    return placeForJourneyLocationKey(locationKey);
   if (prefix === "work") return workplacePlaceForPerson(world, personId);
   if (prefix === "press-planned")
     return pressInterviewPlace(world, locationKey);
@@ -560,10 +573,11 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   // Election night, and a town hall a school or civic group hosts.
   "campaign-election-night": "election-night-venue",
   "campaign-life:town-hall-school-gym": "school-gym-town-hall",
+  // A filing visit: the counter where the clerk takes declarations.
+  "civic:filing-office": "clerk-counter",
 };
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {
-  journey: "main-street",
   // The day the court sat on the player's own case (`courtroomLocationKey`).
   "court-case": "county-courtroom",
   // The day a protest the player organized or attended was held.

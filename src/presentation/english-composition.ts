@@ -1,4 +1,9 @@
 import { tagEngineText } from "./runtime-text-origin";
+import {
+  heldByGrades,
+  PART_GRADES,
+  type PartGradeLedger,
+} from "./english-grades";
 import type { EntityId } from "../simulation/types";
 import type {
   RelationshipDimension,
@@ -32,7 +37,8 @@ import {
 /**
  * The speech acts every line the simulation produces is labeled with. The list
  * is Lamontae's (English engine brief, September 26, 2026); it grows only
- * through him.
+ * through him. He approved the last seven, for the story director's moves, on
+ * October 8, 2026 (docs/design/story-director.md, answer 2).
  */
 export const SPEECH_ACTS = [
   "greet",
@@ -52,6 +58,13 @@ export const SPEECH_ACTS = [
   "deflect",
   "lie",
   "apologize",
+  "comfort",
+  "blame",
+  "promise",
+  "thank",
+  "confess",
+  "farewell",
+  "recall",
 ] as const;
 
 export type SpeechAct = (typeof SPEECH_ACTS)[number];
@@ -126,6 +139,8 @@ export interface CompositionContext {
    * about them. A disclosure may copy only facts sourced wholly from these.
    */
   readonly speakerOwnRecordIds?: readonly EntityId[];
+  /** The owner's grades; a part they held back is not chosen. */
+  readonly partGrades?: PartGradeLedger;
 }
 
 export interface ComposedPart {
@@ -251,12 +266,36 @@ export function composeGroundedLine(
         reasons.push(`${part}/${variant.key}: ${blocked.join(", ")}`);
       return blocked.length === 0;
     });
-    // Prefer parts this speaker has not used with the player lately; fall
-    // back to the recent ones rather than refuse a line that can be said.
-    const fresh = conditioned.filter(
-      (variant) => !recent.has(`${bankKey}:${part}:${variant.key}`),
+    // Prefer parts the owner has not held back, then parts this speaker has
+    // not used with the player lately. A held or recent part is said only
+    // when nothing else can say the line, because a conversation that
+    // cannot word its reply cannot go on.
+    const unheld = conditioned.filter(
+      (variant) =>
+        !heldByGrades(
+          `${bankKey}:${part}:${variant.key}`,
+          context.partGrades ?? PART_GRADES,
+        ),
     );
-    const attempts = fresh.length > 0 ? [fresh, conditioned] : [conditioned];
+    const isFresh = (variant: LinePartVariant) =>
+      !recent.has(`${bankKey}:${part}:${variant.key}`);
+    const tiers = [
+      unheld.filter(isFresh),
+      unheld,
+      conditioned.filter(isFresh),
+      conditioned,
+    ];
+    const attempts = tiers.filter(
+      (tier, at) =>
+        tier.length > 0 &&
+        !tiers
+          .slice(0, at)
+          .some(
+            (earlier) =>
+              earlier.length === tier.length &&
+              earlier.every((variant) => tier.includes(variant)),
+          ),
+    );
 
     let rendered: ReturnType<typeof renderGroundedEnglish> | null = null;
     let chosen: LinePartVariant | null = null;

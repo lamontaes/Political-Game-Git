@@ -1,6 +1,7 @@
 import matrix from "../../data/research/money/local-tax-authority-matrix.json" with { type: "json" };
+import incomeScope from "../../data/research/money/local-income-tax-scope.json" with { type: "json" };
 import type { TaxPowerEvidence } from "./tax-types";
-import { makeIsoDate } from "./dates";
+import type { IsoDate } from "./types";
 import { governmentUnit } from "./government-units";
 import { municipalGovernmentByKey } from "./municipal-government";
 
@@ -15,11 +16,8 @@ import { municipalGovernmentByKey } from "./municipal-government";
  * Nothing here names a state; the data does.
  */
 
-/** The opening every new game shares; local authority is read as of then. */
-const LOCAL_TAX_BASELINE_AS_OF = makeIsoDate("2026-01-01");
-
 export type LocalTaxInstrument =
-  "property" | "sales" | "payroll" | "corporate-income";
+  "property" | "sales" | "payroll" | "corporate-income" | "wage-income";
 export type LocalTaxLevel = "COUNTY" | "MUNICIPALITY";
 export type LocalTaxAuthorityStatus =
   "allowed" | "piggyback" | "specific" | "prohibited" | "unknown-estimated";
@@ -62,6 +60,7 @@ export const LOCAL_TAX_INSTRUMENT_BY_FAMILY: Readonly<
   sales: "sales",
   payroll: "payroll",
   corporate: "corporate-income",
+  income: "wage-income",
 };
 
 export function localTaxAuthority(input: {
@@ -122,18 +121,30 @@ export function localTaxAuthority(input: {
       : instrument === "sales"
         ? row.sales
         : row.incomePayroll;
+  const incomeRule = incomeScope.rules.find(
+    (rule) => rule.taxType === row.incomePayroll.taxType,
+  );
+  const permittedScope =
+    instrument !== "wage-income" ||
+    Boolean(incomeRule?.levels.some((allowedLevel) => allowedLevel === level));
   return {
     stateUsps,
     level,
     instrument,
-    status: cellFor.status as LocalTaxAuthorityStatus,
-    permits: PERMITTING.has(cellFor.status),
+    status: (permittedScope
+      ? cellFor.status
+      : "prohibited") as LocalTaxAuthorityStatus,
+    permits: permittedScope && PERMITTING.has(cellFor.status),
     estimated: true,
     basis: "matrix-cell",
-    cell: cellFor.cell,
+    cell: permittedScope
+      ? cellFor.cell
+      : `${cellFor.cell}; ${incomeScope.source}; ${row.incomePayroll.taxType}`,
     generalRule,
     taxType:
-      instrument === "payroll" || instrument === "corporate-income"
+      instrument === "payroll" ||
+      instrument === "corporate-income" ||
+      instrument === "wage-income"
         ? row.incomePayroll.taxType
         : null,
   };
@@ -142,6 +153,7 @@ export function localTaxAuthority(input: {
 /** The legal-power evidence a local tax proposal carries: secondary and
  * estimated unless a production record backs it. Same input, same bytes. */
 export function localTaxPowerEvidenceFor(input: {
+  readonly asOf: IsoDate;
   readonly stateUsps: string;
   readonly level: LocalTaxLevel;
   readonly governmentKey: string;
@@ -154,16 +166,12 @@ export function localTaxPowerEvidenceFor(input: {
     level: input.level,
     governmentKey: input.governmentKey,
     instrument: input.instrument,
-    // The rule was researched on the matrix date and is carried back as the
-    // baseline every game opens with (a 2026 opening), like the other acquired
-    // baselines; the research date stays in the citations.
-    asOf: LOCAL_TAX_BASELINE_AS_OF,
+    asOf: input.asOf,
     sourceArtifactId: authority.cell,
     sourceSha256: "",
     sourceUrl: matrix.matrix.path,
     citations: [
       authority.cell,
-      `researched ${matrix.matrix.asOf}, carried back to the game's opening baseline`,
       `status ${authority.status}${authority.estimated ? " (estimated from the 92N matrix)" : ""}`,
       `state general rule: ${authority.generalRule.dillonsRule}, ${authority.generalRule.fiscalHomeRuleScope}`,
     ],

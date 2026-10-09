@@ -50,8 +50,6 @@ import type {
 } from "../simulation";
 import type { ConversationRoomContext } from "./run-b-conversation";
 import { recordedRoomPresence } from "./recorded-room-presence";
-import { shortPersonName } from "./conversation-subjects";
-import { dayOpeningLine } from "./day-opening-english";
 import {
   lapseVenueActivity,
   releaseMissedHolds,
@@ -187,8 +185,6 @@ export interface OrdinaryDay {
   readonly placeName: string | null;
   readonly dateLabel: string;
   readonly timeLabel: string;
-  /** The scene, before anything is listed. */
-  readonly opening: string;
   readonly pending: readonly PendingThing[];
   /** Who is around to talk to, if anyone is. */
   readonly companionPersonId: EntityId | null;
@@ -273,7 +269,6 @@ export function projectOrdinaryDay(
           .status === "completed"
       ),
   );
-  const pendingIds = open.map((entry) => entry.item.id);
   const pending = open.map((entry) => {
     const waitingOnSomeoneElse = entry.state.waitingOnPersonIds.length > 0;
     const daysStanding = daysBetween(
@@ -302,18 +297,6 @@ export function projectOrdinaryDay(
     placeName,
     dateLabel: longDate(world.currentDate),
     timeLabel: clockTime(world.currentMoment.minuteOfDay),
-    // The same name the conversation below uses. Calling one person "Emmanuel"
-    // on one line and "Day" on the next leaves a player unable to tell they
-    // are the same person.
-    opening: dayOpeningLine(world, personId, {
-      placeName,
-      placeJurisdictionId: placeName ? person.homeJurisdictionId : null,
-      waitingIds: pendingIds,
-      housemateName: companion ? shortPersonName(world, companion.id) : null,
-      housemateSourceIds: companion
-        ? [companion.id, ...householdSourceIds(world, personId)]
-        : [],
-    }),
     pending,
     companionPersonId,
     companionName: companion ? personName(companion) : null,
@@ -803,13 +786,6 @@ export function neighborhoodConversationRoom(
  * outcome, and better than putting somebody who moved out decades ago in the
  * next room.
  */
-/** The player's own household records, which put a housemate at home. */
-function householdSourceIds(world: World, personId: EntityId): EntityId[] {
-  return householdMembershipsAt(world, personId, currentLifeCutoff(world)).map(
-    (entry) => entry.membership.id,
-  );
-}
-
 function currentHouseholdCompanions(
   world: World,
   personId: EntityId,

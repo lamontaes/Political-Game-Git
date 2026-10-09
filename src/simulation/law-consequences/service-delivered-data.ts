@@ -1,5 +1,6 @@
 import type { LawConsequenceRow } from "../law-consequence-types";
 import type { EducationContextKind, EducationProgramKind } from "../types";
+import housingFirstService from "../../../data/research/health/housing-first-service.json" with { type: "json" };
 
 export const SERVICE_SELECTOR = "service.completed-activity-participants";
 export const SERVICE_ACTION = "record-delivered-service";
@@ -152,7 +153,8 @@ export interface ServiceRequestForm {
    * against a saved care record naming someone at home who looks after them.
    * `substance-use` services (harm reduction) are asked for from the person's
    * own private health record of a substance use disorder, against hours held
-   * by work.
+   * by work. `housing` services read an eviction-linked loss of primary
+   * occupancy, with no replacement primary home on record.
    */
   readonly need:
     | "travel"
@@ -161,6 +163,7 @@ export interface ServiceRequestForm {
     | "on-call"
     | "child-in-household"
     | "substance-use"
+    | "housing"
     | "clinic";
   /** Recorded-family eligibility and enrollment, supplied only by this row. */
   readonly forChild?: {
@@ -193,6 +196,14 @@ const TRANSIT_TRIP: ServiceRequestForm = {
 export const SERVICE_REQUEST_FORMS: Readonly<
   Record<string, ServiceRequestForm>
 > = {
+  [housingFirstService.questionKey]: {
+    asked: housingFirstService.label,
+    activityTitle: housingFirstService.label,
+    membership: housingFirstService.questionKey,
+    activityKind: "confirmed",
+    need: "housing",
+    visit: housingFirstService.visit,
+  },
   "us-policy-positions:education.universal-preschool": {
     asked: "a pre-K spot",
     activityTitle: "Pre-K at {operator}",

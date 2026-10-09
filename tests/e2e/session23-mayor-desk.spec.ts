@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "./fixtures";
-import { campaignUntilDecided, fileCandidacy } from "./support/campaign";
+import { campaignUntilDecided, fileAtCounter } from "./support/campaign";
 import {
   enterLife,
   openElsewhere,
@@ -62,28 +62,16 @@ test("a new life obeys the recorded mayor filing qualifications", async ({
     timeout: 30_000,
   });
   await enterLife(page);
-  await openElsewhere(page, "campaign");
-  const browser = page.getByTestId("campaign-office-browser");
-  await expect(browser).toBeVisible();
-  await expect(
-    browser.locator(`input[value="${office.officeKey}"]`),
-  ).toBeAttached();
-  await browser.locator(`input[value="${office.officeKey}"]`).check();
-  const filing = page.getByTestId("file-candidacy");
-  if ((await filing.count()) === 0) {
-    const status = page.getByTestId(
-      `campaign-office-status-${office.officeKey}`,
-    );
-    await expect(status).toContainText("Read from RULES at filing time");
+  // The mayor's race is filed at the city's counter (owner, October 8, 2026).
+  if (!(await fileAtCounter(page, office.officeKey))) {
     await testInfo.attach("actual-filing-refusal", {
-      body: await browser.innerText(),
+      body: await page.getByTestId("play-screen").innerText(),
       contentType: "text/plain",
     });
-    console.log("NATURAL ROUTE UNAVAILABLE: " + (await status.innerText()));
+    console.log("NATURAL ROUTE UNAVAILABLE: the counter offers no filing");
     return;
   }
-  await expect(filing).toBeEnabled();
-  await fileCandidacy(page, office.officeKey);
+  await openElsewhere(page, "campaign");
   expect(
     await campaignUntilDecided(page, (target) => passShellTime(target), 45),
   ).toBe(true);

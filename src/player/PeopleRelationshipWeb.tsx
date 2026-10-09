@@ -10,7 +10,6 @@ import {
   type RelationshipEdgeKind,
 } from "../presentation/relationship-web";
 import {
-  CATEGORY_LABELS,
   filterDirectory,
   projectPeopleDirectory,
 } from "../presentation/people-directory";
@@ -72,7 +71,6 @@ export function PeopleRelationshipWeb({
     category === "all" || personId === playerId || categoryIds.has(personId);
 
   const selectedId = web.focusId !== playerId ? web.focusId : null;
-  const selectedNode = selectedId ? nodeById.get(selectedId) : undefined;
   const connection = selectedId
     ? recordedConnection(web, playerId, selectedId)
     : null;
@@ -86,18 +84,6 @@ export function PeopleRelationshipWeb({
     layout.edges.some((edge) => edge.kind === kind),
   );
 
-  let caption = "";
-  if (selectedNode && connection) {
-    caption =
-      connection.edges.length > 0
-        ? `How you know ${selectedNode.name} — ${connection.edges
-            .map((edge) => edge.label)
-            .join("; ")}.`
-        : `No record connects you directly to ${selectedNode.name}. Their lines show the people you know who are connected to them.`;
-  } else if (category !== "all") {
-    caption = `${CATEGORY_LABELS[category]} are shown in full color; everyone else is dimmed.`;
-  }
-
   return (
     <div className="pg-relationship-web-frame">
       <svg
@@ -105,7 +91,6 @@ export function PeopleRelationshipWeb({
         viewBox={`0 0 ${layout.width} ${layout.height}`}
         role="group"
         aria-label="Relationship web"
-        aria-describedby="people-web-connection"
         data-testid="people-relationship-web"
         data-selected={selectedId ?? ""}
       >
@@ -167,35 +152,21 @@ export function PeopleRelationshipWeb({
           />
         ))}
       </svg>
-      <p
-        className="pg-relationship-web-caption"
-        id="people-web-connection"
-        data-testid="people-web-connection"
-        aria-live="polite"
-      >
-        {caption}
-      </p>
       {layout.hiddenCount > 0 ? (
-        <p className="game-note" data-testid="people-web-hidden">
-          {layout.hiddenCount === 1
-            ? "1 more person does not fit in the web."
-            : `${layout.hiddenCount} more people do not fit in the web.`}{" "}
-          {onShowList ? (
-            <button
-              type="button"
-              className="ui-action ui-action--subtle"
-              data-testid="people-web-show-list"
-              onClick={onShowList}
-            >
-              See everyone in the list
-            </button>
-          ) : null}
-        </p>
+        onShowList ? (
+          <button
+            type="button"
+            className="ui-action ui-action--subtle"
+            data-testid="people-web-show-list"
+            onClick={onShowList}
+          >
+            See everyone in the list
+          </button>
+        ) : null
       ) : null}
       {kindsShown.length > 0 ? (
         <ul
           className="pg-relationship-web-legend"
-          aria-label="What the lines mean"
           data-testid="people-web-legend"
         >
           {kindsShown.map((kind) => (

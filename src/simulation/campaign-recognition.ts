@@ -6,20 +6,25 @@ import { ageOnDate } from "./dates";
 import { eventById } from "./event-index";
 import { householdMembershipsAt } from "./life-queries";
 import { recordsByKey } from "./history-index";
+import { townAdultEstimate } from "./living-world/town-residents";
 import type { CampaignRecord, EntityId, World } from "./types";
 
-/** Recognition is the share of recorded adult residents actually met.
- * The campaign.contact records and their dated events supply the people;
- * neither finished afternoons nor prior wins invent additional contacts.
- * This measures the recorded resident cohort, not unrecorded population.
+/** Recognition is the share of the race's adults actually met.
+ * The campaign.contact records and their dated events supply the written-out
+ * people met; a campaign's door results supply the story-only residents it
+ * met (`story-people.ts`). Neither finished afternoons nor prior wins invent
+ * additional contacts. In a town the adults are the town's estimated adults,
+ * written out or not; elsewhere, the recorded adult residents.
  */
 export const CAMPAIGN_RECOGNITION_PROFILE =
-  "recorded-campaign-contact-share/v1";
+  "campaign-contact-share-of-adults/v2";
 
 export interface DoorReturn {
   /** The share of the ordinary return this candidate gets, in percent. */
   readonly percent: number;
   readonly adultResidentIds: readonly EntityId[];
+  /** The adults the race reaches: the town's estimate, or the recorded ones. */
+  readonly electorate: number;
   readonly recognizedPersonIds: readonly EntityId[];
   readonly contactRecordIds: readonly EntityId[];
   readonly afternoonsBefore: number;
@@ -116,10 +121,33 @@ export function doorKnockingReturn(
     recognized.add(other);
     contactRecordIds.push(contact.id);
   }
+  // Story-only residents the campaign met at the door, from its results.
+  const actions = new Set(
+    campaignActions(world, campaign.id)
+      .filter((action) => action.id !== excludingActionId)
+      .map((action) => action.id),
+  );
+  for (const result of campaignActionResultRecords(world)) {
+    if (
+      !actions.has(result.campaignActionId) ||
+      result.completedAt > world.currentDate
+    )
+      continue;
+    for (const personId of result.canvass?.storyPersonIds ?? [])
+      if (!world.people[personId]) recognized.add(personId);
+  }
+  const kind: string | undefined =
+    world.jurisdictions[campaign.jurisdictionId]?.kind;
+  const electorate = Math.max(
+    residents.size,
+    kind === "census-place" || kind === "territory-place"
+      ? townAdultEstimate(campaign.jurisdictionId)
+      : 0,
+  );
   return {
-    percent:
-      residents.size === 0 ? 0 : (100 * recognized.size) / residents.size,
+    percent: electorate === 0 ? 0 : (100 * recognized.size) / electorate,
     adultResidentIds,
+    electorate,
     recognizedPersonIds: [...recognized],
     contactRecordIds,
     afternoonsBefore,

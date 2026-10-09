@@ -32,7 +32,11 @@ import type { JudiciaryState } from "./judiciary/types";
 import type { MinorityProcedureMotion } from "./legislature-rules";
 
 import type { AppearanceMaterial } from "./appearance-material";
-import type { MediaOutletKey, PressRecord } from "./press/records";
+import type {
+  EditorialStandard,
+  MediaOutletKey,
+  PressRecord,
+} from "./press/records";
 import type {
   NationalElection,
   NationalElectionRecord,
@@ -101,6 +105,9 @@ export interface SimulationMoment {
 
 export type EntityKind =
   | "childhood-entry"
+  | "story-moment"
+  | "story-intake"
+  | "story-thread-state"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
   | "judicial-retention-contest"
@@ -112,6 +119,7 @@ export type EntityKind =
   | "crisis-record"
   | "constitutional-rule-version"
   | "legislative-proposal"
+  | "place-outcome-landing"
   | "rule-change-provision"
   | "rule-change-consequence-binding"
   | "tax-proposal"
@@ -720,6 +728,21 @@ export interface EventLocation {
   readonly setting: string | null;
 }
 
+export interface CampaignGuidanceRuleRecord {
+  readonly kind: "known" | "unknown" | "not-applicable";
+  readonly value?: number | string;
+  readonly citation?: string | null;
+  readonly sourceUrl?: string | null;
+}
+
+export interface CampaignGuidanceOfficeRecord {
+  readonly officeKey: string;
+  readonly officeName: string;
+  readonly minimumAge?: CampaignGuidanceRuleRecord;
+  readonly residency?: CampaignGuidanceRuleRecord;
+  readonly filing?: CampaignGuidanceRuleRecord;
+}
+
 export interface EventContext {
   readonly location: EventLocation | null;
   readonly socialContext: string | null;
@@ -727,6 +750,7 @@ export interface EventContext {
   readonly choice: string | null;
   readonly motivation: string | null;
   readonly immediateReaction: string | null;
+  readonly campaignGuidanceAnswer?: string;
 }
 
 export interface HistoricalEvent extends LawEffectStampedRecord {
@@ -936,6 +960,7 @@ export interface PropositionExposureRecord {
 
 /** How an enacted law reached a person (spec 5, "Exposure"). */
 export type LawExposureChannel =
+  | "environmental-condition"
   | "paycheck"
   | "tax-payment"
   | "benefit"
@@ -990,6 +1015,8 @@ export interface LawExposureRecord {
    * for a news exposure, the reader's knowledge of the story.
    */
   readonly sourceRecordId: EntityId;
+  /** A source label for amounts estimated from population-level evidence. */
+  readonly estimatedFrom?: string;
   /** For a news exposure: the story it came from, record by record. */
   readonly news?: LawExposureNewsProvenance;
 }
@@ -1208,7 +1235,8 @@ export type MindSourceReference =
   | {
       readonly kind: "life-history";
       readonly reference: LifeHistoryRecordReference;
-    };
+    }
+  | { readonly kind: "place-outcome"; readonly outcomeRecordId: EntityId };
 
 export interface MindRecordProvenance {
   readonly kind: MindRecordProvenanceKind;
@@ -3366,6 +3394,8 @@ export interface LoanTermsRecord {
   readonly rateBasis: "written" | "capped";
   /** The measure whose cap applied, when `rateBasis` is "capped". */
   readonly rateCapMeasureId: EntityId | null;
+  /** Recorded contract/offer rate before the cap; never a modeled market rate. */
+  readonly rateBeforeCapBasisPoints?: number;
   readonly repayment: LoanRepayment;
   /** Null: this loan's contract states no late fee. */
   readonly lateFee: MoneyAmount | null;
@@ -3636,6 +3666,8 @@ export interface DecisionConsideration {
   readonly direction: DecisionDirection;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  /** Optional continuous weight in [0, 1], used when evidence has graded strength. */
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -3677,6 +3709,12 @@ export interface DecisionContext {
   readonly perceptionIds: readonly EntityId[];
   readonly randomness: DecisionRandomnessPolicy;
   readonly retention: DecisionTraceRetention;
+  /**
+   * Whether the general trait system adds its reasons to this decision: `"on"`
+   * when left out. Only a test or fixture about something other than
+   * personality passes `"off"`. See `traits/act-pulls.ts`.
+   */
+  readonly traitActs?: "on" | "off";
 }
 
 export type DecisionPreference =
@@ -3850,6 +3888,14 @@ export interface CandidateTally {
   readonly voteShare: number;
 }
 
+export interface ElectionPrecinctTally {
+  readonly townId: EntityId;
+  readonly precinctKey: string;
+  readonly mapId: EntityId;
+  readonly ballotsCast: number;
+  readonly tallies: readonly CandidateTally[];
+}
+
 export interface ElectionContestResultRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -3858,6 +3904,8 @@ export interface ElectionContestResultRecord {
   readonly resolvedAt: IsoDate;
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
+  /** Present when every recorded ballot has saved precinct membership. */
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly outcomeEventId: EntityId;
   readonly provenance: ElectionContestProvenance;
 }
@@ -3877,6 +3925,7 @@ export interface ResolveElectionContestInput {
   readonly resolvedAt?: string;
   readonly winnerPersonId?: EntityId;
   readonly tallies?: readonly CandidateTally[];
+  readonly precinctTallies?: readonly ElectionPrecinctTally[];
   readonly provenance?: ElectionContestProvenance;
 }
 
@@ -4012,6 +4061,36 @@ export interface CampaignActionResultRecord {
   readonly observationId: EntityId;
   readonly feedbackEventId: EntityId;
   readonly feedbackKnowledgeId: EntityId;
+  /**
+   * An outreach session's doors: every household knocked on, in order, and
+   * the residents who were home to answer. Absent for other kinds of work.
+   */
+  readonly canvass?: {
+    /** The written-out households knocked on. */
+    readonly householdIds: readonly EntityId[];
+    /** Written-out residents who came to the door. */
+    readonly metPersonIds: readonly EntityId[];
+    /** Every door knocked on; absent from results saved before doors had keys. */
+    readonly doorKeys?: readonly string[];
+    /** Story-only residents who came to the door (`story-people.ts`). */
+    readonly storyPersonIds?: readonly EntityId[];
+    /** What each resident met raised, and how they took the candidate. */
+    readonly conversations?: readonly CampaignDoorConversation[];
+  };
+}
+
+/** One conversation at the door, kept as its result (`door-conversations.ts`). */
+export interface CampaignDoorConversation {
+  readonly personId: EntityId;
+  /** The problem they raised, where their state ranks below the middle. */
+  readonly subject: {
+    readonly linkKey: string;
+    readonly measure: string;
+    readonly gap: number;
+  } | null;
+  readonly response: "warm" | "cool" | "heard";
+  /** Whether a major party was on record for them. */
+  readonly partisan: boolean;
 }
 
 /**
@@ -4036,6 +4115,10 @@ export interface CampaignComplianceDocumentRecord {
     | "60-day-preelection"
     | "30-day-preelection"
     | "15-day-preelection"
+    | "quarterly"
+    | "pre-election"
+    | "post-election"
+    | "year-end"
     | "30-day-postelection"
     | "correction";
   readonly periodStart: IsoDate | null;
@@ -4043,7 +4126,7 @@ export interface CampaignComplianceDocumentRecord {
   readonly dueOn: IsoDate;
   readonly status: "draft" | "filed";
   readonly visibility: "committee-private" | "public-record";
-  readonly transport: "KEFMS" | null;
+  readonly transport: "FEC" | "KEFMS" | null;
   readonly filedAt: IsoDate | null;
   readonly amendsDocumentId: EntityId | null;
   readonly correctionReason: string | null;
@@ -4342,6 +4425,7 @@ export type PersonnelJustCauseGround =
   | "serious-policy-violation";
 
 interface PersonnelRecordBase {
+  readonly estimatedFrom?: string | null;
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
@@ -4494,20 +4578,29 @@ export interface LawPermissionRecord extends LawEffectStampedRecord {
 }
 
 /** Append-only attribution of a sentence already written by the court. */
-export interface LegalOutcomeConsequenceRecord {
+interface LegalOutcomeConsequenceRecordBase {
   readonly id: EntityId;
   readonly stableKey: string;
   readonly sequence: number;
   readonly recordedAt: IsoDate;
-  readonly sentenceEventId: EntityId;
   readonly subjectPersonId: EntityId;
   readonly jurisdictionId: EntityId;
   readonly appliedAt: IsoDate;
-  readonly effectKind: "minimum-custody-months";
-  readonly minimumMonths: number;
   readonly sourceRecordIds: readonly EntityId[];
   readonly lawEffectStamps: readonly [LawEffectStamp];
 }
+
+export type LegalOutcomeConsequenceRecord =
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "minimum-custody-months";
+      readonly sentenceEventId: EntityId;
+      readonly minimumMonths: number;
+    })
+  | (LegalOutcomeConsequenceRecordBase & {
+      readonly effectKind: "juvenile-jurisdiction-ceiling";
+      readonly caseStageEventId: EntityId;
+      readonly juvenileCourtAgeCeiling: number;
+    });
 
 /**
  * One dated entry in a person's childhood record (`childhood-record.ts`).
@@ -4587,9 +4680,151 @@ export interface CampaignPurchaseRecord {
   readonly flowId: EntityId;
 }
 
+/**
+ * A record that changed something in one person's life, scored once by the
+ * story director when it was written (docs/design/story-director.md, part 1).
+ * Developer data: nothing here is shown to a player as written.
+ */
+export interface StoryMomentRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly personId: EntityId;
+  /** The date of the change, which can be before the record was written. */
+  readonly occurredAt: IsoDate;
+  readonly kindKey: string;
+  /** The other people the moment is with, when the record names them. */
+  readonly counterpartPersonIds: readonly EntityId[];
+  readonly sourceStore: string;
+  readonly sourceRecordId: EntityId;
+  /** Greater than 0 and at most 1. Moments that score 0 are not written. */
+  readonly salience: number;
+  readonly factors: {
+    readonly kind: number;
+    readonly closeness: number;
+    readonly first: number;
+    readonly traits: number;
+    readonly stakes: number;
+  };
+  /** The scale row the kind factor came from. */
+  readonly weight: {
+    readonly source: string;
+    readonly row: string;
+    readonly value: number;
+  };
+}
+
+/**
+ * A town resident named in the story without being written out: a husk
+ * (owner direction, October 8, 2026). See `story-people.ts`.
+ */
+export interface StoryPersonRecord {
+  /** The person id they keep if they are written out. */
+  readonly id: EntityId;
+  /** The roster key they are written out under. */
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** The day they were first named in a record. */
+  readonly namedAt: IsoDate;
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly birthDate: IsoDate;
+  readonly identity: PersonIdentity | null;
+  readonly origin: {
+    readonly kind: "town-roster";
+    readonly town: EntityId;
+    readonly household: number;
+    readonly member: number;
+  };
+  /** The record that first named them. */
+  readonly sourceStore: string;
+  readonly sourceRecordId: EntityId;
+  /** Where the player met them: the place, the setting's key and the day. */
+  readonly whereMet: {
+    readonly jurisdictionId: EntityId;
+    readonly setting: string;
+    readonly on: IsoDate;
+  };
+  /**
+   * What they said, as speech acts from the English engine's list with the
+   * record key each is about; the engine words them, nothing here is prose.
+   */
+  readonly lines: readonly {
+    readonly act: string;
+    readonly about: string | null;
+  }[];
+}
+
+/** How far the story director has read the history: the next intake starts at `throughSequence`. */
+export interface StoryIntakeMark {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly fromSequence: number;
+  readonly throughSequence: number;
+}
+
+/** How a thread changed (story director, part 2). */
+export type StoryThreadTurn =
+  "started" | "grew" | "soured" | "turned" | "faded" | "renewed" | "closed";
+
+/** A relationship line as a thread reads it: band 0 to 3, negative when adverse. */
+export interface StoryThreadLines {
+  readonly warmth: number;
+  readonly trust: number;
+  readonly respect: number;
+  readonly commitment: number;
+  readonly tension: number;
+}
+
+/**
+ * One change in one person's thread to another: written on a day a moment
+ * touches the pair, or when the pair's fade check comes due. Read the latest
+ * row of a pair for where the thread stands.
+ */
+export interface StoryThreadStateRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** Whose thread this is. */
+  readonly personId: EntityId;
+  /** The person the thread is to. */
+  readonly otherPersonId: EntityId;
+  /** When the change happened: the moment's date, or the fade check's. */
+  readonly occurredAt: IsoDate;
+  readonly recordedAt: IsoDate;
+  readonly turn: StoryThreadTurn;
+  /** The moment that caused the change, or null for a renewal by contact or a fade check. */
+  readonly momentId: EntityId | null;
+  /** The record behind the change: the moment's source, the contact, or the fade check. */
+  readonly sourceRecordId: EntityId;
+  /** The standing tie plus the moments, discounted by fading, as read on `recordedAt`. */
+  readonly importance: number;
+  /** The sum of the pair's moment salience so far, undiscounted. */
+  readonly momentSum: number;
+  /** The standing tie for kin and a shared home. */
+  readonly tie: number;
+  /** The absence reader's fading, 0 to 1, as read on `recordedAt`. */
+  readonly fading: number;
+  /** The absence reader's currency, or null with no contact on record. */
+  readonly currency:
+    "current" | "less-current" | "dormant" | "reconnecting" | null;
+  readonly lastContactOn: IsoDate | null;
+  readonly lines: StoryThreadLines;
+}
+
 export interface HistoryStore {
   /** Childhood entries, one record per person, read with `childhoodRecord`. */
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
+  /** Scored moments of people's lives, read with `storyMomentsOf`. */
+  readonly storyMoments?: readonly StoryMomentRecord[];
+  /** Town residents named in the story but not written out, read with `storyPeople`. */
+  readonly storyPeople?: readonly StoryPersonRecord[];
+  /** The story director's reading positions, one per intake that read anything. */
+  readonly storyIntakeMarks?: readonly StoryIntakeMark[];
+  /** Changes in people's threads to one another, read with `storyThreadStatesOf`. */
+  readonly storyThreadStates?: readonly StoryThreadStateRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
   readonly permitStatuses?: readonly PermitStatusRecord[];
   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
@@ -5294,11 +5529,18 @@ export interface OfficeWorkflowPreferenceRecord {
    */
   readonly votingMode: OfficeVotingWorkflowMode | null;
   readonly caseworkMode: OfficeCaseworkWorkflowMode;
+  /** Optional per-case policy for a person holding a judicial seat. */
+  readonly judicialCaseworkModes?: Partial<
+    Record<JudicialCaseKind, JudicialCaseworkMode>
+  >;
   /** Absent on older saves; readers treat it as `what-matters`. */
   readonly meetingDepth?: OfficeMeetingDepth;
   readonly recordedAt: IsoDate;
   readonly supersedesPreferenceId: EntityId | null;
 }
+
+export type JudicialCaseKind = "criminal" | "civil" | "law-review";
+export type JudicialCaseworkMode = "player-handles" | "decide-as-usual";
 
 export type OfficeVoteInstructionDisposition =
   "yea" | "nay" | "present-not-voting";
@@ -5878,11 +6120,19 @@ export interface SetupPriorStore {
 }
 
 export type SaveMode = "free" | "one-save";
+export type NotesVisibility = "full" | "light" | "none";
 export type PersonalLifeDepiction = "full" | "softened" | "summary-only";
+export type ChallengeIntensity = "quiet" | "standard" | "relentless";
 
 /** Player-facing choices kept on the World; absent legacy data means defaults. */
 export interface PlaySettings {
   readonly saves: SaveMode;
+  /** Reorders eligible life situations without changing events or outcomes. */
+  readonly challengeIntensity: ChallengeIntensity;
+  /** Controls when player-known reminders appear on person cards. */
+  readonly notesVisibility: NotesVisibility;
+  /** New-game-only outlet standard, copied to outlets when they are founded. */
+  readonly pressPremise: EditorialStandard;
   /** Changes how recorded personal-life events are worded, never world facts. */
   readonly personalLifeDepiction: PersonalLifeDepiction;
 }

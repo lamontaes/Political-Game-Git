@@ -8,8 +8,6 @@ export const facetTenderHeartedEffects: readonly TraitEffectDeclaration[] = [
         option: "counter",
         trait: "personality-v1:facet-tender-hearted",
         pole: "high",
-        explanation:
-          "Their concern for hurt feelings draws them toward a kinder answer.",
       },
     ],
   },

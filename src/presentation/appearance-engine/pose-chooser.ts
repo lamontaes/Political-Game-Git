@@ -1,4 +1,6 @@
+import poseData from "../../../data/content/pose-by-activity.json" with { type: "json" };
 import { stableHash } from "../../simulation/ids";
+import type { FaceExpression } from "./pack";
 import {
   presentationPose,
   type BodyPose,
@@ -9,10 +11,13 @@ import {
 /**
  * WHAT A PERSON IS DOING IN THE SCENE, AND THE POSE THAT SHOWS IT.
  *
- * The scene says what each person present is doing; this picks the pose the
- * people engine draws them in. The same person doing the same thing is
- * always drawn the same way: every choice between two poses is drawn from
- * the person's own seed, never from the clock or the room.
+ * The scene says what each person present is doing, the kind of spot they
+ * are in, and (when the scene has it) what their face shows; this picks the
+ * pose the people engine draws them in. Which poses fit which activity and
+ * spot is data, not code (data/content/pose-by-activity.json): every list
+ * there is weighted, and the same person in the same situation is always
+ * drawn the same way, because every choice between poses is drawn from the
+ * person's own seed, never from the clock or the room.
  */
 export type SceneActivity =
   /** Talking, or answering, in a conversation. */
@@ -27,13 +32,29 @@ export type SceneActivity =
   | "desk"
   /** At a meeting table with others. */
   | "meeting"
+  /** Meeting someone: at a door, a reception, a welcome. */
+  | "greeting"
+  /** One of a crowd: an audience, a rally. */
+  | "crowd"
+  /** One of a crowd facing away from the camera, toward a speaker. */
+  | "audience"
+  /** Going somewhere: a street, a corridor, a path. */
+  | "transit"
   /** Nothing in particular. */
   | "idle";
+
+/** The kind of spot a person is in (SCENE_SLOT_KINDS). */
+export type PoseSpot = "stand" | "sit" | "podium" | "lean";
 
 export interface PoseChoice {
   readonly activity: SceneActivity;
   /** Whether the place has them in a seat. */
   readonly seated: boolean;
+  /**
+   * The kind of spot, when it is more than standing or sitting (a podium, a
+   * place to lean); absent means sit when seated and stand otherwise.
+   */
+  readonly spot?: PoseSpot;
   /** The person's appearance seed (or their id). */
   readonly seed: string;
   /**
@@ -44,7 +65,31 @@ export interface PoseChoice {
   readonly guarded?: number;
   /** Their presentation, whose own poses are the only ones chosen. */
   readonly presentation?: BodyPresentation;
+  /** The view they are drawn in (chooseBodyView); front when absent. */
+  readonly view?: BodyView;
+  /** What their face shows in the scene, when it shows anything. */
+  readonly expression?: FaceExpression;
 }
+
+interface PoseEntry {
+  readonly pose: BodyPose;
+  readonly weight?: number;
+}
+type PoseLists = Partial<
+  Readonly<Record<BodyView, Partial<Readonly<Record<PoseSpot, PoseEntry[]>>>>>
+>;
+const ACTIVITIES = poseData.activities as unknown as Readonly<
+  Partial<Record<SceneActivity, PoseLists>>
+>;
+const STANCE = poseData.stance as Readonly<
+  Partial<Record<BodyPose, "guarded" | "open">>
+>;
+const BY_EXPRESSION = poseData.byExpression as unknown as Readonly<
+  Partial<Record<FaceExpression, readonly BodyPose[]>>
+> & { readonly share: number };
+
+/** How far each step of `guarded` (-2..2) moves a pose's weight. */
+const GUARDED_STEP = 0.3;
 
 function draw(seed: string, question: string): number {
   return (
@@ -53,31 +98,44 @@ function draw(seed: string, question: string): number {
   );
 }
 
-/** Of two poses, the seed's; `lean` shifts the odds toward the first. */
-function either(
+/**
+ * One entry of a weighted list, by the seed's draw. A guarded person weighs
+ * the guarded poses (arms folded, a stern look) up and the open ones down,
+ * and an open person the other way: `guarded` -2..2 moves each by up to 60%.
+ */
+function pick(
   seed: string,
   question: string,
-  first: BodyPose,
-  second: BodyPose,
-  lean = 0,
+  entries: readonly PoseEntry[],
+  guarded: number,
 ): BodyPose {
-  const odds = Math.min(0.9, Math.max(0.1, 0.5 + lean));
-  return draw(seed, question) < odds ? first : second;
+  const weights = entries.map((entry) => {
+    const stance = STANCE[entry.pose];
+    const lean = stance === "guarded" ? 1 : stance === "open" ? -1 : 0;
+    return Math.max(
+      0.1,
+      (entry.weight ?? 1) * (1 + GUARDED_STEP * guarded * lean),
+    );
+  });
+  let at = draw(seed, question) * weights.reduce((sum, w) => sum + w, 0);
+  for (const [i, entry] of entries.entries()) {
+    at -= weights[i]!;
+    if (at < 0) return entry.pose;
+  }
+  return entries[entries.length - 1]!.pose;
 }
 
 /**
  * The pose for a person doing something. A seated person stays seated: the
  * scene gave them a chair, and only the seated poses fit one.
  *
- * - speaking: explaining, or leaning in from a chair
- * - listening: arms folded or a hand on the hip (a guarded person folds their
- *   arms more), or in a chair with hands folded or leaning in to listen
- * - waiting: standing the same way, or in a chair with legs crossed or on
- *   the phone
- * - speech: at the podium (from a chair, leaning in)
- * - desk: writing or reading; meeting: hands folded or leaning in; standing
- *   when there is no chair
- * - idle: standing, or seated plainly or leaning back
+ * Which poses each activity, view and spot allows is in
+ * data/content/pose-by-activity.json, weighted. A standing person whose face
+ * shows anger, sadness, worry, doubt, surprise or laughter may also stand the
+ * way it reads (byExpression): those poses join the same weighted list, an
+ * open person carrying the feeling in their stance more and a guarded one
+ * less; a speech from a podium stays at the podium. The pose is then the
+ * person's presentation's own (presentationPose).
  */
 export function chooseBodyPose(choice: PoseChoice): BodyPose {
   const pose = choosePose(choice);
@@ -88,62 +146,61 @@ export function chooseBodyPose(choice: PoseChoice): BodyPose {
 
 function choosePose(choice: PoseChoice): BodyPose {
   const { activity, seated, seed } = choice;
-  // ESTIMATED FROM THE RECORDED SCALE: five guardedness values are spaced by
-  // 0.15, mapping -2..2 smoothly to 20%..80% while retaining both poses.
-  const guarded = (choice.guarded ?? 0) * 0.15;
-  switch (activity) {
-    case "speaking":
-      return seated ? "seated-leaning" : "explaining";
-    case "speech":
-      return seated ? "seated-leaning" : "podium";
-    case "listening":
-      // A guarded listener keeps their hands folded; an open one leans in.
-      return seated
-        ? either(
-            seed,
-            "pose:listening:seated",
-            "seated-hands-folded",
-            "seated-listening",
-            guarded,
-          )
-        : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
-    case "waiting":
-      return seated
-        ? either(
-            seed,
-            "pose:waiting:seated",
-            "seated-legs-crossed",
-            "seated-phone",
-            guarded,
-          )
-        : either(seed, "pose:listening", "arms-folded", "hand-on-hip", guarded);
-    case "desk":
-      return seated
-        ? either(seed, "pose:desk", "seated-writing", "seated-reading")
-        : "standing";
-    case "meeting":
-      return seated
-        ? either(
-            seed,
-            "pose:table",
-            "seated-hands-folded",
-            "seated-leaning",
-            guarded,
-          )
-        : "standing";
-    case "idle":
-      return seated
-        ? either(seed, "pose:idle:seated", "seated", "seated-relaxed")
-        : "standing";
-  }
+  const view = choice.view ?? "front";
+  const spot: PoseSpot = choice.spot ?? (seated ? "sit" : "stand");
+  const guarded = choice.guarded ?? 0;
+  const standing = spot === "stand" || spot === "lean";
+  const lists = ACTIVITIES[activity];
+  const entries: readonly PoseEntry[] =
+    lists?.[view]?.[spot] ??
+    lists?.front?.[spot] ??
+    ([{ pose: seated ? "seated" : "standing" }] as const);
+  const reaction = choice.expression && BY_EXPRESSION[choice.expression];
+  const reacts =
+    reaction &&
+    reaction.length > 0 &&
+    standing &&
+    view !== "back" &&
+    activity !== "speech";
+  return pick(
+    seed,
+    `pose:${activity}:${spot}:${view}`,
+    reacts
+      ? [...entries, ...reactionEntries(entries, reaction, guarded)]
+      : entries,
+    guarded,
+  );
+}
+
+/**
+ * The poses a feeling reads in, as entries beside the activity's own. For a
+ * person neither open nor guarded they carry `share` of the list's weight
+ * (the data's "how many carry it in the pose"); an open person carries it
+ * more and a guarded one less, by the same 30% per step as the stances.
+ */
+function reactionEntries(
+  entries: readonly PoseEntry[],
+  reaction: readonly BodyPose[],
+  guarded: number,
+): PoseEntry[] {
+  const own = entries.reduce((sum, entry) => sum + (entry.weight ?? 1), 0);
+  const share = BY_EXPRESSION.share;
+  const total = ((own * share) / (1 - share)) * (1 - GUARDED_STEP * guarded);
+  return reaction.map((pose) => ({ pose, weight: total / reaction.length }));
 }
 
 /**
  * Which way a person turns for what they are doing: someone listening turns
- * three quarters toward the one speaking; everyone else faces front, the one
- * speaking included, since they answer the player, who is the camera.
+ * three quarters toward the one speaking, and someone at a spot facing away
+ * from the camera (an audience facing a speaker, a crowd at a rally) is seen
+ * from behind; everyone else faces front, the one speaking included, since
+ * they answer the player, who is the camera.
  */
-export function chooseBodyView(activity: SceneActivity): BodyView {
+export function chooseBodyView(
+  activity: SceneActivity,
+  facing?: "viewer" | "left" | "right" | "away",
+): BodyView {
+  if (facing === "away") return "back";
   return activity === "listening" ? "three-quarter" : "front";
 }
 
@@ -151,12 +208,21 @@ export function chooseBodyView(activity: SceneActivity): BodyView {
 const PODIUM = /\b(lectern|podium|rostrum|dais)\b/;
 /** Anchor types that are a seat at a desk, a table or a meeting. */
 const TABLE = /\b(desk|table|meeting|conference|bench|counter)\b/;
+/** Anchor types where people meet one another. */
+const GREETING = /\b(doorway|entrance|reception|lobby|foyer|greeter|welcome)\b/;
+/** Anchor types that hold a crowd. */
+const CROWD = /\b(audience|crowd|rally|gallery|bleachers?|pews?|stands)\b/;
+/** Anchor types people pass along. */
+const TRANSIT = /\b(street|sidewalk|crosswalk|corridor|hallway|path|walkway)\b/;
 
 /**
  * What a person is doing in a scene, from the conversation and the place
  * they are in: the one who is answering speaks and the others listen; a
- * lectern means a speech; a chair at a desk or table means working there.
- * An anchor's type is split on hyphens and underscores before it is read.
+ * lectern means a speech; a chair at a desk or table means working there; a
+ * door or reception means greeting, a crowd's place means being one of the
+ * crowd (and, facing away, the audience), and a street or corridor means
+ * passing through. An anchor's type is split on hyphens and underscores
+ * before it is read.
  */
 export function sceneActivity(input: {
   readonly personId: string;
@@ -165,6 +231,8 @@ export function sceneActivity(input: {
   /** The anchor's type, as the scene registry names it. */
   readonly anchorType: string;
   readonly seated: boolean;
+  /** Which way the spot faces, when it is known. */
+  readonly facing?: "viewer" | "left" | "right" | "away";
 }): SceneActivity {
   const type = input.anchorType.toLowerCase().replace(/[-_]/g, " ");
   const speaking = input.personId === input.speakerId;
@@ -172,5 +240,8 @@ export function sceneActivity(input: {
     return "speech";
   if (input.speakerId !== null) return speaking ? "speaking" : "listening";
   if (input.seated && TABLE.test(type)) return "desk";
+  if (CROWD.test(type)) return input.facing === "away" ? "audience" : "crowd";
+  if (!input.seated && GREETING.test(type)) return "greeting";
+  if (!input.seated && TRANSIT.test(type)) return "transit";
   return "idle";
 }

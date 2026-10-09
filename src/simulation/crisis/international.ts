@@ -1,8 +1,10 @@
 import { addDays, daysBetween, makeIsoDate } from "../dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
-import { SeededRng } from "../rng";
+import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
 import type {
+  DecisionConsideration,
+  DecisionSourceType,
   EntityId,
   EventVisibility,
   FutureDueItem,
@@ -25,7 +27,9 @@ import {
   type CrisisOptionKey,
   type CrisisOptionsRecord,
   type IntelligenceAssessmentRecord,
+  type InternationalAllianceRecord,
   type InternationalCrisisRecord,
+  type PoliticalAttackIntentRecord,
   type TensionLevel,
   type WarPowersRecord,
   type WarPowersStage,
@@ -48,7 +52,6 @@ export const INTERNATIONAL_RESPONSE_KEY =
   "crisis:international-response" as const;
 export const WAR_POWERS_KEY = "crisis:war-powers" as const;
 
-const MICRO = 1_000_000;
 const TENSIONS: readonly TensionLevel[] = ["low", "elevated", "high", "severe"];
 
 /** crunch46-provisional-v1 authored balancing, not empirical frequencies. */
@@ -84,8 +87,6 @@ export const PROVISIONAL_INTERNATIONAL_POLICY = Object.freeze({
     economic: 500_000,
     "force-posture": 400_000,
   } satisfies Record<CrisisOptionKey, number>,
-  /** Chance a represented attempt leaves the target injured / killed. */
-  violence: { injured: 300_000, killed: 100_000 },
   warPowers: { reportWithinDays: 2, terminationDays: 60, extensionDays: 30 },
 });
 
@@ -97,12 +98,6 @@ const EMPTY_CONTEXT = {
   motivation: null,
   immediateReaction: null,
 } as const;
-
-function roll(world: World, key: readonly unknown[]): number {
-  return new SeededRng("crisis-international-v1")
-    .fork(JSON.stringify(["crisis-international-v1", world.seed, ...key]))
-    .integer(0, MICRO);
-}
 
 function nationalJurisdiction(world: World): EntityId {
   return world.jurisdictionOrder[0]!;
@@ -213,7 +208,9 @@ export function internationalCrisisState(world: World, crisisId: EntityId) {
 export interface DeclareInternationalCrisisInput {
   readonly stableKey: string;
   readonly counterpartyLabel: string;
+  readonly counterpartyLeaderPersonId: EntityId;
   readonly allyLabels: readonly string[];
+  readonly allianceRecords: readonly InternationalAllianceRecord[];
   readonly subject: string;
   readonly tension: TensionLevel;
   readonly basis: string;
@@ -224,13 +221,33 @@ export function declareInternationalCrisis(
   world: World,
   input: DeclareInternationalCrisisInput,
 ): World {
+  if (!world.people[input.counterpartyLeaderPersonId])
+    throw new Error(
+      "An international crisis needs a recorded counterparty leader.",
+    );
+  const allianceKeys = new Set<string>();
+  for (const alliance of input.allianceRecords) {
+    if (!world.people[alliance.allyPersonId])
+      throw new Error(
+        `Unknown allied decision-maker: ${alliance.allyPersonId}`,
+      );
+    if (!alliance.stableKey.trim() || !alliance.source.trim())
+      throw new Error("An alliance record needs a stable key and source.");
+    if (allianceKeys.has(alliance.stableKey))
+      throw new Error(`Duplicate alliance record: ${alliance.stableKey}`);
+    allianceKeys.add(alliance.stableKey);
+  }
   for (const text of [input.counterpartyLabel, input.subject, input.basis])
     if (!text.trim()) throw new Error("An international crisis needs text.");
   const key = `crisis:international:${input.stableKey}`;
   const occurred = event(world, {
     stableKey: `${key}:event`,
     type: "crisis.international-incident",
-    involvedEntityIds: [world.id],
+    involvedEntityIds: [
+      world.id,
+      input.counterpartyLeaderPersonId,
+      ...input.allianceRecords.map((record) => record.allyPersonId),
+    ],
     visibility: "public",
     tags: [`tension:${input.tension}`],
     summary: `Tension rose with ${input.counterpartyLabel} over ${input.subject}.`,
@@ -243,7 +260,12 @@ export function declareInternationalCrisis(
     visibility: "public",
     eventId: occurred.eventId,
     counterpartyLabel: input.counterpartyLabel,
+    counterpartyLeaderPersonId: input.counterpartyLeaderPersonId,
     allyLabels: [...input.allyLabels],
+    allianceRecords: input.allianceRecords.map((record) => ({
+      ...record,
+      supportOptions: [...record.supportOptions],
+    })),
     subject: input.subject,
     tension: input.tension,
     basis: input.basis,
@@ -574,6 +596,25 @@ export const internationalDecisionHandler: FutureTransitionHandler = (
   );
 };
 
+function responseConsideration(
+  stableKey: string,
+  optionKey: string,
+  sourceType: DecisionSourceType,
+  importance: DecisionConsideration["importance"],
+  explanation: string,
+): DecisionConsideration {
+  return {
+    stableKey,
+    optionKey,
+    sourceType,
+    direction: "supports",
+    importance,
+    confidence: "high",
+    explanation,
+    sourceRefs: [],
+  };
+}
+
 export const internationalResponseHandler: FutureTransitionHandler = (
   world,
   item,
@@ -584,18 +625,160 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   if (state.ended || !decision)
     return settled(world, "cancelled", "Nothing to answer.");
   const policy = PROVISIONAL_INTERNATIONAL_POLICY;
-  const shares = policy.counterparty[decision.option];
-  const shift = state.tension === "severe" ? policy.severeShift : 0;
-  const counterRoll = roll(world, [crisisId, state.cycle, "counterparty"]);
+  const lawText =
+    state.options
+      .at(-1)
+      ?.options.find((option) => option.key === decision.option)?.legal ??
+    "No legal assessment was recorded for the U.S. response.";
+  const reportSubmitted = state.warPowers.some(
+    (record) => record.stage === "report-submitted",
+  );
+  const availableAlliedSupport = state.crisis.allianceRecords.filter((record) =>
+    record.supportOptions.includes(decision.option),
+  );
+  const responseConsiderations: DecisionConsideration[] = [
+    responseConsideration(
+      `${state.crisis.stableKey}:tension:${state.cycle}`,
+      state.tension === "low"
+        ? "de-escalate"
+        : state.tension === "elevated"
+          ? "hold"
+          : "escalate",
+      "context:recorded-tension",
+      state.tension === "severe"
+        ? "decisive"
+        : state.tension === "high"
+          ? "strong"
+          : state.tension === "elevated"
+            ? "moderate"
+            : "slight",
+      `The recorded ${state.tension} tension informs the counterparty's response.`,
+    ),
+    responseConsideration(
+      `${state.crisis.stableKey}:us-law:${state.cycle}`,
+      decision.option === "force-posture" && !reportSubmitted
+        ? "escalate"
+        : decision.option === "diplomatic" || reportSubmitted
+          ? "de-escalate"
+          : "hold",
+      "context:us-law",
+      decision.option === "force-posture" && !reportSubmitted
+        ? "strong"
+        : "slight",
+      decision.option === "force-posture" && !reportSubmitted
+        ? `The recorded U.S. response has no War Powers report under 50 U.S.C. §1543(a): ${lawText}`
+        : `The U.S. response was assessed under its recorded legal basis: ${lawText}`,
+    ),
+    ...(availableAlliedSupport.length > 0
+      ? [
+          responseConsideration(
+            `${state.crisis.stableKey}:alliance:${state.cycle}`,
+            "de-escalate",
+            "context:alliance-record",
+            "moderate",
+            `Recorded alliance commitments support the U.S. ${decision.option} response (${availableAlliedSupport.map((record) => record.allyLabel).join(", ")}).`,
+          ),
+        ]
+      : []),
+  ];
+  const responseEvaluation = evaluateDecision(world, {
+    stableKey: `${state.crisis.stableKey}:counterparty-choice:${state.cycle}`,
+    decisionType: "crisis.international-response",
+    actorPersonId: state.crisis.counterpartyLeaderPersonId,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:domain",
+      key: "international-crisis-response",
+      entityId: null,
+    },
+    options: [
+      { key: "de-escalate", label: "de-escalate", description: "de-escalate" },
+      { key: "hold", label: "hold", description: "hold" },
+      { key: "escalate", label: "escalate", description: "escalate" },
+    ],
+    constraints: [],
+    considerations: responseConsiderations,
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  let next = recordDurableDecisionTrace(world, responseEvaluation);
+  const responseTraceIds = [next.history.decisionTraces.at(-1)!.id];
+  if (responseEvaluation.outcomeKind !== "selected")
+    return settled(
+      next,
+      "cancelled",
+      "The counterparty leader has no recorded response preference.",
+    );
   const counterparty =
-    counterRoll < shares.deEscalate - shift
+    responseEvaluation.selectedOptionKey === "de-escalate"
       ? "de-escalated"
-      : counterRoll < shares.deEscalate - shift + shares.hold
+      : responseEvaluation.selectedOptionKey === "hold"
         ? "held"
         : "escalated";
+  const alliedPositions = state.crisis.allianceRecords.map((record) => {
+    const treatySupports = record.supportOptions.includes(decision.option);
+    const legalSupports =
+      decision.option !== "force-posture" || reportSubmitted;
+    const alliedConsiderations: DecisionConsideration[] = [
+      responseConsideration(
+        `${record.stableKey}:treaty:${state.cycle}`,
+        treatySupports && legalSupports ? "support" : "stand-aside",
+        "context:alliance-record",
+        treatySupports ? "decisive" : "strong",
+        treatySupports
+          ? `The recorded ${record.source} commitment covers the U.S. ${decision.option} response.`
+          : `The recorded ${record.source} commitment does not cover the U.S. ${decision.option} response.`,
+      ),
+      responseConsideration(
+        `${record.stableKey}:us-law:${state.cycle}`,
+        legalSupports ? "support" : "stand-aside",
+        "context:us-law",
+        "moderate",
+        legalSupports
+          ? `The U.S. response is within its recorded legal basis: ${lawText}`
+          : `The required U.S. War Powers report is absent under 50 U.S.C. §1543(a): ${lawText}`,
+      ),
+    ];
+    const evaluation = evaluateDecision(next, {
+      stableKey: `${record.stableKey}:response:${state.cycle}`,
+      decisionType: "crisis.international-ally-support",
+      actorPersonId: record.allyPersonId,
+      cutoff: {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      },
+      subject: {
+        kind: "context:domain",
+        key: "international-alliance-response",
+        entityId: null,
+      },
+      options: [
+        { key: "support", label: "support", description: "support" },
+        {
+          key: "stand-aside",
+          label: "stand aside",
+          description: "stand aside",
+        },
+      ],
+      constraints: [],
+      considerations: alliedConsiderations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    next = recordDurableDecisionTrace(next, evaluation);
+    responseTraceIds.push(next.history.decisionTraces.at(-1)!.id);
+    return (
+      evaluation.outcomeKind === "selected" &&
+      evaluation.selectedOptionKey === "support"
+    );
+  });
   const allies =
-    roll(world, [crisisId, state.cycle, "allies"]) <
-    policy.allySupport[decision.option]
+    alliedPositions.filter(Boolean).length > alliedPositions.length / 2
       ? "supported"
       : "stood-aside";
   const rank = TENSIONS.indexOf(state.tension);
@@ -613,7 +796,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
   const pastCheckpoint = state.cycle + 1 >= policy.maxCycles;
   const ended = counterparty === "de-escalated";
   const key = `${state.crisis.stableKey}:response:${state.cycle}`;
-  const responded = event(world, {
+  const responded = event(next, {
     stableKey: `${key}:event`,
     type: "crisis.international-response",
     involvedEntityIds: [crisisId],
@@ -636,10 +819,10 @@ export const internationalResponseHandler: FutureTransitionHandler = (
         ? " The dispute settled into a standoff, still unresolved."
         : ""),
   });
-  let next = appendCrisisRecord(responded.world, {
+  next = appendCrisisRecord(responded.world, {
     kind: "counterparty-response",
     stableKey: key,
-    effectiveAt: world.currentDate,
+    effectiveAt: next.currentDate,
     causalParentIds: [decision.id],
     visibility: "public",
     eventId: responded.eventId,
@@ -649,6 +832,7 @@ export const internationalResponseHandler: FutureTransitionHandler = (
     allies,
     tensionAfter,
     ended,
+    decisionTraceIds: responseTraceIds,
   });
   const responseId = crisisRecordId(next, key);
   if (ended && state.forcesIn)
@@ -709,6 +893,7 @@ function lapse(
     allies: "stood-aside",
     tensionAfter: state.tension,
     ended: true,
+    decisionTraceIds: [],
   });
   if (state.forcesIn)
     next = warPowersStage(
@@ -847,9 +1032,17 @@ export function pendingInternationalDecisions(world: World) {
 
 export interface RecordViolenceAttemptInput {
   readonly stableKey: string;
+  readonly actorPersonId: EntityId;
   readonly targetPersonId: EntityId;
+  readonly intentEventId: EntityId;
   readonly threatEvidenceIds: readonly EntityId[];
   readonly basis: string;
+}
+
+export interface RecordViolenceAttemptResult {
+  readonly world: World;
+  readonly attemptId: EntityId | null;
+  readonly outcome: "unharmed" | "injured" | "killed" | null;
 }
 
 /**
@@ -860,47 +1053,198 @@ export interface RecordViolenceAttemptInput {
 export function recordViolenceAttempt(
   world: World,
   input: RecordViolenceAttemptInput,
-): World {
+): RecordViolenceAttemptResult {
+  const actor = world.people[input.actorPersonId];
   const target = world.people[input.targetPersonId];
-  if (!target)
-    throw new Error("The attempt target does not match a recorded person.");
-  if (
-    !isPersonAliveAt(world, target.id, {
+  if (!actor) throw new Error("Unknown attempt actor.");
+  if (!target) throw new Error("Unknown attempt target.");
+  const alive = (personId: EntityId) =>
+    isPersonAliveAt(world, personId, {
       asOfDate: world.currentDate,
       historySequenceExclusive: world.history.nextSequence,
-    })
-  )
-    throw new Error("The target is not alive.");
+    });
+  if (!alive(actor.id)) throw new Error("The attempt actor is not alive.");
+  if (!alive(target.id)) throw new Error("The target is not alive.");
   if (input.threatEvidenceIds.length === 0 || !input.basis.trim())
     throw new Error("An attempt needs threat evidence and a stated basis.");
-  for (const id of input.threatEvidenceIds)
-    if (
-      !world.history.events.some(
-        (e) => e.id === id && e.occurredAt <= world.currentDate,
-      )
-    )
+  for (const id of input.threatEvidenceIds) {
+    const evidence = world.history.events.find((event) => event.id === id);
+    if (!evidence || evidence.occurredAt > world.currentDate)
       throw new Error(`Threat evidence must be an earlier event: ${id}`);
+  }
+  const intent = crisisRecords(world).find(
+    (record): record is PoliticalAttackIntentRecord =>
+      record.kind === "political-attack-intent" &&
+      record.eventId === input.intentEventId,
+  );
+  if (
+    !intent ||
+    intent.actorPersonId !== actor.id ||
+    intent.targetPersonId !== target.id ||
+    intent.sequence >= world.history.nextSequence
+  )
+    throw new Error(
+      "An attempt needs this actor's earlier intent for this target.",
+    );
+  if (!input.threatEvidenceIds.includes(intent.threatEventId))
+    throw new Error(
+      "The selected intent must cite the attempt's prior threat.",
+    );
   const key = `crisis:violence:${input.stableKey}`;
-  const outcomeRoll = roll(world, ["violence", key, target.id]);
-  const policy = PROVISIONAL_INTERNATIONAL_POLICY.violence;
-  const outcome =
-    outcomeRoll < policy.killed
-      ? "killed"
-      : outcomeRoll < policy.killed + policy.injured
-        ? "injured"
-        : "unharmed";
-  const attempted = recordWorldEvent(world, {
+  const outcomeConsideration = (
+    stableKey: string,
+    optionKey: string,
+    sourceType: string,
+    factor: PoliticalAttackIntentRecord["actorMeans"],
+    direction: "supports" | "opposes",
+  ): DecisionConsideration => ({
+    stableKey,
+    optionKey,
+    sourceType: `context:${sourceType}` as DecisionSourceType,
+    direction,
+    importance: factor.importance,
+    confidence: factor.confidence,
+    explanation: factor.explanation,
+    sourceRefs: factor.sourceEventIds.map((eventId) => ({
+      kind: "historical-event",
+      eventId,
+    })),
+  });
+  const outcomeDecision = evaluateDecision(world, {
+    stableKey: `${key}:outcome`,
+    decisionType: "crisis.political-attack-outcome",
+    actorPersonId: actor.id,
+    cutoff: {
+      asOfDate: world.currentDate,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+    subject: {
+      kind: "context:domain",
+      key: "political-attack-outcome",
+      entityId: target.id,
+    },
+    options: [
+      {
+        key: "unharmed",
+        label: "unharmed",
+        description: "unharmed",
+      },
+      {
+        key: "harm",
+        label: "harm",
+        description: "harm",
+      },
+    ],
+    constraints: [],
+    considerations: [
+      outcomeConsideration(
+        `${key}:means`,
+        "harm",
+        "actor-means",
+        intent.actorMeans,
+        "supports",
+      ),
+      outcomeConsideration(
+        `${key}:security`,
+        "unharmed",
+        "target-security",
+        intent.targetSecurity,
+        "supports",
+      ),
+      outcomeConsideration(
+        `${key}:exposure`,
+        "harm",
+        "target-exposure",
+        intent.targetExposure,
+        "supports",
+      ),
+    ],
+    perceptionIds: [],
+    randomness: "none",
+    retention: "durable",
+  });
+  let evaluated = recordDurableDecisionTrace(world, outcomeDecision);
+  let outcomeTraceId = evaluated.history.decisionTraces.at(-1)!.id;
+  if (outcomeDecision.outcomeKind !== "selected")
+    return { world: evaluated, attemptId: null, outcome: null };
+  let outcome: "unharmed" | "injured" | "killed";
+  if (outcomeDecision.selectedOptionKey === "unharmed") {
+    outcome = "unharmed";
+  } else if (outcomeDecision.selectedOptionKey === "harm") {
+    const harmDecision = evaluateDecision(evaluated, {
+      stableKey: `${key}:harm-severity`,
+      decisionType: "crisis.political-attack-harm-severity",
+      actorPersonId: actor.id,
+      cutoff: {
+        asOfDate: evaluated.currentDate,
+        historySequenceExclusive: evaluated.history.nextSequence,
+      },
+      subject: {
+        kind: "context:domain",
+        key: "political-attack-outcome",
+        entityId: target.id,
+      },
+      options: [
+        {
+          key: "injured",
+          label: "injured",
+          description: "injured",
+        },
+        {
+          key: "killed",
+          label: "killed",
+          description: "killed",
+        },
+      ],
+      constraints: [],
+      considerations: [
+        outcomeConsideration(
+          `${key}:severity-means`,
+          "killed",
+          "actor-means",
+          intent.actorMeans,
+          "supports",
+        ),
+        outcomeConsideration(
+          `${key}:severity-exposure`,
+          "killed",
+          "target-exposure",
+          intent.targetExposure,
+          "supports",
+        ),
+        outcomeConsideration(
+          `${key}:severity-security`,
+          "injured",
+          "target-security",
+          intent.targetSecurity,
+          "supports",
+        ),
+      ],
+      perceptionIds: [],
+      randomness: "none",
+      retention: "durable",
+    });
+    evaluated = recordDurableDecisionTrace(evaluated, harmDecision);
+    if (harmDecision.outcomeKind !== "selected")
+      return { world: evaluated, attemptId: null, outcome: null };
+    outcome = harmDecision.selectedOptionKey as "injured" | "killed";
+    outcomeTraceId = evaluated.history.decisionTraces.at(-1)!.id;
+  } else {
+    throw new Error("Unknown recorded attack outcome option.");
+  }
+  const attempted = recordWorldEvent(evaluated, {
     stableKey: `${key}:event`,
     type: "crisis.violence-attempt",
-    occurredAt: world.currentDate,
-    recordedAt: world.currentDate,
+    occurredAt: evaluated.currentDate,
+    recordedAt: evaluated.currentDate,
     jurisdictionId: target.homeJurisdictionId,
-    involvedEntityIds: [target.id],
+    involvedEntityIds: [actor.id, target.id],
     participants: [
+      { personId: actor.id, role: "agency:actor", detail: null },
       { personId: target.id, role: "impact:target", detail: outcome },
     ],
     personFactConstraints: [],
-    visibility: "public",
+    visibility: "limited",
     tags: ["crisis", "crisis.violence", `outcome:${outcome}`],
     summary:
       outcome === "killed"
@@ -908,16 +1252,22 @@ export function recordViolenceAttempt(
         : outcome === "injured"
           ? "An attack left its target injured."
           : "An attack was attempted; its target was unharmed.",
-    context: EMPTY_CONTEXT,
+    context: {
+      ...EMPTY_CONTEXT,
+      motivation: input.basis,
+    },
   });
   let next = appendCrisisRecord(attempted, {
     kind: "violence-attempt",
     stableKey: key,
-    effectiveAt: world.currentDate,
-    causalParentIds: [...input.threatEvidenceIds],
-    visibility: "public",
+    effectiveAt: evaluated.currentDate,
+    causalParentIds: [input.intentEventId, ...input.threatEvidenceIds],
+    visibility: "limited",
     eventId: attempted.history.events.at(-1)!.id,
+    actorPersonId: actor.id,
     targetPersonId: target.id,
+    intentEventId: input.intentEventId,
+    outcomeDecisionTraceId: outcomeTraceId,
     threatEvidenceIds: [...input.threatEvidenceIds],
     outcome,
     basis: input.basis,
@@ -950,5 +1300,5 @@ export function recordViolenceAttempt(
     });
   }
   assertWorldIntegrity(next);
-  return next;
+  return { world: next, attemptId, outcome };
 }

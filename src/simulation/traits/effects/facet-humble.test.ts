@@ -13,6 +13,7 @@ import { SeededRng } from "../../rng";
 import { registeredTraitConsiderations } from "../../trait-readings";
 import { loadedTraitRegistry } from "../../trait-registry";
 import { traitDefinitionFromPack } from "../../trait-packs";
+import { traitActConsiderations, traitActTables } from "../act-pulls";
 import { deserializeWorld, serializeWorld } from "../../serialization";
 import type { DecisionContext, EntityId, World } from "../../types";
 
@@ -171,7 +172,7 @@ describe("facet-humble's public-life reader", () => {
       {
         optionKey: "withhold",
         explanation:
-          "They want to hear others' contributions before treating their own judgment as final.",
+          "personality-v1:facet-humble|legislation.member-vote|withhold|high",
       },
     ]);
     // Humility alone supplies neither a missing policy position nor a nay vote.
@@ -217,23 +218,40 @@ describe("facet-humble's public-life reader", () => {
       "press.reporter-request-response",
       "press.adviser-assignment-response",
     ]) {
+      const acts = traitActTables().optionActs.get(decisionId);
+      expect(acts).toBeDefined();
+      const options = [...acts!.keys()].map((key) => ({
+        key,
+        label: key,
+        description: key,
+      }));
+      const expectedOption =
+        decisionId === "campaign.organizer-outreach"
+          ? "organization-meeting"
+          : decisionId === "campaign.support-request"
+            ? "defer"
+            : "accept";
       expect(
-        registeredTraitConsiderations(
+        traitActConsiderations(
           humble,
           loadedTraitRegistry(),
           person.id,
           SEED,
           decisionId,
-        ).filter(({ stableKey }) => stableKey.includes(`:trait:${TRAIT}:`)),
-      ).toHaveLength(1);
+          options,
+          new Set(),
+        ).filter(({ stableKey }) => stableKey.includes(TRAIT)),
+      ).toContainEqual(expect.objectContaining({ optionKey: expectedOption }));
       expect(
-        registeredTraitConsiderations(
+        traitActConsiderations(
           unmarked,
           loadedTraitRegistry(),
           person.id,
           SEED,
           decisionId,
-        ).filter(({ stableKey }) => stableKey.includes(`:trait:${TRAIT}:`)),
+          options,
+          new Set(),
+        ).filter(({ stableKey }) => stableKey.includes(TRAIT)),
       ).toEqual([]);
     }
     expect(loadedTraitRegistry().report.rejections).toEqual([]);

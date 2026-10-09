@@ -81,12 +81,20 @@ describe(`a substance use disorder on the health record (${STATE.name}, ${STATE.
     const youngShare = share(young.ids);
     const olderShare = share(older.ids);
     console.info(
-      `LW-16 producer, ${STATE.name} (${STATE.usps}, seed ${SEED}): ${(100 * youngShare).toFixed(1)} percent of 400 people aged 22 and ${(100 * olderShare).toFixed(1)} percent of 400 aged 40 hold the record; none of 200 children aged 8. Survey: 27.1 and 16.6 percent.`,
+      `LW-16 producer, ${STATE.name} (${STATE.usps}, seed ${SEED}): ${(100 * youngShare).toFixed(1)} percent of 400 people aged 22 and ${(100 * olderShare).toFixed(1)} percent of 400 aged 40 hold the record; none of 200 children aged 8. Survey anchors: 27.1 percent at 22 and 16.6 percent from the late fifties, sliding between.`,
     );
     expect(youngShare).toBeGreaterThan(0.22);
     expect(youngShare).toBeLessThan(0.32);
-    expect(olderShare).toBeGreaterThan(0.12);
-    expect(olderShare).toBeLessThan(0.21);
+    // The share slides smoothly between the survey's age anchors, so a
+    // 40-year-old reads between the 22 and 58.5 figures (not a flat band).
+    // Four hundred people sample it within about three standard deviations.
+    const olderExpected = conditionPrevalence(
+      packCondition(SUBSTANCE_USE_DISORDER_KEY)!,
+      40,
+      "equal-mixture",
+    );
+    expect(olderShare).toBeGreaterThan(olderExpected - 0.06);
+    expect(olderShare).toBeLessThan(olderExpected + 0.06);
     expect(share(child.ids)).toBe(0);
 
     // The record is the ordinary private health episode, carrying one
