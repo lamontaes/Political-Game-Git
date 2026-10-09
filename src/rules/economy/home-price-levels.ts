@@ -17,6 +17,7 @@ function incomeRate(month: HomePriceMonthFact): number {
 }
 
 function rateMidpoint(month: HomePriceMonthFact): number {
+  // STOPGAP: economy.home-price-mortgage-rate-proxy
   return (month.policyRate.lowerPct + month.policyRate.upperPct) / 2;
 }
 
@@ -30,6 +31,7 @@ export function homePriceLevelsFromFacts(
   const window = parameters.housingPriceWindowMonths.value;
   const coefficients = parameters.housingPriceCoefficients.value;
   const first = months[0]!;
+  // STOPGAP: economy.home-price-opening-level
   const changes = Array.from(
     { length: window },
     () => incomeRate(first) / window,
@@ -56,6 +58,7 @@ export function homePriceLevelsFromFacts(
       coefficients.rateChangePerPoint *
         (rateMidpoint(month) - rateMidpoint(yearAgo)) +
       coefficients.priceToIncomeGap * gap;
+    // STOPGAP: economy.home-price-supply-elasticity
     const change = annualChange / window + townEffect(month);
     changes.push(change);
     logPrice += change;

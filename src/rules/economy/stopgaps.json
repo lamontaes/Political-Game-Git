@@ -1,44 +1,146 @@
 [
   {
+    "id": "economy.no-housing-event-effect",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 5,
+    "behavior": "A month without a supplied housing event contributes zero event effect.",
+    "whyNecessary": "The standalone rule accepts only supplied events and needs a neutral result when none is present.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced, recorded housing-event effect for every macro month.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.layoff-pay-tolerance",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 43,
+    "behavior": "The layoff rule permits a one-dollar annual pay-coverage tolerance.",
+    "whyNecessary": "The legacy comparison includes this tolerance and golden equivalence retains it.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced accounting or payroll tolerance for the modeled books.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.no-average-pay-estimate",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 51,
+    "behavior": "Missing town-average pay contributes zero to the hiring threshold.",
+    "whyNecessary": "The legacy helper defaults to zero when its caller has no town-pay record.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A recorded town-average pay amount or a tagged estimate for the relevant place.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.macro-precision",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 65,
+    "behavior": "Persisted macro values retain six decimal places.",
+    "whyNecessary": "The port preserves legacy replay precision until a persisted-data precision contract is set.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A documented precision contract for macro values.",
+    "status": "OPEN"
+  },
+  {
     "id": "economy.home-price-rounding",
-    "behavior": "Home prices round to the nearest $1,000 and have a $1,000 minimum; the game retains this legacy purchase calibration.",
-    "source": "src/simulation/home-purchase.ts",
-    "status": "GAME ASSUMPTION"
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 78,
+    "behavior": "Home-purchase prices round to $1,000 increments.",
+    "whyNecessary": "The legacy purchase calculation rounds this way for replay equivalence.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced purchase-pricing and currency-rounding policy.",
+    "status": "OPEN"
   },
   {
     "id": "economy.tenure-pay-percentiles",
-    "behavior": "A new hire starts at the 25th wage percentile and reaches the 75th over 20 years at the employer; this is a retained game calibration, not a sourced tenure curve.",
-    "source": "src/simulation/living-world/town-pay.ts",
-    "status": "GAME ASSUMPTION"
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 92,
+    "behavior": "New hires start at the 25th wage percentile and reach the 75th after 20 years.",
+    "whyNecessary": "The legacy rule has no sourced tenure curve and these values preserve current behavior.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A measured tenure-to-wage progression by occupation and place.",
+    "status": "OPEN"
   },
   {
     "id": "economy.local-minimum-wages",
-    "behavior": "The legacy job-rate reader applies federal and state minimum wages; local minimum wages are not modeled.",
-    "source": "src/simulation/living-world/town-pay.ts",
-    "status": "NOT MODELED"
+    "kind": "not-modeled",
+    "file": "src/rules/economy/town-pay.ts",
+    "line": 55,
+    "behavior": "The lifted job-rate rule accepts caller-supplied federal/state floor data; local floors are not represented.",
+    "whyNecessary": "The current source reader supplies no local minimum-wage data.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "Place and effective-date keyed local minimum-wage facts.",
+    "status": "OPEN"
   },
   {
     "id": "economy.home-price-mortgage-rate-proxy",
-    "behavior": "Policy-rate midpoint stands in for 30-year mortgage-rate changes; a measured pass-through is unavailable in the macro records.",
-    "source": "src/simulation/living-world/housing-price-model.ts",
-    "status": "PLACEHOLDER"
+    "kind": "proxy",
+    "file": "src/rules/economy/home-price-levels.ts",
+    "line": 20,
+    "behavior": "Policy-rate midpoint stands in for a 30-year mortgage-rate change.",
+    "whyNecessary": "The available macro records do not contain a consistent mortgage-rate series for every modeled place and month.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A supplied monthly mortgage-rate series for each place.",
+    "status": "OPEN"
   },
   {
     "id": "economy.home-price-supply-elasticity",
-    "behavior": "Home-price growth has no supply-response term until a place-level housing-supply elasticity is measured.",
-    "source": "src/simulation/living-world/housing-price-model.ts",
-    "status": "PLACEHOLDER"
+    "kind": "not-modeled",
+    "file": "src/rules/economy/home-price-levels.ts",
+    "line": 61,
+    "behavior": "Home-price growth has no housing-supply response term.",
+    "whyNecessary": "A place-level housing-supply elasticity is not present in the supplied facts.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced supply-elasticity fact and its measured pass-through coefficient.",
+    "status": "OPEN"
   },
   {
     "id": "economy.home-price-opening-level",
-    "behavior": "Before the first recorded macro month, home-price levels are assumed to have grown with income and sit at the usual price-to-income ratio.",
-    "source": "src/simulation/living-world/housing-market.ts",
-    "status": "GAME ASSUMPTION"
+    "kind": "assumption",
+    "file": "src/rules/economy/home-price-levels.ts",
+    "line": 34,
+    "behavior": "The first recorded home-price index starts at 1.",
+    "whyNecessary": "The pure rule receives a finite macro series and needs a deterministic initial index.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A supplied, source-backed opening index level and date.",
+    "status": "OPEN"
   },
   {
     "id": "economy.eviction-case-thresholds",
-    "behavior": "The legacy estimated eviction disposition uses a four-month counsel threshold and two-month lenient-judge threshold; both remain estimates until supported by broader records.",
-    "source": "src/simulation/living-world/town-rent.ts",
-    "status": "ESTIMATED"
+    "kind": "estimated-rule",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 147,
+    "behavior": "Eviction disposition uses a four-month counsel threshold and a two-month threshold for a lenient judge.",
+    "whyNecessary": "The legacy disposition rule has no jurisdiction-specific outcome records; both are estimates retained for golden equivalence.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced jurisdiction-specific case-outcome model with counsel and judge facts.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.mortgage-term",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 162,
+    "behavior": "Home-purchase financing uses a 360-month fixed term.",
+    "whyNecessary": "The legacy purchase rule uses this term and has no buyer-selected term fact.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A recorded loan term or sourced term distribution for the buyer and loan type.",
+    "status": "OPEN"
   }
 ]

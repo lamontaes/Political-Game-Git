@@ -2,6 +2,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   noHousingEventPriceEffectLogPoints: {
     value: 0,
     basis: "TUNABLE",
+    stopgapId: "economy.no-housing-event-effect",
     source: "No housing event is supplied for this macro month",
     range: { minimum: -1, maximum: 1 },
   },
@@ -39,6 +40,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   layoffPayCoverageToleranceDollars: {
     value: 1,
     basis: "TUNABLE",
+    stopgapId: "economy.layoff-pay-tolerance",
     source:
       "Legacy layoff rule permits a one-dollar annual pay-coverage tolerance",
     range: { minimum: 0, maximum: 100 },
@@ -46,6 +48,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   noAveragePayEstimateDollars: {
     value: 0,
     basis: "TUNABLE",
+    stopgapId: "economy.no-average-pay-estimate",
     source:
       "Legacy hiring rule has no town pay estimate unless caller supplies one",
     range: { minimum: 0, maximum: 1_000_000 },
@@ -59,6 +62,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   macroPrecisionDecimalPlaces: {
     value: 6,
     basis: "TUNABLE",
+    stopgapId: "economy.macro-precision",
     source: "Legacy persisted macro precision retained for replay equivalence",
     range: { minimum: 0, maximum: 12 },
   },
@@ -71,6 +75,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   homePriceRoundingStepMinor: {
     value: 100_000,
     basis: "TUNABLE",
+    stopgapId: "economy.home-price-rounding",
     source:
       "Legacy home purchase price rounding retained for golden equivalence",
     range: { minimum: 1, maximum: 100_000_000 },
@@ -84,18 +89,21 @@ export const ECONOMY_RULE_PARAMETERS = {
   newHirePayPercentile: {
     value: 25,
     basis: "TUNABLE",
+    stopgapId: "economy.tenure-pay-percentiles",
     source: "Legacy tenure calibration, retained for golden equivalence",
     range: { minimum: 0, maximum: 100 },
   },
   experiencedPayPercentile: {
     value: 75,
     basis: "TUNABLE",
+    stopgapId: "economy.tenure-pay-percentiles",
     source: "Legacy tenure calibration, retained for golden equivalence",
     range: { minimum: 0, maximum: 100 },
   },
   yearsToExperiencedPayPercentile: {
     value: 20,
     basis: "TUNABLE",
+    stopgapId: "economy.tenure-pay-percentiles",
     source: "Legacy tenure calibration, retained for golden equivalence",
     range: { minimum: 1, maximum: 80 },
   },
@@ -136,6 +144,7 @@ export const ECONOMY_RULE_PARAMETERS = {
   evictionLawyerMonthsBehind: {
     value: 4,
     basis: "ESTIMATED",
+    stopgapId: "economy.eviction-case-thresholds",
     source:
       "Legacy estimate checked against Eviction Lab and NYC Office of Civil Justice records",
     range: { minimum: 0, maximum: 12 },
@@ -143,12 +152,14 @@ export const ECONOMY_RULE_PARAMETERS = {
   evictionLenientJudgeMonthsBehind: {
     value: 2,
     basis: "ESTIMATED",
+    stopgapId: "economy.eviction-case-thresholds",
     source: "Legacy estimated case rule; retained for golden equivalence",
     range: { minimum: 0, maximum: 12 },
   },
   mortgageTermMonths: {
     value: 360,
     basis: "TUNABLE",
+    stopgapId: "economy.mortgage-term",
     source: "Owner-approved fixed mortgage term in the legacy rule",
     range: { minimum: 1, maximum: 600 },
   },

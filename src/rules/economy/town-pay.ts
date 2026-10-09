@@ -52,6 +52,7 @@ export function interpolateAnnualWage(
 
 /** Resolve the first available wage area, then apply the supplied legal floor. */
 export function townJobRate(input: {
+  // STOPGAP: economy.local-minimum-wages
   readonly soc: string | null;
   readonly orderedAreas: readonly string[];
   readonly wageRows: readonly WageAreaRow[];
