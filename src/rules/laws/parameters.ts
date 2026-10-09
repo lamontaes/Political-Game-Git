@@ -18,6 +18,13 @@ export const LAWS_PARAMETERS = {
     source: "One whole is 100 percent",
     range: { minimum: 1, maximum: 1000 },
   },
+  nonMoneyFeltSizeMonthsOfPay: {
+    value: 0.1,
+    basis: "PLACEHOLDER",
+    source:
+      "Fable audit card L3; research question felt-size-of-non-money-law-effects",
+    range: { minimum: 0, maximum: 1 },
+  },
   referenceWeightExponent: {
     value: 1,
     basis: "TUNABLE",

@@ -1,5 +1,11 @@
 [
   {
+    "id": "laws.non-money-felt-size",
+    "behavior": "A non-money rights or eligibility effect is estimated at 0.1 months of pay until research answers felt-size-of-non-money-law-effects.",
+    "source": "src/simulation/law-exposure.ts",
+    "status": "PLACEHOLDER"
+  },
+  {
     "id": "laws.reciprocal-reference-weights",
     "behavior": "Similar-state tax deduction estimates use reciprocal competition-rank weights, an authored estimation rule.",
     "source": "src/simulation/income-tax-withholding.ts",
