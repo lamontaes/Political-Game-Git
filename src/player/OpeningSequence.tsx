@@ -274,7 +274,7 @@ function OpeningPlaques({
 const PLAQUE_PX = { width: 192, height: 46 } as const;
 
 /** Every number the opening knows, under the label its record carries. */
-function OpeningLedger({
+export function OpeningLedger({
   rows,
   stateUsps,
   asOf,

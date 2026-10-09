@@ -1,12 +1,51 @@
-/* Multiple actual district/at-large lawmakers keep their complete figures.
- * A large saved delegation can be read by scrolling, without discarding seats. */
-.pg-orientation-state-cast {
-  flex-wrap: wrap;
-  max-height: calc(100% - var(--pg-orientation-actions-height) - 5rem);
-  overflow-y: auto;
-  align-content: flex-start;
+/* The state's population figure and its caption. */
+.pg-state-population-figure {
+  margin: 0;
+}
+.pg-state-population-number {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
+}
+.pg-state-population-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+}
+.pg-state-population-unit {
+  font-size: 1rem;
+  color: var(--text-2);
+}
+.pg-state-population-caption {
+  margin: 0.35rem 0 0;
+  padding-top: 0.35rem;
+  max-width: 22rem;
+  border-top: 1px solid rgb(111 85 42 / 45%);
+  font-size: 0.9rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: var(--text-2);
 }
 
-.pg-orientation-state-cast .pg-orientation-cast-figure {
-  width: clamp(112px, min(20cqw, 40cqh), 320px);
+/* The state's voting record. */
+.pg-state-voting-table-wrap {
+  overflow-x: auto;
+}
+.pg-state-voting-table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.pg-state-voting-table-wrap th,
+.pg-state-voting-table-wrap td {
+  padding: 0.5rem 0.3rem;
+  border-bottom: 1px solid var(--text-2);
+  text-align: left;
+  vertical-align: top;
+}
+.pg-state-voting-table-wrap td {
+  white-space: nowrap;
 }

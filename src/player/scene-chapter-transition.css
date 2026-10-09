@@ -1,0 +1,56 @@
+/*
+ * A change of scene: the old one fades out to the ground before the new one
+ * fades in, so two scenes are never drawn over each other. There is no camera
+ * motion. The ground is the screen's own (--pg-scene-chapter-ground).
+ */
+.pg-scene-chapters {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  background: var(--pg-scene-chapter-ground, var(--iron));
+}
+.pg-scene-chapter {
+  grid-area: 1 / 1;
+  position: relative;
+  min-height: 0;
+  min-width: 0;
+  opacity: 1;
+}
+.pg-scene-chapter[data-stage="leaving"] {
+  pointer-events: none;
+}
+.pg-scene-chapters[data-ready="false"]
+  .pg-scene-chapter[data-stage="arriving"] {
+  opacity: 0;
+}
+/* Fade the old scene out, then the new one in: 180ms + 20ms of ground +
+ * 200ms, inside SCENE_CHAPTER_CROSSFADE_MS (400ms). */
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="leaving"] {
+  animation: pg-chapter-leave 180ms ease-in both;
+}
+.pg-scene-chapters[data-ready="true"] .pg-scene-chapter[data-stage="arriving"] {
+  animation: pg-chapter-arrive 200ms ease-out 200ms both;
+}
+@keyframes pg-chapter-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes pg-chapter-leave {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No fade at all: the arriving scene is opaque and replaces the old one. */
+  .pg-scene-chapter {
+    animation: none !important;
+  }
+}

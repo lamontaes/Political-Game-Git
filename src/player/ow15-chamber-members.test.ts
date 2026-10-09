@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { searchLifePlaces } from "../simulation/life-places";
 import { SeededRng } from "../simulation/rng";
-import { stateNameForUsps } from "./useWorldOrientation";
+import { stateNameForUsps } from "../presentation/state-name";
 import { projectWorldOrientation } from "../presentation/living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {

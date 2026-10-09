@@ -114,8 +114,12 @@ for (let draw = 0; draw < 6; draw += 1) {
           `.pg-scene-chapter[data-chapter="${key}"][data-stage="current"]:not([inert])`,
         );
         await expect(chapter).toBeVisible();
-        const heading = chapter.getByTestId(`orientation-step-${key}`);
-        await expect(heading).toBeVisible();
+        // Each cut fills the frame with its place; the address's words for
+        // it run in the bottom bar.
+        await expect(
+          chapter.getByTestId("orientation-place-backdrop"),
+        ).toBeVisible();
+        const heading = intro.getByTestId(`orientation-step-${key}`);
         await expect(
           chapter.locator(
             '[data-material-group-state="pending"], [data-material-group-state="loading"], [data-material-state="loading"]',

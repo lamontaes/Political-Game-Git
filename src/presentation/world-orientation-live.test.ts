@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { serializeWorld } from "../simulation";
-import { stateNameForUsps } from "../player/useWorldOrientation";
+import { stateNameForUsps } from "./state-name";
 import { DEFAULT_NEW_GAME_SETUP, createNewGameWorld } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
 import { establishOpeningOfficeholders } from "./opening-officeholders";

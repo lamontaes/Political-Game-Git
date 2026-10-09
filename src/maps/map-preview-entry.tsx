@@ -10,7 +10,6 @@ import { createRoot } from "react-dom/client";
 
 import "../player/player.css";
 import "../player/shell.css";
-import "../player/world-orientation.css";
 import { DEFAULT_NEW_GAME_SETUP } from "../presentation/new-game";
 import {
   generateOpeningLife,

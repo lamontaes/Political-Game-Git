@@ -12,6 +12,7 @@
   overflow: hidden;
   background: #000;
   color: var(--text-strong);
+  --pg-scene-chapter-ground: #000;
 }
 
 /* A docked room panel narrows its children; the opening is the whole screen. */

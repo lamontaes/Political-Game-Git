@@ -6,7 +6,6 @@ import {
   sittingLocalOfficers,
 } from "../simulation/living-world/local-government-seats";
 import { homeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { US_STATE_NAMES } from "../simulation/nationwide-world/state-executive-candidacy-packs";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { localGoverningSeatFor } from "./local-governing-seat";
 import { projectMacroConditions } from "./macro-conditions";
@@ -26,6 +25,7 @@ import {
   middayBackdropUrl,
 } from "./place-backdrops";
 import { resolveOpeningPlaySceneContext } from "./play-scene-context";
+import { stateNameForUsps } from "./state-name";
 import { projectGovernmentBrowser } from "./politics-government";
 import {
   projectOrientationView,
@@ -96,10 +96,6 @@ export interface OpeningStopsView {
   readonly ledger: readonly OpeningLedgerRow[];
   /** The home state's postal code, for the Ledger's population and voting. */
   readonly homeStateUsps: string | null;
-}
-
-function stateName(usps: string): string | null {
-  return (US_STATE_NAMES as Readonly<Record<string, string>>)[usps] ?? null;
 }
 
 function present(
@@ -498,7 +494,7 @@ export function projectOpeningStops(
   personId: EntityId,
 ): OpeningStopsView {
   const orientation = projectWorldOrientation(world, personId);
-  const view = projectOrientationView(orientation, stateName);
+  const view = projectOrientationView(orientation, stateNameForUsps);
   const address = openingAddress(world, orientation);
   const executive = executivePeople(orientation, view);
   const congress = congressInChamber(world, personId, view);

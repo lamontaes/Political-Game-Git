@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { ageOnDate } from "../simulation";
 
-import { stateNameForUsps } from "../player/useWorldOrientation";
+import { stateNameForUsps } from "./state-name";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
