@@ -41,9 +41,18 @@ test("News speaks about the place and the Journal tells the life through save (A
   const news = page.getByTestId("world39-news");
   await expect(news).toBeVisible();
   await expect(news).toContainText("Around Aurora, Colorado");
-  await expect(news).toContainText("serves as President of the United States");
-  await expect(news).toContainText(
-    /has served as President of the United States since [A-Z][a-z]+ \d{4}\./,
+  // Who serves, as record values: the title over the holder and the date
+  // the term began.
+  const president = news.locator('[data-standing-kind="office"]').filter({
+    has: page.getByRole("heading", {
+      name: "President of the United States",
+      exact: true,
+    }),
+  });
+  await expect(president).toHaveCount(1);
+  await expect(president.getByRole("button")).toHaveText(/\S/);
+  await expect(president).toContainText(
+    /In office since [A-Z][a-z]+ \d{1,2}, \d{4}/,
   );
   const newsText = await news.innerText();
   expect(newsText).not.toMatch(/war broke out|secret motive|you chose to/i);
@@ -103,10 +112,11 @@ test("Kentucky regression: Lexington's News names its consolidated government pl
   await goTo(page, "nav-news");
   await openNewsContext(page, "around");
   const news = page.getByTestId("world39-news");
-  await expect(news).toContainText(
-    "Lexington, Kentucky is governed by Lexington-Fayette Urban County Government",
+  const government = news.locator('[data-standing-kind="government"]');
+  await expect(government).toContainText(
+    "Lexington-Fayette Urban County Government",
   );
-  await expect(news).toContainText("Urban County Council");
+  await expect(government).toContainText("Urban County Council");
   const newsText = await news.innerText();
   expect(newsText).not.toMatch(/URBAN_COUNTY|Form:|Recorded body/);
   expect(newsText).not.toMatch(DATABASE_WORDING);
