@@ -142,5 +142,29 @@
     "addedAt": "2026-10-09",
     "replaceWith": "A recorded loan term or sourced term distribution for the buyer and loan type.",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.new-credit-tightness",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/parameters.ts",
+    "line": 169,
+    "behavior": "Banks do not extend new credit when national credit tightness is 0.75 or higher.",
+    "whyNecessary": "The legacy bank rule pauses new lines and growth after a national tightening threshold.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A sourced lender-wide credit availability measure and place-level applicability rule.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.largest-bank-lender",
+    "kind": "assumption",
+    "file": "src/rules/economy/bank-credit.ts",
+    "line": 24,
+    "behavior": "A business borrows from the open town bank with the largest deposits; deposit ties use bank ID order.",
+    "whyNecessary": "Individual business-bank relationships are not supplied to the selection rule.",
+    "addedBy": "RULES-1",
+    "addedAt": "2026-10-09",
+    "replaceWith": "A recorded business-to-bank relationship and its active loan terms.",
+    "status": "OPEN"
   }
 ]

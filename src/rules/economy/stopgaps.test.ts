@@ -7,9 +7,12 @@ interface StopgapEntry {
   readonly line: number;
 }
 
-const files = ["parameters.ts", "town-pay.ts", "home-price-levels.ts"].map(
-  (name) => new URL(`./${name}`, import.meta.url),
-);
+const files = [
+  "parameters.ts",
+  "town-pay.ts",
+  "home-price-levels.ts",
+  "bank-credit.ts",
+].map((name) => new URL(`./${name}`, import.meta.url));
 const registry = JSON.parse(
   readFileSync(new URL("./stopgaps.json", import.meta.url), "utf8"),
 ) as readonly StopgapEntry[];

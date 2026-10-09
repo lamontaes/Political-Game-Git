@@ -163,6 +163,14 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Owner-approved fixed mortgage term in the legacy rule",
     range: { minimum: 1, maximum: 600 },
   },
+  maximumNewCreditEconomyTightness: {
+    value: 0.75,
+    basis: "TUNABLE",
+    stopgapId: "economy.new-credit-tightness",
+    source:
+      "Legacy rule pauses new credit when nationwide credit tightness reaches three quarters",
+    range: { minimum: 0, maximum: 1 },
+  },
   mortgageSpreadReference: {
     value: {
       mortgageRatePercent: 6.15,
