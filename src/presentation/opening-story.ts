@@ -105,30 +105,8 @@ export function projectOpeningYear(
       label: "President",
       value: [president.name, president.party].filter(Boolean).join(" · "),
     });
-  const congress = orientation.steps.find((step) => step.key === "congress");
-  for (const chamber of congress?.chambers ?? []) {
-    // Every seat is accounted for: the parties' members and the empty seats
-    // add up to the chamber.
-    const vacant = chamber.roster.filter(
-      (row) => row.status === "vacancy",
-    ).length;
-    const unrecorded = chamber.roster.filter(
-      (row) => row.status !== "member" && row.status !== "vacancy",
-    ).length;
-    const parts = [
-      ...chamber.parties
-        .filter((party) => party.members > 0)
-        .map((party) =>
-          party.noParty || party.label === "Independent"
-            ? `${party.members} ${party.members === 1 ? "independent" : "independents"}`
-            : `${party.members} ${party.label}`,
-        ),
-      ...(vacant > 0 ? [`${vacant} vacant`] : []),
-      ...(unrecorded > 0 ? [`${unrecorded} not recorded`] : []),
-    ];
-    if (parts.length > 0)
-      facts.push({ label: chamber.name, value: parts.join(" · ") });
-  }
+  // Congress is told once, on its own stop beside its chart, which accounts
+  // for every seat (owner playtest, October 8, 2026: Congress showed twice).
   const home = world.people[personId]?.homeJurisdictionId;
   const start = home
     ? projectMacroConditions(world, home).startingConditions

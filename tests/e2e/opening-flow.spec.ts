@@ -36,7 +36,9 @@ async function freshBrowser(page: Page) {
 /** Every screen of the opening, in order, until it closes. */
 async function walkOpening(page: Page): Promise<string[]> {
   const intro = page.getByTestId("world-orientation");
-  await expect(intro).toBeVisible();
+  // Begin builds the world behind a progress screen first, about 13 seconds
+  // in a cloud machine (#3896); the opening follows it.
+  await expect(intro).toBeVisible({ timeout: 60_000 });
   const seen: string[] = [];
   for (let screen = 0; screen < 12; screen += 1) {
     if (!(await intro.isVisible())) break;
@@ -91,7 +93,7 @@ test("an adult's opening walks from the year to their family and lands on a day 
     "state",
     "legislature",
     "congress",
-    "locality",
+    // The approved intro filter leaves out the locality card (#2174).
     "parents",
     "your-life",
   ]);
@@ -108,14 +110,15 @@ test("a child's opening names who raised them and lands on a day with something 
     age: 12,
   });
   const seen = await walkOpening(page);
-  expect(seen.slice(0, 6)).toEqual([
+  expect(seen.slice(0, 5)).toEqual([
     "year",
     "executive",
     "state",
     "legislature",
     "congress",
-    "locality",
   ]);
+  // The approved intro filter leaves out the locality card (#2174).
+  expect(seen).not.toContain("locality");
   expect(seen).toContain("parents");
   expect(seen.at(-1)).toBe("your-life");
   await expectSomethingToDo(page);
