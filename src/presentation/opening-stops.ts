@@ -15,7 +15,11 @@ import {
   projectOpeningFamily,
   projectOpeningLegislature,
 } from "./opening-story";
-import { openingLegislaturePeople } from "./opening-tour-people";
+import {
+  chamberFloorPeople,
+  openingLegislaturePeople,
+} from "./opening-tour-people";
+import { homeStateUsps as stateOfHome } from "../simulation/nationwide-world/state-executives";
 import {
   backdropForLocation,
   homePlacesForPerson,
@@ -31,11 +35,14 @@ import {
 } from "./world-orientation";
 
 /**
- * The opening as the owner approved it on October 8, 2026: six stops, a
- * camera move from the country down to the player. Each stop is a place with
- * the people actually there; a plaque names only the people who matter to
- * that stop, by name and their relationship to the player as the records give
- * it. Every number goes to the Ledger, never onto a stop.
+ * The opening as the owner approved it on October 8, 2026 (revised 11:14
+ * p.m.): six stops, cut to as the President's address reaches each level of
+ * government and then the player. In an inauguration year the address is the
+ * inaugural, given outside the Capitol; otherwise it is the State of the
+ * Union, given from the House rostrum. Each stop is a place with the people
+ * actually there; a plaque names only the people who matter to that stop, by
+ * name and their relationship to the player as the records give it. Every
+ * number goes to the Ledger, never onto a stop.
  *
  * Read only: projecting the stops advances no clock and writes no record.
  */
@@ -54,7 +61,17 @@ export const OPENING_STOP_ORDER: readonly OpeningStopKey[] = [
 export interface OpeningStopPerson extends OrientationPerson {
   /** True when this person carries a plaque at this stop. */
   readonly plaque: boolean;
+  /**
+   * Where the room seats them: the speaker at the rostrum's podium, or a
+   * member of the body that meets there (Congress, a town council) in its
+   * members' seats. Anyone else takes an open seat (the Vice President, on
+   * the rostrum behind the podium).
+   */
+  readonly role: "speaker" | "member" | null;
 }
+
+/** The President's address the opening's subtitles carry. */
+export type OpeningAddress = "inaugural" | "state-of-the-union";
 
 export interface OpeningStop {
   readonly key: OpeningStopKey;
@@ -73,6 +90,7 @@ export interface OpeningLedgerRow {
 }
 
 export interface OpeningStopsView {
+  readonly address: OpeningAddress;
   readonly stops: readonly OpeningStop[];
   /** Every number the opening knows, closed by default behind the Ledger. */
   readonly ledger: readonly OpeningLedgerRow[];
@@ -87,13 +105,14 @@ function stateName(usps: string): string | null {
 function present(
   people: readonly OrientationPerson[],
   plaque: (person: OrientationPerson) => boolean,
+  role: (person: OrientationPerson) => OpeningStopPerson["role"] = () => null,
 ): OpeningStopPerson[] {
   const seen = new Set<EntityId>();
   const out: OpeningStopPerson[] = [];
   for (const person of people) {
     if (seen.has(person.personId)) continue;
     seen.add(person.personId);
-    out.push({ ...person, plaque: plaque(person) });
+    out.push({ ...person, plaque: plaque(person), role: role(person) });
   }
   return [
     ...out.filter((person) => person.plaque),
@@ -117,41 +136,55 @@ const COUNTRY_OFFICES: readonly string[] = [
   "us-vice-president",
 ];
 
-/** (1) The country: the President and Vice President at the White House. */
-function countryStop(
-  orientation: ReturnType<typeof projectWorldOrientation>,
+type Orientation = ReturnType<typeof projectWorldOrientation>;
+
+/**
+ * The inaugural in the year a President's term began, by the term's recorded
+ * start; the State of the Union in any other year.
+ */
+function openingAddress(
+  world: World,
+  orientation: Orientation,
+): OpeningAddress {
+  const president = orientation.executive.find(
+    (holder) => holder.officeKey === "us-president",
+  );
+  return president?.startedAt?.slice(0, 4) === world.currentDate.slice(0, 4)
+    ? "inaugural"
+    : "state-of-the-union";
+}
+
+/** The President and Vice President, as the orientation records them. */
+function executivePeople(
+  orientation: Orientation,
   view: OrientationView,
-): OpeningStop {
+): readonly { officeKey: string; person: OrientationPerson }[] {
   const executive = view.steps.find((step) => step.key === "executive");
-  const people = COUNTRY_OFFICES.flatMap((officeKey) => {
+  return COUNTRY_OFFICES.flatMap((officeKey) => {
     const holder = orientation.executive.find(
       (entry) => entry.officeKey === officeKey,
     );
     const person = holder
       ? executive?.people.find((entry) => entry.personId === holder.personId)
       : undefined;
-    return person ? [person] : [];
+    return person ? [{ officeKey, person }] : [];
   });
-  return {
-    key: "country",
-    place: "oval-office",
-    people: present(people, () => true),
-    // The office's measured spots stand them before the desk; they are
-    // furniture spots, as on the play screen.
-    furniture: true,
-  };
 }
 
 /**
- * (2) Who represents you: your two senators and your House member, or the
- * District's or a territory's member of the House, as the home's recorded
- * districts give them. Congress is shown once, here.
+ * Congress as it sits in its chamber: the player's two senators and House
+ * member, or the District's or a territory's member of the House, as the
+ * home's recorded districts give them, then the rest of Congress, home
+ * state first.
  */
-function representativesStop(
+function congressInChamber(
   world: World,
   personId: EntityId,
   view: OrientationView,
-): OpeningStop {
+): {
+  readonly yours: readonly OrientationPerson[];
+  readonly all: readonly OrientationPerson[];
+} {
   const roster = new Map(
     view.steps
       .flatMap((step) => step.chambers)
@@ -163,7 +196,7 @@ function representativesStop(
     projectGovernmentBrowser(world, personId).representedBy?.filter(
       (row) => row.key === "us-senate" || row.key === "us-house",
     ) ?? [];
-  const members = [
+  const yours = [
     ...rows.filter((row) => row.key === "us-senate"),
     ...rows.filter((row) => row.key === "us-house"),
   ].flatMap((row) =>
@@ -175,11 +208,94 @@ function representativesStop(
       return person ? [person] : [];
     }),
   );
+  const homeUsps = stateOfHome(world, personId);
+  const others = view.steps
+    .flatMap((step) => step.chambers)
+    .flatMap((chamber) => chamberFloorPeople(chamber, { homeUsps }));
+  return { yours, all: [...yours, ...others] };
+}
+
+/**
+ * Where each person sits in the chamber during the State of the Union: the
+ * President at the rostrum's podium, the members of Congress in the members'
+ * seats, and the Vice President in an open seat on the rostrum behind.
+ */
+function chamberRole(
+  executive: readonly { officeKey: string; person: OrientationPerson }[],
+  congress: ReadonlySet<EntityId>,
+): (person: OrientationPerson) => OpeningStopPerson["role"] {
+  const president = executive.find(
+    (entry) => entry.officeKey === "us-president",
+  )?.person.personId;
+  return (person) =>
+    person.personId === president
+      ? "speaker"
+      : congress.has(person.personId)
+        ? "member"
+        : null;
+}
+
+/**
+ * (1) The country: the President giving the address, with the Vice
+ * President. The State of the Union is given from the House rostrum to
+ * Congress in its seats; the inaugural, outside the Capitol.
+ */
+function countryStop(
+  executive: readonly { officeKey: string; person: OrientationPerson }[],
+  congress: ReturnType<typeof congressInChamber>,
+  address: OpeningAddress,
+): OpeningStop {
+  const people = executive.map((entry) => entry.person);
+  if (address !== "state-of-the-union")
+    return {
+      key: "country",
+      place: "us-capitol-exterior",
+      people: present(people, () => true),
+      furniture: false,
+    };
+  const leaders = new Set(people.map((person) => person.personId));
+  return {
+    key: "country",
+    place: "us-house-floor",
+    people: present(
+      [...people, ...congress.all],
+      (person) => leaders.has(person.personId),
+      chamberRole(
+        executive,
+        new Set(congress.all.map((person) => person.personId)),
+      ),
+    ),
+    furniture: true,
+  };
+}
+
+/**
+ * (2) Who represents you: Congress in its chamber, with plaques on the
+ * player's own members. During the State of the Union it is the same
+ * moment as the country's cut, the President still at the rostrum. Congress
+ * is introduced once, here.
+ */
+function representativesStop(
+  executive: readonly { officeKey: string; person: OrientationPerson }[],
+  congress: ReturnType<typeof congressInChamber>,
+  address: OpeningAddress,
+): OpeningStop {
+  const yours = new Set(congress.yours.map((member) => member.personId));
+  const chamber = address === "state-of-the-union";
   return {
     key: "representatives",
-    place: "us-capitol-exterior",
-    people: present(members, () => true),
-    furniture: false,
+    place: "us-house-floor",
+    people: present(
+      chamber
+        ? [...congress.all, ...executive.map((entry) => entry.person)]
+        : congress.all,
+      (person) => yours.has(person.personId),
+      chamberRole(
+        chamber ? executive : [],
+        new Set(congress.all.map((person) => person.personId)),
+      ),
+    ),
+    furniture: true,
   };
 }
 
@@ -231,9 +347,11 @@ function townStop(world: World, personId: EntityId): OpeningStop {
   return {
     key: "town",
     place: openingLocalChamber(world, personId),
+    // The town's governing body sits at its own dais.
     people: present(
       people,
       (person) => person.personId === head && headTitle !== null,
+      () => "member",
     ),
     furniture: true,
   };
@@ -381,10 +499,14 @@ export function projectOpeningStops(
 ): OpeningStopsView {
   const orientation = projectWorldOrientation(world, personId);
   const view = projectOrientationView(orientation, stateName);
+  const address = openingAddress(world, orientation);
+  const executive = executivePeople(orientation, view);
+  const congress = congressInChamber(world, personId, view);
   return {
+    address,
     stops: [
-      countryStop(orientation, view),
-      representativesStop(world, personId, view),
+      countryStop(executive, congress, address),
+      representativesStop(executive, congress, address),
       stateStop(world, personId, view),
       townStop(world, personId),
       homeStop(world, personId),

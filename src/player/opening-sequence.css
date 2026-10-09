@@ -1,16 +1,16 @@
 /*
- * The opening (owner approval, October 8, 2026): no box in the middle of the
- * screen. The stop's place fills the screen; a lower-third strip carries the
- * one line and the controls under a solid gold top border with the corner
- * pieces on it.
+ * The opening (owner approval, October 8, 2026, revised 11:14 p.m.) is
+ * cinematic: the stop's place fills the frame between black letterbox bars,
+ * and the President's address runs as subtitles in the bottom bar.
  */
 .pg-opener {
-  --pg-opener-strip-height: 7.5rem;
+  --pg-letterbox-top: max(3.75rem, 9vh);
+  --pg-letterbox-bottom: max(7.5rem, 15vh);
   position: fixed;
   inset: 0;
   z-index: 60;
   overflow: hidden;
-  background: var(--iron);
+  background: #000;
   color: var(--text-strong);
 }
 
@@ -23,10 +23,10 @@
   transform: none;
 }
 
-/* The place is framed above the strip, so everyone in it is seen whole. */
+/* The place is framed between the bars, so everyone in it is seen whole. */
 .pg-opener .pg-scene-chapters {
   position: absolute;
-  inset: 0 0 var(--pg-opener-strip-height);
+  inset: var(--pg-letterbox-top) 0 var(--pg-letterbox-bottom);
 }
 
 .pg-opener-stage {
@@ -78,7 +78,7 @@
   cursor: pointer;
 }
 
-/* A seated person carries the plaque under what is seen of them. */
+/* Someone seen behind furniture carries the plaque on its front edge. */
 .pg-opener-plaque[data-anchor="below"] {
   transform: translate(-50%, 6px);
 }
@@ -95,29 +95,49 @@
   font-size: 0.72rem;
 }
 
-.pg-opener-progress {
+.pg-opener-bar {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  right: 0;
+  left: 0;
   z-index: 3;
-  width: min(16rem, 40vw);
+  box-sizing: border-box;
+  background: #000;
 }
 
-.pg-opener-ledger-toggle {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 3;
+.pg-opener-bar[data-bar="top"] {
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--pg-letterbox-top);
+  padding: 0 1rem;
+}
+
+/* The words run centered across the frame; the controls keep to the right. */
+.pg-opener-bar[data-bar="bottom"] {
+  bottom: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 52rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  height: var(--pg-letterbox-bottom);
+  padding: 0 1.25rem;
+}
+
+.pg-opener-progress {
+  width: min(16rem, 40vw);
 }
 
 .pg-opener-ledger {
   position: absolute;
-  top: 3.6rem;
+  top: calc(var(--pg-letterbox-top) + 0.5rem);
   right: 1rem;
   z-index: 3;
   box-sizing: border-box;
   width: min(24rem, calc(100% - 2rem));
-  max-height: calc(100% - 3.6rem - var(--pg-opener-strip-height) - 1rem);
+  max-height: calc(
+    100% - var(--pg-letterbox-top) - var(--pg-letterbox-bottom) - 1rem
+  );
   overflow-y: auto;
   padding: 1rem 1.1rem;
   font-family: var(--ui);
@@ -143,86 +163,32 @@
   margin: 0.1rem 0 0;
 }
 
-.pg-opener-strip {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  height: var(--pg-opener-strip-height);
-  padding: 1.1rem 4.5rem;
-  border-top: 5px solid var(--gold);
-  box-shadow: 0 -1px 0 #000;
-  background: linear-gradient(180deg, rgb(24 23 22 / 94%), rgb(16 16 18 / 98%));
-}
-
-.pg-opener-line {
-  flex: 1;
+.pg-opener-subtitle {
+  grid-column: 2;
   margin: 0;
-  color: var(--text-strong);
+  color: #f4efe6;
   font-family: var(--speech);
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
-  line-height: 1.4;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  line-height: 1.45;
+  text-align: center;
 }
 
 .pg-opener-actions {
+  grid-column: 3;
   display: flex;
-  flex-shrink: 0;
+  justify-content: flex-end;
   gap: 0.6rem;
 }
 
-/*
- * The corner pieces are the approved Kit 13 sheet's own pixels. Each is cut
- * from the sheet's frame outline inward (the outline is at sheet x 55 and
- * 1564, y 48), so no room pixels from the sheet come with it, and masked to
- * the gold ornament so the sheet's panel fill does not show as a square.
- * Its outline row sits on the strip's outline and its gold rule on the
- * strip's gold border: the piece sits on the border.
- */
-.pg-opener-corners > span {
-  position: absolute;
-  top: -6px;
-  width: 54px;
-  height: 54px;
-  background-image: url("/ui/kit13/approved-controls-sheet.png");
-  background-repeat: no-repeat;
-  background-size: 1622px 969px;
-  pointer-events: none;
-}
-
-.pg-opener-corners [data-corner="top-left"] {
-  left: 0;
-  background-position: -55px -48px;
-  mask-image: linear-gradient(
-    to bottom right,
-    #000 calc(50% - 0.5px),
-    transparent calc(50% + 0.5px)
-  );
-}
-
-.pg-opener-corners [data-corner="top-right"] {
-  right: 0;
-  background-position: -1511px -48px;
-  mask-image: linear-gradient(
-    to bottom left,
-    #000 calc(50% - 0.5px),
-    transparent calc(50% + 0.5px)
-  );
-}
-
 @media (max-width: 720px) {
-  .pg-opener-strip {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 1rem 1rem 1.1rem;
+  .pg-opener-bar[data-bar="bottom"] {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 0.6rem;
   }
 
+  .pg-opener-subtitle,
   .pg-opener-actions {
-    justify-content: flex-end;
+    grid-column: 1;
   }
 }

@@ -53,22 +53,45 @@ describe("the six opening stops", { timeout: 300_000 }, () => {
       }
       const [country, representatives, state, town, home, you] = view.stops;
 
-      expect(country!.people.map((person) => person.title)).toEqual([
+      const leaders = country!.people.filter((person) => person.plaque);
+      expect(leaders.map((person) => person.title)).toEqual([
         expect.stringMatching(/^President of /),
         expect.stringMatching(/^Vice President of /),
       ]);
-      expect(country!.people.every((person) => person.plaque)).toBe(true);
 
-      // Two senators from the home state and one House member.
-      const senators = representatives!.people.filter((person) =>
-        person.title.startsWith("U.S. Senator from "),
-      );
-      expect(senators).toHaveLength(2);
+      // The President gives the address: the State of the Union from the
+      // House rostrum to Congress in its seats, the Vice President seated
+      // behind; an inaugural outside the Capitol. Both chamber cuts are the
+      // same moment, so the same people are in the room for each.
+      if (view.address === "state-of-the-union") {
+        expect(country!.place).toBe("us-house-floor");
+        expect(leaders.map((person) => person.role)).toEqual(["speaker", null]);
+        expect(
+          country!.people
+            .filter((person) => !person.plaque)
+            .every((person) => person.role === "member"),
+        ).toBe(true);
+        expect(
+          new Set(representatives!.people.map((person) => person.personId)),
+        ).toEqual(new Set(country!.people.map((person) => person.personId)));
+      } else {
+        expect(country!.place).toBe("us-capitol-exterior");
+        expect(country!.people).toHaveLength(2);
+      }
+
+      // Congress sits in the chamber; the plaques are the player's two
+      // senators from the home state and one House member.
+      expect(representatives!.place).toBe("us-house-floor");
+      const yours = representatives!.people.filter((person) => person.plaque);
       expect(
-        representatives!.people.filter((person) =>
+        yours.filter((person) => person.title.startsWith("U.S. Senator from ")),
+      ).toHaveLength(2);
+      expect(
+        yours.filter((person) =>
           person.title.startsWith("U.S. Representative for "),
         ),
       ).toHaveLength(1);
+      expect(yours).toHaveLength(3);
 
       expect(state!.people[0]!.title).toMatch(/^Governor of /);
       expect(state!.place).toBe("governor-office");
@@ -115,11 +138,10 @@ describe("the six opening stops", { timeout: 300_000 }, () => {
     const representatives = view.stops.find(
       (stop) => stop.key === "representatives",
     )!;
+    const yours = representatives.people.filter((person) => person.plaque);
     expect(
-      representatives.people.filter((person) =>
-        person.title.startsWith("U.S. Senator"),
-      ),
+      yours.filter((person) => person.title.startsWith("U.S. Senator")),
     ).toEqual([]);
-    expect(representatives.people.length).toBeLessThanOrEqual(1);
+    expect(yours.length).toBeLessThanOrEqual(1);
   });
 });

@@ -10,6 +10,7 @@ import {
 
 import type { EntityId, World } from "../simulation";
 import type { BackdropPerson } from "../presentation/backdrop-people";
+import { plaqueAnchor } from "../presentation/opening-plaque-anchor";
 import {
   projectOpeningStops,
   type OpeningStopKey,
@@ -26,14 +27,16 @@ import { PlacePeopleLayer, useCoverRect } from "./PlacePeopleLayer";
 import { SceneChapterTransition } from "./SceneChapterTransition";
 
 /**
- * The opening the owner approved on October 8, 2026: six stops, a camera
- * move from the country down to the player. Each stop fills the screen with
- * its place and the people actually there. A lower-third strip carries the
- * stop's one line, under a solid gold top border with the corner pieces on
- * it, and outlined Back, Next and Skip. A six-step progress bar sits top
- * left; the Ledger, top right and closed by default, holds every number.
- * Plaques name only the people who matter to the stop, with their
- * relationship to the player.
+ * The opening the owner approved on October 8, 2026 (revised 11:14 p.m.):
+ * cinematic, between black letterbox bars. The President's address carries
+ * it as subtitles in the bottom bar, and the picture cuts to each of six
+ * stops as the address reaches it: the President, the player's members of
+ * Congress in the chamber, the governor, the town, the family at home, and
+ * the player. Each cut fills the frame with its place and the people
+ * actually there. A six-step progress bar and the Ledger, closed by default
+ * and holding every number, sit in the top bar; outlined Back, Next and Skip
+ * in the bottom bar. Plaques name only the people who matter to the stop,
+ * with their relationship to the player.
  *
  * Choosing a person opens their ordinary card and grants nothing. Back,
  * Next, Skip and Close are navigation only, and nothing here writes a record.
@@ -44,7 +47,7 @@ export function OpeningSequence({
   mode,
   onClose,
   onOpenPerson,
-  lineFor,
+  subtitleFor,
 }: {
   readonly world: World;
   readonly personId: EntityId;
@@ -52,8 +55,8 @@ export function OpeningSequence({
   readonly mode: "first" | "revisit";
   readonly onClose: () => void;
   readonly onOpenPerson: (personId: EntityId) => void;
-  /** The stop's one engine-written line, from the opening-line composer. */
-  readonly lineFor?: (stop: OpeningStopKey) => string | null;
+  /** The address's words at this cut, from the presidential-address composer. */
+  readonly subtitleFor?: (stop: OpeningStopKey) => string | null;
 }) {
   const view = useMemo(
     () => projectOpeningStops(world, personId),
@@ -77,7 +80,7 @@ export function OpeningSequence({
   const stage = useRef<HTMLDivElement>(null);
   const url = openingStopBackdropUrl(stop);
   const next = stops[index + 1];
-  const line = lineFor?.(stop.key) ?? null;
+  const subtitle = subtitleFor?.(stop.key) ?? null;
   const plaqued = new Map(
     stop.people
       .filter((person) => person.plaque)
@@ -89,9 +92,10 @@ export function OpeningSequence({
       className="pg-opener"
       role="dialog"
       aria-modal="false"
-      aria-labelledby={line ? `pg-opener-line-${stop.key}` : undefined}
+      aria-labelledby={subtitle ? `pg-opener-subtitle-${stop.key}` : undefined}
       data-testid="world-orientation"
       data-step={stop.key}
+      data-address={view.address}
       onKeyDown={(event) => {
         if (event.key !== "Escape") return;
         event.stopPropagation();
@@ -119,7 +123,7 @@ export function OpeningSequence({
           <PlacePeopleLayer
             people={staged}
             stageRef={stage}
-            onSelectPerson={(id) => onOpenPerson(id)}
+            onSelectPerson={(id) => onOpenPerson(id as EntityId)}
           />
           <OpeningPlaques
             people={staged}
@@ -130,22 +134,24 @@ export function OpeningSequence({
         </div>
       </SceneChapterTransition>
 
-      <progress
-        className="pg-opener-progress"
-        data-testid="orientation-progress"
-        max={stops.length}
-        value={index + 1}
-      />
-      <button
-        type="button"
-        className="ui-action pg-opener-ledger-toggle"
-        data-testid="opening-ledger-toggle"
-        aria-expanded={ledgerOpen}
-        aria-controls="pg-opener-ledger"
-        onClick={() => setLedgerOpen((open) => !open)}
-      >
-        Ledger
-      </button>
+      <header className="pg-opener-bar" data-bar="top">
+        <progress
+          className="pg-opener-progress"
+          data-testid="orientation-progress"
+          max={stops.length}
+          value={index + 1}
+        />
+        <button
+          type="button"
+          className="ui-action pg-opener-ledger-toggle"
+          data-testid="opening-ledger-toggle"
+          aria-expanded={ledgerOpen}
+          aria-controls="pg-opener-ledger"
+          onClick={() => setLedgerOpen((open) => !open)}
+        >
+          Ledger
+        </button>
+      </header>
       {ledgerOpen ? (
         <OpeningLedger
           rows={view.ledger}
@@ -154,17 +160,13 @@ export function OpeningSequence({
         />
       ) : null}
 
-      <footer className="pg-opener-strip">
-        <span className="pg-opener-corners" aria-hidden="true">
-          <span data-corner="top-left" />
-          <span data-corner="top-right" />
-        </span>
+      <footer className="pg-opener-bar" data-bar="bottom">
         <p
-          id={`pg-opener-line-${stop.key}`}
-          className="pg-opener-line"
+          id={`pg-opener-subtitle-${stop.key}`}
+          className="pg-opener-subtitle"
           data-testid={`orientation-step-${stop.key}`}
         >
-          {line}
+          {subtitle}
         </p>
         <div className="pg-opener-actions">
           <button
@@ -207,8 +209,8 @@ export function OpeningSequence({
 /**
  * A plaque for each person who matters to the stop: their name, and under
  * it their relationship to the player as the records give it. It sits just
- * above a standing figure, or under a seated one, on the same cover-fitted
- * picture the people layer uses.
+ * above the person's head, or on the furniture they are seen behind
+ * (plaqueAnchor), on the same cover-fitted picture the people layer uses.
  */
 function OpeningPlaques({
   people,
@@ -239,6 +241,10 @@ function OpeningPlaques({
     >
       {shown.map((person) => {
         const recorded = plaqued.get(person.personId)!;
+        const at = plaqueAnchor(person, people, {
+          widthPercent: (PLAQUE_PX.width / rect.width) * 100,
+          heightPercent: (PLAQUE_PX.height / rect.height) * 100,
+        });
         return (
           <button
             key={person.personId}
@@ -246,11 +252,11 @@ function OpeningPlaques({
             className="pg-opener-plaque"
             data-testid="opening-plaque"
             data-person-id={person.personId}
-            data-anchor={plaqueBelow(person) ? "below" : "head"}
+            data-anchor={at.anchor}
             style={
               {
-                left: `${person.leftPercent + person.widthPercent / 2}%`,
-                top: `${plaqueTop(person)}%`,
+                left: `${at.leftPercent}%`,
+                top: `${at.topPercent}%`,
               } satisfies CSSProperties
             }
             onClick={() => onOpenPerson(person.personId)}
@@ -264,23 +270,8 @@ function OpeningPlaques({
   );
 }
 
-/**
- * A seated figure is drawn in a standing figure's box, so the top of its box
- * is not its head. Its plaque goes under what is seen of it instead: the
- * front edge of the furniture it sits behind, or else its feet.
- */
-function plaqueBelow(person: BackdropPerson): boolean {
-  return (
-    person.clipBelowPercent !== null || person.resolvedPose.startsWith("seated")
-  );
-}
-
-function plaqueTop(person: BackdropPerson): number {
-  if (person.clipBelowPercent !== null) return person.clipBelowPercent;
-  return plaqueBelow(person)
-    ? person.topPercent + person.heightPercent
-    : person.topPercent;
-}
+/** About the size a two-line plaque is drawn at, in pixels. */
+const PLAQUE_PX = { width: 192, height: 46 } as const;
 
 /** Every number the opening knows, under the label its record carries. */
 function OpeningLedger({
