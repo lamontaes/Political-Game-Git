@@ -1,0 +1,616 @@
+{
+  "schema": "english-parts/1",
+  "register": "debt-notice",
+  "description": "What a debt collector's validation notice and a lender's late-payment statement say, copied word for word from two federal model forms (public domain): Regulation F Model Form B-1, which most collection letters follow, and Regulation Z Form H-30(B), the sample mortgage statement with its delinquency box. Only names, dates and amounts are slots, filled from a loan's records. Form H-30(B) is a mortgage statement, so every move it supplies except its column labels is named for a mortgage and is for a loan on a home only.",
+  "slots": {
+    "collector": "The name of the debt collector recorded as collecting the debt.",
+    "creditor": "The name of the lender the debt is owed to, from the loan's records.",
+    "product": "What the loan was for, such as a car loan, from the loan's records.",
+    "account": "The loan's account number, when the records hold one.",
+    "date": "A date from the loan's records, spoken in full, such as January 2, 2027.",
+    "paidDate": "The date a payment was made, from the loan's records.",
+    "deadline": "The last day to dispute the debt, from the notice's records.",
+    "amount": "A dollar amount from the loan's records, such as $2,234.56.",
+    "days": "How many days the payment is late, from the loan's records."
+  },
+  "maxWords": 30,
+  "mining": {
+    "tool": "scripts/english-mining/build-debt-notice.py",
+    "read": "Regulation F Model Form B-1 (12 CFR part 1006, appendix B) and Regulation Z Form H-30(B) (12 CFR part 1026, appendix H), as published by the Consumer Financial Protection Bureau. Both apply in every state, the District of Columbia and the territories. Spanish-language lines and web addresses on the forms are left out.",
+    "sources": [
+      {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      },
+      {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      },
+      {
+        "document": "Regulation Z Form H-30(B) image, as shown on the Bureau's current Regulation Z page",
+        "date": "2025-01-01",
+        "url": "https://files.consumerfinance.gov/eregulations/ER14FE13.009-1.png"
+      }
+    ]
+  },
+  "parts": [
+    {
+      "key": "debt-notice.collector.collector-is-a-debt-collector",
+      "move": "collector",
+      "kind": "written",
+      "text": "{collector} is a debt collector.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.collector.we-are-trying-to-collect-a-debt-that",
+      "move": "collector",
+      "kind": "written",
+      "text": "We are trying to collect a debt that you owe to {creditor}.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.collector.we-will-use-any-information-you-give-us",
+      "move": "collector",
+      "kind": "written",
+      "text": "We will use any information you give us to help collect the debt.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.heading.our-information-shows",
+      "move": "heading",
+      "kind": "written",
+      "text": "Our information shows:",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.heading.how-can-you-dispute-the-debt",
+      "move": "heading",
+      "kind": "written",
+      "text": "How can you dispute the debt?",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.heading.what-else-can-you-do",
+      "move": "heading",
+      "kind": "written",
+      "text": "What else can you do?",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.heading.how-do-you-want-to-respond",
+      "move": "heading",
+      "kind": "written",
+      "text": "How do you want to respond?",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.debt.you-had-a-product-from-creditor-with-account",
+      "move": "debt",
+      "kind": "written",
+      "text": "You had a {product} from {creditor} with account number {account}.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.debt.as-of-date-you-owed-amount",
+      "move": "debt",
+      "kind": "written",
+      "text": "As of {date}, you owed: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.debt.between-date-and-today",
+      "move": "debt",
+      "kind": "written",
+      "text": "Between {date} and today:",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.itemization.you-were-charged-this-amount-in-interest-amount",
+      "move": "itemization",
+      "kind": "written",
+      "text": "You were charged this amount in interest: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.itemization.you-were-charged-this-amount-in-fees-amount",
+      "move": "itemization",
+      "kind": "written",
+      "text": "You were charged this amount in fees: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.itemization.you-paid-or-were-credited-this-amount-toward",
+      "move": "itemization",
+      "kind": "written",
+      "text": "You paid or were credited this amount toward the debt: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.itemization.total-amount-of-the-debt-now-amount",
+      "move": "itemization",
+      "kind": "written",
+      "text": "Total amount of the debt now: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.dispute.call-or-write-to-us-by-deadline-to",
+      "move": "dispute",
+      "kind": "written",
+      "text": "Call or write to us by {deadline}, to dispute all or part of the debt.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.dispute.if-you-do-not-we-will-assume-that",
+      "move": "dispute",
+      "kind": "written",
+      "text": "If you do not, we will assume that our information is correct.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.dispute.if-you-write-to-us-by-deadline-we",
+      "move": "dispute",
+      "kind": "written",
+      "text": "If you write to us by {deadline}, we must stop collection on any amount you dispute until we send you information that shows you owe the debt.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.dispute.you-may-use-the-form-below-or-write",
+      "move": "dispute",
+      "kind": "written",
+      "text": "You may use the form below or write to us without the form.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.dispute.you-may-also-include-supporting-documents",
+      "move": "dispute",
+      "kind": "written",
+      "text": "You may also include supporting documents.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.rights.write-to-ask-for-the-name-and-address",
+      "move": "rights",
+      "kind": "written",
+      "text": "Write to ask for the name and address of the original creditor, if different from the current creditor.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.rights.if-you-write-by-deadline-we-must-stop",
+      "move": "rights",
+      "kind": "written",
+      "text": "If you write by {deadline}, we must stop collection until we send you that information.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.rights.contact-us-about-your-payment-options",
+      "move": "rights",
+      "kind": "written",
+      "text": "Contact us about your payment options.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.check-all-that-apply",
+      "move": "response",
+      "kind": "written",
+      "text": "Check all that apply:",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.i-want-to-dispute-the-debt-because-i",
+      "move": "response",
+      "kind": "written",
+      "text": "I want to dispute the debt because I think:",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.this-is-not-my-debt",
+      "move": "response",
+      "kind": "written",
+      "text": "This is not my debt.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.the-amount-is-wrong",
+      "move": "response",
+      "kind": "written",
+      "text": "The amount is wrong.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.i-want-you-to-send-me-the-name",
+      "move": "response",
+      "kind": "written",
+      "text": "I want you to send me the name and address of the original creditor.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.i-enclosed-this-amount-amount",
+      "move": "response",
+      "kind": "written",
+      "text": "I enclosed this amount: {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.response.make-your-check-payable-to-collector",
+      "move": "response",
+      "kind": "written",
+      "text": "Make your check payable to {collector}.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation F Model Form B-1, Model Form for Validation Notice (12 CFR part 1006, appendix B)",
+        "date": "2020-11-30",
+        "url": "https://files.consumerfinance.gov/f/images/cfpb_regulations_1006-B-1.original.png"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-delinquency.you-are-late-on-your-mortgage-payments",
+      "move": "mortgage-delinquency",
+      "kind": "written",
+      "text": "You are late on your mortgage payments.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-delinquency.as-of-date-you-are-days-days-delinquent",
+      "move": "mortgage-delinquency",
+      "kind": "written",
+      "text": "As of {date}, you are {days} days delinquent on your mortgage loan.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-delinquency.total-amount-due-you-must-pay-this-amount",
+      "move": "mortgage-delinquency",
+      "kind": "written",
+      "text": "Total: {amount} due. You must pay this amount to bring your loan current.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-foreclosure-warning.failure-to-bring-your-loan-current-may-result",
+      "move": "mortgage-foreclosure-warning",
+      "kind": "written",
+      "text": "Failure to bring your loan current may result in fees and foreclosure—the loss of your home.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-fully-paid-on-time",
+      "move": "mortgage-payment-history",
+      "kind": "written",
+      "text": "Payment due {date}: Fully paid on time",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-fully-paid-on-paiddate",
+      "move": "mortgage-payment-history",
+      "kind": "written",
+      "text": "Payment due {date}: Fully paid on {paidDate}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-payment-history.payment-due-date-unpaid-balance-of-amount",
+      "move": "mortgage-payment-history",
+      "kind": "written",
+      "text": "Payment due {date}: Unpaid balance of {amount}",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-late-fee.if-payment-is-received-after-date-amount-late",
+      "move": "mortgage-late-fee",
+      "kind": "written",
+      "text": "If payment is received after {date}, {amount} late fee will be charged.",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.mortgage-late-fee.late-fee-charged-because-full-payment-not-received",
+      "move": "mortgage-late-fee",
+      "kind": "written",
+      "text": "Late Fee (charged because full payment not received by {date})",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.payment-due-date",
+      "move": "label",
+      "kind": "written",
+      "text": "Payment Due Date",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.amount-due",
+      "move": "label",
+      "kind": "written",
+      "text": "Amount Due",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.overdue-payment",
+      "move": "label",
+      "kind": "written",
+      "text": "Overdue Payment",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.total-fees-and-charges",
+      "move": "label",
+      "kind": "written",
+      "text": "Total Fees and Charges",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.total-amount-due",
+      "move": "label",
+      "kind": "written",
+      "text": "Total Amount Due",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.regular-monthly-payment",
+      "move": "label",
+      "kind": "written",
+      "text": "Regular Monthly Payment",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.outstanding-principal",
+      "move": "label",
+      "kind": "written",
+      "text": "Outstanding Principal",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.interest-rate",
+      "move": "label",
+      "kind": "written",
+      "text": "Interest Rate",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.partial-payment-received",
+      "move": "label",
+      "kind": "written",
+      "text": "Partial Payment Received",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    },
+    {
+      "key": "debt-notice.label.recent-account-history",
+      "move": "label",
+      "kind": "written",
+      "text": "Recent Account History",
+      "shippable": true,
+      "source": {
+        "document": "Regulation Z Form H-30(B), Sample Form of Periodic Statement with Delinquency Box, in 12 CFR part 1026, appendix H, as in force on January 1, 2025",
+        "date": "2025-01-01",
+        "url": "https://www.govinfo.gov/app/details/CFR-2025-title12-vol9/CFR-2025-title12-vol9-part1026-appH"
+      }
+    }
+  ]
+}
