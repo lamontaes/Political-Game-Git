@@ -11,6 +11,13 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "One U.S. dollar contains 100 cents",
     range: { minimum: 1, maximum: 1000 },
   },
+  homePriceRoundingStepMinor: {
+    value: 100_000,
+    basis: "TUNABLE",
+    source:
+      "Legacy home purchase price rounding retained for golden equivalence",
+    range: { minimum: 1, maximum: 100_000_000 },
+  },
   wagePercentiles: {
     value: [10, 25, 50, 75, 90],
     basis: "SOURCED",

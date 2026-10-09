@@ -1,5 +1,11 @@
 [
   {
+    "id": "economy.home-price-rounding",
+    "behavior": "Home prices round to the nearest $1,000 and have a $1,000 minimum; the game retains this legacy purchase calibration.",
+    "source": "src/simulation/home-purchase.ts",
+    "status": "GAME ASSUMPTION"
+  },
+  {
     "id": "economy.tenure-pay-percentiles",
     "behavior": "A new hire starts at the 25th wage percentile and reaches the 75th over 20 years at the employer; this is a retained game calibration, not a sourced tenure curve.",
     "source": "src/simulation/living-world/town-pay.ts",
