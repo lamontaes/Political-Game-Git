@@ -143,6 +143,12 @@ describe("the situation library", () => {
         for (const act of role.wants)
           if (!ACT_KINDS.has(act))
             problems.push(`${type.key}/${role.key} wants ${act}`);
+        // Every present role carries a bearing for its staging; the absent do not.
+        if (role.present === false) {
+          if (role.bearing !== undefined)
+            problems.push(`${type.key}/${role.key} absent with a bearing`);
+        } else if (!role.bearing || !vocabulary.bearings.has(role.bearing))
+          problems.push(`${type.key}/${role.key} bearing ${role.bearing}`);
       }
       for (const setting of type.setting)
         if (!vocabulary.settings.has(setting))

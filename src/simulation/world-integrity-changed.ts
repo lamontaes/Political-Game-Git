@@ -94,6 +94,7 @@ const UNIQUE_STABLE_KEY_FAMILIES: ReadonlySet<string> = new Set([
   "storyMoments",
   "storyPeople",
   "storyIntakeMarks",
+  "storyCoverage",
   "storyThreadStates",
 ]);
 

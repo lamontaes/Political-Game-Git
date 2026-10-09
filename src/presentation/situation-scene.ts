@@ -24,6 +24,7 @@ import type {
 } from "./contextual-scenes";
 import type { SpeechAct } from "./english-composition";
 import type { ConversationRoomContext } from "./run-b-conversation";
+import { recordedRoomPresence } from "./recorded-room-presence";
 import { voiceStoryLine, type StoryLine } from "./story-voice";
 
 /**
@@ -387,6 +388,15 @@ function voiced(scene: SituationScene): boolean {
   return situationAnswers(scene).some((answer) => !answer.followUp);
 }
 
+/**
+ * Whether the English engine can word a bound situation yet: its opening and
+ * a choice that settles it. The coverage report counts those it cannot.
+ */
+export function situationVoiced(world: World, bound: BoundScene): boolean {
+  const scene = sceneOf(world, bound.eventId, bound.binding);
+  return scene !== null && voiced(scene);
+}
+
 export const situationFamily: SceneFamilyDefinition = {
   family: "situation",
   eventType: "conversation.situation-turn",
@@ -414,8 +424,19 @@ export const situationFamily: SceneFamilyDefinition = {
     return reply(scene, answer).line?.text ?? "";
   },
   relevant(world, bound) {
-    const scene = sceneOf(world, bound.eventId, bound.binding);
-    return scene !== null && voiced(scene);
+    // Not before the day its timing opens it, and a scene that waits for the
+    // two to be together only once the records put them in one place.
+    const { facts } = bound.binding;
+    if (facts.opensOn && facts.opensOn > world.currentDate) return false;
+    if (
+      facts.timing === "next-together" &&
+      !(
+        recordedRoomPresence(world, bound.binding.playerPersonId)?.personIds ??
+        []
+      ).includes(bound.binding.speakerPersonId)
+    )
+      return false;
+    return situationVoiced(world, bound);
   },
   room: situationRoom,
 };

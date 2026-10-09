@@ -135,6 +135,7 @@
     "export:content": "node --import tsx src/cli/content-export.ts",
     "trace:export": "node --import tsx src/cli/trace-export.ts",
     "compare:seeds": "node --import tsx src/cli/compare-seeds.ts",
+    "story:coverage": "node --import tsx src/cli/story-coverage.ts",
     "despill:edges": "node --import tsx scripts/art-asset-factory/cli-edge-despill.ts",
     "measure:references": "node --import tsx scripts/art-asset-factory/cli-measure-references.ts",
     "report:life": "node --import tsx scripts/life-report.ts",

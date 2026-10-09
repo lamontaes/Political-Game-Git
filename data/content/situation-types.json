@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Developer data for the story director (docs/design/story-director.md, part 3). Structure only: no type holds a sentence. The world's records fill every role and the English engine voices every line. Never shown to a player. standingPulls says which act kinds each relationship line favors when a role chooses its move: calibration, owner-adjustable. A cause may name its opener, the role that speaks first, and its opening, the move the opening record already is: a request to meet is a request. Otherwise the first role the player does not fill opens, with the move its decision picks.",
+  "note": "Developer data for the story director (docs/design/story-director.md, part 3). Structure only: no type holds a sentence. The world's records fill every role and the English engine voices every line. Never shown to a player. standingPulls says which act kinds each relationship line favors when a role chooses its move: calibration, owner-adjustable. A cause may name its opener, the role that speaks first, and its opening, the move the opening record already is: a request to meet is a request. Otherwise the first role the player does not fill opens, with the move its decision picks. Each present role names its bearing, a key from bearings that the scene's staging and the English engine's mood condition both read.",
   "fills": {
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
@@ -78,6 +78,41 @@
     "commitment": ["commit", "help-others"],
     "tension": ["confront", "refuse", "distrust"]
   },
+  "bearings": {
+    "anxious": "Worried about what comes next.",
+    "braced": "Ready for a hard exchange.",
+    "calm": "Settled and unhurried.",
+    "contrite": "Sorry for what they did.",
+    "curious": "Wanting to know more.",
+    "eager": "Keen for what is starting.",
+    "glad": "Pleased by what is happening.",
+    "grieving": "Mourning someone close.",
+    "guarded": "Holding back, wary of the other.",
+    "hopeful": "Hoping the other says yes.",
+    "hurt": "Wounded by what the other did.",
+    "nervous": "Uneasy at something new or exposed.",
+    "proud": "Honored and pleased with themselves.",
+    "relieved": "Glad something hard is over.",
+    "solemn": "Grave and quiet at a serious time.",
+    "steady": "Composed, holding the room.",
+    "tender": "Gentle and close at a parting or in care.",
+    "warm": "Friendly and open."
+  },
+  "scheduling": {
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets.",
+    "paces": {
+      "early-childhood": 1,
+      "middle-childhood": 2,
+      "adolescence": 3,
+      "adult": 4
+    },
+    "trailingDays": 365,
+    "openDays": {
+      "at-cause": 7,
+      "effective-date": 3,
+      "next-together": 30
+    }
+  },
   "types": [
     {
       "key": "departure",
@@ -87,21 +122,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["farewell", "promise", "comfort", "tell"],
-          "wants": ["change", "commit"]
+          "wants": ["change", "commit"],
+          "bearing": "tender"
         },
         {
           "key": "staying",
           "fill": "household",
           "count": "some",
           "moves": ["farewell", "comfort", "request", "blame"],
-          "wants": ["keep-same", "engage"]
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
         },
         {
           "key": "others",
           "fill": "present",
           "count": "some",
           "moves": ["farewell", "comfort"],
-          "wants": ["help-others"]
+          "wants": ["help-others"],
+          "bearing": "solemn"
         }
       ],
       "setting": ["home"],
@@ -136,14 +174,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "apologize", "thank", "recall"],
-          "wants": ["engage", "change"]
+          "wants": ["engage", "change"],
+          "bearing": "relieved"
         },
         {
           "key": "waiting",
           "fill": "kin",
           "count": "some",
           "moves": ["comfort", "confront", "recall", "thank"],
-          "wants": ["engage", "keep-same"]
+          "wants": ["engage", "keep-same"],
+          "bearing": "glad"
         }
       ],
       "setting": ["home"],
@@ -163,14 +203,16 @@
           "fill": "household",
           "count": "one",
           "moves": ["tell", "comfort", "deflect", "lie"],
-          "wants": ["speak-out", "help-others"]
+          "wants": ["speak-out", "help-others"],
+          "bearing": "solemn"
         },
         {
           "key": "receiver",
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "blame", "confront", "comfort"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "braced"
         },
         {
           "key": "about",
@@ -229,14 +271,16 @@
           "fill": "absent",
           "count": "one",
           "moves": ["tell", "recall", "promise", "request"],
-          "wants": ["engage", "commit"]
+          "wants": ["engage", "commit"],
+          "bearing": "tender"
         },
         {
           "key": "reader",
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "tell", "recall", "promise"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "curious"
         }
       ],
       "setting": ["letter"],
@@ -252,21 +296,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["confront", "blame", "deflect", "apologize"],
-          "wants": ["confront", "speak-out"]
+          "wants": ["confront", "speak-out"],
+          "bearing": "braced"
         },
         {
           "key": "other-side",
           "fill": "counterpart",
           "count": "one",
           "moves": ["confront", "blame", "refuse", "agree"],
-          "wants": ["confront", "keep-same"]
+          "wants": ["confront", "keep-same"],
+          "bearing": "braced"
         },
         {
           "key": "witness",
           "fill": "present",
           "count": "some",
           "moves": ["comfort", "tell"],
-          "wants": ["help-others", "stay-quiet"]
+          "wants": ["help-others", "stay-quiet"],
+          "bearing": "nervous"
         }
       ],
       "setting": ["home", "workplace", "school", "public"],
@@ -295,14 +342,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["apologize", "confess", "promise", "offer"],
-          "wants": ["concede", "cooperate"]
+          "wants": ["concede", "cooperate"],
+          "bearing": "contrite"
         },
         {
           "key": "wronged",
           "fill": "counterpart",
           "count": "one",
           "moves": ["agree", "refuse", "blame", "thank"],
-          "wants": ["keep-same", "distrust"]
+          "wants": ["keep-same", "distrust"],
+          "bearing": "guarded"
         }
       ],
       "setting": ["home", "other-home", "public"],
@@ -325,14 +374,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["confess", "lie", "deflect", "request"],
-          "wants": ["speak-out", "take-risk"]
+          "wants": ["speak-out", "take-risk"],
+          "bearing": "nervous"
         },
         {
           "key": "told",
           "fill": "counterpart",
           "count": "one",
           "moves": ["comfort", "blame", "thank", "promise"],
-          "wants": ["trust", "engage"]
+          "wants": ["trust", "engage"],
+          "bearing": "curious"
         }
       ],
       "setting": ["home", "other-home"],
@@ -348,14 +399,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["request", "offer", "promise", "thank"],
-          "wants": ["self-interest", "engage"]
+          "wants": ["self-interest", "engage"],
+          "bearing": "hopeful"
         },
         {
           "key": "asked",
           "fill": "counterpart",
           "count": "one",
           "moves": ["agree", "decline", "offer", "request"],
-          "wants": ["help-others", "play-safe"]
+          "wants": ["help-others", "play-safe"],
+          "bearing": "curious"
         }
       ],
       "setting": ["phone", "other-home", "home"],
@@ -371,14 +424,16 @@
           "fill": "counterpart",
           "count": "one",
           "moves": ["request", "tell", "recall", "offer"],
-          "wants": ["engage", "commit"]
+          "wants": ["engage", "commit"],
+          "bearing": "hopeful"
         },
         {
           "key": "asked",
           "fill": "subject",
           "count": "one",
           "moves": ["agree", "decline", "request", "thank"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "curious"
         }
       ],
       "setting": ["phone"],
@@ -403,14 +458,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "recall", "offer", "thank", "confess"],
-          "wants": ["engage", "trust"]
+          "wants": ["engage", "trust"],
+          "bearing": "warm"
         },
         {
           "key": "other-friend",
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "recall", "offer", "thank", "confess"],
-          "wants": ["engage", "trust"]
+          "wants": ["engage", "trust"],
+          "bearing": "warm"
         }
       ],
       "setting": ["public", "home", "other-home"],
@@ -433,21 +490,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "tell", "recall"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "proud"
         },
         {
           "key": "host",
           "fill": "household",
           "count": "one",
           "moves": ["offer", "tell", "thank"],
-          "wants": ["help-others", "engage"]
+          "wants": ["help-others", "engage"],
+          "bearing": "glad"
         },
         {
           "key": "guests",
           "fill": "kin",
           "count": "some",
           "moves": ["thank", "tell", "offer"],
-          "wants": ["engage", "cooperate"]
+          "wants": ["engage", "cooperate"],
+          "bearing": "glad"
         }
       ],
       "setting": ["home", "venue"],
@@ -500,7 +560,8 @@
           "fill": "household",
           "count": "some",
           "moves": ["recall", "comfort", "tell"],
-          "wants": ["keep-same", "engage"]
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
         },
         {
           "key": "absent",
@@ -524,14 +585,16 @@
           "fill": "present",
           "count": "some",
           "moves": ["comfort", "recall", "tell", "farewell"],
-          "wants": ["help-others", "engage"]
+          "wants": ["help-others", "engage"],
+          "bearing": "solemn"
         },
         {
           "key": "family",
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "recall", "farewell", "comfort"],
-          "wants": ["keep-same", "engage"]
+          "wants": ["keep-same", "engage"],
+          "bearing": "grieving"
         },
         {
           "key": "deceased",
@@ -563,21 +626,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "offer", "thank"],
-          "wants": ["engage", "change"]
+          "wants": ["engage", "change"],
+          "bearing": "curious"
         },
         {
           "key": "met",
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "offer", "thank"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "curious"
         },
         {
           "key": "introducer",
           "fill": "present",
           "count": "one",
           "moves": ["tell", "offer"],
-          "wants": ["help-others", "engage"]
+          "wants": ["help-others", "engage"],
+          "bearing": "warm"
         }
       ],
       "setting": ["public", "venue"],
@@ -604,21 +670,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "request", "thank"],
-          "wants": ["engage", "change"]
+          "wants": ["engage", "change"],
+          "bearing": "nervous"
         },
         {
           "key": "authority",
           "fill": "authority",
           "count": "one",
           "moves": ["tell", "offer", "comfort"],
-          "wants": ["follow-rules", "help-others"]
+          "wants": ["follow-rules", "help-others"],
+          "bearing": "steady"
         },
         {
           "key": "peers",
           "fill": "classmates",
           "count": "some",
           "moves": ["offer", "tell"],
-          "wants": ["engage", "keep-same"]
+          "wants": ["engage", "keep-same"],
+          "bearing": "curious"
         }
       ],
       "setting": ["school", "workplace"],
@@ -650,14 +719,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["farewell", "thank", "recall", "promise"],
-          "wants": ["change", "engage"]
+          "wants": ["change", "engage"],
+          "bearing": "tender"
         },
         {
           "key": "staying",
           "fill": "classmates",
           "count": "some",
           "moves": ["farewell", "recall", "thank"],
-          "wants": ["keep-same", "engage"]
+          "wants": ["keep-same", "engage"],
+          "bearing": "tender"
         }
       ],
       "setting": ["school", "workplace"],
@@ -681,14 +752,16 @@
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "offer", "decline"],
-          "wants": ["follow-rules", "distrust"]
+          "wants": ["follow-rules", "distrust"],
+          "bearing": "steady"
         },
         {
           "key": "candidate",
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "lie", "request", "thank"],
-          "wants": ["self-interest", "take-risk"]
+          "wants": ["self-interest", "take-risk"],
+          "bearing": "nervous"
         }
       ],
       "setting": ["workplace", "venue"],
@@ -708,14 +781,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "recall", "offer", "thank", "confess"],
-          "wants": ["engage", "take-risk"]
+          "wants": ["engage", "take-risk"],
+          "bearing": "eager"
         },
         {
           "key": "other-partner",
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "recall", "offer", "thank", "confess"],
-          "wants": ["engage", "take-risk"]
+          "wants": ["engage", "take-risk"],
+          "bearing": "eager"
         }
       ],
       "setting": ["public", "venue"],
@@ -738,14 +813,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["promise", "request", "tell", "confess"],
-          "wants": ["commit", "take-risk"]
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
         },
         {
           "key": "proposed-to",
           "fill": "counterpart",
           "count": "one",
           "moves": ["agree", "decline", "request", "thank"],
-          "wants": ["commit", "play-safe"]
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
         }
       ],
       "setting": ["home", "public", "venue"],
@@ -768,21 +845,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["tell", "blame", "apologize", "farewell"],
-          "wants": ["change", "withdraw"]
+          "wants": ["change", "withdraw"],
+          "bearing": "solemn"
         },
         {
           "key": "partner",
           "fill": "counterpart",
           "count": "one",
           "moves": ["blame", "request", "refuse", "farewell"],
-          "wants": ["keep-same", "confront"]
+          "wants": ["keep-same", "confront"],
+          "bearing": "hurt"
         },
         {
           "key": "children",
           "fill": "household",
           "count": "some",
           "moves": ["comfort", "tell"],
-          "wants": ["keep-same"]
+          "wants": ["keep-same"],
+          "bearing": "anxious"
         }
       ],
       "setting": ["home"],
@@ -821,14 +901,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "change"]
+          "wants": ["engage", "change"],
+          "bearing": "glad"
         },
         {
           "key": "other",
           "fill": "counterpart",
           "count": "one",
           "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "keep-same"]
+          "wants": ["engage", "keep-same"],
+          "bearing": "glad"
         }
       ],
       "setting": ["public", "home", "other-home"],
@@ -851,14 +933,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["blame", "confront", "refuse", "request"],
-          "wants": ["distrust", "confront"]
+          "wants": ["distrust", "confront"],
+          "bearing": "hurt"
         },
         {
           "key": "betrayer",
           "fill": "counterpart",
           "count": "one",
           "moves": ["apologize", "lie", "deflect", "confess"],
-          "wants": ["self-interest", "concede"]
+          "wants": ["self-interest", "concede"],
+          "bearing": "guarded"
         }
       ],
       "setting": ["home", "other-home", "public"],
@@ -885,21 +969,24 @@
           "fill": "present",
           "count": "one",
           "moves": ["offer", "comfort", "tell"],
-          "wants": ["take-risk", "help-others"]
+          "wants": ["take-risk", "help-others"],
+          "bearing": "steady"
         },
         {
           "key": "in-danger",
           "fill": "subject",
           "count": "one",
           "moves": ["request", "thank", "tell"],
-          "wants": ["play-safe"]
+          "wants": ["play-safe"],
+          "bearing": "anxious"
         },
         {
           "key": "bystanders",
           "fill": "present",
           "count": "some",
           "moves": ["tell", "offer"],
-          "wants": ["stay-quiet", "help-others"]
+          "wants": ["stay-quiet", "help-others"],
+          "bearing": "anxious"
         }
       ],
       "setting": ["venue", "public"],
@@ -918,14 +1005,16 @@
           "fill": "kin",
           "count": "one",
           "moves": ["comfort", "tell", "recall", "promise"],
-          "wants": ["help-others", "commit"]
+          "wants": ["help-others", "commit"],
+          "bearing": "tender"
         },
         {
           "key": "cannot-come",
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "tell", "request", "confess"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "solemn"
         }
       ],
       "setting": ["venue"],
@@ -958,14 +1047,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["offer", "tell", "thank"],
-          "wants": ["help-others", "change"]
+          "wants": ["help-others", "change"],
+          "bearing": "glad"
         },
         {
           "key": "newcomer",
           "fill": "counterpart",
           "count": "one",
           "moves": ["thank", "tell"],
-          "wants": ["engage"]
+          "wants": ["engage"],
+          "bearing": "calm"
         }
       ],
       "setting": ["home"],
@@ -989,14 +1080,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["offer", "comfort", "tell", "request"],
-          "wants": ["help-others", "commit"]
+          "wants": ["help-others", "commit"],
+          "bearing": "tender"
         },
         {
           "key": "cared-for",
           "fill": "counterpart",
           "count": "one",
           "moves": ["thank", "request", "decline", "confess"],
-          "wants": ["trust", "play-safe"]
+          "wants": ["trust", "play-safe"],
+          "bearing": "calm"
         }
       ],
       "setting": ["home", "other-home"],
@@ -1012,14 +1105,16 @@
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "offer", "recall", "comfort"],
-          "wants": ["help-others", "speak-out"]
+          "wants": ["help-others", "speak-out"],
+          "bearing": "steady"
         },
         {
           "key": "deciding",
           "fill": "subject",
           "count": "one",
           "moves": ["request", "thank", "agree", "decline"],
-          "wants": ["change", "trust"]
+          "wants": ["change", "trust"],
+          "bearing": "anxious"
         }
       ],
       "setting": ["school", "home", "other-home"],
@@ -1051,21 +1146,24 @@
           "fill": "counterpart",
           "count": "one",
           "moves": ["confront", "blame", "tell"],
-          "wants": ["confront", "follow-rules"]
+          "wants": ["confront", "follow-rules"],
+          "bearing": "braced"
         },
         {
           "key": "accused",
           "fill": "subject",
           "count": "one",
           "moves": ["deflect", "lie", "confess", "apologize", "refuse"],
-          "wants": ["self-interest", "play-safe"]
+          "wants": ["self-interest", "play-safe"],
+          "bearing": "guarded"
         },
         {
           "key": "witnesses",
           "fill": "present",
           "count": "some",
           "moves": ["tell", "comfort"],
-          "wants": ["speak-out", "stay-quiet"]
+          "wants": ["speak-out", "stay-quiet"],
+          "bearing": "nervous"
         }
       ],
       "setting": ["school", "workplace", "public"],
@@ -1081,14 +1179,16 @@
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "offer", "request"],
-          "wants": ["help-others", "speak-out"]
+          "wants": ["help-others", "speak-out"],
+          "bearing": "anxious"
         },
         {
           "key": "at-risk",
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "deflect", "refuse", "promise"],
-          "wants": ["play-safe", "keep-same"]
+          "wants": ["play-safe", "keep-same"],
+          "bearing": "guarded"
         }
       ],
       "setting": ["home", "phone", "letter"],
@@ -1108,14 +1208,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["apologize", "thank", "recall", "promise", "offer"],
-          "wants": ["concede", "cooperate"]
+          "wants": ["concede", "cooperate"],
+          "bearing": "hopeful"
         },
         {
           "key": "other",
           "fill": "counterpart",
           "count": "one",
           "moves": ["apologize", "thank", "recall", "promise", "offer"],
-          "wants": ["concede", "trust"]
+          "wants": ["concede", "trust"],
+          "bearing": "guarded"
         }
       ],
       "setting": ["home", "other-home", "public"],
@@ -1138,14 +1240,16 @@
           "fill": "subject",
           "count": "one",
           "moves": ["request", "promise", "tell", "lie"],
-          "wants": ["take-risk", "self-interest"]
+          "wants": ["take-risk", "self-interest"],
+          "bearing": "hopeful"
         },
         {
           "key": "authority",
           "fill": "authority",
           "count": "one",
           "moves": ["agree", "decline", "offer"],
-          "wants": ["follow-rules", "play-safe"]
+          "wants": ["follow-rules", "play-safe"],
+          "bearing": "steady"
         }
       ],
       "setting": ["home", "school", "workplace"],
@@ -1161,21 +1265,24 @@
           "fill": "subject",
           "count": "one",
           "moves": ["thank", "tell", "promise", "farewell"],
-          "wants": ["engage", "commit"]
+          "wants": ["engage", "commit"],
+          "bearing": "anxious"
         },
         {
           "key": "supporters",
           "fill": "present",
           "count": "some",
           "moves": ["comfort", "thank", "tell"],
-          "wants": ["cooperate", "engage"]
+          "wants": ["cooperate", "engage"],
+          "bearing": "hopeful"
         },
         {
           "key": "rival",
           "fill": "counterpart",
           "count": "one",
           "moves": ["tell", "offer", "blame"],
-          "wants": ["concede", "confront"]
+          "wants": ["concede", "confront"],
+          "bearing": "braced"
         }
       ],
       "setting": ["venue"],
