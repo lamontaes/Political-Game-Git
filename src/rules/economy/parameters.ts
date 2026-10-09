@@ -1,4 +1,23 @@
 export const ECONOMY_RULE_PARAMETERS = {
+  housingPriceWindowMonths: {
+    value: 12,
+    basis: "SOURCED",
+    source:
+      "The home-price rule compares and carries the previous twelve monthly records",
+    range: { minimum: 1, maximum: 36 },
+  },
+  housingPriceCoefficients: {
+    value: {
+      lastGrowth: 0.63,
+      incomeGrowth: 0.38,
+      rateChangePerPoint: -0.0046,
+      priceToIncomeGap: -0.12,
+    },
+    basis: "SOURCED",
+    source:
+      "FHFA state house-price indexes, state income per person, and 30-year mortgage rate, 1980-2024; n=2,244 state-years",
+    range: { minimum: -2, maximum: 2 },
+  },
   quartersPerYear: {
     value: 4,
     basis: "SOURCED",
