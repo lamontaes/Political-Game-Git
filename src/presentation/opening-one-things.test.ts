@@ -9,7 +9,8 @@ import {
 import { money } from "../simulation/resources";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { recordStoryMoments } from "../simulation/story/moments";
-import { storyThreadsOf } from "../simulation/story/threads";
+import { storyHousemates, storyThreadsOf } from "../simulation/story/threads";
+import { whereaboutsAt } from "../simulation/living-world/work-schedules";
 import type { EntityId, World } from "../simulation/types";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import {
@@ -187,6 +188,14 @@ describe("the one thing per opening stop, in a new life", () => {
     expect(arrival.involvedEntityIds).toContain(you.sourceRecordIds[1]);
     // A job the world began with says nothing about how long she has had it.
     expect(you.facts.workingSince).toBeUndefined();
+    // Someone shares her home but is out at this hour, so is not listed.
+    const housemates = storyHousemates(world, personId);
+    expect(
+      housemates.some((id) => whereaboutsAt(world, id).kind !== "home"),
+    ).toBe(true);
+    expect(you.people.map((person) => person.personId)).toEqual(
+      housemates.filter((id) => whereaboutsAt(world, id).kind === "home"),
+    );
   });
 
   it("names only people the world has, and writes nothing", () => {
@@ -245,6 +254,12 @@ describe("the one thing per stop, in a territory", () => {
     expect(state.kind).toBe("in-office");
     expect(state.facts.office).toMatch(/governor$/);
     expect(state.sourceRecordIds).toHaveLength(1);
+  });
+
+  it("lists the housemate who is home at this hour", () => {
+    const you = thing(things, "you");
+    expect(you.people).toHaveLength(1);
+    expect(whereaboutsAt(world, you.people[0]!.personId).kind).toBe("home");
   });
 
   it("says why the town stop has nothing, instead of inventing a tie", () => {

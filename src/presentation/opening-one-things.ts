@@ -24,6 +24,7 @@ import {
   homeStateUsps,
   stateExecutiveOffice,
 } from "../simulation/nationwide-world/state-executives";
+import { whereaboutsAt } from "../simulation/living-world/work-schedules";
 import { storyMomentsOf } from "../simulation/story/moments";
 import { storyHousemates, storyThreadsOf } from "../simulation/story/threads";
 import { currentPublicOfficeholders } from "./opening-officeholders";
@@ -553,8 +554,11 @@ function you(world: World, personId: EntityId): OpeningStopThing {
     const membership = householdMembershipsAt(world, personId)[0];
     if (membership) {
       sources.push(membership.membership.id);
+      // Only those home at this hour, by the rule the room's own presence
+      // reader uses (recorded-room-presence.ts).
       for (const id of storyHousemates(world, personId))
-        housemates.push({ personId: id, role: "sharedHome" });
+        if (whereaboutsAt(world, id).kind === "home")
+          housemates.push({ personId: id, role: "sharedHome" });
     }
   }
   return {
