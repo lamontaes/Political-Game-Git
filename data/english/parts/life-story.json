@@ -1,0 +1,564 @@
+{
+  "schema": "english-parts/1",
+  "register": "life-story",
+  "description": "How Americans tell their own life story in the first person, mined from federal transcripts (public domain): NASA Johnson Space Center and U.S. House oral histories and congressional hearing testimony. Each part is a clause a speaker opens a sentence with, or a tail (move when) a speaker hangs on the end of one; its particulars (places, schools, employers, jobs) are slots filled from a person's records. The moves connect, cause and look-back open a sentence whose blank is another clause from this bank; weigh and reflect are whole sentences said about a moment or a stretch of life. transcriptsUsing counts the transcripts that use it.",
+  "slots": {
+    "place": "A place from the person's records, as it is named, such as West Jordan, Utah.",
+    "school": "The school the person finished, from their education records.",
+    "employer": "The employer the person went to work for, from their work records.",
+    "occupation": "What a parent did for a living, from the parent's work records, with its article, such as a cashier.",
+    "relation": "The person's spouse or partner by relationship, such as wife or husband.",
+    "age": "The person's age in years at the time, from their birth date and the record's date, spelled as a newspaper does: words up to twelve.",
+    "number": "A count from the person's records, such as their brothers and sisters, spelled as a newspaper does.",
+    "guardian": "Who raised the person when it was not both parents, by relationship, such as grandmother, from the household records.",
+    "parent": "A parent by relationship, father or mother, from the kinship records.",
+    "clause": "Another clause from this bank, for the next event in the person's records."
+  },
+  "maxWords": 10,
+  "mining": {
+    "tool": "scripts/english-mining/mine-oral-history-life.py",
+    "read": "2736 transcripts: NASA Johnson Space Center Oral History Project, U.S. House Office of the Historian oral histories, and congressional hearings from 2015 to 2024 on govinfo.gov.",
+    "rule": "A clause is kept when at least two transcripts open a sentence with it, with their own particulars, and one of them is from 2015 or later.",
+    "shapesSeen": {
+      "then {clause}": 1116,
+      "after that, {clause}": 61,
+      "that's when {clause}": 91,
+      "it was a big deal": 12,
+      "I graduated from {school}": 15,
+      "we lived in {place}": 9,
+      "it was a lot of fun": 24,
+      "eventually, {clause}": 36,
+      "when I was {age}": 101,
+      "my dad was {occupation}": 35,
+      "we got married": 8,
+      "I loved it": 13,
+      "I grew up in {place}": 44,
+      "my father was {occupation}": 22,
+      "I was very fortunate": 4,
+      "I was lucky": 8,
+      "it was hard": 10,
+      "I was born in {place}": 30,
+      "we moved to {place}": 6,
+      "I met my {relation}": 4,
+      "I went to work for {employer}": 9,
+      "I was the oldest of {number} children": 1,
+      "I have {number} brothers": 4,
+      "I have {number} sisters": 4,
+      "that's how I ended up in {place}": 2,
+      "it was tough": 11,
+      "I'll never forget it": 3,
+      "I graduated from high school": 5,
+      "I went to high school in {place}": 1,
+      "looking back, {clause}": 17,
+      "I grew up in a small town": 5,
+      "I grew up on a farm": 6,
+      "it was difficult": 8,
+      "I've been here ever since": 1,
+      "my mother was {occupation}": 20,
+      "I was born and raised in {place}": 20,
+      "I was very lucky": 2,
+      "my {parent} died": 6,
+      "that's where I met my {relation}": 2,
+      "I was an only child": 2,
+      "we lived there until I was {age}": 1,
+      "I was raised by my {guardian}": 2,
+      "I worked there for {number} years": 1,
+      "I have {number} siblings": 1,
+      "my mom was {occupation}": 3,
+      "my first job was {job}": 1,
+      "I grew up there": 1
+    }
+  },
+  "parts": [
+    {
+      "key": "life-story.birth.i-was-born-in-place",
+      "move": "birth",
+      "kind": "spoken",
+      "text": "I was born in {place}",
+      "transcriptsUsing": 30,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-07-02",
+        "granule": "carrjrp-7-2-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/carrjrp-7-2-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.birth.i-was-born-and-raised-in-place",
+      "move": "birth",
+      "kind": "spoken",
+      "text": "I was born and raised in {place}",
+      "transcriptsUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2018-01-30",
+        "granule": "CHRG-115hhrg29879",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg29879"
+      }
+    },
+    {
+      "key": "life-story.grew-up.i-grew-up-in-place",
+      "move": "grew-up",
+      "kind": "spoken",
+      "text": "I grew up in {place}",
+      "transcriptsUsing": 44,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-05-12",
+        "granule": "CHRG-114hhrg20075",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20075"
+      }
+    },
+    {
+      "key": "life-story.move.we-moved-to-place",
+      "move": "move",
+      "kind": "spoken",
+      "text": "we moved to {place}",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-11-13",
+        "granule": "griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.move.we-lived-in-place",
+      "move": "move",
+      "kind": "spoken",
+      "text": "we lived in {place}",
+      "transcriptsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-07-02",
+        "granule": "carrjrp-7-2-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/carrjrp-7-2-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.family.my-father-was-occupation",
+      "move": "family",
+      "kind": "spoken",
+      "text": "my father was {occupation}",
+      "transcriptsUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2015-03-17",
+        "granule": "CHRG-114hhrg93703",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg93703"
+      }
+    },
+    {
+      "key": "life-story.family.my-dad-was-occupation",
+      "move": "family",
+      "kind": "spoken",
+      "text": "my dad was {occupation}",
+      "transcriptsUsing": 35,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-02-26",
+        "granule": "CHRG-114hhrg20347",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20347"
+      }
+    },
+    {
+      "key": "life-story.family.my-mother-was-occupation",
+      "move": "family",
+      "kind": "spoken",
+      "text": "my mother was {occupation}",
+      "transcriptsUsing": 20,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2018-01-03",
+        "granule": "CHRG-115shrg36191",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg36191"
+      }
+    },
+    {
+      "key": "life-story.family.my-mom-was-occupation",
+      "move": "family",
+      "kind": "spoken",
+      "text": "my mom was {occupation}",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2022-02-01",
+        "granule": "CHRG-117shrg48699",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg48699"
+      }
+    },
+    {
+      "key": "life-story.family.i-was-an-only-child",
+      "move": "family",
+      "kind": "spoken",
+      "text": "I was an only child",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-16",
+        "granule": "slaytonks-10-16-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/slaytonks-10-16-20.pdf"
+      }
+    },
+    {
+      "key": "life-story.school.i-graduated-from-high-school",
+      "move": "school",
+      "kind": "spoken",
+      "text": "I graduated from high school",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-11-13",
+        "granule": "griffink-11-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.school.i-graduated-from-school",
+      "move": "school",
+      "kind": "spoken",
+      "text": "I graduated from {school}",
+      "transcriptsUsing": 15,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2017-11-07",
+        "granule": "CHRG-115shrg30098",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg30098"
+      }
+    },
+    {
+      "key": "life-story.work.i-went-to-work-for-employer",
+      "move": "work",
+      "kind": "spoken",
+      "text": "I went to work for {employer}",
+      "transcriptsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-05-28",
+        "granule": "cockrellbf-5-28-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/cockrellbf-5-28-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.people.i-met-my-relation",
+      "move": "people",
+      "kind": "spoken",
+      "text": "I met my {relation}",
+      "transcriptsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-09-24",
+        "granule": "CHRG-116hhrg40775",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg40775"
+      }
+    },
+    {
+      "key": "life-story.people.we-got-married",
+      "move": "people",
+      "kind": "spoken",
+      "text": "we got married",
+      "transcriptsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-10-17",
+        "granule": "bobkofd-10-17-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.family.i-have-number-brothers",
+      "move": "family",
+      "kind": "spoken",
+      "text": "I have {number} brothers",
+      "transcriptsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-04-30",
+        "granule": "CHRG-116hhrg36132",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg36132"
+      }
+    },
+    {
+      "key": "life-story.family.i-have-number-sisters",
+      "move": "family",
+      "kind": "spoken",
+      "text": "I have {number} sisters",
+      "transcriptsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2022-09-29",
+        "granule": "CHRG-117hhrg48804",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg48804"
+      }
+    },
+    {
+      "key": "life-story.family.i-was-raised-by-my-guardian",
+      "move": "family",
+      "kind": "spoken",
+      "text": "I was raised by my {guardian}",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2018-08-25",
+        "granule": "CHRG-115shrg33406",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg33406"
+      }
+    },
+    {
+      "key": "life-story.loss.my-parent-died",
+      "move": "loss",
+      "kind": "spoken",
+      "text": "my {parent} died",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2022-02-01",
+        "granule": "CHRG-117shrg47360",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg47360"
+      }
+    },
+    {
+      "key": "life-story.place.i-grew-up-in-a-small-town",
+      "move": "place",
+      "kind": "spoken",
+      "text": "I grew up in a small town",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2025-05-13",
+        "granule": "hartsfieldja-5-13-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/hartsfieldja-5-13-25.pdf"
+      }
+    },
+    {
+      "key": "life-story.place.i-grew-up-on-a-farm",
+      "move": "place",
+      "kind": "spoken",
+      "text": "I grew up on a farm",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-09-25",
+        "granule": "CHRG-116hhrg39606",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg39606"
+      }
+    },
+    {
+      "key": "life-story.connect.then-clause",
+      "move": "connect",
+      "kind": "spoken",
+      "text": "then {clause}",
+      "transcriptsUsing": 1116,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-10-12",
+        "granule": "alltonj-10-12-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/alltonj-10-12-17.pdf"
+      }
+    },
+    {
+      "key": "life-story.connect.after-that-clause",
+      "move": "connect",
+      "kind": "spoken",
+      "text": "after that, {clause}",
+      "transcriptsUsing": 61,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2018-07-06",
+        "granule": "homanjl-7-6-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homanjl-7-6-18.pdf"
+      }
+    },
+    {
+      "key": "life-story.connect.eventually-clause",
+      "move": "connect",
+      "kind": "spoken",
+      "text": "eventually, {clause}",
+      "transcriptsUsing": 36,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2017-06-22",
+        "granule": "CHRG-115hhrg25857",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg25857"
+      }
+    },
+    {
+      "key": "life-story.cause.thats-when-clause",
+      "move": "cause",
+      "kind": "spoken",
+      "text": "that's when {clause}",
+      "transcriptsUsing": 91,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-06-13",
+        "granule": "burghduffrd-b-6-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/burghduffrd-b-6-13-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.look-back.looking-back-clause",
+      "move": "look-back",
+      "kind": "spoken",
+      "text": "looking back, {clause}",
+      "transcriptsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-09",
+        "granule": "howelljd-7-9-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/howelljd-7-9-15.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.it-was-hard",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "it was hard",
+      "transcriptsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-15",
+        "granule": "cabanard-7-15-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-7-15-15.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.it-was-tough",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "it was tough",
+      "transcriptsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-14",
+        "granule": "gibsonrl-10-14-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-10-14-20.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.it-was-difficult",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "it was difficult",
+      "transcriptsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2022-06-28",
+        "granule": "lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.it-was-a-big-deal",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "it was a big deal",
+      "transcriptsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-06-13",
+        "granule": "burghduffrd-b-6-13-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/burghduffrd-b-6-13-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.it-was-a-lot-of-fun",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "it was a lot of fun",
+      "transcriptsUsing": 24,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2022-06-28",
+        "granule": "lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf"
+      }
+    },
+    {
+      "key": "life-story.weigh.i-loved-it",
+      "move": "weigh",
+      "kind": "spoken",
+      "text": "I loved it",
+      "transcriptsUsing": 13,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-10-17",
+        "granule": "bobkofd-10-17-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf"
+      }
+    },
+    {
+      "key": "life-story.reflect.i-was-lucky",
+      "move": "reflect",
+      "kind": "spoken",
+      "text": "I was lucky",
+      "transcriptsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2018-11-14",
+        "granule": "northcuttfm-11-14-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/northcuttfm-11-14-18.pdf"
+      }
+    },
+    {
+      "key": "life-story.reflect.ill-never-forget-it",
+      "move": "reflect",
+      "kind": "spoken",
+      "text": "I'll never forget it",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-14",
+        "granule": "gibsonrl-10-14-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-10-14-20.pdf"
+      }
+    },
+    {
+      "key": "life-story.when.when-i-was-age",
+      "move": "when",
+      "kind": "spoken",
+      "text": "when I was {age}",
+      "transcriptsUsing": 101,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2023-09-14",
+        "granule": "connollyjf-9-14-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/connollyjf-9-14-23.pdf"
+      }
+    }
+  ]
+}

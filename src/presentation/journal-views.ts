@@ -1,4 +1,5 @@
 import { ageOnDate, type EntityId, type World } from "../simulation";
+import { composeLifeStory, type StoryChapter } from "./journal-story";
 import { projectLifeRecord } from "./life-record";
 import type { JournalView } from "./shell-navigation";
 import {
@@ -14,6 +15,9 @@ import {
  * heading. Years is the annual chronicle the reader already had. A year filter
  * narrows either view. Nothing here adds, merges or rewrites an entry, and no
  * total, victory or legacy is derived.
+ *
+ * Chapters opens with the life told as a story (`composeLifeStory`): the
+ * periods of the life in sentences, before the dated entries.
  */
 
 export interface JournalSection {
@@ -229,6 +233,11 @@ export interface JournalViewModel {
   readonly year: string | null;
   readonly years: readonly string[];
   readonly sections: readonly JournalSection[];
+  /**
+   * The life told as a story, period by period, ahead of the dated entries:
+   * in Chapters with no year chosen, and empty otherwise.
+   */
+  readonly story: readonly StoryChapter[];
   readonly entryCount: number;
 }
 
@@ -309,6 +318,10 @@ export function projectJournalView(
     year: appliedYear,
     years,
     sections,
+    story:
+      view === "chapters" && appliedYear === null
+        ? composeLifeStory(world, personId)
+        : [],
     entryCount: sections.reduce(
       (total, section) =>
         total +

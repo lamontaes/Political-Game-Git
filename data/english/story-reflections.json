@@ -1,0 +1,11 @@
+{
+  "schema": "story-reflections/1",
+  "description": "When the journal's story may close a chapter the narrator has lived past by looking back on it. A look back is said only by a narrator whose recorded temperament carries the trait named here; the trait's meaning in the personality catalogue is why it fits. Feelings come from the records and the traits, never from chance (owner, via CTO 4:30 p.m. Oct 8).",
+  "lookBack": [
+    {
+      "temperament": "Contented",
+      "reflect": "life-story.reflect.i-was-lucky",
+      "why": "Contented: places less weight on further status once current aims are met (src/simulation/personality-catalogue.generated.ts, facet-contented)."
+    }
+  ]
+}
