@@ -173,6 +173,41 @@ describe("matching public schools to places", () => {
     expect(result.perState.AA).toMatchObject({ source: 4, kept: 1 });
   });
 
+  it("sets aside a name match when the place lies in another county than the school", () => {
+    const result = compilePublicSchools({
+      places,
+      shapes,
+      schools: [school("far", "Rivertown")],
+      geocodes: new Map([["far", geocode(9, 9)]]),
+      membership: new Map(),
+      consistency: {
+        countiesOfPlace: (geoid) => (geoid === "0100300" ? ["01099"] : []),
+        isKnownCounty: (county) => county === "01001",
+      },
+    });
+    expect(result.countyContradictions).toBe(1);
+    expect(result.counties["01001"]![0]).toMatchObject({
+      sourceId: "far",
+      matchMethod: "county",
+    });
+  });
+
+  it("keeps a name match when the county is one the place crosswalk does not know", () => {
+    const result = compilePublicSchools({
+      places,
+      shapes,
+      schools: [school("old", "Rivertown")],
+      geocodes: new Map([["old", geocode(9, 9)]]),
+      membership: new Map(),
+      consistency: {
+        countiesOfPlace: () => ["01099"],
+        isKnownCounty: () => false,
+      },
+    });
+    expect(result.countyContradictions).toBe(0);
+    expect(result.places["0100300"]![0]).toMatchObject({ sourceId: "old" });
+  });
+
   it("ignores a geocode whose county is in another state", () => {
     const result = run([school("x", "Nowhere")], {
       x: { lon: 0.5, lat: 0.5, countyGeoid: "02001", state: "BB" },
