@@ -1,37 +1,37 @@
 {
   "schema": "p10-drives-timing-v1",
-  "method": "Four separate processes, one world each, same seed and prepared town; baseline = createLifeCore without the P10 modules; drives = with createHealthModule and createDrivesModule and withDrives data. Cloud container, 4 vCPU; not the owner's Mac.",
+  "method": "Four separate processes, one world each, same seed and prepared town; baseline = createLifeCore without the P10 modules; drives = with createHealthModule and createDrivesModule and withDrives data. Personal resilience lines. Cloud container, 4 vCPU; not the owner's Mac.",
   "runs": [
     {
       "mode": "base",
-      "seconds": 293.832602725,
-      "peakRssMiB": 5342.0390625,
+      "seconds": 290.40709146100005,
+      "peakRssMiB": 5296.79296875,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     },
     {
       "mode": "base",
-      "seconds": 285.611022374,
-      "peakRssMiB": 5373.3828125,
+      "seconds": 290.35690402800003,
+      "peakRssMiB": 5508.6015625,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     },
     {
       "mode": "drives",
-      "seconds": 312.291480265,
-      "peakRssMiB": 5362.76953125,
+      "seconds": 343.72358011,
+      "peakRssMiB": 5335.29296875,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     },
     {
       "mode": "drives",
-      "seconds": 310.93502741500004,
-      "peakRssMiB": 5355.3828125,
+      "seconds": 341.724438026,
+      "peakRssMiB": 5389.46875,
       "place": "Sacramento, California",
       "seed": "p10-drives-proof-2026-10-09"
     }
   ],
-  "medianBaseSeconds": 289.7218125495,
-  "medianDrivesSeconds": 311.61325384,
-  "ratio": 1.0755602110102076
+  "medianBaseSeconds": 290.38199774450004,
+  "medianDrivesSeconds": 342.724009068,
+  "ratio": 1.1802522598854575
 }
