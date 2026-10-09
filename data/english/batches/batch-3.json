@@ -1,8 +1,8 @@
 {
   "id": "batch-3",
   "title": "Batch 3 to the owner's rules R1–R6 (11 items from 40 new lives)",
-  "at": "2026-10-09T04:39:47.868Z",
-  "head": "6ddb3ca7c615986cf8fb407185796c379a6a2fcf",
+  "at": "2026-10-09T04:51:08.028Z",
+  "head": "1650cabc6783886942de18e71d77339b235e7e1e",
   "builtOn": "main 1b73216d with #3908 at 64c7ce2f, #3909 at 0de492ee, #3843 at 76568bac and #3834 at f3fa0284 merged in",
   "status": "open",
   "rules": "R1–R6, data/english/grades/batch-2.json",
@@ -33,7 +33,9 @@
     }
   ],
   "lives": 40,
-  "failed": [],
+  "failed": [
+    "batch3-oct9:14 Chalan Kanoa, Northern Mariana Islands: Historical cutoff predates the person's birth."
+  ],
   "candidates": 158,
   "coverage": {
     "moment": {
@@ -276,8 +278,57 @@
         "the answer to a lie (challenge)",
         "relationship (your mom)"
       ],
-      "situation": "Aditi Wheeler, 23, in Metter, Georgia on 2026-01-05. Right after this exchange with Deborah Wheeler, your mom, Aditi Wheeler denies what was just said. Deborah Wheeler answers.",
+      "situation": "Aditi Wheeler, 23, in Metter, Georgia on 2026-01-05. Aditi Wheeler talks with Deborah Wheeler, your mom, then denies what Deborah Wheeler just said. Deborah Wheeler answers.",
       "exchange": [
+        {
+          "choice": "Ask what they would like to do",
+          "said": null,
+          "saidParts": [],
+          "reply": "I need some privacy right now. Let's leave activities for another time.",
+          "replyParts": [
+            "life-reply.i-need-some-privacy-right-now-lets:core:core",
+            "life-reply.i-need-some-privacy-right-now-lets:reason:continuation"
+          ],
+          "offered": [
+            "Say hello",
+            "Ask what they would like to do",
+            "Tell them you want to make some time for yourself",
+            "Ask why",
+            "Talk about an earlier conversation"
+          ],
+          "eventId": "event_72da32b4f7ace10e"
+        },
+        {
+          "choice": "Talk about an earlier conversation",
+          "said": null,
+          "saidParts": [],
+          "reply": "I remember saying, “I need some privacy right now. Let's leave activities for another time.”",
+          "replyParts": ["life-reply.remembered-words:core:core"],
+          "offered": [
+            "Say hello",
+            "Ask what they would like to do",
+            "Tell them you want to make some time for yourself",
+            "Talk about an earlier conversation"
+          ],
+          "eventId": "event_72e426b4f7b5212f"
+        },
+        {
+          "choice": "Say hello",
+          "said": null,
+          "saidParts": [],
+          "reply": "Oh, hi, Aditi. Did you want to talk some more?",
+          "replyParts": [
+            "small-talk.greet-again:core:oh-hi-name",
+            "small-talk.greet-again:closer:talk-some-more-adult"
+          ],
+          "offered": [
+            "Say hello",
+            "Ask what they would like to do",
+            "Tell them you want to make some time for yourself",
+            "Talk about an earlier conversation"
+          ],
+          "eventId": "event_72e427b4f7b522e2"
+        },
         {
           "choice": "Lie",
           "said": "That is not true.",
@@ -297,7 +348,7 @@
       "seed": "batch3-oct9:22",
       "axis": "lie",
       "kind": "conversation",
-      "prior": "You: That is not true.",
+      "prior": "You: Ask what they would like to do\nYour mom: I need some privacy right now. Let's leave activities for another time.\nYou: Talk about an earlier conversation\nYour mom: I remember saying, “I need some privacy right now. Let's leave activities for another time.”\nYou: Say hello\nYour mom: Oh, hi, Aditi. Did you want to talk some more?\nYou: That is not true.",
       "reply": "Your mom: I don't believe that.",
       "part": "bank:lie-and-tell.deny.that-is-not-true",
       "choices": []
