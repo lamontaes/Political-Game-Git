@@ -15,13 +15,16 @@ import type { EntityId, World } from "./types";
 /**
  * Where a candidate for a local seat files, and who takes the filing.
  *
- * Which government runs a place's local elections is its state's rule
- * (`municipal-election-rule-packs.ts`, read from each state's code): a town's
- * own clerk, the county's election office, either by office, or a statewide
- * board. A territory without a rule pack is read from
- * `data/research/elections/filing-office.json`. A county seat always files with
- * the county; a state whose rule sends filings to the county, but whose town
- * has no county government above it, files with the town itself.
+ * Which officer receives a local candidate's papers is read from each state's
+ * election code (`filingOfficers` in `data/research/elections/filing-office.json`,
+ * for the 33 states whose local elections a county office runs): a town's own
+ * clerk or another town officer, or a county office such as the board of
+ * elections. Every other state's administration rule
+ * (`municipal-election-rule-packs.ts`) has the town's own clerk run its
+ * elections, and a territory without a rule pack is read from the same file. A
+ * county seat always files with the county; a town seat whose state sends it
+ * to the county, but which has no county government above it, files with the
+ * town itself.
  */
 export interface FilingOffice {
   /** The seat being filed for. */
@@ -29,7 +32,15 @@ export interface FilingOffice {
   /** The government whose clerk takes the filing. */
   readonly unit: GovernmentUnitIdentity;
   readonly governmentName: string;
+  /** The office that receives the filing, as people write it. */
+  readonly officeTitle: string;
+  /**
+   * The title of the official at the counter: the office's own when one
+   * officer holds it, or the one a board's staff is read under.
+   */
   readonly clerkTitle: string;
+  /** Where the officer's title and level were read, when they were. */
+  readonly officerCitation: string | null;
   /** The clerk sitting there today, or null until one is seated. */
   readonly clerkPersonId: EntityId | null;
   readonly administration: ElectionAdministrationModel;
@@ -66,17 +77,51 @@ function administrationFor(
     : null;
 }
 
-/** The government whose clerk takes a filing for this seat. */
-function filingUnit(
-  seat: GovernmentUnitIdentity,
-  administration: ElectionAdministrationModel,
-): GovernmentUnitIdentity {
-  if (seat.unitType === "county") return seat;
-  if (administration !== "county-election-board-coordinated") return seat;
-  const county = seat.countyGeoid
-    ? countyGovernmentUnit(seat.countyGeoid)
-    : null;
-  return county ?? seat;
+type OfficerRow = {
+  readonly title: string | null;
+  /** The title names a board or commission rather than one officer. */
+  readonly body?: boolean;
+  readonly citation: string;
+  readonly url: string;
+  /** The official who takes filings at a board's counter, where read. */
+  readonly counterTitle?: string;
+};
+
+type StateOfficers = {
+  readonly municipal: OfficerRow & {
+    readonly level: "municipality" | "county";
+  };
+  readonly county: OfficerRow | null;
+};
+
+const OFFICERS = (
+  filingOffice.filingOfficers as {
+    readonly states: Readonly<Record<string, StateOfficers>>;
+  }
+).states;
+
+/**
+ * The government whose officer takes a filing for this seat, that officer's
+ * title where the state names one other than the clerk, and the citation.
+ */
+function filingUnit(seat: GovernmentUnitIdentity): {
+  readonly unit: GovernmentUnitIdentity;
+  readonly row: OfficerRow | null;
+} {
+  const officers = OFFICERS[seat.stateUsps] ?? null;
+  if (seat.unitType === "county")
+    return { unit: seat, row: officers?.county ?? null };
+  const municipal = officers?.municipal ?? null;
+  if (municipal?.level === "county") {
+    const county = seat.countyGeoid
+      ? countyGovernmentUnit(seat.countyGeoid)
+      : null;
+    // No county government above the town: its own clerk takes the filing.
+    return county
+      ? { unit: county, row: municipal }
+      : { unit: seat, row: null };
+  }
+  return { unit: seat, row: municipal };
 }
 
 /** Where a filing for this local seat goes, or null for any other office. */
@@ -88,17 +133,23 @@ export function filingOfficeForSeat(
   if (!seat) return null;
   const administration = administrationFor(seat.unit.stateUsps);
   if (!administration) return null;
-  const unit = filingUnit(seat.unit, administration.administration);
-  const clerk = sittingLocalClerk(world, unit);
+  const { unit, row } = filingUnit(seat.unit);
+  const ownClerk =
+    unit.unitType === "county"
+      ? countyRowOfficeRule(unit.stateUsps, "clerk").title
+      : localClerkTitle(unit);
+  // A board's counter is kept by the official read for it; a board with none
+  // read is kept by the government's own clerk.
+  const clerkTitle =
+    row?.counterTitle ?? (row?.body ? ownClerk : (row?.title ?? ownClerk));
+  const clerk = sittingLocalClerk(world, unit, clerkTitle);
   return {
     seatOfficeKey: officeKey,
     unit,
     governmentName: localGovernmentDisplayName(unit),
-    clerkTitle:
-      clerk?.title ??
-      (unit.unitType === "county"
-        ? countyRowOfficeRule(unit.stateUsps, "clerk").title
-        : localClerkTitle(unit)),
+    officeTitle: row?.title ?? ownClerk,
+    clerkTitle,
+    officerCitation: row?.citation ?? null,
     clerkPersonId: clerk?.personId ?? null,
     ...administration,
   };
