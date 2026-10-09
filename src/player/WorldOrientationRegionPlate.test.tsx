@@ -85,7 +85,10 @@ describe("the received locality filter", () => {
     expect(markup).toContain('data-backdrop="place"');
     expect(markup).toContain('class="pg-orientation-scrim"');
     expect(markup).toContain('class="pg-orientation-copy"');
-    expect(markup).toContain("Recorded state summary.");
+    // The card stays, under its own title; a summary sentence is not drawn
+    // (menu reset).
+    expect(markup).toContain(">Arizona</h2>");
+    expect(markup).not.toContain("Recorded state summary.");
     expect(markup).not.toContain("Regina Romero is Mayor.");
     expect(markup).not.toContain('data-step="locality"');
     expect(markup).not.toContain("Pause motion");

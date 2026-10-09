@@ -37,7 +37,8 @@ import {
 /**
  * The speech acts every line the simulation produces is labeled with. The list
  * is Lamontae's (English engine brief, September 26, 2026); it grows only
- * through him.
+ * through him. He approved the last seven, for the story director's moves, on
+ * October 8, 2026 (docs/design/story-director.md, answer 2).
  */
 export const SPEECH_ACTS = [
   "greet",
@@ -57,6 +58,13 @@ export const SPEECH_ACTS = [
   "deflect",
   "lie",
   "apologize",
+  "comfort",
+  "blame",
+  "promise",
+  "thank",
+  "confess",
+  "farewell",
+  "recall",
 ] as const;
 
 export type SpeechAct = (typeof SPEECH_ACTS)[number];

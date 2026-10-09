@@ -307,7 +307,13 @@ export async function startLife(page: Page, life: CreatorLife): Promise<void> {
  * it came late, and the spec then stalled behind it.
  */
 export async function enterLife(page: Page): Promise<void> {
-  await expect(page.getByTestId("play-screen")).toBeVisible();
+  // Begin builds the world behind a progress screen first: 13.1 and 13.5
+  // seconds from Begin to the play screen on a warm development server
+  // (Georgetown, Connecticut and Holstein, Iowa), longer on a cold one, so
+  // the five-second default ended specs on "Preparing courts".
+  await expect(page.getByTestId("play-screen")).toBeVisible({
+    timeout: 60_000,
+  });
   const intro = page.getByTestId("world-orientation");
   const menu = page.getByTestId("shell-nav");
   await expect(intro.or(menu).first()).toBeVisible({ timeout: 60_000 });
