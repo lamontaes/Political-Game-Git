@@ -196,10 +196,23 @@ function fillRole(
   taken: ReadonlySet<PersonId>,
 ): PersonId[] {
   const subject = core.people.get(moment.personId);
+  // Closest first: the standing tie, then recorded closeness, then the record ID.
+  const closest = (ids: PersonId[]) =>
+    ids.sort((a, b) => {
+      const left = book.threads.get(a);
+      const right = book.threads.get(b);
+      return (
+        (right?.tie ?? zero) - (left?.tie ?? zero) ||
+        (right?.closeness ?? zero) - (left?.closeness ?? zero) ||
+        a.localeCompare(b)
+      );
+    });
   const household = () =>
-    [...(core.households.get(subject?.householdId ?? "")?.memberIds ?? [])]
-      .filter((id) => alive(core, id) && !taken.has(id))
-      .sort();
+    closest(
+      [
+        ...(core.households.get(subject?.householdId ?? "")?.memberIds ?? []),
+      ].filter((id) => alive(core, id) && !taken.has(id)),
+    );
   const coworkers = () => {
     const job = subject?.jobId ? core.jobs.get(subject.jobId) : undefined;
     if (!job) return [];
@@ -219,15 +232,16 @@ function fillRole(
     case "household":
       return household();
     case "kin":
-      return [...book.threads.values()]
-        .filter(
-          (thread) =>
-            thread.kin.length &&
-            alive(core, thread.otherId) &&
-            !taken.has(thread.otherId),
-        )
-        .map((thread) => thread.otherId)
-        .sort();
+      return closest(
+        [...book.threads.values()]
+          .filter(
+            (thread) =>
+              thread.kin.length &&
+              alive(core, thread.otherId) &&
+              !taken.has(thread.otherId),
+          )
+          .map((thread) => thread.otherId),
+      );
     case "coworkers":
       return coworkers();
     case "present":
