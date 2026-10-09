@@ -9,6 +9,7 @@ import type { MacroReleaseIndicator } from "../simulation/macro-economy/types";
 import { macroStartingConditions } from "../simulation/world-setup/conditions";
 import { composeFromBank, type EnglishBank } from "./bank-english";
 import { PART_GRADES, type PartGradeLedger } from "./english-grades";
+import { stableHash as stableDigest } from "../simulation/ids";
 import { currentPublicOfficeholders } from "./opening-officeholders";
 
 /**
@@ -85,13 +86,17 @@ export function composePresidentialAddress(
     president.startedAt?.slice(0, 4) === world.currentDate.slice(0, 4)
       ? "inaugural"
       : "state-of-the-union";
-  const pick = `address:${world.seed}:${president.personId}`;
+  // The bank's 32-bit pick keeps the low bit of the key's characters, so
+  // keys that differ only by beat would pick together; a 64-bit digest of
+  // the world and the beat makes each beat's pick its own.
+  const pick = (move: string) =>
+    `address:${move}:${stableDigest(`${world.seed}:${president.personId}:${move}`)}`;
   const say = (move: string, slots: Record<string, string> = {}) => {
     const line = composeFromBank(
       BANK,
       move,
       slots,
-      `${pick}:${move}`,
+      pick(move),
       undefined,
       grades,
     );

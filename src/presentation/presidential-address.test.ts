@@ -71,11 +71,12 @@ describe("the President's speech that opens a new life", () => {
   it("gives a State of the Union with the world's own figures in each of the 56 places", () => {
     const states = lifePlaceStateIdentities();
     expect(states).toHaveLength(56);
+    const wordings = new Set<string>();
     for (const state of states) {
       const small = smallWorld({
         place: state.usps,
         offices: ["congress"],
-        seed: "presidential-address-56",
+        seed: `presidential-address-56-${state.usps}`,
       });
       const address = composePresidentialAddress(small.world)!;
       expect(address, state.usps).not.toBeNull();
@@ -89,7 +90,11 @@ describe("the President's speech that opens a new life", () => {
       expect(country, state.usps).toContain(
         `Here at home, inflation is ${start.inflation12mPct.toFixed(1)} percent.`,
       );
+      wordings.add(text(address).replace(/\d+\.\d/g, "N"));
     }
+    // Each beat picks its sentence on its own, so worlds differ in wording,
+    // not only in figures: six beats with two sentences give 64 speeches.
+    expect(wordings.size).toBeGreaterThanOrEqual(20);
   });
 
   it("gives the inaugural address when the President took office in the world's first year", () => {

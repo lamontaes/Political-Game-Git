@@ -13,7 +13,7 @@
   },
   "maxWords": 20,
   "mining": {
-    "read": "State of the Union addresses of January 20, 2015, January 30, 2018, February 5, 2019 and February 7, 2023; inaugural addresses of January 20, 2017 and January 20, 2021; the President's remarks to the National Governors Association's executive committee (January 6, 2015) and to the U.S. Conference of Mayors (January 21, 2016), from the White House archives.",
+    "read": "State of the Union addresses of January 20, 2015, January 30, 2018, February 5, 2019 and February 7, 2023; inaugural addresses of January 20, 2017, January 20, 2021 and January 20, 2025; the President's remarks to the National Governors Association's executive committee (January 6, 2015) and to the U.S. Conference of Mayors (January 21, 2016), from the White House archives.",
     "rule": "Each part keeps the President's own sentence, with names and figures cut out for slots the records fill and asides and applause left out."
   },
   "parts": [
@@ -138,6 +138,18 @@
       }
     },
     {
+      "key": "presidential-address.address.congress.not-adversaries",
+      "move": "address.congress",
+      "kind": "spoken",
+      "text": "We can see each other not as adversaries but as neighbors.",
+      "shippable": true,
+      "source": {
+        "document": "Inaugural Address by President Joseph R. Biden, Jr., January 20, 2021 (\"We can see each other not as adversaries but as neighbors.\")",
+        "date": "2021-01-20",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/speeches-remarks/2021/01/20/inaugural-address-by-president-joseph-r-biden-jr/"
+      }
+    },
+    {
       "key": "presidential-address.address.governors.work-together",
       "move": "address.governors",
       "kind": "spoken",
@@ -145,6 +157,18 @@
       "shippable": true,
       "source": {
         "document": "Remarks by the President in Meeting with the Executive Committee of the National Governors Association, January 6, 2015 (\"So my main message to these governors is going to be, let's figure out to work together.\")",
+        "date": "2015-01-06",
+        "url": "https://obamawhitehouse.archives.gov/realitycheck/the-press-office/2015/01/06/remarks-president-meeting-executive-committee-national-governors-associa"
+      }
+    },
+    {
+      "key": "presidential-address.address.governors.luxury-of-ideology",
+      "move": "address.governors",
+      "kind": "spoken",
+      "text": "Our governors don't always have the luxury to operate based on ideology.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in Meeting with the Executive Committee of the National Governors Association, January 6, 2015 (\"And one of the things I've consistently said is that governors don't always have the luxury to operate based on ideology and a bunch of abstract arguments.\")",
         "date": "2015-01-06",
         "url": "https://obamawhitehouse.archives.gov/realitycheck/the-press-office/2015/01/06/remarks-president-meeting-executive-committee-national-governors-associa"
       }
@@ -183,6 +207,18 @@
         "document": "President Donald J. Trump's State of the Union Address, January 30, 2018 (\"All of us, together, as one team, one people, and one American family.\")",
         "date": "2018-01-30",
         "url": "https://trumpwhitehouse.archives.gov/briefings-statements/president-donald-j-trumps-state-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.address.families.one-family",
+      "move": "address.families",
+      "kind": "spoken",
+      "text": "We are one people, one family, and one glorious nation under God.",
+      "shippable": true,
+      "source": {
+        "document": "The Inaugural Address, January 20, 2025 (\"We are one people, one family, and one glorious nation under God.\")",
+        "date": "2025-01-20",
+        "url": "https://www.whitehouse.gov/remarks/2025/01/the-inaugural-address/"
       }
     },
     {
