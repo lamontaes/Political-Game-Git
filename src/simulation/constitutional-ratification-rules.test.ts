@@ -85,7 +85,7 @@ describe("sourced state ratification rules", () => {
         expect(rule.quorum.source.citation).toContain("quorum");
       if ("ratificationBridge" in body)
         expect(rule.quorum.source.citation).toBe(
-          body.citations[body.ratificationBridge.quorumCitationIndex]!.text,
+          body.citations[body.ratificationBridge!.quorumCitationIndex]!.text,
         );
       expect(stateRatificationRule(row.stateKey, "absent-chamber")).toBeNull();
     }
