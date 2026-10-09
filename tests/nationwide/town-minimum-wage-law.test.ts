@@ -1,3 +1,4 @@
+import { jumpToDate } from "../fixtures/due-item-clock";
 import { describe, expect, it } from "vitest";
 import { fundRecordedPayrollControl } from "../fixtures/recorded-payroll-capital";
 
@@ -8,17 +9,13 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
   addDays,
-  daysBetween,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
 } from "../../src/simulation/enacted-rule-changes";
-import {
-  createFutureTransitionHandlerRegistry,
-  scheduledFutureDueItemsThrough,
-} from "../../src/simulation/future-transitions";
+import { scheduledFutureDueItemsThrough } from "../../src/simulation/future-transitions";
 import { applyLawConsequences } from "../../src/simulation/enacted-law-effects";
 import {
   enrollMeasure,
@@ -50,10 +47,7 @@ import {
 } from "../../src/simulation/living-world/town-pay";
 import { PLACE_POPULATION_ROWS } from "../../src/simulation/nationwide-world/place-population.generated";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
-import {
-  advanceWorld,
-  withWorldIntegrityDeferred,
-} from "../../src/simulation/world";
+import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type { EntityId, IsoDate, World } from "../../src/simulation";
 
 const AUTHORED = {
@@ -149,12 +143,7 @@ function omahaWithMinimumWageLaws(bills: readonly MinimumWageBill[]) {
   for (const stage of chamber.floorStages) {
     for (const [index, measureId] of measures.entries()) {
       const until = measurePosition(world, measureId).earliestNextFloorDate;
-      if (until && world.currentDate < until)
-        world = advanceWorld(
-          world,
-          daysBetween(world.currentDate, until),
-          createFutureTransitionHandlerRegistry([]),
-        );
+      if (until && world.currentDate < until) world = jumpToDate(world, until);
       world = takeFloorVote(world, {
         stableKey: `minimum-wage:${bills[index]!.key}:${stage.stageKey}`,
         measureId,
