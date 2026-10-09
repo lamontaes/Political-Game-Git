@@ -186,6 +186,19 @@
   margin: 0 0 0.5rem;
 }
 
+/* A session with a choice of lengths is a card holding one button per length. */
+.game-campaign-action[role="group"] {
+  border: 1px solid var(--pg-hairline);
+  border-radius: 2px;
+  padding: 0.85rem 1rem;
+}
+
+.game-campaign-action[role="group"] > .game-choices {
+  justify-self: stretch;
+  margin-top: 0.35rem;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+}
+
 .game-campaign-action[data-proposed="true"] {
   border-color: var(--brass);
 }
