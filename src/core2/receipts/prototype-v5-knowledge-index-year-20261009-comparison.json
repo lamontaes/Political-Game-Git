@@ -1,0 +1,1317 @@
+{
+  "schema": "p8-v5-knowledge-index-year-comparison-v1",
+  "readinessClaim": false,
+  "prototypeReadiness": "NOT READY; archive validation supplies neither calibration nor release approval",
+  "seed": "p8-real-life-cost-2026-10-09",
+  "startedAt": "2021-01-01",
+  "throughDate": "2022-01-01",
+  "coreVersions": {
+    "apiVersion": "core2-api-v5",
+    "schemaVersion": "core2-schema-v5"
+  },
+  "player": {
+    "id": "person_5ddb09a9f5487640",
+    "givenName": "Megan",
+    "familyName": "McCoy",
+    "birthDate": "1954-02-20",
+    "placeId": "jurisdiction_47f8dde9eac44f56",
+    "countyId": "jurisdiction_d7c59c46f6a28e90",
+    "householdId": "household_8441026d30dce8d4"
+  },
+  "rootObservedBenchmarkExitCodes": {
+    "before": 0,
+    "after": 0
+  },
+  "preparedInputSha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+  "priorCompactComparison": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+    "bytes": 60633,
+    "sha256": "2e44c181526c7f7671ae0271608db0d0cb4bc72ca60ccd85e06234fff98b5322"
+  },
+  "sourceManifests": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-source-manifests.json",
+    "bytes": 19957,
+    "sha256": "f7a5a7b914fa15709c1411fb24b27d7e9a8542f087a316d66cc1d2c40d5ead9e"
+  },
+  "contract": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-contract.json",
+    "bytes": 1932,
+    "sha256": "0e509f9379f26cd732c347e25e136cd28e3ab3f17075e1b6fe1085ef46cf1416"
+  },
+  "archiver": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-archiver.py",
+    "bytes": 22262,
+    "sha256": "0818ada1227e64b15c99d630989cec2db88c88c38dd5c432db6f2be7acb9f8e1"
+  },
+  "pinnedValidator": {
+    "path": "/workspace/p8-core-prototype/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-validator.py",
+    "bytes": 55623,
+    "sha256": "8dc3b8e6f565377482117baf531a34e3dd6587b9e0e53be422f30dc0c6fda673"
+  },
+  "modes": {
+    "before": {
+      "parameters": {
+        "targetPopulation": 10000,
+        "warmupRuns": 1,
+        "warmRuns": 3,
+        "yearSpanDays": 365,
+        "benchmarkAdultMinimumAge": 18,
+        "requestedPlayerId": "person_5ddb09a9f5487640",
+        "openingEmployment": true,
+        "scheduledWork": true
+      },
+      "preparedInput": {
+        "path": "/workspace/p8-benchmark-artifacts/p8-normal-year-work-enabled-20261009-1142-prepared.json",
+        "bytes": 376551832,
+        "sha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+        "storageScope": "Original outside-repository input retained by location/hash only; no copy is archived."
+      },
+      "preparedInputSha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+      "fullReceipt": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-full.json.gz",
+        "bytes": 4147277,
+        "sha256": "5c6cca1383d10dd26314a1d92d09c1af606edede8a4ad3837a6961b08dd7f569",
+        "originalLocation": "/workspace/p8-benchmark-artifacts/p8-normal-year-work-enabled-20261009-1142.json",
+        "uncompressedBytes": 113317248,
+        "uncompressedSha256": "26b83a055f590cb3aa9f6d36578c4c949127c305b38058f27813e026e5b20f08",
+        "roundTripVerified": true
+      },
+      "personMonthActionCsv": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-person-month-actions.csv.gz",
+        "bytes": 1358794,
+        "sha256": "166f543ebcdc81b7158b47fbe724de3f84fc4b7dff4630de080739f7f7e1adc5",
+        "rows": 158792,
+        "columns": [
+          "month",
+          "actorId",
+          "actionId",
+          "acts",
+          "needContribution",
+          "goalContribution",
+          "driveContribution"
+        ],
+        "uncompressedBytes": 11191221,
+        "uncompressedSha256": "4ed35fbe9661d3a8c5496a34abb94845dd60ce292d23547608b90b67fd50cbe9",
+        "roundTripVerified": true,
+        "scope": "Every final measured person/month/action row; no sample or circle filter."
+      },
+      "completeLog": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-complete.log.gz",
+        "bytes": 6831,
+        "sha256": "bfc260bdc855584b2375832431620cd2e21bef6fd22a4e1599152245c5a91e92",
+        "originalLocation": "/workspace/p8-benchmark-artifacts/p8-normal-year-work-enabled-20261009-1142.log",
+        "uncompressedBytes": 34167,
+        "uncompressedSha256": "26f9b25c738d0fc1ff585b860f8867255c11feab30933c91ae6d4acd4640abcd",
+        "roundTripVerified": true
+      },
+      "median": {
+        "medianElapsedMilliseconds": 143410.050858,
+        "medianDaysPerMinute": 152.70896195193927,
+        "medianDecisions": 837144,
+        "medianActs": 837144
+      },
+      "runs": [
+        {
+          "elapsedMilliseconds": 143410.050858,
+          "initializeMilliseconds": 635.3924680000055,
+          "advanceMilliseconds": 142774.65839,
+          "daysPerMinute": 152.70896195193927,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1611.4443283081055,
+              "rssMiB": 2281.95703125,
+              "processLifetimeMaxRssMiB": 2715.44140625
+            },
+            "after": {
+              "heapUsedMiB": 1802.0587539672852,
+              "rssMiB": 3067.9140625,
+              "processLifetimeMaxRssMiB": 3085.5703125
+            },
+            "heapDeltaMiB": 190.6144256591797,
+            "rssDeltaMiB": 785.95703125
+          }
+        },
+        {
+          "elapsedMilliseconds": 131210.13988700003,
+          "initializeMilliseconds": 806.943786000018,
+          "advanceMilliseconds": 130403.19610100001,
+          "daysPerMinute": 166.90783211465654,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1830.1765060424805,
+              "rssMiB": 3071.06640625,
+              "processLifetimeMaxRssMiB": 3085.5703125
+            },
+            "after": {
+              "heapUsedMiB": 2126.4042587280273,
+              "rssMiB": 3075.97265625,
+              "processLifetimeMaxRssMiB": 3088.34765625
+            },
+            "heapDeltaMiB": 296.2277526855469,
+            "rssDeltaMiB": 4.90625
+          }
+        },
+        {
+          "elapsedMilliseconds": 149881.81544300006,
+          "initializeMilliseconds": 499.2339020000072,
+          "advanceMilliseconds": 149382.58154100005,
+          "daysPerMinute": 146.11512367441634,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 2152.8415451049805,
+              "rssMiB": 3079.30078125,
+              "processLifetimeMaxRssMiB": 3088.34765625
+            },
+            "after": {
+              "heapUsedMiB": 2049.0138397216797,
+              "rssMiB": 3076.125,
+              "processLifetimeMaxRssMiB": 3088.34765625
+            },
+            "heapDeltaMiB": -103.82770538330078,
+            "rssDeltaMiB": -3.17578125
+          }
+        }
+      ],
+      "warmupTiming": [
+        {
+          "elapsedMilliseconds": 195357.26500900002,
+          "initializeMilliseconds": 560.2022490000018,
+          "advanceMilliseconds": 194797.06276,
+          "daysPerMinute": 112.10230650491077,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1504.4496383666992,
+              "rssMiB": 2344.32421875,
+              "processLifetimeMaxRssMiB": 2715.44140625
+            },
+            "after": {
+              "heapUsedMiB": 1564.904396057129,
+              "rssMiB": 2273.40625,
+              "processLifetimeMaxRssMiB": 2715.44140625
+            },
+            "heapDeltaMiB": 60.45475769042969,
+            "rssDeltaMiB": -70.91796875
+          }
+        }
+      ],
+      "counts": {
+        "people": 10002,
+        "households": 3955,
+        "jobs": 1433,
+        "organizations": 39,
+        "husks": 0,
+        "durableRecords": 32043,
+        "peopleByTier": {
+          "calendar": 0,
+          "daily": 0,
+          "husk": 0,
+          "monthly": 0,
+          "weekly": 10002
+        },
+        "dailyCirclePeople": 57
+      },
+      "initialCirclePeople": 57,
+      "actualOpeningCoworkersIncludingPlayer": 34,
+      "circleActCountRange": {
+        "minimum": 365,
+        "maximum": 625
+      },
+      "allResidentActCountRange": {
+        "minimum": 52,
+        "maximum": 625
+      },
+      "retainedVisibility": {
+        "circle": 32043
+      },
+      "allTimeActs": 837144,
+      "actsByAction": {
+        "attend-scheduled-work-date-segment": 272610,
+        "contact-known-person": 268220,
+        "decline-scheduled-work-date-segment": 26589,
+        "join-association": 19954,
+        "look-up-local-institution": 69868,
+        "rest": 179903
+      },
+      "work": {
+        "schema": "p8-work-observable-crosswalk-v1",
+        "enabled": true,
+        "exposure": {
+          "startExclusive": "2021-01-01",
+          "throughInclusive": "2022-01-01",
+          "simulatedDays": 365,
+          "residentCount": 10002,
+          "residentDiaryDays": 3650730,
+          "byAge": [
+            {
+              "ageId": "below-reference-age",
+              "runtimeAgeId": "below-reference-age",
+              "residentDiaryDays": 1010346
+            },
+            {
+              "ageId": "atus-age-15",
+              "runtimeAgeId": "atus-age-15",
+              "residentDiaryDays": 171330,
+              "referenceCohort": "15 to 19 years"
+            },
+            {
+              "ageId": "atus-age-20",
+              "runtimeAgeId": "atus-age-20",
+              "residentDiaryDays": 171752,
+              "referenceCohort": "20 to 24 years"
+            },
+            {
+              "ageId": "atus-age-25",
+              "runtimeAgeId": "atus-age-25",
+              "residentDiaryDays": 658846,
+              "referenceCohort": "25 to 34 years"
+            },
+            {
+              "ageId": "atus-age-35",
+              "runtimeAgeId": "atus-age-35",
+              "residentDiaryDays": 647757,
+              "referenceCohort": "35 to 44 years"
+            },
+            {
+              "ageId": "atus-age-45",
+              "runtimeAgeId": "atus-age-45",
+              "residentDiaryDays": 460827,
+              "referenceCohort": "45 to 54 years"
+            },
+            {
+              "ageId": "atus-age-55",
+              "runtimeAgeId": "atus-age-55",
+              "residentDiaryDays": 167758,
+              "referenceCohort": "55 to 64 years"
+            },
+            {
+              "ageId": "atus-age-65",
+              "runtimeAgeId": "atus-age-65",
+              "residentDiaryDays": 157827,
+              "referenceCohort": "65 to 74 years"
+            },
+            {
+              "ageId": "atus-age-75",
+              "runtimeAgeId": "atus-age-75",
+              "residentDiaryDays": 204287,
+              "referenceCohort": "75 years and over"
+            }
+          ]
+        },
+        "calendar": {
+          "unit": "dated calendar segment/diary participation; never whole-shift completion",
+          "plannedDatedSegments": 299199,
+          "attendedDatedSegments": 272610,
+          "absentDatedSegments": 26589,
+          "plannedMinutes": 99318540,
+          "attendedMinutes": 89964270,
+          "absentMinutesDerived": 9354270,
+          "workMinuteAggregationDifference": 0,
+          "sourceHours": 1499404.5,
+          "receiptHours": 1499404.5
+        },
+        "money": {
+          "requestedMinor": 1783763800,
+          "paidMinor": 1007857551,
+          "shortfallMinor": 775906249,
+          "openingCashMinor": 1735313542,
+          "currentCashMinor": 1735313542,
+          "closedMoneyDeltaMinor": 0,
+          "closedMoneyConserved": true,
+          "latestCashReceiptFailures": 0,
+          "scope": "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested minus paid is arithmetic unpaid amount, not a manufactured event or legal arrears determination."
+        },
+        "byAge": [
+          {
+            "ageId": "below-reference-age",
+            "runtimeAgeId": "below-reference-age",
+            "residentDiaryDays": 1010346,
+            "paidWorkMinutes": 0,
+            "paidWorkHoursPerResidentDiaryDay": 0,
+            "primaryCategoryMinutes": {
+              "contact": 8570188.8000084,
+              "unmapped:join": 335940,
+              "unmapped:public-lookup": 295515,
+              "waking-recovery": 2652060
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1413738263922854,
+              "unmapped:join": 0.005541665924346709,
+              "unmapped:public-lookup": 0.004874815162330529,
+              "waking-recovery": 0.043748379268092316
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": null,
+            "contextualDifferenceHours": null,
+            "comparisonStatus": "no-reference-for-bin"
+          },
+          {
+            "ageId": "atus-age-15",
+            "runtimeAgeId": "atus-age-15",
+            "residentDiaryDays": 171330,
+            "referenceCohort": "15 to 19 years",
+            "paidWorkMinutes": 435600,
+            "paidWorkHoursPerResidentDiaryDay": 0.04237436526002451,
+            "primaryCategoryMinutes": {
+              "contact": 1410739.199999679,
+              "paid-job-work": 435600,
+              "unmapped:join": 53100,
+              "unmapped:public-lookup": 46320,
+              "waking-recovery": 492120
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.13723410961299629,
+              "paid-job-work": 0.04237436526002451,
+              "unmapped:join": 0.0051654701453335665,
+              "unmapped:public-lookup": 0.004505924239771202,
+              "waking-recovery": 0.04787252670285414
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 0.71,
+            "contextualDifferenceHours": -0.6676256347399755,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-20",
+            "runtimeAgeId": "atus-age-20",
+            "residentDiaryDays": 171752,
+            "referenceCohort": "20 to 24 years",
+            "paidWorkMinutes": 7833870,
+            "paidWorkHoursPerResidentDiaryDay": 0.7601920210536122,
+            "primaryCategoryMinutes": {
+              "contact": 1135987.1999997902,
+              "paid-job-work": 7833870,
+              "unmapped:join": 58980,
+              "unmapped:public-lookup": 51795,
+              "waking-recovery": 644700
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.11023522287948032,
+              "paid-job-work": 0.7601920210536122,
+              "unmapped:join": 0.005723368577949602,
+              "unmapped:public-lookup": 0.005026142344776189,
+              "waking-recovery": 0.06256113465927617
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 3.85,
+            "contextualDifferenceHours": -3.089807978946388,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-25",
+            "runtimeAgeId": "atus-age-25",
+            "residentDiaryDays": 658846,
+            "referenceCohort": "25 to 34 years",
+            "paidWorkMinutes": 24985290,
+            "paidWorkHoursPerResidentDiaryDay": 0.632046790904096,
+            "primaryCategoryMinutes": {
+              "contact": 5700787.200005228,
+              "paid-job-work": 24985290,
+              "unmapped:join": 219360,
+              "unmapped:public-lookup": 192270,
+              "waking-recovery": 1788120
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1442114242176277,
+              "paid-job-work": 0.632046790904096,
+              "unmapped:join": 0.00554909645046035,
+              "unmapped:public-lookup": 0.004863807323714495,
+              "waking-recovery": 0.04523363578135103
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.58,
+            "contextualDifferenceHours": -3.947953209095904,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-35",
+            "runtimeAgeId": "atus-age-35",
+            "residentDiaryDays": 647757,
+            "referenceCohort": "35 to 44 years",
+            "paidWorkMinutes": 27619890,
+            "paidWorkHoursPerResidentDiaryDay": 0.710654612763737,
+            "primaryCategoryMinutes": {
+              "contact": 5981644.800005682,
+              "paid-job-work": 27619890,
+              "unmapped:join": 210420,
+              "unmapped:public-lookup": 183840,
+              "waking-recovery": 1677900
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.15390660386548458,
+              "paid-job-work": 0.710654612763737,
+              "unmapped:join": 0.005414067312279142,
+              "unmapped:public-lookup": 0.004730168875056541,
+              "waking-recovery": 0.04317205371767499
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.83,
+            "contextualDifferenceHours": -4.1193453872362635,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-45",
+            "runtimeAgeId": "atus-age-45",
+            "residentDiaryDays": 460827,
+            "referenceCohort": "45 to 54 years",
+            "paidWorkMinutes": 17936820,
+            "paidWorkHoursPerResidentDiaryDay": 0.6487184995670826,
+            "primaryCategoryMinutes": {
+              "contact": 4638182.40000351,
+              "paid-job-work": 17936820,
+              "unmapped:join": 147960,
+              "unmapped:public-lookup": 128535,
+              "waking-recovery": 1089960
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1677485043195353,
+              "paid-job-work": 0.6487184995670826,
+              "unmapped:join": 0.005351248950256821,
+              "unmapped:public-lookup": 0.004648707649508384,
+              "waking-recovery": 0.03942043326454396
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.7,
+            "contextualDifferenceHours": -4.051281500432918,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-55",
+            "runtimeAgeId": "atus-age-55",
+            "residentDiaryDays": 167758,
+            "referenceCohort": "55 to 64 years",
+            "paidWorkMinutes": 7435890,
+            "paidWorkHoursPerResidentDiaryDay": 0.7387516541685046,
+            "primaryCategoryMinutes": {
+              "contact": 1013414.3999998397,
+              "paid-job-work": 7435890,
+              "unmapped:join": 53940,
+              "unmapped:public-lookup": 47445,
+              "waking-recovery": 685500
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.10068217313032658,
+              "paid-job-work": 0.7387516541685046,
+              "unmapped:join": 0.005358909858248191,
+              "unmapped:public-lookup": 0.004713635117252232,
+              "waking-recovery": 0.06810405465015082
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 3.83,
+            "contextualDifferenceHours": -3.091248345831495,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-65",
+            "runtimeAgeId": "atus-age-65",
+            "residentDiaryDays": 157827,
+            "referenceCohort": "65 to 74 years",
+            "paidWorkMinutes": 3716910,
+            "paidWorkHoursPerResidentDiaryDay": 0.39250888631222797,
+            "primaryCategoryMinutes": {
+              "contact": 1291276.7999997274,
+              "paid-job-work": 3716910,
+              "unmapped:join": 52380,
+              "unmapped:public-lookup": 45660,
+              "waking-recovery": 910800
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.13635993841355062,
+              "paid-job-work": 0.39250888631222797,
+              "unmapped:join": 0.005531372958999411,
+              "unmapped:public-lookup": 0.0048217351910636325,
+              "waking-recovery": 0.0961812617612956
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 1.14,
+            "contextualDifferenceHours": -0.747491113687772,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-75",
+            "runtimeAgeId": "atus-age-75",
+            "residentDiaryDays": 204287,
+            "referenceCohort": "75 years and over",
+            "paidWorkMinutes": 0,
+            "paidWorkHoursPerResidentDiaryDay": 0,
+            "primaryCategoryMinutes": {
+              "contact": 1156723.1999997818,
+              "unmapped:join": 65160,
+              "unmapped:public-lookup": 56640,
+              "waking-recovery": 853020
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.09437076270147568,
+              "unmapped:join": 0.005316050458423688,
+              "unmapped:public-lookup": 0.004620949938077313,
+              "waking-recovery": 0.06959326829411563
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 0.26,
+            "contextualDifferenceHours": -0.26,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          }
+        ],
+        "reference": {
+          "tag": "SOURCED",
+          "source": "https://www.bls.gov/news.release/atus.t03.htm",
+          "title": "BLS ATUS 2025 Table 3: time spent in primary activities by age",
+          "retrievedAt": "2026-10-09",
+          "sha256": "844ffb3b54721d0a936956c29014ba792b9e319aff139e0c7763f722553263a4",
+          "denominator": "Average primary-activity hours per diary day for the civilian population in each reported age cohort, including participants and nonparticipants; unless specified, ages 15 and over. Not individual schedules or job-holder-only hours.",
+          "spreadLimit": "Published cohort means show differences across ages, not within-person or individual dispersion. Raw unpublished/rounded markers are preserved; no missing mean is converted to zero."
+        },
+        "exposureScope": "Every initialized resident, including nonworkers and days without discretionary activation. Exact fixed-roster dated age exposure; no survey weights or civilian/noninstitutional eligibility inferred.",
+        "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass",
+        "coefficientCalibration": "not-inferred",
+        "limitations": [
+          "No ATUS survey weighting/design, matched national age/employment sample, civilian/noninstitutional classification or territorial equivalence.",
+          "No complete mutually exclusive diary, commuting, job search, travel-purpose classification or employer/occupation-specific schedule evidence.",
+          "Overnight attendance units are dated portions, not completed whole shifts.",
+          "Committed on-call/24-hour duty is not automatically ATUS primary paid-work time; sleep/reserve conflicts can produce prototype absence.",
+          "No birth/death/migration producer; fixed-roster exposure is rejected if its initialized resident identities or current alive/residency facts change.",
+          "ATUS Table 3 age means are not individual schedules, coefficient bounds or within-person spreads.",
+          "Only currently captured cumulative category time is normalized. A historical subwindow requires dated numerator counters."
+        ]
+      },
+      "gaps": [
+        "Attendance is chosen independently for each dated portion of a scheduled shift. workedDays/missedDays/plannedDays count calendar-date segments or diary participation, never completed whole shifts. Overnight continuation and shift-wide absence contracts need a finer occurrence model.",
+        "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No recorded association target is available in the supplied place context; no generic civic group invented.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No sourced office target is available in the supplied place context; no government office or employee invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_1b538e6b54c951fd has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_2fccd7da854fed45 lacks recorded government facts governmentKind, governmentJurisdictionId; no office identity inferred from its name.",
+        "Civic inputs p8-civic-inputs-v1: organization_3c192e93dd09338b has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_7e3bec08799560c7 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_d8f06212b3aaf870 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_e0695ed6e005b157 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Deep past p8-deep-past-v1 era-context: 155 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 faith: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 family: 2019 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 losses: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 moves: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 opening-job-tenure: 9938 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 partnership-history: 5946 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 prior-money: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 prior-views: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 school-cohorts: 1047 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
+        "Employer revenue, consumption and household bill counterparties are absent. No cash sink or revenue injection is added.",
+        "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
+        "Inherited rotating/cycle calendars are imported only at opening. Same recorded-role timetable copied to added workers does not establish observed roster staggering or realistic company headcounts.",
+        "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
+        "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
+        "No observed employer-specific shift timetables, holiday/leave calendar, care-school-health constraint coverage or licensed-role qualifications.",
+        "Opening peer prior is expanded only for requested people and their generated peer groups; other cohorts remain unexpanded. Reciprocal historical acquaintance and name recognition are generated assumptions. Historical school attendance/existence, current closeness, and continued contact are not verified; no independent network calibration has been completed.",
+        "Opening vintage: 2021-01-01 household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.",
+        "Quiet outsider work is decided and paid chronologically on scheduled dates, then summarized weekly. An endpoint decision never determines past attendance.",
+        "Recorded hourly terms are opening SOC wage proxies, not observed historical contracts. Original average-day job fields stay unchanged.",
+        "Recorded work is scored and settled on its scheduled dates; remaining time admits one discretionary scored act per tier activation. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
+        "The opening generator records no known coworkers for the selected player; actual coworkers are in the daily circle, but acquaintance knowledge is not invented.",
+        "Unsupported opening workplace/occupation shares remain omitted; unassigned actors are not declared unemployed.",
+        "Weekday/cycle placement and finite sleep reserve are tunable, not empirical shift facts."
+      ],
+      "stopgapsHit": [
+        "SG-P8-attendance-choice",
+        "SG-P8-civic-progress",
+        "SG-P8-emotion-model",
+        "SG-P8-life-utility",
+        "SG-P8-opening-peer-network",
+        "SG-P8-param-careHours",
+        "SG-P8-param-civicHours",
+        "SG-P8-param-companyHorizonDays",
+        "SG-P8-param-moneyBufferDays",
+        "SG-P8-param-relationContactGain",
+        "SG-P8-param-restEffect",
+        "SG-P8-work-pay-terms",
+        "SG-P8-work-result-retention",
+        "SG-P8-work-schedule-data",
+        "SG-P8-work-time-reserve"
+      ],
+      "memoryAfterSerialization": {
+        "heapUsedMiB": 1846.1245193481445,
+        "rssMiB": 3505.5,
+        "processLifetimeMaxRssMiB": 3613.484375
+      },
+      "timerScope": "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, exact fixed-roster age-exposure calculation and ATUS contextual crosswalk, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
+      "memoryScope": "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
+      "actKindCountScope": "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
+      "reasonContributionTotals": {
+        "acts": 837144,
+        "needContribution": 469495.8277683,
+        "goalContribution": 676892.1073767486,
+        "driveContribution": 0
+      }
+    },
+    "after": {
+      "parameters": {
+        "targetPopulation": 10000,
+        "warmupRuns": 1,
+        "warmRuns": 3,
+        "yearSpanDays": 365,
+        "benchmarkAdultMinimumAge": 18,
+        "requestedPlayerId": "person_5ddb09a9f5487640",
+        "openingEmployment": true,
+        "scheduledWork": true
+      },
+      "preparedInput": {
+        "path": "/workspace/p8-benchmark-artifacts/p8-normal-year-knowledge-index-enabled-20261009-1259-prepared.json",
+        "bytes": 376551832,
+        "sha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+        "storageScope": "Original outside-repository input retained by location/hash only; no copy is archived."
+      },
+      "preparedInputSha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+      "fullReceipt": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-full.json.gz",
+        "bytes": 4147311,
+        "sha256": "05b4ffca9d098e22e1b56c9e5370febad1fbee799b20c3c327f71a8b82c60251",
+        "originalLocation": "/workspace/p8-benchmark-artifacts/p8-normal-year-knowledge-index-enabled-20261009-1259.json",
+        "uncompressedBytes": 113317279,
+        "uncompressedSha256": "3cb2911aacd1cac29a424585a3bf80e89c702bed5c417381757b91af339823f2",
+        "roundTripVerified": true
+      },
+      "personMonthActionCsv": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-person-month-actions.csv.gz",
+        "bytes": 1358794,
+        "sha256": "166f543ebcdc81b7158b47fbe724de3f84fc4b7dff4630de080739f7f7e1adc5",
+        "rows": 158792,
+        "columns": [
+          "month",
+          "actorId",
+          "actionId",
+          "acts",
+          "needContribution",
+          "goalContribution",
+          "driveContribution"
+        ],
+        "uncompressedBytes": 11191221,
+        "uncompressedSha256": "4ed35fbe9661d3a8c5496a34abb94845dd60ce292d23547608b90b67fd50cbe9",
+        "roundTripVerified": true,
+        "scope": "Every final measured person/month/action row; no sample or circle filter."
+      },
+      "completeLog": {
+        "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-complete.log.gz",
+        "bytes": 6851,
+        "sha256": "2f547fc788d551ed7b3a90e293f5f8d0e60413bdc54146d3315b475ad2dee212",
+        "originalLocation": "/workspace/p8-benchmark-artifacts/p8-normal-year-knowledge-index-enabled-20261009-1259.log",
+        "uncompressedBytes": 34172,
+        "uncompressedSha256": "38982d83a3edd6a105f23809f031c9c0b5d939a0e5985c3f8da97c1e5fe2658a",
+        "roundTripVerified": true
+      },
+      "median": {
+        "medianElapsedMilliseconds": 226573.00208399998,
+        "medianDaysPerMinute": 96.65758849715363,
+        "medianDecisions": 837144,
+        "medianActs": 837144
+      },
+      "runs": [
+        {
+          "elapsedMilliseconds": 226573.00208399998,
+          "initializeMilliseconds": 434.35083199999644,
+          "advanceMilliseconds": 226138.65125199998,
+          "daysPerMinute": 96.65758849715363,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1492.8292617797852,
+              "rssMiB": 1920.7578125,
+              "processLifetimeMaxRssMiB": 2687.02734375
+            },
+            "after": {
+              "heapUsedMiB": 1604.7827224731445,
+              "rssMiB": 2489.23828125,
+              "processLifetimeMaxRssMiB": 2687.02734375
+            },
+            "heapDeltaMiB": 111.95346069335938,
+            "rssDeltaMiB": 568.48046875
+          }
+        },
+        {
+          "elapsedMilliseconds": 285382.19694399997,
+          "initializeMilliseconds": 1336.2683930000057,
+          "advanceMilliseconds": 284045.92855099996,
+          "daysPerMinute": 76.73919478690325,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1625.4063873291016,
+              "rssMiB": 2491.65234375,
+              "processLifetimeMaxRssMiB": 2687.02734375
+            },
+            "after": {
+              "heapUsedMiB": 1554.3157196044922,
+              "rssMiB": 3067.8359375,
+              "processLifetimeMaxRssMiB": 3090.14453125
+            },
+            "heapDeltaMiB": -71.09066772460938,
+            "rssDeltaMiB": 576.18359375
+          }
+        },
+        {
+          "elapsedMilliseconds": 218520.29067499994,
+          "initializeMilliseconds": 444.82806800003164,
+          "advanceMilliseconds": 218075.4626069999,
+          "daysPerMinute": 100.2195262158577,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1576.236587524414,
+              "rssMiB": 3070.6171875,
+              "processLifetimeMaxRssMiB": 3090.14453125
+            },
+            "after": {
+              "heapUsedMiB": 1374.7418823242188,
+              "rssMiB": 3071.6640625,
+              "processLifetimeMaxRssMiB": 3096.34765625
+            },
+            "heapDeltaMiB": -201.4947052001953,
+            "rssDeltaMiB": 1.046875
+          }
+        }
+      ],
+      "warmupTiming": [
+        {
+          "elapsedMilliseconds": 167967.255898,
+          "initializeMilliseconds": 2260.2177690000026,
+          "advanceMilliseconds": 165707.038129,
+          "daysPerMinute": 130.38255511716534,
+          "simulatedDays": 365,
+          "decisions": 837144,
+          "acts": 837144,
+          "actStatsHash": "2095fbb629948466f0a974ca63c22895a863b47243e63ab584f3ef05565217b0",
+          "workStatsHash": "fc51d4b85039149931df3d632b6c0fafc557ee6ccf3e387ff36d43fd4ba3bd7a",
+          "memory": {
+            "before": {
+              "heapUsedMiB": 1593.1822662353516,
+              "rssMiB": 2328.0390625,
+              "processLifetimeMaxRssMiB": 2687.02734375
+            },
+            "after": {
+              "heapUsedMiB": 1452.0267715454102,
+              "rssMiB": 1896.7421875,
+              "processLifetimeMaxRssMiB": 2687.02734375
+            },
+            "heapDeltaMiB": -141.1554946899414,
+            "rssDeltaMiB": -431.296875
+          }
+        }
+      ],
+      "counts": {
+        "people": 10002,
+        "households": 3955,
+        "jobs": 1433,
+        "organizations": 39,
+        "husks": 0,
+        "durableRecords": 32043,
+        "peopleByTier": {
+          "calendar": 0,
+          "daily": 0,
+          "husk": 0,
+          "monthly": 0,
+          "weekly": 10002
+        },
+        "dailyCirclePeople": 57
+      },
+      "initialCirclePeople": 57,
+      "actualOpeningCoworkersIncludingPlayer": 34,
+      "circleActCountRange": {
+        "minimum": 365,
+        "maximum": 625
+      },
+      "allResidentActCountRange": {
+        "minimum": 52,
+        "maximum": 625
+      },
+      "retainedVisibility": {
+        "circle": 32043
+      },
+      "allTimeActs": 837144,
+      "actsByAction": {
+        "attend-scheduled-work-date-segment": 272610,
+        "contact-known-person": 268220,
+        "decline-scheduled-work-date-segment": 26589,
+        "join-association": 19954,
+        "look-up-local-institution": 69868,
+        "rest": 179903
+      },
+      "work": {
+        "schema": "p8-work-observable-crosswalk-v1",
+        "enabled": true,
+        "exposure": {
+          "startExclusive": "2021-01-01",
+          "throughInclusive": "2022-01-01",
+          "simulatedDays": 365,
+          "residentCount": 10002,
+          "residentDiaryDays": 3650730,
+          "byAge": [
+            {
+              "ageId": "below-reference-age",
+              "runtimeAgeId": "below-reference-age",
+              "residentDiaryDays": 1010346
+            },
+            {
+              "ageId": "atus-age-15",
+              "runtimeAgeId": "atus-age-15",
+              "residentDiaryDays": 171330,
+              "referenceCohort": "15 to 19 years"
+            },
+            {
+              "ageId": "atus-age-20",
+              "runtimeAgeId": "atus-age-20",
+              "residentDiaryDays": 171752,
+              "referenceCohort": "20 to 24 years"
+            },
+            {
+              "ageId": "atus-age-25",
+              "runtimeAgeId": "atus-age-25",
+              "residentDiaryDays": 658846,
+              "referenceCohort": "25 to 34 years"
+            },
+            {
+              "ageId": "atus-age-35",
+              "runtimeAgeId": "atus-age-35",
+              "residentDiaryDays": 647757,
+              "referenceCohort": "35 to 44 years"
+            },
+            {
+              "ageId": "atus-age-45",
+              "runtimeAgeId": "atus-age-45",
+              "residentDiaryDays": 460827,
+              "referenceCohort": "45 to 54 years"
+            },
+            {
+              "ageId": "atus-age-55",
+              "runtimeAgeId": "atus-age-55",
+              "residentDiaryDays": 167758,
+              "referenceCohort": "55 to 64 years"
+            },
+            {
+              "ageId": "atus-age-65",
+              "runtimeAgeId": "atus-age-65",
+              "residentDiaryDays": 157827,
+              "referenceCohort": "65 to 74 years"
+            },
+            {
+              "ageId": "atus-age-75",
+              "runtimeAgeId": "atus-age-75",
+              "residentDiaryDays": 204287,
+              "referenceCohort": "75 years and over"
+            }
+          ]
+        },
+        "calendar": {
+          "unit": "dated calendar segment/diary participation; never whole-shift completion",
+          "plannedDatedSegments": 299199,
+          "attendedDatedSegments": 272610,
+          "absentDatedSegments": 26589,
+          "plannedMinutes": 99318540,
+          "attendedMinutes": 89964270,
+          "absentMinutesDerived": 9354270,
+          "workMinuteAggregationDifference": 0,
+          "sourceHours": 1499404.5,
+          "receiptHours": 1499404.5
+        },
+        "money": {
+          "requestedMinor": 1783763800,
+          "paidMinor": 1007857551,
+          "shortfallMinor": 775906249,
+          "openingCashMinor": 1735313542,
+          "currentCashMinor": 1735313542,
+          "closedMoneyDeltaMinor": 0,
+          "closedMoneyConserved": true,
+          "latestCashReceiptFailures": 0,
+          "scope": "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested minus paid is arithmetic unpaid amount, not a manufactured event or legal arrears determination."
+        },
+        "byAge": [
+          {
+            "ageId": "below-reference-age",
+            "runtimeAgeId": "below-reference-age",
+            "residentDiaryDays": 1010346,
+            "paidWorkMinutes": 0,
+            "paidWorkHoursPerResidentDiaryDay": 0,
+            "primaryCategoryMinutes": {
+              "contact": 8570188.8000084,
+              "unmapped:join": 335940,
+              "unmapped:public-lookup": 295515,
+              "waking-recovery": 2652060
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1413738263922854,
+              "unmapped:join": 0.005541665924346709,
+              "unmapped:public-lookup": 0.004874815162330529,
+              "waking-recovery": 0.043748379268092316
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": null,
+            "contextualDifferenceHours": null,
+            "comparisonStatus": "no-reference-for-bin"
+          },
+          {
+            "ageId": "atus-age-15",
+            "runtimeAgeId": "atus-age-15",
+            "residentDiaryDays": 171330,
+            "referenceCohort": "15 to 19 years",
+            "paidWorkMinutes": 435600,
+            "paidWorkHoursPerResidentDiaryDay": 0.04237436526002451,
+            "primaryCategoryMinutes": {
+              "contact": 1410739.199999679,
+              "paid-job-work": 435600,
+              "unmapped:join": 53100,
+              "unmapped:public-lookup": 46320,
+              "waking-recovery": 492120
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.13723410961299629,
+              "paid-job-work": 0.04237436526002451,
+              "unmapped:join": 0.0051654701453335665,
+              "unmapped:public-lookup": 0.004505924239771202,
+              "waking-recovery": 0.04787252670285414
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 0.71,
+            "contextualDifferenceHours": -0.6676256347399755,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-20",
+            "runtimeAgeId": "atus-age-20",
+            "residentDiaryDays": 171752,
+            "referenceCohort": "20 to 24 years",
+            "paidWorkMinutes": 7833870,
+            "paidWorkHoursPerResidentDiaryDay": 0.7601920210536122,
+            "primaryCategoryMinutes": {
+              "contact": 1135987.1999997902,
+              "paid-job-work": 7833870,
+              "unmapped:join": 58980,
+              "unmapped:public-lookup": 51795,
+              "waking-recovery": 644700
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.11023522287948032,
+              "paid-job-work": 0.7601920210536122,
+              "unmapped:join": 0.005723368577949602,
+              "unmapped:public-lookup": 0.005026142344776189,
+              "waking-recovery": 0.06256113465927617
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 3.85,
+            "contextualDifferenceHours": -3.089807978946388,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-25",
+            "runtimeAgeId": "atus-age-25",
+            "residentDiaryDays": 658846,
+            "referenceCohort": "25 to 34 years",
+            "paidWorkMinutes": 24985290,
+            "paidWorkHoursPerResidentDiaryDay": 0.632046790904096,
+            "primaryCategoryMinutes": {
+              "contact": 5700787.200005228,
+              "paid-job-work": 24985290,
+              "unmapped:join": 219360,
+              "unmapped:public-lookup": 192270,
+              "waking-recovery": 1788120
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1442114242176277,
+              "paid-job-work": 0.632046790904096,
+              "unmapped:join": 0.00554909645046035,
+              "unmapped:public-lookup": 0.004863807323714495,
+              "waking-recovery": 0.04523363578135103
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.58,
+            "contextualDifferenceHours": -3.947953209095904,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-35",
+            "runtimeAgeId": "atus-age-35",
+            "residentDiaryDays": 647757,
+            "referenceCohort": "35 to 44 years",
+            "paidWorkMinutes": 27619890,
+            "paidWorkHoursPerResidentDiaryDay": 0.710654612763737,
+            "primaryCategoryMinutes": {
+              "contact": 5981644.800005682,
+              "paid-job-work": 27619890,
+              "unmapped:join": 210420,
+              "unmapped:public-lookup": 183840,
+              "waking-recovery": 1677900
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.15390660386548458,
+              "paid-job-work": 0.710654612763737,
+              "unmapped:join": 0.005414067312279142,
+              "unmapped:public-lookup": 0.004730168875056541,
+              "waking-recovery": 0.04317205371767499
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.83,
+            "contextualDifferenceHours": -4.1193453872362635,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-45",
+            "runtimeAgeId": "atus-age-45",
+            "residentDiaryDays": 460827,
+            "referenceCohort": "45 to 54 years",
+            "paidWorkMinutes": 17936820,
+            "paidWorkHoursPerResidentDiaryDay": 0.6487184995670826,
+            "primaryCategoryMinutes": {
+              "contact": 4638182.40000351,
+              "paid-job-work": 17936820,
+              "unmapped:join": 147960,
+              "unmapped:public-lookup": 128535,
+              "waking-recovery": 1089960
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.1677485043195353,
+              "paid-job-work": 0.6487184995670826,
+              "unmapped:join": 0.005351248950256821,
+              "unmapped:public-lookup": 0.004648707649508384,
+              "waking-recovery": 0.03942043326454396
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 4.7,
+            "contextualDifferenceHours": -4.051281500432918,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-55",
+            "runtimeAgeId": "atus-age-55",
+            "residentDiaryDays": 167758,
+            "referenceCohort": "55 to 64 years",
+            "paidWorkMinutes": 7435890,
+            "paidWorkHoursPerResidentDiaryDay": 0.7387516541685046,
+            "primaryCategoryMinutes": {
+              "contact": 1013414.3999998397,
+              "paid-job-work": 7435890,
+              "unmapped:join": 53940,
+              "unmapped:public-lookup": 47445,
+              "waking-recovery": 685500
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.10068217313032658,
+              "paid-job-work": 0.7387516541685046,
+              "unmapped:join": 0.005358909858248191,
+              "unmapped:public-lookup": 0.004713635117252232,
+              "waking-recovery": 0.06810405465015082
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 3.83,
+            "contextualDifferenceHours": -3.091248345831495,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-65",
+            "runtimeAgeId": "atus-age-65",
+            "residentDiaryDays": 157827,
+            "referenceCohort": "65 to 74 years",
+            "paidWorkMinutes": 3716910,
+            "paidWorkHoursPerResidentDiaryDay": 0.39250888631222797,
+            "primaryCategoryMinutes": {
+              "contact": 1291276.7999997274,
+              "paid-job-work": 3716910,
+              "unmapped:join": 52380,
+              "unmapped:public-lookup": 45660,
+              "waking-recovery": 910800
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.13635993841355062,
+              "paid-job-work": 0.39250888631222797,
+              "unmapped:join": 0.005531372958999411,
+              "unmapped:public-lookup": 0.0048217351910636325,
+              "waking-recovery": 0.0961812617612956
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 1.14,
+            "contextualDifferenceHours": -0.747491113687772,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          },
+          {
+            "ageId": "atus-age-75",
+            "runtimeAgeId": "atus-age-75",
+            "residentDiaryDays": 204287,
+            "referenceCohort": "75 years and over",
+            "paidWorkMinutes": 0,
+            "paidWorkHoursPerResidentDiaryDay": 0,
+            "primaryCategoryMinutes": {
+              "contact": 1156723.1999997818,
+              "unmapped:join": 65160,
+              "unmapped:public-lookup": 56640,
+              "waking-recovery": 853020
+            },
+            "primaryCategoryHoursPerResidentDiaryDay": {
+              "contact": 0.09437076270147568,
+              "unmapped:join": 0.005316050458423688,
+              "unmapped:public-lookup": 0.004620949938077313,
+              "waking-recovery": 0.06959326829411563
+            },
+            "atusWorkAndWorkRelatedHoursPerDiaryDay": 0.26,
+            "contextualDifferenceHours": -0.26,
+            "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass"
+          }
+        ],
+        "reference": {
+          "tag": "SOURCED",
+          "source": "https://www.bls.gov/news.release/atus.t03.htm",
+          "title": "BLS ATUS 2025 Table 3: time spent in primary activities by age",
+          "retrievedAt": "2026-10-09",
+          "sha256": "844ffb3b54721d0a936956c29014ba792b9e319aff139e0c7763f722553263a4",
+          "denominator": "Average primary-activity hours per diary day for the civilian population in each reported age cohort, including participants and nonparticipants; unless specified, ages 15 and over. Not individual schedules or job-holder-only hours.",
+          "spreadLimit": "Published cohort means show differences across ages, not within-person or individual dispersion. Raw unpublished/rounded markers are preserved; no missing mean is converted to zero."
+        },
+        "exposureScope": "Every initialized resident, including nonworkers and days without discretionary activation. Exact fixed-roster dated age exposure; no survey weights or civilian/noninstitutional eligibility inferred.",
+        "comparisonStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass",
+        "coefficientCalibration": "not-inferred",
+        "limitations": [
+          "No ATUS survey weighting/design, matched national age/employment sample, civilian/noninstitutional classification or territorial equivalence.",
+          "No complete mutually exclusive diary, commuting, job search, travel-purpose classification or employer/occupation-specific schedule evidence.",
+          "Overnight attendance units are dated portions, not completed whole shifts.",
+          "Committed on-call/24-hour duty is not automatically ATUS primary paid-work time; sleep/reserve conflicts can produce prototype absence.",
+          "No birth/death/migration producer; fixed-roster exposure is rejected if its initialized resident identities or current alive/residency facts change.",
+          "ATUS Table 3 age means are not individual schedules, coefficient bounds or within-person spreads.",
+          "Only currently captured cumulative category time is normalized. A historical subwindow requires dated numerator counters."
+        ]
+      },
+      "gaps": [
+        "Attendance is chosen independently for each dated portion of a scheduled shift. workedDays/missedDays/plannedDays count calendar-date segments or diary participation, never completed whole shifts. Overnight continuation and shift-wide absence contracts need a finer occurrence model.",
+        "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No recorded association target is available in the supplied place context; no generic civic group invented.",
+        "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No sourced office target is available in the supplied place context; no government office or employee invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_1b538e6b54c951fd has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_2fccd7da854fed45 lacks recorded government facts governmentKind, governmentJurisdictionId; no office identity inferred from its name.",
+        "Civic inputs p8-civic-inputs-v1: organization_3c192e93dd09338b has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_7e3bec08799560c7 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_d8f06212b3aaf870 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Civic inputs p8-civic-inputs-v1: organization_e0695ed6e005b157 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+        "Deep past p8-deep-past-v1 era-context: 155 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 faith: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 family: 2019 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 losses: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 moves: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 opening-job-tenure: 9938 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 partnership-history: 5946 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 prior-money: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 prior-views: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past p8-deep-past-v1 school-cohorts: 1047 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+        "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
+        "Employer revenue, consumption and household bill counterparties are absent. No cash sink or revenue injection is added.",
+        "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
+        "Inherited rotating/cycle calendars are imported only at opening. Same recorded-role timetable copied to added workers does not establish observed roster staggering or realistic company headcounts.",
+        "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
+        "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
+        "No observed employer-specific shift timetables, holiday/leave calendar, care-school-health constraint coverage or licensed-role qualifications.",
+        "Opening peer prior is expanded only for requested people and their generated peer groups; other cohorts remain unexpanded. Reciprocal historical acquaintance and name recognition are generated assumptions. Historical school attendance/existence, current closeness, and continued contact are not verified; no independent network calibration has been completed.",
+        "Opening vintage: 2021-01-01 household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.",
+        "Quiet outsider work is decided and paid chronologically on scheduled dates, then summarized weekly. An endpoint decision never determines past attendance.",
+        "Recorded hourly terms are opening SOC wage proxies, not observed historical contracts. Original average-day job fields stay unchanged.",
+        "Recorded work is scored and settled on its scheduled dates; remaining time admits one discretionary scored act per tier activation. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
+        "The opening generator records no known coworkers for the selected player; actual coworkers are in the daily circle, but acquaintance knowledge is not invented.",
+        "Unsupported opening workplace/occupation shares remain omitted; unassigned actors are not declared unemployed.",
+        "Weekday/cycle placement and finite sleep reserve are tunable, not empirical shift facts."
+      ],
+      "stopgapsHit": [
+        "SG-P8-attendance-choice",
+        "SG-P8-civic-progress",
+        "SG-P8-emotion-model",
+        "SG-P8-life-utility",
+        "SG-P8-opening-peer-network",
+        "SG-P8-param-careHours",
+        "SG-P8-param-civicHours",
+        "SG-P8-param-companyHorizonDays",
+        "SG-P8-param-moneyBufferDays",
+        "SG-P8-param-relationContactGain",
+        "SG-P8-param-restEffect",
+        "SG-P8-work-pay-terms",
+        "SG-P8-work-result-retention",
+        "SG-P8-work-schedule-data",
+        "SG-P8-work-time-reserve"
+      ],
+      "memoryAfterSerialization": {
+        "heapUsedMiB": 1815.6404342651367,
+        "rssMiB": 3503.94921875,
+        "processLifetimeMaxRssMiB": 3611.9375
+      },
+      "timerScope": "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, exact fixed-roster age-exposure calculation and ATUS contextual crosswalk, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
+      "memoryScope": "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
+      "actKindCountScope": "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
+      "reasonContributionTotals": {
+        "acts": 837144,
+        "needContribution": 469495.8277683,
+        "goalContribution": 676892.1073767486,
+        "driveContribution": 0
+      }
+    }
+  },
+  "canonicalCapturedResultParity": {
+    "matched": true,
+    "beforeSha256": "f29b9d8a26f170142a5855932e2f6f8e7a8bb050cecc4fcc20f5992feb49d07a",
+    "afterSha256": "f29b9d8a26f170142a5855932e2f6f8e7a8bb050cecc4fcc20f5992feb49d07a",
+    "correspondingActAndWorkHashesMatch": true,
+    "focusAndAffectSamplesMatch": true,
+    "allComparedResultFieldsMatch": true,
+    "fullStateDigestAvailable": false,
+    "includedRootFields": [
+      "schema",
+      "coreVersions",
+      "mode",
+      "measurementConfig",
+      "seed",
+      "startedAt",
+      "throughDate",
+      "expectedSimulatedDays",
+      "parameters",
+      "preparedInputSha256",
+      "place",
+      "actionKindBindings",
+      "actKindCountScope",
+      "affectSampleScope",
+      "timerScope",
+      "memoryScope",
+      "build",
+      "trace",
+      "warmups",
+      "runs",
+      "median",
+      "finalWorld"
+    ],
+    "excludedMetadata": [
+      "sourceHash (independently validated with two declared changed paths)",
+      "preparedInputExport location (exact prepared-input SHA retained)",
+      "run/warmup elapsed, initialize, advance, rate and process-memory telemetry",
+      "build-stage elapsed and memory telemetry",
+      "median elapsed and rate"
+    ],
+    "scope": "Every corresponding serialized result, including complete captured worlds and final detailed rows. The normal capture does not serialize full CoreState; this is not a whole-world or full-state hash."
+  },
+  "timingComparison": {
+    "elapsedMedianRatioAfterOverBefore": 1.579896253633891,
+    "medianDaysPerMinuteDifference": -56.05137345478565,
+    "scope": "Unchanged prepared input, API/schema5, work flags, player and focus selection; only the two declared knowledge-index source paths differ within the captured core2 manifest and four direct pins. Transitive generation files remain unpinned. Actual rates are read from completed captures."
+  },
+  "proofLimits": [
+    "Normal captures omit complete per-person money, knowledge, relationships, open callbacks and other CoreState tables. Captured-result parity cannot prove equality of those omitted fields.",
+    "Latest-work cash violations and retained visibility remain producer aggregate checks, not independent receipt-by-receipt or durable-row replay.",
+    "Remaining transitive generation sources are outside the source manifest and are not independently repinned.",
+    "Age time-use context, employer funding, schedules, attendance mappings and all existing stopgaps remain unresolved; no realism or civic-drive acceptance follows from parity.",
+    "Annual timers exclude generation, summary validation and serialization. Process-lifetime memory does not establish isolated steady-state memory or valid GC attribution.",
+    "This archiver runs no world, compiler, test, Git operation or release gate. Existing gate evidence is historical and is not reclassified as passing the revised source."
+  ]
+}

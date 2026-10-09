@@ -1,0 +1,19 @@
+{
+  "schema": "p8-work-hours-source-audit-archive-v1",
+  "files": [
+    {
+      "source": "/tmp/p8-work-hours-audit-20261009/evidence.json",
+      "archive": "src/core2/receipts/work-hours-v5-source-audit/evidence.json",
+      "bytes": 14905,
+      "sha256": "b11f15bf731083ac5bd883aeb99121255cb760b31dc31f0c6f26872d40f42dad"
+    },
+    {
+      "source": "/tmp/p8-work-hours-audit-20261009/manifest.json",
+      "archive": "src/core2/receipts/work-hours-v5-source-audit/manifest.json",
+      "bytes": 3360,
+      "sha256": "3f35815950a0d120f7fce4547d5bc2b8dc8ab50f9c31e6f7a1976054f6a09d47"
+    }
+  ],
+  "runtimeSourceChanges": false,
+  "newWorldRun": false
+}

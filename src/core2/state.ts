@@ -417,6 +417,41 @@ function validateCommittedAct(
     throw new Error("Act reason/counter contribution is non-finite.");
 }
 
+// Derived read index only; actor knowledge remains authoritative and private.
+// Canonical fact writes enter through observe; new/replaced fact Maps get a new
+// WeakMap entry. This index is never a CoreState field or serialized evidence.
+const publicKnowledgeIds = new WeakMap<Map<string, KnownFact>, Set<string>>();
+const noPublicKnowledgeIds: ReadonlySet<string> = new Set<string>();
+
+function publicOrganizationId(key: string): string | undefined {
+  const prefix = "organization:";
+  const suffix = ":public";
+  return typeof key === "string" &&
+    key.length >= prefix.length + suffix.length &&
+    key.startsWith(prefix) &&
+    key.endsWith(suffix)
+    ? key.slice(prefix.length, -suffix.length)
+    : undefined;
+}
+
+/** Internal default-provider read; no fact is learned by building this index. */
+export function knownPublicOrganizationIds(
+  core: Readonly<CoreState>,
+  personId: string,
+): ReadonlySet<string> {
+  const facts = core.knowledgeByPerson.get(personId);
+  if (!facts) return noPublicKnowledgeIds;
+  const prior = publicKnowledgeIds.get(facts);
+  if (prior) return prior;
+  const ids = new Set<string>();
+  for (const [key, fact] of facts) {
+    const id = publicOrganizationId(key);
+    if (fact && id !== undefined) ids.add(id);
+  }
+  publicKnowledgeIds.set(facts, ids);
+  return ids;
+}
+
 const writerAPIs = new WeakMap<CoreState, CoreAPI>();
 
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
@@ -442,6 +477,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
       known.set(fact.key, { ...fact });
+      const publicIds = publicKnowledgeIds.get(known);
+      if (publicIds) {
+        const id = publicOrganizationId(fact.key);
+        if (id !== undefined) publicIds.add(id);
+      }
     },
     knows: (personId, key) => core.knowledgeByPerson.get(personId)?.get(key),
     transfer(payerId, payeeId, minor) {

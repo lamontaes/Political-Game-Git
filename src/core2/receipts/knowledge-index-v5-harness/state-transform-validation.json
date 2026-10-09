@@ -1,0 +1,13 @@
+{
+  "liveFunctionPath": "/tmp/p8-knowledge-index-current-coreAPI-source.txt",
+  "liveFunctionSha256": "1f9eba869d0d0a0f35c639f74412926c3b7245a0c361cc73b533ab3afa19fdb6",
+  "match": {
+    "path": "/tmp/tsx-1000/17915-efea0a53da71b9d635384103c621742bbc57ab2e",
+    "bytes": 47627,
+    "sha256": "0e77ffd44b753406865f648a0dd4aa6ef3373e299d3a8c99117a7dcf2aeca3f6",
+    "sources": [
+      "/workspace/p8-core-prototype/src/core2/state.ts"
+    ]
+  },
+  "validation": "Exact current coreAPI.toString byte substring in exactly one cached state transform"
+}

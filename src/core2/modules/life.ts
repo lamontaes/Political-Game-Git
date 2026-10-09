@@ -2,6 +2,7 @@ import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { plannedWorkMinutesOnDate } from "./work";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
+import { knownPublicOrganizationIds } from "../state";
 import type {
   ActOffer,
   ActionDefinition,
@@ -38,16 +39,15 @@ function knownPublicTargets(
   action: ActionDefinition,
 ): readonly ActOffer[] {
   const out: ActOffer[] = [];
+  const knownIds = knownPublicOrganizationIds(api.state, actor.id);
+  if (!knownIds.size) return out;
   for (const placeId of new Set([
     actor.placeId,
     ...(actor.countyId ? [actor.countyId] : []),
   ]))
     for (const id of api.state.publicOrganizationsByPlace.get(placeId) ?? []) {
       const row = api.state.publicOrganizations.get(id)!;
-      if (
-        row.affordances?.includes(action.targetKind) &&
-        api.knows(actor.id, `organization:${id}:public`)
-      )
+      if (row.affordances?.includes(action.targetKind) && knownIds.has(id))
         out.push(offer(api, actor, action, id));
     }
   return out;
@@ -160,14 +160,14 @@ export const LIFE_MODULE: CoreModule = {
       ),
     "public-directory": (api, actor, action) => {
       const out: ActOffer[] = [];
+      const knownIds = knownPublicOrganizationIds(api.state, actor.id);
       for (const placeId of new Set([
         actor.placeId,
         ...(actor.countyId ? [actor.countyId] : []),
       ]))
         for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
           [])
-          if (!api.knows(actor.id, `organization:${id}:public`))
-            out.push(offer(api, actor, action, id));
+          if (!knownIds.has(id)) out.push(offer(api, actor, action, id));
       return out;
     },
   },
