@@ -55,6 +55,9 @@ export interface PersonInput {
   source: Source;
   familyIds: readonly PersonId[];
   knownIds: readonly PersonId[];
+  knownIdSources?: Readonly<
+    Record<PersonId, { sourceFactId: string; learnedAt: IsoDate }>
+  >;
   jobId?: string;
   said?: readonly string[];
   looks?: Readonly<Record<string, string>>;

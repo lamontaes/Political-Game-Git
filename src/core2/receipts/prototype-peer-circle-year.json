@@ -1,0 +1,4255 @@
+{
+  "schema": "p8-peer-circle-year-summary-v1",
+  "seed": "p8-real-life-cost-2026-10-09",
+  "startedAt": "2021-01-01",
+  "throughDate": "2022-01-01",
+  "place": {
+    "placeKey": "4840342",
+    "placeName": "La Homa, Texas",
+    "countyNames": "Hidalgo County, Texas",
+    "countyBasis": "recorded-geography-or-declared-county-equivalent",
+    "householdMixBasis": "place",
+    "referencePopulation": "11285",
+    "referencePopulationSource": "acs-2020-2024",
+    "livingCostSource": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).",
+    "cashSource": "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/simulation/starting-money.ts. No-job household reserve is an explicit expense-buffer estimate.",
+    "temporaryWorld": "Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned."
+  },
+  "fullReceipt": {
+    "path": "src/core2/receipts/prototype-peer-circle-year-full.json.gz",
+    "bytes": 3204713,
+    "sha256": "6a2190278461749729ab518d26ff264f04eba9cb663c1b3fcab5caf719b7c023",
+    "uncompressedBytes": 100529565,
+    "uncompressedSha256": "39f7ae7443e26c181210fb0f5a3fb70421c524244cf2b8066ba7e123b0789f19",
+    "roundTripVerified": true
+  },
+  "personMonthActionCsv": {
+    "path": "src/core2/receipts/prototype-peer-circle-year-person-month-actions.csv.gz",
+    "bytes": 1085000,
+    "sha256": "127164ae6e135c68c79ae87ef321b081a4c32df64c34f8a2656f0b08ae0d2e59",
+    "uncompressedBytes": 9438482,
+    "uncompressedSha256": "22966af7835b06be6bd15e37811c66cb229e9d87c3006bd30ada4880083a5d0f",
+    "roundTripVerified": true,
+    "rows": 140447
+  },
+  "log": {
+    "path": "src/core2/receipts/prototype-peer-circle-year.log",
+    "bytes": 12503,
+    "sha256": "cdcbb216e14a6026d4c092778a52ca752ba8f9cf0942930e39bd81ee5b61cb73"
+  },
+  "sourceManifest": {
+    "path": "src/core2/receipts/prototype-peer-circle-year-source-manifest.json",
+    "sha256": "f141f7a3e404a1402d0e68807ff696cc8b9ff24a0b4519945256775bd4fe002a",
+    "fileCount": 29,
+    "sourceDigest": "f5661c4a14c4d5ab0c8c75eb1aa572e958efda20d756bc7c471aeb15ed46628d",
+    "capturedBeforeAndAfterRuns": true
+  },
+  "parameters": {
+    "targetPopulation": 10000,
+    "warmupRuns": 1,
+    "warmRuns": 3,
+    "yearSpanDays": 365,
+    "benchmarkAdultMinimumAge": 18
+  },
+  "trace": {
+    "playerId": "person_5ddb09a9f5487640",
+    "countyId": "jurisdiction_d7c59c46f6a28e90",
+    "focusPersonCount": 25,
+    "focusPlaceIds": [],
+    "visiblePlaceIds": [
+      "jurisdiction_47f8dde9eac44f56",
+      "jurisdiction_d7c59c46f6a28e90"
+    ],
+    "tierScope": "normal-circle-daily-town-weekly",
+    "focusPersonIds": [
+      "person_031ead234a29633b",
+      "person_0e9d7c925faaa37d",
+      "person_2397056aca19cb83",
+      "person_295c63ac6760a1f1",
+      "person_2ef03de1dadf1209",
+      "person_39d01fdda31f1e36",
+      "person_3a16b194a01691f6",
+      "person_436af63b2517c1bf",
+      "person_458b05b253544c3e",
+      "person_58e3ab6ed39c6665",
+      "person_5a6181c2092a00b3",
+      "person_5ddb09a9f5487640",
+      "person_5ddb0aa9f54877f3",
+      "person_79f003b41e40eef8",
+      "person_820839ff7347fe1a",
+      "person_8903ec4276c6ed6b",
+      "person_9c6dfdf40dcb3dbc",
+      "person_9d3d8cfeb3e5c952",
+      "person_9eaaab09bb7bdfbb",
+      "person_a33e8ce3863c38dc",
+      "person_ca31c98090f7ec0f",
+      "person_ece11be813b5f627",
+      "person_ee3ab1fe7de0dcba",
+      "person_f6eb82c1abacc846",
+      "person_fc0deab70c3c7f7e"
+    ],
+    "peerPrior": {
+      "contactCount": 253,
+      "reports": [
+        {
+          "personId": "person_5ddb09a9f5487640",
+          "status": "filled",
+          "contextFactId": "person_5ddb09a9f5487640:p8-deep-past-v1:school:high",
+          "groupId": "98e351f0113d7393",
+          "peerIds": [
+            "person_031ead234a29633b",
+            "person_0e9d7c925faaa37d",
+            "person_2397056aca19cb83",
+            "person_295c63ac6760a1f1",
+            "person_2ef03de1dadf1209",
+            "person_39d01fdda31f1e36",
+            "person_3a16b194a01691f6",
+            "person_436af63b2517c1bf",
+            "person_58e3ab6ed39c6665",
+            "person_5a6181c2092a00b3",
+            "person_79f003b41e40eef8",
+            "person_820839ff7347fe1a",
+            "person_8903ec4276c6ed6b",
+            "person_9c6dfdf40dcb3dbc",
+            "person_9d3d8cfeb3e5c952",
+            "person_9eaaab09bb7bdfbb",
+            "person_a33e8ce3863c38dc",
+            "person_ca31c98090f7ec0f",
+            "person_ece11be813b5f627",
+            "person_ee3ab1fe7de0dcba",
+            "person_f6eb82c1abacc846",
+            "person_fc0deab70c3c7f7e"
+          ],
+          "reason": "Expanded one recorded school context into a generated reciprocal peer group; current closeness and continued contact remain unestablished."
+        }
+      ],
+      "contactRecords": "See fullReceipt.trace.peerPrior.contacts"
+    }
+  },
+  "sourceHash": {
+    "beforeBuild": {
+      "scope": "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded",
+      "dependencyNote": "The direct runtime dependencies simulation/dates, simulation/ids, act-kinds.json and trait-act-pulls.json are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "sha256": "f5661c4a14c4d5ab0c8c75eb1aa572e958efda20d756bc7c471aeb15ed46628d",
+      "fileCount": 29,
+      "directRuntimeDependencies": [
+        {
+          "path": "src/simulation/dates.ts",
+          "bytes": 16421,
+          "sha256": "7afdaff38e743db6bc4dc2d291d35754c96d9e08521f6e16b98e52ea274271b5"
+        },
+        {
+          "path": "src/simulation/ids.ts",
+          "bytes": 3498,
+          "sha256": "e9c919828acda71cb07f94dee820739c7b9c878ed13623d50c1b6778589f4cb6"
+        },
+        {
+          "path": "data/content/act-kinds.json",
+          "bytes": 1734,
+          "sha256": "d46fdbb77526b86d8e479af28ecd158a5452cf993a76628946d79fa4db9870ef"
+        },
+        {
+          "path": "data/content/trait-act-pulls.json",
+          "bytes": 17203,
+          "sha256": "495f74c371ccffd3e2637fc7393186d6a1987b2e9466f2b48920e45712938fb9"
+        }
+      ]
+    },
+    "afterRuns": {
+      "scope": "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded",
+      "dependencyNote": "The direct runtime dependencies simulation/dates, simulation/ids, act-kinds.json and trait-act-pulls.json are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "sha256": "f5661c4a14c4d5ab0c8c75eb1aa572e958efda20d756bc7c471aeb15ed46628d",
+      "fileCount": 29,
+      "directRuntimeDependencies": [
+        {
+          "path": "src/simulation/dates.ts",
+          "bytes": 16421,
+          "sha256": "7afdaff38e743db6bc4dc2d291d35754c96d9e08521f6e16b98e52ea274271b5"
+        },
+        {
+          "path": "src/simulation/ids.ts",
+          "bytes": 3498,
+          "sha256": "e9c919828acda71cb07f94dee820739c7b9c878ed13623d50c1b6778589f4cb6"
+        },
+        {
+          "path": "data/content/act-kinds.json",
+          "bytes": 1734,
+          "sha256": "d46fdbb77526b86d8e479af28ecd158a5452cf993a76628946d79fa4db9870ef"
+        },
+        {
+          "path": "data/content/trait-act-pulls.json",
+          "bytes": 17203,
+          "sha256": "495f74c371ccffd3e2637fc7393186d6a1987b2e9466f2b48920e45712938fb9"
+        }
+      ]
+    },
+    "stableDuringRun": true
+  },
+  "preparedInputSha256": "71bc2e4e36938fb6cc2010fa5f96a770965982821e580cac198e76afd05ba1b5",
+  "build": {
+    "population": {
+      "elapsedMilliseconds": 13403.693041999999,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 394.5506591796875,
+          "rssMiB": 629.77734375,
+          "processLifetimeMaxRssMiB": 637.3359375
+        },
+        "after": {
+          "heapUsedMiB": 862.2687683105469,
+          "rssMiB": 1140.38671875,
+          "processLifetimeMaxRssMiB": 1140.38671875
+        },
+        "heapDeltaMiB": 467.7181091308594,
+        "rssDeltaMiB": 510.609375
+      },
+      "counts": {
+        "people": 10002,
+        "households": 3955,
+        "jobs": 64,
+        "organizations": 39
+      }
+    },
+    "deepPast": {
+      "elapsedMilliseconds": 5257.961736000001,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 862.2705383300781,
+          "rssMiB": 1140.38671875,
+          "processLifetimeMaxRssMiB": 1140.38671875
+        },
+        "after": {
+          "heapUsedMiB": 955.4874496459961,
+          "rssMiB": 1232.5078125,
+          "processLifetimeMaxRssMiB": 1232.5078125
+        },
+        "heapDeltaMiB": 93.21691131591797,
+        "rssDeltaMiB": 92.12109375
+      },
+      "pastFactCount": 92867,
+      "gapCount": 15
+    },
+    "civicInputs": {
+      "elapsedMilliseconds": 18.208286000000953,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 955.4892196655273,
+          "rssMiB": 1232.5078125,
+          "processLifetimeMaxRssMiB": 1232.5078125
+        },
+        "after": {
+          "heapUsedMiB": 957.6593322753906,
+          "rssMiB": 1233.1328125,
+          "processLifetimeMaxRssMiB": 1233.1328125
+        },
+        "heapDeltaMiB": 2.1701126098632812,
+        "rssDeltaMiB": 0.625
+      },
+      "publicOrganizationCount": 7,
+      "gapCount": 24
+    },
+    "peerPriorAndTrace": {
+      "elapsedMilliseconds": 1119.5716639999991,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 957.6611022949219,
+          "rssMiB": 1233.1328125,
+          "processLifetimeMaxRssMiB": 1233.1328125
+        },
+        "after": {
+          "heapUsedMiB": 956.2727279663086,
+          "rssMiB": 1265.3359375,
+          "processLifetimeMaxRssMiB": 1265.3359375
+        },
+        "heapDeltaMiB": -1.3883743286132812,
+        "rssDeltaMiB": 32.203125
+      },
+      "scope": "Selected recorded school peer group, circle selection, and input deep-freeze; outside annual timer. Group size and retained recognition are uncalibrated priors."
+    }
+  },
+  "warmupTiming": [
+    {
+      "elapsedMilliseconds": 77307.585701,
+      "initializeMilliseconds": 2033.9214539999957,
+      "advanceMilliseconds": 75273.66424700001,
+      "daysPerMinute": 283.28397273589565,
+      "simulatedDays": 365,
+      "decisions": 527929,
+      "acts": 527929,
+      "actStatsHash": "45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1679.3790893554688,
+          "rssMiB": 2007.09765625,
+          "processLifetimeMaxRssMiB": 2698.91015625
+        },
+        "after": {
+          "heapUsedMiB": 2207.6483306884766,
+          "rssMiB": 2522.28125,
+          "processLifetimeMaxRssMiB": 2698.91015625
+        },
+        "heapDeltaMiB": 528.2692413330078,
+        "rssDeltaMiB": 515.18359375
+      }
+    }
+  ],
+  "runs": [
+    {
+      "elapsedMilliseconds": 66870.316769,
+      "initializeMilliseconds": 709.6398539999791,
+      "advanceMilliseconds": 66160.67691500002,
+      "daysPerMinute": 327.49957018526476,
+      "simulatedDays": 365,
+      "decisions": 527929,
+      "acts": 527929,
+      "actStatsHash": "45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 2228.805465698242,
+          "rssMiB": 2558.296875,
+          "processLifetimeMaxRssMiB": 2698.91015625
+        },
+        "after": {
+          "heapUsedMiB": 1396.7646026611328,
+          "rssMiB": 2797.04296875,
+          "processLifetimeMaxRssMiB": 2810.3515625
+        },
+        "heapDeltaMiB": -832.0408630371094,
+        "rssDeltaMiB": 238.74609375
+      }
+    },
+    {
+      "elapsedMilliseconds": 67240.794166,
+      "initializeMilliseconds": 253.6819180000166,
+      "advanceMilliseconds": 66987.11224799999,
+      "daysPerMinute": 325.69514193920145,
+      "simulatedDays": 365,
+      "decisions": 527929,
+      "acts": 527929,
+      "actStatsHash": "45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1417.7123107910156,
+          "rssMiB": 2800.21875,
+          "processLifetimeMaxRssMiB": 2810.3515625
+        },
+        "after": {
+          "heapUsedMiB": 1918.443344116211,
+          "rssMiB": 2806.66015625,
+          "processLifetimeMaxRssMiB": 2811.6171875
+        },
+        "heapDeltaMiB": 500.7310333251953,
+        "rssDeltaMiB": 6.44140625
+      }
+    },
+    {
+      "elapsedMilliseconds": 56937.315871,
+      "initializeMilliseconds": 311.4279749999987,
+      "advanceMilliseconds": 56625.887896,
+      "daysPerMinute": 384.6335160866684,
+      "simulatedDays": 365,
+      "decisions": 527929,
+      "acts": 527929,
+      "actStatsHash": "45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1960.600700378418,
+          "rssMiB": 2809.68359375,
+          "processLifetimeMaxRssMiB": 2811.6171875
+        },
+        "after": {
+          "heapUsedMiB": 1965.7257843017578,
+          "rssMiB": 2810.03125,
+          "processLifetimeMaxRssMiB": 2813.51953125
+        },
+        "heapDeltaMiB": 5.125083923339844,
+        "rssDeltaMiB": 0.34765625
+      }
+    }
+  ],
+  "median": {
+    "medianElapsedMilliseconds": 66870.316769,
+    "medianDaysPerMinute": 327.49957018526476,
+    "medianDecisions": 527929,
+    "medianActs": 527929
+  },
+  "timerScope": "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
+  "memoryScope": "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
+  "processMemoryAfterSerialization": {
+    "heapUsedMiB": 2209.9761123657227,
+    "rssMiB": 3005.81640625,
+    "processLifetimeMaxRssMiB": 3101.69140625
+  },
+  "counts": {
+    "people": 10002,
+    "households": 3955,
+    "jobs": 64,
+    "organizations": 39,
+    "husks": 0,
+    "durableRecords": 9173,
+    "peopleByTier": {
+      "calendar": 0,
+      "daily": 0,
+      "husk": 0,
+      "monthly": 0,
+      "weekly": 10002
+    },
+    "dailyCirclePeople": 25
+  },
+  "recordVisibility": {
+    "circle": 9173
+  },
+  "actsByAction": {
+    "contact-known-person": 263652,
+    "join-association": 19998,
+    "look-up-local-institution": 70006,
+    "rest": 173072,
+    "work-shift": 1201
+  },
+  "actsByMonthAction": {
+    "2021-01": {
+      "contact-known-person": 150,
+      "join-association": 48,
+      "look-up-local-institution": 40081,
+      "rest": 51,
+      "work-shift": 328
+    },
+    "2021-02": {
+      "contact-known-person": 254,
+      "join-association": 9983,
+      "look-up-local-institution": 29925,
+      "rest": 143,
+      "work-shift": 303
+    },
+    "2021-03": {
+      "contact-known-person": 18436,
+      "join-association": 9967,
+      "rest": 12007,
+      "work-shift": 273
+    },
+    "2021-04": {
+      "contact-known-person": 30546,
+      "rest": 19945,
+      "work-shift": 144
+    },
+    "2021-05": {
+      "contact-known-person": 24515,
+      "rest": 16097,
+      "work-shift": 71
+    },
+    "2021-06": {
+      "contact-known-person": 24511,
+      "rest": 16110,
+      "work-shift": 37
+    },
+    "2021-07": {
+      "contact-known-person": 30561,
+      "rest": 20076,
+      "work-shift": 23
+    },
+    "2021-08": {
+      "contact-known-person": 24529,
+      "rest": 16140,
+      "work-shift": 14
+    },
+    "2021-09": {
+      "contact-known-person": 24512,
+      "rest": 16139,
+      "work-shift": 7
+    },
+    "2021-10": {
+      "contact-known-person": 30561,
+      "rest": 20098,
+      "work-shift": 1
+    },
+    "2021-11": {
+      "contact-known-person": 24511,
+      "rest": 16147
+    },
+    "2021-12": {
+      "contact-known-person": 30561,
+      "rest": 20099
+    },
+    "2022-01": {
+      "contact-known-person": 5,
+      "rest": 20
+    }
+  },
+  "actKindBindings": {
+    "work-shift": [
+      "follow-rules",
+      "self-interest",
+      "commit"
+    ],
+    "rest": [
+      "play-safe",
+      "withdraw"
+    ],
+    "contact-known-person": [
+      "engage",
+      "cooperate"
+    ],
+    "care-for-relative": [
+      "help-others",
+      "commit"
+    ],
+    "join-association": [
+      "cooperate",
+      "commit",
+      "engage"
+    ],
+    "organize-meeting": [
+      "speak-out",
+      "cooperate",
+      "take-risk"
+    ],
+    "approach-office": [
+      "engage",
+      "speak-out",
+      "follow-rules"
+    ],
+    "look-up-local-institution": [
+      "engage",
+      "follow-rules"
+    ]
+  },
+  "actKindCountScope": "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
+  "actKindTagsByMonth": {
+    "2021-01": {
+      "commit": 376,
+      "cooperate": 198,
+      "engage": 40279,
+      "follow-rules": 40409,
+      "play-safe": 51,
+      "self-interest": 328,
+      "withdraw": 51
+    },
+    "2021-02": {
+      "commit": 10286,
+      "cooperate": 10237,
+      "engage": 40162,
+      "follow-rules": 30228,
+      "play-safe": 143,
+      "self-interest": 303,
+      "withdraw": 143
+    },
+    "2021-03": {
+      "commit": 10240,
+      "cooperate": 28403,
+      "engage": 28403,
+      "follow-rules": 273,
+      "play-safe": 12007,
+      "self-interest": 273,
+      "withdraw": 12007
+    },
+    "2021-04": {
+      "commit": 144,
+      "cooperate": 30546,
+      "engage": 30546,
+      "follow-rules": 144,
+      "play-safe": 19945,
+      "self-interest": 144,
+      "withdraw": 19945
+    },
+    "2021-05": {
+      "commit": 71,
+      "cooperate": 24515,
+      "engage": 24515,
+      "follow-rules": 71,
+      "play-safe": 16097,
+      "self-interest": 71,
+      "withdraw": 16097
+    },
+    "2021-06": {
+      "commit": 37,
+      "cooperate": 24511,
+      "engage": 24511,
+      "follow-rules": 37,
+      "play-safe": 16110,
+      "self-interest": 37,
+      "withdraw": 16110
+    },
+    "2021-07": {
+      "commit": 23,
+      "cooperate": 30561,
+      "engage": 30561,
+      "follow-rules": 23,
+      "play-safe": 20076,
+      "self-interest": 23,
+      "withdraw": 20076
+    },
+    "2021-08": {
+      "commit": 14,
+      "cooperate": 24529,
+      "engage": 24529,
+      "follow-rules": 14,
+      "play-safe": 16140,
+      "self-interest": 14,
+      "withdraw": 16140
+    },
+    "2021-09": {
+      "commit": 7,
+      "cooperate": 24512,
+      "engage": 24512,
+      "follow-rules": 7,
+      "play-safe": 16139,
+      "self-interest": 7,
+      "withdraw": 16139
+    },
+    "2021-10": {
+      "commit": 1,
+      "cooperate": 30561,
+      "engage": 30561,
+      "follow-rules": 1,
+      "play-safe": 20098,
+      "self-interest": 1,
+      "withdraw": 20098
+    },
+    "2021-11": {
+      "cooperate": 24511,
+      "engage": 24511,
+      "play-safe": 16147,
+      "withdraw": 16147
+    },
+    "2021-12": {
+      "cooperate": 30561,
+      "engage": 30561,
+      "play-safe": 20099,
+      "withdraw": 20099
+    },
+    "2022-01": {
+      "cooperate": 5,
+      "engage": 5,
+      "play-safe": 20,
+      "withdraw": 20
+    }
+  },
+  "reasonTotals": {
+    "acts": 527929,
+    "needContribution": 387500.382882555,
+    "goalContribution": 387500.382882555,
+    "driveContribution": 0
+  },
+  "reasonTotalsByMonth": {
+    "2021-01": {
+      "acts": 40658,
+      "needContribution": 40370.20274783248,
+      "goalContribution": 40370.20274783248,
+      "driveContribution": 0
+    },
+    "2021-02": {
+      "acts": 40608,
+      "needContribution": 40160.03604359761,
+      "goalContribution": 40160.03604359761,
+      "driveContribution": 0
+    },
+    "2021-03": {
+      "acts": 40683,
+      "needContribution": 31053.502673017345,
+      "goalContribution": 31053.502673017345,
+      "driveContribution": 0
+    },
+    "2021-04": {
+      "acts": 50635,
+      "needContribution": 34490.92313837277,
+      "goalContribution": 34490.92313837277,
+      "driveContribution": 0
+    },
+    "2021-05": {
+      "acts": 40683,
+      "needContribution": 27615.096841778985,
+      "goalContribution": 27615.096841778985,
+      "driveContribution": 0
+    },
+    "2021-06": {
+      "acts": 40658,
+      "needContribution": 27604.73531862651,
+      "goalContribution": 27604.73531862651,
+      "driveContribution": 0
+    },
+    "2021-07": {
+      "acts": 50660,
+      "needContribution": 34463.39552165366,
+      "goalContribution": 34463.39552165366,
+      "driveContribution": 0
+    },
+    "2021-08": {
+      "acts": 40683,
+      "needContribution": 27609.289488835002,
+      "goalContribution": 27609.289488835002,
+      "driveContribution": 0
+    },
+    "2021-09": {
+      "acts": 40658,
+      "needContribution": 27602.111541900238,
+      "goalContribution": 27602.111541900238,
+      "driveContribution": 0
+    },
+    "2021-10": {
+      "acts": 50660,
+      "needContribution": 34461.72166284214,
+      "goalContribution": 34461.72166284214,
+      "driveContribution": 0
+    },
+    "2021-11": {
+      "acts": 40658,
+      "needContribution": 27601.600818416235,
+      "goalContribution": 27601.600818416235,
+      "driveContribution": 0
+    },
+    "2021-12": {
+      "acts": 50660,
+      "needContribution": 34461.89359466147,
+      "goalContribution": 34461.89359466147,
+      "driveContribution": 0
+    },
+    "2022-01": {
+      "acts": 25,
+      "needContribution": 5.873490820716854,
+      "goalContribution": 5.873490820716854,
+      "driveContribution": 0
+    }
+  },
+  "perPersonSummary": {
+    "people": 10002,
+    "minimumActs": 52,
+    "maximumActs": 365,
+    "circlePeople": 25,
+    "circleAll365": true,
+    "noncircleMinimumActs": 52
+  },
+  "affectSampleScope": "Focus-circle state at opening and month boundaries, in latent model units; no PANAS/PSS score mapping and no added external stimulus.",
+  "affectSamples": [
+    {
+      "date": "2021-01-01",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.18041001775631882,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.1451599243445042,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.18041001775631882,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.1899077426684558,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.20463561540806754,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.19124749423844314,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.2127859914157097,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1451599243445042,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.13872043469651543,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.1451599243445042,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.16320351236677533,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.14318359528417185,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.20891240336031783,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.2162943917830881,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.12605102519928546,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.14476018581717004,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.19578742632370336,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.146474801633182,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.12369819498031642,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.1489148220397415,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.1587728883847735,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.12396130608259068,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.10456188738129765,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.2162943917830881,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.18436877170994254,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.11632552114426423,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14476018581717004,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.12625861081495415,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.14476018581717004,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.14472418605817616,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.0883936729362517,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.19470019576785122,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.16517249955326913,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.1462622139353057,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.17703528664597654,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.2162943917830881,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.17703528664597654,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.19578742632370336,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.1809741915813902,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.08382823474258987,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.1338010062774367,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.15167279302358688,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.12108527446108827,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09639916707414482,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.1317562314553667,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.1310180815079729,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.10505078377633636,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.07882970321837622,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.16160376725896206,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.11703034764465571,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.09038207854184258,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1338010062774367,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.09268783045858683,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.16739276691060015,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.14414832100408154,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.07604722461060677,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.18178553090365412,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.10631075502214955,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.11806520419686152,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.14948413874309485,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.13945555732710627,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.1500998051187466,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.14824783780236556,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.14497234350101612,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.0884510562638176,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.1546778347342833,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.13899222515585602,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.11120925762821898,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09686621164379228,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.13662558723879295,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.10154320780026896,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.09511858596584291,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06799086056231175,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.1633227919212359,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10906705300076175,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06910451995832428,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1546778347342833,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.09361338538952675,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.11464373928924794,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.11840966272761315,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.08343696992381155,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.15131409832067116,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.09512053671485012,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.09513873552703234,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.13898039784452926,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.12928886628681438,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.11464250293961044,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.13460474720224302,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.1491315607871207,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.06353270510077334,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.14475579663963956,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.10908843670332208,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.09686669522193563,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.11130361414730242,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.09688831255273644,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.0925815939482888,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.08943624286748067,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.0654087527852767,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.12405814955086578,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10975424754647259,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302474823507335,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14475579663963956,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.08889436286979605,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.14943101636861222,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.1708402005917854,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.08952209519416399,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.1162246164114985,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.08943624452664964,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.08943626000527109,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.1049709784202317,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.11944580004515798,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10952806010469537,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.10908053674057956,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.10270869811063164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.06230309494299354,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.16366445896738518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.10458175802694888,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.0926770411024743,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.11130361476232112,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.09686680144435629,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.09365548806844226,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.0917737739874961,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06230242685177451,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.13323063617273156,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.09181718580436181,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06230233876653319,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896738518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.09177337768845698,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.1674997093101499,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.17506730869655793,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.07584576115374393,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.1049554028931876,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.09177377398870949,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.09177377400002965,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.10457357255756057,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.10460234837049326,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10458263199424785,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.10458174232189522,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.0981403073225313,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338777800434,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.15467783448851974,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.08904748393386366,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.08438846600552444,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09686677547543454,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.11130361479142431,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.08438897075896089,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.08438800003527137,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06230233876443691,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.12324606887678188,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.0843880224302141,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06230233876267496,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.15467783448851974,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.08438799983083178,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.12740503921183488,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.15350312176726993,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.07721021070710535,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.11576836942706806,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.08438800003527201,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.08438800003527784,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.08904747499450337,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.09016000168142585,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.08904748488832431,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.08899915345950303,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.11130500558862796,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.0623023387626752,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.14475579663809507,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.10674982570499816,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.10408281200117361,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.11130361476306361,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.09686677547545931,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.10408281233551864,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.10408281169251818,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674915,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.09818312734697295,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10408281170735245,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14475579663809507,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.15891229419596437,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.16726760128526097,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.08150256424557743,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.10677900761413583,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.10408281169251818,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.10408281169251818,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.10674982569523547,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.1067510406868831,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10674982570604052,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.1180678764712908,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.09686677665837294,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.10669235435225477,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.10669040385588535,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.11130361476306361,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.09686677547543522,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.10669040385612985,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.10669040385565959,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.09692073909845256,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10669040385567047,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.1066904038556595,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.13650628106994322,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.17735616164911694,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.09226438464507539,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.10839429994831928,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.10669040385565959,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.10669040385565959,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.10699270050713472,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.1156251515210363,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10832274752782209,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.10670063170639724,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.09686677547686155,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.15467783448851968,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.1000012933669128,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.10000129236070623,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09686677547543518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.11130361476306364,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.10000129236070635,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.1000012923607061,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.11130367369679708,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10000129236070612,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.15467783448851968,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.1000012923607061,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.13896284289472088,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.1491480763216435,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.07281802811617485,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.10013752251243505,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.1000012923607061,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.1000012923607061,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.10000144830709765,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.1000059015472485,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10000213444117306,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.10000129763696838,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.11130361476306519,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.10408281169311867,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09686677547543518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.11130361476306364,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.1113036148341246,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.1589122941959648,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.16144616915645082,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.08150256424557743,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.10408291132307312,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.10408281169238279,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.10408281180643278,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.10408281506326972,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.10408281230823074,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.10408281169624156,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.11130361476306364,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.0936127166127578,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.11130361476306361,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.0968667754754352,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.09686677547549563,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.11464418936461729,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.1270601279832958,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.08343691572101443,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.0936127166641541,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.09361271661275741,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.09361271661281625,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.09361271661449634,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.09361271661307513,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.09361271661275938,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.0968667754754352,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_031ead234a29633b",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_0e9d7c925faaa37d",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_2397056aca19cb83",
+      "mood": 0,
+      "stress": 0.08438799983083192,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_295c63ac6760a1f1",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_2ef03de1dadf1209",
+      "mood": 0,
+      "stress": 0.09686677547543518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_39d01fdda31f1e36",
+      "mood": 0,
+      "stress": 0.11130361476306364,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_3a16b194a01691f6",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_436af63b2517c1bf",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_58e3ab6ed39c6665",
+      "mood": 0,
+      "stress": 0.11130361476311837,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_5a6181c2092a00b3",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_79f003b41e40eef8",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_820839ff7347fe1a",
+      "mood": 0,
+      "stress": 0.1274050392119097,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_8903ec4276c6ed6b",
+      "mood": 0,
+      "stress": 0.13865044863289494,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_9c6dfdf40dcb3dbc",
+      "mood": 0,
+      "stress": 0.07721021070710535,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_9d3d8cfeb3e5c952",
+      "mood": 0,
+      "stress": 0.08438799986708576,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_9eaaab09bb7bdfbb",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_a33e8ce3863c38dc",
+      "mood": 0,
+      "stress": 0.08438799983083164,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_ca31c98090f7ec0f",
+      "mood": 0,
+      "stress": 0.08438799983087314,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_ece11be813b5f627",
+      "mood": 0,
+      "stress": 0.08438799983205825,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_ee3ab1fe7de0dcba",
+      "mood": 0,
+      "stress": 0.08438799983105576,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_f6eb82c1abacc846",
+      "mood": 0,
+      "stress": 0.08438799983083305,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_fc0deab70c3c7f7e",
+      "mood": 0,
+      "stress": 0.11130361476306364,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    }
+  ],
+  "gaps": [
+    "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No recorded association target is available in the supplied place context; no generic civic group invented.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No sourced office target is available in the supplied place context; no government office or employee invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_1b538e6b54c951fd has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_2fccd7da854fed45 lacks recorded government facts governmentKind, governmentJurisdictionId; no office identity inferred from its name.",
+    "Civic inputs p8-civic-inputs-v1: organization_3c192e93dd09338b has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_7e3bec08799560c7 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_d8f06212b3aaf870 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_e0695ed6e005b157 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Deep past p8-deep-past-v1 era-context: 155 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 faith: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 family: 2019 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 losses: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 moves: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 opening-job-tenure: 9938 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 partnership-history: 5946 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 prior-money: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 prior-views: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 school-cohorts: 1047 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
+    "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
+    "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
+    "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
+    "Opening peer prior is expanded only for requested people and their generated peer groups; other cohorts remain unexpanded. Reciprocal historical acquaintance and name recognition are generated assumptions. Historical school attendance/existence, current closeness, and continued contact are not verified; no independent network calibration has been completed.",
+    "Opening vintage: 2021-01-01 household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.",
+    "Prototype selects one discretionary scored act per tier activation; a complete daily activity plan is not yet modeled.",
+    "The opening generator records no known coworkers for the selected player; actual coworkers are in the daily circle, but acquaintance knowledge is not invented."
+  ],
+  "stopgapsHit": [
+    "SG-P8-civic-progress",
+    "SG-P8-emotion-model",
+    "SG-P8-life-utility",
+    "SG-P8-opening-peer-network",
+    "SG-P8-param-careHours",
+    "SG-P8-param-civicHours",
+    "SG-P8-param-companyHorizonDays",
+    "SG-P8-param-moneyBufferDays",
+    "SG-P8-param-relationContactGain",
+    "SG-P8-param-restEffect"
+  ],
+  "priorBaseline": {
+    "path": "src/core2/receipts/prototype-normal-year.json",
+    "circlePeople": 3,
+    "medianDaysPerMinute": 188.8118508992339,
+    "medianElapsedMilliseconds": 115988.48216200003,
+    "comparisonScope": "Same year harness and seed, with changed circle/input/source. Rates are measured; the rate difference does not establish that adding acquaintances causes a speed improvement."
+  },
+  "proofLimits": [
+    "Generated school-peer roster size and persistent name recognition are uncalibrated priors, not verified historical or current relationships.",
+    "Act-stat hashes match within these four cores; this is not whole-state parity with the earlier three-person input.",
+    "The 64 opening jobs and missing consumption, demography and laws do not establish realistic totals.",
+    "Process peak includes population building, warmup, prior runs and serialization; isolated steady-state memory is not measured here.",
+    "This run does not establish an ordinary event-born civic drive, full-county pre-run or P9 life replay."
+  ]
+}

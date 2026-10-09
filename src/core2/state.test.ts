@@ -346,6 +346,103 @@ describe("P8 mutable writer money boundaries", () => {
 });
 
 describe("P8 actor knowledge and inspection privacy", () => {
+  it("keeps a named acquaintance's dated prior source without exposing private facts", () => {
+    const opening = input();
+    const actor = opening.people.find((row) => row.id === player)!;
+    const learnedAt = "1998-08-31";
+    const sourceFactId = "prior:recorded-acquaintance";
+    actor.knownIds = [...actor.knownIds, outsider];
+    actor.pastFacts = [
+      {
+        id: sourceFactId,
+        date: learnedAt,
+        kind: "fixture:acquaintance",
+        summary: "Controlled acquaintance input",
+        source,
+      },
+    ];
+    actor.knownIdSources = { [outsider]: { sourceFactId, learnedAt } };
+    const core = createCore(opening);
+    expect(
+      core.knowledgeByPerson.get(player)?.get(`person:${outsider}:name`),
+    ).toMatchObject({
+      value: "Max Ortiz",
+      sourceId: sourceFactId,
+      learnedAt,
+    });
+    expect(
+      inspectPerson(core, player, outsider).facts.some((row) =>
+        row.key.includes(":pay"),
+      ),
+    ).toBe(false);
+    expect(
+      core.knowledgeByPerson.get(player)?.get(`person:${circle}:name`)
+        ?.sourceId,
+    ).toBe(actor.id);
+    expect(core.durableLog.size).toBe(0);
+  });
+
+  it.each([
+    ["missing source fact", "prior:absent", "1998-08-31", "1998-08-31"],
+    ["future learning", "prior:contact", "2021-01-02", "2021-01-02"],
+    ["before the source fact", "prior:contact", "1997-01-01", "1998-08-31"],
+    [
+      "before either participant was born",
+      "prior:contact",
+      "1970-01-01",
+      "1970-01-01",
+    ],
+  ])(
+    "rejects %s in supplied acquaintance provenance",
+    (_case, sourceFactId, learnedAt, factDate) => {
+      const opening = input();
+      const actor = opening.people.find((row) => row.id === player)!;
+      actor.pastFacts = [
+        {
+          id: "prior:contact",
+          date: factDate,
+          kind: "fixture:contact",
+          summary: "Controlled provenance input",
+          source,
+        },
+      ];
+      actor.knownIdSources = { [circle]: { sourceFactId, learnedAt } };
+      expect(() => createCore(opening)).toThrow("opening name provenance");
+    },
+  );
+
+  it("uses the same prior-name contract during promotion and rejects invalid sources before admission", () => {
+    const core = createCore(input());
+    const bad = promotedPerson({
+      knownIdSources: {
+        [player]: { sourceFactId: "missing", learnedAt: "1999-01-01" },
+      },
+    });
+    const before = mutableSnapshot(core);
+    expect(() => promoteHusk(core, bad)).toThrow("opening name provenance");
+    expect(mutableSnapshot(core)).toEqual(before);
+    const sourceFactId = "prior:promoted-name";
+    const learnedAt = "1999-01-01";
+    promoteHusk(
+      core,
+      promotedPerson({
+        pastFacts: [
+          {
+            id: sourceFactId,
+            date: learnedAt,
+            kind: "fixture:acquaintance",
+            summary: "Controlled promotion input",
+            source,
+          },
+        ],
+        knownIdSources: { [player]: { sourceFactId, learnedAt } },
+      }),
+    );
+    expect(
+      core.knowledgeByPerson.get(huskId)?.get(`person:${player}:name`),
+    ).toMatchObject({ sourceId: sourceFactId, learnedAt });
+  });
+
   it("seeds own recorded pay but cannot inspect a stranger's pay, cash or traits", () => {
     const core = createCore(input());
     const api = coreAPI(core);

@@ -18,6 +18,7 @@ import { parameter } from "../parameters";
 import type { CoreInput, CoreState } from "../types";
 import { advanceCore, createLifeCore } from "../life";
 import { initialFocusPeople } from "../focus";
+import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { DEFAULT_DATA } from "../data";
 import measurementData from "../data/measurement.json" with { type: "json" };
 
@@ -183,6 +184,11 @@ function traceSelection(
   focusPlaceIds: string[];
   visiblePlaceIds: string[];
   tierScope: "normal-circle-daily-town-weekly" | "pre-run-full-county-daily";
+  peerPrior: {
+    contactCount: number;
+    contacts: ReturnType<typeof buildOpeningPeerContacts>["contacts"];
+    reports: ReturnType<typeof buildOpeningPeerContacts>["reports"];
+  };
 } {
   const jobByPerson = new Map(input.jobs.map((job) => [job.personId, job]));
   const peopleById = new Map(input.people.map((person) => [person.id, person]));
@@ -229,6 +235,8 @@ function traceSelection(
   });
   const selected = candidates[zero]!;
   const player = selected.person;
+  const peers = buildOpeningPeerContacts(input, { personIds: [player.id] });
+  input = peers.input;
   const household = input.households.find(
     (row) => row.id === player.householdId,
   );
@@ -269,6 +277,11 @@ function traceSelection(
     focusPlaceIds,
     visiblePlaceIds,
     tierScope,
+    peerPrior: {
+      contactCount: peers.contacts.length,
+      contacts: peers.contacts,
+      reports: peers.reports,
+    },
   };
 }
 
@@ -720,13 +733,21 @@ function sourceHash(): {
   dependencyNote: string;
   sha256: string;
   fileCount: number;
+  files: { path: string; bytes: number; sha256: string }[];
+  directRuntimeDependencies: {
+    path: string;
+    bytes: number;
+    sha256: string;
+  }[];
 } {
   const files: string[] = [];
   const visit = (directory: string): void => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
       const path = resolve(directory, entry.name);
-      if (entry.isDirectory()) visit(path);
-      else if (
+      if (entry.isDirectory()) {
+        // Proof archives are outputs, not executable measurement inputs.
+        if (path !== resolve(measurementDirectory, "receipts")) visit(path);
+      } else if (
         entry.isFile() &&
         (/\.json$/.test(entry.name) ||
           (/\.ts$/.test(entry.name) && !/\.test\.ts$/.test(entry.name)))
@@ -737,18 +758,41 @@ function sourceHash(): {
   visit(measurementDirectory);
   files.sort();
   const hash = createHash("sha256");
+  const manifest: { path: string; bytes: number; sha256: string }[] = [];
   for (const path of files) {
-    hash.update(relative(repositoryRoot, path).split(sep).join("/"));
+    const name = relative(repositoryRoot, path).split(sep).join("/");
+    const bytes = readFileSync(path);
+    hash.update(name);
     hash.update("\0");
-    hash.update(readFileSync(path));
+    hash.update(bytes);
     hash.update("\0");
+    manifest.push({
+      path: name,
+      bytes: bytes.length,
+      sha256: createHash("sha256").update(bytes).digest("hex"),
+    });
   }
   return {
-    scope: "src/core2 TypeScript and JSON; test TypeScript excluded",
+    scope:
+      "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded",
     dependencyNote:
-      "Transitive code and data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "The direct runtime dependencies simulation/dates, simulation/ids, act-kinds.json and trait-act-pulls.json are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
     sha256: hash.digest("hex"),
     fileCount: files.length,
+    files: manifest,
+    directRuntimeDependencies: [
+      "src/simulation/dates.ts",
+      "src/simulation/ids.ts",
+      "data/content/act-kinds.json",
+      "data/content/trait-act-pulls.json",
+    ].map((path) => {
+      const bytes = readFileSync(resolve(repositoryRoot, path));
+      return {
+        path,
+        bytes: bytes.length,
+        sha256: createHash("sha256").update(bytes).digest("hex"),
+      };
+    }),
   };
 }
 
@@ -900,7 +944,18 @@ async function main(): Promise<void> {
     elapsedMilliseconds: civicCompleted - civicStarted,
   });
   const civicMemoryAfter = memorySample();
+  const peerMemoryBefore = memorySample();
+  const traceStarted = performance.now();
   const traced = traceSelection(withCivicInputs, mode);
+  const traceCompleted = performance.now();
+  const peerMemoryAfter = memorySample();
+  progress("circle-prepared", {
+    elapsedMilliseconds: traceCompleted - traceStarted,
+    people: traced.input.people.length,
+    focusPersonCount: traced.focusPersonIds.length,
+    generatedHistoricalContacts: traced.peerPrior.contactCount,
+    peerReports: traced.peerPrior.reports,
+  });
   const inputSha256 = preparedInputHash(traced.input);
   const throughDate =
     mode === "year"
@@ -1006,6 +1061,12 @@ async function main(): Promise<void> {
           withCivicInputs.publicOrganizations?.length ?? zero,
         gapCount: withCivicInputs.gaps.length,
       },
+      peerPriorAndTrace: {
+        elapsedMilliseconds: traceCompleted - traceStarted,
+        memory: memoryDelta(peerMemoryBefore, peerMemoryAfter),
+        scope:
+          "Selected recorded school peer group, circle selection, and input deep-freeze; outside annual timer. Group size and retained recognition are uncalibrated priors.",
+      },
     },
     trace: {
       playerId: traced.playerId,
@@ -1015,6 +1076,7 @@ async function main(): Promise<void> {
       visiblePlaceIds: traced.visiblePlaceIds,
       tierScope: traced.tierScope,
       focusPersonIds: traced.focusPersonIds,
+      peerPrior: traced.peerPrior,
     },
     warmups,
     runs,

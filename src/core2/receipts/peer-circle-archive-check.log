@@ -1,0 +1,56 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- python3 /tmp/p8-archive-peer-year.py
+
+[storage-guard] OVERRIDDEN for test: Cloud P8 receipt archival after exclusive annual run; no owner Mac
+{
+  "median": {
+    "medianElapsedMilliseconds": 66870.316769,
+    "medianDaysPerMinute": 327.49957018526476,
+    "medianDecisions": 527929,
+    "medianActs": 527929
+  },
+  "circle": 25,
+  "acts": 527929,
+  "counts": {
+    "people": 10002,
+    "households": 3955,
+    "jobs": 64,
+    "organizations": 39,
+    "husks": 0,
+    "durableRecords": 9173,
+    "peopleByTier": {
+      "calendar": 0,
+      "daily": 0,
+      "husk": 0,
+      "monthly": 0,
+      "weekly": 10002
+    },
+    "dailyCirclePeople": 25
+  },
+  "rates": [
+    327.49957018526476,
+    325.69514193920145,
+    384.6335160866684
+  ],
+  "timesMs": [
+    66870.316769,
+    67240.794166,
+    56937.315871
+  ],
+  "memoryAfterSerialization": {
+    "heapUsedMiB": 2209.9761123657227,
+    "rssMiB": 3005.81640625,
+    "processLifetimeMaxRssMiB": 3101.69140625
+  },
+  "sourceDigest": "f5661c4a14c4d5ab0c8c75eb1aa572e958efda20d756bc7c471aeb15ed46628d",
+  "preparedInputSha256": "71bc2e4e36938fb6cc2010fa5f96a770965982821e580cac198e76afd05ba1b5",
+  "csvRows": 140447,
+  "allHashesAndCountReconciliationsPassed": true,
+  "compact": "/workspace/p8-core-prototype/src/core2/receipts/prototype-peer-circle-year.json"
+}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

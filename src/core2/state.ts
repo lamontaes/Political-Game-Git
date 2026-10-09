@@ -33,6 +33,59 @@ function admitCash(value: number, field: string, zero: number): void {
     throw new Error(`Invalid integer minor units: ${field}.`);
 }
 
+function assertKnownIdSources(
+  core: CoreState,
+  row: Pick<
+    PersonInput,
+    "id" | "birthDate" | "knownIdSources" | "pastFacts"
+  > & {
+    knownIds: Iterable<string>;
+  },
+): void {
+  if (!row.knownIdSources) return;
+  const known = new Set(row.knownIds);
+  const past = new Map((row.pastFacts ?? []).map((fact) => [fact.id, fact]));
+  for (const [id, source] of Object.entries(row.knownIdSources)) {
+    const learnedAt = makeIsoDate(source.learnedAt);
+    const fact = past.get(source.sourceFactId);
+    const other = core.people.get(id) ?? core.husks.get(id);
+    if (
+      !known.has(id) ||
+      id === row.id ||
+      !fact ||
+      makeIsoDate(fact.date) > learnedAt ||
+      learnedAt < row.birthDate ||
+      (other?.birthDate !== undefined && learnedAt < other.birthDate) ||
+      learnedAt > core.date
+    )
+      throw new Error(`Invalid opening name provenance: ${row.id}:${id}`);
+  }
+}
+
+function initialNameProvenance(
+  core: CoreState,
+  actor: PersonState,
+  knownId: string,
+): Pick<KnownFact, "sourceId" | "learnedAt"> {
+  const source = actor.knownIdSources?.[knownId];
+  if (source) {
+    const marker = actor.pastFacts?.find(
+      (fact) => fact.id === source.sourceFactId,
+    )?.facts?.stopgapId;
+    if (marker) coreAPI(core).stopgap(marker);
+  }
+  return source
+    ? { sourceId: source.sourceFactId, learnedAt: source.learnedAt }
+    : {
+        sourceId: core.households
+          .get(actor.householdId)
+          ?.memberIds.includes(knownId)
+          ? actor.householdId
+          : actor.id,
+        learnedAt: core.date,
+      };
+}
+
 export function createCore(
   input: CoreInput,
   options: {
@@ -150,6 +203,7 @@ export function createCore(
     });
   }
   for (const actor of core.people.values()) {
+    assertKnownIdSources(core, actor);
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -167,8 +221,7 @@ export function createCore(
         value: other
           ? `${other.givenName} ${other.familyName}`
           : `${core.husks.get(id)!.givenName} ${core.husks.get(id)!.familyName}`,
-        learnedAt: date,
-        sourceId: actor.householdId,
+        ...initialNameProvenance(core, actor, id),
         access: "perceived",
       });
     }
@@ -205,6 +258,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   makeIsoDate(row.birthDate);
   if (row.birthDate > core.date)
     throw new Error(`Person cannot be alive before birth: ${row.id}`);
+  assertKnownIdSources(core, row);
   admitCash(row.liquidMinor, "opening liquid balance", p("zero"));
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
@@ -691,8 +745,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
     api.observe(actor.id, {
       key: `person:${id}:name`,
       value: `${other.givenName} ${other.familyName}`,
-      learnedAt: core.date,
-      sourceId: actor.householdId,
+      ...initialNameProvenance(core, actor, id),
       access: "perceived",
     });
   }

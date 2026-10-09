@@ -10,10 +10,10 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "6f93f4913bcd988e984480275f21f9e04b564396c171a45536b5352730f2d8d5",
-    "meaning": "Current parameter table after adding generic references and removing six unread rows; these removals do not change numeric behavior."
+    "sha256": "c80a6bcc3783c3b8a17c9759a3d0554d33633e418b751170aac67b0a02ea866c",
+    "meaning": "Current parameter table includes the uncalibrated opening school-peer roster size. Its P9 school chronology reference does not identify peer counts or recognition persistence."
   },
-  "status": "26 active TUNABLE rows have generic outcome references. P9 source targets are developer-only. Ordinary replay remains pending; prior-history targets are structurally blocked until a genuine generated-history adapter/evaluator exists. No TUNABLE is promoted and no stopgap is resolved.",
+  "status": "27 active TUNABLE rows have generic outcome references. Five generation/history mappings, including opening peer group size, do not identify their coefficient bounds and remain blocked. No coefficient is calibrated and all associated stopgaps remain open.",
   "engineReferenceContract": "A parameter row may carry only checkRange: { ref: \"P9-GENERIC-TARGET-ID\" }. This is a developer-only target pointer and is never read by simulation code. Target references do not encode expected values, metrics, dates, biographies, citations, ranges, or source payloads in engine data, and do not resolve stopgaps.",
   "supplementalEmpiricalTargetsNotReferencedByCheckRange": [
     {
@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
-      "unit": "scale points, each subscale 10–50",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
+      "unit": "scale points, each subscale 10\u201350",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
-      "unit": "scale points, 0–40",
+      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
+      "unit": "scale points, 0\u201340",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25–34",
+            "group": "ages 25\u201334",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,22 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
+    },
+    {
+      "id": "opening-school-peer-network",
+      "kind": "proposed historical peer/network observable; not source retrieved",
+      "title": "Generated school-peer recognition and retained social networks",
+      "quantity": [
+        "number of distinct named historical peers",
+        "direct recorded opening circle size",
+        "household-vs-generated-peer-vs-coworker overlap",
+        "age/cohort/context and seed-conditioned distribution",
+        "name recognition vs present contact frequency/closeness"
+      ],
+      "status": "proposed; not source-retrieved or calibrated",
+      "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
+      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
     }
   ],
   "parameterBindings": [
@@ -609,6 +624,21 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "openingPeerGroupSize",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 24,
+      "checkRange": {
+        "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      },
+      "mappingStatus": "target-reference-present; inapplicable to acquaintance-roster/network calibration; not calibration",
+      "productionPathOrGap": "buildOpeningPeerContacts partitions named records with matching generated dated school contexts. It preserves attendance=cohort-estimate, but the target biographies identify no school class roster or named ordinary peer network.",
+      "proposal": "Keep parameter and SG open. Use a separate independently sourced network/contact/cohort observable for eventual calibration, and compare P9 school timeline only for chronology/uncertainty preservation.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-opening-peer-network",
+      "reviewNote": "A metadata reference is not empirical support for group size 24. Do not copy desired career/job/office outcomes or future acquaintance facts into P8."
     }
   ],
   "unreferencedRemovalReview": {
@@ -678,7 +708,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -813,7 +843,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -845,7 +875,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -884,7 +914,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -916,7 +946,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1692,7 +1722,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -1724,7 +1754,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -1827,7 +1857,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -1923,7 +1953,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2173,7 +2203,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -2776,13 +2806,18 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
+        },
+        "openingPeerGroupSize": {
+          "status": "inapplicable to numeric or network calibration",
+          "testableQuestion": "Do generated acquaintance dates follow both births, agree with the supplied estimated school contexts, precede the opening cutoff, and retain school-attendance uncertainty? This is structural chronology validation only.",
+          "coefficientCalibration": "P9 public education milestones contain no named classroom peer roster, ordinary acquaintance network, recognition persistence, or school-peer group-size observation; no bound is identified."
         }
       },
       "adapterGaps": [
@@ -2863,7 +2898,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -2892,7 +2927,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -3030,6 +3065,11 @@
       "parameter": "deepPastHighSchoolOffsetYears",
       "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
       "reason": "Only an explicitly estimated cohort-date chronology check is possible; P9 credential outcomes do not identify attendance or the offset."
+    },
+    {
+      "parameter": "openingPeerGroupSize",
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
+      "reason": "P9 education outcomes identify chronology, not school peer rosters or remembered acquaintance networks. The generated opening-network observable requires separate sources and evaluation; group-size calibration remains unmeasured."
     }
   ],
   "deletedUnusedParameters": [

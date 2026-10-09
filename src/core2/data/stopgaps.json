@@ -382,5 +382,17 @@
     "addedAt": "2026-10-09",
     "replacement": "Sourced January 2021 law and office baseline rows for the same real locality, county, state and country.",
     "status": "open"
+  },
+  {
+    "id": "SG-P8-opening-peer-network",
+    "kind": "generated-historical-social-prior",
+    "file": "src/core2/data/opening-peer-network.json",
+    "line": 3,
+    "whatItFakes": "Who became acquainted in an estimated historical school cohort and who still remembers the other's name. A generated balanced peer group is not a verified historical roster, attendance record, present friendship, or observed social network.",
+    "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
+    "addedBy": "SOL-1258",
+    "addedAt": "2026-10-09",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
+    "status": "open"
   }
 ]

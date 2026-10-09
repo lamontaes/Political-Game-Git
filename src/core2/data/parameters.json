@@ -548,5 +548,19 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "openingPeerGroupSize": {
+    "value": 24,
+    "tag": "TUNABLE",
+    "citation": "Prototype author choice, not an observed US school-class size, personal-network size, or empirically estimated bound. Recorded school context supplies eligible identities only; roster grouping still requires calibration.",
+    "estimatedFrom": "Maximum intended size of a generated peer group; balanced partitioning can yield smaller groups, and isolated/missing contexts yield no added contacts. No minimum player-circle size is enforced.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bounds or measured opening-circle spread have been established for this peer-roster parameter. Actual group size follows eligible recorded cohort size and the deterministic partition."
+    },
+    "stopgapId": "SG-P8-opening-peer-network",
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+    }
   }
 }

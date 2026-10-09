@@ -1,0 +1,76 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- node --import tsx src/core2/tooling/measure.ts --mode year --output /tmp/p8-normal-year-peer-circle-20261009-1008.json
+
+[storage-guard] OVERRIDDEN for test: Cloud P8 larger-circle annual benchmark; one worker, no owner Mac
+[2026-10-09T10:07:57.106Z] population-built {"elapsedMilliseconds":13403.693041999999,"people":10002,"place":{"placeKey":"4840342","placeName":"La Homa, Texas","countyNames":"Hidalgo County, Texas","countyBasis":"recorded-geography-or-declared-county-equivalent","householdMixBasis":"place","referencePopulation":"11285","referencePopulationSource":"acs-2020-2024","livingCostSource":"https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).","cashSource":"Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/simulation/starting-money.ts. No-job household reserve is an explicit expense-buffer estimate.","temporaryWorld":"Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned."}}
+[2026-10-09T10:08:02.367Z] deep-past-built {"elapsedMilliseconds":5257.961736000001}
+[2026-10-09T10:08:02.387Z] civic-inputs-built {"elapsedMilliseconds":18.208286000000953}
+[2026-10-09T10:08:03.509Z] circle-prepared {"elapsedMilliseconds":1119.5716639999991,"people":10002,"focusPersonCount":25,"generatedHistoricalContacts":253,"peerReports":[{"personId":"person_5ddb09a9f5487640","status":"filled","contextFactId":"person_5ddb09a9f5487640:p8-deep-past-v1:school:high","groupId":"98e351f0113d7393","peerIds":["person_031ead234a29633b","person_0e9d7c925faaa37d","person_2397056aca19cb83","person_295c63ac6760a1f1","person_2ef03de1dadf1209","person_39d01fdda31f1e36","person_3a16b194a01691f6","person_436af63b2517c1bf","person_58e3ab6ed39c6665","person_5a6181c2092a00b3","person_79f003b41e40eef8","person_820839ff7347fe1a","person_8903ec4276c6ed6b","person_9c6dfdf40dcb3dbc","person_9d3d8cfeb3e5c952","person_9eaaab09bb7bdfbb","person_a33e8ce3863c38dc","person_ca31c98090f7ec0f","person_ece11be813b5f627","person_ee3ab1fe7de0dcba","person_f6eb82c1abacc846","person_fc0deab70c3c7f7e"],"reason":"Expanded one recorded school context into a generated reciprocal peer group; current closeness and continued contact remain unestablished."}]}
+[2026-10-09T10:08:28.326Z] warmup-start {"run":1,"throughDate":"2022-01-01"}
+[2026-10-09T10:08:37.480Z] month-advanced {"throughDate":"2021-01-31","simulatedDays":30,"elapsedMilliseconds":7102.977659999997,"decisions":40658,"acts":40658}
+[2026-10-09T10:08:48.191Z] month-advanced {"throughDate":"2021-02-28","simulatedDays":28,"elapsedMilliseconds":10649.297253000004,"decisions":40608,"acts":40608}
+[2026-10-09T10:08:52.743Z] month-advanced {"throughDate":"2021-03-31","simulatedDays":31,"elapsedMilliseconds":4437.2856410000095,"decisions":40683,"acts":40683}
+[2026-10-09T10:08:58.768Z] month-advanced {"throughDate":"2021-04-30","simulatedDays":30,"elapsedMilliseconds":5942.666144999996,"decisions":50635,"acts":50635}
+[2026-10-09T10:09:04.424Z] month-advanced {"throughDate":"2021-05-31","simulatedDays":31,"elapsedMilliseconds":5576.7880120000045,"decisions":40683,"acts":40683}
+[2026-10-09T10:09:09.975Z] month-advanced {"throughDate":"2021-06-30","simulatedDays":30,"elapsedMilliseconds":5483.100829000003,"decisions":40658,"acts":40658}
+[2026-10-09T10:09:17.097Z] month-advanced {"throughDate":"2021-07-31","simulatedDays":31,"elapsedMilliseconds":7053.032863999993,"decisions":50660,"acts":50660}
+[2026-10-09T10:09:22.769Z] month-advanced {"throughDate":"2021-08-31","simulatedDays":31,"elapsedMilliseconds":5594.855411000011,"decisions":40683,"acts":40683}
+[2026-10-09T10:09:28.613Z] month-advanced {"throughDate":"2021-09-30","simulatedDays":30,"elapsedMilliseconds":5778.531336999993,"decisions":40658,"acts":40658}
+[2026-10-09T10:09:34.583Z] month-advanced {"throughDate":"2021-10-31","simulatedDays":31,"elapsedMilliseconds":5895.539325000005,"decisions":50660,"acts":50660}
+[2026-10-09T10:09:39.153Z] month-advanced {"throughDate":"2021-11-30","simulatedDays":30,"elapsedMilliseconds":4514.15389799999,"decisions":40658,"acts":40658}
+[2026-10-09T10:09:45.519Z] month-advanced {"throughDate":"2021-12-31","simulatedDays":31,"elapsedMilliseconds":6307.328230999992,"decisions":50660,"acts":50660}
+[2026-10-09T10:09:45.610Z] month-advanced {"throughDate":"2022-01-01","simulatedDays":1,"elapsedMilliseconds":36.99189299999853,"decisions":25,"acts":25}
+[2026-10-09T10:09:46.543Z] warmup-complete {"run":1,"elapsedMilliseconds":77307.585701,"daysPerMinute":283.28397273589565}
+[2026-10-09T10:09:46.543Z] measured-run-start {"run":1,"throughDate":"2022-01-01"}
+[2026-10-09T10:09:55.046Z] month-advanced {"throughDate":"2021-01-31","simulatedDays":30,"elapsedMilliseconds":7791.5782569999865,"decisions":40658,"acts":40658}
+[2026-10-09T10:10:00.697Z] month-advanced {"throughDate":"2021-02-28","simulatedDays":28,"elapsedMilliseconds":5609.383819999988,"decisions":40608,"acts":40608}
+[2026-10-09T10:10:05.863Z] month-advanced {"throughDate":"2021-03-31","simulatedDays":31,"elapsedMilliseconds":5027.680922,"decisions":40683,"acts":40683}
+[2026-10-09T10:10:11.358Z] month-advanced {"throughDate":"2021-04-30","simulatedDays":30,"elapsedMilliseconds":5364.067553000001,"decisions":50635,"acts":50635}
+[2026-10-09T10:10:16.964Z] month-advanced {"throughDate":"2021-05-31","simulatedDays":31,"elapsedMilliseconds":5571.882896999974,"decisions":40683,"acts":40683}
+[2026-10-09T10:10:21.625Z] month-advanced {"throughDate":"2021-06-30","simulatedDays":30,"elapsedMilliseconds":4552.043165999989,"decisions":40658,"acts":40658}
+[2026-10-09T10:10:27.208Z] month-advanced {"throughDate":"2021-07-31","simulatedDays":31,"elapsedMilliseconds":5545.731813999999,"decisions":50660,"acts":50660}
+[2026-10-09T10:10:32.344Z] month-advanced {"throughDate":"2021-08-31","simulatedDays":31,"elapsedMilliseconds":5064.368673999998,"decisions":40683,"acts":40683}
+[2026-10-09T10:10:37.824Z] month-advanced {"throughDate":"2021-09-30","simulatedDays":30,"elapsedMilliseconds":5439.640451999992,"decisions":40658,"acts":40658}
+[2026-10-09T10:10:43.377Z] month-advanced {"throughDate":"2021-10-31","simulatedDays":31,"elapsedMilliseconds":5476.872182000021,"decisions":50660,"acts":50660}
+[2026-10-09T10:10:48.707Z] month-advanced {"throughDate":"2021-11-30","simulatedDays":30,"elapsedMilliseconds":5287.182064000022,"decisions":40658,"acts":40658}
+[2026-10-09T10:10:53.341Z] month-advanced {"throughDate":"2021-12-31","simulatedDays":31,"elapsedMilliseconds":4585.455119999999,"decisions":50660,"acts":50660}
+[2026-10-09T10:10:53.387Z] month-advanced {"throughDate":"2022-01-01","simulatedDays":1,"elapsedMilliseconds":12.604096000024583,"decisions":25,"acts":25}
+[2026-10-09T10:10:54.015Z] measured-run-complete {"run":1,"elapsedMilliseconds":66870.316769,"daysPerMinute":327.49957018526476,"actStatsHash":"45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5"}
+[2026-10-09T10:10:54.015Z] measured-run-start {"run":2,"throughDate":"2022-01-01"}
+[2026-10-09T10:10:58.945Z] month-advanced {"throughDate":"2021-01-31","simulatedDays":30,"elapsedMilliseconds":4675.444745999994,"decisions":40658,"acts":40658}
+[2026-10-09T10:11:03.864Z] month-advanced {"throughDate":"2021-02-28","simulatedDays":28,"elapsedMilliseconds":4883.6677930000005,"decisions":40608,"acts":40608}
+[2026-10-09T10:11:10.897Z] month-advanced {"throughDate":"2021-03-31","simulatedDays":31,"elapsedMilliseconds":6931.637107000017,"decisions":40683,"acts":40683}
+[2026-10-09T10:11:23.345Z] month-advanced {"throughDate":"2021-04-30","simulatedDays":30,"elapsedMilliseconds":12359.759629999986,"decisions":50635,"acts":50635}
+[2026-10-09T10:11:27.987Z] month-advanced {"throughDate":"2021-05-31","simulatedDays":31,"elapsedMilliseconds":4589.586810000008,"decisions":40683,"acts":40683}
+[2026-10-09T10:11:34.542Z] month-advanced {"throughDate":"2021-06-30","simulatedDays":30,"elapsedMilliseconds":6499.105333000014,"decisions":40658,"acts":40658}
+[2026-10-09T10:11:39.901Z] month-advanced {"throughDate":"2021-07-31","simulatedDays":31,"elapsedMilliseconds":5276.020278999989,"decisions":50660,"acts":50660}
+[2026-10-09T10:11:43.857Z] month-advanced {"throughDate":"2021-08-31","simulatedDays":31,"elapsedMilliseconds":3892.2264809999906,"decisions":40683,"acts":40683}
+[2026-10-09T10:11:47.953Z] month-advanced {"throughDate":"2021-09-30","simulatedDays":30,"elapsedMilliseconds":4044.9968529999896,"decisions":40658,"acts":40658}
+[2026-10-09T10:11:52.841Z] month-advanced {"throughDate":"2021-10-31","simulatedDays":31,"elapsedMilliseconds":4851.158035,"decisions":50660,"acts":50660}
+[2026-10-09T10:11:56.503Z] month-advanced {"throughDate":"2021-11-30","simulatedDays":30,"elapsedMilliseconds":3623.447425999999,"decisions":40658,"acts":40658}
+[2026-10-09T10:12:01.162Z] month-advanced {"throughDate":"2021-12-31","simulatedDays":31,"elapsedMilliseconds":4627.784558999992,"decisions":50660,"acts":50660}
+[2026-10-09T10:12:01.213Z] month-advanced {"throughDate":"2022-01-01","simulatedDays":1,"elapsedMilliseconds":16.240690000005998,"decisions":25,"acts":25}
+[2026-10-09T10:12:01.821Z] measured-run-complete {"run":2,"elapsedMilliseconds":67240.794166,"daysPerMinute":325.69514193920145,"actStatsHash":"45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5"}
+[2026-10-09T10:12:01.821Z] measured-run-start {"run":3,"throughDate":"2022-01-01"}
+[2026-10-09T10:12:06.367Z] month-advanced {"throughDate":"2021-01-31","simulatedDays":30,"elapsedMilliseconds":4233.747265999962,"decisions":40658,"acts":40658}
+[2026-10-09T10:12:11.239Z] month-advanced {"throughDate":"2021-02-28","simulatedDays":28,"elapsedMilliseconds":4833.85272200004,"decisions":40608,"acts":40608}
+[2026-10-09T10:12:15.219Z] month-advanced {"throughDate":"2021-03-31","simulatedDays":31,"elapsedMilliseconds":3898.4776490000077,"decisions":40683,"acts":40683}
+[2026-10-09T10:12:19.879Z] month-advanced {"throughDate":"2021-04-30","simulatedDays":30,"elapsedMilliseconds":4587.396999999997,"decisions":50635,"acts":50635}
+[2026-10-09T10:12:24.167Z] month-advanced {"throughDate":"2021-05-31","simulatedDays":31,"elapsedMilliseconds":4246.412219999998,"decisions":40683,"acts":40683}
+[2026-10-09T10:12:28.057Z] month-advanced {"throughDate":"2021-06-30","simulatedDays":30,"elapsedMilliseconds":3854.184163000027,"decisions":40658,"acts":40658}
+[2026-10-09T10:12:33.665Z] month-advanced {"throughDate":"2021-07-31","simulatedDays":31,"elapsedMilliseconds":5568.05988700001,"decisions":50660,"acts":50660}
+[2026-10-09T10:12:38.365Z] month-advanced {"throughDate":"2021-08-31","simulatedDays":31,"elapsedMilliseconds":4653.342267,"decisions":40683,"acts":40683}
+[2026-10-09T10:12:43.377Z] month-advanced {"throughDate":"2021-09-30","simulatedDays":30,"elapsedMilliseconds":4867.830091000011,"decisions":40658,"acts":40658}
+[2026-10-09T10:12:49.290Z] month-advanced {"throughDate":"2021-10-31","simulatedDays":31,"elapsedMilliseconds":5869.446693999984,"decisions":50660,"acts":50660}
+[2026-10-09T10:12:53.720Z] month-advanced {"throughDate":"2021-11-30","simulatedDays":30,"elapsedMilliseconds":4392.026580000005,"decisions":40658,"acts":40658}
+[2026-10-09T10:12:58.669Z] month-advanced {"throughDate":"2021-12-31","simulatedDays":31,"elapsedMilliseconds":4888.810529000009,"decisions":50660,"acts":50660}
+[2026-10-09T10:12:58.724Z] month-advanced {"throughDate":"2022-01-01","simulatedDays":1,"elapsedMilliseconds":18.990734999999404,"decisions":25,"acts":25}
+[2026-10-09T10:12:59.754Z] measured-run-complete {"run":3,"elapsedMilliseconds":56937.315871,"daysPerMinute":384.6335160866684,"actStatsHash":"45c393854cd80f49bf48d2122ac643370aa2c55908f5c4abca323c3c7faf52b5"}
+[2026-10-09T10:13:03.712Z] receipt-written {"path":"/tmp/p8-normal-year-peer-circle-20261009-1008.json","memoryAfterSerialization":{"heapUsedMiB":2209.9761123657227,"rssMiB":3005.81640625,"processLifetimeMaxRssMiB":3101.69140625}}
+P8 year receipt: /tmp/p8-normal-year-peer-circle-20261009-1008.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
