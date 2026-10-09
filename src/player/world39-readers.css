@@ -99,3 +99,8 @@
   font-weight: 400;
   opacity: 0.75;
 }
+
+/* A public notice is the English engine's wording; its line breaks are kept. */
+.world39-reader .world39-notice {
+  white-space: pre-line;
+}

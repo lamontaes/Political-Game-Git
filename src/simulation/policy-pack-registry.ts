@@ -34,30 +34,35 @@ import { US_FEDERAL_POSITIONS_PACK } from "./policy-pack-us-federal-positions";
 const statutoryWageTaxRows: Readonly<
   Record<string, readonly LawConsequenceRow[]>
 > = Object.fromEntries(
-  [
-    {
-      key: "us-policy-positions:fiscal.adopt-income-tax",
-      attributes: {
-        level: "state-statute",
-        taxKey: "{authority}:wage-income-tax",
+  (
+    [
+      {
+        key: "us-policy-positions:fiscal.adopt-income-tax",
+        attributes: {
+          level: "state-statute",
+          taxKey: "{authority}:wage-income-tax",
+        },
       },
-    },
-    {
-      key: "us-policy-positions:fiscal.graduated-income-tax",
-      attributes: {
-        level: "state-statute",
-        taxKey: "{authority}:wage-income-tax",
+      {
+        key: "us-policy-positions:fiscal.graduated-income-tax",
+        attributes: {
+          level: "state-statute",
+          taxKey: "{authority}:wage-income-tax",
+        },
       },
-    },
-    {
-      key: "us-federal-positions:tax.raise-top-income-tax-rate",
-      attributes: {
-        level: "federal-statute",
-        taxKey: "us-federal:income-tax-withholding",
-        authority: "US",
+      {
+        key: "us-federal-positions:tax.raise-top-income-tax-rate",
+        attributes: {
+          level: "federal-statute",
+          taxKey: "us-federal:income-tax-withholding",
+          authority: "US",
+        },
       },
-    },
-  ].map(({ key, attributes }) => [
+    ] satisfies readonly {
+      readonly key: string;
+      readonly attributes: LawConsequenceRow["attributes"];
+    }[]
+  ).map(({ key, attributes }) => [
     key,
     (["assessment", "payment"] as const).map((when): LawConsequenceRow => ({
       id: `${key}:saved-statutory-${when}`,
@@ -203,9 +208,4 @@ let cached: PolicyRegistry | null = null;
 export function loadedPolicyRegistry(): PolicyRegistry {
   cached ??= loadPolicyPacks(POLICY_PACKS);
   return cached;
-}
-
-/** For a test that wants a registry built from something other than the build's. */
-export function resetLoadedPolicyRegistry(): void {
-  cached = null;
 }

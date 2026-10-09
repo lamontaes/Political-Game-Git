@@ -175,7 +175,7 @@
       "kind": "roll",
       "build": "Build 6",
       "count": 1,
-      "code": "return draw(seed, question) < odds ? first : second;"
+      "code": "if (at < 0) return entry.pose;"
     },
     {
       "file": "src/presentation/appearance-engine/recipe.ts",

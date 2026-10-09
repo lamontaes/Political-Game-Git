@@ -299,12 +299,6 @@ export function draftLineageHistoryRecords(
   return world.history.legislativeDraftLineages ?? [];
 }
 
-export function draftLineageEntityExists(world: World, id: EntityId): boolean {
-  return (world.history.legislativeDraftLineages ?? []).some(
-    (record) => record.id === id,
-  );
-}
-
 /**
  * The integrity this record family owes the rest of the world.
  *

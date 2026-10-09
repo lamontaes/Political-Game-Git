@@ -1,1 +1,6 @@
+---
+id: b30-p4-real-names-only-public
+impact: none
+---
+
 The generated-name guard now checks private employer and outlet names against the recorded local-institution name corpus across all 56 state and territory identities. Public names remain sourced from the existing institution readers.

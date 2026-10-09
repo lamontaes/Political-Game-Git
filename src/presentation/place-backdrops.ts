@@ -408,9 +408,9 @@ const WORK_NAME_PLACE: readonly (readonly [RegExp, string])[] = [
 ];
 
 /**
- * Where the player is on election night: the venue, on the day they gave
- * their victory speech or conceded. The speech event carries the location key.
- * Null on every other day.
+ * Where the player is on election night: the venue on the result day, including
+ * while returns and the speech choice are being shown. The speech event keeps
+ * the same location after it is given.
  */
 export function electionNightLocationKey(
   world: World,
@@ -418,16 +418,26 @@ export function electionNightLocationKey(
 ): string | null {
   const key = `place:${ELECTION_NIGHT_LOCATION_KEY}`;
   const today = world.currentDate;
-  return world.history.events.some(
-    (event) =>
-      event.occurredAt === today &&
-      event.tags.includes(key) &&
-      event.participants.some(
-        (participant) =>
-          participant.personId === personId &&
-          participant.role === "focus:subject",
+  const resultToday = (world.history.electionContestResults ?? []).some(
+    (result) =>
+      result.resolvedAt === today &&
+      (world.history.electionContests ?? []).some(
+        (contest) =>
+          contest.id === result.contestId &&
+          contest.candidatePersonIds.includes(personId),
       ),
-  )
+  );
+  return resultToday ||
+    world.history.events.some(
+      (event) =>
+        event.occurredAt === today &&
+        event.tags.includes(key) &&
+        event.participants.some(
+          (participant) =>
+            participant.personId === personId &&
+            participant.role === "focus:subject",
+        ),
+    )
     ? ELECTION_NIGHT_LOCATION_KEY
     : null;
 }
@@ -563,6 +573,8 @@ const LOCATION_PLACE: Readonly<Record<string, string>> = {
   // Election night, and a town hall a school or civic group hosts.
   "campaign-election-night": "election-night-venue",
   "campaign-life:town-hall-school-gym": "school-gym-town-hall",
+  // A filing visit: the counter where the clerk takes declarations.
+  "civic:filing-office": "clerk-counter",
 };
 
 const LOCATION_PREFIX_PLACE: Readonly<Record<string, string>> = {

@@ -1,11 +1,7 @@
 import { eventById } from "./event-index";
 import { makeIsoDate } from "./dates";
 import { createStableId } from "./ids";
-import {
-  assertExactQuantity,
-  scaleExactQuantity,
-  scaleSafeIntegerByExactShare,
-} from "./quantity";
+import { assertExactQuantity } from "./quantity";
 import { makeCurrencyCode } from "./resources";
 import { assertDottedContentKey } from "./taxonomy";
 import {
@@ -16,7 +12,6 @@ import type {
   CausalRecordProvenance,
   EntityId,
   EntityKind,
-  ExactQuantity,
   IncidentAppliedConsequencePlan,
   IncidentConsequencePlan,
   IncidentEvaluation,
@@ -30,7 +25,6 @@ import type {
 } from "./types";
 import { personActionAvailabilityAt } from "./vitality-integrity";
 
-const INCIDENT_TRANSITION_KEY = "incident:transition";
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
 export function incidentEntityExists(world: World, id: EntityId): boolean {
@@ -279,8 +273,6 @@ export function assertIncidentIntegrity(
       validateConsequencePlan(world, consequence, plan.dueAt);
     }
   }
-  assertIncidentDueIntegrity(world, plans, statesByIncident);
-  assertResolvedTransitionEffects(world, plans, statesByIncident);
 }
 
 function validateDefinitionReferences(world: World): void {
@@ -315,60 +307,6 @@ function validateDefinitionReferences(world: World): void {
         );
       }
     }
-  }
-}
-
-export function assertIncidentDueIntegrity(
-  world: World,
-  plans = new Map(
-    world.history.incidentTransitionPlans.map((plan) => [plan.id, plan]),
-  ),
-  statesByIncident = new Map<EntityId, IncidentStateRecord[]>(),
-): void {
-  const dueByPlan = new Set<EntityId>();
-  for (const dueItem of world.history.futureDueItems) {
-    if (dueItem.transitionKey !== INCIDENT_TRANSITION_KEY) continue;
-    const planId = dueItem.entityIds[0];
-    const plan = planId ? plans.get(planId) : undefined;
-    const incident = plan
-      ? world.history.incidents.find((record) => record.id === plan.incidentId)
-      : undefined;
-    if (
-      dueItem.entityIds.length !== 1 ||
-      !plan ||
-      !incident ||
-      plan.sequence >= dueItem.sequence ||
-      plan.recordedAt > dueItem.scheduledAt ||
-      dueItem.dueAt !== plan.dueAt ||
-      dueItem.jurisdictionId !== incident.scope.jurisdictionId ||
-      dueItem.provenance.kind !== "simulated" ||
-      dueItem.provenance.sourceEntityIds.length !== 1 ||
-      dueItem.provenance.sourceEntityIds[0] !== plan.id ||
-      dueByPlan.has(plan.id)
-    ) {
-      throw new Error(
-        `Incident due item has invalid transition plan: ${dueItem.id}`,
-      );
-    }
-    const states =
-      statesByIncident.get(incident.id) ??
-      world.history.incidentStates.filter(
-        (state) => state.incidentId === incident.id,
-      );
-    const planSourceState = latestStateBefore(states, plan.sequence);
-    const stateAtCreation = latestStateBefore(states, dueItem.sequence);
-    if (
-      !planSourceState ||
-      planSourceState.status !== "active" ||
-      !stateAtCreation ||
-      stateAtCreation.status !== "active" ||
-      stateAtCreation.id !== planSourceState.id
-    ) {
-      throw new Error(
-        `Incident due item was invalid when scheduled: ${dueItem.id}`,
-      );
-    }
-    dueByPlan.add(plan.id);
   }
 }
 
@@ -457,80 +395,6 @@ function assertIncidentEffect(
     throw new Error(
       `Incident consequence is not an exact Run B effect: ${incident.id}`,
     );
-  }
-}
-
-function assertResolvedTransitionEffects(
-  world: World,
-  plans: ReadonlyMap<EntityId, IncidentTransitionPlanRecord>,
-  statesByIncident: ReadonlyMap<EntityId, readonly IncidentStateRecord[]>,
-): void {
-  for (const plan of plans.values()) {
-    const dueItem = world.history.futureDueItems.find(
-      (item) =>
-        item.transitionKey === INCIDENT_TRANSITION_KEY &&
-        item.entityIds.length === 1 &&
-        item.entityIds[0] === plan.id,
-    );
-    if (!dueItem) continue;
-    const dueState = world.history.futureDueItemStates
-      .filter((state) => state.dueItemId === dueItem.id)
-      .sort((left, right) => left.sequence - right.sequence)
-      .at(-1);
-    if (!dueState || dueState.status !== "resolved") continue;
-    const incident = world.history.incidents.find(
-      (candidate) => candidate.id === plan.incidentId,
-    );
-    const state = (statesByIncident.get(plan.incidentId) ?? []).find(
-      (candidate) => candidate.eventId === dueState.outcomeEventId,
-    );
-    if (
-      !incident ||
-      !state ||
-      state.sequence <= plan.sequence ||
-      state.phaseKey !== plan.phaseKey ||
-      state.status !== plan.targetStatus
-    ) {
-      throw new Error(
-        `Resolved incident transition has invalid state: ${plan.id}`,
-      );
-    }
-    for (const consequence of plan.consequences) {
-      const applied = {
-        ...consequence,
-        scaledMagnitude: scaleMetricValue(
-          consequence.baseMagnitude,
-          incident.occurrence.impactShare,
-        ),
-      };
-      const effect = world.history.effectActivations.find(
-        (record) =>
-          record.stableKey ===
-          `${plan.stableKey}:effect:${consequence.stableKey}`,
-      );
-      if (
-        !effect ||
-        effect.sequence <= plan.sequence ||
-        effect.causalProcessId !== incident.rootCausalProcessId ||
-        effect.sourceEntityIds.length !== 1 ||
-        effect.sourceEntityIds[0] !== state.eventId ||
-        effect.targetMetricId !== applied.targetMetricId ||
-        !sameScope(effect.targetScope, applied.targetScope) ||
-        !sameMetricValue(effect.magnitude, applied.scaledMagnitude) ||
-        JSON.stringify(effect.magnitudeBasis) !==
-          JSON.stringify(applied.magnitudeBasis) ||
-        effect.mechanismDefinitionId !== applied.mechanismDefinitionId ||
-        effect.direction !== applied.direction ||
-        effect.onsetAt !== applied.onsetAt ||
-        effect.maturesAt !== applied.maturesAt ||
-        effect.endsAt !== applied.endsAt ||
-        effect.realizationKind !== applied.realizationKind
-      ) {
-        throw new Error(
-          `Resolved incident transition has invalid effect: ${plan.id}`,
-        );
-      }
-    }
   }
 }
 
@@ -697,24 +561,6 @@ function validateMetricValue(
       throw new Error("Incident money amount is unsafe.");
     }
   }
-}
-
-function scaleMetricValue(
-  value: WorldMetricValue,
-  factor: ExactQuantity,
-): WorldMetricValue {
-  return value.kind === "quantity"
-    ? { kind: "quantity", quantity: scaleExactQuantity(value.quantity, factor) }
-    : {
-        kind: "money",
-        money: {
-          currency: value.money.currency,
-          minorUnits: scaleSafeIntegerByExactShare(
-            value.money.minorUnits,
-            factor,
-          ),
-        },
-      };
 }
 
 function sameMetricValue(

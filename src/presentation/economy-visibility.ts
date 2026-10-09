@@ -1,4 +1,4 @@
-import table from "../../data/content/economy-visibility.json";
+import table from "../../data/content/economy-visibility.json" with { type: "json" };
 import type {
   PlayerOfficeScopeLevel as PlayerOfficeLevel,
   playerOfficeScope,

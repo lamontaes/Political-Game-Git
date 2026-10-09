@@ -15,6 +15,7 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { PersonalObligations } from "./PersonalObligations";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
 import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
@@ -27,6 +28,7 @@ import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
+import { makeCurrencyCode } from "../simulation/resources";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
@@ -586,6 +588,17 @@ export function PeopleWorkspace({
           {dossier.laws.map((law) => (
             <p key={law.measureId}>{law.title}</p>
           ))}
+          <HeardOfficialViewsList
+            views={dossier.viewsTheyHold}
+            shows="official"
+            testid="people-dossier-views-held"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
+          <HeardOfficialViewsList
+            views={dossier.viewsOfThem}
+            testid="people-dossier-views-of"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
           <PinToggle
             className="ui-action ui-action--rail"
             pinned={pinned}
@@ -1547,6 +1560,7 @@ export function PersonalFinancesWorkspace({
             </li>
           ))}
         </ul>
+        <PersonalObligations world={world} personId={personId} />
         {householdCosts ? (
           <ul
             className="pg-purses"
@@ -1566,7 +1580,7 @@ export function PersonalFinancesWorkspace({
                         householdCosts.monthlyMinor) /
                         (12 * householdCosts.averageMonthlyMinor),
                     ),
-                    currency: "USD",
+                    currency: makeCurrencyCode("USD"),
                   })}
                 </span>
               </li>
