@@ -1,5 +1,6 @@
 import { initializePersonCitizenship } from "./citizenship-creation";
 import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
+import { assertStoryPeopleIntegrity, storyPeople } from "./story-people-store";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -2126,6 +2127,7 @@ function validateHistoryIntegrity(
         ...childhoodRecordEntries(world),
         ...storyMoments(world),
         ...(history.storyIntakeMarks ?? []),
+        ...storyPeople(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2335,6 +2337,9 @@ function validateHistoryIntegrity(
   for (const mark of world.history.storyIntakeMarks ?? [])
     assertUniqueId(ids, mark.id);
   assertStoryMomentIntegrity(world);
+  // A story person's id is the one they keep once written out, so it is
+  // checked against the other story people, not against every id.
+  assertStoryPeopleIntegrity(world);
   for (const proposal of history.legislativeProposals ?? []) {
     assertUniqueId(ids, proposal.id);
     if (!world.people[proposal.sponsorPersonId]) {

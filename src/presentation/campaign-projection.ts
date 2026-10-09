@@ -1,3 +1,5 @@
+import { CANVASS_SESSION_MINUTES } from "../simulation/campaign-canvass";
+import { describeInterval } from "./time-target-label";
 import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
 import { electionSpeechWords } from "./election-speech-english";
 import {
@@ -125,6 +127,18 @@ export interface CampaignActionOffer {
   readonly unavailable: string | null;
   /** Money this offer would commit, for the surface to show before it is spent. */
   readonly spend: MoneyAmount | null;
+  /**
+   * The lengths the player can give this session, longest last, or null when
+   * it has one length. Each is unavailable when today has no room for it.
+   */
+  readonly lengths: readonly CampaignSessionLength[] | null;
+}
+
+/** One length a session can be given, and whether today has room for it. */
+export interface CampaignSessionLength {
+  readonly minutes: number;
+  readonly label: string;
+  readonly unavailable: string | null;
 }
 
 export interface CampaignSessionRecord {
@@ -560,13 +574,14 @@ function freeSlotToday(
   world: World,
   personId: EntityId,
   kind: CampaignActionKind,
+  minutes: number = SESSION_MINUTES,
 ): { readonly startMinute: number; readonly endMinute: number } | null {
   const preferred = kind === "fundraising" ? 10 * 60 : 14 * 60;
   const startMinute = Math.max(
     world.currentMoment.minuteOfDay + SOONEST_START_OFFSET,
     preferred,
   );
-  const endMinute = startMinute + SESSION_MINUTES;
+  const endMinute = startMinute + minutes;
   if (endMinute > LATEST_SESSION_END) return null;
 
   // Only a commitment that has not finished yet can get in the way, and only
@@ -1075,6 +1090,23 @@ function offersFor(
   const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
+    // An afternoon on the doors takes the length the player gives it.
+    const lengths =
+      kind === "outreach"
+        ? CANVASS_SESSION_MINUTES.map((minutes) => ({
+            minutes,
+            label: describeInterval(minutes),
+            unavailable:
+              freeSlotToday(
+                world,
+                campaign.candidatePersonId,
+                kind,
+                minutes,
+              ) === null
+                ? "The rest of today is already spoken for."
+                : null,
+          }))
+        : null;
     const unavailable = jailed
       ? jailed.until === null
         ? "You are serving life imprisonment. Your name stays on the ballot, but you cannot campaign."
@@ -1083,7 +1115,12 @@ function offersFor(
         ? "Election day has arrived. There is nothing left to do but wait for the count."
         : kind === "advertising" && treasury.minorUnits <= 0
           ? "There is nothing in the account to spend."
-          : freeSlotToday(world, campaign.candidatePersonId, kind) === null
+          : (
+                lengths
+                  ? lengths.every((length) => length.unavailable !== null)
+                  : freeSlotToday(world, campaign.candidatePersonId, kind) ===
+                    null
+              )
             ? "The rest of today is already spoken for."
             : null;
     return {
@@ -1097,9 +1134,12 @@ function offersFor(
       cost:
         kind === "advertising"
           ? `An hour and a half, and ${money(buy)} of what the committee has raised.`
-          : "An hour and a half of a day that has other things in it.",
+          : kind === "outreach"
+            ? "As long as you choose, of a day that has other things in it."
+            : "An hour and a half of a day that has other things in it.",
       unavailable,
       spend,
+      lengths,
     };
   });
 }
@@ -1425,6 +1465,10 @@ export function spendAnAfternoon(
   world: World,
   personId: EntityId,
   kind: CampaignActionKind,
+  /** How long to give it; an afternoon on the doors takes its shortest length when none is given. */
+  minutes: number = kind === "outreach"
+    ? CANVASS_SESSION_MINUTES[0]!
+    : SESSION_MINUTES,
 ): World {
   const campaign = activeCampaignForCandidate(world, personId);
   if (!campaign) throw new Error("There is no campaign to work on.");
@@ -1435,7 +1479,9 @@ export function spendAnAfternoon(
   if (kind === "advertising" && treasury.minorUnits <= 0) {
     throw new Error("There is nothing in the account to spend.");
   }
-  const slot = freeSlotToday(world, personId, kind);
+  if (kind === "outreach" && !CANVASS_SESSION_MINUTES.includes(minutes))
+    throw new Error("A session on the doors takes one of its offered lengths.");
+  const slot = freeSlotToday(world, personId, kind, minutes);
   if (!slot) {
     throw new Error("The rest of today is already spoken for.");
   }
@@ -1457,6 +1503,8 @@ export interface PlannedCampaignActionInput {
   readonly kind: CampaignActionKind;
   readonly spend: MoneyAmount | null;
   readonly strategy: CampaignActionStrategyRecord;
+  /** How long to give it, for a session with a choice of lengths. */
+  readonly minutes?: number;
 }
 
 /**
@@ -1488,7 +1536,12 @@ export function spendPlannedCampaignAction(
   if (input.kind !== "advertising" && input.spend !== null) {
     throw new Error("This campaign action does not spend committee money.");
   }
-  const slot = freeSlotToday(world, personId, input.kind);
+  const minutes =
+    input.minutes ??
+    (input.kind === "outreach" ? CANVASS_SESSION_MINUTES[0]! : SESSION_MINUTES);
+  if (input.kind === "outreach" && !CANVASS_SESSION_MINUTES.includes(minutes))
+    throw new Error("A session on the doors takes one of its offered lengths.");
+  const slot = freeSlotToday(world, personId, input.kind, minutes);
   if (!slot) {
     throw new Error("The rest of today is already spoken for.");
   }

@@ -191,7 +191,12 @@ test("group 1: Nevada creator, room, People, Calendar, Politics and back", async
     const now = page.getByRole("group", { name: "Do this now" });
     await expect(now).toBeVisible();
     await expect(page.getByTestId("campaign-strategy-commit")).toHaveCount(0);
-    await now.getByTestId("campaign-outreach").click();
+    // The door offer takes a length; its shortest is the first button.
+    await now
+      .getByTestId("campaign-outreach")
+      .getByRole("button")
+      .first()
+      .click();
     await expect(page.getByTestId("campaign-strategy-report")).toBeVisible();
     await shot(page, "08-campaign");
   } else {

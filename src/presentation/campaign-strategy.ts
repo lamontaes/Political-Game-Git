@@ -74,6 +74,8 @@ export interface CommitCampaignStrategyInput {
   readonly priorityKey: CampaignActionKind;
   readonly geographyKey: string;
   readonly spendingKey: string;
+  /** How long to give the session, where it offers a choice of lengths. */
+  readonly minutes?: number;
 }
 
 export interface CampaignStrategyReport {
@@ -273,6 +275,7 @@ export function commitCampaignStrategy(
     kind: priority.key,
     spend: priority.key === "advertising" ? { ...spending.amount } : null,
     strategy,
+    ...(input.minutes !== undefined ? { minutes: input.minutes } : {}),
   });
 }
 

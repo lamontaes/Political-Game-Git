@@ -375,6 +375,8 @@ test.describe("A life can stand for something", () => {
     await page
       .getByRole("group", { name: "Do this now" })
       .getByTestId("campaign-outreach")
+      .getByRole("button")
+      .first()
       .click();
 
     const report = page.getByTestId("campaign-strategy-report");

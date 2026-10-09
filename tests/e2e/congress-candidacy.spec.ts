@@ -40,7 +40,11 @@ async function campaignEachWeekUntilDecided(
     if ((await status.getAttribute("data-status")) !== "pending-election")
       return;
     for (const kind of ["campaign-outreach", "campaign-fundraising"]) {
-      const control = page.getByTestId(kind);
+      // The door offer takes a length; its shortest is the first button.
+      const control =
+        kind === "campaign-outreach"
+          ? page.getByTestId(kind).getByRole("button").first()
+          : page.getByTestId(kind);
       if (
         (await control.isVisible().catch(() => false)) &&
         (await control.isEnabled().catch(() => false))

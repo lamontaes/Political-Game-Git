@@ -4065,9 +4065,31 @@ export interface CampaignActionResultRecord {
    * the residents who were home to answer. Absent for other kinds of work.
    */
   readonly canvass?: {
+    /** The written-out households knocked on. */
     readonly householdIds: readonly EntityId[];
+    /** Written-out residents who came to the door. */
     readonly metPersonIds: readonly EntityId[];
+    /** Every door knocked on; absent from results saved before doors had keys. */
+    readonly doorKeys?: readonly string[];
+    /** Story-only residents who came to the door (`story-people.ts`). */
+    readonly storyPersonIds?: readonly EntityId[];
+    /** What each resident met raised, and how they took the candidate. */
+    readonly conversations?: readonly CampaignDoorConversation[];
   };
+}
+
+/** One conversation at the door, kept as its result (`door-conversations.ts`). */
+export interface CampaignDoorConversation {
+  readonly personId: EntityId;
+  /** The problem they raised, where their state ranks below the middle. */
+  readonly subject: {
+    readonly linkKey: string;
+    readonly measure: string;
+    readonly gap: number;
+  } | null;
+  readonly response: "warm" | "cool" | "heard";
+  /** Whether a major party was on record for them. */
+  readonly partisan: boolean;
 }
 
 /**
@@ -4691,6 +4713,47 @@ export interface StoryMomentRecord {
   };
 }
 
+/**
+ * A town resident named in the story without being written out: a husk
+ * (owner direction, October 8, 2026). See `story-people.ts`.
+ */
+export interface StoryPersonRecord {
+  /** The person id they keep if they are written out. */
+  readonly id: EntityId;
+  /** The roster key they are written out under. */
+  readonly stableKey: string;
+  readonly sequence: number;
+  /** The day they were first named in a record. */
+  readonly namedAt: IsoDate;
+  readonly givenName: string;
+  readonly familyName: string;
+  readonly birthDate: IsoDate;
+  readonly identity: PersonIdentity | null;
+  readonly origin: {
+    readonly kind: "town-roster";
+    readonly town: EntityId;
+    readonly household: number;
+    readonly member: number;
+  };
+  /** The record that first named them. */
+  readonly sourceStore: string;
+  readonly sourceRecordId: EntityId;
+  /** Where the player met them: the place, the setting's key and the day. */
+  readonly whereMet: {
+    readonly jurisdictionId: EntityId;
+    readonly setting: string;
+    readonly on: IsoDate;
+  };
+  /**
+   * What they said, as speech acts from the English engine's list with the
+   * record key each is about; the engine words them, nothing here is prose.
+   */
+  readonly lines: readonly {
+    readonly act: string;
+    readonly about: string | null;
+  }[];
+}
+
 /** How far the story director has read the history: the next intake starts at `throughSequence`. */
 export interface StoryIntakeMark {
   readonly id: EntityId;
@@ -4706,6 +4769,8 @@ export interface HistoryStore {
   readonly childhoodRecords?: readonly ChildhoodRecordEntry[];
   /** Scored moments of people's lives, read with `storyMomentsOf`. */
   readonly storyMoments?: readonly StoryMomentRecord[];
+  /** Town residents named in the story but not written out, read with `storyPeople`. */
+  readonly storyPeople?: readonly StoryPersonRecord[];
   /** The story director's reading positions, one per intake that read anything. */
   readonly storyIntakeMarks?: readonly StoryIntakeMark[];
   readonly permitApplications?: readonly PermitApplicationRecord[];
