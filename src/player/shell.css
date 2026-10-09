@@ -978,6 +978,16 @@
   pointer-events: none;
 }
 
+/*
+ * The panels in the HUD that do hold controls, the clerk's counter and a
+ * meeting's stops, take their own presses again. Without this every press on
+ * the counter fell through to the room's backdrop, and no candidacy could be
+ * filed there (East Providence, Rhode Island, October 9, 2026).
+ */
+.life-shell .life-hud .pg-meeting-panel {
+  pointer-events: auto;
+}
+
 /* The observer clock owns the top edge; its recap follows underneath. */
 @media (min-width: 52rem) {
   .life-shell[data-observing="true"] .life-hud {

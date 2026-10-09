@@ -124,6 +124,17 @@ function filingUnit(seat: GovernmentUnitIdentity): {
   return { unit: seat, row: municipal };
 }
 
+/**
+ * The government whose counter takes a filing for this seat, by id, read from
+ * data alone; null where no counter takes it. The same unit as
+ * `filingOfficeForSeat`, for readers that hold no world.
+ */
+export function filingUnitIdForSeat(officeKey: string): string | null {
+  const seat = localGoverningBodyIdentityForOfficeKey(officeKey);
+  if (!seat || !administrationFor(seat.unit.stateUsps)) return null;
+  return filingUnit(seat.unit).unit.id;
+}
+
 /** Where a filing for this local seat goes, or null for any other office. */
 export function filingOfficeForSeat(
   world: World,

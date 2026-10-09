@@ -1232,28 +1232,33 @@ function requestedGainBasisPoints(
 export const CAMPAIGN_DOOR_CONTACT_KIND = "contact:campaign-door";
 
 /**
- * What a session's conversations at the doors moved. Each resident who took
- * to the candidate moves toward them by the share of a vote a candidate's own
- * visit moves a canvassed voter (`CANVASS_SUPPORT_EFFECT`), and each who took
- * against them moves away by the same; a resident who only heard the
- * candidate out moves nothing here, and counts toward recognition instead.
- * The sum is a share of the adults the race reaches.
+ * What a session's conversations at the doors moved. Every resident the
+ * candidate spoke with moves toward them by the share of a vote a candidate's
+ * own visit moves a canvassed voter (`CANVASS_SUPPORT_EFFECT`); what was said
+ * moves that a little, up for a resident who took to the candidate and down
+ * for one who took against them, and not at all for one who only heard them
+ * out. The sum is a share of the adults the race reaches.
  */
 export function doorConversationBasisPoints(
   world: World,
   campaign: CampaignRecord,
   conversations: readonly CampaignDoorConversation[],
 ): number {
-  const net = conversations.reduce((sum, row) => {
-    const sign = row.response === "warm" ? 1 : row.response === "cool" ? -1 : 0;
-    const size = row.partisan
+  const moved = conversations.reduce((sum, row) => {
+    const base = row.partisan
       ? CANVASS_SUPPORT_EFFECT.partisan
       : CANVASS_SUPPORT_EFFECT.pooled;
-    return sum + sign * size;
+    const said =
+      row.response === "warm"
+        ? CANVASS_SUPPORT_EFFECT.warm
+        : row.response === "cool"
+          ? CANVASS_SUPPORT_EFFECT.cool
+          : 1;
+    return sum + base * said;
   }, 0);
-  if (net === 0) return 0;
+  if (moved === 0) return 0;
   const { electorate } = doorKnockingReturn(world, campaign);
-  return electorate > 0 ? (SUPPORT_DENOMINATOR * net) / electorate : 0;
+  return electorate > 0 ? (SUPPORT_DENOMINATOR * moved) / electorate : 0;
 }
 
 /**
@@ -1273,9 +1278,8 @@ function recordSupportAfterAction(
   readonly stateIds: readonly EntityId[];
   readonly candidateStateId: EntityId;
 } {
-  // Being met and recognized moves support up; what the conversations were
-  // about can add to that or, where residents took against the candidate,
-  // take it back.
+  // Being met and recognized moves support up, and so does each
+  // conversation, by a little more or less for what was said.
   const total = Math.floor(
     requestedGainBasisPoints(world, campaign, action) +
       doorConversationBasisPoints(world, campaign, conversations),
