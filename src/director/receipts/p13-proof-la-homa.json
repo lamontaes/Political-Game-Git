@@ -8,15 +8,15 @@
     "startedAt": "2021-01-01",
     "through": "2022-01-01",
     "watched": 10002,
-    "seconds": 203.607749468,
+    "seconds": 195.616796352,
     "memory": {
       "before": {
-        "heapMiB": 1552.3172988891602,
-        "rssMiB": 1922.55078125
+        "heapMiB": 1553.5738830566406,
+        "rssMiB": 1967.08984375
       },
       "after": {
-        "heapMiB": 2730.881805419922,
-        "rssMiB": 4288.484375
+        "heapMiB": 2583.757164001465,
+        "rssMiB": 5272.26953125
       }
     },
     "cohort": {
@@ -406,9 +406,9 @@
           "kind": "knew-each-other",
           "holderId": "person_045c087d10f034e4",
           "otherId": "person_045c097d10f03697",
-          "since": "1969-12-20",
-          "sinceBasis": "no-later-than-birth",
-          "sourceId": "family:person_045c087d10f034e4:person_045c097d10f03697"
+          "since": "2021-01-01",
+          "sinceBasis": "opening",
+          "sourceId": "household_d4d5ef7f08c435c5"
         },
         {
           "id": "knew-each-other:person_045c087d10f034e4:person_045c0a7d10f0384a",
@@ -962,9 +962,9 @@
           "kind": "knew-each-other",
           "holderId": "person_9bb4cddcf13f0781",
           "otherId": "person_9bb4ccdcf13f05ce",
-          "since": "1965-03-16",
-          "sinceBasis": "no-later-than-birth",
-          "sourceId": "family:person_9bb4cddcf13f0781:person_9bb4ccdcf13f05ce"
+          "since": "2021-01-01",
+          "sinceBasis": "opening",
+          "sourceId": "household_d2310275e9cecdc3"
         }
       ],
       "backdrop": [
