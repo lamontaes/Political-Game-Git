@@ -106,11 +106,19 @@ function summarize(core: CoreState, input: CoreInput) {
       (count / population) * 1000,
     ]),
   );
-  // Chain: the drive with the most acts, preferring one whose acts reached an office.
+  // Chain: the drive whose acts reach furthest (an office, then a meeting), then the most kinds of act.
+  const reach = (drive: (typeof drives.drives)[number]) =>
+    drive.acts.some((act) => act.actionId === "approach-office")
+      ? 2
+      : drive.acts.some((act) => act.actionId === "organize-meeting")
+        ? 1
+        : 0;
+  const kinds = (drive: (typeof drives.drives)[number]) =>
+    new Set(drive.acts.map((act) => act.actionId)).size;
   const ranked = [...drives.drives].sort(
     (left, right) =>
-      Number(right.acts.some((act) => act.actionId === "approach-office")) -
-        Number(left.acts.some((act) => act.actionId === "approach-office")) ||
+      reach(right) - reach(left) ||
+      kinds(right) - kinds(left) ||
       right.acts.length - left.acts.length ||
       left.id.localeCompare(right.id),
   );
@@ -163,9 +171,15 @@ function summarize(core: CoreState, input: CoreInput) {
       };
     });
   const actsByAction: Record<string, number> = {};
+  const actsByBasis: Record<string, number> = {};
+  const actsByKindAndAction: Record<string, number> = {};
   for (const drive of drives.drives)
-    for (const act of drive.acts)
+    for (const act of drive.acts) {
       actsByAction[act.actionId] = (actsByAction[act.actionId] ?? zero) + one;
+      actsByBasis[act.basis] = (actsByBasis[act.basis] ?? zero) + one;
+      const key = `${drive.kind}:${act.actionId}`;
+      actsByKindAndAction[key] = (actsByKindAndAction[key] ?? zero) + one;
+    }
   const holders = new Set(drives.drives.map((drive) => drive.personId));
   // How close each decision came: best drive-forming urgency minus carry-on urgency.
   const margins = drives.decisions
@@ -200,6 +214,8 @@ function summarize(core: CoreState, input: CoreInput) {
       responsesByRule: drives.responsesByRule,
       perceivedDecisions: drives.perceived,
       actsByAction,
+      actsByBasis,
+      actsByKindAndAction,
       groupsFounded: drives.groups.length,
       decisionsRetained: drives.decisions.length,
       decisionsFormingDrive: drives.decisions.filter((row) => row.driveId)

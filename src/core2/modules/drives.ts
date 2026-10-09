@@ -1,6 +1,7 @@
 import drivesJson from "../data/drives.json" with { type: "json" };
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
+import { availableActs } from "../life";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
@@ -151,6 +152,7 @@ export interface DriveActTrace {
   score?: number;
   reasons?: DecisionReason;
   reasonKey?: string;
+  runnerUp?: { actionId: string; targetId: string; score: number };
   strengthBefore: number;
 }
 
@@ -185,6 +187,18 @@ interface DrivesRuntime {
   responsesByRule: Map<string, number>;
   perceived: number;
   decisions: FormationTrace[];
+  /** Today's scored choice for each drive holder, matched against the act recorded. */
+  predicted: Map<PersonId, PredictedChoice>;
+}
+
+interface PredictedChoice {
+  date: IsoDate;
+  actionId: string;
+  targetId: string;
+  reasonKey: string;
+  score: number;
+  reasons: DecisionReason;
+  runnerUp?: { actionId: string; targetId: string; score: number };
 }
 
 const runtimes = new WeakMap<object, DrivesRuntime>();
@@ -202,6 +216,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       responsesByRule: new Map(),
       perceived: zero,
       decisions: [],
+      predicted: new Map(),
     };
     runtimes.set(state, row);
   }
@@ -733,11 +748,61 @@ function traceAct(
   });
 }
 
+/**
+ * The scored choice the life loop makes if this person acts today, through
+ * the same refresh, offers and chooser. Projecting needs and affect to today
+ * is exact and repeated identically at activation, so it changes no outcome.
+ */
+function predict(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  refresh: (actor: PersonState) => unknown,
+): PredictedChoice {
+  refresh(actor as PersonState);
+  const offers = availableActs(core(api), actor.id);
+  const decision = chooseAct(core(api), actor.id, offers);
+  const selected = decision.selected;
+  const runner = selected
+    ? chooseAct(
+        core(api),
+        actor.id,
+        offers.filter((offer) => offer !== selected),
+      )
+    : undefined;
+  const total = (reasons: DecisionReason | undefined) =>
+    Object.values(reasons ?? {}).reduce((a, b) => a + b, api.parameter("zero"));
+  return {
+    date: api.state.date,
+    actionId: selected?.definition.id ?? decision.reasonKey,
+    targetId: selected?.targetId ?? actor.id,
+    reasonKey: decision.reasonKey,
+    score: total(decision.selectedReasons),
+    reasons: decision.selectedReasons ?? {
+      need: api.parameter("zero"),
+      goal: api.parameter("zero"),
+      drive: api.parameter("zero"),
+      trait: api.parameter("zero"),
+      emotion: api.parameter("zero"),
+      effort: api.parameter("zero"),
+    },
+    ...(runner?.selected
+      ? {
+          runnerUp: {
+            actionId: runner.selected.definition.id,
+            targetId: runner.selected.targetId,
+            score: total(runner.selectedReasons),
+          },
+        }
+      : {}),
+  };
+}
+
 /** Acts the life module chose with this drive attached; read from the saved reason key. */
 function captureRecordedAct(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   drive: HeldDrive,
+  predicted: PredictedChoice | undefined,
 ) {
   if (
     !actor.lastChoice ||
@@ -748,11 +813,25 @@ function captureRecordedAct(
   if (!actor.lastReason.endsWith(`:${drive.id}`)) return;
   const key = `${actor.lastActDate}:${actor.lastChoice}`;
   if (drive.lastTracedAct === key || actor.lastActDate < drive.formedAt) return;
+  const matched =
+    predicted?.date === actor.lastActDate &&
+    predicted.actionId === actor.lastChoice &&
+    predicted.reasonKey === actor.lastReason
+      ? predicted
+      : undefined;
   recordAct(api, drive, {
     date: actor.lastActDate,
     actionId: actor.lastChoice,
-    basis: "recorded",
+    basis: matched ? "scored" : "recorded",
     reasonKey: actor.lastReason,
+    ...(matched
+      ? {
+          targetId: matched.targetId,
+          score: matched.score,
+          reasons: matched.reasons,
+          ...(matched.runnerUp ? { runnerUp: matched.runnerUp } : {}),
+        }
+      : {}),
     strengthBefore: currentStrength(api, drive),
   });
 }
@@ -802,7 +881,7 @@ export function createDrivesModule(
 ): CoreModule {
   return {
     id: "core2-drives-p10-v1",
-    onDay(api) {
+    onDay(api, _decide, refresh) {
       const runtime = runtimeFor(api.state);
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
@@ -810,8 +889,9 @@ export function createDrivesModule(
           continue;
         }
         const actor = api.state.people.get(personId)!;
+        const predicted = runtime.predicted.get(personId);
         for (const drive of mine.values()) {
-          captureRecordedAct(api, actor, drive);
+          captureRecordedAct(api, actor, drive, predicted);
           const strength = currentStrength(api, drive);
           if (strength < api.parameter("driveRetireStrength")) {
             // Faded: written once at zero and no longer rewritten daily.
@@ -819,7 +899,10 @@ export function createDrivesModule(
             mine.delete(drive.id);
           } else writeDrive(api, drive, strength);
         }
-        if (!mine.size) runtime.byPerson.delete(personId);
+        if (!mine.size) {
+          runtime.byPerson.delete(personId);
+          runtime.predicted.delete(personId);
+        } else runtime.predicted.set(personId, predict(api, actor, refresh));
       }
     },
     onEvent(api, event, learnedBy) {

@@ -290,6 +290,22 @@ describe("P10 drives and causes", () => {
     ).toBe(true);
   });
 
+  it("is deterministic: the same inputs give the same drives, acts and reasons", () => {
+    const run = () => {
+      const core = bereavedCore();
+      advanceCore(core, "2021-04-01");
+      return JSON.stringify(
+        drivesReport(core).drives.map((drive) => ({
+          id: drive.id,
+          personId: drive.personId,
+          acts: drive.acts,
+          formations: drive.formations,
+        })),
+      );
+    };
+    expect(run()).toBe(run());
+  });
+
   it("a drive fades by its half-life when nothing renews it", () => {
     const core = bereavedCore();
     const api = coreAPI(core);

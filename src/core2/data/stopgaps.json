@@ -603,7 +603,7 @@
     "id": "SG-P10-group-name-key",
     "kind": "player-text-gap",
     "file": "src/core2/modules/drives.ts",
-    "line": 1015,
+    "line": 1098,
     "whatItFakes": "A founded cause group carries a structured key in its name field instead of a name.",
     "why": "Names must come from the English engine; no naming bank for groups exists in core2.",
     "addedBy": "OPUS-DRIVES",
