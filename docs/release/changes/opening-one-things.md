@@ -1,5 +1,7 @@
 ---
 id: opening-one-things
+section: Fixed
+title: A family never on food assistance no longer loses it to the work requirement
 impact: patch
 ---
 
