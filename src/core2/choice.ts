@@ -1,4 +1,5 @@
 import { parameter } from "./parameters";
+import { coreAPI } from "./state";
 import type {
   ActOffer,
   CoreState,
@@ -6,6 +7,7 @@ import type {
   DecisionReason,
   DecisionResult,
   PersonState,
+  WeightedReason,
 } from "./types";
 const traitScores = new WeakMap<PersonState, Map<string, number>>();
 
@@ -56,7 +58,13 @@ export function chooseAct(
   if (!actor) throw new Error("Decision actor is absent.");
   const p = (key: string) => parameter(key, core.data.parameters);
   let best:
-    { offer: ActOffer; score: number; reasons: DecisionReason } | undefined;
+    | {
+        offer: ActOffer;
+        score: number;
+        reasons: DecisionReason;
+        reasonTerms?: readonly WeightedReason[];
+      }
+    | undefined;
   const traced =
     core.observer ||
     actor.id === core.playerId ||
@@ -97,6 +105,48 @@ export function chooseAct(
           ? (-effortHours / offer.availableHours) * p("effortWeight")
           : p("zero"),
     };
+    const bindings = [
+      ...(action.reasonBindings ?? []),
+      ...(offer.reasonBindings ?? []),
+    ];
+    const reasonTerms: WeightedReason[] | undefined = traced ? [] : undefined;
+    if (bindings.length) {
+      const api = coreAPI(core),
+        ids = new Set<string>();
+      let contribution = p("zero");
+      for (const binding of bindings) {
+        if (!binding.id.trim() || ids.has(binding.id))
+          throw new Error(
+            "Reason bindings require distinct nonempty identities.",
+          );
+        ids.add(binding.id);
+        const provide = core.reasonProviders.get(binding.provider);
+        if (!provide)
+          throw new Error(`Unregistered reason provider: ${binding.provider}`);
+        const weight = api.parameter(binding.weightParameter);
+        if (binding.stopgapId) api.stopgap(binding.stopgapId);
+        const result = provide(api, actor, offer, binding, context);
+        if (!result) continue;
+        const weighted = result.value * weight;
+        if (
+          !Number.isFinite(result.value) ||
+          !Number.isFinite(weighted) ||
+          result.sourceIds?.some((id) => !id.trim())
+        )
+          throw new Error("Invalid module reason value or source identity.");
+        contribution += weighted;
+        if (!Number.isFinite(contribution))
+          throw new Error("Non-finite module reason sum.");
+        reasonTerms?.push({
+          ...binding,
+          arguments: binding.arguments ? { ...binding.arguments } : undefined,
+          value: result.value,
+          sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
+          contribution: weighted,
+        });
+      }
+      reasons.module = contribution;
+    }
     const score = Object.values(reasons).reduce(
       (sum, value) => sum + value,
       p("zero"),
@@ -107,19 +157,23 @@ export function chooseAct(
       targetId: offer.targetId,
       score,
       reasons,
+      ...(reasonTerms?.length ? { reasonTerms } : {}),
     });
     const key = `${action.id}:${offer.targetId}`;
     const bestKey = best
       ? `${best.offer.definition.id}:${best.offer.targetId}`
       : undefined;
     if (!best || score > best.score || (score === best.score && key < bestKey!))
-      best = { offer, score, reasons };
+      best = { offer, score, reasons, reasonTerms };
   }
   return {
     actorId: personId,
     date: core.date,
     selected: best?.offer,
     selectedReasons: best?.reasons,
+    selectedReasonTerms: best?.reasonTerms?.length
+      ? best.reasonTerms
+      : undefined,
     reasonKey: best
       ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
       : "no-available-act",

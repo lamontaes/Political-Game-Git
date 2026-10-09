@@ -181,7 +181,40 @@ export interface ActionDefinition {
   };
   stopgapId?: string;
   prerequisites?: readonly { operation: string; argument?: string }[];
+  reasonBindings?: readonly ReasonBinding[];
 }
+
+/** A content row names the mechanism and the tagged weight used by the chooser. */
+export interface ReasonBinding {
+  id: string;
+  provider: string;
+  weightParameter: string;
+  arguments?: Readonly<Record<string, string>>;
+  stopgapId?: string;
+}
+
+export interface ReasonValue {
+  value: number;
+  sourceIds?: readonly string[];
+}
+
+export interface WeightedReason extends ReasonBinding, ReasonValue {
+  contribution: number;
+}
+
+export type ReasonProvider = (
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  offer: Readonly<ActOffer>,
+  binding: Readonly<ReasonBinding>,
+  context?: Readonly<DecisionContext>,
+) => ReasonValue | undefined;
+
+export type CoreEventListener = (
+  api: CoreAPI,
+  event: CoreEventInput,
+  learnedBy: readonly PersonId[],
+) => void;
 
 export interface ActOffer {
   definition: ActionDefinition;
@@ -190,6 +223,7 @@ export interface ActOffer {
   availableHours: number;
   /** Per-offer actual commitment duration, not a universal activity mean. */
   effortHours?: number;
+  reasonBindings?: readonly ReasonBinding[];
 }
 
 export interface DecisionReason {
@@ -199,6 +233,7 @@ export interface DecisionReason {
   trait: number;
   emotion: number;
   effort: number;
+  module?: number;
 }
 
 export interface DecisionContext {
@@ -214,11 +249,13 @@ export interface DecisionResult {
   selected?: ActOffer;
   reasonKey: string;
   selectedReasons?: DecisionReason;
+  selectedReasonTerms?: readonly WeightedReason[];
   scores?: readonly {
     actionId: string;
     targetId: string;
     score: number;
     reasons: DecisionReason;
+    reasonTerms?: readonly WeightedReason[];
   }[];
 }
 
@@ -507,6 +544,9 @@ export interface CoreState {
   knowledgeByPerson: Map<PersonId, Map<string, KnownFact>>;
   data: CoreData;
   modules: Map<string, CoreModule>;
+  reasonProviders: Map<string, ReasonProvider>;
+  eventSubscribers: Map<string, CoreEventListener>;
+  eventSubscribersByKind: Map<string, Set<string>>;
 }
 
 export interface KnownFact {
@@ -568,6 +608,9 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  reasonProviders?: Readonly<Record<string, ReasonProvider>>;
+  /** Explicit '*' subscribes to every kind; no implicit broadcast subscription. */
+  eventKinds?: readonly string[];
   /** Chronological indexed commitments precede remaining-time discretionary acts. */
   onWorkResult?: (api: CoreAPI, receipt: Readonly<WorkResult>) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
@@ -584,11 +627,7 @@ export interface CoreModule {
       needIds?: readonly string[],
     ) => DecisionContext | undefined,
   ) => { decisions: number; acts: number } | void;
-  onEvent?: (
-    api: CoreAPI,
-    event: CoreEventInput,
-    learnedBy: readonly PersonId[],
-  ) => void;
+  onEvent?: CoreEventListener;
   needEvaluators?: Readonly<
     Record<
       string,
@@ -683,6 +722,12 @@ export interface CoreAPI {
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
+  /** External consumers can subscribe without owning or scanning world state. */
+  subscribeEvents(
+    subscriberId: string,
+    kinds: readonly string[],
+    listener: CoreEventListener,
+  ): () => void;
   validateAct(
     actorId: PersonId,
     offer: ActOffer,
