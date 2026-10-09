@@ -134,16 +134,8 @@ function run(
     { date: string; threads: Record<string, number> }[]
   >();
   let cursor = core.date;
-  while (cursor < through) {
-    const [year, month] = cursor.split("-").map(Number) as [number, number];
-    const next = isoDateFromParts(
-      month === 12 ? year + 1 : year,
-      month === 12 ? 1 : month + 1,
-      1,
-    );
-    advanceCore(core, next < through ? next : through);
-    cursor = core.date;
-    if (!withDirector) continue;
+  const record = () => {
+    if (!withDirector) return;
     for (const id of trace) {
       const book = director.ledger.people.get(id);
       if (!book) continue;
@@ -158,6 +150,18 @@ function run(
       rows.push({ date: cursor, threads });
       traces.set(id, rows);
     }
+  };
+  record();
+  while (cursor < through) {
+    const [year, month] = cursor.split("-").map(Number) as [number, number];
+    const next = isoDateFromParts(
+      month === 12 ? year + 1 : year,
+      month === 12 ? 1 : month + 1,
+      1,
+    );
+    advanceCore(core, next < through ? next : through);
+    cursor = core.date;
+    record();
   }
   const seconds = (performance.now() - started) / 1000;
   return { core, director, seconds, before, after: mib(), traces };
