@@ -376,7 +376,6 @@ function asBatch2(item: WholeGameItem) {
 /** Kinds the owner asked for that no life in this run produced, counted. */
 function absentFromCandidates(
   candidates: readonly WholeGameItem[],
-  lives: number,
 ): { kind: string; reason: string }[] {
   const absent: { kind: string; reason: string }[] = [];
   const talks = candidates.filter(
@@ -386,10 +385,13 @@ function absentFromCandidates(
     talks.map((item) => item.moment.replace(/^.*conversation at /, "")),
   );
   const talkLives = new Set(talks.map((item) => item.seed)).size;
+  // Every life built gives the batch at least its first moment, so the lives
+  // with any candidate are the lives built.
+  const built = new Set(candidates.map((item) => item.seed)).size;
   if (!settings.has("home"))
     absent.push({
       kind: "conversation at home or with family",
-      reason: `Of ${lives} new lives, ${talkLives} opened in a room with someone to talk to, all at ${[...settings].join(" or ")}; none opened at home with anyone present.`,
+      reason: `Of ${built} new lives built, ${talkLives} opened in a room with someone to talk to, all at ${[...settings].join(" or ")}; none opened at home with anyone present.`,
     });
   if (!talks.some((item) => item.moment.startsWith("personality pair"))) {
     const rooms = new Map<string, number>();
@@ -401,13 +403,13 @@ function absentFromCandidates(
     ).length;
     absent.push({
       kind: "personality pair",
-      reason: `${shared} rooms held two people to talk to, but ${talks.length - written} of the ${talks.length} people had no personality trait written down, so no room held two people of different temperaments.`,
+      reason: `${rooms.size} rooms held ${talks.length} people to talk to, ${shared} of the rooms two or more. ${written} of the ${talks.length} people had a personality trait written down, so no room held two people of different temperaments.`,
     });
   }
   if (!candidates.some((item) => item.moment === "a news story"))
     absent.push({
       kind: "news front page",
-      reason: `None of ${lives} new lives had a story on the News front page yet.`,
+      reason: `None of the ${built} new lives built had a story on the News front page yet.`,
     });
   return absent;
 }
@@ -501,19 +503,19 @@ function main() {
       {
         kind: "campaign door",
         reason:
-          "The door-knocking screen shows a talk-or-decline choice and a result sentence written in code; no one at the door says anything yet.",
+          "Only a candidate knocks on doors, and no new life starts as a candidate, so no life reached the doors.",
       },
       {
         kind: "court",
         reason:
-          "The legal record shows only the sentence's term; a judge's reasons never reach a screen.",
+          "The legal record shows only a sentence's term, worded in code (src/presentation/legal-record.ts:122); a judge's reasons never reach a screen.",
       },
       {
         kind: "council meeting",
         reason:
-          "No new life starts with a meeting under way, and the meeting screen's lines are written in code.",
+          "The meeting screen needs a meeting on the calendar (src/presentation/ordinary-meeting-scene.ts:21), and this tool does not schedule one.",
       },
-      ...absentFromCandidates(candidates, worlds),
+      ...absentFromCandidates(candidates),
     ],
     lives: worlds,
     failed,
