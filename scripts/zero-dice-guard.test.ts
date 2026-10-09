@@ -67,7 +67,17 @@ describe("zero-dice guard", () => {
   it.skipIf(onMain === null)(
     "allows no file more lines of a kind than main does",
     () => {
-      expect(growth(onMain, allowlist)).toEqual([]);
+      // The change that introduces list-pick records today's inventory in one
+      // step; once main carries it, no file may grow it.
+      const introduced = !onMain.entries.some(
+        (entry: { kind: string }) => entry.kind === "list-pick",
+      );
+      expect(
+        growth(onMain, allowlist).filter(
+          (grown: { kind: string }) =>
+            !introduced || grown.kind !== "list-pick",
+        ),
+      ).toEqual([]);
     },
   );
 });
