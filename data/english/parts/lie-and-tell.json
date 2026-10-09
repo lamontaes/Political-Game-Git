@@ -1,0 +1,453 @@
+{
+  "schema": "english-parts/1",
+  "register": "lie-and-tell",
+  "description": "The words of a denial, and of the answers that show whether the listener believed it, mined from federal transcripts (public domain): NASA Johnson Space Center and U.S. House oral histories and congressional hearing testimony. deny is the lie a speaker tells about something that happened; doubt is what a listener says who does not believe it; accept is what a listener says who does. Whether a listener doubts is the game's decision, from what the listener knows. transcriptsUsing counts the transcripts that say it.",
+  "slots": {},
+  "maxWords": 6,
+  "mining": {
+    "tool": "scripts/english-mining/mine-lie-and-tell.py",
+    "read": "1406 transcripts: NASA Johnson Space Center Oral History Project, U.S. House Office of the Historian oral histories, and congressional hearings from 2015 to 2024 on govinfo.gov.",
+    "rule": "A line is kept when at least two transcripts say it as a whole sentence, and one of them is from 2015 or later.",
+    "shapesSeen": {
+      "Absolutely not.": 59,
+      "All right.": 515,
+      "Are you sure about that?": 3,
+      "Are you sure?": 16,
+      "Come on.": 37,
+      "Fair enough.": 43,
+      "Good to know.": 3,
+      "I believe you.": 2,
+      "I did not.": 21,
+      "I don't believe that.": 7,
+      "I don't think so.": 107,
+      "I doubt it.": 6,
+      "I have no idea.": 26,
+      "I never said that.": 3,
+      "I wasn't there.": 6,
+      "I'm not sure about that.": 5,
+      "If you say so.": 1,
+      "Is that right?": 134,
+      "Is that true?": 49,
+      "No, I didn't.": 28,
+      "Not at all.": 36,
+      "Of course not.": 16,
+      "Really?": 75,
+      "Seriously?": 4,
+      "That is not correct.": 3,
+      "That is not true.": 12,
+      "That makes sense.": 21,
+      "That never happened.": 2,
+      "That's not accurate.": 1,
+      "That's not correct.": 2,
+      "That's not true.": 10
+    }
+  },
+  "parts": [
+    {
+      "key": "lie-and-tell.deny.thats-not-true",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "That's not true.",
+      "transcriptsUsing": 10,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-02-27",
+        "granule": "CHRG-116hhrg35230",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg35230"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.that-is-not-true",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "That is not true.",
+      "transcriptsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-03-17",
+        "granule": "CHRG-114hhrg25714",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg25714"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.thats-not-correct",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "That's not correct.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-09-24",
+        "granule": "CHRG-116hhrg40775",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg40775"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.that-is-not-correct",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "That is not correct.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-03-22",
+        "granule": "CHRG-114hhrg20493",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20493"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.that-never-happened",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "That never happened.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-14",
+        "granule": "gibsonrl-10-14-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-10-14-20.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.absolutely-not",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "Absolutely not.",
+      "transcriptsUsing": 59,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-10-17",
+        "granule": "bobkofd-10-17-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.not-at-all",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "Not at all.",
+      "transcriptsUsing": 36,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-09",
+        "granule": "howelljd-7-9-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/howelljd-7-9-15.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.of-course-not",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "Of course not.",
+      "transcriptsUsing": 16,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2015-04-14",
+        "granule": "CHRG-114hhrg94184",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg94184"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.i-did-not",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "I did not.",
+      "transcriptsUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2021-07-27",
+        "granule": "franssenth-7-27-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/franssenth-7-27-21.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.no-i-didnt",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "No, I didn't.",
+      "transcriptsUsing": 28,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-07-02",
+        "granule": "carrjrp-7-2-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/carrjrp-7-2-19.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.i-wasnt-there",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "I wasn't there.",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-14",
+        "granule": "gibsonrl-10-14-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-10-14-20.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.i-have-no-idea",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "I have no idea.",
+      "transcriptsUsing": 26,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-10-17",
+        "granule": "bobkofd-10-17-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.deny.i-never-said-that",
+      "move": "deny",
+      "kind": "spoken",
+      "text": "I never said that.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2024-09-10",
+        "granule": "CHRG-118hhrg56885",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg56885"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.is-that-true",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Is that true?",
+      "transcriptsUsing": 49,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-15",
+        "granule": "cabanard-7-15-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-7-15-15.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.is-that-right",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Is that right?",
+      "transcriptsUsing": 134,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2016-01-22",
+        "granule": "gibsonrl-1-22-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.really",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Really?",
+      "transcriptsUsing": 75,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-08-05",
+        "granule": "coatsml-8-5-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/coatsml-8-5-15.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.are-you-sure",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Are you sure?",
+      "transcriptsUsing": 16,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-04-12",
+        "granule": "boltonjc-4-12-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/boltonjc-4-12-19.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.are-you-sure-about-that",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Are you sure about that?",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2017-09-30",
+        "granule": "CHRG-114shrg31304",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg31304"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.seriously",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Seriously?",
+      "transcriptsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2021-05-26",
+        "granule": "geyerms-5-26-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.come-on",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "Come on.",
+      "transcriptsUsing": 37,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-14",
+        "granule": "gibsonrl-10-14-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-10-14-20.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.i-doubt-it",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "I doubt it.",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-04-07",
+        "granule": "CHRG-114shrg21972",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg21972"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.i-dont-believe-that",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "I don't believe that.",
+      "transcriptsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-10",
+        "granule": "howelljd-7-10-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/howelljd-7-10-15.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.im-not-sure-about-that",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "I'm not sure about that.",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2023-06-14",
+        "granule": "homanc-6-14-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homanc-6-14-23.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.doubt.i-dont-think-so",
+      "move": "doubt",
+      "kind": "spoken",
+      "text": "I don't think so.",
+      "transcriptsUsing": 107,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2016-03-18",
+        "granule": "boldencf-3-18-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/boldencf-3-18-16.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.accept.fair-enough",
+      "move": "accept",
+      "kind": "spoken",
+      "text": "Fair enough.",
+      "transcriptsUsing": 43,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-09-13",
+        "granule": "CHRG-114hhrg22119",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg22119"
+      }
+    },
+    {
+      "key": "lie-and-tell.accept.all-right",
+      "move": "accept",
+      "kind": "spoken",
+      "text": "All right.",
+      "transcriptsUsing": 515,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-06-05",
+        "granule": "boldencf-6-5-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/boldencf-6-5-17.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.accept.that-makes-sense",
+      "move": "accept",
+      "kind": "spoken",
+      "text": "That makes sense.",
+      "transcriptsUsing": 21,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2018-06-19",
+        "granule": "geyerms-6-19-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-6-19-18.pdf"
+      }
+    },
+    {
+      "key": "lie-and-tell.accept.good-to-know",
+      "move": "accept",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2015-11-03",
+        "granule": "CHRG-114hhrg22362",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg22362"
+      }
+    },
+    {
+      "key": "lie-and-tell.accept.i-believe-you",
+      "move": "accept",
+      "kind": "spoken",
+      "text": "I believe you.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2017-11-28",
+        "granule": "CHRG-115shrg28661",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg28661"
+      }
+    }
+  ]
+}
