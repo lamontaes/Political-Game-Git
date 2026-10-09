@@ -35,4 +35,24 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Legacy tenure calibration, retained for golden equivalence",
     range: { minimum: 1, maximum: 80 },
   },
+  hudBedroomColumns: {
+    value: { minimum: 0, maximum: 4 },
+    basis: "SOURCED",
+    source:
+      "HUD Fair Market Rent rows publish efficiency through four bedrooms",
+    range: { minimum: 0, maximum: 10 },
+  },
+  evictionLawyerMonthsBehind: {
+    value: 4,
+    basis: "ESTIMATED",
+    source:
+      "Legacy estimate checked against Eviction Lab and NYC Office of Civil Justice records",
+    range: { minimum: 0, maximum: 12 },
+  },
+  evictionLenientJudgeMonthsBehind: {
+    value: 2,
+    basis: "ESTIMATED",
+    source: "Legacy estimated case rule; retained for golden equivalence",
+    range: { minimum: 0, maximum: 12 },
+  },
 } as const;

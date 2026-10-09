@@ -10,5 +10,11 @@
     "behavior": "The legacy job-rate reader applies federal and state minimum wages; local minimum wages are not modeled.",
     "source": "src/simulation/living-world/town-pay.ts",
     "status": "NOT MODELED"
+  },
+  {
+    "id": "economy.eviction-case-thresholds",
+    "behavior": "The legacy estimated eviction disposition uses a four-month counsel threshold and two-month lenient-judge threshold; both remain estimates until supported by broader records.",
+    "source": "src/simulation/living-world/town-rent.ts",
+    "status": "ESTIMATED"
   }
 ]
