@@ -1,0 +1,27 @@
+/* The Lie button sits to the left of the replies, on the first reply's line. */
+.pg-reply-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.pg-reply-row > :last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-action.pg-lie-button {
+  flex: none;
+  min-height: 1.6rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ui-action.pg-lie-button[aria-pressed="true"] {
+  color: #ffdcd3;
+  border-color: rgb(232 96 70 / 75%);
+  box-shadow: inset 0 0 0 1px rgb(232 96 70 / 75%);
+  text-shadow: 0 0 6px rgb(232 96 70 / 75%);
+}

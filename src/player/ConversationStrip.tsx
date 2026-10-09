@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { personName, type World } from "../simulation";
 import {
@@ -17,6 +17,8 @@ import type {
   RunBConversationState,
 } from "../presentation/run-b-conversation-state";
 import type { RunBScenePersonContext } from "../presentation/run-b-fixture";
+import { hasLieReply, repliesForLieMode } from "../presentation/lie-marker";
+import { LieButton } from "./LieButton";
 
 interface ConversationStripProps {
   readonly world: World;
@@ -37,6 +39,7 @@ export function ConversationStrip({
 }: ConversationStripProps) {
   const firstIntentRef = useRef<HTMLButtonElement>(null);
   const historyBackRef = useRef<HTMLButtonElement>(null);
+  const [lying, setLying] = useState(false);
 
   useEffect(() => {
     if (state.mode === "open" && state.transcriptOpen) {
@@ -216,13 +219,15 @@ export function ConversationStrip({
     !room.privateAvailable && room.privateUnavailableReason
       ? `${hearingDescription} ${room.privateUnavailableReason}`
       : hearingDescription;
-  const intents = availableConversationIntents(
+  const offered = availableConversationIntents(
     world,
     room,
     state.addressee,
     progress,
     state.audibility,
   );
+  const canLie = hasLieReply(offered);
+  const intents = repliesForLieMode(offered, lying && canLie);
 
   return (
     <aside
@@ -323,17 +328,24 @@ export function ConversationStrip({
         )}
       </div>
 
-      <div className="conversation-intents" aria-label="Response intents">
-        {intents.map((intent, index) => (
-          <button
-            key={intent.key}
-            ref={index === 0 ? firstIntentRef : undefined}
-            type="button"
-            onClick={() => onCommit(intent.key)}
-          >
-            <span>{intent.label}</span>
-          </button>
-        ))}
+      <div className="pg-reply-row">
+        <LieButton
+          available={canLie}
+          active={lying}
+          onToggle={() => setLying((value) => !value)}
+        />
+        <div className="conversation-intents" aria-label="Response intents">
+          {intents.map((intent, index) => (
+            <button
+              key={intent.key}
+              ref={index === 0 ? firstIntentRef : undefined}
+              type="button"
+              onClick={() => onCommit(intent.key)}
+            >
+              <span>{intent.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="conversation-transcript-controls">

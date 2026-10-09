@@ -1,7 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
-import { SceneConversation, ConversationScales } from "./SceneConversation";
+import { SceneConversation } from "./SceneConversation";
+import { LieButton } from "./LieButton";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -15,27 +16,56 @@ import { deserializeWorld, serializeWorld } from "../simulation";
 
 describe("locked conversation presentation", () => {
   it.each([
-    [true, false, "level", false],
-    [true, true, "tipped", true],
-    [false, true, "level", false],
+    [true, false, false],
+    [true, true, true],
+    [false, true, false],
   ] as const)(
-    "scales available=%s active=%s",
-    (available, active, icon, pressed) => {
+    "Lie button available=%s active=%s",
+    (available, active, pressed) => {
       const html = renderToStaticMarkup(
-        <ConversationScales
-          available={available}
-          active={active}
-          onToggle={() => {}}
-        />,
+        <LieButton available={available} active={active} onToggle={() => {}} />,
       );
-      expect(html).toContain(`scales-${icon}.svg`);
+      // The owner's control name, beside the replies (design record, Oct 8).
+      expect(html).toContain(">Lie</button>");
+      expect(html).toContain('data-testid="talk-lie-toggle"');
       expect(html).toContain(`aria-pressed="${pressed}"`);
-      expect(html).toContain('aria-label="Show knowingly false replies"');
-      expect(html).toContain('width="34" height="34"');
       expect(html.includes('disabled=""')).toBe(!available);
-      expect(html).not.toMatch(/>Lie<|lie-marker/);
+      expect(html.includes('data-problem="no-lie-on-offer"')).toBe(!available);
     },
   );
+
+  it("puts the Lie button beside an ordinary conversation's replies, resting while no lie is offered", () => {
+    const game = createNewGameWorld({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed: "locked-dialogue-reload",
+      startAge: 34,
+      household: "shares-a-home",
+      startingLife: "ordinary-life",
+    });
+    const player = game.playerPersonId;
+    const world = openNextLifeScene(
+      openOrdinaryLife(game.world, player),
+      player,
+    );
+    const view = projectPlayerConversation(world, player, "life-talk")!;
+    const html = renderToStaticMarkup(
+      <SceneConversation
+        world={world}
+        playerPersonId={player}
+        subject="life-talk"
+        addressee={view.addressee}
+        onWorldChange={() => {}}
+        onChange={() => {}}
+        onBack={() => {}}
+      />,
+    );
+    const row = html.slice(html.indexOf('class="pg-reply-row"'));
+    expect(row).toMatch(/^class="pg-reply-row"><button[^>]*talk-lie-toggle/);
+    expect(row.indexOf("talk-lie-toggle")).toBeLessThan(
+      row.indexOf("life-talk-choice"),
+    );
+    expect(row).toMatch(/talk-lie-toggle"[^>]*disabled=""/);
+  });
 
   it("deploys the selected SVG bytes unchanged", () => {
     for (const name of ["scales-level.svg", "scales-tipped.svg"]) {
