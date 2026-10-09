@@ -84,20 +84,16 @@ import type {
 /** Ordinary spoken exchanges use the global event/knowledge history. */
 export const LIFE_TALK_INTENTS = {
   greet: "Say hello",
-  scene: "Talk about what is happening here",
   activity: "Ask what they would like to do",
   explain: "Ask why",
-  share: "Ask if you can tell them something",
   matter: "Mention something in the news",
   officials: "Ask what they think of the people in office",
   remember: "Talk about an earlier conversation",
-  acknowledge: "Let them know you heard",
   leave: "Say goodbye",
   spendTime: "Spend half an hour together",
   acceptProposal: "Agree to their suggestion",
   declineProposal: "Decline their suggestion",
   cancelProposal: "Cancel your plans together",
-  nothing: "Say it can wait",
 } as const;
 /**
  * A fixed intent, or telling them one particular thing from the player's own
@@ -379,11 +375,6 @@ function replyFor(
     "your parent",
     "your guardian",
   ].includes(relation ?? "");
-  const approach = latestPersonalityTendency(
-    world,
-    personId,
-    LIFE_MIND_IDS.conversation,
-  )?.expressionKey;
   const leisure = activityPreference(world, personId);
   const proposal = currentTalkProposal(
     world,
@@ -402,9 +393,6 @@ function replyFor(
             sourceRecordIds: [proposal.request.id],
           },
         });
-  const privatePerson =
-    latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
-    "embraces";
   if (isRunningIntent(intent))
     throw new Error(
       "A step of the talk about running is answered by answerRunning.",
@@ -418,11 +406,6 @@ function replyFor(
     return worded({ text: answer.reply, parts: answer.parts });
   }
   switch (intent) {
-    case "scene": {
-      // The only established topic is the scene's saved premise, not a new
-      // worry or a fabricated past exchange attributed to this person.
-      return say("what-would-you-like-to-do");
-    }
     case "spendTime":
       return proposal
         ? say("time-spent-on-proposal", {
@@ -473,20 +456,7 @@ function replyFor(
       return child
         ? say("can-we-play-a-game-we-both")
         : say("how-about-a-game-we-both-know");
-    case "share":
-      if (parent && youngPlayer) return say("of-course-what-do-you-want-to");
-      if (privatePerson)
-        return child
-          ? say("not-right-now-can-we-talk-about")
-          : say("id-rather-keep-that-to-myself-for");
-      if (approach === "ask") return say("sure-what-did-you-want-to-talk");
-      if (approach === "listen") return say("im-listening-go-ahead");
-      return say("yes-tell-me-whats-on-your-mind");
     case "explain":
-      if (previous?.tags.includes("life.talk:share"))
-        return previous.tags.includes("life.answer:private")
-          ? say("im-not-ready-to-talk-about-it")
-          : say("i-said-yes-because-i-want-to");
       return previous?.tags.includes("life.answer:explore")
         ? say("i-want-to-try-something-i-havent")
         : previous?.tags.includes("life.answer:company")
@@ -545,11 +515,8 @@ function replyFor(
         : speechRememberedLine(world, personId, playerPersonId);
       if (speech) return worded(speech);
       const remembered =
-        history.find(
-          (event) =>
-            event.tags.includes("life.talk:activity") ||
-            event.tags.includes("life.talk:share"),
-        ) ?? previous;
+        history.find((event) => event.tags.includes("life.talk:activity")) ??
+        previous;
       return remembered
         ? say("remembered-words", {
             quote: {
@@ -559,14 +526,8 @@ function replyFor(
           })
         : say("we-havent-talked-about-that");
     }
-    case "acknowledge":
-      return say("thanks-for-hearing-me-out");
     case "leave":
       return say("see-you");
-    case "nothing":
-      return parent && youngPlayer
-        ? say("all-right-you-can-tell-me-whenever")
-        : say("all-right-another-time-then");
   }
 }
 
