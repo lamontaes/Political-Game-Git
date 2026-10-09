@@ -178,6 +178,22 @@ export function storyThreadsOf(
 /* Ties                                                                        */
 /* -------------------------------------------------------------------------- */
 
+/** A person's relatives on record, for the situation fills. */
+export function storyKin(world: World, personId: EntityId): EntityId[] {
+  return [
+    ...new Set(
+      safeKinship(world, personId).flatMap((kin) =>
+        kin.personIds.filter((id) => id !== personId),
+      ),
+    ),
+  ];
+}
+
+/** The people who share a person's home now, for the situation fills. */
+export function storyHousemates(world: World, personId: EntityId): EntityId[] {
+  return [...housemates(world, personId)];
+}
+
 function safeKinship(world: World, personId: EntityId) {
   try {
     return kinshipRelationshipsAt(world, personId);
