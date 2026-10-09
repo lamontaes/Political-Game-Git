@@ -456,6 +456,54 @@ function scored(
   };
 }
 
+const chooserDefinitions = new WeakMap<ResponseRow, ActionDefinition>();
+
+/** A response row as a plain act row, in the field order the content rows use. */
+function chooserDefinition(
+  data: DrivesData,
+  row: ResponseRow,
+): ActionDefinition {
+  let definition = chooserDefinitions.get(row);
+  if (!definition) {
+    // Parsed like the content rows, so the chooser sees one object layout.
+    definition = JSON.parse(
+      JSON.stringify({
+        id: row.id,
+        actKinds: row.actKinds,
+        goalKinds: row.goalKinds,
+        need: row.need,
+        effortParameter: row.effortParameter,
+        effectParameter: row.effectParameter,
+        targetKind: row.targetKind,
+        effect: row.effect,
+        stopgapId: data.stopgapId,
+        emotion: row.emotion,
+      }),
+    ) as ActionDefinition;
+    chooserDefinitions.set(row, definition);
+  }
+  return definition;
+}
+
+const NO_URGENCY_OVERRIDES: Readonly<Record<string, number>> = Object.freeze(
+  {},
+);
+
+/** A decision context in the same shape the life loop's projected contexts use. */
+function chooserContext(
+  actor: Readonly<PersonState>,
+  goalRows: NonNullable<DecisionContext["goalRows"]> = [],
+): DecisionContext {
+  // The actor's own current needs and no urgency overrides: the same values
+  // the chooser would read without them, in the shape it always receives.
+  return {
+    affect: actor.affect,
+    needValues: actor.needs,
+    goalUrgencies: NO_URGENCY_OVERRIDES,
+    goalRows,
+  };
+}
+
 /** The person's own decision about one perceived event; no roll, no assignment. */
 export function respond(
   api: CoreAPI,
@@ -508,18 +556,22 @@ export function respond(
           return test(api, data, actor, event);
         }),
       );
-    const offers: ActOffer[] = rows.map((row) => ({
-      definition: row,
-      targetId: event.id,
-      availableHours: p("hoursPerDay"),
-      effortHours: p("zero"),
-    }));
+    // Built in the same shape as the life loop's offers, so the shared chooser stays on its fast path.
+    const offers: ActOffer[] = rows.map((row) => {
+      const offer: ActOffer = {
+        definition: chooserDefinition(data, row),
+        targetId: event.id,
+        driveId: undefined,
+        availableHours: p("hoursPerDay"),
+      };
+      offer.effortHours = p("zero");
+      return offer;
+    });
     // Traits lean the event's push toward each response through the shared trait-act table.
     const considered = offers.map((offer, position) => {
       const row = rows[position]!;
-      const alone = chooseAct(core(api), actor.id, [offer], {
-        affect: actor.affect,
-      });
+      // Scored with no context, exactly as an ordinary activation scores an offer.
+      const alone = chooseAct(core(api), actor.id, [offer]);
       const lean =
         (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
       const fit = p(row.fitParameter);
@@ -534,9 +586,9 @@ export function respond(
             Math.max(p("zero"), fit + p("responseTraitLeanGain") * lean),
       };
     });
-    const context: DecisionContext = {
-      affect: actor.affect,
-      goalRows: rows.map((row, position) => {
+    const context = chooserContext(
+      actor,
+      rows.map((row, position) => {
         const [goalKind] = row.goalKinds;
         if (!goalKind)
           throw new Error(`Response row lacks a goal kind: ${row.id}`);
@@ -546,7 +598,7 @@ export function respond(
           urgency: considered[position]!.urgency,
         };
       }),
-    };
+    );
     const decision = chooseAct(core(api), actor.id, offers, context);
     const chosen = scored(decision);
     if (!chosen) continue;

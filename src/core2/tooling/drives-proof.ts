@@ -45,16 +45,29 @@ function memoryMiB() {
   return process.memoryUsage().rss / P.bytesPerMiB;
 }
 
-function run(input: CoreInput, through: string, withModules: boolean) {
+type Mode = "base" | "drives" | "health" | "drives-only";
+
+function run(input: CoreInput, through: string, withModules: boolean | Mode) {
   const started = performance.now();
+  const mode: Mode =
+    withModules === true
+      ? "drives"
+      : withModules === false
+        ? "base"
+        : withModules;
+  // Isolation modes for cost diagnosis: the health producer alone, or the drives module alone.
   const core = createLifeCore(input, {
     observer: false,
-    ...(withModules
+    ...(mode === "drives"
       ? {
           data: withDrives(DEFAULT_DATA),
           modules: [createHealthModule(), createDrivesModule()],
         }
-      : {}),
+      : mode === "health"
+        ? { modules: [createHealthModule()] }
+        : mode === "drives-only"
+          ? { data: withDrives(DEFAULT_DATA), modules: [createDrivesModule()] }
+          : {}),
   });
   const monthly: { month: string; seconds: number; rssMiB: number }[] = [];
   let cursor = makeIsoDate(input.startedAt);
@@ -273,7 +286,7 @@ function main() {
   );
   if (options.timingOnly) {
     // Separate-process timing: one world per process, nothing else retained.
-    const timed = run(input, through, options.timingOnly === "drives");
+    const timed = run(input, through, options.timingOnly as Mode);
     process.stdout.write(
       `${JSON.stringify({ mode: options.timingOnly, seconds: timed.seconds, peakRssMiB: Math.max(...timed.monthly.map((row) => row.rssMiB)), place: input.placeMetadata?.placeName, seed: options.seed })}\n`,
     );
