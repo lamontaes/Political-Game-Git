@@ -412,20 +412,6 @@
   border: 0;
   border-radius: 0;
 }
-.pg-orientation-backdrop-caption {
-  position: absolute;
-  /* Top left, clear of the people standing at the foot of the scene. */
-  left: clamp(1rem, 2.5vw, 2rem);
-  top: clamp(0.75rem, 2cqh, 1.5rem);
-  z-index: 3;
-  max-width: min(28rem, 40cqw);
-  margin: 0;
-  padding: 0.2rem 0.55rem;
-  font-size: 0.78rem;
-  color: #5a4b31;
-  background: rgb(241 234 221 / 92%);
-  border-radius: 3px;
-}
 
 /* The legibility scrim: darkest behind the words, clear over the people. */
 .pg-orientation-scrim {
@@ -918,9 +904,6 @@
   }
   .pg-orientation-cast-figure {
     width: clamp(64px, 18cqw, 120px);
-  }
-  .pg-orientation-backdrop-caption {
-    max-width: calc(100cqw - 1.5rem);
   }
 }
 

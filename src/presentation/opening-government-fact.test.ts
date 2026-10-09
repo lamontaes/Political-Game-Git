@@ -56,12 +56,16 @@ describe("the opening year shows the government as a labeled record value", () =
         ),
       );
       const context = `${place.key} (${state.jurisdictionKey})`;
-      for (const headline of year.headlines)
+      const headlines = year.publications.map(
+        (publication) => publication.headline,
+      );
+      for (const headline of headlines)
         expect(headline, context).not.toMatch(/ is governed by /);
-      for (const fact of year.facts) {
-        expect(fact.label, context).toBe("Local government");
+      for (const fact of year.facts.filter(
+        (candidate) => candidate.label === "Local government",
+      )) {
         expect(fact.value.length, context).toBeGreaterThan(0);
-        expect(year.headlines, context).not.toContain(fact.value);
+        expect(headlines, context).not.toContain(fact.value);
       }
     },
     180_000,

@@ -38,7 +38,8 @@ describe("NATIONWIDE News names the home-state governor the World produced", () 
     // Dated by the game's disclosed office calendar.
     expect(governor!.startedAt).toBe("2023-01-02");
     expect(governor!.termFactsUnknown).toEqual([]);
-    expect(governor!.sentence).toMatch(/served as Governor of Nevada since/);
+    // A dated office shows "In office since" on the News screen
+    // (World39Standing.test.tsx); here the date it shows is the record's.
     expect(
       news.unfilledOffices.map((office) => office.displayName),
     ).not.toContain("Governor of Nevada");
@@ -51,11 +52,11 @@ describe("NATIONWIDE News names the home-state governor the World produced", () 
         .map((holder) => holder.title),
     ).toEqual(["Governor of Nevada"]);
 
-    // A dated federal office still reads with its start.
+    // A dated federal office still carries its start.
     const president = news.officeholders.find(
       (holder) => holder.officeKey === "us-president",
     )!;
-    expect(president.sentence).toMatch(/since/);
+    expect(president.startedAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
 
     const reopened = deserializeWorld(serializeWorld(world));
     expect(projectWorld39News(reopened, playerPersonId).officeholders).toEqual(
