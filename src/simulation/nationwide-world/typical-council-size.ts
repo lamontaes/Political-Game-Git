@@ -12,7 +12,7 @@
 /** Where a typical council value comes from, for the record. */
 export const TYPICAL_COUNCIL_SOURCE =
   "ESTIMATED FROM AVERAGE: the most common council size and at-large term in ICMA's " +
-  "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), as reported in " +
+  "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), in " +
   "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/. Not a claim about this town's charter.";
 
 export type LocalRuleBasis = "read" | "typical";

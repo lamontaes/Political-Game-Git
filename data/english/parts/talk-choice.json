@@ -1,0 +1,689 @@
+{
+  "schema": "english-parts/1",
+  "register": "talk-choice",
+  "description": "What people actually say to each other in everyday conversation, mined from federal transcripts (public domain): NASA Johnson Space Center and U.S. House oral histories and congressional hearing testimony, counting both what was said in the interview and conversations the speaker quotes. Each part is a whole sentence a player can choose to say; its move is the conversation choice it carries out (src/presentation/life-conversation.ts). transcriptsUsing counts the transcripts that say it.",
+  "slots": {
+    "name": "The given name of the person the player is talking to, from the person's record.",
+    "official": "An official the player could ask about, by name, from the officeholder records.",
+    "office": "The office that official holds, in lower case, such as mayor or governor, from the officeholder records.",
+    "topic": "What the player would bring up: a news headline or an earlier conversation's subject, from the records."
+  },
+  "maxWords": 8,
+  "mining": {
+    "tool": "scripts/english-mining/mine-talk-choices.py",
+    "read": "2736 transcripts: NASA Johnson Space Center Oral History Project, U.S. House Office of the Historian oral histories, and congressional hearings from 2015 to 2024 on govinfo.gov.",
+    "rule": "A line is kept when at least two transcripts say it as a whole sentence, and one of them is from 2015 or later.",
+    "shapesSeen": {
+      "Absolutely.": 1402,
+      "Did you hear about {topic}?": 3,
+      "Do you have a minute?": 2,
+      "Do you have time?": 2,
+      "Do you remember {topic}?": 141,
+      "Fine, thank you.": 1,
+      "Good afternoon.": 220,
+      "Good evening.": 5,
+      "Good morning.": 623,
+      "Good to see you.": 63,
+      "Good, thank you.": 14,
+      "Good, thanks.": 5,
+      "Have you heard about {topic}?": 6,
+      "Hello, {name}.": 17,
+      "Hello.": 63,
+      "Hey, {name}.": 6,
+      "Hi, {name}.": 16,
+      "Hi.": 73,
+      "How are you doing?": 13,
+      "How are you?": 22,
+      "How come?": 5,
+      "How's it going?": 4,
+      "I can't do it.": 6,
+      "I can't go.": 2,
+      "I can't.": 22,
+      "I'd love to.": 6,
+      "I'd rather not.": 1,
+      "I'm doing fine.": 3,
+      "I'm fine.": 9,
+      "I'm good.": 2,
+      "Let's do it.": 12,
+      "Nice to see you.": 18,
+      "No, thank you.": 18,
+      "No, thanks.": 3,
+      "Not bad.": 3,
+      "Not right now.": 5,
+      "Not today.": 8,
+      "Of course.": 242,
+      "Pretty good.": 8,
+      "Something came up.": 1,
+      "Sounds good.": 11,
+      "Sure.": 1506,
+      "That sounds good.": 19,
+      "That sounds great.": 2,
+      "Very well, thank you.": 1,
+      "What do you mean?": 37,
+      "What do you think about the {office}?": 1,
+      "What do you think of the {office}?": 1,
+      "What do you think of {official}?": 1,
+      "Why do you say that?": 7,
+      "Why is that?": 96,
+      "Why?": 357
+    }
+  },
+  "parts": [
+    {
+      "key": "talk-choice.greet.hello",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Hello.",
+      "transcriptsUsing": 63,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2015-03-25",
+        "granule": "CHRG-114hhrg93898",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg93898"
+      }
+    },
+    {
+      "key": "talk-choice.greet.hi",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Hi.",
+      "transcriptsUsing": 73,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-21",
+        "granule": "charlesjb-7-21-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/charlesjb-7-21-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.greet.hi-name",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Hi, {name}.",
+      "transcriptsUsing": 16,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2018-04-12",
+        "granule": "CHRG-115hhrg31511",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg31511"
+      }
+    },
+    {
+      "key": "talk-choice.greet.hello-name",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Hello, {name}.",
+      "transcriptsUsing": 17,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-04-20",
+        "granule": "CHRG-114shrg69104731",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg69104731"
+      }
+    },
+    {
+      "key": "talk-choice.greet.hey-name",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Hey, {name}.",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2020-07-22",
+        "granule": "CHRG-116shrg41243",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg41243"
+      }
+    },
+    {
+      "key": "talk-choice.greet-open.how-are-you",
+      "move": "greet-open",
+      "kind": "spoken",
+      "text": "How are you?",
+      "transcriptsUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-06-22",
+        "granule": "CHRG-114hhrg20914",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20914"
+      }
+    },
+    {
+      "key": "talk-choice.greet-open.how-are-you-doing",
+      "move": "greet-open",
+      "kind": "spoken",
+      "text": "How are you doing?",
+      "transcriptsUsing": 13,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-10-16",
+        "granule": "slaytonks-10-16-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/slaytonks-10-16-20.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.greet-open.hows-it-going",
+      "move": "greet-open",
+      "kind": "spoken",
+      "text": "How's it going?",
+      "transcriptsUsing": 4,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-10-22",
+        "granule": "CHRG-116hhrg41481",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41481"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.good-thanks",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "Good, thanks.",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2021-09-15",
+        "granule": "CHRG-117shrg46119",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117shrg46119"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.good-thank-you",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "Good, thank you.",
+      "transcriptsUsing": 14,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2018-11-28",
+        "granule": "CHRG-115shrg48440",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg48440"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.im-doing-fine",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "I'm doing fine.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-06-22",
+        "granule": "CHRG-114hhrg20914",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20914"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.im-good",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "I'm good.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-11-11",
+        "granule": "slaytonks-11-11-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/slaytonks-11-11-19.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.im-fine",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "I'm fine.",
+      "transcriptsUsing": 9,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-11-11",
+        "granule": "slaytonks-11-11-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/slaytonks-11-11-19.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.pretty-good",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "Pretty good.",
+      "transcriptsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-02-13",
+        "granule": "CHRG-116hhrg35668",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg35668"
+      }
+    },
+    {
+      "key": "talk-choice.answer-how.not-bad",
+      "move": "answer-how",
+      "kind": "spoken",
+      "text": "Not bad.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-03-13",
+        "granule": "CHRG-116hhrg36240",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg36240"
+      }
+    },
+    {
+      "key": "talk-choice.greet.good-morning",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Good morning.",
+      "transcriptsUsing": 623,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2022-06-28",
+        "granule": "lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.greet.good-afternoon",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "transcriptsUsing": 220,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-07-13",
+        "granule": "CHRG-114hhrg20745",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg20745"
+      }
+    },
+    {
+      "key": "talk-choice.greet.good-evening",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Good evening.",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-04-02",
+        "granule": "CHRG-116hhrg38953",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg38953"
+      }
+    },
+    {
+      "key": "talk-choice.greet.good-to-see-you",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Good to see you.",
+      "transcriptsUsing": 63,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2015-11-17",
+        "granule": "CHRG-114hhrg99683",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg99683"
+      }
+    },
+    {
+      "key": "talk-choice.greet.nice-to-see-you",
+      "move": "greet",
+      "kind": "spoken",
+      "text": "Nice to see you.",
+      "transcriptsUsing": 18,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2017-11-28",
+        "granule": "CHRG-115shrg28661",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg28661"
+      }
+    },
+    {
+      "key": "talk-choice.explain.why",
+      "move": "explain",
+      "kind": "spoken",
+      "text": "Why?",
+      "transcriptsUsing": 357,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-15",
+        "granule": "cabanard-7-15-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-7-15-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.explain.why-is-that",
+      "move": "explain",
+      "kind": "spoken",
+      "text": "Why is that?",
+      "transcriptsUsing": 96,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-07-15",
+        "granule": "cabanard-7-15-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-7-15-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.explain.why-do-you-say-that",
+      "move": "explain",
+      "kind": "spoken",
+      "text": "Why do you say that?",
+      "transcriptsUsing": 7,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2016-01-22",
+        "granule": "gibsonrl-1-22-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.explain.how-come",
+      "move": "explain",
+      "kind": "spoken",
+      "text": "How come?",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-05-15",
+        "granule": "CHRG-116hhrg36511",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg36511"
+      }
+    },
+    {
+      "key": "talk-choice.explain.what-do-you-mean",
+      "move": "explain",
+      "kind": "spoken",
+      "text": "What do you mean?",
+      "transcriptsUsing": 37,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2016-03-18",
+        "granule": "boldencf-3-18-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/boldencf-3-18-16.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.spendTime.do-you-have-time",
+      "move": "spendTime",
+      "kind": "spoken",
+      "text": "Do you have time?",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2020-12-03",
+        "granule": "geyerms-12-3-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.sure",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "Sure.",
+      "transcriptsUsing": 1506,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-06-05",
+        "granule": "boldencf-6-5-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/boldencf-6-5-17.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.sounds-good",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "Sounds good.",
+      "transcriptsUsing": 11,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-08-05",
+        "granule": "coatsml-8-5-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/coatsml-8-5-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.that-sounds-good",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "That sounds good.",
+      "transcriptsUsing": 19,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2016-04-07",
+        "granule": "CHRG-114shrg21972",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg21972"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.that-sounds-great",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "That sounds great.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-07-17",
+        "granule": "CHRG-116shrg60883",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg60883"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.id-love-to",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "I'd love to.",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-06-05",
+        "granule": "boldencf-6-5-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/boldencf-6-5-17.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.lets-do-it",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "Let's do it.",
+      "transcriptsUsing": 12,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2018-07-03",
+        "granule": "feinbergld-7-3-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/feinbergld-7-3-18.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.absolutely",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "Absolutely.",
+      "transcriptsUsing": 1402,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-11-17",
+        "granule": "cabanard-11-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-11-17-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.acceptProposal.of-course",
+      "move": "acceptProposal",
+      "kind": "spoken",
+      "text": "Of course.",
+      "transcriptsUsing": 242,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-08-05",
+        "granule": "coatsml-8-5-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/coatsml-8-5-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.declineProposal.no-thank-you",
+      "move": "declineProposal",
+      "kind": "spoken",
+      "text": "No, thank you.",
+      "transcriptsUsing": 18,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-06-05",
+        "granule": "boldencf-6-5-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/boldencf-6-5-17.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.declineProposal.no-thanks",
+      "move": "declineProposal",
+      "kind": "spoken",
+      "text": "No, thanks.",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "U.S. House of Representatives, Office of the Historian, oral history transcript",
+        "date": "2018-11-14",
+        "granule": "strickland-transcript",
+        "url": "https://history.house.gov/Oral-History/People/OHPeople-Transcripts/strickland-transcript/"
+      }
+    },
+    {
+      "key": "talk-choice.declineProposal.not-right-now",
+      "move": "declineProposal",
+      "kind": "spoken",
+      "text": "Not right now.",
+      "transcriptsUsing": 5,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2019-07-02",
+        "granule": "carrjrp-7-2-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/carrjrp-7-2-19.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.declineProposal.not-today",
+      "move": "declineProposal",
+      "kind": "spoken",
+      "text": "Not today.",
+      "transcriptsUsing": 8,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2023-07-26",
+        "granule": "CHRG-118hhrg53023",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg53023"
+      }
+    },
+    {
+      "key": "talk-choice.declineProposal.i-cant",
+      "move": "declineProposal",
+      "kind": "spoken",
+      "text": "I can't.",
+      "transcriptsUsing": 22,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-09-14",
+        "granule": "coatsml-9-14-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/coatsml-9-14-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.cancelProposal.i-cant-go",
+      "move": "cancelProposal",
+      "kind": "spoken",
+      "text": "I can't go.",
+      "transcriptsUsing": 2,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2016-01-22",
+        "granule": "gibsonrl-1-22-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.cancelProposal.i-cant-do-it",
+      "move": "cancelProposal",
+      "kind": "spoken",
+      "text": "I can't do it.",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2015-11-17",
+        "granule": "cabanard-11-17-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/cabanard-11-17-15.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.matter.did-you-hear-about-topic",
+      "move": "matter",
+      "kind": "spoken",
+      "text": "Did you hear about {topic}?",
+      "transcriptsUsing": 3,
+      "shippable": true,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2019-03-27",
+        "granule": "CHRG-116hhrg41174",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41174"
+      }
+    },
+    {
+      "key": "talk-choice.matter.have-you-heard-about-topic",
+      "move": "matter",
+      "kind": "spoken",
+      "text": "Have you heard about {topic}?",
+      "transcriptsUsing": 6,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2022-06-28",
+        "granule": "lewiscr-6-28-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf"
+      }
+    },
+    {
+      "key": "talk-choice.remember.do-you-remember-topic",
+      "move": "remember",
+      "kind": "spoken",
+      "text": "Do you remember {topic}?",
+      "transcriptsUsing": 141,
+      "shippable": true,
+      "source": {
+        "document": "NASA Johnson Space Center Oral History Project transcript",
+        "date": "2017-08-10",
+        "granule": "alltonj-8-10-17",
+        "url": "https://www.nasa.gov/wp-content/uploads/2023/12/alltonj-8-10-17.pdf"
+      }
+    }
+  ]
+}

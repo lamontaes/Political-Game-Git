@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { askedKeys, combineResults, leastGradedFirst } from "./combine";
 import { gradedCoverage } from "./apply-grades";
 import { toGradingBatch } from "./grading";
-import type { BatchLine, BatchResult } from "./run";
+import { repeatKey, type BatchLine, type BatchResult } from "./run";
 
 /*
  * Two stand-in runs: what is under test is how runs combine (seeds kept per
@@ -143,6 +143,14 @@ describe("combining batch runs", () => {
     );
   });
 
+  it("leaves out a kind on purpose and says so among the absent kinds", () => {
+    const without = combineResults([a, b], new Set(), new Set(["journal"]));
+    expect(without.lines.map((row) => row.id)).not.toContain("text-journal-1");
+    expect(without.lines).toHaveLength(combined.lines.length - 1);
+    expect(without.absent?.map((row) => row.kind)).toEqual(["news", "journal"]);
+    expect(without.absent?.[1]?.reason).toMatch(/--leave-out/);
+  });
+
   it("numbers the owner's items with their axis and seed, and keeps procedure off them", () => {
     const busy = run("seed-c", "Nome, Alaska", [
       line("text-journal-1", "I moved in 2001.", "Nome, Alaska"),
@@ -162,6 +170,48 @@ describe("combining batch runs", () => {
       ["meeting", expect.stringMatching(/^procedural wording/)],
       ["hearing", expect.stringMatching(/^procedural wording/)],
     ]);
+  });
+
+  it("labels the line a choice answers with the person who said it", () => {
+    const choice = {
+      ...line("text-choice-1", "Good morning.", "Ames, Iowa"),
+      prior: "Hi, Pat. How are you?",
+      priorVoice: "Your coworker",
+    };
+    const { batch } = toGradingBatch(
+      combineResults([run("seed-d", "Ames, Iowa", [choice])]),
+      {
+        id: "batch-test",
+        head: "test-head",
+        at: new Date("2026-10-08T17:00:00.000Z"),
+      },
+    );
+    expect(batch.items[0]!.prior).toBe("Your coworker: Hi, Pat. How are you?");
+  });
+
+  it("says where a kind's lines went when none reached the owner", () => {
+    // The hearing line was already asked, and the meeting lines are procedure.
+    const asked = new Set([
+      repeatKey("text-hearing", "Good morning.", "bank:text-hearing-1"),
+    ]);
+    const combinedAgain = combineResults([a, b], asked);
+    expect(combinedAgain.dropped?.hearing).toEqual({
+      repeated: 1,
+      overLimit: 0,
+    });
+    const { batch } = toGradingBatch(combinedAgain, {
+      id: "batch-test",
+      head: "test-head",
+      at: new Date("2026-10-08T17:00:00.000Z"),
+    });
+    const reasons = new Map(batch.absent.map((row) => [row.kind, row.reason]));
+    expect(reasons.get("hearing")).toBe(
+      "no output, because 1 line repeated the wording of a line already asked or already in the batch",
+    );
+    expect(reasons.get("meeting")).toMatch(
+      /^no output, because 1 line went to the bin \(procedural/,
+    );
+    expect(reasons.get("news")).toMatch(/^no output, because/);
   });
 
   it("counts graded items by axis and kind, and fills the least-graded cells first", () => {

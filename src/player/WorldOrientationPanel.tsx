@@ -378,13 +378,10 @@ export function WorldOrientationPanel({
   const sceneStage = useRef<HTMLDivElement>(null);
   // OW-15: a chamber floor holds its members from the seat roster, and your
   // life's home holds the people the household record says live there.
+  // Congress has one stop, on the House floor; the year stands outside the
+  // Capitol, so Congress shows once (owner playtest, October 8, 2026).
   const floorRoster = useMemo(() => {
-    const floor =
-      step?.key === "year"
-        ? "us-senate"
-        : step?.key === "congress"
-          ? "us-house"
-          : null;
+    const floor = step?.key === "congress" ? "us-house" : null;
     if (!floor || backdrop.kind !== "place") return null;
     const chamber = steps
       .flatMap((candidate) => candidate.chambers)
@@ -464,11 +461,7 @@ export function WorldOrientationPanel({
         )
         .map((actor) => actor.person.personId),
     );
-    if (
-      step?.key === "year" ||
-      step?.key === "congress" ||
-      step?.key === "legislature"
-    )
+    if (step?.key === "congress" || step?.key === "legislature")
       for (const member of sceneRoster) memberIds.add(member.personId);
     return openingTourStagedPeople(
       world,
@@ -483,7 +476,6 @@ export function WorldOrientationPanel({
         faceRoom:
           step?.key === "parents" ||
           step?.key === "your-life" ||
-          step?.key === "year" ||
           step?.key === "congress" ||
           step?.key === "legislature",
         memberIds,
@@ -1066,7 +1058,9 @@ export function orientationBackdrop(
       ? { kind: "white-house", raster: sources.whiteHouse }
       : place("oval-office");
   // OW-11: each step stands inside the room where its people work.
-  if (stepKey === "year") return place("us-senate-floor");
+  // The year is the country's, told from outside the Capitol; Congress's own
+  // stop is the one on a chamber floor.
+  if (stepKey === "year") return place("us-capitol-exterior");
   if (stepKey === "congress") return place("us-house-floor");
   if (stepKey === "legislature")
     return place(

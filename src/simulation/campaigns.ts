@@ -1607,7 +1607,7 @@ function recordCampaignActionOutcome(
   const baseOutcomeSummary =
     action.kind === "fundraising"
       ? money.raisedAmount
-        ? `The committee reported completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
+        ? `completed gifts of ${moneyLabel(money.raisedAmount)} from its fundraising session.`
         : "The fundraising session recorded no completed gifts; a dated monetary ask and contribution-cap law term are not available."
       : action.kind === "advertising"
         ? `The committee placed an advertising buy worth ${moneyLabel(money.spentAmount!)}.`

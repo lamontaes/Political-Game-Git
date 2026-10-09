@@ -6,6 +6,7 @@ import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
 } from "../../presentation/new-game";
+import { composeWorldTimeHandlers } from "../campaigns";
 import { municipalRulePackFor } from "../municipal-government";
 import { addDays } from "../dates";
 import {
@@ -747,14 +748,18 @@ describe("automatic local law under thirty days of the World clock", () => {
       jurisdictionId,
       memberSeats,
     );
-    const handlers = createFutureTransitionHandlerRegistry([
-      ...localMemberAgendaHandlers(),
-      ...councilActHandlers(),
-      [
-        POLITICAL_REFLECTION_TRANSITION_KEY,
-        politicalReflectionTransitionHandler,
-      ] as const,
-    ]);
+    // The registry a passed day composes, so any ordinary item that falls due in
+    // the thirty days (a promised answer, a quarterly review) has its handler.
+    const handlers = composeWorldTimeHandlers(
+      createFutureTransitionHandlerRegistry([
+        ...localMemberAgendaHandlers(),
+        ...councilActHandlers(),
+        [
+          POLITICAL_REFLECTION_TRANSITION_KEY,
+          politicalReflectionTransitionHandler,
+        ] as const,
+      ]),
+    );
     const jumpedAt = performance.now();
     const jumped = advanceWorld(opening, 30, handlers);
     const jumpMs = Math.round(performance.now() - jumpedAt);
