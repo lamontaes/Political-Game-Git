@@ -295,11 +295,10 @@ test("state voting card shows dated survey counts and readable group tables with
   const voting = page.getByTestId("opening-state-voting");
   await expect(voting.getByText("2,558,000", { exact: true })).toBeVisible();
   await expect(voting.getByText("2,152,000", { exact: true })).toBeVisible();
-  await expect(
-    voting.getByText(
-      /About 68% of citizen adults said they voted \(give or take 4 points\)/,
-    ),
-  ).toBeVisible();
+  // The record value under its label, with the survey's margin.
+  await expect(voting).toContainText(
+    /Citizen adults who voted:\s*67\.7% ± 3\.6/,
+  );
   await page.screenshot({ path: info.outputPath("state-voting-1024.png") });
   await voting
     .getByText("Voting by age and other groups", { exact: true })
