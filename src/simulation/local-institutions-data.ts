@@ -102,6 +102,25 @@ export type SchoolTuple = readonly [
  * <USPS>.json`. Nothing in the game reads these rows yet; the hookup comes with
  * the childhood-school and birth-hospital work.
  */
+export const HOSPITAL_COLUMNS = [
+  "ccn",
+  "name",
+  "hospitalType",
+  "matchMethod",
+  "beds",
+  "bedsBasis",
+] as const;
+
+/** One hospital as stored: the place or county is the bucket key. */
+export type HospitalTuple = readonly [
+  ccn: string,
+  name: string,
+  hospitalType: string,
+  matchMethod: InstitutionMatchMethod,
+  beds: number,
+  bedsBasis: "reported" | "estimated",
+];
+
 export interface StateInstitutionsFile {
   readonly state: string;
   readonly schools: {
@@ -111,6 +130,13 @@ export interface StateInstitutionsFile {
     readonly columns: typeof SCHOOL_COLUMNS;
     readonly places: Readonly<Record<string, readonly SchoolTuple[]>>;
     readonly counties: Readonly<Record<string, readonly SchoolTuple[]>>;
+  };
+  readonly hospitals: {
+    readonly source: "CMS-HOSPITAL";
+    readonly asOf: string;
+    readonly columns: typeof HOSPITAL_COLUMNS;
+    readonly places: Readonly<Record<string, readonly HospitalTuple[]>>;
+    readonly counties: Readonly<Record<string, readonly HospitalTuple[]>>;
   };
 }
 
@@ -139,6 +165,36 @@ export function expandStateSchools(
           enrollmentBasis: t[7],
           status: t[8],
           asOf: file.schools.asOfs[t[9]]!,
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+/** Expand a state file's hospital tuples into rows. */
+export function expandStateHospitals(
+  file: StateInstitutionsFile,
+): HospitalRow[] {
+  const rows: HospitalRow[] = [];
+  for (const [kind, buckets] of [
+    ["place", file.hospitals.places],
+    ["county", file.hospitals.counties],
+  ] as const) {
+    for (const [geoid, tuples] of Object.entries(buckets)) {
+      for (const t of tuples) {
+        rows.push({
+          sourceKey: "CMS-HOSPITAL",
+          sourceId: t[0],
+          name: t[1],
+          kind: "hospital",
+          geoid,
+          geoidKind: kind,
+          matchMethod: t[3],
+          hospitalType: t[2],
+          beds: t[4],
+          bedsBasis: t[5],
+          asOf: file.hospitals.asOf,
         });
       }
     }

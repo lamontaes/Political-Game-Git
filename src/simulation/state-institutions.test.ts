@@ -3,12 +3,14 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+  compileHospitals,
   compilePublicSchools,
   pointInRings,
   type PublicSchoolInput,
   type SchoolGeocode,
 } from "../../scripts/source/local-institutions";
 import {
+  expandStateHospitals,
   expandStateSchools,
   SCHOOL_COLUMNS,
   type StateInstitutionsFile,
@@ -19,15 +21,23 @@ const manifest = JSON.parse(
   readFileSync(resolve(DIR, "manifest.json"), "utf8"),
 ) as {
   statesWithNoSchools: string[];
+  statesWithNoHospitals: string[];
   priorDirectoryStates: string[];
   report: {
-    perState: Record<
-      string,
-      { source: number; kept: number; dropped: Record<string, number> }
-    >;
-    dropped: Record<string, number>;
-    unplaced: string[];
-    matchMethods: Record<string, number>;
+    schools: {
+      perState: Record<
+        string,
+        { source: number; kept: number; dropped: Record<string, number> }
+      >;
+      dropped: Record<string, number>;
+      unplaced: string[];
+      matchMethods: Record<string, number>;
+    };
+    hospitals: {
+      perState: Record<string, { source: number; kept: number }>;
+      dropped: Record<string, number>;
+      matchMethods: Record<string, number>;
+    };
   };
   files: Record<string, { bytes: number; sha256: string }>;
 };
@@ -256,7 +266,7 @@ describe("the committed state files", () => {
 
   it("matches the manifest per state, and every source school is kept or dropped with a reason", () => {
     for (const usps of ALL_56) {
-      const tally = manifest.report.perState[usps]!;
+      const tally = manifest.report.schools.perState[usps]!;
       const dropped = Object.values(tally.dropped).reduce((a, b) => a + b, 0);
       expect(tally.kept + dropped, usps).toBe(tally.source);
       expect(expandStateSchools(load(usps)).length, usps).toBe(tally.kept);
@@ -264,7 +274,7 @@ describe("the committed state files", () => {
         readFileSync(resolve(DIR, `${usps}.json`)).length,
       );
     }
-    const dropReasons = Object.keys(manifest.report.dropped);
+    const dropReasons = Object.keys(manifest.report.schools.dropped);
     expect(dropReasons.sort()).toEqual([
       "no place, no county",
       "not operating: Closed",
@@ -292,7 +302,10 @@ describe("the committed state files", () => {
       }
     }
     expect(seen.size).toBe(
-      Object.values(manifest.report.perState).reduce((s, t) => s + t.kept, 0),
+      Object.values(manifest.report.schools.perState).reduce(
+        (s, t) => s + t.kept,
+        0,
+      ),
     );
   });
 
@@ -301,9 +314,154 @@ describe("the committed state files", () => {
     expect(existsSync(zip)).toBe(true);
     // The Alaska and Rhode Island rows come from the 2023-24 directory; the rest
     // are the preliminary 2024-25 directory's own rows.
-    const direct = Object.entries(manifest.report.perState)
+    const direct = Object.entries(manifest.report.schools.perState)
       .filter(([usps]) => !manifest.priorDirectoryStates.includes(usps))
       .reduce((s, [, t]) => s + t.source, 0);
     expect(direct).toBe(101_333);
+  });
+});
+
+describe("matching hospitals to places", () => {
+  const places = [
+    { geoid: "0100100", name: "Springfield", state: "AA" },
+    { geoid: "0100200", name: "Springfield", state: "AA" },
+    { geoid: "0100300", name: "Rivertown", state: "AA" },
+  ];
+  const hospital = (
+    ccn: string,
+    city: string,
+    over: Partial<
+      Parameters<typeof compileHospitals>[0]["hospitals"][number]
+    > = {},
+  ) => ({
+    ccn,
+    name: `Hospital ${ccn}`,
+    city,
+    state: "AA",
+    zip: "",
+    hospitalType: "Acute Care Hospitals",
+    countyGeoid: "01001",
+    beds: 100,
+    ...over,
+  });
+
+  it("takes a unique city name, else the county, and never drops a hospital that has a county", () => {
+    const result = compileHospitals({
+      places,
+      asOf: "2026-07-22",
+      hospitals: [
+        hospital("000001", "Rivertown"),
+        hospital("000002", "Springfield"),
+        hospital("000003", "Nowhere"),
+        hospital("000004", "Nowhere", { countyGeoid: null }),
+      ],
+    });
+    expect(Object.keys(result.places)).toEqual(["0100300"]);
+    expect(result.places["0100300"]![0]).toMatchObject({
+      geoid: "0100300",
+      matchMethod: "city-name",
+      kind: "hospital",
+    });
+    // Two Springfields and no coordinates: the county carries the hospital.
+    expect(result.counties["01001"]!.map((row) => row.sourceId)).toEqual([
+      "000002",
+      "000003",
+    ]);
+    expect(result.dropped).toEqual({ "no place, no county": 1 });
+  });
+
+  it("settles two CMS counties by the county that holds a place named like the city", () => {
+    const result = compileHospitals({
+      places,
+      asOf: "2026-07-22",
+      consistency: {
+        countiesOfPlace: (geoid) => (geoid === "0100300" ? ["01007"] : []),
+        isKnownCounty: () => true,
+      },
+      hospitals: [
+        // Provider of Services says 01001, General Information says 01007:
+        // Rivertown lies in 01007, so the named county wins and the city holds.
+        hospital("000001", "Rivertown", {
+          countyGeoid: "01001",
+          namedCountyGeoid: "01007",
+        }),
+      ],
+    });
+    expect(result.countyDisagreementsResolved).toBe(1);
+    expect(result.countyContradictions).toBe(0);
+    expect(result.places["0100300"]![0]).toMatchObject({
+      sourceId: "000001",
+      matchMethod: "city-name",
+    });
+  });
+
+  it("reports certified beds, else the median of the state and type, marked estimated", () => {
+    const result = compileHospitals({
+      places,
+      asOf: "2026-07-22",
+      hospitals: [
+        hospital("000001", "Rivertown", { beds: 50 }),
+        hospital("000002", "Rivertown", { beds: 150 }),
+        hospital("000003", "Rivertown", { beds: null }),
+      ],
+    });
+    expect(
+      result.places["0100300"]!.map((row) => [row.beds, row.bedsBasis]),
+    ).toEqual([
+      [50, "reported"],
+      [150, "reported"],
+      [100, "estimated"],
+    ]);
+  });
+});
+
+describe("the committed hospitals", () => {
+  const load = (usps: string) =>
+    JSON.parse(
+      readFileSync(resolve(DIR, `${usps}.json`), "utf8"),
+    ) as StateInstitutionsFile;
+  const generalRows = readFileSync(
+    resolve(
+      process.cwd(),
+      "data/source/hospitals/raw/Hospital_General_Information.csv",
+    ),
+    "utf8",
+  );
+
+  it("has hospitals for every one of the 56 places", () => {
+    expect(manifest.statesWithNoHospitals).toEqual([]);
+    for (const usps of ALL_56) {
+      expect(expandStateHospitals(load(usps)).length, usps).toBeGreaterThan(0);
+    }
+  });
+
+  it("keeps every CMS hospital: the matched rows equal the source count in every state", () => {
+    let kept = 0;
+    for (const usps of ALL_56) {
+      const tally = manifest.report.hospitals.perState[usps]!;
+      expect(tally.kept, usps).toBe(tally.source);
+      expect(expandStateHospitals(load(usps)).length, usps).toBe(tally.kept);
+      kept += tally.kept;
+    }
+    expect(manifest.report.hospitals.dropped).toEqual({});
+    // One header line plus one line per hospital (no field spans two lines).
+    const sourceHospitals = generalRows.trim().split(/\r?\n/).length - 1;
+    expect(kept).toBe(sourceHospitals);
+  });
+
+  it("stores each hospital once with a CCN, a type, a bed count and a place or county", () => {
+    const seen = new Set<string>();
+    for (const usps of ALL_56) {
+      for (const row of expandStateHospitals(load(usps))) {
+        expect(row.sourceId).toMatch(/^[0-9A-Z]{6}$/);
+        expect(seen.has(row.sourceId), row.sourceId).toBe(false);
+        seen.add(row.sourceId);
+        expect(row.hospitalType).not.toBe("");
+        expect(Number.isInteger(row.beds) && row.beds >= 0).toBe(true);
+        expect(row.geoid).toMatch(
+          row.geoidKind === "place" ? /^(\d{7}|territory:.+)$/ : /^\d{5}$/,
+        );
+      }
+    }
   });
 });
