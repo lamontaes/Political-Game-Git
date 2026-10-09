@@ -6,6 +6,7 @@ import {
   searchLifePlaces,
 } from "../simulation/life-places";
 import type { EntityId, World } from "../simulation/types";
+import { recordWorldEvent } from "../simulation/world";
 import { projectStoryMoment } from "./life-story";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -76,17 +77,51 @@ describe("the first moment of a new life", () => {
   });
 });
 
+/** An arrival on record, as the opening's placement writers record one. */
+function arrived(world: World, personId: EntityId): World {
+  return recordWorldEvent(world, {
+    stableKey: `p6-a9-test:arrived:${personId}`,
+    type: "life.scene.arrived",
+    occurredAt: world.currentDate,
+    recordedAt: world.currentDate,
+    jurisdictionId: world.people[personId]!.homeJurisdictionId,
+    involvedEntityIds: [personId],
+    participants: [
+      { personId, role: "presence:participant", detail: "Test arrival" },
+    ],
+    personFactConstraints: [],
+    visibility: "private",
+    tags: ["p6-a9-test"],
+    summary: "Test arrival summary.",
+    context: {
+      location: null,
+      socialContext: null,
+      pressure: null,
+      choice: null,
+      motivation: null,
+      immediateReaction: null,
+    },
+  });
+}
+
 describe("one rule in all 56 places", () => {
-  it("opens every new life with its own narration, and says nothing it has no record for", () => {
+  it("opens every new life with its own narration, and the words of its arrival record when it has one", () => {
     const states = lifePlaceStateIdentities();
     expect(states).toHaveLength(56);
     for (const state of states) {
       const small = smallWorld({ place: state.usps, seed: "p6-a9" });
-      const moment = projectStoryMoment(small.world, small.personId);
-      expect(moment.connective.opening, state.usps).toBe(true);
-      expect(moment.scene.prose, state.usps).toBe(
-        arrivalOf(small.world, small.personId)?.summary ?? "",
-      );
+      const before = projectStoryMoment(small.world, small.personId);
+      expect(before.connective.opening, state.usps).toBe(true);
+      // No arrival on record: the opening adds no words of its own.
+      expect(
+        arrivalOf(small.world, small.personId),
+        state.usps,
+      ).toBeUndefined();
+      expect(before.scene.prose, state.usps).toBe("");
+      // With one, the opening carries its summary.
+      const placed = arrived(small.world, small.personId);
+      const after = projectStoryMoment(placed, small.personId);
+      expect(after.scene.prose, state.usps).toBe("Test arrival summary.");
     }
   });
 });
