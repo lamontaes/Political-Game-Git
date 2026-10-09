@@ -133,20 +133,20 @@
       "fileLines": 62130,
       "units": {
         "TYPE": 420,
-        "DATA": 258,
-        "DEAD": 130,
-        "PLUMBING": 862,
+        "DATA": 257,
+        "DEAD": 128,
+        "PLUMBING": 859,
         "RULE": 140,
-        "REDESIGN": 7,
+        "REDESIGN": 13,
         "TOOLING": 1
       },
       "lines": {
         "TYPE": 3593,
-        "DATA": 15959,
-        "DEAD": 2783,
-        "PLUMBING": 25142,
+        "DATA": 15953,
+        "DEAD": 2529,
+        "PLUMBING": 25091,
         "RULE": 5238,
-        "REDESIGN": 705,
+        "REDESIGN": 1016,
         "TOOLING": 9
       },
       "ruleEntangled": {
@@ -261,29 +261,29 @@
       "fileLines": 23635,
       "units": {
         "TYPE": 136,
-        "DEAD": 27,
-        "PLUMBING": 390,
-        "DATA": 97,
-        "RULE": 67,
-        "REDESIGN": 19
+        "DEAD": 26,
+        "PLUMBING": 372,
+        "DATA": 91,
+        "RULE": 64,
+        "REDESIGN": 47
       },
       "lines": {
         "TYPE": 1237,
-        "DEAD": 1304,
-        "PLUMBING": 13388,
-        "DATA": 747,
-        "RULE": 1998,
-        "REDESIGN": 1315
+        "DEAD": 1281,
+        "PLUMBING": 13040,
+        "DATA": 643,
+        "RULE": 1959,
+        "REDESIGN": 1829
       },
       "ruleEntangled": {
         "units": 38,
         "lines": 1548
       },
       "rulePortable": {
-        "units": 29,
-        "lines": 450
+        "units": 26,
+        "lines": 411
       },
-      "numericLiteralsInRule": 208
+      "numericLiteralsInRule": 204
     },
     "legislatures": {
       "files": 107,

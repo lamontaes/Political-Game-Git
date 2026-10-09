@@ -569,8 +569,30 @@ const VIEW_WHY = new Set([
   "constant",
 ]);
 
+// Whole designs the CTO ruled out on #3921, whatever the script would call
+// each declaration: violence decided by a state average crossing fixed lines,
+// and an international crisis start that nothing in an ordinary world calls.
+const REDESIGN_WHOLE = [
+  [
+    /^src\/simulation\/(pressure\/ladder|crisis\/political-attack-intent)\.ts$/,
+    () => true,
+    "political violence from a state average crossing fixed lines; a named person chooses a threat or attempt from a drive, means and exposure (CTO ruling on #3921)",
+  ],
+  [
+    /^src\/simulation\/crisis\/international\.ts$/,
+    (name) => name === "declareInternationalCrisis",
+    "no ordinary-world cause starts an international crisis; a start must follow from recorded events (CTO ruling on #3921)",
+  ],
+];
+
 function classify(file, r, u) {
   const c = classifyBase(file, r, u);
+  if (c.cls !== "TYPE") {
+    const whole = REDESIGN_WHOLE.find(
+      ([re, pick]) => re.test(r) && pick(u.name),
+    );
+    if (whole) return { cls: "REDESIGN", why: "owner-rejected: " + whole[2] };
+  }
   if (c.cls === "RULE") {
     const redesign = REDESIGN_FILES.find(([re]) => re.test(r));
     if (redesign)

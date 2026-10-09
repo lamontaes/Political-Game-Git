@@ -1,14 +1,22 @@
 # Three fifths of the old political engines is plumbing; about one sixth is rules worth keeping
 
-The owner has one decision before the elections port: where people's political views come from. The CTO has ruled on the rest. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
+The owner decided where people's political views come from, and the CTO has ruled on everything else; views come before the elections port. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
 
-## Decisions the CTO made
+## Decisions made
 
-The CTO ruled on all three on October 9, 2026, in the [pull request review](https://github.com/lamontaes/Political-Game-Git/pull/3921#issuecomment-6086164485).
+The CTO ruled on the first three on October 9, 2026, in the [pull request review](https://github.com/lamontaes/Political-Game-Git/pull/3921#issuecomment-6086164485).
 
 1. **How elections are decided.** Two models coexisted. One counts each voter's ballot from their recorded beliefs (src/simulation/election-contests.ts:211). The other splits a "support" share among candidates when the player runs (src/simulation/campaigns.ts:1929). Ruling: one ballot rule. Real voters are counted in focus places, and cohorts everywhere else; a cohort is a group of voters with the real turnout and lean spread. The separate support-share model is REDESIGN.
 2. **Interface additions for the new core.** All six additions under "What the new core's interface lacks" are approved for the next interface version, which SOL-1258 builds. The CTO, the core's one architecture owner, set the order there.
 3. **Old saves.** Seat holders, court cases, bill positions and campaign state are stored today as tagged history entries that the new core will not read. Ruling: no save conversion, the standing "saves don't matter" ruling. Each port writes its tables fresh from world generation.
+4. **Where political views come from.** The owner decided on October 9, 2026, relayed by the CTO in the [pull request review](https://github.com/lamontaes/Political-Game-Git/pull/3921#issuecomment-6086751445).
+   - Shape: deep values (the 14 in the game) held at personal strengths, plus stored issue stances that drift on their own and can disagree with the person's values.
+   - What changes them: the people a person talks to and trusts; events that hit them (P10); news, media and speeches, filtered by trust; and their party or trusted leaders changing position.
+   - Party: party follows views and never assigns positions when a person is created. Once someone has a party, loyalty is one reason among others: loyal members tend to follow when the party moves, and switching is slow.
+   - Engagement: people who follow politics closely hold tight, consistent views; most people hold weak, mixed views and no opinion on many issues.
+   - Public and private views can differ under social pressure, so private votes, polls and public speech can disagree.
+   - Already binding since September 26, 2026: personality is the lens, not the side; a view can have several reasons at once; a personal stake can outweigh a general position.
+   - Real spreads are the answer key, never assigned. No work package for views exists yet.
 
 ## Terms used here
 
@@ -39,20 +47,20 @@ Measured on October 9, 2026, on main. "Code lines" counts functions, constants a
 | Courts and justice                        |      64 |      17,035 |      2,637 (15%) |     1,368 (8%) |      1,681 (10%) |      10,526 (62%) |        823 (5%) |       0 (0%) |
 | Economy                                   |     110 |      37,909 |     11,137 (29%) |       617 (2%) |       3,071 (8%) |      21,278 (56%) |      1,534 (4%) |     272 (1%) |
 | Press                                     |      47 |      15,251 |      1,477 (10%) |     1,049 (7%) |       1,013 (7%) |      11,420 (75%) |        292 (2%) |       0 (0%) |
-| Campaigns and civic groups                |      53 |      18,752 |      1,998 (11%) |     1,315 (7%) |         747 (4%) |      13,388 (71%) |      1,304 (7%) |       0 (0%) |
-| Governing and executive                   |     135 |      49,836 |      5,238 (11%) |       705 (1%) |     15,959 (32%) |      25,142 (50%) |      2,783 (6%) |       9 (0%) |
-| **Eight political engines**               | **764** | **243,967** | **40,871 (17%)** | **7,298 (3%)** | **38,057 (16%)** | **146,345 (60%)** | **10,790 (4%)** | **606 (0%)** |
+| Campaigns and civic groups                |      53 |      18,752 |      1,959 (10%) |    1,829 (10%) |         643 (3%) |      13,040 (70%) |      1,281 (7%) |       0 (0%) |
+| Governing and executive                   |     135 |      49,836 |      5,238 (11%) |     1,016 (2%) |     15,953 (32%) |      25,091 (50%) |      2,529 (5%) |       9 (0%) |
+| **Eight political engines**               | **764** | **243,967** | **40,832 (17%)** | **8,123 (3%)** | **37,947 (16%)** | **145,946 (60%)** | **10,513 (4%)** | **606 (0%)** |
 | Story director (consumer)                 |      44 |      20,391 |      3,405 (17%) |       184 (1%) |      3,947 (19%) |      11,976 (59%) |        832 (4%) |      47 (0%) |
 | English engine (consumer)                 |      26 |       6,751 |        857 (13%) |       194 (3%) |      3,246 (48%) |       1,872 (28%) |        257 (4%) |     325 (5%) |
 | Life substrate (replaced by core2 itself) |     248 |      76,315 |     12,978 (17%) |     1,055 (1%) |     15,560 (20%) |      43,459 (57%) |      3,147 (4%) |     116 (0%) |
 
-Measured: large functions that mix math with plumbing are counted whole under their stronger signal. Splitting each of those in half gives the political engines between 34,581 and 53,327 KEEP lines, or 14% to 22% of code lines.
+Measured: large functions that mix math with plumbing are counted whole under their stronger signal. Splitting each of those in half gives the political engines between 34,542 and 53,156 KEEP lines, or 14% to 22% of code lines.
 
 Measured: the readers hand-classified 342 sampled declarations into rule, data, plumbing and dead, and the script agrees on 279 (82%). KEEP and REDESIGN split the rules by the owner's list; TOOLING and VIEW split by the import graph and the screen folders. Those splits are exact rules, not estimates. The 63 disagreements are: 18 rules the script called plumbing, 11 plumbing it called rules, 17 data it called plumbing, 13 plumbing it called data, 2 data it called rules, 1 rule it called data, and 1 live function it called dead. The script therefore counts 6 too few rules among 342 sampled declarations. The first version agreed on only 211 (62%), because it called every helper that never touched the world a rule. Story and English were labeled after the script's last change. They agree on 51 of 62 (82%), the same rate as the samples used to fix the script, so the fixes did not just fit those samples.
 
 Measured: 16,211 lines in the eight political engines are whole-world validators that the new core does not have (26,498 across the game: the other 10,287 are in the life substrate, 9,299; screens, 797; the story director, 143; and source tools, 48). Another 9,596 lines across the game are per-place research tables written as TypeScript instead of data files. The old core keeps 159 add-only history tables. Each political engine reaches them through whole-list scans, from 95 scans in courts to 246 in the economy.
 
-Measured: REDESIGN holds 7,298 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. Another 317 lines decide outcomes by seeded draws, 282 are the separate support-share model the CTO ruled out, and 12 build election-night-only speeches. Outside the political engines, REDESIGN holds 2,406 lines. The life substrate has 1,055: 34 of decision scoring, 367 of the one everyday goal per person and 654 of labeled decision types. Screens have 973: 881 of the one-day pre-start run and 92 of labeled decision types. The story director has 184: 89 of fixed scene-selection weights and 95 of labeled decision types. The English engine has 194 of labeled decision types.
+Measured: REDESIGN holds 8,123 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. Another 317 lines decide outcomes by seeded draws. The CTO ruled out three more designs: political violence decided by a state's average crossing fixed lines (767 lines), the separate support-share model (282), and an international-crisis start that nothing in an ordinary world calls (58). 12 lines build election-night-only speeches. Outside the political engines, REDESIGN holds 2,406 lines. The life substrate has 1,055: 34 of decision scoring, 367 of the one everyday goal per person and 654 of labeled decision types. Screens have 973: 881 of the one-day pre-start run and 92 of labeled decision types. The story director has 184: 89 of fixed scene-selection weights and 95 of labeled decision types. The English engine has 194 of labeled decision types.
 
 Inferred: what the labeled decision types weigh (party cues, commitments, sponsor ties, harm to a victim) is still worth having, as data rows for the chooser's reason providers rather than as code.
 
@@ -127,7 +135,7 @@ The prototype's interface (version 5) has the right shape: modules offer acts, a
 5. **Dated institutional work.** Election days, session sittings, filing deadlines and court dates need modules to place work on dates. That work belongs to institutions, not people. `requestCallback` covers one event; a module calendar with keys is needed.
 6. **Cohorts.** State and national outcomes cannot tick every voter. A cohort row (place, age band, lean, turnout, size) checked against real spreads lets elections, mood and readership run at coarse tiers. Named people stay individual, and cohort rows are checked against real spreads, never drawn.
 
-Inferred: the prototype also has no recorded political views or principles per person. Votes, opinions and member decisions all read them, so they come before the elections port. The CTO agreed and is taking where views come from to the owner, because that is one of the owner's open design areas.
+Inferred: the prototype also has no recorded political views or principles per person. Votes, opinions and member decisions all read them, so they come before the elections port. The owner has since decided their shape (decision 4).
 
 ## Elections
 
@@ -143,7 +151,7 @@ Measured from code unless marked; the elections audit note (`docs/design/core2-p
 
 **Module spec.**
 
-- State: contests (by place and date, by office), seats (holder, term, party; by body, by person), candidacies, filings and petitions, nominations, parties and chapters, precinct membership by person and by precinct, each person's office-service list, recall petitions.
+- State: each voter's views follow decision 4 (deep values, drifting issue stances, engagement, and public versus private stance), owned by the views module and read here. Contests (by place and date, by office), seats (holder, term, party; by body, by person), candidacies, filings and petitions, nominations, parties and chapters, precinct membership by person and by precinct, each person's office-service list, recall petitions.
 - Offers: register a party, sign or circulate a petition, vote, file, withdraw, request a runoff, run again or decline, appoint to a vacancy, call a special election, certify.
 - Effects: seat holder and term, tallies and winner, vacancy, recall removal, ward maps; filing fees through `postJournal`.
 - Events: election scheduled, candidate filed or refused, nomination result, contest result with tallies, seat vacated, seat filled, term started. Results and seats are public record and news; petition signatures are private.
@@ -301,7 +309,7 @@ Measured from code unless marked; the press audit note (`docs/design/core2-porti
 
 Measured from code unless marked; the campaigns audit note (`docs/design/core2-porting-plan/audit/campaigns.md`) gives the file and line for each claim.
 
-**Split.** KEEP 11%, REDESIGN 7%, DATA 4%, PLUMBING 71%, DEAD 7%; 1,595 lines of validators. Stopgap markers: 7 PLACEHOLDER, 1 SET BY HAND.
+**Split.** KEEP 10%, REDESIGN 10%, DATA 3%, PLUMBING 70%, DEAD 7%; 1,595 lines of validators. Stopgap markers: 7 PLACEHOLDER, 1 SET BY HAND.
 
 **What it does today.** Only the player files a campaign; the only callers are two screen files (src/presentation/nationwide-candidacy.ts:203 is one). No other candidate creates one. A campaign's outcome splits support shares among candidates; no voter is simulated in that path. Support gains come from formulas for ads, field hours and door conversations. Donor asks, staff and helpers are decisions with reasons. An invented rival takes a weekly step. Speeches get reactions from each witness. Every grown resident gets a quarterly civic contact and attendance review. Law-interest groups form when a law exposure is recorded. Nothing in an ordinary world starts a protest (src/simulation/living-world/protests.ts:85 is called only by tests), and endorsement requests have no producer.
 
@@ -322,13 +330,13 @@ Measured from code unless marked; the campaigns audit note (`docs/design/core2-p
 
 **Life-replay.** Supports candidacy (3) once NPCs file, and cause participation (1) with P10.
 
-**Redesign.** Measured: 1,315 lines. Donor asks, the rival's weekly step, protest attendance, helper asks and speech reactions are labeled decision types. The support-share model (282 lines: shares, ad, field and door gains, and the outcome split; src/simulation/campaign-support.ts) is ruled out. 12 lines build election-night-only speeches.
+**Redesign.** Measured: 1,829 lines. The pressure ladder, where a state's anger over fixed lines starts unrest, threats and attempts, is ruled out (514 lines; see Crisis and political violence). Donor asks, the rival's weekly step, protest attendance, helper asks and speech reactions are labeled decision types. The support-share model (282 lines: shares, ad, field and door gains, and the outcome split; src/simulation/campaign-support.ts) is ruled out. 12 lines build election-night-only speeches.
 
 ## Governing and executive offices
 
 Measured from code unless marked; the governing audit note (`docs/design/core2-porting-plan/audit/governing.md`) gives the file and line for each claim.
 
-**Split.** KEEP 11%, REDESIGN 1%, DATA 32%, PLUMBING 50%, DEAD 6%; 2,056 lines of validators. Stopgap markers: 9 PLACEHOLDER, 3 GAME ASSUMPTION, 2 NOT MODELED, plus 92 "game-profile" readings.
+**Split.** KEEP 11%, REDESIGN 2%, DATA 32%, PLUMBING 50%, DEAD 5%; 2,056 lines of validators. Stopgap markers: 9 PLACEHOLDER, 3 GAME ASSUMPTION, 2 NOT MODELED, plus 92 "game-profile" readings.
 
 **What it does today.** Executive desks handle the agenda, chief of staff, bills presented, budget and agency reports; that is 4,038 lines in one file. Executive authority comes from rule packs and the powers catalog. Governors sign or veto by weighing principles, party, votes, relationships, override odds and advice. Office staffing, civil-service procedures, pay and transitions follow sourced rows. Office continuity handles death and incapacity: vice-presidential succession, House specials, Senate appointments. Public programs run from appropriation through installments. Crisis work covers storms, disasters, international tension and War Powers clocks.
 
@@ -349,7 +357,7 @@ Measured from code unless marked; the governing audit note (`docs/design/core2-p
 
 **Life-replay.** Supplies office succession (1). Office service (2), public appointment (1) and law signature (2) are partial. It needs an act that seats a recorded person on a date, and a presidential bill desk.
 
-**Redesign.** Measured: 705 lines. The international crisis response and resident service requests are labeled decision types. Disaster damage, deaths and injuries, and the monthly storm count, are dice (src/simulation/crisis/disaster.ts:148).
+**Redesign.** Measured: 1,016 lines. The unwired attack-intent decision (253 lines) and the international-crisis start that nothing calls (58 lines) are ruled out. The international crisis response and resident service requests are labeled decision types. Disaster damage, deaths and injuries, and the monthly storm count, are dice (src/simulation/crisis/disaster.ts:148).
 
 ## Story director (consumer)
 
@@ -405,12 +413,12 @@ Measured from code unless marked; the screens audit note (`docs/design/core2-por
 
 This section cuts across the engine rows; its files are counted above under governing (crisis), courts (the incident framework) and campaigns (the pressure layer), with health files in the life substrate. Measured from code unless marked.
 
-| Part                                                                    | Files | Code lines | KEEP | REDESIGN | DATA | PLUMBING | DEAD |
-| ----------------------------------------------------------------------- | ----: | ---------: | ---: | -------: | ---: | -------: | ---: |
-| Crisis: hazards, disasters, epidemics, international crises, continuity |    21 |      6,195 |  18% |       8% |   7% |      60% |   7% |
-| Crisis health: conditions, mortality, health coverage                   |    14 |      2,677 |  24% |       0% |   3% |      72% |   2% |
-| Incident framework and response                                         |     5 |      2,295 |   6% |       0% |   4% |      85% |   5% |
-| Political violence: pressure layer and attack intent                    |     9 |      1,347 |  24% |       0% |  11% |      43% |  23% |
+| Part                                                                                   | Files | Code lines | KEEP | REDESIGN | DATA | PLUMBING | DEAD |
+| -------------------------------------------------------------------------------------- | ----: | ---------: | ---: | -------: | ---: | -------: | ---: |
+| Crisis: hazards, disasters, epidemics, international crises, attack intent, continuity |    21 |      6,195 |  18% |      13% |   6% |      59% |   3% |
+| Crisis health: conditions, mortality, health coverage                                  |    14 |      2,677 |  24% |       0% |   3% |      72% |   2% |
+| Incident framework and response                                                        |     5 |      2,295 |   6% |       0% |   4% |      85% |   5% |
+| Political violence: the pressure layer and its ladder                                  |     9 |      1,347 |  21% |      38% |   3% |      17% |  21% |
 
 **What it does today.**
 
@@ -424,7 +432,7 @@ This section cuts across the engine rows; its files are counted above under gove
 
 **Keep.** Epidemic contact spread and case severity, hazard exposure and the reported rates (as checks on totals), disaster warrant tests made continuous, handling verdicts and their memory, pressure contribution and fade math, the War Powers clocks, and the funeral rules.
 
-**Redesign.** Measured: 507 lines in the crisis files. The international crisis response is a labeled decision type (240 lines). Disaster damage, deaths and injuries (187 lines) and the monthly storm count (80 lines) are dice. Inferred: the political-violence ladder should also be redesigned. The script counts the ladder's line-crossing logic as plumbing and the unwired attack intent as dead, so neither appears in its REDESIGN figure; its KEEP lines are the pressure contribution and fade math. A threat or attempt is an act a named person chooses, from a grudge or cause drive (P10), means and the target's exposure. It is not a state's anger crossing a line.
+**Redesign.** Measured: 1,332 lines across the two rows. The CTO ruled both findings REDESIGN ([review](https://github.com/lamontaes/Political-Game-Git/pull/3921#issuecomment-6086751445)). Political violence, the ladder (514 lines) and the unwired attack intent (253), becomes an act a named person chooses, from a P10 drive, their means and the target's exposure. It is not a state's anger crossing a line. The international-crisis start (58 lines) must follow from recorded events. The crisis response is a labeled decision type (240 lines). Disaster damage, deaths and injuries (187 lines) and the monthly storm count (80 lines) are dice. The pressure layer's KEEP lines are its contribution and fade math.
 
 **Module spec.**
 
@@ -447,7 +455,7 @@ The life substrate (people, households, minds, relationships, schooling, health 
 
 - SOL-1258 and the CTO: explain why 23 of 27 firms closed in the latest funded-wage year before the economy remainder is ported; the economy spec is provisional until then.
 - SOL-1258: build the approved interface additions in the CTO's order.
-- Owner and CTO: settle where people's political views come from, before the elections port.
+- CTO: write the views work package from decision 4; views come before the elections port.
 - Ports follow the order table, one module per pull request. Each proves itself in core2's own runs: people, money or places visibly move.
 - P6 and P3 keep their engines; their sections here say what core2 events they need.
 
