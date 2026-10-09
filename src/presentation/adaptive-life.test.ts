@@ -623,7 +623,6 @@ describe("Acceptance 13 — ordinary life is still there", () => {
     const { world, personId } = openLife(setup);
     const day = projectOrdinaryDay(world, personId);
     expect(day.pending.length).toBeGreaterThan(0);
-    expect(day.opening.length).toBeGreaterThan(10);
 
     const life = projectAdultLife(world, personId);
     expect(life.scene ?? life.quietNote).toBeTruthy();

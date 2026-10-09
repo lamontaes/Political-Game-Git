@@ -72,7 +72,7 @@ it("loads tax questions without assigning any rates or replacing existing questi
         amount: { op: "record", key: "enacted-tax-assessment", unit: "minor" },
       });
     } else if (
-      /^(city|county)\.(property|sales|payroll|corporate)-tax-terms$/.test(
+      /^(city|county)\.(property|sales|payroll|corporate|income)-tax-terms$/.test(
         row.key,
       )
     ) {
@@ -83,7 +83,9 @@ it("loads tax questions without assigning any rates or replacing existing questi
       expect(row.consequences![0]!.evidence.sourceIds).toContain(
         "src/simulation/local-tax-authority.ts",
       );
-    } else if (/^state\.(property|sales|payroll)-tax-terms$/.test(row.key)) {
+    } else if (
+      /^state\.(property|sales|payroll|corporate)-tax-terms$/.test(row.key)
+    ) {
       // A state's own terms read the powers catalog's state row through the
       // same binder.
       expect(row.consequences).toHaveLength(1);

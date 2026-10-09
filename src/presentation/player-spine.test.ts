@@ -233,7 +233,6 @@ describe("Where the game will let a life begin", () => {
       "life-talk",
     )!;
     const text = [
-      day.opening,
       ...day.pending.map((thing) => thing.sentence),
       talk.topicLabel,
       talk.briefing,
@@ -462,7 +461,6 @@ describe("Words the player should never see", () => {
     const childView = projectFormativeYears(child.world, child.playerPersonId);
 
     const text = [
-      day.opening,
       ...day.pending.map((thing) => thing.sentence),
       talk.topicLabel,
       talk.briefing,

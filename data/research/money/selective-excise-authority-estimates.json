@@ -1,0 +1,547 @@
+{
+  "samplePlaces": [
+    "US-AK",
+    "US-AZ",
+    "US-CA",
+    "US-DE",
+    "US-FL",
+    "US-HI",
+    "US-IA",
+    "US-ID",
+    "US-KS",
+    "US-KY",
+    "US-MA",
+    "US-MD",
+    "US-MI",
+    "US-MN",
+    "US-MO",
+    "US-MS",
+    "US-NC",
+    "US-ND",
+    "US-NE",
+    "US-NJ",
+    "US-NV",
+    "US-OH",
+    "US-OR",
+    "US-PA",
+    "US-RI",
+    "US-SC",
+    "US-SD",
+    "US-UT",
+    "US-VA",
+    "US-VT",
+    "US-WA",
+    "US-WI",
+    "US-WV",
+    "US-WY"
+  ],
+  "asOfBasis": "Median observation date of the compiled 34-place sample; an estimate, not a claim of local source retrieval.",
+  "rows": {
+    "US-AL": {
+      "key": "US-AL:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-AL",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-AR": {
+      "key": "US-AR:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-AR",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-AS": {
+      "key": "US-AS:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-AS",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-CO": {
+      "key": "US-CO:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-CO",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-CT": {
+      "key": "US-CT:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-CT",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-DC": {
+      "key": "US-DC:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-DC",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-GA": {
+      "key": "US-GA:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-GA",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-GU": {
+      "key": "US-GU:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-GU",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-IL": {
+      "key": "US-IL:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-IL",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-IN": {
+      "key": "US-IN:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-IN",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-LA": {
+      "key": "US-LA:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-LA",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-ME": {
+      "key": "US-ME:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-ME",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-MP": {
+      "key": "US-MP:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-MP",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-MT": {
+      "key": "US-MT:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-MT",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-NH": {
+      "key": "US-NH:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-NH",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-NM": {
+      "key": "US-NM:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-NM",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-NY": {
+      "key": "US-NY:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-NY",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-OK": {
+      "key": "US-OK:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-OK",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-PR": {
+      "key": "US-PR:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-PR",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-TN": {
+      "key": "US-TN:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-TN",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-TX": {
+      "key": "US-TX:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-TX",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    },
+    "US-VI": {
+      "key": "US-VI:STATE:selective-excise-estimated",
+      "jurisdictionKey": "US-VI",
+      "asOf": "2026-10-02",
+      "instrument": "selective-excise",
+      "level": "STATE",
+      "sourceArtifactId": "p2:selective-excise-authority-estimates",
+      "sourceSha256": "811390be90e00104406907c28718007590de625f1c3c92d9849ce9b5ac58cdde",
+      "sourceUrl": "https://www.fhwa.dot.gov/ipd/revenue/road_usage_charge/",
+      "citations": [
+        "FHWA Road Usage Charge Programs",
+        "NCSL State Fiscal Policy",
+        "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+      ],
+      "constraints": [
+        "A revenue measure must complete the recorded legislature and executive process.",
+        "An enacted tax changes no money until an actual payer declares a taxable base and its due assessment is collected.",
+        "Receipts grant no spending authority without a recorded appropriation.",
+        "Unread place-specific rate caps, voter requirements and exceptions are not asserted by this authority estimate."
+      ],
+      "estimated": true,
+      "estimatedFrom": "ESTIMATED FROM AVERAGE: modal selective-excise legislative authority in the 34 compiled constitutional tax-power rows; FHWA road usage charge program practice and NCSL State Fiscal Policy. Local voter steps and constitutional limits remain those of the governing rule pack."
+    }
+  }
+}
