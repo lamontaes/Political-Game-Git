@@ -242,7 +242,7 @@ describe("tax laws reach state budgets", () => {
       world = declarePersonalTaxOccurrence(world, input);
       const base = world.history.taxBases!.at(-1)!;
       const assessment = world.history.taxAssessments!.at(-1)!;
-      expect(base.amount.minorUnits).toBe(amount);
+      expect(base.amount).toMatchObject({ minorUnits: amount });
       expect(base.payer).toEqual({
         kind: "person",
         personId: fixture.personId,

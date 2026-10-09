@@ -142,6 +142,7 @@ export function ensureFilingClerk(
     office.unit,
     town,
     playerHousemates(world, personId),
+    office.clerkTitle,
   );
 }
 
@@ -224,7 +225,7 @@ export function requestFilingVisit(
     };
     next = createScheduledActivity(next, {
       stableKey: `${key}:hold`,
-      title: plan.office.clerkTitle,
+      title: plan.office.officeTitle,
       summary: plan.office.governmentName,
       kind: "confirmed",
       start: plan.start,

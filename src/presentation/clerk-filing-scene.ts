@@ -12,7 +12,10 @@ import {
   type RuleValue,
   type World,
 } from "../simulation";
-import { candidateFilingTerms } from "../simulation/candidate-filing-terms";
+import {
+  candidateFilingTerms,
+  filingDeadlineBefore,
+} from "../simulation/candidate-filing-terms";
 import { filingOfficeForSeat } from "../simulation/filing-office";
 import {
   FILING_OFFICE_JOURNEY_KEY,
@@ -101,6 +104,8 @@ export interface ClerkSeatAnswer {
   readonly feeInLieuOfSignatures?: boolean;
   readonly circulationOpens?: string;
   readonly deadline?: string;
+  /** The deadline on this election's calendar; always an estimate. */
+  readonly deadlineDate?: string | null;
   readonly termsEstimatedFrom?: string | null;
   readonly filed?: readonly {
     readonly personId: EntityId;
@@ -158,6 +163,13 @@ function visitHere(world: World, personId: EntityId, activityId: EntityId) {
   );
   const officeKey = request?.context.choice ?? null;
   if (!officeKey) return null;
+  // The official's own title, as recorded when the visit was arranged; the
+  // calendar entry carries the office's, which can be a board's name.
+  const clerkTitle =
+    request!.participants.find(
+      (actor) =>
+        actor.personId === clerkPersonId && actor.role === "agency:asked",
+    )?.detail ?? activity.title;
   const arrival = world.history.events
     .filter(
       (event) =>
@@ -176,7 +188,7 @@ function visitHere(world: World, personId: EntityId, activityId: EntityId) {
     !arrival.tags.includes(`place:${FILING_OFFICE_LOCATION_KEY}`)
   )
     return null;
-  return { activity, clerkPersonId, officeKey, arrival };
+  return { activity, clerkPersonId, clerkTitle, officeKey, arrival };
 }
 
 /** The first arrival records the player at the counter, with the clerk. */
@@ -201,7 +213,7 @@ export function enterFilingVisit(
       {
         personId: here.clerkPersonId,
         role: "coordination:host",
-        detail: here.activity.title,
+        detail: here.clerkTitle,
       },
       {
         personId: here.clerkPersonId,
@@ -373,7 +385,7 @@ export function projectClerkFilingScene(world: World, personId: EntityId) {
       {
         personId: here.clerkPersonId,
         name: personName(world.people[here.clerkPersonId]!),
-        role: here.activity.title,
+        role: here.clerkTitle,
         recordIds: [entry.id],
       },
     ],
@@ -428,13 +440,14 @@ export function clerkAnswerRecords(
     if (question === "filing") {
       const office = filingOfficeForSeat(world, seat.officeKey)!;
       const terms = candidateFilingTerms(office.unit.stateUsps, "local");
+      const electionDate = availableCampaignElectionDate(
+        world,
+        person.homeJurisdictionId,
+        seat.officeKey,
+      );
       return {
         ...base,
-        electionDate: availableCampaignElectionDate(
-          world,
-          person.homeJurisdictionId,
-          seat.officeKey,
-        ),
+        electionDate,
         electionDateEstimated: campaignElectionDateIsEstimated(
           world,
           seat.officeKey,
@@ -444,6 +457,9 @@ export function clerkAnswerRecords(
         feeInLieuOfSignatures: terms.feeInLieuOfSignatures,
         circulationOpens: terms.circulationOpens,
         deadline: terms.deadline,
+        deadlineDate: electionDate
+          ? filingDeadlineBefore(office.unit.stateUsps, electionDate).date
+          : null,
         termsEstimatedFrom: terms.estimated ? terms.estimatedFrom : null,
       };
     }

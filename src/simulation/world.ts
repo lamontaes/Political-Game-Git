@@ -1,5 +1,6 @@
 import { initializePersonCitizenship } from "./citizenship-creation";
 import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
+import { assertStoryThreadIntegrity, storyThreadStates } from "./story/threads";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -2126,6 +2127,7 @@ function validateHistoryIntegrity(
         ...childhoodRecordEntries(world),
         ...storyMoments(world),
         ...(history.storyIntakeMarks ?? []),
+        ...storyThreadStates(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2335,6 +2337,8 @@ function validateHistoryIntegrity(
   for (const mark of world.history.storyIntakeMarks ?? [])
     assertUniqueId(ids, mark.id);
   assertStoryMomentIntegrity(world);
+  for (const state of storyThreadStates(world)) assertUniqueId(ids, state.id);
+  assertStoryThreadIntegrity(world);
   for (const proposal of history.legislativeProposals ?? []) {
     assertUniqueId(ids, proposal.id);
     if (!world.people[proposal.sponsorPersonId]) {
