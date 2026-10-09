@@ -7,6 +7,7 @@ import { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { crisisAmbientHandler } from "./crisis/ambient";
 import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
 import { SPEECH_RETELLING_HANDLERS } from "./speech-retelling";
+import { STORY_THREAD_HANDLERS } from "./story/threads";
 import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
@@ -360,6 +361,9 @@ function handlerFor(
     // The weekly look at people's private goals is on every played life's
     // clock, so it resolves on every path that passes time, like CRISIS.
     PEOPLE_GOAL_HANDLERS.get(transitionKey) ??
+    // A thread's fade check is scheduled by the story director's daily
+    // reading, so it too resolves on every path that passes time.
+    STORY_THREAD_HANDLERS.get(transitionKey) ??
     SPEECH_RETELLING_HANDLERS().find(([key]) => key === transitionKey)?.[1]
   );
 }

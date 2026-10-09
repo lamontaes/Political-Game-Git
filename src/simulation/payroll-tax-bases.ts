@@ -1,4 +1,5 @@
 import { applyLawConsequences } from "./enacted-law-effects";
+import { canonicalJson } from "./canonical-json";
 import { recordsByStringField } from "./history-index";
 import { organizationProfileAt } from "./life-queries";
 import { taxReachesPlace } from "./property-tax-bases";
@@ -22,7 +23,8 @@ export function recordLocalPayrollTaxBases(
 ): World {
   const proposals = (world.history.taxProposals ?? []).filter(
     (row) =>
-      row.terms.instrument === "payroll" &&
+      (row.terms.instrument === "payroll" ||
+        row.terms.instrument === "wage-income") &&
       (row.publicGovernmentIdentity?.kind === "local-government" ||
         row.power?.level === "STATE"),
   );
@@ -66,8 +68,12 @@ export function recordLocalPayrollTaxBases(
         personFactConstraints: [],
         visibility: "private",
         tags: ["tax"],
-        summary:
-          "A paycheck earned at a local employer was assessed for the local payroll tax.",
+        summary: canonicalJson({
+          proposalId: proposal.id,
+          outcomeId,
+          payerPersonId: paid.personId,
+          amount: paid.amount,
+        }),
         context: {
           location: null,
           socialContext: null,
@@ -82,7 +88,7 @@ export function recordLocalPayrollTaxBases(
         sourceEventId: next.history.events.at(-1)!.id,
         jurisdictionId: proposal.jurisdictionId,
         payer: { kind: "person", personId: paid.personId },
-        baseKey: LOCAL_PAYROLL_BASE_KEY,
+        baseKey: proposal.terms.baseKey,
         occurredAt: today,
         amount: paid.amount,
         assumptionNote:

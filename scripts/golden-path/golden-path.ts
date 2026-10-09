@@ -360,7 +360,7 @@ const findTheClerk: GoldenPathStep = {
     // Whether the office was held before the player asked, or was filled for
     // the visit, is part of what the walk reports.
     const clerkBefore = office
-      ? sittingLocalClerk(state.world, office.unit)
+      ? sittingLocalClerk(state.world, office.unit, office.clerkTitle)
       : null;
     const world = requestFilingVisit(
       state.world,
@@ -443,7 +443,9 @@ const clerkConversation: GoldenPathStep = {
               ? ` age ${seat.minimumAge.value}`
               : ""
           }${seat.electionDate ? ` election ${seat.electionDate}` : ""}${
-            seat.deadline ? ` deadline ${seat.deadline}` : ""
+            (seat.deadlineDate ?? seat.deadline)
+              ? ` deadline ${seat.deadlineDate ?? seat.deadline}`
+              : ""
           }${
             seat.feeMinorUnits !== undefined
               ? ` fee ${seat.feeMinorUnits / 100}`

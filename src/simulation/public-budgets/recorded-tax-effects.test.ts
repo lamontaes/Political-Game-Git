@@ -46,7 +46,9 @@ describe("recorded tax terms replace one-state fiscal-note factors", () => {
         assumptionNote:
           "Explicit fictional occurrence backed by the existing declaration writer.",
       });
-      expect(world.history.taxBases!.at(-1)!.amount.minorUnits).toBe(2_100);
+      expect(world.history.taxBases!.at(-1)!.amount).toMatchObject({
+        minorUnits: 2_100,
+      });
       expect(world.history.taxAssessments!.at(-1)!.taxAmount.minorUnits).toBe(
         expected,
       );

@@ -88,6 +88,9 @@ const BY_EXPRESSION = poseData.byExpression as unknown as Readonly<
   Partial<Record<FaceExpression, readonly BodyPose[]>>
 > & { readonly share: number };
 
+/** How far each step of `guarded` (-2..2) moves a pose's weight. */
+const GUARDED_STEP = 0.3;
+
 function draw(seed: string, question: string): number {
   return (
     Number.parseInt(stableHash(`${seed}:${question}`).slice(0, 8), 16) /
@@ -109,7 +112,10 @@ function pick(
   const weights = entries.map((entry) => {
     const stance = STANCE[entry.pose];
     const lean = stance === "guarded" ? 1 : stance === "open" ? -1 : 0;
-    return Math.max(0.1, (entry.weight ?? 1) * (1 + 0.3 * guarded * lean));
+    return Math.max(
+      0.1,
+      (entry.weight ?? 1) * (1 + GUARDED_STEP * guarded * lean),
+    );
   });
   let at = draw(seed, question) * weights.reduce((sum, w) => sum + w, 0);
   for (const [i, entry] of entries.entries()) {
@@ -124,11 +130,12 @@ function pick(
  * scene gave them a chair, and only the seated poses fit one.
  *
  * Which poses each activity, view and spot allows is in
- * data/content/pose-by-activity.json, weighted. A person whose face shows
- * anger, sadness, worry, doubt, surprise or laughter stands the way it
- * reads for most of the cases (byExpression); a speech from a podium stays
- * at the podium. The pose is then the person's presentation's own
- * (presentationPose).
+ * data/content/pose-by-activity.json, weighted. A standing person whose face
+ * shows anger, sadness, worry, doubt, surprise or laughter may also stand the
+ * way it reads (byExpression): those poses join the same weighted list, an
+ * open person carrying the feeling in their stance more and a guarded one
+ * less; a speech from a podium stays at the podium. The pose is then the
+ * person's presentation's own (presentationPose).
  */
 export function chooseBodyPose(choice: PoseChoice): BodyPose {
   const pose = choosePose(choice);
@@ -143,26 +150,43 @@ function choosePose(choice: PoseChoice): BodyPose {
   const spot: PoseSpot = choice.spot ?? (seated ? "sit" : "stand");
   const guarded = choice.guarded ?? 0;
   const standing = spot === "stand" || spot === "lean";
+  const lists = ACTIVITIES[activity];
+  const entries: readonly PoseEntry[] =
+    lists?.[view]?.[spot] ??
+    lists?.front?.[spot] ??
+    ([{ pose: seated ? "seated" : "standing" }] as const);
   const reaction = choice.expression && BY_EXPRESSION[choice.expression];
-  if (
+  const reacts =
     reaction &&
     reaction.length > 0 &&
     standing &&
     view !== "back" &&
-    activity !== "speech" &&
-    draw(seed, "pose:reaction") < BY_EXPRESSION.share
-  )
-    return reaction[
-      Math.floor(
-        draw(seed, `pose:reaction:${choice.expression}`) * reaction.length,
-      )
-    ]!;
-  const lists = ACTIVITIES[activity];
-  const entries =
-    lists?.[view]?.[spot] ??
-    lists?.front?.[spot] ??
-    ([{ pose: seated ? "seated" : "standing" }] as const);
-  return pick(seed, `pose:${activity}:${spot}:${view}`, entries, guarded);
+    activity !== "speech";
+  return pick(
+    seed,
+    `pose:${activity}:${spot}:${view}`,
+    reacts
+      ? [...entries, ...reactionEntries(entries, reaction, guarded)]
+      : entries,
+    guarded,
+  );
+}
+
+/**
+ * The poses a feeling reads in, as entries beside the activity's own. For a
+ * person neither open nor guarded they carry `share` of the list's weight
+ * (the data's "how many carry it in the pose"); an open person carries it
+ * more and a guarded one less, by the same 30% per step as the stances.
+ */
+function reactionEntries(
+  entries: readonly PoseEntry[],
+  reaction: readonly BodyPose[],
+  guarded: number,
+): PoseEntry[] {
+  const own = entries.reduce((sum, entry) => sum + (entry.weight ?? 1), 0);
+  const share = BY_EXPRESSION.share;
+  const total = ((own * share) / (1 - share)) * (1 - GUARDED_STEP * guarded);
+  return reaction.map((pose) => ({ pose, weight: total / reaction.length }));
 }
 
 /**
