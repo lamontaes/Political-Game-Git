@@ -1,0 +1,523 @@
+{
+  "schema": "p8-customers-cash-wip-v8-summary",
+  "addedStopgaps": 3,
+  "openStopgaps": 73,
+  "closedStopgaps": 0,
+  "status": "HELD_DRAFT_NOT_READY",
+  "scope": "One original seeded cloud world from January 1 through April 2, 2021. Five dated cash snapshots recovered; final whole-world summary export failed. No new annual speed, closure or calibration acceptance.",
+  "apiVersion": 8,
+  "schemaVersion": 8,
+  "previousPublicHead": "0e905c065b2601d1c14b63ff36b59e6b2ca14181",
+  "sourceFiles": [
+    {
+      "path": "src/core2/opening-customers.ts",
+      "bytes": 56636,
+      "sha256": "dc17642697eb640a44e728612a5cbd791c69445150778a533c6346d9dd23160c"
+    },
+    {
+      "path": "src/core2/opening-customers.test.ts",
+      "bytes": 42355,
+      "sha256": "76f83dadb451ac63979e6916e63b4a0b59d717f091d7c618ea541508eab00bfc"
+    },
+    {
+      "path": "src/core2/opening-customer-geography.ts",
+      "bytes": 5898,
+      "sha256": "c761132a2fa0e97525367547665035ce890d98c8e8f9ab0782708437d3c9013b"
+    },
+    {
+      "path": "src/core2/opening-economy.ts",
+      "bytes": 10826,
+      "sha256": "ff861caf88aa445b9ba252ee3b47c0b4221f61747f111a46c4af236639035d19"
+    },
+    {
+      "path": "src/core2/tooling/economy-observables.ts",
+      "bytes": 9610,
+      "sha256": "37a624a72586ab3f854bbe981aefb99a49a6e6e25b81b7b9aa6d4a804511edb5"
+    },
+    {
+      "path": "src/core2/tooling/finance-measure.ts",
+      "bytes": 23223,
+      "sha256": "a46a4e3b4ede2d73ad231fc1d45b4aee4647e439957940841ad534a15a22bf24"
+    },
+    {
+      "path": "src/core2/data/opening-customers.json",
+      "bytes": 41767,
+      "sha256": "a48136f698f5342fd8e7af350e38728bb213ba06246b431dd7083fa1d946f326"
+    },
+    {
+      "path": "src/core2/data/parameters.json",
+      "bytes": 204316,
+      "sha256": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5"
+    },
+    {
+      "path": "src/core2/data/stopgaps.json",
+      "bytes": 54535,
+      "sha256": "839dcd2885982b716dc178f2741877a448c1d7133268d4e81597043d8f16d913"
+    },
+    {
+      "path": "src/core2/tooling/calibration-targets.json",
+      "bytes": 270572,
+      "sha256": "ba5b8ee5bc55f398222bcdee633568d22eae13ac0dbf6bbc4331d54dd1093d0d"
+    },
+    {
+      "path": "data/research/money/opening-customer-cex-2024.json",
+      "bytes": 976,
+      "sha256": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
+    }
+  ],
+  "technicalChecks": {
+    "focusedTests": 116,
+    "testFiles": 1,
+    "testsExitCode": 0,
+    "strictTypesExitCode": 0,
+    "lintExitCode": 0,
+    "structuralGuardsExitCode": 0,
+    "formatExitCode": 0,
+    "releaseBlocked": true,
+    "priorTestCasesPreserved": 81,
+    "newDefaultAndProvenanceCases": 35,
+    "logs": [
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/types.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/lint.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/structural-guards.log",
+        "bytes": 21890,
+        "sha256": "512d1d99e7985ca1e978aa9e69c0de37d2217683046ed0021969ea3c52334115"
+      },
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/customer-tests.log",
+        "bytes": 567,
+        "sha256": "07104aff3929d69b91286eb3411a02dd211ae886fe9419bf42d068064ce2e8e5"
+      },
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/format.log",
+        "bytes": 66,
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+      },
+      {
+        "path": "/workspace/p8-benchmark-artifacts/p8-opening-customers-default-v8-gates-20261009-2046/admission-and-gates.json",
+        "bytes": 2852,
+        "sha256": "3c7c1f9bbcf5f61b2c30683461f9bf996e91245427a5abf96eb802963b16dc7d"
+      }
+    ]
+  },
+  "cashDiagnostic": {
+    "startedAt": "2021-01-01",
+    "throughDate": "2021-04-02",
+    "simulatedDays": 91,
+    "seed": "p8-real-life-cost-2026-10-09",
+    "place": "La Homa CDP, Texas; Hidalgo County",
+    "placeGEOID": "4840342",
+    "countyGEOID": "48215",
+    "observer": false,
+    "scheduledWork": true,
+    "originalPeople": 10002,
+    "originalHouseholds": 3955,
+    "originalJobs": 1433,
+    "originalOrganizations": 39,
+    "enrichedOrganizations": 42,
+    "originalInput": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-normal-year-work-enabled-20261009-1142-prepared.json",
+      "bytes": 376551832,
+      "sha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c"
+    },
+    "executedScript": {
+      "path": "/tmp/p8-opening-economy-smoke-v2-20261009.mts",
+      "bytes": 6011,
+      "sha256": "1e6dd538de0033f6eceb7a349da41048a73b1fbe1a1137f4765c267c45314a92"
+    },
+    "log": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049.log",
+      "sha256": "a926ff03b3a94dcac4495b9fa612ac9621c7cf7d2d6dcad086a0a5fbe1a0bd2f"
+    },
+    "diagnosticExitCode": 1,
+    "finalSummaryError": "Root omitted required summarizeWorld arguments after source/input checks; dated finance/economy snapshots were already written.",
+    "wholeWorldSummaryExported": false,
+    "wholeWorldHashExported": false,
+    "sourceManifestExported": false,
+    "actualRunInput": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/actual-run-input.json",
+      "bytes": 2513813529,
+      "sha256": "2a15545a7f15437e2f7fea040d75058caf0210ad03d3c0ec869b94f257216fb4"
+    },
+    "originalCashMinor": 1735313542,
+    "addedFiniteOpeningCashMinor": 2519036645,
+    "enrichedCashMinor": 4254350187,
+    "addedAccounts": 3,
+    "standingContracts": 68139,
+    "openingAccountBalances": [
+      {
+        "id": "opening-retirement-contributor:c5609eea36b35888",
+        "placeId": "jurisdiction_7691c6e3ae48f824",
+        "name": "U.S. Treasury retirement contribution portfolio for La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-external-retirement-contributor",
+        "liquidMinor": 2014637316
+      },
+      {
+        "id": "opening-retirement-payer:1849d3b163e2051c",
+        "placeId": "jurisdiction_47f8dde9eac44f56",
+        "name": "La Homa, Texas retirement-income paying account",
+        "classification": "sector:modeled-retirement-income-account",
+        "liquidMinor": 503659329
+      },
+      {
+        "id": "p8-opening-customer-builder-v1:outside-household:725f304f2ba69980",
+        "placeId": "jurisdiction_46cf8dbfbc1c7045",
+        "name": "Abbott household (McAllen, Texas)",
+        "classification": "customer:outside-household",
+        "liquidMinor": 740000
+      }
+    ],
+    "snapshots": [
+      {
+        "date": "2021-01-01",
+        "artifact": {
+          "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/snapshot-2021-01-01.json",
+          "bytes": 5417559,
+          "sha256": "7b7556f4fff7df35bc0a85a490c7b9d10b0a540a4a110478a3a40f9cbaa746ea"
+        },
+        "totalLiquidMinor": 4254350187,
+        "liveOwnedJobs": 1433,
+        "endedJobs": 0,
+        "closedOrganizations": 0,
+        "firmReceiptsMinor": 0,
+        "wages": {
+          "scheduledWorkEnabled": true,
+          "retainedJobsWithCumulativeResults": 0,
+          "requestedMinor": 0,
+          "paidMinor": 0,
+          "unpaidMinor": 0,
+          "plannedMinutes": 0,
+          "attendedMinutes": 0,
+          "attendedDatedSegments": 0,
+          "absentDatedSegments": 0,
+          "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+        }
+      },
+      {
+        "date": "2021-01-31",
+        "artifact": {
+          "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/snapshot-2021-01-31.json",
+          "bytes": 6895667,
+          "sha256": "db635c2a8e71b8d9b8b3b674506235f8dfb7206a748871a1fa841d9d44a35922"
+        },
+        "totalLiquidMinor": 4254350187,
+        "liveOwnedJobs": 1433,
+        "endedJobs": 0,
+        "closedOrganizations": 0,
+        "firmReceiptsMinor": 0,
+        "wages": {
+          "scheduledWorkEnabled": true,
+          "retainedJobsWithCumulativeResults": 1433,
+          "requestedMinor": 159693291,
+          "paidMinor": 159693291,
+          "unpaidMinor": 0,
+          "plannedMinutes": 8067840,
+          "attendedMinutes": 7965150,
+          "attendedDatedSegments": 24118,
+          "absentDatedSegments": 190,
+          "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+        }
+      },
+      {
+        "date": "2021-02-28",
+        "artifact": {
+          "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/snapshot-2021-02-28.json",
+          "bytes": 7117846,
+          "sha256": "e7671bb0217fbe54e3e6a10a7949785a012a3886fffbfd4e3ee8ec174677b3cc"
+        },
+        "totalLiquidMinor": 4254350187,
+        "liveOwnedJobs": 1433,
+        "endedJobs": 0,
+        "closedOrganizations": 0,
+        "firmReceiptsMinor": 704431416,
+        "wages": {
+          "scheduledWorkEnabled": true,
+          "retainedJobsWithCumulativeResults": 1433,
+          "requestedMinor": 306356464,
+          "paidMinor": 306356464,
+          "unpaidMinor": 0,
+          "plannedMinutes": 15414540,
+          "attendedMinutes": 15207030,
+          "attendedDatedSegments": 46048,
+          "absentDatedSegments": 387,
+          "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+        }
+      },
+      {
+        "date": "2021-03-31",
+        "artifact": {
+          "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/snapshot-2021-03-31.json",
+          "bytes": 7403120,
+          "sha256": "879a55d774e42f528e60451086f9426226c1cedee40a890c16b9cc24a1674d63"
+        },
+        "totalLiquidMinor": 4254350187,
+        "liveOwnedJobs": 1433,
+        "endedJobs": 0,
+        "closedOrganizations": 0,
+        "firmReceiptsMinor": 1378020231,
+        "wages": {
+          "scheduledWorkEnabled": true,
+          "retainedJobsWithCumulativeResults": 1433,
+          "requestedMinor": 484405158,
+          "paidMinor": 484405158,
+          "unpaidMinor": 0,
+          "plannedMinutes": 24353370,
+          "attendedMinutes": 24023100,
+          "attendedDatedSegments": 72732,
+          "absentDatedSegments": 636,
+          "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+        }
+      },
+      {
+        "date": "2021-04-02",
+        "artifact": {
+          "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/snapshot-2021-04-02.json",
+          "bytes": 7352016,
+          "sha256": "f08262b7b1df57ed0cdd4ddca195eda3b577ed664ee857450e08be4405295327"
+        },
+        "totalLiquidMinor": 4254350187,
+        "liveOwnedJobs": 1433,
+        "endedJobs": 0,
+        "closedOrganizations": 0,
+        "firmReceiptsMinor": 1690969064,
+        "wages": {
+          "scheduledWorkEnabled": true,
+          "retainedJobsWithCumulativeResults": 1433,
+          "requestedMinor": 490870870,
+          "paidMinor": 490870870,
+          "unpaidMinor": 0,
+          "plannedMinutes": 24665190,
+          "attendedMinutes": 24330840,
+          "attendedDatedSegments": 73658,
+          "absentDatedSegments": 643,
+          "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+        }
+      }
+    ],
+    "final": {
+      "cashConservedMinor": 4254350187,
+      "liveOwnedJobs": 1433,
+      "endedJobs": 0,
+      "closedOrganizations": 0,
+      "bookedFirms": 27,
+      "zeroReceiptFirms": 12,
+      "zeroReceiptFirmIds": [
+        "organization_09972141ab595ad8",
+        "organization_09972241ab595c8b",
+        "organization_1e0cf4ddf5a88399",
+        "organization_2ff14956187618a9",
+        "organization_42f8c3553301e027",
+        "organization_45c235457eb76716",
+        "organization_45c236457eb768c9",
+        "organization_613b9e60ffc80856",
+        "organization_7af2cabf9683c0fa",
+        "organization_7af2cbbf9683c2ad",
+        "organization_ddd3980ca0d76530",
+        "organization_fc15dccb2eec4bd7"
+      ],
+      "grossFirmReceiptsMinor": 1690969064,
+      "grossReceiptScope": "Includes household sales and supplier trade stages; not final consumption alone.",
+      "wages": {
+        "scheduledWorkEnabled": true,
+        "retainedJobsWithCumulativeResults": 1433,
+        "requestedMinor": 490870870,
+        "paidMinor": 490870870,
+        "unpaidMinor": 0,
+        "plannedMinutes": 24665190,
+        "attendedMinutes": 24330840,
+        "attendedDatedSegments": 73658,
+        "absentDatedSegments": 643,
+        "unit": "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination."
+      },
+      "flowsByPurpose": [
+        {
+          "kind": "business.sales-input",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 614395743,
+          "paidMinor": 614395743,
+          "unfundedMinor": 0,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "funding.retirement-contribution",
+          "purpose": "institution-funding",
+          "recordedTermPurposes": ["institution-funding"],
+          "requestedMinor": 503659329,
+          "paidMinor": 503659329,
+          "unfundedMinor": 0,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.apparelAndServices",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 187414981,
+          "paidMinor": 154798206,
+          "unfundedMinor": 32616775,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.accounting-services",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 10735341,
+          "paidMinor": 7673898,
+          "unfundedMinor": 3061443,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.housekeeping",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 19442871,
+          "paidMinor": 13902828,
+          "unfundedMinor": 5540043,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.lawn-care",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 24844590,
+          "paidMinor": 17750663,
+          "unfundedMinor": 7093927,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.legal-services",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 14681649,
+          "paidMinor": 9423115,
+          "unfundedMinor": 5258534,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.participant-sports",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 11583060,
+          "paidMinor": 7004608,
+          "unfundedMinor": 4578452,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.personal-care",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 42936984,
+          "paidMinor": 25655240,
+          "unfundedMinor": 17281744,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.customer.residential-telephone",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 10391880,
+          "paidMinor": 5992952,
+          "unfundedMinor": 4398928,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.food",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 961262420,
+          "paidMinor": 771452020,
+          "unfundedMinor": 189810400,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "household.maintenanceAndRepairs",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 87671802,
+          "paidMinor": 62897147,
+          "unfundedMinor": 24774655,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "income.retirement",
+          "purpose": "recipient-income",
+          "recordedTermPurposes": ["recipient-income"],
+          "requestedMinor": 503659329,
+          "paidMinor": 503659329,
+          "unfundedMinor": 0,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        },
+        {
+          "kind": "outside.customer.visitor-lodging",
+          "purpose": "purchases",
+          "recordedTermPurposes": ["purchases"],
+          "requestedMinor": 22644,
+          "paidMinor": 22644,
+          "unfundedMinor": 0,
+          "borrowedMinor": 0,
+          "repaidMinor": 0
+        }
+      ],
+      "publicCustomerFlowPresent": false,
+      "clinicCustomerFlowPresent": false
+    },
+    "correction": {
+      "script": {
+        "path": "/tmp/p8-opening-economy-smoke-v3-20261009.mts",
+        "bytes": 6051,
+        "sha256": "7bf072afb0fd2aa37dc6f8bc0434fb895da107e85cf50e1cbccf604133885016"
+      },
+      "status": "SOURCE_ONLY_UNEXECUTED",
+      "change": "Supplies required observer/reason-summary/actual-input arguments to summarizeWorld; no rerun merely to replace the final summary."
+    },
+    "recoveryArtifact": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-opening-economy-smoke-v2-20261009-2049/cash-capture-recovery.json",
+      "bytes": 64236,
+      "sha256": "8dbc98d7a22c4c4910229606a1f03b3e04842f1db92a8ef3c92d1ef5a139f7c0"
+    }
+  },
+  "limitations": [
+    "No complete annual run or warm median on the customer checkpoint.",
+    "Public-customer positive fixtures are conditional; the ordinary captured world has no public-customer payment.",
+    "The authored La Homa Public Works Department has no dated recorded owner. La Homa is a CDP, not a municipality. No owner or appropriation is inferred from its name.",
+    "No clinic customer payment occurred; the producer reports no compatible clinical provider.",
+    "Twelve of 27 booked firms still have no receipts through April 2. This is not an annual survival or employment-calibration pass.",
+    "Added finite stocks are labeled modeling allocations; national source totals do not identify observed local balances or these individual crosswalks.",
+    "The audit-exported enriched input is 2513813529 bytes. Export and source validation were outside the month-advance intervals; no normal-game loading-budget measurement is claimed.",
+    "Actual journal production migration, PEOPLE, RENEWAL, annual speed and memory acceptance remain pending.",
+    "The two retirement stocks total fifteen months of modeled awards, with no observed institution-specific cash buffer. Original firm stocks use an unmeasured six-month generated-payroll prior. Survival in this partial year is not accepted as realism."
+  ],
+  "preservedRejectedAnnualBaseline": {
+    "beforeDaysPerMinute": 96.469205738,
+    "afterDaysPerMinute": 124.510561475,
+    "afterClosedBookedFirms": 23,
+    "afterBookedFirms": 27,
+    "afterEndedJobs": 1264,
+    "status": "REJECTED_SPEED_GAIN",
+    "receipt": "src/core2/receipts/prototype-v6-finance-year-audit-20261009.json"
+  },
+  "method": "Recovered already-written dated snapshots after the final summary error; independently checked each saved snapshot hash, cash, jobs and closures using Python. No new world was run for recovery. Source comparisons were reached but their manifests were not exported. All runs and full logs stay in the cloud outside the checkout.",
+  "openingCashAudit": "src/core2/receipts/prototype-v8-opening-cash-sources-20261009.json"
+}

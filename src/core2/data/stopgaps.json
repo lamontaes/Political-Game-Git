@@ -838,5 +838,41 @@
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
     "status": "open"
+  },
+  {
+    "id": "SG-P8-opening-customer-generation",
+    "kind": "estimated-opening-customer-prior",
+    "file": "src/core2/data/opening-customers.json",
+    "line": 127,
+    "whatItFakes": "Unconditional CEX service means become capped fictional household opening budgets with named counterparties. National component proportions scale regional/household-size parent categories. Equal initial vendor shares are recorded terms, not measured choice.",
+    "why": "Source means do not establish individual needs, supplier scope, recurring bill dates, delivered services or a per-world person dispersion.",
+    "addedBy": "SOL-1258/opening_customer_routes",
+    "addedAt": "2026-10-09",
+    "replacement": "Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P8-opening-customer-public-procurement",
+    "kind": "estimated-opening-customer-prior",
+    "file": "src/core2/data/opening-customers.json",
+    "line": 517,
+    "whatItFakes": "Generated local procurement authority, appropriation and custodial contract budgets use independent Census building-spending context with disclosed coverage and cleaning fractions.",
+    "why": "Census totals are expenditures, not liquid cash or enacted 2021 appropriations. Federal service-contract practice is only a template for labeled fictional local prior terms.",
+    "addedBy": "SOL-1258/opening_customer_routes",
+    "addedAt": "2026-10-09",
+    "replacement": "Use dated saved local authorization, appropriation and actual contract-price/custodial scope records; calibrate both named budget fractions against matched own-government records.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P8-opening-customer-outside-households",
+    "kind": "estimated-opening-customer-prior",
+    "file": "src/core2/data/opening-customers.json",
+    "line": 530,
+    "whatItFakes": "One fictional visiting-family buyer at an actual outside place receives one finite SCF family transaction-account stock and a CEX travel-lodging budget.",
+    "why": "The shared-county source establishes geography/population, not actual visitation, demand shares or individual household wealth dispersion. The stock and visit history are openly generated opening priors.",
+    "addedBy": "SOL-1258/opening_customer_routes",
+    "addedAt": "2026-10-09",
+    "replacement": "Use source-qualified actual trip/visit agreements and family-level opening balances or matched external-family wealth distributions; source additional island-area geographic joins.",
+    "status": "open"
   }
 ]
