@@ -70,10 +70,13 @@
     "minutes|everyday|minutes|self|young-adult": 1
   },
   "graded": {
-    "place": {
+    "unknown": {
       "journal": 9,
       "meeting": 3,
-      "hearing": 6
+      "hearing": 6,
+      "conversation": 1,
+      "choice": 3,
+      "notices-and-screens": 3
     }
   }
 }

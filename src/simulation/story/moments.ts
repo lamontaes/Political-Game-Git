@@ -1,6 +1,14 @@
 import kindsData from "../../../data/content/story-moment-kinds.json" with { type: "json" };
-import { ageOnDate } from "../dates";
-import { appendedList, recordsByStringField } from "../history-index";
+import { addDays, ageOnDate } from "../dates";
+import {
+  appendedList,
+  recordById,
+  recordsByStringField,
+} from "../history-index";
+import {
+  annualizedRecordedPayMinor,
+  recordedMonthlyPayByPerson,
+} from "../household-pay";
 import { createStableId } from "../ids";
 import {
   activePartnershipsAt,
@@ -17,11 +25,13 @@ import { loadedTraitRegistry } from "../trait-registry";
 import { traitDefinitionFromPack, type RegisteredTrait } from "../trait-packs";
 import { traitReadingOfRecord } from "../trait-readings";
 import { traitActTables } from "../traits/act-pulls";
+import { recordStoryThreads } from "./threads";
 import type {
   EntityId,
   HistoricalEvent,
   IsoDate,
   RelationshipInteraction,
+  ResourceFlowTermsRecord,
   StoryIntakeMark,
   StoryMomentRecord,
   World,
@@ -76,6 +86,8 @@ interface MomentKind {
   };
   readonly scores?: "told";
   readonly acts: readonly string[];
+  /** What the record puts at stake: a jail term's freedom, or a lost job's pay. */
+  readonly stakes?: "freedom" | "money";
   readonly adult?: WeightRow;
   readonly youth?: WeightRow;
   readonly kin?: WeightRow;
@@ -92,6 +104,8 @@ interface Calibration {
   readonly traitTiltAtFullStrength: number;
   readonly closenessRange: readonly [number, number];
   readonly relationshipCap: number;
+  /** What a full year of freedom, or a full year's household income, adds to stakes. */
+  readonly stakesAtFullYear: number;
   readonly relationshipSignificance: Readonly<Record<string, number>>;
   readonly relationshipChange: Readonly<Record<string, number>>;
 }
@@ -242,6 +256,22 @@ function safeKinship(world: World, personId: EntityId) {
   }
 }
 
+function safeMemberships(world: World, personId: EntityId) {
+  try {
+    return householdMembershipsAt(world, personId);
+  } catch {
+    return [];
+  }
+}
+
+function safeHousehold(world: World, householdId: EntityId) {
+  try {
+    return peopleInHouseholdAt(world, householdId);
+  } catch {
+    return [];
+  }
+}
+
 function safePartnerships(world: World, personId: EntityId) {
   try {
     return activePartnershipsAt(world, personId);
@@ -283,10 +313,57 @@ function sentenceMonths(event: HistoricalEvent): number | null {
   return Number.isFinite(months) ? months : null;
 }
 
-/** Freedom lost raises stakes by half the share of a year, up to a full year. */
+/** Freedom lost raises stakes by its share of a year, up to a full year. */
 function freedomStakes(months: number | null): number {
   if (months === null || months <= 0) return 1;
-  return 1 + 0.5 * Math.min(1, months / 12);
+  return 1 + CALIBRATION.stakesAtFullYear * Math.min(1, months / 12);
+}
+
+/**
+ * A lost job raises stakes by its yearly pay as a share of the household's
+ * recorded yearly income the day before, up to the whole of it. A job or a
+ * household with no pay on record puts nothing measurable at stake.
+ */
+function moneyStakes(
+  world: World,
+  personId: EntityId,
+  record: StateRecord,
+  date: IsoDate,
+): number {
+  if (!record.workRelationshipId) return 1;
+  const dayBefore = addDays(date, -1);
+  const flows = new Set<EntityId>();
+  for (const flow of world.history.resourceFlows)
+    if (
+      flow.basisReference.kind === "work" &&
+      flow.basisReference.workRelationshipId === record.workRelationshipId
+    )
+      flows.add(flow.id);
+  if (flows.size === 0) return 1;
+  const latest = new Map<EntityId, ResourceFlowTermsRecord>();
+  for (const terms of world.history.resourceFlowTerms)
+    if (flows.has(terms.resourceFlowId) && terms.effectiveAt <= dayBefore)
+      latest.set(terms.resourceFlowId, terms);
+  let lostYearly = 0;
+  for (const terms of latest.values())
+    if (terms.status === "active")
+      lostYearly +=
+        annualizedRecordedPayMinor(
+          terms.amount.minorUnits,
+          terms.cadenceKind,
+        ) ?? 0;
+  if (!(lostYearly > 0)) return 1;
+  const pay = recordedMonthlyPayByPerson(world, dayBefore);
+  const members = new Set<EntityId>([personId]);
+  for (const membership of safeMemberships(world, personId))
+    for (const id of safeHousehold(world, membership.membership.householdId))
+      members.add(id);
+  let householdYearly = 0;
+  for (const id of members) householdYearly += (pay.get(id) ?? 0) * 12;
+  if (!(householdYearly > 0)) return 1;
+  return (
+    1 + CALIBRATION.stakesAtFullYear * Math.min(1, lostYearly / householdYearly)
+  );
 }
 
 function eventPeople(
@@ -393,7 +470,7 @@ function eventCandidates(world: World, event: HistoricalEvent): Candidate[] {
           (other): other is EntityId => isPerson(world, other) && other !== id,
         );
     const stakes =
-      kind.key === "jailed" ? freedomStakes(sentenceMonths(event)) : 1;
+      kind.stakes === "freedom" ? freedomStakes(sentenceMonths(event)) : 1;
     for (const personId of people) {
       const age = ageAt(world, personId, event.occurredAt);
       if (age === null) continue;
@@ -511,15 +588,13 @@ function statePerson(
   if (record.personId) return record.personId;
   if (store === "educationEnrollmentStates" && record.enrollmentId)
     return (
-      world.history.educationEnrollments.find(
-        (entry) => entry.id === record.enrollmentId,
-      )?.personId ?? null
+      recordById(world.history.educationEnrollments, record.enrollmentId)
+        ?.personId ?? null
     );
   if (store === "workStatuses" && record.workRelationshipId)
     return (
-      world.history.workRelationships.find(
-        (entry) => entry.id === record.workRelationshipId,
-      )?.personId ?? null
+      recordById(world.history.workRelationships, record.workRelationshipId)
+        ?.personId ?? null
     );
   return null;
 }
@@ -559,7 +634,10 @@ function stateCandidates(
       sourceRecordId: record.id,
       sourceSequence: record.sequence,
       closenessToward: null,
-      stakes: 1,
+      stakes:
+        kind.stakes === "money"
+          ? moneyStakes(world, personId, record, date)
+          : 1,
       eventId: null,
       sameAs: kind.match.sameAs ?? null,
     } as const;
@@ -735,10 +813,8 @@ export function recordStoryMoments(world: World): World {
   const candidates: Candidate[] = [];
   for (const event of newRecords(world.history.events, from))
     candidates.push(...eventCandidates(world, event));
-  for (const interaction of newRecords(
-    world.history.relationshipInteractions,
-    from,
-  ))
+  const contacts = newRecords(world.history.relationshipInteractions, from);
+  for (const interaction of contacts)
     candidates.push(...relationshipCandidates(world, interaction));
   const history = world.history as unknown as Record<
     string,
@@ -840,23 +916,36 @@ export function recordStoryMoments(world: World): World {
     prior.push(moment);
   }
 
+  // The pairs these moments touch: one thread change each (threads.ts).
+  const scored = recordStoryThreads(
+    written.length
+      ? {
+          ...world,
+          history: {
+            ...world.history,
+            nextSequence: sequence,
+            storyMoments: appendedList(storyMoments(world), written),
+          },
+        }
+      : world,
+    written,
+    contacts,
+  );
+  const markSequence = scored.history.nextSequence;
   const mark: StoryIntakeMark = {
-    id: createStableId("story-intake", `${world.id}:intake:${sequence}`),
-    stableKey: `story-intake:${sequence}`,
-    sequence,
+    id: createStableId("story-intake", `${world.id}:intake:${markSequence}`),
+    stableKey: `story-intake:${markSequence}`,
+    sequence: markSequence,
     recordedAt: world.currentDate,
     fromSequence: from,
-    throughSequence: sequence + 1,
+    throughSequence: markSequence + 1,
   };
   return {
-    ...world,
+    ...scored,
     history: {
-      ...world.history,
-      nextSequence: sequence + 1,
-      storyMoments: written.length
-        ? appendedList(storyMoments(world), written)
-        : storyMoments(world),
-      storyIntakeMarks: appendedList(storyIntakeMarks(world), [mark]),
+      ...scored.history,
+      nextSequence: markSequence + 1,
+      storyIntakeMarks: appendedList(storyIntakeMarks(scored), [mark]),
     },
   };
 }

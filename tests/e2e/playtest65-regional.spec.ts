@@ -52,9 +52,10 @@ for (const place of places) {
     await expect(page.getByTestId("orientation-step-state")).toBeVisible();
     const plate = page.getByTestId("opening-regional-plate");
     await expect(plate).toBeVisible();
+    // Menu reset: the picture carries no caption of its own.
     await expect(
       page.getByText("Your home region · Illustration", { exact: true }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(plate).toHaveJSProperty("naturalWidth", place.width);
     await expect(plate).toHaveAttribute(
       "src",
@@ -294,11 +295,10 @@ test("state voting card shows dated survey counts and readable group tables with
   const voting = page.getByTestId("opening-state-voting");
   await expect(voting.getByText("2,558,000", { exact: true })).toBeVisible();
   await expect(voting.getByText("2,152,000", { exact: true })).toBeVisible();
-  await expect(
-    voting.getByText(
-      /About 68% of citizen adults said they voted \(give or take 4 points\)/,
-    ),
-  ).toBeVisible();
+  // The record value under its label, with the survey's margin.
+  await expect(voting).toContainText(
+    /Citizen adults who voted:\s*67\.7% ± 3\.6/,
+  );
   await page.screenshot({ path: info.outputPath("state-voting-1024.png") });
   await voting
     .getByText("Voting by age and other groups", { exact: true })

@@ -68,7 +68,7 @@ const FEDERAL_TAX_TERM_CONSEQUENCE_FAMILIES = new Set([
 function localTaxQuestion(levelKey: string, familyKey: string): boolean {
   return (
     (levelKey === "county" || levelKey === "city") &&
-    ["property", "sales", "payroll", "corporate"].includes(familyKey)
+    ["property", "sales", "payroll", "corporate", "income"].includes(familyKey)
   );
 }
 
@@ -76,11 +76,12 @@ function localTaxQuestion(levelKey: string, familyKey: string): boolean {
  * shared binder against the powers catalog's state row. */
 function stateTaxQuestion(levelKey: string, familyKey: string): boolean {
   return (
-    levelKey === "state" && ["property", "sales", "payroll"].includes(familyKey)
+    levelKey === "state" &&
+    ["property", "sales", "payroll", "corporate"].includes(familyKey)
   );
 }
 
-function taxTermConsequenceRow(
+export function taxTermConsequenceRow(
   levelKey: string,
   familyKey: string,
 ): LawConsequenceRow | undefined {

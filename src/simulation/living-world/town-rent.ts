@@ -137,6 +137,8 @@ import type {
 import { recordWorldEvent } from "../world";
 import { applyLawConsequences } from "../enacted-law-effects";
 import { RENT_STABILIZATION_QUESTION } from "../law-consequences/rent-stabilization-row";
+import { HOUSING_VOUCHER_QUESTION } from "../law-consequences/housing-voucher-rows";
+import { NATIONAL_ELECTION_JURISDICTION } from "../national-election-geography";
 import { homePriceLevel } from "./housing-market";
 import type { TownHomeKind } from "./town-homes";
 import {
@@ -1819,6 +1821,25 @@ export function renewTownLeases(world: World, dueOn: IsoDate): World {
       onDate: dueOn,
       questionKey: RENT_STABILIZATION_QUESTION,
     });
+    const voucherQuestion = Object.values(next.policyCatalog.propositions).find(
+      (question) => question.stableKey === HOUSING_VOUCHER_QUESTION,
+    );
+    if (
+      voucherQuestion &&
+      lawInForce(
+        next,
+        NATIONAL_ELECTION_JURISDICTION.id,
+        voucherQuestion.id,
+        dueOn,
+      )?.origin === "enacted"
+    )
+      next = applyLawConsequences(next, {
+        activity: "renewal",
+        activityId: renewal.id,
+        subjectIds: [lease.leaseholderId],
+        onDate: dueOn,
+        questionKey: HOUSING_VOUCHER_QUESTION,
+      });
   }
   return next;
 }

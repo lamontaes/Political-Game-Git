@@ -18,6 +18,7 @@ import type {
 } from "../../src/presentation/state-voting-context";
 import { validateCpsVoting } from "../../src/source/domains/census-voting-registration/validate";
 import { REPO_ROOT } from "./registry";
+import { isTerritoryUsps } from "../../src/simulation/state-reference";
 
 /** Deterministic lazy export from the admitted corpus, not a second source store. */
 export function exportStateVotingContext(
@@ -51,6 +52,8 @@ export function exportStateVotingContext(
     throw new Error("State voting export requires a valid production corpus");
   const states: Record<string, string> = {};
   for (const [stateUsps, stateName] of Object.entries(CPS_STATE_NAMES)) {
+    // The survey covers the fifty states and D.C.; territories read as not reported.
+    if (isTerritoryUsps(stateUsps)) continue;
     const rows = records.filter(
       (r) =>
         r.geographyName === stateName.toUpperCase() &&
