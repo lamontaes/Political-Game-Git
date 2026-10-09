@@ -58,7 +58,7 @@ function openingHeadlines(opening: ReturnType<typeof open>) {
       projectWorldOrientation(opening.world, opening.personId),
       stateNameForUsps,
     ),
-  ).headlines;
+  ).publications.map((publication) => publication.headline);
 }
 
 describe("a program's note to the books is not news", () => {
@@ -115,7 +115,7 @@ describe("a program's note to the books is not news", () => {
         projectWorldOrientation(older, ELIGIBLE.personId),
         stateNameForUsps,
       ),
-    ).headlines;
+    ).publications.map((publication) => publication.headline);
     expect(headlines).not.toContain(printed.headline);
   });
 });
