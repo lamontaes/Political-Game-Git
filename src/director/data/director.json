@@ -264,6 +264,7 @@
     }
   ],
   "broadEventFlags": ["publicRecord", "news"],
+  "eventKinds": ["*"],
   "kinTies": [
     {
       "relation": "parent",
