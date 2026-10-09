@@ -11,7 +11,8 @@ const salesCostShare = townBusinessKindBooks("retail").salesCostShare;
 describe("business hire affordability rule", () => {
   it.each(places)(
     "matches legacy hire decision in $jurisdictionKey",
-    (_place, index) => {
+    (place) => {
+      const index = places.indexOf(place);
       const lastQuarterPay = 4_000 + index * 50;
       const facts = {
         kind: "retail",

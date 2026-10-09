@@ -11,7 +11,8 @@ const salesCostShare = townBusinessKindBooks("retail").salesCostShare;
 describe("business layoff rule", () => {
   it.each(places)(
     "matches legacy layoff decision in $jurisdictionKey",
-    (_place, index) => {
+    (place) => {
+      const index = places.indexOf(place);
       const facts = {
         kind: "retail",
         annualRevenue: 55_000 + index * 1_750,
