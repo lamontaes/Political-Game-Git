@@ -871,8 +871,10 @@ export function createDirector(
       if (broad) recordBroad(core, event, book, reach);
       let mood = zero;
       let stress = zero;
+      // A person who has died feels nothing; their death is the health moment.
       if (
         learned.has(id) &&
+        actor.alive &&
         (event.moodImpulse !== undefined || event.stressImpulse !== undefined)
       ) {
         directorStopgap("SG-P13-appraisal-recompute", ledger.stopgapHits);
