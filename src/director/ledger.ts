@@ -462,6 +462,15 @@ export function createDirector(
       list.push(moment.id);
       book.momentsByOther.set(otherId, list);
       ensureThread(book, otherId).momentIds.push(moment.id);
+      // A dated record naming both people moves their first-known date back to it.
+      const knew = book.keptFacts.get(
+        `knew-each-other:${[book.personId, otherId].sort().join(":")}`,
+      );
+      if (knew && fact.date < knew.since) {
+        knew.since = fact.date;
+        knew.sinceBasis = "recorded";
+        knew.sourceId = fact.id;
+      }
     }
     book.schedule.push({
       momentId: moment.id,

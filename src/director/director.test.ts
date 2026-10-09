@@ -739,6 +739,10 @@ describe("story director on the new core", () => {
       ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
       ["2008-12-01", "past:era:public-context:personalJobLoss", 0.47, []],
     ]);
+    // The 1994 partnership record moves the pair's first-known date back.
+    expect(
+      worker.keptFacts.get("knew-each-other:person:spouse:person:worker"),
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
     // The unhit era is background only; the opening job describes the start.
     expect(worker.backdrop.map((row) => row.sourceId)).toEqual([
       "fact:worker:era",
