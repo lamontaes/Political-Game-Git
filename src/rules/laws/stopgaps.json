@@ -4,5 +4,11 @@
     "behavior": "Conflicts between higher and lower law levels are resolved by rank; floor preemption is not modeled.",
     "source": "src/simulation/governing/law-in-force.ts",
     "status": "GAME ASSUMPTION"
+  },
+  {
+    "id": "laws.session-end-effective-date-fallback",
+    "behavior": "If a session-end rule would make an act effective on or before its enactment date, count the interval from the enactment date.",
+    "source": "src/simulation/governing/statute-effective-date.ts",
+    "status": "GAME ASSUMPTION"
   }
 ]
