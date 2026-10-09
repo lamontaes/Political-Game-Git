@@ -520,6 +520,30 @@
           "sha256": "7821cdc4b923dc8ff78ce4a79c115c6fd2bc003919d539f2e918005ee917a429",
           "sliceOfParent": null,
           "storage": "committed"
+        },
+        {
+          "artifactId": "nces-edge-geocode-publicsch-2425",
+          "sha256": "9dc51ecd5cdf6e38bdb679f7ac95e2bf73ee3fb48718b8612cf830800cffb288",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "census-cb-2025-place-500k",
+          "sha256": "ce0e4019ecd4123d03d53aaa936eed0459b82e3e14b89a3dcd4d5e8b3308627d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "ccd-2023-24-school-membership",
+          "sha256": "06bd50eede0c036e4c92b6464b69f192ff3b8f9f739b403c2b218a9f6ec3e239",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        },
+        {
+          "artifactId": "ccd-2023-24-school-directory",
+          "sha256": "3910300771b1db27e0589d014451f95e3190ca71ab4dcabe06227224f58b4ecb",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
         }
       ],
       "asOf": "2024-07-01",
