@@ -1,11 +1,11 @@
 # Three fifths of the old political engines is plumbing; about one sixth is rules worth keeping
 
-The CTO needs to settle three things before any engine moves to the new core: how votes are counted, which additions the core's interface gets, and whether old saves are dropped. The old political engines hold about 244,000 lines of functions, constants and classes. Measured, about 60% of that is plumbing: copying the world, scanning history, validating everything and scheduling. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% is logic built on designs the owner rejected, which must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44.
+The CTO needs to settle three things before any engine moves to the new core: how votes are counted, which additions the core's interface gets, and whether old saves are dropped. The old political engines hold about 244,000 lines of code. Measured, about 60% of that is plumbing: world copies, history scans, validators and schedulers. Between 14% and 22% is decision logic and math worth carrying over as is; another 3% follows designs the owner rejected and must be redesigned. 16% is research data, and 4% is dead. Elections and executive offices unlock the most life-replay steps: 16 of 44. The economy port stays provisional, because 23 of 27 firms closed once wages had to come from sales.
 
 ## Decisions for the CTO
 
 1. **How elections are decided.** Today two models coexist. One counts each voter's ballot from their recorded beliefs (src/simulation/election-contests.ts:211). The other splits a "support" share among candidates when the player runs (src/simulation/campaigns.ts:1929). Recommended: count real voters in the player's county and focus places, and use place cohorts everywhere else, with the same ballot rule. A cohort is a group of voters with the real turnout and lean spread.
-2. **Interface additions for the new core (version 6).** Every port needs six things the prototype's interface (version 5) lacks; they are listed under "What the new core's interface lacks." SOL-1258 would build them. The CTO, the core's one architecture owner, approves them.
+2. **Interface additions for the new core (its next interface version).** Every port needs six things the published prototype's interface (version 5) lacks; they are listed under "What the new core's interface lacks." SOL-1258 would build them. The CTO, the core's one architecture owner, approves them.
 3. **Old saves.** Seat holders, court cases, bill positions and campaign state are stored today as tagged history entries that the new core will not read. Recommended: no save conversion, following the standing "saves don't matter" ruling. Each port writes its tables fresh from world generation.
 
 ## Terms used here
@@ -13,7 +13,7 @@ The CTO needs to settle three things before any engine moves to the new core: ho
 - **P3, P6, P8, P9, P10**: the CTO's work packages for the English engine loop, the story director, the new core ("core2"), the life-replay harness and event-born drives.
 - **KEEP, REDESIGN, DATA, PLUMBING, DEAD, TOOLING, VIEW**: the classes every function, constant and class falls into.
   - KEEP is decision logic or math worth carrying into core2 as is.
-  - REDESIGN is decision logic built on a design the owner rejected. That covers the five designs named in the CTO's review, decisions scheduled as labeled decision types, and seeded draws that decide an outcome.
+  - REDESIGN is decision logic built on a design the owner rejected. It covers three things. First, the five designs named in the CTO's review: the 80 labeled decision types scored as importance times confidence, fixed scene-selection weights, one everyday goal per person, speeches only on election night, and the one-day pre-start run. Second, any other function that sets up one of those labeled decision types for the old evaluator. Third, named functions where a seeded draw decides an outcome.
   - DATA is research rows and tables.
   - PLUMBING is old-core reads and writes, history copies, validators, schedulers, queries and prose.
   - DEAD is code that neither the game nor any tool reaches, or that nothing references.
@@ -50,7 +50,9 @@ Measured: the readers hand-classified 342 sampled declarations into rule, data, 
 
 Measured: 16,211 lines in the eight political engines are whole-world validators that the new core does not have (26,498 across the game: the other 10,287 are in the life substrate, 9,299; screens, 797; the story director, 143; and source tools, 48). Another 9,596 lines across the game are per-place research tables written as TypeScript instead of data files. The old core keeps 159 add-only history tables. Each political engine reaches them through whole-list scans, from 95 scans in courts to 246 in the economy.
 
-Measured: REDESIGN holds 7,016 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. What these functions weigh (party cues, commitments, sponsor ties, harm to a victim) is still worth having, and becomes data rows for the chooser's reason providers rather than code. Another 317 lines decide outcomes by seeded draws, and 12 build election-night-only speeches. Outside the political engines, the rejected designs hold 34 lines of decision scoring, 367 lines of the one everyday goal per person, 89 lines of fixed scene-selection weights and 881 lines of the one-day pre-start run.
+Measured: REDESIGN holds 7,016 lines in the political engines. 6,687 of them build decisions as labeled decision types, scored as importance times confidence through the old evaluator. The owner replaced that design with one shared chooser that scores offers from traits, needs, goals and drives. Another 317 lines decide outcomes by seeded draws, and 12 build election-night-only speeches. Outside the political engines, REDESIGN holds 2,406 lines. The life substrate has 1,055: 34 of decision scoring, 367 of the one everyday goal per person and 654 of scheduled decisions. Screens have 973: 881 of the one-day pre-start run and 92 of scheduled decisions. The story director has 184: 89 of fixed scene-selection weights and 95 of scheduled decisions. The English engine has 194 of scheduled decisions.
+
+Inferred: what the scheduled decisions weigh (party cues, commitments, sponsor ties, harm to a victim) is still worth having, as data rows for the chooser's reason providers rather than as code.
 
 Inferred: in the old core, each line of rule worth keeping comes with about three and a half lines of plumbing that feeds it. Most of each port is new wiring: plain tables keyed by id, indexes, typed events and offers to people.
 
@@ -58,20 +60,20 @@ Inferred: in the old core, each line of rule worth keeping comes with about thre
 
 Each engine becomes one or more core2 modules: state it owns, offers it makes to people, effects it applies, events it emits. The order follows what each needs from the others and how many life-replay steps it unlocks.
 
-| Order | Module                                                                                   | Needs first                            |     Life-replay steps it unlocks | Risk                           |
-| ----: | ---------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------------: | ------------------------------ |
-|     0 | Interface version 6 (below)                                                              | P8 core                                |                                0 | Medium: every port waits on it |
-|     1 | Law in force (law rows, enactments, effective dates, amount evaluator)                   | v6                                     |             0 directly, 2 with 5 | Low                            |
-|     2 | Economy remainder (labor market, rent and housing, loans, public budgets, macro)         | SOL-1258's business books, v6 accounts |                                5 | Medium                         |
-|     3 | Offices and seats, then elections (calendars, filing, nominations, counting, succession) | 1, people's political views in core2   |                               10 | High                           |
-|     4 | Governing and executive (desks, staffing, appointments, programs, continuity)            | 3                                      |                                6 | High                           |
-|     5 | Legislatures (bodies, measures with a stored phase, votes, bargaining, executive desk)   | 3, 4                                   |                                3 | High                           |
-|     6 | Law consequences and outcome web (enactment fan-out, person landings)                    | 1, 2, 5                                |                       supports 6 | Medium                         |
-|     7 | Campaigns and civic groups                                                               | 2, 3                                   |                       supports 4 | Medium                         |
-|     8 | Courts and justice                                                                       | 1, 4                                   | 0 (blocks candidacy when jailed) | Medium                         |
-|     9 | Press                                                                                    | events from 3 to 8                     |                     0 (consumer) | Medium                         |
-|    10 | Story director and English engine                                                        | typed events from every module         |                    voices all 44 | Medium                         |
-|    11 | Screens, one adapter family per module as it lands                                       | each module                            | lets the player choose each step | High                           |
+| Order | Module                                                                                   | Needs first                                   |     Life-replay steps it unlocks | Risk                                                                    |
+| ----: | ---------------------------------------------------------------------------------------- | --------------------------------------------- | -------------------------------: | ----------------------------------------------------------------------- |
+|     0 | Next interface version (below)                                                           | P8 core                                       |                                0 | Medium: every port waits on it                                          |
+|     1 | Law in force (law rows, enactments, effective dates, amount evaluator)                   | next interface                                |             0 directly, 2 with 5 | Low                                                                     |
+|     2 | Economy remainder (labor market, rent and housing, loans, public budgets, macro)         | SOL-1258's business books, interface accounts |                                5 | High, provisional: 23 of 27 firms closed in the latest funded-wage year |
+|     3 | Offices and seats, then elections (calendars, filing, nominations, counting, succession) | 1, people's political views in core2          |                               10 | High                                                                    |
+|     4 | Governing and executive (desks, staffing, appointments, programs, continuity)            | 3                                             |                                6 | High                                                                    |
+|     5 | Legislatures (bodies, measures with a stored phase, votes, bargaining, executive desk)   | 3, 4                                          |                                3 | High                                                                    |
+|     6 | Law consequences and outcome web (enactment fan-out, person landings)                    | 1, 2, 5                                       |                       supports 6 | Medium                                                                  |
+|     7 | Campaigns and civic groups                                                               | 2, 3                                          |                       supports 4 | Medium                                                                  |
+|     8 | Courts and justice                                                                       | 1, 4                                          | 0 (blocks candidacy when jailed) | Medium                                                                  |
+|     9 | Press                                                                                    | events from 3 to 8                            |                     0 (consumer) | Medium                                                                  |
+|    10 | Story director and English engine                                                        | typed events from every module                |                    voices all 44 | Medium                                                                  |
+|    11 | Screens, one adapter family per module as it lands                                       | each module                                   | lets the player choose each step | High                                                                    |
 
 The other 17 steps belong to the core's own life loop: moves, schooling, deaths in the family, marriage, illness and drive-born causes (P8 and P10). Military service has no engine anywhere. Three steps wait on one, and a fourth, the authorization request, needs it beside the legislatures port.
 
@@ -241,9 +243,9 @@ Measured from code unless marked; the economy audit note (`docs/design/core2-por
 
 **What it does today.** A monthly macro step moves growth, unemployment, inflation and credit; it is already world-free. A central bank sets the policy rate. Each quarter, town business and bank books run sales, costs, cash, credit, closure, bank capital and runs. A labor market handles openings, applications, quits, layoffs and hiring. Pay comes from Bureau of Labor Statistics wages by occupation and area. Rent, leases, evictions, home prices, mortgages and household loans each have their own calendar. Public budgets settle monthly and adopt each year.
 
-**What SOL-1258's port covers.** SOL-1258's answer, relayed by the CTO on the pull request (00q, 16:38 UTC): the current port is the business books, opening finance and a finance module at interface and schema version 6. It covers conserving contracts, finite credit, costs, wage funding before work settles, and closure and debt service after each day. It has no labor market, banks or public budgets yet, and claims no complete economy. So still to port: the labor market, rent and evictions, home prices and purchase, mortgages and household loans, the bank half of town finances, public budgets and treasuries, the macro economy and central bank, wealthy donors and the cost of living. Whether the interface gains named accounts with postings is still open.
+**What SOL-1258's port covers.** SOL-1258's answer, relayed by the CTO in the pull request review on October 9, 2026: the current port is the business books, opening finance and a finance module. SOL-1258 numbers that unpublished work interface and schema version 6. None of decision 2's six additions is in it yet. It covers conserving contracts, finite credit, costs, wage funding before work settles, and closure and debt service after each day. It has no labor market, banks or public budgets yet, and claims no complete economy. So still to port: the labor market, rent and evictions, home prices and purchase, mortgages and household loans, the bank half of town finances, public budgets and treasuries, the macro economy and central bank, wealthy donors and the cost of living. Whether the interface gains named accounts with postings is still open.
 
-**Provisional.** The economy port is not settled. In SOL-1258's latest measured year, once wages had to come from business income, 23 of 27 firms closed within the year. The module spec below assumes the finance module's contracts and credit, and should be revisited when that result is understood.
+**Provisional.** The economy port is not settled. In SOL-1258's latest measured year, once wages had to come from business income, 23 of 27 firms closed within the year. The module spec below assumes the finance module's contracts and credit. SOL-1258 and the CTO should explain the closures before the economy remainder is ported, and this spec should be revised then.
 
 **Stopgaps worth naming.** Bank capital lines are thresholds, which go against the sliding-scale rule. Local minimum wages and back pay are not modeled. Club and congregation openings and closings are a seeded draw against a yearly chance (src/simulation/living-world/town-businesses.ts:761). A hash picks which committee a wealthy donor approaches (src/simulation/moguls.ts:550). Each central-bank member's inflation lean is drawn.
 
@@ -262,7 +264,7 @@ Measured from code unless marked; the economy audit note (`docs/design/core2-por
 
 **Life-replay.** Supplies employment (4) and business formation (1); founding a business by choice with a loan is missing.
 
-**Redesign.** Measured: 617 lines. The wealthy donors' approach and deal reviews, the decision to seek another term and the central bank's rate reasons are labeled decision types. An employer's pay period drawn from national shares is dice.
+**Redesign.** Measured: 617 lines. The wealthy donors' approach and deal reviews and the central bank's rate reasons are labeled decision types. So is a sitting member of Congress deciding whether to run again; the script filed it here because it sits in the careers folder, and it belongs to the elections port. An employer's pay period drawn from national shares is dice. Of the other three draws under Stopgaps, the donor-committee hash sits inside the donor approach, already REDESIGN. Club and congregation churn and the central-bank lean sit inside functions the script classes as plumbing, so they are rewritten with that plumbing rather than counted here.
 
 ## Press
 
@@ -387,7 +389,7 @@ Measured from code unless marked; the screens audit note (`docs/design/core2-por
 
 **Split.** VIEW 60%, PLUMBING 24%, DEAD 7%, TOOLING 5%, DATA 4%, REDESIGN 1%, of 155,056 code lines. Screens are clients of the core and do not port into it, so their view logic (92,587 lines) is outside the port totals. The 36,502 PLUMBING lines read or write the old world directly; those reads become adapters. TOOLING here is art and appearance code run only by scripts.
 
-**What they do today.** Measured: 451 of the 585 files in the presentation and player folders import the simulation (the table's 636 also counts interface, map, developer and authoring files). They hold 751 `world.history` references across 103 history tables, 475 direct person reads and 124 view-model builders. About 50 files gate what they show by the player's knowledge; the person dossier is the model. A click builds a next world and hands it to the game shell through a stale-request guard; 45 screen files call writers directly.
+**What they do today.** Measured: 451 of the 585 files in the presentation and player folders import the simulation (the screens group also counts the interface, map, developer and authoring folders, 636 files in all). They hold 751 `world.history` references across 103 history tables, 475 direct person reads and 124 view-model builders. About 50 files gate what they show by the player's knowledge; the person dossier is the model. A click builds a next world and hands it to the game shell through a stale-request guard; 45 screen files call writers directly.
 
 **Adapter spec.** A view model is a pure function of core2 state, the player's id, the moment and a request. It reads only the player's knowledge, public record they can see, and their own records. It never passes time, writes, or invents facts. About a dozen adapters replace 124 builders: people, calendar, money, work, education, politics, legislation, campaigns, press, places, health and developer traces.
 
@@ -402,7 +404,8 @@ The life substrate (people, households, minds, relationships, schooling, health 
 ## What happens next
 
 - SOL-1258: answer whether named accounts with postings join the interface. Which economy pieces the finance work covers is answered and folded in.
-- CTO: rule on the three decisions at the top, then order interface version 6 before any port.
+- SOL-1258 and the CTO: explain why 23 of 27 firms closed in the latest funded-wage year before the economy remainder is ported; the economy spec is provisional until then.
+- CTO: rule on the three decisions at the top, then order the next interface version before any port.
 - Ports follow the order table, one module per pull request. Each proves itself in core2's own runs: people, money or places visibly move.
 - P6 and P3 keep their engines; their sections here say what core2 events they need.
 
