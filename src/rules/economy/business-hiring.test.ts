@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { lifePlaceStateIdentities } from "../../simulation/life-places";
+import { otherCostsAtSales } from "../../simulation/living-world/town-business-books";
 import { townBusinessHasRoomToHire } from "../../simulation/living-world/town-business-books";
 import { townBusinessKindBooks } from "../../simulation/living-world/town-business-books";
 import type { TownBusinessBooks } from "../../simulation/living-world/town-finance-types";
+import { otherCostsAtSalesFromFacts } from "./business-book-math";
 import { businessHasRoomToHireFromFacts } from "./business-hiring";
 
 const places = lifePlaceStateIdentities();
@@ -32,6 +34,9 @@ describe("business hire affordability rule", () => {
       };
       const staff = 5 + (index % 8);
       const townAveragePay = 38_000 + index * 100;
+      expect(otherCostsAtSalesFromFacts(selectedFacts)).toBe(
+        otherCostsAtSales(facts),
+      );
       expect(
         businessHasRoomToHireFromFacts(selectedFacts, staff, townAveragePay),
       ).toBe(townBusinessHasRoomToHire(facts, staff, townAveragePay));

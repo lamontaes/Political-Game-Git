@@ -1,4 +1,5 @@
 import { ECONOMY_RULE_PARAMETERS } from "./parameters";
+import { payTheBooksCoverFromFacts } from "./business-book-math";
 
 export interface BusinessLayoffBookFacts {
   readonly annualRevenue: number;
@@ -19,16 +20,9 @@ export function businessLaysOffFromFacts(
   }
   const yearlyPay =
     books.lastQuarterPay * ECONOMY_RULE_PARAMETERS.quartersPerYear.value;
-  const salesScale =
-    books.capacity > 0 ? books.annualRevenue / books.capacity : 0;
-  const otherCosts =
-    books.annualOtherCosts *
-    (1 - books.kindCostShare + books.kindCostShare * salesScale);
-  const payTheBooksCover =
-    books.annualRevenue * (1 - books.margin) - otherCosts;
   return (
     yearlyPay >
-    payTheBooksCover +
+    payTheBooksCoverFromFacts(books) +
       ECONOMY_RULE_PARAMETERS.layoffPayCoverageToleranceDollars.value
   );
 }

@@ -1,4 +1,5 @@
 import { ECONOMY_RULE_PARAMETERS } from "./parameters";
+import { payTheBooksCoverFromFacts } from "./business-book-math";
 
 export interface BusinessHiringBookFacts {
   readonly annualRevenue: number;
@@ -22,12 +23,5 @@ export function businessHasRoomToHireFromFacts(
     books.lastQuarterPay * ECONOMY_RULE_PARAMETERS.quartersPerYear.value;
   const payWithOneMore =
     yearlyPay + Math.max(yearlyPay / staff, townAveragePay);
-  const salesScale =
-    books.capacity > 0 ? books.annualRevenue / books.capacity : 0;
-  const otherCosts =
-    books.annualOtherCosts *
-    (1 - books.kindCostShare + books.kindCostShare * salesScale);
-  const payTheBooksCover =
-    books.annualRevenue * (1 - books.margin) - otherCosts;
-  return payWithOneMore <= payTheBooksCover;
+  return payWithOneMore <= payTheBooksCoverFromFacts(books);
 }
