@@ -1,5 +1,6 @@
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
   projectBusinessPrice,
@@ -15,6 +16,9 @@ import type {
   FinanceConditionInput,
   FinanceReceipt,
   FinanceRuntime,
+  FinanceInput,
+  SalesReceiptBudgetPool,
+  SalesReceiptPendingBudget,
   FinanceTotals,
 } from "./finance-types";
 import type { CoreAPI, CoreState, Source, WorkResult } from "./types";
@@ -25,13 +29,19 @@ export function emptyFinanceRuntime(at: string): FinanceRuntime {
     creditRequestIds: new Set(),
     contracts: new Map(),
     contractsDueAt: new Map(),
+    contractsEndingAt: new Map(),
     contractsByBusiness: new Map(),
+    incomeContractsByPerson: new Map(),
     facilities: new Map(),
     facilitiesByBorrower: new Map(),
     businesses: new Map(),
     businessesByPlace: new Map(),
     reviewsDueAt: new Map(),
     paidIncomeByPlaceMonth: new Map(),
+    paidIncomeByPlaceMonthKind: new Map(),
+    salesReceivedThroughByPayer: new Map(),
+    salesBudgetPoolsByPayer: new Map(),
+    salesPendingBudgetByContract: new Map(),
     unfundedBusinessReceipts: new Map(),
     repaymentDueFacilityIds: new Set(),
     conditionsByPlace: new Map(),
@@ -92,8 +102,169 @@ function policy(api: CoreAPI) {
     )
   )
     throw new Error("Finance policy labels must be nonempty data keys.");
+  const phases = data.settlementPhases;
+  if (
+    !phases?.length ||
+    new Set(phases.map((phase) => phase.id)).size !== phases.length ||
+    phases.some(
+      (phase) =>
+        !phase.id?.trim() || !["settle", "procure"].includes(phase.operation),
+    )
+  )
+    throw new Error("Finance requires distinct named settlement phases.");
+  const required = [
+    data.defaultPhases.funding,
+    data.defaultPhases.income,
+    data.defaultPhases.household,
+    data.defaultPhases.procurement,
+  ];
+  const positions = required.map((id) =>
+    phases.findIndex((phase) => phase.id === id),
+  );
+  if (
+    positions.some(
+      (position, index) =>
+        position < api.parameter("zero") ||
+        (index > api.parameter("zero") &&
+          position <= positions[index - api.parameter("one")]!),
+    ) ||
+    !phases.some((phase) => phase.id === data.defaultPhases.other) ||
+    phases.find((phase) => phase.id === data.defaultPhases.procurement)
+      ?.operation !== "procure" ||
+    required
+      .slice(api.parameter("zero"), -api.parameter("one"))
+      .some(
+        (id) => phases.find((phase) => phase.id === id)?.operation !== "settle",
+      )
+  )
+    throw new Error(
+      "Finance phases must fund income before household purchases and procurement.",
+    );
   for (const id of data.stopgapIds) api.stopgap(id);
   return data;
+}
+
+export function financeSettlementPhase(
+  api: CoreAPI,
+  row: FinanceContractInput,
+) {
+  const data = policy(api);
+  const id =
+    row.settlementPhaseId ??
+    (row.recipientIncome
+      ? data.defaultPhases.income
+      : row.householdId
+        ? data.defaultPhases.household
+        : row.salesReceiptBudget
+          ? data.defaultPhases.procurement
+          : data.defaultPhases.other);
+  const phase = data.settlementPhases.find((entry) => entry.id === id);
+  if (
+    !phase ||
+    (row.salesReceiptBudget && phase.operation !== "procure") ||
+    (row.recipientIncome && id !== data.defaultPhases.income) ||
+    (row.householdId && id !== data.defaultPhases.household)
+  )
+    throw new Error(
+      "Finance contract has an incompatible or unregistered settlement phase.",
+    );
+  return phase;
+}
+
+function validateRecipientIncome(
+  core: CoreState,
+  api: CoreAPI,
+  row: FinanceContractInput,
+): void {
+  if (!row.recipientIncome) return;
+  const term = row.recipientIncome,
+    data = policy(api);
+  const person = core.people.get(term.personId),
+    home = core.households.get(term.householdId);
+  const rule = data.recipientIncomeKinds.find(
+    (entry) => entry.id === term.kindId,
+  );
+  const fact = person?.pastFacts?.find(
+    (entry) => entry.id === term.sourceFactId,
+  );
+  if (
+    !person ||
+    !home ||
+    person.householdId !== home.id ||
+    !home.memberIds.includes(person.id) ||
+    row.payeeId !== person.id ||
+    !rule ||
+    !fact ||
+    !rule.sourceKinds.includes(fact.kind) ||
+    Object.entries(rule.qualifyingFactsBySourceKind?.[fact.kind] ?? {}).some(
+      ([key, value]) => fact.facts?.[key] !== value,
+    ) ||
+    makeIsoDate(fact.date) > core.date ||
+    fact.facts?.status !== rule.status ||
+    row.kind !== rule.contractKind ||
+    row.householdId ||
+    row.salesReceipt ||
+    row.salesReceiptBudget ||
+    row.marketAdjusted ||
+    row.accruesArrears ||
+    row.creditFacilityId ||
+    row.interestFacilityId ||
+    row.periodMonths !== api.parameter("one")
+  )
+    throw new Error(
+      "Recipient income requires a dated qualified private award and compatible terms.",
+    );
+  currentSource(fact.source, core.date);
+  if (
+    fact.facts.payerId !== row.payerIds[api.parameter("zero")] ||
+    row.payerIds.length !== api.parameter("one") ||
+    Number(fact.facts.monthlyMinor) !== row.amountMinor ||
+    (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
+    (fact.facts.householdId && fact.facts.householdId !== term.householdId)
+  )
+    throw new Error("Recipient income terms contradict their recorded award.");
+  for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
+    const previous = core.finance.contracts.get(id)!;
+    if (
+      !previous.endedAt &&
+      previous.recipientIncome?.sourceFactId === term.sourceFactId &&
+      (!previous.endsAt || makeIsoDate(row.dueAt) < previous.endsAt) &&
+      (!row.endsAt || previous.firstDueAt < makeIsoDate(row.endsAt))
+    )
+      throw new Error(
+        "Recipient income overlaps another active route for the same recorded award.",
+      );
+  }
+}
+
+function residentIncomeProjection(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+  kindId: string,
+  paid: number,
+) {
+  const person = core.people.get(personId),
+    home = person ? core.households.get(person.householdId) : undefined;
+  if (!person || !home || !home.memberIds.includes(personId))
+    throw new Error(
+      "Actual income requires the recipient's recorded household residence.",
+    );
+  const month = core.date.slice(
+    api.parameter("zero"),
+    api.parameter("isoMonthCharacters"),
+  );
+  const key = `${month}:${home.placeId}`,
+    kindKey = `${key}:${kindId}`;
+  const total =
+    (core.finance.paidIncomeByPlaceMonth.get(key) ?? api.parameter("zero")) +
+    paid;
+  const byKind =
+    (core.finance.paidIncomeByPlaceMonthKind.get(kindKey) ??
+      api.parameter("zero")) + paid;
+  minor(api, total, "actual resident paid income");
+  minor(api, byKind, "actual resident paid income by kind");
+  return { key, kindKey, total, byKind };
 }
 
 /** Calendar months preserve the original billing day across short months. */
@@ -241,18 +412,147 @@ export function admitFinanceCondition(
   core.finance.conditionsByPlace.set(input.placeId, rows);
 }
 
+function salesBudgetParameters(api: CoreAPI): Readonly<Record<string, number>> {
+  return {
+    zero: api.parameter("zero"),
+    one: api.parameter("one"),
+    monthsPerYear: api.parameter("monthsPerYear"),
+  };
+}
+
+function validateSalesReceiptBudget(
+  core: CoreState,
+  api: CoreAPI,
+  input: FinanceContractInput,
+  siblings: readonly FinanceContractInput[],
+  openingBook?: BusinessBooksInput,
+): void {
+  if (input.salesReceiptBudget === undefined) return;
+  if (typeof input.salesReceiptBudget !== "boolean")
+    throw new Error("Sales receipt budgets must be explicitly typed.");
+  if (!input.salesReceiptBudget) return;
+  const zero = api.parameter("zero"),
+    one = api.parameter("one");
+  if (
+    input.accruesArrears ||
+    input.householdId !== undefined ||
+    input.interestFacilityId !== undefined ||
+    input.marketAdjusted ||
+    input.payerIds.length !== one ||
+    input.salesReceipt !== true
+  )
+    throw new Error(
+      "Receipt-linked procurement is a sole-firm budget, never arrears or household/interest terms.",
+    );
+  const payerId = input.payerIds[zero]!;
+  if (
+    !core.organizations.has(payerId) ||
+    !core.organizations.has(input.payeeId) ||
+    payerId === input.payeeId
+  )
+    throw new Error(
+      "Procurement requires actual distinct firm and supplier accounts.",
+    );
+  const liveBook = core.finance.businesses.get(payerId);
+  const book = liveBook ?? openingBook;
+  if (!book || book.organizationId !== payerId || liveBook?.closedAt)
+    throw new Error("Procurement has no actual open buyer book.");
+  currentSource(book.source, core.date);
+  if (!book.costContractIds.includes(input.id))
+    throw new Error(
+      "Receipt-linked procurement must be an explicitly bound buyer cost.",
+    );
+  const cutoff = core.finance.salesReceivedThroughByPayer.get(payerId);
+  if (cutoff && makeIsoDate(cutoff.date) > core.date)
+    throw new Error("Buyer sales cutoff cannot be a future fact.");
+  const priorPool = core.finance.salesBudgetPoolsByPayer.get(payerId);
+  if (priorPool?.date === core.date && makeIsoDate(input.dueAt) <= core.date)
+    throw new Error(
+      "Cannot add current procurement after its dated sales pool is frozen.",
+    );
+  const routes = siblings.filter(
+    (row) =>
+      row.salesReceiptBudget &&
+      row.payerIds.length === one &&
+      row.payerIds[zero] === payerId &&
+      !core.finance.contracts.get(row.id)?.endedAt,
+  );
+  projectSalesReceiptBudgetPool(
+    {
+      payerId,
+      date: core.date,
+      previousReceivedMinor: cutoff?.receivedMinor ?? zero,
+      receivedThroughMinor: liveBook?.salesReceivedMinor ?? zero,
+      anchorAnnualDemandMinor:
+        liveBook?.anchorAnnualDemandMinor ?? book.annualDemandMinor,
+      routes: routes.map((row) => ({
+        id: row.id,
+        payerId,
+        payeeId: row.payeeId,
+        amountMinor: row.amountMinor,
+        periodMonths: row.periodMonths,
+      })),
+    },
+    salesBudgetParameters(api),
+  );
+}
+
+/** Two-phase opening validation resolves book/contract cross-references without admitting them. */
+export function preflightOpeningSalesBudgets(
+  core: CoreState,
+  api: CoreAPI,
+  input: FinanceInput | undefined,
+): ReadonlyMap<string, BusinessBooksInput> {
+  const books = new Map<string, BusinessBooksInput>();
+  for (const book of input?.businesses ?? []) {
+    if (books.has(book.organizationId))
+      throw new Error("Duplicate opening buyer book.");
+    books.set(book.organizationId, book);
+  }
+  const rows = input?.contracts ?? [];
+  const ids = new Set<string>();
+  for (const row of rows) {
+    if (ids.has(row.id)) throw new Error("Duplicate opening finance contract.");
+    ids.add(row.id);
+    validateSalesReceiptBudget(
+      core,
+      api,
+      row,
+      rows,
+      books.get(row.payerIds[api.parameter("zero")]!),
+    );
+  }
+  return books;
+}
+
 export function admitFinanceContract(
   core: CoreState,
   api: CoreAPI,
   input: FinanceContractInput,
+  openingBook?: BusinessBooksInput,
 ): void {
   policy(api);
+  financeSettlementPhase(api, input);
+  validateRecipientIncome(core, api, input);
+  if (
+    input.endsAt &&
+    (makeIsoDate(input.endsAt) <= makeIsoDate(input.dueAt) ||
+      input.accruesArrears)
+  )
+    throw new Error(
+      "A finite budget must end after its first due date and cannot expire debt.",
+    );
   if (!input.id || !input.kind || core.finance.contracts.has(input.id))
     throw new Error("Finance contract identity must be unique and typed.");
   if (typeof input.accruesArrears !== "boolean")
     throw new Error(
       "Finance terms must distinguish budgets from accrued obligations.",
     );
+  if (
+    input.salesReceipt !== undefined &&
+    typeof input.salesReceipt !== "boolean"
+  )
+    throw new Error("Sales classification must be explicit and boolean.");
   currentSource(input.source, core.date);
   minor(api, input.amountMinor, "standing terms");
   const dueAt = makeIsoDate(input.dueAt);
@@ -295,19 +595,227 @@ export function admitFinanceContract(
         "Interest terms require their actual borrower and creditor.",
       );
   }
+  // All extra semantic/cutoff/aggregate-ratio checks precede the first index write.
+  if (input.salesReceiptBudget !== undefined) {
+    const siblings: FinanceContractInput[] = [
+      ...[
+        ...(core.finance.contractsByBusiness.get(
+          input.payerIds[api.parameter("zero")]!,
+        ) ?? []),
+      ].map((id) => core.finance.contracts.get(id)!),
+      input,
+    ];
+    validateSalesReceiptBudget(core, api, input, siblings, openingBook);
+  }
+  if (input.salesReceiptBudget)
+    api.stopgap(policy(api).salesReceiptBudgetStopgapId);
   const row = {
     ...input,
+    ...(input.recipientIncome
+      ? { recipientIncome: { ...input.recipientIncome } }
+      : {}),
     payerIds: [...input.payerIds],
     source: { ...input.source },
     dueAt,
+    firstDueAt: dueAt,
     billingDay,
     arrearsMinor: api.parameter("zero"),
   };
   core.finance.contracts.set(row.id, row);
   financeIndex(core.finance.contractsDueAt, dueAt, row.id);
+  if (row.recipientIncome)
+    financeIndex(
+      core.finance.incomeContractsByPerson,
+      row.recipientIncome.personId,
+      row.id,
+    );
+  if (row.endsAt)
+    financeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
   for (const id of [...row.payerIds, row.payeeId])
     if (core.organizations.has(id))
       financeIndex(core.finance.contractsByBusiness, id, row.id);
+}
+
+/** Allocate novel sales to all active routes, then freeze due accrued budgets. */
+export function prepareFinanceProcurement(
+  core: CoreState,
+  api: CoreAPI,
+  contractIds: readonly string[],
+): void {
+  const zero = api.parameter("zero"),
+    one = api.parameter("one");
+  const ids = new Set<string>();
+  const groups = new Map<string, FinanceContractInput[]>();
+  for (const id of contractIds) {
+    if (ids.has(id)) throw new Error("Duplicate procurement phase contract.");
+    ids.add(id);
+    const row = core.finance.contracts.get(id);
+    if (
+      !row ||
+      row.endedAt ||
+      row.dueAt > core.date ||
+      row.lastSettledAt === core.date
+    )
+      throw new Error(
+        "Procurement phase contains absent, retired, non-due or settled terms.",
+      );
+    if (!row.salesReceiptBudget) continue;
+    const payerId = row.payerIds[zero]!;
+    const rows = groups.get(payerId) ?? [];
+    rows.push(row);
+    groups.set(payerId, rows);
+  }
+  const staged: {
+    pool: SalesReceiptBudgetPool;
+    pending: ReadonlyMap<string, SalesReceiptPendingBudget>;
+  }[] = [];
+  if (groups.size === zero) return;
+  const parameters = salesBudgetParameters(api);
+  api.stopgap("SG-P8-finance-sales-receipt-budgets");
+  for (const payerId of groups.keys()) {
+    const book = core.finance.businesses.get(payerId);
+    if (
+      !book ||
+      book.closedAt ||
+      core.finance.salesBudgetPoolsByPayer.get(payerId)?.date === core.date
+    )
+      throw new Error(
+        "Buyer sales pool is missing, closed or already frozen today.",
+      );
+    const bound = [...(core.finance.contractsByBusiness.get(payerId) ?? [])]
+      .map((id) => core.finance.contracts.get(id)!)
+      .filter(
+        (row) =>
+          row.salesReceiptBudget &&
+          row.payerIds.length === one &&
+          row.payerIds[zero] === payerId &&
+          !row.endedAt,
+      );
+    for (const row of bound) {
+      if (row.dueAt <= core.date && !ids.has(row.id))
+        throw new Error(
+          "The procurement phase omitted a due route from this finite buyer pool.",
+        );
+      validateSalesReceiptBudget(core, api, row, bound);
+    }
+    const cutoff = core.finance.salesReceivedThroughByPayer.get(payerId);
+    if (cutoff && cutoff.date >= core.date)
+      throw new Error("Buyer sales cutoffs must advance chronologically.");
+    const allocation = projectSalesReceiptBudgetPool(
+      {
+        payerId,
+        date: core.date,
+        previousReceivedMinor: cutoff?.receivedMinor ?? zero,
+        receivedThroughMinor: book.salesReceivedMinor,
+        anchorAnnualDemandMinor: book.anchorAnnualDemandMinor,
+        routes: bound.map((row) => ({
+          id: row.id,
+          payerId,
+          payeeId: row.payeeId,
+          amountMinor: row.amountMinor,
+          periodMonths: row.periodMonths,
+        })),
+      },
+      parameters,
+    );
+    const pending = new Map<string, SalesReceiptPendingBudget>();
+    const requestedByContract = new Map<string, number>();
+    const basisByContract = new Map<string, SalesReceiptPendingBudget>();
+    const pendingBeforeByContract = new Map<string, number>();
+    for (const row of bound) {
+      const previous = core.finance.salesPendingBudgetByContract.get(row.id);
+      if (previous) {
+        minor(api, previous.amountMinor, "pending purchase budget");
+        minor(
+          api,
+          previous.previousReceivedMinor,
+          "pending budget sales cutoff",
+        );
+        minor(
+          api,
+          previous.receivedThroughMinor,
+          "pending budget sales extent",
+        );
+        if (
+          previous.payerId !== payerId ||
+          !cutoff ||
+          makeIsoDate(previous.firstAllocatedAt) > core.date ||
+          previous.previousReceivedMinor > previous.receivedThroughMinor ||
+          previous.receivedThroughMinor > cutoff.receivedMinor
+        )
+          throw new Error(
+            "Pending purchase budget has inconsistent actual-sales provenance.",
+          );
+      }
+      const priorMinor = previous?.amountMinor ?? zero;
+      const addedMinor = allocation.allocatedByContract.get(row.id)!;
+      const totalMinor = priorMinor + addedMinor;
+      minor(api, totalMinor, "accrued purchase budget");
+      const basis: SalesReceiptPendingBudget = {
+        payerId,
+        amountMinor: totalMinor,
+        firstAllocatedAt: previous?.firstAllocatedAt ?? core.date,
+        previousReceivedMinor:
+          previous?.previousReceivedMinor ?? allocation.previousReceivedMinor,
+        receivedThroughMinor: allocation.receivedThroughMinor,
+      };
+      pending.set(row.id, basis);
+      if (ids.has(row.id)) {
+        requestedByContract.set(row.id, totalMinor);
+        basisByContract.set(row.id, basis);
+        pendingBeforeByContract.set(row.id, priorMinor);
+      }
+    }
+    staged.push({
+      pool: {
+        ...allocation,
+        requestedByContract,
+        basisByContract,
+        pendingBeforeByContract,
+      },
+      pending,
+    });
+  }
+  // Commit no cutoff until every buyer, route and rounded total has been admitted.
+  if (staged.length > zero)
+    api.stopgap(policy(api).salesReceiptBudgetStopgapId);
+  for (const { pool, pending } of staged) {
+    core.finance.salesBudgetPoolsByPayer.set(pool.payerId, pool);
+    core.finance.salesReceivedThroughByPayer.set(pool.payerId, {
+      date: pool.date,
+      receivedMinor: pool.receivedThroughMinor,
+    });
+    for (const [id, budget] of pending)
+      if (budget.amountMinor > zero)
+        core.finance.salesPendingBudgetByContract.set(id, budget);
+      else core.finance.salesPendingBudgetByContract.delete(id);
+  }
+}
+
+export function retireFinanceBudget(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (
+    !row ||
+    !row.endsAt ||
+    row.endsAt > core.date ||
+    row.accruesArrears ||
+    row.arrearsMinor !== api.parameter("zero")
+  )
+    throw new Error("Only an ended finite nondebt budget can be retired.");
+  row.endedAt ??= core.date;
+  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+  removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+  core.finance.salesPendingBudgetByContract.delete(row.id);
+  if (row.recipientIncome)
+    removeIndex(
+      core.finance.incomeContractsByPerson,
+      row.recipientIncome.personId,
+      row.id,
+    );
 }
 
 export function admitCreditFacility(
@@ -441,6 +949,7 @@ export function admitBusinessBooks(
     lastGeneralPriceFactor: one,
     lastWagePriceFactor: one,
     receivedMinor: zero,
+    salesReceivedMinor: zero,
     operatingPaidMinor: zero,
     wagesRequestedMinor: zero,
     wagesPaidMinor: zero,
@@ -609,6 +1118,8 @@ export function settleFinanceContract(
       "Finance contract is absent, retired, not due or already settled.",
     );
   currentSource(row.source, core.date);
+  if (row.endsAt && core.date >= row.endsAt)
+    throw new Error("Finite finance budget has ended.");
   const next = financeNextDate(
     api,
     row.dueAt,
@@ -629,23 +1140,39 @@ export function settleFinanceContract(
   const interest = row.interestFacilityId
     ? admittedFacility(core, api, row.interestFacilityId)
     : undefined;
+  let salesBudget: SalesReceiptBudgetPool | undefined;
+  let salesBudgetBasis: SalesReceiptPendingBudget | undefined;
   if (interest) {
     const exact =
       accruedInterest(core, api, interest.id) + interest.interestRemainderMinor;
     amount(api, exact, "interest terms");
     base = Math.floor(exact);
     interestRemainder = exact - base;
+  } else if (row.salesReceiptBudget) {
+    salesBudget = core.finance.salesBudgetPoolsByPayer.get(
+      row.payerIds[p("zero")]!,
+    );
+    const request = salesBudget?.requestedByContract.get(row.id);
+    salesBudgetBasis = salesBudget?.basisByContract.get(row.id);
+    const pending = core.finance.salesPendingBudgetByContract.get(row.id);
+    if (
+      !operating ||
+      salesBudget?.date !== core.date ||
+      request === undefined ||
+      !salesBudgetBasis ||
+      (pending?.amountMinor ?? p("zero")) !== request ||
+      salesBudgetBasis.amountMinor !== request ||
+      salesBudgetBasis.payerId !== row.payerIds[p("zero")]
+    )
+      throw new Error(
+        "Receipt-linked procurement requires its validated frozen dated buyer pool.",
+      );
+    base = request;
   } else if (row.marketAdjusted) {
     const book = core.finance.businesses.get(row.payeeId);
     if (book && book.anchorAnnualDemandMinor > p("zero"))
       base = Math.floor(
         (base * book.annualDemandMinor) / book.anchorAnnualDemandMinor,
-      );
-  } else if (operating) {
-    const book = core.finance.businesses.get(row.payerIds[p("zero")]!);
-    if (book && book.anchorAnnualOtherCostsMinor > p("zero"))
-      base = Math.floor(
-        (base * book.annualOtherCostsMinor) / book.anchorAnnualOtherCostsMinor,
       );
   }
   minor(api, base, "current due amount");
@@ -684,6 +1211,15 @@ export function settleFinanceContract(
   });
   const paid = requested - remaining,
     arrears = row.accruesArrears ? remaining : p("zero");
+  const income = row.recipientIncome
+    ? residentIncomeProjection(
+        core,
+        api,
+        row.recipientIncome.personId,
+        row.recipientIncome.kindId,
+        paid,
+      )
+    : undefined;
   const totals = totalsAfter(api, row.kind, {
     requestedMinor: requested,
     paidMinor: paid,
@@ -691,6 +1227,8 @@ export function settleFinanceContract(
   });
   const payeeBook = core.finance.businesses.get(row.payeeId);
   if (payeeBook) minor(api, payeeBook.receivedMinor + paid, "firm receipts");
+  if (payeeBook && row.salesReceipt)
+    minor(api, payeeBook.salesReceivedMinor + paid, "firm sales receipts");
   if (payerBook && operating)
     minor(api, payerBook.operatingPaidMinor + paid, "firm operating payments");
   const receipt: FinanceReceipt = {
@@ -707,6 +1245,29 @@ export function settleFinanceContract(
     payeeBeforeMinor: before,
     payeeAfterMinor: cash.cash(row.payeeId),
     creditReceiptId: credit?.receipt.id,
+    ...(salesBudget
+      ? {
+          salesBudget: {
+            payerId: salesBudget.payerId,
+            previousReceivedMinor: salesBudget.previousReceivedMinor,
+            receivedThroughMinor: salesBudget.receivedThroughMinor,
+            receiptsMinor: salesBudget.receiptsMinor,
+            routeCostShare: salesBudget.routeCostShare,
+            allocatedMinor: salesBudget.allocatedMinor,
+            allocatedForContractMinor: salesBudget.allocatedByContract.get(
+              row.id,
+            )!,
+            pendingBeforeMinor: salesBudget.pendingBeforeByContract.get(
+              row.id,
+            )!,
+            consumedBudgetMinor: salesBudgetBasis!.amountMinor,
+            budgetFirstAllocatedAt: salesBudgetBasis!.firstAllocatedAt,
+            budgetPreviousReceivedMinor:
+              salesBudgetBasis!.previousReceivedMinor,
+            budgetReceivedThroughMinor: salesBudgetBasis!.receivedThroughMinor,
+          },
+        }
+      : {}),
     source: actualSource(
       api,
       "Actual funded prototype standing-contract settlement; unpaid purchase budgets do not become debts. Separate terms retain their estimate/source provenance.",
@@ -716,11 +1277,14 @@ export function settleFinanceContract(
   credit?.commit();
   row.arrearsMinor = arrears;
   row.lastSettledAt = core.date;
+  // A due purchasing allowance is consumed even if actual cash cannot fill it.
+  if (salesBudget) core.finance.salesPendingBudgetByContract.delete(row.id);
   if (arrears > p("zero")) row.firstUnpaidAt ??= core.date;
   else delete row.firstUnpaidAt;
   removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
   row.dueAt = next;
-  financeIndex(core.finance.contractsDueAt, next, row.id);
+  if (!row.endsAt || next < row.endsAt)
+    financeIndex(core.finance.contractsDueAt, next, row.id);
   if (interest) {
     interest.interestArrearsMinor = arrears;
     interest.interestRemainderMinor = interestRemainder!;
@@ -730,9 +1294,14 @@ export function settleFinanceContract(
     core.finance.repaymentDueFacilityIds.add(interest.id);
   }
   if (payeeBook) payeeBook.receivedMinor += paid;
+  if (payeeBook && row.salesReceipt) payeeBook.salesReceivedMinor += paid;
   if (payerBook && operating) payerBook.operatingPaidMinor += paid;
   core.finance.totalsByKind.set(row.kind, totals);
   core.finance.latestReceiptsByContract.set(id, receipt);
+  if (income) {
+    core.finance.paidIncomeByPlaceMonth.set(income.key, income.total);
+    core.finance.paidIncomeByPlaceMonthKind.set(income.kindKey, income.byKind);
+  }
   if (row.accruesArrears && remaining > p("zero"))
     for (const payerId of row.payerIds)
       if (core.finance.businesses.has(payerId))
@@ -809,13 +1378,10 @@ export function prepareWorkFinance(
   if (bookTotals)
     for (const [key, value] of Object.entries(bookTotals))
       minor(api, value, `business wages:${key}`);
-  const placeId = core.organizations.get(organizationId)!.placeId;
-  const month = core.date.slice(p("zero"), p("isoMonthCharacters")),
-    incomeKey = `${month}:${placeId}`;
-  const income =
-    (core.finance.paidIncomeByPlaceMonth.get(incomeKey) ?? p("zero")) +
-    expectedPaid;
-  minor(api, income, "actual place paid income");
+  const incomeKind = core.data.finance?.wageIncomeKindId;
+  const income = incomeKind
+    ? residentIncomeProjection(core, api, personId, incomeKind, expectedPaid)
+    : undefined;
   return {
     availableCashMinor: available,
     expectedPaidMinor: expectedPaid,
@@ -836,7 +1402,13 @@ export function prepareWorkFinance(
           date: core.date,
           id: receipt.id,
         });
-      core.finance.paidIncomeByPlaceMonth.set(incomeKey, income);
+      if (income) {
+        core.finance.paidIncomeByPlaceMonth.set(income.key, income.total);
+        core.finance.paidIncomeByPlaceMonthKind.set(
+          income.kindKey,
+          income.byKind,
+        );
+      }
     },
   };
 }
@@ -885,7 +1457,7 @@ export function reviewBusiness(
       kindId: book.kindId,
       source: actualSource(
         api,
-        "Actual previous-month recorded wage receipts and currently dated world-level economic inputs; missing month uses the separately estimated opening payroll anchor. No projected revenue becomes cash.",
+        "Actual previous-month resident wage and admitted paid nonwage income receipts, with currently dated world-level economic inputs; missing month uses the separately estimated opening payroll anchor. No projected revenue becomes cash.",
       ),
     },
     options,
@@ -996,6 +1568,7 @@ export function closeEmployer(
       };
     }
   }
+  const retiredProcurementPayers = new Set<string>();
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.latestReceiptsByContract.get(id);
     if (
@@ -1078,6 +1651,56 @@ export function closeEmployer(
     if (row.interestFacilityId) continue;
     row.endedAt = core.date;
     removeIndex(core.finance.contractsDueAt, row.dueAt, id);
+    if (row.endsAt) removeIndex(core.finance.contractsEndingAt, row.endsAt, id);
+    if (row.recipientIncome)
+      removeIndex(
+        core.finance.incomeContractsByPerson,
+        row.recipientIncome.personId,
+        id,
+      );
+    if (row.salesReceiptBudget) {
+      core.finance.salesPendingBudgetByContract.delete(id);
+      retiredProcurementPayers.add(row.payerIds[api.parameter("zero")]!);
+    }
+  }
+  for (const payerId of retiredProcurementPayers) {
+    const activeIds = new Set(
+      [...(core.finance.contractsByBusiness.get(payerId) ?? [])].filter(
+        (id) => {
+          const row = core.finance.contracts.get(id)!;
+          return (
+            row.salesReceiptBudget &&
+            !row.endedAt &&
+            row.payerIds[api.parameter("zero")] === payerId
+          );
+        },
+      ),
+    );
+    if (!activeIds.size) {
+      core.finance.salesBudgetPoolsByPayer.delete(payerId);
+      // A still-open buyer keeps one cutoff so a replacement supplier cannot
+      // allocate historical sales again. Closed buyers discard that residue.
+      if (core.finance.businesses.get(payerId)?.closedAt)
+        core.finance.salesReceivedThroughByPayer.delete(payerId);
+      continue;
+    }
+    const pool = core.finance.salesBudgetPoolsByPayer.get(payerId);
+    if (pool)
+      core.finance.salesBudgetPoolsByPayer.set(payerId, {
+        ...pool,
+        allocatedByContract: new Map(
+          [...pool.allocatedByContract].filter(([id]) => activeIds.has(id)),
+        ),
+        requestedByContract: new Map(
+          [...pool.requestedByContract].filter(([id]) => activeIds.has(id)),
+        ),
+        basisByContract: new Map(
+          [...pool.basisByContract].filter(([id]) => activeIds.has(id)),
+        ),
+        pendingBeforeByContract: new Map(
+          [...pool.pendingBeforeByContract].filter(([id]) => activeIds.has(id)),
+        ),
+      });
   }
   core.finance.closures.set(organizationId, closure);
   api.emit({

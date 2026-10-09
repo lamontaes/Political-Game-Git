@@ -54,6 +54,7 @@ export interface OpeningFinanceData {
     supplierClassifications: readonly string[];
     citation: string;
     stopgapId: string;
+    salesReceiptBudget: boolean;
   }[];
 }
 
@@ -862,6 +863,10 @@ export function createOpeningFinance(
       throw new Error(
         "Opening supplier rule requires a nonempty contract kind.",
       );
+    if (typeof rule.salesReceiptBudget !== "boolean")
+      throw new Error(
+        "Opening supplier rules must declare receipt-linked budget semantics.",
+      );
     for (const classification of rule.buyerClassifications) {
       if (supplierBuyerKeys.has(classification))
         throw new Error(
@@ -961,6 +966,7 @@ export function createOpeningFinance(
           dueAt,
           periodMonths,
           accruesArrears: false,
+          salesReceipt: true,
           marketAdjusted: data.marketAdjustedHouseholdBudgets,
           source: {
             tag: "ESTIMATED",
@@ -1069,6 +1075,8 @@ export function createOpeningFinance(
           dueAt,
           periodMonths,
           accruesArrears: false,
+          salesReceiptBudget: rule.salesReceiptBudget,
+          salesReceipt: true,
           ...(business.creditFacilityId
             ? { creditFacilityId: business.creditFacilityId }
             : {}),
@@ -1082,7 +1090,7 @@ export function createOpeningFinance(
                 }
               : {}),
             citation: `${business.source.citation} ${rule.citation}`,
-            estimatedFrom: `Purchase budget for source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId}`,
+            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId}`,
           },
         };
         appendContract(contract);

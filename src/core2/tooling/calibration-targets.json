@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4",
+    "sha256": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
-      "unit": "scale points, each subscale 10\u201350",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
+      "unit": "scale points, each subscale 10–50",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
-      "unit": "scale points, 0\u201340",
+      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
+      "unit": "scale points, 0–40",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25\u201334",
+            "group": "ages 25–34",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,7 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
     },
     {
       "id": "opening-school-peer-network",
@@ -275,7 +275,7 @@
       ],
       "status": "proposed; not source-retrieved or calibrated",
       "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
-      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+      "acceptanceLimitation": "The owner often20–60 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
     }
   ],
   "parameterBindings": [
@@ -897,6 +897,94 @@
       "calibrationRange": null,
       "calibrated": false,
       "reviewNote": "Need actual dated purchase/contract settlement observations, finite-cash terms and an admitted aggregation window. No empirical coefficient bound or calibration pass is established."
+    },
+    {
+      "parameter": "openingRetirementClaimAgeYears",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementClaimTraitPullYears",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredFraction",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredTraitPull",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementMinimumCoveredMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitReferenceCoveredMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMinimum",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMaximum",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementPayerReserveMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementFundingEnvelopeShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingRetirementFundingLiquidShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     }
   ],
   "unreferencedRemovalReview": {
@@ -966,7 +1054,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1101,7 +1189,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1133,7 +1221,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1172,7 +1260,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1204,7 +1292,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1980,7 +2068,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2012,7 +2100,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2115,7 +2203,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2211,7 +2299,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2461,7 +2549,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -3064,12 +3152,12 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
         },
         "openingPeerGroupSize": {
@@ -3156,7 +3244,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -3185,7 +3273,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -3322,7 +3410,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4"
+        "src/core2/data/parameters.json": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629"
       },
       "observations": [
         {
@@ -5562,6 +5650,89 @@
         "A full ATUS work-hours equality pass."
       ],
       "calibrationStatus": "unmeasured; contextual paid-subset totals are observable, but coefficients/spreads remain unidentified."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "kind": "external empirical observable",
+      "revision": "preserved-ssa-2026-factsheet-before-cola-snippet",
+      "scope": "Developer-only source-conditional award mean context. Never chooses a future individual retirement, claim or payment.",
+      "sources": [
+        {
+          "id": "ssa-retired-worker-before-cola",
+          "title": "2026 Social Security Changes factsheet, average retired-worker benefit before January COLA",
+          "publisher": "Social Security Administration",
+          "url": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193"
+      },
+      "observations": [
+        {
+          "quantity": "Average monthly retired-worker benefit before the January 2026 COLA",
+          "unit": "nominal USD per retired-worker beneficiary month",
+          "cohort": "Retired workers represented by the official factsheet estimate",
+          "dateWindow": {
+            "earliest": "2025-12-01",
+            "latest": "2025-12-31",
+            "precision": "factsheet-pre-January-2026-estimate; full page not retrieved"
+          },
+          "sourceFile": "data/research/money/public-programs-2026.json",
+          "sourceRefs": ["ssa-retired-worker-before-cola"],
+          "observedValue": 2015,
+          "rawPublishedValue": "2015; status SNIPPET in preserved source",
+          "uncertainty": "No individual spread, sample variance or coefficient bound is supplied; later-vintage amount context only."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched retirement recipient/cohort/source-income population evaluator exists",
+        "commandTemplate": "Root-owned future prepared-input income coverage/annual receipt route",
+        "evaluationContract": "Compare recipient coverage, source-specific income and conditional award amount using matched populations/vintages; separately audit opening liquidity and actual payer depletion."
+      },
+      "parameterApplicability": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound.",
+      "calibrationStatus": "blocked and unmeasured; source mean does not establish a coefficient bound."
+    },
+    {
+      "id": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "kind": "external empirical observable",
+      "revision": "preserved-treasury-mts-fy2025-table9",
+      "sources": [
+        {
+          "id": "treasury-mts-fy2025",
+          "title": "Monthly Treasury Statement Table 9, FY2025 through September 30, 2025",
+          "publisher": "U.S. Department of the Treasury",
+          "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_date:eq:2025-09-30"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac"
+      },
+      "observations": [
+        {
+          "quantity": "Social Security functional outlays in fiscal year 2025",
+          "unit": "nominal USD per federal fiscal year",
+          "cohort": "National federal functional outlays including more than retired-worker benefits",
+          "dateWindow": {
+            "earliest": "2024-10-01",
+            "latest": "2025-09-30",
+            "precision": "federal-fiscal-year"
+          },
+          "sourceFile": "data/research/money/federal-budget-fy2025.json",
+          "sourceRefs": ["treasury-mts-fy2025"],
+          "observedValue": 1580685783033.83,
+          "rawPublishedValue": "1580685783033.83",
+          "uncertainty": "Preserved administrative aggregate, not sampling variance, individual dispersion, modeled account liquidity or a coefficient interval."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked: no matched 2021 portfolio membership/liquidity/source-specific funding evaluator",
+        "commandTemplate": "Root-owned prepared-input funding/income receipts and actual cash conservation audit",
+        "evaluationContract": "Report covered award portfolio, all new finite stocks, requested/paid/unfunded contributor transfers, actual recipient income, source/vintage gap and independent aggregate comparison; no survival or target-gap tuning."
+      },
+      "parameterApplicability": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient.",
+      "calibrationStatus": "blocked and unmeasured; aggregate annual flow does not identify allocation coefficients."
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -5640,6 +5811,61 @@
       "parameter": "workRoutineRetentionWeeks",
       "ref": "P9-OUTCOME-WHOLE-LIFE",
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
+    },
+    {
+      "parameter": "openingRetirementClaimAgeYears",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementClaimTraitPullYears",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredFraction",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredTraitPull",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementMinimumCoveredMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitReferenceCoveredMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMinimum",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMaximum",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementPayerReserveMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementFundingEnvelopeShare",
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingRetirementFundingLiquidShare",
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
     }
   ],
   "deletedUnusedParameters": [
@@ -5681,6 +5907,8 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4"
+    "src/core2/data/parameters.json": "bd222596deace00e5e863ea6f863b872c22645633934de5def7608871d4e4629",
+    "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
+    "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac"
   }
 }
