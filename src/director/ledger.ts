@@ -316,10 +316,13 @@ export function createDirector(
       if (id === personId) continue;
       const other = core.people.get(id);
       ensureThread(book, id, kin.get(id) ?? [], home.has(id));
-      const family = actor.familyIds.has(id) || kin.has(id);
-      // Relatives knew each other no later than the younger one's birth; a
-      // housemate with no family record is known only from the opening.
-      if (other && family)
+      // Blood relatives knew each other no later than the younger one's birth.
+      // A partner or housemate is known no later than the opening; the
+      // records do not say when partners met.
+      const blood = (kin.get(id) ?? []).some(
+        (relation) => relation !== "partner",
+      );
+      if (other && blood)
         knewFact(
           book,
           id,

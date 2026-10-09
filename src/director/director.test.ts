@@ -378,6 +378,11 @@ describe("story director on the new core", () => {
       .get("person:worker")!
       .threads.get("person:spouse")!;
     expect(thread.kin).toEqual(["partner"]);
+    expect(
+      director.ledger.people
+        .get("person:worker")!
+        .keptFacts.get("knew-each-other:person:spouse:person:worker"),
+    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
     expect(thread.tie).toBeCloseTo(0.5 + 0.3, 6);
     const later = "2022-07-01";
     expect(
