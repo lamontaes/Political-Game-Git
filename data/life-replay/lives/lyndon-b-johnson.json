@@ -1,0 +1,839 @@
+{
+  "version": "life-replay/v1",
+  "id": "lyndon-b-johnson",
+  "cohort": "historical",
+  "identity": {
+    "value": {
+      "name": "Lyndon Baines Johnson"
+    },
+    "sourceRefs": ["lbj-biography"]
+  },
+  "birth": {
+    "value": {
+      "date": "1908-08-27",
+      "place": {
+        "key": "us/tx/stonewall",
+        "name": "Stonewall",
+        "stateCode": "TX",
+        "country": "US"
+      }
+    },
+    "sourceRefs": ["lbj-biography"]
+  },
+  "family": [
+    {
+      "value": {
+        "key": "father",
+        "name": "Sam Ealy Johnson Jr.",
+        "relationship": "father",
+        "work": ["teacher", "farmer", "state-legislator"]
+      },
+      "sourceRefs": ["lbj-biography"]
+    },
+    {
+      "value": {
+        "key": "mother",
+        "name": "Rebekah Baines Johnson",
+        "relationship": "mother",
+        "work": ["teacher", "farmer", "newspaper-columnist"]
+      },
+      "sourceRefs": ["lbj-biography"]
+    },
+    {
+      "value": {
+        "key": "subject-faith",
+        "person": "subject",
+        "affiliation": "Disciples-of-Christ",
+        "period": "adult"
+      },
+      "sourceRefs": ["lbj-faith"]
+    },
+    {
+      "value": {
+        "key": "spouse-faith",
+        "person": "spouse",
+        "affiliation": "Episcopalian",
+        "period": "adult"
+      },
+      "sourceRefs": ["lbj-faith"]
+    }
+  ],
+  "household": {
+    "value": {
+      "childhoodHousing": "small-farmhouse",
+      "electricity": false,
+      "runningWater": false,
+      "resources": "lean-times"
+    },
+    "sourceRefs": ["lbj-biography"]
+  },
+  "checkpoints": [],
+  "conditions": [
+    {
+      "id": "rural-home",
+      "fromDate": "1908-08-27",
+      "throughDate": "1913-08-31",
+      "kind": "housing-infrastructure",
+      "scope": {
+        "country": "US",
+        "stateCode": "TX",
+        "placeKey": "us/tx/stonewall"
+      },
+      "value": {
+        "electricity": false,
+        "runningWater": false
+      },
+      "sourceRefs": ["lbj-biography"]
+    },
+    {
+      "id": "us-enters-wwi",
+      "fromDate": "1917-04-06",
+      "throughDate": "1917-04-06",
+      "kind": "war-entry",
+      "scope": {
+        "country": "US"
+      },
+      "value": "World-War-I",
+      "sourceRefs": ["wwi"]
+    },
+    {
+      "id": "women-suffrage",
+      "fromDate": "1920-08-18",
+      "throughDate": "1968-03-31",
+      "kind": "constitutional-law",
+      "scope": {
+        "country": "US"
+      },
+      "value": "nineteenth-amendment",
+      "sourceRefs": ["nineteenth"]
+    },
+    {
+      "id": "cotulla-school",
+      "fromDate": "1928-01-01",
+      "throughDate": "1929-12-31",
+      "kind": "education-access",
+      "scope": {
+        "country": "US",
+        "stateCode": "TX",
+        "placeKey": "us/tx/cotulla"
+      },
+      "value": {
+        "institution": "Welhausen School",
+        "segregated": true,
+        "pupils": "Mexican-American",
+        "poverty": true
+      },
+      "sourceRefs": ["lbj-biography", "lbj-timeline"]
+    },
+    {
+      "id": "depression",
+      "fromDate": "1929-01-01",
+      "throughDate": "1941-12-31",
+      "kind": "economy-cycle",
+      "scope": {
+        "country": "US"
+      },
+      "value": "depression",
+      "sourceRefs": ["great-depression"]
+    },
+    {
+      "id": "nya",
+      "fromDate": "1935-07-01",
+      "throughDate": "1937-04-10",
+      "kind": "public-program",
+      "scope": {
+        "country": "US",
+        "stateCode": "TX"
+      },
+      "value": "National-Youth-Administration",
+      "sourceRefs": ["lbj-timeline"]
+    },
+    {
+      "id": "wwii-duty",
+      "fromDate": "1941-12-09",
+      "throughDate": "1942-07-03",
+      "kind": "military-conflict",
+      "scope": {
+        "country": "US"
+      },
+      "value": "World-War-II",
+      "sourceRefs": ["lbj-timeline"]
+    },
+    {
+      "id": "civil-rights-law",
+      "fromDate": "1964-07-02",
+      "throughDate": "1968-03-31",
+      "kind": "federal-law",
+      "scope": {
+        "country": "US"
+      },
+      "value": "civil-rights-act",
+      "sourceRefs": ["civil-rights"]
+    },
+    {
+      "id": "vietnam-authorization",
+      "fromDate": "1964-08-07",
+      "throughDate": "1968-03-31",
+      "kind": "military-authorization",
+      "scope": {
+        "country": "US"
+      },
+      "value": "tonkin-gulf-resolution",
+      "sourceRefs": ["tonkin"]
+    },
+    {
+      "id": "voting-rights-law",
+      "fromDate": "1965-08-06",
+      "throughDate": "1968-03-31",
+      "kind": "federal-law",
+      "scope": {
+        "country": "US"
+      },
+      "value": "voting-rights-act",
+      "sourceRefs": ["voting-rights"]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "family-move",
+      "date": {
+        "earliest": "1913-09-01",
+        "latest": "1913-09-30",
+        "precision": "month",
+        "sourceRefs": ["lbj-boyhood"]
+      },
+      "kind": "event",
+      "mechanism": "residence-move",
+      "payload": {
+        "person": "household",
+        "destination": {
+          "key": "us/tx/johnson-city",
+          "name": "Johnson City",
+          "stateCode": "TX",
+          "country": "US"
+        }
+      },
+      "sourceRefs": ["lbj-boyhood"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "equals": "us/tx/johnson-city"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "high-school",
+      "date": {
+        "earliest": "1924-05-24",
+        "latest": "1924-05-24",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Johnson City High School",
+        "credential": "high-school"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["family-move"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "high-school"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "college",
+      "date": {
+        "earliest": "1927-01-01",
+        "latest": "1927-12-31",
+        "precision": "year",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "education-enrollment",
+      "payload": {
+        "institution": "Southwest Texas State Teachers College",
+        "place": "San Marcos",
+        "act": "enroll",
+        "loanDollars": {
+          "parameter": "lbj-college-loan"
+        }
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["high-school"],
+      "checks": [
+        {
+          "metric": "education.enrolled",
+          "equals": true
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "finance.educationLoanDollars",
+          "minimumParameter": "lbj-college-loan",
+          "maximumParameter": "lbj-college-loan"
+        }
+      ]
+    },
+    {
+      "id": "cotulla",
+      "date": {
+        "earliest": "1928-01-01",
+        "latest": "1929-12-31",
+        "precision": "interval",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "employment",
+      "payload": {
+        "role": "teacher",
+        "organization": "Welhausen School",
+        "place": "Cotulla",
+        "purpose": "fund-college"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["college"],
+      "checks": [
+        {
+          "metric": "employment.role",
+          "equals": "teacher"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "college-degree",
+      "date": {
+        "earliest": "1930-08-19",
+        "latest": "1930-08-19",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "education-completion",
+      "payload": {
+        "institution": "Southwest Texas State Teachers College",
+        "credential": "bachelors"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["cotulla"],
+      "checks": [
+        {
+          "metric": "education.credential",
+          "equals": "bachelors"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "congressional-aide",
+      "date": {
+        "earliest": "1931-11-30",
+        "latest": "1931-11-30",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "employment",
+      "payload": {
+        "role": "congressional-aide",
+        "employer": "Richard M. Kleberg",
+        "place": "Washington, DC",
+        "act": "accept-job"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["college-degree"],
+      "checks": [
+        {
+          "metric": "employment.role",
+          "equals": "congressional-aide"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "marriage",
+      "date": {
+        "earliest": "1934-11-17",
+        "latest": "1934-11-17",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "partnership",
+      "payload": {
+        "partner": "Claudia Alta Taylor",
+        "act": "marry"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "partnership.status",
+          "equals": "married"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "nya-director",
+      "date": {
+        "earliest": "1935-07-01",
+        "latest": "1935-07-31",
+        "precision": "month",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "public-appointment",
+      "payload": {
+        "organization": "National Youth Administration",
+        "role": "texas-director",
+        "act": "accept-appointment"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["congressional-aide"],
+      "checks": [
+        {
+          "metric": "employment.role",
+          "equals": "texas-director"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "house-campaign",
+      "date": {
+        "earliest": "1937-01-01",
+        "latest": "1937-04-09",
+        "precision": "interval",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "candidacy",
+      "payload": {
+        "office": "us-house",
+        "district": "TX-10",
+        "stage": "special",
+        "act": "run"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["nya-director"],
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "equals": "us-house"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "house-win",
+      "date": {
+        "earliest": "1937-04-10",
+        "latest": "1937-04-10",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "us-house",
+        "stage": "special",
+        "result": "won"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["house-campaign"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "active-duty",
+      "date": {
+        "earliest": "1941-12-09",
+        "latest": "1941-12-09",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "decision",
+      "mechanism": "military-service",
+      "payload": {
+        "service": "us-navy",
+        "act": "volunteer-active-duty"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "military.service",
+          "equals": "us-navy"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "senate-win",
+      "date": {
+        "earliest": "1948-11-02",
+        "latest": "1948-11-02",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "us-senate",
+        "stage": "general",
+        "result": "won"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["house-win"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "majority-leader",
+      "date": {
+        "earliest": "1955-01-02",
+        "latest": "1955-01-02",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "chamber-leadership",
+      "payload": {
+        "chamber": "us-senate",
+        "role": "majority-leader"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["senate-win"],
+      "checks": [
+        {
+          "metric": "leadership.role",
+          "equals": "majority-leader"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "heart-attack",
+      "date": {
+        "earliest": "1955-07-02",
+        "latest": "1955-07-02",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "event",
+      "mechanism": "health-shock",
+      "payload": {
+        "condition": "heart-attack",
+        "severity": "near-fatal"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": [],
+      "checks": [
+        {
+          "metric": "health.condition",
+          "equals": "heart-attack"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "vice-president",
+      "date": {
+        "earliest": "1960-11-08",
+        "latest": "1960-11-08",
+        "precision": "day",
+        "sourceRefs": ["lbj-timeline"]
+      },
+      "kind": "outcome",
+      "mechanism": "election-result",
+      "payload": {
+        "office": "vice-president",
+        "result": "won"
+      },
+      "sourceRefs": ["lbj-timeline"],
+      "requires": ["majority-leader"],
+      "checks": [
+        {
+          "metric": "election.result",
+          "equals": "won"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "presidential-succession",
+      "date": {
+        "earliest": "1963-11-22",
+        "latest": "1963-11-22",
+        "precision": "day",
+        "sourceRefs": ["succession"]
+      },
+      "kind": "event",
+      "mechanism": "office-succession",
+      "payload": {
+        "fromOffice": "vice-president",
+        "toOffice": "president",
+        "cause": "predecessor-death"
+      },
+      "sourceRefs": ["succession"],
+      "requires": ["vice-president"],
+      "checks": [
+        {
+          "metric": "office.kind",
+          "equals": "president"
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "person.ageYears",
+          "minimumParameter": "president-minimum-age"
+        }
+      ]
+    },
+    {
+      "id": "civil-rights-signature",
+      "date": {
+        "earliest": "1964-07-02",
+        "latest": "1964-07-02",
+        "precision": "day",
+        "sourceRefs": ["civil-rights"]
+      },
+      "kind": "decision",
+      "mechanism": "law-signature",
+      "payload": {
+        "law": "Civil Rights Act of 1964",
+        "act": "sign"
+      },
+      "sourceRefs": ["civil-rights"],
+      "requires": ["presidential-succession"],
+      "checks": [
+        {
+          "metric": "law.enacted",
+          "equals": "Civil Rights Act of 1964"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "tonkin-request",
+      "date": {
+        "earliest": "1964-08-04",
+        "latest": "1964-08-04",
+        "precision": "day",
+        "sourceRefs": ["tonkin"]
+      },
+      "kind": "decision",
+      "mechanism": "military-authorization-request",
+      "payload": {
+        "resolution": "Tonkin Gulf Resolution",
+        "act": "request"
+      },
+      "sourceRefs": ["tonkin"],
+      "requires": ["presidential-succession"],
+      "checks": [
+        {
+          "metric": "military.authorizationRequested",
+          "equals": true
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "voting-rights-signature",
+      "date": {
+        "earliest": "1965-08-06",
+        "latest": "1965-08-06",
+        "precision": "day",
+        "sourceRefs": ["voting-rights"]
+      },
+      "kind": "decision",
+      "mechanism": "law-signature",
+      "payload": {
+        "law": "Voting Rights Act of 1965",
+        "act": "sign"
+      },
+      "sourceRefs": ["voting-rights"],
+      "requires": ["presidential-succession"],
+      "checks": [
+        {
+          "metric": "law.enacted",
+          "equals": "Voting Rights Act of 1965"
+        }
+      ],
+      "ranges": []
+    },
+    {
+      "id": "decline-reelection",
+      "date": {
+        "earliest": "1968-03-31",
+        "latest": "1968-03-31",
+        "precision": "day",
+        "sourceRefs": ["withdrawal"]
+      },
+      "kind": "decision",
+      "mechanism": "reelection-decision",
+      "payload": {
+        "office": "president",
+        "act": "decline"
+      },
+      "sourceRefs": ["withdrawal"],
+      "requires": ["presidential-succession", "tonkin-request"],
+      "checks": [
+        {
+          "metric": "candidacy.seekingAnotherTerm",
+          "equals": false
+        }
+      ],
+      "ranges": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "lbj-biography",
+      "url": "https://www.lbjlibrary.org/life-and-legacy/the-man-himself/biography",
+      "title": "Lyndon B. Johnson",
+      "publisher": "LBJ Presidential Library",
+      "location": "Early years; parents; farmhouse; Cotulla; family; presidency",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "lbj-timeline",
+      "url": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+      "title": "A Full Life and Lasting Legacy",
+      "publisher": "LBJ Presidential Library",
+      "location": "Dated childhood, education, employment, marriage, elections, military service, leadership, heart attack",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "lbj-boyhood",
+      "url": "https://www.nps.gov/lyjo/learn/historyculture/boyhoodhome.htm",
+      "title": "Boyhood Home",
+      "publisher": "National Park Service",
+      "location": "September 1913 move to Johnson City",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "lbj-faith",
+      "url": "https://www.nps.gov/places/trinity-lutheran-church.htm",
+      "title": "Trinity Lutheran Church",
+      "publisher": "National Park Service",
+      "location": "LBJ Disciples of Christ; Lady Bird Episcopalian; adult affiliation only",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "great-depression",
+      "url": "https://www.federalreservehistory.org/essays/great-depression",
+      "title": "The Great Depression",
+      "publisher": "Federal Reserve History",
+      "location": "1929\u20131941",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "wwi",
+      "url": "https://www.archives.gov/topics/wwi",
+      "title": "World War I Centennial",
+      "publisher": "National Archives",
+      "location": "April 6, 1917 declaration of war",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "nineteenth",
+      "url": "https://www.archives.gov/milestone-documents/19th-amendment",
+      "title": "19th Amendment",
+      "publisher": "National Archives",
+      "location": "August 18, 1920 ratification",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "civil-rights",
+      "url": "https://www.archives.gov/milestone-documents/civil-rights-act",
+      "title": "Civil Rights Act of 1964",
+      "publisher": "National Archives",
+      "location": "July 2, 1964 signature; discrimination and segregation prohibitions",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "voting-rights",
+      "url": "https://www.archives.gov/milestone-documents/voting-rights-act",
+      "title": "Voting Rights Act of 1965",
+      "publisher": "National Archives",
+      "location": "August 6, 1965 signature",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "tonkin",
+      "url": "https://www.archives.gov/milestone-documents/tonkin-gulf-resolution",
+      "title": "Tonkin Gulf Resolution",
+      "publisher": "National Archives",
+      "location": "August 4 request; August 7 resolution; Vietnam military authorization",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "succession",
+      "url": "https://www.lbjlibrary.org/exhibitions/permanent/november-22-1963",
+      "title": "November 22, 1963",
+      "publisher": "LBJ Presidential Library",
+      "location": "Kennedy\u2019s assassination and presidential oath",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "withdrawal",
+      "url": "https://lbjlibrary.org/object/text/presidents-address-nation-03-31-1968",
+      "title": "Address to the Nation, March 31, 1968",
+      "publisher": "LBJ Presidential Library",
+      "location": "Decision not to seek reelection",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "constitution",
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "title": "Constitution of the United States",
+      "publisher": "National Archives",
+      "location": "Article I, sections 2\u20133; Article II, section 1",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    }
+  ],
+  "unknowns": [
+    {
+      "field": "parents.faith-and-exact-income",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["lbj-biography", "lbj-timeline"]
+    },
+    {
+      "field": "person.numeric-traits-and-private-beliefs",
+      "reason": "Not established by the cited public sources; no value supplied to the core.",
+      "checkedSources": ["lbj-biography", "lbj-timeline"]
+    }
+  ]
+}
