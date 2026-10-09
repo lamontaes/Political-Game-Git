@@ -16,12 +16,12 @@ import {
   projectOpeningLegislature,
 } from "./opening-story";
 import { openingLegislaturePeople } from "./opening-tour-people";
-import { openingWorkLocation } from "./opening-work-location";
 import {
   backdropForLocation,
   homePlacesForPerson,
   middayBackdropUrl,
 } from "./place-backdrops";
+import { resolveOpeningPlaySceneContext } from "./play-scene-context";
 import { projectGovernmentBrowser } from "./politics-government";
 import {
   projectOrientationView,
@@ -136,7 +136,9 @@ function countryStop(
     key: "country",
     place: "oval-office",
     people: present(people, () => true),
-    furniture: false,
+    // The office's measured spots stand them before the desk; they are
+    // furniture spots, as on the play screen.
+    furniture: true,
   };
 }
 
@@ -273,22 +275,35 @@ function homeStop(world: World, personId: EntityId): OpeningStop {
 }
 
 /**
- * (6) You: where day one starts, the place the play screen opens in. A
- * recorded shift puts the player at work; otherwise they are at home.
+ * (6) You: where day one starts, the room the play screen opens in, with the
+ * people the records put there. The room is first-person, so the player is
+ * not drawn in it.
  */
 function youStop(world: World, personId: EntityId): OpeningStop {
-  const arrival = openingWorkLocation(world, personId);
-  const atWork = arrival?.tags.some((tag) => tag.startsWith("work:")) ?? false;
+  const scene = resolveOpeningPlaySceneContext(world, personId);
+  // As the play screen does: a moment at home, or one with no recorded
+  // place, is pictured at home.
   const backdrop = backdropForLocation(
     world,
     personId,
-    atWork ? "life-circumstance:covered-shift" : "home",
+    scene.purpose === "home" || scene.purpose === "unspecified"
+      ? "home"
+      : scene.locationKey,
   );
-  const self = recordedPerson(world, personId, "");
+  const people = scene.presentPeople.flatMap((entry) => {
+    if (entry.personId === personId) return [];
+    const person = recordedPerson(
+      world,
+      entry.personId,
+      describePersonContext(world, personId, entry.personId)?.relationship ??
+        "",
+    );
+    return person ? [person] : [];
+  });
   return {
     key: "you",
     place: backdrop?.place ?? null,
-    people: self ? [{ ...self, plaque: false }] : [],
+    people: present(people, () => false),
     furniture: false,
   };
 }

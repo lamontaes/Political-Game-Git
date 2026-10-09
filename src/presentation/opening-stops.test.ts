@@ -85,7 +85,10 @@ describe("the six opening stops", { timeout: 300_000 }, () => {
         expect(homeIds.has(id), id).toBe(true);
       expect(homeIds.has(personId)).toBe(false);
 
-      expect(you!.people.map((person) => person.personId)).toEqual([personId]);
+      // The room play opens in is first-person: the player is not drawn.
+      expect(you!.people.map((person) => person.personId)).not.toContain(
+        personId,
+      );
       expect(you!.place).not.toBeNull();
 
       // Every number is in the Ledger: both chambers of Congress account for

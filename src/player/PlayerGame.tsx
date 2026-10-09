@@ -305,9 +305,9 @@ import { useShell } from "./useShell";
 
 import { ShellNav, type ShellDestination } from "./ShellNav";
 import { ShellPinRail } from "./ShellPinRail";
-import { WorldOrientationPanel } from "./WorldOrientationPanel";
+import { OpeningSequence } from "./OpeningSequence";
+import { preloadOpening } from "./preload-opening";
 import { WorldOrientationEntry } from "./WorldOrientationEntry";
-import { useWorldOrientation } from "./useWorldOrientation";
 import { PartyChapterSurface } from "./PartyChapterSurface";
 import { PartyInitiativesPanel } from "./politics/PartyInitiativesPanel";
 import {
@@ -626,12 +626,12 @@ export function PlayerGame() {
 
   const pendingAppearance = useRef<CreatorAppearanceChoice | null>(null);
 
-  function startPlaying(
+  /** The World a session plays: the creator's appearance applied, the week opened. */
+  function playingWorld(
     world: World,
     personId: EntityId,
-    seed: string | null,
     saveId: EntityId | null,
-  ) {
+  ): World {
     const selected = pendingAppearance.current;
     const prepared = applyCreatorAppearance(
       world,
@@ -640,22 +640,34 @@ export function PlayerGame() {
         PRODUCTION_CHARACTER_LIBRARY,
     );
     pendingAppearance.current = null;
-    setSession({
-      // A world being observed, or a played life that ended before anything
-      // followed it, has nobody whose week could be opened: loading such a
-      // save must not write new work for the retired or dead character.
-      world:
-        saveId !== null
-          ? openSavedPlayedLife(prepared, personId)
-          : shellReadOnly(prepared)
-            ? prepared
-            : openOrdinaryLife(prepared, personId),
-      personId,
-      unsavedSeed: seed,
-      saveId,
-    });
+    // A world being observed, or a played life that ended before anything
+    // followed it, has nobody whose week could be opened: loading such a
+    // save must not write new work for the retired or dead character.
+    return saveId !== null
+      ? openSavedPlayedLife(prepared, personId)
+      : shellReadOnly(prepared)
+        ? prepared
+        : openOrdinaryLife(prepared, personId);
+  }
+
+  function enterPlaying(
+    world: World,
+    personId: EntityId,
+    seed: string | null,
+    saveId: EntityId | null,
+  ) {
+    setSession({ world, personId, unsavedSeed: seed, saveId });
     setScreen({ kind: "playing" });
     setProblem(null);
+  }
+
+  function startPlaying(
+    world: World,
+    personId: EntityId,
+    seed: string | null,
+    saveId: EntityId | null,
+  ) {
+    enterPlaying(playingWorld(world, personId, saveId), personId, seed, saveId);
   }
 
   useEffect(() => {
@@ -1005,12 +1017,21 @@ export function PlayerGame() {
                   })
                 ).game!;
                 if (signal.aborted) return;
-                startPlaying(
+                const world = playingWorld(
                   prepareCandidateOpeningWorld(
                     game.world,
                     screen.setup,
                     previewMode,
                   ),
+                  game.playerPersonId,
+                  null,
+                );
+                // The whole opening loads behind the loading screen, so no
+                // stop fills in after it shows (owner playtest A1).
+                await preloadOpening(world, game.playerPersonId);
+                if (signal.aborted) return;
+                enterPlaying(
+                  world,
                   game.playerPersonId,
                   screen.setup.seed,
                   null,
@@ -1413,7 +1434,6 @@ function PlayingScreen({
    * finished or skipped. Loaded lives never see it pushed at them; it stays
    * available from News.
    */
-  const orientation = useWorldOrientation(session.world, session.personId);
   const showOrientation =
     !observing &&
     session.unsavedSeed !== null &&
@@ -2750,12 +2770,9 @@ function PlayingScreen({
                         presentPersonIds={presentPersonIds}
                       />
                     ) : showOrientation ? (
-                      <WorldOrientationPanel
+                      <OpeningSequence
                         world={session.world}
                         personId={session.personId}
-                        view={orientation.view}
-                        homeStateUsps={orientation.homeStateUsps}
-                        regionalPlate={orientation.regionalPlate}
                         mode="first"
                         onClose={() => dispatch({ type: "finish-orientation" })}
                         onOpenPerson={(personId) =>
