@@ -211,9 +211,10 @@ export function lifeLines(receipt: Receipt, personId: string): string[] {
   const monthly = life.importanceByMonth;
   if (monthly.length)
     lines.push(`MONTHS ${monthly.map((row) => row.date).join(" ")}`);
-  for (const thread of life.threads.filter(
-    (row) => row.importanceAtEnd > 0 || row.turns.length,
-  )) {
+  const quiet = life.threads.filter(
+    (row) => row.importanceAtEnd === 0 && !row.moments,
+  );
+  for (const thread of life.threads.filter((row) => !quiet.includes(row))) {
     const path = monthly
       .map((row) => fixed(row.threads[thread.otherId] ?? 0))
       .join(" ");
@@ -223,6 +224,19 @@ export function lifeLines(receipt: Receipt, personId: string): string[] {
     if (monthly.length) lines.push(`  BY MONTH ${path}`);
     for (const turn of thread.turns.slice(0, 5))
       lines.push(`  TURN ${turn.date} ${turn.turn}`);
+  }
+  if (quiet.length) {
+    const turns = new Map<string, number>();
+    for (const thread of quiet)
+      for (const turn of thread.turns)
+        turns.set(
+          `${turn.turn} ${turn.date}`,
+          (turns.get(`${turn.turn} ${turn.date}`) ?? 0) + 1,
+        );
+    lines.push(
+      `THREADS AT ZERO IMPORTANCE ${quiet.length} | closeness ${[...new Set(quiet.map((row) => fixed(row.closeness)))].join(", ")} | turns ${[...turns].map(([key, count]) => `${key} x${count}`).join(", ") || "none"}`,
+    );
+    lines.push(`  PEOPLE ${quiet.map((row) => row.name).join(", ")}`);
   }
   lines.push("");
   lines.push("KEPT FACTS");

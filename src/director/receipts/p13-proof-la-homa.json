@@ -1,1344 +1,1333 @@
 {
- "schema": "p13-proof-summary-v1",
- "note": "Summary of cloud runs of the story director on the new core. Full receipts stay outside the repository. Runs used pool/P13-4 with the drives package (pool/P10-part-1 at 3561aa3d) merged locally for the run only; the core is pool/P8-part-1 at 17548340.",
- "seed": "p8-real-life-cost-2026-10-09",
- "place": "La Homa, Texas",
- "input": "src/core2/tooling/measure.ts --mode opening prepared input (10,002 people)",
- "oneYear": {
-  "startedAt": "2021-01-01",
-  "through": "2022-01-01",
-  "watched": 10002,
-  "seconds": 208.533276511,
-  "memory": {
-   "before": {
-    "heapMiB": 1550.5356826782227,
-    "rssMiB": 1938.953125
-   },
-   "after": {
-    "heapMiB": 2604.968963623047,
-    "rssMiB": 5223.62890625
-   }
-  },
-  "cohort": {
-   "people": 10002,
-   "peopleWithMoments": 3149,
-   "moments": 3603,
-   "labels": {
-    "money:job-ended": 3303,
-    "feeling:event:health.serious-illness": 138,
-    "feeling:event:life.death": 66,
-    "health:died": 68,
-    "feeling:event:cause.shared": 21,
-    "cause:drive:cause": 6,
-    "cause:event:cause.shared": 1
-   },
-   "echoReasons": {
-    "same-pair-channel": 67
-   },
-   "outcomes": {
-    "scene-waiting": 3245,
-    "scene-now": 132,
-    "journal-line": 226
-   },
-   "coverage": {
-    "no-type:feeling:event:health.serious-illness": 70,
-    "no-type:health:died": 68,
-    "role-unbound:money:job-ended": 59,
-    "no-type:feeling:event:cause.shared": 21,
-    "no-type:cause:drive:cause": 6,
-    "no-type:cause:event:cause.shared": 1
-   },
-   "boundTypes": {
-    "news-arrives": 3294,
-    "visit": 68,
-    "funeral": 66
-   },
-   "renewedTurns": 40
-  },
-  "directorStopgapHits": [
-   "SG-P13-appraisal-recompute",
-   "SG-P13-param-directorHalfLives",
-   "SG-P13-param-directorInterruptImpact",
-   "SG-P13-param-directorMomentFloor",
-   "SG-P13-param-directorRenewedFading",
-   "SG-P13-param-directorScaleHealth",
-   "SG-P13-param-directorTies",
-   "SG-P13-param-directorWeightMoneyRisk",
-   "SG-P13-param-directorWeightTieSociability",
-   "SG-P13-tie-day-order"
-  ],
-  "openDirectorStopgaps": 11
- },
- "threeYears": {
-  "startedAt": "2021-01-01",
-  "through": "2024-01-01",
-  "watched": 10002,
-  "seconds": 446.133557406,
-  "memory": {
-   "before": {
-    "heapMiB": 1546.4823532104492,
-    "rssMiB": 1977.69921875
-   },
-   "after": {
-    "heapMiB": 3055.8126907348633,
-    "rssMiB": 5789.0703125
-   }
-  },
-  "cohort": {
-   "people": 10002,
-   "peopleWithMoments": 3433,
-   "moments": 4430,
-   "labels": {
-    "money:job-ended": 3303,
-    "feeling:event:health.serious-illness": 512,
-    "feeling:event:life.death": 260,
-    "health:died": 229,
-    "feeling:event:cause.shared": 95,
-    "cause:drive:cause": 26,
-    "cause:event:cause.shared": 5
-   },
-   "echoReasons": {
-    "same-pair-channel": 265
-   },
-   "outcomes": {
-    "scene-waiting": 3245,
-    "scene-now": 533,
-    "journal-line": 652
-   },
-   "coverage": {
-    "no-type:feeling:event:health.serious-illness": 237,
-    "no-type:health:died": 229,
-    "role-unbound:money:job-ended": 59,
-    "no-type:feeling:event:cause.shared": 95,
-    "no-type:cause:drive:cause": 26,
-    "no-type:cause:event:cause.shared": 5
-   },
-   "boundTypes": {
-    "news-arrives": 3484,
-    "visit": 275,
-    "funeral": 260
-   },
-   "renewedTurns": 40
-  }
- },
- "closureMarch14": {
-  "eventId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
-  "reached": 10002,
-  "byReach": {
-   "named": 218,
-   "place": 9436,
-   "household": 348
-  },
-  "personalMoments": 564,
-  "impactMin": 0.15684146211879713,
-  "impactMedian": 0.47,
-  "impactMax": 0.5091666666666667
- },
- "timing": {
-  "withoutDrives": [
-   {
-    "mode": "base",
-    "watched": 1,
-    "seconds": 75.199241813,
-    "heapDeltaMiB": 2246.559616088867,
-    "rssMiB": 4219.00390625
-   },
-   {
-    "mode": "director",
-    "watched": 2,
-    "seconds": 72.163174142,
-    "heapDeltaMiB": 2229.4957885742188,
-    "rssMiB": 4171.90625
-   },
-   {
-    "mode": "base",
-    "watched": 1,
-    "seconds": 68.599666394,
-    "heapDeltaMiB": 2243.8706436157227,
-    "rssMiB": 4225.96484375
-   },
-   {
-    "mode": "director",
-    "watched": 2,
-    "seconds": 71.968054034,
-    "heapDeltaMiB": 2258.4578704833984,
-    "rssMiB": 4219.3984375
-   },
-   {
-    "mode": "director",
+  "schema": "p13-proof-summary-v1",
+  "note": "Summary of cloud runs of the story director on the new core. Full receipts stay outside the repository. Runs used pool/P13-4 with the drives package (pool/P10-part-1 at 3561aa3d) merged locally for the run only; the core is pool/P8-part-1 at 17548340.",
+  "seed": "p8-real-life-cost-2026-10-09",
+  "place": "La Homa, Texas",
+  "input": "src/core2/tooling/measure.ts --mode opening prepared input (10,002 people)",
+  "oneYear": {
+    "startedAt": "2021-01-01",
+    "through": "2022-01-01",
     "watched": 10002,
-    "seconds": 193.812631201,
-    "heapDeltaMiB": 3248.699348449707,
-    "rssMiB": 5277.62109375
-   }
-  ],
-  "withDrives": [
-   {
-    "mode": "base",
-    "watched": 1,
-    "seconds": 78.987063955,
-    "heapDeltaMiB": 2338.72452545166,
-    "rssMiB": 4310.140625
-   },
-   {
-    "mode": "director",
-    "watched": 2,
-    "seconds": 77.569323503,
-    "heapDeltaMiB": 2347.005569458008,
-    "rssMiB": 4292.26953125
-   },
-   {
-    "mode": "base",
-    "watched": 1,
-    "seconds": 75.21888505,
-    "heapDeltaMiB": 2338.1614532470703,
-    "rssMiB": 4316.95703125
-   },
-   {
-    "mode": "director",
-    "watched": 2,
-    "seconds": 74.025110813,
-    "heapDeltaMiB": 2341.836669921875,
-    "rssMiB": 4325.0859375
-   }
-  ]
- },
- "lives": [
-  {
-   "id": "person_045c087d10f034e4",
-   "name": "Margaret Harrell",
-   "birthDate": "1969-12-20",
-   "traits": {
-    "people-mind-v1:deliberation": 0,
-    "people-mind-v1:sociability": 0,
-    "people-mind-v1:conflict": -1,
-    "people-mind-v1:reliability": 1,
-    "people-mind-v1:risk": -1,
-    "personality-v1:facet-duty-bound": 1,
-    "personality-v1:facet-contented": 1,
-    "personality-v1:facet-generous": 1
-   },
-   "observedDays": 365,
-   "quietDays": 55,
-   "moments": [
-    {
-     "id": "person_045c087d10f034e4:2021-03-14:employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-03-14",
-     "label": "money:job-ended",
-     "causeId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "causeKind": "job-ended",
-     "counterpartIds": [],
-     "impact": 0.5091666666666667,
-     "channels": [
-      {
-       "channel": "money",
-       "raw": 1,
-       "scale": 0.47,
-       "traitWeight": 1.0833333333333333,
-       "traits": [
-        {
-         "traitId": "people-mind-v1:risk",
-         "recorded": -1,
-         "weight": -0.25
-        }
-       ],
-       "contribution": 0.5091666666666667
+    "seconds": 203.607749468,
+    "memory": {
+      "before": {
+        "heapMiB": 1552.3172988891602,
+        "rssMiB": 1922.55078125
+      },
+      "after": {
+        "heapMiB": 2730.881805419922,
+        "rssMiB": 4288.484375
       }
-     ],
-     "hindsight": 0.5091666666666667,
-     "hindsightAt": "2021-03-14",
-     "broadEventId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "placeId": "jurisdiction_47f8dde9eac44f56",
-     "echoes": []
-    }
-   ],
-   "belowFloor": {
-    "tie:contact:contact": 2500,
-    "tie:contact:family": 29
-   },
-   "threads": [
-    {
-     "otherId": "person_045c047d10f02e18",
-     "name": "Ava Harrell",
-     "kin": [
-      "child"
-     ],
-     "sharedHome": true,
-     "tie": 0.8,
-     "closeness": 0.5020605775352338,
-     "lastContact": "2021-12-27",
-     "importanceAtEnd": 1.3091666666666666,
-     "fadingAtEnd": 0,
-     "turns": [],
-     "moments": 0
     },
-    {
-     "otherId": "person_045c097d10f03697",
-     "name": "Peter Harrell",
-     "kin": [
-      "partner"
-     ],
-     "sharedHome": true,
-     "tie": 0.8,
-     "closeness": 0.46211715726000974,
-     "lastContact": "2021-01-01",
-     "importanceAtEnd": 1.3091666666666666,
-     "fadingAtEnd": 0,
-     "turns": [],
-     "moments": 0
+    "cohort": {
+      "people": 10002,
+      "peopleWithMoments": 3149,
+      "moments": 3603,
+      "labels": {
+        "money:job-ended": 3303,
+        "feeling:event:health.serious-illness": 138,
+        "feeling:event:life.death": 66,
+        "health:died": 68,
+        "feeling:event:cause.shared": 21,
+        "cause:drive:cause": 6,
+        "cause:event:cause.shared": 1
+      },
+      "echoReasons": {
+        "same-pair-channel": 67
+      },
+      "outcomes": {
+        "scene-waiting": 3245,
+        "scene-now": 132,
+        "journal-line": 226
+      },
+      "coverage": {
+        "no-type:feeling:event:health.serious-illness": 70,
+        "no-type:health:died": 68,
+        "role-unbound:money:job-ended": 59,
+        "no-type:feeling:event:cause.shared": 21,
+        "no-type:cause:drive:cause": 6,
+        "no-type:cause:event:cause.shared": 1
+      },
+      "boundTypes": {
+        "news-arrives": 3294,
+        "visit": 68,
+        "funeral": 66
+      },
+      "renewedTurns": 40
     },
-    {
-     "otherId": "person_045c0a7d10f0384a",
-     "name": "Taylor Harrell",
-     "kin": [
-      "child"
-     ],
-     "sharedHome": true,
-     "tie": 0.8,
-     "closeness": 0.46211715726000974,
-     "lastContact": "2021-01-01",
-     "importanceAtEnd": 1.3091666666666666,
-     "fadingAtEnd": 0,
-     "turns": [],
-     "moments": 0
-    },
-    {
-     "otherId": "person_045c0b7d10f039fd",
-     "name": "Alexis Harrell",
-     "kin": [
-      "child"
-     ],
-     "sharedHome": true,
-     "tie": 0.8,
-     "closeness": 0.46211715726000974,
-     "lastContact": "2021-01-01",
-     "importanceAtEnd": 1.3091666666666666,
-     "fadingAtEnd": 0,
-     "turns": [],
-     "moments": 0
-    },
-    {
-     "otherId": "person_0a8d993f8b4ccbc6",
-     "name": "Debbie Randolph",
-     "kin": [],
-     "sharedHome": false,
-     "tie": 0,
-     "closeness": 0.5020701025578997,
-     "lastContact": "2021-12-31",
-     "importanceAtEnd": 0,
-     "fadingAtEnd": 0.00126406751056507,
-     "turns": [
-      {
-       "date": "2021-01-12",
-       "turn": "renewed",
-       "causeId": "tie:person_045c087d10f034e4:person_0a8d993f8b4ccbc6:2021-01-12",
-       "closeness": 0.04995837495787998
-      }
-     ],
-     "moments": 0
-    },
-    {
-     "otherId": "person_1856fc2be313d557",
-     "name": "Teresa Gallegos",
-     "kin": [],
-     "sharedHome": false,
-     "tie": 0,
-     "closeness": 0.5020701025578997,
-     "lastContact": "2022-01-01",
-     "importanceAtEnd": 0,
-     "fadingAtEnd": 0,
-     "turns": [
-      {
-       "date": "2021-01-12",
-       "turn": "renewed",
-       "causeId": "tie:person_045c087d10f034e4:person_1856fc2be313d557:2021-01-12",
-       "closeness": 0.04995837495787998
-      }
-     ],
-     "moments": 0
-    },
-    {
-     "otherId": "person_1cd70c31145e3dc4",
-     "name": "Tyler Short",
-     "kin": [],
-     "sharedHome": false,
-     "tie": 0,
-     "closeness": 0.5020701025578997,
-     "lastContact": "2021-12-30",
-     "importanceAtEnd": 0,
-     "fadingAtEnd": 0.002526537154458941,
-     "turns": [
-      {
-       "date": "2021-01-12",
-       "turn": "renewed",
-       "causeId": "tie:person_045c087d10f034e4:person_1cd70c31145e3dc4:2021-01-12",
-       "closeness": 0.04995837495787998
-      }
-     ],
-     "moments": 0
-    },
-    {
-     "otherId": "person_2353944af7797825",
-     "name": "Tina Graham",
-     "kin": [],
-     "sharedHome": false,
-     "tie": 0,
-     "closeness": 0.5020701025578997,
-     "lastContact": "2022-01-01",
-     "importanceAtEnd": 0,
-     "fadingAtEnd": 0,
-     "turns": [
-      {
-       "date": "2021-01-12",
-       "turn": "renewed",
-       "causeId": "tie:person_045c087d10f034e4:person_2353944af7797825:2021-01-12",
-       "closeness": 0.04995837495787998
-      }
-     ],
-     "moments": 0
-    }
-   ],
-   "keptFacts": [
-    {
-     "id": "knew-each-other:person_045c047d10f02e18:person_045c087d10f034e4",
-     "kind": "knew-each-other",
-     "holderId": "person_045c087d10f034e4",
-     "otherId": "person_045c047d10f02e18",
-     "since": "2006-10-15",
-     "sinceBasis": "no-later-than-birth",
-     "sourceId": "family:person_045c087d10f034e4:person_045c047d10f02e18"
-    },
-    {
-     "id": "knew-each-other:person_045c087d10f034e4:person_045c097d10f03697",
-     "kind": "knew-each-other",
-     "holderId": "person_045c087d10f034e4",
-     "otherId": "person_045c097d10f03697",
-     "since": "1969-12-20",
-     "sinceBasis": "no-later-than-birth",
-     "sourceId": "family:person_045c087d10f034e4:person_045c097d10f03697"
-    },
-    {
-     "id": "knew-each-other:person_045c087d10f034e4:person_045c0a7d10f0384a",
-     "kind": "knew-each-other",
-     "holderId": "person_045c087d10f034e4",
-     "otherId": "person_045c0a7d10f0384a",
-     "since": "2010-09-27",
-     "sinceBasis": "no-later-than-birth",
-     "sourceId": "family:person_045c087d10f034e4:person_045c0a7d10f0384a"
-    },
-    {
-     "id": "knew-each-other:person_045c087d10f034e4:person_045c0b7d10f039fd",
-     "kind": "knew-each-other",
-     "holderId": "person_045c087d10f034e4",
-     "otherId": "person_045c0b7d10f039fd",
-     "since": "2007-11-13",
-     "sinceBasis": "no-later-than-birth",
-     "sourceId": "family:person_045c087d10f034e4:person_045c0b7d10f039fd"
-    },
-    {
-     "id": "knew-each-other:person_045c087d10f034e4:person_0a8d993f8b4ccbc6",
-     "kind": "knew-each-other",
-     "holderId": "person_045c087d10f034e4",
-     "otherId": "person_0a8d993f8b4ccbc6",
-     "since": "1984-08-27",
-     "sinceBasis": "recorded",
-     "sourceId": "person_045c087d10f034e4:p8-opening-school-peers-v1:dfd8d97363f67000"
-    }
-   ],
-   "backdrop": [
-    {
-     "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:september-attacks",
-     "personId": "person_045c087d10f034e4",
-     "date": "2001-09-11",
-     "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:september-attacks",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:recession-dating-announcement",
-     "personId": "person_045c087d10f034e4",
-     "date": "2008-12-01",
-     "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:recession-dating-announcement",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:pandemic-characterization",
-     "personId": "person_045c087d10f034e4",
-     "date": "2020-03-11",
-     "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:pandemic-characterization",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-12:organization_54db30cf10004a62",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-03-12",
-     "sourceId": "employer-closed:2021-03-12:organization_54db30cf10004a62",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-13:organization_54db2fcf100048af",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-03-13",
-     "sourceId": "employer-closed:2021-03-13:organization_54db2fcf100048af",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-03-14",
-     "sourceId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "kind": "organization.closed",
-     "reach": "named"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-06-01",
-     "sourceId": "employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-01:organization_e6178073c43ec293",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-06-01",
-     "sourceId": "employer-closed:2021-06-01:organization_e6178073c43ec293",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-02:organization_e6178173c43ec446",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-06-02",
-     "sourceId": "employer-closed:2021-06-02:organization_e6178173c43ec446",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-05",
-     "sourceId": "employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-06:organization_570dd52ac59a0647",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-06",
-     "sourceId": "employer-closed:2021-07-06:organization_570dd52ac59a0647",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_09972141ab595ad8",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_09972141ab595ad8",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_09972241ab595c8b",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_09972241ab595c8b",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_2ff14956187618a9",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_2ff14956187618a9",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_42f8c3553301e027",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_42f8c3553301e027",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_45c236457eb768c9",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_45c236457eb768c9",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_613b9e60ffc80856",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_613b9e60ffc80856",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_ddd3980ca0d76530",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_ddd3980ca0d76530",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-08:organization_044a892fcca65a23",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-08",
-     "sourceId": "employer-closed:2021-07-08:organization_044a892fcca65a23",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-08",
-     "sourceId": "employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-10",
-     "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-15",
-     "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
-     "personId": "person_045c087d10f034e4",
-     "date": "2021-07-21",
-     "sourceId": "employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
-     "kind": "organization.closed",
-     "reach": "place"
-    }
-   ],
-   "schedule": [
-    {
-     "momentId": "person_045c087d10f034e4:2021-03-14:employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "date": "2021-03-14",
-     "outcome": "scene-waiting",
-     "mode": "live",
-     "stopsSkip": false,
-     "rank": 1,
-     "pace": 4,
-     "bindings": [
-      {
-       "typeKey": "news-arrives",
-       "roles": [
-        {
-         "role": "bearer",
-         "personIds": [
-          "person_045c087d10f034e4"
-         ],
-         "bearing": "solemn"
-        },
-        {
-         "role": "about",
-         "personIds": [
-          "person_045c087d10f034e4"
-         ]
-        },
-        {
-         "role": "receiver",
-         "personIds": [
-          "person_045c047d10f02e18"
-         ],
-         "bearing": "braced"
-        }
-       ],
-       "presentIds": [
-        "person_045c047d10f02e18",
-        "person_045c087d10f034e4"
-       ],
-       "setting": {
-        "kind": "home",
-        "recordId": "household_d4d5ef7f08c435c5"
-       },
-       "timing": "at-cause",
-       "opener": "bearer",
-       "opening": "tell",
-       "openUntil": "2021-03-21"
-      }
-     ]
-    }
-   ],
-   "importanceByMonth": [
-    {
-     "date": "2021-02-01",
-     "threads": {
-      "person_045c047d10f02e18": 0.8,
-      "person_045c097d10f03697": 0.8,
-      "person_045c0a7d10f0384a": 0.8,
-      "person_045c0b7d10f039fd": 0.8,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-03-01",
-     "threads": {
-      "person_045c047d10f02e18": 0.8,
-      "person_045c097d10f03697": 0.8,
-      "person_045c0a7d10f0384a": 0.8,
-      "person_045c0b7d10f039fd": 0.8,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-04-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-05-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-06-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-07-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-08-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-09-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-10-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-11-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2021-12-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    },
-    {
-     "date": "2022-01-01",
-     "threads": {
-      "person_045c047d10f02e18": 1.3091666666666666,
-      "person_045c097d10f03697": 1.3091666666666666,
-      "person_045c0a7d10f0384a": 1.3091666666666666,
-      "person_045c0b7d10f039fd": 1.3091666666666666,
-      "person_0a8d993f8b4ccbc6": 0,
-      "person_1856fc2be313d557": 0,
-      "person_1cd70c31145e3dc4": 0,
-      "person_2353944af7797825": 0
-     }
-    }
-   ],
-   "keptFactsByKind": {
-    "knew-each-other": 24
-   }
+    "directorStopgapHits": [
+      "SG-P13-appraisal-recompute",
+      "SG-P13-param-directorHalfLives",
+      "SG-P13-param-directorInterruptImpact",
+      "SG-P13-param-directorMomentFloor",
+      "SG-P13-param-directorRenewedFading",
+      "SG-P13-param-directorScaleHealth",
+      "SG-P13-param-directorTies",
+      "SG-P13-param-directorWeightMoneyRisk",
+      "SG-P13-param-directorWeightTieSociability",
+      "SG-P13-tie-day-order"
+    ],
+    "openDirectorStopgaps": 11
   },
-  {
-   "id": "person_9bb4cddcf13f0781",
-   "name": "Erica Byrd",
-   "birthDate": "1963-04-21",
-   "traits": {
-    "people-mind-v1:deliberation": 0,
-    "people-mind-v1:sociability": -1,
-    "people-mind-v1:conflict": 1,
-    "people-mind-v1:reliability": 1,
-    "people-mind-v1:risk": 0,
-    "personality-v1:facet-duty-bound": 1,
-    "personality-v1:facet-practical": 1,
-    "personality-v1:facet-acquisitive": 1
-   },
-   "observedDays": 365,
-   "quietDays": 363,
-   "moments": [
-    {
-     "id": "person_9bb4cddcf13f0781:2021-02-01:life.death:person_9bb4ccdcf13f05ce:2021-02-01",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-02-01",
-     "label": "feeling:event:life.death",
-     "causeId": "life.death:person_9bb4ccdcf13f05ce:2021-02-01",
-     "causeKind": "event:life.death",
-     "counterpartIds": [
-      "person_9bb4ccdcf13f05ce"
-     ],
-     "impact": 0.9211338090738062,
-     "channels": [
-      {
-       "channel": "feeling",
-       "raw": 0.9211338090738062,
-       "scale": 1,
-       "traitWeight": 1,
-       "traits": [],
-       "contribution": 0.9211338090738062
+  "threeYears": {
+    "startedAt": "2021-01-01",
+    "through": "2024-01-01",
+    "watched": 10002,
+    "seconds": 446.133557406,
+    "memory": {
+      "before": {
+        "heapMiB": 1546.4823532104492,
+        "rssMiB": 1977.69921875
+      },
+      "after": {
+        "heapMiB": 3055.8126907348633,
+        "rssMiB": 5789.0703125
       }
-     ],
-     "hindsight": 3.099122790958465,
-     "hindsightAt": "2021-02-01",
-     "placeId": "jurisdiction_47f8dde9eac44f56",
-     "echoes": [
+    },
+    "cohort": {
+      "people": 10002,
+      "peopleWithMoments": 3433,
+      "moments": 4430,
+      "labels": {
+        "money:job-ended": 3303,
+        "feeling:event:health.serious-illness": 512,
+        "feeling:event:life.death": 260,
+        "health:died": 229,
+        "feeling:event:cause.shared": 95,
+        "cause:drive:cause": 26,
+        "cause:event:cause.shared": 5
+      },
+      "echoReasons": {
+        "same-pair-channel": 265
+      },
+      "outcomes": {
+        "scene-waiting": 3245,
+        "scene-now": 533,
+        "journal-line": 652
+      },
+      "coverage": {
+        "no-type:feeling:event:health.serious-illness": 237,
+        "no-type:health:died": 229,
+        "role-unbound:money:job-ended": 59,
+        "no-type:feeling:event:cause.shared": 95,
+        "no-type:cause:drive:cause": 26,
+        "no-type:cause:event:cause.shared": 5
+      },
+      "boundTypes": {
+        "news-arrives": 3484,
+        "visit": 275,
+        "funeral": 260
+      },
+      "renewedTurns": 40
+    }
+  },
+  "closureMarch14": {
+    "eventId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
+    "reached": 10002,
+    "byReach": {
+      "named": 218,
+      "place": 9436,
+      "household": 348
+    },
+    "personalMoments": 564,
+    "impactMin": 0.15684146211879713,
+    "impactMedian": 0.47,
+    "impactMax": 0.5091666666666667
+  },
+  "timing": {
+    "withoutDrives": [
       {
-       "earlierId": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
-       "earlierKind": "moment",
-       "otherId": "person_9bb4ccdcf13f05ce",
-       "reason": "same-pair-channel",
-       "strength": 1.5718722707388
+        "mode": "base",
+        "watched": 1,
+        "seconds": 75.199241813,
+        "heapDeltaMiB": 2246.559616088867,
+        "rssMiB": 4219.00390625
+      },
+      {
+        "mode": "director",
+        "watched": 2,
+        "seconds": 72.163174142,
+        "heapDeltaMiB": 2229.4957885742188,
+        "rssMiB": 4171.90625
+      },
+      {
+        "mode": "base",
+        "watched": 1,
+        "seconds": 68.599666394,
+        "heapDeltaMiB": 2243.8706436157227,
+        "rssMiB": 4225.96484375
+      },
+      {
+        "mode": "director",
+        "watched": 2,
+        "seconds": 71.968054034,
+        "heapDeltaMiB": 2258.4578704833984,
+        "rssMiB": 4219.3984375
+      },
+      {
+        "mode": "director",
+        "watched": 10002,
+        "seconds": 193.812631201,
+        "heapDeltaMiB": 3248.699348449707,
+        "rssMiB": 5277.62109375
       }
-     ]
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-01-02",
-     "label": "feeling:event:health.serious-illness",
-     "causeId": "health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
-     "causeKind": "event:health.serious-illness",
-     "counterpartIds": [
-      "person_9bb4ccdcf13f05ce"
-     ],
-     "impact": 0.6433315491944043,
-     "channels": [
+    ],
+    "withDrives": [
       {
-       "channel": "feeling",
-       "raw": 0.6433315491944043,
-       "scale": 1,
-       "traitWeight": 1,
-       "traits": [],
-       "contribution": 0.6433315491944043
+        "mode": "base",
+        "watched": 1,
+        "seconds": 78.987063955,
+        "heapDeltaMiB": 2338.72452545166,
+        "rssMiB": 4310.140625
+      },
+      {
+        "mode": "director",
+        "watched": 2,
+        "seconds": 77.569323503,
+        "heapDeltaMiB": 2347.005569458008,
+        "rssMiB": 4292.26953125
+      },
+      {
+        "mode": "base",
+        "watched": 1,
+        "seconds": 75.21888505,
+        "heapDeltaMiB": 2338.1614532470703,
+        "rssMiB": 4316.95703125
+      },
+      {
+        "mode": "director",
+        "watched": 2,
+        "seconds": 74.025110813,
+        "heapDeltaMiB": 2341.836669921875,
+        "rssMiB": 4325.0859375
       }
-     ],
-     "hindsight": 2.1644667111455944,
-     "hindsightAt": "2021-02-01",
-     "placeId": "jurisdiction_47f8dde9eac44f56",
-     "echoes": []
-    }
-   ],
-   "belowFloor": {},
-   "threads": [
+    ]
+  },
+  "lives": [
     {
-     "otherId": "person_9bb4ccdcf13f05ce",
-     "name": "John Byrd",
-     "kin": [
-      "partner"
-     ],
-     "sharedHome": true,
-     "tie": 0.8,
-     "closeness": 0.46211715726000974,
-     "lastContact": "2021-01-01",
-     "importanceAtEnd": 2.3644653582682107,
-     "fadingAtEnd": 0,
-     "turns": [
-      {
-       "date": "2021-02-01",
-       "turn": "closed",
-       "causeId": "death:person_9bb4ccdcf13f05ce",
-       "closeness": 0.46211715726000974
-      }
-     ],
-     "moments": 2
-    }
-   ],
-   "keptFacts": [
-    {
-     "id": "knew-each-other:person_9bb4ccdcf13f05ce:person_9bb4cddcf13f0781",
-     "kind": "knew-each-other",
-     "holderId": "person_9bb4cddcf13f0781",
-     "otherId": "person_9bb4ccdcf13f05ce",
-     "since": "1965-03-16",
-     "sinceBasis": "no-later-than-birth",
-     "sourceId": "family:person_9bb4cddcf13f0781:person_9bb4ccdcf13f05ce"
-    }
-   ],
-   "backdrop": [
-    {
-     "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:september-attacks",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2001-09-11",
-     "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:september-attacks",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:recession-dating-announcement",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2008-12-01",
-     "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:recession-dating-announcement",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:pandemic-characterization",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2020-03-11",
-     "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:pandemic-characterization",
-     "kind": "era:public-context",
-     "reach": "past"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-12:organization_54db30cf10004a62",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-03-12",
-     "sourceId": "employer-closed:2021-03-12:organization_54db30cf10004a62",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-13:organization_54db2fcf100048af",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-03-13",
-     "sourceId": "employer-closed:2021-03-13:organization_54db2fcf100048af",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-03-14",
-     "sourceId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-06-01",
-     "sourceId": "employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-01:organization_e6178073c43ec293",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-06-01",
-     "sourceId": "employer-closed:2021-06-01:organization_e6178073c43ec293",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-02:organization_e6178173c43ec446",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-06-02",
-     "sourceId": "employer-closed:2021-06-02:organization_e6178173c43ec446",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-05",
-     "sourceId": "employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-06:organization_570dd52ac59a0647",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-06",
-     "sourceId": "employer-closed:2021-07-06:organization_570dd52ac59a0647",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_09972141ab595ad8",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_09972141ab595ad8",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_09972241ab595c8b",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_09972241ab595c8b",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_2ff14956187618a9",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_2ff14956187618a9",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_42f8c3553301e027",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_42f8c3553301e027",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_45c236457eb768c9",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_45c236457eb768c9",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_613b9e60ffc80856",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_613b9e60ffc80856",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_ddd3980ca0d76530",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_ddd3980ca0d76530",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-07",
-     "sourceId": "employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-08:organization_044a892fcca65a23",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-08",
-     "sourceId": "employer-closed:2021-07-08:organization_044a892fcca65a23",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-08",
-     "sourceId": "employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-10",
-     "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-15",
-     "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
-     "kind": "organization.closed",
-     "reach": "place"
-    },
-    {
-     "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
-     "personId": "person_9bb4cddcf13f0781",
-     "date": "2021-07-21",
-     "sourceId": "employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
-     "kind": "organization.closed",
-     "reach": "place"
-    }
-   ],
-   "schedule": [
-    {
-     "momentId": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
-     "date": "2021-01-02",
-     "outcome": "scene-now",
-     "mode": "live",
-     "stopsSkip": false,
-     "rank": 1,
-     "pace": 4,
-     "bindings": [
-      {
-       "typeKey": "visit",
-       "roles": [
+      "id": "person_045c087d10f034e4",
+      "name": "Margaret Harrell",
+      "birthDate": "1969-12-20",
+      "traits": {
+        "people-mind-v1:deliberation": 0,
+        "people-mind-v1:sociability": 0,
+        "people-mind-v1:conflict": -1,
+        "people-mind-v1:reliability": 1,
+        "people-mind-v1:risk": -1,
+        "personality-v1:facet-duty-bound": 1,
+        "personality-v1:facet-contented": 1,
+        "personality-v1:facet-generous": 1
+      },
+      "observedDays": 365,
+      "quietDays": 55,
+      "moments": [
         {
-         "role": "visitor",
-         "personIds": [
-          "person_9bb4cddcf13f0781"
-         ],
-         "bearing": "tender"
-        },
-        {
-         "role": "cannot-come",
-         "personIds": [
-          "person_9bb4ccdcf13f05ce"
-         ],
-         "bearing": "solemn"
+          "id": "person_045c087d10f034e4:2021-03-14:employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-03-14",
+          "label": "money:job-ended",
+          "causeId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "causeKind": "job-ended",
+          "counterpartIds": [],
+          "impact": 0.5091666666666667,
+          "channels": [
+            {
+              "channel": "money",
+              "raw": 1,
+              "scale": 0.47,
+              "traitWeight": 1.0833333333333333,
+              "traits": [
+                {
+                  "traitId": "people-mind-v1:risk",
+                  "recorded": -1,
+                  "weight": -0.25
+                }
+              ],
+              "contribution": 0.5091666666666667
+            }
+          ],
+          "hindsight": 0.5091666666666667,
+          "hindsightAt": "2021-03-14",
+          "broadEventId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "placeId": "jurisdiction_47f8dde9eac44f56",
+          "echoes": []
         }
-       ],
-       "presentIds": [
-        "person_9bb4ccdcf13f05ce",
-        "person_9bb4cddcf13f0781"
-       ],
-       "setting": {
-        "kind": "venue",
-        "recordId": "jurisdiction_47f8dde9eac44f56"
-       },
-       "timing": "next-together",
-       "opener": "visitor",
-       "openUntil": "2021-02-01"
-      }
-     ]
-    },
-    {
-     "momentId": "person_9bb4cddcf13f0781:2021-02-01:life.death:person_9bb4ccdcf13f05ce:2021-02-01",
-     "date": "2021-02-01",
-     "outcome": "scene-now",
-     "mode": "live",
-     "stopsSkip": false,
-     "rank": 1,
-     "pace": 4,
-     "bindings": [
-      {
-       "typeKey": "funeral",
-       "roles": [
+      ],
+      "belowFloor": {
+        "tie:contact:contact": 2500,
+        "tie:contact:family": 29
+      },
+      "threads": [
         {
-         "role": "family",
-         "personIds": [
-          "person_9bb4cddcf13f0781"
-         ],
-         "bearing": "grieving"
+          "otherId": "person_045c047d10f02e18",
+          "name": "Ava Harrell",
+          "kin": ["child"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.5020605775352338,
+          "lastContact": "2021-12-27",
+          "importanceAtEnd": 1.3091666666666666,
+          "fadingAtEnd": 0,
+          "turns": [],
+          "moments": 0
         },
         {
-         "role": "deceased",
-         "personIds": [
-          "person_9bb4ccdcf13f05ce"
-         ]
+          "otherId": "person_045c097d10f03697",
+          "name": "Peter Harrell",
+          "kin": ["partner"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.46211715726000974,
+          "lastContact": "2021-01-01",
+          "importanceAtEnd": 1.3091666666666666,
+          "fadingAtEnd": 0,
+          "turns": [],
+          "moments": 0
         },
         {
-         "role": "mourners",
-         "personIds": [],
-         "bearing": "solemn"
+          "otherId": "person_045c0a7d10f0384a",
+          "name": "Taylor Harrell",
+          "kin": ["child"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.46211715726000974,
+          "lastContact": "2021-01-01",
+          "importanceAtEnd": 1.3091666666666666,
+          "fadingAtEnd": 0,
+          "turns": [],
+          "moments": 0
+        },
+        {
+          "otherId": "person_045c0b7d10f039fd",
+          "name": "Alexis Harrell",
+          "kin": ["child"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.46211715726000974,
+          "lastContact": "2021-01-01",
+          "importanceAtEnd": 1.3091666666666666,
+          "fadingAtEnd": 0,
+          "turns": [],
+          "moments": 0
+        },
+        {
+          "otherId": "person_0a8d993f8b4ccbc6",
+          "name": "Debbie Randolph",
+          "kin": [],
+          "sharedHome": false,
+          "tie": 0,
+          "closeness": 0.5020701025578997,
+          "lastContact": "2021-12-31",
+          "importanceAtEnd": 0,
+          "fadingAtEnd": 0.00126406751056507,
+          "turns": [
+            {
+              "date": "2021-01-12",
+              "turn": "renewed",
+              "causeId": "tie:person_045c087d10f034e4:person_0a8d993f8b4ccbc6:2021-01-12",
+              "closeness": 0.04995837495787998
+            }
+          ],
+          "moments": 0
+        },
+        {
+          "otherId": "person_1856fc2be313d557",
+          "name": "Teresa Gallegos",
+          "kin": [],
+          "sharedHome": false,
+          "tie": 0,
+          "closeness": 0.5020701025578997,
+          "lastContact": "2022-01-01",
+          "importanceAtEnd": 0,
+          "fadingAtEnd": 0,
+          "turns": [
+            {
+              "date": "2021-01-12",
+              "turn": "renewed",
+              "causeId": "tie:person_045c087d10f034e4:person_1856fc2be313d557:2021-01-12",
+              "closeness": 0.04995837495787998
+            }
+          ],
+          "moments": 0
+        },
+        {
+          "otherId": "person_1cd70c31145e3dc4",
+          "name": "Tyler Short",
+          "kin": [],
+          "sharedHome": false,
+          "tie": 0,
+          "closeness": 0.5020701025578997,
+          "lastContact": "2021-12-30",
+          "importanceAtEnd": 0,
+          "fadingAtEnd": 0.002526537154458941,
+          "turns": [
+            {
+              "date": "2021-01-12",
+              "turn": "renewed",
+              "causeId": "tie:person_045c087d10f034e4:person_1cd70c31145e3dc4:2021-01-12",
+              "closeness": 0.04995837495787998
+            }
+          ],
+          "moments": 0
+        },
+        {
+          "otherId": "person_2353944af7797825",
+          "name": "Tina Graham",
+          "kin": [],
+          "sharedHome": false,
+          "tie": 0,
+          "closeness": 0.5020701025578997,
+          "lastContact": "2022-01-01",
+          "importanceAtEnd": 0,
+          "fadingAtEnd": 0,
+          "turns": [
+            {
+              "date": "2021-01-12",
+              "turn": "renewed",
+              "causeId": "tie:person_045c087d10f034e4:person_2353944af7797825:2021-01-12",
+              "closeness": 0.04995837495787998
+            }
+          ],
+          "moments": 0
         }
-       ],
-       "presentIds": [
-        "person_9bb4cddcf13f0781"
-       ],
-       "setting": {
-        "kind": "venue",
-        "recordId": "jurisdiction_47f8dde9eac44f56"
-       },
-       "timing": "effective-date",
-       "openUntil": "2021-02-04"
+      ],
+      "keptFacts": [
+        {
+          "id": "knew-each-other:person_045c047d10f02e18:person_045c087d10f034e4",
+          "kind": "knew-each-other",
+          "holderId": "person_045c087d10f034e4",
+          "otherId": "person_045c047d10f02e18",
+          "since": "2006-10-15",
+          "sinceBasis": "no-later-than-birth",
+          "sourceId": "family:person_045c087d10f034e4:person_045c047d10f02e18"
+        },
+        {
+          "id": "knew-each-other:person_045c087d10f034e4:person_045c097d10f03697",
+          "kind": "knew-each-other",
+          "holderId": "person_045c087d10f034e4",
+          "otherId": "person_045c097d10f03697",
+          "since": "1969-12-20",
+          "sinceBasis": "no-later-than-birth",
+          "sourceId": "family:person_045c087d10f034e4:person_045c097d10f03697"
+        },
+        {
+          "id": "knew-each-other:person_045c087d10f034e4:person_045c0a7d10f0384a",
+          "kind": "knew-each-other",
+          "holderId": "person_045c087d10f034e4",
+          "otherId": "person_045c0a7d10f0384a",
+          "since": "2010-09-27",
+          "sinceBasis": "no-later-than-birth",
+          "sourceId": "family:person_045c087d10f034e4:person_045c0a7d10f0384a"
+        },
+        {
+          "id": "knew-each-other:person_045c087d10f034e4:person_045c0b7d10f039fd",
+          "kind": "knew-each-other",
+          "holderId": "person_045c087d10f034e4",
+          "otherId": "person_045c0b7d10f039fd",
+          "since": "2007-11-13",
+          "sinceBasis": "no-later-than-birth",
+          "sourceId": "family:person_045c087d10f034e4:person_045c0b7d10f039fd"
+        },
+        {
+          "id": "knew-each-other:person_045c087d10f034e4:person_0a8d993f8b4ccbc6",
+          "kind": "knew-each-other",
+          "holderId": "person_045c087d10f034e4",
+          "otherId": "person_0a8d993f8b4ccbc6",
+          "since": "1984-08-27",
+          "sinceBasis": "recorded",
+          "sourceId": "person_045c087d10f034e4:p8-opening-school-peers-v1:dfd8d97363f67000"
+        }
+      ],
+      "backdrop": [
+        {
+          "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:september-attacks",
+          "personId": "person_045c087d10f034e4",
+          "date": "2001-09-11",
+          "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:september-attacks",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:recession-dating-announcement",
+          "personId": "person_045c087d10f034e4",
+          "date": "2008-12-01",
+          "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:recession-dating-announcement",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_045c087d10f034e4:past:person_045c087d10f034e4:p8-deep-past-v1:era:pandemic-characterization",
+          "personId": "person_045c087d10f034e4",
+          "date": "2020-03-11",
+          "sourceId": "person_045c087d10f034e4:p8-deep-past-v1:era:pandemic-characterization",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-12:organization_54db30cf10004a62",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-03-12",
+          "sourceId": "employer-closed:2021-03-12:organization_54db30cf10004a62",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-13:organization_54db2fcf100048af",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-03-13",
+          "sourceId": "employer-closed:2021-03-13:organization_54db2fcf100048af",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-03-14",
+          "sourceId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "kind": "organization.closed",
+          "reach": "named"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-06-01",
+          "sourceId": "employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-01:organization_e6178073c43ec293",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-06-01",
+          "sourceId": "employer-closed:2021-06-01:organization_e6178073c43ec293",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-06-02:organization_e6178173c43ec446",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-06-02",
+          "sourceId": "employer-closed:2021-06-02:organization_e6178173c43ec446",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-05",
+          "sourceId": "employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-06:organization_570dd52ac59a0647",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-06",
+          "sourceId": "employer-closed:2021-07-06:organization_570dd52ac59a0647",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_09972141ab595ad8",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_09972141ab595ad8",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_09972241ab595c8b",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_09972241ab595c8b",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_2ff14956187618a9",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_2ff14956187618a9",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_42f8c3553301e027",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_42f8c3553301e027",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_45c236457eb768c9",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_45c236457eb768c9",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_613b9e60ffc80856",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_613b9e60ffc80856",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_ddd3980ca0d76530",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_ddd3980ca0d76530",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-08:organization_044a892fcca65a23",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-08",
+          "sourceId": "employer-closed:2021-07-08:organization_044a892fcca65a23",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-08",
+          "sourceId": "employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-10",
+          "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-15",
+          "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-21",
+          "sourceId": "employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
+          "kind": "organization.closed",
+          "reach": "place"
+        }
+      ],
+      "schedule": [
+        {
+          "momentId": "person_045c087d10f034e4:2021-03-14:employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "date": "2021-03-14",
+          "outcome": "scene-waiting",
+          "mode": "live",
+          "stopsSkip": false,
+          "rank": 1,
+          "pace": 4,
+          "bindings": [
+            {
+              "typeKey": "news-arrives",
+              "roles": [
+                {
+                  "role": "bearer",
+                  "personIds": ["person_045c087d10f034e4"],
+                  "bearing": "solemn"
+                },
+                {
+                  "role": "about",
+                  "personIds": ["person_045c087d10f034e4"]
+                },
+                {
+                  "role": "receiver",
+                  "personIds": ["person_045c047d10f02e18"],
+                  "bearing": "braced"
+                }
+              ],
+              "presentIds": [
+                "person_045c047d10f02e18",
+                "person_045c087d10f034e4"
+              ],
+              "setting": {
+                "kind": "home",
+                "recordId": "household_d4d5ef7f08c435c5"
+              },
+              "timing": "at-cause",
+              "opener": "bearer",
+              "opening": "tell",
+              "openUntil": "2021-03-21"
+            }
+          ]
+        }
+      ],
+      "importanceByMonth": [
+        {
+          "date": "2021-01-01",
+          "threads": {
+            "person_045c047d10f02e18": 0.8,
+            "person_045c097d10f03697": 0.8,
+            "person_045c0a7d10f0384a": 0.8,
+            "person_045c0b7d10f039fd": 0.8,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-02-01",
+          "threads": {
+            "person_045c047d10f02e18": 0.8,
+            "person_045c097d10f03697": 0.8,
+            "person_045c0a7d10f0384a": 0.8,
+            "person_045c0b7d10f039fd": 0.8,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-03-01",
+          "threads": {
+            "person_045c047d10f02e18": 0.8,
+            "person_045c097d10f03697": 0.8,
+            "person_045c0a7d10f0384a": 0.8,
+            "person_045c0b7d10f039fd": 0.8,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-04-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-05-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-06-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-07-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-08-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-09-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-10-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-11-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2021-12-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        },
+        {
+          "date": "2022-01-01",
+          "threads": {
+            "person_045c047d10f02e18": 1.3091666666666666,
+            "person_045c097d10f03697": 1.3091666666666666,
+            "person_045c0a7d10f0384a": 1.3091666666666666,
+            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_0a8d993f8b4ccbc6": 0,
+            "person_1856fc2be313d557": 0,
+            "person_1cd70c31145e3dc4": 0,
+            "person_2353944af7797825": 0
+          }
+        }
+      ],
+      "keptFactsByKind": {
+        "knew-each-other": 24
       }
-     ]
+    },
+    {
+      "id": "person_9bb4cddcf13f0781",
+      "name": "Erica Byrd",
+      "birthDate": "1963-04-21",
+      "traits": {
+        "people-mind-v1:deliberation": 0,
+        "people-mind-v1:sociability": -1,
+        "people-mind-v1:conflict": 1,
+        "people-mind-v1:reliability": 1,
+        "people-mind-v1:risk": 0,
+        "personality-v1:facet-duty-bound": 1,
+        "personality-v1:facet-practical": 1,
+        "personality-v1:facet-acquisitive": 1
+      },
+      "observedDays": 365,
+      "quietDays": 363,
+      "moments": [
+        {
+          "id": "person_9bb4cddcf13f0781:2021-02-01:life.death:person_9bb4ccdcf13f05ce:2021-02-01",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-02-01",
+          "label": "feeling:event:life.death",
+          "causeId": "life.death:person_9bb4ccdcf13f05ce:2021-02-01",
+          "causeKind": "event:life.death",
+          "counterpartIds": ["person_9bb4ccdcf13f05ce"],
+          "impact": 0.9211338090738062,
+          "channels": [
+            {
+              "channel": "feeling",
+              "raw": 0.9211338090738062,
+              "scale": 1,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.9211338090738062
+            }
+          ],
+          "hindsight": 3.099122790958465,
+          "hindsightAt": "2021-02-01",
+          "placeId": "jurisdiction_47f8dde9eac44f56",
+          "echoes": [
+            {
+              "earlierId": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
+              "earlierKind": "moment",
+              "otherId": "person_9bb4ccdcf13f05ce",
+              "reason": "same-pair-channel",
+              "strength": 1.5718722707388
+            }
+          ]
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-01-02",
+          "label": "feeling:event:health.serious-illness",
+          "causeId": "health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
+          "causeKind": "event:health.serious-illness",
+          "counterpartIds": ["person_9bb4ccdcf13f05ce"],
+          "impact": 0.6433315491944043,
+          "channels": [
+            {
+              "channel": "feeling",
+              "raw": 0.6433315491944043,
+              "scale": 1,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.6433315491944043
+            }
+          ],
+          "hindsight": 2.1644667111455944,
+          "hindsightAt": "2021-02-01",
+          "placeId": "jurisdiction_47f8dde9eac44f56",
+          "echoes": []
+        }
+      ],
+      "belowFloor": {},
+      "threads": [
+        {
+          "otherId": "person_9bb4ccdcf13f05ce",
+          "name": "John Byrd",
+          "kin": ["partner"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.46211715726000974,
+          "lastContact": "2021-01-01",
+          "importanceAtEnd": 2.3644653582682107,
+          "fadingAtEnd": 0,
+          "turns": [
+            {
+              "date": "2021-02-01",
+              "turn": "closed",
+              "causeId": "death:person_9bb4ccdcf13f05ce",
+              "closeness": 0.46211715726000974
+            }
+          ],
+          "moments": 2
+        }
+      ],
+      "keptFacts": [
+        {
+          "id": "knew-each-other:person_9bb4ccdcf13f05ce:person_9bb4cddcf13f0781",
+          "kind": "knew-each-other",
+          "holderId": "person_9bb4cddcf13f0781",
+          "otherId": "person_9bb4ccdcf13f05ce",
+          "since": "1965-03-16",
+          "sinceBasis": "no-later-than-birth",
+          "sourceId": "family:person_9bb4cddcf13f0781:person_9bb4ccdcf13f05ce"
+        }
+      ],
+      "backdrop": [
+        {
+          "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:september-attacks",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2001-09-11",
+          "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:september-attacks",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:recession-dating-announcement",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2008-12-01",
+          "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:recession-dating-announcement",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:past:person_9bb4cddcf13f0781:p8-deep-past-v1:era:pandemic-characterization",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2020-03-11",
+          "sourceId": "person_9bb4cddcf13f0781:p8-deep-past-v1:era:pandemic-characterization",
+          "kind": "era:public-context",
+          "reach": "past"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-12:organization_54db30cf10004a62",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-03-12",
+          "sourceId": "employer-closed:2021-03-12:organization_54db30cf10004a62",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-13:organization_54db2fcf100048af",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-03-13",
+          "sourceId": "employer-closed:2021-03-13:organization_54db2fcf100048af",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-03-14",
+          "sourceId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-06-01",
+          "sourceId": "employer-closed:2021-06-01:organization_e6177f73c43ec0e0",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-01:organization_e6178073c43ec293",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-06-01",
+          "sourceId": "employer-closed:2021-06-01:organization_e6178073c43ec293",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-06-02:organization_e6178173c43ec446",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-06-02",
+          "sourceId": "employer-closed:2021-06-02:organization_e6178173c43ec446",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-05",
+          "sourceId": "employer-closed:2021-07-05:organization_f7da0df2eb4d1f5e",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-06:organization_570dd52ac59a0647",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-06",
+          "sourceId": "employer-closed:2021-07-06:organization_570dd52ac59a0647",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_09972141ab595ad8",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_09972141ab595ad8",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_09972241ab595c8b",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_09972241ab595c8b",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_2ff14956187618a9",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_2ff14956187618a9",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_42f8c3553301e027",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_42f8c3553301e027",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_45c236457eb768c9",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_45c236457eb768c9",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_613b9e60ffc80856",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_613b9e60ffc80856",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_7af2cbbf9683c2ad",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_ddd3980ca0d76530",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_ddd3980ca0d76530",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-07",
+          "sourceId": "employer-closed:2021-07-07:organization_efbc8a3bc0e3156f",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-08:organization_044a892fcca65a23",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-08",
+          "sourceId": "employer-closed:2021-07-08:organization_044a892fcca65a23",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-08",
+          "sourceId": "employer-closed:2021-07-08:organization_dd65ae2f5e07164e",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-10",
+          "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-15",
+          "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-21",
+          "sourceId": "employer-closed:2021-07-21:organization_7af2cabf9683c0fa",
+          "kind": "organization.closed",
+          "reach": "place"
+        }
+      ],
+      "schedule": [
+        {
+          "momentId": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
+          "date": "2021-01-02",
+          "outcome": "scene-now",
+          "mode": "live",
+          "stopsSkip": false,
+          "rank": 1,
+          "pace": 4,
+          "bindings": [
+            {
+              "typeKey": "visit",
+              "roles": [
+                {
+                  "role": "visitor",
+                  "personIds": ["person_9bb4cddcf13f0781"],
+                  "bearing": "tender"
+                },
+                {
+                  "role": "cannot-come",
+                  "personIds": ["person_9bb4ccdcf13f05ce"],
+                  "bearing": "solemn"
+                }
+              ],
+              "presentIds": [
+                "person_9bb4ccdcf13f05ce",
+                "person_9bb4cddcf13f0781"
+              ],
+              "setting": {
+                "kind": "venue",
+                "recordId": "jurisdiction_47f8dde9eac44f56"
+              },
+              "timing": "next-together",
+              "opener": "visitor",
+              "openUntil": "2021-02-01"
+            }
+          ]
+        },
+        {
+          "momentId": "person_9bb4cddcf13f0781:2021-02-01:life.death:person_9bb4ccdcf13f05ce:2021-02-01",
+          "date": "2021-02-01",
+          "outcome": "scene-now",
+          "mode": "live",
+          "stopsSkip": false,
+          "rank": 1,
+          "pace": 4,
+          "bindings": [
+            {
+              "typeKey": "funeral",
+              "roles": [
+                {
+                  "role": "family",
+                  "personIds": ["person_9bb4cddcf13f0781"],
+                  "bearing": "grieving"
+                },
+                {
+                  "role": "deceased",
+                  "personIds": ["person_9bb4ccdcf13f05ce"]
+                },
+                {
+                  "role": "mourners",
+                  "personIds": [],
+                  "bearing": "solemn"
+                }
+              ],
+              "presentIds": ["person_9bb4cddcf13f0781"],
+              "setting": {
+                "kind": "venue",
+                "recordId": "jurisdiction_47f8dde9eac44f56"
+              },
+              "timing": "effective-date",
+              "openUntil": "2021-02-04"
+            }
+          ]
+        }
+      ],
+      "importanceByMonth": [
+        {
+          "date": "2021-01-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 0.8
+          }
+        },
+        {
+          "date": "2021-02-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-03-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-04-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-05-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-06-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-07-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-08-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-09-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-10-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-11-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2021-12-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        },
+        {
+          "date": "2022-01-01",
+          "threads": {
+            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+          }
+        }
+      ],
+      "keptFactsByKind": {
+        "knew-each-other": 1
+      }
     }
-   ],
-   "importanceByMonth": [
-    {
-     "date": "2021-02-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-03-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-04-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-05-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-06-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-07-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-08-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-09-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-10-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-11-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2021-12-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    },
-    {
-     "date": "2022-01-01",
-     "threads": {
-      "person_9bb4ccdcf13f05ce": 2.3644653582682107
-     }
-    }
-   ],
-   "keptFactsByKind": {
-    "knew-each-other": 1
-   }
-  }
- ]
+  ]
 }
