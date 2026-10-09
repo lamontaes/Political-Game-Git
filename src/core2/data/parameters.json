@@ -1295,19 +1295,6 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "responseDriveFit": {
-    "value": 0.8,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward forming a drive (a cause, grudge, protective resolve, ambition or calling) before traits lean the person; below the carry-on fit so that only leaning traits form drives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
   "responseTraitLeanGain": {
     "value": 3,
     "tag": "TUNABLE",
@@ -1394,6 +1381,71 @@
     "spread": {
       "status": "unmeasured",
       "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCauseFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGrudgeFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGuardFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAmbitionFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward an ambition to prove oneself, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCallingFit": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

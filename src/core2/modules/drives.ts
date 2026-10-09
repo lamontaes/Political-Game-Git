@@ -4,6 +4,7 @@ import { chooseAct } from "../choice";
 import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
+import { knownPublicOrganizationIds } from "../state";
 import { discretionaryHours } from "./work";
 import type {
   ActOffer,
@@ -47,6 +48,7 @@ export interface DrivesData {
   version: string;
   stopgapId: string;
   causeGroupKind: string;
+  volunteerAffordances: readonly string[];
   replacedSituationIds: readonly string[];
   eventKinds: Readonly<Record<EventKindKey, string>>;
   civicActEvents: readonly { eventKind: string; actionId: string }[];
@@ -143,9 +145,12 @@ export interface FormationTrace {
 export interface DriveActTrace {
   date: IsoDate;
   actionId: string;
-  targetId: string;
-  score: number;
-  reasons: DecisionReason;
+  targetId?: string;
+  /** "scored" before this module's effect; "reconstructed" at a civic event; "recorded" from the act's saved reason key. */
+  basis: "scored" | "reconstructed" | "recorded";
+  score?: number;
+  reasons?: DecisionReason;
+  reasonKey?: string;
   strengthBefore: number;
 }
 
@@ -167,6 +172,7 @@ export interface HeldDrive {
   /** Most recent act traces (bounded); actCount is exact. */
   acts: DriveActTrace[];
   actCount: number;
+  lastTracedAct?: string;
   told: Set<PersonId>;
 }
 
@@ -695,28 +701,60 @@ function drivesOf(api: CoreAPI, actorId: PersonId, offer: ActOffer) {
   return drive;
 }
 
-function traceAct(
-  api: CoreAPI,
-  actorId: PersonId,
-  offer: ActOffer,
-  drive: HeldDrive,
-) {
-  const decision = chooseAct(core(api), actorId, [offer]);
-  const reasons = decision.selectedReasons!;
+function recordAct(api: CoreAPI, drive: HeldDrive, row: DriveActTrace) {
   drive.actCount += api.parameter("one");
-  retain(api, drive.acts, {
-    date: api.state.date,
-    actionId: offer.definition.id,
-    targetId: offer.targetId,
-    score: Object.values(reasons).reduce((a, b) => a + b),
-    reasons,
-    strengthBefore: currentStrength(api, drive),
-  });
+  drive.lastTracedAct = `${row.date}:${row.actionId}`;
+  retain(api, drive.acts, row);
   reinforce(
     api,
     drive,
     api.parameter("one") - api.parameter("driveActReinforcement"),
   );
+}
+
+function traceAct(
+  api: CoreAPI,
+  actorId: PersonId,
+  offer: ActOffer,
+  drive: HeldDrive,
+  basis: DriveActTrace["basis"] = "scored",
+) {
+  const decision = chooseAct(core(api), actorId, [offer]);
+  const reasons = decision.selectedReasons!;
+  recordAct(api, drive, {
+    date: api.state.date,
+    actionId: offer.definition.id,
+    targetId: offer.targetId,
+    basis,
+    score: Object.values(reasons).reduce((a, b) => a + b),
+    reasons,
+    reasonKey: decision.reasonKey,
+    strengthBefore: currentStrength(api, drive),
+  });
+}
+
+/** Acts the life module chose with this drive attached; read from the saved reason key. */
+function captureRecordedAct(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  drive: HeldDrive,
+) {
+  if (
+    !actor.lastChoice ||
+    !actor.lastReason ||
+    actor.lastActDate >= api.state.date
+  )
+    return;
+  if (!actor.lastReason.endsWith(`:${drive.id}`)) return;
+  const key = `${actor.lastActDate}:${actor.lastChoice}`;
+  if (drive.lastTracedAct === key || actor.lastActDate < drive.formedAt) return;
+  recordAct(api, drive, {
+    date: actor.lastActDate,
+    actionId: actor.lastChoice,
+    basis: "recorded",
+    reasonKey: actor.lastReason,
+    strengthBefore: currentStrength(api, drive),
+  });
 }
 
 function actEvent(
@@ -771,7 +809,9 @@ export function createDrivesModule(
           runtime.byPerson.delete(personId);
           continue;
         }
+        const actor = api.state.people.get(personId)!;
         for (const drive of mine.values()) {
+          captureRecordedAct(api, actor, drive);
           const strength = currentStrength(api, drive);
           if (strength < api.parameter("driveRetireStrength")) {
             // Faded: written once at zero and no longer rewritten daily.
@@ -827,6 +867,7 @@ export function createDrivesModule(
               ),
             },
             drive,
+            "reconstructed",
           );
         }
       }
@@ -862,13 +903,26 @@ export function createDrivesModule(
               out.push(driveOffer(api, action, id, drive));
         return out;
       },
-      "member-cause-group": (api, actor, action) => {
+      "volunteer-place": (api, actor, action) => {
         const groups = runtimeFor(api.state).groupsByTopic;
+        const known = knownPublicOrganizationIds(api.state, actor.id);
+        const associations = [...known]
+          .filter((id) =>
+            api.state.publicOrganizations
+              .get(id)
+              ?.affordances?.some((kind) =>
+                data.volunteerAffordances.includes(kind),
+              ),
+          )
+          .sort();
         const out: ActOffer[] = [];
-        for (const drive of servingDrives(api, actor, action))
+        for (const drive of servingDrives(api, actor, action)) {
           for (const id of [...(groups.get(drive.topic) ?? [])].sort())
             if (api.state.memberships.has(`${actor.id}:${id}`))
               out.push(driveOffer(api, action, id, drive));
+          for (const id of associations)
+            out.push(driveOffer(api, action, id, drive));
+        }
         return out;
       },
       "grudge-target": (api, actor, action) =>

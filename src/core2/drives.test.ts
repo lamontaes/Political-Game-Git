@@ -311,9 +311,15 @@ describe("P10 drives and causes", () => {
     expect(kinds.has("share-cause")).toBe(true);
     expect(drive.acts.length).toBeGreaterThan(p("one"));
     for (const act of drive.acts) {
-      expect(act.reasons.drive).toBeGreaterThan(p("zero"));
-      expect(Number.isFinite(act.score)).toBe(true);
+      if (act.basis === "recorded") {
+        // The life module chose it; its saved reason names this drive.
+        expect(act.reasonKey?.endsWith(`:${drive.id}`)).toBe(true);
+      } else {
+        expect(act.reasons!.drive).toBeGreaterThan(p("zero"));
+        expect(Number.isFinite(act.score)).toBe(true);
+      }
     }
+    expect(drive.acts.some((act) => act.basis === "scored")).toBe(true);
     const months = new Set(
       drive.acts.map((row) =>
         row.date.slice(p("zero"), p("isoMonthCharacters")),
