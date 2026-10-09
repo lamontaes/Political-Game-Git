@@ -1,0 +1,23 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/focus.test.ts src/core2/state.test.ts src/core2/tooling/calibration-guard.test.ts --maxWorkers=1 --no-file-parallelism --reporter=dot
+
+[storage-guard] OVERRIDDEN for test: Cloud P8 v3 boundary and calibration recheck; no owner Mac
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "../parameters" without a file extension (src/core2/tooling/vitest.config.ts:2:19). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/p8-core-prototype
+
+······················································
+
+ Test Files  3 passed (3)
+      Tests  54 passed (54)
+   Start at  08:37:51
+   Duration  2.69s (transform 965ms, setup 0ms, import 1.26s, tests 269ms, environment 0ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

@@ -1,0 +1,23 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/population.test.ts --maxWorkers=1 --reporter=dot
+
+[storage-guard] OVERRIDDEN for test: Cloud P8 changed opening cadence regression; no owner Mac
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - import "../parameters" without a file extension (src/core2/tooling/vitest.config.ts:2:19). Add the file extension
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.1 /workspace/p8-core-prototype
+
+········
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  08:28:24
+   Duration  222.92s (transform 131.78s, setup 0ms, import 174.74s, tests 47.59s, environment 0ms)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice
