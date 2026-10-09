@@ -19,6 +19,7 @@ import type { World } from "../types";
 import { recordStoryMoments, STORY_MOMENT_KINDS } from "./moments";
 import {
   ALWAYS_OPEN_MOVES,
+  answeringMoves,
   chooseSituationMove,
   moveActs,
   moveAftermath,
@@ -171,6 +172,44 @@ describe("the situation library", () => {
         }
       }
     }
+    expect(problems).toEqual([]);
+  });
+
+  it("names an opener that is a present role, and an opening that role can make", () => {
+    const problems: string[] = [];
+    for (const type of SITUATION_TYPES)
+      for (const cause of type.causes) {
+        if (cause.opening !== undefined && cause.opener === undefined)
+          problems.push(`${type.key}: an opening with no opener`);
+        if (cause.opener === undefined) continue;
+        const opener = type.roles.find((role) => role.key === cause.opener);
+        if (!opener || opener.present === false)
+          problems.push(`${type.key}: opener ${cause.opener}`);
+        else if (
+          cause.opening !== undefined &&
+          !opener.moves.includes(cause.opening)
+        )
+          problems.push(`${type.key}: ${cause.opener} cannot ${cause.opening}`);
+      }
+    expect(problems).toEqual([]);
+  });
+
+  it("answers every spoken move with spoken moves, citing the pairs' source", () => {
+    expect(movesData.answeredBySource).toMatch(/Schegloff/);
+    const problems: string[] = [];
+    const spoken = new Set(
+      STORY_MOVES.filter((move) => move.speechAct !== null).map(
+        (move) => move.key,
+      ),
+    );
+    for (const [move, answers] of Object.entries(movesData.answeredBy)) {
+      if (!spoken.has(move)) problems.push(`${move} is not a spoken move`);
+      for (const answer of answers)
+        if (!spoken.has(answer)) problems.push(`${move} answered by ${answer}`);
+    }
+    for (const move of spoken)
+      if (answeringMoves(move).length === 0)
+        problems.push(`${move} has no answer`);
     expect(problems).toEqual([]);
   });
 
