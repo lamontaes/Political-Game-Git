@@ -219,6 +219,33 @@ const allRows = (core: CoreState): string =>
   );
 
 describe("read-only authoritative finance observables", () => {
+  it("attributes actual commuting wages to the worker's recorded residence rather than the employer town", () => {
+    const core = fixture({
+      employerCash: p("minorPerDollar") * p("daysPerWeek"),
+    });
+    core.organizations.get(employer)!.placeId =
+      "fixture:commuter-employer-town";
+    const api = coreAPI(core);
+    runScheduledWork(
+      api,
+      (id, offers, context) => chooseAct(core, id, offers, context),
+      () => undefined,
+    );
+    const paid = core.work.lastResultByJob.get(jobId)!.paidMinor;
+    expect(paid).toBeGreaterThan(p("zero"));
+    expect(
+      core.finance.paidIncomeByPlaceMonth.get("2021-01:fixture-place"),
+    ).toBe(paid);
+    expect(
+      core.finance.paidIncomeByPlaceMonthKind.get("2021-01:fixture-place:wage"),
+    ).toBe(paid);
+    expect(
+      core.finance.paidIncomeByPlaceMonth.has(
+        "2021-01:fixture:commuter-employer-town",
+      ),
+    ).toBe(false);
+  });
+
   it("counts only authoritative cash, excludes forecasts and debt, and reads an actual finite credit draw", () => {
     const core = fixture({ withBooks: true, withCredit: true });
     const before = financeObservables(core);

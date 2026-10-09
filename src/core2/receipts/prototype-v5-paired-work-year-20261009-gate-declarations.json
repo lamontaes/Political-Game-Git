@@ -180,9 +180,7 @@
     ]
   },
   "overlap": {
-    "sharedTestFiles": [
-      "src/core2/tooling/tripwires.test.ts"
-    ],
+    "sharedTestFiles": ["src/core2/tooling/tripwires.test.ts"],
     "combinedPassedTestCount": null,
     "combinedFileCount": null,
     "reason": "Groups are retained with their exact scopes; overlapping quiet summaries have no reliable per-file count partition. No sum of 37+13+27 is a distinct test total."

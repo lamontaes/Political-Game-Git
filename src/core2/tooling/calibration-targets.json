@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "22440f8e2f5e4ce4f82560fc4af9d75dcc825a5e7df47bc81a1296d1b697c810",
+    "sha256": "375d3f7bad3b9ec29722548fd0520d6ba18e6d96af515fea83c236c69d8d9421",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -897,6 +897,118 @@
       "calibrationRange": null,
       "calibrated": false,
       "reviewNote": "Need actual dated purchase/contract settlement observations, finite-cash terms and an admitted aggregation window. No empirical coefficient bound or calibration pass is established."
+    },
+    {
+      "parameter": "openingRetirementClaimAgeYears",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementClaimTraitPullYears",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredFraction",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredTraitPull",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementMinimumCoveredMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitReferenceCoveredMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMinimum",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMaximum",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementPayerReserveMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementFundingEnvelopeShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingRetirementFundingLiquidShare",
+      "checkRange": {
+        "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingCustomerPeriodMonths",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerAgreementLeadDays",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
+      },
+      "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
+      "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     },
     {
       "parameter": "lifeEventStressScale",
@@ -3790,7 +3902,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "22440f8e2f5e4ce4f82560fc4af9d75dcc825a5e7df47bc81a1296d1b697c810"
+        "src/core2/data/parameters.json": "375d3f7bad3b9ec29722548fd0520d6ba18e6d96af515fea83c236c69d8d9421"
       },
       "observations": [
         {
@@ -6030,6 +6142,131 @@
         "A full ATUS work-hours equality pass."
       ],
       "calibrationStatus": "unmeasured; contextual paid-subset totals are observable, but coefficients/spreads remain unidentified."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "kind": "external empirical observable",
+      "revision": "preserved-ssa-2026-factsheet-before-cola-snippet",
+      "scope": "Developer-only source-conditional award mean context. Never chooses a future individual retirement, claim or payment.",
+      "sources": [
+        {
+          "id": "ssa-retired-worker-before-cola",
+          "title": "2026 Social Security Changes factsheet, average retired-worker benefit before January COLA",
+          "publisher": "Social Security Administration",
+          "url": "https://www.ssa.gov/news/en/cola/factsheets/2026.html"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193"
+      },
+      "observations": [
+        {
+          "quantity": "Average monthly retired-worker benefit before the January 2026 COLA",
+          "unit": "nominal USD per retired-worker beneficiary month",
+          "cohort": "Retired workers represented by the official factsheet estimate",
+          "dateWindow": {
+            "earliest": "2025-12-01",
+            "latest": "2025-12-31",
+            "precision": "factsheet-pre-January-2026-estimate; full page not retrieved"
+          },
+          "sourceFile": "data/research/money/public-programs-2026.json",
+          "sourceRefs": ["ssa-retired-worker-before-cola"],
+          "observedValue": 2015,
+          "rawPublishedValue": "2015; status SNIPPET in preserved source",
+          "uncertainty": "No individual spread, sample variance or coefficient bound is supplied; later-vintage amount context only."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched retirement recipient/cohort/source-income population evaluator exists",
+        "commandTemplate": "Root-owned future prepared-input income coverage/annual receipt route",
+        "evaluationContract": "Compare recipient coverage, source-specific income and conditional award amount using matched populations/vintages; separately audit opening liquidity and actual payer depletion."
+      },
+      "parameterApplicability": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound.",
+      "calibrationStatus": "blocked and unmeasured; source mean does not establish a coefficient bound."
+    },
+    {
+      "id": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "kind": "external empirical observable",
+      "revision": "preserved-treasury-mts-fy2025-table9",
+      "sources": [
+        {
+          "id": "treasury-mts-fy2025",
+          "title": "Monthly Treasury Statement Table 9, FY2025 through September 30, 2025",
+          "publisher": "U.S. Department of the Treasury",
+          "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_date:eq:2025-09-30"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac"
+      },
+      "observations": [
+        {
+          "quantity": "Social Security functional outlays in fiscal year 2025",
+          "unit": "nominal USD per federal fiscal year",
+          "cohort": "National federal functional outlays including more than retired-worker benefits",
+          "dateWindow": {
+            "earliest": "2024-10-01",
+            "latest": "2025-09-30",
+            "precision": "federal-fiscal-year"
+          },
+          "sourceFile": "data/research/money/federal-budget-fy2025.json",
+          "sourceRefs": ["treasury-mts-fy2025"],
+          "observedValue": 1580685783033.83,
+          "rawPublishedValue": "1580685783033.83",
+          "uncertainty": "Preserved administrative aggregate, not sampling variance, individual dispersion, modeled account liquidity or a coefficient interval."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked: no matched 2021 portfolio membership/liquidity/source-specific funding evaluator",
+        "commandTemplate": "Root-owned prepared-input funding/income receipts and actual cash conservation audit",
+        "evaluationContract": "Report covered award portfolio, all new finite stocks, requested/paid/unfunded contributor transfers, actual recipient income, source/vintage gap and independent aggregate comparison; no survival or target-gap tuning."
+      },
+      "parameterApplicability": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient.",
+      "calibrationStatus": "blocked and unmeasured; aggregate annual flow does not identify allocation coefficients."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "kind": "external empirical observable",
+      "revision": "preserved-bls-cex-calendar-2024-opening-customer-context",
+      "scope": "Developer-only aggregate spending context; no individual outcome, invoice, trip or firm-survival target is injected.",
+      "sources": [
+        {
+          "id": "bls-cex-region-2024",
+          "title": "Consumer Expenditure Survey calendar 2024 regional annual means",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+        }
+      ],
+      "sourceFiles": {
+        "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
+      },
+      "observations": [
+        {
+          "quantity": "Personal care aggregate annual expenditure; parent category context only",
+          "unit": "annual USD per consumer unit",
+          "cohort": "All consumer units in the published national aggregate",
+          "dateWindow": {
+            "earliest": "2024-01-01",
+            "latest": "2024-12-31",
+            "precision": "calendar-year"
+          },
+          "sourceFile": "data/research/money/opening-customer-cex-2024.json",
+          "sourceRefs": ["bls-cex-region-2024"],
+          "observedValue": 978.0,
+          "rawPublishedValue": "978.0",
+          "uncertainty": "Published aggregate mean and sampling error are not individual dispersion or an identified allocation/cadence coefficient interval."
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched source/counterparty/generated-budget calibration evaluator exists",
+        "commandTemplate": "Root-owned opening-economy cash/receipt capture followed by matched source-specific budget comparison",
+        "evaluationContract": "Report original cost envelope, supported provider share, retained qualification source, actual requested/paid/unfilled purchases, finite outside stocks and unbound needs; never tune firm survival or call a plan an observed payment."
+      },
+      "parameterApplicability": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed.",
+      "calibrationStatus": "blocked and unmeasured; contextual source observations do not identify individual crosswalks or these coefficients."
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -6108,6 +6345,76 @@
       "parameter": "workRoutineRetentionWeeks",
       "ref": "P9-OUTCOME-WHOLE-LIFE",
       "reason": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
+    },
+    {
+      "parameter": "openingRetirementClaimAgeYears",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementClaimTraitPullYears",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredFraction",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementCoveredTraitPull",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementMinimumCoveredMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitReferenceCoveredMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMinimum",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementBenefitFactorMaximum",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementPayerReserveMonths",
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME",
+      "reason": "Applicability-blocked. The official snippet average concerns retired-worker monthly benefits in late 2025, while this module generates fictional prior awards/fund accounts for a 2021 opening. It supplies no retirement participation, covered-career, trait, claiming, individual dispersion or cash-buffer parameter bound."
+    },
+    {
+      "parameter": "openingRetirementFundingEnvelopeShare",
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingRetirementFundingLiquidShare",
+      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS",
+      "reason": "Applicability-blocked: Treasury FY2025 national Social Security functional outlays identify a real aggregate annual flow, not retirement-only covered-person membership, a 2021 represented portfolio appropriation, opening liquid balances or either allocation coefficient."
+    },
+    {
+      "parameter": "openingCustomerPeriodMonths",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerAgreementLeadDays",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
+      "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
+      "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
     }
   ],
   "deletedUnusedParameters": [
@@ -6149,6 +6456,9 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "22440f8e2f5e4ce4f82560fc4af9d75dcc825a5e7df47bc81a1296d1b697c810"
+    "src/core2/data/parameters.json": "375d3f7bad3b9ec29722548fd0520d6ba18e6d96af515fea83c236c69d8d9421",
+    "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
+    "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
+    "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
   }
 }

@@ -9,15 +9,27 @@ import {
   emptyFinanceRuntime,
   financeIndex,
   admitFinanceContract,
+  preflightOpeningSalesBudgets,
+  prepareFinanceProcurement,
   admitCreditFacility,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
+  retireFinanceBudget,
   transferCredit,
   reviewBusiness,
   closeEmployer,
   finishFinanceDay,
 } from "./finance-state";
+import {
+  preflightModuleNotifications,
+  registerModuleNotifications,
+  subscribeEventAppraisals,
+  subscribeRelationshipChanges,
+  beginEventNotifications,
+  publishEventAppraisal,
+  notifyRelationshipChange,
+} from "./module-notifications";
 import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter } from "./parameters";
@@ -38,6 +50,7 @@ import type {
   PersonInput,
   PersonState,
   Relationship,
+  RelationshipMeasureChange,
 } from "./types";
 
 function index<K>(map: Map<K, Set<string>>, key: K, id: string): void {
@@ -170,6 +183,10 @@ export function createCore(
     reasonProviders: new Map(),
     eventSubscribers: new Map(),
     eventSubscribersByKind: new Map(),
+    eventAppraisalSubscribers: new Map(),
+    eventAppraisalSubscribersByKind: new Map(),
+    relationshipSubscribers: new Map(),
+    relationshipSubscribersByKind: new Map(),
   };
   for (const tier of data.tiers) core.peopleByTier.set(tier.id, new Set());
   for (const row of input.households) {
@@ -206,8 +223,19 @@ export function createCore(
     financeIndex(core.finance.jobsByOrganization, row.organizationId, row.id);
   }
   for (const row of input.workCommitments ?? []) api.addWorkCommitment(row);
+  const openingFinanceBooks = preflightOpeningSalesBudgets(
+    core,
+    api,
+    input.finance,
+  );
   for (const row of input.finance?.facilities ?? []) api.addCreditFacility(row);
-  for (const row of input.finance?.contracts ?? []) api.addFinanceContract(row);
+  for (const row of input.finance?.contracts ?? [])
+    admitFinanceContract(
+      core,
+      api,
+      row,
+      openingFinanceBooks.get(row.payerIds[p("zero")]!),
+    );
   for (const row of input.finance?.businesses ?? []) api.addBusinessBooks(row);
   for (const row of input.finance?.conditions ?? [])
     api.addFinanceCondition(row);
@@ -245,6 +273,7 @@ export function createCore(
   }
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
+    api.stopgap("SG-P8-opening-family-closeness");
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -349,6 +378,7 @@ export function registerModule(core: CoreState, module: CoreModule): void {
     );
   if (module.eventKinds && !module.onEvent)
     throw new Error("Event-kind subscriptions require a handler.");
+  preflightModuleNotifications(core, module);
   for (const [name, provider] of Object.entries(module.reasonProviders ?? {})) {
     if (!name.trim() || typeof provider !== "function")
       throw new Error("Invalid reason provider.");
@@ -373,6 +403,7 @@ export function registerModule(core: CoreState, module: CoreModule): void {
       module.eventKinds!,
       module.onEvent,
     );
+  registerModuleNotifications(core, module);
   core.modules.set(module.id, module);
   for (const [name, provider] of Object.entries(module.reasonProviders ?? {}))
     core.reasonProviders.set(name, provider);
@@ -592,6 +623,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     settleFinanceContract(id) {
       return settleFinanceContract(core, api, id);
     },
+    retireFinanceBudget(id) {
+      retireFinanceBudget(core, api, id);
+    },
+    prepareFinanceProcurement(ids) {
+      prepareFinanceProcurement(core, api, ids);
+    },
     drawCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId);
     },
@@ -626,6 +663,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Invalid relationship endpoints or change.");
       const id = [actorId, otherId].sort().join(":");
       const previous = core.relationships.get(id);
+      const beforeLevel = previous?.level ?? p("zero");
+      const beforeContactDate = previous?.lastContactDate;
       const row: Relationship = previous ?? {
         id,
         actorId,
@@ -634,6 +673,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         level: p("zero"),
         lastContactDate: core.date,
       };
+      api.stopgap("SG-P8-relationship-closeness-update");
       row.level = Math.tanh(row.level + change);
       row.lastContactDate = core.date;
       core.relationships.set(id, row);
@@ -641,6 +681,30 @@ export function coreAPI(core: CoreState): CoreAPI {
       index(core.relationshipsByPerson, otherId, id);
       if (actorId === core.playerId) core.focusPersonIds.add(otherId);
       if (otherId === core.playerId) core.focusPersonIds.add(actorId);
+      if (!core.relationshipSubscribers.size) return;
+      const changes: RelationshipMeasureChange[] = [];
+      if (!previous || beforeLevel !== row.level)
+        changes.push({
+          measure: "level",
+          before: beforeLevel,
+          after: row.level,
+        });
+      if (beforeContactDate !== row.lastContactDate)
+        changes.push({
+          measure: "lastContactDate",
+          before: beforeContactDate,
+          after: row.lastContactDate,
+        });
+      notifyRelationshipChange(core, api, {
+        date: core.date,
+        relationshipId: id,
+        actorId,
+        otherId,
+        kind: row.kind,
+        requestedKind: kind,
+        created: previous === undefined,
+        changes,
+      });
     },
     join(personId, organizationId, driveId) {
       if (
@@ -668,6 +732,24 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!id.trim() || id !== id.trim())
         throw new Error("Invalid event subscriber identity.");
       return subscribeEvents(core, `consumer:${id}`, kinds, listener);
+    },
+    publishEventAppraisal(appraisal) {
+      publishEventAppraisal(core, api, appraisal);
+    },
+    subscribeEventAppraisals(id, kinds, listener) {
+      if (!id.trim() || id !== id.trim())
+        throw new Error("Invalid appraisal subscriber identity.");
+      return subscribeEventAppraisals(core, `consumer:${id}`, kinds, listener);
+    },
+    subscribeRelationshipChanges(id, kinds, listener) {
+      if (!id.trim() || id !== id.trim())
+        throw new Error("Invalid relationship subscriber identity.");
+      return subscribeRelationshipChanges(
+        core,
+        `consumer:${id}`,
+        kinds,
+        listener,
+      );
     },
     validateAct(actorId, offer, date, reason) {
       validateCommittedAct(core, actorId, offer, date, reason);
@@ -931,8 +1013,13 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
     ...(core.eventSubscribersByKind.get(event.kind) ?? []),
     ...(core.eventSubscribersByKind.get("*") ?? []),
   ]);
-  for (const id of subscribers)
-    core.eventSubscribers.get(id)?.(api, event, learnedBy);
+  const finishNotifications = beginEventNotifications(core, event, learnedBy);
+  try {
+    for (const id of subscribers)
+      core.eventSubscribers.get(id)?.(api, event, learnedBy);
+  } finally {
+    finishNotifications();
+  }
 }
 
 export function inspectPerson(
