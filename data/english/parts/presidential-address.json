@@ -1,0 +1,225 @@
+{
+  "schema": "english-parts/1",
+  "register": "presidential-address",
+  "description": "The President's speech that carries the cinematic opening as subtitles (owner's revision, CTO 11:14 p.m., October 8, 2026): the inaugural address when the President took office in the year the world starts, otherwise the State of the Union. The words are the President's, in the register of public-domain inaugural addresses, State of the Union addresses and the President's remarks to governors and mayors; the names and figures come from the world's records. Each move is one beat of the speech, and the camera cuts to a stop as the speech addresses it.",
+  "slots": {
+    "vicePresidentAddress": "How the President addresses the Vice President: \"Madam Vice President\" or \"Mr. Vice President\" from the Vice President's pronouns, otherwise \"Vice President\" and their family name.",
+    "vicePresident": "The Vice President's family name, from the office's term record.",
+    "chiefJustice": "The Chief Justice's family name, from the office's term record.",
+    "unemployment": "The national unemployment rate to one decimal place, from the latest release or the world's starting conditions.",
+    "inflation": "National 12-month inflation to one decimal place, from the latest release or the world's starting conditions.",
+    "growth": "National real growth at an annual rate to one decimal place, from the latest release or the world's starting conditions.",
+    "parties": "\"both parties\" when two parties hold seats in Congress, otherwise \"every party\", from the seat records."
+  },
+  "maxWords": 20,
+  "mining": {
+    "read": "State of the Union addresses of January 20, 2015, January 30, 2018, February 5, 2019 and February 7, 2023; inaugural addresses of January 20, 2017 and January 20, 2021; the President's remarks to the National Governors Association's executive committee (January 6, 2015) and to the U.S. Conference of Mayors (January 21, 2016), from the White House archives.",
+    "rule": "Each part keeps the President's own sentence, with names and figures cut out for slots the records fill and asides and applause left out."
+  },
+  "parts": [
+    {
+      "key": "presidential-address.salutation.state-of-the-union.members-of-congress",
+      "move": "salutation.state-of-the-union",
+      "kind": "spoken",
+      "text": "{vicePresidentAddress}, Members of Congress, my fellow Americans:",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in State of the Union Address, January 20, 2015 (\"Mr. Speaker, Mr. Vice President, Members of Congress, my fellow Americans:\")",
+        "date": "2015-01-20",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2015/01/20/remarks-president-state-union-address-january-20-2015"
+      }
+    },
+    {
+      "key": "presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "move": "salutation.state-of-the-union",
+      "kind": "spoken",
+      "text": "{vicePresidentAddress}, Members of Congress, and my fellow Americans:",
+      "shippable": true,
+      "source": {
+        "document": "President Donald J. Trump's State of the Union Address, January 30, 2018 (\"Mr. Speaker, Mr. Vice President, Members of Congress, the First Lady of the United States, and my fellow Americans:\")",
+        "date": "2018-01-30",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/president-donald-j-trumps-state-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.salutation.inaugural.distinguished-guests",
+      "move": "salutation.inaugural",
+      "kind": "spoken",
+      "text": "Chief Justice {chiefJustice}, Vice President {vicePresident}, distinguished guests, and my fellow Americans.",
+      "shippable": true,
+      "source": {
+        "document": "Inaugural Address by President Joseph R. Biden, Jr., January 20, 2021 (\"Chief Justice Roberts, Vice President Harris, Speaker Pelosi, Leader Schumer, Leader McConnell, Vice President Pence, distinguished guests, and my fellow Americans.\")",
+        "date": "2021-01-20",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/speeches-remarks/2021/01/20/inaugural-address-by-president-joseph-r-biden-jr/"
+      }
+    },
+    {
+      "key": "presidential-address.opening.state-of-the-union.is-strong",
+      "move": "opening.state-of-the-union",
+      "kind": "spoken",
+      "text": "The state of our union is strong.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by President Trump in State of the Union Address, February 5, 2019 (\"The state of our union is strong.\")",
+        "date": "2019-02-05",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-state-union-address-2/"
+      }
+    },
+    {
+      "key": "presidential-address.opening.inaugural.americas-day",
+      "move": "opening.inaugural",
+      "kind": "spoken",
+      "text": "This is America's day.",
+      "shippable": true,
+      "source": {
+        "document": "Inaugural Address by President Joseph R. Biden, Jr., January 20, 2021 (\"This is America's day.\")",
+        "date": "2021-01-20",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/speeches-remarks/2021/01/20/inaugural-address-by-president-joseph-r-biden-jr/"
+      }
+    },
+    {
+      "key": "presidential-address.opening.inaugural.determine-the-course",
+      "move": "opening.inaugural",
+      "kind": "spoken",
+      "text": "Together, we will determine the course of America and the world for years to come.",
+      "shippable": true,
+      "source": {
+        "document": "The Inaugural Address, January 20, 2017 (\"Together, we will determine the course of America and the world for years to come.\")",
+        "date": "2017-01-20",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/the-inaugural-address/"
+      }
+    },
+    {
+      "key": "presidential-address.economy.unemployment.rate-is-now",
+      "move": "economy.unemployment",
+      "kind": "spoken",
+      "text": "Our unemployment rate is now {unemployment} percent.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in State of the Union Address, January 20, 2015 (\"Our unemployment rate is now lower than it was before the financial crisis.\")",
+        "date": "2015-01-20",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2015/01/20/remarks-president-state-union-address-january-20-2015"
+      }
+    },
+    {
+      "key": "presidential-address.economy.inflation.here-at-home",
+      "move": "economy.inflation",
+      "kind": "spoken",
+      "text": "Here at home, inflation is {inflation} percent.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by President Biden in State of the Union Address, February 7, 2023 (\"But here at home, inflation is coming down.\")",
+        "date": "2023-02-07",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/speeches-remarks/2023/02/07/remarks-by-president-biden-in-state-of-the-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.economy.growth.growing-at",
+      "move": "economy.growth",
+      "kind": "spoken",
+      "text": "Our economy is growing at {growth} percent a year.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in State of the Union Address, January 20, 2015 (\"Tonight, after a breakthrough year for America, our economy is growing and creating jobs at the fastest pace since 1999.\")",
+        "date": "2015-01-20",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2015/01/20/remarks-president-state-union-address-january-20-2015"
+      }
+    },
+    {
+      "key": "presidential-address.address.congress.open-hand",
+      "move": "address.congress",
+      "kind": "spoken",
+      "text": "So tonight, I am extending an open hand to work with members of {parties}.",
+      "shippable": true,
+      "source": {
+        "document": "President Donald J. Trump's State of the Union Address, January 30, 2018 (\"So tonight, I am extending an open hand to work with members of both parties — Democrats and Republicans — to protect our citizens of every background, color, religion, and creed.\")",
+        "date": "2018-01-30",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/president-donald-j-trumps-state-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.address.governors.work-together",
+      "move": "address.governors",
+      "kind": "spoken",
+      "text": "To our governors, my message is this: let's figure out how to work together.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in Meeting with the Executive Committee of the National Governors Association, January 6, 2015 (\"So my main message to these governors is going to be, let's figure out to work together.\")",
+        "date": "2015-01-06",
+        "url": "https://obamawhitehouse.archives.gov/realitycheck/the-press-office/2015/01/06/remarks-president-meeting-executive-committee-national-governors-associa"
+      }
+    },
+    {
+      "key": "presidential-address.address.mayors.cities-are-strong",
+      "move": "address.mayors",
+      "kind": "spoken",
+      "text": "And when cities are strong, America is strong.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President to the U.S. Conference of Mayors, January 21, 2016 (\"And when cities are strong, America is strong.\")",
+        "date": "2016-01-21",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2016/01/21/remarks-president-us-conference-mayors"
+      }
+    },
+    {
+      "key": "presidential-address.address.mayors.in-the-trenches",
+      "move": "address.mayors",
+      "kind": "spoken",
+      "text": "To our mayors: you are in the trenches every single day.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President to the U.S. Conference of Mayors, January 21, 2016 (\"You are in the trenches every single day.\")",
+        "date": "2016-01-21",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2016/01/21/remarks-president-us-conference-mayors"
+      }
+    },
+    {
+      "key": "presidential-address.address.families.one-american-family",
+      "move": "address.families",
+      "kind": "spoken",
+      "text": "All of us, together, as one team, one people, and one American family.",
+      "shippable": true,
+      "source": {
+        "document": "President Donald J. Trump's State of the Union Address, January 30, 2018 (\"All of us, together, as one team, one people, and one American family.\")",
+        "date": "2018-01-30",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/president-donald-j-trumps-state-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.close.state-of-the-union.this-country-we-love",
+      "move": "close.state-of-the-union",
+      "kind": "spoken",
+      "text": "God bless you, and God bless this country we love.",
+      "shippable": true,
+      "source": {
+        "document": "Remarks by the President in State of the Union Address, January 20, 2015 (\"God bless you. God bless this country we love.\")",
+        "date": "2015-01-20",
+        "url": "https://obamawhitehouse.archives.gov/the-press-office/2015/01/20/remarks-president-state-union-address-january-20-2015"
+      }
+    },
+    {
+      "key": "presidential-address.close.state-of-the-union.god-bless-america",
+      "move": "close.state-of-the-union",
+      "kind": "spoken",
+      "text": "Thank you, and God bless America.",
+      "shippable": true,
+      "source": {
+        "document": "President Donald J. Trump's State of the Union Address, January 30, 2018 (\"Thank you, and God bless America.\")",
+        "date": "2018-01-30",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/president-donald-j-trumps-state-union-address/"
+      }
+    },
+    {
+      "key": "presidential-address.close.inaugural.god-bless-you",
+      "move": "close.inaugural",
+      "kind": "spoken",
+      "text": "Thank you, God bless you, and God bless America.",
+      "shippable": true,
+      "source": {
+        "document": "The Inaugural Address, January 20, 2017 (\"Thank you, God Bless You, And God Bless America.\")",
+        "date": "2017-01-20",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/the-inaugural-address/"
+      }
+    }
+  ]
+}

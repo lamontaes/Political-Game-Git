@@ -1,0 +1,2746 @@
+{
+  "id": "address-1",
+  "title": "The opening's speech from 14 new worlds (140 lines)",
+  "at": "2026-10-09T03:32:40.232Z",
+  "head": "39c164aab27631ad9ecf12e8eb6fa9da442449bd",
+  "status": "open",
+  "variety": {
+    "items": 140,
+    "worlds": 14,
+    "places": 14
+  },
+  "speeches": [
+    {
+      "seed": "address-oct9:0",
+      "place": "Los Alvarez, Texas",
+      "register": "state-of-the-union",
+      "president": "Gregory Dixon",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.9 percent. Here at home, inflation is 2.7 percent. Our economy is growing at 1.6 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:1",
+      "place": "Jackson County, West Virginia",
+      "register": "state-of-the-union",
+      "president": "Lara Walter",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 5.0 percent. Here at home, inflation is 2.3 percent. Our economy is growing at 1.6 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:2",
+      "place": "Comfrey, Minnesota",
+      "register": "state-of-the-union",
+      "president": "Sam Higgins",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 5.1 percent. Here at home, inflation is 2.9 percent. Our economy is growing at 1.5 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:3",
+      "place": "Trent, Oregon",
+      "register": "state-of-the-union",
+      "president": "Erica Shaffer",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 3.9 percent. Here at home, inflation is 2.6 percent. Our economy is growing at 2.9 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:4",
+      "place": "Galesburg, North Dakota",
+      "register": "state-of-the-union",
+      "president": "Edward Reyes",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.1 percent. Here at home, inflation is 2.6 percent. Our economy is growing at 2.6 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:5",
+      "place": "San Antonio, Puerto Rico",
+      "register": "state-of-the-union",
+      "president": "Cassandra Woods",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 5.2 percent. Here at home, inflation is 3.0 percent. Our economy is growing at 1.4 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:6",
+      "place": "Powdersville, South Carolina",
+      "register": "state-of-the-union",
+      "president": "Tobias Sweeney",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.5 percent. Here at home, inflation is 2.3 percent. Our economy is growing at 2.1 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:7",
+      "place": "Tonalea, Arizona",
+      "register": "state-of-the-union",
+      "president": "Mason Mann",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 3.8 percent. Here at home, inflation is 2.8 percent. Our economy is growing at 3.0 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:8",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "register": "state-of-the-union",
+      "president": "Zara Pickett",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.7 percent. Here at home, inflation is 2.5 percent. Our economy is growing at 1.9 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:9",
+      "place": "Cullomburg, Alabama",
+      "register": "state-of-the-union",
+      "president": "Bianca Walters",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.6 percent. Here at home, inflation is 2.8 percent. Our economy is growing at 2.0 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:10",
+      "place": "Forsyth County, Georgia",
+      "register": "state-of-the-union",
+      "president": "Jennifer Owens",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.6 percent. Here at home, inflation is 3.1 percent. Our economy is growing at 2.0 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:11",
+      "place": "Burlison, Tennessee",
+      "register": "state-of-the-union",
+      "president": "Jason Bradley",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, and my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.1 percent. Here at home, inflation is 2.7 percent. Our economy is growing at 2.6 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "To our mayors: you are in the trenches every single day."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "Thank you, and God bless America."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:12",
+      "place": "Fairfield, Idaho",
+      "register": "state-of-the-union",
+      "president": "Sonia Middleton",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Madam Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.4 percent. Here at home, inflation is 2.9 percent. Our economy is growing at 2.2 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "seed": "address-oct9:13",
+      "place": "Linden, New Jersey",
+      "register": "state-of-the-union",
+      "president": "Adrian Rojas",
+      "date": "2026-01-05",
+      "cuts": [
+        {
+          "cut": "country",
+          "text": "Mr. Vice President, Members of Congress, my fellow Americans: The state of our union is strong. Our unemployment rate is now 4.8 percent. Here at home, inflation is 2.9 percent. Our economy is growing at 1.8 percent a year."
+        },
+        {
+          "cut": "representatives",
+          "text": "So tonight, I am extending an open hand to work with members of both parties."
+        },
+        {
+          "cut": "state",
+          "text": "To our governors, my message is this: let's figure out how to work together."
+        },
+        {
+          "cut": "town",
+          "text": "And when cities are strong, America is strong."
+        },
+        {
+          "cut": "home",
+          "text": "All of us, together, as one team, one people, and one American family."
+        },
+        {
+          "cut": "you",
+          "text": "God bless you, and God bless this country we love."
+        },
+        {
+          "cut": "day-one",
+          "text": ""
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "i": 0,
+      "id": "address-0-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 1,
+      "id": "address-0-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 2,
+      "id": "address-0-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.9 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 3,
+      "id": "address-0-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.7 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 4,
+      "id": "address-0-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.6 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 5,
+      "id": "address-0-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 6,
+      "id": "address-0-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 7,
+      "id": "address-0-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 8,
+      "id": "address-0-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 9,
+      "id": "address-0-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Gregory Dixon, in a new world on 2026-01-05; the player lives in Los Alvarez, Texas. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Los Alvarez, Texas",
+      "seed": "address-oct9:0"
+    },
+    {
+      "i": 10,
+      "id": "address-1-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 11,
+      "id": "address-1-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 12,
+      "id": "address-1-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 5.0 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 13,
+      "id": "address-1-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.3 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 14,
+      "id": "address-1-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.6 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 15,
+      "id": "address-1-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 16,
+      "id": "address-1-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 17,
+      "id": "address-1-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 18,
+      "id": "address-1-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 19,
+      "id": "address-1-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Lara Walter, in a new world on 2026-01-05; the player lives in Jackson County, West Virginia. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Jackson County, West Virginia",
+      "seed": "address-oct9:1"
+    },
+    {
+      "i": 20,
+      "id": "address-2-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 21,
+      "id": "address-2-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 22,
+      "id": "address-2-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 5.1 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 23,
+      "id": "address-2-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.9 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 24,
+      "id": "address-2-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.5 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 25,
+      "id": "address-2-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 26,
+      "id": "address-2-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 27,
+      "id": "address-2-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 28,
+      "id": "address-2-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 29,
+      "id": "address-2-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sam Higgins, in a new world on 2026-01-05; the player lives in Comfrey, Minnesota. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Comfrey, Minnesota",
+      "seed": "address-oct9:2"
+    },
+    {
+      "i": 30,
+      "id": "address-3-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 31,
+      "id": "address-3-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 32,
+      "id": "address-3-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 3.9 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 33,
+      "id": "address-3-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.6 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 34,
+      "id": "address-3-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.9 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 35,
+      "id": "address-3-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 36,
+      "id": "address-3-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 37,
+      "id": "address-3-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 38,
+      "id": "address-3-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 39,
+      "id": "address-3-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Erica Shaffer, in a new world on 2026-01-05; the player lives in Trent, Oregon. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Trent, Oregon",
+      "seed": "address-oct9:3"
+    },
+    {
+      "i": 40,
+      "id": "address-4-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 41,
+      "id": "address-4-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 42,
+      "id": "address-4-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.1 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 43,
+      "id": "address-4-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.6 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 44,
+      "id": "address-4-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.6 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 45,
+      "id": "address-4-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 46,
+      "id": "address-4-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 47,
+      "id": "address-4-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 48,
+      "id": "address-4-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 49,
+      "id": "address-4-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Edward Reyes, in a new world on 2026-01-05; the player lives in Galesburg, North Dakota. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Galesburg, North Dakota",
+      "seed": "address-oct9:4"
+    },
+    {
+      "i": 50,
+      "id": "address-5-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 51,
+      "id": "address-5-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 52,
+      "id": "address-5-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 5.2 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 53,
+      "id": "address-5-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 3.0 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 54,
+      "id": "address-5-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.4 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 55,
+      "id": "address-5-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 56,
+      "id": "address-5-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 57,
+      "id": "address-5-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 58,
+      "id": "address-5-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 59,
+      "id": "address-5-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Cassandra Woods, in a new world on 2026-01-05; the player lives in San Antonio, Puerto Rico. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "San Antonio, Puerto Rico",
+      "seed": "address-oct9:5"
+    },
+    {
+      "i": 60,
+      "id": "address-6-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 61,
+      "id": "address-6-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 62,
+      "id": "address-6-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.5 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 63,
+      "id": "address-6-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.3 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 64,
+      "id": "address-6-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.1 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 65,
+      "id": "address-6-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 66,
+      "id": "address-6-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 67,
+      "id": "address-6-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 68,
+      "id": "address-6-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 69,
+      "id": "address-6-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Tobias Sweeney, in a new world on 2026-01-05; the player lives in Powdersville, South Carolina. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Powdersville, South Carolina",
+      "seed": "address-oct9:6"
+    },
+    {
+      "i": 70,
+      "id": "address-7-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 71,
+      "id": "address-7-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 72,
+      "id": "address-7-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 3.8 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 73,
+      "id": "address-7-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.8 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 74,
+      "id": "address-7-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 3.0 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 75,
+      "id": "address-7-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 76,
+      "id": "address-7-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 77,
+      "id": "address-7-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 78,
+      "id": "address-7-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 79,
+      "id": "address-7-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Mason Mann, in a new world on 2026-01-05; the player lives in Tonalea, Arizona. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Tonalea, Arizona",
+      "seed": "address-oct9:7"
+    },
+    {
+      "i": 80,
+      "id": "address-8-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 81,
+      "id": "address-8-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 82,
+      "id": "address-8-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.7 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 83,
+      "id": "address-8-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.5 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 84,
+      "id": "address-8-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.9 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 85,
+      "id": "address-8-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 86,
+      "id": "address-8-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 87,
+      "id": "address-8-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 88,
+      "id": "address-8-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 89,
+      "id": "address-8-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Zara Pickett, in a new world on 2026-01-05; the player lives in Coral Bay, U.S. Virgin Islands. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Coral Bay, U.S. Virgin Islands",
+      "seed": "address-oct9:8"
+    },
+    {
+      "i": 90,
+      "id": "address-9-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 91,
+      "id": "address-9-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 92,
+      "id": "address-9-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.6 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 93,
+      "id": "address-9-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.8 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 94,
+      "id": "address-9-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.0 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 95,
+      "id": "address-9-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 96,
+      "id": "address-9-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 97,
+      "id": "address-9-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 98,
+      "id": "address-9-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 99,
+      "id": "address-9-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Bianca Walters, in a new world on 2026-01-05; the player lives in Cullomburg, Alabama. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Cullomburg, Alabama",
+      "seed": "address-oct9:9"
+    },
+    {
+      "i": 100,
+      "id": "address-10-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 101,
+      "id": "address-10-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 102,
+      "id": "address-10-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.6 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 103,
+      "id": "address-10-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 3.1 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 104,
+      "id": "address-10-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.0 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 105,
+      "id": "address-10-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 106,
+      "id": "address-10-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 107,
+      "id": "address-10-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 108,
+      "id": "address-10-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 109,
+      "id": "address-10-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jennifer Owens, in a new world on 2026-01-05; the player lives in Forsyth County, Georgia. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Forsyth County, Georgia",
+      "seed": "address-oct9:10"
+    },
+    {
+      "i": 110,
+      "id": "address-11-country-and-my-fellow-americans",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, and my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.and-my-fellow-americans"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 111,
+      "id": "address-11-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 112,
+      "id": "address-11-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.1 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 113,
+      "id": "address-11-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.7 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 114,
+      "id": "address-11-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.6 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 115,
+      "id": "address-11-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 116,
+      "id": "address-11-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 117,
+      "id": "address-11-town-in-the-trenches",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "To our mayors: you are in the trenches every single day.",
+      "part": "bank:presidential-address.address.mayors.in-the-trenches",
+      "parts": ["bank:presidential-address.address.mayors.in-the-trenches"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 118,
+      "id": "address-11-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 119,
+      "id": "address-11-you-god-bless-america",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Jason Bradley, in a new world on 2026-01-05; the player lives in Burlison, Tennessee. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "Thank you, and God bless America.",
+      "part": "bank:presidential-address.close.state-of-the-union.god-bless-america",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.god-bless-america"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Burlison, Tennessee",
+      "seed": "address-oct9:11"
+    },
+    {
+      "i": 120,
+      "id": "address-12-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Madam Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 121,
+      "id": "address-12-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 122,
+      "id": "address-12-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.4 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 123,
+      "id": "address-12-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.9 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 124,
+      "id": "address-12-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 2.2 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 125,
+      "id": "address-12-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 126,
+      "id": "address-12-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 127,
+      "id": "address-12-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 128,
+      "id": "address-12-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 129,
+      "id": "address-12-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Sonia Middleton, in a new world on 2026-01-05; the player lives in Fairfield, Idaho. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Fairfield, Idaho",
+      "seed": "address-oct9:12"
+    },
+    {
+      "i": 130,
+      "id": "address-13-country-members-of-congress",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Mr. Vice President, Members of Congress, my fellow Americans:",
+      "part": "bank:presidential-address.salutation.state-of-the-union.members-of-congress",
+      "parts": [
+        "bank:presidential-address.salutation.state-of-the-union.members-of-congress"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 131,
+      "id": "address-13-country-is-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "The state of our union is strong.",
+      "part": "bank:presidential-address.opening.state-of-the-union.is-strong",
+      "parts": [
+        "bank:presidential-address.opening.state-of-the-union.is-strong"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 132,
+      "id": "address-13-country-rate-is-now",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our unemployment rate is now 4.8 percent.",
+      "part": "bank:presidential-address.economy.unemployment.rate-is-now",
+      "parts": ["bank:presidential-address.economy.unemployment.rate-is-now"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 133,
+      "id": "address-13-country-here-at-home",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Here at home, inflation is 2.9 percent.",
+      "part": "bank:presidential-address.economy.inflation.here-at-home",
+      "parts": ["bank:presidential-address.economy.inflation.here-at-home"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 134,
+      "id": "address-13-country-growing-at",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the President at the rostrum.",
+      "prior": "",
+      "reply": "Our economy is growing at 1.8 percent a year.",
+      "part": "bank:presidential-address.economy.growth.growing-at",
+      "parts": ["bank:presidential-address.economy.growth.growing-at"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the President at the rostrum",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 135,
+      "id": "address-13-representatives-open-hand",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the player's senators and representative in the chamber.",
+      "prior": "",
+      "reply": "So tonight, I am extending an open hand to work with members of both parties.",
+      "part": "bank:presidential-address.address.congress.open-hand",
+      "parts": ["bank:presidential-address.address.congress.open-hand"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's senators and representative in the chamber",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 136,
+      "id": "address-13-state-work-together",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the player's governor.",
+      "prior": "",
+      "reply": "To our governors, my message is this: let's figure out how to work together.",
+      "part": "bank:presidential-address.address.governors.work-together",
+      "parts": ["bank:presidential-address.address.governors.work-together"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's governor",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 137,
+      "id": "address-13-town-cities-are-strong",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the player's town hall or main street.",
+      "prior": "",
+      "reply": "And when cities are strong, America is strong.",
+      "part": "bank:presidential-address.address.mayors.cities-are-strong",
+      "parts": ["bank:presidential-address.address.mayors.cities-are-strong"],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's town hall or main street",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 138,
+      "id": "address-13-home-one-american-family",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the player's family at home.",
+      "prior": "",
+      "reply": "All of us, together, as one team, one people, and one American family.",
+      "part": "bank:presidential-address.address.families.one-american-family",
+      "parts": [
+        "bank:presidential-address.address.families.one-american-family"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player's family at home",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    },
+    {
+      "i": 139,
+      "id": "address-13-you-this-country-we-love",
+      "axis": "speech",
+      "situation": "The opening's speech (State of the Union) by the President, Adrian Rojas, in a new world on 2026-01-05; the player lives in Linden, New Jersey. While this plays, the camera is on the player.",
+      "prior": "",
+      "reply": "God bless you, and God bless this country we love.",
+      "part": "bank:presidential-address.close.state-of-the-union.this-country-we-love",
+      "parts": [
+        "bank:presidential-address.close.state-of-the-union.this-country-we-love"
+      ],
+      "composer": "composePresidentialAddress in presidential-address.ts",
+      "kind": "speech",
+      "screen": "Opening, letterbox subtitles, cut to the player",
+      "place": "Linden, New Jersey",
+      "seed": "address-oct9:13"
+    }
+  ]
+}
