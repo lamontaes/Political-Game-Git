@@ -85,7 +85,8 @@ type EventKindKey =
   | "joined"
   | "donated"
   | "volunteered"
-  | "soughtStanding";
+  | "soughtStanding"
+  | "strengthened";
 type FactKey =
   | "responsible"
   | "drive"
@@ -93,7 +94,12 @@ type FactKey =
   | "condition"
   | "driveKind"
   | "sourceEvent"
-  | "organization";
+  | "organization"
+  | "strength"
+  | "strengthAdded"
+  | "response"
+  | "role"
+  | "originEvent";
 
 export const DEFAULT_DRIVES_DATA = drivesJson as unknown as DrivesData;
 
@@ -599,6 +605,7 @@ export function respond(
       let mine = runtime.byPerson.get(actor.id);
       if (!mine) runtime.byPerson.set(actor.id, (mine = new Map()));
       let drive = mine.get(identity.id);
+      const isNew = !drive;
       if (!drive) {
         drive = {
           id: identity.id,
@@ -633,18 +640,28 @@ export function respond(
         drive,
         Math.exp(-urgency * p("driveStrengthScale")),
       );
+      // A moment for the story director: who, which event, how strong now.
+      const momentKind = isNew
+        ? data.eventKinds.formed
+        : data.eventKinds.strengthened;
+      const key = (name: FactKey) => `drive:${drive.id}:${data.factKeys[name]}`;
       api.emit({
-        id: `${data.eventKinds.formed}:${actor.id}:${drive.id}:${api.state.date}`,
+        id: `${momentKind}:${actor.id}:${drive.id}:${event.id}`,
         date: api.state.date,
-        kind: data.eventKinds.formed,
+        kind: momentKind,
         personIds: [actor.id],
         placeId: actor.placeId,
         topic: drive.topic,
         desiredChange: drive.desiredChange,
         source: event.source,
         facts: {
-          [`drive:${drive.id}:${data.factKeys.driveKind}`]: kind.id,
-          [`drive:${drive.id}:${data.factKeys.sourceEvent}`]: event.id,
+          [key("driveKind")]: kind.id,
+          [key("sourceEvent")]: event.id,
+          [key("originEvent")]: drive.sourceEventId,
+          [key("response")]: row.id,
+          [key("role")]: seen.role,
+          [key("strength")]: `${drive.anchorStrength}`,
+          [key("strengthAdded")]: `${trace.strengthAdded}`,
         },
       });
     }
@@ -867,6 +884,7 @@ function actEvent(
     facts: {
       [`event:${id}:${data.factKeys.drive}`]: drive.id,
       [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
+      [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
       ...extra.facts,
     },
   };

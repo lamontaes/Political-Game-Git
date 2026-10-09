@@ -15,6 +15,7 @@ import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";
 import type {
   CoreEventInput,
+  CoreModule,
   CoreInput,
   CoreState,
   PersonInput,
@@ -170,10 +171,11 @@ function death(core: CoreState, data = DEFAULT_DRIVES_DATA): CoreEventInput {
 function bereavedCore(
   data: DrivesData = DEFAULT_DRIVES_DATA,
   input: CoreInput = bereavementInput(),
+  extra: readonly CoreModule[] = [],
 ) {
   const core = createLifeCore(input, {
     data: withDrives(DEFAULT_DATA, data),
-    modules: [createDrivesModule(data)],
+    modules: [createDrivesModule(data), ...extra],
   });
   const api = coreAPI(core);
   api.updatePerson(deceasedId, { alive: false });
@@ -275,6 +277,26 @@ describe("P10 drives and causes", () => {
     expect(child.agency).toBeLessThan(adult.agency);
     expect(child.agency).toBeGreaterThan(p("zero"));
     expect(core.people.get(steadyId)!.drives.size).toBe(p("zero"));
+  });
+
+  it("emits a drive moment with who, the causing event and the strength", () => {
+    const seen: CoreEventInput[] = [];
+    bereavedCore(DEFAULT_DRIVES_DATA, bereavementInput(), [
+      { id: "moment-spy", onEvent: (_api, event) => void seen.push(event) },
+    ]);
+    const moment = seen.find(
+      (event) => event.kind === DEFAULT_DRIVES_DATA.eventKinds.formed,
+    )!;
+    expect(moment.personIds).toEqual([carerId]);
+    const facts = Object.entries(moment.facts ?? {});
+    const fact = (name: keyof typeof DEFAULT_DRIVES_DATA.factKeys) =>
+      facts.find(([key]) =>
+        key.endsWith(`:${DEFAULT_DRIVES_DATA.factKeys[name]}`),
+      )?.[1];
+    expect(fact("sourceEvent")).toBe(`life.death:${deceasedId}:${startedAt}`);
+    expect(fact("response")).toBe("take-up-cause");
+    expect(Number(fact("strength"))).toBeGreaterThan(p("zero"));
+    expect(Number(fact("strength"))).toBeLessThan(p("one"));
   });
 
   it("replaces the undecided situation shortcut so nobody is assigned a cause", () => {

@@ -12,7 +12,8 @@
     "joined": "cause-group.joined",
     "donated": "cause.donated",
     "volunteered": "cause.volunteered",
-    "soughtStanding": "standing.sought"
+    "soughtStanding": "standing.sought",
+    "strengthened": "drive.strengthened"
   },
   "civicActEvents": [
     {
@@ -35,7 +36,12 @@
     "condition": "condition",
     "driveKind": "drive-kind",
     "sourceEvent": "source-event",
-    "organization": "organizationId"
+    "organization": "organizationId",
+    "strength": "strength",
+    "strengthAdded": "strength-added",
+    "response": "response",
+    "role": "role",
+    "originEvent": "origin-event"
   },
   "driveKinds": [
     {
