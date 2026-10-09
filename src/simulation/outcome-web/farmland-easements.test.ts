@@ -15,6 +15,7 @@ import {
   outcomeLinkStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * Farmland easements: where a state pays landowners to put easements on
@@ -111,9 +112,10 @@ describe("farmland easements", () => {
     expect(link.lagMonths).toBe(60);
   });
 
-  it("starts the 48 contiguous states at their 2001 to 2016 yearly loss", () => {
+  it("starts the 48 contiguous states at their 2001 to 2016 yearly loss, and the other eight places at a marked estimate", () => {
     const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
-    expect(Object.keys(places)).toHaveLength(48);
+    expect(Object.keys(places)).toHaveLength(56);
+    expectTerritoriesEstimated(PLACE_OUTCOME_BASES[MEASURE]!, 51);
     expect(places["US-TX"]).toBe(91533);
     expect(places["US-RI"]).toBe(267);
     expect(OUTCOMES_PRODUCED.has(MEASURE)).toBe(true);
@@ -123,7 +125,7 @@ describe("farmland easements", () => {
     const places = Object.keys(PLACE_OUTCOME_BASES[MEASURE]!.places).filter(
       (key) => !began[key]!.operativeAt,
     );
-    expect(places).toHaveLength(47);
+    expect(places).toHaveLength(55);
     for (const key of places) {
       const state = stateJurisdictionForKey(key)!.id;
       const flipped = began[key]!.answer === "yes" ? "no" : "yes";

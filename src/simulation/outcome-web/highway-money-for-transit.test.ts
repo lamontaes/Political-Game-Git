@@ -105,7 +105,7 @@ describe("highway money for transit", () => {
 
   it("moves transit service 6% two years after a state changes its answer, in every place with transit data", () => {
     const places = Object.keys(PLACE_OUTCOME_BASES[MEASURE]!.places);
-    expect(places).toHaveLength(52);
+    expect(places).toHaveLength(56);
     for (const key of places) {
       const state = stateJurisdictionForKey(key)!.id;
       const flipped = began[key]!.answer === "yes" ? "no" : "yes";

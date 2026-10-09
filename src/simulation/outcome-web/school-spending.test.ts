@@ -14,6 +14,7 @@ import {
   outcomeLinkStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * Public school spending per student is a place outcome: each state and D.C.
@@ -100,11 +101,10 @@ function worldWith(laws: readonly ReturnType<typeof law>[]): World {
 const state = (key: string) => stateJurisdictionForKey(key)!.id;
 
 describe("school spending per student as a place outcome", () => {
-  it("starts every state and D.C. at the Census fiscal 2024 level, and the territories are unknown", () => {
+  it("starts every state and D.C. at the Census fiscal 2024 level, and the territories at a marked estimate", () => {
     const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
-    expect(Object.keys(places)).toHaveLength(51);
+    expectTerritoriesEstimated(PLACE_OUTCOME_BASES[MEASURE]!);
     expect(places).toHaveProperty("US-DC");
-    expect(places).not.toHaveProperty("US-PR");
     for (const [key, value] of Object.entries(places)) {
       expect(value, key).toBeGreaterThan(8000);
       expect(value, key).toBeLessThan(40000);

@@ -15,6 +15,7 @@ import {
   outcomeLinkStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * A cap on consumer loan rates lowers high-cost borrowing. Prohibiting
@@ -105,12 +106,14 @@ const arkansas = () => stateJurisdictionForKey("US-AR")!.id;
 describe("high-cost loans", () => {
   const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
 
-  it("starts 49 places at their 2023 consumer lenders per 100,000 residents", () => {
-    expect(Object.keys(places)).toHaveLength(49);
-    // The Census Bureau withholds these two states' counts; the territories
-    // are outside County Business Patterns. Unknown is never zero.
-    for (const left of ["US-AK", "US-VT", "US-PR", "US-GU", "US-VI"])
-      expect(places).not.toHaveProperty(left);
+  it("starts 49 places at their 2023 consumer lenders per 100,000 residents, and the other seven at a marked estimate", () => {
+    // The Census Bureau withholds Alaska's and Vermont's counts, and the
+    // territories are outside County Business Patterns: those seven places
+    // start from a marked estimate, never unknown and never zero.
+    expect(Object.keys(places)).toHaveLength(56);
+    for (const estimated of ["US-AK", "US-VT"])
+      expect(places).toHaveProperty(estimated);
+    expectTerritoriesEstimated(PLACE_OUTCOME_BASES[MEASURE]!, 51);
     expect(places["US-MS"]).toBeGreaterThan(10);
     expect(places["US-AR"]).toBeLessThan(1);
     expect(OUTCOMES_PRODUCED.has(MEASURE)).toBe(true);

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { OUTCOMES_PRODUCED } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * Three federal-law outcomes used to start every place at 100 because no
@@ -13,21 +14,21 @@ import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
 describe("real starting levels for the federal-law outcomes", () => {
   it("starts consumer prices at each state's price level against the nation", () => {
     const places = PLACE_OUTCOME_BASES["household.prices"]!.places;
-    expect(Object.keys(places)).toHaveLength(51);
+    expectTerritoriesEstimated(PLACE_OUTCOME_BASES["household.prices"]!);
     expect(places["US-CA"]).toBeGreaterThan(105);
     expect(places["US-AR"]).toBeLessThan(90);
-    expect(places).not.toHaveProperty("US-PR");
     expect(Object.values(places).every((value) => value !== 100)).toBe(true);
     expect(OUTCOMES_PRODUCED.has("household.prices")).toBe(true);
   });
 
   it("starts drug out-of-pocket costs at each state's 2022 Part D mean", () => {
     const places = PLACE_OUTCOME_BASES["health.drug-out-of-pocket"]!.places;
-    expect(Object.keys(places)).toHaveLength(51);
+    expectTerritoriesEstimated(
+      PLACE_OUTCOME_BASES["health.drug-out-of-pocket"]!,
+    );
     expect(places["US-AL"]).toBe(378);
     expect(places["US-AK"]).toBe(233);
     expect(places["US-CA"]).toBe(266);
-    expect(places).not.toHaveProperty("US-PR");
   });
 
   it("starts older employment at each place's share of people 62 to 66 working", () => {
