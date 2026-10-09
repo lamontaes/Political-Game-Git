@@ -67,7 +67,8 @@ const RULES: readonly Rule[] = [
   { pattern: /\btyres?\b/i, instead: "tire" },
   { pattern: /\bgrey(?:s|ed|ing|er|est|ish)?\b/i, instead: "gray" },
   { pattern: /\bfortnights?\b/i, instead: "two weeks" },
-  { pattern: /\brotas?\b/i, instead: "schedule" },
+  // Lowercase only: Rota is an island in the Northern Mariana Islands.
+  { pattern: /\brotas?\b/, instead: "schedule" },
   {
     // "queue" is also the ordinary American word for a work or data queue, so
     // only the people-waiting sense is flagged.

@@ -1,4 +1,5 @@
 /** Test fixture: an Omaha game whose Nebraska Legislature passes minimum wage bills. */
+import { jumpToDate } from "../fixtures/due-item-clock";
 import {
   generateOpeningLife,
   prepareOpeningLife,
@@ -8,8 +9,7 @@ import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
 } from "../../src/simulation/enacted-rule-changes";
-import { addDays, daysBetween } from "../../src/simulation/dates";
-import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
+import { addDays } from "../../src/simulation/dates";
 import {
   enrollMeasure,
   introduceMeasure,
@@ -31,7 +31,6 @@ import {
 import { chamberByKey } from "../../src/simulation/legislature-rules";
 import { recordFiledProvision } from "../../src/simulation/legislative-politics";
 
-import { advanceWorld } from "../../src/simulation/world";
 import type { EntityId, World } from "../../src/simulation";
 
 const AUTHORED = {
@@ -163,12 +162,7 @@ export function omahaWithRaiseBills(bills: readonly RaiseBill[]) {
   for (const stage of chamber.floorStages) {
     for (const [index, measureId] of measures.entries()) {
       const until = measurePosition(world, measureId).earliestNextFloorDate;
-      if (until && world.currentDate < until)
-        world = advanceWorld(
-          world,
-          daysBetween(world.currentDate, until),
-          createFutureTransitionHandlerRegistry([]),
-        );
+      if (until && world.currentDate < until) world = jumpToDate(world, until);
       world = takeFloorVote(world, {
         stableKey: `raise:${bills[index]!.key}:${stage.stageKey}`,
         measureId,

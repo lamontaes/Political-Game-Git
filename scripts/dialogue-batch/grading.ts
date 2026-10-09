@@ -27,6 +27,7 @@ export const TEXT_KINDS = [
   "meeting",
   "minutes",
   "notices-and-screens",
+  "choice",
 ] as const;
 export type TextKind = (typeof TEXT_KINDS)[number];
 
@@ -173,6 +174,8 @@ const MISSING_COMPOSER: Readonly<Record<string, string>> = {
   minutes:
     "no composer writes minutes until the body has a recorded meeting or vote (readMinutesBank needs one)",
   "notices-and-screens": "no notices composer or bank exists yet",
+  choice:
+    "no conversation offered a choice the talk-choice bank can word (composeTalkChoice needs a mined sentence for it)",
   legislation:
     "no composer words a bill until a measure with a short title is filed (readLegislationBank needs one)",
   meeting:
@@ -189,6 +192,7 @@ const KIND_VOICE: Readonly<Record<string, string>> = {
   meeting: "A member",
   minutes: "Minutes",
   hearing: "At the hearing",
+  choice: "You could say",
 };
 
 function voiceLabel(line: BatchLine): string {
@@ -247,6 +251,11 @@ export function binRule(reply: string): string | null {
   return null;
 }
 
+/** "1 line", "2 lines". */
+export function counted(n: number, noun: string): string {
+  return `${n} ${n === 1 ? noun : `${noun}s`}`;
+}
+
 export function toGradingBatch(
   result: BatchResult,
   run: { readonly id: string; readonly head: string; readonly at: Date },
@@ -257,9 +266,12 @@ export function toGradingBatch(
   const voices = new Map<string, number>();
   // Conversation repeats when the exchange and the relationship repeat; a
   // read text (news, journal, a judge's reasons) repeats when its words do.
+  // A conversation repeats a situation when the same kind of exchange with the
+  // same kind of person opens the same way and varies the same thing; one
+  // that opens with another choice, or tests another axis, is a new situation.
   const pairOf = (item: Omit<GradingItem, "i">) =>
     item.kind === "conversation" || item.kind === "press"
-      ? `${item.kind}|${item.cell.kind}|${item.cell.relationship}`
+      ? `${item.kind}|${item.cell.kind}|${item.cell.relationship}|${item.prior}|${item.axis}`
       : `${item.kind}|${item.situation}|${item.reply}`;
   const worldIndex = new Map(
     result.worlds.map((world) => [world.place, world.index]),
@@ -273,7 +285,7 @@ export function toGradingBatch(
       prior:
         line.prior === undefined
           ? ""
-          : `${line.speaker.isPlayer ? "Reporter" : "You"}: ${line.prior}`,
+          : `${line.priorVoice ?? (line.speaker.isPlayer ? "Reporter" : "You")}: ${line.prior}`,
       reply: `${voiceLabel(line)}: ${line.line}`,
       part: line.parts[0] ?? null,
       parts: line.parts,
@@ -328,9 +340,33 @@ export function toGradingBatch(
   // Every absent kind is a row that names the composer it is missing (CTO
   // 10:14 p.m. Oct 6), with what each world reported.
   const absent = TEXT_KINDS.filter((kind) => kinds[kind] === 0).map((kind) => {
+    const row = result.absent?.find((entry) => entry.kind === kind);
+    const binned = bin.filter((entry) => entry.item.kind === kind);
+    if (row?.leftOut)
+      return { kind, reason: `no output, because ${row.reason}` };
+    // Lines were made but none reached the owner: say where they went.
+    const lost = result.dropped?.[kind];
+    const went = [
+      ...(binned.length > 0
+        ? [
+            `${counted(binned.length, "line")} went to the bin (${[...new Set(binned.map((entry) => entry.rule))].join("; ")})`,
+          ]
+        : []),
+      ...(lost && lost.repeated > 0
+        ? [
+            `${counted(lost.repeated, "line")} repeated the wording of a line already asked or already in the batch`,
+          ]
+        : []),
+      ...(lost && lost.overLimit > 0
+        ? [
+            `${counted(lost.overLimit, "line")} went over the limit from one life`,
+          ]
+        : []),
+    ];
+    if (went.length > 0)
+      return { kind, reason: `no output, because ${went.join("; ")}` };
     const seen =
-      result.absent?.find((row) => row.kind === kind)?.reason ??
-      "no situation in the batch reaches this kind yet";
+      row?.reason ?? "no situation in the batch reaches this kind yet";
     return {
       kind,
       reason: `no output, because ${MISSING_COMPOSER[kind] ?? "no composer reached this kind"}. In these worlds: ${seen.replace(/no output, because /g, "")}`,

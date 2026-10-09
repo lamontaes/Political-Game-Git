@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { drawRandomPlace } from "../../tests/support/random-place";
+import { ageOnDate } from "../simulation";
+
 import { stateNameForUsps } from "../player/useWorldOrientation";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
@@ -51,16 +54,18 @@ describe("In the year 2026", () => {
         ),
       );
       expect(view.year).toBe(world.currentDate.slice(0, 4));
-      expect(view.lines[0]).toMatch(/ is President/);
-      expect(view.lines.some((line) => /Senate: \d+ /.test(line))).toBe(true);
-      expect(
-        view.lines.some((line) => /House of Representatives: \d+ /.test(line)),
-      ).toBe(true);
-      expect(
-        view.lines.some((line) =>
-          /\d\.\d% of people looking for work/.test(line),
-        ),
-      ).toBe(true);
+      // Record values under labels, never sentences (menu reset).
+      const value = (label: RegExp) =>
+        view.facts.find((fact) => label.test(fact.label))?.value;
+      expect(view.facts[0]!.label).toBe("President");
+      expect(value(/^United States Senate$/)).toMatch(/^\d+ [A-Za-z]/);
+      expect(value(/^United States House of Representatives$/)).toMatch(
+        /^\d+ [A-Za-z]/,
+      );
+      expect(value(/^Unemployment$/)).toMatch(/^\d+\.\d%$/);
+      expect(value(/^Prices over a year$/)).toMatch(/^[+-]?\d+\.\d%$/);
+      for (const fact of view.facts)
+        expect(`${fact.label} ${fact.value}`).not.toMatch(/[.!?]$/);
       // Every masthead and headline comes from the same published record.
       expect(view.publications.length).toBeLessThanOrEqual(2);
       for (const publication of view.publications)
@@ -99,10 +104,10 @@ describe("The Senate on the opening card", () => {
         game.world,
         game.playerPersonId,
         orientation,
-      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
+      ).facts.find((fact) => fact.label === "United States Senate")!.value;
       expect(senateCount(line), `${place.key}: ${line}`).toBe(100);
 
-      // A seat a death or resignation leaves empty is named, so the card
+      // A seat a death or resignation leaves empty is counted, so the card
       // still accounts for all 100.
       const [first, ...rest] = senate.roster;
       const leaving = senate.parties.find(
@@ -146,9 +151,9 @@ describe("The Senate on the opening card", () => {
         game.world,
         game.playerPersonId,
         withVacancy,
-      ).lines.find((text) => text.startsWith("In the United States Senate"))!;
-      expect(senateCount(vacantLine)).toBe(99);
-      expect(vacantLine).toContain(`a ${first!.seatLabel} seat is vacant`);
+      ).facts.find((fact) => fact.label === "United States Senate")!.value;
+      expect(senateCount(vacantLine)).toBe(100);
+      expect(vacantLine).toContain("1 vacant");
     },
   );
 });
@@ -161,24 +166,31 @@ describe("Your legislature", () => {
     );
     expect(kentucky.bodyName).toBe("Kentucky General Assembly");
     expect(kentucky.chambers).toHaveLength(2);
-    for (const line of kentucky.chambers)
-      expect(line).toMatch(
-        /^Kentucky (House of Representatives|Senate): \d+ [A-Z]/,
+    for (const chamber of kentucky.chambers) {
+      expect(chamber.label).toMatch(
+        /^Kentucky (House of Representatives|Senate)$/,
       );
+      expect(chamber.value).toMatch(/^\d+ [A-Z]/);
+    }
     // Party names, never internal keys.
-    expect(kentucky.chambers.join(" ")).not.toMatch(
-      /\b(republican|democratic)\b/,
-    );
+    expect(
+      kentucky.chambers.map((chamber) => chamber.value).join(" "),
+    ).not.toMatch(/\b(republican|democratic)\b/);
+    // Your own members: the office and district, then the member's name.
     expect(kentucky.yours).toHaveLength(2);
-    for (const line of kentucky.yours)
-      expect(line).toMatch(/ represents you in the /);
+    for (const member of kentucky.yours) {
+      expect(member.label).toMatch(/Senate|House/);
+      expect(member.value).toMatch(/^[A-Z][a-z]+ /);
+      expect(`${member.label} ${member.value}`).not.toMatch(/[.!?]$/);
+    }
 
     const nebraska = projectOpeningLegislature(
       NEBRASKA.world,
       NEBRASKA.personId,
     );
     expect(nebraska.chambers).toHaveLength(1);
-    expect(nebraska.chambers[0]).toMatch(/^Nebraska Legislature: \d+ /);
+    expect(nebraska.chambers[0]!.label).toBe("Nebraska Legislature");
+    expect(nebraska.chambers[0]!.value).toMatch(/^\d+ /);
   });
 });
 
@@ -224,5 +236,33 @@ describe("Your family", () => {
     const parents = new Set(child.parents.map((member) => member.personId));
     for (const member of child.household)
       expect(parents.has(member.personId)).toBe(false);
+  });
+
+  const drawn = drawRandomPlace("opening-story-family");
+  it(`gives each parent the age their birth record holds (${drawn.displayName}, seed opening-story-family)`, () => {
+    // A child's opening in a place drawn from all 56, beside the two above.
+    const life = opening(drawn.key, 12);
+    for (const [world, personId] of [
+      [LEXINGTON.world, LEXINGTON.personId],
+      [MINNEAPOLIS.world, MINNEAPOLIS.personId],
+      [life.world, life.personId],
+    ] as const) {
+      const family = projectOpeningFamily(world, personId);
+      expect(family.parents.length).toBeGreaterThan(0);
+      const own = ageOnDate(
+        world.people[personId]!.birthDate,
+        world.currentDate,
+      );
+      for (const member of [...family.parents, ...family.household])
+        expect(member.age).toBe(
+          ageOnDate(
+            world.people[member.personId]!.birthDate,
+            world.currentDate,
+          ),
+        );
+      // A parent is older than the child they raised.
+      for (const parent of family.parents)
+        expect(parent.age).toBeGreaterThan(own);
+    }
   });
 });

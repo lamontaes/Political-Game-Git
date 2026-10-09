@@ -1,3 +1,4 @@
+import { atDueDate } from "../fixtures/due-item-clock";
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../data/research/laws/starting-law-2026/index";
@@ -268,7 +269,7 @@ function scenario(seed: string, pool: readonly string[]) {
           provenance: { kind: "simulated", sourceEntityIds: [world.id] },
         });
         const item = world.history.futureDueItems.at(-1)!;
-        world = placeOutcomesHandler(world, item).world;
+        world = placeOutcomesHandler(atDueDate(world, due), item).world;
       }
     });
     return world;

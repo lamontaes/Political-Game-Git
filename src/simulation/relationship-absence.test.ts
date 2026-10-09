@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { addDays } from "./dates";
+import { changeHealthState, beginHealthEpisode } from "./crisis/health";
+import { crisisRecords } from "./crisis/records";
+import { addDays, simulationMomentAtLocalTime } from "./dates";
 import { createDemoWorld } from "../scenarios/demo";
 import { createWorld, recordWorldEvent } from "./world";
 import { stableHash } from "./ids";
@@ -87,6 +89,19 @@ function log(
 }
 
 /** A date this many days before the world's current date. */
+/** The same World on a later day, its clock moved with it. */
+function on(world: World, date: IsoDate): World {
+  return {
+    ...world,
+    currentDate: date,
+    currentMoment: simulationMomentAtLocalTime({
+      date,
+      minuteOfDay: world.currentMoment.minuteOfDay,
+      timeZone: world.currentMoment.timeZone,
+    }),
+  };
+}
+
 function daysAgo(world: World, days: number): IsoDate {
   return addDays(world.currentDate, -days);
 }
@@ -520,6 +535,49 @@ describe(`A142: a recorded reason for time apart is not neglect (${A142_SEED})`,
     ).toEqual(["death-in-family"]);
     expect(absence.explainedDays, label).toBe(90);
     expect(absence.currency, label).toBe("current");
+  });
+
+  it("reads an illness that limited what someone could do as a recorded reason, for as long as it did", () => {
+    const { world: base, pair, label } = drawnPlaceWorld();
+    // In touch monthly until ten days ago; then one of them is taken ill.
+    let world = longFriendship(base, pair, 3, 10);
+    const takenIll = world.currentDate;
+    world = beginHealthEpisode(world, {
+      stableKey: "p6:illness",
+      personId: pair[1],
+      severity: "serious",
+      initialLimitation: "incapacitated",
+      origin: { kind: "authored", note: "P6 fixture." },
+      causalParentIds: [],
+    });
+    const episodeId = crisisRecords(world).find(
+      (record) =>
+        record.kind === "health-episode" && record.personId === pair[1],
+    )!.id;
+    // Up and about again after 90 days; 50 days after that, still apart.
+    world = changeHealthState(on(world, addDays(takenIll, 90)), {
+      stableKey: "recovered",
+      episodeId,
+      state: "recovered",
+      functionalLimitation: "none",
+    });
+    world = on(world, addDays(takenIll, 140));
+    const absence = readRelationshipAbsence(world, pair[0], pair[1]);
+    expect(
+      absence.apartReasons.map((row) => row.kind),
+      label,
+    ).toEqual(["ill"]);
+    expect(absence.apartReasons[0]?.until, label).toBe(addDays(takenIll, 90));
+    expect(absence.explainedDays, label).toBe(90);
+    expect(absence.currency, label).toBe("current");
+    // Without the illness, 150 days apart is longer than their usual month.
+    const healthy = {
+      ...world,
+      history: { ...world.history, crisisRecords: [] },
+    };
+    expect(readRelationshipAbsence(healthy, pair[0], pair[1]).currency).toBe(
+      "less-current",
+    );
   });
 
   it("reads a move to another place as a recorded reason, while they live apart", () => {
