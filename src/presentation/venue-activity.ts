@@ -4,6 +4,10 @@ import {
   recordOrdinaryMeetingPresence,
 } from "../simulation/ordinary-meeting-presence";
 import {
+  FILING_OFFICE_JOURNEY_KEY,
+  FILING_OFFICE_LOCATION_KEY,
+} from "../simulation/filing-visit";
+import {
   CAMPAIGN_LIFE_CATALOG,
   campaignActionForActivity,
   campaignWeeklyPlanForAction,
@@ -85,6 +89,13 @@ const ATTEND_JOURNEYS = [
     journeyLocationKey: "office-to-east-end",
     destinationLocationKey: "east-end-community-room",
     destinationSetting: "community room",
+    costDisclosure: "There is no fare.",
+  },
+  {
+    // A filing visit: the clerk's office, over the same local journey.
+    journeyLocationKey: FILING_OFFICE_JOURNEY_KEY,
+    destinationLocationKey: FILING_OFFICE_LOCATION_KEY,
+    destinationSetting: "clerk's office",
     costDisclosure: "There is no fare.",
   },
   {

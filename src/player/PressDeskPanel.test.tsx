@@ -1,6 +1,11 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fixtureMeetsRecordedCandidacyAge } from "../../tests/fixtures/candidacy-age";
+import {
+  fundCommitteeFromCandidate,
+  withRecordedStartingConditions,
+} from "../../tests/fixtures/campaign-fixture";
+import { withPersonalSavings } from "../../tests/fixtures/personal-money";
 import { renderToStaticMarkup } from "react-dom/server";
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -15,8 +20,6 @@ import {
   ensurePressMediaOpening,
   ensurePressStateCoverage,
   ensureMediaOwnership,
-  createResourcePosition,
-  money,
   projectPressDesk,
   fileCampaign,
   fileRivalComplaint,
@@ -57,10 +60,10 @@ function campaignFixture(seed: string): CampaignFixture {
   const playerId = created.personOrder.find((id) =>
     fixtureMeetsRecordedCandidacyAge(created, id),
   )!;
-  const base: World = {
+  const base: World = withRecordedStartingConditions({
     ...created,
     control: { kind: "person", personId: playerId },
-  };
+  });
   const opponents = ensureCampaignOpponents(base, {
     stableKey: "press-desk-mount",
     jurisdictionId: KY,
@@ -91,7 +94,13 @@ function campaignFixture(seed: string): CampaignFixture {
     treasuryCurrency: makeCurrencyCode("USD"),
   });
   let world = filed.world;
-  world = session(world, filed.campaign, "fundraising", null);
+  // A fundraising session raises money only after a dated monetary ask, so the
+  // committee is funded from the candidate's own recorded savings.
+  world = fundCommitteeFromCandidate(
+    withPersonalSavings(world, playerId, 500_000),
+    playerId,
+    50_000,
+  );
   world = session(world, filed.campaign, "advertising", 20_000);
   world = ensurePressMediaOpening(world, playerId);
   world = ensurePressStateCoverage(world, KY);
@@ -201,7 +210,12 @@ describe("PressDeskPanel", () => {
     expect(html).toContain('data-testid="press-desk-panel"');
     expect(html).toContain("Questions waiting on you");
     expect(html).not.toContain("game-note");
-    expect(html).not.toContain('data-testid="press-desk-stories"');
+    // The group heading is always shown and carries the same test id as the
+    // list of printed stories, so the list itself is what must be absent.
+    expect(html).toContain('<section class="pg-press-desk-group"');
+    expect(html).not.toContain(
+      '<ul class="pg-press-desk-list" data-testid="press-desk-stories"',
+    );
     expect(html).not.toContain('data-testid="press-desk-story"');
   });
 
@@ -252,13 +266,12 @@ describe("PressDeskPanel", () => {
 
   it("names each outlet's owner, and offers an outlet for sale to a viewer who can pay", () => {
     let world = ensureMediaOwnership(covered.world);
-    world = createResourcePosition(world, {
-      stableKey: "press-desk-mount:savings",
-      owner: { kind: "person", personId: covered.playerId },
-      openedAt: world.currentDate,
-      openingBalance: money(1_000_000_000_00, makeCurrencyCode("USD")),
-      provenance: { kind: "authored", note: "Test savings." },
-    });
+    world = withPersonalSavings(
+      world,
+      covered.playerId,
+      1_000_000_000_00,
+      "press-desk-mount:savings",
+    );
     const html = render(world, covered.playerId);
     expect(html).toContain("· owned by ");
     const forSale = projectPressDesk(world, covered.playerId).outlets.filter(

@@ -14,6 +14,9 @@ import { municipalActionAuthority } from "../simulation/municipal-public-work";
 import { completedActivityHere } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
 import { venueActivities } from "./venue-activity";
+import { electiveOfficesForJurisdiction } from "../simulation/candidacy";
+import { filingOfficeForSeat } from "../simulation/filing-office";
+import { scheduledFilingVisits } from "../simulation/filing-visit";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
@@ -41,6 +44,8 @@ export interface PlacesOfferView {
   readonly governmentKey?: string;
   readonly meetingId?: EntityId;
   readonly inspectGovernmentKey?: string;
+  /** A seat whose filing office this offer goes to (`requestFilingVisit`). */
+  readonly filingSeatOfficeKey?: string;
 }
 
 export interface PlacesWorkspaceModel {
@@ -123,6 +128,8 @@ export function projectPlacesWorkspace(
     });
   }
 
+  offers.push(...filingOfficeOffers(world, personId));
+
   const completed = completedActivityHere(world, personId);
   return {
     current,
@@ -131,6 +138,40 @@ export function projectPlacesWorkspace(
       ? { title: completed.title, locationLabel: completed.location.label }
       : null,
   };
+}
+
+/**
+ * The offices where this person could file for a local seat, one offer per
+ * office, while no visit to one is already on the calendar. Each names the
+ * government and its clerk's title from the records.
+ */
+function filingOfficeOffers(
+  world: World,
+  personId: EntityId,
+): readonly PlacesOfferView[] {
+  if (scheduledFilingVisits(world, personId).length > 0) return [];
+  const person = world.people[personId]!;
+  const seen = new Set<string>();
+  const offers: PlacesOfferView[] = [];
+  for (const option of electiveOfficesForJurisdiction(
+    person.homeJurisdictionId,
+  )) {
+    const office = filingOfficeForSeat(world, option.officeKey);
+    if (!office || seen.has(office.unit.id)) continue;
+    seen.add(office.unit.id);
+    offers.push({
+      id: `filing-office-${office.unit.id}`,
+      kind: "travel",
+      title: office.governmentName,
+      detail: office.clerkTitle,
+      minutes: null,
+      durationLabel: null,
+      unavailable: null,
+      companionLabel: null,
+      filingSeatOfficeKey: option.officeKey,
+    });
+  }
+  return offers;
 }
 
 function projectVenueOffer(

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-08",
+  "note": "Where a candidate for a town, township or county seat files, and how a visit there is kept. Which government runs local elections comes from each state's municipal election rule pack; the five territories, which have no such pack, are read here. Office hours, the visit's length and the clerk's title are estimates until a place's own are read.",
+  "officeHours": {
+    "weekdays": [1, 2, 3, 4, 5],
+    "openMinute": 540,
+    "closeMinute": 1020,
+    "estimatedFrom": "Weekday business hours county and municipal clerks' offices commonly keep, 9:00 a.m. to 5:00 p.m., Monday through Friday"
+  },
+  "visitMinutes": {
+    "value": 30,
+    "estimatedFrom": "The time a counter visit takes to ask about a seat and complete a declaration of candidacy"
+  },
+  "journey": {
+    "journeyKey": "ordinary-life:to-meeting-room",
+    "minutes": 20,
+    "basis": "The same authored local journey the community room uses; no street geography is implied"
+  },
+  "clerkTitles": {
+    "county": "County clerk",
+    "municipality": "Municipal clerk",
+    "township": "Town clerk"
+  },
+  "territories": {
+    "PR": {
+      "administration": "state-election-board",
+      "estimatedFrom": "Puerto Rico's State Elections Commission (Comisión Estatal de Elecciones) conducts the island's elections, municipal legislatures included"
+    },
+    "GU": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Guam Election Commission conducts every election on Guam"
+    },
+    "VI": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Virgin Islands Board of Elections conducts every election in the territory"
+    },
+    "AS": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The American Samoa Election Office conducts every election in the territory"
+    },
+    "MP": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Commonwealth Election Commission conducts every election in the Northern Mariana Islands"
+    }
+  }
+}
