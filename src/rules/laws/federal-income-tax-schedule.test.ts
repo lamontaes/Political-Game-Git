@@ -13,11 +13,20 @@ const statuses: readonly FilingStatus[] = [
   "single",
   "married-filing-jointly",
   "head-of-household",
+  "married-filing-separately",
 ];
 const records = scheduleData.records as readonly {
   taxYear: number;
-  schedules: Readonly<Record<FilingStatus, IncomeTaxSchedule>>;
+  schedules: Readonly<Partial<Record<FilingStatus, IncomeTaxSchedule>>>;
 }[];
+
+const fallbacks = {
+  "married-filing-separately": {
+    sourceStatus: "single",
+    estimatedFrom:
+      "Internal Revenue Service, Revenue Procedure 2025-32: married filing separately follows single filer thresholds and standard deduction for tax year 2026",
+  },
+} as const;
 
 describe("standalone federal income tax schedules", () => {
   it.each(Object.keys(STATES))(
@@ -26,14 +35,24 @@ describe("standalone federal income tax schedules", () => {
       const year = usps.charCodeAt(0) % 2 === 0 ? 2026 : 2030;
       const paidAt = `${year}-04-15`;
       for (const status of statuses) {
-        expect(
-          federalIncomeTaxScheduleFromFacts(
-            status,
-            paidAt,
-            records,
-            scheduleData.estimate.estimatedFrom,
-          ),
-        ).toEqual(legacyScheduleFor(status, paidAt));
+        const schedule = federalIncomeTaxScheduleFromFacts(
+          status,
+          paidAt,
+          records,
+          scheduleData.estimate.estimatedFrom,
+          fallbacks,
+        );
+        if (status === "married-filing-separately") {
+          expect(schedule).toMatchObject({
+            standardDeductionMinor: 1610000,
+            brackets: records[0]!.schedules.single!.brackets,
+            estimatedFrom: expect.stringContaining(
+              fallbacks[status].estimatedFrom,
+            ),
+          });
+        } else {
+          expect(schedule).toEqual(legacyScheduleFor(status, paidAt));
+        }
       }
     },
   );
@@ -45,6 +64,7 @@ describe("standalone federal income tax schedules", () => {
         "2026-01-01",
         records,
         scheduleData.estimate.estimatedFrom,
+        fallbacks,
       ),
     );
   });
