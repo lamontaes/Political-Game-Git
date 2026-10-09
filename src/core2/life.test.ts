@@ -481,8 +481,45 @@ describe("shared actor chooser and committed effects", () => {
   });
 });
 
+/** These fixtures start from an explicit drive; P10 owns the decision that forms it. */
+function recordFixtureCause(
+  core: CoreState,
+  event: CoreEventInput,
+  strength = p("one"),
+): void {
+  const api = coreAPI(core),
+    id = event.personIds[0]!;
+  const drive = {
+    id: `fixture:cause:${event.id}`,
+    kind: "fixture:chosen-cause",
+    sourceEventId: event.id,
+    topic: event.topic!,
+    desiredChange: event.desiredChange!,
+    strength,
+  };
+  api.updateDrive(id, drive);
+  api.updateGoal(id, {
+    id: `fixture:goal:${drive.id}`,
+    kind: definition("organize").goalKinds[0]!,
+    sourceDriveId: drive.id,
+    urgency: drive.strength,
+  });
+}
+
 describe("learned civic cause and honest requests", () => {
-  it("freely follows a learned event through lookup and an organizing plan to a recorded staff callback", () => {
+  it("does not automatically assign a cause or goal when adverse news is learned", () => {
+    const core = createLifeCore(civicInput()),
+      event = adverse(core);
+    coreAPI(core).emit(event);
+    expect(core.people.get(actorId)!.drives.size).toBe(p("zero"));
+    expect(core.people.get(actorId)!.goals.size).toBe(p("zero"));
+    expect(DEFAULT_DATA.situations).toEqual([]);
+    expect(
+      coreAPI(core).knows(actorId, `event:${event.id}:experienced`),
+    ).toMatchObject({ sourceId: event.id });
+  });
+
+  it("freely follows an explicitly recorded drive through lookup and an organizing plan to a recorded staff callback", () => {
     const core = createLifeCore(civicInput());
     const api = coreAPI(core);
     const actor = core.people.get(actorId)!;
@@ -497,6 +534,8 @@ describe("learned civic cause and honest requests", () => {
     expect(api.knows(actorId, `person:${staffId}:name`)).toBeUndefined();
     const event = adverse(core);
     api.emit(event);
+    expect(actor.drives.size).toBe(p("zero"));
+    recordFixtureCause(core, event);
     const drives = [...actor.drives.values()];
     expect(drives).toHaveLength(p("one"));
     const drive = drives[0]!;
@@ -506,13 +545,11 @@ describe("learned civic cause and honest requests", () => {
       desiredChange: event.desiredChange,
     });
     expect(drive.strength).toBeGreaterThan(p("zero"));
-    const situation = core.data.situations.find(
-      (row) => row.driveKind === drive.kind,
-    );
-    expect(situation).toBeDefined();
+    const goalKind = definition("organize").goalKinds[0]!;
+    expect(goalKind).toBeDefined();
     expect([...actor.goals.values()]).toContainEqual(
       expect.objectContaining({
-        kind: situation!.goalKind,
+        kind: goalKind,
         sourceDriveId: drive.id,
         urgency: drive.strength,
       }),
@@ -611,6 +648,7 @@ describe("learned civic cause and honest requests", () => {
     const core = createLifeCore(civicInput({ affordances: ["known-group"] }));
     const event = adverse(core);
     coreAPI(core).emit(event);
+    recordFixtureCause(core, event);
     advanceCore(core, nextDay);
     expect(lastAct(core, actorId).actionId).toBe(
       definition("public-lookup").id,
@@ -637,7 +675,9 @@ describe("learned civic cause and honest requests", () => {
 
   it("keeps an office approach unavailable when the directory has no recorded staff", () => {
     const core = createLifeCore(civicInput({ includeStaff: false }));
-    coreAPI(core).emit(adverse(core));
+    const event = adverse(core);
+    coreAPI(core).emit(event);
+    recordFixtureCause(core, event);
     advanceCore(core, "2021-01-03");
     expect(lastAct(core, actorId).actionId).toBe(definition("organize").id);
     expect(core.organizedTopicsByPerson.get(actorId)?.size).toBe(p("one"));
@@ -657,6 +697,7 @@ describe("learned civic cause and honest requests", () => {
     const event = adverse(core, uninformedId);
     const before = structuredClone(core.people.get(actorId)!);
     coreAPI(core).emit(event);
+    recordFixtureCause(core, event);
     expect(core.people.get(uninformedId)!.drives.size).toBe(p("one"));
     expect(core.people.get(actorId)).toEqual(before);
     expect(
@@ -667,6 +708,30 @@ describe("learned civic cause and honest requests", () => {
         (offer) => offer.driveId === undefined,
       ),
     ).toBe(true);
+  });
+
+  it("passes the strongest matching drive regardless of goal insertion order", () => {
+    const core = createLifeCore(civicInput());
+    const weak = adverse(core),
+      strong = { ...weak, id: `${weak.id}:strong` };
+    coreAPI(core).emit(weak);
+    recordFixtureCause(core, weak, p("one"));
+    coreAPI(core).emit(strong);
+    recordFixtureCause(core, strong, p("two"));
+    const first = availableActs(core, actorId).filter(
+      (row) => row.definition.effect === "public-lookup",
+    );
+    expect(first.length).toBeGreaterThan(p("zero"));
+    expect(
+      first.every((row) => row.driveId === `fixture:cause:${strong.id}`),
+    ).toBe(true);
+    const actor = core.people.get(actorId)!;
+    actor.goals = new Map([...actor.goals].reverse());
+    expect(
+      availableActs(core, actorId)
+        .filter((row) => row.definition.effect === "public-lookup")
+        .map((row) => row.driveId),
+    ).toEqual(first.map((row) => row.driveId));
   });
 });
 
