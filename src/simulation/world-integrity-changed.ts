@@ -91,6 +91,8 @@ const UNIQUE_STABLE_KEY_FAMILIES: ReadonlySet<string> = new Set([
   "publications",
   "principles",
   "subjectKnowledge",
+  "storyMoments",
+  "storyIntakeMarks",
 ]);
 
 interface ChangedCheckIndex {

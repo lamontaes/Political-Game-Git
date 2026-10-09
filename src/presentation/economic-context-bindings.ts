@@ -1,3 +1,4 @@
+import reviewedBindings from "../../data/research/economic-context-reviewed-bindings.json" with { type: "json" };
 import type { BrowserEconomicGeographyBinding } from "./economic-context-browser";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByKey } from "../simulation/life-places";
@@ -37,40 +38,17 @@ import type { LifePlace } from "../simulation/life-places";
  * module refuses. Lexington keeps its reviewed MSA row because somebody read
  * it; nowhere else gets one until a crosswalk is accepted.
  */
-export const LEXINGTON_ECONOMIC_BINDING: BrowserEconomicGeographyBinding = {
-  bindingKey: "economic-context.lexington-ky.v2",
-  placeKey: "lexington-fayette",
-  placeLabel: "Lexington, Kentucky",
-  beaAreas: [
-    {
-      geographyLevel: "county",
-      geoFips: "21067",
-      relationship: "same-jurisdiction",
-    },
-    {
-      geographyLevel: "msa",
-      geoFips: "30460",
-      relationship: "containing-metro",
-    },
-    {
-      geographyLevel: "state",
-      geoFips: "21000",
-      relationship: "containing-state",
-    },
-  ],
-  lausAreaCodes: [
-    { areaCode: "ST2100000000000", relationship: "containing-state" },
-  ],
-  hudFipsCodes: [
-    { hudFipsCode: "2106799999", relationship: "same-jurisdiction" },
-  ],
-};
-
-/** Reviewed crosswalks, which always win over a derived one. */
 const REVIEWED_BINDINGS_BY_PLACE = new Map<
   string,
   BrowserEconomicGeographyBinding
->([[LEXINGTON_ECONOMIC_BINDING.placeKey, LEXINGTON_ECONOMIC_BINDING]]);
+>(
+  (reviewedBindings as readonly BrowserEconomicGeographyBinding[]).map(
+    (row) => [row.placeKey, row],
+  ),
+);
+/** Compatibility export for the explicitly authored regression fixture. */
+export const LEXINGTON_ECONOMIC_BINDING: BrowserEconomicGeographyBinding =
+  reviewedBindings[0] as BrowserEconomicGeographyBinding;
 
 /**
  * The state FIPS prefix of a Census GEOID.

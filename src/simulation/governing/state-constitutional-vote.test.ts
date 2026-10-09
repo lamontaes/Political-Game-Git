@@ -1,3 +1,4 @@
+import { composeWorldTimeHandlers } from "../campaigns";
 import { legacyPolicyMemberBallot } from "../../../tests/fixtures/a79-legacy-policy-ballot";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
@@ -693,12 +694,16 @@ describe("A79 shared saved state policy proposal votes", () => {
         note: "Controlled one-day core-clock invocation of the actual scheduled review caller; no ordinary-life/year claim.",
       },
     });
-    const advanced = advanceWorld(at, 1, {
-      get: (key) =>
-        key === CONSTITUTIONAL_REFORM_REVIEW
-          ? constitutionalReformReviewHandler
-          : undefined,
-    });
+    const advanced = advanceWorld(
+      at,
+      1,
+      composeWorldTimeHandlers({
+        get: (key) =>
+          key === CONSTITUTIONAL_REFORM_REVIEW
+            ? constitutionalReformReviewHandler
+            : undefined,
+      }),
+    );
     const result = { world: advanced };
     const proposal = result.world.history.constitutionalMeasures!.find(
       (row) =>
@@ -791,16 +796,20 @@ describe("A79 shared saved state policy proposal votes", () => {
       },
     });
     let refusalContext: string | null = null;
-    unseated = advanceWorld(unseated, 1, {
-      get: (key) =>
-        key === CONSTITUTIONAL_REFORM_REVIEW
-          ? (at, item) => {
-              const refusal = constitutionalReformReviewHandler(at, item);
-              refusalContext = refusal.context;
-              return refusal;
-            }
-          : undefined,
-    });
+    unseated = advanceWorld(
+      unseated,
+      1,
+      composeWorldTimeHandlers({
+        get: (key) =>
+          key === CONSTITUTIONAL_REFORM_REVIEW
+            ? (at, item) => {
+                const refusal = constitutionalReformReviewHandler(at, item);
+                refusalContext = refusal.context;
+                return refusal;
+              }
+            : undefined,
+      }),
+    );
     expect(refusalContext).toContain("congressional delegation cannot cast");
     expect(unseated.history.constitutionalMeasures ?? []).toHaveLength(0);
   });
@@ -847,12 +856,16 @@ describe("A79 shared saved state policy proposal votes", () => {
         note: "Controlled scheduled review of a real principle-backed policy cause, not natural filing.",
       },
     });
-    const saved = advanceWorld(at, 1, {
-      get: (key) =>
-        key === CONSTITUTIONAL_REFORM_REVIEW
-          ? constitutionalReformReviewHandler
-          : undefined,
-    });
+    const saved = advanceWorld(
+      at,
+      1,
+      composeWorldTimeHandlers({
+        get: (key) =>
+          key === CONSTITUTIONAL_REFORM_REVIEW
+            ? constitutionalReformReviewHandler
+            : undefined,
+      }),
+    );
     const proposal = saved.history.constitutionalMeasures!.find(
       (row) => row.ruleDelta.kind === "policy-provision",
     )!;
@@ -1053,17 +1066,24 @@ describe("A79 shared saved state policy proposal votes", () => {
     let beforeReview: World | undefined;
     let afterReview: World | undefined;
     const result = {
-      world: advanceWorld(queued, 1, {
-        get: (key) =>
-          key === CONSTITUTIONAL_REFORM_REVIEW
-            ? (world, item) => {
-                beforeReview = world;
-                const response = constitutionalReformReviewHandler(world, item);
-                afterReview = response.world;
-                return response;
-              }
-            : undefined,
-      }),
+      world: advanceWorld(
+        queued,
+        1,
+        composeWorldTimeHandlers({
+          get: (key) =>
+            key === CONSTITUTIONAL_REFORM_REVIEW
+              ? (world, item) => {
+                  beforeReview = world;
+                  const response = constitutionalReformReviewHandler(
+                    world,
+                    item,
+                  );
+                  afterReview = response.world;
+                  return response;
+                }
+              : undefined,
+        }),
+      ),
     };
     expect(result.world.history.constitutionalMeasures).toEqual(
       at.history.constitutionalMeasures,

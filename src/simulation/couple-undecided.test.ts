@@ -2,7 +2,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import * as decisions from "./decisions";
 import type { DecisionContext, World } from "./types";
 import { createDemoWorld } from "./demo";
-import { lifePlaceStateIdentities } from "./life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "./life-places";
 import { recordWorldEvent, assertWorldIntegrityFully } from "./world";
 import { recordRelationshipInteraction } from "./records";
 import { serializeWorld, deserializeWorld } from "./serialization";
@@ -255,11 +258,13 @@ describe("couple eligibility has one shared rule for every jurisdiction", () => 
           ...fixture.world.people,
           [fixture.pair.personId]: {
             ...fixture.world.people[fixture.pair.personId]!,
-            homeJurisdictionId: place.jurisdictionKey,
+            homeJurisdictionId: stateJurisdictionForKey(place.jurisdictionKey)!
+              .id,
           },
           [fixture.pair.otherPersonId]: {
             ...fixture.world.people[fixture.pair.otherPersonId]!,
-            homeJurisdictionId: place.jurisdictionKey,
+            homeJurisdictionId: stateJurisdictionForKey(place.jurisdictionKey)!
+              .id,
           },
         },
       };
@@ -269,7 +274,7 @@ describe("couple eligibility has one shared rule for every jurisdiction", () => 
           fixture.pair.personId,
           fixture.pair.otherPersonId,
         ),
-        place.stateJurisdictionKey,
+        place.jurisdictionKey,
       ).toBeNull();
     }
   });

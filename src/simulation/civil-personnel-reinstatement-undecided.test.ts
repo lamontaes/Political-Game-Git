@@ -5,8 +5,8 @@ import type { DecisionContext, EntityId, World } from "./types";
 import { deserializeWorld, serializeWorld } from "./serialization";
 import { assertWorldIntegrity } from "./world";
 import {
-  assessMinnesotaReinstatement,
-  offerMinnesotaReinstatement,
+  assessPersonnelReinstatement,
+  offerPersonnelReinstatement,
   personnelOfferResponses,
   reinstatementOpportunities,
 } from "./civil-personnel-actions";
@@ -30,7 +30,7 @@ beforeAll(() => {
   positionId = fixture.otherSpecialistPositionId;
   actorId = fixture.otherDirector;
   expect(
-    assessMinnesotaReinstatement(ready, actorId, positionId, personId),
+    assessPersonnelReinstatement(ready, actorId, positionId, personId),
   ).toMatchObject({ available: true, probationAllowed: true });
 });
 afterEach(() => vi.restoreAllMocks());
@@ -72,7 +72,7 @@ function control(answer: Answer) {
     });
 }
 function offer(world: World) {
-  return offerMinnesotaReinstatement(world, {
+  return offerPersonnelReinstatement(world, {
     positionId,
     personId,
     probation: "required",
@@ -106,7 +106,7 @@ describe("unanswered reinstatement preserves the original World under the existi
         opportunity.candidates.map((candidate) => candidate.personId),
       ).toContain(personId);
       expect(
-        assessMinnesotaReinstatement(saved, actorId, positionId, personId)
+        assessPersonnelReinstatement(saved, actorId, positionId, personId)
           .available,
       ).toBe(true);
       expect(serializeWorld(saved)).toBe(readBytes);
@@ -168,7 +168,7 @@ describe("unanswered reinstatement preserves the original World under the existi
       } else {
         expect(response.workRelationshipId).toBeNull();
         expect(
-          assessMinnesotaReinstatement(saved, actorId, positionId, personId),
+          assessPersonnelReinstatement(saved, actorId, positionId, personId),
         ).toMatchObject({
           available: false,
           reason: expect.stringContaining("that answer stands"),

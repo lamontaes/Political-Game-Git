@@ -43,7 +43,6 @@ import {
   localFiscalGameAuthorityForRulePackId,
 } from "./local-ordinance-game-profile";
 import {
-  lawReading,
   municipalGovernmentByKey,
   municipalGovernmentForPlaceGeoid,
   municipalRulePackFor,
@@ -56,7 +55,6 @@ import {
   reportedReading,
 } from "./municipal-government";
 import type {
-  MunicipalGovernment,
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
@@ -2016,26 +2014,4 @@ export function municipalMeasureKey(
   designation: string,
 ): string {
   return `municipal-measure:${governmentKey}:${designation}`;
-}
-
-/** A stable canonical id for a municipal government's organization, pre-install. */
-export function municipalOrganizationId(
-  world: World,
-  governmentKey: string,
-): EntityId {
-  return createStableId(
-    "organization",
-    `${world.id}:${municipalOrganizationKey(governmentKey)}`,
-  );
-}
-
-/** The two readings of one government, for a surface that shows both. */
-export function municipalReadings(government: MunicipalGovernment): {
-  readonly law: MunicipalReading | null;
-  readonly reported: MunicipalReading | null;
-} {
-  return {
-    law: lawReading(government),
-    reported: reportedReading(government),
-  };
 }

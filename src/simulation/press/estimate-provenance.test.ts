@@ -1,17 +1,16 @@
 import { describe, expect, it } from "vitest";
 
-import { FINDING_EFFECTS_ESTIMATE, REPEAT_OFFENSE_ESTIMATE } from "./findings";
-import { SPENDING_REPORTS_ESTIMATE } from "./spending-reports";
+import { RECORDED_FINDING_EFFECTS, RECORDED_REPEAT_OFFENSE } from "./findings";
+import { RECORDED_SPENDING_REPORTS } from "./spending-reports";
 
 describe("press constants say where they come from", () => {
   for (const [name, table] of [
-    ["finding effects", FINDING_EFFECTS_ESTIMATE],
-    ["repeat offense", REPEAT_OFFENSE_ESTIMATE],
-    ["spending reports", SPENDING_REPORTS_ESTIMATE],
+    ["finding effects", RECORDED_FINDING_EFFECTS],
+    ["repeat offense", RECORDED_REPEAT_OFFENSE],
+    ["spending reports", RECORDED_SPENDING_REPORTS],
   ] as const)
-    it(`${name} are marked estimated with a source`, () => {
-      expect(table.provenance).toBe("estimated-from-average");
-      expect(table.estimated).toBe(true);
-      expect(table.estimatedFrom.length).toBeGreaterThan(10);
+    it(`${name} are a versioned recorded game rule with a named basis`, () => {
+      expect(table.version).toMatch(/-recorded-v\d+$/);
+      expect(table.provenance).toMatch(/^recorded-game-rule/);
     });
 });

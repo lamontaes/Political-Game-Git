@@ -742,14 +742,6 @@ export function syncDistrictMembershipFromCanonicalHome(
   return next;
 }
 
-export function bindElectiveOfficeOption(
-  option: ElectiveOfficeOption,
-  binding: DistrictSeatBinding,
-  expectedStateUsps: string | null,
-): ReturnType<typeof bindOfficeToDistrict> {
-  return bindOfficeToDistrict(option, binding, expectedStateUsps);
-}
-
 /**
  * The districts of `chamber` that cross this person's recorded home place,
  * when that place is split. Empty when the home is wholly inside one district,

@@ -701,16 +701,6 @@ function courtCaseOf(
   };
 }
 
-/** The days a case filed in this jurisdiction takes, read from its state. */
-export function prosecutionTimingAt(
-  world: World,
-  jurisdictionId: EntityId | null,
-): ReturnType<typeof prosecutionTimingFor> {
-  return prosecutionTimingFor(
-    jurisdictionId ? stateKeyOf(world, jurisdictionId) : null,
-  );
-}
-
 function stateKeyOf(world: World, jurisdictionId: EntityId): string | null {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;

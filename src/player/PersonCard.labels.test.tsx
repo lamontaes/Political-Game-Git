@@ -67,6 +67,12 @@ function dossier(personId: EntityId = selfId): PersonDossier {
     sharedHistory: [],
     publicCareer: [],
     age: 27,
+    lifeRecord: {
+      home: "Recorded home",
+      jobs: [],
+      monthlyPay: null,
+      household: [],
+    },
     presentNow: false,
     presentRoom: null,
     reminders: [],
