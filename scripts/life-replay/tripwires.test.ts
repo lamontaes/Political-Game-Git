@@ -7,6 +7,8 @@ import {
   replayTripwires,
   sourceProblems,
   stopgap,
+  emitStopgap,
+  playerImportProblems,
 } from "./tripwires";
 import type { StopgapEntry } from "./tripwires";
 
@@ -52,6 +54,39 @@ describe("stopgap tripwires", () => {
       blockedStopgap(second),
     ]);
     expect(releaseProblems([{ ...entry, status: "replaced" }])).toEqual([]);
+  });
+  it("emits a red developer banner when a registered path executes", () => {
+    const banners: unknown[] = [];
+    emitStopgap(entry, (banner) => banners.push(banner));
+    expect(banners).toEqual([
+      { tone: "red", id: entry.id, message: blockedStopgap(entry) },
+    ]);
+  });
+  it("allows the pure P8 contract while keeping life data and runtime out of the app", () => {
+    expect(
+      playerImportProblems(
+        "core2.ts",
+        'import type { ReplayCore, CoreSetup } from "../scripts/life-replay/contract";',
+      ),
+    ).toEqual([]);
+    expect(
+      playerImportProblems(
+        "app.ts",
+        'import life from "../data/life-replay/lives/wes-moore.json";',
+      ),
+    ).not.toEqual([]);
+    expect(
+      playerImportProblems(
+        "app.ts",
+        'import type { LifeFile } from "../scripts/life-replay/contract";',
+      ),
+    ).not.toEqual([]);
+    expect(
+      playerImportProblems(
+        "app.ts",
+        'await import("../scripts/life-replay/runner");',
+      ),
+    ).not.toEqual([]);
   });
   it("detects numeric constants, authored options, and player rendering", () => {
     expect(sourceProblems("core.ts", "const score = 0.25;")).toHaveLength(1);

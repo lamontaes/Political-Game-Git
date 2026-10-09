@@ -45,7 +45,8 @@
         "name": "Gabriel",
         "relationship": "brother"
       },
-      "sourceRefs": ["aoc-museum"]
+      "sourceRefs": ["aoc-museum"],
+      "role": "reference"
     },
     {
       "value": {
@@ -66,7 +67,7 @@
   ],
   "household": {
     "value": {
-      "composition": ["subject", "father", "mother", "brother"],
+      "composition": ["subject", "father", "mother"],
       "childhoodHousing": "apartment"
     },
     "sourceRefs": ["aoc-museum"]
@@ -97,7 +98,8 @@
         "destination": "us/ny/yorktown-heights",
         "reason": "stronger-public-school"
       },
-      "sourceRefs": ["aoc-about"]
+      "sourceRefs": ["aoc-about"],
+      "role": "reference"
     },
     {
       "id": "financial-crisis",
@@ -120,7 +122,8 @@
         "stateCode": "NY"
       },
       "value": ["medical-bills", "foreclosure-risk", "student-loans"],
-      "sourceRefs": ["aoc-museum"]
+      "sourceRefs": ["aoc-museum"],
+      "role": "reference"
     },
     {
       "id": "new-york-labor-2021",
@@ -134,7 +137,36 @@
       "value": {
         "parameter": "ny-unemployment-2021"
       },
-      "sourceRefs": ["state-unemployment-2021"]
+      "sourceRefs": ["state-unemployment-2021"],
+      "role": "reference"
+    },
+    {
+      "id": "covid-era",
+      "fromDate": "2020-03-11",
+      "throughDate": "2021-12-31",
+      "kind": "public-health-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "pandemic": "COVID-19",
+        "personalInfection": "not-specified"
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    },
+    {
+      "id": "transport-mask-law",
+      "fromDate": "2021-02-02",
+      "throughDate": "2021-12-31",
+      "kind": "law-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "publicTransportationMaskRequirement": true,
+        "observationWindowOnly": true
+      },
+      "sourceRefs": ["cdc-pandemic"]
     }
   ],
   "timeline": [
@@ -400,7 +432,7 @@
       "url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
       "title": "The Great Recession",
       "publisher": "Federal Reserve History",
-      "location": "December 2007\u2013June 2009",
+      "location": "December 2007–June 2009",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -418,7 +450,7 @@
       "url": "https://www.archives.gov/founding-docs/constitution-transcript",
       "title": "Constitution of the United States",
       "publisher": "National Archives",
-      "location": "Article I, sections 2\u20133; Article II, section 1",
+      "location": "Article I, sections 2–3; Article II, section 1",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -436,7 +468,7 @@
       "url": "https://ocasio-cortez.house.gov/about",
       "title": "About Representative Ocasio-Cortez",
       "publisher": "U.S. House of Representatives",
-      "location": "Early life, father\u2019s death, restaurant work, and 2018 campaign",
+      "location": "Early life, father’s death, restaurant work, and 2018 campaign",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -444,7 +476,7 @@
       "id": "aoc-museum",
       "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez",
       "title": "Alexandria Ocasio-Cortez",
-      "publisher": "National Women\u2019s History Museum",
+      "publisher": "National Women’s History Museum",
       "location": "Family, education, work, Standing Rock, June 26, 2018 primary",
       "kind": "secondary",
       "accessed": "2026-10-09"
@@ -454,7 +486,7 @@
       "url": "https://www.ncronline.org/news/aoc-credits-her-catholic-faith-positions-health-care-environment",
       "title": "AOC credits her Catholic faith for positions on health care, environment",
       "publisher": "National Catholic Reporter",
-      "location": "Parents\u2019 religious affiliation and childhood move at age five",
+      "location": "Parents’ religious affiliation and childhood move at age five",
       "kind": "secondary",
       "accessed": "2026-10-09"
     },
@@ -464,6 +496,15 @@
       "title": "Senator Markey and Representative Ocasio-Cortez Reintroduce Green New Deal Resolution",
       "publisher": "U.S. Senate",
       "location": "April 20, 2021; resolution, not an enacted statute",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "cdc-pandemic",
+      "url": "https://www.cdc.gov/museum/timeline/covid19.html",
+      "title": "CDC Museum COVID-19 Timeline",
+      "publisher": "Centers for Disease Control and Prevention",
+      "location": "March 11, 2020 and Early 2021; global pandemic and public transportation mask rule",
       "kind": "primary",
       "accessed": "2026-10-09"
     }

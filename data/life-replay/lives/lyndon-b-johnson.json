@@ -46,7 +46,8 @@
         "affiliation": "Disciples-of-Christ",
         "period": "adult"
       },
-      "sourceRefs": ["lbj-faith"]
+      "sourceRefs": ["lbj-faith"],
+      "role": "reference"
     },
     {
       "value": {
@@ -55,7 +56,8 @@
         "affiliation": "Episcopalian",
         "period": "adult"
       },
-      "sourceRefs": ["lbj-faith"]
+      "sourceRefs": ["lbj-faith"],
+      "role": "reference"
     }
   ],
   "household": {
@@ -168,7 +170,8 @@
         "country": "US"
       },
       "value": "civil-rights-act",
-      "sourceRefs": ["civil-rights"]
+      "sourceRefs": ["civil-rights"],
+      "role": "reference"
     },
     {
       "id": "vietnam-authorization",
@@ -179,7 +182,8 @@
         "country": "US"
       },
       "value": "tonkin-gulf-resolution",
-      "sourceRefs": ["tonkin"]
+      "sourceRefs": ["tonkin"],
+      "role": "reference"
     },
     {
       "id": "voting-rights-law",
@@ -190,7 +194,8 @@
         "country": "US"
       },
       "value": "voting-rights-act",
-      "sourceRefs": ["voting-rights"]
+      "sourceRefs": ["voting-rights"],
+      "role": "reference"
     }
   ],
   "timeline": [

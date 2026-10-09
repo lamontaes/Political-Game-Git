@@ -44,6 +44,15 @@ export function matchesIntent(
 ): boolean {
   if (documented === available) return true;
   if (
+    documented &&
+    typeof documented === "object" &&
+    !Array.isArray(documented) &&
+    typeof documented.parameter === "string" &&
+    Object.keys(documented).length === ONE &&
+    typeof available === "number"
+  )
+    return parameter(documented.parameter) === available;
+  if (
     !documented ||
     !available ||
     typeof documented !== "object" ||
@@ -67,7 +76,8 @@ export function matchingChoices(
   decisions: CoreDecision[],
 ): { decisionId: string; choiceKey: string }[] {
   return decisions.flatMap((decision) =>
-    decision.mechanism !== step.mechanism
+    decision.mechanism !== step.mechanism ||
+    decision.actorKey !== (step.actorKey ?? "subject")
       ? []
       : decision.choices
           .filter(
@@ -112,9 +122,16 @@ export function runLife(
   if (!Number.isSafeInteger(maximumDays) || maximumDays < ZERO)
     throw new Error("Replay day budget must be a nonnegative whole number");
   const started = performance.now();
-  let peakRssBytes = process.memoryUsage().rss;
+  let peakRssBytes = Math.max(
+    process.memoryUsage().rss,
+    process.resourceUsage().maxRSS * parameter("bytesPerKiB"),
+  );
   const sampleMemory = (): void => {
-    peakRssBytes = Math.max(peakRssBytes, process.memoryUsage().rss);
+    peakRssBytes = Math.max(
+      peakRssBytes,
+      process.memoryUsage().rss,
+      process.resourceUsage().maxRSS * parameter("bytesPerKiB"),
+    );
   };
   const stopgaps: RunReceipt["stopgaps"] = [];
   const setup = structuredClone({
@@ -126,7 +143,10 @@ export function runLife(
       birthDate: life.birth.value.date,
       birthPlace: life.birth.value.place,
     },
-    family: life.family,
+    birthSources: life.sources.filter((source) =>
+      life.birth.sourceRefs.includes(source.id),
+    ),
+    family: life.family.filter((row) => row.role !== "reference"),
     household: life.household,
     past: life.timeline
       .filter((step) => step.date.latest < startDate)
@@ -155,9 +175,16 @@ export function runLife(
     steps: [],
     stopgaps,
   };
+  const pendingForces = new Map<
+    string,
+    { choice: { decisionId: string; choiceKey: string }; action: CoreReceipt }
+  >();
+  const resolvedPending = new Set<string>();
   const queue = [
     ...life.conditions
-      .filter((input) => input.throughDate >= startDate)
+      .filter(
+        (input) => input.role !== "reference" && input.throughDate >= startDate,
+      )
       .map((input) => ({
         date: input.fromDate < startDate ? startDate : input.fromDate,
         input,
@@ -178,7 +205,7 @@ export function runLife(
       gaps: [
         gap(
           "checkpoint-past",
-          "This step establishes the checkpoint; it was not reproduced in this run.",
+          "This step was supplied as checkpoint context; the run did not replay it.",
         ),
       ],
     });
@@ -186,7 +213,10 @@ export function runLife(
     if (item.date > endDate) continue;
     if (performance.now() - started > parameter("maxRunMilliseconds"))
       throw new Error("Replay exceeded its documented cloud time budget");
-    if (receipt.endDate < item.date) {
+    let pendingAtBoundary = false;
+    while (receipt.endDate < item.date || pendingAtBoundary) {
+      if (performance.now() - started > parameter("maxRunMilliseconds"))
+        throw new Error("Pending decisions exceeded the cloud time budget");
       const advanced = core.advance(
         item.date,
         maximumDays - receipt.simulatedDays,
@@ -205,6 +235,42 @@ export function runLife(
       receipt.simulatedDays += advanced.simulatedDays;
       receipt.endDate = advanced.throughDate;
       sampleMemory();
+      const pending = advanced.pending ?? [];
+      pendingAtBoundary = pending.length > ZERO;
+      if (pending.length === ZERO) break;
+      if (options.mode === "free")
+        throw new Error(
+          "A free-mode core must resolve its own pending decisions",
+        );
+      const matches = life.timeline
+        .filter(
+          (step) =>
+            step.kind === "decision" &&
+            !pendingForces.has(step.id) &&
+            step.date.earliest <= receipt.endDate &&
+            receipt.endDate <= step.date.latest,
+        )
+        .flatMap((step) =>
+          matchingChoices(step, pending).map((choice) => ({ step, choice })),
+        );
+      const match = matches.length === ONE ? matches[ZERO] : undefined;
+      const next =
+        match?.choice.decisionId ??
+        [...pending].sort((left, right) => left.id.localeCompare(right.id))[
+          ZERO
+        ].id;
+      const occurrence = `${receipt.endDate}:${next}`;
+      if (resolvedPending.has(occurrence))
+        throw new Error(
+          "Core returned an already resolved pending decision without advancing",
+        );
+      resolvedPending.add(occurrence);
+      const action = core.resolve(next, match?.choice.choiceKey ?? null);
+      advanced.observations.push(...action.observations);
+      advanced.recordIds.push(...action.recordIds);
+      advanced.gaps.push(...action.gaps);
+      if (match)
+        pendingForces.set(match.step.id, { choice: match.choice, action });
     }
     if (item.input) {
       if (receipt.endDate < item.date)
@@ -239,7 +305,16 @@ export function runLife(
       observations: [],
       gaps: [...capability.gaps],
       recordIds: [],
+      probeRecordIds: capability.recordIds ?? [],
     };
+    const pendingForce = pendingForces.get(step.id);
+    if (pendingForce) {
+      result.attempted = true;
+      result.forcedDecision = pendingForce.choice;
+      result.observations.push(...pendingForce.action.observations);
+      result.recordIds.push(...pendingForce.action.recordIds);
+      result.gaps.push(...pendingForce.action.gaps);
+    }
     receipt.steps.push(result);
     if (receipt.endDate < item.date) {
       result.gaps.push(
@@ -254,7 +329,11 @@ export function runLife(
     if (step.kind === "event") {
       result.attempted = true;
       action = core.event(pastFact(step));
-    } else if (step.kind === "decision" && options.mode === "god") {
+    } else if (
+      step.kind === "decision" &&
+      options.mode === "god" &&
+      !pendingForce
+    ) {
       const choices = matchingChoices(step, core.decisions());
       if (choices.length === ONE) {
         result.attempted = true;
@@ -276,13 +355,17 @@ export function runLife(
         );
     }
     // Free mode never receives a documented choice or expected outcome.
-    result.observations = [...(action?.observations ?? []), ...core.observe()];
-    result.recordIds = action?.recordIds ?? [];
+    result.observations.push(
+      ...(action?.observations ?? []),
+      ...core.observe(),
+    );
+    result.recordIds.push(...(action?.recordIds ?? []));
     result.gaps.push(...(action?.gaps ?? []));
     sampleMemory();
   }
   receipt.complete = receipt.endDate === endDate;
   receipt.elapsedMilliseconds = performance.now() - started;
-  receipt.peakRssBytes = Math.max(peakRssBytes, process.memoryUsage().rss);
+  sampleMemory();
+  receipt.peakRssBytes = peakRssBytes;
   return receipt;
 }

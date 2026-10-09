@@ -9,14 +9,25 @@ export type ParameterRow = {
   estimatedFrom?: string;
   inputData?: unknown;
   realSpread?: { minimum: number; maximum: number; citation: string };
+  stopgapId?: string;
   purpose: string;
 };
 
-export function parameter(id: string): number {
+export function parameter(
+  id: string,
+  onStopgap?: (id: string) => void,
+): number {
   const rows = table.parameters as Record<string, ParameterRow>;
   const row = rows[id];
   if (!row || !Number.isFinite(row.value)) {
     throw new Error(`Missing or invalid replay parameter: ${id}`);
+  }
+  if (row.tag === "TUNABLE") {
+    if (!row.stopgapId || !onStopgap)
+      throw new Error(
+        `Tunable ${id} requires its registered developer stopgap sink`,
+      );
+    onStopgap(row.stopgapId);
   }
   return row.value;
 }
@@ -40,6 +51,8 @@ export function parameterProblems(
     if (row.tag === "TUNABLE") {
       const spread = row.realSpread;
       return spread?.citation &&
+        Number.isFinite(spread.minimum) &&
+        Number.isFinite(spread.maximum) &&
         spread.minimum <= row.value &&
         row.value <= spread.maximum
         ? []

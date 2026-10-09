@@ -14,6 +14,7 @@ export interface Citation {
 export interface Sourced<T> {
   value: T;
   sourceRefs: string[];
+  role?: "initial" | "reference";
 }
 export interface PlaceInput {
   key: string;
@@ -28,10 +29,11 @@ export interface DateWindow {
   sourceRefs: string[];
 }
 export type DataValue =
-  string | boolean | { [key: string]: DataValue } | DataValue[];
+  string | boolean | number | { [key: string]: DataValue } | DataValue[];
 
 export interface WorldInput {
   id: string;
+  role?: "external" | "reference";
   fromDate: string;
   throughDate: string;
   kind: string;
@@ -42,11 +44,13 @@ export interface WorldInput {
 
 export interface LifeStep {
   id: string;
+  actorKey?: string;
   date: DateWindow;
   kind: "event" | "decision" | "outcome";
   mechanism: string;
   payload: Record<string, DataValue>;
   sourceRefs: string[];
+  /** requires is evaluator continuity data, never an engine rule or a causal claim. */
   requires: string[];
   checks: { metric: string; equals: DataValue }[];
   ranges: {
@@ -81,6 +85,7 @@ export interface CoreSetup {
   controller: "god" | "free";
   startDate: string;
   subject: { name: string; birthDate: string; birthPlace: PlaceInput };
+  birthSources: Citation[];
   family: Sourced<Record<string, DataValue>>[];
   household: Sourced<Record<string, DataValue>>;
   /** Only state documented before the selected checkpoint, never future outcomes. */
@@ -131,7 +136,10 @@ export interface CoreReceipt {
 export interface AdvanceReceipt extends CoreReceipt {
   throughDate: string;
   simulatedDays: number;
+  /** complete describes the clock horizon; reproduction is evaluated separately. */
   complete: boolean;
+  /** In god mode, stop before resolving these choices. Free mode resolves normally. */
+  pending?: CoreDecision[];
 }
 
 export interface CoreMetadata {
@@ -151,13 +159,15 @@ export interface ReplayCore {
   input(input: WorldInput): CoreReceipt;
   advance(throughDate: string, remainingDays: number): AdvanceReceipt;
   decisions(): CoreDecision[];
-  resolve(decisionId: string, choiceKey: string): CoreReceipt;
+  /** null delegates an undocumented choice to the core's ordinary scorer. */
+  resolve(decisionId: string, choiceKey: string | null): CoreReceipt;
   observe(): CoreObservation[];
   /** Events are external factual inputs, never documented outcomes inserted as successes. */
   event(input: CorePastFact): CoreReceipt;
   capability(mechanism: string): {
     representation: "full" | "records-only" | "missing";
     gaps: Gap[];
+    recordIds?: string[];
   };
 }
 
@@ -169,6 +179,7 @@ export interface StepReceipt {
   observations: CoreObservation[];
   gaps: Gap[];
   recordIds: string[];
+  probeRecordIds?: string[];
 }
 
 export interface RunReceipt {

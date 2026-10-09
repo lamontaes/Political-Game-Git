@@ -7,6 +7,7 @@ export interface StepEvaluation {
   representation: "full" | "records-only" | "missing";
   reproduced: boolean;
   initialized: boolean;
+  checkpointPast: boolean;
   checks: {
     metric: string;
     status: "matched" | "different" | "unmeasured";
@@ -46,6 +47,14 @@ function sameValue(
   expected: CoreObservation["value"],
   actual: CoreObservation["value"],
 ): boolean {
+  if (
+    expected &&
+    typeof expected === "object" &&
+    !Array.isArray(expected) &&
+    typeof expected.parameter === "string" &&
+    Object.keys(expected).length === parameter("one")
+  )
+    return parameter(expected.parameter) === actual;
   if (typeof expected === "number" || typeof actual === "number")
     return expected === actual;
   return matchesIntent(expected, actual) && matchesIntent(actual, expected);
@@ -153,19 +162,45 @@ export function evaluateLife(life: LifeFile, run: RunReceipt): Evaluation {
         };
       },
     );
-    const chainBrokenBy = step.requires.filter((id) => !successful.has(id));
-    const initialized = step.date.latest < run.startDate;
+    const chainBrokenBy = [
+      ...new Set(
+        step.requires
+          .filter((id) => !successful.has(id))
+          .flatMap((id) => [
+            id,
+            ...(result.steps.find((prior) => prior.stepId === id)
+              ?.chainBrokenBy ?? []),
+          ]),
+      ),
+    ];
+    const checkpointPast = step.date.latest < run.startDate;
+    const initialized =
+      checkpointPast &&
+      step.checks.length > ZERO &&
+      step.checks.every((check) =>
+        run.initialization.observations.some(
+          (observation) =>
+            observation.origin === "initialized" &&
+            observation.date >= step.date.earliest &&
+            observation.date <= step.date.latest &&
+            observation.recordIds.length > ZERO &&
+            observation.metric === check.metric &&
+            sameValue(check.equals, observation.value),
+        ),
+      );
     const reproduced =
-      !initialized &&
+      !checkpointPast &&
       checks.length > ZERO &&
       checks.every((check) => check.status === "matched") &&
       ranges.every((range) => range.status === "inside");
-    if (reproduced || initialized) successful.add(step.id);
+    if ((reproduced || initialized) && chainBrokenBy.length === ZERO)
+      successful.add(step.id);
     const evaluation: StepEvaluation = {
       stepId: step.id,
       representation: receipt?.representation ?? "missing",
       reproduced,
       initialized,
+      checkpointPast,
       checks,
       ranges,
       chainBrokenBy,
@@ -180,7 +215,7 @@ export function evaluateLife(life: LifeFile, run: RunReceipt): Evaluation {
     result.steps.push(evaluation);
     if (
       !result.firstBreak &&
-      !initialized &&
+      !checkpointPast &&
       (!reproduced || chainBrokenBy.length > ZERO)
     )
       result.firstBreak = {

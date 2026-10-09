@@ -26,7 +26,12 @@ export function stopgap(id: string, sink: StopgapSink): void {
   );
   if (!entry || entry.status !== "open")
     throw new Error(`Unregistered active stopgap: ${id}`);
-  sink({ tone: "red", id, message: blockedStopgap(entry) });
+  emitStopgap(entry, sink);
+}
+
+export function emitStopgap(entry: StopgapEntry, sink: StopgapSink): void {
+  if (entry.status !== "open") throw new Error(`Inactive stopgap: ${entry.id}`);
+  sink({ tone: "red", id: entry.id, message: blockedStopgap(entry) });
 }
 
 export function blockedStopgap(entry: StopgapEntry): string {
@@ -51,6 +56,36 @@ export function sourceProblems(path: string, text: string): string[] {
       problems.push(
         `${path}:${line}: numeric literal outside the parameter table`,
       );
+    if (
+      ts.isPropertyAssignment(node) &&
+      /^(?:playerText|playerProse|screenMessage)$/.test(
+        node.name.getText(source).replace(/['"]/g, ""),
+      )
+    )
+      problems.push(`${path}:${line}: player words outside the English engine`);
+    if (
+      ts.isPropertyAssignment(node) &&
+      node.name.getText(source).replace(/['"]/g, "") === "choices" &&
+      ts.isArrayLiteralExpression(node.initializer)
+    )
+      problems.push(`${path}:${line}: authored choices defined in code`);
+    if (
+      ts.isBinaryExpression(node) &&
+      ts.isPropertyAccessExpression(node.left) &&
+      /^(?:innerHTML|innerText|textContent)$/.test(node.left.name.text)
+    )
+      problems.push(
+        `${path}:${line}: player DOM text outside the English engine`,
+      );
+    if (
+      ts.isBinaryExpression(node) &&
+      ts.isPropertyAccessExpression(node.left) &&
+      /^(?:mechanism|placeKey|stateCode|personId|actKind|needId|traitId|lawId|situationKey)$/.test(
+        node.left.name.text,
+      ) &&
+      ts.isStringLiteral(node.right)
+    )
+      problems.push(`${path}:${line}: content-specific branch in code`);
     if (
       ts.isPropertyAssignment(node) &&
       ["options", "situations", "actKinds"].includes(
@@ -83,7 +118,7 @@ export function registryProblems(
   const markers = new Map<string, { file: string; line: number }[]>();
   for (const [file, source] of sources) {
     for (const match of source.matchAll(
-      /(?:stopgap\(['"]|STOPGAP:)(SG-[A-Z\d-]+)/g,
+      /(?:stopgap\(['"]|STOPGAP:|"stopgapId"\s*:\s*")(SG-[A-Z\d-]+)/g,
     )) {
       const id = match[ONE];
       const line = source.slice(ZERO, match.index).split("\n").length;
@@ -147,25 +182,95 @@ export function replayTripwires(
       .filter((path) => path.endsWith(".ts") && !path.endsWith(".test.ts"))
       .map((path) => [relative(root, path), readFileSync(path, "utf8")]),
   );
-  const problems = [
-    ...parameterProblems(parameterTable),
-    ...registryProblems(entries, sources),
-  ];
+  const problems = [...parameterProblems(parameterTable)];
+  const parametersPath = "data/life-replay/parameters.json";
+  const parameterSources = new Map(sources);
+  parameterSources.set(
+    parametersPath,
+    readFileSync(join(root, parametersPath), "utf8"),
+  );
+  problems.push(...registryProblems(entries, parameterSources));
+  for (const [id, row] of Object.entries(parameterTable))
+    if (
+      row.tag === "TUNABLE" &&
+      (!row.stopgapId ||
+        !entries.some(
+          (entry) => entry.id === row.stopgapId && entry.status === "open",
+        ))
+    )
+      problems.push(`${id}: tunable has no registered open stopgap`);
   for (const [path, source] of sources)
     problems.push(...sourceProblems(path, source));
   for (const path of filesUnder(join(root, "src")).filter(
     (file) => /\.[cm]?[jt]sx?$/.test(file) && !file.endsWith(".test.ts"),
   )) {
     const source = readFileSync(path, "utf8");
-    if (
-      /(?:from\s*|import\s*\(|require\s*\()['"][^'"]*life-replay/.test(source)
-    ) {
+    if (playerImportProblems(relative(root, path), source).length > ZERO) {
       problems.push(
         `${relative(root, path)}: developer replay facts must not enter the player application`,
       );
     }
   }
   if (release) problems.push(...releaseProblems(entries));
+  return problems;
+}
+
+/** P8 may import the pure API types. A runtime import or LifeFile type is forbidden. */
+export function playerImportProblems(path: string, text: string): string[] {
+  const problems: string[] = [];
+  const source = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true);
+  const forbiddenTypes = new Set([
+    "LifeFile",
+    "LifeStep",
+    "RunReceipt",
+    "StepReceipt",
+  ]);
+  const visit = (node: ts.Node): void => {
+    if (
+      ts.isImportDeclaration(node) &&
+      ts.isStringLiteral(node.moduleSpecifier) &&
+      node.moduleSpecifier.text.includes("life-replay")
+    ) {
+      const bindings = node.importClause?.namedBindings;
+      const allowed =
+        node.importClause?.isTypeOnly &&
+        /life-replay\/contract(?:\.ts)?$/.test(node.moduleSpecifier.text) &&
+        bindings &&
+        ts.isNamedImports(bindings) &&
+        bindings.elements.every(
+          (element) =>
+            !forbiddenTypes.has((element.propertyName ?? element.name).text),
+        );
+      if (!allowed)
+        problems.push(
+          `${path}: replay facts or runtime code imported into the player application`,
+        );
+    }
+    if (
+      ts.isExportDeclaration(node) &&
+      node.moduleSpecifier &&
+      ts.isStringLiteral(node.moduleSpecifier) &&
+      node.moduleSpecifier.text.includes("life-replay") &&
+      !node.isTypeOnly
+    )
+      problems.push(
+        `${path}: replay runtime exported into the player application`,
+      );
+    if (
+      ts.isCallExpression(node) &&
+      node.arguments.some(
+        (argument) =>
+          ts.isStringLiteral(argument) && argument.text.includes("life-replay"),
+      ) &&
+      (node.expression.kind === ts.SyntaxKind.ImportKeyword ||
+        node.expression.getText(source) === "require")
+    )
+      problems.push(
+        `${path}: replay runtime loaded into the player application`,
+      );
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
   return problems;
 }
 

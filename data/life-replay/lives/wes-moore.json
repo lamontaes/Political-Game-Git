@@ -94,7 +94,8 @@
         "grandparent-support",
         "limited-employment-benefits"
       ],
-      "sourceRefs": ["moore-governor", "moore-archives"]
+      "sourceRefs": ["moore-governor", "moore-archives"],
+      "role": "reference"
     },
     {
       "id": "financial-crisis",
@@ -119,7 +120,8 @@
       "value": {
         "parameter": "md-unemployment-2021"
       },
-      "sourceRefs": ["state-unemployment-2021"]
+      "sourceRefs": ["state-unemployment-2021"],
+      "role": "reference"
     },
     {
       "id": "open-governor-seat",
@@ -136,6 +138,34 @@
         "restriction": "term-limit"
       },
       "sourceRefs": ["moore-launch"]
+    },
+    {
+      "id": "covid-era",
+      "fromDate": "2020-03-11",
+      "throughDate": "2021-12-31",
+      "kind": "public-health-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "pandemic": "COVID-19",
+        "personalInfection": "not-specified"
+      },
+      "sourceRefs": ["cdc-pandemic"]
+    },
+    {
+      "id": "transport-mask-law",
+      "fromDate": "2021-02-02",
+      "throughDate": "2021-12-31",
+      "kind": "law-context",
+      "scope": {
+        "country": "US"
+      },
+      "value": {
+        "publicTransportationMaskRequirement": true,
+        "observationWindowOnly": true
+      },
+      "sourceRefs": ["cdc-pandemic"]
     }
   ],
   "timeline": [
@@ -514,7 +544,7 @@
       "url": "https://www.federalreservehistory.org/essays/great-recession-of-200709",
       "title": "The Great Recession",
       "publisher": "Federal Reserve History",
-      "location": "December 2007\u2013June 2009",
+      "location": "December 2007–June 2009",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -532,7 +562,7 @@
       "url": "https://www.archives.gov/founding-docs/constitution-transcript",
       "title": "Constitution of the United States",
       "publisher": "National Archives",
-      "location": "Article I, sections 2\u20133; Article II, section 1",
+      "location": "Article I, sections 2–3; Article II, section 1",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -540,7 +570,7 @@
       "id": "moore-governor",
       "url": "https://governor.maryland.gov/leadership/governor-wes-moore",
       "title": "Governor Wes Moore",
-      "publisher": "Maryland Governor\u2019s Office",
+      "publisher": "Maryland Governor’s Office",
       "location": "Birth, parents, loss, schools, deployment, family, business, nonprofit",
       "kind": "primary",
       "accessed": "2026-10-09"
@@ -550,7 +580,7 @@
       "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html",
       "title": "Wes Moore, Maryland Governor",
       "publisher": "Maryland State Archives",
-      "location": "Birth; education dates; 2014 BridgeEdU; 2017\u20132021 Robin Hood; January 18, 2023 office start",
+      "location": "Birth; education dates; 2014 BridgeEdU; 2017–2021 Robin Hood; January 18, 2023 office start",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -559,7 +589,7 @@
       "url": "https://wesmoore.com/wes-moore-author-and-former-nonprofit-executive-launches-campaign-for-maryland-governor/",
       "title": "Wes Moore launches campaign for Maryland governor",
       "publisher": "Wes Moore campaign, republishing The Baltimore Sun",
-      "location": "June 7, 2021; childhood; mother\u2019s first job with benefits; Baltimore residence",
+      "location": "June 7, 2021; childhood; mother’s first job with benefits; Baltimore residence",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -584,9 +614,9 @@
     {
       "id": "recession-1981",
       "url": "https://www.federalreservehistory.org/essays/recession-of-1981-82",
-      "title": "Recession of 1981\u201382",
+      "title": "Recession of 1981–82",
       "publisher": "Federal Reserve History",
-      "location": "July 1981\u2013November 1982",
+      "location": "July 1981–November 1982",
       "kind": "primary",
       "accessed": "2026-10-09"
     },
@@ -605,6 +635,15 @@
       "title": "Official 2022 Gubernatorial General Election Results",
       "publisher": "Maryland State Board of Elections",
       "location": "Moore/Miller; 1,293,944 votes; 64.53 percent",
+      "kind": "primary",
+      "accessed": "2026-10-09"
+    },
+    {
+      "id": "cdc-pandemic",
+      "url": "https://www.cdc.gov/museum/timeline/covid19.html",
+      "title": "CDC Museum COVID-19 Timeline",
+      "publisher": "Centers for Disease Control and Prevention",
+      "location": "March 11, 2020 and Early 2021; global pandemic and public transportation mask rule",
       "kind": "primary",
       "accessed": "2026-10-09"
     }

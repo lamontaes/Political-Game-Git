@@ -16,7 +16,7 @@
     "jsonIndent": {
       "value": 2,
       "tag": "SOURCED",
-      "citation": "https://tc39.es/ecma262/#sec-json.stringify",
+      "citation": "scripts/life-replay/README.md#diagnostic-format",
       "purpose": "Diagnostic JSON indentation only."
     },
     "millisecondsPerDay": {
@@ -78,6 +78,12 @@
       "tag": "SOURCED",
       "citation": "https://www.archives.gov/founding-docs/constitution-transcript",
       "purpose": "Constitutional minimum age for presidential service."
+    },
+    "bytesPerKiB": {
+      "value": 1024,
+      "tag": "SOURCED",
+      "citation": "https://nodejs.org/api/process.html#processresourceusage",
+      "purpose": "Node maxRSS is measured in kibibytes; report peak resident memory in bytes."
     }
   }
 }
