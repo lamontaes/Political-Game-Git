@@ -67,3 +67,20 @@ export function jumpToDate(world: World, date: string): World {
         currentMoment: { ...resolved.currentMoment, date: target },
       };
 }
+
+/**
+ * Test fixture: state the day a handler called directly runs on. The clock
+ * sets the World's date to an item's due day before its handler runs, and the
+ * readers of household and location history refuse a day after the World's
+ * date. A fixture that calls a monthly handler for a future first of the
+ * month states that day first. Nothing falling due on the way is resolved.
+ */
+export function atDueDate(world: World, date: string): World {
+  const target = makeIsoDate(date);
+  if (world.currentDate >= target) return world;
+  return {
+    ...world,
+    currentDate: target,
+    currentMoment: { ...world.currentMoment, date: target },
+  };
+}

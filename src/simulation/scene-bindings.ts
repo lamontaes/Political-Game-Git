@@ -1,4 +1,5 @@
 import { makeIsoDate } from "./dates";
+import { recordsByStringField } from "./history-index";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "./types";
 import { recordWorldEvent } from "./world";
 
@@ -37,6 +38,9 @@ export const SCENE_FAMILIES = [
   // Build 22: somebody at a campaign town hall asks where the candidate
   // stands on a bill still in play.
   "town-hall",
+  // Story director, part 3: one family for every situation type. The type is
+  // the binding's variant, and the English engine voices every line.
+  "situation",
 ] as const;
 export type SceneFamily = (typeof SCENE_FAMILIES)[number];
 
@@ -99,8 +103,13 @@ export function sceneBindingsFor(
   playerPersonId: EntityId,
   family?: SceneFamily,
 ): readonly BoundScene[] {
-  return world.history.events.flatMap((event) => {
-    if (event.type !== SCENE_BINDING_EVENT) return [];
+  // Read through the growing index of events by type, so offering ten scene
+  // families does not walk the whole history ten times.
+  return recordsByStringField(
+    world.history.events,
+    "type",
+    SCENE_BINDING_EVENT,
+  ).flatMap((event) => {
     if (!event.involvedEntityIds.includes(playerPersonId)) return [];
     const binding = sceneBindingOf(event);
     if (

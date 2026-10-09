@@ -1,3 +1,4 @@
+import { atDueDate } from "../fixtures/due-item-clock";
 import { describe, expect, it } from "vitest";
 
 import startingLaw from "../../data/research/laws/starting-law-2026/index";
@@ -163,7 +164,7 @@ function runMonths(start: World, months: number): World {
   withWorldIntegrityDeferred(() => {
     for (let index = 0; index < months; index += 1) {
       due = makeIsoDate(`${addDays(due, 32).slice(0, 7)}-01`);
-      world = placeOutcomesHandler(world, {
+      world = placeOutcomesHandler(atDueDate(world, due), {
         dueAt: due,
         transitionKey: PLACE_OUTCOMES_TRANSITION_KEY,
       } as FutureDueItem).world;
