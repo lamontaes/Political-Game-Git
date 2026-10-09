@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
+  amortizedMonthlyPaymentMinor as legacyAmortizedPayment,
   povertyLineMinor as legacyPovertyLine,
   withinPovertyShare as legacyWithinPovertyShare,
 } from "../../simulation/public-benefit-formulas";
 import { STATES } from "../../simulation/state-reference";
-import { povertyLineMinor, withinPovertyShare } from "./public-benefits";
+import {
+  amortizedMonthlyPaymentMinor,
+  povertyLineMinor,
+  withinPovertyShare,
+} from "./public-benefits";
 
 describe("standalone public benefit threshold rules", () => {
   it.each(Object.keys(STATES))(
@@ -28,6 +33,22 @@ describe("standalone public benefit threshold rules", () => {
       const share = 13_000;
       expect(withinPovertyShare(income, annualLine, share)).toBe(
         legacyWithinPovertyShare(income, annualLine, share),
+      );
+      const principalMinor = 15_000_000 + usps.charCodeAt(1) * 1_000;
+      const annualRateBasisPoints = 0 + usps.charCodeAt(0) * 10;
+      const termMonths = 120 + (usps.charCodeAt(1) % 240);
+      expect(
+        amortizedMonthlyPaymentMinor(
+          principalMinor,
+          annualRateBasisPoints,
+          termMonths,
+        ),
+      ).toBe(
+        legacyAmortizedPayment(
+          principalMinor,
+          annualRateBasisPoints,
+          termMonths,
+        ),
       );
     },
   );
