@@ -1,0 +1,11 @@
+{
+  "revision": "19f63909a59b3227ef18dd92476aff1b53bff696",
+  "node": "v24.19.0",
+  "lifePath": "/workspace/Political-Game-Git/data/life-replay/lives/lyndon-b-johnson.json",
+  "lifeSha256": "9e7916df4916d223712bcfbbb30c3ac0a9723e6f2cf8d64d799519c7b3b047b9",
+  "corePath": "/workspace/Political-Game-Git/scripts/life-replay/old-core.ts",
+  "coreSha256": "983ba39384c0eb321e5ff769a3b1e371611552fc29cc2766fb26b5ad2c713c7a",
+  "parametersSha256": "4d677a5b708b7bcedcc09ebc96400b913d45bef3b3faf6de7a76602475054edc",
+  "sourceDirty": false,
+  "sourceOnly": true
+}

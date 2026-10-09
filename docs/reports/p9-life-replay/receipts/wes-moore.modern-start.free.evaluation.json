@@ -1,0 +1,376 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "wes-moore",
+  "mode": "free",
+  "complete": true,
+  "steps": [
+    {
+      "stepId": "father-dies",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "family.father.alive",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "move-to-grandparents",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["father-dies"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "return-to-maryland",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["move-to-grandparents", "father-dies"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "military-college",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "army-commission",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "military.service",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["military-college"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "johns-hopkins",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["military-college"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "oxford",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["johns-hopkins", "military-college"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "afghanistan",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "military.deployment",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["army-commission", "military-college"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "bridge-edu",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "business.organization",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["johns-hopkins", "military-college"],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "robin-hood",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": true,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "governor-campaign",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts candidacy as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "primary-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "status": "unmeasured",
+          "minimum": 32.41,
+          "maximum": 32.41,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": ["governor-campaign", "robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "general-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "status": "unmeasured",
+          "minimum": 64.53,
+          "maximum": 64.53,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": ["primary-win", "governor-campaign", "robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "governor-service",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "office.kind",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "general-win",
+        "primary-win",
+        "governor-campaign",
+        "robin-hood"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts office-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "full": 0,
+    "recordsOnly": 14,
+    "missing": 0,
+    "reproduced": 0,
+    "outOfRange": 0,
+    "unmeasuredRanges": 2
+  },
+  "firstBreak": {
+    "stepId": "governor-campaign",
+    "reason": "Earlier links were not reproduced: robin-hood."
+  }
+}

@@ -77,6 +77,24 @@ export function renderGapReport(life: LifeFile, runs: ReportRun[]): string {
     ),
     "",
   ];
+  for (const { receipt, evaluation } of rows) {
+    const past = evaluation.steps.filter((step) => step.checkpointPast);
+    if (past.length > ZERO)
+      lines.push(
+        `Measured: ${receipt.mode} from ${dateText(receipt.startDate)} supplied ${past.length} past steps; ${past.filter((step) => step.initialized).length} had verified active state. The first later break was ${evaluation.firstBreak?.stepId ?? "none"}. ${evidence("scripts/life-replay/evaluator.ts", "const initialized =")}`,
+        "",
+      );
+    if (receipt.mode === "god") {
+      const decisions = life.timeline.filter(
+        (step) =>
+          step.kind === "decision" && step.date.latest >= receipt.startDate,
+      );
+      lines.push(
+        `Measured: god mode from ${dateText(receipt.startDate)} forced ${receipt.steps.filter((step) => step.forcedDecision !== null).length} of ${decisions.length} documented decisions. An unavailable choice stays a gap. ${evidence("scripts/life-replay/runner.ts", "const choices = matchingChoices")}`,
+        "",
+      );
+    }
+  }
   if (sourceOnly)
     lines.push(
       `Measured: all supported steps below have generic event-label storage. The capability probe runs the canonical event writer on a discarded fork. It proves label storage, without validating the factual payload or changing the live world. ${evidence("scripts/life-replay/old-core.ts", "const probe = record(")}`,
@@ -91,8 +109,8 @@ export function renderGapReport(life: LifeFile, runs: ReportRun[]): string {
   lines.push(
     `Measured: prior links remain broken until their results or initialized past state are verified. The dependency list is a continuity check, not a claim that one historical event caused another. ${evidence("scripts/life-replay/evaluator.ts", "const chainBrokenBy")}`,
     "",
-    `| Documented step | Source date window | ${tableRuns.map(({ receipt }) => receipt.mode).join(" | ")} | Public evidence |`,
-    `| --- | --- | ${tableRuns.map(() => "---").join(" | ")} | --- |`,
+    `| Documented step | Required mechanism | Source date window | ${tableRuns.map(({ receipt }) => receipt.mode).join(" | ")} | Public evidence |`,
+    `| --- | --- | --- | ${tableRuns.map(() => "---").join(" | ")} | --- |`,
   );
   for (const step of life.timeline) {
     const sources = step.sourceRefs.map((id) => {
@@ -100,7 +118,7 @@ export function renderGapReport(life: LifeFile, runs: ReportRun[]): string {
       return `[${citation.publisher.replaceAll("|", "/")}](${citation.url})`;
     });
     lines.push(
-      `| ${step.id} (${step.kind}) | ${step.date.earliest} through ${step.date.latest} | ${tableRuns.map(({ evaluation }) => status(evaluation.steps.find((row) => row.stepId === step.id)!)).join(" | ")} | ${sources.join("; ")} |`,
+      `| ${step.id.replaceAll("-", " ")} (${step.kind}) | ${step.mechanism.replaceAll("-", " ")} | ${step.date.earliest} through ${step.date.latest} | ${tableRuns.map(({ evaluation }) => status(evaluation.steps.find((row) => row.stepId === step.id)!)).join(" | ")} | ${sources.join("; ")} |`,
     );
   }
   lines.push("", "## Numbers and background", "");
@@ -110,7 +128,7 @@ export function renderGapReport(life: LifeFile, runs: ReportRun[]): string {
     );
     if (ranges.length > ZERO)
       lines.push(
-        `Measured: ${receipt.mode} from ${dateText(receipt.startDate)} checked ${ranges.length} numeric bounds; ${evaluation.summary.outOfRange} were outside and ${evaluation.summary.unmeasuredRanges} were unmeasured. ${evidence("scripts/life-replay/evaluator.ts", "const ranges =")}`,
+        `Measured: ${receipt.mode} from ${dateText(receipt.startDate)}: numeric checks ${ranges.length}; outside bounds ${evaluation.summary.outOfRange}; unmeasured ${evaluation.summary.unmeasuredRanges}. ${evidence("scripts/life-replay/evaluator.ts", "const ranges =")}`,
         "",
         ...ranges.map(
           ({ step, range }) =>
@@ -140,7 +158,7 @@ export function renderGapReport(life: LifeFile, runs: ReportRun[]): string {
     "",
     ...rows.map(
       ({ receipt, path }) =>
-        `- ${receipt.mode}, ${dateText(receipt.startDate)} through ${dateText(receipt.endDate)}: ${receipt.simulatedDays} simulated days; horizon ${receipt.complete ? "complete" : "incomplete"}. Runner time: ${receipt.elapsedMilliseconds} milliseconds. Peak process RSS: ${receipt.peakRssBytes} bytes. Receipt: [${path.split("/").at(-ONE)}](${path}). Core revision: ${receipt.core.revision}.`,
+        `- ${receipt.mode}, ${dateText(receipt.startDate)} through ${dateText(receipt.endDate)}: ${receipt.simulatedDays.toLocaleString("en-US")} simulated days; horizon ${receipt.complete ? "complete" : "incomplete"}. Runner time: ${Math.round(receipt.elapsedMilliseconds).toLocaleString("en-US")} milliseconds. Peak process RSS: ${receipt.peakRssBytes.toLocaleString("en-US")} bytes. Receipt: [${path.split("/").at(-ONE)}](${path}). Core revision: ${receipt.core.revision}.`,
     ),
     "",
     "Runner time excludes module import and subprocess startup. Peak RSS includes the process lifetime. A one-subject world without ordinary scheduled population activity cannot establish normal-year throughput. Adjacent manifests record the source hashes, Node version, and whether the measured source was clean.",

@@ -1,0 +1,541 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "wes-moore",
+  "mode": "god",
+  "seed": "p9-public-life-v1",
+  "core": {
+    "apiVersion": "life-replay/v1",
+    "id": "old-core/source-only-v1",
+    "revision": "19f63909a59b3227ef18dd92476aff1b53bff696",
+    "execution": "continuous"
+  },
+  "startDate": "2021-01-01",
+  "endDate": "2023-01-18",
+  "simulatedDays": 747,
+  "complete": true,
+  "elapsedMilliseconds": 140.0238300000001,
+  "peakRssBytes": 882515968,
+  "initialization": {
+    "observations": [
+      {
+        "metric": "birth.date",
+        "value": "1978-10-15",
+        "date": "2021-01-01",
+        "origin": "initialized",
+        "recordIds": ["person_811960d7ae8ad573"]
+      }
+    ],
+    "recordIds": [
+      "person_811960d7ae8ad573",
+      "jurisdiction_f166d5f940bf0ccd",
+      "event_cd989907e46da2f9",
+      "event_cd989607e46d9de0",
+      "event_cd989707e46d9f93",
+      "event_cd989c07e46da812",
+      "event_cd989d07e46da9c5",
+      "event_cd989a07e46da4ac",
+      "event_cd989b07e46da65f",
+      "event_cd98a007e46daede",
+      "event_cd98a107e46db091",
+      "event_c7eed169264b9b8b"
+    ],
+    "gaps": [
+      {
+        "code": "source-only-world",
+        "detail": "The old-core diagnostic initializes one sourced subject and birthplace. Family, employers, offices, and an electorate were not fabricated. This run cannot establish nationwide political behavior.",
+        "evidence": [
+          "scripts/life-replay/old-core.ts",
+          "src/simulation/world.ts:448"
+        ]
+      },
+      {
+        "code": "public-background-incomplete",
+        "detail": "The checked life sources do not supply all family birth dates, dated pay, wealth, and traits needed for a fully specified old-core household. Public work and faith descriptions remain reference data.",
+        "evidence": [
+          "src/simulation/character-history.ts:175",
+          "scripts/life-replay/old-core.ts"
+        ]
+      },
+      {
+        "code": "native-clock-not-interruptible",
+        "detail": "God mode can select available native life-situation choices. This adapter cannot pause the old clock before an internal scheduled decision; undocumented activity follows the unchanged clock.",
+        "evidence": [
+          "scripts/life-replay/old-core.ts",
+          "src/simulation/world.ts"
+        ]
+      },
+      {
+        "code": "checkpoint-context-only",
+        "detail": "Past events were stored as sourced context rows. Jobs, education, residence changes, and offices in the checkpoint were not initialized as active state.",
+        "evidence": [
+          "src/simulation/world.ts:1005",
+          "scripts/life-replay/old-core.ts"
+        ]
+      }
+    ]
+  },
+  "advances": [
+    {
+      "throughDate": "2021-02-02",
+      "simulatedDays": 32,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-02-02",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2021-06-07",
+      "simulatedDays": 125,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-06-07",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2022-07-19",
+      "simulatedDays": 407,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 43,
+          "date": "2022-07-19",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2022-11-08",
+      "simulatedDays": 112,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2022-11-08",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    },
+    {
+      "throughDate": "2023-01-18",
+      "simulatedDays": 71,
+      "complete": true,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2023-01-18",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "recordIds": [],
+      "gaps": []
+    }
+  ],
+  "inputs": [
+    {
+      "inputId": "covid-era",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_6876b2c12f302e70"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The public-health-context input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "transport-mask-law",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_6876b5c12f303389"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The law-context input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "inputId": "open-governor-seat",
+      "receipt": {
+        "observations": [],
+        "recordIds": ["event_6876b4c12f3031d6"],
+        "gaps": [
+          {
+            "code": "era-context-only",
+            "detail": "The election-opportunity input was recorded. This adapter has no old-core binding that changes law, economic state, or opportunities from it.",
+            "evidence": [
+              "src/simulation/world.ts:1005",
+              "scripts/life-replay/old-core.ts"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steps": [
+    {
+      "stepId": "father-dies",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "move-to-grandparents",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "return-to-maryland",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "military-college",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "army-commission",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "johns-hopkins",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "oxford",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "afghanistan",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "bridge-edu",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "robin-hood",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [],
+      "recordIds": [],
+      "gaps": [
+        {
+          "code": "checkpoint-past",
+          "detail": "This step was supplied as checkpoint context; the run did not replay it.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ]
+    },
+    {
+      "stepId": "governor-campaign",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 42,
+          "date": "2021-06-07",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts candidacy as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "no-forceable-choice",
+          "detail": "The core offered no enabled choice matching the documented action. No outcome was inserted.",
+          "evidence": ["scripts/life-replay/runner.ts"]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_100ed37a25f29bac"]
+    },
+    {
+      "stepId": "primary-win",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 43,
+          "date": "2022-07-19",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_0676e76a4a95b62a"]
+    },
+    {
+      "stepId": "general-win",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2022-11-08",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_066fd66a4a8f7a99"]
+    },
+    {
+      "stepId": "governor-service",
+      "representation": "records-only",
+      "attempted": false,
+      "forcedDecision": null,
+      "observations": [
+        {
+          "metric": "birth.date",
+          "value": "1978-10-15",
+          "date": "2021-01-01",
+          "origin": "initialized",
+          "recordIds": ["person_811960d7ae8ad573"]
+        },
+        {
+          "metric": "person.ageYears",
+          "value": 44,
+          "date": "2023-01-18",
+          "origin": "engine",
+          "recordIds": ["person_811960d7ae8ad573"]
+        }
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts office-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ],
+      "recordIds": [],
+      "probeRecordIds": ["event_772590a5c20b9e18"]
+    }
+  ],
+  "stopgaps": []
+}

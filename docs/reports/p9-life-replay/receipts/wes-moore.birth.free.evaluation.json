@@ -1,0 +1,438 @@
+{
+  "version": "life-replay/v1",
+  "lifeId": "wes-moore",
+  "mode": "free",
+  "complete": true,
+  "steps": [
+    {
+      "stepId": "father-dies",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "family.father.alive",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts family-loss as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The family-loss event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "move-to-grandparents",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["father-dies"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts residence-move as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The residence-move event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "return-to-maryland",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "residence.placeKey",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["move-to-grandparents", "father-dies"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts residence-move as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The residence-move event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "military-college",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "army-commission",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "military.service",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["military-college"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "johns-hopkins",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["military-college"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "oxford",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "education.credential",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["johns-hopkins", "military-college"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts education-completion as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "afghanistan",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "military.deployment",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["army-commission", "military-college"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts military-deployment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        },
+        {
+          "code": "event-context-only",
+          "detail": "The military-deployment event was stored as context. No matching state-changing handler ran through this adapter.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "bridge-edu",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "business.organization",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["johns-hopkins", "military-college"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts business-formation as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "robin-hood",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "employment.role",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts employment as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "governor-campaign",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "candidacy.office",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": ["robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts candidacy as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "primary-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "status": "unmeasured",
+          "minimum": 32.41,
+          "maximum": 32.41,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": ["governor-campaign", "robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "general-win",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "election.result",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [
+        {
+          "metric": "election.voteSharePercent",
+          "status": "unmeasured",
+          "minimum": 64.53,
+          "maximum": 64.53,
+          "recordIds": []
+        }
+      ],
+      "chainBrokenBy": ["primary-win", "governor-campaign", "robin-hood"],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts election-result as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "stepId": "governor-service",
+      "representation": "records-only",
+      "reproduced": false,
+      "initialized": false,
+      "checkpointPast": false,
+      "checks": [
+        {
+          "metric": "office.kind",
+          "status": "unmeasured",
+          "recordIds": []
+        }
+      ],
+      "ranges": [],
+      "chainBrokenBy": [
+        "general-win",
+        "primary-win",
+        "governor-campaign",
+        "robin-hood"
+      ],
+      "gaps": [
+        {
+          "code": "record-without-life-behavior",
+          "detail": "The canonical old-core event writer accepts office-service as a context record. This does not establish its decision, prerequisites, or consequences. Native elections and laws have not been exercised in this source-only world.",
+          "evidence": [
+            "src/simulation/world.ts:1005",
+            "scripts/life-replay/old-core.ts"
+          ]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total": 14,
+    "full": 0,
+    "recordsOnly": 14,
+    "missing": 0,
+    "reproduced": 0,
+    "outOfRange": 0,
+    "unmeasuredRanges": 2
+  },
+  "firstBreak": {
+    "stepId": "father-dies",
+    "reason": "The core emitted no decision or consequence record matching this documented step."
+  }
+}
