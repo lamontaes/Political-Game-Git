@@ -12,6 +12,10 @@ import { Readable } from "node:stream";
 import { createInflateRaw } from "node:zlib";
 import { resolve } from "node:path";
 import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.generated";
+import {
+  countyGeoidsForPlace,
+  knownCountyGeoids,
+} from "../../src/simulation/government-units";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import { readShapefileArchive } from "../maps/shapefile";
 import {
@@ -380,6 +384,27 @@ const OPERATING_STATUSES: ReadonlySet<string> = new Set([
 type SchoolMatchMethod = InstitutionMatchMethod;
 
 /** One school as the CCD directory publishes it. */
+/**
+ * Lets a name match be checked against the record's own county: a place whose
+ * counties leave out the record's county is not where the record is.
+ */
+export interface CountyConsistency {
+  readonly countiesOfPlace: (placeGeoid: string) => readonly string[];
+  /** Only a county the place crosswalk knows can contradict a place. */
+  readonly isKnownCounty: (countyGeoid: string) => boolean;
+}
+
+const contradicts = (
+  consistency: CountyConsistency | undefined,
+  placeGeoid: string,
+  countyGeoid: string | null | undefined,
+): boolean => {
+  if (!consistency || !countyGeoid || !consistency.isKnownCounty(countyGeoid))
+    return false;
+  const counties = consistency.countiesOfPlace(placeGeoid);
+  return counties.length > 0 && !counties.includes(countyGeoid);
+};
+
 export interface PublicSchoolInput {
   readonly id: string;
   readonly name: string;
@@ -431,6 +456,8 @@ export interface PublicSchoolCompilation {
   readonly cityNameDisagreements: number;
   /** EDGE rows whose county lies in another state than the school's own. */
   readonly ignoredGeocodes: number;
+  /** Name matches set aside because the place lies in another county than the school. */
+  readonly countyContradictions: number;
 }
 
 /** Is the point inside the rings (even-odd, so holes and islands work)? */
@@ -539,6 +566,7 @@ export function compilePublicSchools(input: {
   readonly schools: readonly PublicSchoolInput[];
   readonly geocodes: ReadonlyMap<string, SchoolGeocode>;
   readonly membership: ReadonlyMap<string, number>;
+  readonly consistency?: CountyConsistency;
 }): PublicSchoolCompilation {
   const stateByFips = fipsPrefixStates(input.places, input.geocodes);
   const byName = new Map<string, LocalInstitutionPlaceInput[]>();
@@ -567,6 +595,7 @@ export function compilePublicSchools(input: {
   };
   let cityNameDisagreements = 0;
   let ignoredGeocodes = 0;
+  let countyContradictions = 0;
 
   interface Pending {
     readonly school: PublicSchoolInput;
@@ -625,6 +654,14 @@ export function compilePublicSchools(input: {
           matches = zipMatches;
           byZip = true;
         }
+      }
+      if (
+        matches.length === 1 &&
+        contradicts(input.consistency, matches[0]!.geoid, geocode?.countyGeoid)
+      ) {
+        // The name names a place in another county than the school's own.
+        countyContradictions += 1;
+        matches = [];
       }
       if (matches.length === 1) {
         geoid = matches[0]!.geoid;
@@ -711,6 +748,7 @@ export function compilePublicSchools(input: {
     matchMethods,
     cityNameDisagreements,
     ignoredGeocodes,
+    countyContradictions,
   };
 }
 
@@ -1073,8 +1111,14 @@ export async function renderStateInstitutions(): Promise<StateInstitutionFiles> 
     })),
   ];
   const geocodes = readEdgeGeocodes();
+  const knownCounties = knownCountyGeoids();
   const directory = readCcdPublicSchools(geocodes);
+  const consistency: CountyConsistency = {
+    countiesOfPlace: countyGeoidsForPlace,
+    isKnownCounty: (geoid) => knownCounties.has(geoid),
+  };
   const schools = compilePublicSchools({
+    consistency,
     places,
     shapes: readPlaceShapes(),
     schools: directory.schools,
