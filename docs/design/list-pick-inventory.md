@@ -36,7 +36,7 @@ Main picks from a collection with a seeded stream or a hash in 99 places (104 pi
 | `simulation/press/ownership.ts`                        | `let draw = rng.next() * total;`                                                             | outlet stable key (founding-owner stream)                   | Weighted draw that selects the outlet's owner; a decision about who holds the outlet.                                               | the outlet's recorded founding owner from the ownership record, not a weighted draw                                                       |
 | `simulation/world-setup/state-tax-service-profiles.ts` | `":rate", ) .integer(0, RATE_CHOICES.length);`                                               | world seed + state key + rate label                         | A state's tax rate is drawn among rate choices by seed; a body's rate set by chance rather than law.                                | the state's sourced tax rate from the recorded law                                                                                        |
 
-Four of these came out of review as wrongly keyed or wrongly sorted:
+Four of these need a word on why they are decisions:
 
 - The sibling's age gap in `production-world.ts` is a per-person fact, but its stream is keyed only by the world seed and a constant label, so every world draws it the same way regardless of the family. It is a DECISION until it follows the family's recorded birth order and is keyed to the sibling's own id.
 - The judge's home jurisdiction is a per-person fact keyed by the seat, not by the judge.
