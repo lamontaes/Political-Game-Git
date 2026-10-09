@@ -11,6 +11,7 @@ import {
   catchUpScheduledWork,
 } from "./modules/work";
 import { LIFE_MODULE } from "./modules/life";
+import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import { coreAPI, createCore, resolveOperation } from "./state";
@@ -50,6 +51,7 @@ export function createLifeCore(
         : { ...(options.data ?? DEFAULT_DATA), work: undefined },
       modules: [
         LIFE_MODULE,
+        ...(input.finance ? [FINANCE_MODULE] : []),
         ...(scheduledWork ? [WORK_MODULE] : []),
         ...(options.modules ?? []),
       ],
@@ -59,7 +61,7 @@ export function createLifeCore(
     "Recorded work is scored and settled on its scheduled dates; remaining time admits one discretionary scored act per tier activation. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
-    "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
+    "Business receipts and standing purchases cover recorded counterparties only; missing suppliers, public budgets, hiring, nonwage income, demography, elections and law effects prevent realism claims.",
   );
   return core;
 }
@@ -160,7 +162,13 @@ export function availableActs(
     for (const offer of provide(api, actor, definition)) {
       if (
         core.data.work?.discretionaryExclusions.includes(definition.effect) &&
-        core.work.commitmentsByPerson.has(actor.id)
+        [...(core.work.commitmentsByPerson.get(actor.id) ?? [])].some((id) => {
+          const row = core.work.commitments.get(id)!;
+          return (
+            row.jobId === actor.jobId &&
+            (row.endsAt === undefined || row.endsAt > core.date)
+          );
+        })
       )
         continue;
       const override =
@@ -294,6 +302,7 @@ export function advanceCore(
       if (activate(core, row.personId, row.days, options.controller))
         acts += p("one");
     }
+    for (const module of core.modules.values()) module.onAfterDay?.(api);
     compactRoutineMetrics(core);
     compactQuietWorkResults(core, coreAPI(core));
   }

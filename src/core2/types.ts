@@ -1,5 +1,18 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { Parameter } from "./parameters";
+import type { BusinessBooksData } from "./business-books";
+import type {
+  BusinessBooksInput,
+  CreditFacilityInput,
+  CreditReceipt,
+  EmployerClosure,
+  FinanceConditionInput,
+  FinanceContractInput,
+  FinanceInput,
+  FinancePolicyData,
+  FinanceReceipt,
+  FinanceRuntime,
+} from "./finance-types";
 export type PersonId = string;
 export type PlaceId = string;
 export type IsoDate = string;
@@ -12,6 +25,8 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
+  /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
+  generationPriorVintage?: string;
 }
 
 export interface Affect {
@@ -102,6 +117,8 @@ export interface JobInput {
   occupationClassification?: string;
   /** Opening hourly SOC proxy; preserves existing calendar-average job fields. */
   hourlyMinor?: number;
+  /** Historical jobs remain after the actual employment relationship ends. */
+  endsAt?: IsoDate;
 }
 
 export interface OrganizationInput {
@@ -390,6 +407,7 @@ export interface CoreInput {
   households: readonly HouseholdInput[];
   jobs: readonly JobInput[];
   workCommitments?: readonly WorkCommitmentInput[];
+  finance?: FinanceInput;
   organizations: readonly OrganizationInput[];
   publicOrganizations?: readonly PublicOrganization[];
   playerId?: PersonId;
@@ -450,6 +468,7 @@ export interface CoreState {
   households: Map<string, HouseholdInput>;
   jobs: Map<string, JobInput>;
   work: WorkRuntime;
+  finance: FinanceRuntime;
   organizations: Map<string, OrganizationInput>;
   publicOrganizations: Map<string, PublicOrganization>;
   publicOrganizationsByPlace: Map<PlaceId, Set<string>>;
@@ -515,6 +534,8 @@ export interface TierDefinition {
 export interface CoreData {
   version: string;
   work?: WorkData;
+  businessBooks?: BusinessBooksData;
+  finance?: FinancePolicyData;
   parameters: Readonly<Record<string, Parameter>>;
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
@@ -549,6 +570,8 @@ export interface CoreModule {
   id: string;
   /** Chronological indexed commitments precede remaining-time discretionary acts. */
   onWorkResult?: (api: CoreAPI, receipt: Readonly<WorkResult>) => void;
+  /** End-of-day settlement/closure observes all chronological work receipts. */
+  onAfterDay?: (api: CoreAPI) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -619,6 +642,30 @@ export interface CoreAPI {
   observe(personId: PersonId, fact: KnownFact): void;
   knows(personId: PersonId, key: string): KnownFact | undefined;
   transfer(payerId: string, payeeId: string, minor: number): number;
+  addFinanceContract(input: FinanceContractInput): void;
+  addFinanceCondition(input: FinanceConditionInput): void;
+  addCreditFacility(input: CreditFacilityInput): void;
+  addBusinessBooks(input: BusinessBooksInput): void;
+  settleFinanceContract(contractId: string): FinanceReceipt;
+  drawCredit(
+    facilityId: string,
+    requestedMinor: number,
+    reasonKey: string,
+    sourceId: string,
+  ): CreditReceipt;
+  repayCredit(
+    facilityId: string,
+    requestedMinor: number,
+    reasonKey: string,
+    sourceId: string,
+  ): CreditReceipt;
+  reviewBusiness(organizationId: string): void;
+  closeEmployer(
+    organizationId: string,
+    sourceReceiptId: string,
+    reasonKey: string,
+  ): EmployerClosure;
+  finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   settleWorkResult(input: WorkResultInput): WorkResult;
   recordActivityTime(

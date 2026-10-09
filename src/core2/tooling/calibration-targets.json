@@ -10,8 +10,8 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df",
-    "meaning": "Exact proposed parameter metadata table including ten opening/work ref-only pointers. Values and unmeasured spreads are unchanged; source uncertainty fixes remain separate."
+    "sha256": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4",
+    "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
   "engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their pinned source/evaluator contract; external population observables have independently hashed source records and never pass through a P9 individual replay evaluator. A reference, contextual report or target pass does not identify a coefficient bound or close a stopgap.",
@@ -789,6 +789,114 @@
       "calibrated": false,
       "openStopgapId": "SG-P8-work-result-retention",
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Retained causal records can be inspected through the joint outcome suite, but a biography does not identify an implementation retention horizon; owner view/callback/resource constraints need their own evaluator."
+    },
+    {
+      "parameter": "businessIncomeElasticity",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint output reference is inapplicable to identification of a town sales/income coefficient",
+      "productionPath": "Pure market demand projection only; actual money settlement not implemented.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "No pinned matched firm/town sales-income observations or identifying response window; Moretti employment elasticity is not this quantity. P9 trajectories do not supply its coefficient bound."
+    },
+    {
+      "parameter": "businessIncomeHalfLifeDays",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint output reference is inapplicable to identification of a sales-response duration",
+      "productionPath": "Pure analytic reached-income projection only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "Requires dated income/sales response observations; no measured duration range or appropriate observation adapter is present."
+    },
+    {
+      "parameter": "businessCrowdingResponse",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint output reference is inapplicable to identification of a firm utilization/price coefficient",
+      "productionPath": "Pure per-review business price projection only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "No matched utilization/capacity and price observations or defined empirical review window; no coefficient bounds."
+    },
+    {
+      "parameter": "businessPriceStepMaximum",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; review-cadence and price-step observable applicability unresolved",
+      "productionPath": "Pure per-review price-step clamp only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "No matched price-step distribution at an admitted review cadence. A household CPI observation does not bound this firm adjustment cap."
+    },
+    {
+      "parameter": "businessRivalPriceElasticity",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint output reference is inapplicable to identification of within-market spending allocation",
+      "productionPath": "Pure capacity/relative-price demand split only; forecasts are not customer payments.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "Requires observed competing prices, capacity and spending shares; no source observations or coefficient ranges identified."
+    },
+    {
+      "parameter": "businessRepaymentShare",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint output reference is inapplicable to a firm debt/cash repayment policy",
+      "productionPath": "Pure finite-cash repayment plan only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "Finite-cash API settlement and the once-per-borrower repayment pool are implemented and covered by controlled writer fixtures. No observed firm loan/cash-repayment distribution, identified coefficient bound, or calibration pass is established; claim priorities remain an explicit model assumption."
+    },
+    {
+      "parameter": "businessOwnPriceElasticity",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; sector price/quantity crosswalk and coefficient identification unresolved",
+      "productionPath": "Pure market expenditure response to relative prices only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "No common empirical coefficient for these industries. Requires sector-matched quantity/price data and a dated observable adapter."
+    },
+    {
+      "parameter": "businessRestaurantOwnPriceElasticity",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; food-away-from-home study category does not identify this generated-town market coefficient",
+      "productionPath": "Pure restaurant-market expenditure projection only.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "Study/category uncertainty not reconstructed; firm/town crosswalk and appropriate observed sales/price quantities remain absent. Source paper citation is contextual, not a coefficient calibration pass."
+    },
+    {
+      "parameter": "openingFinancePeriodMonths",
+      "tag": "TUNABLE",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "blocked; joint life outcome does not identify purchase or settlement cadence",
+      "productionPath": "Opening standing purchase-budget term calendar; no cash mutation occurs in the adapter.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "reviewNote": "Need actual dated purchase/contract settlement observations, finite-cash terms and an admitted aggregation window. No empirical coefficient bound or calibration pass is established."
     }
   ],
   "unreferencedRemovalReview": {
@@ -3214,7 +3322,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df"
+        "src/core2/data/parameters.json": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4"
       },
       "observations": [
         {
@@ -5573,6 +5681,6 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "3a75e10596865271071b08857a68db1112dd88c9010a804844ef1428c82aa7df"
+    "src/core2/data/parameters.json": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4"
   }
 }

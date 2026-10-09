@@ -1,5 +1,6 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
 import { addDays, makeIsoDate } from "../simulation/dates";
+import { prepareWorkFinance } from "./finance-state";
 import {
   activityAgeId,
   commitmentCalendar,
@@ -49,7 +50,13 @@ export function admitWorkCommitment(
   const job = core.jobs.get(row.jobId);
   if (
     core.work.commitments.has(row.id) ||
-    core.work.commitmentsByPerson.has(row.personId)
+    [...(core.work.commitmentsByPerson.get(row.personId) ?? [])].some((id) => {
+      const commitment = core.work.commitments.get(id)!;
+      return (
+        commitment.endsAt === undefined &&
+        core.people.get(row.personId)?.jobId === commitment.jobId
+      );
+    })
   )
     throw new Error(
       "Work commitment must be unique for the recorded primary job/person.",
@@ -217,7 +224,15 @@ export function settleWorkResult(
       "Work result requires its actual shared-score attendance decision.",
     );
   const balances = core.organizations.get(row.organizationId)!;
-  const expectedPaid = Math.min(input.requestedMinor, balances.liquidMinor);
+  const finance = prepareWorkFinance(
+    core,
+    api,
+    row.organizationId,
+    actor.id,
+    input.requestedMinor,
+    input.id,
+  );
+  const expectedPaid = finance.expectedPaidMinor;
   const previousTotals = core.work.totalsByJob.get(row.jobId);
   const zero = p("zero"),
     one = p("one");
@@ -244,6 +259,7 @@ export function settleWorkResult(
   api.validateAct(actor.id, decision.selected!, core.date, decision);
   if (detailed && !core.knowledgeByPerson.has(actor.id))
     throw new Error("Missing watched worker knowledge index.");
+  finance.commitFunding();
   const payerCashBeforeMinor = balances.liquidMinor,
     payeeCashBeforeMinor = actor.liquidMinor;
   const paidMinor = api.transfer(
@@ -277,6 +293,7 @@ export function settleWorkResult(
     },
   };
   const quiet = { ...full, decision: undefined };
+  finance.record(full);
   core.work.lastResultByJob.set(row.jobId, detailed ? full : quiet);
   if (detailed) core.work.detailedResults.set(full.id, full);
   core.work.totalsByJob.set(row.jobId, totals);

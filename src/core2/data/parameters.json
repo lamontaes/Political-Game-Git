@@ -967,5 +967,627 @@
     "value": 15,
     "tag": "SOURCED",
     "citation": "BLS ATUS 2025 Table 3 civilian-population reference begins at age 15; https://www.bls.gov/news.release/atus.t03.htm."
+  },
+  "businessCreditLimitReferenceDaysPerYear": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "Existing data/research/money/town-business-a71-2026.json source definition computes conditional credit-limit/revenue days as limit / annual sales times 365. Invert the same source convention, not Gregorian mean-year days; technical source-unit conversion, not a behavior coefficient."
+  },
+  "businessIrsFarmMargin": {
+    "value": 0.0491,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled farm margin in town-business-books.generated.ts; aggregate net income less deficit / receipts, not firm dispersion."
+  },
+  "businessIrsFarmPayrollShare": {
+    "value": 0.086,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled farm payroll / receipts; officers plus salaries and wages, not a firm observation."
+  },
+  "businessIrsFarmSalesCostShare": {
+    "value": 0.462,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled farm cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsQuarryMargin": {
+    "value": 0.0847,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled quarry net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsQuarryPayrollShare": {
+    "value": 0.047,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled quarry officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsQuarrySalesCostShare": {
+    "value": 0.731,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled quarry cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsConstructionMargin": {
+    "value": 0.0538,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled construction net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsConstructionPayrollShare": {
+    "value": 0.083,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled construction officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsConstructionSalesCostShare": {
+    "value": 0.829,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled construction cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsManufacturingMargin": {
+    "value": 0.1433,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled manufacturing net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsManufacturingPayrollShare": {
+    "value": 0.064,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled manufacturing officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsManufacturingSalesCostShare": {
+    "value": 0.841,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled manufacturing cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsWholesaleMargin": {
+    "value": 0.0513,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled wholesale net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsWholesalePayrollShare": {
+    "value": 0.054,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled wholesale officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsWholesaleSalesCostShare": {
+    "value": 0.895,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled wholesale cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsRetailMargin": {
+    "value": 0.0455,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled retail net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsRetailPayrollShare": {
+    "value": 0.098,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled retail officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsRetailSalesCostShare": {
+    "value": 0.826,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled retail cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsTruckingMargin": {
+    "value": 0.0509,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled trucking net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsTruckingPayrollShare": {
+    "value": 0.145,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled trucking officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsTruckingSalesCostShare": {
+    "value": 0.474,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled trucking cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsInformationMargin": {
+    "value": 0.0819,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled information net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsInformationPayrollShare": {
+    "value": 0.111,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled information officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsInformationSalesCostShare": {
+    "value": 0.271,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled information cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsInsuranceMargin": {
+    "value": 0.1208,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled insurance agencies/brokerages net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsInsurancePayrollShare": {
+    "value": 0.34,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled insurance agencies/brokerages officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsInsuranceSalesCostShare": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Existing IRS SOI compiler scripts/research/compile-irs-business-books.py SERVICE_KINDS mean where insurance cost of goods sold is suppressed; compiled estimated flag preserved.",
+    "estimatedFrom": "Arithmetic mean of published professional, building-services, private-school, clinic, recreation, information, and personal-care sales-cost shares, rounded by the existing compiler; not insurance dispersion.",
+    "stopgapId": "SG-P8-business-books-priors"
+  },
+  "businessIrsRealtyMargin": {
+    "value": 0.1534,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled real-estate agents/brokers net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsRealtyPayrollShare": {
+    "value": 0.356,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled real-estate agents/brokers officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsRealtySalesCostShare": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Existing IRS SOI compiler scripts/research/compile-irs-business-books.py SERVICE_KINDS mean where realty cost of goods sold is suppressed; compiled estimated flag preserved.",
+    "estimatedFrom": "Arithmetic mean of published professional, building-services, private-school, clinic, recreation, information, and personal-care sales-cost shares, rounded by the existing compiler; not realty dispersion.",
+    "stopgapId": "SG-P8-business-books-priors"
+  },
+  "businessIrsProfessionalMargin": {
+    "value": 0.0724,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled professional services net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsProfessionalPayrollShare": {
+    "value": 0.284,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled professional services officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsProfessionalSalesCostShare": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled professional services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsBuildingServicesMargin": {
+    "value": 0.0778,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled building services net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsBuildingServicesPayrollShare": {
+    "value": 0.263,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled building services officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsBuildingServicesSalesCostShare": {
+    "value": 0.502,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled building services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsPrivateSchoolMargin": {
+    "value": 0.0593,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled educational services net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsPrivateSchoolPayrollShare": {
+    "value": 0.308,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled educational services officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsPrivateSchoolSalesCostShare": {
+    "value": 0.245,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled educational services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsClinicMargin": {
+    "value": 0.0467,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled physicians' offices net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsClinicPayrollShare": {
+    "value": 0.402,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled physicians' offices officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsClinicSalesCostShare": {
+    "value": 0.21,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled physicians' offices cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsCareHomeMargin": {
+    "value": 0.041,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled hospitals/nursing/residential care net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsCareHomePayrollShare": {
+    "value": 0.389,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled hospitals/nursing/residential care officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsCareHomeSalesCostShare": {
+    "value": 0.081,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled hospitals/nursing/residential care cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsRecreationMargin": {
+    "value": 0.0671,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled recreation net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsRecreationPayrollShare": {
+    "value": 0.209,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled recreation officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsRecreationSalesCostShare": {
+    "value": 0.295,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled recreation cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsRestaurantMargin": {
+    "value": 0.0571,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled food services net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsRestaurantPayrollShare": {
+    "value": 0.219,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled food services officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsRestaurantSalesCostShare": {
+    "value": 0.547,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled food services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsInnMargin": {
+    "value": 0.1358,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled accommodation net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsInnPayrollShare": {
+    "value": 0.22,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled accommodation officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsInnSalesCostShare": {
+    "value": 0.141,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled accommodation cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsRepairMargin": {
+    "value": 0.0427,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled automotive repair net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsRepairPayrollShare": {
+    "value": 0.187,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled automotive repair officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsRepairSalesCostShare": {
+    "value": 0.632,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled automotive repair cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsPersonalCareMargin": {
+    "value": 0.0766,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled personal/laundry services net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsPersonalCarePayrollShare": {
+    "value": 0.264,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled personal/laundry services officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsPersonalCareSalesCostShare": {
+    "value": 0.352,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled personal/laundry services cost of goods sold / other deductions; aggregate ratio."
+  },
+  "businessIrsAllMargin": {
+    "value": 0.1057,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled all-active-corporations net income less deficit / receipts; aggregate ratio, not a fallback for public/nonprofit institutions."
+  },
+  "businessIrsAllPayrollShare": {
+    "value": 0.112,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled all-active-corporations officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsAllSalesCostShare": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Existing IRS SOI compiler scripts/research/compile-irs-business-books.py SERVICE_KINDS mean for the all-industry modeled sales-cost share; compiled estimated flag preserved.",
+    "estimatedFrom": "Arithmetic mean of published professional, building-services, private-school, clinic, recreation, information, and personal-care sales-cost shares, rounded by the existing compiler; not all-firm dispersion.",
+    "stopgapId": "SG-P8-business-books-priors"
+  },
+  "businessLineDaysRestaurant": {
+    "value": 36.6,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing town-business-a71-2026.json SIC 58 median credit-limit/revenue days among line holders; not approval or lender cash.",
+    "spread": {
+      "low": 9.7,
+      "high": 99.9,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 source row restaurant p25Days/p75Days; this is an IQR, not minimum/maximum or a firm guarantee."
+    }
+  },
+  "businessLineDaysRetail": {
+    "value": 52.0,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 52-57,59 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 18.2,
+      "high": 98.0,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 retail p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysRepair": {
+    "value": 48.8,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 75-76 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 18.8,
+      "high": 103.7,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 repair p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysConstruction": {
+    "value": 36.5,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 15-17 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 21.4,
+      "high": 78.9,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 construction p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysPersonalCare": {
+    "value": 110.4,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 72 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 36.5,
+      "high": 211.0,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 personal-care p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysWholesale": {
+    "value": 37.8,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 50-51 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 15.0,
+      "high": 85.5,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 wholesale p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysManufacturing": {
+    "value": 47.1,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 20-39 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 23.2,
+      "high": 91.2,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 manufacturing p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysClinic": {
+    "value": 37.2,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 80 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 21.7,
+      "high": 92.6,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 clinic p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysCareHome": {
+    "value": 37.2,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 broad SIC 80 median credit-limit/revenue days among line holders, not nursing-home specific.",
+    "spread": {
+      "low": 21.7,
+      "high": 92.6,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 care-home uses the SIC 80 clinic source row; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysProfessional": {
+    "value": 61.6,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 81,87,89 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 33.2,
+      "high": 146.0,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 professional p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysInsurance": {
+    "value": 53.3,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 63-64 agency/brokerage median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 10.8,
+      "high": 164.1,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 insurance p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysBuildingServices": {
+    "value": 56.0,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 73 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 29.4,
+      "high": 145.8,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 building-services p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysRealty": {
+    "value": 126.2,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 65 median credit-limit/revenue days among line holders.",
+    "spread": {
+      "low": 41.5,
+      "high": 434.5,
+      "unit": "conditional weighted interquartile credit-limit/revenue days",
+      "citation": "Existing A71 realty p25Days/p75Days; not approval or a guaranteed line."
+    }
+  },
+  "businessLineDaysPrivateSchool": {
+    "value": 48.7,
+    "tag": "ESTIMATED",
+    "citation": "Existing A71 Federal Reserve 2003 SSBF source: too few SIC 82 line-holder responses; all-industry weighted median used.",
+    "estimatedFrom": "All-industry source median; source conditional IQR copied as a prior, not a school-specific spread or credit approval.",
+    "stopgapId": "SG-P8-business-books-priors",
+    "spread": {
+      "low": 22.0,
+      "high": 115.3,
+      "unit": "all-industry conditional weighted IQR revenue days",
+      "citation": "Existing A71 all-industry p25Days/p75Days; school-specific distribution unresolved."
+    }
+  },
+  "businessLineDaysInformation": {
+    "value": 48.7,
+    "tag": "ESTIMATED",
+    "citation": "Existing A71 Federal Reserve 2003 SSBF source: too few SIC 48 line-holder responses; all-industry weighted median used.",
+    "estimatedFrom": "All-industry source median; source conditional IQR copied as a prior, not an information-industry spread or credit approval.",
+    "stopgapId": "SG-P8-business-books-priors",
+    "spread": {
+      "low": 22.0,
+      "high": 115.3,
+      "unit": "all-industry conditional weighted IQR revenue days",
+      "citation": "Existing A71 all-industry p25Days/p75Days; information-specific distribution unresolved."
+    }
+  },
+  "businessIncomeElasticity": {
+    "value": 0.335,
+    "tag": "TUNABLE",
+    "citation": "Inherited old town-finances sales proxy. Moretti Local Multipliers, https://eml.berkeley.edu/~moretti/multipliers.pdf, Table 1 reports employment-to-employment elasticity; it does not report sales-to-all-town-income elasticity. This coefficient is uncalibrated.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Employment elasticity uncertainty is not a bound for this sales response coefficient. Matched sales/income data and identification are missing."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessIncomeHalfLifeDays": {
+    "value": 1095,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances localDemandHalfLifeDays is explicitly PLACEHOLDER. Analytic linear reached-income response is a new registered approximation; no source identifies this duration.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical half-life range for town sales responding to income has been established; require dated income/sales response calibration."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessCrowdingResponse": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessPriceStepMaximum": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessRivalPriceElasticity": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessRepaymentShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances repays debt from half of positive cash; authored liquidity/repayment policy, not a sourced behavior rule.",
+    "stopgapId": "SG-P8-business-books-credit-policy",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Requires actual debt-contract and firm cash/repayment observations; no behavior coefficient bounds measured."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessOwnPriceElasticity": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances DEFAULT_PRICE_ELASTICITY is explicitly PLACEHOLDER; not a common measured elasticity for every industry.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sector-specific price/quantity and spending data are required; no matched coefficient bounds established."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "businessRestaurantOwnPriceElasticity": {
+    "value": 0.81,
+    "tag": "TUNABLE",
+    "citation": "Old town-finances references Andreyeva, Long and Brownell, AJPH 2010, food-away-from-home aggregate demand elasticity. Carrying that magnitude into this generated market/price projection is an uncalibrated crosswalk, not a measured firm coefficient.",
+    "stopgapId": "SG-P8-business-books-dynamics",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The food-away-from-home category/study spread has not been reconstructed and does not identify this town-market price coefficient. Require matching source quantities and market observations."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "financeAct365FixedDays": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "ISDA day-count definitions: Actual/365 Fixed divides actual elapsed days by 365. Applying that convention to prototype loan contracts is an openly recorded settlement-policy assumption; an explicit facility can bind a different registered day-count denominator."
+  },
+  "openingFinancePeriodMonths": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Prototype monthly standing purchase-budget aggregation; no source identifies this settlement cadence or its first-next-month due phase.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No matched household/firm purchase timing distribution or identified cadence interval; monthly aggregation is an authored prototype policy."
+    },
+    "stopgapId": "SG-P8-opening-finance-cadence",
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "financeObservableFullTimeHours": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "BLS CPS 2019 annual averages, Table 8, employed persons by usual full- or part-time status at all jobs: full time is 35 hours or more per week. https://www.bls.gov/cps/aa2019/cpsaat08.htm . Definition-only observation boundary; not an employment probability, individual behavior threshold, coefficient, observed hours spread, or calibration pass. Archived source: src/core2/receipts/work-hours-v5-source-audit/evidence.json, BLS-CPS-2019-T8."
   }
 }

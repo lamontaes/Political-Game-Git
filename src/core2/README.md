@@ -1,12 +1,12 @@
-# The indexed year still misses two minutes; 40 stopgaps remain open
+# Finance adds seven stopgaps; 47 remain open
 
-Measured: After knowledge indexing, the annual median is 226.573 seconds, or 96.66 simulated days per minute, compared with 143.410 seconds and 152.71 before. One profiled day is faster, but the year misses the 120-second target. The change adds no stopgaps; 40 remain open. Employer funding and work-hours realism are next. The prototype is **NOT READY**. [Before median](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L108) [Year comparison](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L713) [Day comparison](receipts/prototype-v5-work-busy-day-knowledge-index-after-archive.json#L77) [Open gaps](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L75) [Index adds none](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L76)
+Measured: Customer payments, costs, finite credit and closures are checked. Ordinary-year funding, job retention and performance remain unproven for this change. Seven stopgaps are added; 47 remain open and block release. The older results below are preserved historical checkpoints. This prototype is **NOT READY**. [Checked behavior](receipts/prototype-v6-finance-gates-20261009.json#L271) [Year unmeasured](receipts/prototype-v6-finance-gates-20261009.json#L5) [No speed claim](receipts/prototype-v6-finance-gates-20261009.json#L6) [Open gaps](receipts/prototype-v6-finance-gates-20261009.json#L265) [Seven added](receipts/prototype-v6-finance-gates-20261009.json#L266) [Held draft](receipts/prototype-v6-finance-gates-20261009.json#L268)
 
-## Before
+## Historical v5 before
 
 Measured: With both work switches disabled, the same v5 sources record 64 opening jobs and a 25-person circle. The annual median is 98.035758898 seconds, or 223.38787649 simulated days per minute. Legacy discretionary work remains available; its paid-work duration is uninstrumented. [Median](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L97) [Opening counts](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L209) [Duration limit](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L342)
 
-## After
+## Historical v5 after
 
 Measured: With both switches enabled, the opening records 1,433 jobs and a 57-person circle. The annual median is 143.410050858 seconds, or 152.70896195 simulated days per minute. The three measured years take 143.410, 131.210 and 149.882 seconds. [Opening counts](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L690) [Circle](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L703) [Median and runs](receipts/prototype-v5-paired-work-year-20261009-comparison.json#L578)
 
@@ -62,7 +62,7 @@ Measured: The work-enabled baseline has a 143.410-second annual median. With ind
 
 Measured: The exact prepared input matches. Every compared captured result matches, including act/work hashes, focus and affect samples, and complete final action rows. Timing, memory, source-manifest metadata and export locations are excluded and separately checked. The normal year capture has no full-state digest. [Input](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L25) [Result scope and exclusions](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L1263)
 
-Inferred from source: Default public-target providers use a private projection of each actor's known public organization IDs. The observation writer updates an existing projection synchronously. Building or reading it teaches no facts. No calendar, focus or chooser policy changed. [Projection](state.ts#L420) [Observation update](state.ts#L479) [Default providers](modules/life.ts#L39) [Declared source boundary](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L1304)
+Inferred from current source: The default public-target query again reads actor knowledge directly for each candidate public organization. Historical indexed timing remains archived above. [Direct knowledge read](modules/life.ts#L49) [Historical source boundary](receipts/prototype-v5-knowledge-index-year-20261009-comparison.json#L1304)
 
 Measured: The July 2 diagnostic advances 10,797 acts in 970.454 milliseconds, compared with 1,586.255 before. Process CPU falls from 1,901.793 to 1,235.210 milliseconds. The final full-state digest and focus/work deltas match for that day. Its before-day full digest is unavailable. [One-day comparison](receipts/prototype-v5-work-busy-day-knowledge-index-after-archive.json#L77)
 
@@ -70,7 +70,7 @@ Measured: The indexed profile attributes 934.977 milliseconds to recorded advanc
 
 Measured by root: The revised knowledge sources pass 88 focused tests, strict types, formatting, lint, source audit, zero-dice and the PR release check. The initial desktop-configuration startup failure is preserved. The passing test run uses the isolated core2 configuration. [Checks and exact logs](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L17) [Types](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L45) [Style](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L55) [Guards](receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json#L65)
 
-Planned: Follow the CTO's order: fund employer wages through business books, validate work hours against age-specific sources, continue measured indexing work, then prove an event-born drive. The finance port must use actual funded receipts and finite credit. Further date-cache work is deferred. [CTO direction](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit)
+Planned: Follow the CTO's current order: measure funded employer finance, correct work hours and role coverage, profile CPU and garbage collection, then optimize measured costs. Event-born drive proof remains open. Further date-cache work is deferred. [CTO direction](https://docs.google.com/document/d/1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M/edit)
 
 ## Method
 
