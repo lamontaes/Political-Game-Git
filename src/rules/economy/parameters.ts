@@ -36,6 +36,13 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Calendar year has four fiscal quarters",
     range: { minimum: 1, maximum: 8 },
   },
+  layoffPayCoverageToleranceDollars: {
+    value: 1,
+    basis: "TUNABLE",
+    source:
+      "Legacy layoff rule permits a one-dollar annual pay-coverage tolerance",
+    range: { minimum: 0, maximum: 100 },
+  },
   noAveragePayEstimateDollars: {
     value: 0,
     basis: "TUNABLE",
