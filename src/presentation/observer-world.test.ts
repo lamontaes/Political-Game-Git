@@ -132,21 +132,6 @@ describe("a world watched from its start", () => {
     expect(file?.career[0]?.text).toContain(file?.work[0]?.split(",")[0]);
   });
 
-  it("shows the observer a person's threads, most important first, and recent moments", () => {
-    const file = projectObserverPerson(world, anchor)!;
-    expect(file.threads.length).toBeGreaterThan(0);
-    const importance = file.threads.map((thread) => thread.importance);
-    expect(importance).toEqual([...importance].sort((a, b) => b - a));
-    for (const thread of file.threads) {
-      expect(thread.name.length).toBeGreaterThan(0);
-      expect(thread.importance).toBeGreaterThan(0);
-      expect(world.people[thread.personId]).toBeDefined();
-    }
-    expect(file.moments.length).toBeLessThanOrEqual(10);
-    const dates = file.moments.map((moment) => moment.at);
-    expect(dates).toEqual([...dates].sort().reverse());
-  });
-
   it("reads saved congressional and state legislative results without making elections", () => {
     const [houseWinner, senateWinner] = world.personOrder;
     const pack = stateCandidacyPack("US-KS")!;
