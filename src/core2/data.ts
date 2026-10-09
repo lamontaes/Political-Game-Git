@@ -7,8 +7,8 @@ import traitPulls from "../../data/content/trait-act-pulls.json" with { type: "j
 import { PARAMETERS } from "./parameters";
 import type { CoreData } from "./types";
 
-export const CORE_API_VERSION = "core2-api-v6";
-export const CORE_SCHEMA_VERSION = "core2-schema-v6";
+export const CORE_API_VERSION = "core2-api-v7";
+export const CORE_SCHEMA_VERSION = "core2-schema-v7";
 
 export const DEFAULT_DATA: CoreData = {
   ...content,

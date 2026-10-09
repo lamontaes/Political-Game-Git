@@ -21,9 +21,20 @@ function offer(
   action: ActionDefinition,
   targetId: string,
 ): ActOffer {
-  const drive = [...actor.goals.values()].find(
-    (goal) => goal.sourceDriveId && action.goalKinds.includes(goal.kind),
-  )?.sourceDriveId;
+  let drive: string | undefined;
+  for (const goal of actor.goals.values()) {
+    const candidate = goal.sourceDriveId
+      ? actor.drives.get(goal.sourceDriveId)
+      : undefined;
+    if (!candidate || !action.goalKinds.includes(goal.kind)) continue;
+    const prior = drive ? actor.drives.get(drive) : undefined;
+    if (
+      !prior ||
+      candidate.strength > prior.strength ||
+      (candidate.strength === prior.strength && candidate.id < prior.id)
+    )
+      drive = candidate.id;
+  }
   return {
     definition: action,
     targetId,
@@ -94,6 +105,7 @@ const eventConditions: Readonly<
 /** Available acts and consequences are registered operations; content identities remain data. */
 export const LIFE_MODULE: CoreModule = {
   id: "core2-life-v2",
+  eventKinds: ["*"],
   needEvaluators: {
     "resource-deficit": (api, actor, definition) => {
       const horizon = definition.parameters.horizon;

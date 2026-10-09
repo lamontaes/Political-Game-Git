@@ -29,6 +29,7 @@ import type {
   CoreAPI,
   CoreData,
   CoreEventInput,
+  CoreEventListener,
   CoreInput,
   CoreModule,
   CoreState,
@@ -166,6 +167,9 @@ export function createCore(
     knowledgeByPerson: new Map(),
     data,
     modules: new Map(),
+    reasonProviders: new Map(),
+    eventSubscribers: new Map(),
+    eventSubscribersByKind: new Map(),
   };
   for (const tier of data.tiers) core.peopleByTier.set(tier.id, new Set());
   for (const row of input.households) {
@@ -336,8 +340,21 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
 }
 
 export function registerModule(core: CoreState, module: CoreModule): void {
+  if (!module.id.trim()) throw new Error("Module identity is empty.");
   if (core.modules.has(module.id))
     throw new Error(`Duplicate module: ${module.id}`);
+  if (module.onEvent && !module.eventKinds)
+    throw new Error(
+      "Event handlers require explicit event-kind subscriptions.",
+    );
+  if (module.eventKinds && !module.onEvent)
+    throw new Error("Event-kind subscriptions require a handler.");
+  for (const [name, provider] of Object.entries(module.reasonProviders ?? {})) {
+    if (!name.trim() || typeof provider !== "function")
+      throw new Error("Invalid reason provider.");
+    if (core.reasonProviders.has(name))
+      throw new Error(`Duplicate reason provider: ${name}`);
+  }
   for (const category of [
     "needEvaluators",
     "offerProviders",
@@ -349,7 +366,48 @@ export function registerModule(core: CoreState, module: CoreModule): void {
         throw new Error(`Duplicate engine operation: ${category}:${name}`);
     }
   }
+  if (module.onEvent)
+    subscribeEvents(
+      core,
+      `module:${module.id}`,
+      module.eventKinds!,
+      module.onEvent,
+    );
   core.modules.set(module.id, module);
+  for (const [name, provider] of Object.entries(module.reasonProviders ?? {}))
+    core.reasonProviders.set(name, provider);
+}
+
+function subscribeEvents(
+  core: CoreState,
+  id: string,
+  kinds: readonly string[],
+  listener: CoreEventListener,
+): () => void {
+  if (
+    !id.trim() ||
+    typeof listener !== "function" ||
+    !kinds.length ||
+    kinds.some((kind) => !kind.trim() || kind !== kind.trim())
+  )
+    throw new Error("Invalid event subscription.");
+  if (core.eventSubscribers.has(id))
+    throw new Error(`Duplicate event subscriber: ${id}`);
+  const uniqueKinds = new Set(kinds);
+  let active = true;
+  core.eventSubscribers.set(id, listener);
+  for (const kind of uniqueKinds) index(core.eventSubscribersByKind, kind, id);
+  return () => {
+    if (!active) return;
+    active = false;
+    if (core.eventSubscribers.get(id) !== listener) return;
+    core.eventSubscribers.delete(id);
+    for (const kind of uniqueKinds) {
+      const ids = core.eventSubscribersByKind.get(kind);
+      ids?.delete(id);
+      if (!ids?.size) core.eventSubscribersByKind.delete(kind);
+    }
+  };
 }
 
 export function resolveOperation<
@@ -605,6 +663,11 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     emit(event) {
       applyCoreEvent(core, event);
+    },
+    subscribeEvents(id, kinds, listener) {
+      if (!id.trim() || id !== id.trim())
+        throw new Error("Invalid event subscriber identity.");
+      return subscribeEvents(core, `consumer:${id}`, kinds, listener);
     },
     validateAct(actorId, offer, date, reason) {
       validateCommittedAct(core, actorId, offer, date, reason);
@@ -864,8 +927,12 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
   const learnedBy = [
     ...new Set([...(event.witnessIds ?? []), ...event.personIds]),
   ].filter((id) => core.people.has(id));
-  for (const module of core.modules.values())
-    module.onEvent?.(api, event, learnedBy);
+  const subscribers = new Set([
+    ...(core.eventSubscribersByKind.get(event.kind) ?? []),
+    ...(core.eventSubscribersByKind.get("*") ?? []),
+  ]);
+  for (const id of subscribers)
+    core.eventSubscribers.get(id)?.(api, event, learnedBy);
 }
 
 export function inspectPerson(
