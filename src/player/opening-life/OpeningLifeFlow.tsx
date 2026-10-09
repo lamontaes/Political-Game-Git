@@ -82,9 +82,6 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
         presentPersonIds={presence.personIds}
       />
     );
-  // Compatibility consumes only an already recorded canonical opening beat.
-  // NEW transitions are supplied by live records through the shared foreground.
-  if (!scene) return null;
   if (props.pendingOpen && props.pendingAvailable && props.pendingLife) {
     return (
       <div
@@ -115,6 +112,9 @@ export function OpeningLifeFlow(props: OpeningLifeFlowProps) {
       </div>
     );
   }
+  // Compatibility consumes only an already recorded canonical opening beat.
+  // NEW transitions are supplied by live records through the shared foreground.
+  if (!scene) return null;
   return (
     <>
       <LifeScenePanel

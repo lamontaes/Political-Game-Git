@@ -1,5 +1,5 @@
 import { expect, test } from "./fixtures";
-import { startLife } from "./support/creator";
+import { returnToRoom, startLife } from "./support/creator";
 
 test("a person card closes when the day moves on", async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -30,6 +30,7 @@ test("a person card closes when the day moves on", async ({ page }) => {
   });
   await page.getByTestId("orientation-skip").click({ timeout: 60000 });
   await expect(page.getByTestId("world-orientation")).toBeHidden();
+  await returnToRoom(page);
 
   const person = page.locator('[data-testid^="scene-person-"]').first();
   await person.click();
