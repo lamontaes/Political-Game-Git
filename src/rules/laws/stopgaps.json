@@ -1,0 +1,32 @@
+[
+  {
+    "id": "laws.federal-mfs-tax-schedule",
+    "behavior": "The bundled 2026 federal tax schedule omits married filing separately; the standalone rule estimates it from the single-filer schedule under IRS Revenue Procedure 2025-32 and carries an estimate label.",
+    "source": "src/rules/laws/federal-income-tax-schedule.ts",
+    "status": "PLACEHOLDER"
+  },
+  {
+    "id": "laws.non-money-felt-size",
+    "behavior": "A non-money rights or eligibility effect is estimated at 0.1 months of pay until research answers felt-size-of-non-money-law-effects.",
+    "source": "src/simulation/law-exposure.ts",
+    "status": "PLACEHOLDER"
+  },
+  {
+    "id": "laws.reciprocal-reference-weights",
+    "behavior": "Similar-state tax deduction estimates use reciprocal competition-rank weights, an authored estimation rule.",
+    "source": "src/simulation/income-tax-withholding.ts",
+    "status": "GAME ASSUMPTION"
+  },
+  {
+    "id": "laws.floor-preemption",
+    "behavior": "Conflicts between higher and lower law levels are resolved by rank; floor preemption is not modeled.",
+    "source": "src/simulation/governing/law-in-force.ts",
+    "status": "GAME ASSUMPTION"
+  },
+  {
+    "id": "laws.session-end-effective-date-fallback",
+    "behavior": "If a session-end rule would make an act effective on or before its enactment date, count the interval from the enactment date.",
+    "source": "src/simulation/governing/statute-effective-date.ts",
+    "status": "GAME ASSUMPTION"
+  }
+]
