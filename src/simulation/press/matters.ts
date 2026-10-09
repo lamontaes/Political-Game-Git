@@ -452,9 +452,7 @@ export function openPersonalLifeMatter(
     );
   }
   if (event.visibility !== "public" && !publicClaim) {
-    throw new Error(
-      "A private personal event needs a public claim on the record.",
-    );
+    throw new Error("A private personal event needs a public claim.");
   }
   const subjects = sortedUnique(input.subjectPersonIds);
   if (

@@ -64,7 +64,7 @@ export function readPressPublication(
         personId,
         eventId: story.id,
         learnedAt: world.currentDate,
-        believedSummary: `${publication.outletName} reported: ${story.summary}`,
+        believedSummary: `${publication.outletName}: ${story.summary}`,
         accuracy: "accurate",
         confidence: "high",
         source: {

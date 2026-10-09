@@ -230,7 +230,7 @@ export function readStateLegislatureSavedWake(item: FutureDueItem): SavedWake {
     item.transitionKey !== STATE_LEGISLATURE_WAKE_TRANSITION ||
     item.provenance.kind !== "authored"
   )
-    throw new Error("Not a state legislature queue wake.");
+    throw new Error("Not a state legislature wake.");
   const saved = JSON.parse(item.provenance.note) as SavedWake;
   if (
     saved.version !== VERSION ||
@@ -242,7 +242,7 @@ export function readStateLegislatureSavedWake(item: FutureDueItem): SavedWake {
       saved.stage,
     )
   )
-    throw new Error("Invalid saved state legislature queue wake.");
+    throw new Error("Invalid saved state legislature wake.");
   const pack = candidacyPackById(saved.packId)!;
   const jurisdiction = stateJurisdictionForKey(pack.jurisdictionKey);
   const base = `${VERSION}:${saved.packId}:${saved.electionDay}:${saved.stage}:${saved.dueAt}:${saved.revision}`;
@@ -275,7 +275,7 @@ export function reconcileStateLegislatureQueue(
     !Number.isInteger(throughYear) ||
     throughYear < Number(world.currentDate.slice(0, 4))
   )
-    throw new Error("Invalid state queue horizon.");
+    throw new Error("Invalid state horizon.");
   throughYear = Math.max(
     throughYear,
     Number(world.currentDate.slice(0, 4)) + 4,
@@ -392,7 +392,7 @@ export const stateLegislatureWakeHandler: FutureTransitionHandler = (
 ) => {
   const wake = readStateLegislatureSavedWake(item);
   if (world.currentDate !== wake.dueAt)
-    throw new Error("State queue handler requires its due date.");
+    throw new Error("State handler requires its due date.");
   // Consumers reconcile source changes before advancing. A stale wake must not
   // execute an obsolete date; it terminates and replaces only future work.
   if (
