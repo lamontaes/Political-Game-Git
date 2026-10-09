@@ -24,17 +24,6 @@ function rate(value: CpsVotingCell, margin: CpsVotingCell): string {
     : `${estimate} (margin unavailable)`;
 }
 
-/** The headline share in plain words: "About 62% of citizen adults said
- * they voted (give or take 3 points)." */
-export function plainRate(value: CpsVotingCell, margin: CpsVotingCell): string {
-  if (value.value.state !== "HISTORICAL")
-    return "How many citizen adults voted is not in this survey.";
-  const share = `About ${Math.round(value.value.value)}% of citizen adults said they voted`;
-  if (margin.value.state !== "HISTORICAL") return `${share}.`;
-  const points = Math.max(1, Math.round(margin.value.value));
-  return `${share} (give or take ${points} ${points === 1 ? "point" : "points"}).`;
-}
-
 /** Historical survey context only; opening or changing a table never writes World. */
 export function OpeningStateVoting({
   stateUsps,
@@ -70,18 +59,29 @@ export function OpeningStateVoting({
     <section data-testid="opening-state-voting">
       <h3>Reported voting · November 2024</h3>
       {!totals ? (
-        <p role="status">
-          {(ready?.unavailableReason !== NO_SURVEY_TOTAL_REASON
-            ? ready?.unavailableReason
-            : null) ??
-            (stateUsps
-              ? `Estimated from the national average: about ${Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}% of citizen adults said they voted${
-                  failed === key || ready
-                    ? "."
-                    : ". The survey for this state replaces it when it arrives."
-                }`
-              : "Voting survey information is unavailable.")}
-        </p>
+        stateUsps ? (
+          // No state survey: the national share, marked as the estimate it is.
+          <p
+            role="status"
+            data-problem={
+              ready?.unavailableReason &&
+              ready.unavailableReason !== NO_SURVEY_TOTAL_REASON
+                ? "survey-unavailable"
+                : failed === key || ready
+                  ? "no-state-survey"
+                  : "state-survey-loading"
+            }
+          >
+            Citizen adults who voted:{" "}
+            <strong>
+              about {Math.round(NATIONAL_REPORTED_VOTING_2024.votedPercent)}%
+            </strong>
+            <br />
+            Estimated from the national average
+          </p>
+        ) : (
+          <p data-problem="no-home-state" />
+        )
       ) : (
         <>
           <p>
@@ -90,12 +90,14 @@ export function OpeningStateVoting({
             <br />
             Reported voted:{" "}
             <strong>{count(totals.metrics.reportedVoted)}</strong>
-          </p>
-          <p>
-            {plainRate(
-              totals.metrics.votedCitizenPercent,
-              totals.metrics.votedCitizenMoe,
-            )}
+            <br />
+            Citizen adults who voted:{" "}
+            <strong>
+              {rate(
+                totals.metrics.votedCitizenPercent,
+                totals.metrics.votedCitizenMoe,
+              )}
+            </strong>
           </p>
           <details>
             <summary>Voting by age and other groups</summary>
@@ -115,13 +117,6 @@ export function OpeningStateVoting({
                 </option>
               </GameSelect>
             </label>
-            <p>
-              Rates below are percentages of citizen adults in each group, not
-              shares of all voters.
-            </p>
-            {breakdown === "raceAndHispanicOrigin" ? (
-              <p>These categories overlap and must not be added together.</p>
-            ) : null}
             {groups.length ? (
               <div className="pg-state-voting-table-wrap">
                 <table>
@@ -157,14 +152,8 @@ export function OpeningStateVoting({
                 </table>
               </div>
             ) : (
-              <p>This breakdown is unavailable.</p>
+              <p data-problem="breakdown-unavailable" />
             )}
-            <p>
-              ± shows the margin of error in percentage points. These are
-              estimates for adults aged 18 and over rather than a count, and
-              being a citizen is not the same as being eligible to vote.
-              Registration figures are not available here.
-            </p>
           </details>
         </>
       )}

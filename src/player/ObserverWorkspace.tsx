@@ -5,6 +5,7 @@ import {
   observerPeople,
   projectObserverPerson,
   projectObserverRecord,
+  type ObserverPersonFile,
 } from "../presentation/observer-world";
 import { proseDate } from "../presentation/prose-dates";
 import type { ObserverRunController } from "./observer-run-controller";
@@ -213,6 +214,7 @@ export function ObserverRecordWorkspace({
               ))}
             </ul>
           )}
+          <ObserverPersonStory story={file} personLink={personLink} />
           {onTrace ? (
             <section aria-label="Recorded decisions">
               <h4>Their decisions</h4>
@@ -531,5 +533,65 @@ export function ObserverRecordWorkspace({
         </ul>
       </section>
     </div>
+  );
+}
+
+/**
+ * A person's threads and recent moments, as the story director reads them.
+ * Hidden from players; shown only in developer and observer mode.
+ */
+export function ObserverPersonStory({
+  story,
+  personLink,
+}: {
+  readonly story: Pick<
+    ObserverPersonFile,
+    "threads" | "moreThreads" | "moments"
+  >;
+  readonly personLink: (
+    personId: EntityId | null,
+    name: string | null,
+  ) => React.ReactNode;
+}) {
+  return (
+    <>
+      <h4>Their threads</h4>
+      {story.threads.length === 0 ? (
+        <p className="game-note">No threads on record.</p>
+      ) : (
+        <ul data-testid="observer-person-threads">
+          {story.threads.map((thread) => (
+            <li key={thread.personId}>
+              {personLink(thread.personId, thread.name)}: importance{" "}
+              {thread.importance.toFixed(2)}
+              {thread.tie
+                ? `, ${thread.tie === "sharedHome" ? "shared home" : thread.tie}`
+                : ""}
+              {thread.turns.length > 0
+                ? `; ${thread.turns.map((turn) => `${turn.turn} ${proseDate(turn.at)} (${turn.importance.toFixed(2)})`).join(", ")}`
+                : "; no moments yet"}
+              {thread.lastContactOn
+                ? `; last in touch ${proseDate(thread.lastContactOn)}`
+                : ""}
+            </li>
+          ))}
+          {story.moreThreads > 0 ? <li>{story.moreThreads} more</li> : null}
+        </ul>
+      )}
+      <h4>Their recent moments</h4>
+      {story.moments.length === 0 ? (
+        <p className="game-note">No moments on record.</p>
+      ) : (
+        <ul data-testid="observer-person-moments">
+          {story.moments.map((moment) => (
+            <li key={moment.id}>
+              {proseDate(moment.at)}: {moment.kind} (
+              {moment.salience.toFixed(3)})
+              {moment.with.length > 0 ? ` with ${moment.with.join(", ")}` : ""}
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 }

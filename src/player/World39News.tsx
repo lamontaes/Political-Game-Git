@@ -1,8 +1,10 @@
-import type { EntityId, World } from "../simulation";
+import type { EntityId, IsoDate, World } from "../simulation";
 import { lawEffectsHere } from "../presentation/law-effects-here";
 import {
+  institutionRestatesTitle,
   projectWorld39News,
   type World39Notice,
+  type World39StandingItem,
 } from "../presentation/world39-news";
 import { readPressPublication } from "../simulation/press/read-publication";
 import "./world39-readers.css";
@@ -41,6 +43,11 @@ export function World39News({
         <h3>{model.placeName ? `Around ${model.placeName}` : "Around here"}</h3>
         <time dateTime={model.asOf}>{world39Date(model.asOf)}</time>
       </header>
+      <World39Standing
+        officeholders={model.officeholders}
+        standing={model.standing}
+        onOpenPerson={onOpenPerson}
+      />
       {model.laws.length > 0 ? (
         <section aria-label="Laws that reach you" data-testid="world39-laws">
           <h4>Laws that reach you</h4>
@@ -209,6 +216,67 @@ export function PublicNotices({
       {notices.map((notice) => (
         <article key={notice.key} data-notice={notice.key}>
           <p className="world39-notice">{notice.text}</p>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+/**
+ * Who holds office and what governs and serves the place, as record values
+ * (menu reset: no sentences): each office's title over its holder, with the
+ * employer only where it says more than the title, and the date the term
+ * began only where the record has one.
+ */
+export function World39Standing({
+  officeholders,
+  standing,
+  onOpenPerson,
+}: {
+  readonly officeholders: readonly {
+    readonly termId: EntityId;
+    readonly title: string;
+    readonly personId: EntityId;
+    readonly personName: string;
+    readonly institution: string | null;
+    readonly startedAt: IsoDate | null;
+  }[];
+  readonly standing: readonly World39StandingItem[];
+  readonly onOpenPerson: (id: EntityId) => void;
+}) {
+  if (officeholders.length === 0 && standing.length === 0) return null;
+  return (
+    <section data-testid="world39-standing">
+      {officeholders.map((holder) => (
+        <article key={holder.termId} data-standing-kind="office">
+          <h5>{holder.title}</h5>
+          <p>
+            <button
+              type="button"
+              className="ui-action"
+              onClick={() => onOpenPerson(holder.personId)}
+            >
+              {holder.personName}
+            </button>
+            {holder.institution &&
+            !institutionRestatesTitle(holder.title, holder.institution)
+              ? ` · ${holder.institution}`
+              : ""}
+          </p>
+          {holder.startedAt ? (
+            <p>
+              In office since{" "}
+              <time dateTime={holder.startedAt}>
+                {world39Date(holder.startedAt)}
+              </time>
+            </p>
+          ) : null}
+        </article>
+      ))}
+      {standing.map((item) => (
+        <article key={item.key} data-standing-kind={item.kind}>
+          <h5>{item.name}</h5>
+          {item.bodyName ? <p>{item.bodyName}</p> : null}
         </article>
       ))}
     </section>
