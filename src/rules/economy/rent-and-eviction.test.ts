@@ -1,9 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { makeIsoDate } from "../../simulation/dates";
-import { stateJurisdictionForKey } from "../../simulation/life-places";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../../simulation/life-places";
 import { STATES } from "../../simulation/state-reference";
 import {
   decideEvictionCase as legacyDecideEvictionCase,
+  publicHousingRentMinor as legacyPublicHousingRentMinor,
   marketRentLevel,
   marketRentMinor as legacyMarketRentMinor,
   type EvictionCaseFacts as LegacyEvictionCaseFacts,
@@ -11,7 +15,9 @@ import {
 import type { World } from "../../simulation/types";
 import {
   decideEvictionOutcome,
+  householdMonthlyIncomeFromFacts,
   marketRentMinorFromFacts,
+  publicHousingRentMinorFromFacts,
   type EvictionDecisionFacts,
 } from "./rent-and-eviction";
 
@@ -108,4 +114,30 @@ describe("standalone housing rules", () => {
         ).toBe(legacyMarketRentMinor(world, place.id, row, bedrooms, date));
     },
   );
+});
+
+describe("standalone public housing rent rule", () => {
+  it.each(lifePlaceStateIdentities())(
+    "matches public housing rent inputs for $jurisdictionKey",
+    (_place, index) => {
+      const memberIds = ["resident-a", "resident-b", "resident-c"];
+      const pay = new Map<string, number>([
+        [memberIds[0]!, 81_237.5 + index * 100],
+        [memberIds[2]!, 35_113.5 + index * 50],
+      ]);
+      const income = householdMonthlyIncomeFromFacts(memberIds, pay);
+      expect(income).toBe(
+        Math.round(81_237.5 + index * 100 + 35_113.5 + index * 50),
+      );
+      const fmr = 125_000 + index * 2_500;
+      expect(publicHousingRentMinorFromFacts(income, fmr)).toBe(
+        legacyPublicHousingRentMinor(income, fmr),
+      );
+    },
+  );
+
+  it("uses flat rent when income is missing and omits unknown member pay", () => {
+    expect(householdMonthlyIncomeFromFacts(["missing"], new Map())).toBeNull();
+    expect(publicHousingRentMinorFromFacts(null, 100_000)).toBe(80_000);
+  });
 });

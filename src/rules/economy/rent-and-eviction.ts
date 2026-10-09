@@ -47,3 +47,41 @@ export function decideEvictionOutcome(
     return "settled";
   return "evicted";
 }
+
+/** Sum known monthly member pay; unknown member pay is omitted, not zero-filled. */
+export function householdMonthlyIncomeFromFacts(
+  memberIds: readonly string[],
+  monthlyPayByPerson: ReadonlyMap<string, number>,
+): number | null {
+  let known = false;
+  let total = 0;
+  for (const memberId of memberIds) {
+    const monthly = monthlyPayByPerson.get(memberId);
+    if (monthly === undefined) continue;
+    known = true;
+    total += monthly;
+  }
+  return known ? Math.round(total) : null;
+}
+
+/** Brooke-rule rent with statutory minimum and flat-rent cap. */
+export function publicHousingRentMinorFromFacts(
+  monthlyIncomeMinor: number | null,
+  fmrMinor: number,
+): number {
+  const rounding = parameters.rentRoundingIncrementMinor.value;
+  const flat =
+    Math.round(
+      (fmrMinor * parameters.publicHousingFlatRentFmrShare.value) / rounding,
+    ) * rounding;
+  if (monthlyIncomeMinor === null) return flat;
+  const share =
+    Math.round(
+      (monthlyIncomeMinor * parameters.publicHousingRentIncomeShare.value) /
+        rounding,
+    ) * rounding;
+  return Math.min(
+    flat,
+    Math.max(parameters.publicHousingMinimumRentMinor.value, share),
+  );
+}

@@ -80,6 +80,33 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Legacy tenure calibration, retained for golden equivalence",
     range: { minimum: 1, maximum: 80 },
   },
+  publicHousingRentIncomeShare: {
+    value: 0.3,
+    basis: "SOURCED",
+    source:
+      "Brooke rule: public housing rent is 30 percent of household monthly income",
+    range: { minimum: 0, maximum: 1 },
+  },
+  publicHousingMinimumRentMinor: {
+    value: 5_000,
+    basis: "SOURCED",
+    source: "24 CFR 5.630 caps a housing authority's minimum rent at $50",
+    range: { minimum: 0, maximum: 100_000 },
+  },
+  publicHousingFlatRentFmrShare: {
+    value: 0.8,
+    basis: "SOURCED",
+    source:
+      "Public Law 113-235 sets flat rent at no less than 80 percent of HUD Fair Market Rent",
+    range: { minimum: 0, maximum: 1 },
+  },
+  rentRoundingIncrementMinor: {
+    value: 100,
+    basis: "SOURCED",
+    source:
+      "Public housing rent amounts are rounded to the nearest whole dollar",
+    range: { minimum: 1, maximum: 10_000 },
+  },
   hudBedroomColumns: {
     value: { minimum: 0, maximum: 4 },
     basis: "SOURCED",
