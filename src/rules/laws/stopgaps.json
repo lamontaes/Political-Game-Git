@@ -1,0 +1,8 @@
+[
+  {
+    "id": "laws.floor-preemption",
+    "behavior": "Conflicts between higher and lower law levels are resolved by rank; floor preemption is not modeled.",
+    "source": "src/simulation/governing/law-in-force.ts",
+    "status": "GAME ASSUMPTION"
+  }
+]
