@@ -117,7 +117,7 @@ The walks met the same people as the third change: 216 talks with Cynthia and 22
 | Hope Valley, third change  | 2.55  | 0.39        | −0.18                | 52.76% | 52.77% |
 | Hope Valley, fourth change | 3.03  | 0.39        | −0.22                | 53.20% | 53.22% |
 
-The replay counts every conversation as a newly met adult. Kian's 221 conversations were with 219 people, and the walks did not print who had been met before each session, so the replay differs from them by up to 0.02 points. Kian's 53.22% equals the first build's Hope Valley figure by coincidence: that build's rise came from recognition alone (break 19).
+The replay comes out 0.01 to 0.02 points below each walk; what the walks count that the replay does not was not traced. Kian's 53.22% equals the first build's Hope Valley figure by coincidence: that build's rise came from recognition alone (break 19).
 
 ## Method
 
