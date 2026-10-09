@@ -1,0 +1,278 @@
+{
+  "version": "p13-director-v1",
+  "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
+  "parameters": {
+    "directorMomentFloor": {
+      "value": 0.11,
+      "tag": "TUNABLE",
+      "citation": "Owner question 1 (P13 design note): smallest adult row of the Holmes and Rahe Social Readjustment Rating Scale, 'Minor violations of the law', 11 life-change units divided by 100. Holmes, T. H., and Rahe, R. H. (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218.",
+      "stopgapId": "SG-P13-param-directorMomentFloor",
+      "checkRange": {
+        "ref": "P13-OWNER-Q1"
+      }
+    },
+    "directorInterruptImpact": {
+      "value": 0.63,
+      "tag": "TUNABLE",
+      "citation": "Owner question 2 (P13 design note): Holmes and Rahe (1967) 'Death of a close family member', 63 life-change units divided by 100.",
+      "stopgapId": "SG-P13-param-directorInterruptImpact",
+      "checkRange": {
+        "ref": "P13-OWNER-Q2"
+      }
+    },
+    "directorScaleFeeling": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: the core's appraised event impulses are already expressed on the life-change scale divided by 100 (src/core2/emotion.ts appraiseEvent)."
+    },
+    "directorScaleTie": {
+      "value": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Change in number of arguments with spouse', 35 life-change units divided by 100; the October 8, 2026 story director design caps relationship moments at this row.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleCause": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: drive strength from the drives package is already trait-weighted on the life-change impulse scale."
+    },
+    "directorScaleMoney": {
+      "value": 0.47,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Fired at work', 47 life-change units divided by 100, applied to a loss of the household's whole yearly pay.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleHome": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Holmes and Rahe (1967) 'Change in residence', 20 life-change units divided by 100.",
+      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale"
+    },
+    "directorScaleHealth": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "citation": "The watched person's own death ends the watched life; scale 1 places it at the top of the life-change scale. No direct source for the director's weighting.",
+      "stopgapId": "SG-P13-param-directorScaleHealth",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorWeightTieSociability": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), reused for sociability on the tie channel. No direct source.",
+      "stopgapId": "SG-P13-param-directorWeightTieSociability",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorWeightMoneyRisk": {
+      "value": -0.25,
+      "tag": "TUNABLE",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), signed so that a person who avoids risk weighs a money loss more. No direct source.",
+      "stopgapId": "SG-P13-param-directorWeightMoneyRisk",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorCostHorizonDays": {
+      "value": 30.436875,
+      "tag": "SOURCED",
+      "citation": "Average Gregorian month: 146,097 days per 400 years divided by 4,800 months."
+    },
+    "directorTieParent": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieChild": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieSibling": {
+      "value": 0.35,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieGrandparent": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTieGrandchild": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorTiePartner": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Set equal to a parent or child; Holmes and Rahe (1967) rank a spouse's death (100) above a close family member's (63), so this is a floor.",
+      "estimatedFrom": "October 8, 2026 parent tie and Holmes and Rahe (1967) ranking",
+      "stopgapId": "SG-P13-param-directorTies"
+    },
+    "directorTieSharedHome": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorFadingDiscount": {
+      "value": 0.75,
+      "tag": "TUNABLE",
+      "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters.",
+      "stopgapId": "SG-P13-param-directorTies",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    },
+    "directorFriendHalfLifeDays": {
+      "value": 548,
+      "tag": "ESTIMATED",
+      "citation": "Owner question 4 (P13 design note): about 18 months. Roberts, S. G. B., and Dunbar, R. I. M. (2015), Managing relationship decay: network, gender, and contextual effects, Human Nature 26(4):426-450, found emotional closeness to friends declined without contact over 18 months.",
+      "estimatedFrom": "Roberts and Dunbar (2015)",
+      "stopgapId": "SG-P13-param-directorHalfLives"
+    },
+    "directorKinHalfLifeDays": {
+      "value": 1096,
+      "tag": "ESTIMATED",
+      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, because Roberts and Dunbar (2015) found kin closeness declined markedly less than friends' without contact.",
+      "estimatedFrom": "Roberts and Dunbar (2015)",
+      "stopgapId": "SG-P13-param-directorHalfLives"
+    },
+    "directorRenewedFading": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "Labeling only: a contact is labeled a renewal when at least half of the pair's closeness had faded, one half-life. Decides no outcome.",
+      "stopgapId": "SG-P13-param-directorRenewedFading",
+      "checkRange": {
+        "ref": "P13-CALIBRATION-YEAR"
+      }
+    }
+  },
+  "channels": [
+    {
+      "id": "feeling",
+      "measure": "event-appraisal",
+      "scaleParameter": "directorScaleFeeling",
+      "traitWeights": []
+    },
+    {
+      "id": "tie",
+      "measure": "closeness-change",
+      "scaleParameter": "directorScaleTie",
+      "traitWeights": [
+        {
+          "traitId": "people-mind-v1:sociability",
+          "weightParameter": "directorWeightTieSociability"
+        }
+      ]
+    },
+    {
+      "id": "cause",
+      "measure": "drive-strength-change",
+      "scaleParameter": "directorScaleCause",
+      "traitWeights": []
+    },
+    {
+      "id": "money",
+      "measure": "household-pay-and-unpaid-wages",
+      "scaleParameter": "directorScaleMoney",
+      "traitWeights": [
+        {
+          "traitId": "people-mind-v1:risk",
+          "weightParameter": "directorWeightMoneyRisk"
+        }
+      ]
+    },
+    {
+      "id": "home",
+      "measure": "household-or-place-change",
+      "scaleParameter": "directorScaleHome",
+      "traitWeights": []
+    },
+    {
+      "id": "health",
+      "measure": "own-death",
+      "scaleParameter": "directorScaleHealth",
+      "traitWeights": []
+    }
+  ],
+  "keptFactKinds": [
+    {
+      "id": "knew-each-other",
+      "endsOn": "never",
+      "producedBy": []
+    },
+    {
+      "id": "lie",
+      "endsOn": "contradicting-fact-learned",
+      "producedBy": [],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    },
+    {
+      "id": "favor",
+      "endsOn": "world-event",
+      "producedBy": [],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    },
+    {
+      "id": "promise",
+      "endsOn": "world-event",
+      "producedBy": [],
+      "stopgapId": "SG-P13-kept-fact-producers"
+    }
+  ],
+  "broadEventFlags": ["publicRecord", "news"],
+  "kinTies": [
+    {
+      "relation": "parent",
+      "parameter": "directorTieParent"
+    },
+    {
+      "relation": "child",
+      "parameter": "directorTieChild"
+    },
+    {
+      "relation": "sibling",
+      "parameter": "directorTieSibling"
+    },
+    {
+      "relation": "grandparent",
+      "parameter": "directorTieGrandparent"
+    },
+    {
+      "relation": "grandchild",
+      "parameter": "directorTieGrandchild"
+    },
+    {
+      "relation": "partner",
+      "parameter": "directorTiePartner"
+    }
+  ],
+  "backdropPastFactPrefixes": ["era:"]
+}
