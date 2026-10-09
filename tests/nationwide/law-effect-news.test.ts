@@ -1,3 +1,4 @@
+import { jumpToDate } from "../fixtures/due-item-clock";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -7,14 +8,12 @@ import {
 import { DEFAULT_NEW_GAME_SETUP } from "../../src/presentation/new-game";
 import {
   addDays,
-  daysBetween,
   simulationMomentOnLocalDate,
 } from "../../src/simulation/dates";
 import {
   fileRuleChangeProvision,
   laborLawOfficeKey,
 } from "../../src/simulation/enacted-rule-changes";
-import { createFutureTransitionHandlerRegistry } from "../../src/simulation/future-transitions";
 import {
   enrollMeasure,
   introduceMeasure,
@@ -54,10 +53,7 @@ import {
   storyLeads,
 } from "../../src/simulation/press/desk";
 import { mediaOutlets } from "../../src/simulation/press/outlets";
-import {
-  advanceWorld,
-  withWorldIntegrityDeferred,
-} from "../../src/simulation/world";
+import { withWorldIntegrityDeferred } from "../../src/simulation/world";
 import type {
   EntityId,
   FutureDueItem,
@@ -166,12 +162,7 @@ function omahaWithMinimumWageLaws(bills: readonly MinimumWageBill[]) {
   for (const stage of chamber.floorStages) {
     for (const [index, measureId] of measures.entries()) {
       const until = measurePosition(world, measureId).earliestNextFloorDate;
-      if (until && world.currentDate < until)
-        world = advanceWorld(
-          world,
-          daysBetween(world.currentDate, until),
-          createFutureTransitionHandlerRegistry([]),
-        );
+      if (until && world.currentDate < until) world = jumpToDate(world, until);
       world = takeFloorVote(world, {
         stableKey: `minimum-wage:${bills[index]!.key}:${stage.stageKey}`,
         measureId,
