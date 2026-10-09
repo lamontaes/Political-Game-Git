@@ -138,6 +138,28 @@ export function peoplePerHousehold(town: EntityId): number {
   );
 }
 
+/** Grown-ups per household of each shape, as `townHouseholdSkeleton` makes them. */
+const ADULT_MEMBERS: Readonly<Record<HouseholdShape, number>> = {
+  alone: 1,
+  couple: 2,
+  "couple-with-children": 2,
+  "parent-with-children": 1,
+  housemates: 2,
+};
+
+/**
+ * ESTIMATED FROM AVERAGE: the town's adults, from its household count and its
+ * own household mix, with the grown-ups each shape is generated with. It is
+ * the electorate a door-to-door campaign reaches into, written out or not.
+ */
+export function townAdultEstimate(town: EntityId): number {
+  const adultsPerHousehold = householdMixForJurisdiction(town).shares.reduce(
+    (sum, [shape, share]) => sum + share * ADULT_MEMBERS[shape],
+    0,
+  );
+  return Math.round(townRoster(town).households * adultsPerHousehold);
+}
+
 /**
  * BLS Current Population Survey, 2025 annual average: 59.7% of the civilian
  * population aged 16 and over was employed (Table 57, research handoff

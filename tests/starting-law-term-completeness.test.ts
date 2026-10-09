@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import startingLaw from "../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../data/research/laws/starting-law-2026/index";
 import { createProductionPolicyCatalog } from "../src/simulation/production-catalog";
 
 type StartingLawAnswer = {
@@ -66,13 +66,12 @@ const INITIAL_TOLERATED_AREAS = [
 // Filling PRs remove their area below and record it as removed. Do not grow
 // INITIAL_TOLERATED_AREAS or put a removed area back. Session 19 empties the
 // active TOLERATED_AREAS list after all area PRs land.
-const REMOVED_TOLERATED_AREAS = [] as const;
+const REMOVED_TOLERATED_AREAS = ["environment-energy"] as const;
 const TOLERATED_AREAS = [
   "agriculture-natural-resources",
   "business-commerce",
   "civil-family-community",
   "education",
-  "environment-energy",
   "fiscal",
   "government-operations",
   "housing-land-use",

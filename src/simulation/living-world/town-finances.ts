@@ -60,6 +60,7 @@ import { MACRO_CREDIT_POLICY } from "../macro-economy/credit";
 import { MACRO_ERA_POLICY } from "../macro-economy/policy";
 import { countyGeoidsForPlace } from "../government-units";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import { localInstitutionsFor } from "../local-institutions";
 import { areaResidents } from "../outcome-web/place-outcome-store";
 import { FDIC_COUNTY_DEPOSITS } from "./town-deposits.generated";
 import type {
@@ -255,6 +256,8 @@ const DEFAULT_PRICE_ELASTICITY = 0.5;
 export interface BankShape {
   readonly state: string | null;
   readonly index: number;
+  /** The FDIC certificate of the bank row behind a real-name institution. */
+  readonly certificate?: number;
   readonly cushion: number;
   readonly otherAssets: number;
 }
@@ -380,8 +383,37 @@ export function recordedBankShape(
     (leftDistance === rightDistance && left.certificate < right.certificate)
       ? left
       : right;
-  const { state: chosenState, index, cushion, otherAssets } = chosen;
-  return { state: chosenState, index, cushion, otherAssets };
+  const {
+    state: chosenState,
+    index,
+    certificate,
+    cushion,
+    otherAssets,
+  } = chosen;
+  return { state: chosenState, index, certificate, cushion, otherAssets };
+}
+
+/** Resolve a bank's books from the same FDIC certificate as its source name. */
+export function recordedBankShapeForCertificate(
+  state: string | null,
+  certificate: number,
+): BankShape {
+  if (!Number.isSafeInteger(certificate) || certificate < 1)
+    throw new Error("FDIC bank certificate must be a positive whole number");
+  const bank = observedBankPool(state).find(
+    (row) => row.certificate === certificate,
+  );
+  if (!bank)
+    throw new Error(
+      `No modeled FDIC financial row matches certificate ${certificate}`,
+    );
+  return {
+    state: bank.state,
+    index: bank.index,
+    certificate: bank.certificate,
+    cushion: bank.cushion,
+    otherAssets: bank.otherAssets,
+  };
 }
 
 const round2 = (value: number) => Math.round(value * 100) / 100;
@@ -540,37 +572,6 @@ export type TownUnemploymentReader = (
 ) => number | null;
 
 /**
- * How many workers' worth of each kind's spending in town its open
- * businesses cannot serve, by kind: the kind's sales less what its members
- * can sell, over what one worker's pay brings in sales at the town's
- * average pay. A kind whose every business has closed leaves all of its
- * spending unserved. Kinds with no market yet are absent.
- */
-export function townUnservedJobs(
-  world: World,
-  town: EntityId,
-): Map<string, number> {
-  const store = world.townFinances;
-  const unserved = new Map<string, number>();
-  if (!store) return unserved;
-  for (const market of Object.values(store.markets)) {
-    if (market.town !== town) continue;
-    const perJob =
-      market.townPay !== undefined && market.townJobs > 0
-        ? market.townPay /
-          market.townJobs /
-          townBusinessKindBooks(market.kind).payShare
-        : 0;
-    if (perJob <= 0) continue;
-    const capacity = market.members
-      .filter((id) => !organizationClosingAt(world, id))
-      .reduce((sum, id) => sum + (store.businesses[id]?.capacity ?? 0), 0);
-    unserved.set(market.kind, (market.annualSales - capacity) / perJob);
-  }
-  return unserved;
-}
-
-/**
  * GAME ASSUMPTION, from how general sales taxes are written: the kinds of
  * business whose sales are retail sales a town's general sales tax reaches
  * (goods, meals, lodging, admissions, repairs and personal services). Sales
@@ -682,7 +683,14 @@ function openBankBooks(
     (townDepositsPerResident(world, town) * townPeople(world, town)) /
       Math.max(1, banksInTown),
   );
-  const shape = recordedBankShape(state, deposits);
+  const organizationName = organizationProfileAt(world, organizationId)?.name;
+  const institution = localInstitutionsFor(world, town).banks.find(
+    (row) => row.name === organizationName,
+  );
+  const certificate = institution ? Number(institution.sourceId) : NaN;
+  const shape = institution
+    ? recordedBankShapeForCertificate(state, certificate)
+    : recordedBankShape(state, deposits);
   const liquid = round2(deposits * shape.cushion);
   const loans = round2(deposits * shape.otherAssets);
   return {

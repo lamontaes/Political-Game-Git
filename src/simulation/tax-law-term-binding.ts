@@ -102,7 +102,7 @@ export function bindTaxLawTerms(
     input.questionKey,
   );
   const stateQuestion =
-    /^us-tax-terms:state\.(sales|property|payroll)-tax-terms$/.exec(
+    /^us-tax-terms:state\.(sales|property|payroll|corporate)-tax-terms$/.exec(
       input.questionKey,
     );
   const localInstrument = localQuestion
@@ -137,6 +137,7 @@ export function bindTaxLawTerms(
         `The state does not let this level of local government levy this tax (${authority.status}).`,
       );
     supportedPower = localTaxPowerEvidenceFor({
+      asOf: power?.asOf ?? proposal.recordedAt,
       ...government,
       governmentKey: recorded.governmentKey,
       instrument: localInstrument,
@@ -154,6 +155,7 @@ export function bindTaxLawTerms(
     supportedPower = stateTaxPowerEvidenceFor(
       power.jurisdictionKey,
       stateInstrument,
+      power.asOf,
     );
   } else if (power) supportedPower = taxPowerEvidenceFor(power.jurisdictionKey);
   if (

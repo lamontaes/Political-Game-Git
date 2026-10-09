@@ -11,6 +11,9 @@ import { assertWorldIntegrity } from "./world";
 import { createNewGameWorld } from "../presentation/new-game";
 import { sampledProofLocalityForState } from "../presentation/new-game-geography";
 import { lifePlaceStateIdentities } from "./life-places";
+import { useFullWorldIntegrity } from "../../tests/fixtures/full-world-integrity";
+
+useFullWorldIntegrity();
 
 describe("canonical party opinions in the one belief pipeline", () => {
   it("records no opinion from missing reasons for actual people in all 56 places", () => {
@@ -125,7 +128,7 @@ describe("canonical party opinions in the one belief pipeline", () => {
   it("rejects missing subjects and categorical outcomes from another question", () => {
     const world = createDemoWorld("party-opinion:invalid");
     expect(() => partyOpinionSubject("unregistered:question")).toThrow(
-      /Unknown party question/,
+      /Unrecognized party question/,
     );
     expect(() =>
       evaluatePoliticalBeliefFormation(world, {

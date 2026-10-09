@@ -1,0 +1,32 @@
+{
+  "source": "FHWA, Road Usage Charge program practice: monetary ad valorem bases and measured vehicle mileage use different units.",
+  "options": [
+    {
+      "key": "USD",
+      "label": "USD",
+      "rateLabel": "Rate, percent",
+      "allowanceLabel": "Allowance per occurrence, USD",
+      "seriesKey": "tax:authored-selective-excise",
+      "baseKey": "tax-base:declared-activity"
+    },
+    {
+      "key": "vehicle-mile",
+      "label": "Vehicle miles",
+      "rateLabel": "USD per vehicle mile",
+      "allowanceLabel": "Vehicle miles",
+      "seriesKey": "tax:declared-road-use",
+      "baseKey": "tax-base:declared-vehicle-miles"
+    }
+  ],
+  "unitControlLabel": "Tax base unit",
+  "previewLabels": {
+    "title": "Preview",
+    "base": "Taxable base",
+    "tax": "Tax"
+  },
+  "validationLabels": {
+    "invalid-quantity": "Whole vehicle miles",
+    "invalid-rate": "USD per vehicle mile",
+    "inexact-rate": "Exact USD per vehicle mile"
+  }
+}

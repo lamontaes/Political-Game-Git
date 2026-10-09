@@ -15,24 +15,27 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import { PinToggle } from "./controls/PinToggle";
 import { calendarDisplayDate } from "./ux39-calendar-dates";
 import { EconomicContextPanel } from "./EconomicContextPanel";
+import { PersonalObligations } from "./PersonalObligations";
 import { TownBusinessesPanel } from "./TownBusinessesPanel";
-import {
-  economicContextBindingForPlace,
-  economicContextUnavailableReason,
-} from "../presentation/economic-context-bindings";
+import { economicContextBindingForPlace } from "../presentation/economic-context-bindings";
 import { DIAGNOSTICS } from "./diagnostics-profile";
+import {
+  NOTES_VISIBILITY_LABEL,
+  NOTES_VISIBILITY_OPTIONS,
+} from "../simulation/play-settings";
+import type { NotesVisibility } from "../simulation/types";
 import { playerEconomicContextLines } from "../presentation/economic-context";
 import { buildIdentity } from "../release/build-identity";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { estimatedHouseholdLivingCostsAt } from "../simulation/cost-of-living";
+import { makeCurrencyCode } from "../simulation/resources";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 
 import {
-  CATEGORY_LABELS,
-  PERSON_CATEGORIES,
   filterDirectory,
   projectPeopleDirectory,
-  type PersonCategory,
 } from "../presentation/people-directory";
+import type { PersonDossier } from "../presentation/person-dossier";
 import {
   calendarEntryFor,
   calendarEntryHorizon,
@@ -60,8 +63,8 @@ import {
 import { interruptionHandlers } from "../presentation/interruption-policy";
 import { pathForRelationship } from "../simulation/life-paths2";
 import { PERSONAL_WORK_SESSION_NOTE } from "../presentation/work-session-english";
-import { PeopleRelationshipWeb } from "./PeopleRelationshipWeb";
 import { PersonPortrait } from "./PersonPortrait";
+import { SavedPersonFigure } from "./SavedPersonFigure";
 import { HeardOfficialViewsList } from "./HeardOfficialViewsList";
 import {
   authorizeCalendarSimulation,
@@ -455,231 +458,72 @@ export function PeopleWorkspace({
   personId,
   state,
   dispatch,
+  dossierFor,
 }: {
   readonly world: World;
   readonly personId: EntityId;
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
+  readonly dossierFor: (personId: EntityId) => PersonDossier | null;
 }) {
-  const searchRef = useRef<HTMLDetailsElement>(null);
-  useEffect(() => {
-    const blurOutsideSearch = (event: PointerEvent) => {
-      const search = searchRef.current;
-      if (!search?.open || search.contains(event.target as Node)) return;
-      const input = search.querySelector("input");
-      input?.blur();
-      if (!input?.value.trim()) search.open = false;
-    };
-    document.addEventListener("pointerdown", blurOutsideSearch, true);
-    return () => {
-      document.removeEventListener("pointerdown", blurOutsideSearch, true);
-    };
-  }, []);
+  const [selectedPersonId, setSelectedPersonId] = useState(
+    state.quickDossierPersonId ?? personId,
+  );
   const directory = useMemo(
     () => projectPeopleDirectory(world, personId),
     [world, personId],
   );
-  const category = state.peopleCategory as PersonCategory | "all";
   const shown = useMemo(
-    () => filterDirectory(directory, category, state.peopleQuery),
-    [directory, category, state.peopleQuery],
+    () => filterDirectory(directory, "all", state.peopleQuery),
+    [directory, state.peopleQuery],
   );
   const notYetMet = useMemo(
     () =>
-      category === "all"
-        ? []
-        : filterDirectory(
-            { ...directory, people: directory.notYetMet },
-            category,
-            state.peopleQuery,
-          ),
-    [directory, category, state.peopleQuery],
+      filterDirectory(
+        { ...directory, people: directory.notYetMet },
+        "all",
+        state.peopleQuery,
+      ),
+    [directory, state.peopleQuery],
   );
-  const [webExpanded, setWebExpanded] = useState(false);
-  const peopleView = state.preferences.peopleView;
-  const showWeb = peopleView === "web";
-  /*
-   * Choosing somebody here opens the one person card the whole game uses,
-   * beside this workspace, rather than a second card drawn inline. The web
-   * keeps the chosen person at its center so the card and the drawing agree.
-   */
-  const focusId = state.quickDossierPersonId ?? personId;
-  function selectPerson(id: EntityId) {
-    dispatch({ type: "open-quick-dossier", personId: id });
-  }
+  const people = [...shown, ...notYetMet];
+  const dossier = dossierFor(selectedPersonId);
+  if (!dossier) return null;
+  const pinned = isPinned(state, { kind: "person", id: selectedPersonId });
 
   return (
-    <>
-      <div className="pg-people-controls">
-        <details
-          ref={searchRef}
-          className="pg-people-search"
-          onBlur={(event) => {
-            if (
-              !event.currentTarget.contains(event.relatedTarget) &&
-              !event.currentTarget.querySelector("input")?.value.trim()
-            ) {
-              event.currentTarget.open = false;
-            }
-          }}
-          onToggle={(event) => {
-            if (event.currentTarget.open) {
-              event.currentTarget.querySelector("input")?.focus();
-            }
-          }}
-          onKeyDown={(event) => {
-            if (event.key === "Escape" && event.currentTarget.open) {
-              event.stopPropagation();
-              event.currentTarget.open = false;
-              event.currentTarget.querySelector("summary")?.focus();
-            }
-          }}
-        >
+    <div className="pg-people-layout" data-testid="people-layout">
+      <section className="pg-people-index" aria-label="People">
+        <details className="pg-people-search">
           <summary>
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <circle cx="10" cy="10" r="6" />
               <path d="M 14.5 14.5 L 21 21" />
             </svg>
-            Find somebody
+            Search
           </summary>
-          <div className="pg-field pg-people-search-entry">
-            <input
-              type="search"
-              aria-label="Find somebody"
-              value={state.peopleQuery}
-              data-testid="people-search"
-              onChange={(event) =>
-                dispatch({
-                  type: "set-people-query",
-                  query: event.target.value,
-                })
-              }
-            />
-            {state.peopleQuery ? (
-              <button
-                type="button"
-                className="pg-search-icon"
-                aria-label="Clear search"
-                onClick={() => {
-                  dispatch({ type: "set-people-query", query: "" });
-                  searchRef.current?.querySelector("input")?.focus();
-                }}
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            ) : null}
-            <button
-              type="button"
-              className="pg-search-icon"
-              aria-label="Return to people"
-              onClick={() => {
-                if (searchRef.current) {
-                  searchRef.current.open = false;
-                  searchRef.current.querySelector("summary")?.focus();
-                }
-              }}
-            >
-              <span aria-hidden="true">↵</span>
-            </button>
-          </div>
-        </details>
-        <div
-          className="pg-people-web-toolbar"
-          role="group"
-          aria-label="People view"
-        >
-          {(
-            [
-              ["web", "Web"],
-              ["list", "List"],
-              ["categories", "Categories"],
-            ] as const
-          ).map(([view, label]: readonly [PeopleView, string]) => (
-            <button
-              key={view}
-              type="button"
-              className="ui-action ui-action--rail"
-              aria-pressed={peopleView === view}
-              data-testid={`people-view-${view}`}
-              onClick={() => dispatch({ type: "set-people-view", view })}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-        <div
-          className="pg-people-categories"
-          role="group"
-          aria-label="Categories"
-        >
-          {(["all", ...PERSON_CATEGORIES] as const).map((key) => (
-            <button
-              key={key}
-              type="button"
-              className="ui-action ui-action--rail"
-              aria-pressed={category === key}
-              data-testid={`people-category-${key}`}
-              onClick={() =>
-                dispatch({ type: "set-people-category", category: key })
-              }
-            >
-              {key === "all" ? "Everyone" : CATEGORY_LABELS[key]}
-              <small>{directory.counts[key]}</small>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {showWeb ? (
-        <>
-          <PeopleRelationshipWeb
-            world={world}
-            playerId={personId}
-            focusId={focusId}
-            category={category}
-            query={state.peopleQuery}
-            expanded={webExpanded}
-            onSelect={selectPerson}
-            onShowList={() =>
-              dispatch({ type: "set-people-view", view: "list" })
+          <input
+            type="search"
+            aria-label="Search"
+            value={state.peopleQuery}
+            data-testid="people-search"
+            onChange={(event) =>
+              dispatch({ type: "set-people-query", query: event.target.value })
             }
           />
-          <button
-            type="button"
-            className="ui-action ui-action--subtle"
-            data-testid="people-web-expand"
-            onClick={() => setWebExpanded((value) => !value)}
-          >
-            {webExpanded
-              ? "Show the nearby connections"
-              : "Show everyone you know"}
-          </button>
-        </>
-      ) : null}
-
-      <HeardOfficialViewsList
-        views={directory.heardViews}
-        onSelectPerson={selectPerson}
-      />
-
-      {shown.length === 0 ? (
-        <p className="game-note" data-testid="people-empty" />
-      ) : (
-        <ul
-          className="pg-people-list"
-          data-view={peopleView}
-          data-testid="people-list"
-        >
-          {shown.map((person) => {
+        </details>
+        <ul className="pg-people-list" data-testid="people-list">
+          {people.map((person) => {
             const ref: ShellRef = { kind: "person", id: person.personId };
-            const pinned = isPinned(state, ref);
+            const isSelected = person.personId === selectedPersonId;
             return (
               <li key={person.personId}>
                 <button
                   type="button"
                   className="pg-person-row"
+                  aria-pressed={isSelected}
                   data-testid={`people-person-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
+                  onClick={() => setSelectedPersonId(person.personId)}
                 >
                   <PersonPortrait
                     world={world}
@@ -692,15 +536,10 @@ export function PeopleWorkspace({
                   ) : person.context ? (
                     <small>{person.context}</small>
                   ) : null}
-                  {person.strain ? (
-                    <small data-testid={`people-strain-${person.personId}`}>
-                      {person.strain}
-                    </small>
-                  ) : null}
                 </button>
                 <PinToggle
                   className="ui-action ui-action--rail"
-                  pinned={pinned}
+                  pinned={isPinned(state, ref)}
                   name={person.name}
                   testid={`people-pin-${person.personId}`}
                   onToggle={() => dispatch({ type: "toggle-pin", ref })}
@@ -709,46 +548,72 @@ export function PeopleWorkspace({
             );
           })}
         </ul>
-      )}
 
-      {category === "all" && directory.notYetMet.length > 0 ? (
-        <p className="game-note" data-testid="people-not-yet-met-note">
-          {directory.notYetMet.length === 1
-            ? "1 person you work or organize with is somebody you have not met yet."
-            : `${directory.notYetMet.length} people you work or organize with are somebody you have not met yet.`}{" "}
-          They are under Work and Politics.
-        </p>
-      ) : null}
-      {notYetMet.length > 0 ? (
-        <section
-          className="pg-people-not-yet-met"
-          aria-label="Not met yet"
-          data-testid="people-not-yet-met"
-        >
-          <h3>Not met yet</h3>
-          <ul className="pg-people-list" data-view="list">
-            {notYetMet.map((person) => (
-              <li key={person.personId}>
-                <button
-                  type="button"
-                  className="pg-person-row"
-                  data-testid={`people-unmet-${person.personId}`}
-                  onClick={() => selectPerson(person.personId)}
-                >
-                  <PersonPortrait
-                    world={world}
-                    personId={person.personId}
-                    size="small"
-                  />
-                  <strong>{person.name}</strong>
-                  {person.context ? <small>{person.context}</small> : null}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-    </>
+        <HeardOfficialViewsList
+          views={directory.heardViews}
+          onSelectPerson={(id) => setSelectedPersonId(id)}
+        />
+      </section>
+      <section
+        className="pg-people-dossier pg-glass-panel"
+        aria-label={dossier.name}
+        data-testid="people-dossier"
+        data-person-id={selectedPersonId}
+      >
+        <SavedPersonFigure
+          world={world}
+          personId={selectedPersonId}
+          className="pg-people-dossier-figure"
+          accessibleLabel={dossier.name}
+          showUnavailableText={false}
+        />
+        <div className="pg-people-dossier-record">
+          <div className="pg-people-dossier-identity">
+            <h2>{dossier.name}</h2>
+            {dossier.relationship ? <p>{dossier.relationship}</p> : null}
+          </div>
+          {dossier.details.map((fact) => (
+            <p key={fact.key}>{fact.text}</p>
+          ))}
+          {dossier.sharedHistory.map((entry) => (
+            <p key={entry.id}>
+              {entry.dateLabel} · {entry.summary}
+            </p>
+          ))}
+          {dossier.publicCareer.map((entry) => (
+            <p key={entry.eventId}>
+              {entry.dateLabel} · {entry.summary}
+            </p>
+          ))}
+          {dossier.laws.map((law) => (
+            <p key={law.measureId}>{law.title}</p>
+          ))}
+          <HeardOfficialViewsList
+            views={dossier.viewsTheyHold}
+            shows="official"
+            testid="people-dossier-views-held"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
+          <HeardOfficialViewsList
+            views={dossier.viewsOfThem}
+            testid="people-dossier-views-of"
+            onSelectPerson={(id) => setSelectedPersonId(id)}
+          />
+          <PinToggle
+            className="ui-action ui-action--rail"
+            pinned={pinned}
+            name={dossier.name}
+            testid="people-dossier-pin"
+            onToggle={() =>
+              dispatch({
+                type: "toggle-pin",
+                ref: { kind: "person", id: selectedPersonId },
+              })
+            }
+          />
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -1655,9 +1520,12 @@ export function PersonalFinancesWorkspace({
     () => projectPersonalRecord(world, personId),
     [world, personId],
   );
+  const householdCosts = useMemo(
+    () => estimatedHouseholdLivingCostsAt(world, personId),
+    [world, personId],
+  );
   const homeId = world.people[personId]?.homeJurisdictionId;
   const economicPlace = homeId ? lifePlaceByJurisdictionId(homeId) : null;
-  const economicJurisdictionId = homeId ?? undefined;
   const economicLines = economicPlace
     ? playerEconomicContextLines(economicPlace.key, world.currentDate)
     : [];
@@ -1686,11 +1554,39 @@ export function PersonalFinancesWorkspace({
                 <span
                   className="game-note"
                   data-testid={`purse-absent-${purse.kind}`}
+                  data-problem="no-balance-on-record"
                 />
               )}
             </li>
           ))}
         </ul>
+        <PersonalObligations world={world} personId={personId} />
+        {householdCosts ? (
+          <ul
+            className="pg-purses"
+            data-testid="personal-household-cost-estimate"
+            data-estimate={householdCosts.label}
+            data-currency="USD"
+            data-period="month"
+          >
+            {householdCosts.categories.map((category) => (
+              <li key={category.key} data-cost-category={category.key}>
+                <strong>{category.label}</strong>
+                <span>
+                  {dollars({
+                    minorUnits: Math.round(
+                      (category.annualMeanUsd *
+                        100 *
+                        householdCosts.monthlyMinor) /
+                        (12 * householdCosts.averageMonthlyMinor),
+                    ),
+                    currency: makeCurrencyCode("USD"),
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </section>
 
       {/*
@@ -1735,13 +1631,14 @@ export function PersonalFinancesWorkspace({
             binding={economicBinding}
             simulationDate={world.currentDate}
             diagnostics={DIAGNOSTICS}
-            world={world}
-            jurisdictionId={economicJurisdictionId}
           />
         ) : economicPlace ? (
-          <p className="game-note" data-testid="economic-context-unavailable">
-            {economicContextUnavailableReason(economicPlace.key)}
-          </p>
+          <p
+            className="game-note"
+            data-testid="economic-context-unavailable"
+            data-problem="no-county-area"
+            data-place={economicPlace.key}
+          />
         ) : null}
         {economicPlace ? (
           <TownBusinessesPanel
@@ -1787,7 +1684,6 @@ export function WorkWorkspace({
         />
       ) : needsYou.length > 0 ? (
         <section className="pg-personal-section">
-          <h3>Waiting on you</h3>
           <ul data-testid="work-pending">
             {needsYou.map((entry) => (
               <li key={entry.item.id}>{entry.item.title}</li>
@@ -1882,13 +1778,34 @@ export function OptionsWorkspace({
   state,
   dispatch,
   onOpenPatchNotes,
+  notesVisibility,
+  onChangeNotesVisibility,
 }: {
   readonly state: ShellState;
   readonly dispatch: (action: ShellAction) => void;
   readonly onOpenPatchNotes?: () => void;
+  readonly notesVisibility: NotesVisibility;
+  readonly onChangeNotesVisibility: (value: NotesVisibility) => void;
 }) {
   return (
     <>
+      <section className="pg-personal-section">
+        <h3>{NOTES_VISIBILITY_LABEL}</h3>
+        <div role="group" aria-label={NOTES_VISIBILITY_LABEL}>
+          {NOTES_VISIBILITY_OPTIONS.map(({ value, label }) => (
+            <button
+              key={value}
+              type="button"
+              className="ui-action ui-action--rail"
+              aria-pressed={notesVisibility === value}
+              data-testid={`option-notes-${value}`}
+              onClick={() => onChangeNotesVisibility(value)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </section>
       <section className="pg-personal-section">
         <h3>Calendar</h3>
         <DateFormatSetting />

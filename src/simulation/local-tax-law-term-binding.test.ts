@@ -63,6 +63,7 @@ function fixture(unit: GovernmentUnitIdentity, instrument: LocalTaxInstrument) {
     publicOrganizationId: id("recipient"),
     publicGovernmentIdentity: identity,
     power: localTaxPowerEvidenceFor({
+      asOf: date,
       ...government,
       governmentKey: unit.id,
       instrument,
@@ -191,14 +192,28 @@ const permitsPayroll = (usps: string) =>
     level: "MUNICIPALITY",
     instrument: "payroll",
   }).permits;
+const permitsCorporateIncome = (usps: string) =>
+  localTaxAuthority({
+    stateUsps: usps,
+    level: "MUNICIPALITY",
+    instrument: "corporate-income",
+  }).permits;
 
 describe("one binder for a county or a city in any state", () => {
-  it("binds a county property tax and a city payroll tax in two random places, saying how each was authorized", () => {
+  it("binds county property and city property, payroll, and corporate taxes in random places", () => {
     const county = drawUnit("seam-binder-county", "county");
     const city = drawUnit("seam-binder-city", "municipality", permitsPayroll);
+    const propertyCity = drawUnit("seam-binder-city-property", "municipality");
+    const corporateCity = drawUnit(
+      "seam-binder-city-corporate",
+      "municipality",
+      permitsCorporateIncome,
+    );
     for (const [unit, instrument] of [
       [county, "property"],
       [city, "payroll"],
+      [propertyCity, "property"],
+      [corporateCity, "corporate-income"],
     ] as const) {
       const f = fixture(unit, instrument);
       const before = JSON.stringify(f.world);
@@ -231,6 +246,37 @@ describe("one binder for a county or a city in any state", () => {
     expect(result.kind).toBe("unavailable");
     if (result.kind === "unavailable")
       expect(result.reason).toContain("does not let this level");
+  });
+
+  it("binds county income only where that level has wage-income authority", () => {
+    const county = drawUnit(
+      "p2-county-income",
+      "county",
+      (stateUsps) =>
+        localTaxAuthority({
+          stateUsps,
+          level: "COUNTY",
+          instrument: "wage-income",
+        }).permits,
+    );
+    const f = fixture(county, "wage-income");
+    expect(f.questionKey).toBe("us-tax-terms:county.income-tax-terms");
+    expect(bindTaxLawTerms(f.world, f.input).kind).toBe("available");
+    const prohibited = drawUnit(
+      "p2-county-income-refusal",
+      "county",
+      (stateUsps) =>
+        !localTaxAuthority({
+          stateUsps,
+          level: "COUNTY",
+          instrument: "wage-income",
+        }).permits,
+    );
+    const g = fixture(prohibited, "wage-income");
+    expect(bindTaxLawTerms(g.world, g.input)).toMatchObject({
+      kind: "unavailable",
+      reason: expect.stringContaining("does not let this level"),
+    });
   });
 
   it("refuses a tax that is not the question's tax, and a county question for a city", () => {

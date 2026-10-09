@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "note": "Developer data for the story director (docs/design/story-director.md, part 3). The moves a role can make in a situation. Each names one speech act from the English engine's list, or none for a move that says nothing. A move's act kinds are its labels in decision-option-acts.json under story.move. The default aftermath is the relationship interaction the move writes; a situation type may override it. An aftermath with when applies only when the move answers one of those moves: agreeing to a request commits, agreeing that someone declined does not. answeredBy lists the moves that can answer each move, so the other person replies with a matching move. Never shown to a player.",
+  "always": ["ask", "stay-silent", "leave"],
+  "answeredBy": {
+    "comfort": ["thank", "deflect"],
+    "blame": ["apologize", "confront", "deflect"],
+    "promise": ["thank", "agree"],
+    "refuse": ["agree", "request", "blame"],
+    "lie": ["agree", "ask"],
+    "apologize": ["agree", "refuse"],
+    "confess": ["comfort", "blame", "thank"],
+    "thank": ["agree"],
+    "ask": ["tell", "deflect"],
+    "tell": ["thank", "ask", "agree"],
+    "request": ["agree", "decline", "offer"],
+    "offer": ["agree", "decline", "thank"],
+    "agree": ["thank", "tell"],
+    "decline": ["agree", "request"],
+    "deflect": ["ask", "confront"],
+    "confront": ["apologize", "deflect", "blame"],
+    "farewell": ["farewell"],
+    "recall": ["recall", "tell"]
+  },
+  "answeredBySource": "Adjacency pairs: a first move makes a matching second move relevant from the other person, such as a greeting for a greeting, acceptance or refusal for an offer, granting or rejecting a request, accepting an apology, and apology or denial for a complaint. Schegloff, E. A. (2007). Sequence Organization in Interaction: A Primer in Conversation Analysis, vol. 1. Cambridge University Press, chapters 2 and 4.",
+  "moves": [
+    {
+      "key": "comfort",
+      "speechAct": "comfort",
+      "aftermath": {
+        "kind": "care:comforted",
+        "change": "strengthened",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "blame",
+      "speechAct": "blame",
+      "aftermath": {
+        "kind": "conflict:blamed",
+        "change": "strained",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "promise",
+      "speechAct": "promise",
+      "aftermath": {
+        "kind": "commitment:promised",
+        "change": "strengthened",
+        "significance": "meaningful"
+      },
+      "undertaking": true
+    },
+    {
+      "key": "refuse",
+      "speechAct": "decline",
+      "aftermath": {
+        "kind": "conflict:refused",
+        "change": "strained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "lie",
+      "speechAct": "lie",
+      "aftermath": null
+    },
+    {
+      "key": "apologize",
+      "speechAct": "apologize",
+      "aftermath": {
+        "kind": "support:apologized",
+        "change": "strengthened",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "confess",
+      "speechAct": "confess",
+      "aftermath": {
+        "kind": "support:confided",
+        "change": "strengthened",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "thank",
+      "speechAct": "thank",
+      "aftermath": {
+        "kind": "contact:thanked",
+        "change": "maintained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "ask",
+      "speechAct": "ask",
+      "aftermath": {
+        "kind": "contact:asked",
+        "change": "maintained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "tell",
+      "speechAct": "tell",
+      "aftermath": {
+        "kind": "contact:told",
+        "change": "maintained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "request",
+      "speechAct": "request",
+      "aftermath": {
+        "kind": "exchange:requested",
+        "change": "maintained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "offer",
+      "speechAct": "offer",
+      "aftermath": {
+        "kind": "support:offered",
+        "change": "strengthened",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "agree",
+      "speechAct": "agree",
+      "aftermath": {
+        "kind": "commitment:agreed",
+        "change": "strengthened",
+        "significance": "minor",
+        "when": ["request", "offer", "promise"]
+      }
+    },
+    {
+      "key": "decline",
+      "speechAct": "decline",
+      "aftermath": {
+        "kind": "contact:declined",
+        "change": "maintained",
+        "significance": "minor"
+      }
+    },
+    {
+      "key": "deflect",
+      "speechAct": "deflect",
+      "aftermath": null
+    },
+    {
+      "key": "stay-silent",
+      "speechAct": null,
+      "aftermath": null
+    },
+    {
+      "key": "leave",
+      "speechAct": null,
+      "aftermath": null
+    },
+    {
+      "key": "confront",
+      "speechAct": "complain",
+      "aftermath": {
+        "kind": "conflict:confronted",
+        "change": "strained",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "farewell",
+      "speechAct": "farewell",
+      "aftermath": {
+        "kind": "contact:farewell",
+        "change": "maintained",
+        "significance": "meaningful"
+      }
+    },
+    {
+      "key": "recall",
+      "speechAct": "recall",
+      "aftermath": {
+        "kind": "experience:recalled",
+        "change": "strengthened",
+        "significance": "minor"
+      }
+    }
+  ]
+}

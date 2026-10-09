@@ -1,4 +1,7 @@
 import { initializePersonCitizenship } from "./citizenship-creation";
+import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
+import { assertStoryPeopleIntegrity, storyPeople } from "./story-people-store";
+import { assertStoryThreadIntegrity, storyThreadStates } from "./story/threads";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -2123,6 +2126,10 @@ function validateHistoryIntegrity(
         ...permitStatuses(world),
         ...(history.legalOutcomeConsequences ?? []),
         ...childhoodRecordEntries(world),
+        ...storyMoments(world),
+        ...(history.storyIntakeMarks ?? []),
+        ...storyPeople(world),
+        ...storyThreadStates(world),
         ...(history.districtResidenceIntervals ?? []),
         ...(history.officeWorkflowPreferences ?? []),
         ...(history.officeStaffPositions ?? []),
@@ -2328,6 +2335,15 @@ function validateHistoryIntegrity(
   for (const entry of childhoodRecordEntries(world))
     assertUniqueId(ids, entry.id);
   assertChildhoodRecordIntegrity(world);
+  for (const moment of storyMoments(world)) assertUniqueId(ids, moment.id);
+  for (const mark of world.history.storyIntakeMarks ?? [])
+    assertUniqueId(ids, mark.id);
+  assertStoryMomentIntegrity(world);
+  // A story person's id is the one they keep once written out, so it is
+  // checked against the other story people, not against every id.
+  assertStoryPeopleIntegrity(world);
+  for (const state of storyThreadStates(world)) assertUniqueId(ids, state.id);
+  assertStoryThreadIntegrity(world);
   for (const proposal of history.legislativeProposals ?? []) {
     assertUniqueId(ids, proposal.id);
     if (!world.people[proposal.sponsorPersonId]) {
@@ -2387,6 +2403,7 @@ function validateHistoryIntegrity(
   const officeIds = new Set([
     ...history.workRelationships.map((record) => record.id),
     ...history.organizationParticipations.map((record) => record.id),
+    ...Object.keys(world.judiciary?.seats ?? {}),
   ]);
   for (const record of history.officeWorkflowPreferences ?? []) {
     assertUniqueId(ids, record.id);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import { lifePlaceByKey, stateJurisdictionForKey } from "../life-places";
 import type {
@@ -87,9 +87,9 @@ const ridership = (world: World, jurisdictionId: EntityId, on: string) =>
 describe("transit ridership", () => {
   const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
 
-  it("starts the 50 states, D.C. and Puerto Rico at their 2024 rides per resident", () => {
-    expect(Object.keys(places)).toHaveLength(52);
-    // The same places as transit service, whose populations are published.
+  it("starts all 56 places with recorded or sourced estimated rides per resident", () => {
+    expect(Object.keys(places)).toHaveLength(56);
+    // The same places as transit service, including four median estimates.
     expect(Object.keys(places).sort()).toEqual(
       Object.keys(PLACE_OUTCOME_BASES["transit.service-access"]!.places).sort(),
     );

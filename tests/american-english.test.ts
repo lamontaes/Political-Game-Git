@@ -67,7 +67,8 @@ const RULES: readonly Rule[] = [
   { pattern: /\btyres?\b/i, instead: "tire" },
   { pattern: /\bgrey(?:s|ed|ing|er|est|ish)?\b/i, instead: "gray" },
   { pattern: /\bfortnights?\b/i, instead: "two weeks" },
-  { pattern: /\brotas?\b/i, instead: "schedule" },
+  // Lowercase only: Rota is an island in the Northern Mariana Islands.
+  { pattern: /\brotas?\b/, instead: "schedule" },
   {
     // "queue" is also the ordinary American word for a work or data queue, so
     // only the people-waiting sense is flagged.
@@ -290,9 +291,9 @@ const ALLOWED_FILES: readonly {
     reason: "federal court division and county names",
   },
   {
-    file: /^data\/research\/places\/local-institutions\.json$/,
+    file: /^data\/research\/places\/local-institutions(?:\.json|\/[A-Z]{2}\.json)$/,
     reason:
-      "real names of schools, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
+      "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
   {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,
@@ -446,15 +447,21 @@ describe("The American English rules themselves", () => {
 
   it.each([
     ["The councillor spoke.", "councillor"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["We organise a rally.", "organise"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["A new colour scheme.", "colour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Your neighbour waves.", "neighbour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Cut the programme.", "programme"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Renew your licence.", "licence"],
     ["Back in a fortnight.", "fortnight"],
     ["You wait in a long queue.", "long queue"],
     ["She rents a flat above the shop.", "flat above"],
     ["He is on holiday.", "on holiday"],
+    // british-spelling-ok: this is the deliberately wrong form the guard rejects.
     ["Ask your mum.", "mum"],
     ["The local authority decides.", "local authority"],
     ["The minister resigned.", "minister"],

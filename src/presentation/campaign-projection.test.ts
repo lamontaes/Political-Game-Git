@@ -20,6 +20,11 @@ import type { LifePlace } from "../simulation";
 import { canonicalSupportBasisPoints } from "../simulation/campaigns";
 import { stateCandidacyPack } from "../simulation/candidacy-packs";
 import { planStateChambers } from "../simulation/nationwide-world/state-legislature-opening";
+import { stateExecutiveIdentity } from "../simulation/nationwide-world/state-executive-candidacy-packs";
+import {
+  nextRegularElection,
+  stateExecutiveTermRule,
+} from "../simulation/nationwide-world/state-executive-term-rules";
 import { bindingFromIdentity } from "../districts/query";
 import { buildProductionWorld } from "./production-world";
 import {
@@ -33,7 +38,10 @@ import {
   projectCampaign,
   spendAnAfternoon,
 } from "./campaign-projection";
-import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
+import {
+  fileForOffice,
+  fundCommitteeFromCandidate,
+} from "../../tests/fixtures/campaign-fixture";
 import { declineVenueActivity } from "./venue-activity";
 
 function adultLife(seed: string, placeKey: string) {
@@ -264,15 +272,23 @@ describe("what the game will and will not offer", () => {
     expect(view.phase).toBe("unavailable");
     // The requirement a player is held to, worded as any other requirement;
     // that it is the game's placeholder floor stays on the block's kind.
-    expect(view.unavailableReason).toMatch(
-      /You must be at least 21 to run for this office\./,
-    );
+    expect(view.unavailableReason).toMatch(/Minimum age: \d+/);
     expect(view.unavailableReason).not.toMatch(/law says/i);
     expect(view.unavailableReason).not.toMatch(/has not read|the game/i);
   });
 });
 
 describe("player filing follows the recorded regular seat cohort", () => {
+  it("uses the chief executive election cycle for a governor's campaign date", () => {
+    const life = adultLife("governor-campaign-date", "kentucky");
+    const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;
+    const identity = stateExecutiveIdentity("KY")!;
+    const rule = stateExecutiveTermRule("KY")!;
+    expect(
+      campaignElectionDate(life.world, jurisdictionId, identity.officeKey),
+    ).toBe(nextRegularElection(rule, life.world.currentDate));
+  });
+
   it("offers Kansas Senate's 2028 race instead of a false 2026 regular election", () => {
     const life = adultLife("ks-player-regular-date", "2055225");
     const jurisdictionId = life.world.people[life.personId]!.homeJurisdictionId;
@@ -366,7 +382,7 @@ describe("the campaign a player can see", () => {
   it("spends the committee's money once it has some", () => {
     const life = adultLife("player-money", "kentucky");
     let world = fileForOffice(life.world, life.personId);
-    world = spendAnAfternoon(world, life.personId, "fundraising");
+    world = fundCommitteeFromCandidate(world, life.personId, 500_000);
     const raised = projectCampaign(world, life.personId).treasury;
     expect(raised.minorUnits).toBeGreaterThan(0);
 

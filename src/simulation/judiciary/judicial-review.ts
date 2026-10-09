@@ -38,9 +38,14 @@ import { eventById } from "../event-index";
 import { isLawEffectStamp } from "../law-effect-stamp";
 import { evaluateDecision } from "../decisions";
 import {
+  judicialOutlookConsideration,
+  judicialPrecedentImportance,
+} from "./philosophy";
+import {
   enactmentOperative,
   enactmentsAnswering,
   judicialRulingKey,
+  stateJurisdictionOf,
 } from "../governing/law-in-force";
 import {
   ensureOfficeholderPrinciples,
@@ -67,6 +72,7 @@ import { measureAnswersAt } from "../vote-bundle";
 import { recordWorldEvent } from "../world";
 import { seatHolderAt, seatsForCourt } from "./courts";
 import { courtFor } from "./court-for";
+import { playerHandlesJudicialCase } from "../office-workflow";
 import type { JudicialCourt } from "./types";
 
 export const JUDICIAL_REVIEW_EVENT = "court.judicial-review";
@@ -289,7 +295,11 @@ function considerationsFor(
               optionKey: ruling.holding === "strike" ? LAW_STRUCK : LAW_STANDS,
               sourceType: "context:precedent",
               direction: "supports",
-              importance: ruling.weight,
+              importance: judicialPrecedentImportance(
+                world,
+                justiceId,
+                ruling.weight,
+              ),
               confidence: "high",
               explanation: `${ruling.cite}: ${ruling.held}.`,
               sourceRefs: [],
@@ -322,6 +332,15 @@ function considerationsFor(
         : "The justice reads the law as cutting against what they hold right.",
     });
   }
+  const deference = judicialOutlookConsideration(
+    world,
+    justiceId,
+    "deference",
+    LAW_STRUCK,
+    LAW_STANDS,
+    "justice:outlook:deference",
+  );
+  if (deference) reasons.push(deference);
   return reasons;
 }
 
@@ -337,6 +356,12 @@ export function justiceVotes(
     readonly ruledAt: IsoDate;
   },
 ): readonly JusticeVote[] {
+  if (
+    input.justiceIds.some((personId) =>
+      playerHandlesJudicialCase(world, personId, "law-review"),
+    )
+  )
+    return [];
   return input.justiceIds.map((personId) => {
     const considerations = considerationsFor(
       world,
@@ -405,6 +430,12 @@ function reviewOne(
     .map((seat) => seatHolderAt(world, seat.seatId, input.ruledAt)?.personId)
     .filter((id): id is EntityId => Boolean(id && world.people[id]));
   if (justiceIds.length === 0) return world;
+  if (
+    justiceIds.some((personId) =>
+      playerHandlesJudicialCase(world, personId, "law-review"),
+    )
+  )
+    return world;
   const next = ensureOfficeholderPrinciples(world, justiceIds);
   const stableKey = judicialRulingKey(input.enactment.id, input.propositionId);
   const votes = justiceVotes(next, {
@@ -438,8 +469,8 @@ function reviewOne(
       `challenge:${input.challenge.id}`,
       `votes:${LAW_STRUCK}:${toStrike}`,
       `votes:${LAW_STANDS}:${votes.length - toStrike}`,
-      ...(next.jurisdictions[input.measure.jurisdictionId]?.kind === "state" &&
-      /supreme/.test(court.courtId)
+      ...(stateJurisdictionOf(input.measure.jurisdictionId) ===
+        input.measure.jurisdictionId && court.level === "local-highest"
         ? ["importance:major"]
         : []),
       struck ? "outcome:struck" : "outcome:upheld",

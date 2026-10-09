@@ -5,7 +5,7 @@ import {
   constitutionalPosition,
   constitutionalProposalRuleForWorld,
   recordArticleVRatification,
-  recordConstitutionalProposalVote,
+  recordConstitutionalProposalRollcalls,
 } from "../constitutional-process";
 import { makeIsoDate } from "../dates";
 import {
@@ -715,31 +715,25 @@ export function advanceFederalAmendment(
     )!,
     recordProposalVotes: (started, measureId) => {
       const count = termLimitCount(started, year, cause);
-      let next = count.world;
-      for (const house of count.houses) {
-        const dispositions: LegislativeVoteDisposition[] = house.rows.map(
-          (row) => ({
+      return recordConstitutionalProposalRollcalls(
+        count.world,
+        measureId,
+        count.houses.map((house) => ({
+          bodyKey: house.bodyKey,
+          dispositions: house.rows.map((row) => ({
             memberKey: row.voter.memberKey,
             personId: row.voter.personId,
             disposition: row.ballot,
             ...(row.ballot === "absent" ? {} : { reason: row.reason }),
-          }),
-        );
-        next = recordConstitutionalProposalVote(
-          next,
-          measureId,
-          house.bodyKey,
-          dispositions,
-          house.rows.length,
-          {
+          })),
+          eligibleMembers: house.rows.length,
+          provenance: {
             method: "member-decisions",
             note: "Each member voted by their party, their relationship with the President and the bar of amending the Constitution.",
             sourceEntityIds: [],
           },
-        );
-        if (constitutionalPosition(next, measureId).phase === "rejected") break;
-      }
-      return next;
+        })),
+      );
     },
     stateSchedule: {
       transitionKey: FEDERAL_REFORM_STATE_ACTION,
@@ -766,9 +760,6 @@ export function constitutionalStateActionHandler(
         ?.stableKey.startsWith(`${FEDERAL_REFORM_VERSION}:`) === true,
   );
 }
-
-/** @deprecated Use the shared constitutional state-action handler. */
-export const federalReformStateActionHandler = constitutionalStateActionHandler;
 
 export function federalReformHandlers() {
   return [

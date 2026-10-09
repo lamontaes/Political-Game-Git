@@ -44,10 +44,7 @@ import {
 import type { ConstitutionalProcessKind } from "./constitutional-types";
 import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 import { assertPolicyProvisionDelta } from "./policy-provisions";
-import {
-  legislatureForState,
-  seatsForChamber,
-} from "./legislature-game-profile";
+import stateAmendmentProfiles from "../../data/research/legislature/state-amendment-profiles.json" with { type: "json" };
 
 /**
  * The federal jurisdiction's canonical slugs: `us-federal` is the one every
@@ -104,13 +101,6 @@ const CONVENTION_RULE = majorityOf(
     note: "ESTIMATED: no Article V convention has met; this is the most common assumed rule.",
   },
 );
-const CALIFORNIA_BASE = fractionOf(
-  2,
-  3,
-  "members-elected",
-  "Two-thirds of each house's membership",
-  source("ca-constitution-xviii", "Cal. Const. art. XVIII § 1"),
-);
 
 /**
  * One state's constitutional amendment route: the bodies that propose, their
@@ -149,38 +139,27 @@ const GAME_PROFILE_AMENDMENT_SOURCE: RuleSourceRef = {
 export function stateAmendmentProfile(
   jurisdictionKey: string,
 ): StateAmendmentProfile | null {
-  if (jurisdictionKey === "US-CA")
-    return {
-      jurisdictionKey: "US-CA",
-      bodies: [
-        { bodyKey: "assembly", members: 80 },
-        { bodyKey: "senate", members: 40 },
-      ],
-      base: CALIFORNIA_BASE,
-      effectiveDaysAfterStatement: 5,
-      basis: "sourced",
-    };
-  if (!/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
-  const pack = legislatureForState(jurisdictionKey);
-  if (!pack) return null;
-  const bodies = pack.chamberOrder.map((bodyKey) => ({
-    bodyKey,
-    members: seatsForChamber(pack, bodyKey)?.seats ?? 0,
-  }));
-  if (bodies.length === 0 || bodies.some((body) => body.members < 1))
-    return null;
+  const profile = stateAmendmentProfiles.find(
+    (candidate) => candidate.jurisdictionKey === jurisdictionKey,
+  );
+  if (!profile || profile.basis === "not-applicable") return null;
   return {
-    jurisdictionKey: jurisdictionKey as `US-${string}`,
-    bodies,
+    jurisdictionKey: profile.jurisdictionKey as `US-${string}`,
+    bodies: profile.bodies,
     base: fractionOf(
-      2,
-      3,
+      profile.proposalThreshold.numerator,
+      profile.proposalThreshold.denominatorParts,
       "members-elected",
-      "Two-thirds of each chamber's membership (game default)",
-      GAME_PROFILE_AMENDMENT_SOURCE,
+      profile.proposalThreshold.label,
+      profile.sourceArtifactId
+        ? source(
+            profile.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE,
+            profile.sourceCitation!,
+          )
+        : GAME_PROFILE_AMENDMENT_SOURCE,
     ),
-    effectiveDaysAfterStatement: 0,
-    basis: "game-profile",
+    effectiveDaysAfterStatement: profile.effectiveDaysAfterStatement!,
+    basis: profile.basis === "sourced" ? "sourced" : "game-profile",
   };
 }
 
@@ -302,7 +281,8 @@ export function constitutionalProposalRuleForWorld(
   // from 1920, so the federal route has no observation gate.
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
     return {
@@ -415,12 +395,11 @@ export function proposeConstitutionalMeasure(
     throw Error("Canonical jurisdiction identity does not match the process.");
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
-    throw Error(
-      "This current-source process is supported from its 2026-09-13 observation; earlier applicability is not established.",
-    );
+    throw Error(profile.base.source.citation);
   const mode = federal
     ? ["state-legislatures", "state-conventions"]
     : charter
@@ -450,7 +429,7 @@ export function proposeConstitutionalMeasure(
         "Carson's charter cannot change a federal or state constitutional proposal rule.",
       );
     assertThresholdRule({
-      ...(federal ? FEDERAL_BASE : CALIFORNIA_BASE),
+      ...(federal ? FEDERAL_BASE : profile!.base),
       numerator: input.ruleDelta.numerator,
       denominatorParts: input.ruleDelta.denominatorParts,
     });
@@ -531,7 +510,9 @@ export function proposeConstitutionalMeasure(
               ? "us-constitution"
               : charter
                 ? "carson-charter"
-                : "ca-constitution-xviii"
+                : (stateAmendmentProfiles.find(
+                    (row) => row.jurisdictionKey === input.jurisdictionKey,
+                  )!.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE)
           ].sha256,
     provenance: "authored-game-proposal",
   };
@@ -1130,6 +1111,36 @@ export function recordConstitutionalProposalVote(
   });
   return append(world, m, { kind: "proposal-vote", bodyKey, vote });
 }
+
+export interface ConstitutionalProposalRollcall {
+  readonly bodyKey: string;
+  readonly dispositions: readonly LegislativeVoteDisposition[];
+  readonly eligibleMembers: number;
+  readonly provenance: LegislativeVoteProvenance;
+}
+
+/** Records each chamber's proposal vote in order, stopping after rejection. */
+export function recordConstitutionalProposalRollcalls(
+  world: World,
+  measureId: EntityId,
+  rollcalls: readonly ConstitutionalProposalRollcall[],
+): World {
+  let next = world;
+  for (const rollcall of rollcalls) {
+    if (constitutionalPosition(next, measureId).phase !== "consideration")
+      break;
+    next = recordConstitutionalProposalVote(
+      next,
+      measureId,
+      rollcall.bodyKey,
+      rollcall.dispositions,
+      rollcall.eligibleMembers,
+      rollcall.provenance,
+    );
+  }
+  return next;
+}
+
 /** Completed authenticated state action, not invented state voting procedure. */
 export function recordArticleVRatification(
   world: World,

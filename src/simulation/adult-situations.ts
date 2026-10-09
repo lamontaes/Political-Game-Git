@@ -1,4 +1,5 @@
 import { openPetitionAsksFor } from "./recall";
+import { unreportedOffenseFor } from "./crime/producer";
 import { eventById } from "./event-index";
 import { lifeRequestDetails } from "./life-request-details";
 import { describePersonContext } from "./person-context";
@@ -732,7 +733,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
         label: "Report it to the police",
         description:
           "Tell the police what happened. It goes on the police log.",
-        memory: "You reported it to the police.",
+        memory: "",
         stance: "engaged",
         nudges: [
           nudge("institutional-trust", 0.4),
@@ -2026,8 +2027,7 @@ const ADULT_SITUATIONS: readonly AdultSituation[] = [
     key: "adult.petition-ask",
     companion: null,
     stakes: "notable",
-    prose:
-      "You have been asked to sign a filed petition. Its subject and filing terms are on the record.",
+    prose: "You have been asked to sign a filed petition.",
     tensions: [
       tension(
         "privacy-preference",
@@ -2514,6 +2514,22 @@ function bindRequestTerms(
       : requests[0];
   const event = eventById(context.world, request?.eventId);
   if (!event) return situation;
+  if (situation.opportunity === "crime-report") {
+    const incident = unreportedOffenseFor(context.world, context.personId);
+    return {
+      ...situation,
+      prose: event.summary,
+      // The remembered occurrence comes from the incident already on record.
+      // The chosen option and its canonical police write record the response.
+      options: situation.options.flatMap((option) =>
+        option.writes?.kind === "report-offense-to-police"
+          ? incident
+            ? [{ ...option, memory: incident.summary }]
+            : []
+          : [option],
+      ),
+    };
+  }
   if (!request?.counterpartPersonId)
     return {
       ...situation,

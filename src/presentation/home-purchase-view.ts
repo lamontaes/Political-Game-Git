@@ -45,7 +45,10 @@ export function projectHomePurchase(
     const obligation = world.history.resourceObligations.find(
       (record) =>
         record.housingTenureId === owned.id &&
-        record.basisKind === MORTGAGE_BASIS,
+        // A purchase opens its mortgage as a household loan, whose debt basis
+        // is `debt:mortgage`; saves from before kept the housing basis.
+        (record.basisKind === "debt:mortgage" ||
+          record.basisKind === MORTGAGE_BASIS),
     );
     const owed = obligation ? outstandingDebtAt(world, obligation.id) : null;
     return { kind: "owns", mortgageLeft: owed };

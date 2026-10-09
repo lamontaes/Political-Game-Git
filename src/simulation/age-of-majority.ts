@@ -1,3 +1,4 @@
+import ageOfMajorityData from "../../data/research/people/age-of-majority.json" with { type: "json" };
 import type { EntityId, IsoDate, World } from "./types";
 
 /** Where an age of majority was read, so anybody can check it. */
@@ -13,6 +14,8 @@ export interface AgeOfMajoritySource {
 export interface AgeOfMajorityRule {
   readonly age: number;
   readonly source: AgeOfMajoritySource;
+  /** Present when the source does not list the place and the age is estimated. */
+  readonly estimatedFrom?: string;
 }
 
 /** Keyed by state or territory, as `US-WY`, `US-PR`. */
@@ -20,17 +23,42 @@ export type AgeOfMajorityRules = Readonly<
   Partial<Record<string, AgeOfMajorityRule>>
 >;
 
+interface AgeOfMajorityCorpus {
+  readonly readOn: string;
+  readonly source: { readonly citation: string; readonly url: string };
+  readonly places: Readonly<
+    Record<string, { readonly age: number; readonly estimatedFrom?: string }>
+  >;
+}
+
+function rulesFromCorpus(corpus: AgeOfMajorityCorpus): AgeOfMajorityRules {
+  const source: AgeOfMajoritySource = {
+    citation: corpus.source.citation,
+    url: corpus.source.url,
+    retrievedAt: corpus.readOn as IsoDate,
+  };
+  return Object.fromEntries(
+    Object.entries(corpus.places).map(([usps, row]) => [
+      `US-${usps}`,
+      {
+        age: row.age,
+        source,
+        ...(row.estimatedFrom ? { estimatedFrom: row.estimatedFrom } : {}),
+      },
+    ]),
+  );
+}
+
 /**
- * The age at which a child authority ends, by state or territory.
- *
- * EMPTY, deliberately. An entry goes in only with a real, checkable source
- * (research: age-of-majority-by-state). Most states use eighteen, but
- * Alabama and Nebraska use nineteen and Mississippi twenty-one, and nobody
- * has read the statutes for this game yet. Until a state has an entry, when
- * its children's authority ends is unknown, and unknown is neither
- * permission nor a default: `catchUpComingOfAge` writes nothing for them.
+ * The age at which a child authority ends, by state or territory, read from
+ * `data/research/people/age-of-majority.json` for all 56 places. Most use
+ * eighteen; Alabama and Nebraska use nineteen, and Mississippi and Puerto
+ * Rico twenty-one. A territory the source table does not list carries its
+ * `estimatedFrom`.
  */
-export const AGE_OF_MAJORITY_RULES: AgeOfMajorityRules = {};
+export const AGE_OF_MAJORITY_RULES: AgeOfMajorityRules = rulesFromCorpus(
+  ageOfMajorityData as AgeOfMajorityCorpus,
+);
 
 /**
  * ESTIMATED FROM AVERAGE (research: age-of-majority-by-state): 18, the age of

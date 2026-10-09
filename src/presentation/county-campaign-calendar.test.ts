@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createDemoWorld } from "../simulation/demo";
 import { lifePlaceByKey } from "../simulation/life-places";
 import { localGoverningBodiesForJurisdiction } from "../simulation/candidacy";
+import { activeCampaignForCandidate } from "../simulation";
 import { serializeWorldPayload } from "../simulation/serialization";
 import {
   availableCampaignElectionDate,
@@ -45,19 +46,22 @@ describe("county calendar reaches existing campaign readers", () => {
       (o) => o.officeKey === county.officeKey,
     )!;
     expect(row.electionDate).toBe("2027-11-20");
-    expect(row.eligible).toBe(false);
-    expect(row.eligibility).toBe(
-      "The requirements for this county office have not been established.",
-    );
-    expect(() =>
-      fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    // A county board seat takes the qualified-elector age as its labeled
+    // estimate, as a town council seat does, rather than refusing the filing.
+    expect(row.eligible).toBe(true);
+    expect(row.eligibility).toBe("Eligible · Minimum age: 18 (estimated)");
     expect(row.timing).toContain("2027");
     expect(serializeWorldPayload(world)).toEqual(before);
+    const filed = fileForOffice(world, person.id, null, county.officeKey);
+    const campaign = activeCampaignForCandidate(filed, person.id)!;
+    expect(campaign.officeKey).toBe(county.officeKey);
+    expect(
+      filed.history.electionContests?.find(
+        (contest) => contest.id === campaign.contestId,
+      )?.electionDate,
+    ).toBe("2027-11-20");
   });
-  it("reads the state calendar for a county without its own profile and still refuses qualification before creating opponents", () => {
+  it("reads the state calendar for a county without its own profile and files on the qualified-elector estimate", () => {
     const { world, person, offices } = fixture("2108902");
     const county = offices.find((o) => o.unit.unitType === "county")!;
     const city = offices.find((o) => o.unit.unitType === "municipality")!;
@@ -73,12 +77,14 @@ describe("county calendar reaches existing campaign readers", () => {
       (o) => o.officeKey === county.officeKey,
     )!;
     expect(row.electionDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    expect(row.eligible).toBe(false);
-    expect(() =>
-      fileForOffice(world, person.id, null, county.officeKey),
-    ).toThrow(
-      "The requirements for this county office have not been established.",
-    );
+    expect(row.eligible).toBe(true);
+    expect(row.timing).toMatch(/^Next election: .+ \(estimated\)$/);
+    expect(
+      activeCampaignForCandidate(
+        fileForOffice(world, person.id, null, county.officeKey),
+        person.id,
+      )?.officeKey,
+    ).toBe(county.officeKey);
     expect(
       availableCampaignElectionDate(
         world,
@@ -88,6 +94,11 @@ describe("county calendar reaches existing campaign readers", () => {
     ).toBe(
       campaignElectionDate(world, person.homeJurisdictionId, city.officeKey),
     );
+    expect(
+      projectCampaignOffices(world, person.id).find(
+        (o) => o.officeKey === city.officeKey,
+      )?.timing,
+    ).toMatch(/^Next election: .+ \(estimated\)$/);
     expect(serializeWorldPayload(world)).toEqual(before);
   });
 });

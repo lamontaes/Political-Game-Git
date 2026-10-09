@@ -50,12 +50,7 @@ import { publicPartyAffiliation } from "./living-world/congress";
 import { homePartyChapters } from "./living-world/party-chapters";
 import type { HomePartyChapter } from "./living-world/party-chapters";
 import { drawCanonicalNamedIdentity, personName } from "./people";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-  type TraitLean,
-} from "./people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "./people-traits";
 import { generatePersonIdentity } from "./person-identity";
 import { recordEventKnowledge, recordRelationshipInteraction } from "./records";
 import { resourcePositionAt } from "./resource-queries";
@@ -113,39 +108,6 @@ const PUBLIC_MEMORY_DAYS = 14;
  * weighs every word, puts out a message; one who avoids conflict works
  * through the people around them.
  */
-const EMPHASIS_LEANS = [
-  {
-    optionKey: "field",
-    trait: "sociability",
-    pole: "high",
-    explanation: "They would rather meet voters in person.",
-  },
-  {
-    optionKey: "field",
-    trait: "reliability",
-    pole: "high",
-    explanation: "They trust steady, regular work on the doors.",
-  },
-  {
-    optionKey: "communications",
-    trait: "sociability",
-    pole: "low",
-    explanation: "They would rather reach voters through a message.",
-  },
-  {
-    optionKey: "communications",
-    trait: "deliberation",
-    pole: "high",
-    explanation: "They want every word weighed before it goes out.",
-  },
-  {
-    optionKey: "relationships",
-    trait: "conflict",
-    pole: "low",
-    explanation: "They work through the people around them.",
-  },
-] as const satisfies readonly TraitLean[];
-
 const WRITER_NOTE = "crunch46-campaign-opponents-v1";
 
 export const CAMPAIGN_OPPONENT_EVENTS = {
@@ -315,9 +277,9 @@ const SEAT_TITLE_PREFIX = "Seat in the ";
 
 /**
  * How the rival believes a campaign is won, decided once from their recorded
- * temperament (`EMPHASIS_LEANS`) and kept as a decision trace. A candidate
- * with no leaning trait holds no particular belief, and their weekly choices
- * then rest on the race alone.
+ * recorded temperament through the shared trait decision path and kept as a
+ * decision trace. A candidate with no applicable trait reason holds no
+ * particular belief, and their weekly choices then rest on the race alone.
  */
 function decideEmphasis(
   world: World,
@@ -328,13 +290,6 @@ function decideEmphasis(
     candidatePersonId,
   ]);
   const key = `${stableKey}:emphasis`;
-  const considerations = traitConsiderations(
-    next,
-    candidatePersonId,
-    key,
-    EMPHASIS_LEANS,
-  );
-  if (considerations.length === 0) return { world: next, emphasis: null };
   const evaluation = evaluateDecision(next, {
     stableKey: key,
     decisionType: "campaign.opponent-emphasis",
@@ -362,11 +317,13 @@ function decideEmphasis(
       },
     ],
     constraints: [],
-    considerations,
+    considerations: [],
     perceptionIds: [],
     randomness: "none",
     retention: "durable",
   });
+  if (evaluation.context.considerations.length === 0)
+    return { world: next, emphasis: null };
   next = recordDurableDecisionTrace(next, evaluation);
   return {
     world: next,
@@ -861,7 +818,7 @@ function writeFundraising(
     personFactConstraints: [],
     visibility: "limited",
     tags: ["campaign.opponent", "campaign.fundraising", WRITER_NOTE],
-    summary: `${name}'s committee held a fundraising session; only recorded completed gifts are reported.`,
+    summary: `${name}'s committee held a fundraising session.`,
     context: {
       location: location(world, campaign, "Fundraising calls"),
       socialContext: "Supporters asked one at a time.",

@@ -644,9 +644,59 @@
 
 /* ---------------------------------------------------------------- people */
 
-.pg-people-controls {
+.pg-people-layout {
   display: grid;
-  gap: 0.6rem;
+  grid-template-columns: minmax(16rem, 0.42fr) minmax(0, 0.58fr);
+  align-items: start;
+  gap: 0.8rem;
+}
+
+.pg-people-index {
+  min-width: 0;
+}
+
+.pg-people-dossier {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.38fr) minmax(0, 0.62fr);
+  align-items: start;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 0.75rem;
+}
+
+.pg-people-dossier-figure {
+  width: 100%;
+  max-width: 12rem;
+}
+
+.pg-people-dossier-record {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.pg-people-dossier-record p,
+.pg-people-dossier-identity h2 {
+  margin: 0;
+}
+
+.pg-people-dossier-record p {
+  line-height: 1.4;
+}
+
+.pg-people-dossier-identity {
+  display: grid;
+  gap: 0.2rem;
+}
+
+@media (max-width: 720px) {
+  .pg-people-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pg-people-dossier {
+    grid-template-columns: minmax(6rem, 0.35fr) minmax(0, 0.65fr);
+  }
 }
 
 .pg-field {
@@ -926,6 +976,16 @@
    * because it was the container that was catching them.
    */
   pointer-events: none;
+}
+
+/*
+ * The panels in the HUD that do hold controls, the clerk's counter and a
+ * meeting's stops, take their own presses again. Without this every press on
+ * the counter fell through to the room's backdrop, and no candidacy could be
+ * filed there (East Providence, Rhode Island, October 9, 2026).
+ */
+.life-shell .life-hud .pg-meeting-panel {
+  pointer-events: auto;
 }
 
 /* The observer clock owns the top edge; its recap follows underneath. */

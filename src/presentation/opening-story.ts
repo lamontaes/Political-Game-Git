@@ -1,5 +1,6 @@
 import {
   activeWorkRelationshipsAt,
+  ageOnDate,
   describePersonContext,
   kinshipRelationshipsAt,
   organizationProfileAt,
@@ -45,14 +46,16 @@ import type { OrientationView } from "./world-orientation";
 export interface OpeningYearView {
   /** "2026", from the World's own date. */
   readonly year: string;
-  /** Plain sentences: who leads, how Congress divides, the economy. */
-  readonly lines: readonly string[];
   /** Up to two real headlines with the outlet named on the publication record. */
   readonly publications: readonly {
     readonly outletName: string;
     readonly headline: string;
   }[];
-  /** Record values under a label: the form of the home place's government. */
+  /**
+   * Record values under a label (menu reset: no sentences): who leads, how
+   * each chamber of Congress divides, the economy, and the form of the home
+   * place's government.
+   */
   readonly facts: readonly { readonly label: string; readonly value: string }[];
 }
 
@@ -92,52 +95,29 @@ export function projectOpeningYear(
   personId: EntityId,
   orientation: OrientationView,
 ): OpeningYearView {
-  const lines: string[] = [];
+  const facts: { label: string; value: string }[] = [];
   const executive = orientation.steps.find((step) => step.key === "executive");
   const president = executive?.people.find((person) =>
     /^President\b/.test(person.title),
   );
   if (president)
-    lines.push(
-      president.party
-        ? `${president.name} of the ${president.party} is President.`
-        : `${president.name} is President.`,
-    );
-  const congress = orientation.steps.find((step) => step.key === "congress");
-  for (const chamber of congress?.chambers ?? []) {
-    // Every seat is accounted for: an empty seat is named, so the parties'
-    // members and the empty seats add up to the chamber.
-    const empty = chamber.roster
-      .filter((row) => row.status !== "member")
-      .map((row) => {
-        const seat =
-          chamber.chamberKey === "us-senate"
-            ? `a ${row.seatLabel} seat`
-            : `the seat for ${row.seatLabel}`;
-        return row.status === "vacancy"
-          ? `${seat} is vacant`
-          : `${seat} has no recorded holder`;
-      });
-    const parties = [
-      ...chamber.parties
-        .filter((party) => party.members > 0)
-        .map((party) =>
-          party.noParty || party.label === "Independent"
-            ? `${party.members} ${party.members === 1 ? "independent" : "independents"}`
-            : `${party.members} ${party.label}`,
-        ),
-      ...empty,
-    ];
-    if (parties.length > 0)
-      lines.push(`In the ${chamber.name}: ${parties.join(", ")}.`);
-  }
+    facts.push({
+      label: "President",
+      value: [president.name, president.party].filter(Boolean).join(" · "),
+    });
+  // Congress is told once, on its own stop beside its chart, which accounts
+  // for every seat (owner playtest, October 8, 2026: Congress showed twice).
   const home = world.people[personId]?.homeJurisdictionId;
   const start = home
     ? projectMacroConditions(world, home).startingConditions
     : null;
   if (start)
-    lines.push(
-      `Across the country, ${percent(start.unemploymentPct)} of people looking for work cannot find it, and prices are ${percent(start.inflation12mPct)} higher than a year ago.`,
+    facts.push(
+      { label: "Unemployment", value: percent(start.unemploymentPct) },
+      {
+        label: "Prices over a year",
+        value: `${start.inflation12mPct >= 0 ? "+" : ""}${percent(start.inflation12mPct)}`,
+      },
     );
   const publications = [...(world.history.publications ?? [])]
     .filter(
@@ -159,9 +139,8 @@ export function projectOpeningYear(
     }));
   return {
     year: world.currentDate.slice(0, 4),
-    lines,
     publications,
-    facts: homeGovernmentFacts(home),
+    facts: [...facts, ...homeGovernmentFacts(home)],
   };
 }
 
@@ -172,10 +151,13 @@ export function projectOpeningYear(
 export interface OpeningLegislatureView {
   /** "Kentucky General Assembly", or null when the state names none. */
   readonly bodyName: string | null;
-  /** One line per chamber: "Senate: 31 Republican Party, 7 Democratic Party." */
-  readonly chambers: readonly string[];
-  /** Your own members: "Dana Reyes represents you in the Senate, State Senate District 12." */
-  readonly yours: readonly string[];
+  /** Each chamber by party, under the chamber's name. */
+  readonly chambers: readonly {
+    readonly label: string;
+    readonly value: string;
+  }[];
+  /** Your own members, under their office and district. */
+  readonly yours: readonly { readonly label: string; readonly value: string }[];
 }
 
 export function projectOpeningLegislature(
@@ -212,7 +194,7 @@ export function projectOpeningLegislature(
               ? `${count} ${count === 1 ? "independent" : "independents"}`
               : `${count} ${party}`,
           );
-        return [`${plan.chamberName}: ${parties.join(", ")}.`];
+        return [{ label: plan.chamberName, value: parties.join(" · ") }];
       })
     : [];
   const yours = (view.representedBy ?? [])
@@ -222,10 +204,11 @@ export function projectOpeningLegislature(
         holder.status === "member" && holder.name ? [holder.name] : [],
       );
       if (names.length === 0) return [];
-      const where = row.district ? `, ${row.district}` : "";
-      const verb = names.length > 1 ? "represent" : "represents";
       return [
-        `${names.join(" and ")} ${verb} you in the ${row.office}${where}.`,
+        {
+          label: [row.office, row.district].filter(Boolean).join(" · "),
+          value: names.join(" · "),
+        },
       ];
     });
   return { bodyName, chambers, yours };
@@ -293,6 +276,8 @@ export interface OpeningFamilyMember {
   readonly introduction: string;
   /** "a nurse at Minneapolis Family Clinic", or null when no work is recorded. */
   readonly work: string | null;
+  /** Age on the world's date, from the birth record. */
+  readonly age: number;
   readonly livesWithYou: boolean;
   readonly died: boolean;
 }
@@ -342,6 +327,7 @@ export function projectOpeningFamily(
         ? `${personName(person)}, ${relationship}`
         : personName(person),
       work: workLine(world, otherId),
+      age: ageOnDate(person.birthDate, world.currentDate),
       livesWithYou: living.has(otherId),
       died: world.history.personDeaths.some(
         (death) =>

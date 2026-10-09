@@ -1,3 +1,4 @@
+import { townAdultEstimate } from "./living-world/town-residents";
 import { describe, expect, it } from "vitest";
 import { fileForOffice } from "../../tests/fixtures/campaign-fixture";
 import { smallWorld } from "../../tests/fixtures/small-world";
@@ -45,6 +46,9 @@ const campaign = campaigns(base).find(
 const residents = doorKnockingReturn(base, campaign).adultResidentIds;
 const person = residents[0]!;
 const read = (world: World) => doorKnockingReturn(world, campaign);
+// Recognition is a share of the adults the race reaches: in a town, its
+// estimated adults, written out or not; never fewer than those recorded.
+const electorate = doorKnockingReturn(base, campaign).electorate;
 
 // Authored encounter controls written through the existing event/PEOPLE writers.
 // They prove the reader, not natural canvass production or voter persuasion.
@@ -110,9 +114,19 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
       contactRecordIds: [],
       afternoonsBefore: 0,
       racesWonBefore: 0,
-      basis: "recorded-campaign-contact-share/v1",
+      basis: "campaign-contact-share-of-adults/v2",
     });
     expect(new Set(residents).size).toBe(residents.length);
+    const kind: string | undefined =
+      base.jurisdictions[campaign.jurisdictionId]?.kind;
+    expect(electorate).toBe(
+      Math.max(
+        residents.length,
+        kind === "census-place" || kind === "territory-place"
+          ? townAdultEstimate(campaign.jurisdictionId)
+          : 0,
+      ),
+    );
     for (const id of residents) {
       expect(id).not.toBe(small.personId);
       expect(base.people[id]!.homeJurisdictionId).toBe(campaign.jurisdictionId);
@@ -123,7 +137,7 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
   });
   it("counts named residents once, exposes actual encounter rows, and changes the existing field consumer", () => {
     const met = contact(base, person, "recognition:first");
-    expect(read(met).percent).toBe(100 / residents.length);
+    expect(read(met).percent).toBe(100 / electorate);
     expect(read(met).recognizedPersonIds).toEqual([person]);
     expect(read(met).contactRecordIds).toEqual([
       met.history.relationshipInteractions.at(-1)!.id,
@@ -132,7 +146,7 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
     expect(read(again).percent).toBe(read(met).percent);
     expect(read(again).contactRecordIds).toHaveLength(2);
     const another = contact(again, residents[1]!, "recognition:second-person");
-    expect(read(another).percent).toBe(200 / residents.length);
+    expect(read(another).percent).toBe(200 / electorate);
     expect(requestedCampaignFieldGainBasisPoints(base, campaign, 180, 1)).toBe(
       0,
     );
@@ -198,7 +212,7 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
       currentMoment: base.currentMoment,
     };
     expect(read(earlier).percent).toBe(0);
-    expect(read(met).percent).toBe(100 / residents.length);
+    expect(read(met).percent).toBe(100 / electorate);
     expect(read(deserializeWorld(serializeWorld(met)))).toEqual(read(met));
   });
   it("reads a newly recorded household location instead of keeping the person's old home jurisdiction", () => {
@@ -299,7 +313,7 @@ describe(`recognition from recorded contacts (${place!.name}; seed ${seed})`, ()
         ],
       },
     };
-    expect(read(attributed).percent).toBe(100 / residents.length);
+    expect(read(attributed).percent).toBe(100 / electorate);
     expect(
       doorKnockingReturn(attributed, campaign, result.campaignActionId).percent,
     ).toBe(0);

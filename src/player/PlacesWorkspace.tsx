@@ -1,5 +1,6 @@
 import "./PlacesWorkspace.css";
-import { useMemo, useState } from "react";
+import { requestFilingVisit } from "../simulation/filing-visit";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
 import { attendMunicipalPublicMeeting } from "../simulation/municipal-public-work";
 import type {
@@ -8,13 +9,12 @@ import type {
   World,
 } from "../simulation";
 import {
-  describePlacesOutcome,
   projectPlacesWorkspace,
   type PlacesOfferView,
 } from "../presentation/player-places";
 import { labelForRef } from "../presentation/person-dossier";
 import { PinToggle } from "./controls/PinToggle";
-import { useTimeCommand, type TimeCommandReport } from "./time-command-runner";
+import { useTimeCommand } from "./time-command-runner";
 import { previewTimeCommand } from "../presentation/time-command";
 import { describeTimeTarget } from "../presentation/time-target-label";
 import { declineVenueActivity } from "../presentation/venue-activity";
@@ -107,44 +107,22 @@ export function PlacesWorkspace({
   onWorldChange,
 }: PlacesWorkspaceProps): ReactNode {
   const runner = useTimeCommand({ world, personId, onWorldChange });
-  const report = (result: TimeCommandReport) => {
-    setProblem(result.status === "failed" ? result.outcome : null);
-    setOutcome(result.outcome);
-  };
-  const [problem, setProblem] = useState<string | null>(null);
-  const [outcome, setOutcome] = useState<string | null>(null);
   const model = useMemo(
     () => projectPlacesWorkspace(world, personId),
     [world, personId],
   );
 
   if (!model) {
-    return (
-      <div className="places-workspace" data-testid="places-panel">
-        <p>Places are unavailable for this life.</p>
-      </div>
-    );
+    return <div className="places-workspace" data-testid="places-panel" />;
   }
 
   function commit(run: () => World) {
     const before = world;
     try {
       const next = run();
-      if (next === before) {
-        setOutcome(null);
-        setProblem("Nothing changed. No time passed.");
-        return;
-      }
-      setProblem(null);
-      setOutcome(describePlacesOutcome(before, next, personId));
-      onWorldChange(next);
-    } catch (error) {
-      setOutcome(null);
-      setProblem(
-        error instanceof Error
-          ? error.message
-          : "That action is no longer available.",
-      );
+      if (next !== before) onWorldChange(next);
+    } catch {
+      // A stale action leaves the recorded world unchanged.
     }
   }
 
@@ -153,53 +131,54 @@ export function PlacesWorkspace({
       (entry) => entry.id === offer.id,
     );
     if (!fresh || fresh.unavailable) {
-      setOutcome(null);
-      setProblem(fresh?.unavailable ?? "That offer is no longer available.");
       return;
     }
     if (fresh.kind === "inspect") {
       if (!fresh.inspectGovernmentKey) {
-        setOutcome(null);
-        setProblem("Inspection is not available from here.");
         return;
       }
       onOpenEntity({ kind: "government", id: fresh.inspectGovernmentKey });
-      setProblem(null);
-      setOutcome("Opened for inspection. No time passed.");
+      return;
+    }
+    if (fresh.filingSeatOfficeKey) {
+      commit(() =>
+        requestFilingVisit(world, personId, fresh.filingSeatOfficeKey!),
+      );
       return;
     }
     if (fresh.walkDestination) {
       runner.submit(
         { kind: "walk", destination: fresh.walkDestination },
-        report,
+        () => {},
       );
       return;
     }
     if (fresh.activityId) {
       runner.submit(
         { kind: "attend-activity", activityId: fresh.activityId },
-        report,
+        () => {},
       );
       return;
     }
     if (fresh.governmentKey && fresh.meetingId) {
-      runner.perform((current, handlers) => {
-        const result = attendMunicipalPublicMeeting(
-          current,
-          fresh.governmentKey!,
-          fresh.meetingId!,
-          handlers,
-        );
-        if (!result.ok) throw new Error(result.reason);
-        return {
-          world: result.world,
-          outcome: describePlacesOutcome(current, result.world, personId),
-        };
-      }, report);
+      runner.perform(
+        (current, handlers) => {
+          const result = attendMunicipalPublicMeeting(
+            current,
+            fresh.governmentKey!,
+            fresh.meetingId!,
+            handlers,
+          );
+          if (!result.ok) throw new Error(result.reason);
+          return {
+            world: result.world,
+            outcome: "",
+          };
+        },
+        () => {},
+      );
       return;
     }
-    setOutcome(null);
-    setProblem("That offer is not supported.");
   }
 
   /* The calendar entry an offer names, and the government on its inspect row. */
@@ -249,47 +228,23 @@ export function PlacesWorkspace({
 
   return (
     <div className="places-workspace" data-testid="places-panel">
-      <header className="places-workspace-header">
-        <div>
-          <p className="places-workspace-kicker">Where you are</p>
-          <h3>Your location and reachable offers</h3>
-        </div>
-      </header>
-
-      <section aria-labelledby="places-current-heading">
-        <h3 id="places-current-heading">Current location</h3>
+      <div>
         <p data-testid="places-current-location">
-          <strong>{model.current.label}</strong>
+          {model.current.label ? <strong>{model.current.label}</strong> : null}
           {model.current.setting ? (
             <span>{` · ${model.current.setting}`}</span>
           ) : null}
         </p>
-      </section>
-
+      </div>
       {model.completedHere ? (
-        <p role="status" data-testid="places-completed-here">
-          You have finished {model.completedHere.title} at{" "}
-          {model.completedHere.locationLabel}.
+        <p data-testid="places-completed-here">
+          {model.completedHere.title} · {model.completedHere.locationLabel}
         </p>
       ) : null}
 
-      {problem ? (
-        <p role="alert" data-testid="places-problem">
-          {problem}
-        </p>
-      ) : null}
-      {outcome ? (
-        <p role="status" data-testid="places-outcome">
-          {outcome}
-        </p>
-      ) : null}
-
-      <section aria-labelledby="places-offers-heading">
-        <h3 id="places-offers-heading">Places you can go</h3>
+      <div>
         {model.offers.length === 0 ? (
-          <p data-testid="places-empty">
-            Nothing reachable is recorded from here.
-          </p>
+          <div data-testid="places-empty" />
         ) : (
           <ul className="places-offer-list">
             {model.offers.map((offer) => (
@@ -297,13 +252,12 @@ export function PlacesWorkspace({
                 <div className="places-offer-copy">
                   <p className="places-offer-title">{offer.title}</p>
                   {offer.detail ? <p>{offer.detail}</p> : null}
-                  {offer.companionLabel ? <p>{offer.companionLabel}</p> : null}
-                  {offer.durationLabel ? <p>{offer.durationLabel}</p> : null}
-                  {offer.unavailable ? (
-                    <p data-testid={`places-offer-${offer.id}-reason`}>
-                      {offer.unavailable}
+                  {offer.durationLabel ? (
+                    <p>
+                      {offer.title} · {offer.durationLabel}
                     </p>
                   ) : null}
+                  {offer.companionLabel ? <p>{offer.companionLabel}</p> : null}
                 </div>
                 <div>
                   <button
@@ -332,10 +286,7 @@ export function PlacesWorkspace({
                         ? previewTimeCommand(world, personId, command)
                         : null;
                       return preview ? (
-                        <small>
-                          {" "}
-                          · until {describeTimeTarget(preview.target)}
-                        </small>
+                        <small>{describeTimeTarget(preview.target)}</small>
                       ) : null;
                     })()}
                   </button>
@@ -366,7 +317,7 @@ export function PlacesWorkspace({
                       personId,
                       offer.activityId,
                     ) ? (
-                    <span>You plan to attend this meeting.</span>
+                    <span data-testid={`places-offer-${offer.id}-planned`} />
                   ) : null}
                   {offer.declineActivityId ? (
                     <button
@@ -400,7 +351,7 @@ export function PlacesWorkspace({
             ))}
           </ul>
         )}
-      </section>
+      </div>
     </div>
   );
 }

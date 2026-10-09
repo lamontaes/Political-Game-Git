@@ -7,6 +7,7 @@ import { stableHash } from "../../ids";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../../life-places";
 import { createMindProvenance, recordPersonalityTendency } from "../../mind";
 import { personName } from "../../people";
+import { traitActConsiderations } from "../act-pulls";
 import { registeredTraitConsiderations } from "../../trait-readings";
 import {
   BUILT_IN_TRAIT_DECISIONS,
@@ -104,18 +105,31 @@ function decisionForPerson(
   world: World,
   personId: EntityId,
   decisionId: string,
+  traitId: string,
   baselineConsiderations: readonly DecisionConsideration[],
+  reasonFromActTable: boolean,
+  optionKeys?: readonly string[],
+  reader: "registered" | "act-pulls" = "registered",
+  stageId = `proof:${decisionId}`,
 ): { choice: string | null; reason: string | null } {
-  const considerations = registeredTraitConsiderations(
-    world,
-    loadedTraitRegistry(),
-    personId,
-    `proof:${decisionId}`,
-    decisionId,
-  );
+  const considerations =
+    reader === "registered"
+      ? registeredTraitConsiderations(
+          world,
+          loadedTraitRegistry(),
+          personId,
+          stageId,
+          decisionId,
+        )
+      : [];
   const allConsiderations = [...baselineConsiderations, ...considerations];
+  const declarationDecisionId =
+    {
+      "people.contact-answer": "contact.answer",
+      "justice.plea": "court.plea",
+    }[decisionId] ?? decisionId;
   const declaration = BUILT_IN_TRAIT_DECISIONS.find(
-    ({ id }) => id === decisionId,
+    ({ id }) => id === declarationDecisionId,
   )!;
   const evaluation = evaluateDecision(world, {
     stableKey: `proof:${decisionId}:${personId}:${allConsiderations.length}:${allConsiderations[0]?.optionKey ?? "none"}`,
@@ -126,7 +140,10 @@ function decisionForPerson(
       historySequenceExclusive: world.history.nextSequence,
     },
     subject: { kind: "context:life", key: "proof-subject", entityId: null },
-    options: declaration.options.map((key) => ({
+    options: (optionKeys
+      ? declaration.options.filter((key) => optionKeys.includes(key))
+      : declaration.options
+    ).map((key) => ({
       key,
       label: key,
       description: `The person chooses ${key}.`,
@@ -137,27 +154,48 @@ function decisionForPerson(
     randomness: "none",
     retention: "durable",
   });
+  const chosenReasons = evaluation.context.considerations.filter(
+    ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+  );
   return {
     choice: evaluation.selectedOptionKey,
-    reason:
-      allConsiderations.find(
-        ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
-      )?.explanation ?? null,
+    reason: reasonFromActTable
+      ? (chosenReasons.find(({ stableKey }) => stableKey.includes(traitId))
+          ?.explanation ??
+        chosenReasons[0]?.explanation ??
+        null)
+      : (allConsiderations.find(
+          ({ optionKey }) => optionKey === evaluation.selectedOptionKey,
+        )?.explanation ?? null),
   };
 }
 
 /**
  * Takes one person from a random new game and has them decide the same
  * decision three ways: with no recorded tendency, with the trait's high pole
- * and with its low pole. The choice and its reason come from the shared
- * decision engine and the registered trait readings.
+ * and with its low pole. The choice and reason come from the shared decision
+ * engine, which supplies registered or table-driven trait considerations.
  */
 export function proveTraitDifference(
   traitId: string,
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  reasonFromActTableOrReader: boolean | "registered" | "act-pulls" = false,
+  optionKeys?: readonly string[],
 ): TraitProof {
+  const reader =
+    typeof reasonFromActTableOrReader === "string"
+      ? reasonFromActTableOrReader
+      : "registered";
+  const reasonFromActTable =
+    reasonFromActTableOrReader === true || reader === "act-pulls";
+  const runtimeDecisionType = reasonFromActTable
+    ? ({
+        "contact.answer": "people.contact-answer",
+        "court.plea": "justice.plea",
+      }[decisionId] ?? decisionId)
+    : decisionId;
   const place = randomPlace(seed);
   const game = createNewGameWorld({
     ...DEFAULT_NEW_GAME_SETUP,
@@ -177,20 +215,32 @@ export function proveTraitDifference(
     without: decisionForPerson(
       game.world,
       personId,
-      decisionId,
+      runtimeDecisionType,
+      traitId,
       baselineConsiderations,
+      false,
+      optionKeys,
+      reader,
     ).choice,
     high: decisionForPerson(
       withTendency(game.world, personId, traitId, "high"),
       personId,
-      decisionId,
+      runtimeDecisionType,
+      traitId,
       baselineConsiderations,
+      reasonFromActTable,
+      optionKeys,
+      reader,
     ),
     low: decisionForPerson(
       withTendency(game.world, personId, traitId, "low"),
       personId,
-      decisionId,
+      runtimeDecisionType,
+      traitId,
       baselineConsiderations,
+      reasonFromActTable,
+      optionKeys,
+      reader,
     ),
   };
 }
@@ -205,6 +255,8 @@ export function proveTwoPersonTraitDifference(
   decisionId: string,
   seed: string,
   baselineConsiderations: readonly DecisionConsideration[] = [],
+  reader: "registered" | "act-pulls" = "registered",
+  stageId = `proof:${decisionId}`,
 ): TwoPersonTraitProof {
   const place = randomPlace(seed);
   const game = createNewGameWorld({
@@ -216,14 +268,34 @@ export function proveTwoPersonTraitDifference(
     questionnaire: "skipped",
   });
   const registry = loadedTraitRegistry();
-  const nonTargetTraitSignature = (personId: EntityId) =>
-    registeredTraitConsiderations(
-      game.world,
-      registry,
-      personId,
-      `proof:${decisionId}`,
-      decisionId,
-    )
+  const declaration = BUILT_IN_TRAIT_DECISIONS.find(
+    ({ id }) => id === decisionId,
+  )!;
+  const options = declaration.options.map((key) => ({
+    key,
+    label: key,
+    description: key,
+  }));
+  const nonTargetTraitSignature = (personId: EntityId) => {
+    const considerations =
+      reader === "registered"
+        ? registeredTraitConsiderations(
+            game.world,
+            registry,
+            personId,
+            stageId,
+            decisionId,
+          )
+        : traitActConsiderations(
+            game.world,
+            registry,
+            personId,
+            stageId,
+            decisionId,
+            options,
+            new Set([traitId]),
+          );
+    return considerations
       .filter(({ stableKey }) => !stableKey.includes(`:${traitId}:`))
       .map(
         ({ stableKey, optionKey, direction, importance, confidence }) =>
@@ -231,6 +303,7 @@ export function proveTwoPersonTraitDifference(
       )
       .sort()
       .join("\n");
+  };
   const candidates = game.world.personOrder.filter(
     (id) => id !== game.playerPersonId,
   );
@@ -269,7 +342,12 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         highPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
     low: {
@@ -279,7 +357,12 @@ export function proveTwoPersonTraitDifference(
         proofWorld,
         lowPersonId,
         decisionId,
+        traitId,
         baselineConsiderations,
+        reader === "act-pulls",
+        undefined,
+        reader,
+        stageId,
       ),
     },
   };

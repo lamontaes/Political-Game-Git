@@ -40,10 +40,8 @@
 
 import { addDays, ageOnDate, completedMonthsBetween } from "./dates";
 import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
-import {
-  OFFICE_QUALIFICATIONS_META,
-  OFFICE_QUALIFICATION_ROWS,
-} from "./office-qualifications.generated";
+import { OFFICE_QUALIFICATIONS_META } from "./office-qualifications.generated";
+import { researchRuleTable } from "./research-rule-tables";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type { RuleSourceRef, RuleValue } from "./legislature-rules";
 import type { IsoDate, Person } from "./types";
@@ -124,9 +122,9 @@ export interface SourcedQualification {
   readonly notes: string | null;
 }
 
-const ROWS: readonly SourcedQualification[] = JSON.parse(
-  OFFICE_QUALIFICATION_ROWS,
-) as readonly SourcedQualification[];
+const ROWS: readonly SourcedQualification[] = researchRuleTable(
+  "officeQualifications",
+).rows as readonly SourcedQualification[];
 
 export { OFFICE_QUALIFICATIONS_META };
 
@@ -274,14 +272,6 @@ export function officeFamilyForChamberKey(
   chamberKey: string,
 ): QualificationOfficeFamily | null {
   return OFFICE_FAMILY_BY_CHAMBER_KEY[chamberKey] ?? null;
-}
-
-/** True where this repository has read any authority for the state. */
-export function stateQualificationsAreSourced(
-  stateJurisdictionKey: string | null,
-): boolean {
-  if (stateJurisdictionKey === null) return false;
-  return QUALIFICATION_SOURCED_STATE_KEYS.includes(stateJurisdictionKey);
 }
 
 /** Every verified fact about one office in one state. */
@@ -639,7 +629,7 @@ export function assessOfficeQualifications(
           age >= required
             ? `Old enough: this office has a minimum age of ${required}.`
             : // The same sentence every other minimum age uses on screen.
-              `You must be at least ${required} to run for this office.`,
+              `Minimum age: ${required}`,
         source: row,
       });
       continue;

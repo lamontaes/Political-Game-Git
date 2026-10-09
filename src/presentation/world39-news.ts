@@ -3,11 +3,13 @@ import {
   lifePlaceByJurisdictionId,
   organizationProfileAt,
   organizationsAt,
+  personName,
   type EntityId,
   type IsoDate,
   type World,
 } from "../simulation";
 import { supportedCivicOfficesFor } from "../simulation/civic-office-definitions";
+import { canonicalSavedPublicGovernmentAccountKey } from "../simulation/public-government-identity";
 import {
   municipalGovernmentForLifePlace,
   primaryReading,
@@ -18,17 +20,20 @@ import { resolvePublicationSource } from "../simulation/public-information-integ
 import { currentPublicOfficeholders } from "./opening-officeholders";
 import { projectPublicInformationPanel } from "./public-information-adapters";
 import { lawEffectSentences } from "./law-effects-prose";
-import { proseMonthYear } from "./prose-dates";
+import { readNoticesBank } from "./bank-english";
 
 /**
- * A standing public fact about the place: who governs it or what serves it.
- * The sentence is what a resident could say; it never describes the save.
+ * A standing public fact about the place, as record values (menu reset: no
+ * sentences): the government that governs it, with its legislative body, or
+ * a public institution that serves it.
  */
 export interface World39StandingItem {
   readonly key: string;
   readonly kind: "government" | "institution";
-  readonly headline: string;
-  readonly sentence: string;
+  /** The government's or institution's recorded name. */
+  readonly name: string;
+  /** A government's legislative body, where the record names one. */
+  readonly bodyName: string | null;
   readonly recordId: string;
 }
 
@@ -111,8 +116,8 @@ export function projectWorld39News(world: World, personId: EntityId) {
   // governor.
   const homeState = stateOfJurisdiction(world, jurisdictionId);
   // Every materialized public officeholder within the reader's reach,
-  // including state executives whose term dates are not established; the
-  // sentence never invents a "since".
+  // including state executives whose term dates are not established, whose
+  // start stays empty rather than invented.
   const officeholders = currentPublicOfficeholders(world)
     .filter((holder) => {
       const event = world.history.events.find(
@@ -132,17 +137,7 @@ export function projectWorld39News(world: World, personId: EntityId) {
     .map((holder) => {
       const institution =
         organizationProfileAt(world, holder.organizationId)?.name ?? null;
-      return {
-        ...holder,
-        institution,
-        headline: `${holder.personName} serves as ${holder.title}`,
-        sentence: officeholderSentence(
-          holder.personName,
-          holder.title,
-          institution,
-          holder.startedAt,
-        ),
-      };
+      return { ...holder, institution };
     });
   const officeEvents = new Set(officeholders.map((holder) => holder.termId));
   const officeOrganizations = new Set(
@@ -201,7 +196,9 @@ export function projectWorld39News(world: World, personId: EntityId) {
         ? (world.jurisdictions[event.jurisdictionId]?.name ?? null)
         : null,
       known: learnedEventIds.has(event.id),
+      ...eventParties(world, event),
     }));
+  const notices = projectWorld39Notices(world, personId);
   const unfilledOffices: World39UnfilledOffice[] = place
     ? supportedCivicOfficesFor(place)
         .filter((office) => !heldTitles.has(office.displayName))
@@ -222,10 +219,64 @@ export function projectWorld39News(world: World, personId: EntityId) {
     publications,
     officeholders,
     publicEvents,
+    notices,
     learnedEventIds,
     unfilledOffices,
     laws: lawsReachingResident(world, jurisdictionId),
   };
+}
+
+/** One posted notice: the English engine's wording and the part that wrote it. */
+export interface World39Notice {
+  readonly key: string;
+  readonly text: string;
+}
+
+/**
+ * Public notices are the English engine's wording of recorded hearings, local
+ * measures and scheduled elections for the reader's own place. The notice bank
+ * gives a reason, not a line, when none is recorded, so no notice is posted.
+ */
+export function projectWorld39Notices(
+  world: World,
+  personId: EntityId,
+): readonly World39Notice[] {
+  const lines = readNoticesBank(world, personId);
+  return typeof lines === "string"
+    ? []
+    : lines.map((line) => ({ key: line.partKey, text: line.text }));
+}
+
+/**
+ * Who and what a public event names, by name: the people who took part in it
+ * or are named in it, and the organizations it involves. Record names only; the event's saved
+ * summary is not printed because some events save a key as their summary.
+ */
+function eventParties(
+  world: World,
+  event: (typeof world.history.events)[number],
+): {
+  readonly people: readonly {
+    readonly personId: EntityId;
+    readonly name: string;
+  }[];
+  readonly organizations: readonly string[];
+} {
+  const seen = new Set<EntityId>();
+  const people = [
+    ...event.participants.map((row) => row.personId),
+    ...event.involvedEntityIds,
+  ].flatMap((id) => {
+    const person = world.people[id];
+    if (!person || seen.has(id)) return [];
+    seen.add(id);
+    return [{ personId: id, name: personName(person) }];
+  });
+  const organizations = event.involvedEntityIds.flatMap((id) => {
+    const name = organizationProfileAt(world, id)?.name;
+    return name ? [name] : [];
+  });
+  return { people, organizations: [...new Set(organizations)] };
 }
 
 /**
@@ -246,31 +297,6 @@ export function isWorldMachineryEvent(
   );
 }
 
-const FORM_PHRASES: Readonly<Record<string, string>> = {
-  MAYOR_COUNCIL: "a mayor and council",
-  COUNCIL_MANAGER: "a council with an appointed manager",
-  COMMISSION_MANAGER: "a commission with an appointed manager",
-  CITY_MANAGER: "an appointed city manager",
-  TOWN_MEETING: "town meeting",
-  URBAN_COUNTY_CONSOLIDATED: "a consolidated city and county government",
-  CITY_COUNTY_CONSOLIDATED: "a consolidated city and county government",
-  CONSOLIDATED_CITY_COUNTY: "a consolidated city and county government",
-};
-
-const INSTITUTION_NOUNS: Readonly<Record<string, string>> = {
-  "service:school": "a school",
-  "service:college": "a college",
-  "service:library": "a library",
-  "service:state-agency": "a state agency",
-  "service:municipal-government": "the municipal government",
-  "service:county-government": "the county government",
-  "service:court-workplace": "a court",
-  "service:training": "a training program",
-  "sector:government": "a government office",
-  "sector:public": "a public body",
-  "community:civic": "a civic organization",
-};
-
 function projectStanding(
   world: World,
   place: ReturnType<typeof lifePlaceByJurisdictionId>,
@@ -278,27 +304,8 @@ function projectStanding(
   officeOrganizations: ReadonlySet<EntityId>,
 ): readonly World39StandingItem[] {
   const items: World39StandingItem[] = [];
-  if (place) {
-    const government = municipalGovernmentForLifePlace(place);
-    if (government) {
-      const reading = primaryReading(government);
-      const formPhrase = reading.form
-        ? (FORM_PHRASES[reading.form] ?? null)
-        : null;
-      items.push({
-        key: `government:${government.key}`,
-        kind: "government",
-        headline: governmentHeadline(place.displayName, government.displayName),
-        sentence: governmentSentence(
-          place.displayName,
-          government.displayName,
-          reading.bodyName,
-          formPhrase,
-        ),
-        recordId: government.key,
-      });
-    }
-  }
+  const government = place ? municipalGovernmentForLifePlace(place) : null;
+  let governmentRecordId = government?.key ?? null;
   const cutoff = currentLifeCutoff(world);
   for (const organization of organizationsAt(world, cutoff)) {
     // An office's own organization is told through its holder, not twice.
@@ -313,25 +320,38 @@ function projectStanding(
       continue;
     }
     if (!isPublicInstitutionClassification(profile.classification)) continue;
-    // Only an organization the World actually locates is said to be "in" a
-    // place; an unlocated one is described without a place.
-    const locatedIn = profile.locationJurisdictionId
-      ? (lifePlaceByJurisdictionId(profile.locationJurisdictionId)
-          ?.displayName ?? null)
-      : null;
+    // A government's own accounts and its organization are the government,
+    // told once above the institutions, never listed beside it.
+    if (
+      canonicalSavedPublicGovernmentAccountKey(organization.stableKey) !== null
+    )
+      continue;
+    if (government && profile.name === government.displayName) {
+      governmentRecordId = organization.id;
+      continue;
+    }
+    // Two records under one name read as one line, not the same line twice.
+    if (items.some((item) => item.name === profile.name)) continue;
     items.push({
       key: `institution:${organization.id}`,
       kind: "institution",
-      headline: profile.name,
-      sentence: institutionSentence(
-        profile.name,
-        INSTITUTION_NOUNS[profile.classification] ?? "a public institution",
-        locatedIn,
-      ),
+      name: profile.name,
+      bodyName: null,
       recordId: organization.id,
     });
   }
-  return items;
+  return government && governmentRecordId
+    ? [
+        {
+          key: `government:${government.key}`,
+          kind: "government",
+          name: government.displayName,
+          bodyName: primaryReading(government).bodyName ?? null,
+          recordId: governmentRecordId,
+        },
+        ...items,
+      ]
+    : items;
 }
 
 function isPublicInstitutionClassification(classification: string): boolean {
@@ -341,51 +361,6 @@ function isPublicInstitutionClassification(classification: string): boolean {
     classification.startsWith("sector:public") ||
     classification.startsWith("community:civic")
   );
-}
-
-/**
- * A government named for its form ("City of Minneapolis", "County of
- * Hennepin") takes "the" in a sentence; a bare proper name does not.
- */
-function governmentNameInSentence(
-  governmentName: string,
-  sentenceStart = false,
-): string {
-  if (
-    /^the\s/i.test(governmentName) ||
-    !/^[A-Z][\w ]*? of /.test(governmentName)
-  )
-    return governmentName;
-  return `${sentenceStart ? "The" : "the"} ${governmentName}`;
-}
-
-function governmentHeadline(placeName: string, governmentName: string): string {
-  return `${placeName} is governed by ${governmentNameInSentence(governmentName)}`;
-}
-
-function governmentSentence(
-  placeName: string,
-  governmentName: string,
-  bodyName: string | null,
-  formPhrase: string | null,
-): string {
-  const sentences = [
-    bodyName ? `Its legislative body is the ${bodyName}.` : null,
-    formPhrase ? `It runs through ${formPhrase}.` : null,
-  ].filter((sentence): sentence is string => sentence !== null);
-  return sentences.length > 0
-    ? sentences.join(" ")
-    : `${governmentNameInSentence(governmentName, true)} serves ${placeName}.`;
-}
-
-function institutionSentence(
-  name: string,
-  noun: string,
-  placeName: string | null,
-): string {
-  return placeName
-    ? `${name} is ${noun} in ${placeName}.`
-    : `${name} is ${noun}.`;
 }
 
 /**
@@ -409,24 +384,4 @@ export function institutionRestatesTitle(
   };
   const titleTail = tail(t);
   return titleTail !== null && titleTail === tail(i);
-}
-
-/**
- * One officeholder, as a resident would say it. An unknown term start (a
- * record whose start date the game has not established) says who serves,
- * never a made-up "since".
- */
-export function officeholderSentence(
-  name: string,
-  title: string,
-  institution: string | null,
-  startedAt: IsoDate | null,
-): string {
-  const where =
-    institution && !institutionRestatesTitle(title, institution)
-      ? ` at ${institution}`
-      : "";
-  return startedAt === null
-    ? `${name} serves as ${title}${where}.`
-    : `${name} has served as ${title}${where} since ${proseMonthYear(startedAt)}.`;
 }

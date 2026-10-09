@@ -32,6 +32,9 @@ import { passOrdinaryDays } from "./ordinary-life";
 import { CONGRESS_RESULTS_EVENT } from "../simulation/living-world/congress-turnover";
 import { STATE_LEGISLATIVE_RESULTS_EVENT } from "../simulation/nationwide-world/state-legislature-turnover";
 import { candidacyPackById } from "../simulation/candidacy-packs";
+import { projectPersonDossier } from "./person-dossier";
+import { storyMomentsOf } from "../simulation/story/moments";
+import { storyThreadsOf } from "../simulation/story/threads";
 
 /**
  * OBSERVER MODE — the world with nobody played in it (Constitution rule 30).
@@ -492,10 +495,51 @@ export interface ObserverPersonFile {
   readonly diedHow: string | null;
   readonly home: string;
   readonly work: readonly string[];
+  readonly monthlyPay: number | null;
+  readonly household: readonly string[];
+  readonly career: readonly ObserverHappening[];
   readonly party: string | null;
   /** Everything the world has recorded them taking part in, newest first. */
   readonly record: readonly ObserverHappening[];
+  /**
+   * The people in their life, most important first, as the story director
+   * reads them (docs/design/story-director.md, part 2). Hidden from players;
+   * the owner sees threads only here, in developer and observer mode.
+   */
+  readonly threads: readonly ObserverThread[];
+  /** How many threads there are beyond those listed. */
+  readonly moreThreads: number;
+  /** Their most recent scored moments, newest first. */
+  readonly moments: readonly ObserverMoment[];
 }
+
+export interface ObserverThread {
+  readonly personId: EntityId;
+  readonly name: string;
+  /** The standing tie the thread rests on: parent, sibling, shared home. */
+  readonly tie: string | null;
+  readonly importance: number;
+  readonly since: IsoDate | null;
+  readonly turns: readonly {
+    readonly at: IsoDate;
+    readonly turn: string;
+    readonly importance: number;
+  }[];
+  readonly lastContactOn: IsoDate | null;
+}
+
+export interface ObserverMoment {
+  readonly id: EntityId;
+  readonly at: IsoDate;
+  /** The moment table's kind key. */
+  readonly kind: string;
+  readonly salience: number;
+  /** The other people the moment's record names. */
+  readonly with: readonly string[];
+}
+
+const OBSERVER_THREAD_LIMIT = 20;
+const OBSERVER_MOMENT_LIMIT = 10;
 
 /**
  * One person as the world records them, not as anyone in it knows them: their
@@ -523,6 +567,15 @@ export function projectObserverPerson(
           : active.role.title;
       });
   const partyId = death ? null : publicPartyAffiliation(world, personId);
+  const dossier = projectPersonDossier(world, personId, personId, {
+    observer: true,
+  })!;
+  const career = activeWorkRelationshipsAt(world, personId).map((active) => ({
+    id: active.relationship.id,
+    at: active.relationship.startedAt,
+    text: `Started work as ${active.role.title}${active.relationship.organizationId ? ` at ${organizationNameAt(world, active.relationship.organizationId) ?? "the recorded employer"}` : ""}.`,
+    count: 1,
+  }));
   const record: ObserverHappening[] = [];
   const events = world.history.events;
   for (let index = events.length - 1; index >= 0; index -= 1) {
@@ -551,7 +604,50 @@ export function projectObserverPerson(
     diedHow: death ? deathCausePhrase(death.causeKey) : null,
     home: placeName(world, person.homeJurisdictionId),
     work,
+    monthlyPay: dossier.lifeRecord.monthlyPay,
+    household: dossier.lifeRecord.household,
+    career,
     party: partyId ? organizationNameAt(world, partyId) : null,
     record,
+    ...observerStory(world, personId),
+  };
+}
+
+/** A person's threads and recent moments, read from the story director's stores. */
+function observerStory(
+  world: World,
+  personId: EntityId,
+): Pick<ObserverPersonFile, "threads" | "moreThreads" | "moments"> {
+  const nameOf = (id: EntityId) => {
+    const other = world.people[id];
+    return other ? personName(other) : id;
+  };
+  const threads = storyThreadsOf(world, personId);
+  const moments = storyMomentsOf(world, personId);
+  return {
+    threads: threads.slice(0, OBSERVER_THREAD_LIMIT).map((thread) => ({
+      personId: thread.otherPersonId,
+      name: nameOf(thread.otherPersonId),
+      tie: thread.tieKind,
+      importance: thread.importance,
+      since: thread.since,
+      turns: thread.turns.map((turn) => ({
+        at: turn.occurredAt,
+        turn: turn.turn,
+        importance: turn.importance,
+      })),
+      lastContactOn: thread.lastContactOn,
+    })),
+    moreThreads: Math.max(0, threads.length - OBSERVER_THREAD_LIMIT),
+    moments: moments
+      .slice(-OBSERVER_MOMENT_LIMIT)
+      .reverse()
+      .map((moment) => ({
+        id: moment.id,
+        at: moment.occurredAt,
+        kind: moment.kindKey,
+        salience: moment.salience,
+        with: moment.counterpartPersonIds.map(nameOf),
+      })),
   };
 }

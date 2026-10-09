@@ -741,7 +741,10 @@ export function npcContactAnswer(
       : null;
     return {
       answer,
-      counterOn: answer === "counter" ? addDays(on, 7) : null,
+      counterOn:
+        answer === "counter"
+          ? counterDayWithinNotice(world, addDays(on, 7))
+          : null,
       world,
     };
   }
@@ -915,9 +918,24 @@ export function npcContactAnswer(
     busy && chosen === "accept" ? "counter" : chosen;
   return {
     answer,
-    counterOn: answer === "counter" ? addDays(on, 7) : null,
+    counterOn:
+      answer === "counter"
+        ? counterDayWithinNotice(world, addDays(on, 7))
+        : null,
     world: recordedWorld,
   };
+}
+
+/**
+ * A counter-offer is a new request, so it obeys the notice window every request
+ * does, counted from today. A proposal made for a day far ahead, or answered
+ * late, would otherwise offer a day the writer refuses, and the refusal threw
+ * out of the clock.
+ */
+function counterDayWithinNotice(world: World, wanted: IsoDate): IsoDate {
+  const earliest = addDays(world.currentDate, CONTACT_MINIMUM_NOTICE_DAYS);
+  const latest = addDays(world.currentDate, CONTACT_MAXIMUM_NOTICE_DAYS);
+  return wanted < earliest ? earliest : wanted > latest ? latest : wanted;
 }
 
 /**
@@ -1206,7 +1224,6 @@ export function produceReachingOut(
   );
   if (recent) return world;
   for (const basis of contactBases(world, playerPersonId)) {
-    if (basis.gap !== "long-gap" && basis.gap !== "reconnected") continue;
     // Family who live elsewhere have no recorded contact on day one: nothing
     // was ever written down for them, which is a gap in the record and not a
     // fact about the family. Skipping them left a life of five relatives with
@@ -1216,6 +1233,14 @@ export function produceReachingOut(
       basis.lastContactOn === null &&
       basis.basis.includes("family") &&
       !basis.basis.includes("shares your home");
+    // With no contact event, continuity cannot classify the relationship as a
+    // long gap. Let recorded family ties through on that basis alone.
+    if (
+      basis.gap !== "long-gap" &&
+      basis.gap !== "reconnected" &&
+      !keptUpWithByKin
+    )
+      continue;
     if (!basis.lastContactOn && !keptUpWithByKin) continue;
     // They ring on a day off, not at work (see the placeholder above).
     if (workingToday(world, basis.personId)) continue;

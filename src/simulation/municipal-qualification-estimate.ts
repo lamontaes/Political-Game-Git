@@ -1,10 +1,12 @@
+import governingBodySeatQualification from "../../data/research/local-government/governing-body-seat-qualification.json" with { type: "json" };
 import type { CandidacyPack } from "./candidacy-packs";
 import type { RuleSourceRef } from "./legislature-rules";
-import { stateName } from "./office-qualification-rules";
 
 export interface MunicipalMinimumAgeEstimate {
-  readonly version: "municipal-similar-office-age/v1";
-  readonly basis: "estimated-from-same-state-offices";
+  readonly version:
+    "municipal-similar-office-age/v1" | "governing-body-qualified-elector/v1";
+  readonly basis:
+    "estimated-from-same-state-offices" | "qualified-elector-of-the-place";
   readonly jurisdictionKey: string;
   readonly officeKey: string;
   readonly minimumAge: number;
@@ -16,6 +18,32 @@ export interface MunicipalMinimumAgeEstimate {
     readonly source: RuleSourceRef;
   }[];
   readonly unestimatedFields: readonly ["residency", "termYears", "filing"];
+  /** What a qualified-elector estimate rests on; absent for same-state donors. */
+  readonly estimatedFrom?: string;
+}
+
+/**
+ * A seat on a town's or county's governing body, where the place's own rule is
+ * unread: the qualified-elector age most state municipal and county codes ask
+ * of a council, commission or board member, from
+ * `data/research/local-government/governing-body-seat-qualification.json`.
+ * One row for all 56 places; a place's read rule replaces it in its pack.
+ */
+export function governingBodySeatAgeEstimate(
+  jurisdictionKey: string,
+  officeKey: string,
+): MunicipalMinimumAgeEstimate {
+  return {
+    version: "governing-body-qualified-elector/v1",
+    basis: "qualified-elector-of-the-place",
+    jurisdictionKey,
+    officeKey,
+    minimumAge: governingBodySeatQualification.minimumAge,
+    municipalLegalApplicability: "UNCONFIRMED",
+    donors: [],
+    unestimatedFields: ["residency", "termYears", "filing"],
+    estimatedFrom: governingBodySeatQualification.estimatedFrom,
+  };
 }
 
 /** Calibration from this state's other elected offices, never municipal law.
@@ -70,7 +98,7 @@ export function municipalMinimumAgeEstimate(
 export function municipalMinimumAgeSentence(
   estimate: MunicipalMinimumAgeEstimate,
 ): string {
-  return `You must be at least ${estimate.minimumAge} to run for this office. This age is estimated from similar elected offices in ${stateName(estimate.jurisdictionKey.replace(/^US-/, ""))}; this municipality's own age rule is unconfirmed.`;
+  return `Minimum age: ${estimate.minimumAge} (estimated)`;
 }
 
 export function municipalMinimumAgeSource(
@@ -80,7 +108,10 @@ export function municipalMinimumAgeSource(
     authority: "game-profile",
     verification: "game-profile",
     citation: estimate.version,
-    sourceTitle: "Same-state elected-office age estimate",
+    sourceTitle:
+      estimate.basis === "qualified-elector-of-the-place"
+        ? "Qualified elector of the place"
+        : "Same-state elected-office age estimate",
     sourceUrl: null,
     retrievedAt: null,
     note: municipalMinimumAgeSentence(estimate),

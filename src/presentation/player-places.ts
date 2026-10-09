@@ -11,18 +11,18 @@ import { resolveLifeScene } from "./life-scene";
 import { proseDate } from "./prose-dates";
 import { municipalWorkspaceFor } from "./municipal-workspace";
 import { municipalActionAuthority } from "../simulation/municipal-public-work";
-import {
-  completedActivityHere,
-  sceneVenueForLocationKey,
-} from "./scene-venues";
+import { completedActivityHere } from "./scene-venues";
 import { formatRoutineElapsedMinutes } from "./routine-outcome";
-import { venueActivities, venueTimingLabel } from "./venue-activity";
+import { venueActivities } from "./venue-activity";
+import { electiveOfficesForJurisdiction } from "../simulation/candidacy";
+import { filingOfficeForSeat } from "../simulation/filing-office";
+import { scheduledFilingVisits } from "../simulation/filing-visit";
 
 /** Pure read-model for the feature-local Places workspace. */
 export type PlacesActionKind = "inspect" | "travel" | "return-home" | "attend";
 
 export interface PlacesLocationView {
-  readonly label: string;
+  readonly label: string | null;
   readonly setting: string | null;
   readonly jurisdictionId: EntityId | null;
   /** Honest note when no released scene art matches the recorded location. */
@@ -44,6 +44,8 @@ export interface PlacesOfferView {
   readonly governmentKey?: string;
   readonly meetingId?: EntityId;
   readonly inspectGovernmentKey?: string;
+  /** A seat whose filing office this offer goes to (`requestFilingVisit`). */
+  readonly filingSeatOfficeKey?: string;
 }
 
 export interface PlacesWorkspaceModel {
@@ -66,7 +68,7 @@ export function projectPlacesWorkspace(
   const location = openingLifeLocation(world, personId);
   const scene = resolveLifeScene(world, personId);
   const current: PlacesLocationView = {
-    label: location?.label ?? "Location not recorded",
+    label: location?.label ?? null,
     setting: location?.setting ?? null,
     jurisdictionId: location?.jurisdictionId ?? null,
     sceneNote:
@@ -117,8 +119,7 @@ export function projectPlacesWorkspace(
       id: `inspect-government-${municipal.government.key}`,
       kind: "inspect",
       title: municipal.government.displayName,
-      detail:
-        "Inspect this government’s public meetings and records. This does not move you or change where you live.",
+      detail: null,
       minutes: null,
       durationLabel: null,
       unavailable: null,
@@ -126,6 +127,8 @@ export function projectPlacesWorkspace(
       inspectGovernmentKey: municipal.government.key,
     });
   }
+
+  offers.push(...filingOfficeOffers(world, personId));
 
   const completed = completedActivityHere(world, personId);
   return {
@@ -137,6 +140,40 @@ export function projectPlacesWorkspace(
   };
 }
 
+/**
+ * The offices where this person could file for a local seat, one offer per
+ * office, while no visit to one is already on the calendar. Each names the
+ * government and its clerk's title from the records.
+ */
+function filingOfficeOffers(
+  world: World,
+  personId: EntityId,
+): readonly PlacesOfferView[] {
+  if (scheduledFilingVisits(world, personId).length > 0) return [];
+  const person = world.people[personId]!;
+  const seen = new Set<string>();
+  const offers: PlacesOfferView[] = [];
+  for (const option of electiveOfficesForJurisdiction(
+    person.homeJurisdictionId,
+  )) {
+    const office = filingOfficeForSeat(world, option.officeKey);
+    if (!office || seen.has(office.unit.id)) continue;
+    seen.add(office.unit.id);
+    offers.push({
+      id: `filing-office-${office.unit.id}`,
+      kind: "travel",
+      title: office.governmentName,
+      detail: office.officeTitle,
+      minutes: null,
+      durationLabel: null,
+      unavailable: null,
+      companionLabel: null,
+      filingSeatOfficeKey: option.officeKey,
+    });
+  }
+  return offers;
+}
+
 function projectVenueOffer(
   world: World,
   personId: EntityId,
@@ -146,34 +183,15 @@ function projectVenueOffer(
   journey: ReturnType<typeof venueActivities>[number]["journey"],
   declinable: boolean,
 ): PlacesOfferView {
-  const venue = sceneVenueForLocationKey(activity.location.locationKey);
-  const detailParts = [
-    activity.summary.trim(),
-    journey
-      ? journey.alreadyCompleted
-        ? `The journey to ${activity.location.label} is complete. Attend begins here.`
-        : `Attending includes the ${journey.journeyMinutes}-minute trip to ${activity.location.label}. ${journey.costDisclosure}`
-      : null,
-    venue?.isJourney
-      ? "This is a journey, not a room you enter at the end."
-      : venue?.sceneId
-        ? null
-        : (venue?.reason ??
-          "No released room art is bound to this activity yet."),
-  ].filter(Boolean);
+  const detail = activity.summary.trim();
   let durationLabel: string | null = null;
-  if (refusal === null && elapsedMinutes !== null) {
-    const timing = venueTimingLabel(world, activity.id);
-    durationLabel =
-      journey && timing && !journey.alreadyCompleted
-        ? `${timing} The trip there takes ${formatRoutineElapsedMinutes(journey.journeyMinutes)} before it.`
-        : timing;
-  }
+  if (refusal === null && journey && !journey.alreadyCompleted)
+    durationLabel = formatRoutineElapsedMinutes(journey.journeyMinutes);
   return {
     id: `venue-${activity.id}`,
     kind: "attend",
     title: activity.title,
-    detail: detailParts.join(" "),
+    detail,
     minutes: elapsedMinutes,
     durationLabel,
     unavailable: refusal,
@@ -205,7 +223,7 @@ function projectMunicipalMeetingOffer(
     else {
       try {
         const timing = scheduledActivityPerformanceTiming(world, meeting.id);
-        durationLabel = `${describeInterval(timing.totalElapsedMinutes)} for this session.`;
+        durationLabel = describeInterval(timing.totalElapsedMinutes);
       } catch (error) {
         unavailable =
           error instanceof Error

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import startingLaw from "../../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../../data/research/laws/starting-law-2026/index";
 import { makeIsoDate } from "../dates";
 import { stateJurisdictionForKey } from "../life-places";
 import type {
@@ -101,7 +101,7 @@ const began = (
 )[QUESTION_KEY]!.answers;
 
 describe("groundwater limits", () => {
-  it("retains all starting answers and research while leaving the deferred link unconsumed", () => {
+  it("retains all starting answers and research with a live operator estimate", () => {
     expect(Object.keys(began)).toHaveLength(56);
     const yes = Object.values(began).filter((row) => row.answer === "yes");
     expect(yes).toHaveLength(37);
@@ -112,22 +112,24 @@ describe("groundwater limits", () => {
     expect(link.size).toBe(-0.31);
     expect(link.range).toEqual([-0.4, -0.21]);
     expect(link.lagMonths).toBe(12);
-    expect(link.consumed).toBe(false);
-    expect(outcomeLinksFedByQuestion(QUESTION_KEY)).toEqual([]);
+    expect(link.consumed).toBe(true);
+    expect(
+      outcomeLinksFedByQuestion(QUESTION_KEY).map((row) => row.key),
+    ).toEqual([LINK]);
     expect(outcomeWebStatus().find((row) => row.key === LINK)?.consumed).toBe(
-      false,
+      true,
     );
   });
 
-  it("starts the 50 states and Puerto Rico at their 2015 irrigation pumping", () => {
+  it("starts all 56 places with recorded or estimated 2015 irrigation pumping", () => {
     const places = PLACE_OUTCOME_BASES[MEASURE]!.places;
-    expect(Object.keys(places)).toHaveLength(51);
+    expect(Object.keys(places)).toHaveLength(56);
     expect(places["US-AR"]).toBeGreaterThan(9000);
     expect(places["US-WV"]).toBeLessThan(1);
     expect(OUTCOMES_PRODUCED.has(MEASURE)).toBe(true);
   });
 
-  it("does not consume an enacted groundwater cap in any place with recorded base data", () => {
+  it("applies an enacted groundwater cap after its lag across all 56 places", () => {
     const places = Object.keys(PLACE_OUTCOME_BASES[MEASURE]!.places);
     for (const key of places) {
       const state = stateJurisdictionForKey(key)!.id;
@@ -135,13 +137,16 @@ describe("groundwater limits", () => {
       const world = worldWith([law(state, flipped, "2026-07-01")]);
       expect(pumped(world, state, "2027-06-15").multiplier, key).toBe(1);
       expect(world.history.legislativeEnactments).toHaveLength(1);
-      expect(pumped(world, state, "2027-07-15").multiplier, key).toBe(1);
+      expect(pumped(world, state, "2027-07-15").multiplier, key).toBeCloseTo(
+        began[key]!.answer === "yes" ? 1.31 : 0.69,
+        10,
+      );
       expect(
         pumped(world, state, "2027-07-15").causes.some(
           (cause) => cause.key === LINK,
         ),
         key,
-      ).toBe(false);
+      ).toBe(true);
       // Enacting what the place already had changes nothing.
       const same = worldWith([law(state, began[key]!.answer, "2026-07-01")]);
       expect(pumped(same, state, "2027-07-15").multiplier, key).toBe(1);

@@ -5,7 +5,7 @@ import {
   stateJurisdictionForKey,
 } from "../life-places";
 import { placePopulation } from "../nationwide-world/place-population";
-import { STATES } from "../state-reference";
+import { isFederalDistrictJurisdictionKey, STATES } from "../state-reference";
 import type { EntityId, IsoDate, World } from "../types";
 import { AREA_RESIDENTS_ROWS } from "./area-residents.generated";
 import type { OutcomeRangeViolation } from ".";
@@ -77,6 +77,13 @@ export interface PlaceOutcomeRecord {
   readonly rangeViolations?: readonly OutcomeRangeViolation[];
 }
 
+/** Stable identity for an immutable measure/place/month outcome observation. */
+export function placeOutcomeRecordId(
+  record: Pick<PlaceOutcomeRecord, "measure" | "jurisdictionId" | "month">,
+): EntityId {
+  return `place-outcome:${record.jurisdictionId}:${record.measure}:${record.month}` as EntityId;
+}
+
 /** A city's or county's part in its state's value. */
 export interface PlaceOutcomeShare {
   readonly placeKey: string;
@@ -90,12 +97,33 @@ export interface PlaceOutcomeMonth {
   readonly records: readonly PlaceOutcomeRecord[];
 }
 
+/** A recorded place outcome reaching a named member of its measured cohort. */
+export interface PlaceOutcomeLandingRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly personId: EntityId;
+  readonly linkKey: string;
+  readonly measure: string;
+  readonly outcomeRecordId: EntityId;
+  readonly jurisdictionId: EntityId;
+  readonly answeringPersonId?: EntityId | null;
+  readonly month: IsoDate;
+  readonly direction: "gain" | "cost";
+  readonly previousCauseFactor: number;
+  readonly currentCauseFactor: number;
+  readonly recipientRule: string;
+  /** Public evidence used to estimate an individual effect from the group result. */
+  readonly estimatedFrom: string;
+}
+
 /**
  * Month by month, oldest first. Kept as one entry per month so a century of
  * play appends a short list, not every record ever written.
  */
 export interface PlaceOutcomeStore {
   readonly months: readonly PlaceOutcomeMonth[];
+  /** Optional so saves from before person landings remain readable. */
+  readonly landings?: readonly PlaceOutcomeLandingRecord[];
 }
 
 /** Every record in the store, oldest month first. */
@@ -212,7 +240,7 @@ export function localOutcomeKey(jurisdictionId: EntityId): string | null {
   const place = lifePlaceByJurisdictionId(jurisdictionId);
   if (!place || place.scope === "state" || !place.stateJurisdictionKey)
     return null;
-  if (place.stateJurisdictionKey === "US-DC") return null;
+  if (isFederalDistrictJurisdictionKey(place.stateJurisdictionKey)) return null;
   if (place.scope === "county") return place.key;
   return place.sourceGeoid ?? place.key;
 }

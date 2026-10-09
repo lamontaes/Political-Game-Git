@@ -47,10 +47,23 @@ interface Life {
   readonly personId: EntityId;
 }
 
+/** An adult in a place drawn at random from all 56, named by the seed. */
 function adultLife(seed: string): Life {
+  const place = drawRandomPlace(seed);
   const game = generateOpeningLife(
-    prepareOpeningLife({ ...DEFAULT_NEW_GAME_SETUP, seed, startAge: 34 }),
+    prepareOpeningLife({
+      ...DEFAULT_NEW_GAME_SETUP,
+      seed,
+      placeKey: place.key,
+      startAge: 34,
+    }),
   ).game!;
+  console.info("SEAM_MOUNTS_ADULT", {
+    seed,
+    placeKey: place.key,
+    place: place.displayName,
+    worldId: game.world.id,
+  });
   return {
     world: openOrdinaryLife(game.world, game.playerPersonId),
     personId: game.playerPersonId,
@@ -153,7 +166,7 @@ describe("Getting in touch", () => {
     }
   });
 
-  it("draws an unavailable channel as its stated reason", () => {
+  it("draws an unavailable channel as blocked, never as a control", () => {
     /*
      * Asking somebody to meet is what closes a channel: until they answer, the
      * seam reports it unavailable and says why. That is a real state reached
@@ -171,10 +184,42 @@ describe("Getting in touch", () => {
       const id = `contact-channel-${contact.personId}-${channel.kind}`;
       expect(html).toContain(`data-testid="${id}"`);
       expect(channel.note).toBeTruthy();
-      expect(html).toContain(channel.note!);
-      // Its reason, not a control that would fail if pressed.
+      // Blocked, with the adapter's reason kept as data (menu reset MR-6),
+      // not a control that would fail if pressed.
+      expect(html).toMatch(
+        new RegExp(`<li data-blocked="true"[^>]*data-testid="${id}"`),
+      );
       expect(html).not.toContain(`<button type="button" data-testid="${id}"`);
     }
+  });
+
+  it("draws the contact's dated look-back when recorded history exists", () => {
+    const contact = projectContacts(adult.world, adult.personId).contacts[0]!;
+    const html = renderToStaticMarkup(
+      <ContactsPanel
+        world={adult.world}
+        personId={adult.personId}
+        onWorldChange={() => {}}
+        contactEntry={{
+          ...contact,
+          lookBack: [
+            {
+              id: "lookback-test-favor" as EntityId,
+              at: adult.world.currentDate,
+              sequence: 1,
+              kind: "favor",
+              text: "You helped them move.",
+            },
+          ],
+        }}
+        focused
+      />,
+    );
+    expect(html).toContain(
+      `data-testid="contact-focus-lookback-${contact.personId}"`,
+    );
+    expect(html).toContain("Past between you");
+    expect(html).toContain("You helped them move.");
   });
 
   it("holds a request inside the day window with a plain When? picker", () => {
@@ -207,9 +252,10 @@ describe("Getting in touch", () => {
     expect(html).toContain(
       `<strong class="pg-contact-name">${first.name}</strong>`,
     );
-    if (first.lastContactSpoken) {
+    if (first.lastContactSpoken && !first.livesWithYou) {
+      // The recorded day under its control name, not a sentence.
       expect(html).toContain(
-        `<p class="pg-contact-line">Last in touch ${first.lastContactSpoken}.`,
+        `<span class="pg-contact-label">Last in touch</span> ${first.lastContactSpoken}</p>`,
       );
     }
   });
@@ -386,9 +432,9 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-desk"');
-    expect(html).toContain(view.note);
-    // Appearing in this list is not acquaintance, and is never called one.
-    expect(html).toContain("not people you know");
+    expect(html).not.toContain(view.note);
+    expect(html).not.toContain("not people you know");
+    expect(html).not.toMatch(/covers [a-z-]+/);
     expect(html).not.toContain('data-testid="press-source-empty"');
     const contact = view.contacts[0]!;
     expect(html).toContain(
@@ -402,7 +448,7 @@ describe("The press desk", () => {
     );
   });
 
-  it("with no reporter to take anything to, says so", () => {
+  it("with no reporter to take anything to, shows an empty list", () => {
     /*
      * The press family reads `history.pressRecords`, so a world with none is a
      * world with no outlet and no reporter — the honest empty state rather
@@ -421,8 +467,6 @@ describe("The press desk", () => {
       />,
     );
     expect(html).toContain('data-testid="press-source-empty"');
-    expect(html).toContain(
-      "No reporter here is covering anything you could take to them.",
-    );
+    expect(html).not.toContain("No reporter here is covering");
   });
 });

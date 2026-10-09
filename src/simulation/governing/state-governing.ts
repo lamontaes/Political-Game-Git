@@ -1233,7 +1233,7 @@ export function governingMatterById(
 /**
  * The office's assigned decision work is completed only by its own recorded
  * action. This receipt says nothing about money spent or service delivered.
- * A lapse remains a cancelled work item, not fulfillment of the assignment.
+ * A lapse remains a canceled work item, not fulfillment of the assignment.
  */
 export function completedGoverningMatterWork(
   world: World,
@@ -2594,6 +2594,7 @@ function applyConsequence(
                     ? "The executive signed the council act."
                     : "The executive returned the council act with reasons for disapproval."),
                 office.holderPersonId,
+                itemSelection,
               )
             : world;
         }

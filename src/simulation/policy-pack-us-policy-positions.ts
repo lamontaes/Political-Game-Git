@@ -1,3 +1,4 @@
+import { taxTermConsequenceRow } from "./policy-pack-tax-terms";
 import type { PolicyPack } from "./policy-packs";
 import { CURRICULUM_STANDARDS_ROW } from "./law-consequences/modules/lw08-curriculum/data";
 import { LW08_LIBRARY_MATERIALS_ROW } from "./law-consequences/modules/lw08-library-materials/data";
@@ -5,7 +6,10 @@ import {
   GOVERNMENT_OPERATIONS_LAW_ROWS,
   GOVERNMENT_OPERATIONS_QUESTION_KEYS,
 } from "./law-consequences/government-operations-rows";
-import { minimumCustodyRow } from "./law-consequences/legal-outcome";
+import {
+  juvenileJurisdictionRow,
+  minimumCustodyRow,
+} from "./law-consequences/legal-outcome-rows";
 
 /**
  * Positions a person in the United States can hold, and a bill can be about.
@@ -608,6 +612,11 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "government-operations.ban-lobbying-after-office",
+      consequences: [
+        GOVERNMENT_OPERATIONS_LAW_ROWS[
+          GOVERNMENT_OPERATIONS_QUESTION_KEYS.lobbying
+        ]!,
+      ],
       issue: "us-state-and-local:government-operations.lobbying-regulation",
       name: "Cooling-off period before lobbying",
       question:
@@ -1401,6 +1410,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
       question:
         "Should older teenagers be handled in juvenile rather than adult court?",
       parameters: [{ key: "age", value: "upper-age-of-juvenile-jurisdiction" }],
+      consequences: [juvenileJurisdictionRow],
       principles: [
         {
           principle: "equal-opportunity",
@@ -1828,6 +1838,12 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     },
     {
       key: "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      consequences: [
+        {
+          ...taxTermConsequenceRow("state", "excise")!,
+          id: "tax:state:mileage:recorded-base",
+        },
+      ],
       parameters: [
         { key: "rate", value: "usd-per-vehicle-mile" },
         { key: "coverage", value: "covered-vehicle-categories" },
@@ -3188,7 +3204,7 @@ export const US_POLICY_POSITIONS_PACK: PolicyPack = {
     // (data/research/outcome-web/links.json) but no question asked about, so
     // nobody could pass them and no effect could run. Each question's key is
     // the one its links read as `law:us-policy-positions:<key>`; each place's
-    // law on it is in data/research/laws/starting-law-2026.json; the reason
+    // law on it is in data/research/laws/starting-law-2026/<area>.json; the reason
     // behind each bearing is in
     // docs/codex/effect-batches/claude-new-questions/ideology.json.
     {

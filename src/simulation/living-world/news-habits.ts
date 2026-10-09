@@ -97,10 +97,3 @@ export function newsHabitOf(world: World, personId: EntityId): NewsHabit {
     followsClosely: curiosity === "curious" || (age >= 65 && work.length === 0),
   };
 }
-
-export function followsNewsCloselyFromHabit(
-  world: World,
-  personId: EntityId,
-): boolean {
-  return newsHabitOf(world, personId).followsClosely;
-}

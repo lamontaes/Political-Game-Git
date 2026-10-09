@@ -12,7 +12,6 @@ import {
   floorStageByKey,
   legislativeBlueprint,
   measurePosition,
-  recordFiledProvision,
   recordWorldEvent,
   seatBodyForPack,
   authoredScenarioSeatCount,
@@ -25,13 +24,8 @@ import type {
   World,
 } from "../simulation";
 import {
-  BARGAINING_BRIEF_SCENARIO_KEY,
-  bargainingBriefSupports,
   bargainingRoomContexts,
   bargainingScenePeople,
-  bargainingSubjectFacts,
-  FILED_SECTION_BRIEFS,
-  fiscalNoteSummaryFor,
   formatPresentationTime,
   playerHasReadFiscalNoteFor,
   type LegislativeBargainingSeat,
@@ -43,6 +37,7 @@ import {
 import { bargainingSubjectFactsForDraft } from "./legislative-bargaining-brief";
 import {
   docketBill,
+  readDocket,
   recompileSavedBill,
   type DocketBill,
 } from "./legislation-docket";
@@ -69,8 +64,8 @@ import { priorWorkEvidence } from "./prior-work-evidence";
  * import.
  *
  * FAIL CLOSED. Every missing fact returns an explicit reason instead of a
- * substitute: no seat, no rule-pack surface, no authored sitting for this
- * legislature, no bill, or a bill that has not reached the floor. A player who
+ * substitute: no seat, no rule-pack surface, no docket bill, or a bill that
+ * has not reached the floor. A player who
  * lost the election never gets past the first gate, because losing records no
  * legislative work relationship for capabilities to find.
  */
@@ -78,7 +73,7 @@ import { priorWorkEvidence } from "./prior-work-evidence";
 export type LegislativeBargainingEntry =
   | {
       readonly kind: "available";
-      /** The player's world, with the sitting's canonical records ensured. */
+      /** The player's world, with the bill's canonical records ensured. */
       readonly world: World;
       readonly seat: LegislativeBargainingSeat;
     }
@@ -90,17 +85,10 @@ export type LegislativeBargainingEntry =
 
 export interface OpenLegislativeBargainingInput {
   readonly playerPersonId: EntityId;
-  /**
-   * Which bill on the player's docket the sitting is about.
-   *
-   * Omitted, this opens the single authored sitting exactly as accepted — the
-   * legacy path below is unchanged, and the Kentucky transit brief still gates
-   * it. Supplied, the sitting is about that docket bill instead, and its
-   * content comes from the program family the bill was compiled from rather
-   * than from the authored transit brief. Either way the authority checks, the
-   * fail-closed refusals and the write boundary are the same ones.
-   */
+  /** Legacy docket selector; new callers identify the canonical measure. */
   readonly docketKey?: string;
+  /** The canonical agenda measure, including a measure another member filed. */
+  readonly measureStableKey?: string;
 }
 
 export function openLegislativeBargaining(
@@ -138,19 +126,6 @@ export function openLegislativeBargaining(
       reason: "The governing state has no accepted rule-pack surface.",
     };
   }
-  if (scenarioKey.startsWith("institution:"))
-    return {
-      kind: "unavailable",
-      reason:
-        "This institution has no supplied deliberation brief or recorded member decisions for this bill. Its supported procedural actions remain available in the office.",
-    };
-  const docketKey = input.docketKey ?? null;
-  if (docketKey === null && !bargainingBriefSupports(scenarioKey)) {
-    return {
-      kind: "unavailable",
-      reason: `No bargaining sitting is authored for the ${capabilities.workPlace?.displayName ?? scenarioKey} legislature yet.`,
-    };
-  }
   const blueprint = legislativeBlueprint(scenarioKey);
   const sessionRefusal = regularSessionActionRefusal(
     legislativeRulePackForWorld(world, blueprint.pack.packId),
@@ -158,27 +133,37 @@ export function openLegislativeBargaining(
   );
   if (sessionRefusal) return { kind: "unavailable", reason: sessionRefusal };
 
-  // A docket bill carries its own content, so the sitting is about whichever
-  // bill the player opened rather than about the one authored measure.
-  let docket: DocketBill | null = null;
-  if (docketKey !== null) {
-    docket = docketBill(world, {
-      scenarioKey,
-      playerPersonId: input.playerPersonId,
-      docketKey,
-    });
-    if (!docket) {
-      return {
-        kind: "unavailable",
-        reason: "That bill is not on this character's docket.",
-      };
-    }
+  const docket = input.measureStableKey
+    ? (readDocket(world, {
+        scenarioKey,
+        playerPersonId: input.playerPersonId,
+      }).find((bill) => bill.measureStableKey === input.measureStableKey) ??
+      null)
+    : input.docketKey !== undefined
+      ? docketBill(world, {
+          scenarioKey,
+          playerPersonId: input.playerPersonId,
+          docketKey: input.docketKey,
+        })
+      : (readDocket(world, {
+          scenarioKey,
+          playerPersonId: input.playerPersonId,
+        }).find((bill) => {
+          if (bill.jurisdictionId !== governingJurisdictionId) return false;
+          const position = measurePosition(world, bill.measureId);
+          return (
+            position.phase === "on-floor" &&
+            position.chamberKey === memberSeat.chamberKey
+          );
+        }) ?? null);
+  if (!docket) {
+    return {
+      kind: "unavailable",
+      reason:
+        "The bill has not been taken up in this world; open it through the office first.",
+    };
   }
-  // The measure the ordinary Work route introduces into this world, found
-  // where openLegislativeWork left it. No measure means the player has not
-  // taken the bill up yet, and this route says so instead of introducing one.
-  const measureStableKey =
-    docket?.measureStableKey ?? `legislative-work:${scenarioKey}:measure`;
+  const measureStableKey = docket.measureStableKey;
   const measure = (world.history.legislativeMeasures ?? []).find(
     (record) => record.stableKey === measureStableKey,
   );
@@ -205,30 +190,6 @@ export function openLegislativeBargaining(
       reason: "The bill on file belongs to a different jurisdiction.",
     };
   }
-  // The sitting has to be about the bill that is actually on file.
-  //
-  // Everything the authored sitting supplies — the filed sections, the fiscal
-  // note and its amounts, the beneficiary and its place, what the colleagues
-  // want and what they will trade — was written about one measure. Now that a
-  // world draws which of this legislature's written measures its session
-  // opened on, the brief and the bill can be different bills, and showing a
-  // transit pilot's sections under a school-crossing bill's name would be a
-  // fabrication about the player's own world.
-  //
-  // So it fails closed, the way this route already does for an institution
-  // with no brief: the office keeps every supported procedural action on the
-  // bill, and only the deliberation room stands down.
-  if (
-    docket === null &&
-    measure.shortTitle !==
-      legislativeBlueprint(BARGAINING_BRIEF_SCENARIO_KEY).shortTitle
-  ) {
-    return {
-      kind: "unavailable",
-      reason: `No deliberation brief was written for ${measure.designation}. Its supported procedural actions remain available in the office.`,
-    };
-  }
-
   const position = measurePosition(world, measureId);
   if (position.phase !== "on-floor") {
     return {
@@ -287,28 +248,13 @@ export function openLegislativeBargaining(
     `legislative-work:${scenarioKey}:analyst`,
   );
 
-  if (docket === null) {
-    // The authored sitting seeds the filed bill's text on first entry, as
-    // accepted. A
-    // docket bill filed its own clauses when it was filed, so there is nothing
-    // to seed and nothing here may write over them.
-    next = ensureFiledBillText(
-      next,
-      scenarioKey,
-      measureId,
-      measure.jurisdictionId,
-    );
-  }
   next = ensureFiscalNote(next, {
     scenarioKey,
     measureId,
     jurisdictionId: measure.jurisdictionId,
     analystPersonId,
-    stableKey: fiscalNoteStableKeyFor(scenarioKey, docket),
-    summary:
-      docket === null
-        ? fiscalNoteSummaryFor(measure.designation)
-        : draftFiscalNoteSummary(next, docket),
+    stableKey: fiscalNoteStableKeyFor(docket),
+    summary: draftFiscalNoteSummary(next, docket),
   });
   const sponsorPersonId = characterHistoryContextPersonId(
     next,
@@ -321,38 +267,21 @@ export function openLegislativeBargaining(
     guardianPersonId,
   });
 
-  let facts;
-  if (docket === null) {
-    facts = bargainingSubjectFacts({
-      measureId,
-      measureStableKey: measure.stableKey,
-      // What this world filed, not what the bank calls it.
-      designation: measure.designation,
-      shortTitle: measure.shortTitle,
-      chamberName: chamber.name,
-      nextStepLabel: stage.label.toLowerCase(),
-      fiscalNoteEventStableKey: fiscalNoteStableKey(scenarioKey),
-      analystPersonId,
-      advocatePersonId,
-      guardianPersonId,
-    });
-  } else {
-    const reread = recompileSavedBill(next, docket);
-    if ("unavailable" in reread) {
-      return { kind: "unavailable", reason: reread.unavailable };
-    }
-    facts = bargainingSubjectFactsForDraft({
-      draft: reread,
-      measureId,
-      measureStableKey: measure.stableKey,
-      chamberName: chamber.name,
-      nextStepLabel: stage.label.toLowerCase(),
-      fiscalNoteEventStableKey: fiscalNoteStableKeyFor(scenarioKey, docket),
-      analystPersonId,
-      advocatePersonId,
-      guardianPersonId,
-    });
+  const reread = recompileSavedBill(next, docket);
+  if ("unavailable" in reread) {
+    return { kind: "unavailable", reason: reread.unavailable };
   }
+  const facts = bargainingSubjectFactsForDraft({
+    draft: reread,
+    measureId,
+    measureStableKey: measure.stableKey,
+    chamberName: chamber.name,
+    nextStepLabel: stage.label.toLowerCase(),
+    fiscalNoteEventStableKey: fiscalNoteStableKeyFor(docket),
+    analystPersonId,
+    advocatePersonId,
+    guardianPersonId,
+  });
   let progress = createLegislativeBargainingProgress(facts);
 
   const guardian = next.people[guardianPersonId]!;
@@ -397,17 +326,10 @@ export function openLegislativeBargaining(
         input.playerPersonId,
         advocatePersonId,
       ),
-      // A generated sitting describes its own cause. The authored Kentucky
-      // sitting passes none and keeps its accepted Ashland reads, because that
-      // is the sitting it is; every docket bill states the section and the
-      // beneficiary its own invitation carries.
-      cause:
-        docket === null
-          ? undefined
-          : {
-              sectionLabel: facts.requestedSectionLabel,
-              beneficiaryLabel: facts.requestedBeneficiaryLabel,
-            },
+      cause: {
+        sectionLabel: facts.requestedSectionLabel,
+        beneficiaryLabel: facts.requestedBeneficiaryLabel,
+      },
     }),
     roomContext,
     privateRoomContext,
@@ -432,18 +354,9 @@ export function openLegislativeBargaining(
 /* Canonical record seeding, all idempotent                                    */
 /* -------------------------------------------------------------------------- */
 
-function fiscalNoteStableKey(scenarioKey: string): string {
-  return `legislative-work:${scenarioKey}:fiscal-note`;
-}
-
-/** Each bill gets its own note; two bills do not share one staff analysis. */
-function fiscalNoteStableKeyFor(
-  scenarioKey: string,
-  docket: DocketBill | null,
-): string {
-  return docket === null
-    ? fiscalNoteStableKey(scenarioKey)
-    : `${docket.docketKey}:fiscal-note`;
+/** Each bill gets its own note; two bills do not share one. */
+function fiscalNoteStableKeyFor(docket: DocketBill): string {
+  return `${docket.docketKey}:fiscal-note`;
 }
 
 /**
@@ -474,40 +387,6 @@ function draftFiscalNoteSummary(world: World, docket: DocketBill): string {
   if (reread.revenueLabel !== null)
     return `A fiscal note on ${docket.designation} as filed records a charge of ${reread.revenueLabel} for each covered payment; what it raises in total is unknown until the number of covered payments is known. The ${invited} requested under Section ${section} would be a new appropriation.`;
   return `A fiscal note on ${docket.designation} as filed records that the Act appropriates nothing, and that the ${invited} requested under Section ${section} would be a new appropriation rather than a call on an existing one.`;
-}
-
-function ensureFiledBillText(
-  world: World,
-  scenarioKey: string,
-  measureId: EntityId,
-  jurisdictionId: EntityId,
-): World {
-  const scope = { jurisdictionId, segmentKey: null };
-  let next = world;
-  for (const section of FILED_SECTION_BRIEFS) {
-    const stableKey = `legislative-work:${scenarioKey}:${section.keySuffix}`;
-    const exists = (next.history.legislativeProvisions ?? []).some(
-      (record) => record.stableKey === stableKey,
-    );
-    if (exists) continue;
-    next = recordFiledProvision(next, {
-      stableKey,
-      measureId,
-      provisionKey: section.provisionKey,
-      sectionNumber: section.sectionNumber,
-      heading: section.heading,
-      text: section.text,
-      beneficiary: section.beneficiary,
-      applicationScope: scope,
-      ...(section.fiscalExposureLabel
-        ? {
-            fiscalExposureLabel: section.fiscalExposureLabel,
-            fiscalExposureMinorUnits: section.fiscalExposureMinorUnits,
-          }
-        : {}),
-    });
-  }
-  return next;
 }
 
 function ensureFiscalNote(
@@ -565,7 +444,7 @@ function ensureFiscalNote(
 /**
  * Seats the chambers with every member this world actually models: the player
  * (an elected member, not a staffer, on this route), the sponsoring colleague,
- * and the sitting's two counterparts. Every other seat stays authored, and the
+ * and the bill's two counterparts. Every other seat stays authored, and the
  * vote writer still refuses a disposition naming somebody the world does not
  * contain.
  */

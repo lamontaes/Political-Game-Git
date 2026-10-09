@@ -67,6 +67,7 @@ interface PropositionContract {
 
 /** The issue each local tax-terms question is filed under. */
 const LOCAL_TAX_ISSUE_BY_FAMILY: Readonly<Record<string, string>> = {
+  income: "us-state-and-local:fiscal.income-tax",
   property: "us-state-and-local:fiscal.property-tax",
   sales: "us-state-and-local:fiscal.sales-tax",
   payroll: "us-state-and-local:fiscal.income-tax",
@@ -439,7 +440,12 @@ function savedTaxProposalRefusal(
     !proposal.power ||
     canonicalJson(proposal.power) !==
       canonicalJson(
-        localTaxPowerEvidenceFor({ ...place, governmentKey, instrument }),
+        localTaxPowerEvidenceFor({
+          asOf: proposal.power.asOf,
+          ...place,
+          governmentKey,
+          instrument,
+        }),
       )
   )
     return "The saved tax proposal does not match this local government's tax question.";

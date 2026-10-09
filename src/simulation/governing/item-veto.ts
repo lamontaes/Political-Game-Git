@@ -35,6 +35,11 @@ interface ItemVetoRow {
   readonly itemVeto: string;
   readonly scope: string;
   readonly citation: string;
+  /**
+   * The executive whose grant this sourced row covers when the rule pack
+   * itself leaves the grant unknown.
+   */
+  readonly sourcedExecutiveTitle?: string;
 }
 
 const PLACES = (itemVetoTable as { places: ItemVetoRow[] }).places;
@@ -61,14 +66,19 @@ export interface ExecutiveItemVetoSelection {
  */
 export function itemVetoPower(rulePackId: string): ItemVetoPower | null {
   const pack = rulePackById(rulePackId);
-  // A council pack's unknown grant is not the governor's grant for its state.
-  if (
-    pack.executive.lineItemVeto.kind !== "known" ||
-    !pack.executive.lineItemVeto.value
-  )
-    return null;
   const code = pack.jurisdictionKey.replace(/^US-/, "");
+  const knownGrant =
+    pack.executive.lineItemVeto.kind === "known" &&
+    pack.executive.lineItemVeto.value;
+  if (pack.executive.lineItemVeto.kind === "known" && !knownGrant) return null;
   const row = PLACES.find((candidate) => candidate.code === code);
+  // A row may name the executive whose sourced grant it records, for a pack
+  // whose own flag is unknown. Other profiles in the same place stay unknown.
+  const sourcedExecutiveGrant =
+    row?.sourcedExecutiveTitle !== undefined &&
+    pack.jurisdictionKey === `US-${row.code}` &&
+    pack.executive.titleLabel === row.sourcedExecutiveTitle;
+  if (!knownGrant && !sourcedExecutiveGrant) return null;
   if (!row || row.itemVeto !== "yes") return null;
   return {
     reaches: row.scope === "any-bill" ? "any-bill" : "appropriation-bills",

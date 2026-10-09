@@ -1,4 +1,5 @@
 import { PRIOR_SERVICE_EVENT } from "./opening-prior-service";
+import { countyOfficeHolderWorkEventIds } from "../simulation/justice/county-office-work";
 import { eventById } from "../simulation/event-index";
 import { recentStrain } from "./relationship-strain";
 import { sponsoredLaws, type SponsoredLaw } from "./place-conditions";
@@ -7,7 +8,6 @@ import {
   readRelationshipStanding,
 } from "../simulation/relationship-standing";
 import { proseDate } from "./prose-dates";
-import { personWords } from "./english-grammar";
 import { organizationRefLabel } from "./organization-ref";
 import {
   ageOnDate,
@@ -18,8 +18,8 @@ import {
   factsForPerson,
   householdLocationAt,
   householdMembershipsAt,
-  kinshipRelationshipsAt,
   measureById,
+  organizationProfileAt,
   peopleInHouseholdAt,
   personName,
   resourceFlowTermsAt,
@@ -28,10 +28,15 @@ import {
   type EntityId,
   type World,
 } from "../simulation";
+import { monthlyPayByPerson } from "../simulation/living-world/town-rent";
 import type { ShellRef } from "./shell-navigation";
 import { municipalGovernmentByKey } from "../simulation/municipal-government";
 import { allUndertakings, assessUndertaking } from "../simulation/undertakings";
 import { favorRecords, favorStandingBetween } from "../simulation/favors";
+import {
+  heardOfficialViews,
+  heardViewsHeldBy,
+} from "../simulation/heard-official-views";
 import { moneyText } from "../simulation/money-text";
 
 /**
@@ -69,6 +74,21 @@ export interface DossierFact {
   readonly attribution: FactAttribution;
 }
 
+/**
+ * A view somebody told the player, kept as the player heard it: who holds it,
+ * which official it is about, whether it credits or blames them, and when it
+ * was told. Never the holder's private belief (`heard-official-views.ts`).
+ */
+export interface DossierHeardView {
+  readonly knowledgeId: EntityId;
+  readonly holderId: EntityId;
+  readonly holderName: string;
+  readonly officialId: EntityId;
+  readonly officialName: string;
+  readonly position: "support" | "oppose";
+  readonly learnedAt: string;
+}
+
 export interface PersonDossier {
   readonly personId: EntityId;
   readonly name: string;
@@ -92,6 +112,13 @@ export interface PersonDossier {
     readonly summary: string;
   }[];
   readonly age: number | null;
+  /** The ordinary life facts that make the full person record useful. */
+  readonly lifeRecord: {
+    readonly home: string;
+    readonly jobs: readonly string[];
+    readonly monthlyPay: number | null;
+    readonly household: readonly string[];
+  };
   /** True only when this moment's scene puts them in the room. */
   readonly presentNow: boolean;
   /**
@@ -120,6 +147,10 @@ export interface PersonDossier {
   readonly links: readonly ShellRef[];
   /** Laws they sponsored that were enacted, and what each is doing. */
   readonly laws: readonly SponsoredLaw[];
+  /** Views of officials this person told the player. */
+  readonly viewsTheyHold: readonly DossierHeardView[];
+  /** Views the player was told of this person, as an official. */
+  readonly viewsOfThem: readonly DossierHeardView[];
 }
 
 function buildReminders(
@@ -253,42 +284,18 @@ function buildDetails(
   world: World,
   playerId: EntityId,
   personId: EntityId,
+  revealAll = false,
 ): readonly DossierFact[] {
   const details: DossierFact[] = [];
 
+  const subject = world.people[personId];
+  const fullRecordAccess =
+    personId === playerId || world.control.kind === "observer";
   const playerHouseholdId = householdIdFor(world, playerId);
   const sharedHousehold =
     personId !== playerId &&
     playerHouseholdId !== null &&
     peopleInHouseholdAt(world, playerHouseholdId).includes(personId);
-  if (sharedHousehold) {
-    details.push({
-      key: "household",
-      text: "You live in the same household.",
-      attribution: "known",
-    });
-  }
-
-  const kin = kinshipRelationshipsAt(world, playerId).find((record) =>
-    record.personIds.includes(personId),
-  );
-  if (kin) {
-    const context = describePersonContext(world, playerId, personId);
-    if (context?.relationship) {
-      details.push({
-        key: `kin-${kin.id}`,
-        text: (() => {
-          const words = personWords(world.people[personId]);
-          return `${words.They} ${words.are} ${context.relationship}.`;
-        })(),
-        attribution: "known",
-      });
-    }
-  }
-
-  const subject = world.people[personId];
-  const fullRecordAccess =
-    personId === playerId || world.control.kind === "observer";
   if (fullRecordAccess || sharedHousehold) {
     const householdId = householdIdFor(world, personId);
     if (householdId) {
@@ -383,9 +390,10 @@ function buildDetails(
         event?.occurredAt !== undefined &&
         event.occurredAt <= world.currentDate &&
         event.recordedAt <= world.currentDate;
-      if (personId !== playerId && !publicFact && !knownFact) continue;
+      if (personId !== playerId && !publicFact && !knownFact && !revealAll)
+        continue;
       const attribution =
-        personId === playerId || knownFact
+        personId === playerId || knownFact || revealAll
           ? ("known" as const)
           : ("record" as const);
       if (fact.kind === "occupation") {
@@ -504,6 +512,28 @@ function buildLinks(
   return links;
 }
 
+function heardViewLines(
+  world: World,
+  views: ReturnType<typeof heardOfficialViews>,
+): readonly DossierHeardView[] {
+  return views.flatMap((view) => {
+    const holder = world.people[view.holderId];
+    const official = world.people[view.officialId];
+    if (!holder || !official) return [];
+    return [
+      {
+        knowledgeId: view.knowledgeId,
+        holderId: view.holderId,
+        holderName: personName(holder),
+        officialId: view.officialId,
+        officialName: personName(official),
+        position: view.position,
+        learnedAt: view.learnedAt,
+      },
+    ];
+  });
+}
+
 /**
  * Builds one person's dossier, or null when the world has no such person.
  *
@@ -518,13 +548,33 @@ export function projectPersonDossier(
   options: {
     readonly presentNow?: boolean;
     readonly presentRoom?: string | null;
+    /** Observer mode reads the world's record, rather than one person's knowledge. */
+    readonly observer?: boolean;
   } = {},
 ): PersonDossier | null {
   const subject = world.people[personId];
   if (!subject) return null;
   const context = describePersonContext(world, playerId, personId);
-  const details = buildDetails(world, playerId, personId);
+  const details = buildDetails(world, playerId, personId, options.observer);
   const reminders = buildReminders(world, playerId, personId);
+  const householdId = householdIdFor(world, personId);
+  const jobs = activeWorkRelationshipsAt(world, personId).map((active) => {
+    const employer = active.relationship.organizationId
+      ? organizationProfileAt(world, active.relationship.organizationId)?.name
+      : null;
+    return employer ? `${active.role.title} at ${employer}` : active.role.title;
+  });
+  const household = (householdId ? peopleInHouseholdAt(world, householdId) : [])
+    .filter((memberId) => memberId !== personId)
+    .flatMap((memberId) => {
+      const member = world.people[memberId];
+      return member ? [personName(member)] : [];
+    });
+  const pay =
+    monthlyPayByPerson(world, world.currentDate).get(personId) ?? null;
+  const countyWorkEvents = new Set(
+    countyOfficeHolderWorkEventIds(world, personId),
+  );
 
   return {
     personId,
@@ -535,31 +585,62 @@ export function projectPersonDossier(
       context?.basis ?? "No record establishes a relationship.",
     howYouKnowThem: context?.relationship ?? null,
     appearance: subject.appearance ?? null,
-    sharedHistory: world.history.relationshipInteractions
-      .filter(
-        (record) =>
-          record.personIds.includes(playerId) &&
-          record.personIds.includes(personId) &&
-          record.occurredAt <= world.currentDate,
+    sharedHistory: [
+      ...world.history.relationshipInteractions
+        .filter(
+          (record) =>
+            record.personIds.includes(playerId) &&
+            record.personIds.includes(personId) &&
+            record.occurredAt <= world.currentDate,
+        )
+        .map((record) => ({
+          id: record.id,
+          date: record.occurredAt,
+          sequence: record.sequence,
+          summary: record.summary,
+        })),
+      ...favorRecords(world)
+        .filter(
+          (favor) =>
+            favor.givenAt <= world.currentDate &&
+            ((favor.giverPersonId === playerId &&
+              favor.receiverPersonId === personId) ||
+              (favor.giverPersonId === personId &&
+                favor.receiverPersonId === playerId)),
+        )
+        .map((favor) => ({
+          id: favor.id,
+          date: favor.givenAt,
+          sequence: favor.sequence,
+          summary:
+            favor.giverPersonId === playerId
+              ? `You ${favor.description}.`
+              : `${personName(world.people[favor.giverPersonId]!)} ${favor.description}.`,
+        })),
+    ]
+      .sort(
+        (left, right) =>
+          left.date.localeCompare(right.date) || left.sequence - right.sequence,
       )
-      .map((record) => ({
-        id: record.id,
-        date: record.occurredAt,
-        dateLabel: proseDate(record.occurredAt),
-        summary: record.summary,
+      .map(({ id, date, summary }) => ({
+        id,
+        date,
+        dateLabel: proseDate(date),
+        summary,
       })),
     publicCareer: world.history.events
       .filter(
         (event) =>
-          event.visibility === "public" &&
+          (options.observer || event.visibility === "public") &&
           event.recordedAt <= world.currentDate &&
           !/^(?:press|setup|simulation|evidence|information|time|claim|publication)\./.test(
             event.type,
           ) &&
           event.occurredAt <= world.currentDate &&
-          (event.participants.some(
-            (participant) => participant.personId === personId,
-          ) ||
+          (countyWorkEvents.has(event.id) ||
+            event.participants.some(
+              (participant) => participant.personId === personId,
+            ) ||
             (event.involvedEntityIds.includes(personId) &&
               /(?:^|[.:/-])vote$/.test(event.type))),
       )
@@ -582,6 +663,14 @@ export function projectPersonDossier(
         })(),
       })),
     age: ageOnDate(subject.birthDate, world.currentDate),
+    lifeRecord: {
+      home:
+        world.jurisdictions[subject.homeJurisdictionId]?.name ??
+        "Home jurisdiction recorded",
+      jobs,
+      monthlyPay: pay,
+      household,
+    },
     presentNow: options.presentNow ?? false,
     presentRoom: options.presentRoom ?? null,
     details,
@@ -607,6 +696,15 @@ export function projectPersonDossier(
       personId,
       world.people[playerId]?.homeJurisdictionId ?? null,
     ),
+    // What the player was told, and nothing the person keeps to themselves.
+    // An observer was told nothing.
+    viewsTheyHold:
+      options.observer || personId === playerId
+        ? []
+        : heardViewLines(world, heardViewsHeldBy(world, playerId, personId)),
+    viewsOfThem: options.observer
+      ? []
+      : heardViewLines(world, heardOfficialViews(world, playerId, personId)),
   };
 }
 
