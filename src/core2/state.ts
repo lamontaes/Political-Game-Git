@@ -296,8 +296,12 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   index(core.logByPlace, row.placeId, row.id);
 }
 
+const writerAPIs = new WeakMap<CoreState, CoreAPI>();
+
 /** Local writers validate their own rows; no whole-world pass occurs per act. */
 export function coreAPI(core: CoreState): CoreAPI {
+  const prior = writerAPIs.get(core);
+  if (prior) return prior;
   const p = (key: string) => {
     const row = core.data.parameters[key];
     if (row?.stopgapId) stopgap(row.stopgapId, core);
@@ -579,6 +583,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       core.pendingCallbacks.set(event.id, { ...event });
     },
   };
+  writerAPIs.set(core, api);
   return api;
 }
 

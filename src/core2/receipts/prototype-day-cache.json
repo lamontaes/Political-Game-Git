@@ -1,0 +1,1068 @@
+{
+  "schema": "p8-matched-first-day-cache-v1",
+  "scope": "Cloud-only January 1 to January 2, 2021, real La Homa, Texas/Hidalgo County; all 10,002 residents daily, 2 focus people, observer false. Median 3 warm runs includes core initialization. Full canonical state checks outside timer. This does not establish annual throughput.",
+  "change": "Immutable numeric-registry snapshot reuse and writer-facade reuse; no outcome rules changed.",
+  "before": {
+    "originalFile": "/tmp/p8-profile-day-parity.json",
+    "originalSha256": "30da77c7bc38a113111ea8920e5a94ac6e9e82824e35e5d032f281b2e222dc43",
+    "sourceHash": {
+      "beforeBuild": {
+        "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+        "sha256": "93aebf8c5a340d87b22732dc3026a0662e4e12605bdfa8490540fd9e6df0a62f",
+        "fileCount": 24
+      },
+      "afterProfile": {
+        "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+        "sha256": "93aebf8c5a340d87b22732dc3026a0662e4e12605bdfa8490540fd9e6df0a62f",
+        "fileCount": 24
+      },
+      "stable": true,
+      "upstreamDependencies": "Owner-frozen; source hash uses the current measure.ts src/core2-only scope."
+    },
+    "harnessSelfHash": {
+      "beforeBuild": "35823be5026c42a6b411d0285a2b623f55939ff813fb0976af2d79f57a5bb944",
+      "afterProfile": "35823be5026c42a6b411d0285a2b623f55939ff813fb0976af2d79f57a5bb944",
+      "stable": true
+    },
+    "preparedInputSha256": {
+      "beforeRuns": "4046e83ed650800049720da1b96878af7996deab4295c03baaa4b20a6b1890f8",
+      "afterProfile": "4046e83ed650800049720da1b96878af7996deab4295c03baaa4b20a6b1890f8",
+      "stable": true
+    },
+    "population": {
+      "people": 10002,
+      "households": 3955,
+      "jobs": 64,
+      "organizations": 39
+    },
+    "median": {
+      "elapsedMilliseconds": 5263.092044999998,
+      "daysPerMinute": 11.400142632314543,
+      "decisions": 10002,
+      "acts": 10002
+    },
+    "runs": [
+      {
+        "elapsedMilliseconds": 6131.404903999995,
+        "initializeMilliseconds": 2268.9737659999955,
+        "advanceMilliseconds": 3862.431138,
+        "daysPerMinute": 9.785685489610595,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 7.166288000007626,
+        "semanticCaptureMilliseconds": 27771.050434000004,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      {
+        "elapsedMilliseconds": 5263.092044999998,
+        "initializeMilliseconds": 2904.1217819999874,
+        "advanceMilliseconds": 2358.97026300001,
+        "daysPerMinute": 11.400142632314543,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 9.906678999992437,
+        "semanticCaptureMilliseconds": 16451.311754999988,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      {
+        "elapsedMilliseconds": 4412.517621999985,
+        "initializeMilliseconds": 1275.8782040000078,
+        "advanceMilliseconds": 3136.639417999977,
+        "daysPerMinute": 13.597679406616136,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 15.073894000001019,
+        "semanticCaptureMilliseconds": 17270.70961999998,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      }
+    ],
+    "semanticParity": {
+      "scope": "canonical whole CoreState after one day; module functions replaced with operation signatures",
+      "withinRunComparedToWarmup": [
+        {
+          "run": "warmup",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-1",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-2",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-3",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "profiled",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        }
+      ],
+      "passed": true,
+      "mismatchSnapshotPaths": []
+    },
+    "profiledDay": {
+      "simulatedDays": 1,
+      "decisions": 10002,
+      "acts": 10002,
+      "coreIntegrity": "passed",
+      "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294",
+      "profileParityReceipt": {
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      "profileSummary": {
+        "samplingIntervalMicroseconds": 1000,
+        "samples": 1552,
+        "rawSampledMilliseconds": 4313.768000000008,
+        "excludedProfilerControlMilliseconds": 2339.689,
+        "applicationSampledMilliseconds": 1974.0790000000084,
+        "topSelfMilliseconds": [
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 313.27500000000015
+          },
+          {
+            "name": "parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 172.23899999999998
+          },
+          {
+            "name": "chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 168.695
+          },
+          {
+            "name": "offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 155.03799999999995
+          },
+          {
+            "name": "dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 142.96399999999988
+          },
+          {
+            "name": "(garbage collector) (:0)",
+            "sampledMs": 139.95200000000003
+          },
+          {
+            "name": "traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 125.24699999999999
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 117.86100000000002
+          },
+          {
+            "name": "recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 89.32999999999996
+          },
+          {
+            "name": "activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 85.07699999999998
+          },
+          {
+            "name": "set natives (:0)",
+            "sampledMs": 56.57999999999999
+          },
+          {
+            "name": "knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 55.72599999999999
+          },
+          {
+            "name": "availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 48.98699999999999
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 40.461000000000006
+          },
+          {
+            "name": "refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 38.308
+          },
+          {
+            "name": "updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 35.340999999999994
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 25.904000000000003
+          },
+          {
+            "name": "affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 22.406999999999993
+          },
+          {
+            "name": "updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 21.434
+          },
+          {
+            "name": "stopgap (file:///workspace/p8-core-prototype/src/core2/stopgaps.ts:1)",
+            "sampledMs": 18.464
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 14.778000000000002
+          },
+          {
+            "name": "numeric (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 14.362
+          },
+          {
+            "name": "index (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 14.355
+          },
+          {
+            "name": "updateNeeds (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 11.408000000000001
+          },
+          {
+            "name": "advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 9.785
+          },
+          {
+            "name": "decay (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 7.213999999999999
+          },
+          {
+            "name": "main (file:///tmp/p8-profile-day-parity.mts:4)",
+            "sampledMs": 6.886000000000001
+          },
+          {
+            "name": "duePeople (file:///workspace/p8-core-prototype/src/core2/calendar.ts:1)",
+            "sampledMs": 6.7620000000000005
+          },
+          {
+            "name": "makeIsoDate (file:///workspace/p8-core-prototype/src/simulation/dates.ts:1)",
+            "sampledMs": 6.417999999999999
+          },
+          {
+            "name": "(program) (:0)",
+            "sampledMs": 3.162
+          }
+        ],
+        "topInclusiveMilliseconds": [
+          {
+            "name": "(root) (:0)",
+            "sampledMs": 1974.0790000000036
+          },
+          {
+            "name": "main (file:///tmp/p8-profile-day-parity.mts:4)",
+            "sampledMs": 1830.9650000000024
+          },
+          {
+            "name": "advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 1824.0790000000022
+          },
+          {
+            "name": "activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 1805.3180000000025
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 766.588999999999
+          },
+          {
+            "name": "chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 506.8390000000002
+          },
+          {
+            "name": "availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 458.33700000000005
+          },
+          {
+            "name": "refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 247.85799999999998
+          },
+          {
+            "name": "traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 219.0400000000001
+          },
+          {
+            "name": "affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 188.07600000000002
+          },
+          {
+            "name": "parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 172.23899999999998
+          },
+          {
+            "name": "offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 165.43799999999993
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 164.27599999999995
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 157.93700000000004
+          },
+          {
+            "name": "dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 147.9559999999999
+          },
+          {
+            "name": "(garbage collector) (:0)",
+            "sampledMs": 139.95200000000003
+          },
+          {
+            "name": "recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 113.61999999999998
+          },
+          {
+            "name": "knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 111.15599999999995
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 72.16600000000004
+          },
+          {
+            "name": "coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 72.16600000000004
+          },
+          {
+            "name": "set natives (:0)",
+            "sampledMs": 56.57999999999999
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 50.77900000000001
+          },
+          {
+            "name": "updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 38.71499999999999
+          },
+          {
+            "name": "updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 23.27
+          },
+          {
+            "name": "updateNeeds (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 19.220999999999997
+          },
+          {
+            "name": "stopgap (file:///workspace/p8-core-prototype/src/core2/stopgaps.ts:1)",
+            "sampledMs": 18.464
+          },
+          {
+            "name": "numeric (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 14.362
+          },
+          {
+            "name": "index (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 14.355
+          },
+          {
+            "name": "decay (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 11.543000000000001
+          },
+          {
+            "name": "duePeople (file:///workspace/p8-core-prototype/src/core2/calendar.ts:1)",
+            "sampledMs": 6.7620000000000005
+          }
+        ],
+        "topStackMilliseconds": [
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 239.89100000000008
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 168.695
+          },
+          {
+            "name": "(root) (:0) > (garbage collector) (:0)",
+            "sampledMs": 139.95200000000003
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 124.216
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 108.274
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 90.17399999999999
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 89.32999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 85.07699999999998
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1) > dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 72.24800000000005
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1) > dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 70.71600000000002
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 58.19700000000002
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 55.632000000000005
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 48.98699999999999
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 46.763999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 38.308
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 37.205999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 35.340999999999994
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 32.966
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 29.278999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 27.430000000000003
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 22.464
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 18.519999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > set natives (:0)",
+            "sampledMs": 17.967000000000002
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > set natives (:0)",
+            "sampledMs": 16.667
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 16.549
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > index (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 14.355
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 14.334999999999999
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > set natives (:0)",
+            "sampledMs": 13.738
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 13.120000000000001
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 12.398
+          }
+        ]
+      },
+      "cpuProfilePath": "/tmp/p8-profile-day-parity.cpuprofile"
+    }
+  },
+  "after": {
+    "originalFile": "/tmp/p8-profile-day-parity-after-cache.json",
+    "originalSha256": "959c87bdc900fd52c8390a07991e73c29182dfef769377117459aa6b7ca6c2fa",
+    "sourceHash": {
+      "beforeBuild": {
+        "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+        "sha256": "d86c3bd1feb735f5367ad4cb5b68957f517a76e7334e88ca51aa678906a0cfeb",
+        "fileCount": 24
+      },
+      "afterProfile": {
+        "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+        "sha256": "d86c3bd1feb735f5367ad4cb5b68957f517a76e7334e88ca51aa678906a0cfeb",
+        "fileCount": 24
+      },
+      "stable": true,
+      "upstreamDependencies": "Owner-frozen; source hash uses the current measure.ts src/core2-only scope."
+    },
+    "harnessSelfHash": {
+      "beforeBuild": "35823be5026c42a6b411d0285a2b623f55939ff813fb0976af2d79f57a5bb944",
+      "afterProfile": "35823be5026c42a6b411d0285a2b623f55939ff813fb0976af2d79f57a5bb944",
+      "stable": true
+    },
+    "preparedInputSha256": {
+      "beforeRuns": "4046e83ed650800049720da1b96878af7996deab4295c03baaa4b20a6b1890f8",
+      "afterProfile": "4046e83ed650800049720da1b96878af7996deab4295c03baaa4b20a6b1890f8",
+      "stable": true
+    },
+    "population": {
+      "people": 10002,
+      "households": 3955,
+      "jobs": 64,
+      "organizations": 39
+    },
+    "median": {
+      "elapsedMilliseconds": 4001.037169999996,
+      "daysPerMinute": 14.996111620727598,
+      "decisions": 10002,
+      "acts": 10002
+    },
+    "runs": [
+      {
+        "elapsedMilliseconds": 7417.424966999999,
+        "initializeMilliseconds": 3680.1383230000065,
+        "advanceMilliseconds": 3737.2866439999925,
+        "daysPerMinute": 8.08906059271769,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 14.560878000003868,
+        "semanticCaptureMilliseconds": 29280.37947500001,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      {
+        "elapsedMilliseconds": 4001.037169999996,
+        "initializeMilliseconds": 1595.8957629999786,
+        "advanceMilliseconds": 2405.1414070000174,
+        "daysPerMinute": 14.996111620727598,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 6.877414999995381,
+        "semanticCaptureMilliseconds": 17114.57293299999,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      {
+        "elapsedMilliseconds": 3619.0358549999946,
+        "initializeMilliseconds": 1506.491200999997,
+        "advanceMilliseconds": 2112.5446539999975,
+        "daysPerMinute": 16.579001259991685,
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "coreIntegrity": "passed",
+        "integrityCheckMilliseconds": 18.117943999997806,
+        "semanticCaptureMilliseconds": 19647.79588400002,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      }
+    ],
+    "semanticParity": {
+      "scope": "canonical whole CoreState after one day; module functions replaced with operation signatures",
+      "withinRunComparedToWarmup": [
+        {
+          "run": "warmup",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-1",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-2",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "timed-3",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        },
+        {
+          "run": "profiled",
+          "matchesWarmup": true,
+          "sha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+        }
+      ],
+      "passed": true,
+      "mismatchSnapshotPaths": []
+    },
+    "profiledDay": {
+      "simulatedDays": 1,
+      "decisions": 10002,
+      "acts": 10002,
+      "coreIntegrity": "passed",
+      "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294",
+      "profileParityReceipt": {
+        "simulatedDays": 1,
+        "decisions": 10002,
+        "acts": 10002,
+        "semanticStateSha256": "b2d4be08e2457b516058c4837aaab52d438c8c0d247e720459f7868d6969e294"
+      },
+      "profileSummary": {
+        "samplingIntervalMicroseconds": 1000,
+        "samples": 1420,
+        "rawSampledMilliseconds": 4587.273,
+        "excludedProfilerControlMilliseconds": 2611.2990000000004,
+        "applicationSampledMilliseconds": 1975.9739999999997,
+        "topSelfMilliseconds": [
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 229.70400000000012
+          },
+          {
+            "name": "dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 176.88099999999997
+          },
+          {
+            "name": "(garbage collector) (:0)",
+            "sampledMs": 172.10400000000004
+          },
+          {
+            "name": "chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 166.10499999999996
+          },
+          {
+            "name": "parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 144.38600000000005
+          },
+          {
+            "name": "traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 141.87699999999998
+          },
+          {
+            "name": "recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 108.24000000000001
+          },
+          {
+            "name": "offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 108.04799999999997
+          },
+          {
+            "name": "activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 104.69599999999998
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 92.03800000000001
+          },
+          {
+            "name": "knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 64.88499999999999
+          },
+          {
+            "name": "refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 59.86600000000001
+          },
+          {
+            "name": "availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 56.29399999999999
+          },
+          {
+            "name": "updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 47.582
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 40.66199999999999
+          },
+          {
+            "name": "set Navigator (:0)",
+            "sampledMs": 36.408
+          },
+          {
+            "name": "updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 29.857000000000003
+          },
+          {
+            "name": "updateNeeds (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 29.754000000000005
+          },
+          {
+            "name": "affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 20.007
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 18.409999999999997
+          },
+          {
+            "name": "advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 17.285
+          },
+          {
+            "name": "resolveOperation (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 16.950000000000003
+          },
+          {
+            "name": "numeric (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 16.122999999999998
+          },
+          {
+            "name": "stopgap (file:///workspace/p8-core-prototype/src/core2/stopgaps.ts:1)",
+            "sampledMs": 14.334999999999999
+          },
+          {
+            "name": "coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 10.905000000000001
+          },
+          {
+            "name": "makeIsoDate (file:///workspace/p8-core-prototype/src/simulation/dates.ts:1)",
+            "sampledMs": 10.850999999999999
+          },
+          {
+            "name": "index (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 8.564
+          },
+          {
+            "name": "main (file:///tmp/p8-profile-day-parity.mts:4)",
+            "sampledMs": 7.6160000000000005
+          },
+          {
+            "name": "duePeople (file:///workspace/p8-core-prototype/src/core2/calendar.ts:1)",
+            "sampledMs": 5.4430000000000005
+          },
+          {
+            "name": "epochDayOf (file:///workspace/p8-core-prototype/src/simulation/dates.ts:1)",
+            "sampledMs": 5.004
+          }
+        ],
+        "topInclusiveMilliseconds": [
+          {
+            "name": "(root) (:0)",
+            "sampledMs": 1975.9739999999977
+          },
+          {
+            "name": "main (file:///tmp/p8-profile-day-parity.mts:4)",
+            "sampledMs": 1803.8699999999978
+          },
+          {
+            "name": "advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 1790.544999999998
+          },
+          {
+            "name": "activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 1762.4839999999986
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 672.1259999999995
+          },
+          {
+            "name": "chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 529.9189999999998
+          },
+          {
+            "name": "availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 499.08799999999997
+          },
+          {
+            "name": "traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 260.10600000000017
+          },
+          {
+            "name": "refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 254.55400000000006
+          },
+          {
+            "name": "affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 217.63800000000012
+          },
+          {
+            "name": "dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 179.624
+          },
+          {
+            "name": "(garbage collector) (:0)",
+            "sampledMs": 172.10400000000004
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 146.681
+          },
+          {
+            "name": "parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 144.38600000000005
+          },
+          {
+            "name": "recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 138.61200000000002
+          },
+          {
+            "name": "(anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 115.012
+          },
+          {
+            "name": "offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 111.50399999999998
+          },
+          {
+            "name": "knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 99.21100000000001
+          },
+          {
+            "name": "__name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 77.06999999999998
+          },
+          {
+            "name": "updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 55.75000000000001
+          },
+          {
+            "name": "set Navigator (:0)",
+            "sampledMs": 36.408
+          },
+          {
+            "name": "updateNeeds (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 34.45200000000001
+          },
+          {
+            "name": "updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 31.245
+          },
+          {
+            "name": "resolveOperation (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 16.950000000000003
+          },
+          {
+            "name": "numeric (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 16.122999999999998
+          },
+          {
+            "name": "stopgap (file:///workspace/p8-core-prototype/src/core2/stopgaps.ts:1)",
+            "sampledMs": 14.334999999999999
+          },
+          {
+            "name": "coreAPI (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 10.905000000000001
+          },
+          {
+            "name": "makeIsoDate (file:///workspace/p8-core-prototype/src/simulation/dates.ts:1)",
+            "sampledMs": 10.850999999999999
+          },
+          {
+            "name": "decay (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 10.042
+          },
+          {
+            "name": "index (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 8.564
+          }
+        ],
+        "topStackMilliseconds": [
+          {
+            "name": "(root) (:0) > (garbage collector) (:0)",
+            "sampledMs": 172.10400000000004
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 166.10499999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 141.87699999999998
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1) > dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 122.81499999999997
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 120.06200000000007
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 108.24000000000001
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 104.69599999999998
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 81.01699999999998
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 69.074
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 59.86600000000001
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 57.98399999999999
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > parameter (file:///workspace/p8-core-prototype/src/core2/parameters.ts:1)",
+            "sampledMs": 57.383000000000024
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 56.29399999999999
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1) > dateTime (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 54.066
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 53.357
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > updateGoal (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 29.857000000000003
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > updateNeeds (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 29.754000000000005
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > set Navigator (:0)",
+            "sampledMs": 28.944999999999993
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > offer (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 27.031000000000002
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 26.185999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1)",
+            "sampledMs": 23.397999999999996
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > knownPublicTargets (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 22.743
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > traitScore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 22.470000000000002
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > availableActs (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 21.984
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > refreshNeeds (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 18.273
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > chooseAct (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > __name (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 18.192
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > updatePerson (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 17.552999999999997
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1)",
+            "sampledMs": 17.285
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > recordAct (file:///workspace/p8-core-prototype/src/core2/state.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/state.ts:1)",
+            "sampledMs": 13.876000000000001
+          },
+          {
+            "name": "(root) (:0) > main (file:///tmp/p8-profile-day-parity.mts:4) > advanceCore (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > activate (file:///workspace/p8-core-prototype/src/core2/life.ts:1) > (anonymous) (file:///workspace/p8-core-prototype/src/core2/modules/life.ts:1) > affectAt (file:///workspace/p8-core-prototype/src/core2/emotion.ts:1)",
+            "sampledMs": 13.219999999999999
+          }
+        ]
+      },
+      "cpuProfilePath": "/tmp/p8-profile-day-parity-after-cache.cpuprofile"
+    }
+  },
+  "annualBudgetAttempt": {
+    "schema": "p8-incomplete-annual-budget-diagnostic-v1",
+    "complete": false,
+    "annualPerformance": "unmeasured",
+    "whyStopped": "Warmup exceeded the 120-second annual budget; stopped to optimize instead of completing four slow years.",
+    "lastCompletedChunk": {
+      "throughDate": "2021-05-31",
+      "simulatedDays": 31,
+      "elapsedMilliseconds": 59910.64060300001,
+      "decisions": 310062,
+      "acts": 310062
+    },
+    "chunkRows": [
+      {
+        "throughDate": "2021-01-31",
+        "simulatedDays": 30,
+        "elapsedMilliseconds": 94718.678564,
+        "decisions": 300060,
+        "acts": 300060
+      },
+      {
+        "throughDate": "2021-02-28",
+        "simulatedDays": 28,
+        "elapsedMilliseconds": 58701.57509699999,
+        "decisions": 280056,
+        "acts": 280056
+      },
+      {
+        "throughDate": "2021-03-31",
+        "simulatedDays": 31,
+        "elapsedMilliseconds": 51802.36782700001,
+        "decisions": 310062,
+        "acts": 310062
+      },
+      {
+        "throughDate": "2021-04-30",
+        "simulatedDays": 30,
+        "elapsedMilliseconds": 49852.244674999965,
+        "decisions": 300060,
+        "acts": 300060
+      },
+      {
+        "throughDate": "2021-05-31",
+        "simulatedDays": 31,
+        "elapsedMilliseconds": 59910.64060300001,
+        "decisions": 310062,
+        "acts": 310062
+      }
+    ],
+    "completedChunkDays": 150,
+    "completedChunkElapsedMilliseconds": 314985.50676599995,
+    "completedChunkDaysPerMinute": 28.57274321096311,
+    "rateScope": "Incomplete single warmup; completed month chunks only, no initialization, no annual median.",
+    "inFlightDays": "Not retained; last completed chunk is a lower bound on the simulated horizon at termination.",
+    "processMemoryKiBImmediatelyBeforeStop": {
+      "VmHWM": 2632116,
+      "VmRSS": 2102604
+    },
+    "sourceSha256AtStop": "aff1e2535d61c2ab846c64618f8c6e8dcba3b720f4b10ff172dd8f96767cd7a8",
+    "sourceFileCount": 24,
+    "logSha256AtReceipt": "8f3214ea550cdc6d9b9b53df804af374786047e362de5a80a1a41216471fdac2",
+    "matchedDayReceiptReference": "/tmp/p8-profile-day-parity-after-cache.json"
+  }
+}

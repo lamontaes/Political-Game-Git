@@ -1,5 +1,6 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { appraiseEvent, affectAt } from "../emotion";
+import { parameterValues } from "../parameters";
 import type {
   ActOffer,
   ActionDefinition,
@@ -202,12 +203,7 @@ export const LIFE_MODULE: CoreModule = {
       const affect = affectAt(
         actor.affect,
         api.state.date,
-        Object.fromEntries(
-          Object.entries(api.state.data.parameters).map(([key, row]) => [
-            key,
-            row.value,
-          ]),
-        ),
+        parameterValues(api.state.data.parameters),
       );
       affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
       api.updatePerson(actorId, { affect });
@@ -278,12 +274,7 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   onEvent(api, event, learnedBy) {
-    const params = Object.fromEntries(
-      Object.entries(api.state.data.parameters).map(([key, row]) => [
-        key,
-        row.value,
-      ]),
-    );
+    const params = parameterValues(api.state.data.parameters);
     api.stopgap("SG-P8-emotion-model");
     for (const id of learnedBy) {
       const actor = api.state.people.get(id)!;

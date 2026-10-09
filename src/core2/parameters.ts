@@ -14,6 +14,24 @@ export interface Parameter {
 
 export const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
 
+const numericSnapshots = new WeakMap<
+  Readonly<Record<string, Parameter>>,
+  Readonly<Record<string, number>>
+>();
+
+/** Internal affect projection; configuration supplies immutable registry identities. */
+export function parameterValues(
+  registry: Readonly<Record<string, Parameter>> = PARAMETERS,
+): Readonly<Record<string, number>> {
+  const prior = numericSnapshots.get(registry);
+  if (prior) return prior;
+  const values = Object.fromEntries(
+    Object.entries(registry).map(([key, row]) => [key, row.value]),
+  );
+  numericSnapshots.set(registry, values);
+  return values;
+}
+
 export function parameter(key: string, registry = PARAMETERS): number {
   const row = registry[key];
   if (!row) throw new Error(`Untagged numeric parameter: ${key}`);

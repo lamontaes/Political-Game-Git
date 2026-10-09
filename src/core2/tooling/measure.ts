@@ -67,6 +67,16 @@ interface RunWindowReasonSummary {
   byActionId: Record<string, ActTotals>;
   byPerson?: Record<string, ActTotals>;
   personMonthActionRows?: MonthlyActionCounter[];
+  affectSamples: {
+    date: string;
+    personId: string;
+    mood: number;
+    stress: number;
+    moodBaseline: number;
+    stressBaseline: number;
+    lastChoice?: string;
+    driveCount: number;
+  }[];
 }
 
 interface RunResult {
@@ -132,6 +142,12 @@ const bytesPerMiB = P("bytesPerMiB");
 const zero = P("zero");
 const one = P("one");
 
+function progress(phase: string, detail: Record<string, unknown> = {}): void {
+  process.stderr.write(
+    `[${new Date().toISOString()}] ${phase} ${JSON.stringify(detail)}\n`,
+  );
+}
+
 function memorySample(): MemorySample {
   const usage = process.memoryUsage();
   return {
@@ -183,12 +199,11 @@ function traceSelection(input: CoreInput): {
     const knownCoworkers = person.knownIds.filter(
       (id) => id !== person.id && coworkers.has(id),
     );
-    if (knownCoworkers.length === zero) return [];
     return [{ person, knownCoworkers }];
   });
   if (candidates.length === zero)
     throw new Error(
-      "No sourced adult with a county, owned job, and known coworker exists in the generated population.",
+      "No sourced adult with a county and owned job exists in the generated population.",
     );
   candidates.sort((left, right) => {
     const leftKey = stableHash(
@@ -223,6 +238,14 @@ function traceSelection(input: CoreInput): {
   const focusPlaceIds = [countyId];
   const traced: CoreInput = {
     ...input,
+    gaps: [
+      ...input.gaps,
+      ...(selected.knownCoworkers.length === zero
+        ? [
+            "The opening generator records no known coworkers for the selected player; coworker acquaintance and circle admission remain unmodeled.",
+          ]
+        : []),
+    ],
     playerId: player.id,
     focusPersonIds,
     focusPlaceIds,
@@ -437,6 +460,24 @@ function advanceInMonthChunks(
   const personMonthActionRows = includeDetailedActStats
     ? ([] as MonthlyActionCounter[])
     : undefined;
+  const affectSamples: RunWindowReasonSummary["affectSamples"] = [];
+  const captureAffect = () => {
+    for (const personId of [...core.focusPersonIds].sort()) {
+      const person = core.people.get(personId);
+      if (!person) throw new Error(`Missing focus person: ${personId}`);
+      affectSamples.push({
+        date: core.date,
+        personId,
+        mood: person.affect.mood,
+        stress: person.affect.stress,
+        moodBaseline: person.affect.moodBaseline,
+        stressBaseline: person.affect.stressBaseline,
+        lastChoice: person.lastChoice,
+        driveCount: person.drives.size,
+      });
+    }
+  };
+  captureAffect();
 
   while (core.date < target) {
     let chunkEnd = lastDayOfMonth(core.date);
@@ -444,10 +485,19 @@ function advanceInMonthChunks(
       chunkEnd = lastDayOfMonth(addDays(makeIsoDate(core.date), P("one")));
     if (chunkEnd > target) chunkEnd = target;
 
+    const chunkStarted = performance.now();
     const chunk = advanceCore(core, chunkEnd);
     simulatedDays += chunk.simulatedDays;
     decisions += chunk.decisions;
     acts += chunk.acts;
+    captureAffect();
+    progress("month-advanced", {
+      throughDate: core.date,
+      simulatedDays: chunk.simulatedDays,
+      elapsedMilliseconds: performance.now() - chunkStarted,
+      decisions: chunk.decisions,
+      acts: chunk.acts,
+    });
 
     const month = chunkEnd.slice(P("zero"), P("isoMonthCharacters"));
     monthsCovered.push(month);
@@ -488,6 +538,7 @@ function advanceInMonthChunks(
       throughDate: target,
       monthsCovered,
       canonicalHash: reasonHash.digest("hex"),
+      affectSamples,
       totals,
       byMonth: asRecord(byMonth),
       byActionId: asRecord(byActionId),
@@ -789,16 +840,27 @@ async function main(): Promise<void> {
     minimumPeople: P("targetPopulation"),
   });
   const populationCompleted = performance.now();
+  progress("population-built", {
+    elapsedMilliseconds: populationCompleted - populationStarted,
+    people: population.people.length,
+    place: population.placeMetadata,
+  });
   const populationMemoryAfter = memorySample();
   const deepPastMemoryBefore = memorySample();
   const deepPastStarted = performance.now();
   const withDeepPast = buildDeepPast(population);
   const deepPastCompleted = performance.now();
+  progress("deep-past-built", {
+    elapsedMilliseconds: deepPastCompleted - deepPastStarted,
+  });
   const deepPastMemoryAfter = memorySample();
   const civicMemoryBefore = memorySample();
   const civicStarted = performance.now();
   const withCivicInputs = enrichCivicInputs(withDeepPast);
   const civicCompleted = performance.now();
+  progress("civic-inputs-built", {
+    elapsedMilliseconds: civicCompleted - civicStarted,
+  });
   const civicMemoryAfter = memorySample();
   const traced = traceSelection(withCivicInputs);
   const inputSha256 = preparedInputHash(traced.input);
@@ -814,13 +876,30 @@ async function main(): Promise<void> {
   const warmupCount = mode === "opening" ? zero : P("warmupRuns");
   const measuredCount = mode === "opening" ? one : P("warmRuns");
   const warmups: RunResult[] = [];
-  for (let index = zero; index < warmupCount; index += one)
+  for (let index = zero; index < warmupCount; index += one) {
+    progress("warmup-start", { run: index + one, throughDate });
     warmups.push(await runCore(traced.input, throughDate, false));
+    const run = warmups.at(-one)!;
+    progress("warmup-complete", {
+      run: index + one,
+      elapsedMilliseconds: run.elapsedMilliseconds,
+      daysPerMinute: run.daysPerMinute,
+    });
+  }
   const runs: RunResult[] = [];
-  for (let index = zero; index < measuredCount; index += one)
+  for (let index = zero; index < measuredCount; index += one) {
+    progress("measured-run-start", { run: index + one, throughDate });
     runs.push(
       await runCore(traced.input, throughDate, index === measuredCount - one),
     );
+    const run = runs.at(-one)!;
+    progress("measured-run-complete", {
+      run: index + one,
+      elapsedMilliseconds: run.elapsedMilliseconds,
+      daysPerMinute: run.daysPerMinute,
+      actStatsHash: run.actStatsHash,
+    });
+  }
   const expectedActHash = runs[zero]?.actStatsHash;
   if ([...warmups, ...runs].some((run) => run.actStatsHash !== expectedActHash))
     throw new Error(
@@ -850,6 +929,9 @@ async function main(): Promise<void> {
       stableDuringRun: true,
     },
     preparedInputSha256: inputSha256,
+    place: population.placeMetadata,
+    affectSampleScope:
+      "Focus-circle state at opening and month boundaries, in latent model units; no PANAS/PSS score mapping and no added external stimulus.",
     memoryScope:
       "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
     build: {

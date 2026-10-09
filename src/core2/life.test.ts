@@ -730,6 +730,43 @@ describe("controller boundary and data extension", () => {
     expect(lastAct(automatic, actorId).reasonKey).toMatch(/^utility:/);
   });
 
+  it("isolates affect coefficients and writers across interleaved mod worlds", () => {
+    const mod = extendData(DEFAULT_DATA, {
+      parameters: {
+        stressHalfLifeDays: {
+          ...DEFAULT_DATA.parameters.stressHalfLifeDays!,
+          value: p("stressHalfLifeDays") * p("two"),
+        },
+      },
+    });
+    const admitted = (data: CoreData) => {
+      const core = createLifeCore(input([person(actorId)]), { data });
+      coreAPI(core).emit({
+        ...adverse(core),
+        topic: undefined,
+        desiredChange: undefined,
+      });
+      return core;
+    };
+    const first = admitted(DEFAULT_DATA);
+    const changed = admitted(mod);
+    const second = admitted(DEFAULT_DATA);
+    advanceCore(first, nextDay);
+    advanceCore(changed, nextDay);
+    advanceCore(second, nextDay);
+    const a = first.people.get(actorId)!;
+    const b = changed.people.get(actorId)!;
+    const c = second.people.get(actorId)!;
+    expect(b.affect.stress).toBeGreaterThan(a.affect.stress);
+    expect(c.affect).toEqual(a.affect);
+    expect(a.actCount).toBe(p("one"));
+    expect(b.actCount).toBe(p("one"));
+    expect(c.actCount).toBe(p("one"));
+    expect(DEFAULT_DATA.parameters.stressHalfLifeDays!.value).toBe(
+      p("stressHalfLifeDays"),
+    );
+  });
+
   it("admits a new need, goal kind, trait pull, and action through data using existing module operations", () => {
     const newNeed = "fixture:resource-buffer-review";
     const newGoal = "fixture:restore-resource-buffer";

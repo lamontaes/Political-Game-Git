@@ -2,7 +2,7 @@ import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople, catchUpPerson } from "./calendar";
 import { affectAt } from "./emotion";
 import { LIFE_MODULE } from "./modules/life";
-import { parameter } from "./parameters";
+import { parameter, parameterValues } from "./parameters";
 import { coreAPI, createCore, resolveOperation } from "./state";
 import type {
   ActOffer,
@@ -20,22 +20,7 @@ export type Controller = (
   decision: DecisionResult,
   offers: readonly ActOffer[],
 ) => string | undefined;
-const parameterSnapshots = new WeakMap<
-  CoreData,
-  Readonly<Record<string, number>>
->();
 const traitScores = new WeakMap<PersonState, Map<string, number>>();
-
-function numbers(data: CoreData): Readonly<Record<string, number>> {
-  let values = parameterSnapshots.get(data);
-  if (!values) {
-    values = Object.fromEntries(
-      Object.entries(data.parameters).map(([key, row]) => [key, row.value]),
-    );
-    parameterSnapshots.set(data, values);
-  }
-  return values;
-}
 
 export function createLifeCore(
   input: CoreInput,
@@ -62,7 +47,11 @@ function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
   api.stopgap("SG-P8-life-utility");
   api.stopgap("SG-P8-emotion-model");
   api.updatePerson(actor.id, {
-    affect: affectAt(actor.affect, core.date, numbers(core.data)),
+    affect: affectAt(
+      actor.affect,
+      core.date,
+      parameterValues(core.data.parameters),
+    ),
   });
   const values: Record<string, number> = {};
   for (const definition of core.data.needs) {
