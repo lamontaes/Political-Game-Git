@@ -73,7 +73,7 @@ function playedChild(seed: string, beats: number) {
 function newsText(model: ReturnType<typeof projectWorld39News>): string {
   return [
     ...model.standing.map((item) =>
-      [item.name, item.bodyName].filter(Boolean).join(" "),
+      [item.name, item.bodyName, item.formTerm].filter(Boolean).join(" "),
     ),
     ...model.officeholders.map((holder) =>
       [holder.title, holder.personName, holder.institution]
