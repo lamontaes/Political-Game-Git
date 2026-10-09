@@ -3,7 +3,7 @@
 /**
  * The zero-dice guard (Rule 0: no dice, no one-place special cases).
  *
- * Scans simulation, presentation and crisis code for three shapes and fails
+ * Scans simulation, presentation and crisis code for four shapes and fails
  * when a change adds one that the allowlist does not already carry:
  *
  *   roll            a seeded or Math.random draw compared with a threshold,
@@ -11,6 +11,15 @@
  *                   draw was stored in (`const roll = rng.next(); roll < p`)
  *   fixed-share     a named chance, share, odds, probability, permille or
  *                   likelihood set to a numeric literal other than 0 or 1
+ *   list-pick       a seeded or hash-keyed selection from a collection:
+ *                   `rng.pick(list)`, `pickDistinct`, a weighted pick, a
+ *                   shuffle, `list[rng.integer(0, list.length)]`,
+ *                   `Math.floor(rng.next() * n)`, a draw stored in a
+ *                   variable and used later as an index or counted down
+ *                   through weights, or `list[hash % list.length]`. Every
+ *                   list-pick entry carries a class (IDENTITY, PRESENTATION,
+ *                   GENERATION or DECISION) and a one-line reason; see
+ *                   docs/design/list-pick-inventory.md
  *   place-in-logic  a state or place literal (`"KY"`, `"Kentucky"`,
  *                   `"us-ky-lexington"`, a FIPS code, a city name) compared,
  *                   matched in a `case`, or looked up with includes/has
@@ -37,6 +46,11 @@ export const SCANNED_ROOTS = [
   "src/presentation",
   "src/crisis",
 ];
+/**
+ * Also read, for list-picks only: where the player's screens draw, and where
+ * the new core will land. Its picks go through this guard too.
+ */
+export const LIST_PICK_ONLY_ROOTS = ["src/player", "src/core2"];
 
 /** The seeded generator itself is where draws are made, not decided. */
 const EXEMPT_FILES = new Set(["src/simulation/rng.ts"]);
@@ -196,6 +210,153 @@ function isComment(trimmed) {
   );
 }
 
+/** The four classes a list-pick can carry. See docs/design/list-pick-inventory.md. */
+export const PICK_CLASSES = [
+  "IDENTITY",
+  "PRESENTATION",
+  "GENERATION",
+  "DECISION",
+];
+/** A generation pick is keyed by the id of the thing it describes, never by a place. */
+const PLACE_KEYS = new Set(["place", "town", "city", "state", "county"]);
+
+const PICK_CALL = new RegExp(
+  String.raw`\.pick\(|(?<![\w.])(?:pickDistinct|weightedPick|pickWeighted|weightedChoice|weightedIndex|shuffle|shuffled|shuffleInPlace)\s*[(<]|\.(?:shuffle|shuffled)\(`,
+);
+const PICK_DEFINITION = /\bfunction\s+\w+|^\s*(?:public\s+|private\s+)?pick</;
+/** A collection index drawn from a seeded stream or a draw helper. */
+const DRAW_IN_BRACKETS = new RegExp(
+  String.raw`\[(?:[^\[\]]|\[[^\[\]]*\])*${DRAW}(?:[^\[\]]|\[[^\[\]]*\])*\]`,
+);
+const DRAW_AS_ARGUMENT = new RegExp(
+  String.raw`\.(?:splice|at|slice|with|toSpliced)\(\s*(?:Math\.floor\(\s*)?${DRAW}`,
+);
+const INTEGER_OVER_LENGTH = new RegExp(
+  String.raw`\.integer\((?:[^()]|\([^()]*\))*\b(?:length|size)\b`,
+);
+const FLOORED_DRAW = new RegExp(String.raw`Math\.(?:floor|trunc)\(\s*${DRAW}`);
+/** `rng.next() * total`: the first half of a cumulative weighted pick. */
+const WEIGHTED_DRAW = new RegExp(
+  String.raw`${DRAW}\s*\*\s*(?!\d)[A-Za-z_][\w.]*`,
+);
+/** A hash, or a fold over characters, nearby marks a `% length` as a pick. */
+const HASH_WORD = /hash|digest|checksum|fnv|accumulator|charCodeAt/i;
+const HASH_INDEX = /%\s*[\w.()[\]!]*\b(?:length|size)\b/;
+
+const escapeName = (name) => name.replace(/[$]/g, String.raw`\$`);
+
+/**
+ * The statement around line `index`: any chain lines above it (a line that
+ * starts with `.` belongs to the line before it) and every line below until
+ * the brackets it opened close.
+ */
+function statementAround(codeLines, index) {
+  let first = index;
+  while (first > 0 && /^\s*[.?:]|^\s*\)/.test(codeLines[first] ?? "")) {
+    first -= 1;
+  }
+  let text = "";
+  let balance = 0;
+  let last = first;
+  for (let at = first; at < codeLines.length; at += 1) {
+    const line = codeLines[at] ?? "";
+    text += `${line}\n`;
+    last = at;
+    for (const character of line) {
+      if (character === "(" || character === "[") balance += 1;
+      else if (character === ")" || character === "]") balance -= 1;
+    }
+    if (at >= index && balance <= 0) break;
+  }
+  return { first, last, text };
+}
+
+/**
+ * Every seeded or hash-keyed selection from a collection.
+ * @returns {{ line: number; kind: "list-pick"; code: string }[]}
+ */
+function scanListPicks(rawLines, codeLines) {
+  const findings = [];
+  const seen = new Set();
+  const report = (index, statement) => {
+    if (seen.has(statement.first)) return false;
+    seen.add(statement.first);
+    findings.push({
+      line: statement.first + 1,
+      kind: "list-pick",
+      code: normalize(
+        rawLines.slice(statement.first, statement.last + 1).join(" "),
+      ).slice(0, 320),
+    });
+    return true;
+  };
+  /** Draws stored in a variable, with the block depth where each was declared. */
+  let held = [];
+  let depth = 0;
+  codeLines.forEach((code, index) => {
+    if (code !== "") {
+      const statement = statementAround(codeLines, index);
+      const text = statement.text;
+      let flagged = false;
+      if (PICK_CALL.test(code) && !PICK_DEFINITION.test(code)) {
+        flagged = report(index, statement);
+      } else if (
+        DRAW_ANYWHERE.test(code) &&
+        (DRAW_IN_BRACKETS.test(text) ||
+          DRAW_AS_ARGUMENT.test(text) ||
+          INTEGER_OVER_LENGTH.test(text) ||
+          FLOORED_DRAW.test(text) ||
+          WEIGHTED_DRAW.test(text))
+      ) {
+        flagged = report(index, statement);
+      } else if (HASH_INDEX.test(code)) {
+        const from = Math.max(0, index - 8);
+        const hashed = codeLines.findIndex(
+          (line, at) => at >= from && at <= index && HASH_WORD.test(line),
+        );
+        if (hashed >= 0) {
+          flagged = report(index, {
+            first: Math.min(hashed, statement.first),
+            last: statement.last,
+            text,
+          });
+        }
+      }
+      // A draw kept in a name and used later as an index or counted down.
+      const names = held.filter((entry) => !entry.reported);
+      if (!flagged && names.length > 0 && !DRAW_ANYWHERE.test(code)) {
+        for (const entry of names) {
+          const name = escapeName(entry.name);
+          const used = new RegExp(
+            String.raw`\[(?:[^\[\]]|\[[^\[\]]*\])*\b${name}\b(?:[^\[\]]|\[[^\[\]]*\])*\]|\.(?:splice|at|slice|with|toSpliced)\(\s*(?:Math\.floor\(\s*)?\b${name}\b|\b${name}\s*-=|\b${name}\s*%\s*[\w.]*(?:length|size)\b`,
+          );
+          if (used.test(code)) {
+            entry.reported = true;
+            report(index, statement);
+            break;
+          }
+        }
+      }
+      // A pick already reported on this line is not counted again when its
+      // stored name is used. A chained draw is read with its whole statement.
+      const assigned = DRAW_ANYWHERE.test(code)
+        ? DRAW_ASSIGNED.exec(statement.text)
+        : null;
+      if (assigned !== null) {
+        held.push({ name: assigned[1], depth, reported: flagged });
+      }
+    }
+    for (const character of code) {
+      if (character === "{") depth += 1;
+      else if (character === "}") {
+        depth -= 1;
+        held = held.filter((entry) => entry.depth <= depth);
+      }
+    }
+  });
+  return findings;
+}
+
 /** Collapse whitespace so an allowlist entry survives reindentation. */
 export function normalize(line) {
   return line.trim().replace(/\s+/g, " ");
@@ -222,9 +383,9 @@ function walk(root, directory, out) {
   }
 }
 
-export function scannedFiles(root = REPO_ROOT) {
+export function scannedFiles(root = REPO_ROOT, roots = SCANNED_ROOTS) {
   const files = [];
-  for (const scanned of SCANNED_ROOTS) {
+  for (const scanned of roots) {
     const directory = join(root, scanned);
     if (existsSync(directory)) walk(root, directory, files);
   }
@@ -233,7 +394,7 @@ export function scannedFiles(root = REPO_ROOT) {
 
 /**
  * Every guarded line in one file's text.
- * @returns {{ line: number; kind: "roll" | "fixed-share" | "place-in-logic"; code: string }[]}
+ * @returns {{ line: number; kind: "roll" | "fixed-share" | "place-in-logic" | "list-pick"; code: string }[]}
  */
 export function scanSource(text) {
   const findings = [];
@@ -291,17 +452,32 @@ export function scanSource(text) {
       }
     }
   });
-  return findings;
+  const rawLines = text.split(/\r?\n/);
+  const codeLines = rawLines.map((line) => {
+    const trimmed = line.trim();
+    return trimmed === "" || isComment(trimmed) || trimmed.startsWith("import ")
+      ? ""
+      : withoutStrings(line);
+  });
+  findings.push(...scanListPicks(rawLines, codeLines));
+  return findings.sort((a, b) => a.line - b.line);
 }
 
 /** @returns {{ file: string; line: number; kind: string; code: string }[]} */
 export function scanRepository(root = REPO_ROOT) {
-  return scannedFiles(root).flatMap((file) =>
-    scanSource(readFileSync(join(root, file), "utf8")).map((finding) => ({
-      file,
-      ...finding,
-    })),
-  );
+  const scan = (files, keep) =>
+    files.flatMap((file) =>
+      scanSource(readFileSync(join(root, file), "utf8"))
+        .filter(keep)
+        .map((finding) => ({ file, ...finding })),
+    );
+  return [
+    ...scan(scannedFiles(root), () => true),
+    ...scan(
+      scannedFiles(root, LIST_PICK_ONLY_ROOTS),
+      (finding) => finding.kind === "list-pick",
+    ),
+  ];
 }
 
 const keyOf = (entry) => `${entry.file}\u0000${entry.kind}\u0000${entry.code}`;
@@ -336,6 +512,46 @@ export function compare(findings, allowlist) {
     if (present < entry.count) stale.push({ ...entry, present });
   }
   return { added, stale };
+}
+
+/**
+ * List-pick entries that lack what the allowlist asks of them: one of the
+ * four classes, a one-line reason, a generation key that is the id of the
+ * thing described (never a place), and for a decision the real reason that
+ * should replace it.
+ * @returns {{ file: string; code: string; problem: string }[]}
+ */
+export function unclassified(allowlist) {
+  const problems = [];
+  for (const entry of allowlist.entries) {
+    if (entry.kind !== "list-pick") continue;
+    const flag = (problem) =>
+      problems.push({ file: entry.file, code: entry.code, problem });
+    if (!PICK_CLASSES.includes(entry.class)) {
+      flag(`class must be one of ${PICK_CLASSES.join(", ")}`);
+      continue;
+    }
+    if (typeof entry.reason !== "string" || entry.reason.trim() === "") {
+      flag("a one-line reason is required");
+    }
+    if (entry.class === "GENERATION") {
+      const key = String(entry.keyedBy ?? "")
+        .trim()
+        .toLowerCase();
+      if (key === "" || PLACE_KEYS.has(key)) {
+        flag(
+          "a generation pick is keyed by the id of the thing it describes, not by a place; a per-person fact keyed only by place is a DECISION",
+        );
+      }
+    }
+    if (
+      entry.class === "DECISION" &&
+      (typeof entry.replacement !== "string" || entry.replacement.trim() === "")
+    ) {
+      flag("a DECISION names the real reason that should replace it");
+    }
+  }
+  return problems;
 }
 
 const groupOf = (entry) => `${entry.file}\u0000${entry.kind}`;
@@ -373,8 +589,13 @@ export function growth(previous, current) {
  */
 export function update(allowlist, findings) {
   const buildOf = new Map();
+  const classOf = new Map();
   for (const entry of allowlist.entries) {
-    if (!buildOf.has(entry.file)) buildOf.set(entry.file, entry.build);
+    if (entry.kind === "list-pick") {
+      classOf.set(keyOf(entry), entry);
+    } else if (!buildOf.has(entry.file)) {
+      buildOf.set(entry.file, entry.build);
+    }
   }
   const grouped = new Map();
   for (const finding of findings) {
@@ -382,12 +603,24 @@ export function update(allowlist, findings) {
     const entry = grouped.get(key);
     if (entry) entry.count += 1;
     else {
+      const known = classOf.get(key);
       grouped.set(key, {
         file: finding.file,
         kind: finding.kind,
-        build: buildOf.get(finding.file) ?? null,
+        build:
+          finding.kind === "list-pick"
+            ? null
+            : (buildOf.get(finding.file) ?? null),
         count: 1,
         code: finding.code,
+        ...(finding.kind === "list-pick"
+          ? {
+              class: known?.class ?? null,
+              keyedBy: known?.keyedBy ?? null,
+              reason: known?.reason ?? null,
+              replacement: known?.replacement ?? null,
+            }
+          : {}),
       });
     }
   }
@@ -425,15 +658,21 @@ function main(argv) {
     return 0;
   }
   const { added, stale } = compare(findings, allowlist);
+  const unclassifiedPicks = unclassified(allowlist);
+  for (const entry of unclassifiedPicks) {
+    console.error(
+      `unclassified ${entry.file}: ${entry.code}: ${entry.problem}`,
+    );
+  }
   for (const finding of added) console.error(`new ${describeAdded(finding)}`);
   for (const entry of stale) {
     console.error(
       `gone ${entry.file} ${entry.kind} (${entry.build}): ${entry.code}`,
     );
   }
-  if (added.length > 0 || stale.length > 0) {
+  if (added.length > 0 || stale.length > 0 || unclassifiedPicks.length > 0) {
     console.error(
-      `zero-dice: ${added.length} new, ${stale.length} gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with \`npm run zero-dice -- --update\`.`,
+      `zero-dice: ${added.length} new, ${stale.length} gone, ${unclassifiedPicks.length} unclassified. A new list-pick is replaced by a decision from the actor's reasons (a pick that names or draws who someone is may be IDENTITY, PRESENTATION or GENERATION only when its entry says why; see docs/design/list-pick-inventory.md). A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with \`npm run zero-dice -- --update\`.`,
     );
     return 1;
   }
