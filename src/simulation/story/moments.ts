@@ -25,7 +25,11 @@ import { loadedTraitRegistry } from "../trait-registry";
 import { traitDefinitionFromPack, type RegisteredTrait } from "../trait-packs";
 import { traitReadingOfRecord } from "../trait-readings";
 import { traitActTables } from "../traits/act-pulls";
-import { recordStoryThreads } from "./threads";
+import {
+  latestThreadState,
+  recordStoryThreads,
+  storyThreadStatesTo,
+} from "./threads";
 import type {
   EntityId,
   HistoricalEvent,
@@ -34,6 +38,7 @@ import type {
   ResourceFlowTermsRecord,
   StoryIntakeMark,
   StoryMomentRecord,
+  StoryThreadStateRecord,
   World,
 } from "../types";
 
@@ -114,8 +119,19 @@ const TABLE = kindsData as unknown as {
   readonly version: number;
   readonly sources: Readonly<Record<string, { readonly citation: string }>>;
   readonly calibration: Calibration;
+  readonly threadRoleChanges: {
+    readonly kinds: readonly string[];
+    readonly death: WeightRow;
+  };
   readonly kinds: readonly MomentKind[];
 };
+
+/** The prefix of a moment for someone whose thread's other end changed (part 5, rule 2). */
+export const THREAD_MOMENT_PREFIX = "thread";
+/** The kinds whose subject's change reaches everyone with a thread to them. */
+const THREAD_ROLE_KINDS: ReadonlySet<string> = new Set(
+  TABLE.threadRoleChanges.kinds,
+);
 
 const CALIBRATION = TABLE.calibration;
 
@@ -413,6 +429,60 @@ function relationCandidates(
   return out;
 }
 
+/**
+ * A role change reaches everyone with a thread to the person it happened to:
+ * each gets a moment scored by how much the thread mattered to them, times
+ * the weight of what happened (part 5, rule 2). The thread index is keyed by
+ * the other person, so this reads only that person's threads. People the
+ * record already reaches, and the person themself, are left out.
+ */
+function threadRoleCandidates(
+  world: World,
+  subjectId: EntityId,
+  kindKey: string,
+  weight: WeightRow,
+  source: {
+    readonly occurredAt: IsoDate;
+    readonly sourceStore: string;
+    readonly sourceRecordId: EntityId;
+    readonly sourceSequence: number;
+    readonly eventId: EntityId | null;
+  },
+  reached: (personId: EntityId) => boolean,
+): Candidate[] {
+  const latest = new Map<EntityId, StoryThreadStateRecord>();
+  for (const state of storyThreadStatesTo(world, subjectId))
+    latest.set(state.personId, state);
+  const key = `${THREAD_MOMENT_PREFIX}:${kindKey}`;
+  const out: Candidate[] = [];
+  for (const [personId, state] of latest) {
+    if (
+      personId === subjectId ||
+      state.turn === "closed" ||
+      reached(personId) ||
+      !isPerson(world, personId) ||
+      ageAt(world, personId, source.occurredAt) === null
+    )
+      continue;
+    const base = state.importance * weightOf(weight);
+    if (!(base > 0)) continue;
+    out.push({
+      ...source,
+      personId,
+      kindKey: key,
+      firstKey: key,
+      counterpartPersonIds: [subjectId],
+      base,
+      weight,
+      acts: [],
+      closenessToward: null,
+      stakes: 1,
+      sameAs: null,
+    });
+  }
+  return out;
+}
+
 function eventCandidates(world: World, event: HistoricalEvent): Candidate[] {
   const kinds = EVENT_KINDS_BY_TYPE.get(event.type);
   if (!kinds) return [];
@@ -505,6 +575,27 @@ function eventCandidates(world: World, event: HistoricalEvent): Candidate[] {
         ),
       );
     }
+    if (THREAD_ROLE_KINDS.has(kind.key)) {
+      const reached = new Set(out.map((candidate) => candidate.personId));
+      const weight = kind.adult ?? kind.youth;
+      for (const personId of weight ? people : [])
+        out.push(
+          ...threadRoleCandidates(
+            world,
+            personId,
+            kind.key,
+            weight!,
+            {
+              occurredAt: event.occurredAt,
+              sourceStore: "events",
+              sourceRecordId: event.id,
+              sourceSequence: event.sequence,
+              eventId: event.id,
+            },
+            (id) => reached.has(id),
+          ),
+        );
+    }
     if (kind.subjectRelations) {
       const subject = event.participants.find(
         (participant) => participant.role === "focus:subject",
@@ -532,7 +623,16 @@ function relationshipCandidates(
     CALIBRATION.relationshipSignificance[interaction.significance] ?? 0;
   const change = CALIBRATION.relationshipChange[interaction.change] ?? 0;
   const base = ((significance * change) / 9) * CALIBRATION.relationshipCap;
-  if (base <= 0) return [];
+  // A contact that scores nothing still matters to someone it puts back in
+  // touch after years apart: their moment carries the thread's weight from
+  // before it faded (part 5, rule 1), and nothing for anyone else.
+  if (
+    base <= 0 &&
+    interaction.personIds.every(
+      (id) => !resurfacing(world, id, interaction.personIds),
+    )
+  )
+    return [];
   const negative =
     interaction.change === "strained" || interaction.change === "ended";
   const kindKey = `${RELATIONSHIP_MOMENT_KIND}:${interaction.kind}:${interaction.change}`;
@@ -545,6 +645,8 @@ function relationshipCandidates(
   return interaction.personIds.flatMap((personId) => {
     if (!isPerson(world, personId)) return [];
     if (ageAt(world, personId, interaction.occurredAt) === null) return [];
+    if (base <= 0 && !resurfacing(world, personId, interaction.personIds))
+      return [];
     const other = interaction.personIds.find((id) => id !== personId);
     return [
       {
@@ -566,6 +668,38 @@ function relationshipCandidates(
       },
     ];
   });
+}
+
+/**
+ * How much a thread that has gone quiet weighed before it faded: its tie and
+ * every moment it holds, undiscounted. Zero for a thread still in touch, a
+ * closed one, or none (part 5, rule 1: contact after dormancy).
+ */
+function preFadeImportance(
+  world: World,
+  personId: EntityId,
+  otherId: EntityId,
+): number {
+  const previous = latestThreadState(world, personId, otherId);
+  if (
+    !previous ||
+    previous.turn === "closed" ||
+    (previous.currency !== "dormant" && previous.turn !== "faded")
+  )
+    return 0;
+  return previous.tie + previous.momentSum;
+}
+
+/** Whether a record puts this person back in touch with someone after years apart. */
+function resurfacing(
+  world: World,
+  personId: EntityId,
+  personIds: readonly EntityId[],
+): boolean {
+  return personIds.some(
+    (otherId) =>
+      otherId !== personId && preFadeImportance(world, personId, otherId) > 0,
+  );
 }
 
 interface StateRecord extends SequencedRecord {
@@ -823,6 +957,25 @@ export function recordStoryMoments(world: World): World {
   for (const store of STATE_STORES)
     for (const record of newRecords(history[store], from))
       candidates.push(...stateCandidates(world, store, record));
+  // A death reaches everyone with a thread to the one who died; relatives
+  // hear it through the death notice, which scores for them already.
+  for (const death of newRecords(world.history.personDeaths, from))
+    candidates.push(
+      ...threadRoleCandidates(
+        world,
+        death.personId,
+        "died",
+        TABLE.threadRoleChanges.death,
+        {
+          occurredAt: death.diedAt,
+          sourceStore: "personDeaths",
+          sourceRecordId: death.id,
+          sourceSequence: death.sequence,
+          eventId: death.eventId,
+        },
+        (id) => relationOf(world, id, death.personId) !== "other",
+      ),
+    );
 
   const inFocus = storyFocus(world);
   // One change, one moment: an event that scored for a person carries the
@@ -851,7 +1004,9 @@ export function recordStoryMoments(world: World): World {
   let sequence = world.history.nextSequence;
   const written: StoryMomentRecord[] = [];
   const writtenKeys = new Set<string>();
+  const resurfacedPairs = new Set<string>();
   for (const candidate of ordered) {
+    let resurfacedPair: string | null = null;
     if (!inFocus(candidate.personId)) continue;
     const prior = momentsFor(candidate.personId);
     if (
@@ -885,11 +1040,25 @@ export function recordStoryMoments(world: World): World {
       candidate.closenessToward,
     );
     const traits = traitFactor(world, candidate.personId, candidate.acts);
+    // Contact after dormancy: a moment that puts the person back in touch
+    // with someone adds the thread's weight from before it faded, once per
+    // pair in a reading (part 5, rule 1).
+    let resurfaced = 0;
+    for (const otherId of candidate.counterpartPersonIds) {
+      const pairKey = `${candidate.personId}|${otherId}`;
+      if (resurfacedPairs.has(pairKey)) continue;
+      const weight = preFadeImportance(world, candidate.personId, otherId);
+      if (weight <= resurfaced) continue;
+      resurfaced = weight;
+      resurfacedPair = pairKey;
+    }
     const salience = Math.min(
       1,
-      candidate.base * closeness * first * traits * candidate.stakes,
+      candidate.base * closeness * first * traits * candidate.stakes +
+        resurfaced,
     );
     if (!(salience > 0)) continue;
+    if (resurfacedPair) resurfacedPairs.add(resurfacedPair);
     const moment: StoryMomentRecord = {
       id: createStableId("story-moment", `${world.id}:${stableKey}`),
       stableKey,
@@ -907,6 +1076,7 @@ export function recordStoryMoments(world: World): World {
         first,
         traits: round(traits),
         stakes: round(candidate.stakes),
+        ...(resurfaced > 0 ? { resurfaced: round(resurfaced) } : {}),
       },
       weight: candidate.weight,
     };

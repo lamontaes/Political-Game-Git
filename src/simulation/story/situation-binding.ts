@@ -1,4 +1,4 @@
-import { addDays } from "../dates";
+import { addDays, ageOnDate } from "../dates";
 import { recordById, recordsByStringField } from "../history-index";
 import {
   activeChildAuthoritiesAt,
@@ -21,6 +21,7 @@ import {
   recordSceneBinding,
   sceneAlreadyBound,
   type SceneBinding,
+  type SceneSharedMoment,
   type SceneStagedPerson,
   type SceneStaging,
 } from "../scene-bindings";
@@ -32,7 +33,7 @@ import type {
   World,
 } from "../types";
 import { isPersonAliveAt } from "../vitality-integrity";
-import { storyMoments } from "./moments";
+import { storyMoments, storyMomentsOf } from "./moments";
 import {
   STORY_SCHEDULING,
   SITUATION_TYPES,
@@ -95,6 +96,17 @@ function causeMatches(pattern: string, kindKey: string): boolean {
   return (
     want.length === have.length &&
     want.every((part, index) => part === "*" || part === have[index])
+  );
+}
+
+/** The situation types a thread's turn can open, with the cause that opens each. */
+export function situationCausesForTurn(
+  turn: string,
+): readonly { readonly type: SituationType; readonly cause: SituationCause }[] {
+  return SITUATION_TYPES.flatMap((type) =>
+    type.causes
+      .filter((cause) => cause.threadTurn === turn)
+      .map((cause) => ({ type, cause })),
   );
 }
 
@@ -504,6 +516,71 @@ function resolvePlace(
 }
 
 /* -------------------------------------------------------------------------- */
+/* Shared history (part 5)                                                     */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * The two people's strongest earlier moments together, strongest first: each
+ * side's moments that name the other, one per opening record, besides the
+ * moment that opens this scene. Each carries its kind, both ages then, the
+ * place its record names and its sources, so a recall says only those.
+ */
+function sharedHistoryOf(
+  world: World,
+  firstId: EntityId,
+  secondId: EntityId,
+  openingMoment: StoryMomentRecord,
+): SceneSharedMoment[] {
+  const best = new Map<EntityId, StoryMomentRecord>();
+  for (const [personId, otherId] of [
+    [firstId, secondId],
+    [secondId, firstId],
+  ] as const)
+    for (const moment of storyMomentsOf(world, personId)) {
+      if (
+        !moment.counterpartPersonIds.includes(otherId) ||
+        moment.sourceRecordId === openingMoment.sourceRecordId ||
+        moment.occurredAt > world.currentDate
+      )
+        continue;
+      const held = best.get(moment.sourceRecordId);
+      if (!held || moment.salience > held.salience)
+        best.set(moment.sourceRecordId, moment);
+    }
+  const ageThen = (personId: EntityId, date: IsoDate) => {
+    const birthDate = world.people[personId]?.birthDate;
+    return birthDate && birthDate <= date ? ageOnDate(birthDate, date) : null;
+  };
+  return [...best.values()]
+    .sort(
+      (left, right) =>
+        right.salience - left.salience || left.sequence - right.sequence,
+    )
+    .slice(0, STORY_SCHEDULING.sharedMoments)
+    .map((moment) => {
+      const agesThen: Record<EntityId, number> = {};
+      for (const personId of [firstId, secondId]) {
+        const age = ageThen(personId, moment.occurredAt);
+        if (age !== null) agesThen[personId] = age;
+      }
+      const event =
+        moment.sourceStore === "events"
+          ? recordById(world.history.events, moment.sourceRecordId)
+          : undefined;
+      return {
+        momentId: moment.id,
+        kindKey: moment.kindKey,
+        row: moment.weight.row,
+        occurredAt: moment.occurredAt,
+        salience: moment.salience,
+        agesThen,
+        placeThen: event?.context.location?.label ?? null,
+        sourceRecordIds: [moment.sourceRecordId, moment.id],
+      };
+    });
+}
+
+/* -------------------------------------------------------------------------- */
 /* Staging and timing (part 4)                                                 */
 /* -------------------------------------------------------------------------- */
 
@@ -588,6 +665,14 @@ export function bindSituation(
     readonly typeKey: string;
     readonly momentId: EntityId;
     readonly playerPersonId: EntityId;
+    /**
+     * For a type opened by a thread's turn: the turn the moment gave the
+     * thread, and the person at the other end, who fills the counterpart.
+     */
+    readonly threadTurn?: {
+      readonly turn: string;
+      readonly withPersonId: EntityId;
+    };
   },
 ): SituationBindResult {
   const unbound = (
@@ -596,12 +681,22 @@ export function bindSituation(
   ): SituationBindResult => ({ kind: "unbound", reason, coverage });
   const type = SITUATION_TYPES.find((entry) => entry.key === input.typeKey);
   if (!type) return unbound(`No type ${input.typeKey}`);
-  const moment = recordById(storyMoments(world), input.momentId);
-  if (!moment) return unbound("No such moment");
-  const cause = type.causes.find(
-    (entry) => entry.moment && causeMatches(entry.moment, moment.kindKey),
+  const recorded = recordById(storyMoments(world), input.momentId);
+  if (!recorded) return unbound("No such moment");
+  const turn = input.threadTurn;
+  // A thread's turn opens the scene with the person at the other end.
+  const moment = turn
+    ? { ...recorded, counterpartPersonIds: [turn.withPersonId] }
+    : recorded;
+  const cause = type.causes.find((entry) =>
+    turn
+      ? entry.threadTurn === turn.turn
+      : entry.moment && causeMatches(entry.moment, moment.kindKey),
   );
-  if (!cause) return unbound(`${type.key} is not opened by ${moment.kindKey}`);
+  if (!cause)
+    return unbound(
+      `${type.key} is not opened by ${turn ? `a ${turn.turn} thread` : moment.kindKey}`,
+    );
   const player = world.people[input.playerPersonId];
   if (!player) return unbound("No such player");
   if (
@@ -683,6 +778,7 @@ export function bindSituation(
     date: opensOn,
     expiresAt,
     staging: stage(world, type, cast, place, player.id, speaker.id),
+    sharedHistory: sharedHistoryOf(world, player.id, speaker.id, moment),
   };
   return {
     kind: "bound",

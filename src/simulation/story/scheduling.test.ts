@@ -101,10 +101,13 @@ describe("scheduling in a seeded week", () => {
   const { world, personId: mateo } = seededWeek("p6-story-c", 34);
   const bound = situations(world, mateo);
 
-  it("makes scenes of the two moments of the week that reach him", () => {
+  it("makes scenes of the three moments of the week that reach him", () => {
+    // His sister's call, the introduction, and Wyatt back in his life after
+    // years apart (part 5, rule 1).
     expect(bound.map((binding) => binding.variant).sort()).toEqual([
       "first-meeting",
       "reach-out",
+      "reunion",
     ]);
     for (const binding of bound) {
       const moment = storyMoments(world).find(
@@ -134,6 +137,23 @@ describe("scheduling in a seeded week", () => {
       "met",
       "newcomer",
     ]);
+    // Wyatt opens it, and the two carry their school friendship at 10, then
+    // the day he put them back in touch.
+    expect(
+      met.sharedHistory!.map((moment) => [moment.kindKey, moment.occurredAt]),
+    ).toEqual([
+      ["relationship:experience:shared-school:formed", "2001-05-12"],
+      ["relationship:contact:introducer:maintained", "2026-01-12"],
+    ]);
+    const reunion = bound.find((binding) => binding.variant === "reunion")!;
+    expect(reunion.speakerPersonId).toBe(met.speakerPersonId);
+    expect(reunion.staging!.people.map((person) => person.role)).toEqual([
+      "one",
+      "other",
+    ]);
+    expect(reunion.sharedHistory![0]!.kindKey).toBe(
+      "relationship:experience:shared-school:formed",
+    );
     for (const binding of bound) {
       const type = situationType(binding.variant);
       for (const person of binding.staging!.people) {
@@ -185,6 +205,51 @@ describe("scheduling in a seeded week", () => {
     // A household move has no type yet: the log shows the gap.
     expect(rows.some((row) => row.kindKey === "moved-home")).toBe(true);
     assertWorldIntegrityFully(world);
+  });
+
+  it("brings him the news when Wyatt is jailed, from the person he lives with", () => {
+    const wyatt = Object.values(world.people).find(
+      (person) =>
+        person.givenName === "Wyatt" && person.familyName === "Murray",
+    )!.id;
+    const before = world.history.nextSequence;
+    // Edge-case fixture: a jail sentence, as the court writes it.
+    const sentenced = recordWorldEvent(world, {
+      stableKey: "test:p6-scheduling:jailed",
+      type: "justice.sentenced",
+      occurredAt: world.currentDate,
+      recordedAt: world.currentDate,
+      jurisdictionId: world.people[wyatt]!.homeJurisdictionId,
+      involvedEntityIds: [wyatt],
+      participants: [
+        { personId: wyatt, role: "focus:defendant", detail: null },
+      ],
+      personFactConstraints: [],
+      visibility: "public",
+      tags: ["justice.sentence:jail", "justice.sentence-months:6"],
+      summary: "Fixture: sentenced to jail.",
+      context: {
+        location: null,
+        socialContext: null,
+        pressure: null,
+        choice: null,
+        motivation: null,
+        immediateReaction: null,
+      },
+    });
+    const after = scheduleStoryScenes(recordStoryMoments(sentenced), before);
+    const news = situations(after, mateo).find(
+      (binding) => binding.variant === "news-arrives",
+    )!;
+    const situation = situationOf(news)!;
+    expect(situation.causeKind).toBe("thread:jailed");
+    expect(situation.playerRole).toBe("receiver");
+    expect(situation.cast.about).toEqual([wyatt]);
+    // The person he lives with tells him.
+    expect(news.staging!.people.map((person) => person.role)).toEqual([
+      "bearer",
+      "receiver",
+    ]);
   });
 
   it("keeps its scenes and its log through a save and reload", () => {

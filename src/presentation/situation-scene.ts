@@ -1,7 +1,12 @@
 import type { EntityId, World } from "../simulation";
 import { recordRelationshipInteraction } from "../simulation";
 import { describePersonContext } from "../simulation/person-context";
-import type { BoundScene, SceneBinding } from "../simulation/scene-bindings";
+import { ageOnDate } from "../simulation/dates";
+import type {
+  BoundScene,
+  SceneBinding,
+  SceneSharedMoment,
+} from "../simulation/scene-bindings";
 import { recordById } from "../simulation/history-index";
 import { storyMoments } from "../simulation/story/moments";
 import {
@@ -51,6 +56,9 @@ const ASK = "ask";
 /** The move whose words a Lie replaces. */
 const TELL = "tell";
 const LIE = "lie";
+/** Bringing up a shared earlier moment; open only when the scene carries one. */
+const RECALL = "recall";
+const RECALL_ACT = "recall";
 
 interface SituationScene {
   readonly world: World;
@@ -96,9 +104,20 @@ function sceneOf(
 /* Lines                                                                       */
 /* -------------------------------------------------------------------------- */
 
+/** The strongest earlier moment the two share, when the scene carries one. */
+function recalledMoment(scene: SituationScene): SceneSharedMoment | null {
+  return scene.binding.sharedHistory?.[0] ?? null;
+}
+
+/** A move that brings up the past is open only with a past to bring up. */
+function moveOpen(scene: SituationScene, moveKey: string): boolean {
+  return moveKey !== RECALL || recalledMoment(scene) !== null;
+}
+
 /** The facts a line may name, from the records and nothing else. */
 function lineFacts(
   scene: SituationScene,
+  act: SpeechAct,
   speakerId: EntityId,
   listenerId: EntityId,
 ): Record<string, string> {
@@ -115,6 +134,18 @@ function lineFacts(
     .find((id) => id !== speakerId && id !== listenerId);
   const about = absent ? scene.world.people[absent] : undefined;
   if (about) facts.about = about.givenName;
+  const recalled = act === RECALL_ACT ? recalledMoment(scene) : null;
+  if (recalled) {
+    facts.recalled = recalled.row;
+    facts.yearsAgo = String(
+      ageOnDate(recalled.occurredAt, scene.world.currentDate),
+    );
+    if (recalled.placeThen) facts.placeThen = recalled.placeThen;
+    const speakerAge = recalled.agesThen[speakerId];
+    const listenerAge = recalled.agesThen[listenerId];
+    if (speakerAge !== undefined) facts.speakerAgeThen = String(speakerAge);
+    if (listenerAge !== undefined) facts.listenerAgeThen = String(listenerAge);
+  }
   return facts;
 }
 
@@ -125,13 +156,17 @@ function say(
   listenerId: EntityId,
   lineKey: string,
 ): StoryLine | null {
+  const recalled = act === RECALL_ACT ? recalledMoment(scene) : null;
   return voiceStoryLine({
     act,
     typeKey: scene.type.key,
     speakerPersonId: speakerId,
     listenerPersonId: listenerId,
-    facts: lineFacts(scene, speakerId, listenerId),
-    sourceRecordIds: scene.binding.knownRecordIds,
+    facts: lineFacts(scene, act, speakerId, listenerId),
+    sourceRecordIds: [
+      ...scene.binding.knownRecordIds,
+      ...(recalled?.sourceRecordIds ?? []),
+    ],
     momentKey: `${scene.bindingEventId}:${lineKey}`,
   });
 }
@@ -151,14 +186,18 @@ function actOf(moveKey: string): SpeechAct | null {
 function openingMove(scene: SituationScene): string | null {
   if (scene.situation.opener === scene.situation.playerRole) return null;
   if (scene.situation.opening) return scene.situation.opening;
+  const candidates = scene.type.roles
+    .find((role) => role.key === scene.otherRole)!
+    .moves.filter((move) => moveOpen(scene, move));
+  // One open move leaves nothing to decide.
+  if (candidates.length <= 1) return candidates[0] ?? null;
   const decision = chooseSituationMove(scene.world, {
     stableKey: `${scene.bindingEventId}:opening`,
     typeKey: scene.type.key,
     roleKey: scene.otherRole,
     personId: scene.otherId,
     towardPersonIds: [scene.playerId],
-    candidates: scene.type.roles.find((role) => role.key === scene.otherRole)!
-      .moves,
+    candidates,
   });
   return decision.outcomeKind === "selected"
     ? decision.selectedOptionKey
@@ -179,7 +218,9 @@ function reply(
   scene: SituationScene,
   playerMove: string,
 ): { readonly move: string | null; readonly line: StoryLine | null } {
-  const candidates = answeringMoves(playerMove);
+  const candidates = answeringMoves(playerMove).filter((move) =>
+    moveOpen(scene, move),
+  );
   if (candidates.length === 0) return { move: null, line: null };
   // A move with one answer, such as a goodbye, leaves nothing to decide.
   if (candidates.length === 1) {
@@ -324,7 +365,10 @@ function situationAnswers(scene: SituationScene): SceneAnswer[] {
     ownRecordId !== null &&
     role.moves.includes(TELL) &&
     role.moves.includes(LIE);
-  const moves = [...role.moves.filter((move) => move !== LIE), ASK];
+  const moves = [
+    ...role.moves.filter((move) => move !== LIE && moveOpen(scene, move)),
+    ASK,
+  ];
   if (canLie) moves.push(LIE);
   return moves.flatMap((moveKey) => {
     const answer = answerFor(

@@ -4706,6 +4706,11 @@ export interface StoryMomentRecord {
     readonly first: number;
     readonly traits: number;
     readonly stakes: number;
+    /**
+     * Added, not multiplied: the weight a thread that had gone quiet carried
+     * before it faded, when this moment puts the two back in touch.
+     */
+    readonly resurfaced?: number;
   };
   /** The scale row the kind factor came from. */
   readonly weight: {

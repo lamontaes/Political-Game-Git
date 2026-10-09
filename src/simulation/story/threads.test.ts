@@ -128,9 +128,11 @@ describe("threads in a seeded week", () => {
       ["Sarah McKenzie", "parent", 0.8],
       ["Audrey McKenzie", "sibling", 0.575],
       ["Joel McKenzie", "parent", 0.5],
+      // Back in touch after years apart: the reunion adds their school
+      // friendship's weight again (part 5, rule 1).
+      ["Wyatt Murray", null, 0.467],
       ["Amos McKenzie", "sibling", 0.35],
       ["Jacob Gomez", "sharedHome", 0.3],
-      ["Wyatt Murray", null, 0.233],
       ...threads
         .filter((thread) => thread.tieKind === "grandparent")
         .map((thread) => [
@@ -162,9 +164,16 @@ describe("threads in a seeded week", () => {
       wyatt.turns.map((turn) => [turn.occurredAt, turn.turn, turn.importance]),
     ).toEqual([
       ["2001-05-12", "started", 0.058333],
-      ["2026-01-12", "renewed", 0.233333],
+      ["2026-01-12", "renewed", 0.466666],
     ]);
-    expect(wyatt.turns[1]?.momentId).toBeNull();
+    // The introduction puts them back in touch, and that is a moment of its
+    // own, carrying the thread's weight from before it faded.
+    const renewal = storyMomentsOf(world, personId).find(
+      (moment) =>
+        moment.kindKey === "relationship:contact:introducer:maintained",
+    )!;
+    expect(wyatt.turns[1]?.momentId).toBe(renewal.id);
+    expect(renewal.factors.resurfaced).toBe(0.233333);
     expect(wyatt.lastContactOn).toBe("2026-01-12");
     // Ivan Harmon, last seen in 2003, stays faded: his moment counts a quarter.
     expect(byName.get("Ivan Harmon")?.currency).toBe("dormant");

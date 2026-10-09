@@ -126,6 +126,8 @@ export interface StoryScheduling {
   readonly trailingDays: number;
   /** How many days a scene stays open from the date its timing sets, by timing. */
   readonly openDays: Readonly<Record<string, number>>;
+  /** How many of two people's strongest earlier moments a scene carries. */
+  readonly sharedMoments: number;
 }
 
 const TYPES_TABLE = typesData as unknown as TypesTable;

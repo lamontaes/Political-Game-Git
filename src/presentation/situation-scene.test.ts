@@ -16,6 +16,7 @@ import {
   recordTownJobLoss,
   TOWN_JOB_END_REASONS,
 } from "../simulation/living-world/town-labor-market";
+import { recordRelationshipInteraction } from "../simulation";
 import { claimStanceOf } from "../simulation/claim-stances";
 import { readRelationshipStanding } from "../simulation/relationship-standing";
 import {
@@ -30,7 +31,11 @@ import {
 import { chooseSituationMove } from "../simulation/story/situations";
 import { sceneBindingsFor } from "../simulation/scene-bindings";
 import type { EntityId, World } from "../simulation/types";
-import { sceneContext, sceneFamily } from "./contextual-scenes";
+import {
+  placeholderSceneProgress,
+  sceneContext,
+  sceneFamily,
+} from "./contextual-scenes";
 import { createNewGameWorld, DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { passOrdinaryDays } from "./ordinary-life";
 import {
@@ -48,17 +53,23 @@ import type { StoryLinePacket } from "./story-voice";
  * it changes, never the wording.
  */
 
-const voice = vi.hoisted(() => ({ unvoiced: new Set<string>() }));
+const voice = vi.hoisted(() => ({
+  unvoiced: new Set<string>(),
+  // Every packet handed to the voice, so a test can read a line's facts.
+  packets: [] as StoryLinePacket[],
+}));
 
 vi.mock("./story-voice", () => ({
-  voiceStoryLine: (packet: StoryLinePacket) =>
-    voice.unvoiced.has(packet.act)
+  voiceStoryLine: (packet: StoryLinePacket) => {
+    voice.packets.push(packet);
+    return voice.unvoiced.has(packet.act)
       ? null
       : {
           text: `[${packet.act}${packet.facts.name ? ` ${packet.facts.name}` : ""}${packet.facts.about ? ` about ${packet.facts.about}` : ""}]`,
           parts: [`test-voice:${packet.act}`],
           sourceRecordIds: packet.sourceRecordIds,
-        },
+        };
+  },
 }));
 
 /** A new game in a place drawn from all 56 by the seed's hash, advanced 7 days. */
@@ -439,5 +450,104 @@ describe("news Mateo has to tell", () => {
       intent: "deceive",
       sourceEntityIds: [lost.sourceRecordId],
     });
+  });
+});
+
+describe("shared history in a seeded week", () => {
+  const { world: week, personId: mateo } = WEEK;
+  const wyatt = Object.values(week.people).find(
+    (person) => person.givenName === "Wyatt" && person.familyName === "Murray",
+  )!.id;
+
+  /** Mateo and someone become friends today, and the director binds it. */
+  function befriended(otherId: EntityId) {
+    const personIds = [mateo, otherId].sort() as [EntityId, EntityId];
+    const formed = recordStoryMoments(
+      recordRelationshipInteraction(week, {
+        stableKey: `test:p6-shared-history:${otherId}`,
+        personIds,
+        eventId: null,
+        occurredAt: week.currentDate,
+        kind: "contact:friendship",
+        change: "formed",
+        significance: "meaningful",
+        summary: "Fixture: they become friends.",
+        tags: [],
+      }),
+    );
+    const moment = storyMomentsOf(formed, mateo).find(
+      (entry) =>
+        entry.kindKey === "relationship:contact:friendship:formed" &&
+        entry.counterpartPersonIds.includes(otherId),
+    )!;
+    const world = bound(formed, {
+      typeKey: "becoming-friends",
+      momentId: moment.id,
+      playerPersonId: mateo,
+    });
+    const scene = sceneBindingsFor(world, mateo, "situation").at(-1)!;
+    return { world, scene };
+  }
+
+  function answerKeys(
+    world: World,
+    scene: ReturnType<typeof befriended>["scene"],
+  ) {
+    return sceneFamily("situation")
+      .answers(
+        sceneContext(world, scene.eventId, scene.binding),
+        placeholderSceneProgress("scene-situation"),
+      )
+      .map((answer) => answer.key);
+  }
+
+  it("carries the two men's strongest earlier moments, with both ages and where", () => {
+    const { scene } = befriended(wyatt);
+    const shared = scene.binding.sharedHistory!;
+    // Their school friendship at 10, then the day Wyatt's introduction put
+    // them back in touch. The introduction itself is Mateo's moment with
+    // Rafael, not with Wyatt.
+    expect(shared.map((moment) => [moment.kindKey, moment.occurredAt])).toEqual(
+      [
+        ["relationship:experience:shared-school:formed", "2001-05-12"],
+        ["relationship:contact:introducer:maintained", "2026-01-12"],
+      ],
+    );
+    expect(shared[0]!.agesThen[mateo]).toBe(10);
+    expect(shared[0]!.agesThen[wyatt]).toBeGreaterThan(0);
+  });
+
+  it("lets Mateo bring it up, and the line carries only what the record holds", () => {
+    const { world, scene } = befriended(wyatt);
+    expect(answerKeys(world, scene)).toContain("recall");
+    const recall = voice.packets.findLast(
+      (packet) => packet.act === "recall" && packet.speakerPersonId === mateo,
+    )!;
+    const first = scene.binding.sharedHistory![0]!;
+    expect(recall.facts).toMatchObject({
+      recalled: first.row,
+      yearsAgo: "24",
+      speakerAgeThen: "10",
+      listenerAgeThen: String(first.agesThen[wyatt]),
+    });
+    expect(recall.sourceRecordIds).toEqual(
+      expect.arrayContaining(first.sourceRecordIds),
+    );
+  });
+
+  it("offers no recall with someone he shares nothing with", () => {
+    const stranger = Object.keys(week.people).find(
+      (id) =>
+        id !== mateo &&
+        !storyMomentsOf(week, mateo).some((moment) =>
+          moment.counterpartPersonIds.includes(id as EntityId),
+        ) &&
+        !storyMomentsOf(week, id as EntityId).some((moment) =>
+          moment.counterpartPersonIds.includes(mateo),
+        ),
+    ) as EntityId;
+    const { world, scene } = befriended(stranger);
+    expect(scene.binding.sharedHistory).toEqual([]);
+    expect(answerKeys(world, scene)).not.toContain("recall");
   });
 });

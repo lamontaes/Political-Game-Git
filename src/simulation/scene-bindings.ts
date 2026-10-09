@@ -74,6 +74,26 @@ export interface SceneBinding {
    * anything (story director, part 4). Written by the situation family.
    */
   readonly staging?: SceneStaging;
+  /**
+   * The two people's strongest earlier moments together, strongest first, for
+   * either side to bring up (story director, part 5).
+   */
+  readonly sharedHistory?: readonly SceneSharedMoment[];
+}
+
+/** One earlier moment two people in a scene share, as the records hold it. */
+export interface SceneSharedMoment {
+  readonly momentId: EntityId;
+  readonly kindKey: string;
+  /** The sourced scale row the moment was weighed by. */
+  readonly row: string;
+  readonly occurredAt: IsoDate;
+  readonly salience: number;
+  /** Each of the two people's age then, by person. */
+  readonly agesThen: Readonly<Record<EntityId, number>>;
+  /** Where it happened, when its record names the place. */
+  readonly placeThen: string | null;
+  readonly sourceRecordIds: readonly EntityId[];
 }
 
 /** Where a scene happens and who is in it, read from the records. */

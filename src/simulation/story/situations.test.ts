@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import kindsData from "../../../data/content/story-moment-kinds.json" with { type: "json" };
 import typesData from "../../../data/content/situation-types.json" with { type: "json" };
 import movesData from "../../../data/content/story-moves.json" with { type: "json" };
 import {
@@ -61,6 +62,11 @@ const THREAD_TURNS = new Set([
 
 /** Whether a cause's moment key names a kind step 1 scores. */
 function momentKindExists(key: string): boolean {
+  // A moment for someone whose thread's other end changed (part 5, rule 2).
+  if (key.startsWith("thread:")) {
+    const kind = key.slice("thread:".length);
+    return kind === "died" || kindsData.threadRoleChanges.kinds.includes(kind);
+  }
   if (key.startsWith("relationship:")) {
     const parts = key.split(":");
     return parts.length === 4 && CHANGES.has(parts[3]!);

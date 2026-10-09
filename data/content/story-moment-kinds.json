@@ -34,6 +34,15 @@
       "ended": 3
     }
   },
+  "threadRoleChanges": {
+    "note": "Part 5, rule 2: when someone's role changes, everyone with a thread to them gets a moment, scored by the thread's importance times the weight of what happened. kinds: the moment kinds that count as a role change, weighed by the kind's own row. death: the row for the death of someone a person has a thread to, besides relatives, whom the death notice reaches already. A moment kind for taking office or winning an election does not exist yet.",
+    "kinds": ["jailed", "held-before-trial"],
+    "death": {
+      "source": "srrs-adult",
+      "row": "Death of a close friend",
+      "value": 37
+    }
+  },
   "kinds": [
     {
       "key": "moved-home",

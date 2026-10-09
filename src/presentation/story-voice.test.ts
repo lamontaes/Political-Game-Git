@@ -141,6 +141,15 @@ describe("the story's voice", () => {
     }
     expect(problems).toEqual([]);
     expect(STORY_SLOTS).toEqual(Object.keys(storyVoiceData.slots));
-    expect(STORY_SLOTS).toEqual(["name", "about"]);
+    expect(STORY_SLOTS).toEqual([
+      "name",
+      "about",
+      // What a recall carries from the shared moment's records (part 5).
+      "recalled",
+      "yearsAgo",
+      "placeThen",
+      "speakerAgeThen",
+      "listenerAgeThen",
+    ]);
   });
 });

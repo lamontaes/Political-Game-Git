@@ -99,7 +99,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. sharedMoments: how many of two people's strongest earlier moments a scene carries for either side to bring up (part 5).",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -111,7 +111,8 @@
       "at-cause": 7,
       "effective-date": 3,
       "next-together": 30
-    }
+    },
+    "sharedMoments": 3
   },
   "types": [
     {
@@ -252,6 +253,36 @@
             "about": "subject",
             "receiver": "kin",
             "bearer": "present"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "moment": "thread:jailed",
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "moment": "thread:held-before-trial",
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "moment": "thread:died",
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
           },
           "opener": "bearer",
           "opening": "tell"

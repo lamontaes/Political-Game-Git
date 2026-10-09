@@ -10,7 +10,12 @@ import type {
   World,
 } from "../types";
 import { storyMoments, storyMomentsOf } from "./moments";
-import { bindSituation, situationCausesFor } from "./situation-binding";
+import {
+  bindSituation,
+  situationCausesFor,
+  situationCausesForTurn,
+} from "./situation-binding";
+import { storyThreadStatesOf } from "./threads";
 import { STORY_SCHEDULING } from "./situations";
 
 /**
@@ -118,8 +123,15 @@ export function scheduleStoryScenes(world: World, fromSequence: number): World {
   let next = world;
   const rows: CoverageRow[] = [];
   for (const moment of written) {
+    // The turns the moment gave its threads, each with the other person.
+    const turns = storyThreadStatesOf(next, moment.personId).filter(
+      (state) => state.momentId === moment.id,
+    );
+    const turnCauses = turns.flatMap((state) =>
+      situationCausesForTurn(state.turn).map((entry) => ({ ...entry, state })),
+    );
     const causes = situationCausesFor(moment.kindKey);
-    if (causes.length === 0) {
+    if (causes.length === 0 && turnCauses.length === 0) {
       rows.push({
         moment,
         reason: "no-type",
@@ -148,6 +160,23 @@ export function scheduleStoryScenes(world: World, fromSequence: number): World {
           moment,
           reason: result.coverage,
           typeKey,
+          detail: result.reason,
+        });
+    }
+    for (const { type, state } of turnCauses) {
+      if (!stillOpen(next, moment, type.timing)) continue;
+      const result = bindSituation(next, {
+        typeKey: type.key,
+        momentId: moment.id,
+        playerPersonId: moment.personId,
+        threadTurn: { turn: state.turn, withPersonId: state.otherPersonId },
+      });
+      if (result.kind === "bound") next = result.world;
+      else if (result.coverage)
+        rows.push({
+          moment,
+          reason: result.coverage,
+          typeKey: type.key,
           detail: result.reason,
         });
     }

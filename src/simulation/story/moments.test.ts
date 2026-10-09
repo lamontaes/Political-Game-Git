@@ -11,12 +11,15 @@ import {
   refreshLifeOpportunities,
 } from "../life-opportunities";
 import { lifePlaceStateIdentities, searchLifePlaces } from "../life-places";
+import { kinshipRelationshipsAt } from "../life-queries";
 import { relationshipHistory } from "../queries";
 import { readRelationshipAbsence } from "../relationship-absence";
 import { INTRODUCER_CONTACT_KIND } from "../social-introductions";
 import { ACT_KINDS } from "../traits/act-pulls";
 import type { EntityId, World } from "../types";
-import { assertWorldIntegrityFully } from "../world";
+import { recordPersonDeath } from "../vitality";
+import { assertWorldIntegrityFully, recordWorldEvent } from "../world";
+import { storyThreadStatesTo, storyThreadsOf } from "./threads";
 import {
   recordStoryMoments,
   STORY_MOMENT_KINDS,
@@ -151,8 +154,18 @@ describe("story moments in a seeded week", () => {
       ["2008-05-12", "next-step", 0.63],
       ["2009-05-12", "school-finished", 0.26],
       ["2026-01-12", "relationship:contact:introduced:maintained", 0.117],
+      // Wyatt's introduction puts him back in touch with Mateo after years
+      // apart: a minor contact, carrying their thread's weight from before it
+      // faded, the school friendship at 10 (part 5, rule 1).
+      ["2026-01-12", "relationship:contact:introducer:maintained", 0.233],
       ["2026-01-12", "reached-out", 0.225],
     ]);
+    const renewal = storyMomentsOf(world, personId).find(
+      (moment) =>
+        moment.kindKey === "relationship:contact:introducer:maintained",
+    )!;
+    expect(renewal.factors.kind).toBe(0);
+    expect(renewal.factors.resurfaced).toBe(0.233333);
   });
 
   it("cites the scale row behind every weight and keeps salience in range", () => {
@@ -219,6 +232,118 @@ describe("story moments in a seeded week", () => {
 
   it("passes the full World check", () => {
     expect(() => assertWorldIntegrityFully(world)).not.toThrow();
+  });
+
+  describe("old threads resurface when a life changes (part 5, rule 2)", () => {
+    const wyatt = Object.values(world.people).find(
+      (person) =>
+        person.givenName === "Wyatt" && person.familyName === "Murray",
+    )!.id;
+    const importance = storyThreadsOf(world, personId).find(
+      (thread) => thread.otherPersonId === wyatt,
+    )!.importance;
+
+    /** Edge-case fixture: a jail sentence for one person, as the court writes it. */
+    function jailed(defendantId: EntityId): World {
+      return recordStoryMoments(
+        recordWorldEvent(world, {
+          stableKey: `test:p6-thread-role:jailed:${defendantId}`,
+          type: "justice.sentenced",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: world.people[defendantId]!.homeJurisdictionId,
+          involvedEntityIds: [defendantId],
+          participants: [
+            { personId: defendantId, role: "focus:defendant", detail: null },
+          ],
+          personFactConstraints: [],
+          visibility: "public",
+          tags: ["justice.sentence:jail", "justice.sentence-months:6"],
+          summary: "Fixture: sentenced to jail.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        }),
+      );
+    }
+
+    it("reaches Mateo when Wyatt is jailed, weighed by how much their thread matters", () => {
+      const after = jailed(wyatt);
+      const reached = storyMomentsOf(after, personId).find(
+        (moment) => moment.kindKey === "thread:jailed",
+      )!;
+      expect(reached.counterpartPersonIds).toEqual([wyatt]);
+      expect(reached.weight.row).toBe("Being jailed");
+      expect(reached.factors.kind).toBe(
+        Math.round(importance * 0.63 * 1e6) / 1e6,
+      );
+      // Wyatt has his own moment for it; the thread moment is for the others.
+      expect(
+        storyMomentsOf(after, wyatt).some(
+          (moment) => moment.kindKey === "jailed",
+        ),
+      ).toBe(true);
+      expect(
+        storyMomentsOf(after, wyatt).some((moment) =>
+          moment.kindKey.startsWith("thread:"),
+        ),
+      ).toBe(false);
+    });
+
+    it("reaches nobody when the person jailed has no thread to anyone", () => {
+      const threaded = new Set(
+        storyThreadStatesTo(world, personId).map((state) => state.personId),
+      );
+      const stranger = Object.keys(world.people).find(
+        (id) =>
+          id !== personId &&
+          storyThreadStatesTo(world, id as EntityId).length === 0 &&
+          !threaded.has(id as EntityId),
+      ) as EntityId;
+      const after = jailed(stranger);
+      expect(
+        storyMoments(after).filter((moment) =>
+          moment.kindKey.startsWith("thread:"),
+        ),
+      ).toEqual([]);
+    });
+
+    it("reaches a friend when someone dies, and leaves relatives to the death notice", () => {
+      const after = recordStoryMoments(
+        recordPersonDeath(world, {
+          stableKey: "test:p6-thread-role:died",
+          personId: wyatt,
+          diedAt: world.currentDate,
+          causeKey: "cause:p6-thread-role-fixture",
+          sourceEntityIds: [world.id],
+          summary: "Fixture: died; the cause is not recorded.",
+          provenance: { kind: "authored", note: "Thread role fixture." },
+        }),
+      );
+      const reached = storyMomentsOf(after, personId).find(
+        (moment) => moment.kindKey === "thread:died",
+      )!;
+      expect(reached.weight.row).toBe("Death of a close friend");
+      expect(reached.factors.kind).toBe(
+        Math.round(importance * 0.37 * 1e6) / 1e6,
+      );
+      const kin = new Set(
+        kinshipRelationshipsAt(after, wyatt).flatMap(
+          (record) => record.personIds,
+        ),
+      );
+      expect(
+        storyMoments(after).filter(
+          (moment) =>
+            moment.kindKey === "thread:died" && kin.has(moment.personId),
+        ),
+      ).toEqual([]);
+    });
   });
 });
 
