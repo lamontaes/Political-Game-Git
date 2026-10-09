@@ -349,11 +349,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await page.getByTestId("campaign-fundraising").click();
     await expect(page.getByTestId("campaign-treasury")).toBeVisible();
     await page.getByTestId("shell-pass-day").click();
-    await page
-      .getByTestId("campaign-outreach")
-      .getByRole("button")
-      .first()
-      .click();
+    await page.getByTestId("campaign-outreach").click();
     await expect(page.getByTestId("campaign-memo")).toBeVisible();
 
     for (let day = 0; day < 45; day += 1) {
@@ -437,9 +433,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await page.keyboard.press("Space");
     expect(await campaignClock(page)).not.toBe(exhausted);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
-    await expect(
-      page.getByTestId("campaign-outreach").getByRole("button").first(),
-    ).toBeEnabled();
+    await expect(page.getByTestId("campaign-outreach")).toBeEnabled();
     const morning = await campaignClock(page);
     await saveLife(page);
     const recoveredWorld = await savedRecoveryWorld(page);
@@ -479,11 +473,7 @@ test.describe("a Lexington life can stand for a Kentucky seat", () => {
     await openElsewhere(page, "campaign");
     expect(await campaignClock(page)).toBe(morning);
     await expect(page.getByTestId("campaign-fundraising")).toBeEnabled();
-    await page
-      .getByTestId("campaign-outreach")
-      .getByRole("button")
-      .first()
-      .focus();
+    await page.getByTestId("campaign-outreach").focus();
     await page.keyboard.press("Enter");
     expect(await campaignClock(page)).not.toBe(morning);
     await page.screenshot({

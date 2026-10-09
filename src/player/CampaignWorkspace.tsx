@@ -287,7 +287,7 @@ export function CampaignWorkspace({
    * ordinary afternoon. Either way the canonical writer refuses a full day or an
    * empty account and hands back the unchanged world.
    */
-  function doNow(kind: CampaignActionKind, minutes?: number) {
+  function doNow(kind: CampaignActionKind) {
     const priority = strategy?.priorityChoices.find(
       (choice) => choice.key === kind,
     );
@@ -304,9 +304,8 @@ export function CampaignWorkspace({
               priorityKey: kind,
               geographyKey,
               spendingKey,
-              ...(minutes !== undefined ? { minutes } : {}),
             })
-          : spendAnAfternoon(world, personId, kind, minutes),
+          : spendAnAfternoon(world, personId, kind),
       (next) => {
         if (next === world) {
           setProblem("Calendar conflict");
@@ -966,80 +965,32 @@ export function CampaignWorkspace({
                   role="group"
                   aria-labelledby="campaign-now-title"
                 >
-                  {view.offers.map((offer) =>
-                    offer.lengths ? (
-                      // A session with a choice of lengths: the player gives
-                      // it the time, and the afternoon plays out.
-                      <div
-                        key={offer.kind}
-                        className="game-campaign-action"
-                        data-testid={`campaign-${offer.kind}`}
-                        data-proposed={
-                          strategy?.proposedPriorityKey === offer.kind
-                            ? "true"
-                            : "false"
-                        }
-                        role="group"
-                        aria-label={offer.label}
-                      >
-                        <span className="game-campaign-action-label">
-                          {offer.label}
-                        </span>
-                        <span className="game-campaign-action-note">
-                          {offer.unavailable ??
-                            (strategy?.proposedPriorityKey === offer.kind
-                              ? `Proposed. ${offer.cost}`
-                              : offer.cost)}
-                        </span>
-                        <span className="game-choices">
-                          {offer.lengths.map((length) => (
-                            <button
-                              key={length.minutes}
-                              type="button"
-                              data-testid={`campaign-${offer.kind}-${length.minutes}`}
-                              disabled={
-                                offer.unavailable !== null ||
-                                length.unavailable !== null
-                              }
-                              title={
-                                offer.unavailable ??
-                                length.unavailable ??
-                                undefined
-                              }
-                              onClick={() => doNow(offer.kind, length.minutes)}
-                            >
-                              {length.label}
-                            </button>
-                          ))}
-                        </span>
-                      </div>
-                    ) : (
-                      <button
-                        key={offer.kind}
-                        type="button"
-                        className="game-campaign-action"
-                        data-testid={`campaign-${offer.kind}`}
-                        data-proposed={
-                          strategy?.proposedPriorityKey === offer.kind
-                            ? "true"
-                            : "false"
-                        }
-                        disabled={offer.unavailable !== null}
-                        title={offer.unavailable ?? undefined}
-                        onClick={() => doNow(offer.kind)}
-                      >
-                        <span className="game-campaign-action-label">
-                          {offer.label}
-                        </span>
-                        <span className="game-campaign-action-note">
-                          {offer.unavailable ??
-                            (strategy?.proposedPriorityKey === offer.kind
-                              ? `Proposed. ${offer.cost}`
-                              : offer.cost)}
-                        </span>
-                      </button>
-                    ),
-                  )}
+                  {view.offers.map((offer) => (
+                    <button
+                      key={offer.kind}
+                      type="button"
+                      className="game-campaign-action"
+                      data-testid={`campaign-${offer.kind}`}
+                      data-proposed={
+                        strategy?.proposedPriorityKey === offer.kind
+                          ? "true"
+                          : "false"
+                      }
+                      disabled={offer.unavailable !== null}
+                      title={offer.unavailable ?? undefined}
+                      onClick={() => doNow(offer.kind)}
+                    >
+                      <span className="game-campaign-action-label">
+                        {offer.label}
+                      </span>
+                      <span className="game-campaign-action-note">
+                        {offer.unavailable ??
+                          (strategy?.proposedPriorityKey === offer.kind
+                            ? `Proposed. ${offer.cost}`
+                            : offer.cost)}
+                      </span>
+                    </button>
+                  ))}
                 </div>
               </section>
             ) : null}

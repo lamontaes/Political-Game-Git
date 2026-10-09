@@ -87,11 +87,7 @@ export async function workOfferedOutreach(page: Page) {
     "aria-disabled",
     "true",
   );
-  // The door offer takes a length; its shortest is the first button.
-  const outreach = page
-    .getByTestId("campaign-outreach")
-    .getByRole("button")
-    .first();
+  const outreach = page.getByTestId("campaign-outreach");
   // isEnabled() waits for the control to exist; on a day the campaign offers
   // nothing there is none, and that is a day to pass, not a wait.
   if ((await outreach.count()) > 0 && (await outreach.isEnabled()))

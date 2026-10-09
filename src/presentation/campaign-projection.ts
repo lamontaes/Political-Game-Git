@@ -127,18 +127,6 @@ export interface CampaignActionOffer {
   readonly unavailable: string | null;
   /** Money this offer would commit, for the surface to show before it is spent. */
   readonly spend: MoneyAmount | null;
-  /**
-   * The lengths the player can give this session, longest last, or null when
-   * it has one length. Each is unavailable when today has no room for it.
-   */
-  readonly lengths: readonly CampaignSessionLength[] | null;
-}
-
-/** One length a session can be given, and whether today has room for it. */
-export interface CampaignSessionLength {
-  readonly minutes: number;
-  readonly label: string;
-  readonly unavailable: string | null;
 }
 
 export interface CampaignSessionRecord {
@@ -1090,23 +1078,10 @@ function offersFor(
   const jailed = jailTermOn(world, campaign.candidatePersonId);
   return (["fundraising", "outreach", "advertising"] as const).map((kind) => {
     const spend = kind === "advertising" ? buy : null;
-    // An afternoon on the doors takes the length the player gives it.
-    const lengths =
-      kind === "outreach"
-        ? CANVASS_SESSION_MINUTES.map((minutes) => ({
-            minutes,
-            label: describeInterval(minutes),
-            unavailable:
-              freeSlotToday(
-                world,
-                campaign.candidatePersonId,
-                kind,
-                minutes,
-              ) === null
-                ? "The rest of today is already spoken for."
-                : null,
-          }))
-        : null;
+    // An afternoon on the doors takes the shortest length a real canvass
+    // shift runs; the screen offers no other until its redesign.
+    const minutes =
+      kind === "outreach" ? CANVASS_SESSION_MINUTES[0]! : SESSION_MINUTES;
     const unavailable = jailed
       ? jailed.until === null
         ? "You are serving life imprisonment. Your name stays on the ballot, but you cannot campaign."
@@ -1115,12 +1090,8 @@ function offersFor(
         ? "Election day has arrived. There is nothing left to do but wait for the count."
         : kind === "advertising" && treasury.minorUnits <= 0
           ? "There is nothing in the account to spend."
-          : (
-                lengths
-                  ? lengths.every((length) => length.unavailable !== null)
-                  : freeSlotToday(world, campaign.candidatePersonId, kind) ===
-                    null
-              )
+          : freeSlotToday(world, campaign.candidatePersonId, kind, minutes) ===
+              null
             ? "The rest of today is already spoken for."
             : null;
     return {
@@ -1135,11 +1106,10 @@ function offersFor(
         kind === "advertising"
           ? `An hour and a half, and ${money(buy)} of what the committee has raised.`
           : kind === "outreach"
-            ? "As long as you choose, of a day that has other things in it."
+            ? `${describeInterval(minutes)} of a day that has other things in it.`
             : "An hour and a half of a day that has other things in it.",
       unavailable,
       spend,
-      lengths,
     };
   });
 }
